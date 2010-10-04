@@ -1,6 +1,6 @@
 package cx.ath.choisnet.servlet;
 
-import cx.ath.choisnet.util.IteratorFilter;
+//import cx.ath.choisnet.util.IteratorFilter;
 import java.util.Iterator;
 
 public class HTMLParameterHelper
@@ -89,19 +89,19 @@ public class HTMLParameterHelper
         return null;
     }
 
-    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, String[] htmlIDs)
-    {
-        return new IteratorFilter<T>(
-                    iter, 
-                    new Selectable<T>(htmlIDs)
-                    );
-    }
-
-    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, int[] hashCodes)
-    {
-        return new IteratorFilter<T>(
-                    iter, 
-                    new Selectable<T>(hashCodes)
-                    );
-    }
+//    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, String[] htmlIDs)
+//    {
+//        return new IteratorFilter<T>(
+//                    iter, 
+//                    new Selectable<T>(htmlIDs)
+//                    );
+//    }
+//
+//    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, int[] hashCodes)
+//    {
+//        return new IteratorFilter<T>(
+//                    iter, 
+//                    new Selectable<T>(hashCodes)
+//                    );
+//    }
 }

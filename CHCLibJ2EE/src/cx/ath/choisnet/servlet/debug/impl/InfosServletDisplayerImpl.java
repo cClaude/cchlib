@@ -3,7 +3,7 @@ package cx.ath.choisnet.servlet.debug.impl;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplayer;
 import cx.ath.choisnet.util.ArrayHelper;
-import cx.ath.choisnet.util.EnumerationHelper;
+import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Enumeration;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -29,14 +30,22 @@ public class InfosServletDisplayerImpl
     protected HttpSession         httpSession;
     protected ServletContext      servletContext;
 
-    public InfosServletDisplayerImpl(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response)
+    public InfosServletDisplayerImpl(
+            HttpServlet         servlet, 
+            HttpServletRequest  request, 
+            HttpServletResponse response
+            )
         throws java.io.IOException
     {
         this(servlet, request, response, request.getSession(false));
-
     }
 
-    public InfosServletDisplayerImpl(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, HttpSession httpSession)
+    public InfosServletDisplayerImpl(
+            HttpServlet         servlet, 
+            HttpServletRequest  request,
+            HttpServletResponse response, 
+            HttpSession httpSession
+            )
         throws java.io.IOException
     {
         this.servlet = servlet;
@@ -218,13 +227,13 @@ public class InfosServletDisplayerImpl
 
     private InfosServletDisplay getConfig_getInitParameterNames()
     {
-        javax.servlet.ServletConfig servletConfig = servlet.getServletConfig();
-        Map<String,String> map = new TreeMap<String,String>();
+        ServletConfig       servletConfig   = servlet.getServletConfig();
+        Map<String,String>  map             = new TreeMap<String,String>();
         String name;
-        for(Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); map.put(name, servletConfig.getInitParameter(name)))
-
-        {
+        
+        for(Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); ) {
             name = enum0.nextElement();
+            map.put(name, servletConfig.getInitParameter(name));
         }
 
         return new InfosServletDisplayImpl((new StringBuilder()).append("Here are the ServletConfig init attributes<br />(servlet name  = '").append(servletConfig.getServletName()).append("')<br/>servletConfig.getInitParameterNames()").toString(), "servletConfig.getInitParameterNames()", map, "There are no Servlet Config attributes.");
@@ -233,15 +242,13 @@ public class InfosServletDisplayerImpl
     private InfosServletDisplay getContext()
     {
         StringBuilder valueOfgetResource = new StringBuilder();
-        try
-        {
-            valueOfgetResource.append(servletContext.getResource("/"));
 
+        try {
+            valueOfgetResource.append(servletContext.getResource("/"));
         }
         catch(MalformedURLException e) {
             valueOfgetResource.append(e);
         }
-
 
         return new InfosServletDisplayImpl2(
                 "Here is information from the ServletContext<br />"
