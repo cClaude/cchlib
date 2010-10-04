@@ -10,11 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import alpha.cx.ath.choisnet.swing.jfilechooser.accessory.FindAccessory;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
+import cx.ath.choisnet.swing.filechooser.accessory.FindAccessory;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
-public class TesterJFileChooser extends JFrame
+public class BetaTestJFileChooser extends JFrame
 {
     private static final long   serialVersionUID        = 1L;
     private JButton jButtonGO;
@@ -24,7 +24,7 @@ public class TesterJFileChooser extends JFrame
     private JFileChooser jFileChooser;
     private JFileChooserInitializer jFileChooserInitializer;
     
-    public TesterJFileChooser()
+    public BetaTestJFileChooser()
     {
         initComponents();
         
@@ -96,8 +96,8 @@ public class TesterJFileChooser extends JFrame
             @Override
             public void run()
             {
-                TesterJFileChooser frame = new TesterJFileChooser();
-                frame.setDefaultCloseOperation( TesterJFileChooser.EXIT_ON_CLOSE );
+                BetaTestJFileChooser frame = new BetaTestJFileChooser();
+                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                 frame.setTitle( "TesterJFileChooser2" );
                 frame.getContentPane().setPreferredSize( frame.getSize() );
                 frame.pack();
