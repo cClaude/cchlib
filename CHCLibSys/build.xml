@@ -46,6 +46,10 @@
     <fileset dir="${src.home}/libs">
       <include name="*.jar"/>
     </fileset>
+
+    <fileset dir="${src.home}/../releases/CHCLibCore">
+      <include name="CHCLibCore*.jar"/>
+    </fileset>
   </path>
 
 <!-- ==================== All Target =================================== -->
