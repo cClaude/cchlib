@@ -219,7 +219,7 @@ public abstract class BytesAccess implements Cloneable
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ")" );
+            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
         for( int i=0; i<bytes0.length; i++ ) {
@@ -331,19 +331,42 @@ public abstract class BytesAccess implements Cloneable
                 byte  diff  = (byte)(this.bytes[ i ] ^ someBytes[ i ]);
 
                 return "0x"
-                    + BinStuffs.ubyteToHexString( i )
-                    + ":"
-                    + BinStuffs.toBinaryString( diff )
-                    + "["
-                    + BinStuffs.toBinaryString( this.bytes[ i ] )
-                    + "/"
-                    + BinStuffs.toBinaryString( someBytes[ i ] )
-                    + "]";
+                    //+ BinStuffs.ubyteToHexString( i )
+                    + ubyteToHexString( i )
+                    + ':'
+                    //+ BinStuffs.toBinaryString( diff )
+                    + toBinaryString( diff )
+                    + '['
+                    //+ BinStuffs.toBinaryString( this.bytes[ i ] )
+                    + toBinaryString( this.bytes[ i ] )
+                    + '/'
+                    //+ BinStuffs.toBinaryString( someBytes[ i ] )
+                    + toBinaryString( someBytes[ i ] )
+                    + ']';
             }
         }
 
         return null;
     }
+
+    /**
+     * @param ubyte
+     * @return a hex String formatted from a int (but only lower 8 bytes are read has an ubyte)
+     */
+    private static final String ubyteToHexString( final int ubyte )
+    {
+        return Integer.toHexString(  0x0000FF00 | (0x000000FF & ubyte ) ).substring( 2 ).toUpperCase();
+    }
+    
+    /**
+     * @param b byte to convert
+     * @return a binary String formatted
+     */
+    private static final String toBinaryString( final byte b )
+    {
+        return Integer.toBinaryString( 0x0000FF00 | (0x000000FF & b) ).substring( 8 );
+    }
+    
     /* ---------------------------------------------------------------------- */
     /* ------ saving stuffs ------------------------------------------------- */
     /* ---------------------------------------------------------------------- */
@@ -435,7 +458,7 @@ public abstract class BytesAccess implements Cloneable
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ")" );
+            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
         byte[] mask = new byte[ bytes0.length ];
@@ -481,7 +504,7 @@ public abstract class BytesAccess implements Cloneable
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ")" );
+            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
         byte[] mask = new byte[ bytes0.length ];
@@ -527,7 +550,7 @@ public abstract class BytesAccess implements Cloneable
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ")" );
+            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
         byte[] mask = new byte[ bytes0.length ];

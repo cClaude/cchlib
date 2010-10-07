@@ -62,7 +62,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         int countBit= countBit( mask );
         
         if( countBit != 1) {
-            throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ":" + mask +  ")" );
+            throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ':' + mask +  ')' );
         }
         return super.getBoolean( offset, mask );
     }
@@ -71,14 +71,14 @@ public abstract class BytesAccessDebug extends BytesAccess
     public int getUInteger( final int offset, final byte mask, final int rightRot )
     {
         if( ! isMaskLinear( mask ) ) {
-            throw new RuntimeException( "getUInteger() mask look bad (like 0x0011011) " + mask + " for (" + offset + ":" + mask + "/" + rightRot + ")" );
+            throw new RuntimeException( "getUInteger() mask look bad (like 0x0011011) " + mask + " for (" + offset + ':' + mask + '/' + rightRot + ')' );
         }
         // TODO: (Verify mask has at least 2 bits???)
         
         int v = super.getUInteger(offset,mask,rightRot);
         
         if( v<0 ) {
-            throw new RuntimeException( "getUInteger() 1byte - return: " + v + " for (" + offset + ":" + mask + "/" + rightRot + ")" );
+            throw new RuntimeException( "getUInteger() 1byte - return: " + v + " for (" + offset + ':' + mask + '/' + rightRot + ')' );
         }
         
         return v;
@@ -88,10 +88,10 @@ public abstract class BytesAccessDebug extends BytesAccess
     public int getUInteger( final int offset, final byte mask0, final int leftRot, final byte mask1, final int rightRot )
     {
         if( ! isMaskLinear( mask0 ) ) {
-            throw new RuntimeException( "getUInteger() mask0 look bad (like 0x0011011) " + mask0 + " for (" + offset + ":" + mask0 + "/" + rightRot + ":" + mask1 + "/" + leftRot + ")" );
+            throw new RuntimeException( "getUInteger() mask0 look bad (like 0x0011011) " + mask0 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
         }
         if( ! isMaskLinear( mask1 ) ) {
-            throw new RuntimeException( "getUInteger() mask1 look bad (like 0x0011011) " + mask1 + " for (" + offset + ":" + mask0 + "/" + rightRot + ":" + mask1 + "/" + leftRot + ")" );
+            throw new RuntimeException( "getUInteger() mask1 look bad (like 0x0011011) " + mask1 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
         }
         // TODO: Verify mask0 is right align
         // TODO: Verify mask1 is left align
@@ -99,7 +99,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         int v = super.getUInteger( offset, mask0, leftRot, mask1, rightRot );
         
         if( v<0 ) {
-            throw new RuntimeException( "getUInteger() 2bytes - return: " + v + " for (" + offset + ":" + mask0 + "/" + leftRot + "," + mask1 + "/" + rightRot + ")" );
+            throw new RuntimeException( "getUInteger() 2bytes - return: " + v + " for (" + offset + ':' + mask0 + '/' + leftRot + ',' + mask1 + '/' + rightRot + ')' );
         }
         
         return v;
@@ -116,7 +116,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         int countBit= countBit( mask );
         
         if( countBit != 1) {
-            throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ":" + mask +  ")" );
+            throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ':' + mask +  ')' );
         }
         
         super.setBoolean( offset, mask, bool );
@@ -126,10 +126,10 @@ public abstract class BytesAccessDebug extends BytesAccess
     protected void setUInteger( final int offset, final byte mask, final int leftRot, final int value )
     {
         if( (value<0) && (value>255) ) {
-            throw new RuntimeException( "setInteger() value should be in [0..255] " + value + " for (" + offset + ":" + mask + "/" + leftRot + ")" );
+            throw new RuntimeException( "setInteger() value should be in [0..255] " + value + " for (" + offset + ':' + mask + '/' + leftRot + ')' );
         }
         if( ! isMaskLinear( mask ) ) {
-            throw new RuntimeException( "setInteger() mask look bad (like 0x0011011) " + mask + " for (" + offset + ":" + mask + "/" + leftRot + ")" );
+            throw new RuntimeException( "setInteger() mask look bad (like 0x0011011) " + mask + " for (" + offset + ':' + mask + '/' + leftRot + ')' );
         }
         // TODO: (Verify mask has at least 2 bits???)
         // TODO: check value according to mask !
@@ -141,10 +141,10 @@ public abstract class BytesAccessDebug extends BytesAccess
     protected void setUInteger( final int offset, final byte mask0, final int rightRot, final byte mask1, final int leftRot, final int value )
     {
         if( ! isMaskLinear( mask0 ) ) {
-            throw new RuntimeException( "setInteger() mask0 look bad (like 0x0011011) " + mask0 + " for (" + offset + ":" + mask0 + "/" + rightRot + ":" + mask1 + "/" + leftRot + ")" );
+            throw new RuntimeException( "setInteger() mask0 look bad (like 0x0011011) " + mask0 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
         }
         if( ! isMaskLinear( mask1 ) ) {
-            throw new RuntimeException( "setInteger() mask1 look bad (like 0x0011011) " + mask1 + " for (" + offset + ":" + mask0 + "/" + rightRot + ":" + mask1 + "/" + leftRot + ")" );
+            throw new RuntimeException( "setInteger() mask1 look bad (like 0x0011011) " + mask1 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
         }
         // TODO: Verify mask0 is right align
         // TODO: Verify mask1 is left align

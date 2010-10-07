@@ -29,7 +29,7 @@ public class BytesAccessTest extends TestCase
     public void testFileConstructor() throws IOException
     {
         // Create a File
-        File f = File.createTempFile( "~" + getClass().getName(), ".tmp" );
+        File f = File.createTempFile( '~' + getClass().getName(), ".tmp" );
         
         // Fill it
         final int length = 50;
@@ -61,7 +61,7 @@ public class BytesAccessTest extends TestCase
         // It there any lock ?
         boolean isDelete = f.delete();
         
-        assertTrue( "Can't delete file [" + f + "]", isDelete );
+        assertTrue( "Can't delete file [" + f + ']', isDelete );
     }
     
     public void testCompareTo() throws NullPointerException, BytesAccessException, IOException
@@ -226,8 +226,8 @@ public class BytesAccessTest extends TestCase
 
         
         assertEquals( "mismatch compareTo(BytesAccess)="
-                    + r3 + "(" + r3int + ")"
-                    + " compareTo(byte[],byte[])=" + r5 + "(" + r5int + ")", 
+                    + r3 + " (" + r3int + ')'
+                    + " compareTo(byte[],byte[])=" + r5 + " (" + r5int + ')', 
                 r3int,
                 r5int 
                 ); 
