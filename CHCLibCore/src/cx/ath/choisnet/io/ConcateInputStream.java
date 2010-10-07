@@ -103,19 +103,19 @@ public class ConcateInputStream extends InputStream
         StringBuilder sb = new StringBuilder("[");
 
         sb.append( getClass().getName() );
-        sb.append("[");
+        sb.append('[');
         sb.append(currentStream);
-        sb.append("/");
+        sb.append('/');
         sb.append(inputStreamArray.length);
-        sb.append("]");
+        sb.append(']');
         sb.append(inputStreamArray[0].toString());
 
         for(int i = 1; i < inputStreamArray.length; i++) {
-            sb.append(",");
+            sb.append(',');
             sb.append(inputStreamArray[i].toString());
          }
 
-        sb.append("]");
+        sb.append(']');
 
         return sb.toString();
     }

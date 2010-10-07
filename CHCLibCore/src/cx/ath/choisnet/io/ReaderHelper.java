@@ -15,7 +15,6 @@ public final class ReaderHelper
     /** All static */
     private ReaderHelper()
     {
-
     }
 
     /**

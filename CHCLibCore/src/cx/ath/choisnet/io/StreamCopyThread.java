@@ -106,8 +106,6 @@ public class StreamCopyThread extends Thread
                                 .append( getName() ).toString(), e );
             }
         }
-        return;
-        // 80 163:return
     }
 
     public void registerSpyStream(OutputStream spystream)

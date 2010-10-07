@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package cx.ath.choisnet.io.testcase;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.io.DirectoryIterator;
+import cx.ath.choisnet.io.FileHelper;
 import junit.framework.TestCase;
 
 /**

@@ -111,7 +111,6 @@ public class InputStreamThread extends Thread
         catch(java.io.IOException e) {
             throw new RuntimeException("InputStreamRun.run()", e);
         }
-        return;
     }
 
     public void close()
