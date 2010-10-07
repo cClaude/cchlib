@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  * TODO: doc
+ * 
  * @author Claude CHOISNET
  */
 public class AutoI18n 
@@ -24,25 +25,66 @@ public class AutoI18n
     private String        objectToI18nClassNamePrefix;
     private I18nInterface i18n;
     private AutoI18nExceptionHandler exceptionHandler; 
-    
-    public AutoI18n()
+        
+    /**
+     * Create an AutoI18n object using {@link I18nSimpleResourceBundle}
+     * and {@link AutoI18nSystemErrExceptionHandler}
+     * 
+     * @param resourceBundleBaseName
+     */
+    public AutoI18n( String resourceBundleBaseName )
     {
+        this( new I18nSimpleResourceBundle(resourceBundleBaseName));
     }
     
+    /**
+     * @param i18n {@link I18nInterface} to use
+     */
     public AutoI18n( I18nInterface i18n )
     {
         setI18n( i18n );
-        setAutoI18nExceptionHandler(null);
+        setAutoI18nExceptionHandler(
+                new AutoI18nSystemErrExceptionHandler()
+                );
+    }
+    
+    /**
+     * @param i18n {@link I18nInterface} to use
+     * @param handler {@link AutoI18nExceptionHandler} to use
+     */
+    public AutoI18n( 
+            I18nInterface               i18n,
+            AutoI18nExceptionHandler    handler
+            )
+    {
+        setI18n( i18n );
+        setAutoI18nExceptionHandler( handler );
     }
 
+    /**
+     * Change {@link I18nInterface} to use
+     * 
+     * @param i18n {@link I18nInterface} to use
+     */
     public void setI18n( final I18nInterface i18n )
     {
+        if( i18n == null ) {
+            throw new NullPointerException();
+        }
         this.i18n = i18n;
     }
     
-    public void setAutoI18nExceptionHandler( AutoI18nExceptionHandler h)
+    /**
+     * Change {@link AutoI18nExceptionHandler} to use
+     * 
+     * @param handler {@link AutoI18nExceptionHandler} to use
+     */
+    public void setAutoI18nExceptionHandler( AutoI18nExceptionHandler handler )
     {
-        this.exceptionHandler = h;
+        if( handler == null ) {
+            throw new NullPointerException();
+        }
+        this.exceptionHandler = handler;
     }
 
     /**
@@ -84,11 +126,11 @@ public class AutoI18n
             final Class<? extends T>    clazz
             )
     {        
-        if( this.i18n == null ) {
-            setI18n( new I18nDefaultImpl() );
-        }
+//        if( this.i18n == null ) {
+//            setI18n( new I18nDefaultImpl() );
+//        }
         if( this.exceptionHandler == null ) {
-            setAutoI18nExceptionHandler( new AutoI18nDefaultExceptionHandler() );
+            setAutoI18nExceptionHandler( new AutoI18nLog4JExceptionHandler() );
         }
         
         setObjectToI18n(objectToI18n,clazz);
@@ -119,7 +161,7 @@ public class AutoI18n
     {
         this.objectToI18n = objectToI18n;
         this.objectToI18nClass = clazz;//objectToI18n.getClass();
-        this.objectToI18nClassNamePrefix = this.objectToI18nClass.getName() + ".";
+        this.objectToI18nClassNamePrefix = this.objectToI18nClass.getName() + '.';
     }
 
     // Warning !

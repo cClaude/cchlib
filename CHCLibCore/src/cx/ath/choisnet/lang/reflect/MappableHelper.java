@@ -17,6 +17,23 @@ import java.util.regex.Pattern;
 import cx.ath.choisnet.ToDo;
 
 /**
+ * <p style="border:groove;">
+ * <b>Warning:</b>
+ * Insofar the code of this class comes from decompiling
+ * my own code following the loss of source code, the use
+ * of this class must do so under protest until I have
+ * check its stability, it could be subject to significant
+ * change.
+ * <br/>
+ * <br/>
+ * <b>Attention:</b>
+ * Dans la mesure où le code de cette classe est issue de
+ * la décompilation de mon propre code, suite à la perte
+ * du code source, l'utilisation de cette classe doit ce
+ * faire sous toute réserve tant que je n'ai pas vérifier
+ * sa stabilité, elle est donc sujette à des changements 
+ * importants.
+ * </p>
  *
  * @author Claude CHOISNET
  *
@@ -422,11 +439,12 @@ label0:
         }
     }
 
+    // TODO: Optimizations: remove some StringBuilder
     private static final String toString(EnumSet<Attributes> attributesSet, Object object)
     {
         if(object.getClass().isArray()) {
-            Object[] array = (Object[])object;
             StringBuilder sb = new StringBuilder();
+            Object[] array = (Object[])object;
             boolean first = true;
             Object[] arr$ = array;
             int len$ = arr$.length;
@@ -444,9 +462,9 @@ label0:
             }
 
             return (new StringBuilder())
-                .append("[")
+                .append('[')
                 .append(sb)
-                .append("]")
+                .append(']')
                 .toString();
         }
 
@@ -468,7 +486,7 @@ label0:
                 return (new StringBuilder())
                     .append("Iterator[")
                     .append(sb)
-                    .append("]")
+                    .append(']')
                     .toString();
             }
         }
@@ -489,7 +507,7 @@ label0:
             return (new StringBuilder())
                 .append("Enumeration[")
                 .append(sb.toString())
-                .append("]")
+                .append(']')
                 .toString();
         }
 

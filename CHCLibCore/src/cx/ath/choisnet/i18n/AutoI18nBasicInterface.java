@@ -2,6 +2,7 @@ package cx.ath.choisnet.i18n;
 
 /**
  * TODO: doc
+ * 
  * @author Claude CHOISNET
  */
 public interface AutoI18nBasicInterface 

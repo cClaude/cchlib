@@ -6,40 +6,44 @@ package cx.ath.choisnet.i18n;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
 
 /**
- * Provide a default implementation for {@link I18nInterface}
+ * Provide a default implementation based on {@link ResourceBundle}
+ * for {@link I18nInterface}
  * 
  * @author Claude CHOISNET
  */
-public class I18nDefaultImpl implements I18nInterface
+public class I18nSimpleResourceBundle
+    extends I18nResourceBundle
+        implements I18nAutoUpdateInterface
 {
-    private static Logger  slogger = Logger.getLogger(I18nInterface.class);
-    private static String  DEFAULT_MESSAGE_BUNDLE = "jMiiEditor.i18n.MessagesBundle"; //$$$ TODO change this !!
+    private static Logger  slogger = Logger.getLogger(I18nSimpleResourceBundle.class);
     private String         resourceBundleBaseName;
     private Locale         currentLocale;
-    private ResourceBundle messages;
 
     /**
-     * I18nDefaultImpl 
+     * @param resourceBundleBaseName 
      */
-    public I18nDefaultImpl()
+    public I18nSimpleResourceBundle(
+            String resourceBundleBaseName
+            )
     {
-        this(null,null);
+        this(null,resourceBundleBaseName);
     }
     
-    public I18nDefaultImpl( 
+    /**
+     * 
+     * @param locale
+     * @param resourceBundleBaseName
+     */
+    public I18nSimpleResourceBundle( 
             Locale locale,
             String resourceBundleBaseName
             )
     {
-        if( resourceBundleBaseName == null ) {
-            this.resourceBundleBaseName = DEFAULT_MESSAGE_BUNDLE;
-        }
-        else {
-            this.resourceBundleBaseName = resourceBundleBaseName;
-        }
-        
+        this.resourceBundleBaseName = resourceBundleBaseName;
+
         setLocale( locale );
     }
 
@@ -49,12 +53,15 @@ public class I18nDefaultImpl implements I18nInterface
      * @param language
      * @param country
      */
-    public void setLocale( String language, String country )
+    public void setLocale( 
+            String language, 
+            String country 
+            )
     {
         setLocale( new Locale( language, country ) );
     }
 
-    @Override
+    @Override // I18nAutoUpdateInterface
     public void setLocale( Locale locale )
     {
         this.currentLocale = locale;
@@ -62,23 +69,18 @@ public class I18nDefaultImpl implements I18nInterface
         slogger.info( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
         slogger.info( "setLocale() - currentLocale= " + currentLocale );
         slogger.info( "setLocale() - getCurrentLocale() = " + getCurrentLocale() );
-        
-        this.messages = ResourceBundle.getBundle( 
-                            resourceBundleBaseName,
-                            getCurrentLocale() 
-                            );
-        slogger.info( "ResourceBundle.getLocale() = " + messages.getLocale() );
-        slogger.info( "ResourceBundle = " + messages );
+
+        super.resourceBundle 
+            = ResourceBundle.getBundle( 
+                    resourceBundleBaseName,
+                    getCurrentLocale() 
+                    );
+        slogger.info( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
+        slogger.info( "ResourceBundle = " + resourceBundle );
     }
 
-    @Override
-    public String getString(String key)
-        throws java.util.MissingResourceException
-    {
-        return messages.getString( key );
-    }
     
-    @Override
+    @Override // I18nAutoUpdateInterface
     public Locale getCurrentLocale()
     {
         if( this.currentLocale == null ) {
@@ -89,6 +91,7 @@ public class I18nDefaultImpl implements I18nInterface
         }
     }
     
+    @Override // I18nAutoUpdateInterface
     public String getResourceBundleBaseName()
     {
         return this.resourceBundleBaseName;

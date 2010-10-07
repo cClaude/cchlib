@@ -8,6 +8,23 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
+ * <p style="border:groove;">
+ * <b>Warning:</b>
+ * Insofar the code of this class comes from decompiling
+ * my own code following the loss of source code, the use
+ * of this class must do so under protest until I have
+ * check its stability, it could be subject to significant
+ * change.
+ * <br/>
+ * <br/>
+ * <b>Attention:</b>
+ * Dans la mesure où le code de cette classe est issue de
+ * la décompilation de mon propre code, suite à la perte
+ * du code source, l'utilisation de cette classe doit ce
+ * faire sous toute réserve tant que je n'ai pas vérifier
+ * sa stabilité, elle est donc sujette à des changements 
+ * importants.
+ * </p>
  *
  * @author Claude CHOISNET
  *
@@ -20,8 +37,8 @@ public class SimpleDataSource
 
     public SimpleDataSource(DataSource ds)
     {
-        this.ds = ds;
-        this.userPass = null;
+        this.ds         = ds;
+        this.userPass   = null;
     }
 
     public SimpleDataSource(
@@ -48,8 +65,8 @@ public class SimpleDataSource
     protected static final DataSource getDataSource(String resourceName)
         throws SimpleDataSourceException
     {
-        Object ressource = null;
-        javax.sql.DataSource ds;
+        Object      ressource = null;
+        DataSource  ds;
 
         try {
             Context context = new InitialContext();
@@ -58,14 +75,22 @@ public class SimpleDataSource
             ds          = DataSource.class.cast(ressource);
         }
         catch(ClassCastException e) {
-            throw new SimpleDataSourceException((new StringBuilder()).append("Bad ressource '").append(resourceName).append("' expecting DataSource, found : ").append(ressource).toString(), e);
+            throw new SimpleDataSourceException(
+                    "Bad ressource '" + resourceName + "' expecting DataSource, found : " + ressource,
+                    e
+                    );
         }
         catch(javax.naming.NamingException e) {
-            throw new SimpleDataSourceException((new StringBuilder()).append("Can't create SimpleQuery for '").append(resourceName).append("'").toString(), e);
+            throw new SimpleDataSourceException(
+                    "Can't create SimpleQuery for '" + resourceName + '\'', 
+                    e
+                    );
         }
 
         if(ds == null) {
-            throw new SimpleDataSourceException((new StringBuilder()).append("Can't get DataSource for '").append(resourceName).append("'").toString());
+            throw new SimpleDataSourceException(
+                    "Can't get DataSource for '" + resourceName + '\'' 
+                    );
         }
         else {
             return ds;

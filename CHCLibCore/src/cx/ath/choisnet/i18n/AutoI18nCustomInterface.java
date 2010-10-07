@@ -4,6 +4,7 @@ import java.util.Map;
 
 /**
  * TODO: doc
+ * 
  * @author Claude CHOISNET
  */
 public interface AutoI18nCustomInterface 

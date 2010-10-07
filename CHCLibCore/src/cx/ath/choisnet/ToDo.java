@@ -9,23 +9,28 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Since I have lost all my sources, backups, ...  
- * I have decompile the most old version, I have
- * found of my jar.
+ * Having lost all my sources, backups, ... 
+ * I have decompile the must recent version of my
+ * jar i have found.
  * <br/>
- * 1. decompile operation lost off documentations
  * <br/>
- * 2. Not sure witch classes/methods will be ok
- *    in this jar. 
+ * But:
  * <br/>
- * 3. Since my TestCase where not include in the
- *    jar, I have lost all my TestCase.
+ * 1. Decompile operation lost all documentations
  * <br/>
- * For these reason, I had this annotation to 
+ * 2. I can not guarantee that the decompiled source
+ *    code is conforms to the original 
+ * <br/>
+ * 3. As my test cases were not included in my old jar,
+ *    I lost all my test cases..
+ * <br/>
+ * <br/>
+ * For these reasons, I have add this annotation to 
  * identify actions I have to take (mainly for classes)
  * <br/>
+ * <br/>
  * <B>Important:</B>
- * This annotation is could be remove in the future.
+ * This annotation could be removed in the future.
  * 
  * @author Claude CHOISNET
  */
@@ -34,11 +39,20 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ToDo 
 {
-     enum Action {
+    /**
+     * @see ToDo
+     */
+    public enum Action {
+         /** Need some documentation */
          DOCUMENTATION,
+         /** Need some test cases */
          TEST_CASE,
+         /** Need some documentation and some test cases */
          DOCUMENTATION_AND_TEST_CASE
      }
      
-     Action action() default Action.DOCUMENTATION_AND_TEST_CASE;
+    /**
+     * @return action to take
+     */
+    Action action() default Action.DOCUMENTATION_AND_TEST_CASE;
 }

@@ -73,7 +73,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
             IntrospectionInvokeException
     {
         if( iItemValue == null ) {
-            throw new NullPointerException("Value not set [iItemValue for : " + object + "]" );
+            throw new NullPointerException("Value not set [iItemValue for : " + object + ']' );
         }
         else if( iItemValue instanceof String ) {
             populate( rootItem, String.class.cast( iItemValue ) );

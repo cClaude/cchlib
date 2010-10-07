@@ -11,8 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Annotation to specify how a Field should be localized
  * 
- * @author Claude CHOISNET
  * @see AutoI18n
+ * @author Claude CHOISNET
  */
 @Documented
 @Inherited

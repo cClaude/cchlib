@@ -1,5 +1,6 @@
 package cx.ath.choisnet.xml;
 
+import java.io.IOException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -36,7 +37,7 @@ public class XMLBuilder
             anAppendableObject.append(
                     (new StringBuilder())
                         .append(tabulation)
-                        .append("{")
+                        .append('{')
                         .append(aNode.getTextContent())
                         .append("}\n")
                         .toString()
@@ -49,7 +50,7 @@ public class XMLBuilder
             anAppendableObject.append(
                     (new StringBuilder())
                         .append(tabulation)
-                        .append("<")
+                        .append('<')
                         .append(aNode.getNodeName())
                         .append(">    (")
                         .append(len)
@@ -111,16 +112,15 @@ public class XMLBuilder
 
     public static String toString(NodeList nodeList)
     {
-        StringBuilder sb = new StringBuilder();
-        XMLBuilder builder = new XMLBuilder(sb);
+        StringBuilder   sb      = new StringBuilder();
+        XMLBuilder      builder = new XMLBuilder(sb);
 
         sb.append("--------------------\n");
 
         try {
             builder.append(nodeList);
         }
-        catch(java.io.IOException ignore) {
-
+        catch(IOException ignore) {
         }
 
         sb.append("--------------------\n");

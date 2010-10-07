@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class LeftDotRenderer extends DefaultTableCellRenderer
 {
     private static final long serialVersionUID = 1L;
-    private final String DOTS = "...";
+    private static final String DOTS = "...";
 
     public Component getTableCellRendererComponent(
         JTable  table, 

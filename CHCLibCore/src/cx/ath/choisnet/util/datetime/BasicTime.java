@@ -2,6 +2,7 @@ package cx.ath.choisnet.util.datetime;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -168,10 +169,16 @@ public class BasicTime
 
     public String toString()
     {
-        return (new StringBuilder()).append(toStringHours()).append(":").append(toStringMinutes()).append(":").append(toStringSeconds()).toString();
+        return (new StringBuilder())
+            .append(toStringHours())
+            .append(':')
+            .append(toStringMinutes())
+            .append(':')
+            .append(toStringSeconds()
+                    ).toString();
     }
 
-    public String toString(java.text.Format formatter)
+    public String toString(Format formatter)
     {
         return formatter.format(getJavaDate());
 
@@ -183,7 +190,10 @@ public class BasicTime
             return Integer.toString(hours);
         }
         else {
-            return (new StringBuilder()).append("0").append(hours).toString();
+            return (new StringBuilder())
+                .append('0')
+                .append(hours)
+                .toString();
         }
     }
 

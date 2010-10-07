@@ -195,7 +195,7 @@ public abstract class AbstractIntrospectionItem<O>
         builder.append( getterMethod.getName() );
         builder.append( ", setterMethod=" );
         builder.append( setterMethod.getName() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

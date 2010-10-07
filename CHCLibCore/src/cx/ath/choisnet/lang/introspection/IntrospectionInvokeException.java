@@ -46,9 +46,9 @@ public class IntrospectionInvokeException extends IntrospectionException {
         StringBuilder sb = new StringBuilder();
         
         sb.append( getClass().getSimpleName() );
-        sb.append( ":" );
+        sb.append( ':' );
         sb.append( getMethod() );
-        sb.append( "[" );
+        sb.append( '[' );
         if( paramsClasses != null ) {
             boolean first = true;
             for( Class<?> c : paramsClasses ) {
@@ -56,12 +56,12 @@ public class IntrospectionInvokeException extends IntrospectionException {
                     first = false;
                 }
                 else {
-                    sb.append( "," );
+                    sb.append( ',' );
                 }
                 sb.append( c.getName() );
             }
         }
-        sb.append( "]" );
+        sb.append( ']' );
         
         return sb.toString();
     }

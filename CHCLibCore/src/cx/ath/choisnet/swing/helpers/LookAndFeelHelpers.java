@@ -17,8 +17,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
- * @author CC
- *
+ * TODO: Doc!
+ * 
+ * @author Claude CHOISNET
  */
 public class LookAndFeelHelpers
 {

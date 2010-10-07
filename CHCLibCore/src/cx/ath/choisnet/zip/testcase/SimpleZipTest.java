@@ -1,6 +1,9 @@
-package cx.ath.choisnet.zip;
+package cx.ath.choisnet.zip.testcase;
 
 import cx.ath.choisnet.io.FileHelper;
+import cx.ath.choisnet.zip.SimpleUnZip;
+import cx.ath.choisnet.zip.SimpleZip;
+import cx.ath.choisnet.zip.SimpleZipEntry;
 import cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl;
 import java.io.File;
 import java.io.FileInputStream;

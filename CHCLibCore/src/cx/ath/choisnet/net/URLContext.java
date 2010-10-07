@@ -11,6 +11,23 @@ import java.util.TreeMap;
 import cx.ath.choisnet.ToDo;
 
 /**
+ * <p style="border:groove;">
+ * <b>Warning:</b>
+ * Insofar the code of this class comes from decompiling
+ * my own code following the loss of source code, the use
+ * of this class must do so under protest until I have
+ * check its stability, it could be subject to significant
+ * change.
+ * <br/>
+ * <br/>
+ * <b>Attention:</b>
+ * Dans la mesure où le code de cette classe est issue de
+ * la décompilation de mon propre code, suite à la perte
+ * du code source, l'utilisation de cette classe doit ce
+ * faire sous toute réserve tant que je n'ai pas vérifier
+ * sa stabilité, elle est donc sujette à des changements 
+ * importants.
+ * </p>
  *
  * @author Claude CHOISNET
  *
@@ -111,7 +128,7 @@ public class URLContext
         String cookie = connection.getHeaderField("Set-Cookie");
 
         if(cookie != null) {
-            int index = cookie.indexOf(";");
+            int index = cookie.indexOf(';');
 
             if(index >= 0) {
                 cookie = cookie.substring(0, index);
@@ -148,6 +165,6 @@ public class URLContext
 
     public String toString()
     {
-        return "URLContext[" + requestProperty + "]";
+        return "URLContext[" + requestProperty + ']';
     }
 }

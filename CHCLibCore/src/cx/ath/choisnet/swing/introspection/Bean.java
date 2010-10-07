@@ -72,16 +72,16 @@ public class Bean implements Serializable
     protected final static String INDEX_TAG = "$";
     
     /** Some logs */
-    private static Logger slogger = Logger.getLogger(Bean.class);
+    private static final Logger slogger = Logger.getLogger(Bean.class);
     
     /** @serial */
     private final String fieldName;
     /** @serial */
-    private String namePrefix = null;
+    private String namePrefix;
     /** @serial */
-    private String name = null;
+    private String name;
     /** @serial */
-    private String nameSuffix = null;
+    private String nameSuffix;
     /** @serial */
     private int index = -1;
 
@@ -200,7 +200,7 @@ public class Bean implements Serializable
         builder.append( nameSuffix );
         builder.append( ", index=" );
         builder.append( index );
-        builder.append( "]" );
+        builder.append( ']' );
         
         return builder.toString();
     }

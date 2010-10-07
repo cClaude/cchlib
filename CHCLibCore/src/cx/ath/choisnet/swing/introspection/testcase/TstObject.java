@@ -162,7 +162,7 @@ class TstObject
         builder.append( testIntegerLimitedIntegerJTextField );
         builder.append( ", testIntegerJSpinner=" );
         builder.append( testIntegerJSpinner );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

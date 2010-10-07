@@ -75,8 +75,11 @@ public class FileNameExtensionFilter extends FileFilter
             return true;
         }
 
+        // TODO: Optimization 
+        // get index of last '.'; get rest, toLowerCase() once
+        // and compare rest of string each time
         for( String s : this.extensions ) {
-            if( file.getName().toLowerCase().endsWith( "." + s ) ) {
+            if( file.getName().toLowerCase().endsWith( '.' + s ) ) {
                 return true;
             }
         }

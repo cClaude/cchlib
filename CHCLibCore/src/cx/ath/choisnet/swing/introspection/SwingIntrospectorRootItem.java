@@ -92,21 +92,21 @@ public class SwingIntrospectorRootItem<FRAME>
                 maxLen ) : null );
         builder.append( ", items=" );
         builder.append( items != null ? toString( items, maxLen ) : null );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 
     private String toString( Collection<?> collection, int maxLen )
     {
         StringBuilder builder = new StringBuilder();
-        builder.append( "[" );
+        builder.append( '[' );
         int i = 0;
         for( Iterator<?> iterator = collection.iterator(); iterator.hasNext()
                 && i < maxLen; i++ ) {
             if( i > 0 ) builder.append( ", " );
             builder.append( iterator.next() );
         }
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

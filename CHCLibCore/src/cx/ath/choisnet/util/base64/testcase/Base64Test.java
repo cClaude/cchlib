@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.base64;
+package cx.ath.choisnet.util.base64.testcase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.util.base64.Base64Decoder;
+import cx.ath.choisnet.util.base64.Base64Encoder;
+import cx.ath.choisnet.util.base64.Base64FormatException;
 import junit.framework.TestCase;
 
 /**
@@ -36,7 +39,7 @@ public class Base64Test extends TestCase
 //            String s     = encodeCharSB.toString();
 //            char[] enc   = Base64Encoder.encodeToChar( s.getBytes( "UTF8" ) );
             char[] enc   = Base64Encoder.encodeToChar( toEncodeBytes, 0, i );
-            slogger.info( "encode " + i + " Character String res = [" + new String( enc ) + "]" + enc.length );
+            slogger.info( "encode " + i + " Character String res = [" + new String( enc ) + ']' + enc.length );
 
             byte[] decBytes = Base64Decoder.decode( enc, 0, enc.length );
 
@@ -47,7 +50,7 @@ public class Base64Test extends TestCase
                     break;
                 }
             }
-            slogger.info( "dec = [" + new String(decBytes) + "]" + decBytes.length );
+            slogger.info( "dec = [" + new String(decBytes) + ']' + decBytes.length );
 
             assertTrue( "encoding to decoding mismatch !", eg );
             }
@@ -66,7 +69,7 @@ public class Base64Test extends TestCase
 
         String decStr = Base64Decoder.decode( enc );
         //String decStr    = new String( decBytes, "UTF8" );
-        slogger.info( "dec = [" + decStr + "]" + decStr.length() );
+        slogger.info( "dec = [" + decStr + "] " + decStr.length() );
 
         assertTrue( "encoding to decoding mismatch !", s.equals(decStr) );
         }
@@ -90,7 +93,7 @@ public class Base64Test extends TestCase
         throws Base64FormatException, IOException
     {
         String emptyEncodedStr = Base64Encoder.encode( "" );
-        slogger.info( "encode empty String res = [" + emptyEncodedStr + "]" );
+        slogger.info( "encode empty String res = [" + emptyEncodedStr + ']' );
         assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);
     }
 
@@ -109,7 +112,7 @@ public class Base64Test extends TestCase
         byte[] dec   = out.toByteArray();
         String decStr = new String( dec );
 
-        slogger.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + "]" );
+        slogger.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + ']' );
         assertTrue( "encoding to decoding mismatch !", toEncodeStr.equals(decStr) );
     }
 
@@ -119,7 +122,7 @@ public class Base64Test extends TestCase
         String encodedStr = Base64Encoder.encode( toEncodeStr );
         String res        = staticTestDecodeUsingOutputStream( encodedStr );
 
-        slogger.info( "testDecodeUsingOutputStream() [" + res + "]" );
+        slogger.info( "testDecodeUsingOutputStream() [" + res + ']' );
         assertTrue( "encoding to decoding mismatch !", toEncodeStr.equals(res) );
     }
 

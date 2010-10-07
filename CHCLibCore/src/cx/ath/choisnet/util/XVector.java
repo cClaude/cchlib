@@ -7,16 +7,18 @@ import java.util.Collection;
 import java.util.Vector;
 
 /**
+ * Extend {@link Vector} features, to provide simplest initializations.
+ * <p>
  * Typical use:
- * 
- * <code>
+ * </p>
+ * <pre>
  *  Vector<Vector<Object>> configValues = new XVector<Vector<Object>>()
  *          .xadd( new XVector<Object>( "ShoeBar"     , new Float(30) ))
  *          .xadd( new XVector<Object>( "CarBar"      , new Float(20) ))
  *          .xadd( new XVector<Object>( "TravelBar"   , new Float(50) ))
  *          .xadd( new XVector<Object>( "ComputerBar" , new Float(60) ))
  *          ;
- * </code>
+ * </pre>
  * 
  * @author Claude CHOISNET
  * @param <E> entries type
@@ -25,7 +27,7 @@ import java.util.Vector;
 public class XVector<E> extends Vector<E> 
 {
     private static final long serialVersionUID = 1L;
-
+     
     public XVector()
     {
         super();

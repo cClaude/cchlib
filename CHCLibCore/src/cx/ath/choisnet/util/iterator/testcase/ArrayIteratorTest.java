@@ -1,10 +1,11 @@
-package cx.ath.choisnet.util.iterator;
+package cx.ath.choisnet.util.iterator.testcase;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.util.iterator.ArrayIterator;
 import junit.framework.TestCase;
 
 /**

@@ -21,7 +21,7 @@ public class SimpleZipEntryFactoryImpl
     {
         String canonicalPath = refFolderFile.getCanonicalPath();
 
-        refFolder = canonicalPath.replace('\\', '/') + "/";
+        refFolder = canonicalPath.replace('\\', '/') + '/';
         refFolderLen = refFolder.length();
     }
 

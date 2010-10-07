@@ -417,7 +417,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         builder.append( itemsMap );
         builder.append( ", objectInterface=" );
         builder.append( objectInterface );
-        builder.append( "]" );
+        builder.append( ']' );
 
         return builder.toString();
     }

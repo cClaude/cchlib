@@ -50,7 +50,7 @@ public class DefaultIntrospection<O>
         StringBuilder builder = new StringBuilder();
         builder.append( "DefaultIntrospection [getMap()=" );
         builder.append( getMap() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

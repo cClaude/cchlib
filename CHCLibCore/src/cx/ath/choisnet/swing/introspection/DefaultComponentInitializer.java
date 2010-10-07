@@ -179,7 +179,8 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
 
         combo.setModel(
                 new DefaultComboBoxModel(
-                        DeprecatedSwingHelpers.initObjectArray( minValue, maxValue, minLength, true )
+                        //DeprecatedSwingHelpers.initObjectArray( minValue, maxValue, minLength, true )
+                        initObjectArray( minValue, maxValue, minLength, true )
                         )
                 );
     }
@@ -198,4 +199,50 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
                 new SpinnerNumberModel(defValue,minValue,maxValue,1)
                 );
     }
+
+    /**
+     *
+     * @param min - minimum value in array
+     * @param max - maximum value in array
+     * @param minLength - minimum length of Strings
+     * @param isRightAligned - should right align String content?
+     * @return an Object array within String Objects
+     */
+    public final static Object[] initObjectArray( 
+           final int       min,
+           final int       max, 
+           final int       minLength,
+           final boolean   isRightAligned
+           )
+   {
+       final StringBuilder padding = new StringBuilder();
+
+       if( minLength > 0 ) {
+           for( int i = 0; i<minLength; i++ ) {
+               padding.append( ' ' );
+           }
+       }
+
+       final String padStr = padding.toString();
+
+       final int      len = max - min + 1;
+       final Object[] object = new Object[ len ];
+
+       for( int i = 0; i<len; i++ ) {
+           String s = Integer.toString( min + i );
+           int    l = s.length();
+
+           if( l < minLength ) {
+               if( isRightAligned ) {
+                   s = padStr.substring( 0, minLength - l ) + s;
+               } else {
+                   s = s + padStr.substring( 0, minLength - l );
+               }
+           }
+
+           object[ i ] = s;
+       }
+
+       return object;
+   }    
 }  

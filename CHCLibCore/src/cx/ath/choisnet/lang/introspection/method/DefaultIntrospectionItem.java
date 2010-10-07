@@ -126,7 +126,7 @@ public class DefaultIntrospectionItem<O>
         builder.append( maxValue );
         builder.append( ", toString()=" );
         builder.append( super.toString() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

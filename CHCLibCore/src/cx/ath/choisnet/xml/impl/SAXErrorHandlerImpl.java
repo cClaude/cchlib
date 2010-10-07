@@ -27,7 +27,7 @@ public class SAXErrorHandlerImpl implements ErrorHandler
             sb.append("URI('systemId','publicId')=(");
             sb.append(spe.getSystemId());
 
-            sb.append(",");
+            sb.append(',');
             sb.append(spe.getPublicId());
 
             sb.append(") ");

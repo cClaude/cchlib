@@ -27,8 +27,8 @@ public class IntrospectionCompareException extends IntrospectionException
             )
     {
         super(
-            (messagePrefix == null ? "" : messagePrefix + " ")
-            + "M:" + m.getName() + " o1=(" + o1 + ") o2=(" + o2 + ")"
+            (messagePrefix == null ? "" : messagePrefix + ' ')
+            + "M:" + m.getName() + " o1=(" + o1 + ") o2=(" + o2 + ')'
             );
 
         this.returnCmpValue = compareValue;

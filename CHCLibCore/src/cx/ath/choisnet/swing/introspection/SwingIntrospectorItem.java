@@ -116,7 +116,7 @@ public class SwingIntrospectorItem<FRAME>
         builder.append( index );
         builder.append( ", isRoot=" );
         builder.append( isRoot );
-        builder.append( "]" );
+        builder.append( ']' );
         
         return builder.toString();
     }
