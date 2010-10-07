@@ -75,7 +75,7 @@ public class NTFSStream
         String streamname = "test";
 
         File testFile   = new File(path,filename);
-        File testStream = new File(path,filename + ":" + streamname);
+        File testStream = new File(path,filename + ':' + streamname);
 
         System.out.println( "Create " + testFile );
 
@@ -90,11 +90,11 @@ public class NTFSStream
         ws.close();
 
         NTFSStream ntfsStream = new NTFSStream();
-        System.out.println( "Content of " + testFile + " is [" + ntfsStream.getBegin(testFile) + "]" );
-        System.out.println( "Content of " + testStream + " is [" + ntfsStream.getBegin(testStream) + "]" );
+        System.out.println( "Content of " + testFile + " is [" + ntfsStream.getBegin(testFile) + ']' );
+        System.out.println( "Content of " + testStream + " is [" + ntfsStream.getBegin(testStream) + ']' );
 
-        System.out.println( "1> Content of " + testStream + " is [" + fastStreamCopy1(testStream) + "]" );
-        System.out.println( "2> Content of " + testStream + " is [" + fastStreamCopy2(testStream) + "]" );
+        System.out.println( "1> Content of " + testStream + " is [" + fastStreamCopy1(testStream) + ']' );
+        System.out.println( "2> Content of " + testStream + " is [" + fastStreamCopy2(testStream) + ']' );
     }
 
     private static String fastStreamCopy1( File filename )

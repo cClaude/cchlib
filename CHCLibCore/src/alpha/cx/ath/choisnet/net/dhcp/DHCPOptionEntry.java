@@ -40,11 +40,11 @@ public class DHCPOptionEntry
     public String toString()
     {
         return (new StringBuilder())
-                    .append("(")
+                    .append('(')
                     .append(value.length)
-                    .append("/")
+                    .append('/')
                     .append(DHCPParameters.toHexString(value))
-                    .append(")")
+                    .append(')')
                     .toString();
     }
 

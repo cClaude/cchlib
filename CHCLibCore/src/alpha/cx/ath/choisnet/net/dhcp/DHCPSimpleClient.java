@@ -82,9 +82,9 @@ public class DHCPSimpleClient extends Thread
                                 .append(t1)
                                 .append(" seconds (t1/t2)=(")
                                 .append(t1)
-                                .append("/")
+                                .append('/')
                                 .append(t2)
-                                .append(")")
+                                .append(')')
                                 .toString()
                                 );
 

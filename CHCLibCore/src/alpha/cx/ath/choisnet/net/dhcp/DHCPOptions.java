@@ -298,13 +298,24 @@ public class DHCPOptions
 
     public String getSubComment(byte option, byte code)
     {
-        String value = getProperty((new StringBuilder()).append(option).append(".").append(code).toString());
+        StringBuilder   sb      = new StringBuilder();
+        String          value   = getProperty(
+                        sb.append(option)
+                            .append('.')
+                            .append(code)
+                            .toString()
+                    );
 
         if(value != null) {
             return value;
         }
         else {
-            return (new StringBuilder()).append("Unkown option.code ").append(option).append(".").append(code).toString();
+            sb.setLength( 0 );
+            return sb.append("Unkown option.code ")
+                        .append(option)
+                        .append('.')
+                        .append(code)
+                        .toString();
         }
     }
 

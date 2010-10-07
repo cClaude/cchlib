@@ -133,8 +133,9 @@
 
     <javadoc sourcepath="${java.src.home}"
            packagenames="*"
-    excludepackagenames="samples.undocumented,alpha.*"
+    excludepackagenames="*.undocumented,*.testcase,alpha.*"
                 destdir="${api.docs.home}"
+                 access="protected"
                     use="true"
                  Header="${app.name} ${app.version}"
                  Footer="${app.name} API"
@@ -142,6 +143,8 @@
                 version="true"
                  author="true"
             failonerror="true"
+               Doctitle="${app.name} API ${app.version} (Doctitle)"
+            Windowtitle="${app.name} API ${app.version}"
          stylesheetfile="${src.home}/metadata/stylesheet.css"
          >
       <classpath refid="compile.classpath"/>
@@ -152,8 +155,19 @@
          offline="true"
             packagelistLoc="${src.home}/metadata/junit3.8.1/"
             />
+      <link href="http://logging.apache.org/log4j/1.2/apidocs/"
+         offline="true"
+            packagelistLoc="${src.home}/metadata/log4j-1.2/"
+            />
       <doctitle>${app.name}</doctitle>
     </javadoc>
+
+    <copy    todir="${api.docs.home}/resources"
+         overwrite="true"
+       failonerror="true"
+         >
+      <fileset dir="${src.home}/metadata/resources" excludes="!*!"/>
+    </copy>
 
   </target>
 

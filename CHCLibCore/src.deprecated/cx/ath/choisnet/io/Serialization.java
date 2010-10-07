@@ -7,7 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- *
+ * Use {@link SerializableHelper} instead
+ * 
  * @author Claude CHOISNET
  *
  */
@@ -20,6 +21,16 @@ public class Serialization
 
     }
 
+    /** 
+     * use {@link SerializableHelper#clone(java.io.Serializable, Class)}
+     * 
+     * @param <T>
+     * @param anObject
+     * @param clazz
+     * @return a clone object using ObjectOutputStream
+     * @throws java.io.IOException
+     * @throws ClassNotFoundException
+     */
     public static <T> T clone(Object anObject, Class<T> clazz)
         throws java.io.IOException, ClassNotFoundException
     {

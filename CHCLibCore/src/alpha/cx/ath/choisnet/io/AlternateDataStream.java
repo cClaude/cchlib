@@ -23,7 +23,7 @@ public class AlternateDataStream
     {
         this.filename   = filename;
         this.streamname = streamname;
-        this.file       = new File( parent, filename + ":" + streamname);
+        this.file       = new File( parent, filename + ':' + streamname);
     }
 
     /**
