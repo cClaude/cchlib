@@ -1,0 +1,33 @@
+
+---------------------------------------------------------------------
+03a.07
+  Code review (improve documentation)
+  Add: Annotation - alpha.cx.ath.choisnet.ToDo
+  Add: Classes
+    alpha.cx.ath.choisnet.io.AlternateDataStream
+    alpha.cx.ath.choisnet.io.AlternateDataStreamTest
+    alpha.cx.ath.choisnet.io.MSAlternateDataStreamDescription
+    alpha.cx.ath.choisnet.io.MSAlternateDataStreamDescriptionEntry
+
+  Since this code is base on reverse ingenering of my lost sources
+  library did some change.
+
+  Deprecated Classes (Not use ?)
+    cx.ath.choisnet.sql.SimpleQueryException
+
+  Classe moved to "alpha" package : (To be improve, or test, before release)
+    alpha.cx.ath.choisnet.net.dhcp.DHCPMessage
+    alpha.cx.ath.choisnet.net.dhcp.DHCPOptionEntry
+    alpha.cx.ath.choisnet.net.dhcp.DHCPOptions
+    alpha.cx.ath.choisnet.net.dhcp.DHCPParameters
+    alpha.cx.ath.choisnet.net.dhcp.DHCPSimpleClient
+    alpha.cx.ath.choisnet.net.dhcp.DHCPSocket
+
+  Classe moved to alpha package and Deprecated (Not sure)
+    alpha.cx.ath.choisnet.net.PseudoPing
+
+
+  Build: remove Deprecated classes from documentation
+
+---------------------------------------------------------------------
+
