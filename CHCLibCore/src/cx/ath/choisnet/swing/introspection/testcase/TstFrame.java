@@ -27,13 +27,9 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
-//import org.dyno.visual.swing.layouts.Constraints;
-//import org.dyno.visual.swing.layouts.GroupLayout;
-//import org.dyno.visual.swing.layouts.Leading;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
@@ -77,7 +73,7 @@ class TstFrame
     private JButton                     jButtonRandomObject;
     private JButton                     jButtonPopulateFrame;
     private JButton                     jButtonPopulateObject;
-    private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
+    //private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 
     public TstFrame()
     {
@@ -393,24 +389,24 @@ class TstFrame
         return jCheckBox_TestBoolean$root;
     }
 
-    @SuppressWarnings("unused")
-    private static void installLnF()
-    {
-        try {
-            String lnfClassname = PREFERRED_LOOK_AND_FEEL;
-            if( lnfClassname == null )
-                lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
-            UIManager.setLookAndFeel( lnfClassname );
-        }
-        catch( Exception e ) {
-            System.err.println( "Cannot install " + PREFERRED_LOOK_AND_FEEL
-                    + " on this platform:" + e.getMessage() );
-        }
-    }
+//    @SuppressWarnings("unused")
+//    private static void installLnF()
+//    {
+//        try {
+//            String lnfClassname = PREFERRED_LOOK_AND_FEEL;
+//            if( lnfClassname == null )
+//                lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
+//            UIManager.setLookAndFeel( lnfClassname );
+//        }
+//        catch( Exception e ) {
+//            System.err.println( "Cannot install " + PREFERRED_LOOK_AND_FEEL
+//                    + " on this platform:" + e.getMessage() );
+//        }
+//    }
 
     public static void main( String[] args )
     {
-        installLnF();
+        //installLnF();
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()

@@ -14,12 +14,14 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * The FormattedProperties class is an extension
@@ -29,9 +31,6 @@ import java.util.Set;
  * <br/>
  * <br/>
  * Written for Java version 1.5
- * <p>
- * <b>Warning</b>: Some method are not (yet?) supported.
- * </p>
  */
 public class FormattedProperties
     extends Properties
@@ -39,6 +38,59 @@ public class FormattedProperties
     private static final long serialVersionUID = 1L;
     /** @serial */
     private Lines lines = new Lines();
+    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>.*");
+    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*<[bB][rR][^/]*[/]?>");
+    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>.*");
+    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*</[pP]>");
+
+//    public final static void main(String[]args)
+//    {
+//        Matcher m = PATTERN_P_BEGIN_ADD_BEFORE.matcher("<p style='k'/>sdfdsf");
+//        boolean b = m.matches();
+//        System.out.println("b="+b);
+//    }
+    /**
+     * Configure store operation.
+     *
+     * @author Claude CHOISNET
+     */
+    public enum Store {
+        /**
+         * Cut line after character 0x10 (\n)
+         * <br/>
+         * <br/>
+         * More formally replace 0x10 by String "\\n\\\n"
+         */
+        CUT_LINE_AFTER_NEW_LINE,
+
+        /**
+         * Cut line after &lt;br&gt; or &lt;br/&gt;
+         * <br/>
+         * <br/>
+         * More formally looking for &lt;br *[/]&gt; and
+         * cut line after this value
+         */
+        CUT_LINE_AFTER_HTML_BR,
+
+        /**
+         * Cut line before &lt;br&gt; or &lt;br/&gt;
+         * <br/>
+         * <br/>
+         * More formally looking for &lt;br *[/]&gt; and
+         * cut line before this value
+         */
+        CUT_LINE_BEFORE_HTML_BR,
+
+        /**
+         * Cut line before &lt;p&gt;
+         */
+        CUT_LINE_BEFORE_HTML_BEGIN_P,
+
+        /**
+         * Cut line after &lt;/p&gt;
+         */
+        CUT_LINE_AFTER_HTML_END_P
+    };
 
     /**
      * Load properties from the specified InputStream.
@@ -188,8 +240,9 @@ public class FormattedProperties
 
             // Short-circuit if no escape chars found.
             if( !needsEscape ) {
-                super.put( keyString, line.substring(pos) );
-                lines.addKey(keyString);
+                //super.put( keyString, line.substring(pos) );
+                //lines.addKey(keyString);
+                this.put( keyString, line.substring(pos) );
                 continue;
             }
 
@@ -243,8 +296,9 @@ public class FormattedProperties
                 } else
                     element.append(c);
             }
-            super.put(keyString, element.toString());
-            lines.addKey(keyString);
+            //super.put(keyString, element.toString());
+            //lines.addKey(keyString);
+            this.put(keyString, element.toString());
         }
     }
 
@@ -268,7 +322,7 @@ public class FormattedProperties
                 new OutputStreamWriter(out, "ISO-8859-1")
                 );
 
-        store(writer, comment);
+        store(writer,EnumSet.noneOf( Store.class ));
     }
 
     /**
@@ -281,7 +335,7 @@ public class FormattedProperties
      *             list is via the store(OutputStream out, String comments)
      *             method.
      * <p>
-     * Calls the store(OutputStream out, String comment) method and
+     * Calls the store(out,comment,null) and
      * suppresses IOExceptions that were thrown.
      * </p>
      */
@@ -312,6 +366,36 @@ public class FormattedProperties
     public synchronized void store( Writer out, String comment )
         throws IOException
     {
+        store(out,EnumSet.noneOf( Store.class ));
+    }
+
+        /**
+         * Write the properties to the specified Writer.
+         * <p>
+         * Overloads the store method in Properties so we can
+         * put back comment and blank lines.
+         * </p>
+         * @param out       The OutputStream to write to.
+         * @param config    Configure how store operation will be
+         *                  handle, see {@link Store}.
+         *
+         * @exception IOException
+         */
+        public synchronized void store(
+                Writer          out,
+                EnumSet<Store>  config
+                )
+            throws IOException
+    {
+        EnumSet<Store> attribs;
+
+        if( config == null ) {
+            attribs = EnumSet.noneOf( Store.class );
+        }
+        else {
+            attribs = EnumSet.copyOf( config );
+        }
+
         PrintWriter writer;
 
         if( out instanceof PrintWriter ) {
@@ -325,18 +409,30 @@ public class FormattedProperties
         // now a comment, which will be saved and then
         // when we write again we would prepend Another
         // header...
-        StringBuilder   sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
         for( Line line:lines ) {
             if( line.isComment ) {
                 // was a blank or comment line, so just restore it
-                writer.println (line.content);
+                writer.println(line.content);
             }
             else {
                 // This is a 'property' line, so rebuild it
-                formatForOutput(line.content, sb, true);
+                formatForOutput(
+                        line.content,
+                        sb,
+                        true,
+                        null
+                        );
                 sb.append ('=');
-                formatForOutput( (String)get(line.content), sb, false );
+                formatForOutput(
+                        String.class.cast(
+                                get(line.content)
+                                ),
+                        sb,
+                        false,
+                        attribs
+                        );
                 writer.println (sb);
             }
         }
@@ -350,11 +446,14 @@ public class FormattedProperties
      * @param buffer - buffer to hold the string
      * @param key    - true if 'str' the key is formatted,
      *                 false if the value is formatted
+     * @param config - Configure how store operation will be
+     *                  handle, see {@link Store}.
      */
     protected void formatForOutput(
             String          str,
             StringBuilder   buffer,
-            boolean         key
+            boolean         key,
+            EnumSet<Store>  config
             )
     {
         if( key ) {
@@ -373,6 +472,11 @@ public class FormattedProperties
             switch(c) {
                 case '\n':
                     buffer.append("\\n");
+                    if( !key ) {
+                        if( config.contains( Store.CUT_LINE_AFTER_NEW_LINE) ) {
+                            buffer.append("\\\n");
+                        }
+                    }
                     break;
                 case '\r':
                     buffer.append("\\r");
@@ -390,6 +494,24 @@ public class FormattedProperties
                 case ':':
                     buffer.append('\\').append(c);
                     break;
+                case '<':
+                    if( !key ) {
+                        boolean cutLine = false;
+                        if( config.contains( Store.CUT_LINE_BEFORE_HTML_BR )) {
+                            if( matches(PATTERN_BR_ADD_BEFORE,str.substring( i )) ) {
+                                cutLine = true;
+                            }
+                        }
+                        if( config.contains( Store.CUT_LINE_BEFORE_HTML_BEGIN_P )) {
+                            if( matches(PATTERN_P_BEGIN_ADD_BEFORE,str.substring( i )) ) {
+                                cutLine = true;
+                            }
+                        }
+
+                        if( cutLine ) {
+                            buffer.append( "\\\n" );
+                        }
+                    }
                 default:
                     if( isISO_8859_1( c ) ) {
                         buffer.append(c);
@@ -399,12 +521,59 @@ public class FormattedProperties
                         buffer.append("\\u0000".substring(0, 6 - hex.length()));
                         buffer.append(hex);
                         }
+
+                    if( !key && c == '>' ) {
+                        boolean cutLine = false;
+
+                        if(config.contains( Store.CUT_LINE_AFTER_HTML_BR )) {
+                            if( matches(PATTERN_BR_ADD_AFTER,str.substring(0,i+1)) ) {
+                                cutLine = true;
+                            }
+                        }
+                        if(config.contains( Store.CUT_LINE_AFTER_HTML_END_P )) {
+                            if( matches(PATTERN_P_END_ADD_AFTER,str.substring(0,i+1)) ) {
+                                cutLine = true;
+                            }
+                        }
+
+                        if( cutLine ) {
+                            // To keep Properties consistent,
+                            // must add all next Whitespaces
+                            // before add new line
+                            int i2 = i + 1;
+
+                            while( i2 < size ) {
+                                char c2 = str.charAt(i2);
+                                if( Character.isWhitespace(c2) ) {
+                                    buffer.append( c2 );
+                                    i++;
+                                    i2++;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+
+                            buffer.append( "\\\n" );
+                        }
+                    }
             }
 
             if(c != ' ') {
                 head = key;
             }
         }
+    }
+
+    /**
+     *
+     * @param p Pattern to use
+     * @param s String to test
+     * @return true if string matches with pattern
+     */
+    protected boolean matches(Pattern p,String s)
+    {
+        return p.matcher( s ).matches();
     }
 
     /**
@@ -438,20 +607,6 @@ public class FormattedProperties
 
         return false;
     }
-
-//    /**
-//     * Add a Property to the end of the
-//     * FormattedProperties.
-//     *
-//     * @param   keyString    The Property key.
-//     * @param   value        The value of this Property.
-//     */
-//    public String add(String keyString, String value)
-//    {
-//        return String.class.cast(
-//                this.put(keyString, value)
-//                );
-//    }
 
     /**
      * If Property already define, replace value
@@ -515,7 +670,7 @@ public class FormattedProperties
     }
 
     /**
-     * Add a comment or blank line or comment to
+     * Add a comment or blank line to
      * the end of the FormattedProperties.
      *
      * @param line  The string to add to the end,
@@ -577,7 +732,7 @@ public class FormattedProperties
     }
 
     /**
-     * Call {@link #put(Object,Object)}
+     * Same has {@link #put(Object,Object)}
      */
     @Override
     public synchronized Object setProperty( String key, String value )
@@ -585,10 +740,9 @@ public class FormattedProperties
         return this.put(key,value);
     }
 
-
     /**
-     * Clears this hashtable so that it contains no keys,
-     * but also clears comments
+     * Clears this hashtable that contains properties,
+     * and also clears comments
      */
     @Override
     public synchronized void clear()
@@ -608,7 +762,7 @@ public class FormattedProperties
 
     /**
      * Unlike {@link java.util.Hashtable#entrySet()}
-     * return an unmodifiable Set
+     * return an <b>unmodifiable</b> Set
      * @see java.util.Hashtable#entrySet()
      */
     @Override
@@ -635,7 +789,7 @@ public class FormattedProperties
 
     /**
      * Unlike {@link java.util.Hashtable#keySet()}
-     * return an unmodifiable Set
+     * return an <b>unmodifiable</b> Set
      * @see java.util.Hashtable#keySet()
      */
     @Override
@@ -657,13 +811,20 @@ public class FormattedProperties
         return super.keys();
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Hashtable#putAll(java.util.Map)
+    /**
+     * Copies all of the mappings from the specified map
+     * to properties hashtable. These mappings will replace
+     * any mappings that this hashtable had for any of the
+     * keys currently in the specified map.
+     *
+     * @param t - mappings to be stored in this map
+     * @throws NullPointerException - if the specified map is
+     *         null
+     * @see #put(Object, Object)
      */
     @Override
     public synchronized void putAll( Map<? extends Object, ? extends Object> t )
     {
-        // super.putAll( t );
         for(Map.Entry<? extends Object, ? extends Object> e:t.entrySet()) {
             put(    e.getKey(),
                     e.getValue()
@@ -671,23 +832,56 @@ public class FormattedProperties
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Hashtable#remove(java.lang.Object)
-     */
     /**
-     * @throws UnsupportedOperationException
+     * <p>
+     * Removes the mapping for a key from this FormattedProperties
+     * if it is present (optional operation).
+     * </p>
+     * <p>
+     * Returns the value to which this map previously associated
+     * the key, or null if the FormattedProperties contained no
+     * mapping for the key.
+     * </p>
+     * @param key - key whose mapping is to be removed from
+     *        the FormattedProperties
+     * @return the previous value associated with key,
+     *         or null if there was no mapping for key.
+     * @throws ClassCastException - if the key is of an
+     *         inappropriate type for this map (optional)
+     * @throws NullPointerException - if the specified key
+     *         is null.
      */
     @Override
     public synchronized Object remove( Object key )
     {
-        // TODO must be modifiable
-        // return super.remove( key );
-        throw new UnsupportedOperationException();
+        if( super.containsKey( key ) ) {
+            Line   line = lines.remove(key);
+            Object prev = super.remove( key );
+
+            if( line == null ) {
+                throw new RuntimeException(
+                        "Internal error key exist in Hashmap, but not in lines"
+                        );
+            }
+            else {
+                return prev;
+            }
+        }
+        else {
+            if( lines.contains( key ) ) {
+                throw new RuntimeException(
+                        "Internal error key exist in lines, but not in Hashmap"
+                        );
+            }
+            else {
+                return null; // nothing to do !
+            }
+        }
     }
 
     /**
      * Unlike {@link java.util.Hashtable#values()}
-     * return an unmodifiable Collection
+     * return an <b>unmodifiable</b> Collection
      * @see java.util.Hashtable#values()
      */
     @Override
@@ -699,35 +893,85 @@ public class FormattedProperties
                 );
     }
 
-//  /* (non-Javadoc)
-//  * @see java.util.Hashtable#equals(java.lang.Object)
-//  */
-// @Override
-// public synchronized boolean equals( Object o )
-// {
-//     // TODO Auto-generated method stub
-//     return super.equals( o );
-// }
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+        return result;
+    }
 
-// /* (non-Javadoc)
-//  * @see java.util.Hashtable#hashCode()
-//  */
-// @Override
-// public synchronized int hashCode()
-// {
-//     // TODO Auto-generated method stub
-//     return super.hashCode();
-// }
+    /**
+     * Compares the specified Object with this
+     * FormattedProperties for equality.
+     *
+     * @param obj - object to be compared for equality
+     *              with this FormattedProperties
+     * @return true if the specified Object is equal
+     *         to this FormattedProperties
+     */
+    @Override
+    public boolean equals( Object obj )
+    {
+        if( this == obj ) {
+            return true;
+        }
+        if( !super.equals( obj ) ) {
+            return false;
+        }
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        FormattedProperties other = (FormattedProperties)obj;
 
-//    /* (non-Javadoc)
-//     * @see java.util.Hashtable#clone()
-//     */
-//    @Override
-//    public synchronized Object clone()
-//    {
-//        // TODO Auto-generated method stub
-//        return super.clone();
-//    }
+        if( lines == null ) {
+            if( other.lines != null ) {
+                return false;
+            }
+        }
+        else if( !lines.equals( other.lines ) ) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Creates a copy of this FormattedProperties.
+     * All the structure of the FormattedProperties
+     * itself is copied, <b>include</b> the keys,
+     * the values, and stored lines informations.
+     * <br/>
+     * <br/>
+     * This break rules from {@link java.util.Hashtable#clone()}.
+     * <br/>
+     * <br/>
+     *
+     *
+     * @return a clone of the FormattedProperties
+     */
+    public synchronized Object clone()
+    {
+        FormattedProperties clone = new FormattedProperties();
+
+        for( Line line:lines ) {
+            if( line.isComment ) {
+                clone.addCommentLine( line.content );
+            }
+            else {
+                clone.put(
+                        line.content,
+                        this.getProperty( line.content )
+                        );
+            }
+        }
+
+        return clone;
+    }
+
     // ---------------------------------------------
     // ---------------------------------------------
 
@@ -748,6 +992,11 @@ public class FormattedProperties
          * @serial
          */
         String content;
+
+        private Line()
+        { // Can't build line outside this class
+        }
+
         /**
          * @return true if Line is a comment, false otherwise
          */
@@ -777,6 +1026,65 @@ public class FormattedProperties
             }
             return null;
         }
+
+        /**
+         *
+         */
+        @Override
+        public String toString()
+        {
+            if( isComment ) {
+                return content;
+            }
+            else {
+                //TODO: encode?
+                return content + "=" + getProperty(content);
+            }
+        }
+        /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + super.hashCode();
+            result = prime * result
+                    + ((content == null) ? 0 : content.hashCode());
+            result = prime * result + (isComment ? 1231 : 1237);
+            return result;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals( Object obj )
+        {
+            if( this == obj ) {
+                return true;
+            }
+            if( obj == null ) {
+                return false;
+            }
+            if( getClass() != obj.getClass() ) {
+                return false;
+            }
+            Line other = (Line)obj;
+            if( content == null ) {
+                if( other.content != null ) {
+                    return false;
+                }
+            }
+            else if( !content.equals( other.content ) ) {
+                return false;
+            }
+            if( isComment != other.isComment ) {
+                return false;
+            }
+            return true;
+        }
     }
     // ---------------------------------------------
 
@@ -786,6 +1094,10 @@ public class FormattedProperties
     {
         private static final long serialVersionUID = 1L;
         private ArrayList<Line> lines = new ArrayList<Line> ();
+
+        private Lines()
+        { // Can't build lines outside this class
+        }
 
         private Line buildCommentLine(String comment)
         {
@@ -824,6 +1136,23 @@ public class FormattedProperties
             }
             return false;
         }
+
+        public Line remove(Object key)
+        {
+            Iterator<Line> iter = lines.iterator();
+
+            while( iter.hasNext() ) {
+                Line line = iter.next();
+
+                if( ! line.isComment ) {
+                    if( line.content.equals( key )) {
+                        iter.remove();
+                        return line;
+                    }
+                }
+            }
+            return null;
+        }
         @Override
         public Iterator<Line> iterator()
         {
@@ -834,18 +1163,48 @@ public class FormattedProperties
         {
             lines.clear();
         }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode()
+        {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + super.hashCode();
+            result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+            return result;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals( Object obj )
+        {
+            if( this == obj ) {
+                return true;
+            }
+            if( obj == null ) {
+                return false;
+            }
+            if( getClass() != obj.getClass() ) {
+                return false;
+            }
+            Lines other = (Lines)obj;
+
+            if( lines == null ) {
+                if( other.lines != null ) {
+                    return false;
+                }
+            }
+            else if( !lines.equals( other.lines ) ) {
+                return false;
+            }
+
+            return true;
+        }
     }
     // ---------------------------------------------
-
-    public static void main(String[] args)
-    {
-        for(char c=' '; c<128; c++ ) {
-            System.out.print(c);
-        }
-        System.out.println();
-        for(char c=128; c<256; c++ ) {
-            System.out.print(c);
-        }
-        System.out.println();
-    }
 }

@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Properties;
 import java.util.Set;
 import cx.ath.choisnet.io.InputStreamHelper;
 import cx.ath.choisnet.util.FormattedProperties;
+import cx.ath.choisnet.util.FormattedProperties.Store;
 import junit.framework.TestCase;
 
 public class FormattedPropertiesTest 
@@ -38,12 +40,12 @@ public class FormattedPropertiesTest
         refPropertiesReader = getProperties( 
                 new InputStreamReader(getClass().getResourceAsStream( REF ))
                 );
-        File f = storeOutputStream(refPropertiesReader);
-        System.out.println("ref="+f);//TODO
-        final String key = "multi.lines.message";
-        System.out.println( key + "=" +       
-                refPropertiesReader.getProperty( key )
-                );
+//        File f = storeOutputStream(refPropertiesReader);
+//        System.out.println("ref="+f);//TO DO
+//        final String key = "multi.lines.message";
+//        System.out.println( key + "=" +       
+//                refPropertiesReader.getProperty( key )
+//                );
         
         // Something loaded ?
         assertTrue("Should not empty",0 != refPropertiesStream.size() );
@@ -232,8 +234,135 @@ public class FormattedPropertiesTest
             }
             i++;
         }
+        
+        delete(copy);
+    }
+
+    public void test_equal() throws FileNotFoundException, IOException
+    {
+        File                copy  = getCopy();
+        FormattedProperties prop1 = getFormattedProperties(
+                new FileInputStream(copy)
+                );
+        FormattedProperties prop2 = getFormattedProperties(
+                new FileInputStream(copy)
+                );
+        
+        boolean r = prop1.equals(prop1);
+        assertTrue("Must be equals (same object)",r);
+
+        r = prop1.equals(prop2);
+        assertTrue("Must be equals",r);
+        
+        r = prop2.equals(prop1);
+        assertTrue("Must be equals",r);
+
+        r = prop1.equals(getNull());
+        assertFalse("Must be not equals",r);
+
+        final String key   = "test.key";
+        final String value = "a value";
+
+        prop1.put(key,value);
+        r = prop1.equals(prop2);
+        assertFalse("Must be not equals",r);
+        assertEquals(
+                "Value not found",
+                value,
+                prop1.getProperty( key )
+                );
+        
+        prop2.put(key,value);
+        r = prop1.equals(prop2);
+        assertTrue("Must be equals",r);
+
+        final String comment = "# a comment";
+
+        prop2.addCommentLine( comment );
+        r = prop1.equals(prop2);
+        assertFalse("Must be not equals",r);
+
+        prop1.addCommentLine( comment );
+        r = prop1.equals(prop2);
+        assertTrue("Must be equals",r);
+       
+        prop1.put(key,value+value);
+        r = prop1.equals(prop2);
+        assertFalse("Must be not equals",r);
+        
+        prop1.remove( key );
+        r = prop1.equals(prop2);
+        assertFalse("Must be not equals",r);
+
+        prop2.remove( key );
+        r = prop1.equals(prop2);
+        assertTrue("Must be equals",r);
+        
+        delete(copy);
     }
     
+    public void test_clone() throws FileNotFoundException, IOException
+    {
+        File                copy = getCopy();
+        FormattedProperties prop = getFormattedProperties(
+                new FileInputStream(copy)
+                );
+        
+        FormattedProperties clone = (FormattedProperties)prop.clone();
+        
+        List<FormattedProperties.Line> lines  = prop.getLines();
+        List<FormattedProperties.Line> clines = clone.getLines();
+        final int linesSize  = lines.size();
+        final int clinesSize = clines.size();
+        final int size = Math.max(linesSize,clinesSize);
+        FormattedProperties.Line l;
+        FormattedProperties.Line cl;
+        
+        for(int i=0; i<size;i++) {
+            l = cl = null;
+            
+            if( i < linesSize ) {
+                l = lines.get(  i );
+            }
+            if( i < clinesSize ) {
+                cl = clines.get(  i );
+            }
+            //System.out.printf("%d - 1>%s\n",i, l );
+            //System.out.printf("%d - 2>%s\n",i, cl );
+
+            assertEquals("Lines a diff !",l,cl);
+        }
+        
+        assertEquals("Must be same size (keys)",prop.size(),clone.size());
+        assertEquals("Must be same size (lines)",prop.getLines().size(),clone.getLines().size());
+        
+        boolean r = prop.equals( clone );
+        assertTrue("Must be equals",r);
+        
+        delete(copy);
+    }
+    
+    public void test_store_plusplus() throws FileNotFoundException, IOException
+    {
+        File                copy = getCopy();
+        File                file = getTmpFile("formatall");
+        FormattedProperties prop = getFormattedProperties(
+                new FileInputStream(copy)
+                );
+        Writer out = new FileWriter( file );
+        prop.store( 
+                out, 
+                EnumSet.allOf( Store.class )
+                );
+        out.close();
+        compare(prop,file);
+        
+        //keepFile(file);        
+        file.delete();
+        copy.delete();
+    }
+    // ---------------------------------------------------
+    // ---------------------------------------------------
     public void compare(
             Properties propRef, 
             Properties prop
@@ -384,5 +513,19 @@ public class FormattedPropertiesTest
         boolean isDeleted = f.delete();
         
         assertTrue("Can't delete:" + f,isDeleted);
+    }
+    
+    private Object getNull()
+    {// Just to remove warning
+        return null;
+    }
+    
+    protected void keepFile(File f)
+    {// Just for debugging!
+        File n = new File(
+                f.getParent(),
+                f.getName() + ".keep" 
+                );
+        f.renameTo( n );
     }
 }

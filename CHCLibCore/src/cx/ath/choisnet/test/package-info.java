@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Provide some tools to build test cases
  *
  * @author Claude CHOISNET
  */

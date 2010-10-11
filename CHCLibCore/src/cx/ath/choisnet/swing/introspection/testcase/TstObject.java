@@ -3,6 +3,7 @@
  */
 package cx.ath.choisnet.swing.introspection.testcase;
 
+import java.io.Serializable;
 import java.util.Random;
 import cx.ath.choisnet.lang.introspection.method.IVIgnore;
 import cx.ath.choisnet.lang.introspection.method.IVInt;
@@ -11,8 +12,9 @@ import cx.ath.choisnet.lang.introspection.method.IVInt;
  * @see IntrospectionTest
  * @author Claude CHOISNET
  */
-class TstObject
+class TstObject implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private Random rand = new Random();
 
     private boolean         testBoolean;
