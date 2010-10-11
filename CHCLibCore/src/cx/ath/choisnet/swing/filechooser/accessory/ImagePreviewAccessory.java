@@ -14,9 +14,13 @@ public class ImagePreviewAccessory
                     TabbedAccessoryInterface
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private ImageIcon thumbnail = null;
+    /** @serial */
     private File file = null;
+    /** @serial */
     private int width;
+    /** @serial */
     private int widthPicture;
 
     public ImagePreviewAccessory(JFileChooser fc)
@@ -27,7 +31,7 @@ public class ImagePreviewAccessory
         widthPicture = width - 10;
     }
 
-    public void loadImage() 
+    public void loadImage()
     {
         if (file == null) {
             thumbnail = null;
@@ -44,7 +48,7 @@ public class ImagePreviewAccessory
                 thumbnail = new ImageIcon(
                         tmpIcon.getImage()
                             .getScaledInstance(
-                                    widthPicture, 
+                                    widthPicture,
                                     -1,
                                     Image.SCALE_DEFAULT
                                     )
@@ -56,7 +60,7 @@ public class ImagePreviewAccessory
     }
 
     @Override // PropertyChangeListener
-    public void propertyChange(PropertyChangeEvent e) 
+    public void propertyChange(PropertyChangeEvent e)
     {
         boolean update = false;
         String prop = e.getPropertyName();
@@ -65,7 +69,7 @@ public class ImagePreviewAccessory
             //If the directory changed, don't show an image.
             file = null;
             update = true;
-        } 
+        }
         else if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(prop)) {
             //If a file became selected, find out which one.
             file = (File) e.getNewValue();
@@ -75,7 +79,7 @@ public class ImagePreviewAccessory
         //Update the preview accordingly.
         if (update) {
             thumbnail = null;
-            
+
             if( isShowing() ) {
                 loadImage();
                 repaint();
@@ -83,7 +87,7 @@ public class ImagePreviewAccessory
         }
     }
 
-    protected void paintComponent(Graphics g) 
+    protected void paintComponent(Graphics g)
     {
         if (thumbnail == null) {
             loadImage();
@@ -108,7 +112,7 @@ public class ImagePreviewAccessory
     {
         return null;
     }
-    
+
     @Override // TabbedAccessoryInterface
     public Icon getTabIcon()
     {

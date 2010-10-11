@@ -13,17 +13,19 @@ import javax.swing.event.ChangeListener;
 
 /**
  * TODO: Doc!
- * 
+ *
  * @author Claude CHOISNET
  */
-public class TabbedAccessory 
+public class TabbedAccessory
     extends JTabbedPane
         implements ChangeListener
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private ArrayList<TabbedAccessoryInterface> tabbedAccessoryInterfaceList;
+    /** @serial */
     private boolean first = true;
-    
+
     /**
      * Build Accessory with default Dimension (320,240)
      */
@@ -31,10 +33,10 @@ public class TabbedAccessory
     {
         this( new Dimension(320, 240) );
     }
-    
+
     /**
      * Build Accessory with giving Dimension
-     * 
+     *
      * @param dimension
      */
     public TabbedAccessory(
@@ -48,20 +50,20 @@ public class TabbedAccessory
     }
 
     /**
-     * 
+     *
      * @param tai
      * @return current Object for chaining initialization.
      */
     public TabbedAccessory addTabbedAccessory( TabbedAccessoryInterface tai )
     {
-        super.addTab( 
-                tai.getTabName(), 
+        super.addTab(
+                tai.getTabName(),
                 tai.getTabIcon(),
                 tai.getComponent()
                 );
-        
+
         tabbedAccessoryInterfaceList.add( tai );
-        
+
         tai.unregister();
 
         if( first ) {
@@ -71,14 +73,14 @@ public class TabbedAccessory
 
         return this;
     }
-    
+
     @Override // ChangeListener
     public void stateChanged( ChangeEvent event )
     {
         //System.out.println( event );
         int         sel = getSelectedIndex();
         Component   c   = super.getComponentAt( sel );
-        
+
         for(TabbedAccessoryInterface tai:tabbedAccessoryInterfaceList) {
             if( c == tai.getComponent() ) {
                 tai.register();
@@ -89,7 +91,7 @@ public class TabbedAccessory
                 //System.out.println( "unregister" + tai.getComponent() );
             }
         }
-        
+
     }
 }
 

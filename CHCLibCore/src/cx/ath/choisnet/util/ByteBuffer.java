@@ -5,18 +5,21 @@ import java.io.ObjectOutputStream;
 import java.nio.channels.ReadableByteChannel;
 
 /**
- *
  * @author Claude CHOISNET
- *
+ * @deprecated use {@link cx.ath.choisnet.lang.ByteArrayBuilder} instead 
  */
+@Deprecated
 public class ByteBuffer
     implements Comparable<ByteBuffer>, Cloneable, java.io.Serializable
 {
     private static final long serialVersionUID = 2L;
-    private transient byte[] buffer;
-    private transient int lastPos;
+    private transient byte[]    buffer;
+    private transient int       lastPos;
     private static final int DEFAULT_SIZE = 2048;
 
+    /**
+     * Cre
+     */
     public ByteBuffer()
     {
         this(DEFAULT_SIZE);

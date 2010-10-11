@@ -41,8 +41,15 @@ public final class InputStreamHelper
         return sb.toString();
     }
 
+    /**
+     * 
+     * @param input
+     * @param output
+     * @param bufferSize
+     * @throws IOException
+     */
     public static void copy(InputStream input, OutputStream output, int bufferSize)
-        throws java.io.IOException
+        throws IOException
     {
         byte[]  buffer = new byte[bufferSize];
         int     len;
