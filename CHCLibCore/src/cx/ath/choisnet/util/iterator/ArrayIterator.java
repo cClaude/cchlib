@@ -101,11 +101,24 @@ public class ArrayIterator<T>
         this.array[2] = o3;
     }
     
+    /**
+     * Returns true if the iteration has more elements.
+     * (In other words, returns true if next would return
+     * an element rather than throwing an exception.) 
+     * @return true if the iteration has more elements.
+     */
+    @Override
     public boolean hasNext()
     {
         return index < len;
     }
 
+    /** 
+     * Returns the next element in the iteration. 
+     * @return the next element in the iteration.
+     * @throws NoSuchElementException iteration has no more elements.
+     */
+    @Override
     public T next()
     {
         try {
@@ -114,16 +127,24 @@ public class ArrayIterator<T>
         catch(IndexOutOfBoundsException e) {
             throw new NoSuchElementException();
         }
-//        catch(NullPointerException e) {
-//            throw new NoSuchElementException();
-//        }
     }
 
+    /**
+     * Unsupported Operation
+     * 
+     * @throws UnsupportedOperationException
+     */
+    @Override
     public void remove()
     {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns an iterator over a set of elements of type T. 
+     * @return this Iterator
+     */
+    @Override
     public Iterator<T> iterator()
     {
         return this;

@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * TODO: Doc !
+ * Provide a basic implementation for 
+ * {@link LastSelectedFilesAccessory.Configurator}
  *
  * @author Claude CHOISNET
  */
@@ -19,34 +20,43 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
     private /*Queue*/LinkedList<File> lastSelectedFiles;
     /** @serial */
     private int maxSelectedFilesSize = 10;
+    /** @serial */
+    private boolean autoApproveSelection;
 
     /**
-     *
+     * Create a {@link LastSelectedFilesAccessory.Configurator}
+     * initialized with an empty list of files limited to 10 values.
+     * <br/>
+     * Double-click auto approve selection.
+     * <br/>
+     * This constructor is provide to have a quick solution
+     * when writing your program, but if you want that
+     * the "last selected files list" persist between 
+     * different launchings of your application, you should
+     * consider to use a stored list.
      */
     public LastSelectedFilesAccessoryDefaultConfigurator()
     {
-        this( 10 );
+        this( null, 10, true );
     }
 
     /**
+     * Create a {@link LastSelectedFilesAccessory.Configurator}
+     * initialized with your list of files limited to 
+     * maxSelectedFileListSize values.
+     * <br/>
+     * if list contain more than maxSelectedFileListSize
+     * values, oldest extra files  are removed (presume
+     * that oldest values are at the beginning of the list).
      *
-     * @param maxSelectedFileListSize
-     */
-    public LastSelectedFilesAccessoryDefaultConfigurator(
-            int maxSelectedFileListSize
-            )
-    {
-        this( null, maxSelectedFileListSize );
-    }
-
-    /**
-     *
-     * @param lastSelectedFileList
-     * @param maxSelectedFileListSize
+     * @param lastSelectedFileList    List of last selected Files
+     * @param maxSelectedFileListSize Max selected files to keep in list
+     * @param autoApproveSelection    How to handle double-click
      */
     public LastSelectedFilesAccessoryDefaultConfigurator(
             LinkedList<File>    lastSelectedFileList,
-            int                 maxSelectedFileListSize
+            int                 maxSelectedFileListSize,
+            boolean             autoApproveSelection
             )
     {
         if( lastSelectedFileList == null) {
@@ -56,11 +66,12 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
             this.lastSelectedFiles = lastSelectedFileList;
         }
         this.maxSelectedFilesSize = maxSelectedFileListSize;
-
+        this.autoApproveSelection = autoApproveSelection;
+        
         purgeQueue(
                 this.lastSelectedFiles,
                 this.maxSelectedFilesSize
-                );
+                );        
     }
 
     private static <T> void addToQueue( Queue<T> q, T o, int maxSize )
@@ -114,5 +125,10 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
         }
 
         return found;
+    }
+    @Override
+    public boolean getAutoApproveSelection()
+    {
+        return autoApproveSelection;
     }
 }

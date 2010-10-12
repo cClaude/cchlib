@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import cx.ath.choisnet.util.ArrayHelper;
 import cx.ath.choisnet.util.Wrappable;
+import cx.ath.choisnet.util.iterator.EnumerationIterator;
 import cx.ath.choisnet.util.iterator.IteratorHelper;
 
 /**
@@ -29,6 +30,8 @@ public class EnumerationHelper
      */
     public static <T> Enumeration<T> empty()
     {
+        return new EmptyEnumeration<T>();
+/*        
         return new Enumeration<T>() 
         {
             public boolean hasMoreElements()
@@ -41,6 +44,7 @@ public class EnumerationHelper
                 throw new NoSuchElementException();
             }
         };
+*/
     }
 
     
@@ -63,7 +67,7 @@ public class EnumerationHelper
                 return enumeration.hasMoreElements();
             }
             public O nextElement()
-                throws java.util.NoSuchElementException
+                throws NoSuchElementException
             {
                 T element = enumeration.nextElement();
 
@@ -169,6 +173,8 @@ public class EnumerationHelper
             final Enumeration<T> enumeration 
             ) 
     {
+        return new EnumerationIterator<T>(enumeration);
+/*
         return new Iterator<T>()
         {
             @Override
@@ -187,5 +193,6 @@ public class EnumerationHelper
                 throw new UnsupportedOperationException();
             }
         };
+*/        
     }
 }

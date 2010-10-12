@@ -6,35 +6,46 @@ import java.util.NoSuchElementException;
 /**
  * 
  * <BR/>
- * Note: This Iterator extends also {@link Iterable Iterable} interface
+ * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T>
  */
 public class SingletonIterator<T>
-    implements Iterator<T>, Iterable<T>, java.io.Serializable
+    implements Iterator<T>, Iterable<T>//, java.io.Serializable
 {
-
-    private static final long serialVersionUID = 1L;
+    //private static final long serialVersionUID = 1L;
     /** @serial */
     private boolean hasNext;
     /** @serial */
     private T item;
 
+    /**
+     * Singleton entry
+     * 
+     * @param item unique item of this Iterator
+     */
     public SingletonIterator(T item)
     {
         this.item = item;
-
-        hasNext = true;
+        this.hasNext = true;
     }
-
+    
+    /**
+     * Returns true if the iteration has more elements.
+     * @return true if the iteration has more elements.
+     */
     public boolean hasNext()
     {
         return hasNext;
     }
 
-    public T next()
-        throws java.util.NoSuchElementException
+    /** 
+     * Returns the next element in the iteration. 
+     * @return the next element in the iteration.
+     * @throws NoSuchElementException iteration has no more elements.
+     */
+    public T next() throws NoSuchElementException
     {
         if(hasNext) {
             hasNext = false;
@@ -46,17 +57,28 @@ public class SingletonIterator<T>
         }
     }
 
+    /**
+     * Unsupported Operation
+     * 
+     * @throws UnsupportedOperationException
+     * @throws IllegalStateException
+     */
     public void remove()
-        throws java.lang.UnsupportedOperationException, java.lang.IllegalStateException
+        throws UnsupportedOperationException,
+               IllegalStateException
     {
-        if(hasNext) {
-            hasNext = false;
+        if( hasNext ) {
+            throw new IllegalStateException();
         }
         else {
-            throw new IllegalStateException();
+            throw new UnsupportedOperationException();
         }
     }
 
+    /**
+     * Returns an iterator over a set of elements of type T. 
+     * @return this Iterator
+     */
     public Iterator<T> iterator()
     {
         return this;

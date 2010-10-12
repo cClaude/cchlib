@@ -36,12 +36,18 @@ public class FormattedProperties
     extends Properties
 {
     private static final long serialVersionUID = 1L;
+    /** {@value} */
+    final static public String ENCODING_ISO_8859_1 = "ISO-8859-1";
+    /** {@value} */
+    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>.*");
+    /** {@value} */
+    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*<[bB][rR][^/]*[/]?>");
+    /** {@value} */
+    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>.*");
+    /** {@value} */
+    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*</[pP]>");
     /** @serial */
     private Lines lines = new Lines();
-    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>.*");
-    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*<[bB][rR][^/]*[/]?>");
-    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>.*");
-    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*</[pP]>");
 
 //    public final static void main(String[]args)
 //    {
@@ -110,7 +116,7 @@ public class FormattedProperties
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
                         in,
-                        "ISO-8859-1"
+                        ENCODING_ISO_8859_1
                         )
                 );
         load( reader );
@@ -319,7 +325,10 @@ public class FormattedProperties
     {
         // The spec says that the file must be encoded using ISO-8859-1.
         PrintWriter writer = new PrintWriter(
-                new OutputStreamWriter(out, "ISO-8859-1")
+                new OutputStreamWriter(
+                        out, 
+                        ENCODING_ISO_8859_1
+                        )
                 );
 
         store(writer,EnumSet.noneOf( Store.class ));

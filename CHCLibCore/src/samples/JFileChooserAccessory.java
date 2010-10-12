@@ -3,15 +3,22 @@
  */
 package samples;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
+import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.ImagePreviewAccessory;
@@ -31,6 +38,11 @@ public class JFileChooserAccessory extends JFrame {
 
     private static final long   serialVersionUID        = 1L;
     /** @serial */
+    private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
+      = new LastSelectedFilesAccessoryDefaultConfigurator();
+    /** @serial */
+    private JFileChooserInitializer jFileChooserInitializer;
+    /** @serial */
     private JButton jButton_StdJFileChooser;
     /** @serial */
     private JButton jButton_Bookmarks;
@@ -44,6 +56,11 @@ public class JFileChooserAccessory extends JFrame {
     private JMenuBar jMenuBarFrame;
     /** @serial */
     private JButton jButton_LastSelectedFiles;
+    /** @serial */
+    private JPanel jPanel_Buttons;
+    /** @serial */
+    private JTextField jTextField_LastSelected;
+    private JButton jButton_JFileChooserInitializer;
 
     public JFileChooserAccessory()
     {
@@ -51,14 +68,60 @@ public class JFileChooserAccessory extends JFrame {
     }
 
     private void initComponents() {
-        setLayout(new GridLayout(3, 2));
-        add(getJButton_StdJFileChooser());
-        add(getJButton_Bookmarks());
-        add(getJButton_Picture());
-        add(getJButton_LastSelectedFiles());
-        add(getJButton_Tabbed());
-        setJMenuBar(getJMenuBarFrame());
-        setSize(320, 119);
+    	add(getJPanel_Buttons(), BorderLayout.CENTER);
+    	add(getJTextField_LastSelected(), BorderLayout.SOUTH);
+    	setJMenuBar(getJMenuBarFrame());
+    	setSize(320, 119);
+    }
+    
+    protected void initFixComponents()
+    {
+        setIconImage(
+            Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource("sample.png")
+                )
+            );
+
+        LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+
+        jFileChooserInitializer = getJFileChooserInitializer();
+    }
+
+    private JButton getJButton_JFileChooserInitializer() {
+    	if (jButton_JFileChooserInitializer == null) {
+    		jButton_JFileChooserInitializer = new JButton();
+    		jButton_JFileChooserInitializer.setText("JFileChooserInitializer");
+    		jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
+    
+    			public void mousePressed(MouseEvent event) {
+    				jButton_JFileChooserInitializerMouseMousePressed(event);
+    			}
+    		});
+    	}
+    	return jButton_JFileChooserInitializer;
+    }
+
+    private JTextField getJTextField_LastSelected() {
+    	if (jTextField_LastSelected == null) {
+    	    jTextField_LastSelected = new JTextField();
+    	    jTextField_LastSelected.setText("...");
+    	    jTextField_LastSelected.setEditable( false );
+    	}
+    	return jTextField_LastSelected;
+    }
+
+    private JPanel getJPanel_Buttons() {
+    	if (jPanel_Buttons == null) {
+    		jPanel_Buttons = new JPanel();
+    		jPanel_Buttons.setLayout(new GridLayout(3, 2));
+    		jPanel_Buttons.add(getJButton_StdJFileChooser());
+    		jPanel_Buttons.add(getJButton_Bookmarks());
+    		jPanel_Buttons.add(getJButton_Picture());
+    		jPanel_Buttons.add(getJButton_LastSelectedFiles());
+    		jPanel_Buttons.add(getJButton_Tabbed());
+    		jPanel_Buttons.add(getJButton_JFileChooserInitializer());
+    	}
+    	return jPanel_Buttons;
     }
 
     private JButton getJButton_LastSelectedFiles() {
@@ -73,11 +136,6 @@ public class JFileChooserAccessory extends JFrame {
             });
         }
         return jButton_LastSelectedFiles;
-    }
-
-    protected void initFixComponents()
-    {
-        LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
     }
 
     private JButton getJButton_Tabbed() {
@@ -161,7 +219,7 @@ public class JFileChooserAccessory extends JFrame {
                 JFileChooserAccessory frame = new JFileChooserAccessory();
                 frame.initFixComponents();
                 frame.setDefaultCloseOperation( JFileChooserAccessory.EXIT_ON_CLOSE );
-                frame.setTitle( "JFileChooserAccessory" );
+                frame.setTitle( "Sample for JFileChooser Accessory" );
                 frame.getContentPane().setPreferredSize( frame.getSize() );
                 frame.pack();
                 frame.setLocationRelativeTo( null );
@@ -173,7 +231,7 @@ public class JFileChooserAccessory extends JFrame {
     private void jButton_StdJFileChooserMouseMousePressed(MouseEvent event)
     {
         JFileChooser jfc = new JFileChooser();
-        jfc.showOpenDialog( jfc );
+        showOpenDialog( jfc );
     }
 
     private void jButton_BookmarksMouseMousePressed(MouseEvent event)
@@ -185,7 +243,7 @@ public class JFileChooserAccessory extends JFrame {
                                 new BookmarksAccessoryDefaultConfigurator()
                                 )
                 );
-        jfc.showOpenDialog( jfc );
+        showOpenDialog( jfc );
     }
 
     private void jButton_PictureMouseMousePressed(MouseEvent event)
@@ -194,7 +252,7 @@ public class JFileChooserAccessory extends JFrame {
         jfc.setAccessory(
                 new ImagePreviewAccessory(jfc)
                 );
-        jfc.showOpenDialog( jfc );
+        showOpenDialog( jfc );
     }
 
     private void jButton_TabbedMouseMousePressed(MouseEvent event)
@@ -215,12 +273,8 @@ public class JFileChooserAccessory extends JFrame {
                          new LastSelectedFilesAccessory( jfc, lSFAConf )
                          )
                 );
-        jfc.showOpenDialog( jfc );
+        showOpenDialog( jfc );
     }
-
-    /** @serial */
-    private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
-      = new LastSelectedFilesAccessoryDefaultConfigurator();
 
     private void jButton_LastSelectedFilesMouseMousePressed(MouseEvent event)
     {
@@ -228,6 +282,78 @@ public class JFileChooserAccessory extends JFrame {
         jfc.setAccessory(
                 new LastSelectedFilesAccessory( jfc, lSFAConf )
                 );
-        jfc.showOpenDialog( null );
+        showOpenDialog( jfc );
     }
+    
+    private void jButton_JFileChooserInitializerMouseMousePressed(MouseEvent event)
+    {
+        showOpenDialog(
+                jFileChooserInitializer.getJFileChooser()
+                );
+    }
+    
+    private void showOpenDialog(JFileChooser jfc)
+    {
+        int returnVal = jfc.showOpenDialog(this);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File f = jfc.getSelectedFile();
+           
+            System.out.printf( "You chose to open this file: %s\n", f);
+            setLastSelected( f.getPath() );
+            }
+        else {
+            setLastSelected( "<<No selection>>" );
+        }
+    }
+
+    private void setLastSelected(String txt)
+    {
+        jTextField_LastSelected.setText(txt);
+    }
+
+    private JFileChooserInitializer getJFileChooserInitializer()
+    {
+        return new JFileChooserInitializer(
+            new JFileChooserInitializer.DefaultConfigurator()
+            {
+                private static final long serialVersionUID = 1L;
+                public void perfomeConfig(JFileChooser jfc)
+                {
+                    super.perfomeConfig( jfc );
+
+                    jfc.setAccessory(
+                        new TabbedAccessory()
+                            .addTabbedAccessory(
+                                new BookmarksAccessory(
+                                    jfc,
+                                    new BookmarksAccessoryDefaultConfigurator()
+                                    )
+                                )
+                             .addTabbedAccessory(
+                                 new LastSelectedFilesAccessory(
+                                     jfc,
+                                     lSFAConf
+                                     )
+                                 )
+                        );
+                }
+            }
+            .setFileFilter(
+                new FileNameExtensionFilter(
+                    "Properties",
+                    "properties"
+                    )
+                )
+            .setFileFilter(
+                new FileNameExtensionFilter(
+                    "Pictures",
+                    "gif",
+                    "jpeg",
+                    "jpg",
+                    "png"
+                    )
+                )
+            );    
+        }
 }

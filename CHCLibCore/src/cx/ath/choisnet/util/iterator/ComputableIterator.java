@@ -1,12 +1,13 @@
 package cx.ath.choisnet.util.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * TODO: Doc!
+ * Abstract class for create Iterator
  * 
  * <BR/>
- * Note: This Iterator extends also {@link Iterable Iterable} interface
+ * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T>
@@ -16,21 +17,35 @@ public abstract class ComputableIterator<T>
 {
     private T nextObject;
 
-    public ComputableIterator()
+    /** Create ComputableIterator */
+    protected ComputableIterator()
     {
         nextObject = null;
     }
 
-    public abstract T computeNext()
-        throws java.util.NoSuchElementException;
+    /**
+     * Compute next object for iterator, return next object if
+     * exist, throwing an exception if not.
+     * @return next object if exist
+     * @throws NoSuchElementException if no more object
+     */
+    protected abstract T computeNext()
+        throws NoSuchElementException;
 
+    /**
+     * Returns true if the iteration has more elements.
+     * (In other words, returns true if next would return
+     * an element rather than throwing an exception.) 
+     * @return true if the iteration has more elements.
+     */
+     @Override
     public boolean hasNext()
     {
         if(nextObject == null) {
             try {
                 nextObject = computeNext();
             }
-            catch(java.util.NoSuchElementException e) {
+            catch(NoSuchElementException e) {
                 return false;
             }
         }
@@ -38,8 +53,13 @@ public abstract class ComputableIterator<T>
         return true;
     }
 
-    public T next()
-        throws java.util.NoSuchElementException
+    /** 
+     * Returns the next element in the iteration. 
+     * @return the next element in the iteration.
+     * @throws NoSuchElementException iteration has no more elements.
+     */
+    @Override
+    public T next() throws NoSuchElementException
     {
         if(nextObject == null) {
             nextObject = computeNext();
@@ -50,19 +70,37 @@ public abstract class ComputableIterator<T>
         try {
             nextObject = computeNext();
         }
-        catch(java.util.NoSuchElementException e) {
+        catch(NoSuchElementException e) {
             nextObject = null;
         }
 
         return returnObject;
     }
 
+    /**
+     * Unsupported Operation
+     * 
+     * @throws UnsupportedOperationException
+     * @throws IllegalStateException
+     */
+    @Override
     public void remove()
-        throws java.lang.UnsupportedOperationException
+        throws  UnsupportedOperationException,
+                IllegalStateException
     {
-        throw new UnsupportedOperationException();
+        if(nextObject == null) {
+            throw new IllegalStateException();
+        }
+        else {
+            throw new UnsupportedOperationException();
+        }
     }
 
+    /**
+     * Returns an iterator over a set of elements of type T. 
+     * @return this Iterator
+     */
+    @Override
     public Iterator<T> iterator()
     {
         return this;

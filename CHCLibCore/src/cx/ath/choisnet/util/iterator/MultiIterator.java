@@ -8,13 +8,17 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * TODO: Doc!
+ * Build an Iterator based on an Iterator of Iterator.
+ * This new Iterator that consume all sub-Iterator in
+ * order of main Iterator for it's
+ * results (Order is preserve).
  * 
  * <BR/>
- * Note: This Iterator extends also {@link Iterable Iterable} interface
+ * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T> 
+ * @see CascadingIterator
  */
 public class MultiIterator<T> extends ComputableIterator<T>
 {
@@ -70,8 +74,8 @@ public class MultiIterator<T> extends ComputableIterator<T>
         List<Iterator<T>> listOfIterator = new LinkedList<Iterator<T>>();
         listOfIterator.add( iter );
         listOfIterator.add( new SingletonIterator<T>(element) );
+        
         metaIterator = listOfIterator.iterator();
-
     }
 
     /**
@@ -116,9 +120,9 @@ public class MultiIterator<T> extends ComputableIterator<T>
         currentIterator = null;
         metaIterator = new ArrayIterator<Iterator<T>>(arrayOfIterator, offset, len);
     }
-
-    public T computeNext()
-        throws java.util.NoSuchElementException
+    
+    @Override
+    protected T computeNext()throws NoSuchElementException
     {
         if(currentIterator == null) {
             currentIterator = metaIterator.next();
@@ -137,5 +141,27 @@ public class MultiIterator<T> extends ComputableIterator<T>
             }
 
         } while(true);
+    }
+
+    /**
+     * Removes from the underlying collection the last element
+     * returned by the iterator. 
+     * 
+     * @throws UnsupportedOperationException if the remove
+     *         operation is not supported by current Iterator. 
+     * @throws IllegalStateException if the next method has
+     *         not yet been called, or the remove method has
+     *         already been called after the last call to the
+     *         next method.
+     */
+    @Override
+    public void remove()
+    {
+        if(currentIterator != null) {
+            currentIterator.remove();
+        }
+        else {
+            throw new IllegalStateException();
+        }
     }
 }

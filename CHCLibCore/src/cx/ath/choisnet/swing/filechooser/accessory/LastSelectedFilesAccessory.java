@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Collection;
@@ -24,15 +26,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * TODO: NOT YET IMPLEMENTED !
- *
- *
+ * <p>
+ * Store last selected files
+ * </p>
+ * <p>
+ * To unregister this component use {@link #unregisterForce()}
+ * </p>
  * @author Claude CHOISNET
  */
 public class LastSelectedFilesAccessory
     extends JPanel
         implements  TabbedAccessoryInterface,
-                    ActionListener
+                    ActionListener,
+                    PropertyChangeListener
 {
     private static final long serialVersionUID = 1L;
 
@@ -60,69 +66,73 @@ public class LastSelectedFilesAccessory
 
         listModel_LastSelectedFiles = new DefaultListModel();
 
-        for(File f:config.getLastSelectedFiles()) {
-            listModel_LastSelectedFiles.addElement( f );
-        }
-
         initComponents();
         initLayout();
-        // register(); - Should work event if not visible
+
+        refreshAccessory();
+
+        //register(); - Should work event if not visible
         this.jFileChooser.addActionListener( this );
+        this.jFileChooser.addPropertyChangeListener( this );
     }
 
     private void initComponents()
     {
         final JList jList_LastSelectedFiles = new JList(listModel_LastSelectedFiles);
         jList_LastSelectedFiles.addMouseListener(
-                new MouseAdapter()
+            new MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(MouseEvent e)
                 {
-                    @Override
-                    public void mouseClicked(MouseEvent e)
-                    {
-                        if (e.getClickCount() == 2) {
-                            int     index = jList_LastSelectedFiles.locationToIndex(e.getPoint());
-                            Object  o     = listModel_LastSelectedFiles.get( index );
+                    if (e.getClickCount() == 2) {
+                        int     index = jList_LastSelectedFiles.locationToIndex(e.getPoint());
+                        Object  o     = listModel_LastSelectedFiles.get( index );
 
-                             if( o instanceof File ) {
-                                jFileChooser.setSelectedFile(
-                                        File.class.cast( o )
-                                        );
+                         if( o instanceof File ) {
+                            jFileChooser.setSelectedFile(
+                                    File.class.cast( o )
+                                    );
+
+                            if( configurator.getAutoApproveSelection() ) {
+                                jFileChooser.approveSelection();
                             }
                         }
                     }
-                });
+                }
+            });
 
         jButton_Refresh = getRefreshButton();
         jButton_Refresh.addMouseListener(
-                new MouseAdapter()
+            new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
                 {
-                    public void mousePressed(MouseEvent event)
-                    {
-                        jFileChooser.rescanCurrentDirectory();
-                    }
-                });
+                    jFileChooser.rescanCurrentDirectory();
+                }
+            });
 
         jButton_RemoveFile = getRemoveButton();
         jButton_RemoveFile.addMouseListener(
-                new MouseAdapter()
+            new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
                 {
-                    public void mousePressed(MouseEvent event)
-                    {
-                        int[] selectedIx = jList_LastSelectedFiles.getSelectedIndices();
+                    int[] selectedIx = jList_LastSelectedFiles.getSelectedIndices();
 
-                        for( int i=selectedIx.length - 1; i>=0; i-- ) {
-                            Object sel = jList_LastSelectedFiles.getModel().getElementAt(selectedIx[i]);
+                    for( int i=selectedIx.length - 1; i>=0; i-- ) {
+                        Object sel = jList_LastSelectedFiles.getModel().getElementAt(selectedIx[i]);
 
-                            if( sel instanceof File) {
-                                File f = File.class.cast( sel );
+                        if( sel instanceof File) {
+                            File f = File.class.cast( sel );
 
-                                if( configurator.removeLastSelectedFile( f ) ) {
-                                    listModel_LastSelectedFiles.remove( selectedIx[i] );
-                                }
+                            if( configurator.removeLastSelectedFile( f ) ) {
+                                listModel_LastSelectedFiles.remove( selectedIx[i] );
                             }
                         }
                     }
-                });
+                }
+            });
 
         jScrollPane_LastSelectedFiles = new JScrollPane(jList_LastSelectedFiles);
 
@@ -152,10 +162,10 @@ public class LastSelectedFilesAccessory
     public JButton getRefreshButton()
     {
         return new JButton(
-                new ImageIcon(
-                        getClass().getResource( "reload.gif" )
-                        )
-                );
+            new ImageIcon(
+                getClass().getResource( "reload.gif" )
+                )
+            );
     }
 
     /**
@@ -164,19 +174,46 @@ public class LastSelectedFilesAccessory
     public JButton getRemoveButton()
     {
         return new JButton(
-                new ImageIcon(
-                        getClass().getResource( "bookmark-remove.gif" )
-                        )
-                );
+            new ImageIcon(
+                getClass().getResource( "bookmark-remove.gif" )
+                )
+            );
+    }
+    
+    /**
+     * Refresh display
+     */
+    public void refreshAccessory()
+    {
+        listModel_LastSelectedFiles.clear();
+        
+        for(File f:configurator.getLastSelectedFiles()) {
+            listModel_LastSelectedFiles.addElement( f );
+        }
     }
 
     @Override // ActionListener
     public void actionPerformed( ActionEvent e )
     {
-        if( e.getActionCommand().equals( JFileChooser.APPROVE_SELECTION ) ) {
+        if( JFileChooser.APPROVE_SELECTION.equals( e.getActionCommand() ) ) {
             configurator.addLastSelectedFile(
                     jFileChooser.getSelectedFile()
                     );
+            //Refresh accessory for next use
+            refreshAccessory();
+        }
+    }
+    @Override // PropertyChangeListener
+    public void propertyChange( PropertyChangeEvent e )
+    {
+        if( "ancestor".equals( e.getPropertyName() )) {
+            if( e.getNewValue() != null ) {
+                // This was set to no null value,
+                // when dialog is open
+                // Warn: found no documentation for that,
+                // tested on Win/JDK 6
+                refreshAccessory();
+            }
         }
     }
     @Override // TabbedAccessoryInterface
@@ -188,17 +225,25 @@ public class LastSelectedFilesAccessory
     public Icon getTabIcon()
     {
         return new ImageIcon(
-                getClass().getResource( "lastselectfiles.gif" )
-                );
+            getClass().getResource( "lastselectfiles.gif" )
+            );
     }
     @Override // TabbedAccessoryInterface
     public Component getComponent()
     {
         return this;
     }
-    @Override // TabbedAccessoryInterface
+    /**
+     * Refresh display
+     * <br>
+     * To unregister this component use {@link #unregisterForce()}
+     */
+    @Override 
     public void register()
     {
+        //This in case of list of last selected files
+        //had been updated by an other accessory
+        refreshAccessory();
     }
     /**
      * Does nothing, since this Accessory should be active event
@@ -216,10 +261,12 @@ public class LastSelectedFilesAccessory
     public void unregisterForce()
     {
         this.jFileChooser.removeActionListener( this );
+        this.jFileChooser.removePropertyChangeListener( this );
     }
 
     /**
-     *
+     * Configuration interface for accessory
+     * {@link LastSelectedFilesAccessory}
      *
      * @author Claude CHOISNET
      */
@@ -241,8 +288,15 @@ public class LastSelectedFilesAccessory
          * @return true if File has been removed
          */
         public boolean removeLastSelectedFile(File file);
+        
+        /**
+         * @return If true, when double-click a last selected
+         *         files, simulate approve button click.
+         *         If false just select double-click last selected
+         *         file.
+         */
+        public boolean getAutoApproveSelection();
     }
 
 }
-
 

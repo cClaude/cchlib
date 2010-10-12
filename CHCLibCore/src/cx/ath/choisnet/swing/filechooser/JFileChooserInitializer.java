@@ -14,7 +14,6 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileSystemView;
 
 /**
  * On windows JFileChooser initialization is to slow!
@@ -43,11 +42,11 @@ public class JFileChooserInitializer
          */
         DO_NOT_USE_SHELL_FOLDER,
 //        /**
-//         * TODO: doc
+//         * TO DO: doc
 //         */
 //        defaultDirectoryIsUserDir,
         /**
-         * TODO: doc
+         * TO DO: doc
          */
         //doNotSetFileSystemView
         };
