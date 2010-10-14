@@ -4,11 +4,13 @@ import cx.ath.choisnet.io.FileHelper;
 import cx.ath.choisnet.zip.SimpleUnZip;
 import cx.ath.choisnet.zip.SimpleZip;
 import cx.ath.choisnet.zip.SimpleZipEntry;
+import cx.ath.choisnet.zip.ZipEventListener;
 import cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
 import junit.framework.TestCase;
 
@@ -34,22 +36,36 @@ public class SimpleZipTest extends TestCase
         SimpleZip instance = new SimpleZip(
                 new FileOutputStream( ZIP_DESTINATION_ZIP )
                 );
-
+        instance.addPostProcessingListener( 
+                new ZipEventListener()
+                {
+                    @Override
+                    public void newFile( ZipEntry zipentry )
+                    {
+                        slogger.info("PP>add: " + zipentry.getName() );
+                    }
+                });
+        instance.addProcessingListener( 
+                new ZipEventListener()
+                {
+                    @Override
+                    public void newFile( ZipEntry zipentry )
+                    {
+                        slogger.info("P>add: " + zipentry.getName() );
+                    }
+                });
         instance.addFolder(
                 ZIP_SOURCE_DIR_FILE,
                 new SimpleZipEntryFactoryImpl( ZIP_SOURCE_DIR_FILE )
-                {
-
-            // Just to debug !
-            public SimpleZipEntry wrappe(File file)
-            {
-                SimpleZipEntry sze = super.wrappe(file);
-
-                slogger.info("add: " + file + " -> " + sze.getZipEntry().getName() );
-
-                return sze;
-            }
-        });
+                {// Just to debug !
+                    @Override
+                    public SimpleZipEntry wrappe(File file)
+                    {
+                        SimpleZipEntry sze = super.wrappe(file);
+                        slogger.info("add: " + file + " -> " + sze.getZipEntry().getName() );
+                        return sze;
+                    }
+                });
 
         instance.close();
 
@@ -65,6 +81,24 @@ public class SimpleZipTest extends TestCase
         InputStream is       = new FileInputStream( UNZIP_ZIP_FILENAME );
         SimpleUnZip instance = new SimpleUnZip( is );
 
+        instance.addPostProcessingListener( 
+                new ZipEventListener()
+                {
+                    @Override
+                    public void newFile( ZipEntry zipentry )
+                    {
+                        slogger.info("PP>ext: " + zipentry.getName() );
+                    }
+                });
+        instance.addProcessingListener( 
+                new ZipEventListener()
+                {
+                    @Override
+                    public void newFile( ZipEntry zipentry )
+                    {
+                        slogger.info("P>ext: " + zipentry.getName() );
+                    }
+                });
         instance.saveAll( UNZIP_DEST_DIR_FILE );
         instance.close();
 

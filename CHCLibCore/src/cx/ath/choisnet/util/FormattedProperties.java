@@ -38,23 +38,15 @@ public class FormattedProperties
     private static final long serialVersionUID = 1L;
     /** {@value} */
     final static public String ENCODING_ISO_8859_1 = "ISO-8859-1";
-    /** {@value} */
-    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>.*");
-    /** {@value} */
-    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*<[bB][rR][^/]*[/]?>");
-    /** {@value} */
-    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>.*");
-    /** {@value} */
-    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*</[pP]>");
+    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
+    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*[^\\n]<[bB][rR][^/]*[/]?>",Pattern.DOTALL);
+    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
+    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*[^\\n]</[pP]>",Pattern.DOTALL);
     /** @serial */
     private Lines lines = new Lines();
+    /** @serial */
+    private EnumSet<Store> storeOptions;
 
-//    public final static void main(String[]args)
-//    {
-//        Matcher m = PATTERN_P_BEGIN_ADD_BEFORE.matcher("<p style='k'/>sdfdsf");
-//        boolean b = m.matches();
-//        System.out.println("b="+b);
-//    }
     /**
      * Configure store operation.
      *
@@ -98,6 +90,57 @@ public class FormattedProperties
         CUT_LINE_AFTER_HTML_END_P
     };
 
+    /**
+     * Creates an empty property list with
+     * no default values. Does not configure
+     * specifics {@link Store storeOptions}
+     */
+    public FormattedProperties()
+    {
+        this(null,null);
+    }
+    
+    /**
+     * Creates an empty property list with
+     * no default values.
+     * 
+     * @param storeOptions Configure how store operation will be
+     *                     handle, see {@link Store}.
+     */
+    public FormattedProperties(EnumSet<Store> storeOptions)
+    {
+        this(null,storeOptions);
+    }
+    
+    /**
+     * Creates an empty property list
+     * with the specified defaults. Does 
+     * not configure specifics {@link Store storeOptions}
+     * 
+     * @param defaults
+     */
+    public FormattedProperties(Properties defaults)
+    {
+        this(defaults,null);
+    }
+    
+    /**
+     * Creates an empty property list
+     * with the specified defaults.
+     *
+     * @param defaults     The defaults
+     * @param storeOptions Configure how store operation will be
+     *                     handle, see {@link Store}.
+     */
+    public FormattedProperties(
+            Properties     defaults,
+            EnumSet<Store> storeOptions
+            )
+    {
+        super(defaults);
+        this.storeOptions = storeOptions;
+    }
+    
     /**
      * Load properties from the specified InputStream.
      * <p>
@@ -316,8 +359,8 @@ public class FormattedProperties
      * </p>
      * @param out       The OutputStream to write to.
      * @param comment   Ignored, here for compatibility w/ Properties.
-     *
-     * @exception IOException
+     * @exception IOException if writing this property list to the
+     *            specified output stream throws an IOException. 
      */
     @Override
     public synchronized void store(OutputStream out, String comment)
@@ -331,7 +374,7 @@ public class FormattedProperties
                         )
                 );
 
-        store(writer,EnumSet.noneOf( Store.class ));
+        store(writer,this.storeOptions);
     }
 
     /**
@@ -368,29 +411,31 @@ public class FormattedProperties
      * </p>
      * @param out       The OutputStream to write to.
      * @param comment   Ignored, here for compatibility w/ Properties.
-     *
-     * @exception IOException
+     * @exception IOException if writing this property list to the
+     *            specified writer throws an IOException. 
      */
     @Override
     public synchronized void store( Writer out, String comment )
         throws IOException
     {
-        store(out,EnumSet.noneOf( Store.class ));
+        store(out,this.storeOptions);
     }
 
-        /**
-         * Write the properties to the specified Writer.
-         * <p>
-         * Overloads the store method in Properties so we can
-         * put back comment and blank lines.
-         * </p>
-         * @param out       The OutputStream to write to.
-         * @param config    Configure how store operation will be
-         *                  handle, see {@link Store}.
-         *
-         * @exception IOException
-         */
-        public synchronized void store(
+    /**
+     * Write the properties to the specified Writer.
+     * <p>
+     * Overloads the store method in Properties so we can
+     * put back comment and blank lines.
+     * </p>
+     * @param out       The OutputStream to write to.
+     * @param config    Configure how store operation will be
+     *                  handle, see {@link Store}.
+     *                  Overwrite storeOptions initialized
+     *                  by some constructors.
+     * @exception IOException if writing this property list to the
+     *            specified writer throws an IOException. 
+     */
+    public synchronized void store(
                 Writer          out,
                 EnumSet<Store>  config
                 )
@@ -964,7 +1009,10 @@ public class FormattedProperties
      */
     public synchronized Object clone()
     {
-        FormattedProperties clone = new FormattedProperties();
+        FormattedProperties clone = new FormattedProperties(
+                super.defaults,
+                this.storeOptions
+                );
 
         for( Line line:lines ) {
             if( line.isComment ) {

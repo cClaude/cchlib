@@ -70,12 +70,18 @@ public class FileIteratorTest extends TestCase
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
+        final int displayMax = 5;
+        int displayCount = 0;
         
         slogger.info( "---------------------" );
-        slogger.info( "* testFileIteratorCounter()" );
+        slogger.info( rootFile );
+        slogger.info( "* testFileIteratorCounter( <<no filter>> )" );
         slogger.info( "---------------------" );
         long begin  = System.currentTimeMillis();
         for( File f : fi ) {
+            if( displayCount++<displayMax ) {
+                slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
+            }
             if( f.isFile() ) {
                 countFile++;
             }
@@ -111,12 +117,19 @@ public class FileIteratorTest extends TestCase
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
+        final int displayMax = 5;
+        int displayCount = 0;
         
         slogger.info( "---------------------" );
-        slogger.info( "* testFileIteratorFileFilter()" );
+        slogger.info( rootFile );
+        slogger.info( "* testFileIteratorFileFilter( *.java )" );
         slogger.info( "---------------------" );
         long begin  = System.currentTimeMillis();
         for( File f : fi ) {
+            if( displayCount++<displayMax ) {
+                slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
+            }
+                
             assertTrue( "file should be a java file :" + f, fileFilter.accept( f ) );
 
             if( f.isFile() ) {
@@ -140,7 +153,6 @@ public class FileIteratorTest extends TestCase
         slogger.info( "---------------------" );
         
     }
-
 
     public void testDirStruct() throws IOException
     {
@@ -212,30 +224,4 @@ public class FileIteratorTest extends TestCase
         res = dirRootFile.exists();
         assertFalse( "Can't delete(): " + dirRootFile, res);
     }
-    
-//    public void createFile( File file ) throws IOException
-//    {
-//        FileWriter fos = new FileWriter( file );
-//        
-//        fos.write( file.toString() );
-//        fos.close();
-//    }
-    
-//    public void deleteTree( File root )
-//    {
-//        File[] files = root.listFiles();
-//        
-//        for(File f : files) {
-//            if( f.isFile() ) {
-//                boolean res = f.delete();
-//                assertTrue( "Can't delete: " + f, res);
-//            } 
-//            else if( f.isDirectory() ) {
-//                deleteTree( f );
-//            }
-//        }
-//        
-//        boolean res = root.delete();
-//        assertTrue( "Can't delete: " + root, res);
-//    }
 }

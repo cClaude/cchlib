@@ -1,14 +1,26 @@
 package cx.ath.choisnet.zip;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+
 /**
  *
  * @author Claude CHOISNET
- *
  */
 public interface SimpleZipEntry
 {
-    public abstract java.util.zip.ZipEntry getZipEntry();
+    /**
+     * 
+     * @return
+     */
+    public abstract ZipEntry getZipEntry();
 
-    public abstract java.io.InputStream getInputStream()
-        throws java.io.IOException;
+    /**
+     * 
+     * @return
+     * @throws IOException 
+     */
+    public abstract InputStream getInputStream()
+        throws IOException;
 }

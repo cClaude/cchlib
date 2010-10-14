@@ -4,14 +4,23 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Iterator;
 import java.util.LinkedList;
-import cx.ath.choisnet.ToDo;
+import java.util.NoSuchElementException;
 
 /**
+ * An {@link Iterator} that give all {@link File} directory
+ * under a giving file directory.
+ * <p>
+ * If rootFolderFile is not a directory (is a File, does not 
+ * exist, can't access,...); then Iterator will return no elements.
+ * </p>
+ * <p>
+ * If rootFolderFile is a directory, it will always the first
+ * elements of Iterator (event if not match with {@link FileFilter})
+ * </p>
  * 
  * @author Claude CHOISNET
- *
+ * @see FileIterator
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class DirectoryIterator
     implements  Iterator<File>,
                 Iterable<File>
@@ -19,12 +28,31 @@ public class DirectoryIterator
     private LinkedList<File> foldersList;
     private FileFilter       fileFilter;
 
+    /**
+     * Create a DirectoryIterator started to rootFolderFile,
+     * with no {@link FileFilter}.
+     * 
+     * @param rootFolderFile root File directory for this Iterator
+     * @throws NullPointerException if rootFolderFile is null
+     */
     public DirectoryIterator(File rootFolderFile)
     {
         this(rootFolderFile, null );
     }
 
-    public DirectoryIterator(File rootFolderFile, FileFilter fileFilter)
+    /**
+     * Create a DirectoryIterator started to rootFolderFile,
+     * with giving {@link FileFilter}.
+     * 
+     * @param rootFolderFile    Root File directory for this Iterator
+     * @param directoryFilter   File filter to select directories than should
+     *                          be explored and in result (could be null) . 
+     * @throws NullPointerException if rootFolderFile is null
+     */
+    public DirectoryIterator(
+            File        rootFolderFile, 
+            FileFilter  directoryFilter
+            )
     {
         this.foldersList = new LinkedList<File>();
 
@@ -32,7 +60,7 @@ public class DirectoryIterator
             this.fileFilter  = FileFilterHelper.trueFileFilter();
         }
         else {
-            this.fileFilter  = fileFilter;
+            this.fileFilter  = directoryFilter;
         }
         
         if( rootFolderFile.isDirectory() ) {
@@ -49,6 +77,11 @@ public class DirectoryIterator
         throw new CloneNotSupportedException();
     }
 
+    /**
+     * Add giving folderFile in internal queue.
+     * 
+     * @param folderFile A valid File directory
+     */
     protected void addFolder(File folderFile)
     {
         foldersList.add(folderFile);
@@ -70,11 +103,24 @@ public class DirectoryIterator
         }
     }
 
+    /**
+     * Returns true if the iteration has more directories.
+     * (In other words, returns true if next would return
+     * an element rather than throwing an exception.) 
+     * @return true if the iteration has more elements.
+     */
+    @Override
     public boolean hasNext()
     {
         return foldersList.size() > 0;
     }
 
+    /** 
+     * Returns the next File directory in the iteration. 
+     * @return the next File directory in the iteration.
+     * @throws NoSuchElementException iteration has no more elements.
+     */
+    @Override
     public File next()
         throws java.util.NoSuchElementException
     {
@@ -85,12 +131,22 @@ public class DirectoryIterator
         return folder;
     }
 
-    public void remove()
-        throws java.lang.UnsupportedOperationException
+    /**
+     * Unsupported Operation
+     * 
+     * @throws UnsupportedOperationException
+     */
+    @Override
+    public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns an iterator over a set of Files. 
+     * @return this Iterator
+     */
+    @Override
     public Iterator<File> iterator()
     {
         return this;

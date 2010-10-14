@@ -57,19 +57,15 @@ public class TimePeriod
 
     public boolean equals(Object object)
     {
-        try {
-            return compareTo((TimePeriod)object) == 0;
-
+        if( object instanceof TimePeriod ) {
+            return compareTo( TimePeriod.class.cast( object )) == 0;
         }
-        catch(ClassCastException e) {
-            return false;
-        }
+        return false;
     }
 
     public long longValue()
     {
         return time;
-
     }
 
     public int[] intArray()

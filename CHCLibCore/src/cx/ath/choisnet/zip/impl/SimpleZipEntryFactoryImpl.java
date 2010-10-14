@@ -17,7 +17,15 @@ public class SimpleZipEntryFactoryImpl
     private String refFolder;
     private int    refFolderLen;
 
-    public SimpleZipEntryFactoryImpl(File refFolderFile) throws IOException
+    /**
+     * 
+     * @param refFolderFile
+     * @throws IOException
+     */
+    public SimpleZipEntryFactoryImpl(
+            File refFolderFile
+            ) 
+        throws IOException
     {
         String canonicalPath = refFolderFile.getCanonicalPath();
 
@@ -25,11 +33,20 @@ public class SimpleZipEntryFactoryImpl
         refFolderLen = refFolder.length();
     }
 
-    public SimpleZipEntryFactoryImpl(String refFolder) throws IOException
+    /**
+     * 
+     * @param refFolder
+     * @throws IOException
+     */
+    public SimpleZipEntryFactoryImpl(
+            String refFolder
+            ) 
+        throws IOException
     {
         this(new File(refFolder));
     }
 
+    @Override
     public SimpleZipEntry wrappe(File file)
     {
         try {

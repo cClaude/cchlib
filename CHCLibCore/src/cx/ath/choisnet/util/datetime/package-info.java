@@ -1,5 +1,5 @@
 /**
- * Provide simple use for manipulate date and time
+ * Provide alternate solution to manipulate date and time
  *
  * @author Claude CHOISNET
  */

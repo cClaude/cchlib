@@ -9,7 +9,16 @@ import java.text.Format;
  */
 public interface DateTimeInterface
 {
+    /**
+     * 
+     * @param format
+     * @return
+     */
     public abstract String toString(Format format);
 
+    /**
+     * 
+     * @return
+     */
     public abstract long longValue();
 }

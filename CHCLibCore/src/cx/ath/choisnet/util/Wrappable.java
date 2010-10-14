@@ -22,5 +22,5 @@ public interface Wrappable<T,O>
      * @param obj object to wrap
      * @return an other view for giving object
      */
-    public abstract O wrappe(T obj);
+    abstract O wrappe(T obj);
 }
