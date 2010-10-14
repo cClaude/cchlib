@@ -55,6 +55,39 @@ public abstract class JPopupMenuForJTable
     {
         return jTable.getModel();
     }
+
+    /**
+     * Get value from Model
+     * 
+     * @param rowIndex    - rowIndex according to view
+     * @param columnIndex - columnIndex according to view
+     * @return value from Model
+     */
+    final
+    public Object getValueAt( int rowIndex, int columnIndex )
+    {
+        int row = getJTable().convertRowIndexToModel( rowIndex );
+        int col = getJTable().convertColumnIndexToModel( columnIndex );
+    
+        return getTableModel().getValueAt( row, col );
+    }
+    
+    /**
+     * Sets the value in the cell at rowIndex and
+     * columnIndex to aValue. 
+     * 
+     * @param aValue      - the new value
+     * @param rowIndex    - rowIndex according to view
+     * @param columnIndex - columnIndex according to view
+     */
+    final
+    public void setValueAt( Object aValue, int rowIndex, int columnIndex )
+    {
+        int row = getJTable().convertRowIndexToModel( rowIndex );
+        int col = getJTable().convertColumnIndexToModel( columnIndex );
+    
+        getTableModel().setValueAt( aValue, row, col );
+    }
     
     final
     public void setMenu()

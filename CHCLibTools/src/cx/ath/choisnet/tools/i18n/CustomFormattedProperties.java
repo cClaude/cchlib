@@ -4,32 +4,37 @@
 package cx.ath.choisnet.tools.i18n;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.HashMap;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.util.FormattedProperties;
 
 /**
- * Use standard Properties
+ * Use InputStream
  * 
  * @author Claude CHOISNET
  */
-class CustomProperties 
+class CustomFormattedProperties 
     implements CustomPropertiesInterface 
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( CustomProperties.class );
-    private Properties properties;
-    private FileObject fileObject;
-    
-    public CustomProperties( 
-            FileObject  fileObject,
-            Properties  properties
+    private static final Logger slogger = Logger.getLogger( CustomPropertiesInterface.class );
+    private FileObject          fileObject;
+    private FormattedProperties properties;
+    private HashMap<String,Integer> linesNumbers;
+   
+    public CustomFormattedProperties( 
+            FileObject          fileObject,
+            FormattedProperties properties
             )
     {
-        this.properties = properties;
-        this.fileObject = fileObject;
+        this.fileObject     = fileObject;
+        this.properties     = properties;
+        this.linesNumbers   = new HashMap<String,Integer>();
+        
+        refreshLinesNumber();
     }
 
     @Override
@@ -51,19 +56,15 @@ class CustomProperties
             return false;
        }
         else {
-            String              comment = fileObject.getFile().getPath();
-            FileOutputStream    os      = new FileOutputStream(fileObject.getFile());
+            FileWriter out = new FileWriter(
+                    fileObject.getFile()
+                    );
 
-            properties.store( 
-                os, 
-                "Creat by "
-                    + CompareRessourceBundleFrame.class
-                    + " :" 
-                    + comment 
-                );
-            os.close();
+            properties.store( out, "" );
+
+            out.close();
             slogger.info( "Save : " + fileObject );
-            
+
             return true;
         }
     }
@@ -89,12 +90,32 @@ class CustomProperties
     @Override
     public boolean handleLinesNumbers()
     {
-        return false;
+        return true;
     }
 
     @Override
     public int getLineNumber( String key )
     {
-        return 0;
+        Integer v = this.linesNumbers.get( key );
+       
+        if( v != null ) {
+            return v.intValue();
+        }
+        else {
+            return 0;
+        }
+    }
+
+    private void refreshLinesNumber()
+    {
+        this.linesNumbers.clear();
+        int lineNumber = 1;
+        
+        for(FormattedProperties.Line line:properties.getLines()) {
+            if( ! line.isComment() ) {
+                this.linesNumbers.put( line.getKey(), lineNumber );
+            }
+            lineNumber++;
+        }
     }
 }
