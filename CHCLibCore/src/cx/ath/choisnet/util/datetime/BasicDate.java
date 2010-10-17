@@ -357,7 +357,7 @@ public class BasicDate
     }
 
     /**
-     * @return 
+     * 
      */
     public void incYear()
     {
@@ -376,7 +376,7 @@ public class BasicDate
     }
 
     /**
-     * @return 
+     * 
      */
     public void incMonth()
     {

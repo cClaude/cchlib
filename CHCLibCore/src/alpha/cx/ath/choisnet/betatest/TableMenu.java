@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+@Deprecated
 public class TableMenu extends JFrame
 {
     private static final long serialVersionUID = 1L;

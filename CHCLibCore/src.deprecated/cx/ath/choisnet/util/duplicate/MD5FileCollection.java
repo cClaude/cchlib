@@ -10,6 +10,7 @@ import java.util.Set;
  * @author Claude CHOISNET
  *
  */
+@Deprecated
 public interface MD5FileCollection
 //    extends java.io.Serializable
 {

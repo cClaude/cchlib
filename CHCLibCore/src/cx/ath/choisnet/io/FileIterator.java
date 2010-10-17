@@ -75,9 +75,9 @@ public class FileIterator
             )
     {
         this.directoryIterator = new DirectoryIterator(
-                                    rootFolderFile,
-                                    directoryFilter
-                                    );
+                                        rootFolderFile,
+                                        directoryFilter
+                                        );
         this.fileFilter = fileFilter;
     }
 

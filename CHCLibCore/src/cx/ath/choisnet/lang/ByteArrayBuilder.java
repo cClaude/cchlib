@@ -1,11 +1,11 @@
 package cx.ath.choisnet.lang;
 
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-import cx.ath.choisnet.ToDo;
 
 /**
  * Provide similar feature than {@link StringBuilder}
@@ -204,6 +204,63 @@ public class ByteArrayBuilder
     {
         return append(channel, DEFAULT_SIZE);
     }
+    
+    /**
+     * TODO: Doc!
+     * TODO: TestCase
+     *
+     * @param is InputStream to add
+     * @return caller for initialization chaining
+     * @throws java.io.IOException
+     */
+    public ByteArrayBuilder append(InputStream is)
+        throws java.io.IOException
+    {
+        return append(is, DEFAULT_SIZE);
+    }
+    
+    /**
+     * TODO: Doc!
+     * TODO: TestCase
+     *
+     * @param is InputStream to add
+     * @param bufferSize intermediate buffer size
+     * @return caller for initialization chaining
+     * @throws java.io.IOException
+     */
+    public ByteArrayBuilder append(
+            InputStream is,
+            int         bufferSize
+            )
+        throws java.io.IOException
+    {
+        return append(is, new byte[bufferSize]);
+    }
+    
+    /**
+     * TODO: Doc!
+     * TODO: TestCase
+     *
+     * @param is InputStream to add
+     * @param intermediateBuffer intermediate buffer for
+     *        InputStream reading.
+     * @return caller for initialization chaining
+     * @throws java.io.IOException
+     */
+    public ByteArrayBuilder append(
+            InputStream is,
+            byte[]      intermediateBuffer
+            )
+        throws java.io.IOException
+    {
+        int len;
+        
+        while( (len = is.read( intermediateBuffer )) != -1 ) {
+            append( intermediateBuffer, 0, len);
+        }
+        
+        return this;
+    }
 
     /**
      * TODO: Doc!
@@ -233,6 +290,7 @@ public class ByteArrayBuilder
     }
 
     /**
+     * Returns a copy of internal buffer.
      * @return array of bytes
      */
     public byte[] array()
@@ -245,29 +303,34 @@ public class ByteArrayBuilder
     }
 
     /**
-     * TODO: Doc!
-     * @param aByteArrayBuilder
+     * Tests if this ByteArrayBuilder starts with the
+     * specified prefix.
+     * 
+     * @param prefix the prefix
      * @return true if current ByteArrayBuilder start with giving
      *         ByteArrayBuilder
      */
-    public boolean startsWith(ByteArrayBuilder aByteArrayBuilder)
+    public boolean startsWith(ByteArrayBuilder prefix)
     {
-        return startsWith(aByteArrayBuilder.array());
+        return startsWith(prefix.array());
     }
 
     /**
-     * TODO: Doc!
-     * @param bytes 
-     * @return
+     * Tests if this ByteArrayBuilder starts with the
+     * specified prefix.
+     * 
+     * @param prefix the prefix
+     * @return true if current ByteArrayBuilder start with giving
+     *         bytes
      */
-    public boolean startsWith(byte[] bytes)
+    public boolean startsWith(byte[] prefix)
     {
-        if(bytes.length > lastPos) {
+        if(prefix.length > lastPos) {
             return false;
         }
 
-        for(int i = 0; i < bytes.length; i++) {
-            if(buffer[i] != bytes[i]) {
+        for(int i = 0; i < prefix.length; i++) {
+            if(buffer[i] != prefix[i]) {
                 return false;
             }
         }
@@ -276,30 +339,40 @@ public class ByteArrayBuilder
     }
 
     /**
-     * TODO: Doc!
-     * @param aByteArrayBuilder
-     * @return
+     * Tests if this ByteArrayBuilder ends with the
+     * specified suffix. 
+     * 
+     * @param suffix the suffix. 
+     * @return true if the byte sequence represented by
+     *         the argument is a suffix of the byte
+     *         sequence represented by this object;
+     *         false otherwise. 
      */
-    public boolean endsWith(ByteArrayBuilder aByteArrayBuilder)
+    public boolean endsWith(ByteArrayBuilder suffix)
     {
-        return endsWith(aByteArrayBuilder.array());
+        return endsWith(suffix.array());
     }
 
     /**
-     * TODO: Doc!
-     * @param bytes
-     * @return
+     * Tests if this ByteArrayBuilder ends with the
+     * specified suffix. 
+     * 
+     * @param suffix the suffix. 
+     * @return true if the byte sequence represented by
+     *         the argument is a suffix of the byte
+     *         sequence represented by this object;
+     *         false otherwise. 
      */
-    public boolean endsWith(byte[] bytes)
+    public boolean endsWith(byte[] suffix)
     {
-        if(bytes.length > lastPos) {
+        if(suffix.length > lastPos) {
             return false;
         }
 
-        int j = lastPos - bytes.length;
+        int j = lastPos - suffix.length;
 
-        for(int i = 0; i < bytes.length; i++) {
-            if(buffer[j++] != bytes[i]) {
+        for(int i = 0; i < suffix.length; i++) {
+            if(buffer[j++] != suffix[i]) {
                 return false;
             }
         }

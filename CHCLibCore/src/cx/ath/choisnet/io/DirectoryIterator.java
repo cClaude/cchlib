@@ -26,7 +26,7 @@ public class DirectoryIterator
                 Iterable<File>
 {
     private LinkedList<File> foldersList;
-    private FileFilter       fileFilter;
+    private FileFilter       directoryFileFilter;
 
     /**
      * Create a DirectoryIterator started to rootFolderFile,
@@ -56,11 +56,11 @@ public class DirectoryIterator
     {
         this.foldersList = new LinkedList<File>();
 
-        if( fileFilter == null ) {
-            this.fileFilter  = FileFilterHelper.trueFileFilter();
+        if( directoryFilter == null ) {
+            this.directoryFileFilter = FileFilterHelper.trueFileFilter();
         }
         else {
-            this.fileFilter  = directoryFilter;
+            this.directoryFileFilter = directoryFilter;
         }
         
         if( rootFolderFile.isDirectory() ) {
@@ -89,7 +89,9 @@ public class DirectoryIterator
 
     private void addArray(File folder)
     {
-        addFiles(folder.listFiles(fileFilter));
+        addFiles(
+            folder.listFiles(directoryFileFilter)
+            );
     }
 
     private void addFiles(File[] folderContentFiles)

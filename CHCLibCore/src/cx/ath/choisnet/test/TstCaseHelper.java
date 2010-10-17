@@ -75,22 +75,4 @@ public class TstCaseHelper
                 privateFileFilter
                 );
     }
-
-    /**
-     * Returns File first file found from given directory
-     * (does not return directory File object)
-     * @param fileDirectory file directory to explore
-     * @param fileFilter    file filter for result files
-     *                      (does not filter directories,
-     *                      could be null).
-     * @return a File that exists (you must not overwrite
-     *         this file)
-     */
-    public final static File getFirstFileFrom(
-            File        fileDirectory,
-            FileFilter  fileFilter
-            )
-    {
-        return getFilesFrom(fileDirectory,fileFilter).next();
-    }
 }

@@ -84,8 +84,10 @@ public class PrefsDemo {
           param2!=null ? param2 : "you forgot the value, dummy";
     }
     else {
-        System.err.println
-          ("Don't understand command '" + command + "', assuming 'get'");
+        System.err.printf(
+                "Don't understand command '%s', assuming 'get'\n", 
+                command
+                );
         operation = GET;
     }
 
@@ -111,17 +113,24 @@ public class PrefsDemo {
         break;
       case GET:
         String prefs_value = prefs.get ("PrefsValue", "default value");
-        System.err.println
-          ("Got PrefsValue `" + prefs_value + "' from prefs");
+        System.err.printf(
+                "Got PrefsValue '%s' from prefs\n",
+                prefs_value
+                );
         break;
         
       case PUT:
-        System.err.println ("Putting `" + newvalue + "' into prefs");
+        System.err.printf(
+                "Putting '%s' into prefs\n", 
+                newvalue
+                );
         prefs.put ("PrefsValue", newvalue);
         int num_puts = prefs.getInt ("num_puts", 0);
         prefs.putInt ("num_puts", num_puts+1);
-        System.err.println
-          ("Number of puts since clear is " + (num_puts+1));
+        System.err.printf(
+                "Number of puts since clear is %d\n",
+                (num_puts+1)
+                );
         break;
     } // switch
 

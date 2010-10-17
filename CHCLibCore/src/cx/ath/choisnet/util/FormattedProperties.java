@@ -1095,7 +1095,7 @@ public class FormattedProperties
             }
             else {
                 //TODO: encode?
-                return content + "=" + getProperty(content);
+                return content + '=' + getProperty(content);
             }
         }
         /* (non-Javadoc)

@@ -540,7 +540,7 @@ class TstFrame
     {   
         final Component focusOwner = getFocusOwner();
         
-        System.out.println( "mouseWheelMoved: " + focusOwner );
+        System.out.printf( "mouseWheelMoved: %s\n", focusOwner );
         
         if( focusOwner instanceof JComboBox ) {
                 JComboBox combo = (JComboBox)focusOwner;

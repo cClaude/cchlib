@@ -1,5 +1,6 @@
 package cx.ath.choisnet.lang;
 
+import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.util.ByteBuffer;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
+ * TODO: TestCase, Doc!
+ * 
+ * <p><b>This class is suspect, no time for now
+ * to check it, but decompile process give
+ * a strange result</b></p>
+ * 
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling
@@ -35,6 +42,7 @@ import java.util.jar.JarFile;
  * @author Claude CHOISNET
  *
  */
+@ToDo
 public class ExtendableClassLoader extends ClassLoader
 {
     final private List<File>              paths = new ArrayList<File>();

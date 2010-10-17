@@ -32,6 +32,18 @@ public class FileFilterHelper
             }
         };
     }
+    
+    public static FileFilter fileFileFilter()
+    {
+        return new PrivateFileFilterHelper() {
+            private static final long serialVersionUID = 1L;
+
+            public boolean accept(File file)
+            {
+                return file.isFile();
+            }
+        };
+    }
 
     public static FileFilter trueFileFilter()
     {

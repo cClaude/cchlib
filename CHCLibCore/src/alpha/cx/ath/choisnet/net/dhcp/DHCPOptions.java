@@ -41,7 +41,7 @@ public class DHCPOptions
     public static final byte MESSAGE_TYPE_DHCPNAK = 6;
     public static final byte MESSAGE_TYPE_DHCPRELEASE = 7;
     public static final byte MESSAGE_TYPE_DHCPINFORM = 8;
-    private Map<Byte,DHCPOptionEntry> optionsTable;
+    private /*Map*/HashMap<Byte,DHCPOptionEntry> optionsTable;
     private static transient Properties prop;
 
     public DHCPOptions()

@@ -143,11 +143,15 @@ public class MappableHelper
 
         int len$ = methods.length;
 
-label0:
+//label0:
         for(int i$ = 0; i$ < len$; i$++) {
             Method method = methods[i$];
-            if(method.getParameterTypes().length != 0 || !methodesNamePattern.matcher(method.getName()).matches())
-            {
+            if(
+                    method.getParameterTypes().length != 0 
+                    || !methodesNamePattern.matcher(
+                            method.getName()
+                            ).matches()
+                    ) {
                 continue;
             }
 
@@ -167,7 +171,7 @@ label0:
                     int i = 0;
                     do {
                         if(i >= len) {
-                            continue label0;
+                            continue;// label0;
                         }
 
                         Mappable value = (Mappable)Array.get(result1, i);
@@ -214,49 +218,51 @@ label0:
                 continue;
             }
 
-            if(attributesSet.contains(Attributes.DO_ITERABLE) && Iterable.class.isAssignableFrom(returnType)) {
-                @SuppressWarnings("rawtypes")
-                Iterable iterLst = (Iterable)invoke(object, method, hashMap, Iterable.class);
-                @SuppressWarnings("rawtypes")
-                Iterator iter = iterLst.iterator();
-
-                String name = method.getName();
+            if( attributesSet.contains( Attributes.DO_ITERABLE ) &&
+                    Iterable.class.isAssignableFrom( returnType )
+                    ) {
+                Iterable<?> iterLst     = (Iterable<?>)invoke(object, method, hashMap, Iterable.class);
+                Iterator<?> iter        = iterLst.iterator();
+                String      methodName  = method.getName();
 
                 int i = 0;
                 hashMap.put(
-                        formatMethodName(method.getName()),
-                        (new StringBuilder()).append("").append(iter).toString()
+                        formatMethodName( methodName ),
+                        iter == null ? null : iter.toString()
                         );
 
                 while( iter.hasNext() ) {
                     hashMap.put(
-                            formatIterableEntry(name, i++, -1), 
+                            formatIterableEntry(methodName, i++, -1), 
                             toString(iter.next())
                             );
                 }
                 continue;
-
             }
 
-            if(attributesSet.contains(Attributes.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
-                Enumeration<?> enum0 = (Enumeration<?>)invoke(object, method, hashMap, Enumeration.class);
-                String name = method.getName();
+            if( attributesSet.contains(Attributes.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
+                Enumeration<?>  enum0       = (Enumeration<?>)invoke(object, method, hashMap, Enumeration.class);
+                String          methodName  = method.getName();
 
                 int i = 0;
                 hashMap.put(
-                        formatMethodName(method.getName()),
-                        (new StringBuilder()).append("").append(enum0).toString()
+                        formatMethodName( methodName ),
+                        enum0 == null ? null : enum0.toString()
                         );
 
-                for(; enum0.hasMoreElements(); hashMap.put(formatEnumerationEntry(name, i++, -1), toString(enum0.nextElement()))) { }
+                while( enum0.hasMoreElements() ) {
+                    hashMap.put(
+                            formatEnumerationEntry(methodName, i++, -1), 
+                            toString( enum0.nextElement() ) 
+                            );
+                }
                 continue;
-
             }
 
             if(!shouldEvaluate(returnType)) {
                 continue;
             }
-            Enumeration<?> enum0 = ((java.util.Enumeration<?>) (invoke(object, method, hashMap, Object.class)));
+            Enumeration<?> enum0 = (Enumeration<?>)invoke(object, method, hashMap, Object.class);
 
             if(enum0 == null) {
                 continue;
@@ -272,7 +278,6 @@ label0:
                             formatArrayEntry(methodName, i, len),
                             toString(value)
                             );
-
                 }
             } 
             else {
@@ -315,7 +320,6 @@ label0:
         };
 
         return messageFormatEnumerationEntry.format(params);
-
     }
 
     protected String formatArrayEntry(String methodeName, int index, int max)
@@ -422,11 +426,16 @@ label0:
         }
     }
 
-    private static final void addRec(Map<String,String> hashMap, String methodName, Mappable object)
+    private static final void addRec(
+            Map<String,String>  hashMap,
+            String              methodName,
+            Mappable            object
+            )
     {
         Set<Map.Entry<String,String>> set = object.toMap().entrySet();
 
         Map.Entry<String,String> entry;
+        
         for(
                 Iterator<Map.Entry<String,String>> i$ = set.iterator();
                 i$.hasNext();
@@ -440,11 +449,14 @@ label0:
     }
 
     // TODO: Optimizations: remove some StringBuilder
-    private static final String toString(EnumSet<Attributes> attributesSet, Object object)
+    private static final String toString(
+            EnumSet<Attributes> attributesSet,
+            Object              object
+            )
     {
         if(object.getClass().isArray()) {
-            StringBuilder sb = new StringBuilder();
-            Object[] array = (Object[])object;
+            StringBuilder   sb      = new StringBuilder();
+            Object[]        array   = (Object[])object;
             boolean first = true;
             Object[] arr$ = array;
             int len$ = arr$.length;

@@ -18,15 +18,15 @@ import java.util.NoSuchElementException;
  */
 public class CascadingIterator<T> extends ComputableIterator<T>
 {
-    private Iterator<Iterable<T>> mainIterator;
-    private Iterator<T> currentIterator;
+    private Iterator<? extends Iterable<? extends T>> mainIterator;
+    private Iterator<? extends T> currentIterator;
 
     /**
      * Build an Iterator based on an Iterator of Iterator
      * 
      * @param iterator an Iterator of Iterator
      */
-    public CascadingIterator(Iterator<Iterable<T>> iterator)
+    public CascadingIterator(Iterator<? extends Iterable<? extends T>> iterator)
     {
         mainIterator    = iterator;
         currentIterator = null;

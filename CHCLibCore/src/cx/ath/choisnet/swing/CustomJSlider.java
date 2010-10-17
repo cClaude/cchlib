@@ -20,7 +20,9 @@ import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.AutoI18nBasicInterface;
 
 /**
- * @author CC
+ * JSlider than showing current value in title Border
+ * 
+ * @author Claude CHOISNET
  */
 public class CustomJSlider
     extends JSlider
@@ -31,8 +33,6 @@ public class CustomJSlider
     // Custom title
     /** @serial */
     private String customTitle = "customTitle {0,number,###}";
-    /** @serial */
-    private CustomJSliderListener customJSliderListener = new CustomJSliderListener();
 
     /**
      *
@@ -126,6 +126,8 @@ public class CustomJSlider
         super.setBorder( tb );
 //            String title = "Horizontal Position: ";
 //            tb.setTitle( customTitle + Integer.toString( jSlider_MoleVertPos$root.getValue() ) );
+
+        CustomJSliderListener customJSliderListener = new CustomJSliderListener();
 
         super.addMouseMotionListener(customJSliderListener);
         super.addMouseListener(customJSliderListener);

@@ -77,24 +77,36 @@ public class NTFSStream
         File testFile   = new File(path,filename);
         File testStream = new File(path,filename + ':' + streamname);
 
-        System.out.println( "Create " + testFile );
+        System.out.printf( "Create %s\n", testFile );
 
         Writer wf = new FileWriter( testFile );
         wf.write( "File content !" );
         wf.close();
 
-        System.out.println( "Create " + testStream );
+        System.out.printf( "Create %s\n", testStream );
 
         Writer ws = new FileWriter( testStream );
         ws.write( "Stream content" );
         ws.close();
 
         NTFSStream ntfsStream = new NTFSStream();
-        System.out.println( "Content of " + testFile + " is [" + ntfsStream.getBegin(testFile) + ']' );
-        System.out.println( "Content of " + testStream + " is [" + ntfsStream.getBegin(testStream) + ']' );
+        System.out.printf( "Content of %s is [%s]\n",
+                    testFile,
+                    ntfsStream.getBegin(testFile)
+                    );
+        System.out.printf( "Content of %s is [%s]\n",
+                testStream,
+                ntfsStream.getBegin(testStream)
+                );
 
-        System.out.println( "1> Content of " + testStream + " is [" + fastStreamCopy1(testStream) + ']' );
-        System.out.println( "2> Content of " + testStream + " is [" + fastStreamCopy2(testStream) + ']' );
+        System.out.printf( "1> Content of %s is [%s]\n", 
+                testStream, 
+                fastStreamCopy1(testStream)
+                );
+        System.out.printf( "2> Content of %s is [%s]\n",
+                testStream, 
+                fastStreamCopy2(testStream)
+                );
     }
 
     private static String fastStreamCopy1( File filename )
@@ -136,10 +148,10 @@ public class NTFSStream
             fc.close();
         }
         catch( FileNotFoundException fnfx ) {
-            System.err.println( "File not found: " + fnfx );
+            System.err.printf( "File not found: %s\n", fnfx );
         }
         catch( IOException iox ) {
-            System.err.println( "I/O problems: " + iox );
+            System.err.printf( "I/O problems: %s\n", iox );
         }
         finally {
             if( fc != null ) {

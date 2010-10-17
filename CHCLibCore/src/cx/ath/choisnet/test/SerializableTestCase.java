@@ -17,12 +17,17 @@ public class SerializableTestCase extends TestCase
      * Clone giving object using Serialization and
      * verify that objects are different (not same reference)
      * and verify that objects are equals (using {@link Object#equals(Object)}).
-     *
+     * <P>
+     * T <b>MUST</b> implement equals, if not you
+     * must consider to use {@link #cloneOverSerialization(Serializable)}
+     * and make you own test.
+     * </P>
      * @param <T>       Type of object
      * @param anObject  Object to clone
      * @return a clone copy of giving object
      * @throws java.io.IOException
      * @throws ClassNotFoundException
+     * @see #cloneOverSerialization(Serializable)
      */
     public static <T extends Serializable> T testSerialization(
             T anObject

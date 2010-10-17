@@ -1,6 +1,7 @@
 package cx.ath.choisnet.io.testcase;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -124,6 +125,7 @@ public class DirectoryIteratorTest extends TestCase
         DirectoryIterator di = new DirectoryIterator( dirRootFile );
         
         for( File f : di ) {
+            assertTrue( "Is not a directory : " + f, f.isDirectory() );
             foundInFileIterator.add( f );
             
             boolean oldFound = notFoundInFileIterator.remove( f );
@@ -140,6 +142,29 @@ public class DirectoryIteratorTest extends TestCase
         
         assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
         assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
+        
+        //
+        // Test FileFilter !
+        //
+        FileFilter dirFF = new FileFilter()
+        {
+            @Override
+            public boolean accept( File f )
+            {
+                //System.out.printf(">>%s\n",f);
+                return f.getName().endsWith( "2" );
+            }
+        };
+        DirectoryIterator diFF = new DirectoryIterator( 
+                            dirRootFile,
+                            dirFF
+                            );
+        int diFFcount = 0;
+        for(File f:diFF) {
+            System.out.printf(">%s\n",f);
+            diFFcount++;
+        }
+        assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
         
         // cleanup !
         FileHelper.deleteTree(dirRootFile);

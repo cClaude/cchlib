@@ -1,14 +1,13 @@
 package cx.ath.choisnet.util.duplicate;
 
 import cx.ath.choisnet.util.CollectionFilter;
-//import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -17,6 +16,7 @@ import java.util.regex.Pattern;
  * @author Claude CHOISNET
  *
  */
+@Deprecated
 public class DuplicateLayer implements java.io.Serializable
 {
     enum Params {
@@ -32,11 +32,9 @@ public class DuplicateLayer implements java.io.Serializable
 
     public DuplicateLayer()
     {
-        duplicatesFiles = new LinkedList<Collection<File>>();
-
-        filesToKeep = new LinkedList<File>();
-
-        filesToKeepRegExp = new LinkedList<Pattern>();
+        duplicatesFiles     = new ArrayList<Collection<File>>();
+        filesToKeep         = new ArrayList<File>();
+        filesToKeepRegExp   = new ArrayList<Pattern>();
     }
 
 //    public DuplicateLayer(MD5FileCollection absoluteMD5FileCollection)
@@ -53,31 +51,26 @@ public class DuplicateLayer implements java.io.Serializable
     public DuplicateLayer filesToIgnore(FileFilter fileFilter)
     {
         Iterator<Collection<File>> iter1 = duplicatesFiles.iterator();
-        do
-        {
-            if(!iter1.hasNext())
-            {
+
+        do {
+            if(!iter1.hasNext()) {
                 break;
             }
 
-            Collection<File> collection = iter1.next();
-            Iterator<File> iter2 = collection.iterator();
+            Collection<File>    collection  = iter1.next();
+            Iterator<File>      iter2       = collection.iterator();
 
-            do
-            {
-                if(!iter2.hasNext())
-                {
+            do {
+                if(!iter2.hasNext()) {
                     break;
                 }
 
-                if( fileFilter.accept( iter2.next() ) )
-                {
+                if( fileFilter.accept( iter2.next() ) ) {
                     iter2.remove();
                 }
             } while(true);
 
-            if(collection.size() < 2)
-            {
+            if(collection.size() < 2) {
                 iter1.remove();
             }
         } while(true);
@@ -100,66 +93,59 @@ public class DuplicateLayer implements java.io.Serializable
 
     public boolean isDeletable(File file)
     {
-        for(Iterator<File> i1$ = filesToKeep.iterator(); i1$.hasNext();)
-
-        {
-            java.io.File f = i1$.next();
-            if(f.equals(file))
-            {
+        for(File f:filesToKeep) {
+            
+            if(f.equals(file)) {
                 return false;
             }
         }
+        
         String path = file.getPath();
 
-        for(Iterator<Pattern> i2$ = filesToKeepRegExp.iterator(); i2$.hasNext();)
-
-        {
-            Pattern p = i2$.next();
-            if(p.matcher(path).matches())
-
-            {
+        for(Pattern p:filesToKeepRegExp) {
+            if(p.matcher(path).matches()) {
                 return false;
             }
         }
         return true;
     }
 
-    public Collection<File> select( FileFilter selectFileFilter, EnumSet<Params> params)
+    public Collection<File> select( 
+            FileFilter      selectFileFilter, 
+            EnumSet<Params> params
+            )
     {
-        List<File> result = new LinkedList<File>();
-        List<File> currentSelectList = new LinkedList<File>();
-        boolean selectAllAllowed = !params.contains(Params.SELECT_DO_NOT_SELECT_ALL_OCCURENCES);
+        List<File>  result              = new ArrayList<File>();
+        List<File>  currentSelectList   = new ArrayList<File>();
+        boolean     selectAllAllowed    = !params.contains(Params.SELECT_DO_NOT_SELECT_ALL_OCCURENCES);
+
         Iterator<Collection<File>> iter = duplicatesFiles.iterator();
-        do
-        {
-            if(!iter.hasNext())
-            {
+
+        do {
+            if(!iter.hasNext()) {
                 break;
             }
 
             Collection<File> filesList = iter.next();
             Iterator<File> i1$ = filesList.iterator();
 
-            do
-            {
-                if(!i1$.hasNext())
-                {
+            do {
+                if(!i1$.hasNext()) {
                     break;
                 }
 
                 File f = i1$.next();
-                if(selectFileFilter.accept(f) && isDeletable(f))
-                {
+                
+                if(selectFileFilter.accept(f) && isDeletable(f)) {
                     currentSelectList.add(f);
                 }
+                
             } while(true);
 
             int size = currentSelectList.size();
 
-            if(size > 0)
-            {
-                if(selectAllAllowed || size < filesList.size())
-                {
+            if(size > 0) {
+                if(selectAllAllowed || size < filesList.size()) {
                     result.addAll(currentSelectList);
                 }
                 currentSelectList.clear();
@@ -171,17 +157,12 @@ public class DuplicateLayer implements java.io.Serializable
 
     public Collection<File> select(CollectionFilter<File> collectionFileFilter)
     {
-        Collection<File> result = new LinkedList<File>();
-        Collection<File> files;
+        Collection<File> result = new ArrayList<File>();
 
-        for(
-                Iterator<Collection<File>> i1$ = getDuplicateFilesList().iterator();
-                i1$.hasNext();
-                result.addAll( collectionFileFilter.apply( files ) )
-                )
-
-        {
-            files = i1$.next();
+        for(Collection<File> files:getDuplicateFilesList() ) {
+            result.addAll( 
+                    collectionFileFilter.apply( files ) 
+                    );
         }
         return result;
     }
@@ -189,33 +170,27 @@ public class DuplicateLayer implements java.io.Serializable
     public DuplicateLayer updateList()
     {
         Iterator<Collection<File>> iter1 = duplicatesFiles.iterator();
-        do
-        {
-            if(!iter1.hasNext())
-            {
+
+        do {
+            if(!iter1.hasNext()) {
                 break;
             }
 
             Collection<File> collection = iter1.next();
             Iterator<File> iter2 = collection.iterator();
 
-            do
-            {
-                if(!iter2.hasNext())
-                {
+            do {
+                if(!iter2.hasNext()) {
                     break;
                 }
 
                 File f = iter2.next();
-                if(!f.exists())
-
-                {
+                if(!f.exists()) {
                     iter2.remove();
                 }
             } while(true);
 
-            if(collection.size() < 2)
-            {
+            if(collection.size() < 2) {
                 iter1.remove();
             }
         } while(true);

@@ -15,10 +15,10 @@ public class AlternateDataStreamTest extends TestCase
         File[] rootsFile = File.listRoots();
         
         for( File r : rootsFile ) {
-            System.out.println( "Check: " + r );
+            System.out.printf( "Check: %s\n", r );
             AlternateDataStream ads = new AlternateDataStream(r,"~ThisFileShouldNotExist.tmp","Test");
             
-            System.out.println( "AlternateDataStream supported for " + r + " ? " + ads.isSupported());
+            System.out.printf( "AlternateDataStream supported for %s ? %b\n", r, ads.isSupported());
             
             if( ads.isSupported() ) {
                 FileOutputStream fos = new FileOutputStream(ads.getStreamFile());

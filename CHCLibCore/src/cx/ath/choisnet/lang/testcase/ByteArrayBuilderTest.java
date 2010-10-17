@@ -1,11 +1,13 @@
 package cx.ath.choisnet.lang.testcase;
 
 import java.io.IOException;
+import java.io.InputStream;
 import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
+import cx.ath.choisnet.test.ExtendTestCase;
 import junit.framework.TestCase;
 
-public class ByteArrayBuilderTest extends TestCase 
+public class ByteArrayBuilderTest extends ExtendTestCase 
 {
     private final static byte[] BYTES = {'a','b','c','d','e','f'};
     private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
@@ -32,15 +34,16 @@ public class ByteArrayBuilderTest extends TestCase
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         assertEquals("bad length",BYTES.length,bab.length());
 
-        byte[] bytes = bab.array();
-        
-        for(int i = 0;i<bytes.length;i++) {
-            assertEquals(
-                    String.format("bad value [%d]",i),
-                    BYTES[i],
-                    bytes[i]
-                          );
-        }
+        assertEquals("mitchmatch",BYTES,bab.array());
+//        byte[] bytes = bab.array();
+//        
+//        for(int i = 0;i<bytes.length;i++) {
+//            assertEquals(
+//                    String.format("bad value [%d]",i),
+//                    BYTES[i],
+//                    bytes[i]
+//                          );
+//        }
     }
     
     public void testConstructor4()
@@ -108,15 +111,16 @@ public class ByteArrayBuilderTest extends TestCase
         assertEquals("bad length",BYTES.length,bab.length());
         assertEquals("bad array",BYTES.length,bab.array().length);
 
-        byte[] bytes = bab.array();
-        
-        for(int i = 0;i<bytes.length;i++) {
-            assertEquals(
-                    String.format( "bad value [%d]",i),
-                    BYTES[i],
-                    bytes[i]
-                    );
-        }
+        assertEquals("mitchmatch",BYTES,bab.array());
+//        byte[] bytes = bab.array();
+//        
+//        for(int i = 0;i<bytes.length;i++) {
+//            assertEquals(
+//                    String.format( "bad value [%d]",i),
+//                    BYTES[i],
+//                    bytes[i]
+//                    );
+//        }
    }
     
     public void test_append_bytes()
@@ -163,16 +167,37 @@ public class ByteArrayBuilderTest extends TestCase
         assertEquals("bad length",BYTES.length,bab.length());
         assertEquals("bad array",BYTES.length,bab.array().length);
         
-        byte[] bytes = bab.array();
-        for( int i=0; i<bytes.length;i++) {
-            assertEquals(
-                    String.format( "bad value [%d]",i ),
-                    BYTES[i],
-                    bytes[i]
-                    );
-        }
+        assertEquals("mitchmatch",BYTES,bab.array());
+//        byte[] bytes = bab.array();
+//        for( int i=0; i<bytes.length;i++) {
+//            assertEquals(
+//                    String.format( "bad value [%d]",i ),
+//                    BYTES[i],
+//                    bytes[i]
+//                    );
+//        }
     }
     
+    
+    public void test_AppendInputStream() 
+        throws IOException
+    {
+        InputStream is = new InputStream()
+        {
+            int i = 0;
+            @Override
+            public int read() throws IOException
+            {
+                if( i< BYTES.length ) {
+                    return BYTES[i++];
+                }
+                return -1;
+            }
+        };
+        ByteArrayBuilder bab = new ByteArrayBuilder();
+        bab.append( is );
+        assertEquals("mitchmatch",BYTES,bab.array());
+    }
 /*
  * TODO
     public ByteArrayBuilder append(ReadableByteChannel channel)
