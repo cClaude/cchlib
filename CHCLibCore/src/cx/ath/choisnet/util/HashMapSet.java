@@ -204,6 +204,23 @@ public class HashMapSet<K,V>
     }
 
     /**
+     * TODO: Doc!
+     * 
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean remove(K key, V value)
+    {
+        Set<V> s = super.get( key );
+        
+        if( s != null ) {
+            return s.remove( value );
+        }
+        return false;
+    }
+    
+    /**
      * Returns true if this HashMapSet contains the specified
      * element. More formally, returns true if and only if
      * at least one Set contains at least one element e such

@@ -34,7 +34,7 @@ public class DuplicateFileCollector
     //private /*Map*/HashMap<Long,Set<File>> mapLength;
     private HashMapSet<Long,File> mapLengthFiles;
     private boolean ignoreEmptyFile;
-
+    private boolean cancelProcess;
     /**
      * TODO: Doc!
      * 
@@ -97,6 +97,11 @@ public class DuplicateFileCollector
 //                mapLength.put( size, c );
 //            }
 //            c.add( f );
+            if( cancelProcess ) {
+                mapLengthFiles.clear();
+                super.clear();
+                return;
+            }
         }
     }
 
@@ -107,6 +112,11 @@ public class DuplicateFileCollector
      */
     synchronized public void pass2()
     {
+        if( cancelProcess ) {
+            mapLengthFiles.clear();
+            super.clear();
+            return;
+        }
         //for(Set<File> s:mapLength.values()) {
         for(Set<File> s:mapLengthFiles.values()) {
             if( s.size() > 1 ) {
@@ -114,34 +124,41 @@ public class DuplicateFileCollector
                     notify( f );
                     try {
                         mdf.compute( f );
+
+                        String    k = mdf.digestString();
+                        //Set<File> c = map.get( k );
+                        Set<File> c = super.mapHashFile.get( k );
+
+                        if( c == null ) {
+                            c = new HashSet<File>();
+                            //map.put( k, c );
+                            super.mapHashFile.put( k, c );
+                        }
+                        else {
+                            if( c.size() < 2 ) {
+                                this.duplicateSetsCount++;
+                                this.duplicateFilesCount += 2;
+                            }
+                            else {
+                                this.duplicateFilesCount++;
+                            }
+                        }
+                        c.add( f );
                     }
                     catch(IOException e) {
                         notify(e,f);
                     }
-                    String    k = mdf.digestString();
-                    //Set<File> c = map.get( k );
-                    Set<File> c = super.mapHashFile.get( k );
-
-                    if( c == null ) {
-                        c = new HashSet<File>();
-                        //map.put( k, c );
-                        super.mapHashFile.put( k, c );
-                    }
-                    else {
-                        if( c.size() < 2 ) {
-                            this.duplicateSetsCount++;
-                            this.duplicateFilesCount += 2;
-                        }
-                        else {
-                            this.duplicateFilesCount++;
-                        }
-                    }
-                c.add( f );
                 }
+            }
+            if( cancelProcess ) {
+                mapLengthFiles.clear();
+                super.clear();
+                return;
             }
         }
         //mapLength.clear();
         mapLengthFiles.clear();
+        super.removeNonDuplicate();
     }
 
     @Override
@@ -149,5 +166,22 @@ public class DuplicateFileCollector
     {
         mapLengthFiles.clear();
         super.clear();
+    }
+    
+    /**
+     * TODO: Doc !
+     */
+    public void setCancelProcess(boolean cancel)
+    {
+        cancelProcess = cancel;
+    }
+    
+    /**
+     * TODO: Doc !
+     * @return 
+     */
+    public boolean isCancelProcess()
+    {
+        return cancelProcess;
     }
 }

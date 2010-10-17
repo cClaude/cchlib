@@ -85,5 +85,4 @@ public interface DigestFileCollector
      * @param listener the listener to remove
      */
     public void removeDigestEventListener(DigestEventListener listener);
-    
-}
+    }
