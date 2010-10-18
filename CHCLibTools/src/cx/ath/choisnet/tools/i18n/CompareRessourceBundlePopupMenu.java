@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
+import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 
 /**
  * 
@@ -64,8 +65,13 @@ class CompareRessourceBundlePopupMenu
             final int columnIndex 
             )
     {
-        JPopupMenu contextMenu = super.createContextMenu(rowIndex, columnIndex);
+        //JPopupMenu contextMenu = super.createContextMenu(rowIndex, columnIndex);
+        JPopupMenu contextMenu = new JPopupMenu();
 
+        addCopyMenuItem(contextMenu, rowIndex, columnIndex);
+        addPasteMenuItem(contextMenu, rowIndex, columnIndex);
+        contextMenu.addSeparator();
+        
         addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
         addEditMultiLineMenuItem(contextMenu, rowIndex, columnIndex);
         

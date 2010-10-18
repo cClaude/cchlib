@@ -137,6 +137,21 @@
       <fileset dir="${build.home}/jars"/>
     </jar>
 
+    <!-- DuplicateFiles standalone -->
+    <jar jarfile="${jar.home}/${app.name}.DuplicateFiles.${app.version}.jar"
+         basedir="${build.home}/classes"
+        >
+      <manifest>
+        <attribute name="Main-Class"       value="cx.ath.choisnet.tools.duplicatefiles.DuplicateFilesFrame"/>
+        <attribute name="X-Built-By"       value="${user.name}"/>
+        <attribute name="X-APP-Name"       value="${app.name}"/>
+        <attribute name="X-APP-Version"    value="${app.version}"/>
+        <attribute name="X-APP-Created-By" value="${app.vendor}"/>
+        <attribute name="X-APP-Decription" value="Clean up yours hards drives"/>
+      </manifest>
+      <fileset dir="${build.home}/jars"/>
+    </jar>
+
   </target>
 
 <!-- ==================== Javadoc Target =============================== -->
