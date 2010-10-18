@@ -1,7 +1,7 @@
 package cx.ath.choisnet.lang;
 
 import cx.ath.choisnet.ToDo;
-import cx.ath.choisnet.util.ByteBuffer;
+//import cx.ath.choisnet.util.ByteBuffer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -16,11 +16,11 @@ import java.util.jar.JarFile;
 
 /**
  * TODO: TestCase, Doc!
- * 
+ *
  * <p><b>This class is suspect, no time for now
  * to check it, but decompile process give
  * a strange result</b></p>
- * 
+ *
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling
@@ -35,7 +35,7 @@ import java.util.jar.JarFile;
  * la décompilation de mon propre code, suite à la perte
  * du code source, l'utilisation de cette classe doit ce
  * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
+ * sa stabilité, elle est donc sujette à des changements
  * importants.
  * </p>
  *
@@ -211,8 +211,8 @@ label0:
 
                 result = ExtendableClassLoader.toBytes(jarFile.getInputStream(jarEntry));
             }
-            catch(Exception ignore) { 
-                
+            catch(Exception ignore) {
+
             }
         }
         return result;
@@ -276,8 +276,8 @@ label0:
     protected static final byte[] toBytes(InputStream inputStream)
         throws java.io.IOException
     {
-        ByteBuffer result = new ByteBuffer(inputStream.available());
-        byte[]     buffer = new byte[4096];
+        ByteArrayBuilder result = new ByteArrayBuilder(inputStream.available());
+        byte[]           buffer = new byte[4096];
 
         int len;
 

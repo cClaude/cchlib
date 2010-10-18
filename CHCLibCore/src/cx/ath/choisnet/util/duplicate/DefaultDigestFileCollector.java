@@ -25,7 +25,6 @@ public class DefaultDigestFileCollector
     private ArrayList<DigestEventListener> listeners = new ArrayList<DigestEventListener>();
 
     protected MessageDigestFile mdf;
-    //protected /*Map*/HashMap<String,Set<File>> map;
     protected HashMapSet<String,File> mapHashFile;
     
     protected int duplicateSetsCount = 0;
@@ -53,16 +52,28 @@ public class DefaultDigestFileCollector
     {
         this.mdf         = messageDigestFile;
         this.mapHashFile = new HashMapSet<String,File>();
-        //this.map = new HashMap<String,Set<File>>();
     }
 
     @Override
     public void clear()
     {
-        //this.map.clear();
         this.mapHashFile.clear();
         this.duplicateSetsCount = 0;
         this.duplicateFilesCount = 0;
+    }
+
+    /**
+     * Removes all of the mappings from this
+     * DefaultDigestFileCollector, but also perform
+     * a {@link Set#clear()} on each set of values.
+     * <br/> 
+     * The DefaultDigestFileCollector will be empty
+     * after this call returns.
+     */
+    public void deepClear()
+    {
+        this.mapHashFile.deepClear();
+        clear();
     }
 
     /**

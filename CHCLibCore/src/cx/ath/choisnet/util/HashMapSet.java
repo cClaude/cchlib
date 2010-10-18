@@ -104,6 +104,23 @@ public class HashMapSet<K,V>
         super(initialCapacity,loadFactor);
     }
 
+    /**
+     * Removes all of the mappings from this HashMapSet,
+     * but also perform a {@link Set#clear()} on each
+     * set of values.
+     * <br>
+     * The HashMapSet will be empty after this call returns. 
+     * 
+     * @see #clear()
+     */
+    public void deepClear()
+    {
+        for(Set<V> s:super.values()) {
+            s.clear();
+        }
+        
+        super.clear();
+    }
     
     /**
      * Returns the number of value in this map 
@@ -174,7 +191,7 @@ public class HashMapSet<K,V>
     public boolean add( K key, V value )
     {
         Set<V> s = get(key);
-        
+
         if( s == null ) {
             s = new HashSet<V>();
             
@@ -188,27 +205,59 @@ public class HashMapSet<K,V>
      * Use {@link #add(Object, Object)} for each entries.
      * 
      * @param m map to add to current HashMapSet
-     * @return if at least one value has been added to
-     *         HashMapSet.
+     * @return number of values add in HashMapSet.
      * @see #add(Object, Object) add(Object, Object) for more details
      */
-    public boolean addAll(Map<K,V> m)
+    public int addAll(Map<K,V> m)
     {
-        boolean r = false;
+        int r = 0;
         
         for(Map.Entry<K,V> e:m.entrySet()) {
-           r= add( e.getKey(), e.getValue() );
+           if( add( e.getKey(), e.getValue() ) ) {
+               r++;
+           }
         }
        
        return r;
     }
+    
+    /**
+     * Add all values with same key in this HashMapSet.
+     * Use {@link #add(Object, Object)} for each entries.
+     *
+     * @param key       key to use for all values
+     * @param values    values to add
+     *
+     * @return number of values add in HashMapSet.
+     */
+    public int addAll(K key,Collection<V> values)
+    {
+        int     r = 0;
+        Set<V>  s = get(key);
+
+        if( s == null ) {
+            s = new HashSet<V>();
+
+            super.put(key,s);
+        }
+
+        for(V v:values) {
+           if( s.add( v ) ) {
+               r++;
+           }
+        }
+
+       return r;
+    }
 
     /**
-     * TODO: Doc!
+     * Removes the specified key-value from this HashMapSet
+     * if it is present.
      * 
-     * @param key
-     * @param value
-     * @return
+     * @param key  key with which the specified value is to be associated
+     * @param value value to be associated with the specified key 
+     * 
+     * @return if this set HashMapSet the specified key-value 
      */
     public boolean remove(K key, V value)
     {
@@ -343,10 +392,10 @@ public class HashMapSet<K,V>
     }
     
     /**
-     * TODO: Doc!
-     * ComputeKeyIterator<K,V> iterator
+     * Add all key-value from ComputeKeyIterator<K,V> iterator
      * 
-     * @param iterator
+     * @param iterator iterator used to get values and compute
+     *        theirs keys.
      */
     public void addAll( ComputeKeyIterator<K,V> iterator )
     {

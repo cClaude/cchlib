@@ -31,10 +31,10 @@ public class DuplicateFileCollector
     extends DefaultDigestFileCollector
 {
     private static final long serialVersionUID = 1L;
-    //private /*Map*/HashMap<Long,Set<File>> mapLength;
     private HashMapSet<Long,File> mapLengthFiles;
     private boolean ignoreEmptyFile;
     private boolean cancelProcess;
+
     /**
      * TODO: Doc!
      * 
@@ -47,7 +47,6 @@ public class DuplicateFileCollector
             )
     {
         super( messageDigestFile );
-        //this.mapLength = new HashMap<Long,Set<File>>();
         this.mapLengthFiles = new HashMapSet<Long,File>();
         this.ignoreEmptyFile = ignoreEmptyFile;
     }
@@ -90,16 +89,9 @@ public class DuplicateFileCollector
             }
 
             mapLengthFiles.add( new Long(size), f );
-//            Set<File> c  = mapLength.get( size );
-//
-//            if( c == null ) {
-//                c = new HashSet<File>();
-//                mapLength.put( size, c );
-//            }
-//            c.add( f );
+
             if( cancelProcess ) {
-                mapLengthFiles.clear();
-                super.clear();
+                clear();
                 return;
             }
         }
@@ -113,11 +105,10 @@ public class DuplicateFileCollector
     synchronized public void pass2()
     {
         if( cancelProcess ) {
-            mapLengthFiles.clear();
-            super.clear();
+            clear();
             return;
         }
-        //for(Set<File> s:mapLength.values()) {
+
         for(Set<File> s:mapLengthFiles.values()) {
             if( s.size() > 1 ) {
                 for(File f:s) {
@@ -131,7 +122,6 @@ public class DuplicateFileCollector
 
                         if( c == null ) {
                             c = new HashSet<File>();
-                            //map.put( k, c );
                             super.mapHashFile.put( k, c );
                         }
                         else {
@@ -151,12 +141,11 @@ public class DuplicateFileCollector
                 }
             }
             if( cancelProcess ) {
-                mapLengthFiles.clear();
-                super.clear();
+                clear();
                 return;
             }
         }
-        //mapLength.clear();
+
         mapLengthFiles.clear();
         super.removeNonDuplicate();
     }
@@ -164,12 +153,14 @@ public class DuplicateFileCollector
     @Override
     public void clear()
     {
-        mapLengthFiles.clear();
+        mapLengthFiles.deepClear();
         super.clear();
     }
-    
+ 
     /**
      * TODO: Doc !
+     * 
+     * @param cancel 
      */
     public void setCancelProcess(boolean cancel)
     {
@@ -178,6 +169,7 @@ public class DuplicateFileCollector
     
     /**
      * TODO: Doc !
+     * 
      * @return 
      */
     public boolean isCancelProcess()
