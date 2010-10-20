@@ -1,7 +1,6 @@
 package cx.ath.choisnet.util.iterator;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  * Build an Iterator based on an {@link Iterator} of {@link Iterable}.
@@ -16,7 +15,8 @@ import java.util.NoSuchElementException;
  * @param <T>
  * @see MultiIterator
  */
-public class CascadingIterator<T> extends ComputableIterator<T>
+public class CascadingIterator<T> 
+    implements Iterator<T>
 {
     private Iterator<? extends Iterable<? extends T>> mainIterator;
     private Iterator<? extends T> currentIterator;
@@ -30,23 +30,42 @@ public class CascadingIterator<T> extends ComputableIterator<T>
     {
         mainIterator    = iterator;
         currentIterator = null;
+        
+        // Init currentIterator with a valid value
+        hasNext();
+    }
+    
+    @Override
+    public boolean hasNext()
+    {
+        if( currentIterator == null ) {
+            if( mainIterator.hasNext() ) {
+                currentIterator = mainIterator.next().iterator();
+            }
+            else {
+                return false;
+            }
+        }
+
+        for(;;) {
+            if( currentIterator.hasNext() ) {
+                return true;
+            }
+            if( mainIterator.hasNext() ) {
+                currentIterator = mainIterator.next().iterator();
+            }
+            else {
+                return false;
+            }
+        }
     }
 
     @Override
-    protected T computeNext() throws NoSuchElementException
+    public T next()
     {
-        do {
-            if(currentIterator != null) {
-                try {
-                    return currentIterator.next();
-                }
-                catch(NoSuchElementException ignore) {
-                }
-            }
-
-            currentIterator = mainIterator.next().iterator();
-        } while(true);
+        return currentIterator.next();
     }
+
     
     /**
      * Removes from the underlying collection the last element
@@ -62,11 +81,7 @@ public class CascadingIterator<T> extends ComputableIterator<T>
     @Override
     public void remove()
     {
-        if(currentIterator != null) {
-            currentIterator.remove();
-        }
-        else {
-            throw new IllegalStateException();
-        }
+        currentIterator.remove();
     }
+
 }

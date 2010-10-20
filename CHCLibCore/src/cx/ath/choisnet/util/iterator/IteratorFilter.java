@@ -53,22 +53,22 @@ public class IteratorFilter<T>
         throw new NoSuchElementException();
     }
 
-    /**
-     * Removes from the underlying collection the last element
-     * returned by the iterator. 
-     * 
-     * @throws UnsupportedOperationException if the remove
-     *         operation is not supported by parent Iterator. 
-     * @throws IllegalStateException if the next method has
-     *         not yet been called, or the remove method has
-     *         already been called after the last call to the
-     *         next method.
-     */
-    @Override
-    public void remove()
-    {
-        this.iterator.remove();
-    }
+//    /**
+//     * Removes from the underlying collection the last element
+//     * returned by the iterator. 
+//     * 
+//     * @throws UnsupportedOperationException if the remove
+//     *         operation is not supported by parent Iterator. 
+//     * @throws IllegalStateException if the next method has
+//     *         not yet been called, or the remove method has
+//     *         already been called after the last call to the
+//     *         next method.
+//     */
+//    @Override
+//    public void remove()
+//    {
+//        this.iterator.remove();
+//    }
 
     /**
      * Returns an iterator over a set of elements of type T. 

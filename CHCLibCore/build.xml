@@ -143,18 +143,21 @@
          >
       <classpath refid="compile.classpath"/>
       <excludepackage name="*.undocumented"/>
-      <excludepackage name="*.testcase"/>
+      <excludepackage name="*.testcase"/><!-- bug? -->
       <excludepackage name="alpha.*"/>
       <excludepackage name="*.alpha"/>
       <excludepackage name="cx.ath.choisnet.bytesaccess.testcase"/>
       <excludepackage name="cx.ath.choisnet.io.testcase"/>
       <excludepackage name="cx.ath.choisnet.lang.testcase"/>
       <excludepackage name="cx.ath.choisnet.swing.introspection.testcase"/>
+      <excludepackage name="cx.ath.choisnet.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.base64.testcase"/>
+      <excludepackage name="cx.ath.choisnet.util.checksum.testcase"/>
+      <excludepackage name="cx.ath.choisnet.util.duplicate.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.iterator.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.testcase"/>
       <excludepackage name="cx.ath.choisnet.zip.testcase"/>
-      <excludepackage name="cx.ath.choisnet.testcase"/>
+
       <link href="${javadoc.j2se}" offline="true"
             packagelistLoc="${src.home}/metadata/javase6/"
             />

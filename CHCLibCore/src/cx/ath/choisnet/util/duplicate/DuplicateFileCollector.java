@@ -14,7 +14,7 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  * to call more it than one time (without clearing {@link #clear()}).
  * <br/>
  * The most efficient ways to use this object is to
- * call {@link #pass1Add(Iterable)} for each 
+ * call {@link #pass1Add(Iterable)} for each
  * Iterable<File> (directory) you need to explore, and
  * then call {@link #pass2()} once.
  * <br/>
@@ -24,25 +24,28 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  * <br/>
  * To use more than one this this object, call
  * {@link #clear()}
- * 
+ *
  * @author Claude CHOISNET
  */
 public class DuplicateFileCollector
     extends DefaultDigestFileCollector
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private HashMapSet<Long,File> mapLengthFiles;
+    /** @serial */
     private boolean ignoreEmptyFile;
+    /** @serial */
     private boolean cancelProcess;
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param messageDigestFile
-     * @param ignoreEmptyFile 
+     * @param ignoreEmptyFile
      */
-    public DuplicateFileCollector( 
-            MessageDigestFile   messageDigestFile, 
+    public DuplicateFileCollector(
+            MessageDigestFile   messageDigestFile,
             boolean             ignoreEmptyFile
             )
     {
@@ -74,7 +77,7 @@ public class DuplicateFileCollector
      *  call this method any time you want before
      *  calling {@link #pass2()}.
      * </p>
-     * 
+     *
      * @param files file Iterable (collection) to add.
      * @see #pass2()
      */
@@ -97,9 +100,73 @@ public class DuplicateFileCollector
         }
     }
 
+//    /**
+//     * Returns number of Set of File that should be examined
+//     * by {@link #pass2()}. Return potential duplicate
+//     * Set.
+//     * <p>
+//     * Warning:<br/>
+//     * This value is only valid after doing all
+//     * call to {@link #pass1Add(Iterable)} and
+//     * before calling {@link #pass2()}.
+//     * </p>
+//     *
+//     * @return number of Set of File that should be examined
+//     * by {@link #pass2()}.
+//     */
+//    public int getPass1SetToCheckSize()
+//    {
+//        return mapLengthFiles.size();
+//    }
+
+    /**
+     * Returns intermediate informations, statistics
+     * informations on files that should be examined
+     * by {@link #pass2()}.
+     * <p>
+     * Warning:<br/>
+     * This value is only valid after doing all
+     * call to {@link #pass1Add(Iterable)} and
+     * before calling {@link #pass2()}.
+     * </p>
+     *
+     * @return Statistics informations on files that
+     *         should be examined by {@link #pass2()}.
+     */
+    public Stats getPass1Stats()
+    {
+        int  c = 0;
+        long l = 0;
+
+        for(Set<File> s:mapLengthFiles.values()) {
+            if( s.size() > 1 ) {
+                c += s.size();
+                for(File f:s) {
+                    l += f.length();
+                }
+            }
+        }
+        final int  files  = c;
+        final long length = l;
+
+        return new Stats()
+        {
+            @Override
+            public int getPass2Files()
+            {
+                return files;
+            }
+            @Override
+            public long getPass2Bytes()
+            {
+                return length;
+            }
+        };
+    }
+
     /**
      * Perform second pass.
-     * 
+     *
      * @see MessageDigestFile#compute(File)
      */
     synchronized public void pass2()
@@ -150,30 +217,58 @@ public class DuplicateFileCollector
         super.removeNonDuplicate();
     }
 
+    /**
+     * Clear internals object, to be ready
+     * to use a other time.
+     */
     @Override
     public void clear()
     {
         mapLengthFiles.deepClear();
         super.clear();
+        setCancelProcess(false);
     }
- 
+
     /**
-     * TODO: Doc !
-     * 
-     * @param cancel 
+     * Define if process should be canceled.
+     * <p>
+     * This method must be call by a other thread
+     * to cancel as soon as possible current tasks,
+     * and then invoke {@link #clear()}, since currents
+     * values can not be used.
+     * </p>
+     *
+     * @param cancel true, ask process to cancel.
+     * @see #clear()
      */
     public void setCancelProcess(boolean cancel)
     {
         cancelProcess = cancel;
     }
-    
+
     /**
      * TODO: Doc !
-     * 
-     * @return 
+     *
+     * @return true if
      */
-    public boolean isCancelProcess()
+    protected boolean isCancelProcess()
     {
         return cancelProcess;
+    }
+
+
+    public interface Stats
+    {
+        /**
+         * Returns numbers of files need to be read by pass2
+         * @return numbers of files need to be read by pass2
+         */
+        public int getPass2Files();
+
+        /**
+         * Returns numbers of bytes need to be read by pass2
+         * @return numbers of bytes need to be read by pass2
+         */
+        public long getPass2Bytes();
     }
 }

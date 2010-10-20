@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.util;
 
@@ -14,27 +14,29 @@ import java.util.Set;
  * help you edit the properties.
  * <p>
  * The object is based on a <b>rootProperties</b>
- * which is the reference for all other properties 
+ * which is the reference for all other properties
  * (called <b>childProperties</b>).
  * </p>
  * <u>Rules:</u>
  * <p>
  * - According to {@link Properties} object specifications,
- *  Properties whose key or value is not of type 
- *  String are omitted. 
+ *  Properties whose key or value is not of type
+ *  String are omitted.
  * </p>
  * </p>
  * - Guarantee that a key is not present in rootProperties
  * can not exist on any of the dependent properties
- * (childProperties). 
+ * (childProperties).
  * <p>
- * 
+ *
  * @author Claude CHOISNET
  */
 public class MultiProperties implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private Properties rootProperties;
+    /** @serial */
     private HashMap<String,Properties> childProperties;
 
     /**
@@ -54,18 +56,18 @@ public class MultiProperties implements Serializable
     /**
      * <p>
      * Properties whose key or value is not of type
-     * String are omitted. 
+     * String are omitted.
      * </p>
-     * 
+     *
      * @param name          properties name
      * @param properties
-     * @throws RootPropertiesDoesNotContainsKey 
+     * @throws RootPropertiesDoesNotContainsKey
      */
     synchronized public void addProperties(
-            String      name, 
+            String      name,
             Properties  properties
-            ) 
-    throws RootPropertiesDoesNotContainsKey  
+            )
+    throws RootPropertiesDoesNotContainsKey
     {
         check(properties);
         childProperties.put( name, properties );
@@ -77,9 +79,9 @@ public class MultiProperties implements Serializable
      * <p>
      * According to {@link Properties} object specifications
      * Properties whose key or value is not of type
-     * String are omitted. 
+     * String are omitted.
      * </p>
-     * 
+     *
      * @param properties Properties to check
      * @throws RootPropertiesDoesNotContainsKey if a String key
      *         with a String value if found, but does match to
@@ -89,11 +91,11 @@ public class MultiProperties implements Serializable
      */
     synchronized public void check(
             Properties properties
-            ) 
-    throws RootPropertiesDoesNotContainsKey  
+            )
+    throws RootPropertiesDoesNotContainsKey
     {
        Set<String> keys = properties.stringPropertyNames();
-       
+
        for( String key:keys ) {
            if( rootProperties.getProperty( key ) == null ) {
                throw new RootPropertiesDoesNotContainsKey( key );
@@ -104,20 +106,20 @@ public class MultiProperties implements Serializable
     /**
      * Return a Set of String that contains Property names.
      * <p>
-     * Returns an set of keys in rootProperties property 
+     * Returns an set of keys in rootProperties property
      * list where the key and its corresponding value are
      * strings, including distinct keys in the default
      * property list if a key of the same name has not
-     * already been found from the main properties list. 
+     * already been found from the main properties list.
      * </p>
      * <p>
      * Properties whose key or value is not of type
-     * String are omitted. 
+     * String are omitted.
      * </p>
      * <p>
      * The returned set is <b>not backed</b> by the Properties
      * object. Changes to this Properties are not
-     * reflected in the set, or vice versa. 
+     * reflected in the set, or vice versa.
      * </p>
      * @return a set of keys in this property list where
      *         the key and its corresponding value are
@@ -135,9 +137,9 @@ public class MultiProperties implements Serializable
      * the root property list. If the key is not found
      * in this property list, the default property list,
      * and its defaults, recursively, are then checked.
-     * The method returns null if the property is not found. 
+     * The method returns null if the property is not found.
      *
-     * @param key the property key. 
+     * @param key the property key.
      * @return the value in this property list with the specified key value.
      */
     synchronized public String getProperty(String key)
@@ -149,17 +151,17 @@ public class MultiProperties implements Serializable
      * First resolve properties from name, if properties
      * name's is not found.
      * <br/>
-     * Then searches for the property with the specified key 
+     * Then searches for the property with the specified key
      * in this property list
      * @param name  child properties name
-     * @param key   the property key. 
+     * @param key   the property key.
      * @return the value in this property list with the specified key value.
      * @throws PropertiesDoesNotExist if properties
-     *         name's is not found 
+     *         name's is not found
      * @throws RootPropertiesDoesNotContainsKey
      */
-    synchronized public String getPropertyFrom(String name, String key) 
-        throws  PropertiesDoesNotExist, 
+    synchronized public String getPropertyFrom(String name, String key)
+        throws  PropertiesDoesNotExist,
                 RootPropertiesDoesNotContainsKey
     {
         Properties properties = childProperties.get( name );
@@ -175,16 +177,16 @@ public class MultiProperties implements Serializable
                 throw new RootPropertiesDoesNotContainsKey( key );
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Calls the rootProperties method setProperty.
      * <p>
      * Enforces use of strings for property keys and values.
      * </p>
-     * 
+     *
      * @param key   the key to be placed into rootProperties property list.
      * @param value the value corresponding to key
      * @return the previous value of the specified key in
@@ -194,26 +196,26 @@ public class MultiProperties implements Serializable
     {
         return rootProperties.setProperty( key, value );
     }
-    
+
     /**
      * First resolve properties from name, if properties
-     * name's is not found 
-     * 
+     * name's is not found
+     *
      * @param name  child properties name
      * @param key   the key to be placed into child property list.
      * @param value the value corresponding to key
      * @return the previous value of the specified key in
      *         child list, or null if it did not have one.
      * @throws PropertiesDoesNotExist if properties
-     *         name's is not found 
+     *         name's is not found
      * @throws RootPropertiesDoesNotContainsKey
      */
     synchronized public Object setPropertyTo(
             String name,
-            String key, 
+            String key,
             String value
-            ) 
-    throws  RootPropertiesDoesNotContainsKey, 
+            )
+    throws  RootPropertiesDoesNotContainsKey,
             PropertiesDoesNotExist
     {
         if( rootProperties.getProperty( key ) == null ) {
@@ -221,17 +223,17 @@ public class MultiProperties implements Serializable
         }
 
         Properties properties = childProperties.get( name );
-        
+
         if( properties == null ) {
             throw new PropertiesDoesNotExist(name);
         }
         return properties.setProperty( key, value );
     }
-    
+
     /**
-     * Removes the key (and its corresponding value) from 
+     * Removes the key (and its corresponding value) from
      * all Properties.
-     *  
+     *
      * @param key the key that needs to be removed
      * @throws NullPointerException if the key is null
      */
@@ -240,7 +242,7 @@ public class MultiProperties implements Serializable
         for(Properties prop:childProperties.values()) {
             prop.remove( key );
         }
-        
+
         rootProperties.remove( key );
     }
 }

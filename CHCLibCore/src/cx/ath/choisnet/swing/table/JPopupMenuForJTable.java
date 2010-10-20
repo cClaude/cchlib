@@ -153,7 +153,7 @@ public abstract class JPopupMenuForJTable
     /**
      * To overwrite !
      * 
-     * <p>
+     * <pre>
      * protected abstract JPopupMenu createContextMenu( 
      *          final int rowIndex,
      *          final int columnIndex 
@@ -166,7 +166,7 @@ public abstract class JPopupMenuForJTable
      *      
      *      return contextMenu;
      *  }
-     * </p>
+     * </pre>
      * @param rowIndex
      * @param columnIndex
      * @return

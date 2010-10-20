@@ -15,27 +15,32 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  * TODO: Doc!
- * 
+ *
  * @author Claude CHOISNET
  */
 public class DefaultDigestFileCollector
     implements DigestFileCollector
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private ArrayList<DigestEventListener> listeners = new ArrayList<DigestEventListener>();
 
+    /** @serial */
     protected MessageDigestFile mdf;
+    /** @serial */
     protected HashMapSet<String,File> mapHashFile;
-    
+
+    /** @serial */
     protected int duplicateSetsCount = 0;
+    /** @serial */
     protected int duplicateFilesCount = 0;
-    
+
     /**
      * TODO: Doc!
-     * 
-     * @throws NoSuchAlgorithmException 
+     *
+     * @throws NoSuchAlgorithmException
      */
-    public DefaultDigestFileCollector() 
+    public DefaultDigestFileCollector()
         throws NoSuchAlgorithmException
     {
         this( new MessageDigestFile() );
@@ -43,12 +48,12 @@ public class DefaultDigestFileCollector
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param messageDigestFile
      */
     public DefaultDigestFileCollector(
             MessageDigestFile messageDigestFile
-            ) 
+            )
     {
         this.mdf         = messageDigestFile;
         this.mapHashFile = new HashMapSet<String,File>();
@@ -66,7 +71,7 @@ public class DefaultDigestFileCollector
      * Removes all of the mappings from this
      * DefaultDigestFileCollector, but also perform
      * a {@link Set#clear()} on each set of values.
-     * <br/> 
+     * <br/>
      * The DefaultDigestFileCollector will be empty
      * after this call returns.
      */
@@ -78,30 +83,30 @@ public class DefaultDigestFileCollector
 
     /**
      * TODO: Doc!
-     * 
+     *
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(
      *          rootDirectory,
      *          @{link FileFilterHelper}.fileFileFilter()
      *          );
      * </pre>
-     * 
+     *
      * @param files
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     public void add( final Iterable<File> files )
-        throws  FileNotFoundException, 
+        throws  FileNotFoundException,
                 IOException
     {
         for(File f:files) {
             notify( f );
             mdf.compute( f );
-            
+
             String    k = mdf.digestString();
             //Set<File> c = map.get( k );
             Set<File> c = mapHashFile.get( k );
-            
+
             if( c == null ) {
                 c = new HashSet<File>();
                 //map.put( k, c );
@@ -119,7 +124,7 @@ public class DefaultDigestFileCollector
             c.add( f );
         }
     }
-    
+
     @Override
     public Map<String,Set<File>> getFiles()
     {
@@ -133,10 +138,10 @@ public class DefaultDigestFileCollector
         int                 count = 0;
         //Iterator<Set<File>> iter  = map.values().iterator();
         Iterator<Set<File>> iter  = mapHashFile.values().iterator();
-        
+
         while(iter.hasNext()) {
             Set<File> s = iter.next();
-            
+
             if( s.size() > 1 ) {
                 count += s.size();
                 iter.remove();
@@ -187,11 +192,11 @@ public class DefaultDigestFileCollector
                 cf += s.size();
             }
         }
-        
+
         this.duplicateSetsCount = cs;
         this.duplicateFilesCount = cf;
     }
-    
+
     @Override
     public int getDuplicateSetsCount()
     {
@@ -222,8 +227,8 @@ public class DefaultDigestFileCollector
     /**
      * Notifies all listener the beginning of
      * the calculation of digest.
-     * 
-     * @param f The file 
+     *
+     * @param f The file
      */
     protected void notify(File f)
     {
@@ -235,9 +240,9 @@ public class DefaultDigestFileCollector
     /**
      * Notifies all listener that an IOException
      * had occur.
-     * 
-     * @param e     exception that append.
-     * @param file  current file. 
+     *
+     * @param e exception that append.
+     * @param f current file.
      */
     protected void notify(IOException e, File f)
     {

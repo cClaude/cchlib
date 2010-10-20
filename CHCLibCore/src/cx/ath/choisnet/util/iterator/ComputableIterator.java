@@ -78,13 +78,18 @@ public abstract class ComputableIterator<T>
     }
 
     /**
-     * Unsupported Operation
+     * Unsupported Operation.
+     * <p>
+     * Since next item is read before return current
+     * item, it's not possible to support remove() operation
+     * using ComputableIterator
+     * </p>
      * 
      * @throws UnsupportedOperationException
      * @throws IllegalStateException
      */
     @Override
-    public void remove()
+    final public void remove()
         throws  UnsupportedOperationException,
                 IllegalStateException
     {

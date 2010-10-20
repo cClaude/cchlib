@@ -143,25 +143,25 @@ public class MultiIterator<T> extends ComputableIterator<T>
         } while(true);
     }
 
-    /**
-     * Removes from the underlying collection the last element
-     * returned by the iterator. 
-     * 
-     * @throws UnsupportedOperationException if the remove
-     *         operation is not supported by current Iterator. 
-     * @throws IllegalStateException if the next method has
-     *         not yet been called, or the remove method has
-     *         already been called after the last call to the
-     *         next method.
-     */
-    @Override
-    public void remove()
-    {
-        if(currentIterator != null) {
-            currentIterator.remove();
-        }
-        else {
-            throw new IllegalStateException();
-        }
-    }
+//    /**
+//     * Removes from the underlying collection the last element
+//     * returned by the iterator. 
+//     * 
+//     * @throws UnsupportedOperationException if the remove
+//     *         operation is not supported by current Iterator. 
+//     * @throws IllegalStateException if the next method has
+//     *         not yet been called, or the remove method has
+//     *         already been called after the last call to the
+//     *         next method.
+//     */
+//    @Override
+//    public void remove()
+//    {
+//        if(currentIterator != null) {
+//            currentIterator.remove();
+//        }
+//        else {
+//            throw new IllegalStateException();
+//        }
+//    }
 }

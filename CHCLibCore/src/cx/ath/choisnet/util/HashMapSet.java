@@ -223,14 +223,16 @@ public class HashMapSet<K,V>
     
     /**
      * Add all values with same key in this HashMapSet.
-     * Use {@link #add(Object, Object)} for each entries.
-     *
+     * <p>
+     * Tips:<br/>
+     * If you want to replace a Set&lt;V&gt; for a key, use {@link #put(Object, Object)}
+     * </p>
      * @param key       key to use for all values
      * @param values    values to add
      *
      * @return number of values add in HashMapSet.
      */
-    public int addAll(K key,Collection<V> values)
+    public int addAll(K key, Collection<V> values)
     {
         int     r = 0;
         Set<V>  s = get(key);
@@ -312,7 +314,10 @@ public class HashMapSet<K,V>
     /**
      * Returns an iterator over the values in this
      * HashMapSet.
-     * 
+     * <p>
+     * If you use {@link Iterator#remove()} you must
+     * consider to {@link #purge()} HashMapSet.
+     * </p>
      * @return an Iterator over the values in 
      *         this HashMapSet
      */
@@ -324,6 +329,43 @@ public class HashMapSet<K,V>
                 );
     }
 
+    /**
+     * Remove key-Set&lt;V&gt; pair for null or
+     * Set&lt;V&gt; like {@link Set#size()} {@code <} minSetSize
+     * 
+     * <p>
+     * purge(2) : remove all key-Set&lt;V&gt; pair that
+     * not contains more than 1 value.
+     * </p>
+     * @param minSetSize minimum size for Sets to be
+     *        keep in HashMapSet
+     */
+    public void purge(int minSetSize)
+    {
+        Iterator<Map.Entry<K, Set<V>>> iter = super.entrySet().iterator();
+        
+        while(iter.hasNext()) {
+           Map.Entry<K, Set<V>> e = iter.next();
+           Set<V>               s = e.getValue();
+           
+           if( (s==null) || (s.size()<minSetSize) ) {
+               iter.remove();
+           }
+        }
+    }
+    
+    /**
+     * Remove key-Set&lt;V&gt; pair for null or empty
+     * Set&lt;V&gt;
+     * <p>
+     * Invoke {@link #purge(int) purge(1)}
+     * </p>
+     */
+    public void purge()
+    {
+        purge(1);
+    }
+    
     /**
      * Returns an <b>unmodifiable</b> Collection view
      * of V according to HashMapSet.
