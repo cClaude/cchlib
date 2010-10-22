@@ -63,7 +63,6 @@ public class CompareRessourceBundleFrame
 
         updateDisplay();
 
-        getJFileChooserInitializer();
         //lastSelectedFilesAccessoryDefaultConfigurator.getLastSelectedFiles();
     }
 
@@ -81,6 +80,7 @@ public class CompareRessourceBundleFrame
                 frame.pack();
                 frame.setLocationRelativeTo( null );
                 frame.setVisible( true );
+                frame.getJFileChooserInitializer();
             }
         } );
     }

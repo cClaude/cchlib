@@ -7,7 +7,9 @@ import java.io.Serializable;
  * 
  * @author Claude CHOISNET
  */
-final class KeyFileState implements Serializable
+final class KeyFileState
+    implements  Serializable,
+                Comparable<KeyFileState>
 {
     private static final long serialVersionUID = 1L;
     private String  key;
@@ -112,5 +114,11 @@ final class KeyFileState implements Serializable
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int compareTo( KeyFileState kfs )
+    {
+        return file.compareTo( kfs.file );
     }
 }
