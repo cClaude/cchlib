@@ -18,7 +18,8 @@ public class I18nSimpleResourceBundle
     extends I18nResourceBundle
         implements I18nAutoUpdateInterface
 {
-    private static Logger  slogger = Logger.getLogger(I18nSimpleResourceBundle.class);
+    private static final long serialVersionUID = 1L;
+    private transient static Logger  slogger = Logger.getLogger(I18nSimpleResourceBundle.class);
     private String         resourceBundleBaseName;
     private Locale         currentLocale;
 
@@ -68,12 +69,12 @@ public class I18nSimpleResourceBundle
 
         slogger.info( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
         slogger.info( "setLocale() - currentLocale= " + currentLocale );
-        slogger.info( "setLocale() - getCurrentLocale() = " + getCurrentLocale() );
+        slogger.info( "setLocale() - getLocale() = " + getLocale() );
 
         super.resourceBundle 
             = ResourceBundle.getBundle( 
                     resourceBundleBaseName,
-                    getCurrentLocale() 
+                    getLocale() 
                     );
         slogger.info( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
         slogger.info( "ResourceBundle = " + resourceBundle );
@@ -81,7 +82,7 @@ public class I18nSimpleResourceBundle
 
     
     @Override // I18nAutoUpdateInterface
-    public Locale getCurrentLocale()
+    public Locale getLocale()
     {
         if( this.currentLocale == null ) {
             return Locale.getDefault();

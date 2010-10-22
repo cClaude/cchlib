@@ -5,7 +5,6 @@ import java.io.InputStream;
 import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.ExtendTestCase;
-import junit.framework.TestCase;
 
 public class ByteArrayBuilderTest extends ExtendTestCase 
 {

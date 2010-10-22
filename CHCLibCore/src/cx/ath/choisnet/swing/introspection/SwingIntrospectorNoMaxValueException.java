@@ -15,7 +15,7 @@ public class SwingIntrospectorNoMaxValueException
     private static final long serialVersionUID = 1L;
     
     /** @serial */
-    private IntrospectionItem<?> introspectionItem;
+    private IntrospectionItem<?> introspectionItem; // NOT SERIALIZABLE
 
 //    /**
 //     * @param message

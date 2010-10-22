@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 public class BytesAccessTest extends TestCase
 {
     private static Logger slogger = Logger.getLogger(BytesAccessTest.class);
+    private static Object nullObject = null;
     private final static Random random = new Random();
     private final static byte[] BYTES = { 
             (byte)0xDE, (byte)0xAD, 
@@ -251,7 +252,7 @@ public class BytesAccessTest extends TestCase
         assertFalse( "BytesAccess should not be equals to a String", res );
         
         ba.equals( compareTo );
-        ba.equals( null );
+        ba.equals( nullObject );
     }
     
     public void _test_todo_Or( BytesAccess ba, BytesAccess orBytesAccess )

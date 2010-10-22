@@ -13,7 +13,8 @@ import java.util.ResourceBundle;
  */
 public class I18nResourceBundle implements I18nInterface
 {
-    protected ResourceBundle resourceBundle;
+    private static final long serialVersionUID = 1L;
+    protected ResourceBundle resourceBundle; // NOT SERIALISABLE !
 
     /**
      * Provide a non initialized object for inherit class

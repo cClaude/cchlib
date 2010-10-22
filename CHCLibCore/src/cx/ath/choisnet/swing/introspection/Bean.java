@@ -72,7 +72,7 @@ public class Bean implements Serializable
     protected final static String INDEX_TAG = "$";
     
     /** Some logs */
-    private static final Logger slogger = Logger.getLogger(Bean.class);
+    private transient static final Logger slogger = Logger.getLogger(Bean.class);
     
     /** @serial */
     private final String fieldName;

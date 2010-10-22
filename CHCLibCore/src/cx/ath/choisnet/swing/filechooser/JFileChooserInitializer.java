@@ -225,7 +225,7 @@ public class JFileChooserInitializer
         /** @serial */
         private File currentDirectory;
         /** @serial */
-        private FileFilter fileFilter;
+        private FileFilter fileFilter; // NOT SERIALISABLE !
         /** @serial */
         private EnumSet<Attrib> attributes;
         /** @serial */

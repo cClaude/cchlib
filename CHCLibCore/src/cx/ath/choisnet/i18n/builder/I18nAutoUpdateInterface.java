@@ -25,7 +25,7 @@ public interface I18nAutoUpdateInterface
      * 
      * @return always return a valid {@link Locale}
      */
-    public Locale getCurrentLocale();
+    public Locale getLocale();
 
     /**
      * @return a String that typically identify

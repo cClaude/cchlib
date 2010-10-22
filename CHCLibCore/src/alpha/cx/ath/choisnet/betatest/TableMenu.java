@@ -319,7 +319,7 @@ class ExampleTableModel extends AbstractTableModel
     public static final int COLUMN_NAME     = 0;
     public static final int COLUMN_PRICE    = 1;
     public static final int COLUMN_QUANTITY = 2;
-    private List<Item>      items           = new ArrayList<Item>();
+    private transient List<Item>      items           = new ArrayList<Item>();
 
     public void addItem( String name, double price, int quantity )
     {

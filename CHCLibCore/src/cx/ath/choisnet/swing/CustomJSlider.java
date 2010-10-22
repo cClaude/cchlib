@@ -29,7 +29,7 @@ public class CustomJSlider
         implements AutoI18nBasicInterface
 {
     private static final long serialVersionUID = 1L;
-    private static Logger slogger = Logger.getLogger(CustomJSlider.class);
+    private transient static Logger slogger = Logger.getLogger(CustomJSlider.class);
     // Custom title
     /** @serial */
     private String customTitle = "customTitle {0,number,###}";

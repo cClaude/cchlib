@@ -3,8 +3,11 @@
  */
 package cx.ath.choisnet.i18n;
 
+import java.lang.reflect.Field;
+import java.util.MissingResourceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import cx.ath.choisnet.i18n.AutoI18n.Key;
 
 /**
  * {@link AutoI18nExceptionHandler} using standard
@@ -16,7 +19,7 @@ public class AutoI18nLoggingExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(AutoI18nLoggingExceptionHandler.class.getName());
+    private transient static final Logger logger = Logger.getLogger(AutoI18nLoggingExceptionHandler.class.getName());
     /** @serial */
     private final Level  level;
 
@@ -49,8 +52,36 @@ public class AutoI18nLoggingExceptionHandler
      *
      * @param e Exception to log.
      */
+    @Override
     public void defaultHandle(Exception e )
     {
         logger.log( level, "AutoI18n error", e );
+    }
+
+    @Override
+    public void handleMissingResourceException(
+            MissingResourceException    e,
+            Field                       field, 
+            String                      key 
+            )
+    {
+        logger.log(
+                level,
+                "* MissingResourceException for:" 
+                    + key 
+                    + " - " 
+                    + e.getLocalizedMessage(),
+                e
+                );
+    }
+
+    @Override
+    public void handleMissingResourceException( 
+            MissingResourceException    e,
+            Field                       field, 
+            Key                         key 
+            )
+    {
+        handleMissingResourceException(e,field,key.getKey());
     }
 }

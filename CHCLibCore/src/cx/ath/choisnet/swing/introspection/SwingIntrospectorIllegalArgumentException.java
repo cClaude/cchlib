@@ -15,7 +15,7 @@ public class SwingIntrospectorIllegalArgumentException
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private Method method;
+    private Method method; // NOT SERIALISABLE
 
     /**
      *

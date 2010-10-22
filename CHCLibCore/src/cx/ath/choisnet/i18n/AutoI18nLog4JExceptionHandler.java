@@ -3,9 +3,12 @@
  */
 package cx.ath.choisnet.i18n;
 
+import java.lang.reflect.Field;
+import java.util.MissingResourceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
+import cx.ath.choisnet.i18n.AutoI18n.Key;
 
 /**
  * {@link AutoI18nExceptionHandler} using Log4J to trace
@@ -17,7 +20,7 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private transient static final Logger slogger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
     /** @serial */
     private Level level;
 
@@ -49,8 +52,35 @@ public class AutoI18nLog4JExceptionHandler
      *
      * @param e Exception to log.
      */
+    @Override
     public void defaultHandle(Exception e )
     {
-        logger.log( level, "AutoI18n error", e );
+        slogger.log( level, "AutoI18n error", e );
+    }
+
+    @Override
+    public void handleMissingResourceException( 
+            MissingResourceException    e,
+            Field                       field, 
+            String                      key
+            )
+    {
+        slogger.warn( 
+          "* MissingResourceException for:" 
+              + key 
+              + " - " 
+              + e.getLocalizedMessage(),
+          e
+          );
+    }
+
+    @Override
+    public void handleMissingResourceException( 
+            MissingResourceException    e,
+            Field                       field, 
+            Key                         key 
+            )
+    {
+        handleMissingResourceException(e,field,key.getKey());
     }
 }

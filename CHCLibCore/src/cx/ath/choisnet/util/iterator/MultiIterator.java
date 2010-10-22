@@ -117,8 +117,9 @@ public class MultiIterator<T> extends ComputableIterator<T>
             int                     len
             )
     {
-        currentIterator = null;
-        metaIterator = new ArrayIterator<Iterator<? extends T>>(arrayOfIterator, offset, len);
+        this(
+            new ArrayIterator<Iterator<? extends T>>(arrayOfIterator, offset, len)
+            );
     }
     
     @Override

@@ -48,7 +48,7 @@ class TstFrame
         implements MouseWheelListener 
 {
     private static final long serialVersionUID = 1L;
-    private SwingIntrospector<TstFrame,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
+    private transient SwingIntrospector<TstFrame,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
     private TstObject tstObject = new TstObject();
     
     private JLabel                      jLabel_JCheckBox;

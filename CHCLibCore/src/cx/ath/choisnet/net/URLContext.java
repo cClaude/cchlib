@@ -1,5 +1,6 @@
 package cx.ath.choisnet.net;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
@@ -38,9 +39,9 @@ public class URLContext
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private Map<String,String> requestProperty;
+    private /*Map*/TreeMap<String,String> requestProperty;
     /** @serial */
-    private Proxy proxy;
+    private Proxy proxy; // NOT SERIALIZABLE
     /** @serial */
     private Boolean doInput;
     /** @serial */
@@ -118,7 +119,7 @@ public class URLContext
     }
 
     public HttpURLConnection openHttpConnection(URL url)
-        throws java.io.IOException, ClassCastException
+        throws IOException, ClassCastException
     {
         return HttpURLConnection.class.cast(openConnection(url));
     }

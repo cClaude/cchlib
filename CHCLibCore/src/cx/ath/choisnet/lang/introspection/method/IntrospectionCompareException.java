@@ -16,7 +16,7 @@ public class IntrospectionCompareException extends IntrospectionException
     /** @serial */
     private int returnCmpValue;
     /** @serial */
-    private Method method;
+    private Method method; // NOT SERIALISABLE !
 
     public IntrospectionCompareException(
             final String messagePrefix,

@@ -9,13 +9,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Annotation to define a Field that must be not localized
+ * Annotation to define a String Field that must be localized
  * 
  * @author Claude CHOISNET
  */
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-public @interface I18nIgnore 
+public @interface I18nString 
 {
 }

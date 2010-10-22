@@ -12,11 +12,11 @@ import java.util.Vector;
  * Typical use:
  * </p>
  * <pre>
- *  Vector<Vector<Object>> configValues = new XVector<Vector<Object>>()
- *          .xadd( new XVector<Object>( "ShoeBar"     , new Float(30) ))
- *          .xadd( new XVector<Object>( "CarBar"      , new Float(20) ))
- *          .xadd( new XVector<Object>( "TravelBar"   , new Float(50) ))
- *          .xadd( new XVector<Object>( "ComputerBar" , new Float(60) ))
+ *  Vector&lt;Vector&lt;Object&gt;&gt; configValues = new XVector&lt;Vector&lt;Object&gt;&gt;()
+ *          .xadd( new XVector&lt;Object&gt;( "ShoeBar"     , new Float(30) ))
+ *          .xadd( new XVector&lt;Object&gt;( "CarBar"      , new Float(20) ))
+ *          .xadd( new XVector&lt;Object&gt;( "TravelBar"   , new Float(50) ))
+ *          .xadd( new XVector&lt;Object&gt;( "ComputerBar" , new Float(60) ))
  *          ;
  * </pre>
  * 

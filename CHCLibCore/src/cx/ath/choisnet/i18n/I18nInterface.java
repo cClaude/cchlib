@@ -3,13 +3,14 @@
  */
 package cx.ath.choisnet.i18n;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * @see AutoI18n
  * @author Claude CHOISNET
  */
-public interface I18nInterface 
+public interface I18nInterface extends Serializable
 {
     /**
      * Resolve key according to current {@link Locale}

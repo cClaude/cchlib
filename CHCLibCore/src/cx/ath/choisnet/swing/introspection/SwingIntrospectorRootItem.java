@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import cx.ath.choisnet.util.iterator.BiIterator;
@@ -22,11 +21,10 @@ public class SwingIntrospectorRootItem<FRAME>
     implements Serializable, Iterable<SwingIntrospectorItem<FRAME>>
 {
     private static final long serialVersionUID = 1L;
-
     /** @serial */
-    private Map<Integer,SwingIntrospectorItem<FRAME>> rootItems = new TreeMap<Integer,SwingIntrospectorItem<FRAME>>();
+    private /*Map*/TreeMap<Integer,SwingIntrospectorItem<FRAME>> rootItems = new TreeMap<Integer,SwingIntrospectorItem<FRAME>>();
     /** @serial */
-    private List<SwingIntrospectorItem<FRAME>> items = new ArrayList<SwingIntrospectorItem<FRAME>>();
+    private /*List*/ArrayList<SwingIntrospectorItem<FRAME>> items = new ArrayList<SwingIntrospectorItem<FRAME>>();
 
     public SwingIntrospectorRootItem()
     {
