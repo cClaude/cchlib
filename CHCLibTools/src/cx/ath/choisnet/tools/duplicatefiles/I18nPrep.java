@@ -11,7 +11,7 @@ import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
  * 
  * @author Claude CHOISNET
  */
-public class I18n 
+public class I18nPrep 
 {
     public static void main( String[] args ) throws IOException
     {

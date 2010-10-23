@@ -16,11 +16,15 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.i18n.I18n;
+import cx.ath.choisnet.i18n.I18nSwingHelper;
 
 /**
  * VS4E Only !
@@ -40,12 +44,15 @@ public class JPanelConfig extends JPanel
     private ArrayList<FileTypeCheckBox> filesType = new ArrayList<FileTypeCheckBox>();
     private ArrayList<FileTypeCheckBox> dirsType  = new ArrayList<FileTypeCheckBox>();
 
+
+    @I18n(methodSuffixName="I18nTileFilesFilter")
     private JScrollPane jScrollPaneFilesFilter;
     private JPanel jPanelFilesFilter;
     private JCheckBox jCheckBoxFFIgnoreHidden;
     private JCheckBox jCheckBoxFFUseRegEx;
     private JTextField jTextFieldFFRegEx;
 
+    @I18n(methodSuffixName="I18nTileDirsFilter")
     private JScrollPane jScrollPaneDirsFilter;
     private JPanel jPanelDirsFilter;
     private JCheckBox jCheckBoxFDIgnoreHidden;
@@ -57,7 +64,27 @@ public class JPanelConfig extends JPanel
         initComponents();
         initFixComponents();
     }
+     
+    public void setI18nTileFilesFilter(String localText)
+    {
+        I18nSwingHelper.setTitledBorderTitle(jScrollPaneFilesFilter,localText);
+    }
 
+    public String getI18nTileFilesFilter()
+    {
+        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneFilesFilter);
+    }
+
+    public void setI18nTileDirsFilter(String localText)
+    {
+        I18nSwingHelper.setTitledBorderTitle(jScrollPaneDirsFilter,localText);
+    }
+    
+    public String getI18nTileDirsFilter()
+    {
+        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneDirsFilter);
+    }
+    
     private void initComponents() {
     	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     	add(getJPanelMisc());
@@ -189,6 +216,7 @@ public class JPanelConfig extends JPanel
     }
 
     private void initFixComponents()
+    
     {
         ActionListener l = new ActionListener()
         {

@@ -18,8 +18,12 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
@@ -53,25 +57,35 @@ public class JPanelSearching extends JPanel
     private JTable jTableErrorList;
     private JButton jButtonCancelScan;
 
+    @I18nString private String txtDuplicateSetsFound = "Duplicate sets found: %d";
+    @I18nString private String txtDuplicateFilesFound = "Duplicate files found: %d";
+    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %d";
+    @I18nString private String txtOctectsToCheck = "Octects to check: %d";
+    @I18nString private String txtBytesReadFromDisk = "Bytes read from disk: %d bytes";
+    @I18nString private String txtCurrentFile = "Current File:";
+    @I18nString private String txtCurrentDir = "Current directory:";
+
     public JPanelSearching()
     {
         initComponents();
+        
+        // Fix for VS4E
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    private void initComponents()
-    {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(getJLabelSearchProcess());
-        add(getJProgressBarFiles());
-        add(getJProgressBarOctets());
-        add(getJLabelCurrentFile());
-        add(getJTextFieldCurrentFile());
-        add(getJLabelDuplicateSetsFound());
-        add(getJLabelDuplicateFilesFound());
-        add(getJLabelBytesReadFromDisk());
-        add(getJScrollPaneErrorList());
-        add(getJPanelDuplicateBottom());
-        setSize( 320, 240 );
+    private void initComponents() {
+    	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    	add(getJLabelSearchProcess());
+    	add(getJProgressBarFiles());
+    	add(getJProgressBarOctets());
+    	add(getJLabelCurrentFile());
+    	add(getJTextFieldCurrentFile());
+    	add(getJLabelDuplicateSetsFound());
+    	add(getJLabelDuplicateFilesFound());
+    	add(getJLabelBytesReadFromDisk());
+    	add(getJScrollPaneErrorList());
+    	add(getJPanelDuplicateBottom());
+    	setSize(320, 240);
     }
 
     public void initFixComponents()
@@ -110,42 +124,47 @@ public class JPanelSearching extends JPanel
     }
 
     private JLabel getJLabelDuplicateSetsFound() {
-        if (jLabelDuplicateSetsFound == null) {
-            jLabelDuplicateSetsFound = new JLabel();
-            jLabelDuplicateSetsFound.setText("DuplicateSetsFound");
-        }
-        return jLabelDuplicateSetsFound;
+    	if (jLabelDuplicateSetsFound == null) {
+    		jLabelDuplicateSetsFound = new JLabel();
+    		jLabelDuplicateSetsFound.setHorizontalAlignment(SwingConstants.LEFT);
+    		jLabelDuplicateSetsFound.setText("DuplicateSetsFound");
+    	}
+    	return jLabelDuplicateSetsFound;
     }
 
     private JTextField getJTextFieldCurrentFile() {
-        if (jTextFieldCurrentFile == null) {
-            jTextFieldCurrentFile = new JTextField();
-            jTextFieldCurrentFile.setEditable( false );
-        }
-        return jTextFieldCurrentFile;
+    	if (jTextFieldCurrentFile == null) {
+    		jTextFieldCurrentFile = new JTextField();
+    		jTextFieldCurrentFile.setEditable(false);
+    		jTextFieldCurrentFile.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+    	}
+    	return jTextFieldCurrentFile;
     }
 
     private JLabel getJLabelCurrentFile() {
-        if (jLabelCurrentFile == null) {
-            jLabelCurrentFile = new JLabel();
-            jLabelCurrentFile.setText("CurrentFile");
-        }
-        return jLabelCurrentFile;
+    	if (jLabelCurrentFile == null) {
+    		jLabelCurrentFile = new JLabel();
+    		jLabelCurrentFile.setText("CurrentFile");
+    	}
+    	return jLabelCurrentFile;
     }
 
     private JProgressBar getJProgressBarOctets() {
-        if (jProgressBarOctets == null) {
-            jProgressBarOctets = new JProgressBar();
-            //jProgressBarOctets.setString("0 %");
-        }
-        return jProgressBarOctets;
+    	if (jProgressBarOctets == null) {
+    		jProgressBarOctets = new JProgressBar();
+    		jProgressBarOctets.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+    		jProgressBarOctets.setString("0 %");
+    	}
+    	return jProgressBarOctets;
     }
 
     private JProgressBar getJProgressBarFiles() {
-        if (jProgressBarFiles == null) {
-            jProgressBarFiles = new JProgressBar();
-        }
-        return jProgressBarFiles;
+    	if (jProgressBarFiles == null) {
+    		jProgressBarFiles = new JProgressBar();
+    		jProgressBarFiles.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+    		jProgressBarFiles.setString("0 %");
+    	}
+    	return jProgressBarFiles;
     }
 
     private JLabel getJLabelSearchProcess() {
@@ -209,68 +228,7 @@ public class JPanelSearching extends JPanel
         slogger.info( "doScanPass1: init()" );
 
         // FileFilter and Listener for pass 1
-
-//        //TO DO: construire un automate pour tester
-//        //      une chaîne par rapport à un groupe de motif
-//        final String[] dirNames  = directoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
-//        final int      dirNamesL = dirNames.length;
-//
-//        slogger.info( "dirNamesL=" + dirNamesL );
-//        slogger.info( "dirNames=" + directoriesFileFilterBuilder.getNamePart() );
-//        FileFilter dirFilter = new FileFilter() {
-//            @Override
-//            public boolean accept( File f )
-//            {
-//                if( dirNamesL > 0 ) {
-//                    String name = f.getName().toLowerCase();
-//
-//                    for(int i=0;i<dirNamesL;i++) {
-//                        if(name.equals( dirNames[i] )) {
-//                            return false;
-//                        }
-//                    }
-//                }
-//
-//                // slogger.info("dir:" + f);
-//                //updateDisplaySearching( f, 1 );
-//                displayFile = f;
-//                return true;
-//            }
-//        };
-        FileFilter dirFilter = createDirectoriesFileFilter( directoriesFileFilterBuilder );
-
-//        final String[] fileExts  = filesFileFilterBuilder.getNamePart().toArray( new String[0] );
-//        final int      fileExtsL = fileExts.length;
-//
-//        slogger.info( "fileExtsL=" + fileExtsL);
-//        slogger.info( "fileExts=" + filesFileFilterBuilder.getNamePart() );
-//
-//        FileFilter fileFilter = new FileFilter() {
-//            @Override
-//            public boolean accept( File f )
-//            {
-//                if( f.isFile() ) {
-//                    if( fileExtsL > 0 ) {
-//                        String name = f.getName().toLowerCase();
-//
-//                        for(int i=0;i<fileExtsL;i++) {
-//                            if(name.endsWith( fileExts[i] )) {
-//                                pass1CountFile++;
-//                                pass1BytesCount += f.length();
-//                                return true;
-//                            }
-//                        }
-//                        return false;
-//                    }
-//                    else {
-//                        pass1CountFile++;
-//                        pass1BytesCount += f.length();
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        };
+        FileFilter dirFilter  = createDirectoriesFileFilter( directoriesFileFilterBuilder );
         FileFilter fileFilter = createFilesFileFilter(filesFileFilterBuilder);
 
         // Listener for pass 2
@@ -365,8 +323,7 @@ public class JPanelSearching extends JPanel
         }).start();
 
     }
-
-
+    
     private void updateDisplay()
     {
         if( displayFile != null ) {
@@ -377,13 +334,13 @@ public class JPanelSearching extends JPanel
         }
         jLabelDuplicateSetsFound.setText(
                 String.format(
-                    "Duplicate sets found: %d",
+                    txtDuplicateSetsFound,
                     duplicateFC.getDuplicateSetsCount()
                     )
                 );
         jLabelDuplicateFilesFound.setText(
                 String.format(
-                    "Duplicate files found: %d",
+                    txtDuplicateFilesFound,
                     duplicateFC.getDuplicateFilesCount()
                     )
                 );
@@ -391,13 +348,13 @@ public class JPanelSearching extends JPanel
         if( displayPass == 1 ) {
             jProgressBarFiles.setString(
                     String.format(
-                        "Number of files processed: %d",
+                        txtNumberOfFilesProcessed,
                         pass1CountFile
                         )
                     );
             jProgressBarOctets.setString(
                 String.format(
-                    "Octects to check: %d",
+                    txtOctectsToCheck,
                     pass1BytesCount
                     )
                 );
@@ -405,7 +362,7 @@ public class JPanelSearching extends JPanel
         else {
             jLabelBytesReadFromDisk.setText(
                 String.format(
-                    "Bytes read from disk: %d bytes",
+                    txtBytesReadFromDisk,
                     pass2BytesCount
                     )
                 );
@@ -444,7 +401,7 @@ public class JPanelSearching extends JPanel
         //jProgressBarFiles.setStringPainted( false );
         jProgressBarFiles.setIndeterminate( true );
         jProgressBarOctets.setIndeterminate( true );
-        jLabelCurrentFile.setText( "Current directory:" );
+        jLabelCurrentFile.setText( txtCurrentDir );
         jTextFieldCurrentFile.setText( "" );
         jButtonCancelScan.setEnabled( true );
         tableModelErrorList.setRowCount( 0 );
@@ -477,7 +434,7 @@ public class JPanelSearching extends JPanel
         //jProgressBarFiles.setStringPainted( true );
         jProgressBarFiles.setIndeterminate( false );
         jProgressBarOctets.setIndeterminate( false );
-        jLabelCurrentFile.setText( "Current File:" );
+        jLabelCurrentFile.setText( txtCurrentFile );
         jTextFieldCurrentFile.setText( "" );
 
         slogger.info( "pass2" );
@@ -503,7 +460,6 @@ public class JPanelSearching extends JPanel
             duplicateFiles.put( k, skfs );
         }
 
-
         //Stop display !
         displayRunning = false;
         displayFile = null;
@@ -511,7 +467,6 @@ public class JPanelSearching extends JPanel
 
         //Be sure to have a real ending display !
         updateDisplay();
-
 
         duplicateFC.deepClear();
         duplicateFC = null;

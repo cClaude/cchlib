@@ -2,10 +2,12 @@ package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.util.EnumSet;
 import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.AutoI18nLog4JExceptionHandler;
+import cx.ath.choisnet.i18n.AutoI18nEventHandler;
 import cx.ath.choisnet.i18n.I18nSimpleResourceBundle;
 import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
 import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import cx.ath.choisnet.i18n.logging.AutoI18nLog4JEventHandler;
+import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 public class I18nBundle 
 {
@@ -24,6 +26,11 @@ public class I18nBundle
                 );
     }
     
+    private static AutoI18nEventHandler getAutoI18nEventHandler()
+    {
+        return new AutoI18nLog4JEventHandler();
+    }
+    
     public static AutoI18n getAutoI18n()
     {
         if( autoI18n == null ) {
@@ -33,6 +40,7 @@ public class I18nBundle
                             ),
                     null,
                     new AutoI18nLog4JExceptionHandler(),
+                    getAutoI18nEventHandler(),
                     getAutoI18nAttributes()
                     );
             }
@@ -58,6 +66,7 @@ public class I18nBundle
                 i18Builder,
                 null, // default AutoI18nTypes
                 new AutoI18nLog4JExceptionHandler(),
+                getAutoI18nEventHandler(),
                 I18nBundle.getAutoI18nAttributes(),
                 EnumSet.of( 
                         I18nPropertyResourceBundleAutoUpdate.Attribute.ADD_ONLY_NEEDED_KEY
