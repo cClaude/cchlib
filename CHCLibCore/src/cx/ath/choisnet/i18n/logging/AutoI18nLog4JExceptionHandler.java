@@ -1,14 +1,16 @@
 /**
  *
  */
-package cx.ath.choisnet.i18n;
+package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import cx.ath.choisnet.i18n.AutoI18n.Key;
+import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 
 /**
  * {@link AutoI18nExceptionHandler} using Log4J to trace
@@ -82,5 +84,24 @@ public class AutoI18nLog4JExceptionHandler
             )
     {
         handleMissingResourceException(e,field,key.getKey());
+    }
+
+    @Override
+    public void handleMissingResourceException( 
+            MissingResourceException    e,
+            Field                       field, 
+            String                      key, 
+            Method[]                    methods
+            )
+    {
+        slogger.warn( 
+            String.format( 
+                "* MissingResourceException for: %s using [%s] - %s\n",
+                key,
+                methods[0],
+                e.getLocalizedMessage()
+                ),
+            e
+            );
     }
 }

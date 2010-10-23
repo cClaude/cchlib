@@ -58,7 +58,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         Method[] methods = getClass().getMethods();
         
         for(Method m:methods) {
-            if( m.getReturnType().equals( AutoI18nTypes.Type.class ) ) {
+            if( AutoI18nTypes.Type.class.isAssignableFrom( m.getReturnType() ) ) {
                 if( m.getParameterTypes().length == 0 ) {
                     try {
                         AutoI18nTypes.Type t = AutoI18nTypes.Type.class.cast( m.invoke( this ) );
@@ -92,7 +92,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         return types;
     }
 
-    public AutoI18nTypes.Type getJLabel()
+    public AbstractType<JLabel> getJLabel()
     {
         return new AbstractType<JLabel>()
         {
@@ -117,7 +117,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
     
-    public AutoI18nTypes.Type getAbstractButton()
+    public AbstractType<AbstractButton> getAbstractButton()
     {
         return new AbstractType<AbstractButton>()
         {
@@ -142,7 +142,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
     
-    public AutoI18nTypes.Type getJCheckBox()
+    public AbstractType<JCheckBox> getJCheckBox()
     {
         return new AbstractType<JCheckBox>()
         {
@@ -167,7 +167,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
 
-    public AutoI18nTypes.Type getJTabbedPane()
+    public AbstractType<JTabbedPane> getJTabbedPane()
     {
         return new AbstractType<JTabbedPane>()
         {

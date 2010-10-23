@@ -1,9 +1,10 @@
 /**
  * 
  */
-package cx.ath.choisnet.i18n;
+package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.InvocationTargetException;
+import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 
 /**
  * {@link AutoI18nExceptionHandler} using logging

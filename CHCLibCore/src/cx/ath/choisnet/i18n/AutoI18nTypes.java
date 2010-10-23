@@ -21,16 +21,7 @@ public interface AutoI18nTypes extends Serializable, Iterable<AutoI18nTypes.Type
          * @return class handled by this Type
          */
         public Class<?> getType();
-        
-//        /**
-//         * Returns true if giving object is an
-//         * instance of object handled by this Type
-//         * @param toI18n object to localize
-//         * @return  true if giving object is an
-//         * instance of object handled by this Type
-//         */
-//        public boolean isInstanceOf(Object toI18n);
-        
+
         /**
          * Set localized text
          * 

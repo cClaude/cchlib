@@ -6,6 +6,8 @@ package cx.ath.choisnet.i18n.builder;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
@@ -13,6 +15,7 @@ import java.util.MissingResourceException;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.AutoI18nBasicInterface;
+import cx.ath.choisnet.i18n.AutoI18nEventHandler;
 import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.AutoI18nTypes;
 import cx.ath.choisnet.i18n.I18nString;
@@ -49,26 +52,30 @@ public abstract class AbstractI18nResourceAutoUpdate
      * 
      * @param i18nAutoUpdateInterface
      * @param autoI18nTypes 
-     * @param handler 
+     * @param exceptionHandler 
+     * @param eventHandler 
      * @param autoI18nAttributes 
      * @param bundleAttributes 
      */
     public AbstractI18nResourceAutoUpdate( 
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
             AutoI18nTypes                                       autoI18nTypes,
-            AutoI18nExceptionHandler                            handler,
+            AutoI18nExceptionHandler                            exceptionHandler,
+            AutoI18nEventHandler                                eventHandler,
             EnumSet<AutoI18n.Attribute>                         autoI18nAttributes,
             EnumSet<AbstractI18nResourceAutoUpdate.Attribute>   bundleAttributes
             )
     {
         super(  i18nAutoUpdateInterface,
                 autoI18nTypes,
-                handler, // temp value, need to make an new handler
+                exceptionHandler, // temp value, need to make an new handler
+                eventHandler,
                 autoI18nAttributes
                 );
 
         //Overwrite exception handler
-        super.exceptionHandler = new AutoI18nUpdateEvent(handler)
+        super.setAutoI18nExceptionHandler(
+        new AutoI18nUpdateEvent(exceptionHandler)
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -182,7 +189,38 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                 needProperty( getKey( f ), "<<NOT HANDLE (c2)>>");
             }
-        };
+            @Override
+            public void handleMissingResourceException(
+                    MissingResourceException mse, 
+                    Field                    f,
+                    String                   key,
+                    Method[]                 methods 
+                    )
+            {
+                getParentHandler().handleMissingResourceException( mse, f, key );
+
+                try {
+                    String v = (String)methods[1].invoke( getObjectToI18n() );
+                    
+                    if( v == null ) {
+                        v = String.format("<<get 'null' from %s>>",methods[1]);
+                    }
+                    needProperty(key,v);
+                }
+                catch( IllegalArgumentException e ) {
+                    // Should NOT occur !
+                    e.printStackTrace();
+                }
+                catch( IllegalAccessException e ) {
+                    // TODO ??
+                    e.printStackTrace();
+                }
+                catch( InvocationTargetException e ) {
+                    // TODO ??
+                    e.printStackTrace();
+                }
+            }
+        });
 
         if(bundleAttributes == null) {
             this.attribs = EnumSet.noneOf( Attribute.class );
@@ -215,6 +253,13 @@ public abstract class AbstractI18nResourceAutoUpdate
     protected void needProperty( String key, String value )
     {
         System.err.printf( "needProperty( \"%s\", \"%s\" )\n",key,value);
+        
+        if( key == null ) {
+            throw new NullPointerException("'key' is null");
+        }
+        if( value == null ) {
+            throw new NullPointerException("'value' is null");
+        }
         this.keysValues.put( key, value );
     }
 

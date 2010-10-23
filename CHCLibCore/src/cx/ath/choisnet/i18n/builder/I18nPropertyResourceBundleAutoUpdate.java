@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.EnumSet;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.AutoI18n;
+import cx.ath.choisnet.i18n.AutoI18nEventHandler;
 import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.AutoI18nTypes;
 import cx.ath.choisnet.i18n.I18nInterface;
@@ -49,21 +50,24 @@ public class I18nPropertyResourceBundleAutoUpdate
     /**
      * @param i18nAutoUpdateInterface
      * @param autoI18nTypes
-     * @param handler
+     * @param exceptionHandler 
+     * @param eventHandler 
      * @param autoI18nAttributes
      * @param bundleAttributes
      */
     public I18nPropertyResourceBundleAutoUpdate(
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
             AutoI18nTypes                                       autoI18nTypes,
-            AutoI18nExceptionHandler                            handler,
+            AutoI18nExceptionHandler                            exceptionHandler,
+            AutoI18nEventHandler                                eventHandler,
             EnumSet<AutoI18n.Attribute>                         autoI18nAttributes,
             EnumSet<AbstractI18nResourceAutoUpdate.Attribute>   bundleAttributes
             )
     {
         super(  i18nAutoUpdateInterface,
                 autoI18nTypes,
-                handler,
+                exceptionHandler,
+                eventHandler,
                 autoI18nAttributes,
                 bundleAttributes
                 );

@@ -6,6 +6,7 @@ package cx.ath.choisnet.i18n;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 
 /**
@@ -57,6 +58,16 @@ public interface AutoI18nExceptionHandler
      * @param e
      * @param field 
      * @param key 
+     * @param methods 
+     */
+    public void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
+
+    /**
+     * TODO: doc
+     * 
+     * @param e
+     * @param field 
+     * @param key 
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, String key);
     
@@ -68,5 +79,5 @@ public interface AutoI18nExceptionHandler
      * @param key 
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
-    
+
 }

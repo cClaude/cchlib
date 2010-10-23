@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 /**
  * AutoI18n is design to assist internalization process.
@@ -61,6 +62,8 @@ import javax.swing.JWindow;
  * </p>
  * 
  * @author Claude CHOISNET
+ *
+ * TODO: Complete this doc...
  */
 public class AutoI18n implements Serializable
 {
@@ -69,7 +72,8 @@ public class AutoI18n implements Serializable
     private transient Class<?>    objectToI18nClass;
     private transient String      objectToI18nClassNamePrefix;
     private I18nInterface i18n;
-    protected AutoI18nExceptionHandler exceptionHandler; 
+    private AutoI18nEventHandler eventHandler;
+    private AutoI18nExceptionHandler exceptionHandler; 
     private EnumSet<Attribute> config;
     private final static Class<?>[] ignoredClasses = {
         Object.class,
@@ -139,25 +143,21 @@ public class AutoI18n implements Serializable
     /**
      * Create an AutoI18n object using {@link I18nInterface},
      * 
-     * <p>
-     * i18n : Could be initialized using default implementation
-     * {@link I18nSimpleResourceBundle}
-     * </p>
-     * <p>
-     * handler : Could be initialized using default implementation
-     * {@link AutoI18nSystemErrExceptionHandler}
-     * </p>
-     * 
      * @param i18n I18nInterface to use
-     * @param autoI18nTypes AutoI18nTypes to use (could be null to use defaults)
-     * @param handler AutoI18nExceptionHandler to use
+     * @param autoI18nTypes AutoI18nTypes to use (could be null
+     *        then use defaults implementation : {@link I18nSimpleResourceBundle})
+     * @param exceptionHandler  AutoI18nExceptionHandler 
+     *                          to use handle exceptions.
+     * @param eventHandler AutoI18nEventHandler to use to 
+     *                     handle events. (could be null).
      * @param attributes Customize Auto18n (could be null to
      * use defaults).
      */
     public AutoI18n( 
             I18nInterface               i18n,
             AutoI18nTypes               autoI18nTypes,
-            AutoI18nExceptionHandler    handler,
+            AutoI18nExceptionHandler    exceptionHandler,
+            AutoI18nEventHandler        eventHandler,
             EnumSet<Attribute>          attributes
             )
     {
@@ -168,7 +168,8 @@ public class AutoI18n implements Serializable
             this.types = autoI18nTypes;
         }
         setI18n( i18n );
-        setAutoI18nExceptionHandler( handler );
+        setAutoI18nExceptionHandler( exceptionHandler );
+        this.eventHandler = eventHandler;
         
         if( attributes == null ) {
             this.config = EnumSet.noneOf( Attribute.class );
@@ -190,7 +191,7 @@ public class AutoI18n implements Serializable
         }
         this.i18n = i18n;
     }
-    
+
     /**
      * Change {@link AutoI18nExceptionHandler} to use
      * 
@@ -246,13 +247,13 @@ public class AutoI18n implements Serializable
         if( this.exceptionHandler == null ) {
             setAutoI18nExceptionHandler( new AutoI18nLog4JExceptionHandler() );
         }
-        
+
         setObjectToI18n(objectToI18n,clazz);
         Class<?> currentClass = objectToI18nClass;
-        
+
         while(currentClass != null) {
             boolean stop = false;
-            
+
             for(Class<?> c:ignoredClasses) {
                 if( currentClass.equals( c )) {
                     stop = true;
@@ -263,12 +264,12 @@ public class AutoI18n implements Serializable
             if( stop ) {
                 break;
             }
-            
+
             //
             //
             //
             Field[] fields;
-            
+
             if( config.contains( Attribute.ONLY_PUBLIC ) ) {
                 fields = currentClass.getFields();
             }
@@ -281,21 +282,33 @@ public class AutoI18n implements Serializable
                     continue; // ignore member that was introduced by the compiler.
                 }
                 Class<?> ftype = f.getType();
-                
+
                 if( ftype.isAnnotation() ) {
+                    if( eventHandler!=null ) {
+                        eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.ANNOTATION);
+                    }
                     continue; // ignore annotations
                 }
                 if( ftype.isPrimitive() ) {
+                    if( eventHandler!=null ) {
+                        eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.PRIMITIVE );
+                    }
                     continue; // ignore primitive (numbers)
                 }
                 if( ftype.isAssignableFrom( Number.class )) {
+                    if( eventHandler!=null ) {
+                        eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NUMBER );
+                    }
                     continue; // ignore numbers
                 }
                 //TODO: ignore some Fields types like EnumSet
-                
+
                 I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
-                
+
                 if( ignoreIt != null ) {
+                    if( eventHandler!=null ) {
+                        eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.ANNOTATION_I18nIgnore_DEFINE );
+                    }
                     continue;
                 }
 
@@ -308,6 +321,7 @@ public class AutoI18n implements Serializable
                 break;
             }
         } 
+        //?? TODO ?? eventHandle.ignoreSuperClass(?)
     }
     
     private <T> void setObjectToI18n(
@@ -324,27 +338,27 @@ public class AutoI18n implements Serializable
     {
         // WARNING: 'key' must be always valid
         // before resolve 'value'
-        String key = null; // 'key' is use by catch statement !
+        String   key     = null; // 'key' is use by catch statement !
+        Method[] methods = null;
 
         try {
             I18n anno = f.getAnnotation( I18n.class );
 
             if( anno != null ) {
-                if( anno.methodName().length() == 0 ) {
-                    key = anno.keyName();
+                // Get methods
+                methods = getMethods(f, anno);
+                // Get key
+                key = anno.keyName();
 
-                    if( key.length() == 0 ) {
-                        key = getKey( f );
-                    }
+                if( key.length() == 0 ) {
+                    key = getKey( f );
+                }
+
+                if( methods == null ) {
                     setValueFromKey( f, key );
                 }
                 else {
-                    key = anno.keyName();
-
-                    if( key.length() == 0 ) {
-                        key = getKey( f );
-                    }
-                    setValueFromAnnotation( f, key, anno );
+                    setValueFromAnnotation( f, key, methods );
                 }
             } 
             else if( f.getType().isArray() ) {
@@ -353,9 +367,9 @@ public class AutoI18n implements Serializable
 
                     if( ac.equals( String.class ) ) {
                         f.setAccessible( true );
-                        Object o = f.get( objectToI18n );
+                        Object o      = f.get( objectToI18n );
                         String prefix = getKey( f ) + '.';
-                        int len = Array.getLength( o );
+                        int    len    = Array.getLength( o );
 
                         for( int i = 0; i < len; i++ ) {
                             key = prefix + i;
@@ -363,20 +377,24 @@ public class AutoI18n implements Serializable
                         }
                     }
                 }
-            } 
+            }
             else if( f.getType().isAssignableFrom( AutoI18nCustomInterface.class ) ) {
                 Object o = f.get( objectToI18n );
 
                 setAutoI18nCustomInterface( AutoI18nCustomInterface.class.cast( o ) );
             } 
             else {
-                // setValueFromField( f );
                 key = getKey( f );
                 setValueFromKey( f, key );
             }
         }
         catch( MissingResourceException e ) {
-            this.exceptionHandler.handleMissingResourceException( e, f, key );
+            if( methods == null ) {
+                this.exceptionHandler.handleMissingResourceException( e, f, key );
+            }
+            else {
+                this.exceptionHandler.handleMissingResourceException( e, f, key, methods );
+            }
         }
         catch( IllegalArgumentException e ) {
             this.exceptionHandler.handleIllegalArgumentException( e );
@@ -398,6 +416,13 @@ public class AutoI18n implements Serializable
         autoI18n.setI18n( this.i18n );
     }
     
+    // Warning !
+    // Warning !
+    // Warning !
+    /**
+     * This method is use by AutoI18UpdateBundle
+     * @return key name for this field
+     */
     protected String getKey( Field f ) 
     {
         return this.objectToI18nClassNamePrefix + f.getName();
@@ -410,61 +435,131 @@ public class AutoI18n implements Serializable
     throws  IllegalArgumentException,
             IllegalAccessException 
     {
-        if( f.getAnnotation( I18nString.class ) != null ) {
-            f.setAccessible( true );
-            Object o = f.get( objectToI18n );
-            
-            if( o instanceof String ) {
+        if( String.class.isAssignableFrom( f.getType() ) ) {
+            if( f.getAnnotation( I18nString.class ) != null ) {
+                f.setAccessible( true );
                 f.set( this.objectToI18n, i18n.getString( k ) );
-                return;
+                
+                if( eventHandler!=null ) {
+                    eventHandler.localizedField( f );
+                }
+            }
+            else {
+                if( eventHandler!=null ) {
+                    eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NOT_A_I18nString );
+                }
+            }
+            return;//done
+        }
+        else { // Not a String
+            if( f.getAnnotation( I18nString.class ) != null ) {
+                // But annotation
+//                if( eventHandler!=null ) {
+//                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
+//                }
             }
         }
         Class<?> fclass = f.getType();
         
-        if( fclass.isAssignableFrom( AutoI18nBasicInterface.class ) ) {
+        if( AutoI18nBasicInterface.class.isAssignableFrom( fclass ) ) {
             f.setAccessible( true );
             Object o = f.get( objectToI18n );
             
             AutoI18nBasicInterface.class.cast( o ).setI18nString( 
                     i18n.getString( k )
                     );
+            if( eventHandler!=null ) {
+                eventHandler.localizedField( f );
+            }
+            return; //done;
         }
 
         Key key = new Key( k );
         
         try {
             for(AutoI18nTypes.Type t:types) {
-                if( fclass.isAssignableFrom( t.getType() ) ) {
+                if( t.getType().isAssignableFrom( fclass ) ) {
                     f.setAccessible( true );
                     t.setText( 
                             f.get( objectToI18n ), 
                             key
                             );
+
+                    if( eventHandler!=null ) {
+                        eventHandler.localizedField( f );
+                    }
+                    return;//done
                 }
-            }        
+            }
         }
         catch( MissingResourceException e ) {
             this.exceptionHandler.handleMissingResourceException( e, f, key );
        }
+        
+        if( eventHandler!=null ) {
+            eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NOT_HANDLED );
+        }
     }
 
-    private void setValueFromAnnotation( Field f, String key, I18n anno ) 
+    /**
+     * 
+     * @param f
+     * @param i18n
+     * @return null or 2 methods (m[0]=set, m[1]=get]
+     */
+    private Method[] getMethods(Field f, I18n i18n )
+    {
+        String suffixName = i18n.methodSuffixName();
+        
+        if( suffixName.length() > 0 ) {
+            Method[] methods = new Method[2];
+
+            try {
+                methods[0] = this.objectToI18nClass.getMethod( "set"+ suffixName, String.class );
+
+                //TODO: check return type == VOID
+            }
+            catch( SecurityException e ) {
+                this.exceptionHandler.handleSecurityException(e);
+            }
+            catch( NoSuchMethodException e ) {
+                this.exceptionHandler.handleNoSuchMethodException(e);
+            }
+            try {
+                methods[1] = this.objectToI18nClass.getMethod( "get"+ suffixName );
+                
+                //TODO: check return type == String
+            }
+            catch( SecurityException e ) {
+                this.exceptionHandler.handleSecurityException(e);
+            }
+            catch( NoSuchMethodException e ) {
+                this.exceptionHandler.handleNoSuchMethodException(e);
+            }
+            
+            return methods;
+        }
+        return null;
+    }
+
+    //private void setValueFromAnnotation( Field f, String key, I18n anno ) 
+    private void setValueFromAnnotation( Field f, String key, Method[] methods ) 
         throws java.util.MissingResourceException
     {
-        String methodName = anno.methodName();
-        String keyValue   = this.i18n.getString( key );
+        //String methodName = anno.methodName();
+        String keyValue = this.i18n.getString( key );
 
         try {
-            Method m = this.objectToI18nClass.getMethod( methodName, String.class );
-            
-            m.invoke( this.objectToI18n, keyValue );
+            //Method m = this.objectToI18nClass.getMethod( methodName, String.class );
+            methods[0].invoke( this.objectToI18n, keyValue );
+
+            if( eventHandler!=null ) {
+                eventHandler.localizedField( f );
+            }
         }
-        catch( SecurityException e ) {
-            this.exceptionHandler.handleSecurityException(e);
-        }
-        catch( NoSuchMethodException e ) {
-            this.exceptionHandler.handleNoSuchMethodException(e);
-        }
+//        catch( SecurityException e ) {
+//            this.exceptionHandler.handleSecurityException(e);
+//        }
         catch( IllegalArgumentException e ) {
             this.exceptionHandler.handleIllegalArgumentException(e);
         }
@@ -475,14 +570,6 @@ public class AutoI18n implements Serializable
             this.exceptionHandler.handleInvocationTargetException(e);
         }
      }
-
-//    /**
-//     * @return the AutoI18nExceptionHandler
-//     */
-//    protected final AutoI18nExceptionHandler getExceptionHandler()
-//    {
-//        return exceptionHandler;
-//    }
 
     /**
      * @return the objectToI18n
@@ -499,14 +586,6 @@ public class AutoI18n implements Serializable
     {
         return objectToI18nClass;
     }
-
-//    /**
-//     * @return the objectToI18nClassNamePrefix
-//     */
-//    protected String getObjectToI18nClassNamePrefix()
-//    {
-//        return objectToI18nClassNamePrefix;
-//    }
 
     /**
      * @return the AutoI18nTypes
@@ -542,170 +621,4 @@ public class AutoI18n implements Serializable
             return i18n.getString( getKey(index) );
         }
     }
-
 }
-
-
-/*
-private void setValueFromField( Field f ) 
-{
-//    try {
-        f.setAccessible( true );
-        //setValue( f.get( this.objectToI18n ), new ValueFromKey( f ) );
-        setValue( f, new ValueFromKey( f ) );
-//    }
-//    catch( IllegalArgumentException e ) {
-//        this.exceptionHandler.handleIllegalArgumentException(e);
-//    }
-//    catch( IllegalAccessException e ) {
-//        this.exceptionHandler.handleIllegalAccessException(e);
-//    }
-}
-*/
-
-
-//protected abstract class AbstractFieldValue
-//{
-//  private Field field;
-//  public AbstractFieldValue( Field f )
-//  {
-//      this.field = f;
-//  }
-//  public Field getField()
-//  {
-//      return this.field;
-//  }
-////  public Object getObjectToI18n()
-////  {
-////      return AutoI18n.this.objectToI18n;
-////  }
-//  public abstract String getValue();
-//  public abstract String getKey();
-//}
-//
-//protected class LaterValue extends AbstractFieldValue
-//{
-//  private String key;
-//  public LaterValue( Field field, String key )
-//  {
-//      super( field );
-//      this.key = key;
-//  }
-//  @Override
-//  public String getValue()
-//  {
-//      throw new UnsupportedOperationException();
-//  }
-//  @Override
-//  public String getKey()
-//  {
-//      return this.key;
-//  }
-//  
-//}
-//
-//protected class ValueFromKey extends AbstractFieldValue
-//{
-//  private String key;
-//  
-//  public ValueFromKey(Field field, String key)
-//  {
-//      super(field);
-//      this.key = key;
-//  }
-//  public ValueFromKey( Field field ) 
-//  {
-//      super(field);
-//      this.key = AutoI18n.this.getKey( field );
-//  }
-//  public String getValue()
-//  {
-//      return getKeyValue( this );
-//  }
-//  @Override
-//  public String getKey()
-//  {
-//      return this.key;
-//  }
-//}
-/*
-// Warning !
-// This method is override by AutoI18UpdateBundle
-// Should be the only entry point to get String from resource bundle
-protected String getKeyValue( AbstractFieldValue abstractFieldValue )
-    throws MissingResourceException
-{
-    return this.i18n.getString( abstractFieldValue.getKey() );
-}
-*/    
-/*    
-private void setValue0(
-        Field               f,
-        AbstractFieldValue  abstractFieldValue
-        ) 
-{
-    Object fieldValue;
-    
-    try {
-        fieldValue = f.get( this.objectToI18n );
-    }
-    catch( IllegalArgumentException e ) {
-        this.exceptionHandler.handleIllegalArgumentException(e);
-        return;
-    }
-    catch( IllegalAccessException e ) {
-        this.exceptionHandler.handleIllegalAccessException(e);
-        return;
-    }
-
-    try {
-        if( fieldValue instanceof AutoI18nBasicInterface) {
-            AutoI18nBasicInterface.class.cast( fieldValue ).setI18nString( abstractFieldValue.getValue() );
-        }
-        else if( fieldValue instanceof AutoI18nCustomInterface ) {
-            setAutoI18nCustomInterface(AutoI18nCustomInterface.class.cast( fieldValue ));
-        }
-//        else if( fieldValue instanceof JLabel ) {
-//            JLabel.class.cast( fieldValue ).setText( abstractFieldValue.getValue() );
-//        }
-//        else if( fieldValue instanceof AbstractButton ) {
-//            AbstractButton.class.cast( fieldValue ).setText( abstractFieldValue.getValue() );
-//        }
-//        else if( fieldValue instanceof JCheckBox ) {
-//            JCheckBox.class.cast( fieldValue ).setText( abstractFieldValue.getValue() );
-//        }
-//        else if( fieldValue instanceof String ) {
-//            if( f.getAnnotation( I18nString.class ) != null ) {
-//                f.set( this.objectToI18n, abstractFieldValue.getValue() );
-//            }
-//        }
-//        else if( f.getType().isArray() ) {
-//            if( f.getAnnotation( I18nString.class ) != null ) {
-//                Class<?> ac = f.getType().getComponentType();
-//                
-//                if( ac.equals( String.class ) ) {
-//                    int len = Array.getLength( fieldValue );
-//                    
-//                    for( int i=0; i<len; i++ ) {
-//                        Array.set( fieldValue, i, value );
-//                         
-//                    }
-//                }
-//            }
-//        }
-    }
-    catch( MissingResourceException e ) {
-        this.exceptionHandler.handleMissingResourceException(
-                e,
-                f,
-                abstractFieldValue.getKey()
-                );
-    }
-    catch( IllegalArgumentException e ) {
-        this.exceptionHandler.handleIllegalArgumentException( e );
-    }
-    catch( IllegalAccessException e ) {
-        this.exceptionHandler.handleIllegalAccessException( e );
-    }
-}
-*/

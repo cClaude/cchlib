@@ -19,6 +19,20 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface I18n 
 {
-    String methodName() default "";
+    /**
+     * Must have two methods, with theses signatures:<br/>
+     * public void set'methodSuffixName'(String)
+     * <br/>
+     * public String get'methodSuffixName'()
+     * 
+     * @return method name, if not define ("")
+     *         use default process.
+     */
+    String methodSuffixName() default "";
+    /**
+     * Returns key name for this field
+     * @return key name for this field, if
+     *         not define ("") use default process.
+     */
     String keyName() default "";
 }

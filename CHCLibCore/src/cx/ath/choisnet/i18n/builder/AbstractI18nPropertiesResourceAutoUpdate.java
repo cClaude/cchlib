@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.AutoI18n;
+import cx.ath.choisnet.i18n.AutoI18nEventHandler;
 import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.AutoI18nTypes;
 
@@ -36,6 +37,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
             AutoI18nTypes                                       autoI18nTypes,
             AutoI18nExceptionHandler                            handler,
+            AutoI18nEventHandler                                eventHandler,
             EnumSet<AutoI18n.Attribute>                         autoI18nAttributes,
             EnumSet<AbstractI18nResourceAutoUpdate.Attribute>   bundleAttributes
             )
@@ -44,6 +46,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
             i18nAutoUpdateInterface,
             autoI18nTypes,
             handler,
+            eventHandler,
             autoI18nAttributes,
             bundleAttributes
             );
@@ -122,11 +125,3 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     public abstract OutputStream getResourceBundleOutputStream()
         throws IOException; 
 }
-
-//@Override
-//final //TO DO: remove this
-//public void setUnknownMap(Map<String,String> mapOfUnknownEntries)
-//{
-//  properties.putAll( mapOfUnknownEntries );
-//}
-

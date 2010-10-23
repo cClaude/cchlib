@@ -1,13 +1,15 @@
 /**
  *
  */
-package cx.ath.choisnet.i18n;
+package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import cx.ath.choisnet.i18n.AutoI18n.Key;
+import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 
 /**
  * {@link AutoI18nExceptionHandler} using standard
@@ -83,5 +85,25 @@ public class AutoI18nLoggingExceptionHandler
             )
     {
         handleMissingResourceException(e,field,key.getKey());
+    }
+
+    @Override
+    public void handleMissingResourceException( 
+            MissingResourceException    e,
+            Field                       field, 
+            String                      key, 
+            Method[]                    methods
+            )
+    {
+        logger.log(
+            level,
+            String.format( 
+                "* MissingResourceException for: %s using [%s] - %s\n",
+                key,
+                methods[0],
+                e.getLocalizedMessage()
+                ),
+            e
+            );
     }
 }
