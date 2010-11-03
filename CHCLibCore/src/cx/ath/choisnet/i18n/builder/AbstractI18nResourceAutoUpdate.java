@@ -158,9 +158,9 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                 try {
                     for(AutoI18nTypes.Type t:getAutoI18nTypes()) {
-                        if( fclass.isAssignableFrom( t.getType() ) ) {
+                        if( t.getType().isAssignableFrom( fclass ) ) {
                             String[] values = t.getText( f.get( getObjectToI18n() ) );
-                            
+
                             if( values.length == 1 ) {
                                 needProperty(key.getKey(),values[0]);
                             }

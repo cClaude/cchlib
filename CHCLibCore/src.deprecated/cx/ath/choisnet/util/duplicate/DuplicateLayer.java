@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 /**
  *
  * @author Claude CHOISNET
- *
  */
 @Deprecated
 public class DuplicateLayer implements java.io.Serializable

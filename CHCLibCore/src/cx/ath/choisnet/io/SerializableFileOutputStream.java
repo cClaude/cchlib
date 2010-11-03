@@ -61,7 +61,6 @@ public class SerializableFileOutputStream extends OutputStream
         throws java.io.IOException
     {
         output.flush();
-
         output.close();
 
         stream.defaultWriteObject();

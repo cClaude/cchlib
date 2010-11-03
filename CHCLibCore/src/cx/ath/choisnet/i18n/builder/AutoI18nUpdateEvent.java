@@ -51,17 +51,6 @@ public abstract class AutoI18nUpdateEvent
     {
         parentHandler.handleSecurityException( e );
     }
-//    @Override
-//    public void handleMissingResourceException( 
-//            MissingResourceException    e,
-//            Field                       field, 
-//            String                      key 
-//            )
-//    {
-//        //TODO: store here ! Info - !!!
-//        
-//        eHandler.handleMissingResourceException( e, field, key);
-//    }
 
     /**
      * @return the parentHandler

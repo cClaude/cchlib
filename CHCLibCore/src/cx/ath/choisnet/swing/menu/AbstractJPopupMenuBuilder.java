@@ -145,6 +145,7 @@ public abstract class AbstractJPopupMenuBuilder
      * @param clientPropertyValue
      * 
      * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
      */
     final
     public void add(
@@ -170,6 +171,7 @@ public abstract class AbstractJPopupMenuBuilder
      * @param clientPropertyValue 
      * 
      * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
      */
     final
     public void add(
@@ -196,6 +198,7 @@ public abstract class AbstractJPopupMenuBuilder
      * @param clientPropertyValue 
      * 
      * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
      */
     final
     public void add(
@@ -224,6 +227,7 @@ public abstract class AbstractJPopupMenuBuilder
      * @param clientPropertyValue
      * 
      * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
      */
     final
     public void add(

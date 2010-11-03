@@ -53,7 +53,7 @@ public class AutoI18nLog4JEventHandler
         slogger.log( 
                 level,
                 String.format(
-                    "Ignore field: %s (%s) [%s] - %s\n", 
+                    "Ignore field: %s (%s) [%s] - %s", 
                     f.getName(),
                     f.getType(),
                     cause,
@@ -68,7 +68,7 @@ public class AutoI18nLog4JEventHandler
         slogger.log( 
             level,
                 String.format(
-                    "Localized field: %s (%s) - %s\n",
+                    "Localized field: %s (%s) - %s",
                     f.getName(),
                     f.getType(),
                     f
