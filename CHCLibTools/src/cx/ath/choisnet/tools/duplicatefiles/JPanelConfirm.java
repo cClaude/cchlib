@@ -1,12 +1,17 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -15,86 +20,108 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 import cx.ath.choisnet.util.HashMapSet;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
-public class JPanelConfirm extends JPanel 
+public class JPanelConfirm extends JPanel
 {
-    private static final long   serialVersionUID        = 1L;
+    private static final long serialVersionUID = 1L;
     private JTable jTableFiles2Delete;
     private JScrollPane jScrollPaneFiles2Delete;
     private JPanel jPanelHeader;
     private JLabel jLabelTitle;
+    private JPanel jPanelBottom;
+    private JProgressBar jProgressBarDeleteProcess;
+    private JPanel jPanelScript;
+    private JButton jButtonDoScript;
+
     @I18nString private String[] columnsHeaders = {
-            "File to delete",
-            "Length",
-            "Kept",
-            "Deleted",
-            "Comment"
-    };
-    
+        "File to delete",
+        "Length",
+        "Kept",
+        "Deleted"
+        };
+    @I18nString private String txtWaiting = "Waitting for user...";
+
     public JPanelConfirm()
     {
         initComponents();
+        jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
     }
 
     private void initComponents() {
-    	setLayout(new BorderLayout());
-    	add(getJPanelHeader(), BorderLayout.NORTH);
+        setLayout(new BorderLayout());
+        add(getJPanelHeader(), BorderLayout.NORTH);
         add(getJScrollPaneFiles2Delete(), BorderLayout.CENTER);
-    	setSize(320, 240);
+        add(getJPanelBottom(), BorderLayout.SOUTH);
+        setSize(320, 240);
+    }
+
+    private JPanel getJPanelScript() {
+        if (jPanelScript == null) {
+            jPanelScript = new JPanel();
+            jPanelScript.add(getJButtonDoScript());
+        }
+        return jPanelScript;
+    }
+
+    private JButton getJButtonDoScript() {
+        if (jButtonDoScript == null) {
+            jButtonDoScript = new JButton();
+            jButtonDoScript.setText("Create script");
+            jButtonDoScript.addMouseListener(new MouseAdapter() {
+                public void mousePressed(MouseEvent event) {
+                    jButtonDoScriptMouseMousePressed(event);
+                }
+            });
+        }
+        return jButtonDoScript;
+    }
+
+    private JPanel getJPanelBottom() {
+        if (jPanelBottom == null) {
+            jPanelBottom = new JPanel();
+            jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
+            jPanelBottom.add(getJProgressBarDeleteProcess());
+            jPanelBottom.add(getJPanelScript());
+        }
+        return jPanelBottom;
+    }
+
+    private JProgressBar getJProgressBarDeleteProcess() {
+        if (jProgressBarDeleteProcess == null) {
+            jProgressBarDeleteProcess = new JProgressBar();
+        }
+        return jProgressBarDeleteProcess;
     }
 
     private JPanel getJPanelHeader() {
-    	if (jPanelHeader == null) {
-    	    jPanelHeader = new JPanel();
-    	    jPanelHeader.add(getJLabelTitle());
-    	}
-    	return jPanelHeader;
+        if (jPanelHeader == null) {
+            jPanelHeader = new JPanel();
+            jPanelHeader.add(getJLabelTitle());
+        }
+        return jPanelHeader;
     }
 
     private JLabel getJLabelTitle() {
-    	if (jLabelTitle == null) {
-    	    jLabelTitle = new JLabel();
-    	    jLabelTitle.setText("Files selected to be deleted");
-    	}
-    	return jLabelTitle;
+        if (jLabelTitle == null) {
+            jLabelTitle = new JLabel();
+            jLabelTitle.setText("Files selected to be deleted");
+        }
+        return jLabelTitle;
     }
 
     private JScrollPane getJScrollPaneFiles2Delete() {
-    	if (jScrollPaneFiles2Delete == null) {
-    	    jScrollPaneFiles2Delete = new JScrollPane();
-    	    jScrollPaneFiles2Delete.setViewportView(getJTableFiles2Delete());
-    	}
-    	return jScrollPaneFiles2Delete;
+        if (jScrollPaneFiles2Delete == null) {
+            jScrollPaneFiles2Delete = new JScrollPane();
+            jScrollPaneFiles2Delete.setViewportView(getJTableFiles2Delete());
+        }
+        return jScrollPaneFiles2Delete;
     }
 
     private JTable getJTableFiles2Delete() {
-    	if (jTableFiles2Delete == null) {
-    	    jTableFiles2Delete = new JTable();
-    	}
-    	return jTableFiles2Delete;
+        if (jTableFiles2Delete == null) {
+            jTableFiles2Delete = new JTable();
+        }
+        return jTableFiles2Delete;
     }
-
-//    public static void main( String[] args )
-//    {
-//        SwingUtilities.invokeLater( new Runnable() {
-//            @Override
-//            public void run()
-//            {
-//                JFrame frame = new JFrame();
-//                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//                frame.setTitle( "JPanelConfirm" );
-//                JPanelConfirm content = new JPanelConfirm();
-//                content.setPreferredSize( content.getSize() );
-//                frame.add( content, BorderLayout.CENTER );
-//                frame.pack();
-//                frame.setLocationRelativeTo( null );
-//                frame.setVisible( true );
-//                
-//                HashMapSet<String,KeyFileState> df = new HashMapSet<String,KeyFileState>();
-//                
-//                content.initComponents(df);
-//            }
-//        } );
-//    }
 
     public void initComponents(
             final HashMapSet<String,KeyFileState> dupFiles
@@ -139,8 +166,8 @@ public class JPanelConfirm extends JPanel
                         return String.class;
                 }
             }
-             @Override
-             public Object getValueAt(int rowIndex, int columnIndex)
+            @Override
+            public Object getValueAt(int rowIndex, int columnIndex)
             {
                  KeyFileState f = toDelete.get( rowIndex );
 
@@ -149,7 +176,6 @@ public class JPanelConfirm extends JPanel
                      case 1 : return f.getFile().length();
                      case 2 : return computeKept(dupFiles,f.getKey());
                      case 3 : return computeDeleted(dupFiles,f.getKey());
-                     case 4 : return "TODO"; // TODO
                  }
                  return null;
             }
@@ -175,6 +201,19 @@ public class JPanelConfirm extends JPanel
             }
         };
         popupMenu.setMenu();
+
+        jProgressBarDeleteProcess.setMinimum( 0 );
+        jProgressBarDeleteProcess.setValue( 0 );
+        jProgressBarDeleteProcess.setMaximum( toDelete.size() );
+        jProgressBarDeleteProcess.setIndeterminate( false );
+        jProgressBarDeleteProcess.setString( txtWaiting  );
+        jProgressBarDeleteProcess.setStringPainted( true );
+    }
+
+    public void updateProgressBar(int count, String msg)
+    {
+        jProgressBarDeleteProcess.setValue( count );
+        jProgressBarDeleteProcess.setString( msg );
     }
 
     private int computeKept(
@@ -209,5 +248,10 @@ public class JPanelConfirm extends JPanel
         }
 
         return c;
+    }
+
+    private void jButtonDoScriptMouseMousePressed(MouseEvent event)
+    {
+        throw new UnsupportedOperationException();
     }
 }

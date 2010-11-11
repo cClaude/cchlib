@@ -38,11 +38,11 @@ public class JPanelSearching extends JPanel
 
     private DuplicateFileCollector  duplicateFC;
     /* @serial */
-    private DefaultTableModel       tableModelErrorList;
-    private int                     pass1CountFile;
-    private long                    pass1BytesCount;
-    private int                     pass2CountFile;
-    private long                    pass2BytesCount;
+    private DefaultTableModel   tableModelErrorList;
+    private int                 pass1CountFile;
+    private long                pass1BytesCount;
+    private int                 pass2CountFile;
+    private long                pass2BytesCount;
 
     private JLabel jLabelSearchProcess;
     private JProgressBar jProgressBarFiles;
@@ -68,7 +68,7 @@ public class JPanelSearching extends JPanel
     public JPanelSearching()
     {
         initComponents();
-        
+
         // Fix for VS4E
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
@@ -153,7 +153,6 @@ public class JPanelSearching extends JPanel
     	if (jProgressBarOctets == null) {
     		jProgressBarOctets = new JProgressBar();
     		jProgressBarOctets.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-    		jProgressBarOctets.setString("0 %");
     	}
     	return jProgressBarOctets;
     }
@@ -162,7 +161,7 @@ public class JPanelSearching extends JPanel
     	if (jProgressBarFiles == null) {
     		jProgressBarFiles = new JProgressBar();
     		jProgressBarFiles.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-    		jProgressBarFiles.setString("0 %");
+    		//jProgressBarFiles.setString("0 %");
     	}
     	return jProgressBarFiles;
     }
@@ -220,28 +219,29 @@ public class JPanelSearching extends JPanel
 
     private void doScanPass1(
             Iterable<File>      directories,
-            FileFilterBuilder   directoriesFileFilterBuilder,
-            FileFilterBuilder   filesFileFilterBuilder
+            FileFilterBuilders  fileFilterBuilders
             )
     {
         displayPass = 1;
         slogger.info( "doScanPass1: init()" );
 
         // FileFilter and Listener for pass 1
-        FileFilter dirFilter  = createDirectoriesFileFilter( directoriesFileFilterBuilder );
-        FileFilter fileFilter = createFilesFileFilter(filesFileFilterBuilder);
+        FileFilter dirFilter = createDirectoriesFileFilter(
+                fileFilterBuilders 
+                );
+        FileFilter fileFilter = createFilesFileFilter( 
+                fileFilterBuilders
+                );
 
         // Listener for pass 2
         duplicateFC.addDigestEventListener( new DigestEventListener() {
             @Override
             public void computeDigest( File file )
             {
-                //updateDisplaySearching( file, 2 );
                 displayFile = file;
                 pass2CountFile++;
-                pass2BytesCount += file.length();
+                //pass2BytesCount += file.length();
             }
-
             @Override
             public void ioError( IOException e, File file )
             {
@@ -252,6 +252,11 @@ public class JPanelSearching extends JPanel
                 v.add( file );
                 v.add( e.getLocalizedMessage() );
                 tableModelErrorList.addRow( v );
+            }
+            @Override
+            public void computeDigest( File file, long length )
+            {
+                pass2BytesCount += length;
             }
         } );
 
@@ -266,7 +271,6 @@ public class JPanelSearching extends JPanel
             duplicateFC.pass1Add( files );
         }
 
-        //pass1CountFile = duplicateFC.getDuplicateFilesCount();
         DuplicateFileCollector.Stats stats = duplicateFC.getPass1Stats();
         pass1CountFile = stats.getPass2Files();
         pass1BytesCount = stats.getPass2Bytes();
@@ -282,9 +286,7 @@ public class JPanelSearching extends JPanel
         displayPass = 2;
 
         jProgressBarFiles.setMaximum( pass1CountFile );
-        //jProgressBarFiles.setString( "0 %" );
         jProgressBarOctets.setMaximum( Math.round( pass1BytesCount/1024) );
-        //jProgressBarOctets.setString( "0 %" );
         duplicateFC.pass2();
 
         displayFile = null;
@@ -321,7 +323,6 @@ public class JPanelSearching extends JPanel
                 }
             }
         }).start();
-
     }
     
     private void updateDisplay()
@@ -398,7 +399,6 @@ public class JPanelSearching extends JPanel
     {
         clear();
 
-        //jProgressBarFiles.setStringPainted( false );
         jProgressBarFiles.setIndeterminate( true );
         jProgressBarOctets.setIndeterminate( true );
         jLabelCurrentFile.setText( txtCurrentDir );
@@ -407,18 +407,16 @@ public class JPanelSearching extends JPanel
         tableModelErrorList.setRowCount( 0 );
 
         duplicateFC = new DuplicateFileCollector(
-                    messageDigestFile, //new MessageDigestFile( "MD5" ),
-                    ignoreEmptyFiles//jPanel1Config.IsIgnoreEmptyFiles()
+                    messageDigestFile, 
+                    ignoreEmptyFiles
                     );
 
-        //updateDisplaySearching( null, 0 );
         updateDisplayThread();
     }
 
     public void doScan(
             Iterable<File>                  directories,
-            FileFilterBuilder               directoriesFileFilterBuilder,
-            FileFilterBuilder               filesFileFilterBuilder,
+            FileFilterBuilders              fileFilterBuilders,
             HashMapSet<String,KeyFileState> duplicateFiles
             )
     {
@@ -426,8 +424,7 @@ public class JPanelSearching extends JPanel
         duplicateFiles.clear();
         doScanPass1(
                 directories,
-                directoriesFileFilterBuilder,
-                filesFileFilterBuilder
+                fileFilterBuilders
                 );
         slogger.info( "pass1 done" );
 
@@ -475,39 +472,51 @@ public class JPanelSearching extends JPanel
     
     
     private FileFilter createFilesFileFilter(
-            FileFilterBuilder   filesFileFilterBuilder
+            FileFilterBuilders   fbs
             )
     {
-        final Pattern regex      = filesFileFilterBuilder.getRegExp();
-        final boolean skipHidden = filesFileFilterBuilder.getIgnoreHidden();
+        final boolean skipHidden   = fbs.isIgnoreHiddenFiles();
+        final boolean skipReadOnly = fbs.isIgnoreReadOnlyFiles();
+
+        FileFilterBuilder includeFilesFileFilterBuilder = fbs.getIncludeFiles();
+        slogger.info( "includeFilesFileFilterBuilder="+includeFilesFileFilterBuilder);
         
-        final String[] fileExts  = filesFileFilterBuilder.getNamePart().toArray( new String[0] );
-        final int      fileExtsL = fileExts.length;
+        if( includeFilesFileFilterBuilder != null ) {
+            final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
+            
+            final String[] fileExts  = includeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
+            final int      fileExtsL = fileExts.length;
 
-        slogger.info( "files regex=" + regex );
-        slogger.info( "files skipHidden=" + skipHidden );
-        slogger.info( "fileExtsL=" + fileExtsL);
-        slogger.info( "fileExts=" + filesFileFilterBuilder.getNamePart() );
+            slogger.info( "createFilesFileFilter: case1");
+            slogger.info( "files regex=" + regex );
+            slogger.info( "files skipHidden=" + skipHidden );
+            slogger.info( "files skipReadOnly=" + skipReadOnly );
+            slogger.info( "fileExtsL=" + fileExtsL);
+            slogger.info( "fileExts=" + includeFilesFileFilterBuilder.getNamePart() );
 
-        return new FileFilter() {
-            @Override
-            public boolean accept( File f )
-            {
-                if( f.isFile() ) {
-                    // Hidden files
-                    if( skipHidden ) {
-                        if( f.isHidden() ) {
-                            return false;
+            return new FileFilter() {
+                @Override
+                public boolean accept( File f )
+                {
+                    if( f.isFile() ) {
+                        // Hidden files
+                        if( skipHidden ) {
+                            if( f.isHidden() ) {
+                                return false;
+                            }
                         }
-                    }
-                    // RegEx
-                    if( regex != null ) {
-                        if( ! regex.matcher(f.getName()).matches() ) {
-                            return false;
+                        if( skipReadOnly ) {
+                            if( !f.canWrite() ) {
+                                return false;
+                            }
                         }
-                    }
-                    // Extensions
-                    if( fileExtsL > 0 ) {
+                        // RegEx
+                        if( regex != null ) {
+                            if( ! regex.matcher(f.getName()).matches() ) {
+                                return false;
+                            }
+                        }
+                        // Extensions
                         String name = f.getName().toLowerCase();
 
                         for(int i=0;i<fileExtsL;i++) {
@@ -519,52 +528,133 @@ public class JPanelSearching extends JPanel
                         }
                         return false;
                     }
-                    else {
-                        pass1CountFile++;
-                        pass1BytesCount += f.length();
-                        return true;
-                    }
+                    return false;
                 }
-                return false;
+            };
+        }
+        else {
+            FileFilterBuilder excludeFilesFileFilterBuilder = fbs.getExcludeFiles();
+
+            if( excludeFilesFileFilterBuilder != null ) {
+                final Pattern regex        = excludeFilesFileFilterBuilder.getRegExp();
+                
+                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
+                final int      fileExtsL = fileExts.length;
+
+                slogger.info( "createFilesFileFilter: case2");
+                slogger.info( "files regex=" + regex );
+                slogger.info( "files skipHidden=" + skipHidden );
+                slogger.info( "files skipReadOnly=" + skipReadOnly );
+                slogger.info( "fileExtsL=" + fileExtsL);
+                slogger.info( "fileExts=" + excludeFilesFileFilterBuilder.getNamePart() );
+                
+                return new FileFilter() {
+                    @Override
+                    public boolean accept( File f )
+                    {
+                        if( f.isFile() ) {
+                            // Hidden files
+                            if( skipHidden ) {
+                                if( f.isHidden() ) {
+                                    return false;
+                                }
+                            }
+                            if( skipReadOnly ) {
+                                if( !f.canWrite() ) {
+                                    return false;
+                                }
+                            }
+                            // RegEx
+                            if( regex != null ) {
+                                if( ! regex.matcher(f.getName()).matches() ) {
+                                    return false;
+                                }
+                            }
+                            // Extensions
+                            String name = f.getName().toLowerCase();
+
+                            for(int i=0;i<fileExtsL;i++) {
+                                if(name.endsWith( fileExts[i] )) {
+                                    return false;
+                                }
+                            }
+                            pass1CountFile++;
+                            pass1BytesCount += f.length();
+                            return true;
+                        }
+                        return false;
+                    }
+                };            
             }
-        };
+            else {
+                slogger.info( "createFilesFileFilter: case3");
+                // Minimum file filter
+                return new FileFilter() {
+                    @Override
+                    public boolean accept( File f )
+                    {
+                        if( f.isFile() ) {
+                            // Hidden files
+                            if( skipHidden ) {
+                                if( f.isHidden() ) {
+                                    return false;
+                                }
+                            }
+                            if( skipReadOnly ) {
+                                if( !f.canWrite() ) {
+                                    return false;
+                                }
+                            }
+                            pass1CountFile++;
+                            pass1BytesCount += f.length();
+                            return true;
+                        }
+                        return false;
+                    }
+                };
+            }
+        }
     }
-    
+
     private FileFilter createDirectoriesFileFilter(
-            FileFilterBuilder directoriesFileFilterBuilder
+            FileFilterBuilders fileFilterBuilders
             )
     {
-        final Pattern regex      = directoriesFileFilterBuilder.getRegExp();
-        final boolean skipHidden = directoriesFileFilterBuilder.getIgnoreHidden();
-        
-        //TODO: construire un automate pour tester
-        //      une chaîne par rapport à un groupe de motif
-        final String[] dirNames  = directoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
-        final int      dirNamesL = dirNames.length;
+        final boolean skipHidden = fileFilterBuilders.isIgnoreHiddenDirs();
 
-        slogger.info( "dirs regex=" + regex );
-        slogger.info( "dirs skipHidden=" + skipHidden );
-        slogger.info( "dirNamesL=" + dirNamesL );
-        slogger.info( "dirNames=" + directoriesFileFilterBuilder.getNamePart() );
+        FileFilterBuilder excludeDirectoriesFileFilterBuilder = fileFilterBuilders.getExcludeDirs();
 
-        return new FileFilter() {
-            @Override
-            public boolean accept( File f )
-            {
-                // Hidden files
-                if( skipHidden ) {
-                    if( f.isHidden() ) {
-                        return false;
+        if( excludeDirectoriesFileFilterBuilder != null ) {
+            final Pattern regex = excludeDirectoriesFileFilterBuilder.getRegExp();
+
+            //TODO: construire un automate pour tester
+            //      une chaîne par rapport à un groupe de motif
+            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
+            final int      dirNamesL = dirNames.length;
+
+            slogger.info( "dirs regex=" + regex );
+            slogger.info( "dirs skipHidden=" + skipHidden );
+            //slogger.info( "dirs skipReadOnly=" + skipReadOnly );
+            slogger.info( "dirNamesL=" + dirNamesL );
+            slogger.info( "dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
+
+            return new FileFilter() {
+                @Override
+                public boolean accept( File f )
+                {
+                    // Hidden files
+                    if( skipHidden ) {
+                        if( f.isHidden() ) {
+                            return false;
+                        }
                     }
-                }
-                // RegEx
-                if( regex != null ) {
-                    if( regex.matcher(f.getName()).matches() ) {
-                        return false;
+                    // RegEx
+                    if( regex != null ) {
+                        if( regex.matcher(f.getName()).matches() ) {
+                            return false;
+                        }
                     }
-                }
-                // Test names ?
-                if( dirNamesL > 0 ) {
+                    // Test names ?
                     String name = f.getName().toLowerCase();
 
                     for(int i=0;i<dirNamesL;i++) {
@@ -572,11 +662,75 @@ public class JPanelSearching extends JPanel
                             return false;
                         }
                     }
-                }
 
-                displayFile = f;
-                return true;
+                    displayFile = f;
+                    return true;
+                }
+            };
+        }
+        else {
+            FileFilterBuilder includeDirectoriesFileFilterBuilder = fileFilterBuilders.getIncludeDirs();
+
+            if( includeDirectoriesFileFilterBuilder != null ) {
+                 final Pattern regex = includeDirectoriesFileFilterBuilder.getRegExp();
+
+                //TODO: construire un automate pour tester
+                //      une chaîne par rapport à un groupe de motif
+                final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
+                final int      dirNamesL = dirNames.length;
+
+                slogger.info( "dirs regex=" + regex );
+                slogger.info( "dirs skipHidden=" + skipHidden );
+                slogger.info( "dirNamesL=" + dirNamesL );
+                slogger.info( "dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
+
+                return new FileFilter() {
+                    @Override
+                    public boolean accept( File f )
+                    {
+                        // Hidden files
+                        if( skipHidden ) {
+                            if( f.isHidden() ) {
+                                return false;
+                            }
+                        }
+                        // RegEx
+                        if( regex != null ) {
+                            if( regex.matcher(f.getName()).matches() ) {
+                                return false;
+                            }
+                        }
+                        // Test names ?
+                        String name = f.getName().toLowerCase();
+
+                        for(int i=0;i<dirNamesL;i++) {
+                            if(name.equals( dirNames[i] )) {
+                                displayFile = f;
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                };
             }
-        };
+            else {
+                slogger.info( "dirs skipHidden=" + skipHidden );
+
+                return new FileFilter() {
+                    @Override
+                    public boolean accept( File f )
+                    {
+                        // Hidden files
+                        if( skipHidden ) {
+                            if( f.isHidden() ) {
+                                return false;
+                            }
+                        }
+                        displayFile = f;
+                        return true;
+                    }
+                };
+            }
+        }
     }
 }

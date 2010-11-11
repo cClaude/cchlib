@@ -7,7 +7,9 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,20 +22,24 @@ public class DuplicateFilesFrameVS4E extends JFrame
 {
     private static final long serialVersionUID = 1L;
     protected JMenuBar jMenuBarMain;
-    //private JMenu jMenuConfig;
+    private JMenu jMenuConfig;
     protected JMenu jMenuLookAndFeel;
-    
+    private JMenu jMenuConfigMode;
+    private ButtonGroup buttonGroupConfigMode;
+    protected JCheckBoxMenuItem jCheckBoxMenuItemModeBegin;
+    protected JCheckBoxMenuItem jCheckBoxMenuItemModeAdvance;
+    protected JCheckBoxMenuItem jCheckBoxMenuItemModeExpert;
+
     protected JTabbedPane jTabbedPaneMain;
     protected JPanelSelectFolders jPanel0SelectFolders;
     protected JPanelConfig jPanel1Config;
     protected JPanelSearching jPanel2Searching;
     protected JPanelResult jPanel3Result;
     protected JPanelConfirm jPanel4Confirm;
-    
+
     private JPanel jPanelBottom;
     protected JButton jButtonNextStep;
     protected JButton jButtonRestart;
-    //protected JButton jButtonExtra;
 
     public DuplicateFilesFrameVS4E()
     {
@@ -41,24 +47,56 @@ public class DuplicateFilesFrameVS4E extends JFrame
     }
 
     private void initComponents() {
-    	add(getJTabbedPanejTabbedPaneMain(), BorderLayout.CENTER);
-    	add(getJPanelBottom(), BorderLayout.SOUTH);
-    	setJMenuBar(getJMenuBarMain());
-    	setSize(600, 342);
+        add(getJTabbedPanejTabbedPaneMain(), BorderLayout.CENTER);
+        add(getJPanelBottom(), BorderLayout.SOUTH);
+        setJMenuBar(getJMenuBarMain());
+        initButtonGroup0();
+        setSize(600, 500);
     }
 
-//    private JButton getJButton0() {
-//    	if (jButtonExtra == null) {
-//    		jButtonExtra = new JButton();
-//    		jButtonExtra.addMouseListener(new MouseAdapter() {
-//    
-//    			public void mousePressed(MouseEvent event) {
-//    				jButtonExtraMouseMousePressed(event);
-//    			}
-//    		});
-//    	}
-//    	return jButtonExtra;
-//    }
+    private void initButtonGroup0() {
+        buttonGroupConfigMode = new ButtonGroup();
+        buttonGroupConfigMode.add(getJCheckBoxMenuItemModeBegin());
+        buttonGroupConfigMode.add(getJCheckBoxMenuItemModeAdvance());
+        buttonGroupConfigMode.add(getJCheckBoxMenuItemModeExpert());
+    }
+
+    private JCheckBoxMenuItem getJCheckBoxMenuItemModeExpert() {
+        if (jCheckBoxMenuItemModeExpert == null) {
+            jCheckBoxMenuItemModeExpert = new JCheckBoxMenuItem();
+            jCheckBoxMenuItemModeExpert.setText("Expert");
+        }
+        return jCheckBoxMenuItemModeExpert;
+    }
+
+    private JMenu getJMenuConfigMode() {
+        if (jMenuConfigMode == null) {
+            jMenuConfigMode = new JMenu();
+            jMenuConfigMode.setText("Mode");
+            jMenuConfigMode.add(getJCheckBoxMenuItemModeBegin());
+            jMenuConfigMode.add(getJCheckBoxMenuItemModeAdvance());
+            jMenuConfigMode.add(getJCheckBoxMenuItemModeExpert());
+        }
+        return jMenuConfigMode;
+    }
+
+    private JCheckBoxMenuItem getJCheckBoxMenuItemModeAdvance() {
+        if (jCheckBoxMenuItemModeAdvance == null) {
+            jCheckBoxMenuItemModeAdvance = new JCheckBoxMenuItem();
+            jCheckBoxMenuItemModeAdvance.setSelected(true);
+            jCheckBoxMenuItemModeAdvance.setText("Advance");
+        }
+        return jCheckBoxMenuItemModeAdvance;
+    }
+
+    private JCheckBoxMenuItem getJCheckBoxMenuItemModeBegin() {
+        if (jCheckBoxMenuItemModeBegin == null) {
+            jCheckBoxMenuItemModeBegin = new JCheckBoxMenuItem();
+            jCheckBoxMenuItemModeBegin.setSelected(true);
+            jCheckBoxMenuItemModeBegin.setText("Beginner");
+        }
+        return jCheckBoxMenuItemModeBegin;
+    }
 
     private JPanel getJPanel4Confirm() {
         if (jPanel4Confirm == null) {
@@ -87,38 +125,36 @@ public class DuplicateFilesFrameVS4E extends JFrame
     private JMenuBar getJMenuBarMain() {
         if (jMenuBarMain == null) {
             jMenuBarMain = new JMenuBar();
-            //jMenuBarMain.add(getJMenuConfig());
+            jMenuBarMain.add(getJMenuConfig());
         }
         return jMenuBarMain;
     }
 
-//    private JMenu getJMenuConfig()
-//    {
-//        if( jMenuConfig == null ) {
-//            jMenuConfig = new JMenu("Config");
-//        }
-//        return jMenuConfig;
-//    }
+    private JMenu getJMenuConfig() {
+        if (jMenuConfig == null) {
+            jMenuConfig = new JMenu();
+            jMenuConfig.setText("Config");
+            jMenuConfig.setOpaque(false);
+            jMenuConfig.add(getJMenuConfigMode());
+        }
+        return jMenuConfig;
+    }
 
     private JPanel getJPanel3Result() {
         if (jPanel3Result == null) {
             jPanel3Result = new JPanelResult();
-//            jPanel3Result.setLayout(new BorderLayout());
-//            jPanel3Result.add(getJSplitPaneResultMain(), BorderLayout.CENTER);
-//            jPanel3Result.add(getJPanelResultsButtons(), BorderLayout.NORTH);
         }
         return jPanel3Result;
     }
 
     private JPanel getJPanelBottom() {
-    	if (jPanelBottom == null) {
-    		jPanelBottom = new JPanel();
-    		jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.X_AXIS));
-    		jPanelBottom.add(getJButtonRestart());
-    		jPanelBottom.add(getJButtonNextStep());
-//    		jPanelBottom.add(getJButton0());
-    	}
-    	return jPanelBottom;
+        if (jPanelBottom == null) {
+            jPanelBottom = new JPanel();
+            jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.X_AXIS));
+            jPanelBottom.add(getJButtonRestart());
+            jPanelBottom.add(getJButtonNextStep());
+        }
+        return jPanelBottom;
     }
 
     private JButton getJButtonNextStep() {
@@ -199,11 +235,6 @@ public class DuplicateFilesFrameVS4E extends JFrame
     }
 
     protected void jButtonNextStepMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jButtonExtraMouseMousePressed(MouseEvent event)
     {
         throw new UnsupportedOperationException();
     }

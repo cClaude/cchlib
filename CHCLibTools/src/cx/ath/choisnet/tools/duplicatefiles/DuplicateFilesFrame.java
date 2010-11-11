@@ -1,6 +1,8 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
@@ -30,27 +32,37 @@ final public class DuplicateFilesFrame
     extends DuplicateFilesFrameVS4E
         implements MyToolKit
 {
-    private static final long        serialVersionUID                         = 1L;
-    private static final Logger      slogger                                  = Logger.getLogger( DuplicateFilesFrame.class );
+    private static final long serialVersionUID = 1L;
+    private static final Logger slogger = Logger.getLogger( DuplicateFilesFrame.class );
     /* @serial */
     private JFileChooserInitializer  jFileChooserInitializer;
-
+    /* @serial */
     private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
-
-    private int                      state;
-    private final static int         STATE_SELECT_DIRS                        = 0;
-    private final static int         STATE_SEARCH_CONFIG                      = 1;
-    private final static int         STATE_SEARCHING                          = 2;
-    private final static int         STATE_RESULTS                            = 3;
-    private final static int         STATE_CONFIRM                            = 4;
-    
+    /* @serial */
+    private int                 state;
+    private final static int    STATE_SELECT_DIRS      = 0;
+    private final static int    STATE_SEARCH_CONFIG    = 1;
+    private final static int    STATE_SEARCHING        = 2;
+    private final static int    STATE_RESULTS          = 3;
+    private final static int    STATE_CONFIRM          = 4;
+    /* @serial */
     private AutoI18n autoI18n = I18nBundle.getAutoI18n();
-    @I18nString private String txtContinue = "Continue";
-    @I18nString private String txtRestart = "Restart";
-    @I18nString private String txtRemove = "Remove (does not delete yet)";
+
+    @I18nString private String txtContinue  = "Continue";
+    @I18nString private String txtRestart   = "Restart";
+    @I18nString private String txtRemove    = "Remove (does not delete)";
     @I18nString private String txtDeleteNow = "Delete now";
-    @I18nString private String txtBack = "Back";
-    
+    @I18nString private String txtBack      = "Back";
+
+    /* @serial */
+    private ConfigMode mode;
+    /* @serial */
+    private int deleteSleepDisplay = 100;
+    /* @serial */
+    private int deleteFinalDisplay = 3000;
+    /* @serial */
+    private int bufferSize = 16 * 1024;
+
     public DuplicateFilesFrame()
     {
         super();
@@ -82,11 +94,40 @@ final public class DuplicateFilesFrame
             );
         this.state = STATE_SELECT_DIRS;
 
+        ActionListener modeListener = new ActionListener()
+        {
+            @Override
+            public void actionPerformed( ActionEvent e )
+            {
+                slogger.info("ActionEvent:" +e);
+
+                if( jCheckBoxMenuItemModeBegin.isSelected() ) {
+                    mode = ConfigMode.BEGINNER;
+                }
+                else if( jCheckBoxMenuItemModeAdvance.isSelected() ) {
+                    mode = ConfigMode.ADVANCED;
+                }
+                else if( jCheckBoxMenuItemModeExpert.isSelected() ) {
+                    mode = ConfigMode.EXPERT;
+                }
+
+                jPanel1Config.updateDisplayMode( mode );
+                jPanel3Result.updateDisplayMode( mode );
+                //TODO: more !!!
+            }
+        };
+        jCheckBoxMenuItemModeBegin.addActionListener(modeListener);
+        jCheckBoxMenuItemModeAdvance.addActionListener(modeListener);
+        jCheckBoxMenuItemModeExpert.addActionListener(modeListener);
+
         jTabbedPaneMain.setEnabled( false );
 
         jPanel0SelectFolders.initFixComponents( this );
         jPanel2Searching.initFixComponents();
         jPanel3Result.initFixComponents( duplicateFiles, this );
+ 
+        // init
+        modeListener.actionPerformed( null );
 
         updateDisplayAccordState();
 
@@ -121,7 +162,7 @@ final public class DuplicateFilesFrame
 
             try {
                 jPanel2Searching.prepareScan(
-                        new MessageDigestFile( "MD5" ),
+                        new MessageDigestFile( "MD5", bufferSize  ),
                         jPanel1Config.IsIgnoreEmptyFiles()
                         );
             }
@@ -136,8 +177,7 @@ final public class DuplicateFilesFrame
                 {
                     jPanel2Searching.doScan(
                             jPanel0SelectFolders,
-                            jPanel1Config.getDirectoriesFileFilterBuilder(),
-                            jPanel1Config.getFilesFileFilterBuilder(),
+                            jPanel1Config.getFileFilterBuilders(),
                             duplicateFiles
                             );
 
@@ -148,21 +188,30 @@ final public class DuplicateFilesFrame
             } ).start();
         }
         else if( state == STATE_RESULTS ) {
-            jButtonRestart.setEnabled( true );
+            jButtonRestart.setEnabled( false );
+            jButtonNextStep.setEnabled( false );
             jButtonNextStep.setText( txtRemove );
 
-            jPanel3Result.initDisplay();
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    jPanel3Result.initDisplay();
+                    jButtonRestart.setEnabled( true );
+                    jButtonNextStep.setEnabled( true );
+                }
+            });
         }
         else if( state == STATE_CONFIRM ) {
             jButtonRestart.setEnabled( true );
-            jButtonNextStep.setText( txtDeleteNow  );
             jButtonRestart.setText( txtBack  );
+            jButtonNextStep.setEnabled( true );
+            jButtonNextStep.setText( txtDeleteNow  );
 
             jPanel4Confirm.initComponents( duplicateFiles );
-            //TODO
         }
     }
-
 
     private JFileChooserInitializer getJFileChooserInitializer()
     {
@@ -191,13 +240,11 @@ final public class DuplicateFilesFrame
     {
         return getJFileChooserInitializer().getJFileChooser();
     }
-
     @Override // MyToolKit
     public void beep()
     {
         Toolkit.getDefaultToolkit().beep();
     }
-    
     @Override // MyToolKit
     public void openDesktop( File file )
     {
@@ -212,19 +259,33 @@ final public class DuplicateFilesFrame
             e.printStackTrace();
         }
     }
+    @Override // MyToolKit
+    public ConfigMode getConfigMode()
+    {
+        return mode;
+    }
+    @Override // MyToolKit
+    public void sleep(long ms)
+    {
+        try {
+            Thread.sleep( ms );
+        }
+        catch( InterruptedException ignore ) {
+        }
+    }
 
     public static void main( String[] args )
     {
         slogger.info( "starting..." );
 
-        try { 
+        try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName()
-                    ); 
-            } 
+                    );
+            }
         catch(Exception e ) {
             slogger.warn( e );
-            } 
+            }
 
         SwingUtilities.invokeLater( new Runnable() {
             @Override
@@ -262,52 +323,62 @@ final public class DuplicateFilesFrame
     @Override
     protected void jButtonNextStepMouseMousePressed( MouseEvent event )
     {
-        slogger.info( "Next: " + state );
+        if( jButtonNextStep.isEnabled() ) {
+            slogger.info( "Next: " + state );
 
-        if( state == STATE_SELECT_DIRS ) {
-            if( jPanel0SelectFolders.directoriesSize() > 0 ) {
-                state = STATE_SEARCH_CONFIG;
+            if( state == STATE_SELECT_DIRS ) {
+                if( jPanel0SelectFolders.directoriesSize() > 0 ) {
+                    state = STATE_SEARCH_CONFIG;
+                }
+                else {
+                    beep();
+                }
             }
-            else {
-                beep();
+            else if( state == STATE_SEARCH_CONFIG ) {
+                state = STATE_SEARCHING;
             }
-        }
-        else if( state == STATE_SEARCH_CONFIG ) {
-            state = STATE_SEARCHING;
-        }
-        else if( state == STATE_SEARCHING ) {
-            state = STATE_RESULTS;
-        }
-        else if( state == STATE_RESULTS ) {
-            state = STATE_CONFIRM;
-        }
-        else if( state == STATE_CONFIRM ) {
-            doDelete();
-            state = STATE_RESULTS;
-        }
+            else if( state == STATE_SEARCHING ) {
+                state = STATE_RESULTS;
+            }
+            else if( state == STATE_RESULTS ) {
+                state = STATE_CONFIRM;
+            }
+            else if( state == STATE_CONFIRM ) {
+                jButtonNextStep.setEnabled( false );
+                jButtonRestart.setEnabled( false );
+                new Thread( new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        doDelete();
+                        state = STATE_RESULTS;
+                        updateDisplayAccordState();
+                    }
+                }).start();
+                return;
+            }
 
-        updateDisplayAccordState();
-    }
-
-    @Override
-    protected void jButtonExtraMouseMousePressed(MouseEvent event)
-    {
-        //TODO
-        throw new UnsupportedOperationException();
+            updateDisplayAccordState();
+        }
     }
 
     private void doDelete()
     {
-        Iterator<KeyFileState> iter = duplicateFiles.iterator();
+        Iterator<KeyFileState>  iter = duplicateFiles.iterator();
         int                     deleteCount = 0;
-        
+
         while( iter.hasNext() ) {
             KeyFileState f = iter.next();
-            
+
             if( f.isSelectedToDelete() ) {
+                String msg = f.getFile().getPath();
+                jPanel4Confirm.updateProgressBar(deleteCount,msg);
                 slogger.info("Delete: " + f);
+                //TODO! delete !!!!
+                sleep( deleteSleepDisplay );
                 iter.remove();
                 deleteCount++;
+                jPanel4Confirm.updateProgressBar(deleteCount,msg);
             }
         }
 
@@ -321,5 +392,7 @@ final public class DuplicateFilesFrame
         int newDupCount = duplicateFiles.valuesSize();
 
         slogger.info( "newDupCount= " + newDupCount );
+        
+        sleep( deleteFinalDisplay );
     }
 }

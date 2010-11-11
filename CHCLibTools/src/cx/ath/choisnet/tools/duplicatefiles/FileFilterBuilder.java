@@ -7,5 +7,4 @@ public interface FileFilterBuilder
 {
     public Collection<String> getNamePart();
     public Pattern getRegExp();
-    public boolean getIgnoreHidden();
 }
