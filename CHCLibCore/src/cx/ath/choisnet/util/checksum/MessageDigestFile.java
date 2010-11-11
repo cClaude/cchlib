@@ -13,6 +13,8 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
+import java.util.Collection;
+import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
  * 
@@ -286,7 +288,7 @@ public class MessageDigestFile
 
         for(int i = 0; i < len; i++) {
             // TODO: some optimizations here !
-            int     pos     = i << 1;
+            int     pos   = i << 1;
             String  digit = digestHexKey.substring(pos, pos + 2);
 
             mdBytes[i] = Integer.valueOf(digit, 16).byteValue();
@@ -336,7 +338,60 @@ public class MessageDigestFile
 
         return digestDelegator();
     }
-    
+/*
+        for(DigestEventListener l:listeners) {
+            l.ioError( e, f );
+        }
+ */
+    /**
+     * Compute MD value for giving file 
+     * (use nio {@link FileChannel})
+     * 
+     * @param file File to read
+     * @param listeners 
+     * @return MD value has an array of bytes
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public byte[] compute(
+            File                            file,
+            Collection<DigestEventListener> listeners
+            )
+        throws FileNotFoundException,
+               IOException
+    {
+        reset();
+
+        FileInputStream fis      = new FileInputStream(file);
+        FileChannel     fchannel = fis.getChannel();
+
+        for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                fchannel.read(bb) != -1 || bb.position() > 0;
+                bb.compact()
+                ) {
+            bb.flip();
+            update(bb);
+            
+            for(DigestEventListener l:listeners) {
+                l.computeDigest( file, bb.position() );
+            }
+        }
+
+        try {
+            fchannel.close();
+        }
+        catch(Exception ignore) {
+            }
+
+        try {
+            fis.close();
+        }
+        catch(Exception ignore) {
+            }
+
+        return digestDelegator();
+    }
+
     /**
      * Compute MD value for giving file 
      * (use {@link FileInputStream})

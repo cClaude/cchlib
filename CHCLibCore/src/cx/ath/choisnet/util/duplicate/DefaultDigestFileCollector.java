@@ -23,7 +23,7 @@ public class DefaultDigestFileCollector
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private ArrayList<DigestEventListener> listeners = new ArrayList<DigestEventListener>();
+    protected ArrayList<DigestEventListener> listeners = new ArrayList<DigestEventListener>();
 
     /** @serial */
     protected MessageDigestFile mdf;
@@ -101,15 +101,13 @@ public class DefaultDigestFileCollector
     {
         for(File f:files) {
             notify( f );
-            mdf.compute( f );
+            mdf.compute( f, listeners );
 
             String    k = mdf.digestString();
-            //Set<File> c = map.get( k );
             Set<File> c = mapHashFile.get( k );
 
             if( c == null ) {
                 c = new HashSet<File>();
-                //map.put( k, c );
                 mapHashFile.put( k, c );
             }
             else {
@@ -129,14 +127,12 @@ public class DefaultDigestFileCollector
     public Map<String,Set<File>> getFiles()
     {
         return mapHashFile;
-        //return map;
     }
 
     @Override
     public int removeDuplicate()
     {
         int                 count = 0;
-        //Iterator<Set<File>> iter  = map.values().iterator();
         Iterator<Set<File>> iter  = mapHashFile.values().iterator();
 
         while(iter.hasNext()) {
@@ -158,7 +154,6 @@ public class DefaultDigestFileCollector
     public int removeNonDuplicate()
     {
         int                 count = 0;
-        //Iterator<Set<File>> iter  = map.values().iterator();
         Iterator<Set<File>> iter  = mapHashFile.values().iterator();
 
         while(iter.hasNext()) {
@@ -185,7 +180,6 @@ public class DefaultDigestFileCollector
         int cs = 0;
         int cf = 0;
 
-        //for(Set<File> s:map.values()) {
         for(Set<File> s:mapHashFile.values()) {
             if( s.size() > 1 ) {
                 cs++;

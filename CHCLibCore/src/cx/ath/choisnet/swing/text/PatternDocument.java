@@ -14,6 +14,7 @@ import javax.swing.text.PlainDocument;
  * TODO: Doc!
  * 
  * @author Claude CHOISNET
+ * @see java.util.regex.Pattern
  */
 public class PatternDocument extends PlainDocument
 {
@@ -23,9 +24,11 @@ public class PatternDocument extends PlainDocument
     private Color defaultColor;
 
     /**
+     * TODO: Doc!
      * 
      * @param jTextField
-     * @param errorColor
+     * @param errorColor background color when an current text
+     *                   is not a valid Regular Expression
      */
     public PatternDocument(
             JTextField  jTextField,
@@ -39,6 +42,54 @@ public class PatternDocument extends PlainDocument
         this.defaultColor = jTextField.getBackground();
     }
 
+    /**
+     * Define background color when an current text is
+     * <B>not</B> a valid Regular Expression
+     * 
+     * @param errorColor background color when an current text
+     * is <B>not</B> a valid Regular Expression
+     */
+    public void setErrorBackgoundColor( Color errorColor )
+    {
+        this.errorColor = errorColor;
+    }
+
+    /**
+     * Returns background color when an current text is
+     * <B>not</B> a valid Regular Expression
+     * 
+     * @return background color when an current text
+     * is <B>not</B> a valid Regular Expression
+     */
+    public Color getErrorBackgoundColor()
+    {
+        return this.errorColor;
+    }
+
+    /**
+     * Define background color when an current text is
+     * a valid Regular Expression
+     * 
+     * @param defaultColor background color when an current text
+     * is a valid Regular Expression
+     */
+    public void setDefaultBackgoundColor( Color defaultColor )
+    {
+        this.defaultColor = defaultColor;
+    }
+
+    /**
+     * Returns background color when an current text is
+     * a valid Regular Expression
+     * 
+     * @return background color when an current text
+     * is a valid Regular Expression
+     */
+    public Color getDefaultBackgoundColor()
+    {
+        return this.defaultColor;
+    }
+
     @Override
     public void insertString(int offs, String str, AttributeSet a) 
         throws BadLocationException 
@@ -46,7 +97,7 @@ public class PatternDocument extends PlainDocument
         super.insertString(offs, str, a);
         check();
     }
-    
+
     @Override
     public void remove(int offs, int len) 
         throws BadLocationException 

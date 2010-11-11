@@ -20,6 +20,15 @@ public interface DigestEventListener
     public void computeDigest(File file);
     
     /**
+     * Invoked during computing digest for this file,
+     * give current length done for this file.
+     * 
+     * @param file the file
+     * @param length the length actually computed
+     */
+    public void computeDigest(File file, long length);
+    
+    /**
      * Invoked if any {@link IOException} occur.
      * 
      * @param e     exception that append.

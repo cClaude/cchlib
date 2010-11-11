@@ -51,19 +51,30 @@ public class DuplicateFileCollectorTest
         instance.addDigestEventListener( 
                 new DigestEventListener()
                 {
+                    long currentFileLength = 0;
+                    long cumul = 0;
+                    
                     @Override
                     public void computeDigest( File file )
                     {
+                        assertEquals("Bad cumul size!",currentFileLength,cumul);
+                        
                         System.out.printf("Compute:%s\n",file);
+                        currentFileLength = file.length();
+                        cumul = 0;
                     }
                     @Override
                     public void ioError( IOException e, File file )
                     {
                         System.err.printf("IOException %s : %s\n",file,e);
                     }
-                    
-                }
-                );
+                    @Override
+                    public void computeDigest( File file, long length )
+                    {
+                        //System.out.printf("in:%s - reading %d bytes\n",file,length);
+                        cumul += length;
+                    }
+                });
         
         System.out.printf("adding... : %s\n",root);
         instance.pass1Add( files );

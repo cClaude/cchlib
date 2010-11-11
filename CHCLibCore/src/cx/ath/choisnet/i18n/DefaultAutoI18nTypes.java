@@ -11,17 +11,17 @@ import javax.swing.JTabbedPane;
 
 /**
  * TODO: Doc!
- * 
+ *
  * @author Claude CHOISNET
  */
-public class DefaultAutoI18nTypes implements AutoI18nTypes 
+public class DefaultAutoI18nTypes implements AutoI18nTypes
 {
     private static final long serialVersionUID = 1L;
     private ArrayList<AutoI18nTypes.Type> types;
-    
+
     /**
      * TODO: Doc!
-     * 
+     *
      * @author Claude CHOISNET
      * @param <T>
      */
@@ -31,16 +31,16 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
         /**
          * TODO: Doc!
-         * 
-         * @return
+         *
+         * @return type for this object
          */
         public abstract Class<T> getType();
-        
+
         /**
          * TODO: Doc!
-         * 
-         * @param toI18n 
-         * @return
+         *
+         * @param toI18n
+         * @return cast field to localize to current type
          */
         public T cast( Object toI18n )
         {
@@ -54,15 +54,15 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     public DefaultAutoI18nTypes()
     {
         types = new ArrayList<AutoI18nTypes.Type>();
-        
+
         Method[] methods = getClass().getMethods();
-        
+
         for(Method m:methods) {
             if( AutoI18nTypes.Type.class.isAssignableFrom( m.getReturnType() ) ) {
                 if( m.getParameterTypes().length == 0 ) {
                     try {
                         AutoI18nTypes.Type t = AutoI18nTypes.Type.class.cast( m.invoke( this ) );
-                        
+
                         types.add( t );
                     }
                     catch( Exception e ) {
@@ -83,7 +83,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     /**
      * Returns collection of AutoI18nTypes.Type supported
      * by this AutoI18nTypes
-     * 
+     *
      * @return collection of AutoI18nTypes.Type supported
      * by this AutoI18nTypes
      */
@@ -116,7 +116,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
         };
     }
-    
+
     public AbstractType<AbstractButton> getAbstractButton()
     {
         return new AbstractType<AbstractButton>()
@@ -141,7 +141,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
         };
     }
-    
+
     public AbstractType<JCheckBox> getJCheckBox()
     {
         return new AbstractType<JCheckBox>()
@@ -195,7 +195,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 JTabbedPane o   = cast( toI18n );
                 final int   len = o.getTabCount();
                 String[]    r   = new String[len];
-                
+
                 for(int i = 0;i<len;i++) {
                     r[i ] = o.getTitleAt( i );
                 }

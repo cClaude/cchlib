@@ -181,10 +181,9 @@ public class DuplicateFileCollector
                 for(File f:s) {
                     notify( f );
                     try {
-                        mdf.compute( f );
+                        mdf.compute( f, listeners );
 
                         String    k = mdf.digestString();
-                        //Set<File> c = map.get( k );
                         Set<File> c = super.mapHashFile.get( k );
 
                         if( c == null ) {
