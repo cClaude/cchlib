@@ -7,7 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- *
+ * Simple implementation of Date, this date
+ * is base on year, month and day numbers.
+ * 
  * @author Claude CHOISNET
  */
 public class BasicDate
@@ -15,8 +17,8 @@ public class BasicDate
 {
     private static final long serialVersionUID = 1L;
     /** {@value} */
-    protected static final String DATEFMT = "yyyyMMdd";
-    protected static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyyMMdd");
+    protected static final String ISODATEFMT = "yyyyMMdd";
+    protected static final SimpleDateFormat ISO_DATE_FMT = new SimpleDateFormat(ISODATEFMT);
     protected transient int year;
     protected transient int month;
     protected transient int day;
@@ -105,13 +107,41 @@ public class BasicDate
     }
 
     /**
-     * @param year 
-     * @param month 
-     * @param day 
-     * @throws BasicDateException 
-     * 
+     * Set date.
+     * @param year year, range 0 to 9999
+     * @param month month, range 1 to 12
+     * @param day day, range 1 to 31
+     * @throws BasicDateException if one value is not
+     * in a valid range
      */
     public void set(int year, int month, int day)
+        throws BasicDateException
+    {
+        setYear(year);
+        setMonth(month);
+
+        if(day < 1 || day > 31) {
+            throw new BasicDateException(
+                (new StringBuilder())
+                    .append("BasicDate 'day' invalid = ")
+                    .append(day)
+                    .toString()
+                    );
+        }
+        else {
+            this.day = day;
+
+            check();
+        }
+    }
+
+    /**
+     * Set year.
+     * @param year year, range 0 to 9999
+     * @throws BasicDateException if value is not
+     * in range
+     */
+    public void setYear(int year)
         throws BasicDateException
     {
         if(year < 0 || year > 9999) {
@@ -124,50 +154,34 @@ public class BasicDate
         }
 
         this.year = year;
-
-        if(month < 1 || month > 12) {
-            throw new BasicDateException((new StringBuilder()).append("BasicDate 'month' invalid = ").append(month).toString());
-        }
-
-        this.month = month;
-
-        if(day < 1 || day > 31) {
-            throw new BasicDateException((new StringBuilder()).append("BasicDate 'day' invalid = ").append(day).toString());
-        }
-        else {
-            this.day = day;
-
-            check();
-            return;
-        }
     }
 
     /**
-     * @param year 
-     * @throws BasicDateException 
-     * 
-     */
-    public void setYear(int year)
-        throws BasicDateException
-    {
-        set(year, -1, -1);
-    }
-
-    /**
-     * @param month 
-     * @throws BasicDateException 
-     * 
+     * Set Month
+     * @param month month, range 1 to 12
+     * @throws BasicDateException if value is not
+     * in range
      */
     public void setMonth(int month)
         throws BasicDateException
     {
-        set(-1, month, -1);
+        if(month < 1 || month > 12) {
+            throw new BasicDateException(
+                (new StringBuilder())
+                    .append("BasicDate 'month' invalid = ")
+                    .append(month)
+                    .toString()
+                    );
+        }
+
+        this.month = month;    
     }
 
     /**
-     * @param day 
-     * @throws BasicDateException 
-     * 
+     * Set day.
+     * @param day day, range 1 to 31
+     * @throws BasicDateException if value is not
+     * in range
      */
     public void setDay(int day)
         throws BasicDateException
@@ -181,7 +195,7 @@ public class BasicDate
      */
     public void set(java.util.Date javaDate)
     {
-        setWithFmtString(DATE_FMT.format(javaDate));
+        setWithFmtString(ISO_DATE_FMT.format(javaDate));
     }
 
     /**
@@ -195,23 +209,7 @@ public class BasicDate
     }
 
     /**
-     * @return 
-     */
-    public int getDay()
-    {
-        return day;
-    }
-
-    /**
-     * @return 
-     */
-    public int getMonth()
-    {
-        return month;
-    }
-
-    /**
-     * @return 
+     * @return year number
      */
     public int getYear()
     {
@@ -219,20 +217,38 @@ public class BasicDate
     }
 
     /**
-     * @return 
+     * @return month number
+     */
+    public int getMonth()
+    {
+        return month;
+    }
+
+    /**
+     * @return day number
+     */
+    public int getDay()
+    {
+        return day;
+    }
+
+    /**
+     * @return {@link java.util.Date} view for
+     * current BasicDate
      */
     public java.util.Date getJavaDate()
     {
         try {
-            return DATE_FMT.parse(toString());
+            return ISO_DATE_FMT.parse(toString());
         }
         catch(java.text.ParseException bug) {
-            throw new RuntimeException("BasicDate.getJavaDate() INTERNAL ERROR");
+            throw new RuntimeException("BasicDate.getJavaDate() INTERNAL ERROR (ISO_DATE_FMT)");
         }
     }
 
     /**
-     * @return 
+     * @return {@link java.sql.Date} view for
+     * current BasicDate
      */
     public java.sql.Date getSQLDate()
     {
@@ -242,13 +258,10 @@ public class BasicDate
     @Override
     public boolean equals(Object o)
     {
-        try {
-            return equals((DateInterface)o);
-
+        if( o instanceof DateInterface ) {
+            return compareTo((DateInterface)o) == 0;
         }
-        catch(ClassCastException e) {
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -316,7 +329,7 @@ public class BasicDate
     }
     
     /**
-     * @return 
+     * @return year as a String of 4 digits
      */
     public String toStringYear()
     {
@@ -325,23 +338,34 @@ public class BasicDate
     }
 
     /**
-     * @return 
+     * @return month as a String of 2 digits
      */
     public String toStringMonth()
     {
-        return (new StringBuilder()).append(month <= 9 ? "0" : "").append(month).toString();
+        StringBuilder sb = new StringBuilder();
+        
+        if( month <= 9 ) {
+            sb.append( '0' );
+        }
+        return sb.append(month).toString();
     }
 
     /**
-     * @return 
+     * @return day as a String of 2 digits
      */
     public String toStringDay()
     {
-        return (new StringBuilder()).append(day <= 9 ? "0" : "").append(day).toString();
+        StringBuilder sb = new StringBuilder();
+        
+        if( day <= 9 ) {
+            sb.append( '0' );
+        }
+        return sb.append(day).toString();
     }
 
     /**
-     * @return 
+     * @param formatter to use to format date
+     * @return formatted String according to formatter
      */
     public String toString(Format formatter)
     {
@@ -349,7 +373,7 @@ public class BasicDate
     }
 
     /**
-     * @return 
+     * @return BasicDate as a long
      */
     public long longValue()
     {
@@ -357,7 +381,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     * Increment Year
      */
     public void incYear()
     {
@@ -376,7 +400,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     * Increment month
      */
     public void incMonth()
     {
@@ -401,7 +425,7 @@ public class BasicDate
 
     /**
      * @param endOfPeriod 
-     * @return 
+     * @return number of day between two BasicDate
      */
     public int countOfDay(BasicDate endOfPeriod)
     {
@@ -423,29 +447,29 @@ public class BasicDate
 
         if(day != checkDate.getDay()) {
             throw new BasicDateException(
-                    (new StringBuilder())
-                        .append("BasicDate 'day' invalid = ")
-                        .append(toString())
-                        .toString()
-                        );
+                (new StringBuilder())
+                    .append("BasicDate 'day' invalid = ")
+                    .append(toString())
+                    .toString()
+                    );
         }
 
         if(month != checkDate.getMonth()) {
             throw new BasicDateException(
-                    (new StringBuilder())
-                        .append("BasicDate 'month' invalid = ")
-                        .append(toString())
-                        .toString()
-                        );
+                (new StringBuilder())
+                    .append("BasicDate 'month' invalid = ")
+                    .append(toString())
+                    .toString()
+                    );
         }
 
         if(year != checkDate.getYear()) {
             throw new BasicDateException(
-                    (new StringBuilder())
-                        .append("BasicDate 'year' invalid = ")
-                        .append(toString())
-                        .toString()
-                        );
+                (new StringBuilder())
+                    .append("BasicDate 'year' invalid = ")
+                    .append(toString())
+                    .toString()
+                    );
         }
     }
 

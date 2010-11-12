@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.util.checksum;
 
@@ -17,7 +17,7 @@ import java.util.Collection;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
 public class MessageDigestFile
@@ -28,9 +28,11 @@ public class MessageDigestFile
         '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
         };
     private transient MessageDigest md;
+    /** @serial */
     private byte[] buffer;
+    /** @serial */
     private byte[] lastDigest = null;
-    
+
     /**
      * Default buffer size : {@value}
      */
@@ -39,7 +41,7 @@ public class MessageDigestFile
     /**
      * Create a MessageDigestFile object that based on
      * MD5 algorithm
-     * 
+     *
      * @throws NoSuchAlgorithmException if no Provider supports a
      *         MessageDigestSpi implementation for MD5, (should
      *         not occur since MD5, should be implemented on all
@@ -49,12 +51,12 @@ public class MessageDigestFile
     {
         this("MD5");
     }
-    
+
     /**
      * Create a MessageDigestFile object that
-     * use the specified digest algorithm. 
-     * 
-     * @param algorithm the name of the algorithm requested. 
+     * use the specified digest algorithm.
+     *
+     * @param algorithm the name of the algorithm requested.
      * @throws NoSuchAlgorithmException if no Provider supports a
      *         MessageDigestSpi implementation for the specified
      *         algorithm.*
@@ -62,7 +64,7 @@ public class MessageDigestFile
      */
     public MessageDigestFile(
             String algorithm
-            ) 
+            )
         throws NoSuchAlgorithmException
     {
         this(
@@ -73,9 +75,9 @@ public class MessageDigestFile
 
     /**
      * Create a MessageDigestFile object that
-     * use the specified digest algorithm. 
-     * 
-     * @param algorithm the name of the algorithm requested. 
+     * use the specified digest algorithm.
+     *
+     * @param algorithm the name of the algorithm requested.
      * @param bufferSize buffer size
      * @throws NoSuchAlgorithmException if no Provider supports a
      *         MessageDigestSpi implementation for the specified
@@ -85,7 +87,7 @@ public class MessageDigestFile
     public MessageDigestFile(
             String algorithm,
             int    bufferSize
-            ) 
+            )
         throws NoSuchAlgorithmException
     {
         this(
@@ -96,10 +98,10 @@ public class MessageDigestFile
 
 //    /**
 //     * Create a MessageDigestFile object that
-//     * use the specified digest algorithm. 
-//     * 
-//     * @param algorithm the name of the algorithm requested. 
-//     * @param provider the provider. 
+//     * use the specified digest algorithm.
+//     *
+//     * @param algorithm the name of the algorithm requested.
+//     * @param provider the provider.
 //     * @param bufferSize buffer size
 //     * @throws NoSuchAlgorithmException if no Provider supports a
 //     *         MessageDigestSpi implementation for the specified
@@ -107,7 +109,7 @@ public class MessageDigestFile
 //     * @see MessageDigest#getInstance(String, Provider)
 //     */
 //    public MessageDigestFile(
-//            String      algorithm, 
+//            String      algorithm,
 //            Provider    provider,
 //            int         bufferSize
 //            ) throws NoSuchAlgorithmException
@@ -120,13 +122,13 @@ public class MessageDigestFile
 
     /**
      * Create a MessageDigestFile object that
-     * use the specified messageDigest. 
-     * 
+     * use the specified messageDigest.
+     *
      * @param messageDigest the messageDigest
      * @param bufferSize buffer size
      */
     private MessageDigestFile(
-            MessageDigest   messageDigest, 
+            MessageDigest   messageDigest,
             int             bufferSize
             )
     {
@@ -153,21 +155,21 @@ public class MessageDigestFile
         this.lastDigest = md.digest();
         return this.lastDigest;
     }
-    
+
     /**
      * Returns a string that identifies the algorithm, independent
      * of implementation details.
-     * 
+     *
      * @return the name of the algorithm.
      * @see java.security.MessageDigest#getAlgorithm()
      */
     public final String getAlgorithm()
     {
-        // The name should be a standard Java 
-        // Security name (such as "SHA", "MD5", and so on). 
-        // See Appendix A in the Java Cryptography Architecture 
-        // API Specification & Reference for information 
-        // about standard algorithm names. 
+        // The name should be a standard Java
+        // Security name (such as "SHA", "MD5", and so on).
+        // See Appendix A in the Java Cryptography Architecture
+        // API Specification & Reference for information
+        // about standard algorithm names.
         return md.getAlgorithm();
     }
 
@@ -175,7 +177,7 @@ public class MessageDigestFile
      * Returns the length of the digest in bytes, or 0 if
      * this operation is not supported by the provider
      * and the implementation is not cloneable
-     * 
+     *
      * @return the length of the digest in bytes.
      * @see java.security.MessageDigest#getDigestLength()
      */
@@ -185,7 +187,7 @@ public class MessageDigestFile
     }
 
     /**
-     * Returns the provider of message digest object. 
+     * Returns the provider of message digest object.
      * @return the provider of message digest object.
      * @see java.security.MessageDigest#getProvider()
      */
@@ -195,7 +197,7 @@ public class MessageDigestFile
     }
 
     /**
-     * 
+     *
      * @see java.security.MessageDigest#reset()
      */
     protected void reset()
@@ -245,8 +247,8 @@ public class MessageDigestFile
 
     /**
      * Returns hex String value for digestKey.
-     * 
-     * @param digestKey disgestKey to transform into String 
+     *
+     * @param digestKey disgestKey to transform into String
      * @return Hex String
      * @see #computeDigestKey(String)
      * @see #digest()
@@ -299,9 +301,9 @@ public class MessageDigestFile
 
     // BEGIN File specific
     /**
-     * Compute MD value for giving file 
+     * Compute MD value for giving file
      * (use nio {@link FileChannel})
-     * 
+     *
      * @param file File to read
      * @return MD value has an array of bytes
      * @throws FileNotFoundException
@@ -344,11 +346,11 @@ public class MessageDigestFile
         }
  */
     /**
-     * Compute MD value for giving file 
+     * Compute MD value for giving file
      * (use nio {@link FileChannel})
-     * 
+     *
      * @param file File to read
-     * @param listeners 
+     * @param listeners
      * @return MD value has an array of bytes
      * @throws FileNotFoundException
      * @throws IOException
@@ -371,7 +373,7 @@ public class MessageDigestFile
                 ) {
             bb.flip();
             update(bb);
-            
+
             for(DigestEventListener l:listeners) {
                 l.computeDigest( file, bb.position() );
             }
@@ -393,9 +395,9 @@ public class MessageDigestFile
     }
 
     /**
-     * Compute MD value for giving file 
+     * Compute MD value for giving file
      * (use {@link FileInputStream})
-     * 
+     *
      * @param file File to read
      * @return MD value has an array of bytes
      * @throws FileNotFoundException
@@ -409,7 +411,7 @@ public class MessageDigestFile
 
         FileInputStream fis  = new FileInputStream(file);
         int             l;
-        
+
         while( (l = fis.read( buffer )) != -1 ) {
             update(buffer,0,l);
             }
@@ -422,10 +424,10 @@ public class MessageDigestFile
 
         return digestDelegator();
     }
-    
+
     /**
      * Return last hash computation
-     * 
+     *
      * @return the array of bytes for the resulting hash value.
      * @throws IllegalStateException if digest not yet
      *         initialized
@@ -454,7 +456,7 @@ public class MessageDigestFile
         return computeDigestKeyString( lastDigest );
     }
     // END File specific
-    
+
     //Serializable
     private void writeObject(java.io.ObjectOutputStream out)
         throws IOException
@@ -462,14 +464,14 @@ public class MessageDigestFile
         out.defaultWriteObject();
         out.writeUTF( getAlgorithm() );
     }
-    
+
     //Serializable
     private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
         String algorithm = in.readUTF();
-        
+
         try {
             this.md = MessageDigest.getInstance(algorithm);
         }

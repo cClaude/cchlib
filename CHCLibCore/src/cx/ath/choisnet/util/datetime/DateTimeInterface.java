@@ -12,13 +12,13 @@ public interface DateTimeInterface
     /**
      * 
      * @param format
-     * @return
+     * @return TODO doc!
      */
     public abstract String toString(Format format);
 
     /**
      * 
-     * @return
+     * @return TODO doc!
      */
     public abstract long longValue();
 }

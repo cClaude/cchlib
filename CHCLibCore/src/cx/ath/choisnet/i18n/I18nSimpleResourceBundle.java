@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.i18n;
 
@@ -11,7 +11,7 @@ import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
 /**
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nInterface}
- * 
+ *
  * @author Claude CHOISNET
  */
 public class I18nSimpleResourceBundle
@@ -20,11 +20,13 @@ public class I18nSimpleResourceBundle
 {
     private static final long serialVersionUID = 1L;
     private transient static Logger  slogger = Logger.getLogger(I18nSimpleResourceBundle.class);
+    /** @serial */
     private String         resourceBundleBaseName;
+    /** @serial */
     private Locale         currentLocale;
 
     /**
-     * @param resourceBundleBaseName 
+     * @param resourceBundleBaseName
      */
     public I18nSimpleResourceBundle(
             String resourceBundleBaseName
@@ -32,13 +34,13 @@ public class I18nSimpleResourceBundle
     {
         this(null,resourceBundleBaseName);
     }
-    
+
     /**
-     * 
+     *
      * @param locale
      * @param resourceBundleBaseName
      */
-    public I18nSimpleResourceBundle( 
+    public I18nSimpleResourceBundle(
             Locale locale,
             String resourceBundleBaseName
             )
@@ -50,13 +52,13 @@ public class I18nSimpleResourceBundle
 
     /**
      * Set current Locale
-     * 
+     *
      * @param language
      * @param country
      */
-    public void setLocale( 
-            String language, 
-            String country 
+    public void setLocale(
+            String language,
+            String country
             )
     {
         setLocale( new Locale( language, country ) );
@@ -71,16 +73,16 @@ public class I18nSimpleResourceBundle
         slogger.info( "setLocale() - currentLocale= " + currentLocale );
         slogger.info( "setLocale() - getLocale() = " + getLocale() );
 
-        super.resourceBundle 
-            = ResourceBundle.getBundle( 
+        super.resourceBundle
+            = ResourceBundle.getBundle(
                     resourceBundleBaseName,
-                    getLocale() 
+                    getLocale()
                     );
         slogger.info( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
         slogger.info( "ResourceBundle = " + resourceBundle );
     }
 
-    
+
     @Override // I18nAutoUpdateInterface
     public Locale getLocale()
     {
@@ -91,7 +93,7 @@ public class I18nSimpleResourceBundle
             return this.currentLocale;
         }
     }
-    
+
     @Override // I18nAutoUpdateInterface
     public String getResourceBundleBaseName()
     {

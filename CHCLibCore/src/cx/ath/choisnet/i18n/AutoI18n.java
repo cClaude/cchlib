@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.i18n;
 
@@ -24,7 +24,7 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
  * <p>
  * You can customize AutoI18n by many ways:
  * <br/>
- * - Using annotations {@link I18n}, {@link I18nIgnore}, 
+ * - Using annotations {@link I18n}, {@link I18nIgnore},
  * {@link I18nString};
  * <br/>
  * - Using custom process by extending {@link AutoI18nBasicInterface},
@@ -37,30 +37,30 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
  * <pre>
  *     // on main object (JFrame)
  *     private AutoI18n autoI18n = {@code <<init_AutoI18n>>}
- *     
+ *
  *     private void init()
  *     {
  *       ...
  *       // after all initialization ...
  *       // Localize current class
  *       autoI18n.performeI18n(this,this.getClass());
- *       
+ *
  *       // but also you can Localize some extra fields
  *       autoI18n.performeI18n(this.myPanel,this.myPanel.getClass());
  *     }
  * </pre>
  * <b>How to initialize:</b>
  * <pre>
- *     AutoI18n autoI18n = new AutoI18n( 
+ *     AutoI18n autoI18n = new AutoI18n(
             new {@link I18nSimpleResourceBundle}( "{@code <<MessageBundleFullName>>}" ),
             new {@link AutoI18nLog4JExceptionHandler}(),
-            EnumSet.of( 
+            EnumSet.of(
                 AutoI18n.Attribute.DO_DEEP_SCAN
                 )
             );
  * </pre>
  * </p>
- * 
+ *
  * @author Claude CHOISNET
  *
  * TODO: Complete this doc...
@@ -71,9 +71,13 @@ public class AutoI18n implements Serializable
     private transient Object      objectToI18n;
     private transient Class<?>    objectToI18nClass;
     private transient String      objectToI18nClassNamePrefix;
+    /** @serial */
     private I18nInterface i18n;
+    /** @serial */
     private AutoI18nEventHandler eventHandler;
-    private AutoI18nExceptionHandler exceptionHandler; 
+    /** @serial */
+    private AutoI18nExceptionHandler exceptionHandler;
+    /** @serial */
     private EnumSet<Attribute> config;
     private final static Class<?>[] ignoredClasses = {
         Object.class,
@@ -83,18 +87,19 @@ public class AutoI18n implements Serializable
         Window.class,
         JPanel.class,
         };
+    /** @serial */
     private AutoI18nTypes types;
     /**
      * How to select Fields:
      * <p>
      * By default, I18n process inspect all the fields
-     * declared by the class or interface represented. 
+     * declared by the class or interface represented.
      * by 'objectToI18n' ({@link AutoI18n#performeI18n(Object, Class)}.
      * This includes public, protected, default (package)
-     * access, and private fields, but excludes inherited 
+     * access, and private fields, but excludes inherited
      * fields.
      * </p>
-     * 
+     *
      * @author Claude CHOISNET
      */
     public enum Attribute
@@ -102,7 +107,7 @@ public class AutoI18n implements Serializable
         /**
          * Select only field objects reflecting all the
          * accessible public fields of the class or
-         * interface represented by 'objectToI18n' 
+         * interface represented by 'objectToI18n'
          * ({@link AutoI18n#performeI18n(Object, Class)}.
          */
         ONLY_PUBLIC,
@@ -120,40 +125,40 @@ public class AutoI18n implements Serializable
 //    /**
 //     * Create an AutoI18n object using {@link I18nSimpleResourceBundle}
 //     * and {@link AutoI18nSystemErrExceptionHandler}
-//     * 
+//     *
 //     * @param resourceBundleBaseName
 //     */
 //    public AutoI18n( String resourceBundleBaseName )
 //    {
 //        this( new I18nSimpleResourceBundle(resourceBundleBaseName));
 //    }
-//    
+//
 //    /**
 //     * @param i18n {@link I18nInterface} to use
 //     */
 //    public AutoI18n( I18nInterface i18n )
 //    {
 //        this(
-//            i18n, 
+//            i18n,
 //            new AutoI18nSystemErrExceptionHandler(),
 //            null
 //            );
 //    }
-    
+
     /**
      * Create an AutoI18n object using {@link I18nInterface},
-     * 
+     *
      * @param i18n I18nInterface to use
      * @param autoI18nTypes AutoI18nTypes to use (could be null
      *        then use defaults implementation : {@link I18nSimpleResourceBundle})
-     * @param exceptionHandler  AutoI18nExceptionHandler 
+     * @param exceptionHandler  AutoI18nExceptionHandler
      *                          to use handle exceptions.
-     * @param eventHandler AutoI18nEventHandler to use to 
+     * @param eventHandler AutoI18nEventHandler to use to
      *                     handle events. (could be null).
      * @param attributes Customize Auto18n (could be null to
      * use defaults).
      */
-    public AutoI18n( 
+    public AutoI18n(
             I18nInterface               i18n,
             AutoI18nTypes               autoI18nTypes,
             AutoI18nExceptionHandler    exceptionHandler,
@@ -170,7 +175,7 @@ public class AutoI18n implements Serializable
         setI18n( i18n );
         setAutoI18nExceptionHandler( exceptionHandler );
         this.eventHandler = eventHandler;
-        
+
         if( attributes == null ) {
             this.config = EnumSet.noneOf( Attribute.class );
         }
@@ -181,7 +186,7 @@ public class AutoI18n implements Serializable
 
     /**
      * Change {@link I18nInterface} to use
-     * 
+     *
      * @param i18n {@link I18nInterface} to use
      */
     public void setI18n( final I18nInterface i18n )
@@ -194,7 +199,7 @@ public class AutoI18n implements Serializable
 
     /**
      * Change {@link AutoI18nExceptionHandler} to use
-     * 
+     *
      * @param handler {@link AutoI18nExceptionHandler} to use
      */
     public void setAutoI18nExceptionHandler( AutoI18nExceptionHandler handler )
@@ -231,7 +236,7 @@ public class AutoI18n implements Serializable
      *      2.5. If field value is an instance of javax.swing.JCheckBox
      *           use {@link javax.swing.JCheckBox#setText(String)}
      * </pre>
-     * @param <T> 
+     * @param <T>
      * @param objectToI18n Object to I18n
      * @param clazz        Class to use for I18n
      * @see AutoI18nBasicInterface
@@ -239,11 +244,11 @@ public class AutoI18n implements Serializable
      * @see AutoI18nCustomInterface
      * @see AutoI18nCustomInterface#getI18n(I18nInterface)
      */
-    synchronized public <T> void performeI18n( 
+    synchronized public <T> void performeI18n(
             final T                     objectToI18n,
             final Class<? extends T>    clazz
             )
-    {        
+    {
         if( this.exceptionHandler == null ) {
             setAutoI18nExceptionHandler( new AutoI18nLog4JExceptionHandler() );
         }
@@ -320,10 +325,10 @@ public class AutoI18n implements Serializable
             else {
                 break;
             }
-        } 
+        }
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
     }
-    
+
     private <T> void setObjectToI18n(
             T                   objectToI18n,
             Class<? extends T>  clazz
@@ -360,7 +365,7 @@ public class AutoI18n implements Serializable
                 else {
                     setValueFromAnnotation( f, key, methods );
                 }
-            } 
+            }
             else if( f.getType().isArray() ) {
                 if( f.getAnnotation( I18nString.class ) != null ) {
                     Class<?> ac = f.getType().getComponentType();
@@ -382,7 +387,7 @@ public class AutoI18n implements Serializable
                 Object o = f.get( objectToI18n );
 
                 setAutoI18nCustomInterface( AutoI18nCustomInterface.class.cast( o ) );
-            } 
+            }
             else {
                 key = getKey( f );
                 setValueFromKey( f, key );
@@ -415,7 +420,7 @@ public class AutoI18n implements Serializable
     {
         autoI18n.setI18n( this.i18n );
     }
-    
+
     // Warning !
     // Warning !
     // Warning !
@@ -423,7 +428,7 @@ public class AutoI18n implements Serializable
      * This method is use by AutoI18UpdateBundle
      * @return key name for this field
      */
-    protected String getKey( Field f ) 
+    protected String getKey( Field f )
     {
         return this.objectToI18nClassNamePrefix + f.getName();
     }
@@ -431,15 +436,15 @@ public class AutoI18n implements Serializable
     private void setValueFromKey(
             Field   f,
             String  k
-            ) 
+            )
     throws  IllegalArgumentException,
-            IllegalAccessException 
+            IllegalAccessException
     {
         if( String.class.isAssignableFrom( f.getType() ) ) {
             if( f.getAnnotation( I18nString.class ) != null ) {
                 f.setAccessible( true );
                 f.set( this.objectToI18n, i18n.getString( k ) );
-                
+
                 if( eventHandler!=null ) {
                     eventHandler.localizedField( f );
                 }
@@ -460,12 +465,12 @@ public class AutoI18n implements Serializable
             }
         }
         Class<?> fclass = f.getType();
-        
+
         if( AutoI18nBasicInterface.class.isAssignableFrom( fclass ) ) {
             f.setAccessible( true );
             Object o = f.get( objectToI18n );
-            
-            AutoI18nBasicInterface.class.cast( o ).setI18nString( 
+
+            AutoI18nBasicInterface.class.cast( o ).setI18nString(
                     i18n.getString( k )
                     );
             if( eventHandler!=null ) {
@@ -475,13 +480,13 @@ public class AutoI18n implements Serializable
         }
 
         Key key = new Key( k );
-        
+
         try {
             for(AutoI18nTypes.Type t:types) {
                 if( t.getType().isAssignableFrom( fclass ) ) {
                     f.setAccessible( true );
-                    t.setText( 
-                            f.get( objectToI18n ), 
+                    t.setText(
+                            f.get( objectToI18n ),
                             key
                             );
 
@@ -495,14 +500,14 @@ public class AutoI18n implements Serializable
         catch( MissingResourceException e ) {
             this.exceptionHandler.handleMissingResourceException( e, f, key );
        }
-        
+
         if( eventHandler!=null ) {
             eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NOT_HANDLED );
         }
     }
 
     /**
-     * 
+     *
      * @param f
      * @param i18n
      * @return null or 2 methods (m[0]=set, m[1]=get]
@@ -510,7 +515,7 @@ public class AutoI18n implements Serializable
     private Method[] getMethods(Field f, I18n i18n )
     {
         String suffixName = i18n.methodSuffixName();
-        
+
         if( suffixName.length() > 0 ) {
             Method[] methods = new Method[2];
 
@@ -527,7 +532,7 @@ public class AutoI18n implements Serializable
             }
             try {
                 methods[1] = this.objectToI18nClass.getMethod( "get"+ suffixName );
-                
+
                 //TODO: check return type == String
             }
             catch( SecurityException e ) {
@@ -536,14 +541,14 @@ public class AutoI18n implements Serializable
             catch( NoSuchMethodException e ) {
                 this.exceptionHandler.handleNoSuchMethodException(e);
             }
-            
+
             return methods;
         }
         return null;
     }
 
-    //private void setValueFromAnnotation( Field f, String key, I18n anno ) 
-    private void setValueFromAnnotation( Field f, String key, Method[] methods ) 
+    //private void setValueFromAnnotation( Field f, String key, I18n anno )
+    private void setValueFromAnnotation( Field f, String key, Method[] methods )
         throws java.util.MissingResourceException
     {
         //String methodName = anno.methodName();
@@ -594,7 +599,7 @@ public class AutoI18n implements Serializable
     {
         return types;
     }
-    
+
     public class Key
     {
         private String key;

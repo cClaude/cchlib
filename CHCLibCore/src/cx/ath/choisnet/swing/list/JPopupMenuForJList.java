@@ -12,9 +12,9 @@ import javax.swing.ListModel;
 import cx.ath.choisnet.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
- * TODO: Doc !
- * 
- * 
+ * JPopupMenuForJTable is a context menu builder
+ * for {@link JList}.
+ *
  * @author Claude CHOISNET
  * <p>
  * Code inspired from
@@ -81,7 +81,7 @@ public abstract class JPopupMenuForJList
 
     /**
      * TODO: Doc !
-     * 
+     *
      */
     final
     public void setMenu()
@@ -132,13 +132,17 @@ public abstract class JPopupMenuForJList
 //    }
 
     /**
-     * To overwrite !
-     * 
-     * @param rowIndex
-     * @param columnIndex
-     * @return
+     * <P>
+     * You must overwrite this method !
+     * </P>
+     * Create a JPopupMenu for this row, this method
+     * is call when user try to access to context menu
+     * for the 'rowIndex' entry in JList.
+     *
+     * @param rowIndex current rowIndex.
+     * @return JPopupMenu for this row
      */
-    protected JPopupMenu createContextMenu( 
+    protected JPopupMenu createContextMenu(
             final int rowIndex
             )
     {
@@ -147,17 +151,17 @@ public abstract class JPopupMenuForJList
         //addCopyMenuItem(contextMenu, rowIndex);
         //addPasteMenuItem(contextMenu, rowIndex);
     }
-    
+
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextMenu
 //     * @param menuItem
 //     */
 //    final
-//    protected void add( 
+//    protected void add(
 //            JPopupMenu  contextMenu,
-//            JMenuItem   menuItem 
+//            JMenuItem   menuItem
 //            )
 //    {
 //        contextMenu.add( menuItem );
@@ -165,14 +169,14 @@ public abstract class JPopupMenuForJList
 
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextSubMenu
 //     * @param menuItem
 //     */
-//    final 
-//    public void add( 
+//    final
+//    public void add(
 //            JMenu       contextSubMenu,
-//            JMenuItem   menuItem 
+//            JMenuItem   menuItem
 //            )
 //    {
 //        contextSubMenu.add( menuItem );
@@ -180,7 +184,7 @@ public abstract class JPopupMenuForJList
 //
 //    /**
 //     * T ODO: Doc !
-//     * 
+//     *
 //     * @param contextMenu
 //     * @param menuItem
 //     * @param listener
@@ -198,7 +202,7 @@ public abstract class JPopupMenuForJList
 //
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextSubMenu
 //     * @param menuItem
 //     * @param listener
@@ -213,14 +217,14 @@ public abstract class JPopupMenuForJList
 //        menuItem.addActionListener( listener );
 //        contextSubMenu.add( menuItem );
 //    }
-//    
+//
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextMenu
 //     * @param menuItem
 //     * @param listener
-//     * @param actionCommand 
+//     * @param actionCommand
 //     */
 //    final
 //    public void add(
@@ -234,22 +238,22 @@ public abstract class JPopupMenuForJList
 //        menuItem.addActionListener( listener );
 //        contextMenu.add( menuItem );
 //    }
-//    
+//
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextSubMenu
 //     * @param menuItem
 //     * @param listener
-//     * @param clientPropertyKey 
-//     * @param clientPropertyValue 
+//     * @param clientPropertyKey
+//     * @param clientPropertyValue
 //     */
 //    final
 //    public void add(
 //            JMenu           contextSubMenu,
 //            JMenuItem       menuItem,
 //            ActionListener  listener,
-//            Object          clientPropertyKey, 
+//            Object          clientPropertyKey,
 //            Object          clientPropertyValue
 //            )
 //    {
@@ -260,19 +264,19 @@ public abstract class JPopupMenuForJList
 //
 //    /**
 //     * TOD O: Doc !
-//     * 
+//     *
 //     * @param contextMenu
 //     * @param menuItem
 //     * @param listener
-//     * @param clientPropertyKey 
-//     * @param clientPropertyValue 
+//     * @param clientPropertyKey
+//     * @param clientPropertyValue
 //     */
 //    final
 //    public void add(
 //            JPopupMenu      contextMenu,
 //            JMenuItem       menuItem,
 //            ActionListener  listener,
-//            Object          clientPropertyKey, 
+//            Object          clientPropertyKey,
 //            Object          clientPropertyValue
 //            )
 //    {
@@ -280,14 +284,14 @@ public abstract class JPopupMenuForJList
 //        menuItem.addActionListener( listener );
 //        contextMenu.add( menuItem );
 //    }
-//    
+//
 //    /**
 //     * TO DO: Doc !
-//     * 
+//     *
 //     * @param contextSubMenu
 //     * @param menuItem
 //     * @param listener
-//     * @param actionCommand 
+//     * @param actionCommand
 //     */
 //    final
 //    public void add(
@@ -304,7 +308,7 @@ public abstract class JPopupMenuForJList
 
     /**
      * TODO: Doc !
-     * 
+     *
      * @param contextMenu
      * @param rowIndex
      */
@@ -315,7 +319,7 @@ public abstract class JPopupMenuForJList
             int         rowIndex
             )
     {
-        add( 
+        add(
             contextMenu,
             copyMenu,
             copyActionListener(rowIndex)
@@ -323,7 +327,7 @@ public abstract class JPopupMenuForJList
     }
     /**
      * TODO: Doc !
-     * 
+     *
      * @param contextMenu
      * @param rowIndex
      */
@@ -339,16 +343,16 @@ public abstract class JPopupMenuForJList
                 rowIndex
                 );
     }
-    
+
     /**
      * Returns an ActionListener for 'copy' from
      * current row to clip-board
-     * @param rowIndex 
-     * 
+     * @param rowIndex
+     *
      * @return an ActionListener for 'copy' from
      *         current row to clip-board
      */
-    final 
+    final
     public ActionListener copyActionListener(final int rowIndex)
     {
         return new ActionListener()
@@ -358,7 +362,7 @@ public abstract class JPopupMenuForJList
             {
                 Object value = getListModel().getElementAt( rowIndex );
 
-                setClipboardContents( 
+                setClipboardContents(
                         value == null ? "" : value.toString()
                         );
             }

@@ -87,7 +87,7 @@ public class DefaultDigestFileCollector
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(
      *          rootDirectory,
-     *          @{link FileFilterHelper}.fileFileFilter()
+     *          {@link FileFilterHelper}.fileFileFilter()
      *          );
      * </pre>
      *

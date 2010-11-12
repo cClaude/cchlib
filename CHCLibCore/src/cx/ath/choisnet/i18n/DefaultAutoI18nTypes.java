@@ -17,6 +17,7 @@ import javax.swing.JTabbedPane;
 public class DefaultAutoI18nTypes implements AutoI18nTypes
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private ArrayList<AutoI18nTypes.Type> types;
 
     /**

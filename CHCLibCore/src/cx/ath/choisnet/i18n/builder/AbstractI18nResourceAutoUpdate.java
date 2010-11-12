@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.i18n.builder;
 
@@ -22,10 +22,10 @@ import cx.ath.choisnet.i18n.I18nString;
 
 /***
  * TODO: Doc!
- * 
+ *
  * @author Claude CHOISNET
  */
-public abstract class AbstractI18nResourceAutoUpdate 
+public abstract class AbstractI18nResourceAutoUpdate
     extends AutoI18n
         implements Closeable
 {
@@ -33,7 +33,7 @@ public abstract class AbstractI18nResourceAutoUpdate
 
     /**
      * TODO: Doc !!
-     * 
+     *
      * @author Claude CHOISNET
      */
     public enum Attribute {
@@ -43,21 +43,24 @@ public abstract class AbstractI18nResourceAutoUpdate
         ADD_ONLY_NEEDED_KEY
     }
     private transient static Logger slogger = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
+    /** @serial */
     private HashMap<String,String> keysValues = new HashMap<String,String>();
+    /** @serial */
     private EnumSet<Attribute> attribs;
+    /** @serial */
     private I18nAutoUpdateInterface i18nAutoUpdateInterface;
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param i18nAutoUpdateInterface
-     * @param autoI18nTypes 
-     * @param exceptionHandler 
-     * @param eventHandler 
-     * @param autoI18nAttributes 
-     * @param bundleAttributes 
+     * @param autoI18nTypes
+     * @param exceptionHandler
+     * @param eventHandler
+     * @param autoI18nAttributes
+     * @param bundleAttributes
      */
-    public AbstractI18nResourceAutoUpdate( 
+    public AbstractI18nResourceAutoUpdate(
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
             AutoI18nTypes                                       autoI18nTypes,
             AutoI18nExceptionHandler                            exceptionHandler,
@@ -80,9 +83,9 @@ public abstract class AbstractI18nResourceAutoUpdate
             private static final long serialVersionUID = 1L;
             @Override
             public void handleMissingResourceException(
-                    MissingResourceException    mse, 
-                    Field                       f, 
-                    String                      key 
+                    MissingResourceException    mse,
+                    Field                       f,
+                    String                      key
                     )
             {
                 getParentHandler().handleMissingResourceException( mse, f, key );
@@ -93,7 +96,7 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                     try {
                         Object o = f.get( getObjectToI18n() );
-                        
+
                         if( o instanceof String ) {
                             needProperty(key, String.class.cast( o ) );
                             return; // done
@@ -101,7 +104,7 @@ public abstract class AbstractI18nResourceAutoUpdate
                         else if( o instanceof String[] ) {
                             String[] values = String[].class.cast( o );
                             String   prefix = getKey( f ) + '.';
-                            
+
                             for(int i=0;i<values.length;i++) {
                                 needProperty(prefix+i,values[i]);
                             }
@@ -145,9 +148,9 @@ public abstract class AbstractI18nResourceAutoUpdate
             }
             @Override
             public void handleMissingResourceException(
-                    MissingResourceException    mse, 
-                    Field                       f, 
-                    Key                         key 
+                    MissingResourceException    mse,
+                    Field                       f,
+                    Key                         key
                     )
             {
                 getParentHandler().handleMissingResourceException( mse, f, key );
@@ -166,7 +169,7 @@ public abstract class AbstractI18nResourceAutoUpdate
                             }
                             else if( values.length > 1 ) {
                                 String   prefix = getKey( f ) + '.';
-                                
+
                                 for(int i=0;i<values.length;i++) {
                                     needProperty(prefix+i,values[i]);
                                 }
@@ -191,17 +194,17 @@ public abstract class AbstractI18nResourceAutoUpdate
             }
             @Override
             public void handleMissingResourceException(
-                    MissingResourceException mse, 
+                    MissingResourceException mse,
                     Field                    f,
                     String                   key,
-                    Method[]                 methods 
+                    Method[]                 methods
                     )
             {
                 getParentHandler().handleMissingResourceException( mse, f, key );
 
                 try {
                     String v = (String)methods[1].invoke( getObjectToI18n() );
-                    
+
                     if( v == null ) {
                         v = String.format("<<get 'null' from %s>>",methods[1]);
                     }
@@ -229,19 +232,19 @@ public abstract class AbstractI18nResourceAutoUpdate
             this.attribs = EnumSet.copyOf( bundleAttributes );
         }
     }
-    
+
     /**
      * Set I18nAutoUpdateInterface object.
-     * 
+     *
      * @param i18nAutoUpdateInterface
      */
     public void setI18nAutoUpdateInterface( final I18nAutoUpdateInterface i18nAutoUpdateInterface )
     {
         this.i18nAutoUpdateInterface = i18nAutoUpdateInterface;
-    
+
         super.setI18n( i18nAutoUpdateInterface );
     }
-    
+
     /**
      * @return internal I18nAutoUpdateInterface
      */
@@ -249,11 +252,11 @@ public abstract class AbstractI18nResourceAutoUpdate
     {
         return this.i18nAutoUpdateInterface;
     }
-    
+
     protected void needProperty( String key, String value )
     {
         System.err.printf( "needProperty( \"%s\", \"%s\" )\n",key,value);
-        
+
         if( key == null ) {
             throw new NullPointerException("'key' is null");
         }
@@ -264,17 +267,17 @@ public abstract class AbstractI18nResourceAutoUpdate
     }
 
     /**
-     * @throws IOException 
+     * @throws IOException
      */
     protected abstract void loadKnowValue() throws IOException;
 
     /**
      * Must call {@link #getProperties()}
-     * 
+     *
      * @throws IOException
      */
     protected abstract void saveValues() throws IOException;
-    
+
     @Override // Closeable
     public void close() throws IOException
     {
@@ -313,10 +316,10 @@ public abstract class AbstractI18nResourceAutoUpdate
     protected HashMap<String, String> getProperties()
     {
         return keysValues;
-    }   
+    }
 }
 ///**
-//* 
+//*
 //* @param mapOfUnknownEntries
 //*/
 //public abstract void setUnknownMap(Map<String,String> mapOfUnknownEntries);
@@ -329,15 +332,15 @@ public abstract class AbstractI18nResourceAutoUpdate
 //  try {
 //      //slogger.info( "@key :" + abstractFieldValue.getKey() );
 //      String result = super.getKeyValue( abstractFieldValue );
-//  
+//
 //      return result;
 //  }
 //  catch( MissingResourceException logIt ) {
 //      slogger.warn( "Found unkwnon key :" + abstractFieldValue.getKey() + " for Field:" + abstractFieldValue.getField().getName() );
 //  }
-//  
+//
 //  Object fieldValue = null;
-//  
+//
 //  try {
 //      //fieldValue = abstractFieldValue.getField().get( abstractFieldValue.getObjectToI18n() );
 //      fieldValue = abstractFieldValue.getField().get( getObjectToI18n() );
@@ -350,9 +353,9 @@ public abstract class AbstractI18nResourceAutoUpdate
 //      // TO DO Auto-generated catch block
 //      e.printStackTrace();
 //  }
-//  
+//
 //  boolean done = false;
-//  
+//
 //  if( fieldValue instanceof AutoI18nBasicInterface) {
 //      String text = AutoI18nBasicInterface.class.cast( fieldValue ).getI18nString();
 //      this.keysValues.put( abstractFieldValue.getKey(), text );
@@ -382,7 +385,7 @@ public abstract class AbstractI18nResourceAutoUpdate
 //  if( !done ) {
 //      this.keysValues.put( abstractFieldValue.getKey(), abstractFieldValue.getField().getName() );
 //  }
-//  
+//
 //  return abstractFieldValue.getField().getName();
 //}
 
@@ -391,7 +394,7 @@ public abstract class AbstractI18nResourceAutoUpdate
 //{
 //  try {
 //      autoI18n.setI18n( this.i18n );
-//      
+//
 //      return;
 //  }
 //  catch( MissingResourceException logIt ) {

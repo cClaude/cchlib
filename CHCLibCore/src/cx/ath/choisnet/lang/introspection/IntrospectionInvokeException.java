@@ -19,7 +19,7 @@ public class IntrospectionInvokeException extends IntrospectionException {
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private Method method;
+    private Method method;  // NOT SERIALISABLE !
     /** @serial */
     private Class<?>[] paramsClasses;
 

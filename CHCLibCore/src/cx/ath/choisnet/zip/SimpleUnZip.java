@@ -70,7 +70,8 @@ public class SimpleUnZip
     /**
      * 
      * @param folderFile
-     * @return
+     * @return File object for this new file, or null
+     * if no more entry in zip.
      * @throws java.io.IOException
      */
     public File saveNextEntry(File folderFile)
@@ -92,28 +93,25 @@ public class SimpleUnZip
 
         File parent = file.getParentFile();
 
-        OutputStream output;
+        //OutputStream output;
 
         if(zipEntry.isDirectory()) {
-            output = null;
+            //output = null;
             file.mkdirs();
             }
         else {
             if(!parent.isDirectory()) {
                 parent.mkdirs();
                 }
-            output = new BufferedOutputStream(
+            OutputStream output = new BufferedOutputStream(
                         new FileOutputStream( file )
                         );
-        }
+            int len;
 
-        int len;
+            while((len = zis.read(buffer, 0, buffer.length)) != -1) {
+                output.write(buffer, 0, len);
+            }
 
-        while((len = zis.read(buffer, 0, buffer.length)) != -1) {
-            output.write(buffer, 0, len);
-        }
-
-        if(output != null) {
             output.close();
         }
 

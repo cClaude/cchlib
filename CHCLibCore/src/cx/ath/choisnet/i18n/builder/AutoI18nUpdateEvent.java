@@ -5,22 +5,23 @@ import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 
 /**
  * TODO: Doc!
- * 
+ *
  * Can collect missing key !
  */
 public abstract class AutoI18nUpdateEvent
     implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
+    /** @serial */
     private AutoI18nExceptionHandler parentHandler;
-    
+
     /**
      * TODO: Doc!
-     * 
+     *
      * @param eHandler
      */
-    public AutoI18nUpdateEvent( 
-            AutoI18nExceptionHandler eHandler 
+    public AutoI18nUpdateEvent(
+            AutoI18nExceptionHandler eHandler
             )
     {
         this.parentHandler = eHandler;

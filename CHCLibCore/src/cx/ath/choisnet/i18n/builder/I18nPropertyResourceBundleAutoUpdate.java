@@ -35,6 +35,7 @@ public class I18nPropertyResourceBundleAutoUpdate
 {
     private static final long serialVersionUID = 1L;
     private transient static Logger slogger = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
+    /** @serial */
     private File outputFile;
 
 //    /**
@@ -50,8 +51,8 @@ public class I18nPropertyResourceBundleAutoUpdate
     /**
      * @param i18nAutoUpdateInterface
      * @param autoI18nTypes
-     * @param exceptionHandler 
-     * @param eventHandler 
+     * @param exceptionHandler
+     * @param eventHandler
      * @param autoI18nAttributes
      * @param bundleAttributes
      */
@@ -143,7 +144,7 @@ public class I18nPropertyResourceBundleAutoUpdate
 
     /**
      * Force to write result into a specific file
-     * 
+     *
      * @param outputFile the outputFile
      */
     public void setOutputFile( File outputFile )

@@ -17,25 +17,32 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
- * TODO: Doc!
+ * Provide some tools for LookAndFeel
  * 
  * @author Claude CHOISNET
  */
 public class LookAndFeelHelpers
 {
+    private LookAndFeelHelpers()
+    {//All static
+    }
     /**
-     * @param frame
-     * @param lnfName
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws UnsupportedLookAndFeelException
+     * Change LookAndFeel.
+     * 
+     * @param frame    Root frame
+     * @param lnfName  LookAndFeel name to set
+     * @throws ClassNotFoundException if the LookAndFeel class could not be found
+     * @throws InstantiationException if a new instance of the class couldn't be created
+     * @throws IllegalAccessException if the class or initializer isn't accessible
+     * @throws UnsupportedLookAndFeelException if lnf.isSupportedLookAndFeel() is false
+     * @throws ClassCastException if className does not identify a class that extends LookAndFeel
      */
     public static void setLookAndFeel( JFrame frame, String lnfName ) 
         throws ClassNotFoundException,
                InstantiationException, 
                IllegalAccessException, 
-               UnsupportedLookAndFeelException
+               UnsupportedLookAndFeelException,
+               ClassCastException
     {
         // http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
         UIManager.setLookAndFeel(lnfName);
@@ -44,8 +51,12 @@ public class LookAndFeelHelpers
     }
 
     /**
-     * @param frame
-     * @param lnfName
+     * Change LookAndFeel, but never goes to Exception.
+     * If any error occur, just report exception stack trace
+     * to {@link System#err}.
+     * 
+     * @param frame    Root frame
+     * @param lnfName  LookAndFeel name to set
      */
     public static void setLookAndFeelNoException( JFrame frame, String lnfName )
     {

@@ -9,44 +9,45 @@ public interface DateInterface
 {
     /**
      * 
-     * @param dateinterface
-     * @return
+     * @param date
+     * @return true if date is before current date
      */
-    public abstract boolean isBefore(DateInterface dateinterface);
+    public abstract boolean isBefore(DateInterface date);
 
     /**
      * 
-     * @param dateinterface
-     * @return
+     * @param date
+     * @return true if date is after current date
      */
-    public abstract boolean isAfter(DateInterface dateinterface);
+    public abstract boolean isAfter(DateInterface date);
 
     /**
      * 
-     * @param dateinterface
-     * @return
+     * @param date
+     * @return TODO doc!
      * @throws BasicDateTimeException
      */
-    public abstract DateInterface add(DateInterface dateinterface)
+    public abstract DateInterface add(DateInterface date)
         throws BasicDateTimeException;
 
     /**
      * 
-     * @param dateinterface
-     * @return
+     * @param date
+     * @return TODO doc!
      * @throws BasicDateTimeException
      */
-    public abstract DateInterface sub(DateInterface dateinterface)
+    public abstract DateInterface sub(DateInterface date)
         throws BasicDateTimeException;
 
     /**
-     * 
+     * @param date
+     * @return TODO doc!
      */
-    public abstract int compareTo(DateInterface dateinterface);
+    public abstract int compareTo(DateInterface date);
 
     /**
-     * @param dateinterface 
-     * @return 
+     * @param date
+     * @return TODO doc!
      */
-    public abstract boolean equals(DateInterface dateinterface);
+    public abstract boolean equals(DateInterface date);
 }

@@ -22,9 +22,9 @@ public class SwingIntrospectorItem<FRAME>
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private Field   field; // NOT SERIALIZABLE
+    private Field field; // NOT SERIALIZABLE
     /** @serial */
-    private int     index;
+    private int index;
     /** @serial */
     private boolean isRoot;
 
