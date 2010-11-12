@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Base 64 implementation
  *
  * @author Claude CHOISNET
  */

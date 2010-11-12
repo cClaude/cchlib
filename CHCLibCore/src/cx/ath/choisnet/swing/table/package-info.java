@@ -1,5 +1,5 @@
 /**
- * Provide extension for class {@link javax.swing.JTable}
+ * Provide extensions for class {@link javax.swing.JTable}
  * 
  * @author Claude CHOISNET
  */

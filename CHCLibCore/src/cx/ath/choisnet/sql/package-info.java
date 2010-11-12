@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Provide some extensions for SQL requests
  *
  * @author Claude CHOISNET
  */

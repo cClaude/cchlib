@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Extensions for {@link java.util}
  *
  * @author Claude CHOISNET
  */

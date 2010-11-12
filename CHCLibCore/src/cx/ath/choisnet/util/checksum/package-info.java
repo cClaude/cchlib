@@ -1,5 +1,6 @@
 /**
- * TODO
+ * Provide some {@link java.security.MessageDigest}
+ * extensions.
  *
  * @author Claude CHOISNET
  */

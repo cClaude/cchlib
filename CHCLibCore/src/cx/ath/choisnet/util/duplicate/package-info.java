@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Provide solution to identify duplicates files.
  *
  * @author Claude CHOISNET
  */

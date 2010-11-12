@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Default implementations for {@link cx.ath.choisnet.util}
  *
  * @author Claude CHOISNET
  */

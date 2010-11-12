@@ -87,7 +87,7 @@ public class DefaultDigestFileCollector
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(
      *          rootDirectory,
-     *          {@link FileFilterHelper}.fileFileFilter()
+     *          {@link cx.ath.choisnet.io.FileFilterHelper#fileFileFilter()}
      *          );
      * </pre>
      *

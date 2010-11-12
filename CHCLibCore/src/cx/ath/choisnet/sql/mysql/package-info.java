@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Administration tools for MySQL
  *
  * @author Claude CHOISNET
  */
