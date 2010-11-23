@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.test;
 
@@ -11,7 +11,7 @@ import cx.ath.choisnet.io.FileIterator;
 
 /**
  * Provide some tools to build test cases
- * 
+ *
  * @author Claude CHOISNET
  */
 public class TstCaseHelper
@@ -19,16 +19,27 @@ public class TstCaseHelper
     private TstCaseHelper()
     {//All static
     }
-    
+
     /**
      * Returns File object for tmp directory
      * according to java.io.tmpdir Java property.
-     * 
+     *
      * @return File object for tmp directory
      */
     public final static File getTmpDirFile()
     {
         return new File( System.getProperty("java.io.tmpdir" ) );
+    }
+
+    /**
+     * Returns File object for current user home directory
+     * according to user.home Java property.
+     *
+     * @return File object for current user home directory
+     */
+    public final static File getUserHomeDirFile()
+    {
+        return new File( System.getProperty("user.home") );
     }
 
     /**
@@ -39,7 +50,8 @@ public class TstCaseHelper
     {
         return new File( "/" );
     }
-    
+
+
 
     /**
      * Returns File iterator from given directory (does
@@ -56,20 +68,20 @@ public class TstCaseHelper
             )
     {
         FileFilter justFileFilter = FileFilterHelper.not(
-                    FileFilterHelper.directoryFileFilter() 
+                    FileFilterHelper.directoryFileFilter()
                     );
         FileFilter privateFileFilter;
-        
+
         if( fileFilter == null ) {
             privateFileFilter = justFileFilter;
         }
         else {
-            privateFileFilter = FileFilterHelper.and( 
-                    justFileFilter, 
+            privateFileFilter = FileFilterHelper.and(
+                    justFileFilter,
                     fileFilter
                     );
         }
-        
+
         return new FileIterator(
                 fileDirectory,
                 privateFileFilter

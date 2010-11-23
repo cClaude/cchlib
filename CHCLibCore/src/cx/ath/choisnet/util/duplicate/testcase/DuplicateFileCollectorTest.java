@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import cx.ath.choisnet.io.FileIterator;
+import cx.ath.choisnet.test.TstCaseHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
@@ -30,8 +31,8 @@ public class DuplicateFileCollectorTest
     {
         MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
         DuplicateFileCollector  instance           = new DuplicateFileCollector( messageDigestFile, true );
-
-        File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
+        //File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
+        File            root  = TstCaseHelper.getUserHomeDirFile();
         Iterable<File>  files = new FileIterator(
                 root,
                 new java.io.FileFilter()

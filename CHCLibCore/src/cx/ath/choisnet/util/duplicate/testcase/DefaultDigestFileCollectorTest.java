@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import cx.ath.choisnet.io.FileIterator;
+import cx.ath.choisnet.test.TstCaseHelper;
 import cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector;
 import junit.framework.TestCase;
 
@@ -27,7 +28,8 @@ public class DefaultDigestFileCollectorTest
                 IOException
     {
         DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
-        File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
+        //File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
+        File            root  = TstCaseHelper.getUserHomeDirFile();
         Iterable<File>  files = new FileIterator(
                 root,
                 new java.io.FileFilter()
