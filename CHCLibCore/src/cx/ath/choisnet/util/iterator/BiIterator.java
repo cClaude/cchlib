@@ -25,16 +25,24 @@ public class BiIterator<T>
      * Iterator and second Iterator for it's
      * results (Order is preserve).
      * 
-     * @param firstIter
-     * @param secondIter
+     * @param firstIterator  first iterator
+     * @param secondIterator second iterator
+     * @throws NullPointerException if firstIterator
+     * or secondIterator is null
      */
     public BiIterator(
-            Iterator<T> firstIter,
-            Iterator<T> secondIter
+            Iterator<T> firstIterator,
+            Iterator<T> secondIterator
             )
     {
-        this.firstIter = firstIter;
-        this.secondIter = secondIter;
+        if( firstIterator == null ) {
+            throw new NullPointerException();
+        }
+        if( secondIterator == null ) {
+            throw new NullPointerException();
+        }
+        this.firstIter = firstIterator;
+        this.secondIter = secondIterator;
     }
 
     /**

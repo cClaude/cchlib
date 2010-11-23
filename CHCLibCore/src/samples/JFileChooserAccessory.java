@@ -60,6 +60,7 @@ public class JFileChooserAccessory extends JFrame {
     private JPanel jPanel_Buttons;
     /** @serial */
     private JTextField jTextField_LastSelected;
+    /** @serial */
     private JButton jButton_JFileChooserInitializer;
 
     public JFileChooserAccessory()
@@ -68,12 +69,12 @@ public class JFileChooserAccessory extends JFrame {
     }
 
     private void initComponents() {
-    	add(getJPanel_Buttons(), BorderLayout.CENTER);
-    	add(getJTextField_LastSelected(), BorderLayout.SOUTH);
-    	setJMenuBar(getJMenuBarFrame());
-    	setSize(320, 119);
+        add(getJPanel_Buttons(), BorderLayout.CENTER);
+        add(getJTextField_LastSelected(), BorderLayout.SOUTH);
+        setJMenuBar(getJMenuBarFrame());
+        setSize(320, 119);
     }
-    
+
     protected void initFixComponents()
     {
         setIconImage(
@@ -88,40 +89,40 @@ public class JFileChooserAccessory extends JFrame {
     }
 
     private JButton getJButton_JFileChooserInitializer() {
-    	if (jButton_JFileChooserInitializer == null) {
-    		jButton_JFileChooserInitializer = new JButton();
-    		jButton_JFileChooserInitializer.setText("JFileChooserInitializer");
-    		jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
-    
-    			public void mousePressed(MouseEvent event) {
-    				jButton_JFileChooserInitializerMouseMousePressed(event);
-    			}
-    		});
-    	}
-    	return jButton_JFileChooserInitializer;
+        if (jButton_JFileChooserInitializer == null) {
+            jButton_JFileChooserInitializer = new JButton();
+            jButton_JFileChooserInitializer.setText("JFileChooserInitializer");
+            jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
+
+                public void mousePressed(MouseEvent event) {
+                    jButton_JFileChooserInitializerMouseMousePressed(event);
+                }
+            });
+        }
+        return jButton_JFileChooserInitializer;
     }
 
     private JTextField getJTextField_LastSelected() {
-    	if (jTextField_LastSelected == null) {
-    	    jTextField_LastSelected = new JTextField();
-    	    jTextField_LastSelected.setText("...");
-    	    jTextField_LastSelected.setEditable( false );
-    	}
-    	return jTextField_LastSelected;
+        if (jTextField_LastSelected == null) {
+            jTextField_LastSelected = new JTextField();
+            jTextField_LastSelected.setText("...");
+            jTextField_LastSelected.setEditable( false );
+        }
+        return jTextField_LastSelected;
     }
 
     private JPanel getJPanel_Buttons() {
-    	if (jPanel_Buttons == null) {
-    		jPanel_Buttons = new JPanel();
-    		jPanel_Buttons.setLayout(new GridLayout(3, 2));
-    		jPanel_Buttons.add(getJButton_StdJFileChooser());
-    		jPanel_Buttons.add(getJButton_Bookmarks());
-    		jPanel_Buttons.add(getJButton_Picture());
-    		jPanel_Buttons.add(getJButton_LastSelectedFiles());
-    		jPanel_Buttons.add(getJButton_Tabbed());
-    		jPanel_Buttons.add(getJButton_JFileChooserInitializer());
-    	}
-    	return jPanel_Buttons;
+        if (jPanel_Buttons == null) {
+            jPanel_Buttons = new JPanel();
+            jPanel_Buttons.setLayout(new GridLayout(3, 2));
+            jPanel_Buttons.add(getJButton_StdJFileChooser());
+            jPanel_Buttons.add(getJButton_Bookmarks());
+            jPanel_Buttons.add(getJButton_Picture());
+            jPanel_Buttons.add(getJButton_LastSelectedFiles());
+            jPanel_Buttons.add(getJButton_Tabbed());
+            jPanel_Buttons.add(getJButton_JFileChooserInitializer());
+        }
+        return jPanel_Buttons;
     }
 
     private JButton getJButton_LastSelectedFiles() {
@@ -284,21 +285,21 @@ public class JFileChooserAccessory extends JFrame {
                 );
         showOpenDialog( jfc );
     }
-    
+
     private void jButton_JFileChooserInitializerMouseMousePressed(MouseEvent event)
     {
         showOpenDialog(
                 jFileChooserInitializer.getJFileChooser()
                 );
     }
-    
+
     private void showOpenDialog(JFileChooser jfc)
     {
         int returnVal = jfc.showOpenDialog(this);
-        
+
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File f = jfc.getSelectedFile();
-           
+
             System.out.printf( "You chose to open this file: %s\n", f);
             setLastSelected( f.getPath() );
             }
@@ -354,6 +355,6 @@ public class JFileChooserAccessory extends JFrame {
                     "png"
                     )
                 )
-            );    
+            );
         }
 }
