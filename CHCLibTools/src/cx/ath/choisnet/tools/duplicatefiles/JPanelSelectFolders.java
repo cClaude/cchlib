@@ -37,7 +37,7 @@ public class JPanelSelectFolders
     private static final long serialVersionUID = 1L;
     private Logger slogger = Logger.getLogger( JPanelSelectFolders.class );
     // TODO:Must be restore by parent !
-    private transient MyToolKit myToolKit;
+    private transient DFToolKit dFToolKit;
     /* @serial */
     private DefaultListModel listModelDirectoryFiles = new DefaultListModel();
     /* @serial */
@@ -60,10 +60,13 @@ public class JPanelSelectFolders
         initComponents();
     }
 
-    public void initFixComponents( MyToolKit myToolKit )
+    public void initFixComponents( DFToolKit dFToolKit )
     {
-        this.myToolKit = myToolKit;
+        this.dFToolKit = dFToolKit;
         jListSelectedDirs.setModel( listModelDirectoryFiles );
+        jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
+        jButtonAddDir.setIcon( dFToolKit.getIcon( "add.png" ) );
+        jButtonRemDir.setIcon( dFToolKit.getIcon( "remove.png" ) );
     }
 
     private void initComponents()
@@ -153,7 +156,7 @@ public class JPanelSelectFolders
 
     private void jButtonSelectDirMouseMousePressed( MouseEvent event )
     {
-        JFileChooser jfc = myToolKit.getJFileChooser();
+        JFileChooser jfc = dFToolKit.getJFileChooser();
         int returnVal = jfc.showOpenDialog( this );
 
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -204,7 +207,7 @@ public class JPanelSelectFolders
             }
         }
 
-        myToolKit.beep();
+        dFToolKit.beep();
         return false;
     }
 

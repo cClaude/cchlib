@@ -21,14 +21,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.I18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.i18n.I18nSwingHelper;
 import cx.ath.choisnet.lang.ToStringBuilder;
-import cx.ath.choisnet.swing.text.PatternDocument;
+import cx.ath.choisnet.swing.XComboBoxPattern;
 
 /**
  *
@@ -68,25 +67,29 @@ public class JPanelConfig extends JPanel
     private JScrollPane jScrollPaneIncFilesFilter;
     private JPanel jPanelIncFilesFilter;
     private JCheckBox jCheckBoxIFFUseRegEx;
-    private JTextField jTextFieldIFFRegEx;
+    //private JTextField jTextFieldIFFRegEx;
+    private XComboBoxPattern xComboBoxPatternIFFRegEx;
     
     @I18n(methodSuffixName="I18nTileExcFilesFilter")
     private JScrollPane jScrollPaneExcFilesFilter;
     private JPanel jPanelExcFilesFilter;
     private JCheckBox jCheckBoxEFFUseRegEx;
-    private JTextField jTextFieldEFFRegEx;
+    //private JTextField jTextFieldEFFRegEx;
+    private XComboBoxPattern xComboBoxPatternEFFRegEx;
     
     @I18n(methodSuffixName="I18nTileExcDirsFilter")
     private JScrollPane jScrollPaneExcDirsFilter;
     private JPanel jPanelExcDirsFilter;
     private JCheckBox jCheckBoxEFDUseRegEx;
-    private JTextField jTextFieldEFDRegEx;
+    //private JTextField jTextFieldEFDRegEx;
+    private XComboBoxPattern xComboBoxPatternEFDRegEx;
 
     @I18n(methodSuffixName="I18nTileIncDirsFilter")
     private JScrollPane jScrollPaneIncDirsFilter;
     private JPanel jPanelIncDirsFilter;
     private JCheckBox jCheckBoxIFDUseRegEx;
-    private JTextField jTextFieldIFDRegEx;
+    //private JTextField jTextFieldIFDRegEx;
+    private XComboBoxPattern xComboBoxPatternIFDRegEx;
     
     @I18nString private String txtIncludeFilesFilters = "Include filter";
     @I18nString private String txtExcludeFilesFilters = "Exclude filter";
@@ -250,18 +253,18 @@ public class JPanelConfig extends JPanel
     	return jComboBoxFilesFilters;
     }
 
-    private JTextField getJTextFieldIFDRegEx() {
-    	if (jTextFieldIFDRegEx == null) {
-    	    jTextFieldIFDRegEx = new JTextField();
+    private XComboBoxPattern getXComboBoxPatternIFDRegEx() {
+    	if (xComboBoxPatternIFDRegEx == null) {
+    	    xComboBoxPatternIFDRegEx = new XComboBoxPattern();
     	}
-    	return jTextFieldIFDRegEx;
+    	return xComboBoxPatternIFDRegEx;
     }
 
-    private JTextField getJTextFieldEFFRegEx() {
-    	if (jTextFieldEFFRegEx == null) {
-    	    jTextFieldEFFRegEx = new JTextField();
+    private XComboBoxPattern getXComboBoxPatternEFFRegEx() {
+    	if (xComboBoxPatternEFFRegEx == null) {
+    	    xComboBoxPatternEFFRegEx = new XComboBoxPattern();
     	}
-    	return jTextFieldEFFRegEx;
+    	return xComboBoxPatternEFFRegEx;
     }
 
     private JCheckBox getJCheckBoxEFFUseRegEx() {
@@ -287,7 +290,7 @@ public class JPanelConfig extends JPanel
     		jPanelIncDirsFilter = new JPanel();
     		jPanelIncDirsFilter.setLayout(new BoxLayout(jPanelIncDirsFilter, BoxLayout.Y_AXIS));
     		jPanelIncDirsFilter.add(getJCheckBoxIFDUseRegEx());
-    		jPanelIncDirsFilter.add(getJTextFieldIFDRegEx());
+    		jPanelIncDirsFilter.add(getXComboBoxPatternIFDRegEx());
     	}
     	return jPanelIncDirsFilter;
     }
@@ -345,11 +348,11 @@ public class JPanelConfig extends JPanel
     	return jCheckBoxFDIgnoreHidden;
     }
 
-    private JTextField getJTextFieldEFDRegEx() {
-        if (jTextFieldEFDRegEx == null) {
-            jTextFieldEFDRegEx = new JTextField();
+    private XComboBoxPattern getXComboBoxPatternEFDRegEx() {
+        if (xComboBoxPatternEFDRegEx == null) {
+            xComboBoxPatternEFDRegEx = new XComboBoxPattern();
         }
-        return jTextFieldEFDRegEx;
+        return xComboBoxPatternEFDRegEx;
     }
 
     private JCheckBox getJCheckBoxEFDUseRegEx() {
@@ -360,11 +363,11 @@ public class JPanelConfig extends JPanel
         return jCheckBoxEFDUseRegEx;
     }
 
-    private JTextField getJTextFieldIFFRegEx() {
-        if (jTextFieldIFFRegEx == null) {
-            jTextFieldIFFRegEx = new JTextField();
+    private XComboBoxPattern getXComboBoxPatternIFFRegEx() {
+        if (xComboBoxPatternIFFRegEx == null) {
+            xComboBoxPatternIFFRegEx = new XComboBoxPattern();
         }
-        return jTextFieldIFFRegEx;
+        return xComboBoxPatternIFFRegEx;
     }
 
     private JCheckBox getJCheckBoxIFFUseRegEx() {
@@ -378,9 +381,9 @@ public class JPanelConfig extends JPanel
     private JPanel getJPanelIncFilesFilter() {
     	if (jPanelIncFilesFilter == null) {
     		jPanelIncFilesFilter = new JPanel();
-    		jPanelIncFilesFilter.setLayout(new BoxLayout(jPanelIncFilesFilter, BoxLayout.Y_AXIS));
-    		jPanelIncFilesFilter.add(getJCheckBoxIFFUseRegEx());
-    		jPanelIncFilesFilter.add(getJTextFieldIFFRegEx());
+    		//jPanelIncFilesFilter.setLayout(new BoxLayout(jPanelIncFilesFilter, BoxLayout.Y_AXIS));
+    		//jPanelIncFilesFilter.add(getJCheckBoxIFFUseRegEx());
+    		//jPanelIncFilesFilter.add(getXComboBoxPatternIFFRegEx());
     	}
     	return jPanelIncFilesFilter;
     }
@@ -523,7 +526,7 @@ public class JPanelConfig extends JPanel
             jcb.addActionListener( l );
         }
         jPanelIncFilesFilter.add(getJCheckBoxIFFUseRegEx());
-        jPanelIncFilesFilter.add(getJTextFieldIFFRegEx());
+        jPanelIncFilesFilter.add(getXComboBoxPatternIFFRegEx());
         jCheckBoxIFFUseRegEx.addActionListener( l );
 
         for(FileTypeCheckBox ft:excFilesType) {
@@ -533,7 +536,7 @@ public class JPanelConfig extends JPanel
             jcb.addActionListener( l );
         }
         jPanelExcFilesFilter.add(getJCheckBoxEFFUseRegEx());
-        jPanelExcFilesFilter.add(getJTextFieldEFFRegEx());
+        jPanelExcFilesFilter.add(getXComboBoxPatternEFFRegEx());
         jCheckBoxEFFUseRegEx.addActionListener( l );
 
         for(int i=0;;i++) {
@@ -564,30 +567,16 @@ public class JPanelConfig extends JPanel
         }
 
         jPanelExcDirsFilter.add(getJCheckBoxEFDUseRegEx());
-        jPanelExcDirsFilter.add(getJTextFieldEFDRegEx());
+        jPanelExcDirsFilter.add(getXComboBoxPatternEFDRegEx());
         jCheckBoxEFDUseRegEx.addActionListener( l );
         jCheckBoxIFDUseRegEx.addActionListener( l );
         
         Color errorColor = Color.RED;
-        jTextFieldIFFRegEx.setDocument( 
-                new PatternDocument(
-                        jTextFieldIFFRegEx,
-                        errorColor
-                        ) 
-                );
-        jTextFieldEFFRegEx.setDocument( 
-                new PatternDocument(
-                        jTextFieldIFFRegEx,
-                        errorColor
-                        ) 
-                );
-        jTextFieldEFDRegEx.setDocument(
-                new PatternDocument(
-                        jTextFieldEFDRegEx,
-                        errorColor
-                        ) 
-                );
-
+        xComboBoxPatternIFFRegEx.setErrorBackGroundColor( errorColor );
+        xComboBoxPatternEFFRegEx.setErrorBackGroundColor( errorColor );
+        xComboBoxPatternEFDRegEx.setErrorBackGroundColor( errorColor );
+        xComboBoxPatternIFDRegEx.setErrorBackGroundColor( errorColor );
+        
         updateDisplay();
     }
 
@@ -619,10 +608,10 @@ public class JPanelConfig extends JPanel
             jCheckBoxIFDUseRegEx.setVisible( true );
             jCheckBoxEFDUseRegEx.setVisible( true );
 
-            jTextFieldIFFRegEx.setVisible( true );
-            jTextFieldEFFRegEx.setVisible( true );
-            jTextFieldIFDRegEx.setVisible( true );
-            jTextFieldEFDRegEx.setVisible( true );
+            xComboBoxPatternIFFRegEx.setVisible( true );
+            xComboBoxPatternEFFRegEx.setVisible( true );
+            xComboBoxPatternIFDRegEx.setVisible( true );
+            xComboBoxPatternEFDRegEx.setVisible( true );
             
             jComboBoxDirsFilters.setEnabled(true);
         }
@@ -639,10 +628,10 @@ public class JPanelConfig extends JPanel
             jCheckBoxEFDUseRegEx.setVisible( false );
             jCheckBoxEFDUseRegEx.setEnabled( false );
 
-            jTextFieldIFFRegEx.setVisible( false );
-            jTextFieldEFFRegEx.setVisible( false );
-            jTextFieldIFDRegEx.setVisible( false );
-            jTextFieldEFDRegEx.setVisible( false );
+            xComboBoxPatternIFFRegEx.setVisible( false );
+            xComboBoxPatternEFFRegEx.setVisible( false );
+            xComboBoxPatternIFDRegEx.setVisible( false );
+            xComboBoxPatternEFDRegEx.setVisible( false );
         }
         updateDisplay();
     }
@@ -665,13 +654,13 @@ public class JPanelConfig extends JPanel
             ft.getJCheckBox().setEnabled( useIFF );
         }
         jCheckBoxIFFUseRegEx.setEnabled( useIFF );
-        jTextFieldIFFRegEx.setEnabled( useIFF && jCheckBoxIFFUseRegEx.isSelected() );
+        xComboBoxPatternIFFRegEx.setEnabled( useIFF && jCheckBoxIFFUseRegEx.isSelected() );
 
         for(FileTypeCheckBox ft:excFilesType) {
             ft.getJCheckBox().setEnabled( useEFF );
         }
         jCheckBoxEFFUseRegEx.setEnabled( useEFF );
-        jTextFieldEFFRegEx.setEnabled( useEFF && jCheckBoxEFFUseRegEx.isSelected() );
+        xComboBoxPatternEFFRegEx.setEnabled( useEFF && jCheckBoxEFFUseRegEx.isSelected() );
 
         //Directories Filters
         if( mode == ConfigMode.EXPERT ) {
@@ -686,10 +675,10 @@ public class JPanelConfig extends JPanel
         }
 
         jCheckBoxIFDUseRegEx.setEnabled( useIDF );
-        jTextFieldIFDRegEx.setEnabled( useIDF && jCheckBoxIFDUseRegEx.isSelected());
+        xComboBoxPatternIFDRegEx.setEnabled( useIDF && jCheckBoxIFDUseRegEx.isSelected());
 
         jCheckBoxEFDUseRegEx.setEnabled( useEDF );
-        jTextFieldEFDRegEx.setEnabled( useEDF && jCheckBoxEFDUseRegEx.isSelected());
+        xComboBoxPatternEFDRegEx.setEnabled( useEDF && jCheckBoxEFDUseRegEx.isSelected());
         
         //System.out.println("getFileFilterBuilders()=" + getFileFilterBuilders() );
     }
@@ -729,7 +718,8 @@ public class JPanelConfig extends JPanel
 
             if( jCheckBoxIFFUseRegEx.isSelected() ) {
                 try {
-                    pattern = Pattern.compile( jTextFieldIFFRegEx.getText() );
+                    //pattern = Pattern.compile( jTextFieldIFFRegEx.getText() );
+                    pattern = xComboBoxPatternIFFRegEx.getSelectedPattern();
                 }
                 catch( Exception ignore){}
             }
@@ -769,7 +759,8 @@ public class JPanelConfig extends JPanel
 
             if( jCheckBoxEFFUseRegEx.isSelected() ) {
                 try {
-                    pattern = Pattern.compile( jTextFieldEFFRegEx.getText() );
+                    //pattern = Pattern.compile( jTextFieldEFFRegEx.getText() );
+                    pattern = xComboBoxPatternEFFRegEx.getSelectedPattern();
                 }
                 catch( Exception ignore){}
             }
@@ -824,9 +815,12 @@ public class JPanelConfig extends JPanel
 
             if(jCheckBoxIFDUseRegEx.isSelected()) {
                 try {
-                    pattern = Pattern.compile( jTextFieldIFDRegEx.getText() );
+                    //pattern = Pattern.compile( jTextFieldIFDRegEx.getText() );
+                    pattern = xComboBoxPatternIFDRegEx.getSelectedPattern();
                 }
-                catch( Exception ignore){}
+                catch( Exception ignore){
+                    //TODO: display alert ???
+                }
             }
         }
 
@@ -864,7 +858,8 @@ public class JPanelConfig extends JPanel
 
             if(jCheckBoxEFDUseRegEx.isSelected()) {
                 try {
-                    pattern = Pattern.compile( jTextFieldEFDRegEx.getText() );
+                    //pattern = Pattern.compile( jTextFieldEFDRegEx.getText() );
+                    pattern = xComboBoxPatternEFDRegEx.getSelectedPattern();
                 }
                 catch( Exception ignore){}
             }

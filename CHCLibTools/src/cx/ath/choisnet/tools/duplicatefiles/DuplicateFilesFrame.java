@@ -1,5 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +10,11 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
@@ -30,7 +34,7 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  */
 final public class DuplicateFilesFrame
     extends DuplicateFilesFrameVS4E
-        implements MyToolKit
+        implements DFToolKit
 {
     private static final long serialVersionUID = 1L;
     private static final Logger slogger = Logger.getLogger( DuplicateFilesFrame.class );
@@ -47,6 +51,9 @@ final public class DuplicateFilesFrame
     private final static int    STATE_CONFIRM          = 4;
     /* @serial */
     private AutoI18n autoI18n = I18nBundle.getAutoI18n();
+
+    private Icon iconContinue;
+    private Icon iconRestart;
 
     @I18nString private String txtContinue  = "Continue";
     @I18nString private String txtRestart   = "Restart";
@@ -72,6 +79,8 @@ final public class DuplicateFilesFrame
         // Apply i18n !
         performeI18n(autoI18n);
 
+        // Init display
+        updateDisplayAccordState();
         slogger.info( "DuplicateFilesFrame() done." );
     }
 
@@ -87,11 +96,15 @@ final public class DuplicateFilesFrame
 
     private void initFixComponents()
     {
-        setIconImage(
-            Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource( "icon.png" )
-                )
-            );
+        setIconImage( getImage( "icon.png ") );
+
+        this.iconContinue = getIcon( "continue.png" );
+        this.iconRestart  = getIcon( "restart.png" );
+
+        // Moving the Icon in a JButton Component
+        jButtonNextStep.setVerticalTextPosition(SwingConstants.CENTER); 
+        jButtonNextStep.setHorizontalTextPosition(SwingConstants.LEFT); 
+
         this.state = STATE_SELECT_DIRS;
 
         ActionListener modeListener = new ActionListener()
@@ -129,8 +142,6 @@ final public class DuplicateFilesFrame
         // init
         modeListener.actionPerformed( null );
 
-        updateDisplayAccordState();
-
         // build menu (VS4E does not support Box!)
         jMenuBarMain.add( Box.createHorizontalGlue() );
         jMenuBarMain.add( getJMenuLookAndFeel() );
@@ -145,7 +156,9 @@ final public class DuplicateFilesFrame
 
         jTabbedPaneMain.setSelectedIndex( state );
         jButtonNextStep.setText( txtContinue );
+        jButtonNextStep.setIcon( iconContinue );
         jButtonRestart.setText( txtRestart );
+        jButtonRestart.setIcon( iconRestart );
 
         if( state == STATE_SELECT_DIRS ) {
             jButtonRestart.setEnabled( false );
@@ -235,17 +248,17 @@ final public class DuplicateFilesFrame
         return jFileChooserInitializer;
     }
 
-    @Override // MyToolKit
+    @Override // DFToolKit
     public JFileChooser getJFileChooser()
     {
         return getJFileChooserInitializer().getJFileChooser();
     }
-    @Override // MyToolKit
+    @Override // DFToolKit
     public void beep()
     {
         Toolkit.getDefaultToolkit().beep();
     }
-    @Override // MyToolKit
+    @Override // DFToolKit
     public void openDesktop( File file )
     {
         java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
@@ -259,12 +272,12 @@ final public class DuplicateFilesFrame
             e.printStackTrace();
         }
     }
-    @Override // MyToolKit
+    @Override // DFToolKit
     public ConfigMode getConfigMode()
     {
         return mode;
     }
-    @Override // MyToolKit
+    @Override // DFToolKit
     public void sleep(long ms)
     {
         try {
@@ -272,6 +285,20 @@ final public class DuplicateFilesFrame
         }
         catch( InterruptedException ignore ) {
         }
+    }
+    @Override // DFToolKit
+    public Image getImage(String name)
+    {
+        return Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource( name )
+                );
+    }
+    @Override // DFToolKit
+    public Icon getIcon(String name)
+    {
+        return new ImageIcon(
+                getClass().getResource( name )
+                );
     }
 
     public static void main( String[] args )
@@ -332,6 +359,8 @@ final public class DuplicateFilesFrame
                 }
                 else {
                     beep();
+                    slogger.info( "No dir selected" );
+                    // TODO: Show alert
                 }
             }
             else if( state == STATE_SEARCH_CONFIG ) {

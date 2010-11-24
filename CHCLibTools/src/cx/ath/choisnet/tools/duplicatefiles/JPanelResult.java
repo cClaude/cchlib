@@ -22,16 +22,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -60,7 +61,6 @@ public class JPanelResult extends JPanel
     private JPanel jPanelExtraCmd;
     private JToggleButton jToggleButtonSelectByRegEx;
     private XComboBoxPattern xComboBoxPatternRegEx;
-    //private JTextField jTextFieldRegEx;
     private JCheckBox jCheckBoxKeepOne;
     private JButton jButtonRegExDelete;
     private JButton jButtonRegExKeep;
@@ -74,8 +74,8 @@ public class JPanelResult extends JPanel
     private JList jListKeptIntact;
     private JList jListDuplicatesFiles;
 
-    // TODO:Must be restore by parent !
-    private transient MyToolKit myToolKit; 
+    // TODO: Must be restore by parent !
+    private transient DFToolKit dFToolKit; 
 
     private HashMapSet<String,KeyFileState>     duplicateFiles;// = new HashMapSet<String,KeyFileState>();
     private DefaultListModel/* <KeyFiles> */    listModelDuplicatesFiles = new DefaultListModel();
@@ -107,6 +107,7 @@ public class JPanelResult extends JPanel
     //@I18nString private String txtCanExecuteFirstLetter = "E";
     @I18nString private String txtCanWriteFirstLetter = "W";
     @I18nString private String txtCanReadFirstLetter = "R";
+    @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
     public JPanelResult()
     {
@@ -124,10 +125,6 @@ public class JPanelResult extends JPanel
     private XComboBoxPattern getXComboBoxPatternRegEx() {
     	if (xComboBoxPatternRegEx == null) {
     	    xComboBoxPatternRegEx = new XComboBoxPattern();
-    		//jComboBoxRegEx.setModel(new DefaultComboBoxModel(new Object[] { "item0", "item1", "item2", "item3" }));
-    		//jComboBoxRegEx.setDoubleBuffered(false);
-            //jComboBoxRegEx.setBorder(null);
-            //jComboBoxRegEx.setEditable( true );
     	}
     	return xComboBoxPatternRegEx;
     }
@@ -167,13 +164,6 @@ public class JPanelResult extends JPanel
     	return jCheckBoxKeepOne;
     }
 
-//    private JTextField getJTextFieldRegEx() {
-//    	if (jTextFieldRegEx == null) {
-//    	    jTextFieldRegEx = new JTextField();
-//    	}
-//    	return jTextFieldRegEx;
-//    }
-
     private JToggleButton getJToggleButtonSelectByRegEx() {
     	if (jToggleButtonSelectByRegEx == null) {
     		jToggleButtonSelectByRegEx = new JToggleButton();
@@ -192,7 +182,6 @@ public class JPanelResult extends JPanel
     		jPanelExtraCmd = new JPanel();
     		jPanelExtraCmd.setLayout(new BoxLayout(jPanelExtraCmd, BoxLayout.X_AXIS));
     		jPanelExtraCmd.add(getJToggleButtonSelectByRegEx());
-    		//jPanelExtraCmd.add(getJTextFieldRegEx());
     		jPanelExtraCmd.add(getXComboBoxPatternRegEx());
     		jPanelExtraCmd.add(getJCheckBoxKeepOne());
     		jPanelExtraCmd.add(getJButtonRegExDelete());
@@ -203,13 +192,13 @@ public class JPanelResult extends JPanel
 
     public void initFixComponents(
             HashMapSet<String,KeyFileState> duplicateFiles,
-            MyToolKit                       myToolKit
+            DFToolKit                       dFToolKit
             )
     {
         this.duplicateFiles = duplicateFiles;
-        this.myToolKit      = myToolKit;
+        this.dFToolKit      = dFToolKit;
 
-        jListDuplicatesFiles.setSelectionMode( 0 );//TODO: constante ?
+        jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
         jListDuplicatesFiles.addListSelectionListener(
             new ListSelectionListener() {
@@ -227,7 +216,7 @@ public class JPanelResult extends JPanel
                 }
             } );
 
-        jListKeptIntact.setSelectionMode( 0 );//TODO: constante ?
+        jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jListKeptIntact.setModel( listModelKeptIntact );
         jListKeptIntact.addMouseListener( new MouseAdapter() {
             @Override
@@ -255,7 +244,7 @@ public class JPanelResult extends JPanel
             }
         } );
 
-        jListWillBeDeleted.setSelectionMode( 0 );//TODO: constante ?
+        jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jListWillBeDeleted.setModel( listModelWillBeDeleted );
         jListWillBeDeleted.addMouseListener( new MouseAdapter() {
             @Override
@@ -285,21 +274,11 @@ public class JPanelResult extends JPanel
         createPopupMenus();
 
         Color errorColor = Color.RED;
-        //TODO ComboBoxEditor arg0;
-        //TODO jComboBoxRegEx.setEditor( arg0 );
-        
-        xComboBoxPatternRegEx.setModel(
-            new DefaultComboBoxModel(new Object[] { "item0", "item1", "item2", "item3" })
-            );
 
-        //jComboBoxRegEx TODO
-        //jComboBoxRegEx.setDocument
-//        jTextFieldRegEx.setDocument( 
-//                new PatternDocument(
-//                        jTextFieldRegEx,
-//                        errorColor
-//                        ) 
-//                );
+        xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
+        xComboBoxPatternRegEx.setModel(
+            new DefaultComboBoxModel(new Object[] { ".*\\.jpg", "item1", "item2", "item3" })
+            );
 
         updateDisplay();
     }
@@ -327,7 +306,7 @@ public class JPanelResult extends JPanel
 
     public void updateDisplay()
     {
-        if( myToolKit.getConfigMode() == ConfigMode.BEGINNER ) {
+        if( dFToolKit.getConfigMode() == ConfigMode.BEGINNER ) {
             jToggleButtonSelectByRegEx.setSelected( false );
             jToggleButtonSelectByRegEx.setEnabled( false );
         }
@@ -559,7 +538,7 @@ public class JPanelResult extends JPanel
         }
         else {
             File f = kf.getFile();
-            Locale locale = myToolKit.getLocale();
+            Locale locale = dFToolKit.getLocale();
 
             String date = DateFormat.getDateTimeInstance(
                     DateFormat.FULL,
@@ -633,7 +612,7 @@ public class JPanelResult extends JPanel
                 @Override
                 public void actionPerformed( ActionEvent e )
                 {
-                    myToolKit.openDesktop( file );
+                    dFToolKit.openDesktop( file );
                 }
             };
     }
@@ -909,7 +888,13 @@ public class JPanelResult extends JPanel
         }
         catch( java.util.regex.PatternSyntaxException e ) {
             // TODO display alert !
-            throw e;
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getLocalizedMessage(),
+                    txtPatternSyntaxExceptionTitle ,
+                    JOptionPane.ERROR_MESSAGE
+                    );
+            return null;
         }
     }
     
