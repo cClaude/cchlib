@@ -16,4 +16,5 @@ public interface DFToolKit
     public void sleep(long ms);
     public Image getImage(String name);
     public Icon getIcon(String name);
+    public ConfigData getConfigData();
 }

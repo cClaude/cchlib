@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
@@ -15,6 +16,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+
+import org.apache.log4j.Logger;
+
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 import cx.ath.choisnet.util.HashMapSet;
@@ -23,6 +27,7 @@ import cx.ath.choisnet.util.HashMapSet;
 public class JPanelConfirm extends JPanel
 {
     private static final long serialVersionUID = 1L;
+    private static final transient Logger slogger = Logger.getLogger(JPanelConfirm.class);
     private JTable jTableFiles2Delete;
     private JScrollPane jScrollPaneFiles2Delete;
     private JPanel jPanelHeader;
@@ -39,11 +44,15 @@ public class JPanelConfirm extends JPanel
         "Deleted"
         };
     @I18nString private String txtWaiting = "Waitting for user...";
+    @I18nString private String txtTitle = "%d file(s) selected to be deleted";
 
     public JPanelConfirm()
     {
         initComponents();
         jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
+
+        // NOT YET IMPLEMENTED
+        jButtonDoScript.setVisible(false);
     }
 
     private void initComponents() {
@@ -208,6 +217,8 @@ public class JPanelConfirm extends JPanel
         jProgressBarDeleteProcess.setIndeterminate( false );
         jProgressBarDeleteProcess.setString( txtWaiting  );
         jProgressBarDeleteProcess.setStringPainted( true );
+
+        jLabelTitle.setText( String.format( txtTitle, toDelete.size() ) );
     }
 
     public void updateProgressBar(int count, String msg)
@@ -250,6 +261,47 @@ public class JPanelConfirm extends JPanel
         return c;
     }
 
+    public void doDelete(
+    		final DFToolKit 						tk,
+    		final HashMapSet<String,KeyFileState> 	duplicateFiles
+    		)
+    {
+        Iterator<KeyFileState>  iter = duplicateFiles.iterator();
+        int                     deleteCount = 0;
+
+        while( iter.hasNext() ) {
+            KeyFileState f = iter.next();
+
+            if( f.isSelectedToDelete() ) {
+                String msg = f.getFile().getPath();
+                //jPanel4Confirm.updateProgressBar(deleteCount,msg);
+                updateProgressBar(deleteCount,msg);
+                slogger.info("Delete: " + f);
+                //TODO! delete !!!!
+                //sleep( deleteSleepDisplay );
+                tk.sleep( tk.getConfigData().getDeleteSleepDisplay() );
+                iter.remove();
+                deleteCount++;
+                //jPanel4Confirm.updateProgressBar(deleteCount,msg);
+                updateProgressBar(deleteCount,msg);
+            }
+        }
+
+        int keepCount = duplicateFiles.valuesSize();
+
+        slogger.info( "deleteCount= " + deleteCount  );
+        slogger.info( "keepCount= " + keepCount );
+
+        duplicateFiles.purge(2);
+
+        int newDupCount = duplicateFiles.valuesSize();
+
+        slogger.info( "newDupCount= " + newDupCount );
+        
+        //sleep( deleteFinalDisplay );
+        tk.sleep( tk.getConfigData().getDeleteFinalDisplay() );
+    }
+    
     private void jButtonDoScriptMouseMousePressed(MouseEvent event)
     {
         throw new UnsupportedOperationException();

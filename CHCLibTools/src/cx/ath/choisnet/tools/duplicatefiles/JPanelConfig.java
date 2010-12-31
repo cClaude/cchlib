@@ -69,14 +69,14 @@ public class JPanelConfig extends JPanel
     private JCheckBox jCheckBoxIFFUseRegEx;
     //private JTextField jTextFieldIFFRegEx;
     private XComboBoxPattern xComboBoxPatternIFFRegEx;
-    
+
     @I18n(methodSuffixName="I18nTileExcFilesFilter")
     private JScrollPane jScrollPaneExcFilesFilter;
     private JPanel jPanelExcFilesFilter;
     private JCheckBox jCheckBoxEFFUseRegEx;
     //private JTextField jTextFieldEFFRegEx;
     private XComboBoxPattern xComboBoxPatternEFFRegEx;
-    
+
     @I18n(methodSuffixName="I18nTileExcDirsFilter")
     private JScrollPane jScrollPaneExcDirsFilter;
     private JPanel jPanelExcDirsFilter;
@@ -90,7 +90,7 @@ public class JPanelConfig extends JPanel
     private JCheckBox jCheckBoxIFDUseRegEx;
     //private JTextField jTextFieldIFDRegEx;
     private XComboBoxPattern xComboBoxPatternIFDRegEx;
-    
+
     @I18nString private String txtIncludeFilesFilters = "Include filter";
     @I18nString private String txtExcludeFilesFilters = "Exclude filter";
     @I18nString private Object txtExcludeDirsFilters = "Exclude filter";

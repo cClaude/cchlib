@@ -127,12 +127,13 @@
          basedir="${build.home}/classes"
         >
       <manifest>
-        <attribute name="Main-Class"       value="cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame"/>
-        <attribute name="X-Built-By"       value="${user.name}"/>
-        <attribute name="X-APP-Name"       value="${app.name}"/>
-        <attribute name="X-APP-Version"    value="${app.version}"/>
-        <attribute name="X-APP-Created-By" value="${app.vendor}"/>
-        <attribute name="X-APP-Decription" value="Tool to help to edit localization files"/>
+        <attribute name="Main-Class"          value="cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame"/>
+        <attribute name="SplashScreen-Image"  value="cx/ath/choisnet/tools/i18n/splash.png"/>
+        <attribute name="X-Built-By"          value="${user.name}"/>
+        <attribute name="X-APP-Name"          value="${app.name}"/>
+        <attribute name="X-APP-Version"       value="${app.version}"/>
+        <attribute name="X-APP-Created-By"    value="${app.vendor}"/>
+        <attribute name="X-APP-Decription"    value="Tool to help to edit localization files"/>
       </manifest>
       <fileset dir="${build.home}/jars"/>
     </jar>

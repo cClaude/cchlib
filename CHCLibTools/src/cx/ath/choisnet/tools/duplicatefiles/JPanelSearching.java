@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
+import cx.ath.choisnet.i18n.I18nIgnore;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.util.HashMapSet;
@@ -62,14 +63,13 @@ public class JPanelSearching extends JPanel
     private JPanel jPanelDuplicateBottom;
     private JTable jTableErrorList;
     private JButton jButtonCancelScan;
-
     private File displayFile;
     private int  displayPass;
     private boolean displayRunning;
     private JPanel jPanelState;
     private JPanel jPanelStateText;
     private JPanel jPanelStateGfx;
-    private JLabel jLabelStateWorking;
+    @I18nIgnore private JLabel jLabelStateWorking;
     private Icon   iconWorking;
     
     @I18nString private String txtDuplicateSetsFound = "Duplicate sets found: %d";

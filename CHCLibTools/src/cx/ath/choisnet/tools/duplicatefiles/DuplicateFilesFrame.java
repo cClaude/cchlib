@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -62,11 +61,9 @@ final public class DuplicateFilesFrame
     @I18nString private String txtBack      = "Back";
 
     /* @serial */
+    private ConfigData configData;
+    /* @serial */
     private ConfigMode mode;
-    /* @serial */
-    private int deleteSleepDisplay = 100;
-    /* @serial */
-    private int deleteFinalDisplay = 3000;
     /* @serial */
     private int bufferSize = 16 * 1024;
 
@@ -300,6 +297,11 @@ final public class DuplicateFilesFrame
                 getClass().getResource( name )
                 );
     }
+    @Override // DFToolKit
+    public ConfigData getConfigData()
+    {
+    	return configData;
+    }
 
     public static void main( String[] args )
     {
@@ -379,7 +381,7 @@ final public class DuplicateFilesFrame
                     @Override
                     public void run()
                     {
-                        doDelete();
+                    	jPanel4Confirm.doDelete(DuplicateFilesFrame.this,duplicateFiles);
                         state = STATE_RESULTS;
                         updateDisplayAccordState();
                     }
@@ -391,6 +393,7 @@ final public class DuplicateFilesFrame
         }
     }
 
+    /*
     private void doDelete()
     {
         Iterator<KeyFileState>  iter = duplicateFiles.iterator();
@@ -404,7 +407,7 @@ final public class DuplicateFilesFrame
                 jPanel4Confirm.updateProgressBar(deleteCount,msg);
                 slogger.info("Delete: " + f);
                 //TODO! delete !!!!
-                sleep( deleteSleepDisplay );
+                //sleep( deleteSleepDisplay );
                 iter.remove();
                 deleteCount++;
                 jPanel4Confirm.updateProgressBar(deleteCount,msg);
@@ -424,4 +427,5 @@ final public class DuplicateFilesFrame
         
         sleep( deleteFinalDisplay );
     }
+    */
 }
