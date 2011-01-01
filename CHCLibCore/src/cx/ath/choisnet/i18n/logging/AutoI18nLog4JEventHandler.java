@@ -24,7 +24,9 @@ public class AutoI18nLog4JEventHandler
     private static final long serialVersionUID = 1L;
     private transient static final Logger slogger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
     /** @serial */
-    private Level level;
+    private Level levelIgnoredField;
+    /** @serial */
+    private Level levelLocalizedField;
 
     /**
      * Create object using Logger based on current class
@@ -44,14 +46,32 @@ public class AutoI18nLog4JEventHandler
             Level level
             )
     {
-        this.level = level;
+        this.levelIgnoredField = level;
+        this.levelLocalizedField = level;
+    }
+    
+    /**
+     * Create object using giving {@link Logger}
+     *
+     * @param levelIgnoredField Level to use for logging
+     *        {@link #ignoredField(Field, cx.ath.choisnet.i18n.AutoI18nEventHandler.Cause)} informations
+     * @param levelLocalizedField Level to use for logging
+     *        {@link #localizedField(Field)} informations
+     */
+    public AutoI18nLog4JEventHandler(
+            Level levelIgnoredField,
+            Level levelLocalizedField
+            )
+    {
+        this.levelIgnoredField = levelIgnoredField;
+        this.levelLocalizedField = levelLocalizedField;
     }
 
     @Override
     public void ignoredField( Field f, Cause cause )
     {
         slogger.log( 
-                level,
+        		levelIgnoredField,
                 String.format(
                     "Ignore field: %s (%s) [%s] - %s", 
                     f.getName(),
@@ -62,11 +82,11 @@ public class AutoI18nLog4JEventHandler
                 );
     }
 
-    @Override//
+    @Override
     public void localizedField( Field f )
     {
         slogger.log( 
-            level,
+        		levelLocalizedField,
                 String.format(
                     "Localized field: %s (%s) - %s",
                     f.getName(),
