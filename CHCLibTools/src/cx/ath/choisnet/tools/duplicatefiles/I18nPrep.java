@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.tools.duplicatefiles;
 
@@ -8,10 +8,10 @@ import java.io.IOException;
 import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
-public class I18nPrep 
+public class I18nPrep
 {
     public static void main( String[] args ) throws IOException
     {
@@ -19,10 +19,10 @@ public class I18nPrep
 //        I18nAutoUpdateInterface i18Builder = new I18nSimpleResourceBundle(
 //                I18nBundle.getMessagesBundle()
 //                );
-        
+
         //
         DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame();
-        
+
 //        // Build a quick list of them
 //        ObjectToI18n<?>[] toI18n = {
 //                new ObjectToI18n<DuplicateFilesFrame>(
@@ -32,17 +32,17 @@ public class I18nPrep
 //                };
 
         I18nPropertyResourceBundleAutoUpdate autoI18n = I18nBundle.getI18nPropertyResourceBundleAutoUpdate();
-        File outputFile = new File( 
-                new File(".").getAbsoluteFile(), 
+        File outputFile = new File(
+                new File(".").getAbsoluteFile(),
                 I18nBundle.getMessagesBundle()
                 );
         autoI18n.setOutputFile( outputFile );
-        
+
         duplicateFilesFrame.performeI18n( autoI18n );
 //        for( ObjectToI18n<?> objectEntry : toI18n ) {
-//            autoI18n.performeI18N( 
+//            autoI18n.performeI18N(
 //                    objectEntry.getObjectToI18n(),
-//                    objectEntry.getObjectToI18nClass() 
+//                    objectEntry.getObjectToI18nClass()
 //                    );
 //        }
 
@@ -50,7 +50,7 @@ public class I18nPrep
         System.out.println( "Done." );
         System.exit( 0 );
     }
-    
+
 //    public static class ObjectToI18n<T>
 //    {
 //        private final T                   objectToI18n;

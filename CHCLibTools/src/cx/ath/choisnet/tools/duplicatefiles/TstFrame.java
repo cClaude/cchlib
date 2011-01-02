@@ -31,36 +31,36 @@ public class TstFrame extends JFrame
     }
 
     private void initComponents() {
-    	setLayout(new FlowLayout());
-    	add(getJPanel0());
-    	setSize(320, 240);
+        setLayout(new FlowLayout());
+        add(getJPanel0());
+        setSize(320, 240);
     }
 
     private JPanel getJPanel0() {
-    	if (jPanel0 == null) {
-    		jPanel0 = new JPanel();
-    		jPanel0.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-    		jPanel0.setLayout(new BorderLayout());
-    		jPanel0.add(getXComboBoxPattern1(), BorderLayout.NORTH);
-    		jPanel0.add(getXComboBox0(), BorderLayout.SOUTH);
-    	}
-    	return jPanel0;
+        if (jPanel0 == null) {
+            jPanel0 = new JPanel();
+            jPanel0.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+            jPanel0.setLayout(new BorderLayout());
+            jPanel0.add(getXComboBoxPattern1(), BorderLayout.NORTH);
+            jPanel0.add(getXComboBox0(), BorderLayout.SOUTH);
+        }
+        return jPanel0;
     }
 
     private XComboBoxPattern getXComboBoxPattern1() {
-    	if (xComboBoxPattern1 == null) {
-    	    xComboBoxPattern1 = new XComboBoxPattern(Color.RED);
-    	    xComboBoxPattern1.setModel(new DefaultComboBoxModel(new Object[] {"AAPattern","BB"}));
-    	}
-    	return xComboBoxPattern1;
+        if (xComboBoxPattern1 == null) {
+            xComboBoxPattern1 = new XComboBoxPattern(Color.RED);
+            xComboBoxPattern1.setModel(new DefaultComboBoxModel(new Object[] {"AAPattern","BB"}));
+        }
+        return xComboBoxPattern1;
     }
 
     private XComboBox getXComboBox0() {
-    	if (xComboBox0 == null) {
-    		xComboBox0 = new XComboBox();
+        if (xComboBox0 == null) {
+            xComboBox0 = new XComboBox();
             xComboBox0.setModel(new DefaultComboBoxModel(new Object[] {"ZA","ZB"}));
-    	}
-    	return xComboBox0;
+        }
+        return xComboBox0;
     }
 
     public static void main( String[] args )

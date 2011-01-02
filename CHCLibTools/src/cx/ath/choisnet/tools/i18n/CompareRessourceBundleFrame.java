@@ -58,7 +58,7 @@ public class CompareRessourceBundleFrame
 
         // initDynComponents
         LookAndFeelHelpers.buildLookAndFeelMenu( this, this.jMenuLookAndFeel );
-        
+
         //TODO: prefs !
 
         updateDisplay();
@@ -110,7 +110,7 @@ public class CompareRessourceBundleFrame
             this.tableModel.setColumnWidth(jTableProperties);
         }
     }
-    
+
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
@@ -205,9 +205,9 @@ public class CompareRessourceBundleFrame
     {
         dispose();
     }
-    
+
     @Override
-    protected void jMenuItem_OpenMouseMousePressed(MouseEvent event) 
+    protected void jMenuItem_OpenMouseMousePressed(MouseEvent event)
     {
         FilesConfig fc     = new FilesConfig(filesConfig);
         LoadDialog  dialog = new LoadDialog(
@@ -217,7 +217,7 @@ public class CompareRessourceBundleFrame
                 );
         dialog.setModal( true );
         dialog.setVisible( true );
-        
+
         if( fc.isFilesExists() ) {
             filesConfig = fc;
             updateDisplay();

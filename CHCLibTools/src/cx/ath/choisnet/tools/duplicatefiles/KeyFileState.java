@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
 final class KeyFileState
@@ -16,10 +16,10 @@ final class KeyFileState
     private File    file;
     private String  path;
     private boolean selectedToDelete;
-    
+
     /**
      * File object
-     * 
+     *
      * @param key
      * @param file
      */
@@ -51,17 +51,17 @@ final class KeyFileState
     {
         return file;
     }
-    
-    
+
+
     public boolean isInDirectory( String dirPath )
     {
         if( path == null ) {
-            path = file.getPath();
+            path = file.getPath() + File.separator;
         }
-        
+
         return path.startsWith( dirPath );
     }
-    
+
     /**
      * @return the selectedToDelete
      */

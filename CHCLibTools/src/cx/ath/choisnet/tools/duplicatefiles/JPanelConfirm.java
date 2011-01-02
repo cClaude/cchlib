@@ -1,6 +1,7 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +18,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 
@@ -28,6 +33,7 @@ public class JPanelConfirm extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger slogger = Logger.getLogger(JPanelConfirm.class);
+
     private JTable jTableFiles2Delete;
     private JScrollPane jScrollPaneFiles2Delete;
     private JPanel jPanelHeader;
@@ -37,6 +43,14 @@ public class JPanelConfirm extends JPanel
     private JPanel jPanelScript;
     private JButton jButtonDoScript;
 
+    private Icon iconOk;
+    private Icon iconKo;
+    private AbstractTableModel tableModel;
+    private List<KeyFileState> tableDts_toDelete;
+    private Boolean[] tableDts_deleted;
+    private long[] tableDts_length;
+//    private String[]  tableDts_deleteMsg;
+
     @I18nString private String[] columnsHeaders = {
         "File to delete",
         "Length",
@@ -45,6 +59,7 @@ public class JPanelConfirm extends JPanel
         };
     @I18nString private String txtWaiting = "Waitting for user...";
     @I18nString private String txtTitle = "%d file(s) selected to be deleted";
+    @I18nString private String txtMsgDone = "Done";
 
     public JPanelConfirm()
     {
@@ -53,6 +68,13 @@ public class JPanelConfirm extends JPanel
 
         // NOT YET IMPLEMENTED
         jButtonDoScript.setVisible(false);
+
+        iconOk = new ImageIcon(
+                getClass().getResource( "ok.12x12.png" )
+                );
+        iconKo = new ImageIcon(
+                getClass().getResource( "ko.12x12.png" )
+                );
     }
 
     private void initComponents() {
@@ -136,15 +158,72 @@ public class JPanelConfirm extends JPanel
             final HashMapSet<String,KeyFileState> dupFiles
             )
     {
-        final List<KeyFileState> toDelete = new ArrayList<KeyFileState>();
+        // final List<KeyFileState> toDelete = new ArrayList<KeyFileState>();
+        tableDts_toDelete = new ArrayList<KeyFileState>();
 
         for(KeyFileState f:dupFiles) {
             if( f.isSelectedToDelete() ) {
-                toDelete.add( f );
+                tableDts_toDelete.add( f );
             }
         }
 
-        AbstractTableModel tm = new AbstractTableModel()
+        final int size = tableDts_toDelete.size();
+
+        tableDts_deleted = new Boolean[size] ;
+        tableDts_length = new long[size] ;
+
+        for(int i=0;i<size;i++) {
+            KeyFileState f = tableDts_toDelete.get( i );
+            tableDts_length[i] = f.getFile().length();
+        }
+
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer()
+        {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table,
+                    Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column
+                    )
+            {
+                if( row == 0 ) {
+                    KeyFileState f = tableDts_toDelete.get( row );
+                    setText( f.getFile().getPath() );
+
+                    Boolean b = tableDts_deleted[row];
+
+                    if( b != null ) {
+                        setHorizontalAlignment(SwingConstants.LEFT);
+
+                        if( b.booleanValue() ) {
+                            setIcon( iconOk );
+                        }
+                        else {
+                            setIcon( iconKo );
+                        }
+                    }
+                }
+                //setText("case " + row + ", " + column);
+                //;
+//                return this;
+                return super.getTableCellRendererComponent(
+                        table,
+                        value,
+                        isSelected,
+                        hasFocus,
+                        row,
+                        column
+                        );
+            }
+        };
+
+        jTableFiles2Delete.setDefaultRenderer(String.class, render);
+
+        tableModel = new AbstractTableModel()
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -160,7 +239,7 @@ public class JPanelConfirm extends JPanel
             @Override
             public int getRowCount()
             {
-                return toDelete.size();
+                return tableDts_toDelete.size();
             }
             @Override
             public Class<?> getColumnClass(int columnIndex)
@@ -178,19 +257,24 @@ public class JPanelConfirm extends JPanel
             @Override
             public Object getValueAt(int rowIndex, int columnIndex)
             {
-                 KeyFileState f = toDelete.get( rowIndex );
+                if( columnIndex == 1 ) {
+                    return tableDts_length[rowIndex];
+                }
+                else {
+                    KeyFileState f = tableDts_toDelete.get( rowIndex );
 
-                 switch(columnIndex) {
-                     case 0 : return f.getFile().getPath();
-                     case 1 : return f.getFile().length();
-                     case 2 : return computeKept(dupFiles,f.getKey());
-                     case 3 : return computeDeleted(dupFiles,f.getKey());
-                 }
-                 return null;
+                    switch(columnIndex) {
+                        case 0 : return f.getFile().getPath();
+                        //case 1 : return f.getFile().length();
+                        case 2 : return computeKept(dupFiles,f.getKey());
+                        case 3 : return computeDeleted(dupFiles,f.getKey());
+                    }
+                    return null;
+                }
             }
          };
 
-        jTableFiles2Delete.setModel(tm);
+        jTableFiles2Delete.setModel(tableModel);
 
         JPopupMenuForJTable popupMenu = new JPopupMenuForJTable(jTableFiles2Delete)
         {
@@ -213,12 +297,12 @@ public class JPanelConfirm extends JPanel
 
         jProgressBarDeleteProcess.setMinimum( 0 );
         jProgressBarDeleteProcess.setValue( 0 );
-        jProgressBarDeleteProcess.setMaximum( toDelete.size() );
+        jProgressBarDeleteProcess.setMaximum( tableDts_toDelete.size() );
         jProgressBarDeleteProcess.setIndeterminate( false );
         jProgressBarDeleteProcess.setString( txtWaiting  );
         jProgressBarDeleteProcess.setStringPainted( true );
 
-        jLabelTitle.setText( String.format( txtTitle, toDelete.size() ) );
+        jLabelTitle.setText( String.format( txtTitle, tableDts_toDelete.size() ) );
     }
 
     public void updateProgressBar(int count, String msg)
@@ -235,9 +319,11 @@ public class JPanelConfirm extends JPanel
         Set<KeyFileState> s = dupFiles.get( k );
         int               c = 0;
 
-        for(KeyFileState f:s) {
-            if(!f.isSelectedToDelete()) {
-                c++;
+        if( s != null ) {
+            for(KeyFileState f:s) {
+                if(!f.isSelectedToDelete()) {
+                    c++;
+                }
             }
         }
 
@@ -252,9 +338,11 @@ public class JPanelConfirm extends JPanel
         Set<KeyFileState> s = dupFiles.get( k );
         int               c = 0;
 
-        for(KeyFileState f:s) {
-            if(f.isSelectedToDelete()) {
-                c++;
+        if( s != null ) {
+            for(KeyFileState f:s) {
+                if(f.isSelectedToDelete()) {
+                    c++;
+                }
             }
         }
 
@@ -262,46 +350,73 @@ public class JPanelConfirm extends JPanel
     }
 
     public void doDelete(
-    		final DFToolKit 						tk,
-    		final HashMapSet<String,KeyFileState> 	duplicateFiles
-    		)
+            final DFToolKit                         tk,
+            final HashMapSet<String,KeyFileState>   duplicateFiles
+            )
     {
-        Iterator<KeyFileState>  iter = duplicateFiles.iterator();
+        //Iterator<KeyFileState>  iter = duplicateFiles.iterator();
         int                     deleteCount = 0;
+        final int               size = tableDts_toDelete.size();
+        final long deleteSleepDisplay =
+            size < tk.getConfigData().getDeleteSleepDisplayMaxEntries() ?
+                    tk.getConfigData().getDeleteSleepDisplay()
+                    :
+                    0;
 
-        while( iter.hasNext() ) {
-            KeyFileState f = iter.next();
+        for(int i=0;i<size;i++) {
+            KeyFileState kf = tableDts_toDelete.get( i );
+            String msg = kf.getFile().getPath();
 
-            if( f.isSelectedToDelete() ) {
-                String msg = f.getFile().getPath();
-                //jPanel4Confirm.updateProgressBar(deleteCount,msg);
-                updateProgressBar(deleteCount,msg);
-                slogger.info("Delete: " + f);
-                //TODO! delete !!!!
-                //sleep( deleteSleepDisplay );
-                tk.sleep( tk.getConfigData().getDeleteSleepDisplay() );
-                iter.remove();
-                deleteCount++;
-                //jPanel4Confirm.updateProgressBar(deleteCount,msg);
-                updateProgressBar(deleteCount,msg);
-            }
+            updateProgressBar(deleteCount,msg);
+
+            // Delete file
+            boolean isDel = kf.getFile().delete();
+
+            slogger.info("Delete=" + isDel + ':' + kf);
+
+            // Store result
+            tableDts_deleted[ i ] = new Boolean( isDel );
+            tableModel.fireTableCellUpdated( i, 0 );
+            //.fireTableDataChanged();
+
+            jTableFiles2Delete.scrollRectToVisible(
+                    jTableFiles2Delete.getCellRect(i, 0, true)
+                    );
+
+            tk.sleep( deleteSleepDisplay );
+
+            deleteCount++;
+            updateProgressBar(deleteCount,msg);
         }
 
         int keepCount = duplicateFiles.valuesSize();
 
+        updateProgressBar(deleteCount,txtMsgDone);
+
         slogger.info( "deleteCount= " + deleteCount  );
         slogger.info( "keepCount= " + keepCount );
 
+        // Remove files that can't be found on file system
+        Iterator<KeyFileState> iter = duplicateFiles.iterator();
+
+        while( iter.hasNext() ) {
+            KeyFileState f = iter.next();
+
+            if( !f.getFile().exists() ) {
+                iter.remove();
+            }
+        }
+
+        // Remove from list, files with no more
+        // duplicate entry
         duplicateFiles.purge(2);
 
         int newDupCount = duplicateFiles.valuesSize();
 
         slogger.info( "newDupCount= " + newDupCount );
-        
-        //sleep( deleteFinalDisplay );
-        tk.sleep( tk.getConfigData().getDeleteFinalDisplay() );
+        //tk.sleep( tk.getConfigData().getDeleteFinalDisplay() );
     }
-    
+
     private void jButtonDoScriptMouseMousePressed(MouseEvent event)
     {
         throw new UnsupportedOperationException();

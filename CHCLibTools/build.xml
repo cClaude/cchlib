@@ -103,14 +103,17 @@
 
     <buildnumber file="${build.number.file}"/>
     <mkdir dir="${dist.home}"/>
+    <mkdir dir="${build.home}/fake"/>
 
     <unzip  dest="${build.home}/jars">
       <fileset dir="${src.home}/libs"/>
       <fileset dir="${src.home}/../releases/CHCLibCore">
+        <!-- should be uniq -->
         <include name="CHCLibCore*.jar"/>
       </fileset>
     </unzip>
 
+    <!-- clean up jars extractions -->
     <delete>
       <fileset dir="${build.home}/jars">
         <include name="build.number"/>
@@ -121,6 +124,18 @@
     <delete dir="${build.home}/jars/junit3.8.2"/>
     <delete dir="${build.home}/jars/sample"/>
     <delete dir="${build.home}/jars/tst"/>
+
+    <!-- clean up testcases -->
+    <delete>
+      <fileset dir="${build.home}/jars/cx">
+        <include name="**/testcase/**"/>
+      </fileset>
+    </delete>
+    <delete verbose="on">
+      <fileset dir="${build.home}/jars/cx">
+        <include name="**/testcase"/>
+      </fileset>
+    </delete>
 
     <!-- CompareRessourceBundle standalone -->
     <jar jarfile="${jar.home}/${app.name}.CompareRessourceBundle.${app.version}.jar"
@@ -140,7 +155,7 @@
 
     <!-- DuplicateFiles standalone -->
     <jar jarfile="${jar.home}/${app.name}.DuplicateFiles.${app.version}.jar"
-         basedir="${build.home}/classes"
+         basedir="${build.home}/fake"
         >
       <manifest>
         <attribute name="Main-Class"          value="cx.ath.choisnet.tools.duplicatefiles.DuplicateFilesFrame"/>
@@ -152,6 +167,10 @@
         <attribute name="X-APP-Decription"    value="Clean up yours hards drives"/>
 
       </manifest>
+      <fileset dir="${build.home}/classes">
+        <include name="cx/ath/choisnet/tools/duplicatefiles/**"/>
+        <include name="*.*"/>
+      </fileset>
       <fileset dir="${build.home}/jars"/>
     </jar>
 

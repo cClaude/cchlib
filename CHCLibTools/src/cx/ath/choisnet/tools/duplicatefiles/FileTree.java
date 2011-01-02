@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.tools.duplicatefiles;
 
@@ -12,21 +12,21 @@ import java.util.Queue;
 
 /**
  * TODO: Doc! and code !
- * 
+ *
  * @author Claude CHOISNET
  */
 public class FileTree implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private HashMap<String,Node> nodes = new HashMap<String,Node>();
-    
+
     static class Node implements Serializable
     {
         private static final long serialVersionUID = 1L;
         File                 file;
         HashMap<String,Node> nodes = new HashMap<String,Node>();
     }
-    
+
     public FileTree()
     {
     }
@@ -35,16 +35,16 @@ public class FileTree implements Serializable
     {
         Queue<Node> q = new LinkedList<Node>();
         File f = file;
-        
+
         while( f != null ) {
             Node n = new Node();
             n.file = f;
             q.add( n );
         }
-        
+
         Node                n;
         Map<String,Node>    nList = nodes;
-        
+
         while( (n = q.poll()) != null ) {
             String name  = n.file.getName();
             Node   aNode = nList.get( name );

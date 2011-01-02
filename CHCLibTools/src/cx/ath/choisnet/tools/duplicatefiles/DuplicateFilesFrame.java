@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -43,11 +44,16 @@ final public class DuplicateFilesFrame
     private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
     /* @serial */
     private int                 state;
+    /* @serial */
+    private int                 subState;
     private final static int    STATE_SELECT_DIRS      = 0;
     private final static int    STATE_SEARCH_CONFIG    = 1;
     private final static int    STATE_SEARCHING        = 2;
     private final static int    STATE_RESULTS          = 3;
     private final static int    STATE_CONFIRM          = 4;
+    private final static int    SUBSTATE_CONFIRM_INIT  = 0;
+    private final static int    SUBSTATE_CONFIRM_DONE  = 1;
+
     /* @serial */
     private AutoI18n autoI18n = I18nBundle.getAutoI18n();
 
@@ -56,12 +62,12 @@ final public class DuplicateFilesFrame
 
     @I18nString private String txtContinue  = "Continue";
     @I18nString private String txtRestart   = "Restart";
-    @I18nString private String txtRemove    = "Remove (does not delete)";
+    @I18nString private String txtRemove    = "Remove";
     @I18nString private String txtDeleteNow = "Delete now";
     @I18nString private String txtBack      = "Back";
 
     /* @serial */
-    private ConfigData configData;
+    private final ConfigData configData;
     /* @serial */
     private ConfigMode mode;
     /* @serial */
@@ -79,6 +85,8 @@ final public class DuplicateFilesFrame
         // Init display
         updateDisplayAccordState();
         slogger.info( "DuplicateFilesFrame() done." );
+
+        configData = new ConfigData();
     }
 
     public void performeI18n(AutoI18n autoI18n)
@@ -93,14 +101,14 @@ final public class DuplicateFilesFrame
 
     private void initFixComponents()
     {
-        setIconImage( getImage( "icon.png ") );
+        setIconImage( getImage( "icon.png" ) );
 
         this.iconContinue = getIcon( "continue.png" );
         this.iconRestart  = getIcon( "restart.png" );
 
         // Moving the Icon in a JButton Component
-        jButtonNextStep.setVerticalTextPosition(SwingConstants.CENTER); 
-        jButtonNextStep.setHorizontalTextPosition(SwingConstants.LEFT); 
+        jButtonNextStep.setVerticalTextPosition(SwingConstants.CENTER);
+        jButtonNextStep.setHorizontalTextPosition(SwingConstants.LEFT);
 
         this.state = STATE_SELECT_DIRS;
 
@@ -135,7 +143,7 @@ final public class DuplicateFilesFrame
         jPanel0SelectFolders.initFixComponents( this );
         jPanel2Searching.initFixComponents();
         jPanel3Result.initFixComponents( duplicateFiles, this );
- 
+
         // init
         modeListener.actionPerformed( null );
 
@@ -216,10 +224,16 @@ final public class DuplicateFilesFrame
         else if( state == STATE_CONFIRM ) {
             jButtonRestart.setEnabled( true );
             jButtonRestart.setText( txtBack  );
-            jButtonNextStep.setEnabled( true );
-            jButtonNextStep.setText( txtDeleteNow  );
 
-            jPanel4Confirm.initComponents( duplicateFiles );
+            if( subState == SUBSTATE_CONFIRM_INIT ) {
+                jButtonNextStep.setEnabled( true );
+                jButtonNextStep.setText( txtDeleteNow  );
+
+                jPanel4Confirm.initComponents( duplicateFiles );
+            }
+            else {
+                jButtonNextStep.setEnabled( false );
+            }
         }
     }
 
@@ -286,9 +300,25 @@ final public class DuplicateFilesFrame
     @Override // DFToolKit
     public Image getImage(String name)
     {
-        return Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource( name )
+        URL url = getClass().getResource( name );
+
+        if( url == null ) {
+            slogger.error(
+                String.format( "Bad url for image : '%s'", name )
                 );
+
+            return null;
+        }
+
+        Image image = Toolkit.getDefaultToolkit().getImage( url );
+
+        if( image == null ) {
+            slogger.error(
+                String.format( "No image for : '%s'", name )
+                );
+        }
+
+        return image;
     }
     @Override // DFToolKit
     public Icon getIcon(String name)
@@ -300,7 +330,7 @@ final public class DuplicateFilesFrame
     @Override // DFToolKit
     public ConfigData getConfigData()
     {
-    	return configData;
+        return configData;
     }
 
     public static void main( String[] args )
@@ -320,14 +350,20 @@ final public class DuplicateFilesFrame
             @Override
             public void run()
             {
-                DuplicateFilesFrame frame = new DuplicateFilesFrame();
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                frame.setTitle( "Duplicate Files Manager (ALPHA)" );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
-                frame.getJFileChooserInitializer();
+                try {
+                    DuplicateFilesFrame frame = new DuplicateFilesFrame();
+                    frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                    frame.setTitle( "Duplicate Files Manager" );
+                    frame.getContentPane().setPreferredSize( frame.getSize() );
+                    frame.pack();
+                    frame.setLocationRelativeTo( null );
+                    frame.setVisible( true );
+                    frame.getJFileChooserInitializer();
+                }
+                catch( Throwable e ) {
+                    slogger.fatal( "Can't load application", e );
+                    e.printStackTrace();
+                }
             }
         } );
     }
@@ -373,20 +409,25 @@ final public class DuplicateFilesFrame
             }
             else if( state == STATE_RESULTS ) {
                 state = STATE_CONFIRM;
+                subState = SUBSTATE_CONFIRM_INIT;
             }
             else if( state == STATE_CONFIRM ) {
-                jButtonNextStep.setEnabled( false );
-                jButtonRestart.setEnabled( false );
-                new Thread( new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                    	jPanel4Confirm.doDelete(DuplicateFilesFrame.this,duplicateFiles);
-                        state = STATE_RESULTS;
-                        updateDisplayAccordState();
-                    }
-                }).start();
-                return;
+                if( subState == SUBSTATE_CONFIRM_INIT ) {
+                    jButtonNextStep.setEnabled( false );
+                    jButtonRestart.setEnabled( false );
+                    new Thread( new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            jPanel4Confirm.doDelete(DuplicateFilesFrame.this,duplicateFiles);
+
+                            //state = STATE_RESULTS;
+                            subState = SUBSTATE_CONFIRM_DONE;
+                            updateDisplayAccordState();
+                        }
+                    }).start();
+                    return;
+                }
             }
 
             updateDisplayAccordState();
@@ -424,7 +465,7 @@ final public class DuplicateFilesFrame
         int newDupCount = duplicateFiles.valuesSize();
 
         slogger.info( "newDupCount= " + newDupCount );
-        
+
         sleep( deleteFinalDisplay );
     }
     */

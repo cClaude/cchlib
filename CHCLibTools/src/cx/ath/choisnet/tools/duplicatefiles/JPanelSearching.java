@@ -71,7 +71,7 @@ public class JPanelSearching extends JPanel
     private JPanel jPanelStateGfx;
     @I18nIgnore private JLabel jLabelStateWorking;
     private Icon   iconWorking;
-    
+
     @I18nString private String txtDuplicateSetsFound = "Duplicate sets found: %d";
     @I18nString private String txtDuplicateFilesFound = "Duplicate files found: %d";
     @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %d";
@@ -104,7 +104,7 @@ public class JPanelSearching extends JPanel
 
     private JLabel getJLabelStateWorking() {
         if (jLabelStateWorking == null) {
-        	jLabelStateWorking = new JLabel();
+            jLabelStateWorking = new JLabel();
          }
         return jLabelStateWorking;
     }

@@ -1,6 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
-public interface FileFilterBuilders 
+public interface FileFilterBuilders
 {
     public boolean isIgnoreHiddenDirs();
     //public boolean isIgnoreReadOnlyDirs();

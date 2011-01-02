@@ -6,7 +6,7 @@ import java.util.Locale;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 
-public interface DFToolKit 
+public interface DFToolKit
 {
     public JFileChooser getJFileChooser();
     public void beep();

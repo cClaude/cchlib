@@ -1,6 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
-public enum ConfigMode 
+public enum ConfigMode
 {
         BEGINNER,
         ADVANCED,
