@@ -59,11 +59,13 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
                 )
             );
  * </pre>
+ * <b>Debugging:</b>
+ * <ul>
+ *  <li>See {@link #DISABLE_PROPERTIES}</li>
+ * </ul>
  * </p>
  *
  * @author Claude CHOISNET
- *
- * TODO: Complete this doc...
  */
 public class AutoI18n implements Serializable
 {
@@ -87,6 +89,16 @@ public class AutoI18n implements Serializable
         Window.class,
         JPanel.class,
         };
+    /**
+     * System properties : {@value #DISABLE_PROPERTIES}<br/>
+     * If set with "true" disable
+     * auto-internalization process.
+     */
+    public static final String DISABLE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.disabled";
+
+    //TODO: add properties to force locale
+    //public static final String LOCALE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.locale";
+
     /** @serial */
     private AutoI18nTypes types;
     /**
@@ -120,30 +132,12 @@ public class AutoI18n implements Serializable
          * {@link JWindow}, {@link Window}
          */
         DO_DEEP_SCAN,
+        /**
+         * Internal use, see {@link AutoI18n#DISABLE_PROPERTIES}<br/>
+         * Disable internalization process.
+         */
+        DISABLE,
     }
-
-//    /**
-//     * Create an AutoI18n object using {@link I18nSimpleResourceBundle}
-//     * and {@link AutoI18nSystemErrExceptionHandler}
-//     *
-//     * @param resourceBundleBaseName
-//     */
-//    public AutoI18n( String resourceBundleBaseName )
-//    {
-//        this( new I18nSimpleResourceBundle(resourceBundleBaseName));
-//    }
-//
-//    /**
-//     * @param i18n {@link I18nInterface} to use
-//     */
-//    public AutoI18n( I18nInterface i18n )
-//    {
-//        this(
-//            i18n,
-//            new AutoI18nSystemErrExceptionHandler(),
-//            null
-//            );
-//    }
 
     /**
      * Create an AutoI18n object using {@link I18nInterface},
@@ -181,6 +175,11 @@ public class AutoI18n implements Serializable
         }
         else {
             this.config = EnumSet.copyOf( attributes );
+        }
+        
+        if( Boolean.getBoolean( DISABLE_PROPERTIES )) {
+            // Ignore ALL !
+            this.config.add( Attribute.DISABLE );
         }
     }
 
@@ -249,6 +248,11 @@ public class AutoI18n implements Serializable
             final Class<? extends T>    clazz
             )
     {
+        if( this.config.contains( Attribute.DISABLE ) ) {
+            // Internalization is disabled.
+            return;
+        }
+
         if( this.exceptionHandler == null ) {
             setAutoI18nExceptionHandler( new AutoI18nLog4JExceptionHandler() );
         }
@@ -600,6 +604,12 @@ public class AutoI18n implements Serializable
         return types;
     }
 
+    /**
+     * Private class use to identify current field
+     * and to resolve value.
+     * 
+     * @author Claude CHOISNET
+     */
     public class Key
     {
         private String key;
