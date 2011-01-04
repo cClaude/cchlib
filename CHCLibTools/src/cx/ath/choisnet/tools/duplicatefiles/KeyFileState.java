@@ -56,7 +56,7 @@ final class KeyFileState
     public boolean isInDirectory( String dirPath )
     {
         if( path == null ) {
-            path = file.getPath() + File.separator;
+            path = file.getPath();
         }
 
         return path.startsWith( dirPath );

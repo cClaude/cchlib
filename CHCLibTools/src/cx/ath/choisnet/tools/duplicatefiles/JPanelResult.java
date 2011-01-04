@@ -773,7 +773,7 @@ public class JPanelResult extends JPanel
                     }
                     else if( ACTION_COMMAND_DeleteDuplicateInDir.equals( cmd ) ) {
                         // Delete all files in this dir, but keep one (globally)
-                        final String dirPath = kf.getFile().getPath();
+                        final String dirPath = kf.getFile().getPath() + File.separator;
 
                         //Look for all files in this dir !
                         for(Entry<String, Set<KeyFileState>> entry:duplicateFiles.entrySet()) {
@@ -809,7 +809,7 @@ public class JPanelResult extends JPanel
                     else if( ACTION_COMMAND_KeepNonDuplicateInDir.equals( cmd ) ) {
                         // Keep at least on file in this dir.
                         ////final String k       = kf.getKey();
-                        final String dirPath = kf.getFile().getPath();
+                        final String dirPath = kf.getFile().getPath() + File.separator;
                       //TODO
                       //TODO
                       //TODO
@@ -847,7 +847,7 @@ public class JPanelResult extends JPanel
                     }
                     else if( ACTION_COMMAND_KeepAllInDir.equals( cmd )) {
                         final String k       = kf.getKey();
-                        final String dirPath = kf.getFile().getPath();
+                        final String dirPath = kf.getFile().getPath() + File.separator;
 
                         for(KeyFileState f:duplicateFiles.get(k)) {
                             if( f.isInDirectory( dirPath ) ) {
@@ -858,7 +858,7 @@ public class JPanelResult extends JPanel
                     }
                     else if( ACTION_COMMAND_DeleteAllInDir.equals( cmd ) ) {
                         final String k       = kf.getKey();
-                        final String dirPath = kf.getFile().getPath();
+                        final String dirPath = kf.getFile().getPath() + File.separator;
 
                         for(KeyFileState f:duplicateFiles.get(k)) {
                             if( f.isInDirectory( dirPath ) ) {
