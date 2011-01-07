@@ -6,13 +6,15 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.Charset;
+import cx.ath.choisnet.ToDo;
 
 /**
- * Provide similar feature than {@link StringBuilder}
  * <p>
+ * Provide similar feature than {@link StringBuilder}
  * </p>
+ * 
  * @author Claude CHOISNET
- *
  */
 public class ByteArrayBuilder
     implements  Comparable<ByteArrayBuilder>,
@@ -121,7 +123,7 @@ public class ByteArrayBuilder
      *
      * @param minimumCapacity minimum capacity of buffer
      */
-    public void ensureCapacity(int minimumCapacity)
+    public void ensureCapacity( int minimumCapacity )
     {
         if(minimumCapacity > capacity()) {
             int newLength;
@@ -129,13 +131,13 @@ public class ByteArrayBuilder
             for(newLength = buffer.length; newLength < minimumCapacity; ) {
                 newLength = newLength + 1 << 1;
             }
+
             byte[] newBuffer = new byte[newLength];
 
             System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
 
             buffer = newBuffer;
         }
-
     }
 
     /**
@@ -199,6 +201,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
+    @ToDo
     public ByteArrayBuilder append(ReadableByteChannel channel)
         throws java.io.IOException
     {
@@ -213,6 +216,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
+    @ToDo
     public ByteArrayBuilder append(InputStream is)
         throws java.io.IOException
     {
@@ -228,6 +232,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
+    @ToDo
     public ByteArrayBuilder append(
             InputStream is,
             int         bufferSize
@@ -247,6 +252,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
+    @ToDo
     public ByteArrayBuilder append(
             InputStream is,
             byte[]      intermediateBuffer
@@ -414,10 +420,28 @@ public class ByteArrayBuilder
         return false;
     }
 
+    /**
+     * Returns internal buffer as a String by decoding
+     * the internal array of bytes using the platform's
+     * default charset.
+     * 
+     * @return a string representing the data in this sequence. 
+     */
     @Override
     public String toString()
     {
         return new String(buffer, 0, lastPos);
+    }
+
+    /**
+     * Returns internal buffer as a String by decoding
+     * the internal array of bytes using the specified charset.
+     * 
+     * @return a string representing the data in this sequence. 
+     */
+    public String toString(Charset charset)
+    {
+        return new String(buffer, 0, lastPos, charset);
     }
 
     @Override

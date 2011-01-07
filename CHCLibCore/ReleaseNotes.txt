@@ -1,5 +1,9 @@
 
 ---------------------------------------------------------------------
+03a.23
+  Add: method toString(Charset) to cx.ath.choisnet.lang.ByteArrayBuilder
+
+---------------------------------------------------------------------
 03a.07
   Code review (improve documentation)
   Add: Annotation - alpha.cx.ath.choisnet.ToDo
