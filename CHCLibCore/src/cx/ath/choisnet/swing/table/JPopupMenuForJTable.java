@@ -304,11 +304,12 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * Returns an ActionListener that copy text content of
+     * cell at specified row an column.
      *
-     * @param rowIndex
-     * @param columnIndex
-     * @return
+     * @param rowIndex    row index of cell to copy text content
+     * @param columnIndex column index of cell to copy text content
+     * @return an ActionListener
      */
     final
     protected ActionListener copyActionListener(

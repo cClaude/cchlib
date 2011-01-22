@@ -1,7 +1,11 @@
 package cx.ath.choisnet.lang.testcase;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.ReadableByteChannel;
 import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.ExtendTestCase;
@@ -175,6 +179,42 @@ public class ByteArrayBuilderTest extends ExtendTestCase
 //                    bytes[i]
 //                    );
 //        }
+    }
+
+    public void test_AppendReadableByteChannel() throws IOException
+    {
+        final File              file    = File.createTempFile( getClass().getName(), "tmp" );
+        final int               count   = 20;
+        final int               size    = BYTES.length * count;
+
+        {
+            //Create the File
+            FileOutputStream fos = new FileOutputStream( file );
+            
+            for( int i=0; i<count; i++ ) {
+                fos.write( BYTES );
+            }
+            
+            fos.close();
+        }
+        assertEquals( "tmp file bad size",size,file.length());
+
+        FileInputStream     fis         = new FileInputStream(file );
+        ReadableByteChannel fileChannel = fis.getChannel();
+
+        ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
+        
+        bab.append( fileChannel );
+        fis.close();
+        
+        assertEquals("bab bad len",size,bab.length());
+
+        byte[] bytes = bab.array();
+
+        assertEquals("array bad len",size,bytes.length);
+
+        //clean up
+        file.delete();
     }
     
     

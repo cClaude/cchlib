@@ -1,4 +1,4 @@
-package alpha.cx.ath.choisnet.net;
+package cx.ath.choisnet.net;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -11,8 +11,7 @@ import cx.ath.choisnet.ToDo;
  *
  * @author Claude CHOISNET
  */
-// TODO: Not yet finish :(
-@ToDo
+
 @Deprecated
 public class PseudoPing
 {

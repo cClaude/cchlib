@@ -1,10 +1,12 @@
 package cx.ath.choisnet.lang;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import cx.ath.choisnet.ToDo;
@@ -166,7 +168,6 @@ public class ByteArrayBuilder
 //        ensureCapacity(length() + lenOfCopy);
 //        System.arraycopy(bytes, offset, buffer, lastPos, lenOfCopy);
 //        lastPos += lenOfCopy;
-        //TODO: TestCase !
         ensureCapacity(length() + len);
         System.arraycopy(bytes, offset, buffer, lastPos, len);
         lastPos += len;
@@ -191,21 +192,6 @@ public class ByteArrayBuilder
         lastPos++;
 
         return this;
-    }
-
-    /**
-     * TODO: Doc!
-     * TODO: TestCase
-     *
-     * @param channel
-     * @return caller for initialization chaining
-     * @throws java.io.IOException
-     */
-    @ToDo
-    public ByteArrayBuilder append(ReadableByteChannel channel)
-        throws java.io.IOException
-    {
-        return append(channel, DEFAULT_SIZE);
     }
     
     /**
@@ -269,11 +255,25 @@ public class ByteArrayBuilder
     }
 
     /**
-     * TODO: Doc!
-     * TODO: TestCase
+     * Append {@link ReadableByteChannel} content to buffer.
      *
-     * @param channel
-     * @param bufferSize
+     * @param channel channel to append to buffer
+     * @return caller for initialization chaining
+     * @throws java.io.IOException
+     * @see java.io.FileInpustStream#getChannel
+     * @see java.nio.channels.FileChannel
+     */
+    public ByteArrayBuilder append(ReadableByteChannel channel)
+        throws java.io.IOException
+    {
+        return append(channel, DEFAULT_SIZE);
+    }
+
+    /**
+     * Append {@link ReadableByteChannel} content to buffer.
+     *
+     * @param channel channel to append to buffer
+     * @param bufferSize temporary buffer size.
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
