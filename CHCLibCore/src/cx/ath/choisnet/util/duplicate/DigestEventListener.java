@@ -35,4 +35,11 @@ public interface DigestEventListener
      * @param file  current file. 
      */
     public void ioError(IOException e, File file);
+    
+    /**
+     * Invoked to check if process should be cancel.
+     * 
+     * @return true if process should be stop.
+     */
+    public boolean isCancel();
 }

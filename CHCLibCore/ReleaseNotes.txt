@@ -1,4 +1,13 @@
 
+---------------------------------------------------------------------
+03a.25
+  Add class cx.ath.choisnet.util.CancelRequestException
+  Fix cancel handle in cx.ath.choisnet.util.duplicate.DuplicateFileCollector
+  Add: method isCancel() to cx.ath.choisnet.util.duplicate.DigestEventListener
+  Implement cancel from DigestEventListener in
+    - cx.ath.choisnet.util.checksum.MessageDigestFile
+    - cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector
+    - cx.ath.choisnet.util.duplicate.DuplicateFileCollector
 
 ---------------------------------------------------------------------
 03a.24

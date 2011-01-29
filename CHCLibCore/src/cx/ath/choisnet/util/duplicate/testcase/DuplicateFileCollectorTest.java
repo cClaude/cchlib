@@ -75,6 +75,11 @@ public class DuplicateFileCollectorTest
                         //System.out.printf("in:%s - reading %d bytes\n",file,length);
                         cumul += length;
                     }
+                    @Override
+                    public boolean isCancel()
+                    {
+                        return false;
+                    }
                 });
         
         System.out.printf("adding... : %s\n",root);

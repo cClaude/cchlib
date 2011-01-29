@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import cx.ath.choisnet.ToDo;
 
 /**
  * Trying to offer a ping like operation for Java (Alpha)

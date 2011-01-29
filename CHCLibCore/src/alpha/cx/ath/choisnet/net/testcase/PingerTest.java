@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package alpha.cx.ath.choisnet.net.testcase;
 
@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 /**
  * @author Claude CHOISNET
  */
-public class PingerTest extends TestCase 
+public class PingerTest extends TestCase
 {
     private final static transient Logger slogger = Logger.getLogger( PingerTest.class );
 
@@ -22,7 +22,7 @@ public class PingerTest extends TestCase
     private static String externhost = "google.com";
 
     // ------------ helloPing ----------------
-    private void tst_helloPing( String host ) 
+    private void tst_helloPing( String host )
         throws PingerException
     {
         slogger.info( "try helloPing on [" + host + "]" );
@@ -32,7 +32,7 @@ public class PingerTest extends TestCase
         assertTrue("Can't ping " + host, result);
     }
 /*
-    public void test_helloPing_LocalHostIp() 
+    public void test_helloPing_LocalHostIp()
         throws PingerException
     {
         tst_helloPing( localhostIp );
@@ -51,7 +51,7 @@ public class PingerTest extends TestCase
     }
 */
     // ------------ ping (static) ----------------
-    private void tst_ping(String host) 
+    private void tst_ping(String host)
         throws UnknownHostException, IOException
     {
         slogger.info( "try ping on [" + host + "]" );
@@ -61,7 +61,7 @@ public class PingerTest extends TestCase
         assertTrue("Can't ping " + host, result);
     }
 
-    public void test_ping_LocalHostIP() 
+    public void test_ping_LocalHostIP()
         throws UnknownHostException, IOException
     {
         tst_ping( localhostIp );
@@ -72,11 +72,11 @@ public class PingerTest extends TestCase
     {
         tst_ping( localhost );
     }
-
+/*
     public void test_ping_externHost()
         throws UnknownHostException, IOException
     {
         tst_ping( externhost );
     }
-
+*/
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
@@ -30,19 +31,22 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
 public class DuplicateFileCollector
     extends DefaultDigestFileCollector
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     /** @serial */
     private HashMapSet<Long,File> mapLengthFiles;
     /** @serial */
     private boolean ignoreEmptyFile;
     /** @serial */
     private boolean cancelProcess;
-
+    /** @serial */
+    private boolean alreadyCallPass2;
+  
     /**
-     * TODO: Doc!
+     * Create a new DuplicateFileCollector
      *
-     * @param messageDigestFile
-     * @param ignoreEmptyFile
+     * @param messageDigestFile MessageDigestFile to use
+     * to compute hash code for files.
+     * @param ignoreEmptyFile ignore empty files (length = 0) if true.
      */
     public DuplicateFileCollector(
             MessageDigestFile   messageDigestFile,
@@ -52,16 +56,25 @@ public class DuplicateFileCollector
         super( messageDigestFile );
         this.mapLengthFiles = new HashMapSet<Long,File>();
         this.ignoreEmptyFile = ignoreEmptyFile;
+        this.cancelProcess = false;
+        this.alreadyCallPass2 = false;
     }
 
     /**
+     * <p>
+     * Perform full process on files.
+     * </p>
+     * <p>
      * Be sure to read general informations if you
      * use this method.
+     * </p>
      * <p>
      *  It first call {@link #pass1Add(Iterable)} and
      *  then {@link #pass2()}.
      * </p>
-     */
+     * @param files
+     * @throw IllegalStateException if {@link #pass2()} already call.
+    */
     @Override
     public void add( Iterable<File> files )
     {
@@ -70,20 +83,24 @@ public class DuplicateFileCollector
     }
 
     /**
-     * Perform fist pass. Just store (length,file) couple,
+     * Perform first pass. Just store (length,file) couple,
      * into internal Map.
      * <p>
-     *  Collect all files to inspect. You can
-     *  call this method any time you want before
+     *  Collect all files that you want to inspect. You can
+     *  call this method many times before
      *  calling {@link #pass2()}.
      * </p>
      *
      * @param files file Iterable (collection) to add.
+     * @throw IllegalStateException if {@link #pass2()} already call.
      * @see #pass2()
      */
     synchronized
     public void pass1Add(Iterable<File> files)
     {
+        if( this.alreadyCallPass2 ) {
+            throw new IllegalStateException();
+        }
         for(File f:files) {
             long size = f.length();
 
@@ -94,7 +111,7 @@ public class DuplicateFileCollector
             mapLengthFiles.add( new Long(size), f );
 
             if( cancelProcess ) {
-                clear();
+                internalClear();
                 return;
             }
         }
@@ -168,11 +185,18 @@ public class DuplicateFileCollector
      * Perform second pass.
      *
      * @see MessageDigestFile#compute(File)
+     * @throw IllegalStateException if {@link #pass2()} already call.
      */
     synchronized public void pass2()
     {
+        if( this.alreadyCallPass2 ) {
+            throw new IllegalStateException();
+        }
+        
+        this.alreadyCallPass2 = true;
+        
         if( cancelProcess ) {
-            clear();
+            internalClear();
             return;
         }
 
@@ -194,21 +218,27 @@ public class DuplicateFileCollector
                             if( c.size() < 2 ) {
                                 this.duplicateSetsCount++;
                                 this.duplicateFilesCount += 2;
-                            }
+                                }
                             else {
                                 this.duplicateFilesCount++;
+                                }
                             }
-                        }
                         c.add( f );
-                    }
+                        }
                     catch(IOException e) {
                         notify(e,f);
+                        }
+                    catch( CancelRequestException e ) {
+                        setCancelProcess( true );
+                        }
+
+                    // Done with current file (or cancel)
+                    // Check cancel state
+                    if( cancelProcess ) {
+                        internalClear();
+                        return;
                     }
                 }
-            }
-            if( cancelProcess ) {
-                clear();
-                return;
             }
         }
 
@@ -223,11 +253,19 @@ public class DuplicateFileCollector
     @Override
     public void clear()
     {
-        mapLengthFiles.deepClear();
-        super.clear();
+        internalClear();
         setCancelProcess(false);
+        alreadyCallPass2 = false;
     }
 
+    // Should not stop cancel here, ensure cancel
+    // process will continue.
+    private void internalClear()
+    {
+        mapLengthFiles.deepClear();
+        super.clear();
+    }
+    
     /**
      * Define if process should be canceled.
      * <p>
@@ -236,7 +274,10 @@ public class DuplicateFileCollector
      * and then invoke {@link #clear()}, since currents
      * values can not be used.
      * </p>
-     *
+     * <p>
+     * You must set to false, before reuse this
+     * object after setting cancel to true.
+     * </p>
      * @param cancel true, ask process to cancel.
      * @see #clear()
      */
@@ -250,7 +291,7 @@ public class DuplicateFileCollector
      *
      * @return true if
      */
-    protected boolean isCancelProcess()
+    public boolean isCancelProcess()
     {
         return cancelProcess;
     }

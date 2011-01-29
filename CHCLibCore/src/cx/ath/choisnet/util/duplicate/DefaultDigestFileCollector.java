@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import cx.ath.choisnet.io.FileIterator;
+import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
@@ -92,16 +93,26 @@ public class DefaultDigestFileCollector
      * </pre>
      *
      * @param files
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @throws CancelRequestException if any listeners ask to cancel operation
+     * @see DigestEventListener#ioError(IOException, File)
+     * @see DigestEventListener#computeDigest(File)
      */
-    public void add( final Iterable<File> files )
-        throws  FileNotFoundException,
-                IOException
+    public void add( final Iterable<File> files ) throws CancelRequestException
     {
         for(File f:files) {
             notify( f );
-            mdf.compute( f, listeners );
+
+            try {
+                mdf.compute( f, listeners );
+                }
+            catch( FileNotFoundException e ) {
+                notify( e, f );
+                continue;
+            }
+            catch( IOException e ) {
+                notify( e, f );
+                continue;
+            }
 
             String    k = mdf.digestString();
             Set<File> c = mapHashFile.get( k );
@@ -109,16 +120,16 @@ public class DefaultDigestFileCollector
             if( c == null ) {
                 c = new HashSet<File>();
                 mapHashFile.put( k, c );
-            }
+                }
             else {
                 if( c.size() < 2 ) {
                     this.duplicateSetsCount++;
                     this.duplicateFilesCount += 2;
-                }
+                    }
                 else {
                     this.duplicateFilesCount++;
+                    }
                 }
-            }
             c.add( f );
         }
     }

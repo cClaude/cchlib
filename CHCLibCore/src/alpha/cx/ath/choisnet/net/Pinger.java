@@ -16,6 +16,9 @@ import cx.ath.choisnet.ToDo;
 
 /**
  * Try to solve Ping in JAVA.
+ * <p>
+ * Under development. [DO NOT USE]
+ * </p>
  * 
  * @author Claude CHOISNET
  */

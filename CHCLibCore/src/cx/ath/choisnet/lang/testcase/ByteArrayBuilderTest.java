@@ -10,6 +10,10 @@ import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.ExtendTestCase;
 
+/**
+ * 
+ * @author Claude
+ */
 public class ByteArrayBuilderTest extends ExtendTestCase 
 {
     private final static byte[] BYTES = {'a','b','c','d','e','f'};

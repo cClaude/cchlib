@@ -11,34 +11,45 @@ import java.util.Map;
 import java.util.Set;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.test.TstCaseHelper;
+import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector;
+import cx.ath.choisnet.util.duplicate.DigestEventListener;
 import junit.framework.TestCase;
 
 /**
- * @author Claude
  *
+ * @author Claude CHOISNET
  */
 public class DefaultDigestFileCollectorTest
     extends TestCase 
 {
+    protected static final int MAX_FILES_COUNT = 5000;
 
     public void test_Base() 
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
-                IOException
+                IOException, 
+                CancelRequestException
     {
         DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
-        //File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
+        
+        instance.addDigestEventListener( getDigestEventListener() );
+
         File            root  = TstCaseHelper.getUserHomeDirFile();
         Iterable<File>  files = new FileIterator(
                 root,
                 new java.io.FileFilter()
                 {
+                    int count = 0;
+                    
                     @Override
                     public boolean accept( File f )
                     {
                         if( f.isFile() && f.length() > 0 ) {
-                            System.out.println(f);
+                            if( count > MAX_FILES_COUNT ) {
+                                return false;
+                            }
+                            count++;
                             return true;
                         }
                         return false;
@@ -71,7 +82,7 @@ public class DefaultDigestFileCollectorTest
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
         
         Map<String, Set<File>> map = instance.getFiles();
-        
+
         for(Map.Entry<String,Set<File>> entry:map.entrySet()) {
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
@@ -81,5 +92,38 @@ public class DefaultDigestFileCollectorTest
                 System.out.printf(  "%s\n", f );
             }
         }
+
+        System.out.println( "\ndone." );
+    }
+    
+    private DigestEventListener getDigestEventListener()
+    {
+        return new DigestEventListener()
+        {
+            @Override
+            public void computeDigest( File file )
+            {
+                System.out.printf( "computeDigest[%s]\n", file );
+            }
+            @Override
+            public void computeDigest( File file, long length )
+            {//Partial compute
+//                System.out.printf( "computeDigest[%s] length=%d\n", file, length );
+            }
+            @Override
+            public void ioError( IOException e, File file )
+            {
+                System.err.flush();
+                System.out.printf( "ioError[%s] file=%s\n", e, file );
+                System.out.flush();
+                e.printStackTrace(System.err);
+                System.err.flush();
+            }
+            @Override
+            public boolean isCancel()
+            {
+                return false;
+            }
+        };
     }
 }

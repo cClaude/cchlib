@@ -14,6 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Collection;
+import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
@@ -85,8 +86,8 @@ public class MessageDigestFile
      * @see MessageDigest#getInstance(String)
      */
     public MessageDigestFile(
-            String algorithm,
-            int    bufferSize
+            final String algorithm,
+            final int    bufferSize
             )
         throws NoSuchAlgorithmException
     {
@@ -354,13 +355,14 @@ public class MessageDigestFile
      * @return MD value has an array of bytes
      * @throws FileNotFoundException
      * @throws IOException
+     * @throws CancelRequestException if any listeners ask to cancel operation
      */
     public byte[] compute(
             File                            file,
             Collection<DigestEventListener> listeners
             )
         throws FileNotFoundException,
-               IOException
+               IOException, CancelRequestException
     {
         reset();
 
@@ -376,6 +378,11 @@ public class MessageDigestFile
 
             for(DigestEventListener l:listeners) {
                 l.computeDigest( file, bb.position() );
+                
+                if( l.isCancel() ) {
+                    // User ask to cancel current task
+                    throw new CancelRequestException();
+                }
             }
         }
 
