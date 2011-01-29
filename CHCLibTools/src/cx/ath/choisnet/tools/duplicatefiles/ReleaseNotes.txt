@@ -1,0 +1,24 @@
+ch.ath.choisnet.duplicatefiles
+
+---------------------------------------------------------------------
+03a.20
+  Move release note to package.
+  Fix: Cancel during scan.
+
+---------------------------------------------------------------------
+
+---------------------------------------------------------------------
+Kn problems
+  - After Cancel should not can use "continue" button.
+  - [Advanced/Expert Mode] Select using regex : Boutons 'delete' and
+    'keep' (panel 'duplicates') should be disabled during process.
+    -> try to make a better interface.
+---------------------------------------------------------------------
+To add/improve:
+  - Compare only some files (advenced or expert only)
+  - Ignore some folders :
+    a) Before compare
+    b) After compare (context menu, add ignore all files in) - should
+    remove from list also files that not have duplicate any more.
+ - Change default for scan (include hidden folders and hidden files)
+---------------------------------------------------------------------

@@ -312,6 +312,11 @@ public class JPanelSearching extends JPanel
             {
                 pass2BytesCount += length;
             }
+            @Override
+            public boolean isCancel()
+            {
+                return duplicateFC.isCancelProcess();
+            }
         } );
 
         for(File f:directories) {
