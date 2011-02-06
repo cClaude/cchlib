@@ -154,6 +154,10 @@
          stylesheetfile="${src.home}/metadata/stylesheet.css"
 -->
       <classpath refid="compile.classpath"/>
+      <excludepackage name="alpha.*"/>
+      <excludepackage name="deprecated.*"/>
+      <excludepackage name="cx.ath.choisnet.system.impl.win32.testcase"/>
+      <excludepackage name="cx.ath.choisnet.system.testcase"/>
       <link href="${javadoc.j2se}" offline="true"
             packagelistLoc="${src.home}/metadata/j2se.1.5.0/"
             />
