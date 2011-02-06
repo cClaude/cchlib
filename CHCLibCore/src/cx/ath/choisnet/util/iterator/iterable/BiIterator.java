@@ -15,7 +15,7 @@ import java.util.Iterator;
  */
 public class BiIterator<T>
     extends cx.ath.choisnet.util.iterator.BiIterator<T>
-        implements Iterable<T>
+        implements Iterable<T>,IterableIterator<T>
 {
     private Iterable<T> firstIterable;
     private Iterable<T> secondIterable;

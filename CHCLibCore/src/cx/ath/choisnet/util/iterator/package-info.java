@@ -2,7 +2,7 @@
  * Provide some extra Iterator, most based
  * on other Iterator.
  * <BR/>
- * These Iterator is design to avoid copy of
+ * Theses Iterators are design to avoid copy of
  * Collections in memory and to generate result
  * in the flow.
  *

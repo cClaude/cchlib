@@ -3,6 +3,8 @@ package cx.ath.choisnet.util.iterator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
+
 /**
  * Just a empty Iterator, could be use to deal
  * with limit cases.
@@ -14,7 +16,7 @@ import java.util.NoSuchElementException;
  * @param <T> 
  */
 public class EmptyIterator<T>
-    implements Iterator<T>, Iterable<T>, java.io.Serializable
+    implements Iterator<T>, Iterable<T>, IterableIterator<T>, java.io.Serializable
 {
     private static final long serialVersionUID = 1L;
 

@@ -1,5 +1,9 @@
 
 ---------------------------------------------------------------------
+03a.27
+  Add: cx.ath.choisnet.util.iterator.iterable.IterableIterator
+
+---------------------------------------------------------------------
 03a.26
   Remove Iterable interface on some Iterator (can't be sure to be able
   to reuse Iterator)

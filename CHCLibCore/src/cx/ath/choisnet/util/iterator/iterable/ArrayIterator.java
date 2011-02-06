@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public class ArrayIterator<T>
     extends cx.ath.choisnet.util.iterator.ArrayIterator<T>
-        implements Iterable<T>
+        implements Iterable<T>,IterableIterator<T>
 {
     private int offset;
 
