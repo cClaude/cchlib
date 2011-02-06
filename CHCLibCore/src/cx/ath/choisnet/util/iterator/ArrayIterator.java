@@ -144,7 +144,7 @@ public class ArrayIterator<T>
      * Returns internal array, should not be modify !
      * @return internal array
      */
-    protected T[] getArray()
+    protected T[] toArray()
     {
         return array;
     }
@@ -153,7 +153,7 @@ public class ArrayIterator<T>
      * Returns expected length for iterator
      * @return expected length for iterator
      */
-    protected int getLen()
+    protected int size()
     {
         return len;
     }

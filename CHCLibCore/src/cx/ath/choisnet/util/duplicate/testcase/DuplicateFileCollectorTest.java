@@ -57,11 +57,14 @@ public class DuplicateFileCollectorTest
                     long currentFileLength = 0;
                     long cumul = 0;
                     int countFile = 0;
+                    boolean canNotCheckCumulSinceALeastOneFileLocked = false;
 
                     @Override
                     public void computeDigest( File file )
                     {
-                        assertEquals("Bad cumul size!",currentFileLength,cumul);
+                        if( ! canNotCheckCumulSinceALeastOneFileLocked ) {
+                            assertEquals("Bad cumul size!",currentFileLength,cumul);
+                        }
 
                         slogger.info( "ComputeD:"+file);
                         currentFileLength = file.length();
@@ -70,7 +73,8 @@ public class DuplicateFileCollectorTest
                     @Override
                     public void ioError( IOException e, File file )
                     {
-                        slogger.warn( "IOException "+file+" : "+e,e);
+                        slogger.warn( "IOException "+file+" : "+e/*,e JUST A WARNING*/);
+                        canNotCheckCumulSinceALeastOneFileLocked = true;
                     }
                     @Override
                     public void computeDigest( File file, long length )

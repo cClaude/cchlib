@@ -204,6 +204,7 @@ public class DuplicateFileCollector
             if( s.size() > 1 ) {
                 for(File f:s) {
                     notify( f );
+
                     try {
                         mdf.compute( f, listeners );
 

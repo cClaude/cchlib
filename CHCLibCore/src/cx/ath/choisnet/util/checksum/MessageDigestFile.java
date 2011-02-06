@@ -353,8 +353,8 @@ public class MessageDigestFile
      * @param file File to read
      * @param listeners
      * @return MD value has an array of bytes
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException could append if file is locked
+     * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     public byte[] compute(
