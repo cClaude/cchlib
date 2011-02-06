@@ -169,6 +169,8 @@
                  Footer="${app.name} API"
          stylesheetfile="${src.home}/metadata/stylesheet.css"
          >
+      <excludepackage name="alpha.*"/>
+      <excludepackage name="deprecated.*"/>
       <classpath refid="compile.classpath"/>
       <link href="${javadoc.j2se}" offline="true"
             packagelistLoc="${src.home}/metadata/j2se.1.5.0/"

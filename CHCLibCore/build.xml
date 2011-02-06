@@ -145,6 +145,7 @@
       <excludepackage name="*.undocumented"/>
       <excludepackage name="*.testcase"/><!-- bug? -->
       <excludepackage name="alpha.*"/>
+      <excludepackage name="deprecated.*"/>
       <excludepackage name="*.alpha"/>
       <excludepackage name="cx.ath.choisnet.bytesaccess.testcase"/>
       <excludepackage name="cx.ath.choisnet.io.testcase"/>
