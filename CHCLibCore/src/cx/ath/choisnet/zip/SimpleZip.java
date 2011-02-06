@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -20,15 +21,15 @@ public class SimpleZip
     implements  java.io.Closeable,
                 ZipListener
 {
-    private List<ZipEventListener> postProcessingListeners 
+    private List<ZipEventListener> postProcessingListeners
             = new ArrayList<ZipEventListener>();
-    private List<ZipEventListener> processingListeners 
+    private List<ZipEventListener> processingListeners
             = new ArrayList<ZipEventListener>();
     private ZipOutputStream zos;
     private byte[] buffer;
 
     /**
-     * 
+     *
      * @param output
      * @throws java.io.IOException
      */
@@ -39,13 +40,13 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      * @param output
      * @param bufferSize
      * @throws java.io.IOException
      */
     public SimpleZip(
-            OutputStream    output, 
+            OutputStream    output,
             int             bufferSize
             )
         throws java.io.IOException
@@ -56,7 +57,7 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      */
     public void close()
         throws java.io.IOException
@@ -67,7 +68,7 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      * @param comment
      */
     public void setComment(String comment)
@@ -76,7 +77,7 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      * @param level
      */
     public void setLevel(int level)
@@ -85,9 +86,9 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      * @param method
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      * @see ZipEntry#DEFLATED
      * @see ZipEntry#STORED
      */
@@ -98,7 +99,7 @@ public class SimpleZip
     }
 
     /**
-     * 
+     *
      * @param simpleZipEntry
      * @throws java.io.IOException
      */
@@ -130,26 +131,42 @@ public class SimpleZip
     }
 
     /**
-     * 
+     * TODO:doc!
+     *
      * @param c
      * @throws java.io.IOException
      */
     public void addAll( Iterable<SimpleZipEntry> c )
         throws java.io.IOException
     {
-        for( SimpleZipEntry entry : c ) {
-            add( entry );
+//        for( SimpleZipEntry entry : c ) {
+//            add( entry );
+//        }
+        addAll( c.iterator() );
+    }
+
+    /**
+     * TODO:doc!
+     *
+     * @param iterator
+     * @throws java.io.IOException
+     */
+    public void addAll( Iterator<SimpleZipEntry> iterator )
+        throws java.io.IOException
+    {
+        while( iterator.hasNext() ) {
+            add( iterator.next() );
         }
     }
 
     /**
-     * 
+     *
      * @param folderFile
      * @param wrapper
      * @throws java.io.IOException
      */
     public void addFolder(
-            File                            folderFile, 
+            File                            folderFile,
             Wrappable<File,SimpleZipEntry>  wrapper
             )
         throws java.io.IOException

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.test.TstCaseHelper;
 import cx.ath.choisnet.util.CancelRequestException;
@@ -23,13 +24,13 @@ import junit.framework.TestCase;
 public class DefaultDigestFileCollectorTest
     extends TestCase 
 {
-    protected static final int MAX_FILES_COUNT = 5000;
+    private static final transient Logger slogger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
+    private static final int MAX_FILES_COUNT = 500;
 
     public void test_Base() 
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
-                IOException, 
-                CancelRequestException
+                IOException
     {
         DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
         
@@ -40,16 +41,16 @@ public class DefaultDigestFileCollectorTest
                 root,
                 new java.io.FileFilter()
                 {
-                    int count = 0;
+//                    int count = 0;
                     
                     @Override
                     public boolean accept( File f )
                     {
                         if( f.isFile() && f.length() > 0 ) {
-                            if( count > MAX_FILES_COUNT ) {
-                                return false;
-                            }
-                            count++;
+//                            if( count > MAX_FILES_COUNT ) {
+//                                return false;
+//                            }
+//                            count++;
                             return true;
                         }
                         return false;
@@ -57,25 +58,31 @@ public class DefaultDigestFileCollectorTest
                 }
                 );
         
-        System.out.printf("adding... : %s\n",root);
-        instance.add( files );
+        slogger.info("adding... : "+root);
+        
+        try {
+            instance.add( files );
+        }
+        catch( CancelRequestException e ) {
+            slogger.info("CancelRequestException",e);
+        }
         
         int dsc = instance.getDuplicateSetsCount();
         int dfc = instance.getDuplicateFilesCount();
         
-        System.out.printf("getDuplicateSetsCount: %d\n",dsc);
-        System.out.printf("getDuplicateFilesCount: %d\n",dfc);
+        slogger.info("getDuplicateSetsCount: "+dsc);
+        slogger.info("getDuplicateFilesCount: "+dfc);
         
-        System.out.println("compute duplicate count");
+        slogger.info("compute duplicate count");
         instance.computeDuplicateCount();
 
-        System.out.printf("getDuplicateSetsCount: %d\n",instance.getDuplicateSetsCount());
-        System.out.printf("getDuplicateFilesCount: %d\n",instance.getDuplicateFilesCount());
+        slogger.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
+        slogger.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
 
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        System.out.println("remove non duplicate");
+        slogger.info("remove non duplicate");
         instance.removeNonDuplicate();
         
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
@@ -87,23 +94,25 @@ public class DefaultDigestFileCollectorTest
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
             
-            System.out.printf( "%s : %d\n", k, s.size() );
+            slogger.info( k + " : " + s.size() );
             for(File f:s) {
-                System.out.printf(  "%s\n", f );
+                slogger.info( f );
             }
         }
 
-        System.out.println( "\ndone." );
+        slogger.info( "done." );
     }
     
     private DigestEventListener getDigestEventListener()
     {
         return new DigestEventListener()
         {
+            int countFile = 0;
             @Override
             public void computeDigest( File file )
             {
-                System.out.printf( "computeDigest[%s]\n", file );
+                slogger.info( "computeDigest["+file+"]" );
+                countFile++;
             }
             @Override
             public void computeDigest( File file, long length )
@@ -118,11 +127,13 @@ public class DefaultDigestFileCollectorTest
                 System.out.flush();
                 e.printStackTrace(System.err);
                 System.err.flush();
+                slogger.info("ioError["+e+"] file="+file);
             }
             @Override
             public boolean isCancel()
             {
-                return false;
+                //return false;
+                return countFile > MAX_FILES_COUNT;
             }
         };
     }

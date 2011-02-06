@@ -5,15 +5,13 @@ import java.util.NoSuchElementException;
 
 /**
  * Abstract class for create Iterator
- * 
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T>
  */
 public abstract class ComputableIterator<T>
-    implements Iterator<T>, Iterable<T>//, IterableIterator<T>
+    implements Iterator<T>
+    //Note: Can't implement Iterable<T> here - super class could do this work
 {
     private T nextObject;
 
@@ -35,7 +33,7 @@ public abstract class ComputableIterator<T>
     /**
      * Returns true if the iteration has more elements.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
      @Override
@@ -53,8 +51,8 @@ public abstract class ComputableIterator<T>
         return true;
     }
 
-    /** 
-     * Returns the next element in the iteration. 
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -84,7 +82,7 @@ public abstract class ComputableIterator<T>
      * item, it's not possible to support remove() operation
      * using ComputableIterator
      * </p>
-     * 
+     *
      * @throws UnsupportedOperationException
      * @throws IllegalStateException
      */
@@ -101,13 +99,13 @@ public abstract class ComputableIterator<T>
         }
     }
 
-    /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<T> iterator()
-    {
-        return this;
-    }
+//    /**
+//     * Returns an iterator over a set of elements of type T.
+//     * @return this Iterator
+//     */
+//    @Override
+//    public Iterator<T> iterator()
+//    {
+//        return this;
+//    }
 }

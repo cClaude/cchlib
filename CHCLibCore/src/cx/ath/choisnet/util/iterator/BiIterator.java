@@ -7,15 +7,13 @@ import java.util.NoSuchElementException;
  * Build a new Iterator that consume first
  * Iterator and second Iterator for it's
  * results (Order is preserve).
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T> 
- *
+ * @see cx.ath.choisnet.util.iterator.iterable.BiIterator
  */
 public class BiIterator<T>
-    implements Iterator<T>, Iterable<T>
+    implements Iterator<T>//, Iterable<T>
 {
     private Iterator<T> firstIter;
     private Iterator<T> secondIter;
@@ -100,13 +98,13 @@ public class BiIterator<T>
         }
     }
 
-    /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<T> iterator()
-    {
-        return this;
-    }
+//    /**
+//     * Returns an iterator over a set of elements of type T. 
+//     * @return this Iterator
+//     */
+//    @Override
+//    public Iterator<T> iterator()
+//    {
+//        return this;
+//    }
 }

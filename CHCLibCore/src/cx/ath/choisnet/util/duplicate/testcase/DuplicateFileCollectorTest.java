@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.test.TstCaseHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
@@ -17,12 +18,13 @@ import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
 import junit.framework.TestCase;
 
 /**
- * @author Claude
- *
+ * @author Claude CHOISNET
  */
 public class DuplicateFileCollectorTest
     extends TestCase 
 {
+    private static final transient Logger slogger = Logger.getLogger( DuplicateFileCollectorTest.class );
+    protected static final int MAX_FILES_COUNT = 50;
 
     public void test_Base() 
         throws  NoSuchAlgorithmException,
@@ -41,33 +43,34 @@ public class DuplicateFileCollectorTest
                     public boolean accept( File f )
                     {
                         if( f.isFile() ) {
-                            System.out.println(f);
+                            //System.out.println(f);
                             return true;
                         }
                         return false;
                     }
                 }
                 );
-        
+
         instance.addDigestEventListener( 
                 new DigestEventListener()
                 {
                     long currentFileLength = 0;
                     long cumul = 0;
-                    
+                    int countFile = 0;
+
                     @Override
                     public void computeDigest( File file )
                     {
                         assertEquals("Bad cumul size!",currentFileLength,cumul);
-                        
-                        System.out.printf("Compute:%s\n",file);
+
+                        slogger.info( "ComputeD:"+file);
                         currentFileLength = file.length();
                         cumul = 0;
                     }
                     @Override
                     public void ioError( IOException e, File file )
                     {
-                        System.err.printf("IOException %s : %s\n",file,e);
+                        slogger.warn( "IOException "+file+" : "+e,e);
                     }
                     @Override
                     public void computeDigest( File file, long length )
@@ -78,44 +81,45 @@ public class DuplicateFileCollectorTest
                     @Override
                     public boolean isCancel()
                     {
-                        return false;
+                        //return false;
+                        return countFile > MAX_FILES_COUNT;
                     }
                 });
-        
-        System.out.printf("adding... : %s\n",root);
+
+        slogger.info( "adding... : "+root );
         instance.pass1Add( files );
         instance.pass2();
-        
+
         int dsc = instance.getDuplicateSetsCount();
         int dfc = instance.getDuplicateFilesCount();
-        
-        System.out.printf("getDuplicateSetsCount: %d\n",dsc);
-        System.out.printf("getDuplicateFilesCount: %d\n",dfc);
-        
-        System.out.println("compute duplicate count");
+
+        slogger.info("getDuplicateSetsCount: "+dsc);
+        slogger.info("getDuplicateFilesCount: "+dfc);
+
+        slogger.info("compute duplicate count");
         instance.computeDuplicateCount();
 
-        System.out.printf("getDuplicateSetsCount: %d\n",instance.getDuplicateSetsCount());
-        System.out.printf("getDuplicateFilesCount: %d\n",instance.getDuplicateFilesCount());
+        slogger.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
+        slogger.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
 
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        System.out.println("remove non duplicate");
+        slogger.info("remove non duplicate");
         instance.removeNonDuplicate();
-        
+
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
-        
+
         Map<String, Set<File>> map = instance.getFiles();
-        
+
         for(Map.Entry<String,Set<File>> entry:map.entrySet()) {
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
-            
-            System.out.printf( "%s : %d\n", k, s.size() );
+
+            slogger.info( "'"+k+" : "+ s.size() );
             for(File f:s) {
-                System.out.printf(  "%s\n", f );
+                slogger.info( f );
             }
         }
     }

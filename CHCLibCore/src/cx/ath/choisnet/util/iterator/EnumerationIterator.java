@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @param <T> type content
  */
 public class EnumerationIterator<T> 
-    implements Iterator<T>, Iterable<T>
+    implements Iterator<T>
 {
     private Enumeration<T> enumeration;
     
@@ -59,15 +59,5 @@ public class EnumerationIterator<T>
     public void remove()
     {
         throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<T> iterator()
-    {
-        return this;
     }
 }

@@ -10,15 +10,13 @@ import cx.ath.choisnet.util.Selectable;
  * Apply a filter on an Iterator, only object
  * matches according to {@link Selectable} are
  * in iterator result.
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T> type iterator entries.
  */
 public class IteratorFilter<T>
     extends ComputableIterator<T>
-        implements Iterable<T>
+        //implements Iterable<T>
 {
     private Iterator<T>   iterator;
     private Selectable<T> filter;
@@ -70,15 +68,15 @@ public class IteratorFilter<T>
 //        this.iterator.remove();
 //    }
 
-    /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<T> iterator()
-    {
-        return this;
-    }
+//    /**
+//     * Returns an iterator over a set of elements of type T. 
+//     * @return this Iterator
+//     */
+//    @Override
+//    public Iterator<T> iterator()
+//    {
+//        return this;
+//    }
 
     /**
      * TODO: Doc!

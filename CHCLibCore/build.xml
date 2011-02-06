@@ -154,6 +154,7 @@
       <excludepackage name="cx.ath.choisnet.util.base64.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.checksum.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.duplicate.testcase"/>
+      <excludepackage name="cx.ath.choisnet.util.iterator.iterable.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.iterator.testcase"/>
       <excludepackage name="cx.ath.choisnet.util.testcase"/>
       <excludepackage name="cx.ath.choisnet.zip.testcase"/>

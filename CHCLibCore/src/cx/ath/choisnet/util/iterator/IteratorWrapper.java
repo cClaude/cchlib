@@ -9,15 +9,13 @@ import cx.ath.choisnet.util.Wrappable;
  * Build a Iterator<O> based on an other Iterator<T>
  * or an other Collection<T>, each object is transformed
  * before returning using giving wrapper.
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <T> Source type
  * @param <O> Result type
  */
 public class IteratorWrapper<T,O>
-    implements Iterator<O>, Iterable<O>//,IterableIterator<O>
+    implements Iterator<O>//, Iterable<O>//,IterableIterator<O>
 {
     private Iterator<T>    iterator;
     private Wrappable<T,O> wrapper;
@@ -97,13 +95,13 @@ public class IteratorWrapper<T,O>
         iterator.remove();
     }
 
-    /**
-     * Returns an iterator over a set of elements of type O. 
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<O> iterator()
-    {
-        return this;
-    }
+//    /**
+//     * Returns an iterator over a set of elements of type O. 
+//     * @return this Iterator
+//     */
+//    @Override
+//    public Iterator<O> iterator()
+//    {
+//        return this;
+//    }
 }

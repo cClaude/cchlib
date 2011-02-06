@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.io.FileHelper;
 import cx.ath.choisnet.io.FileIterator;
@@ -37,6 +36,18 @@ public class FileIteratorTest extends TestCase
     
     public void testNotExist()
     {
+        try {
+            new FileIterator( NOT_EXIST_FILE );
+           
+            fail( "Should crash here" );
+            }
+        catch( IllegalArgumentException e ) {
+            slogger.info( "Ok: does not exist" );
+        }
+    }
+    /* OLD VERSION
+    public void testNotExist()
+    {
         Iterator<File> iter = new FileIterator( NOT_EXIST_FILE );
 
         if( iter.hasNext() ) {
@@ -62,7 +73,7 @@ public class FileIteratorTest extends TestCase
             fail( msg );
         }
     }
-    
+    */
     public void testFileIteratorCounter()
     {
         File rootFile = TEMP_DIR_FILE;

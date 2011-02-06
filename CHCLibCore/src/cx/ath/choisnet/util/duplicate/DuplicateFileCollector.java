@@ -40,7 +40,7 @@ public class DuplicateFileCollector
     private boolean cancelProcess;
     /** @serial */
     private boolean alreadyCallPass2;
-  
+
     /**
      * Create a new DuplicateFileCollector
      *
@@ -73,7 +73,7 @@ public class DuplicateFileCollector
      *  then {@link #pass2()}.
      * </p>
      * @param files
-     * @throw IllegalStateException if {@link #pass2()} already call.
+     * @throws IllegalStateException if {@link #pass2()} already call.
     */
     @Override
     public void add( Iterable<File> files )
@@ -92,7 +92,7 @@ public class DuplicateFileCollector
      * </p>
      *
      * @param files file Iterable (collection) to add.
-     * @throw IllegalStateException if {@link #pass2()} already call.
+     * @throws IllegalStateException if {@link #pass2()} already call.
      * @see #pass2()
      */
     synchronized
@@ -185,16 +185,16 @@ public class DuplicateFileCollector
      * Perform second pass.
      *
      * @see MessageDigestFile#compute(File)
-     * @throw IllegalStateException if {@link #pass2()} already call.
+     * @throws IllegalStateException if {@link #pass2()} already call.
      */
     synchronized public void pass2()
     {
         if( this.alreadyCallPass2 ) {
             throw new IllegalStateException();
         }
-        
+
         this.alreadyCallPass2 = true;
-        
+
         if( cancelProcess ) {
             internalClear();
             return;
@@ -265,7 +265,7 @@ public class DuplicateFileCollector
         mapLengthFiles.deepClear();
         super.clear();
     }
-    
+
     /**
      * Define if process should be canceled.
      * <p>

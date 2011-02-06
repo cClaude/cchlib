@@ -11,10 +11,10 @@ import java.util.NoSuchElementException;
  * @author Claude CHOISNET
  * @param <T>
  * @see SingletonIterator
+ * @see cx.ath.choisnet.util.iterator.iterable.ArrayIterator
  */
 public class ArrayIterator<T>
-    implements Iterator<T>,
-               Iterable<T>
+    implements Iterator<T>
 {
     private final T[]   array;
     private final int   len;
@@ -141,13 +141,21 @@ public class ArrayIterator<T>
     }
 
     /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
+     * Returns internal array, should not be modify !
+     * @return internal array
      */
-    @Override
-    public Iterator<T> iterator()
+    protected T[] getArray()
     {
-        return this;
+        return array;
+    }
+
+    /**
+     * Returns expected length for iterator
+     * @return expected length for iterator
+     */
+    protected int getLen()
+    {
+        return len;
     }
     
     /**

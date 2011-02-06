@@ -6,15 +6,13 @@ import java.util.SortedMap;
 
 /**
  * TODO: Doc!
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
  * @param <K> Type of key
  * @param <V> Type of value
  */
 public class SortedMapIterator<K,V>
-    implements Iterator<V>, Iterable<V>
+    implements Iterator<V>//, Iterable<V>
 {
     private SortedMap<K,V>  initialSortedMap;
     private Iterator<K>     iter;
@@ -115,12 +113,12 @@ public class SortedMapIterator<K,V>
         }
     }
 
-    /**
-     * Returns an iterator over a set of elements of type T. 
-     * @return this Iterator
-     */
-    public Iterator<V> iterator()
-    {
-        return this;
-    }
+//    /**
+//     * Returns an iterator over a set of elements of type T. 
+//     * @return this Iterator
+//     */
+//    public Iterator<V> iterator()
+//    {
+//        return this;
+//    }
 }

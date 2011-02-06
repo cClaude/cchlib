@@ -8,9 +8,6 @@ import java.util.Iterator;
  * order of main Iterator for it's
  * results (Order is preserve).
  * 
- * <BR/>
- * Note: This Iterator extends also {@link Iterable} interface
-
  * @author Claude CHOISNET
  * @param <T>
  * @see MultiIterator

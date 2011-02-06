@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * 
+ * Limit case, iteration on a singleton
  * <BR/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
@@ -81,6 +81,6 @@ public class SingletonIterator<T>
      */
     public Iterator<T> iterator()
     {
-        return this;
+        return new SingletonIterator<T>( item );
     }
 }

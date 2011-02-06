@@ -1,5 +1,14 @@
 
 ---------------------------------------------------------------------
+03a.26
+  Remove Iterable interface on some Iterator (can't be sure to be able
+  to reuse Iterator)
+  Add package cx.ath.choisnet.util.iterator.iterable for
+  Iterable-Iterator
+  Add: cx.ath.choisnet.util.iterator.iterable.ArrayIterator
+  Add: cx.ath.choisnet.util.iterator.iterable.BiIterator
+
+---------------------------------------------------------------------
 03a.25
   Add class cx.ath.choisnet.util.CancelRequestException
   Fix cancel handle in cx.ath.choisnet.util.duplicate.DuplicateFileCollector
@@ -49,3 +58,13 @@
 
 ---------------------------------------------------------------------
 
+---------------------------------------------------------------------
+Known problems:
+---------------------------------------------------------------------
+To add/improve:
+  Create provide method to build Iterable-Iterator (this Iterator
+  should be create using Iterable objects only)
+
+---------------------------------------------------------------------
+Future extensions:
+---------------------------------------------------------------------

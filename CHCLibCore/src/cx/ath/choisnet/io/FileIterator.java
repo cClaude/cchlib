@@ -67,13 +67,19 @@ public class FileIterator
      * @param directoryFilter   File filter to select directories than should
      *                          be explored (could be null) . 
      * @throws NullPointerException if rootFolderFile is null
+     * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
     public FileIterator(
             File        rootFolderFile,
             FileFilter  fileFilter,
             FileFilter  directoryFilter
             )
+        throws IllegalArgumentException
     {
+        if( !rootFolderFile.isDirectory() ) {
+            throw new IllegalArgumentException();
+            }
+        
         this.directoryIterator = new DirectoryIterator(
                                         rootFolderFile,
                                         directoryFilter
