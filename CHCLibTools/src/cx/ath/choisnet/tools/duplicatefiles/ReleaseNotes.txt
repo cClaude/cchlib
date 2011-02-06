@@ -1,6 +1,10 @@
 ch.ath.choisnet.duplicatefiles
 
 ---------------------------------------------------------------------
+03a.21
+  Add aviabibly to scan only some files
+
+---------------------------------------------------------------------
 03a.20
   Move release note to package.
   Fix: Cancel during scan.
@@ -8,7 +12,7 @@ ch.ath.choisnet.duplicatefiles
 ---------------------------------------------------------------------
 
 ---------------------------------------------------------------------
-Kn problems
+Known problems:
   - After Cancel should not can use "continue" button.
   - [Advanced/Expert Mode] Select using regex : Boutons 'delete' and
     'keep' (panel 'duplicates') should be disabled during process.
@@ -21,4 +25,10 @@ To add/improve:
     b) After compare (context menu, add ignore all files in) - should
     remove from list also files that not have duplicate any more.
  - Change default for scan (include hidden folders and hidden files)
+---------------------------------------------------------------------
+Future extensions:
+  - Ability to generate scripts (instead of delete) [on the last panel]
+  - Ability to store (all) hash codes (filename, last modified,
+    the hash code) so you can reuse it later. Will be used as cache
+    or look for these files on different computers (without sharing).
 ---------------------------------------------------------------------

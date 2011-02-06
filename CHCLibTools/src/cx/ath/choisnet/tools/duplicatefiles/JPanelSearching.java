@@ -6,12 +6,13 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Pattern;
-
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,9 +27,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableModel;
-
 import org.apache.log4j.Logger;
-
 import cx.ath.choisnet.i18n.I18nIgnore;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.io.FileIterator;
@@ -272,7 +271,8 @@ public class JPanelSearching extends JPanel
     }
 
     private void doScanPass1(
-            Iterable<File>      directories,
+            Iterable<File>      entriesToScans,
+            Iterable<File>      entriesToIgnore,
             FileFilterBuilders  fileFilterBuilders
             )
     {
@@ -319,15 +319,34 @@ public class JPanelSearching extends JPanel
             }
         } );
 
-        for(File f:directories) {
-            Iterable<File> files = new FileIterator(
-                    f,
-                    fileFilter,
-                    dirFilter
-                    );
-            slogger.info( "doScanPass1: examin:" + f );
+        //for(File f:directories) {
+        for(File f : entriesToScans ) {
 
-            duplicateFC.pass1Add( files );
+            if( f.isDirectory() ) {
+                Iterable<File>  files = new FileIterator(
+                        f,
+                        fileFilter,
+                        dirFilter
+                        );
+//                List<File> files = new ArrayList<File>();
+//                Iterator<File> iter0 = files0.iterator();
+//                while( iter0.hasNext()) {
+//                    File f0 = iter0.next();
+//                    files.add( f0 );
+//                }
+//                slogger.info( "files_:" + files.size() );
+                
+                slogger.info( "doScanPass1: examin:" + f );
+
+                duplicateFC.pass1Add( files );
+                }
+            else {
+                slogger.info( "doScanPass1: examin file:" + f );
+
+                List<File> fContener = new ArrayList<File>();
+                fContener.add( f );
+                duplicateFC.pass1Add( fContener );
+            }
         }
 
         DuplicateFileCollector.Stats stats = duplicateFC.getPass1Stats();
@@ -358,9 +377,9 @@ public class JPanelSearching extends JPanel
 
     private void updateDisplayThread()
     {
-        displayRunning = true;
-        displayPass = 1;
-        displayFile = null;
+        displayRunning  = true;
+        displayPass     = 1;
+        displayFile     = null;
 
         new Thread( new Runnable() {
             @Override
@@ -471,7 +490,8 @@ public class JPanelSearching extends JPanel
     }
 
     public void doScan(
-            Iterable<File>                  directories,
+            Iterable<File>                  entriesToScans,
+            Iterable<File>                  entriesToIgnore,
             FileFilterBuilders              fileFilterBuilders,
             HashMapSet<String,KeyFileState> duplicateFiles
             )
@@ -479,7 +499,8 @@ public class JPanelSearching extends JPanel
         slogger.info( "pass1" );
         duplicateFiles.clear();
         doScanPass1(
-                directories,
+                entriesToScans,
+                entriesToIgnore,
                 fileFilterBuilders
                 );
         slogger.info( "pass1 done" );

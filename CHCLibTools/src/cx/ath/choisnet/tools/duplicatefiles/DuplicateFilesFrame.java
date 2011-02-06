@@ -92,7 +92,8 @@ final public class DuplicateFilesFrame
     public void performeI18n(AutoI18n autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
-        autoI18n.performeI18n(jPanel0SelectFolders,jPanel0SelectFolders.getClass());
+        //autoI18n.performeI18n(jPanel0SelectFolders,jPanel0SelectFolders.getClass());
+        autoI18n.performeI18n(jPanel0Select,jPanel0Select.getClass());
         autoI18n.performeI18n(jPanel1Config,jPanel1Config.getClass());
         autoI18n.performeI18n(jPanel2Searching,jPanel2Searching.getClass());
         autoI18n.performeI18n(jPanel3Result,jPanel3Result.getClass());
@@ -140,7 +141,8 @@ final public class DuplicateFilesFrame
 
         jTabbedPaneMain.setEnabled( false );
 
-        jPanel0SelectFolders.initFixComponents( this );
+        //jPanel0SelectFolders.initFixComponents( this );
+        jPanel0Select.initFixComponents( this );
         jPanel2Searching.initFixComponents();
         jPanel3Result.initFixComponents( duplicateFiles, this );
 
@@ -194,7 +196,9 @@ final public class DuplicateFilesFrame
                 public void run()
                 {
                     jPanel2Searching.doScan(
-                            jPanel0SelectFolders,
+                            //jPanel0SelectFolders,
+                            jPanel0Select.entriesToScans(),
+                            jPanel0Select.entriesToIgnore(),
                             jPanel1Config.getFileFilterBuilders(),
                             duplicateFiles
                             );
@@ -248,7 +252,8 @@ final public class DuplicateFilesFrame
                     {
                         super.perfomeConfig( jfc );
 
-                        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+                        jfc.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
+                        jfc.setMultiSelectionEnabled( true );
                         jfc.setAccessory( new TabbedAccessory()
                                 .addTabbedAccessory( new BookmarksAccessory(
                                         jfc,
@@ -392,7 +397,8 @@ final public class DuplicateFilesFrame
             slogger.info( "Next: " + state );
 
             if( state == STATE_SELECT_DIRS ) {
-                if( jPanel0SelectFolders.directoriesSize() > 0 ) {
+                if( jPanel0Select.getEntriesToScanSize() > 0 ) {
+                //if( jPanel0SelectFolders.directoriesSize() > 0 ) {
                     state = STATE_SEARCH_CONFIG;
                 }
                 else {

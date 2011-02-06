@@ -31,7 +31,8 @@ public class DuplicateFilesFrameVS4E extends JFrame
     protected JCheckBoxMenuItem jCheckBoxMenuItemModeExpert;
 
     protected JTabbedPane jTabbedPaneMain;
-    protected JPanelSelectFolders jPanel0SelectFolders;
+    //protected JPanelSelectFolders jPanel0SelectFolders;
+    protected JPanelSelectFoldersOrFiles jPanel0Select;
     protected JPanelConfig jPanel1Config;
     protected JPanelSearching jPanel2Searching;
     protected JPanelResult jPanel3Result;
@@ -188,7 +189,8 @@ public class DuplicateFilesFrameVS4E extends JFrame
     private JTabbedPane getJTabbedPanejTabbedPaneMain() {
         if (jTabbedPaneMain == null) {
             jTabbedPaneMain = new JTabbedPane();
-            jTabbedPaneMain.addTab("Select folders", getJPanel0SelectFolders());
+            //jTabbedPaneMain.addTab("Select folders", getJPanel0SelectFolders());
+            jTabbedPaneMain.addTab("Select", getJPanel0jPanel0Select());
             jTabbedPaneMain.addTab("Search config", getJPanel1Config());
             jTabbedPaneMain.addTab("Searching...", getJPanel2Searching());
             jTabbedPaneMain.addTab("Duplicates", getJPanel3Result());
@@ -197,12 +199,18 @@ public class DuplicateFilesFrameVS4E extends JFrame
         return jTabbedPaneMain;
     }
 
-    private JPanelSelectFolders getJPanel0SelectFolders() {
-        if (jPanel0SelectFolders == null) {
-            jPanel0SelectFolders = new JPanelSelectFolders();
+    private JPanelSelectFoldersOrFiles getJPanel0jPanel0Select() {
+        if (jPanel0Select == null) {
+            jPanel0Select = new JPanelSelectFoldersOrFiles();
         }
-        return jPanel0SelectFolders;
+        return jPanel0Select;
     }
+//    private JPanelSelectFolders getJPanel0SelectFolders() {
+//        if (jPanel0SelectFolders == null) {
+//            jPanel0SelectFolders = new JPanelSelectFolders();
+//        }
+//        return jPanel0SelectFolders;
+//    }
 
     private JPanel getJPanel2Searching() {
         if (jPanel2Searching == null) {
