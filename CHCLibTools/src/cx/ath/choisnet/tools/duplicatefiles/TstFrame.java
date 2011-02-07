@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
-import org.apache.log4j.Logger;
 import cx.ath.choisnet.swing.XComboBox;
 import cx.ath.choisnet.swing.XComboBoxPattern;
 
@@ -17,7 +16,7 @@ import cx.ath.choisnet.swing.XComboBoxPattern;
 public class TstFrame extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( TstFrame.class );
+    //private static final Logger slogger = Logger.getLogger( TstFrame.class );
     private XComboBox xComboBox0;
     private XComboBoxPattern xComboBoxPattern1;
     private JPanel jPanel0;

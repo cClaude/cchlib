@@ -8,16 +8,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},
+ * {@link System#out}, {@link System#err}, {@link HttpServletResponse#getWriter()}.
+ * <br/>
+ * 
+ * 
+ * <p>
+ *  Configuration:
+ * </p>
+ * <pre>
+ * </pre>
+ * 
+ * @author Claude CHOISNET
+ *
+ */
 public class InfosServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Servlet name : "{@value}"
+     * @serial
+     */
     protected static final String SERVLETNAME = "InfosServlet";
-
-    public InfosServlet()
-    {
-
-    }
 
     public void init()
         throws javax.servlet.ServletException
@@ -30,7 +44,7 @@ public class InfosServlet extends HttpServlet
         System.err.print( "print on System.err from " );
         System.out.println( this );
 
-        Enumeration<?> names = getServletConfig().getInitParameterNames();
+        final Enumeration<?> names = getServletConfig().getInitParameterNames();
 
         if( names != null ) {
             String name;

@@ -6,8 +6,9 @@ import cx.ath.choisnet.util.ArrayHelper;
 import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -20,31 +21,49 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 
+ * @author Claude CHOISNET
+ */
 public class InfosServletDisplayerImpl
     implements InfosServletDisplayer
 {
-
     protected HttpServlet         servlet;
     protected HttpServletRequest  request;
     protected HttpServletResponse response;
     protected HttpSession         httpSession;
     protected ServletContext      servletContext;
 
+    /**
+     * 
+     * @param servlet
+     * @param request
+     * @param response
+     * @throws java.io.IOException
+     */
     public InfosServletDisplayerImpl(
-            HttpServlet         servlet, 
-            HttpServletRequest  request, 
-            HttpServletResponse response
+            final HttpServlet         servlet, 
+            final HttpServletRequest  request, 
+            final HttpServletResponse response
             )
         throws java.io.IOException
     {
         this(servlet, request, response, request.getSession(false));
     }
 
+    /**
+     * 
+     * @param servlet
+     * @param request
+     * @param response
+     * @param httpSession
+     * @throws java.io.IOException
+     */
     public InfosServletDisplayerImpl(
-            HttpServlet         servlet, 
-            HttpServletRequest  request,
-            HttpServletResponse response, 
-            HttpSession httpSession
+            final HttpServlet         servlet, 
+            final HttpServletRequest  request,
+            final HttpServletResponse response, 
+            final HttpSession httpSession
             )
         throws java.io.IOException
     {
@@ -55,7 +74,8 @@ public class InfosServletDisplayerImpl
         this.servletContext = servlet.getServletContext();
     }
 
-    public void appendHTML(Appendable out)
+    @Override
+    public void appendHTML(final Appendable out)
     {
         try {
             out.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
@@ -73,7 +93,7 @@ public class InfosServletDisplayerImpl
             out.append("</table\n");
             out.append("<h1>ServletInfos Output</h1>\n");
 
-            List<InfosServletDisplay> displayer = new LinkedList<InfosServletDisplay>();
+            final List<InfosServletDisplay> displayer = new ArrayList<InfosServletDisplay>();
 
             displayer.add(getHttpServlet());
             displayer.add(getHttpServletRequest());
@@ -93,7 +113,7 @@ public class InfosServletDisplayerImpl
 
             out.append("<table class=\"menu\">\n");
 
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
 
             for( InfosServletDisplay display : displayer ) {
                 sb.setLength( 0 );
@@ -169,16 +189,17 @@ public class InfosServletDisplayerImpl
 
     private cx.ath.choisnet.servlet.debug.InfosServletDisplay getRequest_getParameterNames()
     {
-        Map<String,String> map = new TreeMap<String,String>();
-        StringBuilder value = new StringBuilder();
-        String name;
+        final Map<String,String> map   = new TreeMap<String,String>();
+        final StringBuilder      value = new StringBuilder();
+        String                   name;
+        
         for(
                 Enumeration<String> enum0 = toEnumerationString(request.getParameterNames());
                 enum0.hasMoreElements();
                 map.put(name, value.toString())
                 ) {
             name = enum0.nextElement();
-            String values[] = request.getParameterValues(name);
+            final String[] values = request.getParameterValues(name);
 
             value.setLength(0);
 
@@ -187,7 +208,8 @@ public class InfosServletDisplayerImpl
 
             for(int i$ = 0; i$ < len$; i$++) {
                 String v = arr$[i$];
-                value.append((new StringBuilder()).append(v).append("<br/>").toString());
+                value.append( v );
+                value.append( "<br/>" );
             }
         }
 
@@ -199,6 +221,7 @@ public class InfosServletDisplayerImpl
         Map<String,String> map = new TreeMap<String,String>();
         String name;
         Object value;
+        
         for(
                 Enumeration<String> enum0 = toEnumerationString(request.getAttributeNames());
                 enum0.hasMoreElements();
@@ -326,7 +349,6 @@ public class InfosServletDisplayerImpl
             enum0     = toEnumerationString(httpSession.getAttributeNames());
             noDataMsg = "There are no object on the current HttpSession.";
         }
-
 
         while( enum0.hasMoreElements() ) {
             String name = enum0.nextElement();
