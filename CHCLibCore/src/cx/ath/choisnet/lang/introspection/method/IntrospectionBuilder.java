@@ -67,6 +67,8 @@ public class IntrospectionBuilder<O>
                 if( m.getParameterTypes().length == 0 ) {
                     final String methodName = m.getName();
 
+                    //TODO: check if return something !
+                    
                     if( methodName.equals( "getClass" ) ) {
                         // ignore privateSLog.trace( "Ignored Method: " + m );
                     } else if( methodName.startsWith( "is" ) ) {

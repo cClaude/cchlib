@@ -31,7 +31,7 @@ import cx.ath.choisnet.ToDo;
  * la décompilation de mon propre code, suite à la perte
  * du code source, l'utilisation de cette classe doit ce
  * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
+ * sa stabilité, elle est donc sujette à des changements
  * importants.
  * </p>
  *
@@ -136,18 +136,13 @@ public class MappableHelper
 
     public Map<String,String> toMap(Object object)
     {
-        HashMap<String,String> hashMap = new HashMap<String,String>();
-        Class<?> clazz = object.getClass();
+        final HashMap<String,String>    hashMap = new HashMap<String,String>();
+        final Class<?>                  clazz   = object.getClass();
+        final Method[]                  methods = getDeclaredMethods(clazz);
 
-        Method[] methods = getDeclaredMethods(clazz);
-
-        int len$ = methods.length;
-
-//label0:
-        for(int i$ = 0; i$ < len$; i$++) {
-            Method method = methods[i$];
+        for( Method method : methods ) {
             if(
-                    method.getParameterTypes().length != 0 
+                    method.getParameterTypes().length != 0
                     || !methodesNamePattern.matcher(
                             method.getName()
                             ).matches()
@@ -158,25 +153,26 @@ public class MappableHelper
             Class<?> returnType = method.getReturnType();
             Object   result0;
 
-            if(isMappable(returnType)) {
-                if(returnType.isArray()) {
+            if( isMappable( returnType ) ) {
+                if( returnType.isArray() ) {
                     Mappable[] result1 = (Mappable[])invoke(object, method, hashMap, Mappable.class);
+
                     if(result1 == null) {
                         continue;
                     }
-                    int len = Array.getLength(result1);
 
-                    String methodName = method.getName();
+                    int     len         = Array.getLength(result1);
+                    String  methodName  = method.getName();
+                    int     i           = 0;
 
-                    int i = 0;
                     do {
                         if(i >= len) {
                             continue;// label0;
                         }
 
                         Mappable value = (Mappable)Array.get(result1, i);
+                        String   name  = formatIterableEntry(methodName, i, len);
 
-                        String name = formatIterableEntry(methodName, i, len);
                         if(value == null) {
                             hashMap.put(name, null);
 
@@ -199,7 +195,7 @@ public class MappableHelper
                 }
                 continue;
             }
-            
+
             if(attributesSet.contains(Attributes.DO_ITERATOR) && Iterator.class.isAssignableFrom(returnType)) {
                 Iterator<?> iter = (Iterator<?>)invoke(object, method, hashMap, Iterator.class);
                 String name = method.getName();
@@ -211,7 +207,7 @@ public class MappableHelper
                         );
                 while( iter.hasNext() ) {
                     hashMap.put(
-                            formatIteratorEntry(name, i++, -1), 
+                            formatIteratorEntry(name, i++, -1),
                             toString( iter.next())
                             );
                 }
@@ -233,7 +229,7 @@ public class MappableHelper
 
                 while( iter.hasNext() ) {
                     hashMap.put(
-                            formatIterableEntry(methodName, i++, -1), 
+                            formatIterableEntry(methodName, i++, -1),
                             toString(iter.next())
                             );
                 }
@@ -252,39 +248,54 @@ public class MappableHelper
 
                 while( enum0.hasMoreElements() ) {
                     hashMap.put(
-                            formatEnumerationEntry(methodName, i++, -1), 
-                            toString( enum0.nextElement() ) 
+                            formatEnumerationEntry(methodName, i++, -1),
+                            toString( enum0.nextElement() )
                             );
                 }
                 continue;
             }
 
-            if(!shouldEvaluate(returnType)) {
+            if( !shouldEvaluate(returnType) ) {
                 continue;
             }
-            Enumeration<?> enum0 = (Enumeration<?>)invoke(object, method, hashMap, Object.class);
 
-            if(enum0 == null) {
-                continue;
-            }
-            if(returnType.isArray()) {
-                int len =Array.getLength(enum0);
+//            System.err.println( "m:" + method );
+            Object methodResult = invoke(object, method, hashMap, Object.class);
+//            Enumeration<?> enum0 = (Enumeration<?>)invoke(object, method, hashMap, Object.class);
+//
+//            if(enum0 == null) {
+//                continue;
+//            }
+            
+            if( returnType.isArray() ) {
+//                int len =Array.getLength(enum0);
+                int len =Array.getLength( methodResult );
 
                 String methodName = method.getName();
 
                 for(int i = 0; i < len; i++) {
-                    Object value = Array.get(enum0, i);
+//                    Object value = Array.get(enum0, i);
+                    Object value = Array.get( methodResult, i );
+                    
                     hashMap.put(
                             formatArrayEntry(methodName, i, len),
                             toString(value)
                             );
                 }
-            } 
+            }
             else {
-                hashMap.put(
-                        formatMethodName(method.getName()), 
-                        enum0.toString()
-                        );
+                if( methodResult == null ) {
+                    hashMap.put(
+                            formatMethodName(method.getName()),
+                            null
+                            );
+                    }
+                else {
+                    hashMap.put(
+                            formatMethodName(method.getName()),
+                            methodResult.toString()
+                            );
+                    }
             }
         }
 
@@ -303,8 +314,8 @@ public class MappableHelper
     protected String formatIteratorEntry(String methodeName, int index, int max)
     {
         String[] params = {
-            methodeName, 
-            Integer.toString(index), 
+            methodeName,
+            Integer.toString(index),
             Integer.toString(max)
         };
 
@@ -314,8 +325,8 @@ public class MappableHelper
     protected String formatEnumerationEntry(String methodeName, int index, int max)
     {
         String[] params = {
-            methodeName, 
-            Integer.toString(index), 
+            methodeName,
+            Integer.toString(index),
             Integer.toString(max)
         };
 
@@ -325,8 +336,8 @@ public class MappableHelper
     protected String formatArrayEntry(String methodeName, int index, int max)
     {
         String[] params = {
-            methodeName, 
-            Integer.toString(index), 
+            methodeName,
+            Integer.toString(index),
             Integer.toString(max)
         };
 
@@ -347,7 +358,7 @@ public class MappableHelper
         if(!attributesSet.contains(Attributes.DO_PARENT_CLASSES)) {
             return clazz.getDeclaredMethods();
         }
-        
+
         Set<Method> methodsSet = new HashSet<Method>();
         Method arr0$[] = clazz.getDeclaredMethods();
         int len0$ = arr0$.length;
@@ -380,6 +391,7 @@ public class MappableHelper
         if(!attributesSet.contains(Attributes.DO_RECURSIVE)) {
             return false;
         }
+        
         if(clazz.isArray()) {
             return Mappable.class.isAssignableFrom(clazz.getComponentType());
         }
@@ -435,7 +447,7 @@ public class MappableHelper
         Set<Map.Entry<String,String>> set = object.toMap().entrySet();
 
         Map.Entry<String,String> entry;
-        
+
         for(
                 Iterator<Map.Entry<String,String>> i$ = set.iterator();
                 i$.hasNext();
@@ -526,7 +538,20 @@ public class MappableHelper
         return object.toString();
     }
 
-    protected final Object invoke(Object object, Method method, Map<String,String> hashMap, Class<?> resultClass)
+    /**
+     * 
+     * @param object
+     * @param method
+     * @param hashMap
+     * @param resultClass
+     * @return
+     */
+    protected final Object invoke(
+            final Object object, 
+            final Method method, 
+            final Map<String,String> hashMap, 
+            final Class<?> resultClass
+            )
     {
         Object result = null;
 
