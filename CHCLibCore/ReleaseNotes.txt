@@ -1,5 +1,9 @@
 
 ---------------------------------------------------------------------
+03a.28
+  Add: cx.ath.choisnet.sql.DatabaseMetaDataCollector
+
+---------------------------------------------------------------------
 03a.27
   Add: cx.ath.choisnet.util.iterator.iterable.IterableIterator
   Somes JUnit Fix/Improve
