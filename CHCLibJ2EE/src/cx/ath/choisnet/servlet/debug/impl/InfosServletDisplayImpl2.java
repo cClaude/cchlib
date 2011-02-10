@@ -5,17 +5,33 @@ import cx.ath.choisnet.lang.reflect.MappableHelperFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * TODO: Doc
+ * 
+ * @author Claude CHOISNET
+ */
 public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
 {
+    /**
+     * TODO: Doc
+     * 
+     * @param title
+     * @param anchorName
+     * @param object
+     */
     public InfosServletDisplayImpl2(
-            String title, 
-            String anchorName, 
-            Object object
+            final String title, 
+            final String anchorName, 
+            final Object object
             )
     {
         super(title, anchorName, InfosServletDisplayImpl2.toMap(object));
     }
 
+    /**
+     * 
+     * TODO: Doc
+     */
     public static MappableHelperFactory getMappableHelperFactory()
     {
         return (new MappableHelperFactory())
@@ -33,12 +49,15 @@ public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
 
     private static final Map<String,String> toMap(Object object)
     {
-        return InfosServletDisplayImpl2.toMap(InfosServletDisplayImpl2.getMappableHelperFactory(), object);
+        return InfosServletDisplayImpl2.toMap(
+                InfosServletDisplayImpl2.getMappableHelperFactory(), 
+                object
+                );
     }
 
     private static final Map<String,String> toMap(
-                MappableHelperFactory   factory, 
-                Object                  object
+                final MappableHelperFactory   factory, 
+                final Object                  object
                 )
     {
         return InfosServletDisplayImpl2.toMap(new MappableHelper(factory), object);

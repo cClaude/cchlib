@@ -1,12 +1,14 @@
 package cx.ath.choisnet.servlet.debug;
 
 /**
+ * TODO: Doc!
  * 
  * @author Claude CHOISNET
  */
 public interface InfosServletDisplay
 {
     /**
+     * TODO: Doc!
      * 
      * @author Claude CHOISNET
      */
@@ -17,18 +19,21 @@ public interface InfosServletDisplay
     }
 
     /**
+     * TODO: Doc!
      * 
      * @return
      */
     public abstract Anchor getAnchor();
 
     /**
+     * TODO: Doc!
      * 
      * @return
      */
     public abstract InfosServletDisplay put(String s, String s1);
 
     /**
+     * TODO: Doc!
      * 
      * @return
      */

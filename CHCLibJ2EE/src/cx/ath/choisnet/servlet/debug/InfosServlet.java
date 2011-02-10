@@ -27,12 +27,15 @@ public class InfosServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
+    // TODO: add (re)loaded time - System.getMillisec() - loaded time of servlet
+    
     /**
      * Servlet name : "{@value}"
      * @serial
      */
     protected static final String SERVLETNAME = "InfosServlet";
 
+    @Override
     public void init()
         throws javax.servlet.ServletException
     {
@@ -64,7 +67,11 @@ public class InfosServlet extends HttpServlet
 
     }
 
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public void service(
+            final HttpServletRequest request, 
+            final HttpServletResponse response
+            )
         throws ServletException, IOException
     {
         InfosServletDisplayer infos = new InfosServletDisplayerImpl(this, request, response);
@@ -74,11 +81,13 @@ public class InfosServlet extends HttpServlet
         infos.appendHTML( response.getWriter() );
     }
 
+    @Override
     public String getServletInfo()
     {
         return "InfosServlet returns info from the request and servlet context.";
     }
 
+    @Override
     public void destroy()
     {
         super.destroy();
