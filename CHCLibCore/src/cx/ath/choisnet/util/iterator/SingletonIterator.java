@@ -85,4 +85,10 @@ public class SingletonIterator<T>
     {
         return new SingletonIterator<T>( item );
     }
+
+//    @Override
+//    public int size()
+//    {
+//        return 0;
+//    }
 }

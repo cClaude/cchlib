@@ -10,8 +10,8 @@ import java.io.OutputStream;
 
 /**
  *
- * @author Claude CHOISNET
  *
+ * @author Claude CHOISNET
  */
 public class ExternalApp
 {
@@ -51,13 +51,27 @@ public class ExternalApp
         public abstract int getReturnCode();
     }
 
-    public ExternalApp()
+    private ExternalApp()
     {
-
+        //All static
     }
 
-    public static final int execute(String command, InputStream input, OutputStream stdout, OutputStream stderr)
-        throws cx.ath.choisnet.util.ExternalAppException
+    /**
+     * 
+     * @param command
+     * @param input
+     * @param stdout
+     * @param stderr
+     * @return
+     * @throws ExternalAppException
+     */
+    public static final int execute(
+            final String command, 
+            final InputStream input, 
+            final OutputStream stdout, 
+            final OutputStream stderr
+            )
+        throws ExternalAppException
     {
         int exitValue;
 
@@ -102,14 +116,36 @@ public class ExternalApp
         return exitValue;
     }
 
-    public static final int execute(String command, OutputStream stdout, OutputStream stderr)
-        throws cx.ath.choisnet.util.ExternalAppException
+    /**
+     * 
+     * @param command
+     * @param stdout
+     * @param stderr
+     * @return
+     * @throws ExternalAppException
+     */
+    public static final int execute(
+            String command, 
+            OutputStream stdout,
+            OutputStream stderr
+            )
+        throws ExternalAppException
     {
         return ExternalApp.execute(command, new EmptyInputStream(), stdout, stderr);
     }
 
-    public static final Output execute(String command, java.io.InputStream input)
-        throws cx.ath.choisnet.util.ExternalAppException
+    /**
+     * 
+     * @param command
+     * @param input
+     * @return
+     * @throws ExternalAppException
+     */
+    public static final Output execute(
+            String command, 
+            InputStream input
+            )
+        throws ExternalAppException
     {
         ByteArrayOutputStream stdout = new ByteArrayOutputStream();
         ByteArrayOutputStream stderr = new ByteArrayOutputStream();
@@ -119,19 +155,35 @@ public class ExternalApp
         return new OutputImpl(stdout.toByteArray(), stderr.toByteArray(), result);
     }
 
+    /**
+     * 
+     * @param command
+     * @return
+     * @throws ExternalAppException
+     */
     public static final Output execute(String command)
-        throws cx.ath.choisnet.util.ExternalAppException
+        throws ExternalAppException
     {
         return ExternalApp.execute(command, new EmptyInputStream() );
     }
 
+    /**
+     * 
+     * @param command
+     * @param input
+     * @param stdout
+     * @param stderr
+     * @return
+     * @throws ExternalAppException
+     * @throws InterruptedException
+     */
     public static final int run(
-            String command,
-            InputStream input,
-            OutputStream stdout,
-            OutputStream stderr
+            final String        command,
+            final InputStream   input,
+            final OutputStream  stdout,
+            final OutputStream  stderr
             )
-        throws cx.ath.choisnet.util.ExternalAppException, InterruptedException
+        throws ExternalAppException, InterruptedException
     {
         int exitValue;
 

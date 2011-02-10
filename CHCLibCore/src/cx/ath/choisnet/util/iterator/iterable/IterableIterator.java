@@ -16,4 +16,9 @@ import java.util.Iterator;
 public interface IterableIterator<T>
     extends Iterable<T>, Iterator<T>
 {
+    /*
+     * Returns 
+     * @return
+    public int size();
+     */
 }

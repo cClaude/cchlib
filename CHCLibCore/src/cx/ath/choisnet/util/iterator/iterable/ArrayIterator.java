@@ -80,6 +80,12 @@ public class ArrayIterator<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new ArrayIterator<T>( toArray(), offset, size() );
+        return new ArrayIterator<T>( super.array, offset, super.len );
     }
+
+//    @Override
+//    public int size()
+//    {
+//        return super.len;
+//    }
 }

@@ -46,7 +46,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         Short.TYPE,
         String.class,
     };
-    private static final String[] tableTypes = { "TABLE" };
+//    private static final String[] _tableTypes = { "TABLE" };
 
     /** @serial */
     private DatabaseMetaData databaseMetaData;
@@ -162,10 +162,11 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     
     /**
      * Returns list of table name for current schema
+     * @param tableTypes
      * @return list of table name for current schema
      * @throws SQLException if a database access error occurs
      */
-    public List<String> getTablesList() throws SQLException
+    public List<String> getTableList(final String...tableTypes) throws SQLException
     {
         final List<String>  values      = new ArrayList<String>();
         final ResultSet     allTables   = databaseMetaData.getTables(null,null,null,tableTypes);
@@ -181,11 +182,32 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     }
     
     /**
+     * Returns list of table name for current schema
+     * @return list of table name for current schema
+     * @throws SQLException if a database access error occurs
+     */
+    public List<String> getTableList() throws SQLException
+    {
+        return getTableList( "TABLE" );
+    }
+
+    /**
+     * Returns list of view name for current schema
+     * @return list of view name for current schema
+     * @throws SQLException if a database access error occurs
+     */
+    public List<String> getViewList() throws SQLException
+    {
+        return getTableList( "VIEW" );
+    }
+        
+    /**
      * Returns a Map of tables names associate to a List of columns names for current schema 
+     * @param tableTypes
      * @return a Map of tables names associate to a List of columns names for current schema 
      * @throws SQLException if a database access error occurs
      */
-    public Map<String,List<String>> getTablesMap() throws SQLException
+    public Map<String,List<String>> getTableMap(final String...tableTypes) throws SQLException
     {
         final Map<String,List<String>> values    = new LinkedHashMap<String,List<String>>();
         final ResultSet                allTables = databaseMetaData.getTables(null,null,null,tableTypes);
@@ -207,6 +229,26 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         allTables.close();
         
         return values;
+    }
+    
+    /**
+     * Returns a Map of tables names associate to a List of columns names for current schema 
+     * @return a Map of tables names associate to a List of columns names for current schema 
+     * @throws SQLException if a database access error occurs
+     */
+    public Map<String,List<String>> getTableMap() throws SQLException
+    {
+        return getTableMap( "TABLE" );
+    }
+
+    /**
+     * Returns a Map of view names associate to a List of columns names for current schema 
+     * @return a Map of view names associate to a List of columns names for current schema 
+     * @throws SQLException if a database access error occurs
+     */
+    public Map<String,List<String>> getViewMap() throws SQLException
+    {
+        return getTableMap( "VIEW" );
     }
 
     /**

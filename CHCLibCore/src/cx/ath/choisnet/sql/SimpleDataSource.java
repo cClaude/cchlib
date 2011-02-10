@@ -1,46 +1,44 @@
 package cx.ath.choisnet.sql;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import cx.ath.choisnet.ToDo;
 
 /**
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
- * </p>
- *
+ * TODO: Doc!
  * @author Claude CHOISNET
  *
  */
+@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class SimpleDataSource
     implements Closeable
 {
     private DataSource  ds;
     private String[]    userPass;
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param ds
+     */
     public SimpleDataSource(DataSource ds)
     {
         this.ds         = ds;
         this.userPass   = null;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param ds
+     * @param username
+     * @param password
+     */
     public SimpleDataSource(
             DataSource  ds, 
             String      username, 
@@ -51,17 +49,55 @@ public class SimpleDataSource
         this.userPass = (new String[] {username, password});
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @return
+     */
     protected DataSource getDataSource()
     {
         return ds;
     }
-
+    
+    /**
+     * TODO: Doc!
+     * 
+     */
+    @Override
     public void close()
         throws java.io.IOException
     {
-
+        // empty
+    }
+    
+    /**
+     * Call {@link #close()} but hide {@link IOException}
+     */
+    public void quietClose()
+    {
+        try { close(); } catch( IOException ignore ) { }
     }
 
+    /**
+     * Call {@link #close()} but hide {@link IOException} if
+     * closeable is not null.
+     * 
+     * @param closeable Closeable object to close (could be null)
+     */
+    public static void quietClose( final Closeable closeable )
+    {
+        if( closeable != null ) {
+            try { closeable.close(); } catch( IOException ignore ) { }
+            }
+    }
+
+    /**
+     * TODO: Doc!
+     * 
+     * @param resourceName
+     * @return
+     * @throws SimpleDataSourceException
+     */
     protected static final DataSource getDataSource(String resourceName)
         throws SimpleDataSourceException
     {
@@ -97,6 +133,12 @@ public class SimpleDataSource
         }
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @return
+     * @throws SQLException
+     */
     protected Connection getConnectionFromDataSource()
         throws SQLException
     {

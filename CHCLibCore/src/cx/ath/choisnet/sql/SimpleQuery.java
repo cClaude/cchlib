@@ -1,5 +1,7 @@
 package cx.ath.choisnet.sql;
 
+import java.io.Flushable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,33 +13,23 @@ import javax.sql.DataSource;
 import cx.ath.choisnet.ToDo;
 
 /**
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
- * </p>
- *
+ * TODO: Doc!
  * @author Claude CHOISNET
  *
  */
-@ToDo
-public class SimpleQuery extends SimpleDataSource
+@ToDo(action=ToDo.Action.DOCUMENTATION)
+public class SimpleQuery 
+    extends SimpleDataSource
+        implements Flushable
 {
     private Connection conn;
     private Statement stmt;
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param ds
+     */
     public SimpleQuery(DataSource ds)
     {
         super(ds);
@@ -46,8 +38,14 @@ public class SimpleQuery extends SimpleDataSource
         stmt = null;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param resourceName
+     * @throws SimpleDataSourceException
+     */
     public SimpleQuery(String resourceName)
-        throws cx.ath.choisnet.sql.SimpleDataSourceException
+        throws SimpleDataSourceException
     {
         super(SimpleQuery.getDataSource(resourceName));
 
@@ -55,8 +53,15 @@ public class SimpleQuery extends SimpleDataSource
         stmt = null;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param query
+     * @return
+     * @throws java.sql.SQLException
+     */
     public ResultSet executeQuery(String query)
-        throws java.sql.SQLException
+        throws SQLException
     {
         ResultSet rset = null;
 
@@ -64,30 +69,30 @@ public class SimpleQuery extends SimpleDataSource
             openConnection();
         }
 
-        if(conn != null) {
-            stmt = conn.createStatement();
-            rset = stmt.executeQuery(query);
+        try {
+            if(conn != null) {
+                stmt = conn.createStatement();
+                rset = stmt.executeQuery(query);
+            }
+        }
+        finally {
+            if(rset == null) {
+                flush();
+            }
         }
 
-        if(rset == null) {
-            flush();
-        }
-//        break MISSING_BLOCK_LABEL_66;
-//    //   24   52:goto            66
-//        Exception exception;
-//        exception;
-    //   25   55:astore_3
-//        if(rset == null) {
-//            flush();
-//        }
-//        throw exception;
-    //   30   64:aload_3
-    //   31   65:athrow
         return rset;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param rset
+     * @return
+     * @throws java.sql.SQLException
+     */
     public static List<String> translateResultSetToStringList(ResultSet rset)
-        throws java.sql.SQLException
+        throws SQLException
     {
         List<String> list = new ArrayList<String>();
 
@@ -98,8 +103,15 @@ public class SimpleQuery extends SimpleDataSource
         return list;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param rset
+     * @return
+     * @throws java.sql.SQLException
+     */
     public static String[] translateResultSetToStringArray(ResultSet rset)
-        throws java.sql.SQLException
+        throws SQLException
     {
         List<String>    list    = SimpleQuery.translateResultSetToStringList(rset);
         String[]        strings = new String[list.size()];
@@ -112,73 +124,69 @@ public class SimpleQuery extends SimpleDataSource
         return strings;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     * @param query
+     * @return
+     * @throws java.sql.SQLException
+     */
     public String[] translateQueryToStringArray(String query)
-        throws java.sql.SQLException
+        throws SQLException
     {
         ResultSet   rst = null;
         String[]    str;
 
-        rst = executeQuery(query);
-        str = SimpleQuery.translateResultSetToStringArray(rst);
-
-        if(rst != null) {
-            try {
-                rst.close();
+        try {
+            rst = executeQuery(query);
+            str = SimpleQuery.translateResultSetToStringArray(rst);
+        }
+        finally {
+            if(rst != null) {
+                try { rst.close(); } catch(Exception ignore) { }
             }
-            catch(Exception ignore) { }
         }
 
-//        break MISSING_BLOCK_LABEL_51;
-//    //   15   28:goto            51
-//        Exception exception;
-//        exception;
-    //   16   31:astore          5
-        if(rst != null) {
-            try {
-                rst.close();
-            }
-            catch(Exception ignore) { }
-        }
-
-//        throw exception;
         return str;
     }
 
-    public static String[] translateQueryToStringArray(String dataSourceName, String query)
+    /**
+     * TODO: Doc!
+     * 
+     * @param dataSourceName
+     * @param query
+     * @return
+     * @throws SimpleDataSourceException
+     * @throws SQLException
+     */
+    public static String[] translateQueryToStringArray(
+            String  dataSourceName, 
+            String  query
+            )
         throws SimpleDataSourceException, SQLException
     {
         SimpleQuery squery = null;
         String[]    str;
 
-        squery = new SimpleQuery(dataSourceName);
-        str    = squery.translateQueryToStringArray(query);
-
-        if(squery != null) {
-            try {
-                squery.close();
-            }
-            catch(Exception ignore) { }
+        try {
+            squery = new SimpleQuery(dataSourceName);
+            str    = squery.translateQueryToStringArray(query);
         }
-//        break MISSING_BLOCK_LABEL_51;
-//    //   17   30:goto            51
-//        Exception exception;
-////        exception;
-    //   18   33:astore          5
+        finally {
+            if(squery != null) {
+                try { squery.close(); } catch(Exception ignore) { }
+            }
+        }
 
-//        if(squery != null){
-//            try {
-//                squery.close();
-//            }
-//            catch(Exception ignore) { }
-//        }
-//        throw exception;
-    //   25   48:aload           5
-    //   26   50:athrow
         return str;
     }
 
-    protected void openConnection()
-        throws java.sql.SQLException
+    /**
+     * TODO: Doc!
+     * 
+     * @throws java.sql.SQLException
+     */
+    protected void openConnection() throws SQLException
     {
         if(conn != null) {
             throw new SQLException("SimpleQuery InvalidState [conn != null]");
@@ -188,48 +196,50 @@ public class SimpleQuery extends SimpleDataSource
         }
     }
 
-    protected java.sql.Connection getConnection()
+    /**
+     * TODO: Doc!
+     * 
+     * @return
+     */
+    protected Connection getConnection()
     {
         return conn;
     }
 
+    /**
+     * TODO: Doc!
+     * 
+     */
     protected void closeConnection()
     {
         if(stmt != null) {
-            try {
-                stmt.close();
-            }
-            catch(java.sql.SQLException ignore) {
-            }
+            try { stmt.close(); } catch(SQLException ignore) {}
             stmt = null;
         }
 
         if(conn != null) {
-            try {
-                conn.close();
-            }
-            catch(java.sql.SQLException ignore) {
-            }
+            try { conn.close(); } catch(SQLException ignore) {}
 
             conn = null;
         }
     }
 
+    @Override
     public void flush()
     {
         closeConnection();
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         closeConnection();
 
         super.close();
     }
 
-    protected void finalize()
-        throws Throwable
+    @Override
+    protected void finalize() throws Throwable
     {
         closeConnection();
 

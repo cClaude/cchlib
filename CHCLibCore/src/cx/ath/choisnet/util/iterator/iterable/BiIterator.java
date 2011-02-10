@@ -50,4 +50,5 @@ public class BiIterator<T>
     {
         return new BiIterator<T>( firstIterable, secondIterable );
     }
+
 }

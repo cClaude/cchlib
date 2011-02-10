@@ -16,16 +16,21 @@ import java.util.NoSuchElementException;
 public class ArrayIterator<T>
     implements Iterator<T>
 {
-    private final T[]   array;
-    private final int   len;
-    private int         index;
+    /** Internal array, should not be modify */
+    protected final T[] array;
+    
+    /** expected length for iterator */
+    protected final int  len;
+    
+    /** current index for iterator */
+    private int index;
 
     /**
      * Wrap an array to have an Iterator
      * 
      * @param array array of element to wrap
      */
-    public ArrayIterator(T[] array)
+    public ArrayIterator(final T[] array)
     {
         this.array = array;
         this.index = 0;
@@ -46,9 +51,9 @@ public class ArrayIterator<T>
      * @param len    number of element to read
      */
     public ArrayIterator(
-            T[] array,
-            int offset,
-            int len
+            final T[] array,
+            final int offset,
+            final int len
             )
     {
         this.array = array;
@@ -140,23 +145,23 @@ public class ArrayIterator<T>
         throw new UnsupportedOperationException();
     }
 
-    /**
+    /*
      * Returns internal array, should not be modify !
      * @return internal array
-     */
     protected T[] toArray()
     {
         return array;
     }
+     */
 
-    /**
+    /*
      * Returns expected length for iterator
      * @return expected length for iterator
-     */
     protected int size()
     {
         return len;
     }
+     */
     
     /**
      * Build a new ArrayIterator. This factory, whose parameter 

@@ -1,13 +1,17 @@
 
 ---------------------------------------------------------------------
+03a.29
+  mineur fix, improve doc:
+    - cx.ath.choisnet.sql.SimpleDataSource
+    - cx.ath.choisnet.sql.SimpleQuery
+    - cx.ath.choisnet.sql.SimpleUpdate
+---------------------------------------------------------------------
 03a.28
   Add: cx.ath.choisnet.sql.DatabaseMetaDataCollector
-
 ---------------------------------------------------------------------
 03a.27
   Add: cx.ath.choisnet.util.iterator.iterable.IterableIterator
   Somes JUnit Fix/Improve
-
 ---------------------------------------------------------------------
 03a.26
   Remove Iterable interface on some Iterator (can't be sure to be able
@@ -16,7 +20,6 @@
   Iterable-Iterator
   Add: cx.ath.choisnet.util.iterator.iterable.ArrayIterator
   Add: cx.ath.choisnet.util.iterator.iterable.BiIterator
-
 ---------------------------------------------------------------------
 03a.25
   Add class cx.ath.choisnet.util.CancelRequestException
@@ -26,15 +29,12 @@
     - cx.ath.choisnet.util.checksum.MessageDigestFile
     - cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector
     - cx.ath.choisnet.util.duplicate.DuplicateFileCollector
-
 ---------------------------------------------------------------------
 03a.24
   Move cx.ath.choisnet.net.PseudoPing to deprecated sources.
-
 ---------------------------------------------------------------------
 03a.23
   Add: method toString(Charset) to cx.ath.choisnet.lang.ByteArrayBuilder
-
 ---------------------------------------------------------------------
 03a.07
   Code review (improve documentation)
@@ -64,7 +64,6 @@
 
 
   Build: remove Deprecated classes from documentation
-
 ---------------------------------------------------------------------
 
 ---------------------------------------------------------------------

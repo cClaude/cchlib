@@ -71,4 +71,10 @@ public class EmptyIterator<T>
     {
         return this;
     }
+
+//    @Override
+//    public int size()
+//    {
+//        return 0;
+//    }
 }

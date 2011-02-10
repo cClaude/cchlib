@@ -9,7 +9,6 @@ import java.io.Writer;
 /**
  * 
  * @author Claude CHOISNET
- *
  */
 public final class HTMLWriter extends Writer
     implements Appendable, Flushable, Closeable
@@ -17,11 +16,16 @@ public final class HTMLWriter extends Writer
     private final Writer        writer;
     private final StringBuilder sbuffer = new StringBuilder();
 
+    /**
+     * 
+     * @param writer
+     */
     public HTMLWriter(Writer writer)
     {
         this.writer = writer;
     }
 
+    @Override
     public void close()
         throws java.io.IOException
     {
@@ -29,18 +33,25 @@ public final class HTMLWriter extends Writer
         writer.close();
     }
 
+    @Override
     public void flush()
         throws java.io.IOException
     {
         writer.flush();
     }
 
-    public void rawWrite(String htmlWellFormatString)
+    /**
+     * 
+     * @param htmlWellFormatString
+     * @throws java.io.IOException
+     */
+    public void rawWrite(final String htmlWellFormatString)
         throws java.io.IOException
     {
         writer.write(htmlWellFormatString);
     }
 
+    @Override
     public void write(char[] cbuf, int off, int len)
         throws java.io.IOException
     {
@@ -84,7 +95,7 @@ public final class HTMLWriter extends Writer
         }
     }
 
-    public void write(Throwable throwable)
+    public void write(final Throwable throwable)
         throws java.io.IOException
     {
         StringWriter sw = new StringWriter();
