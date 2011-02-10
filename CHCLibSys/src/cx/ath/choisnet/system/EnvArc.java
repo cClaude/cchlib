@@ -3,8 +3,10 @@ package cx.ath.choisnet.system;
 import java.util.Collection;
 
 /**
+ * 
  * @author Claude CHOISNET
  */
+@Deprecated
 public interface EnvArc
 {
     /**
