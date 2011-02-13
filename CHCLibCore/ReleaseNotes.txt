@@ -1,5 +1,14 @@
 
 ---------------------------------------------------------------------
+03a.30
+  Minor fix in cx.ath.choisnet.lang.reflect.MappableHelper.toMap(Object object)
+  Add some extra check in cx.ath.choisnet.io.HTMLWriter
+  Major change: cx.ath.choisnet.lang.reflect.MappableHelperFactory
+  is now an interface
+  Add:  cx.ath.choisnet.lang.reflect.MappableHelperDefaultFactory
+  Major change:  cx.ath.choisnet.lang.reflect.AbstractMappable
+  Some improvement in cx.ath.choisnet.io.HTMLWriter
+---------------------------------------------------------------------
 03a.29
   mineur fix, improve doc:
     - cx.ath.choisnet.sql.SimpleDataSource

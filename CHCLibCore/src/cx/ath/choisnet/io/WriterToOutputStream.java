@@ -19,21 +19,29 @@ public class WriterToOutputStream extends OutputStream
     private final byte[] buffer1;
     private CharBuffer charBuffer;
 
+    /**
+     * 
+     * @param writer
+     */
     public WriterToOutputStream(Writer writer)
     {
         this(writer, java.nio.charset.Charset.defaultCharset());
     }
 
+    /**
+     * 
+     * @param writer
+     * @param charset
+     */
     public WriterToOutputStream(Writer writer, Charset charset)
     {
-        buffer1 = new byte[1];
-        charBuffer = java.nio.CharBuffer.allocate(1024);
-
-        this.writer = writer;
-
-        decoder = charset.newDecoder();
+        this.buffer1    = new byte[1];
+        this.charBuffer = java.nio.CharBuffer.allocate(1024);
+        this.writer     = writer;
+        this.decoder    = charset.newDecoder();
     }
 
+    @Override
     public void write(int b)
         throws java.io.IOException
     {
@@ -42,24 +50,28 @@ public class WriterToOutputStream extends OutputStream
         write(buffer1);
     }
 
+    @Override
     public void close()
         throws java.io.IOException
     {
         writer.close();
     }
 
+    @Override
     public void flush()
         throws java.io.IOException
     {
         writer.flush();
     }
 
+    @Override
     public void write(byte[] b)
         throws java.io.IOException
     {
         write(b, 0, b.length);
     }
 
+    @Override
     public void write(byte[] b, int off, int len)
         throws java.io.IOException
     {

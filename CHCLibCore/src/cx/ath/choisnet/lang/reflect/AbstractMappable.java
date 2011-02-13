@@ -6,23 +6,7 @@ import java.util.Map;
 import cx.ath.choisnet.ToDo;
 
 /**
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
- * </p>
+ * TODO: Doc!
  *
  * @author Claude CHOISNET
  *
@@ -31,21 +15,44 @@ import cx.ath.choisnet.ToDo;
 public abstract class AbstractMappable
     implements Mappable
 {
-
-    public AbstractMappable()
-    {
-
-    }
-
+    /**
+     * Use default, to create Map. Call {@link #getObjectToMap()} to
+     * identify object that should be mapped.
+     */
+    @Override
     public Map<String,String> toMap()
     {
-        MappableHelper mappableHelper = new MappableHelper(
-                (new MappableHelperFactory())
-                    .setMethodesNamePattern("(get|is).*")
-                    .addClasses(new Class<?>[] { String.class, File.class, URL.class })
-                    .addAttribute( MappableHelper.Attributes.ALL_PRIMITIVE_TYPE )
-                    );
+//        MappableHelper mappableHelper = new MappableHelper( 
+//                (new MappableHelperDefaultFactory())
+//                    .setMethodesNamePattern("(get|is).*")
+//                    .addClasses(new Class<?>[] { String.class, File.class, URL.class })
+//                    .addAttribute( MappableHelper.Attributes.ALL_PRIMITIVE_TYPE )
+//                    );
+//      return mappableHelper.toMap(this);
+        MappableHelper mappableHelper = new MappableHelper( getMappableHelperFactory() );
 
-        return mappableHelper.toMap(this);
+        return mappableHelper.toMap( getObjectToMap() );
+    }
+    
+    /**
+     * Returns object to Map (typically: return this;)
+     * @return object to Map
+     * @see Mappable#toMap()
+     */
+    protected abstract Object getObjectToMap();
+    
+    /**
+     * TODO: Doc!
+     * 
+     * @return
+     */
+    protected MappableHelperFactory getMappableHelperFactory()
+    {
+        return (new MappableHelperDefaultFactory())
+                    .setMethodesNamePattern("(get|is).*")
+                    .addClasses(
+                        new Class<?>[] { String.class, File.class, URL.class }
+                        )
+                    .addAttribute( MappableHelper.Attributes.ALL_PRIMITIVE_TYPE );
     }
 }

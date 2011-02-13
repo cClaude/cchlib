@@ -41,22 +41,37 @@ import cx.ath.choisnet.ToDo;
 @ToDo
 public class MappableHelper
 {
+    /**
+     * TODO: Doc!
+     * @author Claude
+     */
     public enum Attributes {
+        /** TODO: Doc! */
         ALL_PRIMITIVE_TYPE,
+        /** TODO: Doc! */
         DO_RECURSIVE,
+        /** TODO: Doc! */
         DO_ARRAYS,
+        /** TODO: Doc! */
         DO_ITERATOR,
+        /** TODO: Doc! */
         DO_ITERABLE,
+        /** TODO: Doc! */
         DO_ENUMERATION,
+        /** TODO: Doc! */
         DO_PARENT_CLASSES,
+        /** TODO: Doc! */
         TRY_PRIVATE_METHODS,
+        /** TODO: Doc! */
         TRY_PROTECTED_METHODS
     };
 
+    /** TODO: Doc! */
     public static final EnumSet<Attributes> DEFAULT_ATTRIBUTES = EnumSet.of(
             Attributes.ALL_PRIMITIVE_TYPE,
             Attributes.DO_ARRAYS
             );
+    /** TODO: Doc! */
     public static final EnumSet<Attributes> SHOW_ALL = EnumSet.of(
             Attributes.ALL_PRIMITIVE_TYPE
             );
@@ -71,7 +86,12 @@ public class MappableHelper
     private final MessageFormat messageFormatArrayEntry;
     private final MessageFormat messageFormatMethodName;
 
-    public MappableHelper(MappableHelperFactory factory)
+    /**
+     * TODO: Doc!
+     * 
+     * @param factory
+     */
+    public MappableHelper(final MappableHelperFactory factory)
     {
         toStringNullValue = factory.getStringNullValue();
         messageFormatIteratorEntry = new MessageFormat(factory.getMessageFormatIteratorEntry());
@@ -99,9 +119,13 @@ public class MappableHelper
 //        this.attributesSet = attributesSet;
 //    }
 
+    /**
+     * Build MappableHelper using default factory
+     * @see MappableHelperDefaultFactory
+     */
     public MappableHelper()
     {
-        this(new MappableHelperFactory());
+        this(new MappableHelperDefaultFactory());
     }
 
 //    @Deprecated
@@ -134,7 +158,10 @@ public class MappableHelper
 //        this((new MappableHelperFactory()).addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(DEFAULT_ATTRIBUTES));
 //    }
 
-    public Map<String,String> toMap(Object object)
+    /**
+     * Build Map according to specified factory.
+     */
+    public Map<String,String> toMap(final Object object)
     {
         final HashMap<String,String>    hashMap = new HashMap<String,String>();
         final Class<?>                  clazz   = object.getClass();
@@ -246,11 +273,13 @@ public class MappableHelper
                         enum0 == null ? null : enum0.toString()
                         );
 
-                while( enum0.hasMoreElements() ) {
-                    hashMap.put(
-                            formatEnumerationEntry(methodName, i++, -1),
-                            toString( enum0.nextElement() )
-                            );
+                if( enum0 != null ) {
+                    while( enum0.hasMoreElements() ) {
+                        hashMap.put(
+                                formatEnumerationEntry(methodName, i++, -1),
+                                toString( enum0.nextElement() )
+                                );
+                    }
                 }
                 continue;
             }
@@ -302,6 +331,13 @@ public class MappableHelper
         return new TreeMap<String,String>(hashMap);
     }
 
+    /**
+     * TODO: Doc!
+     * @param methodeName
+     * @param index
+     * @param max
+     * @return
+     */
     protected String formatIterableEntry(String methodeName, int index, int max)
     {
         String params[] = {
@@ -311,6 +347,13 @@ public class MappableHelper
         return messageFormatIterableEntry.format(params);
     }
 
+    /**
+     * 
+     * @param methodeName
+     * @param index
+     * @param max
+     * @return
+     */
     protected String formatIteratorEntry(String methodeName, int index, int max)
     {
         String[] params = {
@@ -322,9 +365,16 @@ public class MappableHelper
         return messageFormatIteratorEntry.format(params);
     }
 
+    /**
+     * 
+     * @param methodeName
+     * @param index
+     * @param max
+     * @return
+     */
     protected String formatEnumerationEntry(String methodeName, int index, int max)
     {
-        String[] params = {
+        final String[] params = {
             methodeName,
             Integer.toString(index),
             Integer.toString(max)
@@ -333,9 +383,16 @@ public class MappableHelper
         return messageFormatEnumerationEntry.format(params);
     }
 
+    /**
+     * 
+     * @param methodeName
+     * @param index
+     * @param max
+     * @return
+     */
     protected String formatArrayEntry(String methodeName, int index, int max)
     {
-        String[] params = {
+        final String[] params = {
             methodeName,
             Integer.toString(index),
             Integer.toString(max)
@@ -344,9 +401,14 @@ public class MappableHelper
         return messageFormatArrayEntry.format(params);
     }
 
+    /**
+     * 
+     * @param methodeName
+     * @return
+     */
     protected String formatMethodName(String methodeName)
     {
-        String[] params = {
+        final String[] params = {
             methodeName
         };
 
@@ -386,6 +448,11 @@ public class MappableHelper
         return methods;
     }
 
+    /**
+     * 
+     * @param clazz
+     * @return
+     */
     protected final boolean isMappable(Class<?> clazz)
     {
         if(!attributesSet.contains(Attributes.DO_RECURSIVE)) {
@@ -428,7 +495,12 @@ public class MappableHelper
         return false;
     }
 
-    public String toString(Object object)
+    /**
+     * 
+     * @param object
+     * @return
+     */
+    public String toString(final Object object)
     {
         if(object == null) {
             return toStringNullValue;
@@ -609,6 +681,12 @@ public class MappableHelper
         return null;
     }
 
+    /**
+     * 
+     * @param factory
+     * @param object
+     * @return
+     */
     public static Map<String,String> toMap(MappableHelperFactory factory, Object object)
     {
         return new MappableHelper(factory).toMap(object);
@@ -622,6 +700,9 @@ public class MappableHelper
 //        return instance.toMap(object);
 //    }
 
+    /**
+     * 
+     */
     public static void toXML(Appendable out, Class<?> clazz, Map<String,String> map)
         throws java.io.IOException
     {
@@ -646,18 +727,37 @@ public class MappableHelper
         }
     }
 
+    /**
+     * 
+     * @param out
+     * @param clazz
+     * @param aMappableObject
+     * @throws java.io.IOException
+     */
     public static void toXML(Appendable out, Class<?> clazz, Mappable aMappableObject)
         throws java.io.IOException
     {
         MappableHelper.toXML(out, clazz, aMappableObject != null ? aMappableObject.toMap() : null);
     }
 
+    /**
+     * 
+     * @param out
+     * @param aMappableObject
+     * @throws java.io.IOException
+     */
     public static void toXML(Appendable out, Mappable aMappableObject)
         throws java.io.IOException
     {
         MappableHelper.toXML(out, aMappableObject.getClass(), aMappableObject);
     }
 
+    /**
+     * 
+     * @param clazz
+     * @param aMappableObject
+     * @return
+     */
     public static String toXML(Class<?> clazz, Mappable aMappableObject)
     {
         StringBuilder sb = new StringBuilder();
@@ -672,6 +772,11 @@ public class MappableHelper
         return sb.toString();
     }
 
+    /**
+     * 
+     * @param aMappableObject
+     * @return
+     */
     public static String toXML(Mappable aMappableObject)
     {
         return MappableHelper.toXML(aMappableObject.getClass(), aMappableObject);
