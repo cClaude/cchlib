@@ -1,6 +1,7 @@
 package cx.ath.choisnet.servlet.debug.impl;
 
 import cx.ath.choisnet.lang.reflect.MappableHelper;
+import cx.ath.choisnet.lang.reflect.MappableHelperDefaultFactory;
 import cx.ath.choisnet.lang.reflect.MappableHelperFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
      */
     public static MappableHelperFactory getMappableHelperFactory()
     {
-        return (new MappableHelperFactory())
+        return (new MappableHelperDefaultFactory())
                 .setMethodesNamePattern("(get|is).*")
                 .addClasses(new Class[] { Object.class })
                 .addAttributes(new MappableHelper.Attributes[] { 

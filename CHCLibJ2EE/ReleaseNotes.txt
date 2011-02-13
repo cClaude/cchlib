@@ -1,6 +1,9 @@
 CHCLibJ2EE
 
 ---------------------------------------------------------------------
+03a.08
+  Add Method cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( Appendable, HttpServlet, HttpServletRequest, HttpServletResponse );
+---------------------------------------------------------------------
 03a.07
   Fix: cx.ath.choisnet.servlet.debug.InfosServlet
 ---------------------------------------------------------------------

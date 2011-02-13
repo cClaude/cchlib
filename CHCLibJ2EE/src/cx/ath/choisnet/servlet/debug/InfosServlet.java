@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
  * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},
  * {@link System#out}, {@link System#err}, {@link HttpServletResponse#getWriter()}.
  * <br/>
- * 
- * 
+ *
+ *
  * <p>
  *  Configuration:
  * </p>
  * <pre>
  * </pre>
- * 
+ *
  * @author Claude CHOISNET
  *
  */
@@ -28,7 +28,7 @@ public class InfosServlet extends HttpServlet
     private static final long serialVersionUID = 1L;
 
     // TODO: add (re)loaded time - System.getMillisec() - loaded time of servlet
-    
+
     /**
      * Servlet name : "{@value}"
      * @serial
@@ -69,17 +69,22 @@ public class InfosServlet extends HttpServlet
 
     @Override
     public void service(
-            final HttpServletRequest request, 
+            final HttpServletRequest request,
             final HttpServletResponse response
             )
         throws ServletException, IOException
     {
-        InfosServletDisplayer infos = new InfosServletDisplayerImpl(this, request, response);
-
         response.setContentType("text/html");
 
-        infos.appendHTML( response.getWriter() );
-    }
+//        InfosServletDisplayer infos = new InfosServletDisplayerImpl(this, request, response);
+//        infos.appendHTML( response.getWriter() );
+       appendHTML(
+           response.getWriter(),
+           this,
+           request,
+           response
+           );
+   }
 
     @Override
     public String getServletInfo()
@@ -93,5 +98,30 @@ public class InfosServlet extends HttpServlet
         super.destroy();
 
         log("InfosServlet destroy() method called.");
+    }
+
+    /**
+     * This method could be use for debugging your servlets and your
+     * or you JSP
+     * <br/>
+     * Include this :
+     * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, request, response );
+     *
+     * @param output
+     * @param servlet
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public static void appendHTML(
+            final Appendable          output,
+            final HttpServlet         servlet,
+            final HttpServletRequest  request,
+            final HttpServletResponse response
+            )
+        throws IOException
+    {
+        new InfosServletDisplayerImpl(servlet, request, response).appendHTML( output );
     }
 }
