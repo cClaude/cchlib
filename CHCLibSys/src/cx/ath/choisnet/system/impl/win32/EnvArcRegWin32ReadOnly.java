@@ -8,6 +8,7 @@ import cx.ath.choisnet.system.EnvArcException;
  * @author Claude CHOISNET
  * @see EnvArcRegWin32ReadWrite
  */
+@Deprecated
 public class EnvArcRegWin32ReadOnly
     extends AbstractEnvArcRegWin32
 {

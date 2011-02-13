@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * @author Claude CHOISNET
  */
+@Deprecated
 public class EnvArcDefaultImpl implements EnvArc
 {
     private Map<String,String> env;

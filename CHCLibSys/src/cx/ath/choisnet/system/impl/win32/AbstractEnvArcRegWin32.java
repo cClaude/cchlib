@@ -15,6 +15,7 @@ import cx.ath.choisnet.system.EnvArcException;
  * @author Claude CHOISNET
  *
  */
+@Deprecated
 public abstract class AbstractEnvArcRegWin32 extends RegWin32 implements EnvArc {
 
     /**

@@ -12,6 +12,7 @@ import cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite;
 /**
  * @author Claude CHOISNET
  */
+@Deprecated
 public class EnvArcTest extends TestCase
 {
     final private static Logger slogger = Logger.getLogger(EnvArcTest.class);
@@ -24,12 +25,14 @@ public class EnvArcTest extends TestCase
         this.anEnvArcRegWin32ReadWrite = new EnvArcRegWin32ReadWrite();
     }
     
+    @Deprecated
     public void testBasicGet() throws EnvArcException
     {
         testBasicGet(this.anEnvArcRegWin32ReadOnly);
         testBasicGet(this.anEnvArcRegWin32ReadWrite);
     }
 
+    @Deprecated
     public void testBasicGet(EnvArc envarc) throws EnvArcException
     {
         String varname = "JAVA_HOME";
@@ -63,12 +66,14 @@ public class EnvArcTest extends TestCase
         this.anEnvArcRegWin32ReadWrite.setVar( this.getClass().getName(), this.getClass().getName() );
     }
 
+    @Deprecated
     public void test_getVarNameList() throws EnvArcException
     {
         test_getVarNameList(anEnvArcRegWin32ReadOnly);
         test_getVarNameList(anEnvArcRegWin32ReadWrite);
     }
     
+    @Deprecated
     public void test_getVarNameList(EnvArc envarc) throws EnvArcException
     {
         Collection<String> c = envarc.getVarNameList();
