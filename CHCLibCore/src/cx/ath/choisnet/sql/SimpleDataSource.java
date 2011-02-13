@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import cx.ath.choisnet.ToDo;
 
@@ -22,12 +23,17 @@ public class SimpleDataSource
     private String[]    userPass;
 
     /**
-     * TODO: Doc!
+     *  Create a SimpleDataSource object from a valid {@link DataSource}
      * 
-     * @param ds
+     * @param ds DataSource to use.
+     * @throws NullPointerException if ds is null.
      */
-    public SimpleDataSource(DataSource ds)
+    public SimpleDataSource( final DataSource ds )
     {
+        if( ds == null ) {
+            throw new NullPointerException( "DataSource is null" );
+            }
+        
         this.ds         = ds;
         this.userPass   = null;
     }
@@ -40,9 +46,9 @@ public class SimpleDataSource
      * @param password
      */
     public SimpleDataSource(
-            DataSource  ds, 
-            String      username, 
-            String      password
+            final DataSource  ds, 
+            final String      username, 
+            final String      password
             )
     {
         this(ds);
@@ -59,13 +65,8 @@ public class SimpleDataSource
         return ds;
     }
     
-    /**
-     * TODO: Doc!
-     * 
-     */
     @Override
-    public void close()
-        throws java.io.IOException
+    public void close() throws IOException
     {
         // empty
     }
@@ -98,7 +99,7 @@ public class SimpleDataSource
      * @return
      * @throws SimpleDataSourceException
      */
-    protected static final DataSource getDataSource(String resourceName)
+    protected static final DataSource getDataSource(final String resourceName)
         throws SimpleDataSourceException
     {
         Object      ressource = null;
@@ -109,28 +110,28 @@ public class SimpleDataSource
             
             ressource   = context.lookup(resourceName);
             ds          = DataSource.class.cast(ressource);
-        }
-        catch(ClassCastException e) {
+            }
+        catch( ClassCastException e ) {
             throw new SimpleDataSourceException(
                     "Bad ressource '" + resourceName + "' expecting DataSource, found : " + ressource,
                     e
                     );
-        }
-        catch(javax.naming.NamingException e) {
+            }
+        catch( NamingException e ) {
             throw new SimpleDataSourceException(
                     "Can't create SimpleQuery for '" + resourceName + '\'', 
                     e
                     );
-        }
+            }
 
-        if(ds == null) {
+        if( ds == null ) {
             throw new SimpleDataSourceException(
                     "Can't get DataSource for '" + resourceName + '\'' 
                     );
-        }
+            }
         else {
             return ds;
-        }
+            }
     }
 
     /**
@@ -146,17 +147,17 @@ public class SimpleDataSource
         int         count   = 0;
         
         while( conn == null || conn.isClosed() ) {
-            if(userPass == null) {
+            if( userPass == null ) {
                 conn = ds.getConnection();
-            }
+                }
             else {
                 conn = ds.getConnection(userPass[0], userPass[1]);
-            }
+                }
 
-            if(conn.isClosed() && ++count > 10) {
+            if( conn.isClosed() && ++count > 10 ) {
                 throw new SQLException("can't getConnection() - connection is closed");
+                }
             }
-        }
 
         return conn;
     }

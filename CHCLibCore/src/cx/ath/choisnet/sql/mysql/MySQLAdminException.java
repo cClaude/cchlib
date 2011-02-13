@@ -5,7 +5,6 @@ import cx.ath.choisnet.util.ExternalAppException;
 /**
  *
  * @author Claude CHOISNET
- *
  */
 public class MySQLAdminException extends ExternalAppException
 {

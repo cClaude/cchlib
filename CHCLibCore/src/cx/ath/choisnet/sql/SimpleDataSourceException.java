@@ -3,7 +3,6 @@ package cx.ath.choisnet.sql;
 /**
  *
  * @author Claude CHOISNET
- *
  */
 public class SimpleDataSourceException 
     extends Exception

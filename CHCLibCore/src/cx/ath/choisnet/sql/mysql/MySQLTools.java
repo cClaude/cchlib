@@ -25,11 +25,9 @@ import java.util.StringTokenizer;
  * </p>
  *
  * @author Claude CHOISNET
- *
  */
 public class MySQLTools
 {
-
     protected static Map<String,String> replacePhrases;
 
     static
@@ -44,6 +42,12 @@ public class MySQLTools
         // All static !:
     }
 
+    /**
+     * 
+     * @param fieldValue
+     * @param maxLength
+     * @return
+     */
     public static String parseFieldValue(String fieldValue, int maxLength)
     {
         int len = fieldValue.length();
@@ -56,6 +60,11 @@ public class MySQLTools
         }
     }
 
+    /**
+     * 
+     * @param input
+     * @return
+     */
     public static String parseFieldValue(String input)
     {
         Iterator<Map.Entry<String,String>> entryIt = replacePhrases.entrySet().iterator();

@@ -26,11 +26,12 @@ public class SimpleQuery
     private Statement stmt;
 
     /**
-     * TODO: Doc!
+     *  Create a SimpleQuery object from a valid {@link DataSource}
      * 
-     * @param ds
+     * @param ds DataSource to use.
+     * @throws NullPointerException if ds is null.
      */
-    public SimpleQuery(DataSource ds)
+    public SimpleQuery( final DataSource ds )
     {
         super(ds);
 
@@ -44,10 +45,10 @@ public class SimpleQuery
      * @param resourceName
      * @throws SimpleDataSourceException
      */
-    public SimpleQuery(String resourceName)
+    public SimpleQuery( final String resourceName )
         throws SimpleDataSourceException
     {
-        super(SimpleQuery.getDataSource(resourceName));
+        super( SimpleQuery.getDataSource( resourceName ) );
 
         conn = null;
         stmt = null;
@@ -60,26 +61,26 @@ public class SimpleQuery
      * @return
      * @throws java.sql.SQLException
      */
-    public ResultSet executeQuery(String query)
+    public ResultSet executeQuery( final String query )
         throws SQLException
     {
         ResultSet rset = null;
 
-        if(conn == null) {
+        if( conn == null ) {
             openConnection();
-        }
+            }
 
         try {
             if(conn != null) {
                 stmt = conn.createStatement();
-                rset = stmt.executeQuery(query);
+                rset = stmt.executeQuery( query );
+                }
             }
-        }
         finally {
-            if(rset == null) {
-                flush();
+            if( rset == null ) {
+                flush(); // close connection
+                }
             }
-        }
 
         return rset;
     }
@@ -94,11 +95,11 @@ public class SimpleQuery
     public static List<String> translateResultSetToStringList(ResultSet rset)
         throws SQLException
     {
-        List<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
 
         while( rset.next() ) {
             list.add( rset.getString(1) );
-        }
+            }
 
         return list;
     }
@@ -119,7 +120,7 @@ public class SimpleQuery
 
         for(Iterator<String> iter = list.iterator(); iter.hasNext();) {
             strings[i++] = iter.next();
-        }
+            }
 
         return strings;
     }
@@ -140,12 +141,12 @@ public class SimpleQuery
         try {
             rst = executeQuery(query);
             str = SimpleQuery.translateResultSetToStringArray(rst);
-        }
+            }
         finally {
             if(rst != null) {
                 try { rst.close(); } catch(Exception ignore) { }
+                }
             }
-        }
 
         return str;
     }
@@ -171,12 +172,12 @@ public class SimpleQuery
         try {
             squery = new SimpleQuery(dataSourceName);
             str    = squery.translateQueryToStringArray(query);
-        }
+            }
         finally {
             if(squery != null) {
                 try { squery.close(); } catch(Exception ignore) { }
+                }
             }
-        }
 
         return str;
     }
@@ -188,12 +189,12 @@ public class SimpleQuery
      */
     protected void openConnection() throws SQLException
     {
-        if(conn != null) {
+        if( conn != null ) {
             throw new SQLException("SimpleQuery InvalidState [conn != null]");
-        }
+            }
         else {
             conn = getConnectionFromDataSource();
-        }
+            }
     }
 
     /**
@@ -212,16 +213,15 @@ public class SimpleQuery
      */
     protected void closeConnection()
     {
-        if(stmt != null) {
+        if( stmt != null ) {
             try { stmt.close(); } catch(SQLException ignore) {}
             stmt = null;
-        }
+            }
 
         if(conn != null) {
             try { conn.close(); } catch(SQLException ignore) {}
-
             conn = null;
-        }
+            }
     }
 
     @Override

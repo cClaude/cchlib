@@ -33,7 +33,6 @@ import java.io.OutputStream;
  * </p>
  *
  * @author Claude CHOISNET
- *
  */
 public class MySQLAdmin
 {
@@ -42,6 +41,13 @@ public class MySQLAdmin
     private String mySQLDumpExe;
     private String mySQLDumpParams;
 
+    /**
+     * 
+     * @param mySQLExe
+     * @param mySQLParams
+     * @param mySQLDumpExe
+     * @param mySQLDumpParams
+     */
     public MySQLAdmin(
             String mySQLExe, 
             String mySQLParams, 
@@ -55,6 +61,11 @@ public class MySQLAdmin
         this.mySQLDumpParams = mySQLDumpParams;
     }
 
+    /**
+     * 
+     * @param outputStream
+     * @throws MySQLAdminException
+     */
     public void createSQLDumpFile(OutputStream outputStream)
         throws MySQLAdminException
     {
@@ -71,6 +82,11 @@ public class MySQLAdmin
         }
     }
 
+    /**
+     * 
+     * @param outputFile
+     * @throws MySQLAdminException
+     */
     public void createSQLDumpFile(File outputFile)
         throws MySQLAdminException
     {
@@ -103,6 +119,12 @@ public class MySQLAdmin
         }
     }
 
+    /**
+     * 
+     * @param servletOuput
+     * @param outputFile
+     * @throws MySQLAdminException
+     */
     public void createSQLDumpFile(OutputStream servletOuput, File outputFile)
         throws MySQLAdminException
     {
@@ -152,6 +174,12 @@ public class MySQLAdmin
 //        throw exception;
     }
 
+    /**
+     * 
+     * @param servletOuput
+     * @param fileOutputStream
+     * @throws MySQLAdminException
+     */
     public void createSQLDumpFile(OutputStream servletOuput, OutputStream fileOutputStream)
         throws MySQLAdminException
     {
@@ -167,6 +195,12 @@ public class MySQLAdmin
         }
     }
 
+    /**
+     * 
+     * @param inputfile
+     * @throws MySQLAdminException
+     * @throws FileNotFoundException
+     */
     public void applySQL(File inputfile)
         throws  MySQLAdminException, 
                 FileNotFoundException
@@ -178,6 +212,11 @@ public class MySQLAdmin
             );
     }
 
+    /**
+     * 
+     * @param sqlStream
+     * @throws MySQLAdminException
+     */
     public void applySQL(InputStream sqlStream)
         throws MySQLAdminException
     {

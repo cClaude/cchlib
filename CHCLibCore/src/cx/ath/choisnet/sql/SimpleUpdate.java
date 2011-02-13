@@ -17,11 +17,12 @@ public class SimpleUpdate extends SimpleDataSource
 {
 
     /**
-     *  TODO: Doc!
-     *  
-     * @param ds
+     *  Create a SimpleUpdate object from a valid {@link DataSource}
+     * 
+     * @param ds DataSource to use.
+     * @throws NullPointerException if ds is null.
      */
-    public SimpleUpdate(DataSource ds)
+    public SimpleUpdate(final DataSource ds)
     {
         super(ds);
     }
@@ -30,12 +31,12 @@ public class SimpleUpdate extends SimpleDataSource
      *  TODO: Doc!
      *     
      * @param resourceName
-     * @throws cx.ath.choisnet.sql.SimpleDataSourceException
+     * @throws SimpleDataSourceException
      */
-    public SimpleUpdate(String resourceName)
-        throws cx.ath.choisnet.sql.SimpleDataSourceException
+    public SimpleUpdate(final String resourceName)
+        throws SimpleDataSourceException
     {
-        super(SimpleUpdate.getDataSource(resourceName));
+        super( SimpleUpdate.getDataSource(resourceName) );
     }
 
     /**
@@ -43,10 +44,10 @@ public class SimpleUpdate extends SimpleDataSource
      * 
      * @param query SQL query to execute
      * @return count of modified rows 
-     * @throws java.sql.SQLException
+     * @throws SQLException
      */
-    public int doUpdate(String query)
-        throws java.sql.SQLException
+    public int doUpdate(final String query)
+        throws SQLException
     {
         int rows = -1;
         Connection conn = null;

@@ -5,38 +5,32 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 import cx.ath.choisnet.ToDo;
 
 /**
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
- * </p>
- *
+ * TODO: Doc!
+ * 
  * @author Claude CHOISNET
- *
  */
 @ToDo
 public class DataSourceFactory
 {
-
+    private final static Logger slogger = Logger.getLogger( DataSourceFactory.class );
+    
     private DataSourceFactory()
     {// All static
     }
-
+    
+    /**
+     * 
+     * @param driverClassName
+     * @param url
+     * @param username
+     * @param password
+     * @return
+     * @throws ClassNotFoundException
+     */
     public static DataSource buildDataSource(
             final String driverClassName,
             final String url,
@@ -45,19 +39,49 @@ public class DataSourceFactory
             )
         throws ClassNotFoundException
     {
+        return buildDataSource(
+                driverClassName,
+                url,
+                username,
+                password,
+                new PrintWriter( System.err ) // Mmm : TODO something better
+                );
+    } 
+    
+    /**
+     * 
+     * @param driverClassName
+     * @param url
+     * @param username
+     * @param password
+     * @param loggerPrintWriter
+     * @return
+     * @throws ClassNotFoundException
+     */
+    public static DataSource buildDataSource(
+            final String        driverClassName,
+            final String        url,
+            final String        username,
+            final String        password,
+            final PrintWriter   loggerPrintWriter
+            )
+        throws ClassNotFoundException
+    {
         Class.forName(driverClassName);
 
-        return new DataSource() {
-            int timeOut = 30;
-
-            PrintWriter pw = new PrintWriter(System.out);
-
+        return new DataSource() 
+        {
+            int         timeOut = 30;
+            PrintWriter pw      = loggerPrintWriter;
+            //PrintWriter pw = new PrintWriter(System.out);
+            
+            @Override
             public Connection getConnection()
                 throws java.sql.SQLException
             {
                 return getConnection(username, password);
             }
-
+            @Override
             public Connection getConnection(String username, String password)
                 throws java.sql.SQLException
             {
@@ -70,41 +94,41 @@ public class DataSourceFactory
 
                     conn = DriverManager.getConnection(url, username, password);
 
-                    if(conn.isClosed() && pw != null) {
-                        pw.println("*** Recuperation d'une connection fermee !");
+                    if( conn.isClosed() /*&& pw != null*/) {
+                        slogger.error( "*** Connection is closed !" );
                     }
                 } while(true);
 
                 return conn;
             }
-
+            @Override
             public int getLoginTimeout()
             {
                 return timeOut;
             }
-
+            @Override
             public void setLoginTimeout(int seconds)
             {
                 timeOut = seconds;
             }
-
-            public java.io.PrintWriter getLogWriter()
+            @Override
+            public PrintWriter getLogWriter()
             {
                 return pw;
             }
-
-            public void setLogWriter(java.io.PrintWriter out)
+            @Override
+            public void setLogWriter(final PrintWriter out)
             {
                 pw = out;
             }
             @Override
-            public boolean isWrapperFor( Class<?> clazz )
+            public boolean isWrapperFor( final Class<?> clazz )
                 throws SQLException
             {
                 return false;
             }
             @Override
-            public <T> T unwrap( Class<T> clazz )
+            public <T> T unwrap( final Class<T> clazz )
                 throws SQLException
             {
                 throw new SQLException();
@@ -112,6 +136,7 @@ public class DataSourceFactory
         };
     }
 
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             String url,
             String username,
@@ -127,6 +152,16 @@ public class DataSourceFactory
                 );
     }
 
+    /**
+     * 
+     * @param dbHostName
+     * @param dbName
+     * @param username
+     * @param password
+     * @return
+     * @throws ClassNotFoundException
+     */
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             String dbHostName,
             String dbName,
@@ -144,6 +179,17 @@ public class DataSourceFactory
                 );
     }
 
+    /**
+     * 
+     * @param dbHostName
+     * @param dbPort
+     * @param dbName
+     * @param username
+     * @param password
+     * @return
+     * @throws ClassNotFoundException
+     */
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             String      dbHostName,
             int         dbPort,

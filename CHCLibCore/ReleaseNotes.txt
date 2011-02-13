@@ -1,4 +1,8 @@
+CHCLibCore
 
+---------------------------------------------------------------------
+03a.32
+  Documentation
 ---------------------------------------------------------------------
 03a.30
   Minor fix in cx.ath.choisnet.lang.reflect.MappableHelper.toMap(Object object)
