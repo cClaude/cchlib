@@ -54,6 +54,16 @@ public class ExportSQL
         return exportDate.toString().replace( ':', '-' ).replace( ' ', '_' );
     }
     */
+
+    /**
+     * Returns export Time stamp
+     * @return export Time stamp
+     */
+    final // TODO remove this
+    public Timestamp getTimestamp()
+    {
+        return exportDate;
+    }
     
     /**
      * Export table content
