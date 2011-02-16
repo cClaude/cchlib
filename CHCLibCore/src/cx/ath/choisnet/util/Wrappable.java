@@ -7,14 +7,14 @@ import cx.ath.choisnet.util.iterator.IteratorWrapper;
 /**
  *
  * @author Claude CHOISNET
- * @param <T> source type
- * @param <O> result type
+ * @param <S> source type
+ * @param <R> result type
  * @see EnumerationHelper#toEnumeration(java.util.Enumeration, Wrappable)
  * @see EnumerationHelper#toEnumeration(java.util.Enumeration)
  * @see IteratorHelper
  * @see IteratorWrapper
  */
-public interface Wrappable<T,O>
+public interface Wrappable<S,R>
 {
     /**
      * Wrap a object to an other one.
@@ -22,5 +22,5 @@ public interface Wrappable<T,O>
      * @param obj object to wrap
      * @return an other view for giving object
      */
-    abstract O wrappe(T obj);
+    abstract R wrappe(S obj);
 }

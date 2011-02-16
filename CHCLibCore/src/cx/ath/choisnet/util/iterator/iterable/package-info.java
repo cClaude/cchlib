@@ -2,8 +2,9 @@
  * Provide some extra Iterator, most based
  * on other Iterator. These Iterator are also Iterable.
  * <br/>
- * An {@link IterableIterator} is an Iterator that could be 
- * restart/reset using {@link Iterable#iterator()}
+ * An {@link cx.ath.choisnet.util.iterator.iterable.IterableIterator}
+ * is an Iterator that could be restart/reset using
+ * {@link java.util.Iterable#iterator()}
  * method.
  * <br/>
  * Theses Iterators are design to avoid copy of
@@ -13,7 +14,7 @@
  * @author Claude CHOISNET
  * @see cx.ath.choisnet.util.enumeration
  * @see cx.ath.choisnet.util.iterator
- * @see IterableIterator
+ * @see cx.ath.choisnet.util.iterator.iterable.IterableIterator
  */
 package cx.ath.choisnet.util.iterator.iterable;
 

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -96,26 +97,17 @@ public class MySQLAdmin
             outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
 
             createSQLDumpFile(outputStream);
-        }
+            }
         catch(java.io.IOException e) {
             throw new MySQLAdminException(e);
-        }
-
-        if(outputStream != null) {
-            try {
-                outputStream.close();
             }
-            catch(Exception ignore) { }
-        }
-//        break MISSING_BLOCK_LABEL_66;
-//        Exception exception;
-//        exception;
-
-        if(outputStream != null) {
-            try {
-                outputStream.close();
+        finally {
+            if(outputStream != null) {
+                try { outputStream.close(); } catch(Exception ignore) { }
+                }
+            if(outputStream != null) {
+                try { outputStream.close(); } catch(Exception ignore) { }
             }
-            catch(Exception ignore) { }
         }
     }
 
@@ -128,50 +120,36 @@ public class MySQLAdmin
     public void createSQLDumpFile(OutputStream servletOuput, File outputFile)
         throws MySQLAdminException
     {
-        OutputStream fileOutputStream;
-
-        if(servletOuput == null) {
-            if(outputFile == null) {
-                throw new MySQLAdminException("servletOuput & outputFile nulls");
-            }
-
-            createSQLDumpFile(outputFile);
-//            break MISSING_BLOCK_LABEL_108;
-        }
-
-        if(outputFile == null) {
-            createSQLDumpFile(servletOuput);
-//            break MISSING_BLOCK_LABEL_108;
-        }
-
-        fileOutputStream = null;
+        OutputStream fileOutputStream = null;
 
         try {
-            fileOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
+            if(servletOuput == null) {
+                if(outputFile == null) {
+                    throw new MySQLAdminException("servletOuput & outputFile nulls");
+                    }
+                createSQLDumpFile(outputFile);
+                }
 
-            createSQLDumpFile(servletOuput, fileOutputStream);
-        }
-        catch(java.io.IOException e) {
-            throw new MySQLAdminException(e);
-        }
+            if(outputFile == null) {
+                createSQLDumpFile(servletOuput);
+                }
 
-        if(fileOutputStream != null) {
+            fileOutputStream = null;
+
             try {
-                fileOutputStream.close();
-            }
-            catch(Exception ignore) { }
-        }
-//        break MISSING_BLOCK_LABEL_108;
-//        Exception exception;
-//        exception;
+                fileOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
 
-        if(fileOutputStream != null) {
-            try {
-                fileOutputStream.close();
+                createSQLDumpFile(servletOuput, fileOutputStream);
+                }
+            catch(java.io.IOException e) {
+                throw new MySQLAdminException(e);
+                }
             }
-            catch(Exception ignore) { }
-        }
-//        throw exception;
+        finally {
+            if(fileOutputStream != null) {
+                try { fileOutputStream.close(); } catch(Exception ignore) { }
+                }            
+            }
     }
 
     /**
@@ -180,7 +158,10 @@ public class MySQLAdmin
      * @param fileOutputStream
      * @throws MySQLAdminException
      */
-    public void createSQLDumpFile(OutputStream servletOuput, OutputStream fileOutputStream)
+    public void createSQLDumpFile(
+            OutputStream servletOuput,
+            OutputStream fileOutputStream
+            )
         throws MySQLAdminException
     {
         ParallelOutputStream multipleOutputStream = null;
@@ -189,10 +170,10 @@ public class MySQLAdmin
             multipleOutputStream = new ParallelOutputStream(servletOuput, fileOutputStream);
 
             createSQLDumpFile( multipleOutputStream );
-        }
-        catch(java.io.IOException e) {
+            }
+        catch(IOException e) {
             throw new MySQLAdminException(e);
-        }
+            }
     }
 
     /**
@@ -220,15 +201,16 @@ public class MySQLAdmin
     public void applySQL(InputStream sqlStream)
         throws MySQLAdminException
     {
-        String command = (new StringBuilder()).append(mySQLExe).append(mySQLParams).toString();
+        String command = (new StringBuilder()).append(mySQLExe)
+            .append(mySQLParams).toString();
 
         ConcateInputStream fullSQLStream = new ConcateInputStream(sqlStream, "quit\n");
 
         try {
             ExternalApp.execute(command, fullSQLStream, System.out, System.err);
-        }
+            }
         catch(ExternalAppException e) {
             throw new MySQLAdminException(e);
-        }
+            }
     }
 }

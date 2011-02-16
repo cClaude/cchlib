@@ -1,5 +1,5 @@
 /**
- * Administration tools for MySQL
+ * Tools for MySQL (DataSource and Administration)
  *
  * @author Claude CHOISNET
  */

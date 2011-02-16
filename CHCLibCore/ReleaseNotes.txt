@@ -1,6 +1,16 @@
 CHCLibCore
 
 ---------------------------------------------------------------------
+03a.33
+  Add: cx.ath.choisnet.util.SetWrapper
+  Add: cx.ath.choisnet.util.MapKeyWrapper
+  Modifications in:
+    cx.ath.choisnet.sql.DataSourceFactory
+    cx.ath.choisnet.sql.mysql.MySQLAdmin
+    cx.ath.choisnet.sql.mysql.MyDataSourceFactory
+    cx.ath.choisnet.sql.mysql.MySQLTools (TODO:Possible bug found here)
+  Add: cx.ath.choisnet.sql.ExportSQL
+---------------------------------------------------------------------
 03a.32
   Documentation
 ---------------------------------------------------------------------

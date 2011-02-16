@@ -48,7 +48,10 @@ public class MySQLTools
      * @param maxLength
      * @return
      */
-    public static String parseFieldValue(String fieldValue, int maxLength)
+    public static String parseFieldValue(
+            final String    fieldValue,
+            final int       maxLength
+            )
     {
         int len = fieldValue.length();
 
@@ -65,7 +68,7 @@ public class MySQLTools
      * @param input
      * @return
      */
-    public static String parseFieldValue(String input)
+    public static String parseFieldValue( final String input )
     {
         Iterator<Map.Entry<String,String>> entryIt = replacePhrases.entrySet().iterator();
         StringBuilder output = null;
@@ -73,25 +76,26 @@ public class MySQLTools
         do {
             if(!entryIt.hasNext()) {
                 break;
-            }
+                }
 
             Map.Entry<String,String> entry = entryIt.next();
             StringTokenizer s = new StringTokenizer(input, entry.getKey());
 
             if(s.countTokens() > 1) {
-                output = new StringBuilder(s.nextToken());
+                // TODO: check code here ! strange to create new StringBuilder
+                output = new StringBuilder( s.nextToken() ); // TODO: BUG?
 
                 while(s.hasMoreTokens()) {
                     output.append(entry.getValue()).append(s.nextToken());
-                }
+                    }
             }
         } while(true);
 
-        if(output == null) {
+        if( output == null ) {
             return input;
-        }
+            }
         else {
             return output.toString();
-        }
+            }
     }
 }

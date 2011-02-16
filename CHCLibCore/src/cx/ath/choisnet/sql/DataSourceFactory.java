@@ -5,8 +5,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.apache.log4j.Logger;
 import cx.ath.choisnet.ToDo;
+import cx.ath.choisnet.sql.mysql.MySQLDataSourceFactory;
 
 /**
  * TODO: Doc!
@@ -16,7 +16,7 @@ import cx.ath.choisnet.ToDo;
 @ToDo
 public class DataSourceFactory
 {
-    private final static Logger slogger = Logger.getLogger( DataSourceFactory.class );
+    //private final static Logger _slogger = Logger.getLogger( DataSourceFactory.class );
     
     private DataSourceFactory()
     {// All static
@@ -31,6 +31,7 @@ public class DataSourceFactory
      * @return
      * @throws ClassNotFoundException
      */
+    @Deprecated
     public static DataSource buildDataSource(
             final String driverClassName,
             final String url,
@@ -57,6 +58,7 @@ public class DataSourceFactory
      * @param loggerPrintWriter
      * @return
      * @throws ClassNotFoundException
+     * @throws NullPointerException if driverClassName or loggerPrintWriter is null
      */
     public static DataSource buildDataSource(
             final String        driverClassName,
@@ -67,22 +69,24 @@ public class DataSourceFactory
             )
         throws ClassNotFoundException
     {
-        Class.forName(driverClassName);
+        if( loggerPrintWriter == null ) {
+            throw new NullPointerException();
+            }
+        Class.forName( driverClassName );
 
         return new DataSource() 
         {
             int         timeOut = 30;
             PrintWriter pw      = loggerPrintWriter;
-            //PrintWriter pw = new PrintWriter(System.out);
-            
+
             @Override
             public Connection getConnection()
                 throws java.sql.SQLException
             {
-                return getConnection(username, password);
+                return getConnection( username, password );
             }
             @Override
-            public Connection getConnection(String username, String password)
+            public Connection getConnection( String username, String password )
                 throws java.sql.SQLException
             {
                 Connection conn = null;
@@ -90,14 +94,13 @@ public class DataSourceFactory
                 do {
                     if(conn != null && !conn.isClosed()) {
                         break;
-                    }
+                        }
+                    conn = DriverManager.getConnection( url, username, password );
 
-                    conn = DriverManager.getConnection(url, username, password);
-
-                    if( conn.isClosed() /*&& pw != null*/) {
-                        slogger.error( "*** Connection is closed !" );
-                    }
-                } while(true);
+                    if( conn.isClosed() && pw != null ) {
+                        pw.println( "*** Connection is closed !" );
+                        }
+                    } while(true);
 
                 return conn;
             }
@@ -107,7 +110,7 @@ public class DataSourceFactory
                 return timeOut;
             }
             @Override
-            public void setLoginTimeout(int seconds)
+            public void setLoginTimeout( int seconds )
             {
                 timeOut = seconds;
             }
@@ -117,7 +120,7 @@ public class DataSourceFactory
                 return pw;
             }
             @Override
-            public void setLogWriter(final PrintWriter out)
+            public void setLogWriter( final PrintWriter out )
             {
                 pw = out;
             }
@@ -131,11 +134,14 @@ public class DataSourceFactory
             public <T> T unwrap( final Class<T> clazz )
                 throws SQLException
             {
-                throw new SQLException();
+                throw new SQLException( "unwrap() not supported" );
             }
         };
     }
 
+    /**
+     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,PrintWriter)
+     */
     @Deprecated
     public static DataSource buildMySQLDataSource(
             String url,
@@ -144,22 +150,16 @@ public class DataSourceFactory
             )
         throws ClassNotFoundException
     {
-        return DataSourceFactory.buildDataSource(
-                "org.gjt.mm.mysql.Driver",
+        return MySQLDataSourceFactory.buildMySQLDataSource(
                 url,
                 username,
-                password
+                password,
+                new PrintWriter( System.err )
                 );
     }
 
     /**
-     * 
-     * @param dbHostName
-     * @param dbName
-     * @param username
-     * @param password
-     * @return
-     * @throws ClassNotFoundException
+     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,String,PrintWriter)
      */
     @Deprecated
     public static DataSource buildMySQLDataSource(
@@ -170,24 +170,17 @@ public class DataSourceFactory
             )
         throws ClassNotFoundException
     {
-        return DataSourceFactory.buildMySQLDataSource(
+        return MySQLDataSourceFactory.buildMySQLDataSource(
                 dbHostName,
-                3306,
                 dbName,
                 username,
-                password
+                password,
+                new PrintWriter( System.err )
                 );
     }
 
     /**
-     * 
-     * @param dbHostName
-     * @param dbPort
-     * @param dbName
-     * @param username
-     * @param password
-     * @return
-     * @throws ClassNotFoundException
+     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,int,String,String,String,PrintWriter)
      */
     @Deprecated
     public static DataSource buildMySQLDataSource(
@@ -199,18 +192,13 @@ public class DataSourceFactory
             )
         throws ClassNotFoundException
     {
-        return DataSourceFactory.buildMySQLDataSource(
-            (new StringBuilder())
-                .append("jdbc:mysql://")
-                .append(dbHostName)
-                .append(':')
-                .append(dbPort)
-                .append('/')
-                .append(dbName)
-                .append("?autoReconnect=true")
-                .toString(),
+        return MySQLDataSourceFactory.buildMySQLDataSource(
+            dbHostName,
+            dbPort,
+            dbName,
             username,
-            password
+            password,
+            new PrintWriter( System.err )
             );
     }
 }
