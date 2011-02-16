@@ -74,8 +74,7 @@
     <!-- Compile Java classes as necessary -->
     <mkdir  dir="${build.home}/classes"/>
 
-    <javac  srcdir="${java.src.home}"
-           destdir="${build.home}/classes"
+    <javac destdir="${build.home}/classes"
             target="1.5"
             source="1.5"
              debug="${compile.debug}"
@@ -83,6 +82,8 @@
        deprecation="${compile.deprecation}"
        includeantruntime="false"
        >
+      <src path="${java.src.home}"/>
+      <src path="${java.src.home}.deprecated"/>
       <classpath refid="compile.classpath"/>
       <compilerarg value="-Xlint"/>
     </javac>

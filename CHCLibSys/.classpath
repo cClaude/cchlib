@@ -5,6 +5,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="CHCLibSys/libs"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry excluding=".svn/**" kind="src" path="src.deprecated"/>
 	<classpathentry exported="true" kind="lib" path="libs/registry.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/junit-3.8.2.jar"/>
