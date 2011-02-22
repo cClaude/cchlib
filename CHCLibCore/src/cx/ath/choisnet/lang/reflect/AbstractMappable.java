@@ -6,10 +6,9 @@ import java.util.Map;
 import cx.ath.choisnet.ToDo;
 
 /**
- * TODO: Doc!
+ * Default implementation for {@link Mappable} based on
  *
  * @author Claude CHOISNET
- *
  */
 @ToDo(action=ToDo.Action.DOCUMENTATION)
 public abstract class AbstractMappable
@@ -18,6 +17,10 @@ public abstract class AbstractMappable
     /**
      * Use default, to create Map. Call {@link #getObjectToMap()} to
      * identify object that should be mapped.
+     * <p>
+     * Use {@link #getObjectToMap()} to identify object to map, and
+     * use {@link #getMappableHelperFactory()} to
+     * <p>
      */
     @Override
     public Map<String,String> toMap()
@@ -35,7 +38,9 @@ public abstract class AbstractMappable
     }
     
     /**
-     * Returns object to Map (typically: return this;)
+     * Returns object to Map (typically: return this;) but could something else
+     * to use delegated object.
+     * 
      * @return object to Map
      * @see Mappable#toMap()
      */

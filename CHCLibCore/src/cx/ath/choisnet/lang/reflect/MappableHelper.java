@@ -128,36 +128,6 @@ public class MappableHelper
         this(new MappableHelperDefaultFactory());
     }
 
-//    @Deprecated
-//    public MappableHelper(MappableHelperFactory factory, Pattern methodesNamePattern, Class<?>[] returnTypeClasses, EnumSet<Attributes> attributesSet)
-//    {
-//        this(factory.addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(attributesSet));
-//    }
-//
-//    @Deprecated
-//    public MappableHelper(Pattern methodesNamePattern, Collection<Class<?>> returnTypeClasses, EnumSet<Attributes> attributesSet)
-//    {
-//        this((new MappableHelperFactory()).addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(attributesSet));
-//    }
-//
-//    @Deprecated
-//    public MappableHelper(Pattern methodesNamePattern, Class<?> returnTypeClasses[], EnumSet<Attributes> attributesSet)
-//    {
-//        this((new MappableHelperFactory()).addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(attributesSet));
-//    }
-//
-//    @Deprecated
-//    public MappableHelper(Pattern methodesNamePattern, Collection<Class<?>> returnTypeClasses)
-//    {
-//        this((new MappableHelperFactory()).addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(DEFAULT_ATTRIBUTES));
-//    }
-//
-//    @Deprecated
-//    public MappableHelper(Pattern methodesNamePattern, Class<?> returnTypeClasses)
-//    {
-//        this((new MappableHelperFactory()).addClasses(returnTypeClasses).setMethodesNamePattern(methodesNamePattern).addAttributes(DEFAULT_ATTRIBUTES));
-//    }
-
     /**
      * Build Map according to specified factory.
      */
@@ -333,6 +303,7 @@ public class MappableHelper
 
     /**
      * TODO: Doc!
+     * 
      * @param methodeName
      * @param index
      * @param max

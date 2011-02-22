@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import javax.sql.DataSource;
-import cx.ath.choisnet.sql.mysql.MySQLTools;
 
 /**
  * Create a SQL script to export values from tables.
@@ -22,9 +21,9 @@ import cx.ath.choisnet.sql.mysql.MySQLTools;
 public class ExportSQL 
 {
     private final DataSource ds;
-    private final String[] exportTables;
-    private final String schema;
-    private final Timestamp exportDate;
+    private final String[]   exportTables;
+    private final String     schema;
+    private final Timestamp  exportDate;
 
     /**
      * Initialize ExportSQL object
@@ -48,23 +47,24 @@ public class ExportSQL
         this.exportDate     = exportTimestamp; 
     }
 
-    /*
-    public String getSafeTimeStampForFileName()
-    {
-        return exportDate.toString().replace( ':', '-' ).replace( ' ', '_' );
-    }
-    */
-
     /**
-     * Returns export Time stamp
+     * Returns export Time stamp (could be overwrite)
      * @return export Time stamp
      */
-    final // TODO remove this
     public Timestamp getTimestamp()
     {
         return exportDate;
     }
     
+    /**
+     * Returns export Time stamp as a String (could be overwrite)
+     * @return export Time stamp as a String
+     */
+    public String getTimestampString()
+    {
+        return getTimestamp().toString();
+    }
+
     /**
      * Export table content
      * 
@@ -80,21 +80,24 @@ public class ExportSQL
         ExportTable exportTable = new ExportTable( outputWriter );
 
         exportTable.println( "-- ---------------------------" );
-        exportTable.println( "-- Export `" + schema + "` : " + exportDate );
+        exportTable.print( "-- Export `" ).print( schema ).print( "` : " ).println( getTimestampString() );
         exportTable.println( "-- ---------------------------" );
-        exportTable.println( "USE `" +schema + "`;" );
+        exportTable.print( "USE `" ).print( schema ).println( "`;" );
         exportTable.println();
 
         try {
             exportTable.println( "-- ---------------------------" );
             exportTable.println( "-- Cleanup" );
             exportTable.println( "-- ---------------------------" );
+
             for( int i = exportTables.length - 1; i>= 0; --i ) {
                 exportTable.doExportDeleteData( exportTables[ i ] );
                 }
+
             for( String tablename : exportTables ) {
                 exportTable.doExportData( tablename );
                 }
+
             exportTable.println( "-- done." );
             exportTable.println();
             }
@@ -119,7 +122,7 @@ public class ExportSQL
                 ) 
             throws IOException
         {
-            println( "DELETE FROM `" +schema + "`.`" + tablename + "`;" );
+            print( "DELETE FROM `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
         }
         
         
@@ -145,10 +148,10 @@ public class ExportSQL
 
             println();
             println( "-- ---------------------------" );
-            println( "-- Data for `" +schema + "`.`" + tablename + "`" );
+            print( "-- Data for `"  ).print( schema  ).print( "`.`" ).print( tablename ).println( "`" );
             println( "-- ---------------------------" );
             println( "SET AUTOCOMMIT=0;" );
-            println( "USE `" +schema + "`;" );
+            print( "USE `" ).print( schema ).println( "`;" );
             println( "" );
             println( "" );
 
@@ -182,32 +185,35 @@ public class ExportSQL
                     else {
                         print( "," );
                         }
-                    print( "'" );
-                    print(
-                        MySQLTools.parseFieldValue( 
-                                r.getString( rm.getColumnName( i ) )
-                                )
-                        );
-                    print( "'" );
-                    ;
+                    String s = r.getString( rm.getColumnName( i ) );
+                    
+                    if( s == null ) {
+                        print( "NULL" );
+                        }
+                    else {
+                        print( "'" );
+                        print( SQLTools.parseFieldValue( s ) );
+                        print( "'" );
+                        }
                     }
                 println( ");" );
                 }
 
             println();
             println( "COMMIT;" );
-            //println( "-- OPTIMIZE TABLE `" +schema + "`.`" + tablename + "`;" );
+            //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
             println();
         }
 
         public void println() throws IOException
         {
             out.write( '\n' );
-        }
+         }
 
-        public void print( String s ) throws IOException
+        public ExportTable print( String s ) throws IOException
         {
             out.write( s );
+            return this;
         }
 
         public void println( String s ) throws IOException

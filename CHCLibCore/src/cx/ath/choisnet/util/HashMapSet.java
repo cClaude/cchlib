@@ -390,9 +390,8 @@ public class HashMapSet<K,V>
             @Override
             public Iterator<V> iterator()
             {
-                return iterator();
+                return HashMapSet.this.iterator();
             }
-
             @Override
             public int size()
             {

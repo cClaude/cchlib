@@ -3,6 +3,12 @@ CHCLibCore
 ---------------------------------------------------------------------
 03a.34
   Add: cx.ath.choisnet.util.LinkedHashMapList
+  Add: cx.ath.choisnet.util.AbstractMapCollection
+  Add: cx.ath.choisnet.util.MapCollection
+  Deprecated: cx.ath.choisnet.sql.mysql.MySQLTools#parseFieldValue
+  Add: cx.ath.choisnet.sql.SQLTools
+  Optimize: cx.ath.choisnet.sql.ExportSQL
+  Some documentation
 ---------------------------------------------------------------------
 03a.33
   Add: cx.ath.choisnet.util.SetWrapper

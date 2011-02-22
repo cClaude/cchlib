@@ -13,9 +13,9 @@ import junit.framework.TestCase;
  */
 public class HashMapSetTest extends TestCase
 {
-    public final static String[] POPULATE = {
-        
-    };
+//    public final static String[] POPULATE = {
+//        
+//    };
     
     public void test_StringString()
     {
@@ -55,7 +55,7 @@ public class HashMapSetTest extends TestCase
     }
     
 
-    public int sizeOfHashMapSet(HashMapSet<?,?> hms)
+    private int sizeOfHashMapSet( HashMapSet<?,?> hms )
     {
         int         size = 0;
         Iterator<?> iter = hms.iterator();

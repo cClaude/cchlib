@@ -1,6 +1,5 @@
 /**
- * Provide some custom tasks using reflection
- * <P>TODO: more doc</P>
+ * Provide some custom tasks based on reflection capability.
  * 
  * @author Claude CHOISNET
  */

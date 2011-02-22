@@ -1,15 +1,10 @@
 package cx.ath.choisnet.util;
 
-import java.io.Serializable;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import cx.ath.choisnet.util.iterator.CascadingIterator;
+import cx.ath.choisnet.ToDo;
 
 /**
  * LinkedHashMapList provide an easy and efficient way
@@ -34,17 +29,20 @@ import cx.ath.choisnet.util.iterator.CascadingIterator;
  * </pre>
  * </p>
  * 
- * @author Claude CHOISNET
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
+ * @author Claude CHOISNET
+ * @since 03a.34
  */
+@ToDo
 public class LinkedHashMapList<K,V> 
-    extends LinkedHashMap<K,List<V>>
-        implements  Iterable<V>,
-                    Serializable
+    //extends LinkedHashMap<K,List<V>>
+        extends AbstractMapCollection<K,V>
+        //implements  Iterable<V>,
+        //            Serializable
 {
-    private static final long serialVersionUID = 1L;
-    
+    private static final long serialVersionUID = 2L;
+//    private LinkedHashMap<K,List<V>> content;
     /**
      * Constructs an empty LinkedHashMapList with the default 
      * initial capacity (16) and the default load
@@ -53,6 +51,7 @@ public class LinkedHashMapList<K,V>
     public LinkedHashMapList()
     {
         super();
+        //content = new LinkedHashMap<K,List<V>>();
     }
 
     /**
@@ -63,6 +62,7 @@ public class LinkedHashMapList<K,V>
     public LinkedHashMapList(int initialCapacity)
     {
         super(initialCapacity);
+        //content = new LinkedHashMap<K,List<V>>(initialCapacity);
     }
 
     /**
@@ -78,6 +78,7 @@ public class LinkedHashMapList<K,V>
     public LinkedHashMapList( Map<? extends K,? extends List<V>> m )
     {
         super(m);
+        //content = new LinkedHashMap<K,List<V>>( m );
     }
 
     /**
@@ -90,336 +91,365 @@ public class LinkedHashMapList<K,V>
     public LinkedHashMapList( int initialCapacity, float loadFactor )
     {
         super(initialCapacity,loadFactor);
+        //content = new LinkedHashMap<K,List<V>>(initialCapacity,loadFactor);
     }
 
-    /**
-     * Removes all of the mappings from this LinkedHashMapList,
-     * but also perform a {@link Set#clear()} on each
-     * set of values.
-     * <br>
-     * The LinkedHashMapList will be empty after this call returns. 
-     * 
-     * @see #clear()
-     */
-    public void deepClear()
+    @Override
+    public Collection<V> newCollection()
     {
-        for( List<V> s:super.values() ) {
-            s.clear();
-            }
-        
-        super.clear();
+        return new ArrayList<V>();
     }
+}
+
+//    /**
+//     * Removes all of the mappings from this LinkedHashMapList,
+//     * but also perform a {@link Set#clear()} on each
+//     * set of values.
+//     * <br>
+//     * The LinkedHashMapList will be empty after this call returns. 
+//     * 
+//     * @see #clear()
+//     */
+//    public void deepClear()
+//    {
+////        for( List<V> s:super.values() ) {
+////            s.clear();
+////            }
+////        
+////        super.clear();
+//        for( List<V> l:content.values() ) {
+//            l.clear();
+//            }
+//        
+//        content.clear();
+//    }
     
-    /**
-     * Returns the number of value in this map 
-     * of Set.
-     * <p>
-     * Computing valuesSize() is slow process comparing to
-     * {@link #size()}, so you must consider to cache 
-     * this value.
-     * </p>
-     * 
-     * @return the number of value mappings in this
-     *         map of set.
-     */
-    public int valuesSize()
-    {
-        int size = 0;
-        
-        for(List<? extends V> s:super.values()) {
-            size += s.size();
-            }
-        
-        return size;
-    }
-
-    /**
-     * Not supported
-     * 
-     * @throws UnsupportedOperationException
-     */
-    @Override // Map
-    public boolean containsValue( Object value )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Add an couple of key value in this LinkedHashMapList.
-     * <p>
-     * If key already exist in this LinkedHashMapList, add value
-     * to corresponding set. If key does not exist create
-     * an new {@link ArrayList} initialized with this value, and 
-     * Associates this set with the specified key in this 
-     * HashMapSet.
-     * </p>
-     * 
-     * @param key  key with which the specified value is to be associated
-     * @param value value to be associated with the specified key 
-     * @return true if Set associated with the specified key 
-     *         did not already contain the specified value 
-     */
-    public boolean add( K key, V value )
-    {
-        List<V> s = get(key);
-
-        if( s == null ) {
-            s = new ArrayList<V>();
-            
-            super.put(key,s);
-            }
-
-        return s.add( value );
-    }
+//    /**
+//     * Returns the number of value in this LinkedHashMap 
+//     * <p>
+//     * Computing valuesSize() is slow process comparing to
+//     * {@link #keySize()}, so you must consider to cache 
+//     * this value.
+//     * </p>
+//     * 
+//     * @return the number of value mappings in this LinkedHashMap
+//     */
+//    public int valuesSize()
+//    {
+//        int size = 0;
+//        
+//        //for(List<? extends V> s:super.values()) {
+//        for(List<? extends V> l:content.values()) {
+//            size += l.size();
+//            }
+//        
+//        return size;
+//    }
     
-    /**
-     * Add all couples of key value in this LinkedHashMapList.
-     * Use {@link #add(Object, Object)} for each entries.
-     * 
-     * @param m map to add to current LinkedHashMapList
-     * @return number of values add in LinkedHashMapList.
-     * @see #add(Object, Object) add(Object, Object) for more details
-     */
-    public int addAll(Map<K,V> m)
-    {
-        int r = 0;
-        
-        for(Map.Entry<K,V> e:m.entrySet()) {
-           if( add( e.getKey(), e.getValue() ) ) {
-               r++;
-               }
-            }
-       
-       return r;
-    }
+//    /**
+//     * Returns the number of key in this LinkedHashMap 
+//     * 
+//     * @return the number of key mappings in this LinkedHashMap
+//     */
+//    public int keySize()
+//    {
+//        return content.size();
+//    }
+
+//    /**
+//     * TODO: Doc!
+//     * 
+//     * @throws UnsupportedOperationException
+//     */
+//    //@Override // Map
+//    @ToDo
+//    public boolean containsValue( final V value )
+//    {
+//        for(List<? extends V> l:content.values()) {
+//            if( l.contains( value ) ) {
+//                return true;
+//                }
+//            }
+//        
+//        return false;
+//    }
+
+//    /**
+//     * Add an couple of key value in this LinkedHashMapList.
+//     * <p>
+//     * If key already exist in this LinkedHashMapList, add value
+//     * to corresponding set. If key does not exist create
+//     * an new {@link ArrayList} initialized with this value, and 
+//     * Associates this set with the specified key in this 
+//     * HashMapSet.
+//     * </p>
+//     * 
+//     * @param key  key with which the specified value is to be associated
+//     * @param value value to be associated with the specified key 
+//     * @return true if Set associated with the specified key 
+//     *         did not already contain the specified value 
+//     */
+//    public boolean add( final K key, final V value )
+//    {
+//        List<V> l = content.get(key);
+//
+//        if( l == null ) {
+//            l = new ArrayList<V>();
+//            
+//            content.put(key,l);
+//            }
+//
+//        return l.add( value );
+//    }
     
-    /**
-     * Add all values to the same key in this LinkedHashMapList.
-     * <p>
-     * Tips:<br/>
-     * If you want to replace a List&lt;V&gt; for a key, use {@link #put(Object, Object)}
-     * </p>
-     * @param key       key to use for all values
-     * @param values    values to add
-     *
-     * @return number of values add in HashMapSet.
-     */
-    public int addAll(K key, Collection<? extends V> values)
-    {
-        int     r = 0;
-        List<V> s = get(key);
-
-        if( s == null ) {
-            s = new ArrayList<V>();
-
-            super.put(key,s);
-            }
-
-        for(V v:values) {
-           if( s.add( v ) ) {
-               r++;
-               }
-            }
-
-       return r;
-    }
-
-    /**
-     * Removes the specified key-value from this LinkedHashMapList
-     * if it is present.
-     * 
-     * @param key  key with which the specified value is to be associated
-     * @param value value to be associated with the specified key 
-     * 
-     * @return if this set LinkedHashMapList the specified key-value 
-     */
-    public boolean remove(K key, V value)
-    {
-        List<V> s = super.get( key );
-        
-        if( s != null ) {
-            return s.remove( value );
-            }
-        
-        return false;
-    }
+//    /**
+//     * Add all couples of key value in this LinkedHashMapList.
+//     * Use {@link #add(Object, Object)} for each entries.
+//     * 
+//     * @param m map to add to current LinkedHashMapList
+//     * @return number of values add in LinkedHashMapList.
+//     * @see #add(Object, Object) add(Object, Object) for more details
+//     */
+//    public int addAll( final Map<K,V> m )
+//    {
+//        int r = 0;
+//        
+//        for( Map.Entry<K,V> e:m.entrySet() ) {
+//           if( add( e.getKey(), e.getValue() ) ) {
+//               r++;
+//               }
+//            }
+//       
+//       return r;
+//    }
     
-    /**
-     * Returns true if this LinkedHashMapList contains the specified
-     * element. More formally, returns true if and only if
-     * at least one Set contains at least one element e such
-     * that (value==null ? e==null : o.equals(e)). 
-     *
-     * @param value element whose presence in this MapOfSet is 
-     *              to be tested 
-     *              
-     * @return true if this LinkedHashMapList contains the specified element 
-     */
-    public boolean contains( V value )
-    {// from Collection<V>
-        for(List<? extends V> s:super.values()) {
-            if( s.contains( value )) {
-                return true;
-                }
-            }
-        return false;
-    }
+//    /**
+//     * Add all values to the same key in this LinkedHashMapList.
+//     * <p>
+//     * Tips:<br/>
+//     * If you want to replace a List&lt;V&gt; for a key, use {@link #put(Object, Object)}
+//     * </p>
+//     * @param key       key to use for all values
+//     * @param values    values to add
+//     *
+//     * @return number of values add in HashMapSet.
+//     */
+//    public int addAll( final K key, final Collection<? extends V> values)
+//    {
+//        int     r = 0;
+//        List<V> l = content.get(key);
+//
+//        if( l == null ) {
+//            l = new ArrayList<V>();
+//
+//            content.put(key,l);
+//            }
+//
+//        for(V v:values) {
+//           if( l.add( v ) ) {
+//               r++;
+//               }
+//            }
+//
+//       return r;
+//    }
 
-    /**
-     * Returns true if this LinkedHashMapList contains all 
-     * of the elements in the specified collection.
-     * 
-     * @param c collection to be checked for 
-     *          containment in this LinkedHashMapList
-     * @return true if this LinkedHashMapList contains all 
-     *         of the elements in the specified collection 
-     */
-    public boolean containsAll( Collection<? extends V> c )
-    {// from Collection<V>
-        for(V v:c) {
-            if( !contains(v) ) {
-                return false;
-                }
-            }
-        return true;
-    }
-
-    /**
-     * Returns an iterator over the values in this
-     * LinkedHashMapList.
-     * <p>
-     * If you use {@link Iterator#remove()} you must
-     * consider to {@link #purge()} LinkedHashMapList.
-     * </p>
-     * @return an Iterator over the values in 
-     *         this LinkedHashMapList
-     */
-    @Override //Iterable
-    public Iterator<V> iterator()
-    {
-        return new CascadingIterator<V>(
-                super.values().iterator()
-                );
-    }
-
-    /**
-     * Remove key-Set&lt;V&gt; pair for null or
-     * Set&lt;V&gt; like {@link Set#size()} {@code <} minSetSize
-     * 
-     * <p>
-     * purge(2) : remove all key-Set&lt;V&gt; pair that
-     * not contains more than 1 value.
-     * </p>
-     * @param minSetSize minimum size for Sets to be
-     *        keep in LinkedHashMapList
-     */
-    public void purge(int minSetSize)
-    {
-        Iterator<Map.Entry<K,List<V>>> iter = super.entrySet().iterator();
-        
-        while(iter.hasNext()) {
-           Map.Entry<K,List<V>> e = iter.next();
-           List<V>              s = e.getValue();
-           
-           if( (s==null) || (s.size()<minSetSize) ) {
-               iter.remove();
-               }
-            }
-    }
+//    /**
+//     * Removes the specified key-value from this LinkedHashMapList
+//     * if it is present.
+//     * 
+//     * @param key  key with which the specified value is to be associated
+//     * @param value value to be associated with the specified key 
+//     * 
+//     * @return if this set LinkedHashMapList the specified key-value 
+//     */
+//    public boolean remove(final K key, final V value)
+//    {
+//        final List<V> l = content.get( key );
+//        
+//        if( l != null ) {
+//            return l.remove( value );
+//            }
+//        
+//        return false;
+//    }
     
-    /**
-     * Remove key-Set&lt;V&gt; pair for null or empty
-     * Set&lt;V&gt;
-     * <p>
-     * Invoke {@link #purge(int) purge(1)}
-     * </p>
-     */
-    public void purge()
-    {
-        purge(1);
-    }
-    
-    /**
-     * Returns an <b>unmodifiable</b> Collection view
-     * of V according to LinkedHashMapList.
-     * 
-     * @return an unmodifiable Collection view
-     *         of V
-     */
-    public Collection<V> valuesCollection()
-    {
-        return new AbstractCollection<V>()
-        {
-            @Override
-            public Iterator<V> iterator()
-            {
-                return iterator();
-            }
+//    /**
+//     * Returns true if this LinkedHashMapList contains the specified
+//     * element. More formally, returns true if and only if
+//     * at least one Set contains at least one element e such
+//     * that (value==null ? e==null : o.equals(e)). 
+//     *
+//     * @param value element whose presence in this MapOfSet is 
+//     *              to be tested 
+//     *              
+//     * @return true if this LinkedHashMapList contains the specified element 
+//     */
+//    public boolean contains( final V value )
+//    {// from Collection<V>
+//        for(List<? extends V> l:content.values()) {
+//            if( l.contains( value )) {
+//                return true;
+//                }
+//            }
+//        return false;
+//    }
 
-            @Override
-            public int size()
-            {
-                return valuesSize();
-            }
-        };
-    }
+//    /**
+//     * Returns true if this LinkedHashMapList contains all 
+//     * of the elements in the specified collection.
+//     * 
+//     * @param c collection to be checked for 
+//     *          containment in this LinkedHashMapList
+//     * @return true if this LinkedHashMapList contains all 
+//     *         of the elements in the specified collection 
+//     */
+//    public boolean containsAll( Collection<? extends V> c )
+//    {// from Collection<V>
+//        for(V v:c) {
+//            if( !contains(v) ) {
+//                return false;
+//                }
+//            }
+//        return true;
+//    }
 
-    /**
-     * Get all values on Iterable object, compute
-     * their keys add add(key,values) in this LinkedHashMapList.
-     * <p>
-     * <b>Example of use:</b><br/>
-     * This is probably most efficient way to use
-     * {@link ComputeKeyInterface}, and easy to implements.
-     * <pre>
-     * <u>final</u> Iterable&lt;TVALUE&gt; iterableFinal = <i>any_iterable_object_like_collections</i>; 
-     * 
-     * linkedHashMapList.addAll(
-     *       <u>new ComputeKeyIterable&lt;TKEY,TVALUE&gt;()</u>
-     *       {
-     *           {@code @Override}
-     *           <u>public Iterator&lt;TVALUE&gt; iterator()</u>
-     *           {
-     *               return iterableFinal.iterator();
-     *           }
-     *           {@code @Override}
-     *           <u>public TKEY computeKey( TVALUE value )</u>
-     *           {
-     *               return <i>computerKeyFromValue(</i>value<i>)</i>;
-     *           }
-     *       });
-     * </pre>
-     * </p>
-     * 
-     * @param iterable iterable object of values, that able to
-     *                 compute key for each value.
-     * @see ComputeKeyInterface
-     */
-    public void addAll( HashMapSet.ComputeKeyIterable<K,V> iterable )
-    {
-        Iterator<V> i = iterable.iterator();
-        
-        while( i.hasNext() ) {
-            V v = i.next();
-            K k = iterable.computeKey( v );
-            add(k,v);
-            }
-    }
+//    /**
+//     * Returns an iterator over the values in this
+//     * LinkedHashMapList.
+//     * <p>
+//     * If you use {@link Iterator#remove()} you must
+//     * consider to {@link #purge()} LinkedHashMapList.
+//     * </p>
+//     * @return an Iterator over the values in 
+//     *         this LinkedHashMapList
+//     */
+//    @Override //Iterable
+//    public Iterator<V> iterator()
+//    {
+//        return new CascadingIterator<V>(
+//                content.values().iterator()
+//                );
+//    }
+
+//    /**
+//     * Remove key-Set&lt;V&gt; pair for null or
+//     * Set&lt;V&gt; like {@link Set#size()} {@code <} minSetSize
+//     * 
+//     * <p>
+//     * purge(2) : remove all key-Set&lt;V&gt; pair that
+//     * not contains more than 1 value.
+//     * </p>
+//     * @param minSetSize minimum size for Sets to be
+//     *        keep in LinkedHashMapList
+//     */
+//    public void purge(int minSetSize)
+//    {
+//        Iterator<Map.Entry<K,List<V>>> iter = super.entrySet().iterator();
+//        
+//        while(iter.hasNext()) {
+//           Map.Entry<K,List<V>> e = iter.next();
+//           List<V>              s = e.getValue();
+//           
+//           if( (s==null) || (s.size()<minSetSize) ) {
+//               iter.remove();
+//               }
+//            }
+//    }
     
-    /**
-     * Add all key-value from ComputeKeyIterator<K,V> iterator
-     * 
-     * @param iterator iterator used to get values and compute
-     *        theirs keys.
-     */
-    public void addAll( HashMapSet.ComputeKeyIterator<K,V> iterator )
-    {
-        while(iterator.hasNext()) {
-            V v = iterator.next();
-            K k = iterator.computeKey( v );
-            add(k,v);
-            }
-    }
+//    /**
+//     * Remove key-Set&lt;V&gt; pair for null or empty
+//     * Set&lt;V&gt;
+//     * <p>
+//     * Invoke {@link #purge(int) purge(1)}
+//     * </p>
+//     */
+//    public void purge()
+//    {
+//        purge(1);
+//    }
+    
+//    /**
+//     * Returns an <b>unmodifiable</b> Collection view
+//     * of V according to LinkedHashMapList.
+//     * 
+//     * @return an unmodifiable Collection view
+//     *         of V
+//     */
+//    public Collection<V> valuesCollection()
+//    {
+//        return new AbstractCollection<V>()
+//        {
+//            @Override
+//            public Iterator<V> iterator()
+//            {
+//                return LinkedHashMapList.this.iterator();
+//            }
+//
+//            @Override
+//            public int size()
+//            {
+//                return valuesSize();
+//            }
+//        };
+//    }
+
+//    /**
+//     * Get all values on Iterable object, compute
+//     * their keys add add(key,values) in this LinkedHashMapList.
+//     * <p>
+//     * <b>Example of use:</b><br/>
+//     * This is probably most efficient way to use
+//     * {@link ComputeKeyInterface}, and easy to implements.
+//     * <pre>
+//     * <u>final</u> Iterable&lt;TVALUE&gt; iterableFinal = <i>any_iterable_object_like_collections</i>; 
+//     * 
+//     * linkedHashMapList.addAll(
+//     *       <u>new ComputeKeyIterable&lt;TKEY,TVALUE&gt;()</u>
+//     *       {
+//     *           {@code @Override}
+//     *           <u>public Iterator&lt;TVALUE&gt; iterator()</u>
+//     *           {
+//     *               return iterableFinal.iterator();
+//     *           }
+//     *           {@code @Override}
+//     *           <u>public TKEY computeKey( TVALUE value )</u>
+//     *           {
+//     *               return <i>computerKeyFromValue(</i>value<i>)</i>;
+//     *           }
+//     *       });
+//     * </pre>
+//     * </p>
+//     * 
+//     * @param iterable iterable object of values, that able to
+//     *                 compute key for each value.
+//     * @see ComputeKeyInterface
+//     */
+//    public void addAll( HashMapSet.ComputeKeyIterable<K,V> iterable )
+//    {
+//        Iterator<V> i = iterable.iterator();
+//        
+//        while( i.hasNext() ) {
+//            V v = i.next();
+//            K k = iterable.computeKey( v );
+//            add(k,v);
+//            }
+//    }
+//    
+//    /**
+//     * Add all key-value from ComputeKeyIterator<K,V> iterator
+//     * 
+//     * @param iterator iterator used to get values and compute
+//     *        theirs keys.
+//     */
+//    public void addAll( HashMapSet.ComputeKeyIterator<K,V> iterator )
+//    {
+//        while(iterator.hasNext()) {
+//            V v = iterator.next();
+//            K k = iterator.computeKey( v );
+//            add(k,v);
+//            }
+//    }
 
     /* *
      * Compute key from value
@@ -514,5 +544,3 @@ public class LinkedHashMapList<K,V>
             iterator.remove();
         }
     }*/
-
-}

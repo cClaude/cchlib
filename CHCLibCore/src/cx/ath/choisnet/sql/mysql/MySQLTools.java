@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
  */
 public class MySQLTools
 {
+    @Deprecated
     protected static Map<String,String> replacePhrases;
 
     static
@@ -43,11 +44,10 @@ public class MySQLTools
     }
 
     /**
-     * 
-     * @param fieldValue
-     * @param maxLength
-     * @return
+     * BUG for complex expressions
+     * @see cx.ath.choisnet.sql.SQLTools#parseFieldValue(String, int)
      */
+    @Deprecated
     public static String parseFieldValue(
             final String    fieldValue,
             final int       maxLength
@@ -64,34 +64,35 @@ public class MySQLTools
     }
 
     /**
-     * 
-     * @param input
-     * @return
+     * BUG for complex expressions
+     * @see cx.ath.choisnet.sql.SQLTools#parseFieldValue(String)
      */
+    @Deprecated
     public static String parseFieldValue( final String input )
     {
-        Iterator<Map.Entry<String,String>> entryIt = replacePhrases.entrySet().iterator();
-        StringBuilder output = null;
+        StringBuilder                       output                   = null;
+        Iterator<Map.Entry<String,String>>  replacePhrasesIterator   = replacePhrases.entrySet().iterator();
 
         do {
-            if(!entryIt.hasNext()) {
+            if( !replacePhrasesIterator.hasNext() ) {
                 break;
                 }
 
-            Map.Entry<String,String> entry = entryIt.next();
-            StringTokenizer s = new StringTokenizer(input, entry.getKey());
+            Map.Entry<String,String> entry  = replacePhrasesIterator.next();
+            StringTokenizer          st     = new StringTokenizer(input, entry.getKey());
 
-            if(s.countTokens() > 1) {
+            if( st.countTokens() > 1) {
                 // TODO: check code here ! strange to create new StringBuilder
-                output = new StringBuilder( s.nextToken() ); // TODO: BUG?
+                output = new StringBuilder( st.nextToken() ); // TODO: BUG?
 
-                while(s.hasMoreTokens()) {
-                    output.append(entry.getValue()).append(s.nextToken());
+                while( st.hasMoreTokens() ) {
+                    output.append(entry.getValue()).append( st.nextToken() );
                     }
             }
         } while(true);
 
         if( output == null ) {
+            // No change !
             return input;
             }
         else {
