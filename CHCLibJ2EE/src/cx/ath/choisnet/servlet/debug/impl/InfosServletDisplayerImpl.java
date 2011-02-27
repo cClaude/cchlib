@@ -15,11 +15,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
 
 /**
  * 
@@ -28,11 +31,11 @@ import javax.servlet.http.HttpSession;
 public class InfosServletDisplayerImpl
     implements InfosServletDisplayer
 {
-    protected HttpServlet         servlet;
-    protected HttpServletRequest  request;
-    protected HttpServletResponse response;
-    protected HttpSession         httpSession;
-    protected ServletContext      servletContext;
+    protected HttpServlet           httpServlet;
+    protected ServletRequest        servletRequest;
+    protected HttpSession           httpSession;
+    protected ServletContext        servletContext;
+    //protected ServletResponse       servletResponse;
 
     /**
      * 
@@ -60,128 +63,176 @@ public class InfosServletDisplayerImpl
      * @throws java.io.IOException
      */
     public InfosServletDisplayerImpl(
-            final HttpServlet           servlet, 
-            final HttpServletRequest    request,
-            final HttpServletResponse   response, 
-            final HttpSession           httpSession
+            final HttpServlet       servlet, 
+            final ServletRequest    request,
+            final ServletResponse   response, 
+            final HttpSession       httpSession
             )
         throws java.io.IOException
     {
-        this.servlet = servlet;
-        this.request = request;
-        this.response = response;
-        this.httpSession = httpSession;
-        this.servletContext = servlet.getServletContext();
+        this.httpServlet        = servlet;
+        this.servletRequest     = request;
+        this.httpSession        = httpSession;
+        this.servletContext     = servlet.getServletContext();
+        //this.servletResponse    = response;
     }
 
-    @Override
-    public void appendHTML(final Appendable out)
+    /**
+     * 
+     * @param servlet
+     * @param pageContext
+     * @throws IOException 
+     */
+    public InfosServletDisplayerImpl(
+            final HttpServlet   servlet,
+            final PageContext   pageContext
+            )
+        throws IOException
     {
-        try {
-            out.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
-            out.append("\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
-            out.append("<html>\n<head>\n" );
-            out.append("<title>ServletInfos Output</title>\n");
-            // TODO: Add css (from servlet parameters ?) 
-            out.append("</head>\n");
-            out.append("<body>\n<center>\n");
-            out.append("<h1>Summary</h1>\n");
-            out.append("<table class=\"summary\">\n");
-            out.append("<tr><td>getServerInfo()</td><td>");
-            out.append(servletContext.getServerInfo());
-            out.append("</td></tr>\n");
-            out.append("<tr><td>java.runtime.version</td><td>");
-            out.append(System.getProperties().getProperty("java.runtime.version"));
-            out.append("</td></tr>\n");
-            out.append("</table>\n\n");
-            
-            out.append("<h1>ServletInfos Output</h1>\n");
+        this(
+            servlet, 
+            pageContext.getRequest(), 
+            pageContext.getResponse(),
+            pageContext.getSession()
+            );
+    }
 
-            final List<InfosServletDisplay> displayer = new ArrayList<InfosServletDisplay>();
-
-            displayer.add(getHttpServlet());
-            displayer.add(getHttpServletRequest());
-            displayer.add(getRequest_getHeaderNames());
-            displayer.add(getRequest_getParameterNames());
-            displayer.add(getRequest_getAttributeNames());
-            displayer.add(getCookies());
-            displayer.add(getConfig_getInitParameterNames());
-            displayer.add(getContext());
-            displayer.add(getContext_getAttributeNames());
-            displayer.add(getContext_getInitParameterNames());
-            displayer.add(getHttpSession());
-            displayer.add(getHttpSession_getAttributeNames());
-            displayer.add(getJVM_Memory());
-            displayer.add(getJVM_SystemObject());
-            displayer.add(getJVM_SystemProperties());
-            displayer.add(getJVM_System_getenv());
-
-            out.append("<table class=\"menu\">\n");
-
-            final StringBuilder sb = new StringBuilder();
-
-            for( InfosServletDisplay display : displayer ) {
-                sb.setLength( 0 );
-
-                InfosServletDisplay.Anchor anchor = display.getAnchor();
-                sb.append("<tr><td><a href=\"#");
-                sb.append(anchor.getHTMLName());
-                sb.append("\">");
-                sb.append(anchor.getDisplay());
-                sb.append("</a></td></tr>\n");
-
-                out.append( sb.toString() );
-                }
-
-            out.append("</table><br />\n");
-
-            for(InfosServletDisplay display : displayer) {
-                display.appendHTML(out);
-                }
-            
-            out.append("</center>\n</body>\n</html>\n");
-            out.append("\n");
+    private HttpServletRequest getHttpServletRequest()
+    {
+        if( servletRequest instanceof HttpServletRequest ) {
+            return HttpServletRequest.class.cast(servletRequest);
             }
-        catch( IOException hideException ) {
-            throw new RuntimeException( hideException );
+        return null;
+    }
+    
+//    private HttpServletResponse getHttpServletResponse()
+//    {
+//        if( response instanceof HttpServletResponse ) {
+//            return HttpServletResponse.class.cast(response);
+//            }
+//        return null;
+//    }
+    
+    @Override
+    public void appendHTML(final Appendable out) throws IOException
+    {
+        out.append(
+            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n"
+                + "\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+                + "<html>\n<head>\n"
+                + "<title>ServletInfos Output</title>\n"
+                );
+        InfosServletDisplayImpl.appendJS( out );
+        // TODO: Add css (from servlet parameters ?) 
+        out.append(
+            "</head>\n"
+                + "<body>\n<div id=\"infosservletdisplayer\" style=\"margin:0 auto;\">\n"
+                + "<h3 class=\"summary\">Summary</h3>\n"
+                );
+        
+        out.append(
+            "<table class=\"summary\">\n"
+                + "<tr><td>getServerInfo()</td><td>"
+                );
+        out.append(servletContext.getServerInfo());
+        out.append(
+            "</td></tr>\n"
+                + "<tr><td>java.runtime.version</td><td>"
+                );
+        out.append(System.getProperties().getProperty("java.runtime.version"));
+        out.append(
+            "</td></tr>\n"
+                + "</table>\n\n"
+                );
+        
+        out.append("<h3>ServletInfos Output</h3>\n");
+
+        final List<InfosServletDisplay> displayer = new ArrayList<InfosServletDisplay>();
+
+        displayer.add(getHttpServletISD());
+        displayer.add(getServletRequestISD());
+        
+        if( getHttpServletRequest() != null ) {
+            displayer.add(getHttpServletRequest_getHeaderNamesISD());
+            displayer.add(getHttpServletRequestCookiesISD());
             }
+        
+        displayer.add(getRequest_getParameterNamesISD());
+        displayer.add(getRequest_getAttributeNamesISD());
+        displayer.add(getConfig_getInitParameterNamesISD());
+        displayer.add(getContextISD());
+        displayer.add(getContext_getAttributeNamesISD());
+        displayer.add(getContext_getInitParameterNamesISD());
+        displayer.add(getHttpSessionISD());
+        displayer.add(getHttpSession_getAttributeNamesISD());
+        displayer.add(getJVM_MemoryISD());
+        displayer.add(getJVM_SystemObjectISD());
+        displayer.add(getJVM_SystemPropertiesISD());
+        displayer.add(getJVM_System_getenvISD());
+
+        out.append("<table class=\"menu\">\n");
+
+        final StringBuilder sb = new StringBuilder();
+
+        for( InfosServletDisplay display : displayer ) {
+            sb.setLength( 0 );
+
+            InfosServletDisplay.Anchor anchor = display.getAnchor();
+            sb.append("<tr><td><a href=\"#");
+            sb.append(anchor.getId());
+            sb.append("\">");
+            sb.append(anchor.getDisplay());
+            sb.append("</a></td></tr>\n");
+
+            out.append( sb.toString() );
+            }
+
+        out.append("</table><br />\n");
+
+        for(InfosServletDisplay display : displayer) {
+            display.appendHTML(out);
+            }
+        
+        out.append("</div>\n</body>\n</html>\n\n");
     }
 
     /**
      * Build informations from javax.servlet.http.HttpServlet
      */
-    private InfosServletDisplay getHttpServlet()
+    private InfosServletDisplay getHttpServletISD()
     {
         return new InfosServletDisplayImpl2(
                 "Here is the javax.servlet.http.HttpServlet object<br />"
-                    + InfosServletDisplayerImpl.getObjectInfo(servlet),
+                    + InfosServletDisplayerImpl.getObjectInfo(httpServlet),
                 "HttpServlet", 
-                servlet
+                httpServlet
                 )
             .put(
                 "servlet.getClass().getName()", 
-                servlet.getClass().getName()
+                httpServlet.getClass().getName()
                 );
     }
 
     /**
      * Build informations from HttpServletRequest
      */
-    private InfosServletDisplay getHttpServletRequest()
+    private InfosServletDisplay getServletRequestISD()
     {
         return new InfosServletDisplayImpl2(
-                "Here is the HttpServletRequest object<br />"
-                    + InfosServletDisplayerImpl.getObjectInfo(request),
-                "HttpServletRequest",
-                request
+                "Here is the ServletRequest object<br />"
+                    + InfosServletDisplayerImpl.getObjectInfo(servletRequest),
+                "ServletRequest",
+                servletRequest
                 );
     }
 
     /**
      * Build informations from HttpServletRequest.getHeaderNames()
      */
-    private InfosServletDisplay getRequest_getHeaderNames()
+    private InfosServletDisplay getHttpServletRequest_getHeaderNamesISD()
     {
+        HttpServletRequest request = getHttpServletRequest();
+        
         final Map<String,String>  map   = new TreeMap<String,String>();
         final StringBuilder       value = new StringBuilder();
         String                    name;
@@ -214,19 +265,19 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getRequest_getParameterNames()
+    private InfosServletDisplay getRequest_getParameterNamesISD()
     {
         final Map<String,String> map   = new TreeMap<String,String>();
         final StringBuilder      value = new StringBuilder();
         String                   name;
         
         for(
-                Enumeration<String> enum0 = toEnumerationString(request.getParameterNames());
+                Enumeration<String> enum0 = toEnumerationString(servletRequest.getParameterNames());
                 enum0.hasMoreElements();
                 map.put(name, value.toString())
                 ) {
             name = enum0.nextElement();
-            final String[] values = request.getParameterValues(name);
+            final String[] values = servletRequest.getParameterValues(name);
 
             value.setLength(0);
 
@@ -251,19 +302,19 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getRequest_getAttributeNames()
+    private InfosServletDisplay getRequest_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
         Object value;
         
         for(
-                Enumeration<String> enum0 = toEnumerationString(request.getAttributeNames());
+                Enumeration<String> enum0 = toEnumerationString(servletRequest.getAttributeNames());
                 enum0.hasMoreElements();
                 map.put(name, toString(value))
                 ) {
             name = enum0.nextElement();
-            value = request.getAttribute(name);
+            value = servletRequest.getAttribute(name);
         }
 
         return new InfosServletDisplayImpl(
@@ -277,8 +328,10 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getCookies()
+    private InfosServletDisplay getHttpServletRequestCookiesISD()
     {
+        HttpServletRequest request = getHttpServletRequest();
+
         final SortedMap<String,String>  map     = new TreeMap<String,String>();
         final Enumeration<Cookie>       cookies = ArrayHelper.toEnumeration( request.getCookies() );
         Cookie                          cookie;
@@ -299,16 +352,16 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getConfig_getInitParameterNames()
+    private InfosServletDisplay getConfig_getInitParameterNamesISD()
     {
-        final ServletConfig       servletConfig = servlet.getServletConfig();
+        final ServletConfig       servletConfig = httpServlet.getServletConfig();
         final Map<String,String>  map           = new TreeMap<String,String>();
         String name;
         
         for(Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); ) {
             name = enum0.nextElement();
             map.put(name, servletConfig.getInitParameter(name));
-        }
+            }
 
         return new InfosServletDisplayImpl(
             "Here are the ServletConfig init attributes<br />(servlet name  = '"
@@ -323,16 +376,16 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getContext()
+    private InfosServletDisplay getContextISD()
     {
         final StringBuilder valueOfgetResource = new StringBuilder();
 
         try {
             valueOfgetResource.append(servletContext.getResource("/"));
-        }
+            }
         catch(MalformedURLException e) {
             valueOfgetResource.append(e);
-        }
+            }
 
         return new InfosServletDisplayImpl2(
                 "Here is information from the ServletContext<br />"
@@ -352,7 +405,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getContext_getAttributeNames()
+    private InfosServletDisplay getContext_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
@@ -375,7 +428,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getContext_getInitParameterNames()
+    private InfosServletDisplay getContext_getInitParameterNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
@@ -399,7 +452,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getHttpSession()
+    private InfosServletDisplay getHttpSessionISD()
     {
         return new InfosServletDisplayImpl2(
                 "Here is information from the HttpSession<br />"
@@ -412,7 +465,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getHttpSession_getAttributeNames()
+    private InfosServletDisplay getHttpSession_getAttributeNamesISD()
     {
         final Map<String,String> map   = new TreeMap<String,String>();
         final StringBuilder      title = new StringBuilder("Here are the HttpSession : ");
@@ -454,7 +507,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getJVM_Memory()
+    private InfosServletDisplay getJVM_MemoryISD()
     {
         final Map<String,String>    map         = new TreeMap<String,String>();
         final Runtime               thisRuntime = Runtime.getRuntime();
@@ -475,7 +528,7 @@ public class InfosServletDisplayerImpl
     /**
      * 
      */
-    private InfosServletDisplay getJVM_SystemProperties()
+    private InfosServletDisplay getJVM_SystemPropertiesISD()
     {
         final Properties         prop = System.getProperties();
         final Map<String,String> map  = new TreeMap<String,String>();
@@ -498,7 +551,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getJVM_System_getenv()
+    private InfosServletDisplay getJVM_System_getenvISD()
     {
         return new InfosServletDisplayImpl(
                 "Here is the JVM getenv() informations",
@@ -507,7 +560,7 @@ public class InfosServletDisplayerImpl
                 );
     }
     
-    private InfosServletDisplay getJVM_SystemObject()
+    private InfosServletDisplay getJVM_SystemObjectISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
 

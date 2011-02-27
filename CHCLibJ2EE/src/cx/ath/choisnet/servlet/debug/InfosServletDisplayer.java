@@ -1,5 +1,7 @@
 package cx.ath.choisnet.servlet.debug;
 
+import java.io.IOException;
+
 /**
  * TODO: Doc!
  * 
@@ -12,5 +14,5 @@ public interface InfosServletDisplayer
      * 
      * @param appendable
      */
-    public abstract void appendHTML(Appendable appendable);
+    public abstract void appendHTML(Appendable appendable) throws IOException;
 }

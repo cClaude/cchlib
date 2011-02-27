@@ -60,11 +60,16 @@ public class InfosServletDisplayImpl
                 new InfosServletDisplay.Anchor() {
                     public String getHTMLName()
                     {
-                        return anchorName.replaceAll("[\\)\\(\\.]", "_");
+                        return getId();
                     }
                     public String getDisplay()
                     {
                         return anchorName;
+                    }
+                    @Override
+                    public String getId()
+                    {
+                        return anchorName.replaceAll("[\\)\\(\\.]", "_");
                     }
                 },
                 aMap,
@@ -80,9 +85,9 @@ public class InfosServletDisplayImpl
      * @param aMap
      */
     public InfosServletDisplayImpl(
-            String              title, 
-            String              anchorName, 
-            Map<String,String>  aMap
+            final String              title, 
+            final String              anchorName, 
+            final Map<String,String>  aMap
             )
     {
         this(title, anchorName, aMap, null);
@@ -96,16 +101,16 @@ public class InfosServletDisplayImpl
      * @param aMappableObject
      */
     public InfosServletDisplayImpl(
-            String      title, 
-            String      anchorName, 
-            Mappable    aMappableObject
+            final String      title, 
+            final String      anchorName, 
+            final Mappable    aMappableObject
             )
     {
         this(title, anchorName, aMappableObject.toMap());
     }
 
     @Override
-    public InfosServletDisplay put(String key, String value)
+    public InfosServletDisplay put(final String key, final String value)
     {
         map.put(key, value);
 
@@ -119,29 +124,76 @@ public class InfosServletDisplayImpl
     }
 
     @Override
-    public void appendHTML(Appendable out)
+    public void appendHTML(final Appendable out) throws IOException
     {
-        try {
-            out.append("<br /><hr /><br />\n");
-            out.append("<a name=\"").append(anchor.getHTMLName()).append("\"><!-- --></a>\n");
-            out.append("<h2>").append(title).append("</h2>\n");
-            out.append("<table border=\"1\" cellpadding=\"3\" summary=\"").append(title).append("\">\n");
+        final String id = "data" + anchor.getId();
+        
+        out.append("<br />\n<hr />\n<br />\n<h4>");
+        out.append("<input type=\"checkbox\" onclick=\"showhidecheckbox(this,'" )
+           .append( id )
+           .append( "');\"/>");
+        out.append("<a name=\"")
+           .append(anchor.getId())
+           .append("\"><!-- --></a>\n");
+        out.append(title).append("</h4>\n");
+        out.append("<table style=\"display: none;\" id=\"" )
+           .append( id )
+           .append( "\" border=\"1\" cellpadding=\"3\" summary=\"")
+           .append(title)
+           .append("\">\n");
 
-            if(map.size() == 0) {
-                if(messageIfMapEmpty != null) {
-                    out.append("<tr><td class=\"message\" colspan=\"2\">").append(messageIfMapEmpty).append("</td></tr>\n");
-                }
-            } 
-            else {
-                for( Map.Entry<String,String> entry : map.entrySet() ) {
-                    out.append("<tr><td class=\"name\">").append(entry.getKey()).append("</td><td class=\"value\">").append(entry.getValue()).append("</td></tr>\n");
-                }
+        if(map.size() == 0) {
+            if(messageIfMapEmpty != null) {
+                out.append("<tr><td class=\"message\" colspan=\"2\">")
+                   .append(messageIfMapEmpty)
+                   .append("</td></tr>\n");
             }
+        } 
+        else {
+            for( Map.Entry<String,String> entry : map.entrySet() ) {
+                out.append("<tr><td class=\"name\">")
+                   .append(entry.getKey())
+                   .append("</td><td class=\"value\">")
+                   .append(entry.getValue())
+                   .append("</td></tr>\n");
+            }
+        }
 
-            out.append("</table>\n");
-        }
-        catch(IOException hideException) {
-            throw new RuntimeException(hideException);
-        }
+        out.append("</table>\n");
+    }
+    
+    /**
+     * 
+     * @param out
+     * @throws IOException
+     */
+    public static void appendJS(final Appendable out) 
+        throws IOException
+    {
+        out.append( "<script type=\"text/javascript\">\n"
+                + "function show(divref)"
+                + "{"
+                + "var ele = document.getElementById(divref);"
+                + "ele.style.display = \"block\";"
+                + "}"
+                + "\n"
+                + "function hide(divref)"
+                + "{"
+                + "var ele = document.getElementById(divref);"
+                + "ele.style.display = \"none\";"
+                + "}"
+                + "\n"
+                + "function showhidecheckbox(checkbox,divref)"
+                + "{"
+                + "if(checkbox.checked) {"
+                + "show(divref);"
+                + "}"
+                + "else {"
+                + "hide(divref);"
+                + "}"
+                + "}\n"
+                + "</script>\n"
+            );
     }
 }
+

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 /**
  * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},
@@ -76,8 +77,6 @@ public class InfosServlet extends HttpServlet
     {
         response.setContentType("text/html");
 
-//        InfosServletDisplayer infos = new InfosServletDisplayerImpl(this, request, response);
-//        infos.appendHTML( response.getWriter() );
        appendHTML(
            response.getWriter(),
            this,
@@ -102,7 +101,7 @@ public class InfosServlet extends HttpServlet
 
     /**
      * This method could be use for debugging your servlets and your
-     * or you JSP
+     * or your JSPs
      * <br/>
      * Include this :
      * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, request, response );
@@ -123,5 +122,27 @@ public class InfosServlet extends HttpServlet
         throws IOException
     {
         new InfosServletDisplayerImpl(servlet, request, response).appendHTML( output );
+    }
+
+    /**
+     * This method could be use for debugging your JSPs
+     * <br/>
+     * Include this :
+     * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, pageContext );
+     *
+     * @param output
+     * @param servlet
+     * @param pageContext
+     * @throws ServletException
+     * @throws IOException
+     */
+    public static void appendHTML(
+            final Appendable     output,
+            final HttpServlet    servlet,
+            final PageContext    pageContext
+            )
+        throws IOException
+    {
+        new InfosServletDisplayerImpl(servlet, pageContext).appendHTML( output );
     }
 }

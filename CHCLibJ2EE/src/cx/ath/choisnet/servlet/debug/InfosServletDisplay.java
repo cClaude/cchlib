@@ -1,5 +1,7 @@
 package cx.ath.choisnet.servlet.debug;
 
+import java.io.IOException;
+
 /**
  * TODO: Doc!
  * 
@@ -14,7 +16,8 @@ public interface InfosServletDisplay
      */
     public static interface Anchor
     {
-        public abstract String getHTMLName();
+        @Deprecated public abstract String getHTMLName();
+        public abstract String getId();
         public abstract String getDisplay();
     }
 
@@ -37,5 +40,5 @@ public interface InfosServletDisplay
      * 
      * @return
      */
-    public abstract void appendHTML(Appendable appendable);
+    public abstract void appendHTML(Appendable appendable) throws IOException;
 }

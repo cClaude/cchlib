@@ -26,7 +26,11 @@ public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
             final Object object
             )
     {
-        super(title, anchorName, InfosServletDisplayImpl2.toMap(object));
+        super(
+            title, 
+            anchorName,
+            InfosServletDisplayImpl2._toMap(object)
+            );
     }
 
     /**
@@ -36,40 +40,41 @@ public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
     public static MappableHelperFactory getMappableHelperFactory()
     {
         return (new MappableHelperDefaultFactory())
-                .setMethodesNamePattern("(get|is).*")
-                .addClasses(new Class[] { Object.class })
-                .addAttributes(new MappableHelper.Attributes[] { 
-                        MappableHelper.Attributes.ALL_PRIMITIVE_TYPE, 
-                        MappableHelper.Attributes.DO_ARRAYS, 
-                        MappableHelper.Attributes.DO_ITERATOR, 
-                        MappableHelper.Attributes.DO_ITERABLE, 
-                        MappableHelper.Attributes.DO_ENUMERATION, 
-                        MappableHelper.Attributes.DO_RECURSIVE
-                        });
+            .setMethodesNamePattern("(get|is).*")
+            .addClasses(new Class[] { Object.class })
+            .addAttributes(new MappableHelper.Attributes[] { 
+                MappableHelper.Attributes.ALL_PRIMITIVE_TYPE, 
+                MappableHelper.Attributes.DO_ARRAYS, 
+                MappableHelper.Attributes.DO_ITERATOR, 
+                MappableHelper.Attributes.DO_ITERABLE, 
+                MappableHelper.Attributes.DO_ENUMERATION, 
+                MappableHelper.Attributes.DO_RECURSIVE
+                });
     }
 
-    private static final Map<String,String> toMap(Object object)
+    private static final Map<String,String> _toMap(Object object)
     {
-        return InfosServletDisplayImpl2.toMap(
+        return InfosServletDisplayImpl2._toMap(
                 InfosServletDisplayImpl2.getMappableHelperFactory(), 
                 object
                 );
     }
 
-    private static final Map<String,String> toMap(
+    private static final Map<String,String> _toMap(
                 final MappableHelperFactory   factory, 
                 final Object                  object
                 )
     {
-        return InfosServletDisplayImpl2.toMap(new MappableHelper(factory), object);
+        return InfosServletDisplayImpl2._toMap(new MappableHelper(factory), object);
     }
 
-    private static final Map<String,String> toMap(
+    private static final Map<String,String> _toMap(
                 MappableHelper  aMappableHelper, 
                 Object          object
                 )
     {
         if(object == null) {
+            //throw new NullPointerException("'object' parameter is null");
             return new HashMap<String,String>();
             }
         else {
