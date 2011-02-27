@@ -4,5 +4,6 @@
 	<classpathentry kind="lib" path="libs/javax.servlet-5.1.11.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CHCLibCore"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.15.jar"/>
 	<classpathentry kind="output" path="eclipse-build"/>
 </classpath>
