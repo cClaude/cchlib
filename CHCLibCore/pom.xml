@@ -3,10 +3,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.googlecode.chclib.chclibcore</groupId>
+  <groupId>com.googlecode.chclib</groupId>
   <artifactId>chclibcore</artifactId>
   <packaging>jar</packaging>
-  <version>03a.36.1</version>
+  <version>03a.37.7</version>
   <dependencies>
     <dependency>
       <groupId>log4j</groupId>

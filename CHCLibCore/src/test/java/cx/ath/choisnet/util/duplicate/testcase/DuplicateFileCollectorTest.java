@@ -86,7 +86,7 @@ public class DuplicateFileCollectorTest
                     public boolean isCancel()
                     {
                         //return false;
-                        return countFile > MAX_FILES_COUNT;
+                        return (countFile++) > MAX_FILES_COUNT;
                     }
                 });
 
