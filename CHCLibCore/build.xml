@@ -11,9 +11,16 @@
   <property file="build.properties"/>
   <property file="${user.home}/build.properties"/>
 
-  <property name="src.home"           value="."/>
-  <property name="java.src.home"      value="src"/>
-  <property name="build.number.file"  value="${java.src.home}/build.number"/>
+  <property name="src.home"                     value="."/>
+  <property name="java.src.home"                value="src/main/java"/>
+  <property name="java.resources.home"          value="src/main/resources"/>
+  <property name="java.deprecated.src.home"     value="src/deprecated/java"/>
+  <property name="java.samples.src.home"        value="src/samples/java"/>
+  <property name="java.samples.resources.home"  value="src/samples/java"/>
+  <property name="java.test.src.home"           value="src/test/java"/>
+  <property name="java.test.resources.home"     value="src/test/resources"/>
+
+  <property name="build.number.file"        value="${java.resources.home}/build.number"/>
 
   <property file="${build.number.file}"/>
 
@@ -80,13 +87,21 @@
        includeantruntime="false"
        >
       <src path="${java.src.home}"/>
-      <src path="${java.src.home}.deprecated"/>
+      <src path="${java.deprecated.src.home}"/>
+      <src path="${java.samples.src.home}"/>
+      <src path="${java.test.src.home}"/>
       <classpath refid="compile.classpath"/>
       <compilerarg value="-Xlint"/>
     </javac>
 
     <copy    todir="${build.home}/classes">
-      <fileset dir="${java.src.home}" excludes="**/*.java,**/*.java!,**/!*!"/>
+      <fileset dir="${java.src.home}"               excludes="**/*.java,**/*.java!,**/!*!"/>
+      <fileset dir="${java.resources.home}"         excludes="**/*.java,**/*.java!,**/!*!"/>
+
+      <fileset dir="${java.deprecated.src.home}"    excludes="**/*.java,**/*.java!,**/!*!"/>
+
+      <fileset dir="${java.samples.src.home}"       excludes="**/*.java,**/*.java!,**/!*!"/>
+      <fileset dir="${java.samples.resources.home}" excludes="**/*.java,**/*.java!,**/!*!"/>
     </copy>
 
   </target>
@@ -197,6 +212,11 @@
           >
     <mkdir dir="${reports.home}/raw"/>
 
+    <copy    todir="${build.home}/classes">
+      <fileset dir="${java.test.src.home}"        excludes="**/*.java,**/*.java!,**/!*!"/>
+      <fileset dir="${java.test.resources.home}"  excludes="**/*.java,**/*.java!,**/!*!"/>
+    </copy>
+
     <junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
       <classpath refid="compile.classpath"/>
       <classpath>
@@ -204,7 +224,11 @@
       </classpath>
       <batchtest fork="yes" todir="${reports.home}/raw/">
         <formatter type="xml"/>
-        <fileset dir="${java.src.home}">
+        <fileset dir="${java.src.home}"><!-- Should be empty -->
+          <include name="**/Test*.java"/>
+          <include name="**/*Test.java"/>
+        </fileset>
+        <fileset dir="${java.test.src.home}">
           <include name="**/Test*.java"/>
           <include name="**/*Test.java"/>
         </fileset>

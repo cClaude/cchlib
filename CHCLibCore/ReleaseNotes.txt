@@ -1,6 +1,12 @@
 CHCLibCore
 
 ---------------------------------------------------------------------
+03a.36
+  Prepare moving build to maven
+---------------------------------------------------------------------
+03a.35
+  Fix: cx.ath.choisnet.sql.SQLTools (empty String)
+---------------------------------------------------------------------
 03a.34
   Add: cx.ath.choisnet.util.LinkedHashMapList
   Add: cx.ath.choisnet.util.AbstractMapCollection
