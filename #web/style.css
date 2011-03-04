@@ -5,6 +5,10 @@ body {
   font-size:small;
   }
 
+img {
+  border:0;
+  }
+
 .title {
   font-size:18px;
   font-weight:bold;
