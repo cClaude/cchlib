@@ -111,6 +111,7 @@ CHCLibCore
 
 ---------------------------------------------------------------------
 Known problems:
+  - Maven migration is not completed.
 ---------------------------------------------------------------------
 To add/improve:
   Create provide method to build Iterable-Iterator (this Iterator

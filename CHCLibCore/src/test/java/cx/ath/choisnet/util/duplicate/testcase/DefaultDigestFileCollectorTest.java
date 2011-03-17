@@ -25,7 +25,7 @@ public class DefaultDigestFileCollectorTest
     extends TestCase 
 {
     private static final transient Logger slogger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
-    private static final int MAX_FILES_COUNT = 500;
+    private static final int MAX_FILES_COUNT = 150;
 
     public void test_Base() 
         throws  NoSuchAlgorithmException,

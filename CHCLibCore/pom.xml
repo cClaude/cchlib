@@ -6,8 +6,12 @@
   <groupId>com.googlecode.chclib</groupId>
   <artifactId>chclibcore</artifactId>
   <packaging>jar</packaging>
+  <!-- 
+  <version>${VERSION}.${REVISION}.${build.number}</version>
+  -->
   <version>03a.37.7</version>
   <dependencies>
+
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -15,6 +19,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -22,11 +27,37 @@
       <type>jar</type>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
   <build>
     <extensions>
     </extensions>
+    <plugins>
+      <!-- plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0-alpha-2</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>${basedir}/src/main/resources/build.number</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin -->
+    </plugins>
   </build>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <modules>
   </modules>
 </project>

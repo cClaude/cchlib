@@ -32,10 +32,9 @@ public class DuplicateFileCollectorTest
                 IOException
     {
         MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
-        DuplicateFileCollector  instance           = new DuplicateFileCollector( messageDigestFile, true );
-        //File            root  = new File("C:/Documents and Settings/Claude/Mes documents");
-        File            root  = TstCaseHelper.getUserHomeDirFile();
-        Iterable<File>  files = new FileIterator(
+        DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
+        File                    root              = TstCaseHelper.getUserHomeDirFile();
+        Iterable<File>          files = new FileIterator(
                 root,
                 new java.io.FileFilter()
                 {

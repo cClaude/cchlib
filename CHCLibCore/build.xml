@@ -26,9 +26,9 @@
 
   <property name="app.name"     value="CHCLibCore"/>
   <property name="app.version"  value="${VERSION}.${REVISION}.${build.number}"/>
-  <property name="build.home"   value="ant-build"/>
-  <property name="dist.home"    value="ant-dist"/>
-  <property name="reports.home" value="ant-junit"/>
+  <property name="build.home"   value=".ant/build"/>
+  <property name="dist.home"    value=".ant/dist"/>
+  <property name="reports.home" value=".ant/junit"/>
 
   <property name="jar.file"     value="${dist.home}/${app.name}.${app.version}.jar"/>
   <property name="docs.home"    value="${dist.home}-docs"/>

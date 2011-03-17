@@ -33,7 +33,7 @@ public class SimpleDataSource
         if( ds == null ) {
             throw new NullPointerException( "DataSource is null" );
             }
-        
+
         this.ds         = ds;
         this.userPass   = null;
     }
@@ -145,7 +145,7 @@ public class SimpleDataSource
     {
         Connection  conn    = null;
         int         count   = 0;
-        
+
         while( conn == null || conn.isClosed() ) {
             if( userPass == null ) {
                 conn = ds.getConnection();
