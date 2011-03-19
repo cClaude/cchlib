@@ -82,10 +82,6 @@ public class JPanelSelectFoldersOrFiles
 
     public JPanelSelectFoldersOrFiles()
     {
-        includeFileList.add( new File("C:\\") );
-        ingoreFileList.add( new File("C:\\Windows") );
-        includeFileList.add( new File("C:\\boot.ini") );
-
         initComponents();
     }
 

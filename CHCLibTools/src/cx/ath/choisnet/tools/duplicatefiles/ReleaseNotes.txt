@@ -2,7 +2,7 @@ ch.ath.choisnet.duplicatefiles
 
 ---------------------------------------------------------------------
 03a.21
-  Add aviabibly to scan only some files
+  Add possibility to scan only some files
 ---------------------------------------------------------------------
 03a.20
   Move release note to package.
@@ -12,12 +12,12 @@ ch.ath.choisnet.duplicatefiles
 ---------------------------------------------------------------------
 Known problems:
   - After Cancel should not can use "continue" button.
-  - [Advanced/Expert Mode] Select using regex : Boutons 'delete' and
+  - [Advanced/Expert Mode] Select using regex : Buttons 'delete' and
     'keep' (panel 'duplicates') should be disabled during process.
     -> try to make a better interface.
 ---------------------------------------------------------------------
 To add/improve:
-  - Compare only some files (advenced or expert only)
+  - Compare only some files (advanced or expert only)
   - Ignore some folders :
     a) Before compare
     b) After compare (context menu, add ignore all files in) - should
