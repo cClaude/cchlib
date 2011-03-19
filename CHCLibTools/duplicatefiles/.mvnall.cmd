@@ -1,9 +1,10 @@
 @CALL mvn clean package
 @Echo EL=%ERRORLEVEL%
 
-%JAVA_HOME%\bin\jar -xvf target\duplicatefiles-1.0-SNAPSHOT.jar META-INF/MANIFEST.MF
+@REM %JAVA_HOME%\bin\jar -xvf target\duplicatefiles-1.0-SNAPSHOT.jar META-INF/MANIFEST.MF
+@REM
+@REM type META-INF\MANIFEST.MF
+@REM sleep 1
+@REM rd /S/Q META-INF
+@REM %JAVA_HOME%\bin\java -jar target\duplicatefiles-1.0-SNAPSHOT.jar
 
-type META-INF\MANIFEST.MF
-sleep 1
-rd /S/Q META-INF
-%JAVA_HOME%\bin\java -jar target\duplicatefiles-1.0-SNAPSHOT.jar
