@@ -16,12 +16,21 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1300550433937</id>
+			<id>1300554630796</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-duplicatefiles</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1300554631250</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-EditRessourceBundle</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>
