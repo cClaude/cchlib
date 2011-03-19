@@ -157,7 +157,7 @@
       <fileset dir="${build.home}/jars"/>
     </jar>
 
-    <!-- DuplicateFiles standalone -->
+    <!-- DuplicateFiles standalone
     <jar jarfile="${jar.home}/${app.name}.DuplicateFiles.${app.version}.jar"
          basedir="${build.home}/fake"
         >
@@ -177,6 +177,7 @@
       </fileset>
       <fileset dir="${build.home}/jars"/>
     </jar>
+    -->
 
   </target>
 

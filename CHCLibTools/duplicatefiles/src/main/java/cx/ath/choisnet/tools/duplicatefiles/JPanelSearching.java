@@ -335,7 +335,7 @@ public class JPanelSearching extends JPanel
 //                    files.add( f0 );
 //                }
 //                slogger.info( "files_:" + files.size() );
-                
+
                 slogger.info( "doScanPass1: examin:" + f );
 
                 duplicateFC.pass1Add( files );
@@ -706,7 +706,7 @@ public class JPanelSearching extends JPanel
             final Pattern regex = excludeDirectoriesFileFilterBuilder.getRegExp();
 
             //TODO: construire un automate pour tester
-            //      une chaîne par rapport à un groupe de motif
+            //      une chaÃ®ne par rapport Ã  un groupe de motif
             final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
             final int      dirNamesL = dirNames.length;
 
@@ -753,7 +753,7 @@ public class JPanelSearching extends JPanel
                  final Pattern regex = includeDirectoriesFileFilterBuilder.getRegExp();
 
                 //TODO: construire un automate pour tester
-                //      une chaîne par rapport à un groupe de motif
+                //      une chaÃ®ne par rapport Ã  un groupe de motif
                 final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
                 final int      dirNamesL = dirNames.length;
 
