@@ -11,9 +11,13 @@
   <property file="build.properties"/>
   <property file="${user.home}/build.properties"/>
 
-  <property name="src.home"           value="."/>
-  <property name="java.src.home"      value="src"/>
+  <property name="src.home"             value="."/>
+  <property name="java.src.home"        value="src/main/java"/>
+  <property name="java.resources.home"  value="src/main/resources"/>
+  <!--
   <property name="build.number.file"  value="${java.src.home}/build.number"/>
+  -->
+  <property name="build.number.file"  value="./build.number"/>
 
   <property file="${build.number.file}"/>
 
@@ -30,9 +34,10 @@
   <property name="docs.home"    value="${dist.home}-docs"/>
 
   <echo message="$VER: ${app.name} ${app.version} (${build.date})" />
-
-  <dirname property="home.dir"   file="${src.home}/src"/>
+  <!--
+  <dirname property="home.dir"   file="${src.home}/src/main/java"/>
   <dirname property="parent.dir" file="${src.home}"/>
+  -->
 
   <!-- Configure the context path for this application -->
 <!--  ==================== Compilation Control Options ================= -->
@@ -46,11 +51,11 @@
   <path id="compile.classpath">
 
     <!-- Ajout des jars du projet -->
-    <fileset dir="${src.home}/libs">
+    <fileset dir="${src.home}/../libs">
       <include name="*.jar"/>
     </fileset>
 
-    <fileset dir="${src.home}/../releases/CHCLibCore">
+    <fileset dir="${src.home}/../../releases/CHCLibCore">
       <include name="CHCLibCore*.jar"/>
     </fileset>
 
@@ -92,7 +97,8 @@
     </javac>
 
     <copy    todir="${build.home}/classes">
-      <fileset dir="${java.src.home}" excludes="**/*.java,**/*.java!,**/!*!,**/*.xcf"/>
+      <fileset dir="${java.src.home}"       excludes="**/*.java,**/*.java!,**/!*!,**/*.xcf"/>
+      <fileset dir="${java.resources.home}" excludes="**/*.java,**/*.java!,**/!*!,**/*.xcf"/>
     </copy>
 
   </target>
@@ -106,8 +112,8 @@
     <mkdir dir="${build.home}/fake"/>
 
     <unzip  dest="${build.home}/jars">
-      <fileset dir="${src.home}/libs"/>
-      <fileset dir="${src.home}/../releases/CHCLibCore">
+      <fileset dir="${src.home}/../libs"/>
+      <fileset dir="${src.home}/../../releases/CHCLibCore">
         <!-- should be uniq -->
         <include name="CHCLibCore*.jar"/>
       </fileset>
@@ -137,7 +143,7 @@
       </fileset>
     </delete>
 
-    <!-- CompareRessourceBundle standalone -->
+    <!-- CompareRessourceBundle standalone
     <jar jarfile="${jar.home}/${app.name}.CompareRessourceBundle.${app.version}.jar"
          basedir="${build.home}/fake"
         >
@@ -156,7 +162,7 @@
       </fileset>
       <fileset dir="${build.home}/jars"/>
     </jar>
-
+ -->
     <!-- DuplicateFiles standalone -->
     <jar jarfile="${jar.home}/${app.name}.DuplicateFiles.${app.version}.jar"
          basedir="${build.home}/fake"
