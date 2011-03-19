@@ -143,26 +143,6 @@
       </fileset>
     </delete>
 
-    <!-- CompareRessourceBundle standalone
-    <jar jarfile="${jar.home}/${app.name}.CompareRessourceBundle.${app.version}.jar"
-         basedir="${build.home}/fake"
-        >
-      <manifest>
-        <attribute name="Main-Class"          value="cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame"/>
-        <attribute name="SplashScreen-Image"  value="cx/ath/choisnet/tools/i18n/splash.png"/>
-        <attribute name="X-Built-By"          value="${user.name}"/>
-        <attribute name="X-APP-Name"          value="${app.name}"/>
-        <attribute name="X-APP-Version"       value="${app.version}"/>
-        <attribute name="X-APP-Created-By"    value="${app.vendor}"/>
-        <attribute name="X-APP-Decription"    value="Tool to help to edit localization files"/>
-      </manifest>
-      <fileset dir="${build.home}/classes">
-        <include name="cx/ath/choisnet/tools/i18n/**"/>
-        <include name="*.*"/>
-      </fileset>
-      <fileset dir="${build.home}/jars"/>
-    </jar>
- -->
     <!-- DuplicateFiles standalone -->
     <jar jarfile="${jar.home}/${app.name}.DuplicateFiles.${app.version}.jar"
          basedir="${build.home}/fake"
