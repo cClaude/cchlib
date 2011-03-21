@@ -1,10 +1,11 @@
 package cx.ath.choisnet.util.datetime;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Simple implementation of Date, this date
@@ -15,18 +16,24 @@ import java.text.SimpleDateFormat;
 public class BasicDate
     implements java.io.Serializable, Cloneable, DateInterface
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     /** {@value} */
-    protected static final String ISODATEFMT = "yyyyMMdd";
-    protected static final SimpleDateFormat ISO_DATE_FMT = new SimpleDateFormat(ISODATEFMT);
-    protected transient int year;
-    protected transient int month;
-    protected transient int day;
+    protected static final String ISO_DATE_FMT = "yyyyMMdd";
+    protected int year;
+    protected int month;
+    protected int day;
+
+    /** For computing only - use {@link #getCalendar()} to access */
+    private transient Calendar transient_calendar;
+
+    /** For computing only - use {@link #getIsoDateFormat()} to access */
+    private transient DateFormat transient_ISO_DATE_FMT;// = new SimpleDateFormat(ISO_DATE_FMT);
+
     /** {@value} */
     private static final long MILLISECONDS_BY_DAY = 0x5265c00L;
 
     /**
-     * 
+     * Create a BasicDate using current date.
      */
     public BasicDate()
     {
@@ -34,31 +41,48 @@ public class BasicDate
     }
 
     /**
-     * @param javaDate 
+     * Create a BasicDate from a other BasicDate.
      * 
-     */
-    public BasicDate(java.util.Date javaDate)
-    {
-        year = -1;
-        month = -1;
-        day = -1;
-
-        set(javaDate);
-    }
-
-    /**
-     * @param date 
-     * 
+     * @param date BasicDate to clone. 
      */
     public BasicDate(BasicDate date)
     {
-        year = -1;
-        month = -1;
-        day = -1;
-
-        year = date.getYear();
+//        year = -1;
+//        month = -1;
+//        day = -1;
+        year  = date.getYear();
         month = date.getMonth();
-        day = date.getDay();
+        day   = date.getDay();
+    }
+
+    /**
+     * Create a BasicDate from a {@link java.util.Date}.
+     * 
+     * @param javaDate Date 
+     */
+    public BasicDate(java.util.Date javaDate)
+    {
+//        year = -1;
+//        month = -1;
+//        day = -1;
+        set(javaDate);
+    }
+    
+    /**
+     * Create a BasicDate from a {@link java.sql.Date}.
+     * 
+     * @param sqlDate Date 
+     */
+    public BasicDate(java.sql.Date sqlDate)
+    {
+//        year = -1;
+//        month = -1;
+//        day = -1;
+        final String strDate = sqlDate.toString();
+
+        year  = Integer.parseInt(strDate.substring(0, 4));
+        month = Integer.parseInt(strDate.substring(5, 7));
+        day   = Integer.parseInt(strDate.substring(8));
     }
 
     /**
@@ -82,29 +106,12 @@ public class BasicDate
     public BasicDate(int year, int month, int day)
         throws BasicDateException
     {
-        this.year = -1;
-        this.month = -1;
-        this.day = -1;
-
+//        this.year = -1;
+//        this.month = -1;
+//        this.day = -1;
         set(year, month, day);
     }
 
-    /**
-     * @param sqlDate 
-     * 
-     */
-    public BasicDate(java.sql.Date sqlDate)
-    {
-        year = -1;
-        month = -1;
-        day = -1;
-
-        String strDate = sqlDate.toString();
-
-        year = Integer.parseInt(strDate.substring(0, 4));
-        month = Integer.parseInt(strDate.substring(5, 7));
-        day = Integer.parseInt(strDate.substring(8));
-    }
 
     /**
      * Set date.
@@ -174,7 +181,7 @@ public class BasicDate
                     );
         }
 
-        this.month = month;    
+        this.month = month;
     }
 
     /**
@@ -195,7 +202,7 @@ public class BasicDate
      */
     public void set(java.util.Date javaDate)
     {
-        setWithFmtString(ISO_DATE_FMT.format(javaDate));
+        setWithFmtString(getIsoDateFormat().format(javaDate));
     }
 
     /**
@@ -239,11 +246,11 @@ public class BasicDate
     public java.util.Date getJavaDate()
     {
         try {
-            return ISO_DATE_FMT.parse(toString());
-        }
+            return getIsoDateFormat().parse(toString());
+            }
         catch(java.text.ParseException bug) {
             throw new RuntimeException("BasicDate.getJavaDate() INTERNAL ERROR (ISO_DATE_FMT)");
-        }
+            }
     }
 
     /**
@@ -389,14 +396,14 @@ public class BasicDate
 
         if(year > 9999) {
             year = 0;
-        }
+            }
 
         try {
             set(year, getMonth(), getDay());
-        }
+            }
         catch(BasicDateException ignore) {
             throw new RuntimeException("incMonth() INTERNAL ERROR");
-        }
+            }
     }
 
     /**
@@ -412,17 +419,30 @@ public class BasicDate
 
             if(++year > 9999) {
                 year = 0;
+                }
             }
-        }
 
         try {
             set(year, month, getDay());
-        }
+            }
         catch(BasicDateException ignore) {
             throw new RuntimeException("incMonth() INTERNAL ERROR");
-        }
+            }
     }
-
+    
+    /**
+     * Increment day
+     */
+    public void incDay()
+    {
+        Calendar c = getCalendar();
+        c.set( year, month, day );
+        c.add( Calendar.DAY_OF_MONTH, 1 );
+        year  = c.get( Calendar.YEAR );
+        month = c.get( Calendar.MONTH );
+        day   = c.get( Calendar.DAY_OF_MONTH );
+    }
+    
     /**
      * @param endOfPeriod 
      * @return number of day between two BasicDate
@@ -452,7 +472,7 @@ public class BasicDate
                     .append(toString())
                     .toString()
                     );
-        }
+            }
 
         if(month != checkDate.getMonth()) {
             throw new BasicDateException(
@@ -461,7 +481,7 @@ public class BasicDate
                     .append(toString())
                     .toString()
                     );
-        }
+            }
 
         if(year != checkDate.getYear()) {
             throw new BasicDateException(
@@ -470,7 +490,7 @@ public class BasicDate
                     .append(toString())
                     .toString()
                     );
-        }
+            }
     }
 
     /**
@@ -479,7 +499,6 @@ public class BasicDate
     public DateInterface add(DateInterface anotherDate)
         throws UnsupportedOperationException
     {
-        //throw new RuntimeException("$$$$ NOT YET IMPLEMENTED $$$$");
         throw new UnsupportedOperationException();
     }
 
@@ -489,25 +508,40 @@ public class BasicDate
     public DateInterface sub(DateInterface anotherDate)
         throws UnsupportedOperationException
     {
-        //throw new RuntimeException("$$$$ NOT YET IMPLEMENTED $$$$");
         throw new UnsupportedOperationException();
     }
 
-    private void writeObject(ObjectOutputStream stream)
-        throws java.io.IOException
+//    private void writeObject(ObjectOutputStream stream)
+//        throws java.io.IOException
+//    {
+//        stream.defaultWriteObject();
+//        stream.writeInt(year);
+//        stream.writeInt(month);
+//        stream.writeInt(day);
+//    }
+//
+//    private void readObject(ObjectInputStream stream)
+//        throws java.io.IOException, ClassNotFoundException
+//    {
+//        stream.defaultReadObject();
+//        year  = stream.readInt();
+//        month = stream.readInt();
+//        day   = stream.readInt();
+//    }
+    
+    private Calendar getCalendar()
     {
-        stream.defaultWriteObject();
-        stream.writeInt(year);
-        stream.writeInt(month);
-        stream.writeInt(day);
+        if( transient_calendar == null ) {
+            transient_calendar = new GregorianCalendar();
+        }
+        return transient_calendar;
     }
-
-    private void readObject(ObjectInputStream stream)
-        throws java.io.IOException, ClassNotFoundException
+    
+    private DateFormat getIsoDateFormat()
     {
-        stream.defaultReadObject();
-        year = stream.readInt();
-        month = stream.readInt();
-        day = stream.readInt();
+        if( transient_ISO_DATE_FMT == null ) {
+            transient_ISO_DATE_FMT = new SimpleDateFormat(ISO_DATE_FMT);
+        }
+        return transient_ISO_DATE_FMT;
     }
 }

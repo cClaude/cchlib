@@ -1,6 +1,12 @@
 CHCLibCore
 
 ---------------------------------------------------------------------
+03a.38
+  Fix: potential problem with threads
+    cx.ath.choisnet.util.datetime.BasicDate
+    cx.ath.choisnet.util.datetime.BasicTime
+  Add: cx.ath.choisnet.util.datetime.BasicDate.incDay()
+---------------------------------------------------------------------
 03a.37
   Improve: cx.ath.choisnet.sql.ExportSQL (add schema name to export
   is optionnal; able to filter export)
