@@ -1,6 +1,10 @@
 CHCLibJ2EE
 
 ---------------------------------------------------------------------
+03a.10
+Rename: com.googlecode.chclib.servlet.action.SQLServletAction to
+  com.googlecode.chclib.servlet.action.AbstractSQLServletAction
+---------------------------------------------------------------------
 03a.09
 Add:
   com.googlecode.chclib.servlet.action.AbstractServletAction

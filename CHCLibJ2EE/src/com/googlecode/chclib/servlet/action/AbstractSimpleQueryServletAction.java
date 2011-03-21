@@ -10,13 +10,13 @@ import cx.ath.choisnet.sql.SimpleQuery;
 import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
+ * {@link ServletAction} ready to use {@link SimpleQuery} and {@link SimpleUpdate}
  * 
  * @author Claude CHOISNET
  */
 public abstract class AbstractSimpleQueryServletAction
     extends AbstractServletAction
 {
-    //private final static Logger slogger = Logger.getLogger( AbstractSimpleQueryServletAction.class );
     private SimpleQuery simpleQuery = null;
     private SimpleUpdate simpleUpdate = null;
 
@@ -50,7 +50,7 @@ public abstract class AbstractSimpleQueryServletAction
     public ActionServlet.Action doAction() throws ServletActionException
     {
         ActionServlet.Action nextAction;
-        
+
         try {
             nextAction= doSQL();
             }
@@ -108,7 +108,7 @@ public abstract class AbstractSimpleQueryServletAction
         throws SQLException, NamingException
     {
         log( "doUpdate: " + sql );
-        
+
         return getSimpleUpdate().doUpdate( sql );
     }
 
@@ -124,7 +124,7 @@ public abstract class AbstractSimpleQueryServletAction
         throws SQLException, NamingException
     {
         log( "executeQuery: " + sql );
-        
+
         return getSimpleQuery().executeQuery( sql );
     }
 }

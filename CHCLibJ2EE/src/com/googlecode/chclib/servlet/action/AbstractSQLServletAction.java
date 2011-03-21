@@ -8,33 +8,36 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.chclib.servlet.ActionServlet;
 import com.googlecode.chclib.servlet.exception.ServletActionException;
+import cx.ath.choisnet.sql.SimpleQuery;
+import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
- * 
+ * {@link ServletAction} ready to use SQL {@link Connection}
+ *
  * @author Claude CHOISNET
  */
-public abstract class SQLServletAction
+public abstract class AbstractSQLServletAction
     extends AbstractServletAction
 {
     private Connection connection = null;
     private Statement statement = null;
 
     /**
-     * 
+     *
      * @return
      * @throws ServletActionException
-     * @throws NamingException 
-     * @throws SQLException 
+     * @throws NamingException
+     * @throws SQLException
      */
-    public abstract ActionServlet.Action doSQL() 
+    public abstract ActionServlet.Action doSQL()
         throws  ServletActionException,
-                NamingException, 
+                NamingException,
                 SQLException;
 
     /**
      * Returns the DataSource
      * @return the DataSource
-     * @throws NamingException 
+     * @throws NamingException
      */
     public abstract DataSource getDataSource()
         throws NamingException;
@@ -42,8 +45,8 @@ public abstract class SQLServletAction
     /**
      * Returns the connection
      * @return the connection
-     * @throws NamingException 
-     * @throws SQLException 
+     * @throws NamingException
+     * @throws SQLException
      */
     public Connection getConnection()
         throws SQLException, NamingException
@@ -57,10 +60,10 @@ public abstract class SQLServletAction
     /**
      * Returns the statement
      * @return the statement
-     * @throws NamingException 
-     * @throws SQLException 
+     * @throws NamingException
+     * @throws SQLException
      */
-    public Statement getStatement() 
+    public Statement getStatement()
         throws SQLException, NamingException
     {
         if( statement == null ) {
@@ -96,18 +99,18 @@ public abstract class SQLServletAction
 
         return nextAction;
     }
-    
+
     /**
      * Executes the given SQL statement, which returns a single
-     * ResultSet object.  
-     * 
+     * ResultSet object.
+     *
      * @param sql an SQL statement to be sent to the database,
-     *        typically a static SQL SELECT statement . 
-     * @return a ResultSet object that contains the data produced 
-     *         by the given query; never null 
+     *        typically a static SQL SELECT statement .
+     * @return a ResultSet object that contains the data produced
+     *         by the given query; never null
      * @throws SQLException if a database access error occurs,
      *         this method is called on a closed Statement or the
-     *         given SQL statement produces anything other than 
+     *         given SQL statement produces anything other than
      *         a single ResultSet object
      * @throws NamingException
      * @see Statement#executeUpdate(String)
@@ -122,14 +125,14 @@ public abstract class SQLServletAction
 
     /**
      * Executes the given SQL statement, which may return multiple results.
-     * 
-     * @param sql any SQL statement 
-     * @return true if the first result is a ResultSet object; 
-     *         false if it is an update count or there are no results 
-     * @throws SQLException if a database access error occurs or this 
+     *
+     * @param sql any SQL statement
+     * @return true if the first result is a ResultSet object;
+     *         false if it is an update count or there are no results
+     * @throws SQLException if a database access error occurs or this
      *         method is called on a closed Statement
      * @throws NamingException
-     * @see {@link Statement#execute(String)}
+     * @see Statement#execute(String)
      */
     public boolean execute( final String sql )
         throws SQLException, NamingException
@@ -140,20 +143,20 @@ public abstract class SQLServletAction
     }
 
     /**
-     * Executes the given SQL statement, which may be an INSERT, UPDATE, 
-     * or DELETE statement or an SQL statement that returns nothing, 
-     * such as an SQL DDL statement. 
-     * 
-     * @param sql an SQL Data Manipulation Language (DML) statement, 
+     * Executes the given SQL statement, which may be an INSERT, UPDATE,
+     * or DELETE statement or an SQL statement that returns nothing,
+     * such as an SQL DDL statement.
+     *
+     * @param sql an SQL Data Manipulation Language (DML) statement,
      *        such as INSERT, UPDATE or DELETE; or an SQL statement
-     *        that returns nothing, such as a DDL statement. 
-     * @return either (1) the row count for SQL Data Manipulation 
+     *        that returns nothing, such as a DDL statement.
+     * @return either (1) the row count for SQL Data Manipulation
      *         Language (DML) statements or (2) 0 for SQL statements
-     *         that return nothing 
-     * @throws SQLException if a database access error occurs or this 
+     *         that return nothing
+     * @throws SQLException if a database access error occurs or this
      *         method is called on a closed Statement
      * @throws NamingException
-     * @see {@link Statement#execute(String)}
+     * @see Statement#execute(String)
      */
     public int executeUpdate( final String sql )
         throws SQLException, NamingException

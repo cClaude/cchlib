@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.googlecode.chclib.servlet.action;
 
@@ -16,7 +16,7 @@ import com.googlecode.chclib.servlet.exception.ServletActionException;
 import cx.ath.choisnet.sql.SQLTools;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
 public abstract class AbstractServletAction implements ServletAction
@@ -24,12 +24,12 @@ public abstract class AbstractServletAction implements ServletAction
     private final static Logger slogger = Logger.getLogger( AbstractServletAction.class );
 
     private HttpServletRequest  request;
-    private HttpServletResponse response; 
+    private HttpServletResponse response;
     private ServletContext      servletContext;
 
     /**
      * Action to do
-     * 
+     *
      * @return return value is handle like {@link ServletAction#doAction(HttpServletRequest, HttpServletResponse, ServletContext)}
      * @see ServletAction#doAction(HttpServletRequest, HttpServletResponse, ServletContext)
      * @see #getRequest()
@@ -37,7 +37,7 @@ public abstract class AbstractServletAction implements ServletAction
      * @see #getServletContext()
      * @throws ServletActionException if any error occur
      */
-    public abstract ActionServlet.Action doAction() 
+    public abstract ActionServlet.Action doAction()
         throws  ServletActionException;
 
     /**
@@ -47,22 +47,22 @@ public abstract class AbstractServletAction implements ServletAction
     final
     public ActionServlet.Action doAction(
             final HttpServletRequest    request,
-            final HttpServletResponse   response, 
+            final HttpServletResponse   response,
             final ServletContext        servletContext
-            ) 
+            )
         throws ServletActionException
     {
         init(request,response,servletContext);
-        
+
         return doAction();
     }
-    
+
     /**
      * Initialize AbstractServletAction
      */
     private void init(
             final HttpServletRequest    request,
-            final HttpServletResponse   response, 
+            final HttpServletResponse   response,
             final ServletContext        servletContext
             )
     {
@@ -80,7 +80,7 @@ public abstract class AbstractServletAction implements ServletAction
         this.response = response;
         this.servletContext = servletContext;
     }
- 
+
     /**
      * @return the HttpServletRequest
      */
@@ -109,18 +109,18 @@ public abstract class AbstractServletAction implements ServletAction
      * Returns the value of a request parameter as a String.
      * <br/>
      * You should only use this method when you are sure the parameter
-     * has only one value. If the parameter might have more than one value, 
+     * has only one value. If the parameter might have more than one value,
      * use getParameterValues(java.lang.String).
-     * 
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
-     * @see #getParameterValues(HttpServletRequest, String)
+     * @see Tools#getParameterValues(HttpServletRequest, String)
      */
     public String getParameter(
             final String name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         return Tools.getParameter( request, name );
@@ -128,35 +128,35 @@ public abstract class AbstractServletAction implements ServletAction
 
     /**
      * Returns the value of a request parameter as an integer.
-     * 
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if the value is not an integer
      */
     public int getIntParameter(
             final String name
-            ) 
+            )
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
         return Tools.getIntParameter( request, name );
     }
-    
+
     /**
      * Returns the value of a request parameter as a String. Result String
      * is safe to use as a SQL field parameter.
-     * 
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter,
      *         safe to use as a SQL field parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @see #getParameter(String)
-     * @see #getSQLParameterValues(HttpServletRequest, String)
+     * @see SQLTools
      */
     public String getSQLParameter(
             final String name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         return SQLTools.parseFieldValue( getParameter( name ) );
@@ -165,46 +165,45 @@ public abstract class AbstractServletAction implements ServletAction
     /**
      * Returns an array of String objects containing all of the
      * values the given request parameter has.
-     * 
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return an array of String objects containing the parameter's values
      * @throws RequestParameterNotFoundException if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
-     * @see #getParameter(HttpServletRequest, String)
+     * @see Tools#getParameter(HttpServletRequest, String)
      */
     public String[] getParameterValues(
             final String name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         return Tools.getParameterValues( request, name );
-    }    
+    }
 
     /**
      * Returns an array of int containing all of the
      * values the given request parameter has.
-     * 
-     * @param request HttpServletRequest to use
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if at least one value is not an integer
      */
     public int[] getIntParameterValues(
             final String name
-            ) 
+            )
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
         return Tools.getIntParameterValues( request, name );
     }
-    
+
     /**
      * Returns an array of String objects containing all of the
      * values the given request parameter has. Result String
      * are safe to use as a SQL field parameters.
-     * 
-     * @param name a String containing the name of the parameter whose value is requested 
+     *
+     * @param name a String containing the name of the parameter whose value is requested
      * @return an array of String objects containing the parameter's values
      * @throws RequestParameterNotFoundException if the parameter does not exist.
      * @see #getSQLParameter(String)
@@ -212,18 +211,18 @@ public abstract class AbstractServletAction implements ServletAction
      */
     public String[] getSQLParameterValues(
             final String name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         final String[] s = Tools.getParameterValues( request, name );
         final String[] r = new String[ s.length ];
-        
+
         for(int i=0; i<s.length; i++) {
             r[ i ] = SQLTools.parseFieldValue( s[ i ] );
             }
-        
+
         return r;
-    }    
+    }
 
     /**
      * Writes the specified message to a servlet log file, usually an event log.
@@ -238,7 +237,7 @@ public abstract class AbstractServletAction implements ServletAction
         getServletContext().log( message );
         slogger.info( message );
     }
-    
+
     /**
      * Writes the specified message to a servlet log file, usually an event log.
      * @param message a String that describes the error or exception
@@ -253,10 +252,10 @@ public abstract class AbstractServletAction implements ServletAction
         getServletContext().log( message, throwable );
         slogger.info( message, throwable );
     }
-    
+
     /**
      * Debug/Check helper
-     * 
+     *
      * @param o
      * @throws ServletActionAssertException
      */
@@ -268,22 +267,22 @@ public abstract class AbstractServletAction implements ServletAction
 
     /**
      * Debug/Check helper
-     * 
+     *
      * @param o
      * @throws ServletActionAssertException
      */
-    public static void assertNull( 
+    public static void assertNull(
             final String message,
-            final Object o 
-            ) 
+            final Object o
+            )
         throws ServletActionAssertException
     {
         if( o != null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             sb.append( "NOT NULL: " )
               .append( o );
-            
+
             if( message != null ) {
                 sb.append( " : " ).append( message );
             }
@@ -294,26 +293,26 @@ public abstract class AbstractServletAction implements ServletAction
 
     /**
      * Debug/Check helper
-     * 
+     *
      * @param o
      * @throws ServletActionAssertException
      */
-    public static void assertNotNull( final Object o ) 
+    public static void assertNotNull( final Object o )
         throws ServletActionAssertException
     {
         assertNotNull( null, o );
     }
-    
+
     /**
      * Debug/Check helper
-     * 
+     *
      * @param message
      * @param o
      * @throws ServletActionAssertException
      */
-    public static void assertNotNull( 
+    public static void assertNotNull(
             final String message,
-            final Object o 
+            final Object o
             )
         throws ServletActionAssertException
     {
@@ -322,9 +321,9 @@ public abstract class AbstractServletAction implements ServletAction
         }
         if( o != null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             sb.append( "NULL" );
-            
+
             if( message != null ) {
                 sb.append( " : " ).append( message );
             }

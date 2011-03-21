@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * TODO: doc!
- * 
+ *
  * @author Claude CHOISNET
  *
  */
@@ -21,15 +21,15 @@ public class InfosServletDisplayImpl
 
     /**
      * TODO: Doc
-     * 
+     *
      * @param title
      * @param anchor
      * @param aMap
      * @param messageIfMapEmpty
      */
     public InfosServletDisplayImpl(
-            final String                      title, 
-            final InfosServletDisplay.Anchor  anchor, 
+            final String                      title,
+            final InfosServletDisplay.Anchor  anchor,
             final Map<String,String>          aMap,
             final String                      messageIfMapEmpty
             )
@@ -42,7 +42,7 @@ public class InfosServletDisplayImpl
 
     /**
      * TODO: Doc
-     *     
+     *
      * @param title
      * @param anchorName
      * @param aMap
@@ -50,18 +50,21 @@ public class InfosServletDisplayImpl
      */
     public InfosServletDisplayImpl(
             final String              title,
-            final String              anchorName, 
+            final String              anchorName,
             final Map<String,String>  aMap,
             final String              messageIfMapEmpty
             )
     {
         this(
-                title, 
+                title,
                 new InfosServletDisplay.Anchor() {
+                    @Override
+                    @Deprecated
                     public String getHTMLName()
                     {
                         return getId();
                     }
+                    @Override
                     public String getDisplay()
                     {
                         return anchorName;
@@ -79,14 +82,14 @@ public class InfosServletDisplayImpl
 
     /**
      * TODO: Doc
-     * 
+     *
      * @param title
      * @param anchorName
      * @param aMap
      */
     public InfosServletDisplayImpl(
-            final String              title, 
-            final String              anchorName, 
+            final String              title,
+            final String              anchorName,
             final Map<String,String>  aMap
             )
     {
@@ -95,14 +98,14 @@ public class InfosServletDisplayImpl
 
     /**
      * TODO: Doc
-     * 
+     *
      * @param title
      * @param anchorName
      * @param aMappableObject
      */
     public InfosServletDisplayImpl(
-            final String      title, 
-            final String      anchorName, 
+            final String      title,
+            final String      anchorName,
             final Mappable    aMappableObject
             )
     {
@@ -127,7 +130,7 @@ public class InfosServletDisplayImpl
     public void appendHTML(final Appendable out) throws IOException
     {
         final String id = "data" + anchor.getId();
-        
+
         out.append("<br />\n<hr />\n<br />\n<h4>");
         out.append("<input type=\"checkbox\" onclick=\"showhidecheckbox(this,'" )
            .append( id )
@@ -148,7 +151,7 @@ public class InfosServletDisplayImpl
                    .append(messageIfMapEmpty)
                    .append("</td></tr>\n");
             }
-        } 
+        }
         else {
             for( Map.Entry<String,String> entry : map.entrySet() ) {
                 out.append("<tr><td class=\"name\">")
@@ -161,13 +164,13 @@ public class InfosServletDisplayImpl
 
         out.append("</table>\n");
     }
-    
+
     /**
-     * 
+     *
      * @param out
      * @throws IOException
      */
-    public static void appendJS(final Appendable out) 
+    public static void appendJS(final Appendable out)
         throws IOException
     {
         out.append( "<script type=\"text/javascript\">\n"

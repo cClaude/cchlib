@@ -9,20 +9,20 @@ import com.googlecode.chclib.servlet.action.ServletAction;
 
 /**
  * Servlet: com.googlecode.chclib.servlet.ActionServlet
- * 
+ *
  * <pre>
  *  Parameters:
  *      ACTION:
  *      NEXTURL:
  *      DEFAULTERRORURL:
  * </pre>
- * 
+ *
  * @author Claude CHOISNET
  */
 public class ActionServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
-    
+
     /**
      * Default value : {@value}
      */
@@ -37,7 +37,7 @@ public class ActionServlet extends HttpServlet
     public final static String DEFAULT_ERROR_PARAMETER_NAME = "$ERROR";
 
     /**
-     * Servlet name : "{@value}"
+     * Servlet name :
      * @serial
      */
     protected static final String SERVLETNAME = ActionServlet.class.getName();
@@ -59,16 +59,16 @@ public class ActionServlet extends HttpServlet
         this.errorParamName  = private_getInitParameter( "ERROR", "$ERROR" );
 //        this.faultBackURL   = private_getInitParameter( "DEFAULTERRORURL", "" );
     }
-    
+
     private String private_getInitParameter( final String name )
     {
         final String value = getInitParameter( name );
 
         log( SERVLETNAME + " init: [" + name + "] = [" + value + "]" );
-        
+
         return value;
     }
-    
+
     private String private_getInitParameter( final String name, final String defaultValue )
     {
         final String value = private_getInitParameter(name);
@@ -78,20 +78,20 @@ public class ActionServlet extends HttpServlet
 
             return defaultValue;
         }
-        
+
         return value;
     }
 
     @Override
     public void service(
-            final HttpServletRequest  request, 
+            final HttpServletRequest  request,
             final HttpServletResponse response
             )
         throws ServletException, IOException
     {
         //TO DO: should be customizable !!!!
         //request.setCharacterEncoding( "utf-8" );
-        
+
 ///*        try {
 //            private_service(request, response);
 //            }
@@ -105,18 +105,18 @@ public class ActionServlet extends HttpServlet
 //    }
 //
 //    private void private_service(
-//            final HttpServletRequest  request, 
+//            final HttpServletRequest  request,
 //            final HttpServletResponse response
 //            )
 //        throws IOException, ServletException
 //    {
 //*/
         String action  = request.getParameter( getActionParameterName() );
-        
+
         log( "ACTION["  + getActionParameterName()  + "]=[" + action  + "]" );
-        
+
         ServletAction servletAction;
-        
+
         try {
             final Class<?> c = Class.forName( action );
             final Object   o = c.newInstance();;
@@ -141,7 +141,7 @@ public class ActionServlet extends HttpServlet
             }
 
         ActionServlet.Action nextAction;
-        
+
         try {
             nextAction = servletAction.doAction( request, response, getServletContext() ) ;
             }
@@ -150,9 +150,9 @@ public class ActionServlet extends HttpServlet
             handleException( request, response, getNextURLParameterName(), action, e );
             return;
             }
-        
+
         String nextURL = request.getParameter( getNextURLParameterName() );
-        
+
         log( "NEXTURL[" + getNextURLParameterName() + "]=[" + nextURL + "]" );
         //log( "request[" + request + "]" );
         //log( "response[" + response + "]" );
@@ -165,26 +165,26 @@ public class ActionServlet extends HttpServlet
             catch( IllegalArgumentException e ) {
                 handleException( request, response, getNextURLParameterName(), nextURL, e );
                 return;
-                }    
+                }
             }
         else if( Action.SENDREDIRECT.equals( nextAction ) ) {
             response.sendRedirect(nextURL);
         }
         //else if( Action.DONE.equals( nextAction ) ) {} // Done
-        
+
     }
 
-    private void handleException( 
+    private void handleException(
             final HttpServletRequest    request,
             final HttpServletResponse   response,
             final String                paramName,
             final String                paramValue,
-            final Throwable             cause 
-            ) 
+            final Throwable             cause
+            )
         throws IOException, ServletException
     {
         StringBuilder msg = new StringBuilder( cause.getClass().getName() );
-        
+
         msg.append( ": '" )
            .append( paramName )
            .append( "' = '" )
@@ -194,17 +194,17 @@ public class ActionServlet extends HttpServlet
         log( msg.toString(), cause );
 
         //request.setAttribute( getErrorParameterName(), cause );
-        
+
         //response.sendRedirect( request.getContextPath() + getFaultBackURL( request ) );
         //getServletContext().getRequestDispatcher( getErrorURL( request ) ).forward(request, response);
         throw new ServletException( msg.toString(), cause );
-        
+
         //TODO: add parameter to forward (or sendRedirect) for some exceptions
         //add a interface/class
         //   Action handleException( Throwable e, msg? );
     }
-    
-//    /** 
+
+//    /**
 //     * Returns fault back URL, default implementation return an empty String
 //     * @return fault back URL
 //     */
@@ -212,7 +212,7 @@ public class ActionServlet extends HttpServlet
 //    {
 //        return "";
 //    }
-    
+
     /**
      * TODO: Doc!
      * @return
@@ -221,7 +221,7 @@ public class ActionServlet extends HttpServlet
     {
         return this.actionParamName;
     }
-    
+
     /**
      * TODO: Doc!
      * @return
@@ -230,7 +230,7 @@ public class ActionServlet extends HttpServlet
     {
         return this.nextParamName;
     }
-    
+
     /**
      * TODO: Doc!
      * @return
@@ -239,7 +239,7 @@ public class ActionServlet extends HttpServlet
     {
         return this.errorParamName;
     }
-    
+
     @Override
     public String getServletInfo()
     {
@@ -254,7 +254,7 @@ public class ActionServlet extends HttpServlet
 
     /**
      * How ActionServlet should handle display
-     * 
+     *
      * Claude CHOISNET
      */
     public enum Action {
@@ -264,13 +264,13 @@ public class ActionServlet extends HttpServlet
         DONE,
         /**
          * Forward using NEXTURL parameter
-         * 
+         *
          * @see javax.servlet.RequestDispatcher#forward(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
          */
-        FORWARD, 
+        FORWARD,
         /**
          * sendRedirect using NEXTURL parameter
-         * 
+         *
          * @see HttpServletResponse#sendRedirect(String)
          */
         SENDREDIRECT,

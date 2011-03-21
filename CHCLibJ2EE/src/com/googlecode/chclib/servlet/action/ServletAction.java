@@ -7,21 +7,23 @@ import com.googlecode.chclib.servlet.ActionServlet;
 import com.googlecode.chclib.servlet.exception.ServletActionException;
 
 /**
- * 
+ * TODO: Doc!
+ *
  * @author Claude CHOISNET
  */
-public interface ServletAction 
+public interface ServletAction
 {
     /**
-     * 
+     * TODO: Doc!
+     *
      * @param request
      * @param response
      * @param context
      * @return {@link ActionServlet.Action} describing what
-     * {@link ActionServlet.Action} should do.
+     * {@link ActionServlet} should do after running doAction() method.
      */
     public ActionServlet.Action doAction(
-            final HttpServletRequest    request, 
+            final HttpServletRequest    request,
             final HttpServletResponse   response,
             final ServletContext        context
             )
