@@ -8,8 +8,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.chclib.servlet.ActionServlet;
 import com.googlecode.chclib.servlet.exception.ServletActionException;
-import cx.ath.choisnet.sql.SimpleQuery;
-import cx.ath.choisnet.sql.SimpleUpdate;
+//import cx.ath.choisnet.sql.SimpleQuery;
+//import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use SQL {@link Connection}

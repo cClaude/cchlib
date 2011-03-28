@@ -12,8 +12,9 @@
   <property file="${user.home}/build.properties"/>
 
   <property name="src.home"           value="."/>
-  <property name="java.src.home"      value="src"/>
-  <property name="build.number.file"  value="${java.src.home}/build.number"/>
+  <property name="java.src.root"      value="src"/>
+  <property name="java.src.home"      value="${java.src.root}/main/java"/>
+  <property name="build.number.file"  value="${java.src.root}/main/resources/build.number"/>
 
   <property file="${build.number.file}"/>
 
