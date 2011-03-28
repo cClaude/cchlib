@@ -12,6 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jnlp.url>http://code.google.copm/</jnlp.url>
   </properties>
 
   <build>
@@ -57,9 +58,7 @@
            </execution>
         </executions>
       </plugin>
-      <!--
 
-      -->
     </plugins>
   </build>
 

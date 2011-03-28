@@ -22,7 +22,7 @@ public class Base64Test extends TestCase
     final private static Logger slogger = Logger.getLogger(Base64Test.class);
     //private final static Base64Encoder encoder = new Base64Encoder();
     private final static Base64Decoder decoder = new Base64Decoder( 5 );
-    private final static String toEncodeStr = "This is a dummy message for this stupid test case!";
+    private final static String TEST_STRING = "This is a dummy message for this stupid test case!";
 
     public void setUp()
     {
@@ -76,9 +76,9 @@ public class Base64Test extends TestCase
 }
     public void testBasic() throws UnsupportedEncodingException
     {
-        slogger.info( "Encode => " + toEncodeStr );
+        slogger.info( "Encode => " + TEST_STRING );
 
-        String encodedStr   = Base64Encoder.encode( toEncodeStr );
+        String encodedStr   = Base64Encoder.encode( TEST_STRING );
 
         slogger.info( "decode => " + encodedStr );
         byte[] decodedBytes = Base64Decoder.decode( encodedStr.toCharArray(), 0, encodedStr.length() );
@@ -86,7 +86,7 @@ public class Base64Test extends TestCase
         String decodedStr = new String( decodedBytes );
         slogger.info( "decoded => " + decodedStr );
 
-        assertTrue( "testBasic() encoding to decoding mismatch !", toEncodeStr.equals(decodedStr) );
+        assertTrue( "testBasic() encoding to decoding mismatch !", TEST_STRING.equals(decodedStr) );
     }
 
     public void testEmpty()
@@ -97,14 +97,18 @@ public class Base64Test extends TestCase
         assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);
     }
 
+    public void testMiscCompare2Sun() throws IOException
+    {
+        testAndCompare2SunBASE64( TEST_STRING );
+    }
 
     public void testDecodeInputStreamOutputStream()
     throws Base64FormatException, IOException
     {
-        String encodedStr = Base64Encoder.encode( toEncodeStr );
+        String encodedStr = Base64Encoder.encode( TEST_STRING );
 
         @SuppressWarnings("deprecation")
-        InputStream           in   = new java.io.StringBufferInputStream(encodedStr);
+        InputStream           in  = new java.io.StringBufferInputStream(encodedStr);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         decoder.decode( in, out);
@@ -113,17 +117,17 @@ public class Base64Test extends TestCase
         String decStr = new String( dec );
 
         slogger.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + ']' );
-        assertTrue( "encoding to decoding mismatch !", toEncodeStr.equals(decStr) );
+        assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(decStr) );
     }
 
     public void testDecodeUsingOutputStream()
         throws Base64FormatException, IOException
     {
-        String encodedStr = Base64Encoder.encode( toEncodeStr );
+        String encodedStr = Base64Encoder.encode( TEST_STRING );
         String res        = staticTestDecodeUsingOutputStream( encodedStr );
 
         slogger.info( "testDecodeUsingOutputStream() [" + res + ']' );
-        assertTrue( "encoding to decoding mismatch !", toEncodeStr.equals(res) );
+        assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(res) );
     }
 
     public void testFile()
@@ -149,6 +153,27 @@ public class Base64Test extends TestCase
 
         b.decode( in, out );
      }
+
+    public static void testAndCompare2SunBASE64( final String str2code ) 
+        throws IOException
+    {
+        final byte[] bytes = str2code.getBytes();
+        
+        @SuppressWarnings("restriction")
+        String sunEncode = (new sun.misc.BASE64Encoder()).encode( bytes );
+        String encode    = Base64Encoder.encode( str2code );
+        
+        assertEquals( "bad encoding", sunEncode, encode );
+        
+        @SuppressWarnings("restriction")
+        byte[] sunDecode = (new sun.misc.BASE64Decoder()).decodeBuffer( encode );
+        String decode    = Base64Decoder.decode( encode );
+        
+        String sunDecodeStr = new String( sunDecode );
+        
+        assertEquals( "bad use Sun Base 64", str2code, sunDecodeStr );
+        assertEquals( "bad decoding", str2code, decode );
+    }
 
 //    public static void main( String[] args )
 //    {

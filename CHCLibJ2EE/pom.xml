@@ -9,7 +9,7 @@
   <!--
   <version>${VERSION}.${REVISION}.${build.number}</version>
   -->
-  <version>03a.37.7</version>
+  <version>03a.11.0</version>
   <dependencies>
 
     <dependency>
