@@ -1,12 +1,13 @@
 package cx.ath.choisnet.system.impl.win32.testcase;
 
-import java.util.Collection;
+/*import java.util.Collection;
 import org.apache.log4j.Logger;
 import deprecated.cx.ath.choisnet.system.EnvArc;
 import deprecated.cx.ath.choisnet.system.EnvArcException;
 import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
 import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly;
 import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite;
+*/
 import junit.framework.TestCase;
 
 /**
@@ -15,10 +16,10 @@ import junit.framework.TestCase;
 @Deprecated
 public class EnvArcTest extends TestCase
 {
+    /*
     final private static Logger slogger = Logger.getLogger(EnvArcTest.class);
     private EnvArcRegWin32ReadOnly anEnvArcRegWin32ReadOnly;
     private EnvArcRegWin32ReadWrite anEnvArcRegWin32ReadWrite;
-
     public void setUp() throws EnvArcRegWin32EnvArcException
     {
         this.anEnvArcRegWin32ReadOnly  = new EnvArcRegWin32ReadOnly();
@@ -88,6 +89,6 @@ public class EnvArcTest extends TestCase
                     + envarc.getVar( name )
                     );
         }
-    }
+    }*/
 
 }

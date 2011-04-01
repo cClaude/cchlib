@@ -3,9 +3,9 @@
  */
 package cx.ath.choisnet.system.testcase;
 
-import java.util.Collection;
+/*import java.util.Collection;
 import org.apache.log4j.Logger;
-import deprecated.cx.ath.choisnet.system.EnvArcManager;
+import deprecated.cx.ath.choisnet.system.EnvArcManager;*/
 import junit.framework.TestCase;
 
 /**
@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  */
 @Deprecated
 public class EnvArcTest extends TestCase 
-{
+{/*
     final private static Logger slogger = Logger.getLogger(EnvArcTest.class);
 
     public void testManager()
@@ -24,5 +24,5 @@ public class EnvArcTest extends TestCase
         for( String name : names ) {
             slogger.info( "getEnvArcNames: " + name );
         }
-    }
+    }*/
 }
