@@ -20,8 +20,7 @@
   <property name="java.test.src.home"           value="src/test/java"/>
   <property name="java.test.resources.home"     value="src/test/resources"/>
 
-  <property name="java.src.home"      value="src/main/test"/>
-  <property name="build.number.file"  value="${java.src.home}/build.number"/>
+  <property name="build.number.file"            value="${java.resources.home}/build.number"/>
 
   <property file="${build.number.file}"/>
 
@@ -91,7 +90,7 @@
        includeantruntime="false"
        >
       <src path="${java.src.home}"/>
-      <src path="${java.src.home}.deprecated"/>
+      <src path="${java.deprecated.src.home}"/>
       <classpath refid="compile.classpath"/>
       <compilerarg value="-Xlint"/>
     </javac>
