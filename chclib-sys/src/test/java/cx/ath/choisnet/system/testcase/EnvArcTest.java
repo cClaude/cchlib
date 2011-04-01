@@ -14,7 +14,12 @@ import junit.framework.TestCase;
  */
 @Deprecated
 public class EnvArcTest extends TestCase 
-{/*
+{
+    public void testFake()
+    {
+        
+    }
+    /*
     final private static Logger slogger = Logger.getLogger(EnvArcTest.class);
 
     public void testManager()

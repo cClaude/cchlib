@@ -1,7 +1,9 @@
-package deprecated.cx.ath.choisnet.system.impl.win32;
+package deprecated.cx.ath.choisnet.system.impl.win32.testcase;
 
-import java.util.Iterator;
+/*import java.util.Iterator;
 import org.apache.log4j.Logger;
+import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
+import deprecated.cx.ath.choisnet.system.impl.win32.RegWin32;*/
 import junit.framework.TestCase;
 
 /**
@@ -9,6 +11,7 @@ import junit.framework.TestCase;
  */
 public class RegWin32Test extends TestCase
 {
+    /*
     final private static Logger slogger = Logger.getLogger(RegWin32Test.class);
     private RegWin32 anRegWin32;
     private static final String SYSTEM_SessionManager_BASE = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager";
@@ -17,7 +20,7 @@ public class RegWin32Test extends TestCase
     {
         this.anRegWin32 = new RegWin32();
     }
-
+*/
     public void testGetRegString()
     {
         //TODO
@@ -41,7 +44,8 @@ public class RegWin32Test extends TestCase
         //TODO
 //      public void setRegInteger(String regName, String regValue, int regData)
     }
-    
+
+/*
     public void test_getSubKeyNamesIterator() throws EnvArcRegWin32EnvArcException
     {
         Iterator<String> iStr = anRegWin32.getSubKeyNamesIterator(SYSTEM_SessionManager_BASE);
@@ -61,5 +65,5 @@ public class RegWin32Test extends TestCase
             slogger.info( "valueName:" + valueName );
         }
     }
-
+*/
 }
