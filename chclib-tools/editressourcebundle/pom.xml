@@ -3,16 +3,23 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cx.ath.choisnet.tools.i18n</groupId>
-  <artifactId>EditRessourceBundle</artifactId>
-  <version>03a.80.00</version>
+  <artifactId>editressourcebundle</artifactId>
+<!--
+  <version>${project.chclib.version}</version>
+-->
+  <version>4.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
+<!--
   <name>editressourcebundle</name>
   <url>http://maven.apache.org</url>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jnlp.url>http://code.google.copm/</jnlp.url>
+  </properties>
+-->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <build>
@@ -74,7 +81,7 @@
     <dependency>
       <groupId>com.googlecode.chclib</groupId>
       <artifactId>chclibcore</artifactId>
-      <version>03a.37.7</version>
+      <version>${project.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>

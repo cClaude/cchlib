@@ -1,133 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.googlecode.chclib</groupId>
   <artifactId>chclib-tools</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+<!--
+  <version>${project.chclib.version}</version>
+-->
+  <version>4.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <!-- Global properties
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
- -->
-
-  <!-- Project description
-  <name>chclib</name>
-  <url>http://todo</url>
-  <inceptionYear>2011</inceptionYear>
-  <scm>
-    <connection>scm:svn:http://chclib.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:http://chclib.googlecode.com/svn/trunk/</developerConnection>
-    <url/>
-  </scm>
-  -->
-  <!--
-  <ciManagement>
-    <system>continuum</system>
-    <url>http://</url>
-  </ciManagement>
-   -->
-
-
-
-  <!-- Site reporting
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.0.1</version>
-      </plugin>
-    </plugins>
-  </reporting>
- -->
-  <!-- BUILD
-    * ALL sub project will have their java code compiled using java 1.6
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-      <!- - To generate an eclipse project with tomcat support- ->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>sysdeo-tomcat-maven-plugin</artifactId>
-        <version>1.1</version>
-      </plugin>
-    </plugins>
-  </build>
-  -->
-
-  <!-- Profiles
-    Use mvn -P<profileId> to use a specific profile
-  - ->
-  <profiles>
-    <!- - SYSTEM PROFILES - ->
-    <profile>
-      <id>linux-system</id>
-      <activation>
-        <os>
-          <name>Linux</name>
-        </os>
-      </activation>
-      <!- -
-      <properties>
-        <python.maven.interpreter>python</python.maven.interpreter>
-      </properties>
-      - ->
-    </profile>
-    <profile>
-      <id>windows-system</id>
-      <activation>
-        <os>
-          <family>Windows</family>
-        </os>
-      </activation>
-      <!- -
-      <properties>
-        <python.maven.interpreter>python</python.maven.interpreter>
-      </properties>
-      - ->
-    </profile>
-
-    <!- - SITES PROFILES - ->
-    <profile>
-      <!- - local - ->
-      <id>local</id>
-      <properties>
-        <cargo.tomcat.manager.url>http://localhost:8080/manager</cargo.tomcat.manager.url>
-        <cargo.remote.username>tomcat</cargo.remote.username>
-        <cargo.remote.password>tomcat</cargo.remote.password>
-        <site.id>localhost</site.id>
-        <database.host>localhost</database.host>
-      </properties>
-    </profile>
-  </profiles>
--->
-  <!-- Dependencies -->
-  <dependencies>
-
-  </dependencies>
 
   <!-- Sub projects -->
   <modules>
     <module>duplicatefiles</module>
     <module>editressourcebundle</module>
   </modules>
-
 
 </project>

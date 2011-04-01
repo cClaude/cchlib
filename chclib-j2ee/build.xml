@@ -44,7 +44,7 @@
   <path id="compile.classpath">
 
     <!-- Ajout des jars du projet -->
-    <fileset dir="${src.home}/libs">
+    <fileset dir="${src.home}/../lib">
       <include name="*.jar"/>
     </fileset>
 
@@ -131,7 +131,7 @@
          basedir="${build.home}/classes"
         >
 <!--
-        manifest="${src.home}/metadata/ManifestFile.mf"
+        manifest="${src.home}/../metadata/ManifestFile.mf"
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <section name="${app.name}">
@@ -171,13 +171,13 @@
                     use="true"
                  Header="${app.name} ${app.version}"
                  Footer="${app.name} API"
-         stylesheetfile="${src.home}/metadata/stylesheet.css"
+         stylesheetfile="${src.home}/../metadata/stylesheet.css"
          >
       <excludepackage name="alpha.*"/>
       <excludepackage name="deprecated.*"/>
       <classpath refid="compile.classpath"/>
       <link href="${javadoc.j2se}" offline="true"
-            packagelistLoc="${src.home}/metadata/j2se.1.5.0/"
+            packagelistLoc="${src.home}/../metadata/j2se.1.5.0/"
             />
       <!-- link href="${javadoc.j2ee}" offline="true"
             packagelistLoc="${src.home}/doc/j2ee.1.4/"

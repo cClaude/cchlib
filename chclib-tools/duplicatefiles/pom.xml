@@ -4,12 +4,17 @@
 
   <groupId>cx.ath.choisnet.tools.duplicatefiles</groupId>
   <artifactId>duplicatefiles</artifactId>
-  <version>03a.80.00</version>
+<!--
+  <version>${project.chclib.version}</version>
+-->
+  <version>4.1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>duplicatefiles</name>
 <!--
-  <url>http://maven.apache.org</url>
+  <name>duplicatefiles</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -119,7 +124,7 @@
     <dependency>
       <groupId>com.googlecode.chclib</groupId>
       <artifactId>chclibcore</artifactId>
-      <version>03a.37.7</version>
+      <version>${project.version}</version>
       <type>jar</type>
     </dependency>
   </dependencies>

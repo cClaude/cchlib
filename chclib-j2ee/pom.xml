@@ -3,13 +3,19 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.googlecode.chclib</groupId>
   <artifactId>chclibj2ee</artifactId>
   <packaging>jar</packaging>
-  <!--
-  <version>${VERSION}.${REVISION}.${build.number}</version>
-  -->
-  <version>03a.11.0</version>
+<!--
+  <version>${project.chclib.version}</version>
+-->
+  <version>4.1.0-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -47,7 +53,7 @@
     <dependency>
         <groupId>com.googlecode.chclib</groupId>
         <artifactId>chclibcore</artifactId>
-        <version>03a.38.10</version>
+        <version>${project.version}</version>
         <type>jar</type>
         <scope>compile</scope>
     </dependency>
@@ -77,10 +83,6 @@
       </plugin -->
     </plugins>
   </build>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
   <modules>
   </modules>

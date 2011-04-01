@@ -9,20 +9,13 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Python settings
-    <python.maven.interpreter>python</python.maven.interpreter>
-     -->
-    <!-- Databse settings
-    <database.host>localhost</database.host>
-     -->
+    <project.chclib.version>${project.version}</project.chclib.version>
   </properties>
-
 
   <!-- Project description -->
   <name>chclib</name>
   <url>http://todo</url>
-  <inceptionYear>2011</inceptionYear>
+  <inceptionYear>2002</inceptionYear>
   <scm>
     <connection>scm:svn:http://chclib.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:http://chclib.googlecode.com/svn/trunk/</developerConnection>
@@ -40,7 +33,6 @@
     <developer>
       <id>chc</id>
       <name>Claude CHOISNET</name>
-      <email>claude.choisnet@gmail.com</email>
       <organization></organization>
       <roles>
         <role>developer</role>
@@ -159,6 +151,5 @@
     <module>chclib-sys</module>
     <module>chclib-tools</module>
   </modules>
-
 
 </project>
