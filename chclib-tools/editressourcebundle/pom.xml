@@ -7,7 +7,7 @@
   <version>03a.80.00</version>
   <packaging>jar</packaging>
 
-  <name>EditRessourceBundle</name>
+  <name>editressourcebundle</name>
   <url>http://maven.apache.org</url>
 
   <properties>

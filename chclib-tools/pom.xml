@@ -2,24 +2,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlecode.chclib</groupId>
-  <artifactId>chclib</artifactId>
-  <version>4.1.0-SNAPSHOT</version>
+  <artifactId>chclib-tools</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <!-- Global properties -->
+  <!-- Global properties
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    <!-- Python settings
-    <python.maven.interpreter>python</python.maven.interpreter>
-     -->
-    <!-- Databse settings
-    <database.host>localhost</database.host>
-     -->
   </properties>
+ -->
 
-
-  <!-- Project description -->
+  <!-- Project description
   <name>chclib</name>
   <url>http://todo</url>
   <inceptionYear>2011</inceptionYear>
@@ -28,6 +21,7 @@
     <developerConnection>scm:svn:http://chclib.googlecode.com/svn/trunk/</developerConnection>
     <url/>
   </scm>
+  -->
   <!--
   <ciManagement>
     <system>continuum</system>
@@ -35,31 +29,9 @@
   </ciManagement>
    -->
 
-  <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical-->
-  <developers>
-    <developer>
-      <id>chc</id>
-      <name>Claude CHOISNET</name>
-      <email>claude.choisnet@gmail.com</email>
-      <organization></organization>
-      <roles>
-        <role>developer</role>
-        <role>integrator</role>
-      </roles>
-      <timezone>+1</timezone>
-    </developer>
-  </developers>
 
-  <!-- Distribution management-->
- <!--  <distributionManagement>
-    <site>
-      <id>qee.website</id>
-      <url>dav:http://</url>
-      <url>scp://webhost.company.com/www/website</url>
-    </site>
-  </distributionManagement> -->
 
-  <!-- Site reporting -->
+  <!-- Site reporting
   <reporting>
     <plugins>
       <plugin>
@@ -69,10 +41,9 @@
       </plugin>
     </plugins>
   </reporting>
-
+ -->
   <!-- BUILD
     * ALL sub project will have their java code compiled using java 1.6
-  -->
   <build>
     <extensions>
       <extension>
@@ -91,7 +62,7 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      <!-- To generate an eclipse project with tomcat support-->
+      <!- - To generate an eclipse project with tomcat support- ->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sysdeo-tomcat-maven-plugin</artifactId>
@@ -99,12 +70,13 @@
       </plugin>
     </plugins>
   </build>
+  -->
 
   <!-- Profiles
     Use mvn -P<profileId> to use a specific profile
-  -->
+  - ->
   <profiles>
-    <!-- SYSTEM PROFILES -->
+    <!- - SYSTEM PROFILES - ->
     <profile>
       <id>linux-system</id>
       <activation>
@@ -112,11 +84,11 @@
           <name>Linux</name>
         </os>
       </activation>
-      <!--
+      <!- -
       <properties>
         <python.maven.interpreter>python</python.maven.interpreter>
       </properties>
-      -->
+      - ->
     </profile>
     <profile>
       <id>windows-system</id>
@@ -125,14 +97,14 @@
           <family>Windows</family>
         </os>
       </activation>
-      <!--
+      <!- -
       <properties>
         <python.maven.interpreter>python</python.maven.interpreter>
       </properties>
-      -->
+      - ->
     </profile>
 
-    <!-- SITES PROFILES
+    <!- - SITES PROFILES - ->
     <profile>
       <!- - local - ->
       <id>local</id>
@@ -144,9 +116,8 @@
         <database.host>localhost</database.host>
       </properties>
     </profile>
-    -->
   </profiles>
-
+-->
   <!-- Dependencies -->
   <dependencies>
 
@@ -154,10 +125,8 @@
 
   <!-- Sub projects -->
   <modules>
-    <module>chclib-core</module>
-    <module>chclib-j2ee</module>
-    <module>chclib-sys</module>
-    <module>chclib-tools</module>
+    <module>duplicatefiles</module>
+    <module>editressourcebundle</module>
   </modules>
 
 
