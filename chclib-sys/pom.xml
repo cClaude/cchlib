@@ -47,6 +47,7 @@
         <scope>compile</scope>
     </dependency>
     
+    <!-- http://sf-mvn-plugins.sourceforge.net/1jar-maven-plugin/FAQ.html#usageicejni -->
 	<dependency>
 		<groupId>com.ice</groupId>
 		<artifactId>registry</artifactId>
@@ -63,18 +64,19 @@
 		<type>dll</type>
 		<scope>compile</scope>
 	</dependency>
-    <dependency>
+    <!-- <dependency>
         <groupId>com.simontuffs.onejar</groupId>
         <artifactId>one-jar-boot</artifactId>
         <version>0.97</version>
         <scope>runtime</scope>
-   </dependency>	
+   </dependency> -->	
    
   </dependencies>
   <build>
     <extensions>
     </extensions>
-    <plugins>			
+    <plugins>
+    <!--			
   <plugin>
     <groupId>net.sf.maven.plugins</groupId>
     <artifactId>jar-install-plugin</artifactId>
@@ -95,7 +97,8 @@
      </configuration>
     </execution>
   </executions>
- </plugin>      
+ </plugin>
+   -->      
       <!-- plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>properties-maven-plugin</artifactId>

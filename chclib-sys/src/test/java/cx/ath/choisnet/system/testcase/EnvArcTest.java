@@ -5,7 +5,7 @@ package cx.ath.choisnet.system.testcase;
 
 import java.util.Collection;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.system.EnvArcManager;
+import deprecated.cx.ath.choisnet.system.EnvArcManager;
 import junit.framework.TestCase;
 
 /**
