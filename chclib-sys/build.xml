@@ -15,8 +15,6 @@
   <property name="java.src.home"                value="src/main/java"/>
   <property name="java.resources.home"          value="src/main/resources"/>
   <property name="java.deprecated.src.home"     value="src/deprecated/java"/>
-  <property name="java.samples.src.home"        value="src/samples/java"/>
-  <property name="java.samples.resources.home"  value="src/samples/java"/>
   <property name="java.test.src.home"           value="src/test/java"/>
   <property name="java.test.resources.home"     value="src/test/resources"/>
 
@@ -91,12 +89,17 @@
        >
       <src path="${java.src.home}"/>
       <src path="${java.deprecated.src.home}"/>
+      <src path="${java.test.src.home}"/>
       <classpath refid="compile.classpath"/>
       <compilerarg value="-Xlint"/>
     </javac>
 
     <copy    todir="${build.home}/classes">
       <fileset dir="${java.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.deprecated.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.test.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.resources.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.test.resources.home}" excludes="**/*.java,**/!*!"/>
     </copy>
 
   </target>
@@ -162,10 +165,12 @@
          stylesheetfile="${src.home}/../metadata/stylesheet.css"
 -->
       <classpath refid="compile.classpath"/>
+<!--
       <excludepackage name="alpha.*"/>
       <excludepackage name="deprecated.*"/>
       <excludepackage name="cx.ath.choisnet.system.impl.win32.testcase"/>
       <excludepackage name="cx.ath.choisnet.system.testcase"/>
+-->
       <link href="${javadoc.j2se}" offline="true"
             packagelistLoc="${src.home}/../metadata/j2se.1.5.0/"
             />
@@ -207,7 +212,7 @@
       <classpath refid="compile.classpath"/>
       <!-- env key="PATH" path="${env.path}:${env.Path}:${src.home}/libs/ICE_JNIRegistry.dll"/-->
       <sysproperty key="java.library.path"
-                  path="${src.home}/libs"/><!-- Tips to add DLL -->
+                  path="${src.home}/../lib"/><!-- Tips to add DLL -->
       <batchtest fork="yes"
                 todir="${reports.home}/raw/"
                 >
