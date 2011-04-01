@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cx.ath.choisnet.tools.i18n</groupId>
+  <artifactId>EditRessourceBundle</artifactId>
+  <version>03a.80.00</version>
+  <packaging>jar</packaging>
+
+  <name>EditRessourceBundle</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jnlp.url>http://code.google.copm/</jnlp.url>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame</mainClass>
+              <packageName>cx.ath.choisnet.tools.i18n</packageName>
+              <addClasspath>true</addClasspath>
+            </manifest>
+            <manifestEntries>
+              <SplashScreen-Image>cx/ath/choisnet/tools/i18n/splash.png</SplashScreen-Image>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+              <!-- Use this to in/exclude only specific dependencies
+                <includes>
+                  <include>commons-codec:commons-codec</include>
+                </includes> -->
+              </artifactSet>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                </transformers>
+              </configuration>
+           </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.chclib</groupId>
+      <artifactId>chclibcore</artifactId>
+      <version>03a.37.7</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+  </dependencies>
+</project>

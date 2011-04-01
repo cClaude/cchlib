@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="CHCLib" default="compile" basedir=".">
+
+  <property environment="env"/>
+
+<!-- ===================== Property Definitions ======================== -->
+
+  <tstamp><format property="build.date" pattern="yyyy-MM-dd"/></tstamp>
+
+  <property file="build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+  <property name="src.home"             value="."/>
+  <property name="java.src.home"        value="src/main/java"/>
+  <property name="java.resources.home"  value="src/main/resources"/>
+  <!--
+  <property name="build.number.file"  value="${java.src.home}/build.number"/>
+  -->
+  <property name="build.number.file"  value="./build.number"/>
+
+  <property file="${build.number.file}"/>
+
+  <property name="app.name"     value="CHCLibTools"/>
+  <property name="app.version"  value="${VERSION}.${REVISION}.${build.number}"/>
+  <property name="build.home"   value=".ant/build"/>
+  <property name="dist.home"    value=".ant/dist"/>
+  <property name="reports.home" value=".ant/junit"/>
+
+  <!--
+  property name="jar.file"     value="${dist.home}/${app.name}.${app.version}.jar"/
+  -->
+  <property name="jar.home"     value="${dist.home}"/>
+  <property name="docs.home"    value="${dist.home}-docs"/>
+
+  <echo message="$VER: ${app.name} ${app.version} (${build.date})" />
+  <!--
+  <dirname property="home.dir"   file="${src.home}/src/main/java"/>
+  <dirname property="parent.dir" file="${src.home}"/>
+  -->
+
+  <!-- Configure the context path for this application -->
+<!--  ==================== Compilation Control Options ================= -->
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="on"/>
+  <property name="compile.optimize"    value="true"/>
+
+<!-- ==================== Compilation Classpath ======================== -->
+
+  <path id="compile.classpath">
+
+    <!-- Ajout des jars du projet -->
+    <fileset dir="${src.home}/../libs">
+      <include name="*.jar"/>
+    </fileset>
+
+    <fileset dir="${src.home}/../../releases/CHCLibCore">
+      <include name="CHCLibCore*.jar"/>
+    </fileset>
+
+  </path>
+
+<!-- ==================== All Target =================================== -->
+
+  <target name="all" depends="clean,compile,dist,javadoc"
+   description="Clean build and compile, then dist"/>
+
+<!-- ==================== Clean Target ================================= -->
+
+  <target name="clean"
+   description="Delete old build and dist directories">
+    <delete dir="${build.home}"/>
+    <delete dir="${dist.home}"/>
+    <delete dir="${docs.home}"/>
+    <delete dir="${reports.home}"/>
+  </target>
+
+<!-- ==================== Compile Target =============================== -->
+
+  <target name="compile" depends="prepare" description="Compile Java sources">
+
+    <!-- Compile Java classes as necessary -->
+    <mkdir  dir="${build.home}/classes"/>
+
+    <javac destdir="${build.home}/classes"
+            target="1.5"
+            source="1.5"
+             debug="${compile.debug}"
+          optimize="${compile.optimize}"
+       deprecation="${compile.deprecation}"
+       includeantruntime="false"
+       >
+      <src path="${java.src.home}"/>
+      <classpath refid="compile.classpath"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+
+    <copy    todir="${build.home}/classes">
+      <fileset dir="${java.src.home}"       excludes="**/*.java,**/*.java!,**/!*!,**/*.xcf"/>
+      <fileset dir="${java.resources.home}" excludes="**/*.java,**/*.java!,**/!*!,**/*.xcf"/>
+    </copy>
+
+  </target>
+
+<!-- ==================== Dist Target ================================== -->
+  <target name="dist" depends="compile"
+   description="Create binary distribution">
+
+    <buildnumber file="${build.number.file}"/>
+    <mkdir dir="${dist.home}"/>
+    <mkdir dir="${build.home}/fake"/>
+
+    <unzip  dest="${build.home}/jars">
+      <fileset dir="${src.home}/../libs"/>
+      <fileset dir="${src.home}/../../releases/CHCLibCore">
+        <!-- should be uniq -->
+        <include name="CHCLibCore*.jar"/>
+      </fileset>
+    </unzip>
+
+    <!-- clean up jars extractions -->
+    <delete>
+      <fileset dir="${build.home}/jars">
+        <include name="build.number"/>
+        <include name="log4j.properties"/>
+      </fileset>
+    </delete>
+    <delete dir="${build.home}/jars/META-INF"/>
+    <delete dir="${build.home}/jars/junit3.8.2"/>
+    <delete dir="${build.home}/jars/sample"/>
+    <delete dir="${build.home}/jars/tst"/>
+
+    <!-- clean up testcases -->
+    <delete>
+      <fileset dir="${build.home}/jars/cx">
+        <include name="**/testcase/**"/>
+      </fileset>
+    </delete>
+    <delete verbose="on">
+      <fileset dir="${build.home}/jars/cx">
+        <include name="**/testcase"/>
+      </fileset>
+    </delete>
+
+    <!-- CompareRessourceBundle standalone -->
+    <jar jarfile="${jar.home}/${app.name}.CompareRessourceBundle.${app.version}.jar"
+         basedir="${build.home}/fake"
+        >
+      <manifest>
+        <attribute name="Main-Class"          value="cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame"/>
+        <attribute name="SplashScreen-Image"  value="cx/ath/choisnet/tools/i18n/splash.png"/>
+        <attribute name="X-Built-By"          value="${user.name}"/>
+        <attribute name="X-APP-Name"          value="${app.name}"/>
+        <attribute name="X-APP-Version"       value="${app.version}"/>
+        <attribute name="X-APP-Created-By"    value="${app.vendor}"/>
+        <attribute name="X-APP-Decription"    value="Tool to help to edit localization files"/>
+      </manifest>
+      <fileset dir="${build.home}/classes">
+        <include name="cx/ath/choisnet/tools/i18n/**"/>
+        <include name="*.*"/>
+      </fileset>
+      <fileset dir="${build.home}/jars"/>
+    </jar>
+
+  </target>
+
+<!-- ==================== Javadoc Target =============================== -->
+
+  <target
+    name="javadoc"
+    depends="compile"
+    description="Create Javadoc API documentation"
+    >
+
+    <property
+        name="javadoc.j2se"
+        value="http://download.oracle.com/javase/6/docs/api/"
+        />
+    <property name="api.docs.home" value="${docs.home}/api"/>
+
+    <mkdir dir="${api.docs.home}"/>
+
+    <javadoc sourcepath="${java.src.home}"
+           packagenames="*"
+    excludepackagenames="*.undocumented,*.testcase,alpha.*"
+                destdir="${api.docs.home}"
+                 access="protected"
+                    use="true"
+                 Header="${app.name} ${app.version}"
+                 Footer="${app.name} API"
+             serialwarn="true"
+                version="true"
+                 author="true"
+            failonerror="true"
+               Doctitle="${app.name} API ${app.version} (Doctitle)"
+            Windowtitle="${app.name} API ${app.version}"
+         stylesheetfile="${src.home}/metadata/stylesheet.css"
+         >
+      <classpath refid="compile.classpath"/>
+      <link href="${javadoc.j2se}" offline="true"
+            packagelistLoc="${src.home}/metadata/javase6/"
+            />
+      <link href="http://junit.sourceforge.net/junit3.8.1/javadoc/"
+         offline="true"
+            packagelistLoc="${src.home}/metadata/junit3.8.1/"
+            />
+      <link href="http://logging.apache.org/log4j/1.2/apidocs/"
+         offline="true"
+            packagelistLoc="${src.home}/metadata/log4j-1.2/"
+            />
+      <doctitle>${app.name}</doctitle>
+    </javadoc>
+
+    <copy    todir="${api.docs.home}/resources"
+         overwrite="true"
+       failonerror="true"
+         >
+      <fileset dir="${src.home}/metadata/resources" excludes="!*!"/>
+    </copy>
+
+  </target>
+
+<!-- ==================== Prepare Target =============================== -->
+
+  <target name="prepare">
+    <mkdir  dir="${build.home}"/>
+  </target>
+
+<!-- ==================== JUnit Target ================================= -->
+  <target name="junit"
+          depends="compile"
+          description="Lauche JUnit"
+          >
+    <mkdir dir="${reports.home}/raw"/>
+
+    <junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+      <classpath refid="compile.classpath"/>
+      <classpath>
+        <pathelement path="${build.home}/classes"/>
+      </classpath>
+      <batchtest fork="yes" todir="${reports.home}/raw/">
+        <formatter type="xml"/>
+        <fileset dir="${java.src.home}">
+          <include name="**/Test*.java"/>
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+<!-- ====================== Arch Target ================================ -->
+
+  <target name="arch" depends="clean">
+
+    <property     name="arch.name" value="${build.date}.${app.name}.V${app.version}.src.7z"/>
+    <property     name="exe"       value="${parent.dir}\bin\7z.exe"/>
+
+    <echo message="arch.name  = ${arch.name}" />
+    <echo message="home.dir   = ${home.dir}" />
+    <echo message="parent.dir = ${parent.dir}" />
+    <echo message="exe        = ${exe}" />
+    <echo message="os.name    = ${os.name}" />
+
+    <exec dir=".." executable="cmd.exe" os="Windows 2000,Windows XP">
+      <arg line="/c ${exe} a -t7z ${arch.name} -r ${home.dir}/*  -mx=8 -mmt=on"/>
+    </exec>
+
+  </target>
+
+<!-- =================================================================== -->
+
+</project>
