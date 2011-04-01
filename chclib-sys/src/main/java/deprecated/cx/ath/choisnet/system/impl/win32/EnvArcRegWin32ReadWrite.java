@@ -1,5 +1,7 @@
 package deprecated.cx.ath.choisnet.system.impl.win32;
 
+import deprecated.cx.ath.choisnet.system.EnvArcException;
+
 /**
  * Does not expand REG_EXPAND_SZ
  * 

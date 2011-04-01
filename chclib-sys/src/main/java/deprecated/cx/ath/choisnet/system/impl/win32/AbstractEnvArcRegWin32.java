@@ -8,16 +8,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import cx.ath.choisnet.system.EnvArc;
-import cx.ath.choisnet.system.EnvArcException;
+import deprecated.cx.ath.choisnet.system.EnvArc;
+import deprecated.cx.ath.choisnet.system.EnvArcException;
 
 /**
  * @author Claude CHOISNET
  *
  */
 @Deprecated
-public abstract class AbstractEnvArcRegWin32 extends RegWin32 implements EnvArc {
-
+public abstract class AbstractEnvArcRegWin32 extends RegWin32 implements EnvArc 
+{
     /**
      * @throws EnvArcRegWin32EnvArcException
      */

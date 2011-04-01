@@ -11,6 +11,7 @@ import java.util.Map;
 import deprecated.cx.ath.choisnet.system.impl.EnvArcDefaultImpl;
 import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
 import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly;
+import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite;
 
 /**
  * @author Claude CHOISNET
