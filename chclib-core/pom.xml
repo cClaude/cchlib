@@ -13,9 +13,9 @@
   <artifactId>chclibcore</artifactId>
   <packaging>jar</packaging>
 <!--
-  <version>${project.chclib.version}</version>
--->
   <version>4.1.0-SNAPSHOT</version>
+-->
+  <version>${project.chclib.version}</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
