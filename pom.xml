@@ -152,6 +152,8 @@
     <module>chclib-j2ee</module>
     <module>chclib-sys</module>
     <module>chclib-tools</module>
+    <module>chclib-tools-duplicatefiles</module>
+    <module>chclib-tools-editressourcebundle</module>
   </modules>
 
 </project>
