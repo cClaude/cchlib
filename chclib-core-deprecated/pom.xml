@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>com.googlecode.chclib</groupId>
-  <artifactId>chclibcore</artifactId>
+  <artifactId>chclib-core-deprecated</artifactId>
   <packaging>jar</packaging>
   <version>4.1.1-SNAPSHOT</version>
 <!--
@@ -38,6 +38,13 @@
       <type>jar</type>
     </dependency>
 
+    <dependency>
+    	<groupId>com.googlecode.chclib</groupId>
+    	<artifactId>chclibcore</artifactId>
+    	<version>4.1.1-SNAPSHOT</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <extensions>
