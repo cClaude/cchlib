@@ -16,15 +16,6 @@ import cx.ath.choisnet.lang.reflect.MappableHelper.Attributes;
  * of this class must do so under protest until I have
  * check its stability, it could be subject to significant
  * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
  * </p>
  *
  * @author Claude CHOISNET
@@ -61,8 +52,8 @@ public class MappableHelperDefaultFactory
     /** @serial */
     private EnumSet<MappableHelper.Attributes> attributesSet;
 
-    /** 
-     * TODO: Doc! 
+    /**
+     * TODO: Doc!
      */
     public MappableHelperDefaultFactory()
     {
@@ -71,10 +62,10 @@ public class MappableHelperDefaultFactory
         methodesNamePattern = Pattern.compile(DEFAULT_METHODS);
         attributesSet = EnumSet.noneOf(MappableHelper.Attributes.class);
     }
-    
-    /** 
-     * TODO: Doc! 
-     * 
+
+    /**
+     * TODO: Doc!
+     *
      * @param attribute
      */
     public MappableHelperDefaultFactory addAttribute(
@@ -86,9 +77,9 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
-     * 
+    /**
+     * TODO: Doc!
+     *
      * @param attributes
      */
     public MappableHelperDefaultFactory addAttributes(
@@ -102,9 +93,9 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
-     * 
+    /**
+     * TODO: Doc!
+     *
      * @param attributes
      */
     public MappableHelperDefaultFactory addAttributes(
@@ -116,9 +107,9 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
-     * 
+    /**
+     * TODO: Doc!
+     *
      * @param clazz
      */
     public MappableHelperDefaultFactory addClass(Class<?> clazz)
@@ -128,8 +119,8 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
+    /**
+     * TODO: Doc!
      */
     public MappableHelperDefaultFactory addClasses(Class<?>...classes)
     {
@@ -140,8 +131,8 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
+    /**
+     * TODO: Doc!
      */
     public MappableHelperDefaultFactory addClasses(Collection<Class<?>> classes)
     {
@@ -152,8 +143,8 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
+    /**
+     * TODO: Doc!
      */
     public MappableHelperDefaultFactory setMethodesNamePattern(Pattern pattern)
     {
@@ -162,8 +153,8 @@ public class MappableHelperDefaultFactory
         return this;
     }
 
-    /** 
-     * TODO: Doc! 
+    /**
+     * TODO: Doc!
      */
     public MappableHelperDefaultFactory setMethodesNamePattern(String pattern)
     {
@@ -171,7 +162,7 @@ public class MappableHelperDefaultFactory
 
         return this;
     }
-    
+
     @Override
     public String getStringNullValue()
     {

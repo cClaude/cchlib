@@ -24,18 +24,9 @@ import cx.ath.choisnet.ToDo;
  * of this class must do so under protest until I have
  * check its stability, it could be subject to significant
  * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements
- * importants.
  * </p>
  * Code review in progress.
- * 
+ *
  * @author Claude CHOISNET
  */
 @ToDo
@@ -43,12 +34,12 @@ public class MappableHelper
 {
     /**
      * TODO: Doc!
-     * 
+     *
      * @author Claude CHOISNET
      */
     public enum Attributes {
         /**
-         *  TODO: Doc! 
+         *  TODO: Doc!
          */
         ALL_PRIMITIVE_TYPE,
         /** TODO: Doc! */
@@ -91,7 +82,7 @@ public class MappableHelper
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param factory
      */
     public MappableHelper(final MappableHelperFactory factory)
@@ -271,7 +262,7 @@ public class MappableHelper
 //            if(enum0 == null) {
 //                continue;
 //            }
-            
+
             if( returnType.isArray() ) {
 //                int len =Array.getLength(enum0);
                 int len =Array.getLength( methodResult );
@@ -281,7 +272,7 @@ public class MappableHelper
                 for(int i = 0; i < len; i++) {
 //                    Object value = Array.get(enum0, i);
                     Object value = Array.get( methodResult, i );
-                    
+
                     hashMap.put(
                             formatArrayEntry(methodName, i, len),
                             toString(value)
@@ -309,7 +300,7 @@ public class MappableHelper
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param methodeName
      * @param index
      * @param max
@@ -325,7 +316,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param methodeName
      * @param index
      * @param max
@@ -343,7 +334,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param methodeName
      * @param index
      * @param max
@@ -361,7 +352,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param methodeName
      * @param index
      * @param max
@@ -379,7 +370,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param methodeName
      * @return
      */
@@ -426,7 +417,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param clazz
      * @return
      */
@@ -435,7 +426,7 @@ public class MappableHelper
         if(!attributesSet.contains(Attributes.DO_RECURSIVE)) {
             return false;
         }
-        
+
         if(clazz.isArray()) {
             return Mappable.class.isAssignableFrom(clazz.getComponentType());
         }
@@ -473,7 +464,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param object
      * @return
      */
@@ -588,7 +579,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param object
      * @param method
      * @param hashMap
@@ -596,9 +587,9 @@ public class MappableHelper
      * @return
      */
     protected final Object invoke(
-            final Object object, 
-            final Method method, 
-            final Map<String,String> hashMap, 
+            final Object object,
+            final Method method,
+            final Map<String,String> hashMap,
             final Class<?> resultClass
             )
     {
@@ -659,7 +650,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param factory
      * @param object
      * @return
@@ -678,7 +669,7 @@ public class MappableHelper
 //    }
 
     /**
-     * 
+     *
      */
     public static void toXML(Appendable out, Class<?> clazz, Map<String,String> map)
         throws java.io.IOException
@@ -705,7 +696,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param out
      * @param clazz
      * @param aMappableObject
@@ -718,7 +709,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param out
      * @param aMappableObject
      * @throws java.io.IOException
@@ -730,7 +721,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param clazz
      * @param aMappableObject
      * @return
@@ -750,7 +741,7 @@ public class MappableHelper
     }
 
     /**
-     * 
+     *
      * @param aMappableObject
      * @return
      */

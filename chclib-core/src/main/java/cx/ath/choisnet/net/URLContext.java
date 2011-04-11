@@ -19,15 +19,6 @@ import cx.ath.choisnet.ToDo;
  * of this class must do so under protest until I have
  * check its stability, it could be subject to significant
  * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
  * </p>
  *
  * @author Claude CHOISNET

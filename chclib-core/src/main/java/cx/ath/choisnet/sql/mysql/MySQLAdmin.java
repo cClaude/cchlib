@@ -22,15 +22,6 @@ import java.io.OutputStream;
  * of this class must do so under protest until I have
  * check its stability, it could be subject to significant
  * change.
- * <br/>
- * <br/>
- * <b>Attention:</b>
- * Dans la mesure où le code de cette classe est issue de
- * la décompilation de mon propre code, suite à la perte
- * du code source, l'utilisation de cette classe doit ce
- * faire sous toute réserve tant que je n'ai pas vérifier
- * sa stabilité, elle est donc sujette à des changements 
- * importants.
  * </p>
  *
  * @author Claude CHOISNET
@@ -43,16 +34,16 @@ public class MySQLAdmin
     private String mySQLDumpParams;
 
     /**
-     * 
+     *
      * @param mySQLExe
      * @param mySQLParams
      * @param mySQLDumpExe
      * @param mySQLDumpParams
      */
     public MySQLAdmin(
-            String mySQLExe, 
-            String mySQLParams, 
-            String mySQLDumpExe, 
+            String mySQLExe,
+            String mySQLParams,
+            String mySQLDumpExe,
             String mySQLDumpParams
             )
     {
@@ -63,7 +54,7 @@ public class MySQLAdmin
     }
 
     /**
-     * 
+     *
      * @param outputStream
      * @throws MySQLAdminException
      */
@@ -84,7 +75,7 @@ public class MySQLAdmin
     }
 
     /**
-     * 
+     *
      * @param outputFile
      * @throws MySQLAdminException
      */
@@ -112,7 +103,7 @@ public class MySQLAdmin
     }
 
     /**
-     * 
+     *
      * @param servletOuput
      * @param outputFile
      * @throws MySQLAdminException
@@ -148,12 +139,12 @@ public class MySQLAdmin
         finally {
             if(fileOutputStream != null) {
                 try { fileOutputStream.close(); } catch(Exception ignore) { }
-                }            
+                }
             }
     }
 
     /**
-     * 
+     *
      * @param servletOuput
      * @param fileOutputStream
      * @throws MySQLAdminException
@@ -177,13 +168,13 @@ public class MySQLAdmin
     }
 
     /**
-     * 
+     *
      * @param inputfile
      * @throws MySQLAdminException
      * @throws FileNotFoundException
      */
     public void applySQL(File inputfile)
-        throws  MySQLAdminException, 
+        throws  MySQLAdminException,
                 FileNotFoundException
     {
         applySQL(
@@ -194,7 +185,7 @@ public class MySQLAdmin
     }
 
     /**
-     * 
+     *
      * @param sqlStream
      * @throws MySQLAdminException
      */
