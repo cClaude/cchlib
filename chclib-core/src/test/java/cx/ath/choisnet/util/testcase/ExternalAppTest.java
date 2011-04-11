@@ -3,9 +3,11 @@
  */
 package cx.ath.choisnet.util.testcase;
 
+/*
 import java.io.OutputStream;
 import cx.ath.choisnet.util.ExternalApp;
 import cx.ath.choisnet.util.ExternalAppException;
+*/
 import junit.framework.TestCase;
 
 /**
@@ -13,7 +15,7 @@ import junit.framework.TestCase;
  */
 public class ExternalAppTest extends TestCase 
 {
-
+/*
     public void test1() throws ExternalAppException
     {
         OutputStream stdout = System.out;
@@ -26,4 +28,5 @@ public class ExternalAppTest extends TestCase
         // TODO choice cmd according to OS
         return "ping 127.0.0.1";
     }
+*/
 }
