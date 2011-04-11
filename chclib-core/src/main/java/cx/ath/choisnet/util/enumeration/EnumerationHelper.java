@@ -167,7 +167,8 @@ public class EnumerationHelper
      * @param enumeration enumeration to wrap
      * @param <T> type off enumeration and off iterator
      * @return an Iterator
-     * 
+     * @deprecated use EnumerationIterator
+     * @see EnumerationIterator
      */
     public static <T> Iterator<T> toIterator( 
             final Enumeration<T> enumeration 
