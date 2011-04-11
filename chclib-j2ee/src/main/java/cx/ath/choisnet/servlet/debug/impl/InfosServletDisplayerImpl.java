@@ -202,7 +202,7 @@ public class InfosServletDisplayerImpl
     private InfosServletDisplay getHttpServletISD()
     {
         return new InfosServletDisplayImpl2(
-                "Here is the javax.servlet.http.HttpServlet object<br />"
+                "Object: javax.servlet.http.HttpServlet<br />"
                     + InfosServletDisplayerImpl.getObjectInfo(httpServlet),
                 "HttpServlet", 
                 httpServlet
@@ -219,7 +219,7 @@ public class InfosServletDisplayerImpl
     private InfosServletDisplay getServletRequestISD()
     {
         return new InfosServletDisplayImpl2(
-                "Here is the ServletRequest object<br />"
+                "Object: ServletRequest<br />"
                     + InfosServletDisplayerImpl.getObjectInfo(servletRequest),
                 "ServletRequest",
                 servletRequest
@@ -255,10 +255,10 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Here are the request header parameters<br/>request.getHeaderNames()", 
+                "Request header parameters<br/>request.getHeaderNames()", 
                 "HttpServletRequest.getHeaderNames()",
                 map,
-                "There are no request header parameters."
+                "No request header parameters."
                 );
     }
 
@@ -292,10 +292,10 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Here are the request url/form parameters<br />request.getParameterNames()",
+                "Request url/form parameters<br />request.getParameterNames()",
                 "request.getParameterNames()",
                 map,
-                "There are no request url/form parameters."
+                "No request url/form parameters."
                 );
     }
 
@@ -318,10 +318,10 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Here are the request attributes<br />request.getAttributeNames()", 
+                "Request attributes<br />request.getAttributeNames()", 
                 "request.getAttributeNames()",
                 map,
-                "There are no request attributes."
+                "No attributes"
                 );
     }
 
@@ -342,7 +342,7 @@ public class InfosServletDisplayerImpl
             }
 
         return new InfosServletDisplayImpl(
-                "Here is the Cookies information", 
+                "Cookies information", 
                 "request.getCookies()", 
                 map,
                 "NO cookies !"
@@ -364,12 +364,12 @@ public class InfosServletDisplayerImpl
             }
 
         return new InfosServletDisplayImpl(
-            "Here are the ServletConfig init attributes<br />(servlet name  = '"
+            "ServletConfig init attributes<br />(servlet name  = '"
                 + servletConfig.getServletName()
                 + "')<br/>servletConfig.getInitParameterNames()", 
             "servletConfig.getInitParameterNames()", 
             map, 
-            "There are no Servlet Config attributes."
+            "No attributes"
             );
     }
 
@@ -388,7 +388,7 @@ public class InfosServletDisplayerImpl
             }
 
         return new InfosServletDisplayImpl2(
-                "Here is information from the ServletContext<br />"
+                "Informations from the ServletContext<br />"
                      + InfosServletDisplayerImpl.getObjectInfo(servletContext),
                 "ServletContext",
                 servletContext
@@ -418,10 +418,10 @@ public class InfosServletDisplayerImpl
         }
         
         return new InfosServletDisplayImpl(
-                "Here are attributes from the ServletContext: servletContext.getAttributeNames()", 
+                "Attributes from the ServletContext: servletContext.getAttributeNames()", 
                 "servletContext.getAttributeNames()", 
                 map,
-                "There is no attributes on the ServletContext"
+                "No attributes"
                 );
     }
 
@@ -442,10 +442,10 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Here are  init attributs from the ServletContext<br/>servletContext.getInitParameterNames()",
+                "Init attributes from the ServletContext<br/>servletContext.getInitParameterNames()",
                 "servletContext.getInitParameterNames()",
                 map,
-                "There is no init attributs from the ServletContext"
+                "No attributes"
                 );
     }
 
@@ -455,7 +455,7 @@ public class InfosServletDisplayerImpl
     private InfosServletDisplay getHttpSessionISD()
     {
         return new InfosServletDisplayImpl2(
-                "Here is information from the HttpSession<br />"
+                "HttpSession<br />"
                     + InfosServletDisplayerImpl.getObjectInfo(httpSession),
                 "HttpSession",
                 httpSession
@@ -471,7 +471,7 @@ public class InfosServletDisplayerImpl
         final StringBuilder      title = new StringBuilder("Here are the HttpSession : ");
 
         Enumeration<String> enum0;
-        String noDataMsg;
+        String              noDataMsg;
 
         if(httpSession == null) {
             title.append("NOT FOUND");
@@ -544,10 +544,10 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Here is the JVM System.getProperties() informations : ",
+                "JVM System.getProperties() informations : ",
                 "System.getProperties()",
                 map,
-                "There is no init attributs from the ServletContext"
+                "no property"
                 );
     }
 

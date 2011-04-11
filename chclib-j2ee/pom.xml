@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.googlecode.chclib</groupId>
     <artifactId>chclib</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
   </parent>
 
   <groupId>com.googlecode.chclib</groupId>
@@ -15,7 +15,7 @@
 <!--
   <version>${project.chclib.version}</version>
 -->
-  <version>4.1.0-SNAPSHOT</version>
+  <version>4.1.1-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
