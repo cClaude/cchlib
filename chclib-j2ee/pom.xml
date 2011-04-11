@@ -38,7 +38,7 @@
       <type>jar</type>
       <scope>provided</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -54,7 +54,7 @@
       <type>jar</type>
       <scope>test</scope>
     </dependency>
-
+    
     <dependency>
         <groupId>com.googlecode.chclib</groupId>
         <artifactId>chclibcore</artifactId>

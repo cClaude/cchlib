@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.googlecode.chclib</groupId>
     <artifactId>chclib</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
   </parent>
 
   <groupId>com.googlecode.chclib</groupId>
@@ -12,17 +12,11 @@
 <!--
   <version>${project.chclib.version}</version>
 -->
-  <version>4.1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <version>4.1.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <!-- Sub projects -->
-  <modules>
-    <module>duplicatefiles</module>
-    <module>editressourcebundle</module>
-  </modules>
 
 </project>
