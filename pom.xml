@@ -79,16 +79,19 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.0.2</version>
         <configuration>
+          <optimize>true</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
       </plugin>
-      <!-- To generate an eclipse project with tomcat support-->
+      <!-- To generate an eclipse project with tomcat support
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sysdeo-tomcat-maven-plugin</artifactId>
         <version>1.1</version>
-      </plugin>
+      </plugin> -->
     </plugins>
   </build>
 
