@@ -1,6 +1,6 @@
 package cx.ath.choisnet.xml;
 
-import org.w3c.dom.Document;
+import java.net.URL;
 
 /**
  * TODO: doc!
@@ -8,12 +8,12 @@ import org.w3c.dom.Document;
  * @author Claude CHOISNET
  * @version $Id: $
  */
-public interface XMLParser
+public interface XMLURLParser extends XMLParser
 {
     /**
      * TODO: doc!
      *
-     * @return a {@link org.w3c.dom.Document} object.
+     * @return a {@link java.net.URL} object.
      */
-    public abstract Document getDocument();
+    public abstract URL getURL();
 }

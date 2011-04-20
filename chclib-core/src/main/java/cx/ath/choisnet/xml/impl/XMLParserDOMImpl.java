@@ -3,6 +3,7 @@ package cx.ath.choisnet.xml.impl;
 import cx.ath.choisnet.xml.XMLParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -15,56 +16,72 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
+ * TODO: doc!
  *
  * @author Claude CHOISNET
- *
  */
-@Deprecated
-public class XMLParserDOM2Impl
+public class XMLParserDOMImpl
     implements XMLParser
 {
     /**
+     * Help to setup configuration for {@link DocumentBuilderFactory}
      *
      * @author Claude CHOISNET
      */
-    @Deprecated
     public enum Attributs {
         /**
-         *
+         * set {@link DocumentBuilderFactory#setValidating(boolean)}
+         * to true if present in EnumSet
          */
         ENABLE_VALIDATING,
+
         /**
-         *
+         * set {@link DocumentBuilderFactory#setIgnoringComments(boolean)}
+         * to true if present in EnumSet
          */
         IGNORE_COMMENTS,
+
         /**
-         *
+         * set {@link DocumentBuilderFactory#setIgnoringElementContentWhitespace(boolean)}
+         * to true if present in EnumSet
          */
         IGNORE_WHITESPACE,
+
         /**
-         *
+         * set {@link DocumentBuilderFactory#setCoalescing(boolean)}
+         * to true if present in EnumSet
          */
         PUT_CDATA_INTO_TEXT,
+
         /**
-         *
+         * set {@link DocumentBuilderFactory#setCoalescing(boolean)}
+         * to false if present in EnumSet (default true)
          */
         CREATE_ENTITY_REFERENCES
         };
 
+        /*
     public static final EnumSet<Attributs> DEFAULT_ATTRIBUTS = EnumSet.of( Attributs.IGNORE_WHITESPACE );
     public static final EnumSet<Attributs> VALIDATE_ONLY = EnumSet.of( Attributs.ENABLE_VALIDATING );
+    */
 
     private DocumentBuilder documentBuilder;
     private Document        document;
 
-    protected XMLParserDOM2Impl(
-            EnumSet<Attributs>      attributes,
-            XMLParserErrorHandler   errorHandler
+    /**
+     *
+     * @param errorHandler
+     * @param attributes
+     * @throws XMLParserException
+     */
+    protected XMLParserDOMImpl(
+            XMLParserErrorHandler   errorHandler,
+            EnumSet<Attributs>      attributes
             )
         throws XMLParserException
     {
         try {
-            documentBuilder = XMLParserDOM2Impl.createDocumentBuilder(attributes, errorHandler.getSAXErrorHandler());
+            documentBuilder = XMLParserDOMImpl.createDocumentBuilder(attributes, errorHandler.getSAXErrorHandler());
             document        = null;
             }
         catch(ParserConfigurationException e) {
@@ -72,14 +89,49 @@ public class XMLParserDOM2Impl
             }
     }
 
-    public XMLParserDOM2Impl(
-            URL                     anURL,
-            EnumSet<Attributs>      attributes,
-            XMLParserErrorHandler   errorHandler
+    /**
+     *
+     * @param file
+     * @param errorHandler
+     * @param attributes
+     * @throws XMLParserException
+     */
+    public XMLParserDOMImpl(
+            File                    file,
+            XMLParserErrorHandler   errorHandler,
+            EnumSet<Attributs>      attributes
             )
         throws XMLParserException
     {
-        this(attributes, errorHandler);
+        this(errorHandler, attributes );
+
+        try {
+            document = documentBuilder.parse( file );
+            }
+        catch(IOException e) {
+            errorHandler.ioError(e);
+            }
+        catch(SAXException e) {
+            errorHandler.saxError(e);
+            }
+    }
+
+    /**
+     * TODO: doc!
+     *
+     * @param anURL
+     * @param errorHandler
+     * @param attributes
+     * @throws XMLParserException
+     */
+    public XMLParserDOMImpl(
+            URL                     anURL,
+            XMLParserErrorHandler   errorHandler,
+            EnumSet<Attributs>      attributes
+            )
+        throws XMLParserException
+    {
+        this(errorHandler, attributes );
 
         try {
             document = documentBuilder.parse(anURL.openStream(), anURL.toString());
@@ -92,14 +144,22 @@ public class XMLParserDOM2Impl
             }
     }
 
-    public XMLParserDOM2Impl(
+    /**
+     * TODO: doc!
+     *
+     * @param aStream
+     * @param errorHandler
+     * @param attributes
+     * @throws XMLParserException
+     */
+    public XMLParserDOMImpl(
             InputStream             aStream,
-            EnumSet<Attributs>      attributes,
-            XMLParserErrorHandler   errorHandler
+            XMLParserErrorHandler   errorHandler,
+            EnumSet<Attributs>      attributes
             )
         throws XMLParserException
     {
-        this(attributes, errorHandler);
+        this(errorHandler, attributes );
 
         try {
             document = documentBuilder.parse(aStream);
@@ -112,11 +172,17 @@ public class XMLParserDOM2Impl
             }
     }
 
+    @Override
     public Document getDocument()
     {
         return document;
     }
 
+    /**
+     * TODO: doc!
+     *
+     * @param document
+     */
     protected void setDocument(Document document)
     {
         this.document = document;
@@ -144,7 +210,7 @@ public class XMLParserDOM2Impl
             )
         throws ParserConfigurationException
     {
-        DocumentBuilderFactory  dbf = XMLParserDOM2Impl.createDocumentBuilderFactory(attributes);
+        DocumentBuilderFactory  dbf = XMLParserDOMImpl.createDocumentBuilderFactory(attributes);
         DocumentBuilder         db;
 
         try {

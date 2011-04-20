@@ -1,4 +1,4 @@
-Call make-all.cmd
+Call mvn-all.cmd
 IF ERRORLEVEL 1 (
   Pause
   Goto :eof

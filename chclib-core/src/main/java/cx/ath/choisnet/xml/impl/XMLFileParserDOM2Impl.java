@@ -2,15 +2,13 @@ package cx.ath.choisnet.xml.impl;
 
 import cx.ath.choisnet.xml.XMLFileParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
+import cx.ath.choisnet.xml.XMLParserException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.EnumSet;
 
-/**
- *
- * @author Claude CHOISNET
- *
- */
+@Deprecated
 public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
     implements XMLFileParser
 {
@@ -22,7 +20,7 @@ public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
             EnumSet<Attributs> attributes,
             XMLParserErrorHandler errorHandler
             )
-        throws java.io.FileNotFoundException, cx.ath.choisnet.xml.XMLParserException
+        throws FileNotFoundException, XMLParserException
     { // TODO : Lock here ! should be deprecated !
         super(new FileInputStream(sourceFile), attributes, errorHandler);
 

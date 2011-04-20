@@ -6,14 +6,20 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
+ * TODO: Doc!
  *
  * @author Claude CHOISNET
- *
+ * @version $Id: $
  */
 public class SAXErrorHandlerImpl implements ErrorHandler
 {
     private final PrintWriter output;
 
+    /**
+     * <p>Constructor for SAXErrorHandlerImpl.</p>
+     *
+     * @param out a {@link java.io.PrintWriter} object.
+     */
     public SAXErrorHandlerImpl(PrintWriter out)
     {
         output = out;
@@ -50,8 +56,10 @@ public class SAXErrorHandlerImpl implements ErrorHandler
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
+    @Override
     public void warning(SAXParseException spe)
-        throws org.xml.sax.SAXException
+        throws SAXException
     {
         StringBuilder message = new StringBuilder()
             .append("$Warning: ")
@@ -60,8 +68,10 @@ public class SAXErrorHandlerImpl implements ErrorHandler
         output.println(message);
     }
 
-    public void error(org.xml.sax.SAXParseException spe)
-        throws org.xml.sax.SAXException
+    /** {@inheritDoc} */
+    @Override
+    public void error(SAXParseException spe)
+        throws SAXException
     {
         StringBuilder message = new StringBuilder()
             .append("$Error: ")
@@ -70,10 +80,15 @@ public class SAXErrorHandlerImpl implements ErrorHandler
         throw new SAXException(message.toString());
     }
 
-    public void fatalError(org.xml.sax.SAXParseException spe)
-        throws org.xml.sax.SAXException
+    /** {@inheritDoc} */
+    @Override
+    public void fatalError(SAXParseException spe)
+        throws SAXException
     {
-        String message = (new StringBuilder()).append("$Fatal Error: ").append(SAXErrorHandlerImpl.getParseExceptionInfo(spe)).toString();
+        String message = (new StringBuilder())
+            .append("$Fatal Error: ")
+            .append(SAXErrorHandlerImpl.getParseExceptionInfo(spe))
+            .toString();
         throw new SAXException(message);
     }
 }
