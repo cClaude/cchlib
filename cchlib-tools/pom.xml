@@ -2,16 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.googlecode.chclib</groupId>
-    <artifactId>chclib</artifactId>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
     <version>4.1.2-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.googlecode.chclib</groupId>
-  <artifactId>chclib-tools</artifactId>
-<!--
-  <version>${project.chclib.version}</version>
--->
+  <groupId>com.googlecode.cchlib</groupId>
+  <artifactId>cchlib-tools</artifactId>
   <version>4.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 

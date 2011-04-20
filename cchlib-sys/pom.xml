@@ -4,17 +4,14 @@
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.googlecode.chclib</groupId>
-    <artifactId>chclib</artifactId>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
     <version>4.1.2-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.googlecode.chclib</groupId>
-  <artifactId>chclibsys</artifactId>
+  <groupId>com.googlecode.cchlib</groupId>
+  <artifactId>cchlib-sys</artifactId>
   <packaging>jar</packaging>
-<!--
-  <version>${project.chclib.version}</version>
--->
   <version>4.1.2-SNAPSHOT</version>
 
   <properties>
@@ -22,8 +19,6 @@
   </properties>
 
   <dependencies>
-
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -41,22 +36,22 @@
     </dependency>
 
     <!-- http://sf-mvn-plugins.sourceforge.net/1jar-maven-plugin/FAQ.html#usageicejni -->
-  <dependency>
-    <groupId>com.ice</groupId>
-    <artifactId>registry</artifactId>
-    <version>3.1.3</version>
-    <type>jar</type>
-    <scope>compile</scope>
-  </dependency>
-  <dependency>
-    <groupId>com.ice</groupId>
-    <artifactId>
-      ICE_JNIRegistry
-    </artifactId>
-    <version>3.1.3</version>
-    <type>dll</type>
-    <scope>compile</scope>
-  </dependency>
+    <dependency>
+      <groupId>com.ice</groupId>
+      <artifactId>registry</artifactId>
+      <version>3.1.3</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ice</groupId>
+      <artifactId>
+        ICE_JNIRegistry
+      </artifactId>
+      <version>3.1.3</version>
+      <type>dll</type>
+      <scope>compile</scope>
+    </dependency>
     <!-- <dependency>
         <groupId>com.simontuffs.onejar</groupId>
         <artifactId>one-jar-boot</artifactId>
