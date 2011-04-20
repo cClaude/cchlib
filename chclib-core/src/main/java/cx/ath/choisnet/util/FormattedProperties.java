@@ -99,11 +99,11 @@ public class FormattedProperties
     {
         this(null,null);
     }
-    
+
     /**
      * Creates an empty property list with
      * no default values.
-     * 
+     *
      * @param storeOptions Configure how store operation will be
      *                     handle, see {@link Store}.
      */
@@ -111,19 +111,19 @@ public class FormattedProperties
     {
         this(null,storeOptions);
     }
-    
+
     /**
      * Creates an empty property list
-     * with the specified defaults. Does 
+     * with the specified defaults. Does
      * not configure specifics {@link Store storeOptions}
-     * 
+     *
      * @param defaults
      */
     public FormattedProperties(Properties defaults)
     {
         this(defaults,null);
     }
-    
+
     /**
      * Creates an empty property list
      * with the specified defaults.
@@ -140,7 +140,7 @@ public class FormattedProperties
         super(defaults);
         this.storeOptions = storeOptions;
     }
-    
+
     /**
      * Load properties from the specified InputStream.
      * <p>
@@ -360,7 +360,7 @@ public class FormattedProperties
      * @param out       The OutputStream to write to.
      * @param comment   Ignored, here for compatibility w/ Properties.
      * @exception IOException if writing this property list to the
-     *            specified output stream throws an IOException. 
+     *            specified output stream throws an IOException.
      */
     @Override
     public synchronized void store(OutputStream out, String comment)
@@ -369,7 +369,7 @@ public class FormattedProperties
         // The spec says that the file must be encoded using ISO-8859-1.
         PrintWriter writer = new PrintWriter(
                 new OutputStreamWriter(
-                        out, 
+                        out,
                         ENCODING_ISO_8859_1
                         )
                 );
@@ -412,7 +412,7 @@ public class FormattedProperties
      * @param out       The OutputStream to write to.
      * @param comment   Ignored, here for compatibility w/ Properties.
      * @exception IOException if writing this property list to the
-     *            specified writer throws an IOException. 
+     *            specified writer throws an IOException.
      */
     @Override
     public synchronized void store( Writer out, String comment )
@@ -433,7 +433,7 @@ public class FormattedProperties
      *                  Overwrite storeOptions initialized
      *                  by some constructors.
      * @exception IOException if writing this property list to the
-     *            specified writer throws an IOException. 
+     *            specified writer throws an IOException.
      */
     public synchronized void store(
                 Writer          out,
@@ -655,7 +655,7 @@ public class FormattedProperties
         if( c < 0x7F ) { // last value '~', 0x7F exclude
             return true;
         }
-        if( c > 0xA0 ) { // first value '¡', 0xA0 exclude
+        if( c > 0xA0 ) { // first value, 0xA0 exclude
             return true;
         }
 
