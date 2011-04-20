@@ -1,6 +1,24 @@
 CHCLibCore
 
 ---------------------------------------------------------------------
+4.1.2
+  Doc: cx.ath.choisnet.io.FileHelper
+  Doc: cx.ath.choisnet.io.ReaderHelper
+  Doc: cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl
+  Doc: cx.ath.choisnet.xml.XMLBuilder
+  Doc: cx.ath.choisnet.xml.XMLDOMTools
+  Doc: cx.ath.choisnet.xml.XMLFileParser
+  Doc: cx.ath.choisnet.xml.XMLParser
+  Doc: cx.ath.choisnet.xml.XMLParserErrorHandler
+  Doc: cx.ath.choisnet.xml.XMLParserException
+  Fix: cx.ath.choisnet.xml.impl.XMLFileParserDOMImpl
+  Add: cx.ath.choisnet.xml.impl.XMLParserDOMImpl
+  Add: cx.ath.choisnet.xml.XMLURLParser
+  Deprecated: cx.ath.choisnet.xml.impl.XMLFileParserDOM2Impl
+  Deprecated: cx.ath.choisnet.xml.impl.XMLParserDOM2Impl
+---------------------------------------------------------------------
+04.00 Maven version
+---------------------------------------------------------------------
 03a.38
   Fix: potential problem with threads
     cx.ath.choisnet.util.datetime.BasicDate

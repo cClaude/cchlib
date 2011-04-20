@@ -6,22 +6,23 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.util.Iterator;
-import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.util.iterator.ArrayIterator;
 import cx.ath.choisnet.util.iterator.IteratorFilter;
 
-
 /**
+ * Tools for {@link File} operations
+ *
  * @author Claude CHOISNET
  * @see StreamHelper
  * @see ReaderHelper
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public final class FileHelper
 {
     private final static int DEFAULT_BUFFER_SIZE = 4096;
@@ -32,31 +33,53 @@ public final class FileHelper
     }
 
     /**
+     * Copy a File to a File
      *
-     * @param inputFile
-     * @param outputFile
-     * @throws java.io.IOException
+     * @param inputFile     File to copy
+     * @param outputFile    File to receive inputFile content.
+     * @throws IOException if any IO occurred
      */
-    public static void copy(File inputFile, File outputFile)
-        throws java.io.IOException
+    public static void copy( File inputFile, File outputFile )
+        throws IOException
     {
         InputStream  input  = new BufferedInputStream(new FileInputStream(inputFile));
         OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {
             StreamHelper.copy(input, output, DEFAULT_BUFFER_SIZE);
-        }
+            }
         finally {
             try { input.close(); } catch(Exception ignore) {}
             try { output.close(); } catch(Exception ignore) { }
-        }
+            }
     }
 
     /**
+     * Copy an InputStream to a File
      *
-     * @param file
-     * @param s
-     * @throws IOException
+     * @param is            InputStream to copy
+     * @param outputFile    File to receive InputStream content.
+     * @throws IOException if any IO occurred
+     */
+    public static void copy( InputStream is, File outputFile )
+        throws IOException
+    {
+        OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
+
+        try {
+            StreamHelper.copy(is, output, DEFAULT_BUFFER_SIZE);
+            }
+        finally {
+            try { output.close(); } catch(Exception ignore) { }
+            }
+    }
+
+    /**
+     * Copy a String into a File
+     *
+     * @param file  File to create
+     * @param s     String to store into file.
+     * @throws IOException if any IO occurred
      */
     public static void toFile( File file, String s ) throws IOException
     {
@@ -64,10 +87,10 @@ public final class FileHelper
 
         try {
             fos.write( s );
-        }
+            }
         finally {
             fos.close();
-        }
+            }
     }
 
     /**
@@ -81,7 +104,7 @@ public final class FileHelper
     {
         if( !rootDirFile.exists() ) {
             return;
-        }
+            }
 
         File[] files = rootDirFile.listFiles();
 
@@ -103,7 +126,7 @@ public final class FileHelper
         boolean res = rootDirFile.delete();
         if( !res ) {
             throw new FileDeleteException(rootDirFile);
-        }
+            }
     }
 
     /**
@@ -123,4 +146,25 @@ public final class FileHelper
                 IteratorFilter.wrappe(fileFilter)
                 );
     }
+
+    /**
+     * Copy all remaining data in File to a String
+     *
+     * @param file File to read
+     * @return content of File
+     * @throws IOException  if any error occur
+     */
+    public static String toString( File file )
+        throws IOException
+    {
+        Reader r = new FileReader( file );
+
+        try {
+            return ReaderHelper.toString( r );
+            }
+        finally {
+            r.close();
+            }
+    }
+
 }
