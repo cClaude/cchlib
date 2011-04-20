@@ -18,6 +18,7 @@ import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 /**
  * @author Claude CHOISNET
  */
+@Deprecated
 public class RegWin32
 {
     final private static Logger slogger = Logger.getLogger(RegWin32.class);
