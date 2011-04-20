@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="CHCLibSys" default="compile" basedir=".">
+
+  <property environment="env"/>
+
+<!-- ===================== Property Definitions ======================== -->
+
+  <tstamp><format property="build.date" pattern="yyyy-MM-dd"/></tstamp>
+
+  <property file="build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+  <property name="src.home"                     value="."/>
+  <property name="java.src.home"                value="src/main/java"/>
+  <property name="java.resources.home"          value="src/main/resources"/>
+  <property name="java.deprecated.src.home"     value="src/deprecated/java"/>
+  <property name="java.test.src.home"           value="src/test/java"/>
+  <property name="java.test.resources.home"     value="src/test/resources"/>
+
+  <property name="build.number.file"            value="${java.resources.home}/build.number"/>
+
+  <property file="${build.number.file}"/>
+
+  <property name="app.name"     value="CHCLibSys"/>
+  <property name="app.version"  value="${VERSION}.${REVISION}.${build.number}"/>
+  <property name="build.home"   value=".ant/build"/>
+  <property name="dist.home"    value=".ant/dist"/>
+  <property name="reports.home" value=".ant/junit"/>
+
+  <property name="jar.file"     value="${dist.home}/${app.name}.${app.version}.jar"/>
+  <property name="docs.home"    value="${dist.home}-docs"/>
+
+  <echo message="$VER: ${app.name} ${app.version} (${build.date})" />
+
+  <dirname property="home.dir"   file="${src.home}/src"/>
+  <dirname property="parent.dir" file="${src.home}"/>
+
+  <!-- Configure the context path for this application -->
+<!--  ==================== Compilation Control Options ================= -->
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="on"/>
+  <property name="compile.optimize"    value="true"/>
+
+<!-- ==================== Compilation Classpath ======================== -->
+
+  <path id="compile.classpath">
+
+    <!-- Ajout des jars du projet -->
+    <fileset dir="${src.home}/../lib">
+      <include name="*.jar"/>
+    </fileset>
+
+    <fileset dir="${src.home}/../releases/CHCLibCore">
+      <include name="CHCLibCore*.jar"/>
+    </fileset>
+  </path>
+
+<!-- ==================== All Target =================================== -->
+
+  <target name="all" depends="clean,compile,dist,javadoc"
+   description="Clean build and compile, then dist"/>
+
+<!-- ==================== Clean Target ================================= -->
+
+  <target name="clean"
+   description="Delete old build and dist directories">
+    <delete dir="${build.home}"/>
+    <delete dir="${dist.home}"/>
+    <delete dir="${docs.home}"/>
+    <delete dir="${reports.home}"/>
+  </target>
+
+<!-- ==================== Compile Target =============================== -->
+
+  <target name="compile" depends="prepare" description="Compile Java sources">
+
+    <!-- Compile Java classes as necessary -->
+    <mkdir  dir="${build.home}/classes"/>
+
+    <javac destdir="${build.home}/classes"
+            target="1.5"
+            source="1.5"
+             debug="${compile.debug}"
+          optimize="${compile.optimize}"
+       deprecation="${compile.deprecation}"
+       includeantruntime="false"
+       >
+      <src path="${java.src.home}"/>
+      <src path="${java.deprecated.src.home}"/>
+      <src path="${java.test.src.home}"/>
+      <classpath refid="compile.classpath"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+
+    <copy    todir="${build.home}/classes">
+      <fileset dir="${java.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.deprecated.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.test.src.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.resources.home}" excludes="**/*.java,**/!*!"/>
+      <fileset dir="${java.test.resources.home}" excludes="**/*.java,**/!*!"/>
+    </copy>
+
+  </target>
+
+<!-- ==================== Dist Target ================================== -->
+  <target name="dist" depends="compile"
+   description="Create binary distribution">
+
+    <buildnumber file="${build.number.file}"/>
+
+    <mkdir dir="${build.home}/jars"/>
+    <mkdir dir="${dist.home}"/>
+
+    <jar jarfile="${jar.file}"
+         basedir="${build.home}/classes"
+        >
+<!--
+        manifest="${src.home}/../metadata/ManifestFile.mf"
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <section name="${app.name}">
+          <attribute name="Specification-Title"   value="${app.name}"/>
+          <attribute name="Specification-Version" value="${app.version}"/>
+        </section>
+      </manifest>
+-->
+      <fileset dir="${build.home}/jars">
+        <!-- exclude name="**/*Test*.class"/ -->
+        <exclude name="log4j.properties"/>
+      </fileset>
+    </jar>
+
+  </target>
+
+<!-- ==================== Javadoc Target =============================== -->
+
+  <target
+    name="javadoc"
+    depends="compile"
+    description="Create Javadoc API documentation"
+    >
+
+    <property
+        name="javadoc.j2se"
+        value="http://java.sun.com/j2se/1.5.0/docs/api/"
+        />
+    <!-- property
+        name="javadoc.j2ee"
+        value="http://java.sun.com/j2ee/1.4/docs/api/"
+        / -->
+    <property name="api.docs.home" value="${docs.home}/api"/>
+
+    <mkdir dir="${api.docs.home}"/>
+
+    <javadoc sourcepath="${java.src.home}"
+           packagenames="*"
+                destdir="${api.docs.home}"
+                    use="true"
+                 Header="${app.name} ${app.version}"
+                 Footer="${app.name} API"
+         >
+<!--
+         stylesheetfile="${src.home}/../metadata/stylesheet.css"
+-->
+      <classpath refid="compile.classpath"/>
+<!--
+      <excludepackage name="alpha.*"/>
+      <excludepackage name="deprecated.*"/>
+      <excludepackage name="cx.ath.choisnet.system.impl.win32.testcase"/>
+      <excludepackage name="cx.ath.choisnet.system.testcase"/>
+-->
+      <link href="${javadoc.j2se}" offline="true"
+            packagelistLoc="${src.home}/../metadata/j2se.1.5.0/"
+            />
+      <!-- link href="${javadoc.j2ee}" offline="true"
+            packagelistLoc="${src.home}/doc/j2ee.1.4/"
+            / -->
+      <doctitle>${app.name}</doctitle>
+    </javadoc>
+
+  </target>
+
+<!-- ==================== Prepare Target =============================== -->
+
+  <target name="prepare">
+    <mkdir  dir="${build.home}"/>
+  </target>
+
+<!-- ==================== JUnit Target ================================= -->
+  <target name="junit"
+          depends="compile"
+          description="Lauche JUnit"
+          >
+    <mkdir dir="${reports.home}/raw"/>
+
+    <junit printsummary="yes"
+          haltonfailure="yes"
+             showoutput="yes"
+             >
+      <classpath>
+      <!-- KO
+        <file file="${src.home}/libs/ICE_JNIRegistry.dll"/>
+        <pathelement location="${src.home}/libs/ICE_JNIRegistry.dll"/>
+        <fileset dir="${src.home}/libs">
+          <include name="*.dll"/>
+        </fileset>
+      -->
+        <pathelement path="${build.home}/classes"/>
+      </classpath>
+      <classpath refid="compile.classpath"/>
+      <!-- env key="PATH" path="${env.path}:${env.Path}:${src.home}/libs/ICE_JNIRegistry.dll"/-->
+      <sysproperty key="java.library.path"
+                  path="${src.home}/../lib"/><!-- Tips to add DLL -->
+      <batchtest fork="yes"
+                todir="${reports.home}/raw/"
+                >
+        <formatter type="xml"/>
+        <fileset dir="${java.src.home}">
+          <include name="**/Test*.java"/>
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+<!-- ====================== Arch Target ================================ -->
+
+  <target name="arch" depends="clean">
+
+    <property     name="arch.name" value="${build.date}.${app.name}.V${app.version}.src.7z"/>
+    <property     name="exe"       value="${parent.dir}\bin\7z.exe"/>
+
+    <echo message="arch.name  = ${arch.name}" />
+    <echo message="home.dir   = ${home.dir}" />
+    <echo message="parent.dir = ${parent.dir}" />
+    <echo message="exe        = ${exe}" />
+    <echo message="os.name    = ${os.name}" />
+
+    <exec dir=".." executable="cmd.exe" os="Windows 2000,Windows XP">
+      <arg line="/c ${exe} a -t7z ${arch.name} -r ${home.dir}/*  -mx=8 -mmt=on"/>
+    </exec>
+
+  </target>
+
+<!-- =================================================================== -->
+
+</project>

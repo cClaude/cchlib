@@ -1,0 +1,32 @@
+<!--
+ Format to Import/Export survey for database
+-->
+
+<!--
+ All informations about survey
+-->
+<!ELEMENT survey        (topic*,question*)>
+
+<!ELEMENT topic         (topiclocal+,idtopic,order,isactive,topic*,question*)>
+<!ELEMENT idtopic       (#PCDATA)>
+<!ELEMENT order         (#PCDATA)>
+<!ELEMENT isactive      (#PCDATA)>
+
+<!ELEMENT topiclocal        (local,topicname,topicdescription)>
+<!ELEMENT local             (#PCDATA)>
+<!ELEMENT topicname         (#PCDATA)>
+<!ELEMENT topicdescription  (#PCDATA)>
+
+<!ELEMENT question      (questionlocal+,idquestion,order,isactive,minvalue,maxvalue,defaultvalue)>
+<!ELEMENT idquestion    (#PCDATA)>
+<!ELEMENT minvalue      (#PCDATA)>
+<!ELEMENT maxvalue      (#PCDATA)>
+<!ELEMENT defaultvalue  (#PCDATA)>
+
+<!ELEMENT questionlocal         (local,questionname,questiondescription,valuedescriptions*)>
+<!ELEMENT questionname          (#PCDATA)>
+<!ELEMENT questiondescription   (#PCDATA)>
+
+<!ELEMENT valuedescriptions (value,valuedescription)>
+<!ELEMENT value             (#PCDATA)>
+<!ELEMENT valuedescription  (#PCDATA)>

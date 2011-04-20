@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!DOCTYPE survey SYSTEM "survey.dtd">
+<survey>
+  <topic>
+    <topiclocal>
+      <local>fr</local>
+      <topicname>a topic name 1 fr</topicname>
+      <topicdescription>a topic description 1 fr</topicdescription>
+    </topiclocal>
+    <topiclocal>
+      <local>en</local>
+      <topicname>a topic name 1 en</topicname>
+      <topicdescription>a topic description 1 en</topicdescription>
+    </topiclocal>
+    <idtopic>1</idtopic>
+    <order>1</order>
+    <isactive>1</isactive>
+    <topic>
+      <topiclocal>
+        <local>fr</local>
+        <topicname>a topic name 2 fr</topicname>
+        <topicdescription>a topic description 2 fr</topicdescription>
+      </topiclocal>
+      <topiclocal>
+        <local>en</local>
+        <topicname>a topic name 2 en</topicname>
+        <topicdescription>a topic description 2 en</topicdescription>
+      </topiclocal>
+      <idtopic>2</idtopic>
+      <order>1</order>
+      <isactive>1</isactive>
+      <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 1 fr</questionname>
+          <questiondescription>a question description 1 fr</questiondescription>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q1 v0</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>1</value>
+            <valuedescription>q1 v1</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>2</value>
+            <valuedescription>q1 v2</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>3</value>
+            <valuedescription>q1 v3</valuedescription>
+          </valuedescriptions>
+        </questionlocal>
+        <idquestion>1</idquestion>
+        <order>1</order>
+        <isactive>1</isactive>
+        <minvalue>0</minvalue>
+        <maxvalue>3</maxvalue>
+        <defaultvalue>2</defaultvalue>
+      </question>
+      <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 2 fr</questionname>
+          <questiondescription>a question description 2 fr</questiondescription>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q2 v0(oui)</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>1</value>
+            <valuedescription>q2 v1(non)</valuedescription>
+          </valuedescriptions>
+        </questionlocal>
+        <idquestion>2</idquestion>
+        <order>2</order>
+        <isactive>1</isactive>
+        <minvalue>0</minvalue>
+        <maxvalue>1</maxvalue>
+        <defaultvalue>0</defaultvalue>
+      </question>
+    </topic>
+    <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 3 fr</questionname>
+          <questiondescription>a question description 3 fr</questiondescription>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q3 v0</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>1</value>
+            <valuedescription>q3 v1</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>2</value>
+            <valuedescription>q3 v2</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>3</value>
+            <valuedescription>q3 v3</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>4</value>
+            <valuedescription>q3 v4</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>5</value>
+            <valuedescription>q3 v5</valuedescription>
+          </valuedescriptions>
+        </questionlocal>
+      <idquestion>3</idquestion>
+      <order>2</order>
+      <isactive>1</isactive>
+      <minvalue>0</minvalue>
+      <maxvalue>5</maxvalue>
+      <defaultvalue>0</defaultvalue>
+    </question>
+    <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 4 fr</questionname>
+          <questiondescription>a question description 4 fr</questiondescription>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q4 v0</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q4 v1</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q4 v2</valuedescription>
+          </valuedescriptions>
+          <valuedescriptions>
+            <value>0</value>
+            <valuedescription>q4 v3</valuedescription>
+          </valuedescriptions>
+        </questionlocal>
+      <idquestion>4</idquestion>
+      <order>3</order>
+      <isactive>1</isactive>
+      <minvalue>0</minvalue>
+      <maxvalue>3</maxvalue>
+      <defaultvalue>0</defaultvalue>
+    </question>
+  </topic>
+  <topic>
+    <topiclocal>
+      <local>fr</local>
+      <topicname>a topic name 3 fr</topicname>
+      <topicdescription>a topic description 3 fr</topicdescription>
+    </topiclocal>
+    <idtopic>3</idtopic>
+    <order>2</order>
+    <isactive>1</isactive>
+    <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 5 fr</questionname>
+          <questiondescription>a question description 5 fr</questiondescription>
+        </questionlocal>
+      <idquestion>5</idquestion>
+      <order>1</order>
+      <isactive>1</isactive>
+      <minvalue>0</minvalue>
+      <maxvalue>5</maxvalue>
+      <defaultvalue>5</defaultvalue>
+    </question>
+    <question>
+        <questionlocal>
+          <local>fr</local>
+          <questionname>a question name 6 fr</questionname>
+          <questiondescription>a question description 6 fr</questiondescription>
+        </questionlocal>
+      <idquestion>6</idquestion>
+      <order>2</order>
+      <isactive>1</isactive>
+      <minvalue>0</minvalue>
+      <maxvalue>5</maxvalue>
+      <defaultvalue>0</defaultvalue>
+    </question>
+  </topic>
+  <question>
+     <questionlocal>
+       <local>fr</local>
+       <questionname>a question name 7 fr</questionname>
+       <questiondescription>a question description 7 fr</questiondescription>
+     </questionlocal>
+    <idquestion>7</idquestion>
+    <order>3</order>
+    <isactive>1</isactive>
+    <minvalue>0</minvalue>
+    <maxvalue>1</maxvalue>
+    <defaultvalue>0</defaultvalue>
+  </question>
+  <question>
+     <questionlocal>
+       <local>fr</local>
+       <questionname>a question name 8 fr</questionname>
+       <questiondescription>a question description 8 fr</questiondescription>
+     </questionlocal>
+    <idquestion>8</idquestion>
+    <order>4</order>
+    <isactive>1</isactive>
+    <minvalue>-3</minvalue>
+    <maxvalue>3</maxvalue>
+    <defaultvalue>0</defaultvalue>
+  </question>
+</survey>
