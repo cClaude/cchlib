@@ -116,13 +116,13 @@
       <name>Maven Repo for cchlib (releases)</name>
       <id>googlecode-cchlib</id>
       <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-      <uniqueVersion>false</uniqueVersion>
+      <uniqueVersion>true</uniqueVersion>
     </repository>
     <snapshotRepository>
       <name>Maven Repo cchlib (snapshots)</name>
       <id>googlecode-cchlib</id>
       <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
+      <uniqueVersion>true</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
   <!-- Profiles
