@@ -1,5 +1,6 @@
 Call mvn clean
 IF ERRORLEVEL 1 (
+  @Echo ERROR in: mvn clean
   Pause
   Goto :eof
   )
@@ -8,6 +9,7 @@ IF ERRORLEVEL 1 (
 @Echo ------------------------------------------
 Call mvn compile -e
 IF ERRORLEVEL 1 (
+  @Echo ERROR in: mvn compile -e
   Pause
   Goto :eof
   )
@@ -15,8 +17,9 @@ IF ERRORLEVEL 1 (
 @Echo ON
 @Echo ------------------------------------------
 rem Call mvn install package -e
-Call mvn package
+Call mvn package -e
 IF ERRORLEVEL 1 (
+  @Echo ERROR in: mvn package -e
   Pause
   Goto :eof
   )
@@ -25,6 +28,7 @@ IF ERRORLEVEL 1 (
 @Echo ------------------------------------------
 Call mvn javadoc:javadoc -e
 IF ERRORLEVEL 1 (
+  @Echo ERROR in: mvn javadoc:javadoc -e
   Pause
   Goto :eof
   )
