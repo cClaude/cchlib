@@ -14,7 +14,16 @@ IF ERRORLEVEL 1 (
 
 @Echo ON
 @Echo ------------------------------------------
-Call mvn install package javadoc:javadoc -e
+rem Call mvn install package -e
+Call mvn package
+IF ERRORLEVEL 1 (
+  Pause
+  Goto :eof
+  )
+
+@Echo ON
+@Echo ------------------------------------------
+Call mvn javadoc:javadoc -e
 IF ERRORLEVEL 1 (
   Pause
   Goto :eof

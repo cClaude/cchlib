@@ -14,10 +14,6 @@
   <packaging>jar</packaging>
   <version>4.1.2-SNAPSHOT</version>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -57,6 +53,29 @@
       </plugin -->
     </plugins>
   </build>
+
+  <!-- Distribution management -->
+  <distributionManagement><!-- google code maven repository * mvn deploy -->
+    <repository>
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo for cchlib (releases)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo cchlib (snapshots)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+    <!--
+      <site>
+        <id>qee.website</id>
+        <url>dav:http://</url>
+        <url>scp://webhost.company.com/www/website</url>
+      </site>
+    -->
+  </distributionManagement>
 
   <modules>
   </modules>

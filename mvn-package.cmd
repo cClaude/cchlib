@@ -1,3 +1,3 @@
-@CALL mvn package
+@CALL mvn package -e
 @Echo EL=%ERRORLEVEL%
 
