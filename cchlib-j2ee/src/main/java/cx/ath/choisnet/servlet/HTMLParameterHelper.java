@@ -2,15 +2,17 @@ package cx.ath.choisnet.servlet;
 
 //import cx.ath.choisnet.util.IteratorFilter;
 import java.util.Iterator;
+//import cx.ath.choisnet.util.Selectable;
 
 public class HTMLParameterHelper
 {
-    public static class Selectable<T>
+    /*
+    public static class XSelectable<T>
         implements cx.ath.choisnet.util.Selectable<T>
     {
         private final int hashCodes[];
 
-        public boolean isSelected(Object o)
+        public boolean isSelected(T o)
         {
             int oHashCode = o.hashCode();
             int arr$[] = hashCodes;
@@ -18,7 +20,7 @@ public class HTMLParameterHelper
 
             for(int i$ = 0; i$ < len$; i$++) {
                 int hashCode = arr$[i$];
-                
+
                 if(hashCode == oHashCode) {
                     return true;
                 }
@@ -27,17 +29,17 @@ public class HTMLParameterHelper
             return false;
         }
 
-        public Selectable(int[] hashCodes)
+        public XSelectable(int[] hashCodes)
         {
             this.hashCodes = hashCodes;
         }
 
-        public Selectable(String[] htmlIDs)
+        public XSelectable(String[] htmlIDs)
         {
             this(HTMLParameterHelper.getHashCodes(htmlIDs));
         }
     }
-    
+    */
     public HTMLParameterHelper()
     {
     }
@@ -51,7 +53,7 @@ public class HTMLParameterHelper
     {
         if( htmlID.startsWith("ID") ) {
             return Integer.parseInt(htmlID.substring(2), 16);
-        } 
+        }
         else {
             return 0;
         }
@@ -85,14 +87,14 @@ public class HTMLParameterHelper
                 return item;
             }
         }
-        
+
         return null;
     }
 
 //    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, String[] htmlIDs)
 //    {
 //        return new IteratorFilter<T>(
-//                    iter, 
+//                    iter,
 //                    new Selectable<T>(htmlIDs)
 //                    );
 //    }
@@ -100,7 +102,7 @@ public class HTMLParameterHelper
 //    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, int[] hashCodes)
 //    {
 //        return new IteratorFilter<T>(
-//                    iter, 
+//                    iter,
 //                    new Selectable<T>(hashCodes)
 //                    );
 //    }

@@ -1,4 +1,4 @@
-package com.googlecode.chclib.servlet.action;
+package com.googlecode.cchlib.servlet.action;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import com.googlecode.chclib.servlet.ActionServlet;
-import com.googlecode.chclib.servlet.exception.ServletActionException;
+import com.googlecode.cchlib.servlet.ActionServlet;
+import com.googlecode.cchlib.servlet.exception.ServletActionException;
 //import cx.ath.choisnet.sql.SimpleQuery;
 //import cx.ath.choisnet.sql.SimpleUpdate;
 

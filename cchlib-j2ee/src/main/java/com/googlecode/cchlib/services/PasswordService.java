@@ -1,4 +1,4 @@
-package com.googlecode.chclib.services;
+package com.googlecode.cchlib.services;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -7,8 +7,8 @@ import cx.ath.choisnet.util.base64.Base64Encoder;
 
 /**
  * Encode password to hash code and then encode encode hash code
- * to base 64. 
- * 
+ * to base 64.
+ *
  * @author Claude CHOISNET
  */
 public final class PasswordService
@@ -21,9 +21,9 @@ public final class PasswordService
 
   /**
    * Encrypt password
-   * 
+   *
    * @param plaintext password in plain text
-   * @return encrypted password 
+   * @return encrypted password
    * @throws SystemUnavailableException
    */
   public synchronized String encrypt( final String plaintext )
@@ -37,7 +37,7 @@ public final class PasswordService
     catch(NoSuchAlgorithmException e) {
         throw new SystemUnavailableException(e.getMessage());
         }
-    
+
     try {
         md.update(plaintext.getBytes("UTF-8"));
         }
@@ -55,18 +55,18 @@ public final class PasswordService
         throw new SystemUnavailableException(e.getMessage());
         }
 
-    return hash; 
+    return hash;
   }
 
   /**
    * Returns PasswordService instance
-   * 
+   *
    * @return PasswordService instance
    */
   public static synchronized PasswordService getInstance()
   {
     if( instance == null ) {
-       instance = new PasswordService(); 
+       instance = new PasswordService();
        }
 
     return instance;

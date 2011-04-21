@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.services;
+package com.googlecode.cchlib.services;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
-public class SystemUnavailableException extends Exception 
+public class SystemUnavailableException extends Exception
 {
     private static final long serialVersionUID = 1L;
 

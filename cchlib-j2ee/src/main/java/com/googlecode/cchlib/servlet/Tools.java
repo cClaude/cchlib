@@ -1,17 +1,17 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.servlet;
+package com.googlecode.cchlib.servlet;
 
 import javax.servlet.http.HttpServletRequest;
-import com.googlecode.chclib.servlet.exception.RequestParameterNotFoundException;
-import com.googlecode.chclib.servlet.exception.RequestParameterNumberFormatException;
+import com.googlecode.cchlib.servlet.exception.RequestParameterNotFoundException;
+import com.googlecode.cchlib.servlet.exception.RequestParameterNumberFormatException;
 
 /**
  * @author Claude
  *
  */
-public final class Tools 
+public final class Tools
 {
     private Tools()
     {
@@ -22,11 +22,11 @@ public final class Tools
      * Returns the value of a request parameter as a String.
      * <br/>
      * You should only use this method when you are sure the parameter
-     * has only one value. If the parameter might have more than one value, 
+     * has only one value. If the parameter might have more than one value,
      * use getParameterValues(java.lang.String).
-     * 
+     *
      * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested 
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
@@ -35,23 +35,23 @@ public final class Tools
     public final static String getParameter(
             final HttpServletRequest request,
             final String             name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         final String value = request.getParameter( name );
-        
+
         if( value == null ) {
             throw new RequestParameterNotFoundException( name );
             }
-        
+
         return value;
     }
 
     /**
      * Returns the value of a request parameter as an integer.
-     * 
+     *
      * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested 
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if the value is not an integer
@@ -59,12 +59,12 @@ public final class Tools
     public final static int getIntParameter(
             final HttpServletRequest request,
             final String             name
-            ) 
+            )
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
         final String value = getParameter( request, name );
-        
+
         try {
             return Integer.parseInt( value );
             }
@@ -76,9 +76,9 @@ public final class Tools
     /**
      * Returns an array of String objects containing all of the
      * values the given request parameter has.
-     * 
+     *
      * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested 
+     * @param name a String containing the name of the parameter whose value is requested
      * @return an array of String objects containing the parameter's values
      * @throws RequestParameterNotFoundException if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
@@ -87,24 +87,24 @@ public final class Tools
     public final static String[] getParameterValues(
             final HttpServletRequest request,
             final String             name
-            ) 
+            )
         throws RequestParameterNotFoundException
     {
         final String[] values = request.getParameterValues( name );
-        
+
         if( values == null ) {
             throw new RequestParameterNotFoundException( name );
         }
-        
+
         return values;
-    }    
-    
+    }
+
     /**
      * Returns an array of int containing all of the
      * values the given request parameter has.
-     * 
+     *
      * @param request HttpServletRequest to use
-     * @param name a String containing the name of the parameter whose value is requested 
+     * @param name a String containing the name of the parameter whose value is requested
      * @return a String representing the single value of the parameter
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if at least one value is not an integer
@@ -112,16 +112,16 @@ public final class Tools
     public final static int[] getIntParameterValues(
             final HttpServletRequest request,
             final String             name
-            ) 
+            )
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
         return toInt( getParameterValues( request, name ) );
     }
-    
+
 
     /**
-     * 
+     *
      * @param request
      * @param name
      * @return
@@ -132,13 +132,13 @@ public final class Tools
     public final static int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name
-            ) 
-        throws  NumberFormatException, 
-                RequestParameterNotFoundException, 
+            )
+        throws  NumberFormatException,
+                RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
         final Object value = request.getAttribute( name );
-        
+
         if( value != null ) {
             if( value instanceof Number ) {
                 Number n = (Number)value;
@@ -155,12 +155,12 @@ public final class Tools
             return getIntParameter( request, name );
             }
     }
-    
+
     public final static int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name,
             final int                defaultValue
-            ) 
+            )
     {
         try {
             return getIntAttributeOrParameter( request, name );
@@ -169,16 +169,16 @@ public final class Tools
             return defaultValue;
             }
     }
-    
+
     /**
-     * 
+     *
      * @param values
      * @return
      * @throws NumberFormatException
      */
     public static final int[] toInt(
             final String[] values
-            ) 
+            )
         throws NumberFormatException
     {
         final int[] ivalues = new int[ values.length ];
@@ -186,8 +186,8 @@ public final class Tools
         for(int i = 0;i<values.length; i++ ) {
             ivalues[ i ] = Integer.parseInt( values[ i ] );
             }
-        
+
         return ivalues;
     }
-    
+
 }

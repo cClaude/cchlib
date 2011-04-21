@@ -12,9 +12,26 @@
   <version>4.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <!--
+      <version>4.1.2-SNAPSHOT</version>
+      -->
+      <version>${project.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -109,21 +126,5 @@
      -->
     </plugins>
   </build>
-  <dependencies>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.chclib</groupId>
-      <artifactId>chclibcore</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-    </dependency>
-  </dependencies>
 </project>

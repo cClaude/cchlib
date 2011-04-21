@@ -1,17 +1,17 @@
-package com.googlecode.chclib.servlet.action;
+package com.googlecode.cchlib.servlet.action;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import com.googlecode.chclib.servlet.ActionServlet;
-import com.googlecode.chclib.servlet.exception.ServletActionException;
+import com.googlecode.cchlib.servlet.ActionServlet;
+import com.googlecode.cchlib.servlet.exception.ServletActionException;
 import cx.ath.choisnet.sql.SimpleQuery;
 import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use {@link SimpleQuery} and {@link SimpleUpdate}
- * 
+ *
  * @author Claude CHOISNET
  */
 public abstract class AbstractSimpleQueryServletAction
@@ -21,15 +21,15 @@ public abstract class AbstractSimpleQueryServletAction
     private SimpleUpdate simpleUpdate = null;
 
     /**
-     * 
+     *
      * @return
      * @throws ServletActionException
-     * @throws NamingException 
-     * @throws SQLException 
+     * @throws NamingException
+     * @throws SQLException
      */
-    public abstract ActionServlet.Action doSQL() 
+    public abstract ActionServlet.Action doSQL()
         throws  ServletActionException,
-                NamingException, 
+                NamingException,
                 SQLException;
 
     /**
@@ -73,7 +73,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @return a valid SimpleQuery
      * @throws NamingException if an error occurred while getting data source
      */
-    public SimpleQuery getSimpleQuery() 
+    public SimpleQuery getSimpleQuery()
         throws NamingException
     {
         if( simpleQuery == null ) {
@@ -81,7 +81,7 @@ public abstract class AbstractSimpleQueryServletAction
             }
         return simpleQuery;
     }
-    
+
     /**
      * Returns a valid SimpleUpdate
      * @return a valid SimpleUpdate
@@ -97,14 +97,14 @@ public abstract class AbstractSimpleQueryServletAction
     }
 
     /**
-     * 
+     *
      * @param sql
      * @return
      * @throws SQLException
      * @throws NamingException
      * @see SimpleUpdate#doUpdate(String)
      */
-    public int doUpdate( final String sql ) 
+    public int doUpdate( final String sql )
         throws SQLException, NamingException
     {
         log( "doUpdate: " + sql );
@@ -113,14 +113,14 @@ public abstract class AbstractSimpleQueryServletAction
     }
 
     /**
-     * 
+     *
      * @param sql
      * @return
      * @throws SQLException
      * @throws NamingException
      * @see SimpleQuery#executeQuery(String)
      */
-    public ResultSet executeQuery( final String sql ) 
+    public ResultSet executeQuery( final String sql )
         throws SQLException, NamingException
     {
         log( "executeQuery: " + sql );

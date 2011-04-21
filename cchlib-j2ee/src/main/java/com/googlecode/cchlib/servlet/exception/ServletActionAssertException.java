@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.servlet.exception;
+package com.googlecode.cchlib.servlet.exception;
 
 
 /**
  * @author Claude CHOISNET
  */
-public class ServletActionAssertException extends ServletActionException 
+public class ServletActionAssertException extends ServletActionException
 {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class ServletActionAssertException extends ServletActionException
     {
         super();
     }
-    
+
     public ServletActionAssertException( String message )
     {
         super( message );

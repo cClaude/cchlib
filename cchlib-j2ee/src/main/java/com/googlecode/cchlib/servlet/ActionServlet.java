@@ -1,14 +1,14 @@
-package com.googlecode.chclib.servlet;
+package com.googlecode.cchlib.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.googlecode.chclib.servlet.action.ServletAction;
+import com.googlecode.cchlib.servlet.action.ServletAction;
 
 /**
- * Servlet: com.googlecode.chclib.servlet.ActionServlet
+ * Servlet: com.googlecode.cchlib.servlet.ActionServlet
  *
  * <pre>
  *  Parameters:

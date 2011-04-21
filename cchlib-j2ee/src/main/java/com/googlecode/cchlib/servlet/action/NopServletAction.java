@@ -1,17 +1,17 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.servlet.action;
+package com.googlecode.cchlib.servlet.action;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.googlecode.chclib.servlet.ActionServlet;
-import com.googlecode.chclib.servlet.exception.ServletActionException;
+import com.googlecode.cchlib.servlet.ActionServlet;
+import com.googlecode.cchlib.servlet.exception.ServletActionException;
 
 /**
  * Does nothing.
- * 
+ *
  * @author Claude CHOISNET
  */
 public class NopServletAction implements ServletAction

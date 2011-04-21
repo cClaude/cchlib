@@ -1,12 +1,12 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.servlet.exception;
+package com.googlecode.cchlib.servlet.exception;
 
 
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
 public class RequestParameterNumberFormatException extends ServletActionException

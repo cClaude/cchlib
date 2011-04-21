@@ -1,14 +1,14 @@
 /**
- * 
+ *
  */
-package com.googlecode.chclib.servlet.exception;
+package com.googlecode.cchlib.servlet.exception;
 
 import javax.servlet.ServletException;
 
 /**
  * @author Claude CHOISNET
  */
-public class ServletActionException extends ServletException 
+public class ServletActionException extends ServletException
 {
     private static final long serialVersionUID = 1L;
 
@@ -16,7 +16,7 @@ public class ServletActionException extends ServletException
     {
         super();
     }
-    
+
     public ServletActionException( String message )
     {
         super( message );

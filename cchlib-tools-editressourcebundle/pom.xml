@@ -12,17 +12,26 @@
   <version>4.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-<!--
-  <name>editressourcebundle</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jnlp.url>http://code.google.copm/</jnlp.url>
-  </properties>
--->
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <!--
+      <version>4.1.2-SNAPSHOT</version>
+      -->
+      <version>${project.version}</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -71,23 +80,4 @@
     </plugins>
   </build>
 
-  <dependencies>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.chclib</groupId>
-      <artifactId>chclibcore</artifactId>
-      <version>${project.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-
-  </dependencies>
 </project>

@@ -9,7 +9,7 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.chclib.version>${project.version}</project.chclib.version>
+    <!-- project.cchlib.version>${project.version}</project.cchlib.version -->
   </properties>
 
   <!-- Project description -->
