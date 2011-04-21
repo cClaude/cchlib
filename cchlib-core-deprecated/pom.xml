@@ -30,7 +30,7 @@
     <dependency>
       <groupId>com.googlecode.chclib</groupId>
       <artifactId>chclibcore</artifactId>
-      <version>4.1.1-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
