@@ -43,6 +43,31 @@
   </developers>
 
   <!-- Distribution management -->
+  <distributionManagement>
+    <!--
+    <repository><!- - google code maven repository * mvn deploy v1- ->
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo for cchlib (releases)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo cchlib (snapshots)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+    -->
+    <repository>
+      <id>googlecode.cchlib.repo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode.cchlib.snapshotrepo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
 
   <!-- Site reporting -->
   <reporting>
@@ -74,6 +99,18 @@
         <version>1.9</version>
       </extension>
       -->
+      <!--
+      <extension><!- -  push to google maven repository V1 - ->
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+      -->
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
     </extensions>
     <plugins>
       <plugin>
