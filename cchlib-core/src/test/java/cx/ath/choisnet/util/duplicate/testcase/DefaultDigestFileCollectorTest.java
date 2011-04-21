@@ -122,12 +122,12 @@ public class DefaultDigestFileCollectorTest
             @Override
             public void ioError( IOException e, File file )
             {
-                System.err.flush();
-                System.out.printf( "ioError[%s] file=%s\n", e, file );
-                System.out.flush();
-                e.printStackTrace(System.err);
-                System.err.flush();
-                slogger.info("ioError["+e+"] file="+file);
+                //System.err.flush();
+                //System.out.printf( "ioError[%s] file=%s\n", e, file );
+                //System.out.flush();
+                //e.printStackTrace(System.err);
+                //System.err.flush();
+                slogger.warn("ioError["+e+"] file="+file);
             }
             @Override
             public boolean isCancel()
