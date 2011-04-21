@@ -30,6 +30,11 @@
 
   <build>
     <extensions>
+      <extension><!--  push to google maven repository -->
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
     </extensions>
     <plugins>
       <!-- plugin>

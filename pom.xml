@@ -28,7 +28,7 @@
   </ciManagement>
    -->
 
-  <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical-->
+  <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical -->
   <developers>
     <developer>
       <id>chc</id>
@@ -42,14 +42,28 @@
     </developer>
   </developers>
 
-  <!-- Distribution management-->
- <!--  <distributionManagement>
-    <site>
-      <id>qee.website</id>
-      <url>dav:http://</url>
-      <url>scp://webhost.company.com/www/website</url>
-    </site>
-  </distributionManagement> -->
+  <!-- Distribution management -->
+  <distributionManagement><!-- google code maven repository * mvn deploy -->
+    <repository>
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo for cchlib (releases)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode-cchlib</id>
+      <name>Maven Repo cchlib (snapshots)</name>
+      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+    <!--
+      <site>
+        <id>qee.website</id>
+        <url>dav:http://</url>
+        <url>scp://webhost.company.com/www/website</url>
+      </site>
+    -->
+  </distributionManagement>
 
   <!-- Site reporting -->
   <reporting>
@@ -74,11 +88,13 @@
         <version>1.0-beta-2</version>
       </extension>
       -->
-      <extension><!-- google code maven repository  -->
+      <!-- use with googlecode (has a maven repository) [declare in needed sub pom only]
+      <extension>
         <groupId>org.jvnet.wagon-svn</groupId>
         <artifactId>wagon-svn</artifactId>
         <version>1.9</version>
       </extension>
+      -->
     </extensions>
     <plugins>
       <plugin>
@@ -111,20 +127,7 @@
       </plugin>
     </plugins>
   </build>
-  <distributionManagement><!-- google code maven repository * mvn deploy -->
-    <repository>
-      <name>Maven Repo for cchlib (releases)</name>
-      <id>googlecode-cchlib</id>
-      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <snapshotRepository>
-      <name>Maven Repo cchlib (snapshots)</name>
-      <id>googlecode-cchlib</id>
-      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
+
   <!-- Profiles
     Use mvn -P<profileId> to use a specific profile
   -->
