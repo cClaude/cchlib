@@ -2,6 +2,7 @@ cchlib-core
 
 ---------------------------------------------------------------------
 4.1.2
+  Moving 2 maven (remove ant build number)
   Doc: cx.ath.choisnet.io.FileHelper
   Doc: cx.ath.choisnet.io.ReaderHelper
   Doc: cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl
@@ -16,6 +17,7 @@ cchlib-core
   Add: cx.ath.choisnet.xml.XMLURLParser
   Deprecated: cx.ath.choisnet.xml.impl.XMLFileParserDOM2Impl
   Deprecated: cx.ath.choisnet.xml.impl.XMLParserDOM2Impl
+  Add: cx.ath.choisnet.xml.impl.XMLURLParserDOMImpl
 ---------------------------------------------------------------------
 04.00 Maven version
 ---------------------------------------------------------------------

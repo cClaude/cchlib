@@ -2,6 +2,7 @@ cchlib-j2ee
 
 ---------------------------------------------------------------------
 4.1.2
+  Moving 2 maven (remove ant build number)
   Prepare to javaee6
   Add: cx.ath.choisnet.servlet.ChainingHttpServletResponse
   Add: cx.ath.choisnet.servlet.ChainingHttpServletResponseWrapper
