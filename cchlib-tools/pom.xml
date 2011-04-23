@@ -9,10 +9,13 @@
 
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-tools</artifactId>
+  <name>cchlib-tools</name>
   <version>4.1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
-
- <dependencies>
+  <description>Tools based on cchlib</description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
+  
+  <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>

@@ -3,10 +3,10 @@ package cx.ath.choisnet.xml;
 import java.net.URL;
 
 /**
- * TODO: doc!
+ * Interface that allow to retrieve based XML URL for XML
  *
  * @author Claude CHOISNET
- * @version $Id: $
+ * @see XMLFILEParser
  */
 public interface XMLURLParser extends XMLParser
 {

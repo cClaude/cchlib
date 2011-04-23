@@ -12,6 +12,7 @@
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-core</artifactId>
   <packaging>jar</packaging>
+  <name>cchlib-core</name>
   <version>4.1.2-SNAPSHOT</version>
 
   <dependencies>
@@ -24,6 +25,8 @@
     </dependency>
   </dependencies>
 
+  <description>Contain core library, provide generics features</description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
   <build>
     <plugins>
       <!-- plugin>

@@ -12,6 +12,7 @@
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-core-deprecated</artifactId>
   <packaging>jar</packaging>
+  <name>cchlib-core-deprecated</name>
   <version>4.1.2-SNAPSHOT</version>
 
   <dependencies>
@@ -32,6 +33,8 @@
     </dependency>
   </dependencies>
 
+  <description>deprecated classe from pre-version 3</description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
   <build>
     <extensions>
     </extensions>

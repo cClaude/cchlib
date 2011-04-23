@@ -3,9 +3,10 @@ package cx.ath.choisnet.xml;
 import java.io.File;
 
 /**
- * TODO: doc!
+ * Interface that allow to retrieve based XML File for XML
  *
  * @author Claude CHOISNET
+ * @see XMLURLParser
  */
 public interface XMLFileParser extends XMLParser
 {

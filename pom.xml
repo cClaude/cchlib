@@ -14,7 +14,7 @@
 
   <!-- Project description -->
   <name>cchlib</name>
-  <url>http://todo</url>
+  <url>http://choisnet.ath.cx/cchlib/</url>
   <inceptionYear>2002</inceptionYear>
   <scm>
     <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
@@ -136,6 +136,7 @@
           <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
           <links>
             <link>http://download.oracle.com/javase/7/docs/api/</link>
+            <link>http://download.oracle.com/javaee/6/api/</link>
           </links>
           <show>protected</show>
           <source>1.6</source>

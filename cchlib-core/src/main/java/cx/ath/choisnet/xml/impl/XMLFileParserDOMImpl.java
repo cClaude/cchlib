@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.EnumSet;
 
 /**
- * TODO: doc!
+ * DOM parser implementation that allow to retrieve based XML File for XML
  *
  * @author Claude CHOISNET
  */

@@ -7,7 +7,7 @@ IF ERRORLEVEL 1 (
 
 @Echo ON
 @Echo ------------------------------------------
-Call mvn compile -e
+Call mvn compile -e --fail-fast
 IF ERRORLEVEL 1 (
   @Echo ERROR in: mvn compile -e
   Pause
@@ -17,7 +17,7 @@ IF ERRORLEVEL 1 (
 @Echo ON
 @Echo ------------------------------------------
 rem Call mvn install package -e
-Call mvn package -e
+Call mvn package -e -Dmaven.test.skip=true
 IF ERRORLEVEL 1 (
   @Echo ERROR in: mvn package -e
   Pause

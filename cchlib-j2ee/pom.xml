@@ -12,6 +12,7 @@
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-j2ee</artifactId>
   <packaging>jar</packaging>
+  <name>cchlib-j2ee</name>
   <version>4.1.2-SNAPSHOT</version>
 
   <dependencies>
@@ -59,6 +60,8 @@
 
   </dependencies>
 
+  <description>Provide server based features.</description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
   <build>
     <plugins>
       <!-- plugin>
