@@ -1,34 +1,38 @@
-Call mvn clean
+Set EXEC=mvn clean
+Call %EXEC%
 IF ERRORLEVEL 1 (
-  @Echo ERROR in: mvn clean
+  @Echo ERROR in: %EXEC%
   Pause
   Goto :eof
   )
 
 @Echo ON
 @Echo ------------------------------------------
-Call mvn compile -e --fail-fast
+Set EXEC=mvn compile -e --fail-fast
+Call %EXEC%
 IF ERRORLEVEL 1 (
-  @Echo ERROR in: mvn compile -e
+  @Echo ERROR in: %EXEC%
   Pause
   Goto :eof
   )
 
 @Echo ON
 @Echo ------------------------------------------
-rem Call mvn install package -e
-Call mvn package -e -Dmaven.test.skip=true
+@Rem Set EXEC=mvn install package -e
+Set EXEC=mvn package -e -Dmaven.test.skip=true
+Call %EXEC%
 IF ERRORLEVEL 1 (
-  @Echo ERROR in: mvn package -e
+  @Echo ERROR in: %EXEC%
   Pause
   Goto :eof
   )
 
 @Echo ON
 @Echo ------------------------------------------
-Call mvn javadoc:javadoc -e
+Set EXEC=mvn javadoc:jar -e
+Call %EXEC%
 IF ERRORLEVEL 1 (
-  @Echo ERROR in: mvn javadoc:javadoc -e
+  @Echo ERROR in: %EXEC%
   Pause
   Goto :eof
   )
