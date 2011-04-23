@@ -19,5 +19,6 @@ rem
 
 @Echo ON
 @Echo ------------------------------------------
-@Echo mvn deploy -e --projects cchlib-core,cchlib-j2ee
+@REM Echo mvn deploy -e --projects cchlib-core,cchlib-j2ee
+@Echo mvn deploy -e
 @Echo (Not done by this batch)
