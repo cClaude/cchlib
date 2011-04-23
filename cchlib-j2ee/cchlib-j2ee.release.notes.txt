@@ -1,5 +1,15 @@
-CHCLibJ2EE
+cchlib-j2ee
 
+---------------------------------------------------------------------
+4.1.2
+  Prepare to javaee6
+  Add: cx.ath.choisnet.servlet.ChainingHttpServletResponse
+  Add: cx.ath.choisnet.servlet.ChainingHttpServletResponseWrapper
+  Add: cx.ath.choisnet.servlet.debug.DebugChainingHttpServletResponseWrapper
+  Add: cx.ath.choisnet.servlet.debug.DebugHttpServletResponseWrapper
+  Add: cx.ath.choisnet.servlet.debug.DebugServletResponseWrapper
+---------------------------------------------------------------------
+04.00 Maven version
 ---------------------------------------------------------------------
 03a.10
 Rename: com.googlecode.chclib.servlet.action.SQLServletAction to
