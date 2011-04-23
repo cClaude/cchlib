@@ -13,12 +13,19 @@ import javax.sql.DataSource;
 import cx.ath.choisnet.ToDo;
 
 /**
- * TODO: Doc!
- * @author Claude CHOISNET
+ * Execute SQL statement using {@link DataSource}
+ * <p>
+ * This class is not indented to use for application
+ * that use many SQL query. otherwise you must consider
+ * to cache SimpleQuery object.
+ * </p>
  *
+ * @author Claude CHOISNET
+ * @see SimpleUpdate
+ * @see ConnectionQuery
  */
 @ToDo(action=ToDo.Action.DOCUMENTATION)
-public class SimpleQuery 
+public class SimpleQuery
     extends SimpleDataSource
         implements Flushable
 {
@@ -27,7 +34,7 @@ public class SimpleQuery
 
     /**
      *  Create a SimpleQuery object from a valid {@link DataSource}
-     * 
+     *
      * @param ds DataSource to use.
      * @throws NullPointerException if ds is null.
      */
@@ -41,14 +48,14 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param resourceName
      * @throws SimpleDataSourceException
      */
     public SimpleQuery( final String resourceName )
         throws SimpleDataSourceException
     {
-        super( SimpleQuery.getDataSource( resourceName ) );
+        super( SimpleQuery.createDataSource( resourceName ) );
 
         conn = null;
         stmt = null;
@@ -56,7 +63,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param query
      * @return
      * @throws java.sql.SQLException
@@ -87,7 +94,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param rset
      * @return
      * @throws java.sql.SQLException
@@ -106,7 +113,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param rset
      * @return
      * @throws java.sql.SQLException
@@ -127,7 +134,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param query
      * @return
      * @throws java.sql.SQLException
@@ -153,7 +160,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param dataSourceName
      * @param query
      * @return
@@ -161,7 +168,7 @@ public class SimpleQuery
      * @throws SQLException
      */
     public static String[] translateQueryToStringArray(
-            String  dataSourceName, 
+            String  dataSourceName,
             String  query
             )
         throws SimpleDataSourceException, SQLException
@@ -184,7 +191,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @throws java.sql.SQLException
      */
     protected void openConnection() throws SQLException
@@ -193,13 +200,13 @@ public class SimpleQuery
             throw new SQLException("SimpleQuery InvalidState [conn != null]");
             }
         else {
-            conn = getConnectionFromDataSource();
+            conn = createConnectionFromDataSource();
             }
     }
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @return
      */
     protected Connection getConnection()
@@ -209,7 +216,7 @@ public class SimpleQuery
 
     /**
      * TODO: Doc!
-     * 
+     *
      */
     protected void closeConnection()
     {

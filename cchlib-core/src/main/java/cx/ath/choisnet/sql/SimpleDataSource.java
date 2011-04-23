@@ -24,7 +24,7 @@ public class SimpleDataSource
 
     /**
      *  Create a SimpleDataSource object from a valid {@link DataSource}
-     * 
+     *
      * @param ds DataSource to use.
      * @throws NullPointerException if ds is null.
      */
@@ -40,14 +40,14 @@ public class SimpleDataSource
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param ds
      * @param username
      * @param password
      */
     public SimpleDataSource(
-            final DataSource  ds, 
-            final String      username, 
+            final DataSource  ds,
+            final String      username,
             final String      password
             )
     {
@@ -57,20 +57,20 @@ public class SimpleDataSource
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @return
      */
     protected DataSource getDataSource()
     {
         return ds;
     }
-    
+
     @Override
     public void close() throws IOException
     {
         // empty
     }
-    
+
     /**
      * Call {@link #close()} but hide {@link IOException}
      */
@@ -82,7 +82,7 @@ public class SimpleDataSource
     /**
      * Call {@link #close()} but hide {@link IOException} if
      * closeable is not null.
-     * 
+     *
      * @param closeable Closeable object to close (could be null)
      */
     public static void quietClose( final Closeable closeable )
@@ -93,13 +93,15 @@ public class SimpleDataSource
     }
 
     /**
-     * TODO: Doc!
-     * 
-     * @param resourceName
-     * @return
-     * @throws SimpleDataSourceException
+     * Retrieve DataSource on {@link InitialContext}
+     *
+     * @param resourceName DataSource name
+     * @return DataSource if resource found
+     * @throws SimpleDataSourceException if any error occurred
      */
-    protected static final DataSource getDataSource(final String resourceName)
+    public static final DataSource createDataSource(
+            final String resourceName
+            )
         throws SimpleDataSourceException
     {
         Object      ressource = null;
@@ -107,7 +109,7 @@ public class SimpleDataSource
 
         try {
             Context context = new InitialContext();
-            
+
             ressource   = context.lookup(resourceName);
             ds          = DataSource.class.cast(ressource);
             }
@@ -119,14 +121,14 @@ public class SimpleDataSource
             }
         catch( NamingException e ) {
             throw new SimpleDataSourceException(
-                    "Can't create SimpleQuery for '" + resourceName + '\'', 
+                    "Can't create SimpleQuery for '" + resourceName + '\'',
                     e
                     );
             }
 
         if( ds == null ) {
             throw new SimpleDataSourceException(
-                    "Can't get DataSource for '" + resourceName + '\'' 
+                    "Can't get DataSource for '" + resourceName + '\''
                     );
             }
         else {
@@ -135,12 +137,12 @@ public class SimpleDataSource
     }
 
     /**
-     * TODO: Doc!
-     * 
-     * @return
-     * @throws SQLException
+     * Create a <b>new</b> Connection from DataSource
+     *
+     * @return a new Connection from DataSource
+     * @throws SQLException if any
      */
-    protected Connection getConnectionFromDataSource()
+    public Connection createConnectionFromDataSource()
         throws SQLException
     {
         Connection  conn    = null;
