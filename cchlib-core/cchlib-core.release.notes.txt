@@ -29,7 +29,7 @@ cchlib-core
 ---------------------------------------------------------------------
 03a.37
   Improve: cx.ath.choisnet.sql.ExportSQL (add schema name to export
-  is optionnal; able to filter export)
+  is optional; able to filter export)
 ---------------------------------------------------------------------
 03a.36
   Prepare moving build to maven
@@ -70,7 +70,7 @@ cchlib-core
   Some improvement in cx.ath.choisnet.io.HTMLWriter
 ---------------------------------------------------------------------
 03a.29
-  mineur fix, improve doc:
+  minor fix, improve doc:
     - cx.ath.choisnet.sql.SimpleDataSource
     - cx.ath.choisnet.sql.SimpleQuery
     - cx.ath.choisnet.sql.SimpleUpdate
@@ -80,7 +80,7 @@ cchlib-core
 ---------------------------------------------------------------------
 03a.27
   Add: cx.ath.choisnet.util.iterator.iterable.IterableIterator
-  Somes JUnit Fix/Improve
+  Some JUnit Fix/Improve
 ---------------------------------------------------------------------
 03a.26
   Remove Iterable interface on some Iterator (can't be sure to be able
@@ -114,13 +114,13 @@ cchlib-core
     alpha.cx.ath.choisnet.io.MSAlternateDataStreamDescription
     alpha.cx.ath.choisnet.io.MSAlternateDataStreamDescriptionEntry
 
-  Since this code is base on reverse ingenering of my lost sources
+  Since this code is base on reverse engineering of my lost sources
   library did some change.
 
   Deprecated Classes (Not use ?)
     cx.ath.choisnet.sql.SimpleQueryException
 
-  Classe moved to "alpha" package : (To be improve, or test, before release)
+  Class moved to "alpha" package : (To be improve, or test, before release)
     alpha.cx.ath.choisnet.net.dhcp.DHCPMessage
     alpha.cx.ath.choisnet.net.dhcp.DHCPOptionEntry
     alpha.cx.ath.choisnet.net.dhcp.DHCPOptions
@@ -128,7 +128,7 @@ cchlib-core
     alpha.cx.ath.choisnet.net.dhcp.DHCPSimpleClient
     alpha.cx.ath.choisnet.net.dhcp.DHCPSocket
 
-  Classe moved to alpha package and Deprecated (Not sure)
+  Class moved to alpha package and Deprecated (Not sure)
     alpha.cx.ath.choisnet.net.PseudoPing
 
 

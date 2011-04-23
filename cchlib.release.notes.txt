@@ -9,7 +9,7 @@ cchlib
 Known problems:
 ---------------------------------------------------------------------
 To add/improve:
-  make ant build to work woth maven architecture
+  make ant build to work with maven architecture
 ---------------------------------------------------------------------
 Future extensions:
 ---------------------------------------------------------------------
