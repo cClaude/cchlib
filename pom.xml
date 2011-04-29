@@ -5,6 +5,9 @@
   <artifactId>cchlib</artifactId>
   <version>4.1.3-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>cchlib</name>
+  <url>http://choisnet.ath.cx/cchlib/</url>
+  <inceptionYear>2002</inceptionYear>
 
   <!-- Global properties -->
   <properties>
@@ -13,9 +16,6 @@
   </properties>
 
   <!-- Project description -->
-  <name>cchlib</name>
-  <url>http://choisnet.ath.cx/cchlib/</url>
-  <inceptionYear>2002</inceptionYear>
   <scm>
     <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
@@ -168,9 +168,11 @@
     <module>cchlib-core-sample</module>
     <module>cchlib-j2ee</module>
     <module>cchlib-sys</module>
+    <!-- should not be include : not in maven repository
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools-editressourcebundle</module>
+    -->
   </modules>
 
 </project>
