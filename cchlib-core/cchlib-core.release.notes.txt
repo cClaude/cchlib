@@ -6,6 +6,12 @@ cchlib-core
   Update: cx.ath.choisnet.sql.SimpleDataSource
   Update: cx.ath.choisnet.sql.SimpleQuery
   Update: cx.ath.choisnet.sql.SimpleUpdate
+  Add: cx.ath.choisnet.sql.SQLCloseException
+  Update: cx.ath.choisnet.lang.ByteArrayBuilder
+    ByteArrayBuilder.append(byte[] bytes, int offset, int len) become final
+    add: ByteArrayBuilder.hashCode()
+    add: ByteArrayBuilder.replaceAll(byte[],byte[])
+    improve test cases, doc.
 ---------------------------------------------------------------------
 4.1.2
   Moving 2 maven (remove ant build number)

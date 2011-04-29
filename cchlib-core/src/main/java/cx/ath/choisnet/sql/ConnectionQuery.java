@@ -20,6 +20,8 @@ public class ConnectionQuery implements Closeable
 
     /**
      *  Create a ConnectionQuery object from a valid {@link Connection}
+     *  <br/>
+     *  ConnectionQuery never close Connection
      *
      * @param connection Connection to use.
      * @throws NullPointerException if connection is null
@@ -27,7 +29,7 @@ public class ConnectionQuery implements Closeable
     public ConnectionQuery( final Connection connection )
     {
         if( connection == null ) {
-            throw new NullPointerException();
+            throw new NullPointerException( "Connection is null" );
             }
 
         this.connection = connection;
@@ -75,6 +77,9 @@ public class ConnectionQuery implements Closeable
 
     private void createStatement() throws SQLException
     {
+        if( statement != null && statement.isClosed() ) {
+            statement = null;
+            }
         if( statement == null ) {
             statement = connection.createStatement();
             }
@@ -99,16 +104,16 @@ public class ConnectionQuery implements Closeable
     /**
      * Close internal Statement
      *
-     * @throws IOException if an SQLException occurred
+     * @throws SQLCloseException if an SQLException occurred
      */
     @Override
-    public void close() throws IOException
+    public void close() throws SQLCloseException
     {
         try {
             closeStatement();
             }
         catch( SQLException e ) {
-            throw new IOException( e );
+            throw new SQLCloseException( e );
             }
     }
 

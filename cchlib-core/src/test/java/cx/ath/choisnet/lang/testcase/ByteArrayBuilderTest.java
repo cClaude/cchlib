@@ -9,6 +9,7 @@ import java.nio.channels.ReadableByteChannel;
 import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.ExtendTestCase;
+import java.io.ByteArrayInputStream;
 
 /**
  * 
@@ -225,48 +226,22 @@ public class ByteArrayBuilderTest extends ExtendTestCase
     public void test_AppendInputStream() 
         throws IOException
     {
-        InputStream is = new InputStream()
-        {
-            int i = 0;
-            @Override
-            public int read() throws IOException
-            {
-                if( i< BYTES.length ) {
-                    return BYTES[i++];
-                }
-                return -1;
-            }
-        };
+        InputStream is = new ByteArrayInputStream( BYTES );
+//        {
+//            int i = 0;
+//            @Override
+//            public int read() throws IOException
+//            {
+//                if( i< BYTES.length ) {
+//                    return BYTES[i++];
+//                }
+//                return -1;
+//            }
+//        };
         ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( is );
         assertEquals("mitchmatch",BYTES,bab.array());
     }
-/*
- * TODO
-    public ByteArrayBuilder append(ReadableByteChannel channel)
-        throws java.io.IOException
-    {
-        return append(channel, DEFAULT_SIZE);
-    }
-TODO
-    public ByteArrayBuilder append(ReadableByteChannel channel, int bufferSize)
-        throws java.io.IOException
-    {
-        byte[] byteBuffer = new byte[bufferSize];
-
-        java.nio.ByteBuffer buffer = java.nio.ByteBuffer.wrap(byteBuffer);
-
-        int len;
-        while((len = channel.read(buffer)) != -1) {
-            buffer.flip();
-
-            append(byteBuffer, 0, len);
-            buffer.clear();
-        }
-
-        return this;
-    }
-*/
 
     public void test_startsWith()
     {

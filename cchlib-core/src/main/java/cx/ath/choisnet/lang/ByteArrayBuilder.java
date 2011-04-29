@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
-import cx.ath.choisnet.ToDo;
+import java.util.Arrays;
 
 /**
  * <p>
@@ -159,16 +159,13 @@ public class ByteArrayBuilder
      * @param len  length of copy
      * @return caller for initialization chaining
      */
-    public ByteArrayBuilder append(byte[] bytes, int offset, int len)
+    public final ByteArrayBuilder append(byte[] bytes, int offset, int len)
     {
-//        int lenOfCopy = len - offset;
-//
-//        ensureCapacity(length() + lenOfCopy);
-//        System.arraycopy(bytes, offset, buffer, lastPos, lenOfCopy);
-//        lastPos += lenOfCopy;
+        // this method is final because: use in constructor
         ensureCapacity(length() + len);
         System.arraycopy(bytes, offset, buffer, lastPos, len);
         lastPos += len;
+        
         return this;
     }
 
@@ -193,14 +190,14 @@ public class ByteArrayBuilder
     }
     
     /**
-     * TODO: Doc!
-     * TODO: TestCase
+     * Apprend content of an {@link InputSteam}
+     * <br/>
+     * (InputSteam is not close by this method)
      *
      * @param is InputStream to add
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
-    @ToDo
     public ByteArrayBuilder append(InputStream is)
         throws java.io.IOException
     {
@@ -208,15 +205,15 @@ public class ByteArrayBuilder
     }
     
     /**
-     * TODO: Doc!
-     * TODO: TestCase
+     * Apprend content of an {@link InputSteam}
+     * <br/>
+     * (InputSteam is not close by this method)
      *
      * @param is InputStream to add
      * @param bufferSize intermediate buffer size
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
-    @ToDo
     public ByteArrayBuilder append(
             InputStream is,
             int         bufferSize
@@ -227,8 +224,9 @@ public class ByteArrayBuilder
     }
     
     /**
-     * TODO: Doc!
-     * TODO: TestCase
+     * Apprend content of an {@link InputSteam}
+     * <br/>
+     * (InputSteam is not close by this method)
      *
      * @param is InputStream to add
      * @param intermediateBuffer intermediate buffer for
@@ -236,7 +234,6 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
-    @ToDo
     public ByteArrayBuilder append(
             InputStream is,
             byte[]      intermediateBuffer
@@ -247,7 +244,7 @@ public class ByteArrayBuilder
         
         while( (len = is.read( intermediateBuffer )) != -1 ) {
             append( intermediateBuffer, 0, len);
-        }
+            }
         
         return this;
     }
@@ -261,7 +258,7 @@ public class ByteArrayBuilder
      * @see java.io.FileInpustStream#getChannel
      * @see java.nio.channels.FileChannel
      */
-    public ByteArrayBuilder append(ReadableByteChannel channel)
+    public ByteArrayBuilder append( ReadableByteChannel channel )
         throws java.io.IOException
     {
         return append(channel, DEFAULT_SIZE);
@@ -280,14 +277,14 @@ public class ByteArrayBuilder
     {
         byte[] byteBuffer = new byte[bufferSize];
 
-        ByteBuffer buffer = ByteBuffer.wrap(byteBuffer);
+        ByteBuffer bbuffer = ByteBuffer.wrap(byteBuffer);
 
         int len;
-        while((len = channel.read(buffer)) != -1) {
-            buffer.flip();
+        while((len = channel.read(bbuffer)) != -1) {
+            bbuffer.flip();
 
             append(byteBuffer, 0, len);
-            buffer.clear();
+            bbuffer.clear();
         }
 
         return this;
@@ -418,6 +415,15 @@ public class ByteArrayBuilder
         return false;
     }
 
+    @Override
+    public int hashCode()
+    {
+        int hash = 3;
+        hash = 97 * hash + Arrays.hashCode(this.buffer);
+        hash = 97 * hash + this.lastPos;
+        return hash;
+    }
+
     /**
      * Returns internal buffer as a String by decoding
      * the internal array of bytes using the platform's
@@ -457,6 +463,69 @@ public class ByteArrayBuilder
         return newByteBuffer;
     }
 
+    /**
+     * Replaces each sub byte array of this ByteArrayBuilder that matches the
+     * given pattern with the given replacement.
+     *
+     * @param pattern Pattern to remplace
+     * @param replace Remplace value for pattern
+     * @return a new ByteArrayBuilder
+     */
+    public ByteArrayBuilder replaceAll(
+            final byte[]    pattern,
+            final byte[]    replace
+            )
+    {
+        return replace( this.array(), pattern, replace );
+    }
+
+    /**
+     * TODO: make public (improve?)
+     * TODO: Doc!
+     *
+     * @param sbytes
+     * @param pattern
+     * @param replace
+     * @return a new ByteArrayBuilder
+     */
+    private static ByteArrayBuilder replace(
+        final byte[]    sbytes,
+        final byte[]    pattern,
+        final byte[]    replace
+        )
+    {
+        byte[] dbytes;
+
+        int i = KPM.indexOf( sbytes, pattern );
+
+        if( i>=0 ) {
+            ByteArrayBuilder babDest = new ByteArrayBuilder();
+            int              offset  = 0;
+
+            do {
+                if( i > 0 ) {
+                    // add before pattern
+                    babDest.append( sbytes, offset, i - offset);
+                    }
+                // add replace
+                babDest.append( replace );
+
+                offset = i + pattern.length;
+
+                i = KPM.indexOf( sbytes, offset, pattern );
+                } while( i >= 0 );
+            // add after last pattern
+            babDest.append( sbytes, offset, sbytes.length - offset );
+
+            dbytes = babDest.array();
+            }
+        else {
+            dbytes = sbytes;
+            }
+
+        return new ByteArrayBuilder( dbytes );
+    }
+
     private void writeObject(ObjectOutputStream stream)
         throws java.io.IOException
     {
@@ -486,5 +555,67 @@ public class ByteArrayBuilder
 
         lastPos = max;
     }
+    
+    
+    /**
+     * The Knuth-Morris-Pratt Pattern Matching Algorithm can be used
+     * to search a byte array.
+     */
+    private static class KPM
+    {
+        /**
+         * Search the data byte array for the first occurrence
+         * of the byte array pattern.
+         */
+        public static int indexOf(byte[] data, byte[] pattern)
+        {
+            return indexOf( data, 0, pattern );
+        }
 
+        /**
+         * Search the data byte array for the first occurrence
+         * of the byte array pattern.
+         */
+        public static int indexOf(byte[] data, int from, byte[] pattern)
+        {
+            int[] failure = computeFailure(pattern);
+
+            int j = 0;
+
+            for (int i = from/*0*/; i < data.length; i++) {
+                while (j > 0 && pattern[j] != data[i]) {
+                    j = failure[j - 1];
+                }
+                if (pattern[j] == data[i]) {
+                    j++;
+                }
+                if (j == pattern.length) {
+                    return i - pattern.length + 1;
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * Computes the failure function using a boot-strapping process,
+         * where the pattern is matched against itself.
+         */
+        private static int[] computeFailure( byte[] pattern )
+        {
+            int[] failure = new int[pattern.length];
+
+            int j = 0;
+            for (int i = 1; i < pattern.length; i++) {
+                while (j>0 && pattern[j] != pattern[i]) {
+                    j = failure[j - 1];
+                }
+                if (pattern[j] == pattern[i]) {
+                    j++;
+                }
+                failure[i] = j;
+            }
+
+            return failure;
+        }
+    }
 }
