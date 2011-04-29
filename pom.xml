@@ -44,20 +44,6 @@
 
   <!-- Distribution management -->
   <distributionManagement>
-    <!--
-    <repository><!- - google code maven repository * mvn deploy v1- ->
-      <id>googlecode-cchlib</id>
-      <name>Maven Repo for cchlib (releases)</name>
-      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode-cchlib</id>
-      <name>Maven Repo cchlib (snapshots)</name>
-      <url>svn:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-    -->
     <repository>
       <id>googlecode.cchlib.repo</id>
       <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
@@ -90,20 +76,6 @@
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
         <version>1.0-beta-2</version>
-      </extension>
-      -->
-      <!-- use with googlecode (has a maven repository) [declare in needed sub pom only]
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.9</version>
-      </extension>
-      -->
-      <!--
-      <extension><!- -  push to google maven repository V1 - ->
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.9</version>
       </extension>
       -->
       <extension>
@@ -176,20 +148,6 @@
       </properties>
       -->
     </profile>
-
-    <!-- SITES PROFILES
-    <profile>
-      <!- - local - ->
-      <id>local</id>
-      <properties>
-        <cargo.tomcat.manager.url>http://localhost:8080/manager</cargo.tomcat.manager.url>
-        <cargo.remote.username>tomcat</cargo.remote.username>
-        <cargo.remote.password>tomcat</cargo.remote.password>
-        <site.id>localhost</site.id>
-        <database.host>localhost</database.host>
-      </properties>
-    </profile>
-    -->
   </profiles>
 
   <!-- Dependencies -->

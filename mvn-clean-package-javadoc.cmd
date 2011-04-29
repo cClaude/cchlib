@@ -18,8 +18,9 @@ IF ERRORLEVEL 1 (
 
 @Echo ON
 @Echo ------------------------------------------
-@Rem Set EXEC=mvn install package -e
-Set EXEC=mvn package -e -Dmaven.test.skip=true
+@Rem install ??? TODO fix this if possible
+@Set EXEC=mvn install package -e
+@Rem Set EXEC=mvn package -e
 Call %EXEC%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: %EXEC%
@@ -29,7 +30,7 @@ IF ERRORLEVEL 1 (
 
 @Echo ON
 @Echo ------------------------------------------
-Set EXEC=mvn javadoc:jar -e
+Set EXEC=mvn javadoc:jar -e -Dmaven.test.skip=true
 Call %EXEC%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: %EXEC%
