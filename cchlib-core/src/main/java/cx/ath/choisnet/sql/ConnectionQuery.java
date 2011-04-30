@@ -77,8 +77,17 @@ public class ConnectionQuery implements Closeable
 
     private void createStatement() throws SQLException
     {
-        if( statement != null && statement.isClosed() ) {
-            statement = null;
+        if( statement != null ) {
+            // FIX org.apache.tomcat.dbcp.dbcp.DelegatingStatement
+            try {
+                // Note was protected prior to JDBC 4
+                if( statement.isClosed() ) {
+                    statement = null;
+                    }
+                }
+            catch( IllegalAccessError ignore ) {
+                statement = null;
+                }
             }
         if( statement == null ) {
             statement = connection.createStatement();

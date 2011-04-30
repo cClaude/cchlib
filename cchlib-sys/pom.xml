@@ -3,26 +3,32 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <!-- remove from maven repository
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
     <version>4.1.3-SNAPSHOT</version>
   </parent>
+  -->
 
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-sys</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-sys</name>
   <version>4.1.3-SNAPSHOT</version>
+  <description>Provide system related features. </description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
+
+  <!-- Global properties -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <!--
-      <version>4.1.2-SNAPSHOT</version>
-      -->
-      <version>${project.version}</version>
+      <version>4.1.3-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -60,8 +66,6 @@
    </dependency> -->
   </dependencies>
 
-  <description>Provide system related features. </description>
-  <url>http://choisnet.ath.cx/cchlib/</url>
   <build>
     <extensions>
     </extensions>
@@ -110,6 +114,4 @@
     </plugins>
   </build>
 
-  <modules>
-  </modules>
 </project>

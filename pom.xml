@@ -164,11 +164,11 @@
   <!-- Sub projects -->
   <modules>
     <module>cchlib-core</module>
+    <module>cchlib-j2ee</module>
+    <!-- should not be include : not in maven repository
     <module>cchlib-core-deprecated</module>
     <module>cchlib-core-sample</module>
-    <module>cchlib-j2ee</module>
     <module>cchlib-sys</module>
-    <!-- should not be include : not in maven repository
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools-editressourcebundle</module>
