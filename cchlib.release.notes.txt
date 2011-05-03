@@ -9,6 +9,7 @@ cchlib
   remove from maven repository: cchlib-tools
   remove from maven repository: cchlib-tools-duplicatefiles
   remove from maven repository: cchlib-tools-editressourcebundle
+  Fix: javadoc creation
 ---------------------------------------------------------------------
 4.1.2
   Moving 2 maven (remove ant build number)
