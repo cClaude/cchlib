@@ -7,46 +7,58 @@ import cx.ath.choisnet.io.FileFilterHelper;
 import cx.ath.choisnet.io.FileIterator;
 
 /**
- * use {@link AssertHelper} instead
+ * Provide some tools to build test cases
+ *
+ * @author Claude CHOISNET
  */
-@Deprecated
-public class TstCaseHelper
+public class AssertHelper
 {
-    private TstCaseHelper()
+    private AssertHelper()
     {//All static
     }
 
     /**
-     * use {@link AssertHelper#getTmpDirFile()} instead
+     * Returns File object for tmp directory
+     * according to java.io.tmpdir Java property.
+     *
+     * @return File object for tmp directory
      */
-    @Deprecated
     public final static File getTmpDirFile()
     {
         return new File( System.getProperty("java.io.tmpdir" ) );
     }
 
     /**
-     * use {@link AssertHelper#getUserHomeDirFile()} instead
+     * Returns File object for current user home directory
+     * according to user.home Java property.
+     *
+     * @return File object for current user home directory
      */
-    @Deprecated
     public final static File getUserHomeDirFile()
     {
         return new File( System.getProperty("user.home") );
     }
 
     /**
-     * use {@link AssertHelper#getSystemRootFile()} instead
+     * Returns File object for root system directory
+     * @return File object for root system directory
      */
-    @Deprecated
     public final static File getSystemRootFile()
     {
         return new File( "/" );
     }
 
+
+
     /**
-     * use {@link AssertHelper#getFilesFrom(File, FileFilter)} instead
+     * Returns File iterator from given directory (does
+     * not return directory File object)
+     * @param fileDirectory file directory to explore
+     * @param fileFilter    file filter for result files
+     *                      (does not filter directories,
+     *                      could be null).
+     * @return File iterator from given directory
      */
-    @Deprecated
     public final static Iterator<File> getFilesFrom(
             File        fileDirectory,
             FileFilter  fileFilter
