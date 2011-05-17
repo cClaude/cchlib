@@ -56,14 +56,19 @@ public class ConnectionQuery implements Closeable
      *
      * @param query SQL query to execute
      * @return count of modified rows
-     * @throws SQLException if any
+     * @throws ExtendedSQLException if any
      */
     public int doUpdate(final String query)
-        throws SQLException
+        throws ExtendedSQLException
     {
-        createStatement();
+        try {
+            createStatement();
 
-        return statement.executeUpdate( query );
+            return statement.executeUpdate( query );
+            }
+        catch( SQLException e ) {
+            throw new ExtendedSQLException( e, query );
+            }
     }
 
     /**
