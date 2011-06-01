@@ -1,38 +1,61 @@
 package alpha.cx.ath.choisnet.net.dhcp;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import cx.ath.choisnet.ToDo;
 
 /**
  *
  * @author Claude CHOISNET
  *
  */
-public class DHCPSocket extends java.net.DatagramSocket
+@ToDo
+public class DHCPSocket extends DatagramSocket
 {
-
+    /** */
+    @ToDo
     public static final int CLIENT_PORT = 68;
+    /** */
+    @ToDo
     public static final int SERVER_PORT = 67;
+    /** */
+    @ToDo
     public static final int DEFAULT_PACKET_SIZE = 1500;
+    /** */
+    @ToDo
     public static final int DEFAULT_SOTIME_OUT = 3000;
+    /** */
     private int packetSize;
 
-    public DHCPSocket(int port, InetAddress laddr)
-        throws java.net.SocketException
+    /**
+     *
+     * @param port
+     * @param laddr
+     * @throws SocketException
+     */
+    public DHCPSocket( final int port, final InetAddress laddr )
+        throws SocketException
     {
         super(port, laddr);
-        init();
 
+        init();
     }
 
+    /**
+     *
+     * @param port
+     * @throws java.net.SocketException
+     */
     public DHCPSocket(int port)
         throws java.net.SocketException
     {
         super(port);
 
         init();
-
     }
 
     private void init()
@@ -40,7 +63,7 @@ public class DHCPSocket extends java.net.DatagramSocket
     {
         super.setSoTimeout(3000);
 
-        packetSize = 1500;
+        this.packetSize = 1500;
     }
 
     public void setMTU(int packetSize)
@@ -54,13 +77,13 @@ public class DHCPSocket extends java.net.DatagramSocket
     }
 
     public synchronized void send(DHCPMessage inMessage)
-        throws java.io.IOException
+        throws IOException
     {
         super.send(inMessage.toDatagramPacket());
     }
 
     public synchronized boolean receive(DHCPMessage message)
-        throws java.io.IOException
+        throws IOException
     {
         DHCPParameters params = receive();
 
@@ -75,20 +98,19 @@ public class DHCPSocket extends java.net.DatagramSocket
     }
 
     public synchronized DHCPParameters receive()
-        throws java.io.IOException
+        throws IOException, SocketTimeoutException
     {
-        try {
+//        try {
             DatagramPacket incoming = new DatagramPacket(new byte[packetSize], packetSize);
 
             super.receive(incoming);
 
             return DHCPParameters.newInstance(incoming.getData());
-        }
-        catch(SocketTimeoutException e) {
-            // TODO: use logs !
-            System.err.println((new StringBuilder()).append("java.net.SocketTimeoutException: ").append(e).toString());
-        }
-
-        return null;
+//        }
+//        catch(SocketTimeoutException e) {
+//            System.err.println((new StringBuilder()).append("java.net.SocketTimeoutException: ").append(e).toString());
+//        }
+//
+//        return null;
     }
 }

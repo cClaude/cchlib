@@ -55,7 +55,6 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     }
 
     @Override
-    final //TODO: remove this
     protected void loadKnowValue() throws IOException
     {
         try {
@@ -77,7 +76,6 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     }
 
     @Override
-    final //TODO: remove this
     public void saveValues() throws IOException
     {
         OutputStream os = getResourceBundleOutputStream();
@@ -97,7 +95,6 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     }
 
     @Override // Closeable
-    final //TODO: remove this
     public void close() throws IOException
     {
         properties.clear();

@@ -6,7 +6,7 @@ import java.util.Map;
 import cx.ath.choisnet.ToDo;
 
 /**
- * Default implementation for {@link Mappable} based on
+ * Default implementation for {@link Mappable}amis
  *
  * @author Claude CHOISNET
  */
@@ -25,7 +25,7 @@ public abstract class AbstractMappable
     @Override
     public Map<String,String> toMap()
     {
-//        MappableHelper mappableHelper = new MappableHelper( 
+//        MappableHelper mappableHelper = new MappableHelper(
 //                (new MappableHelperDefaultFactory())
 //                    .setMethodesNamePattern("(get|is).*")
 //                    .addClasses(new Class<?>[] { String.class, File.class, URL.class })
@@ -36,20 +36,20 @@ public abstract class AbstractMappable
 
         return mappableHelper.toMap( getObjectToMap() );
     }
-    
+
     /**
      * Returns object to Map (typically: return this;) but could something else
      * to use delegated object.
-     * 
+     *
      * @return object to Map
      * @see Mappable#toMap()
      */
     protected abstract Object getObjectToMap();
-    
+
     /**
      * TODO: Doc!
-     * 
-     * @return
+     *
+     * @return a {@link MappableHelperFactory}
      */
     protected MappableHelperFactory getMappableHelperFactory()
     {

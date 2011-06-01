@@ -1,23 +1,40 @@
 package cx.ath.choisnet.io;
 
 import java.io.InputStream;
-import cx.ath.choisnet.ToDo;
+import java.io.IOException;
 
 /**
+ * An always empty {@link InputStream}
  *
  * @author Claude CHOISNET
  *
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class EmptyInputStream extends InputStream
 {
+    private boolean open;
+
+    /**
+     * Create an {@link EmptyInputStream}
+     */
     public EmptyInputStream()
     {
+        open = true;
     }
 
-    public int read()
-        throws java.io.IOException
+    @Override
+    public int read() throws IOException
     {
         return -1;
+    }
+
+    @Override
+    public void close() throws IOException
+    {
+        if(!open) {
+            throw new IOException("aleary close");
+            }
+        else {
+            open = false;
+        }
     }
 }

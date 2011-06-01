@@ -15,15 +15,15 @@ import javax.sql.DataSource;
 /**
  * Create a SQL script to export values from tables.
  * <br/>
- * 
- * 
+ *
+ *
  * @author Claude CHOISNET
  */
 public class ExportSQL  implements Closeable
 {
     /**
      * Table description
-     * 
+     *
      * @author Claude CHOISNET
      */
     public static class TableDescription
@@ -33,7 +33,7 @@ public class ExportSQL  implements Closeable
 
         /**
          * Create a TableDescription without condition, export all values
-         * 
+         *
          * @param name
          */
         public TableDescription( String name )
@@ -44,13 +44,13 @@ public class ExportSQL  implements Closeable
         /**
          * Create a TableDescription with conditions, export values
          * according to where clause
-         * 
+         *
          * @param name
          * @param whereCondition
          */
         public TableDescription(
-                final String name, 
-                final String whereCondition 
+                final String name,
+                final String whereCondition
                 )
         {
             this.name = name;
@@ -75,7 +75,7 @@ public class ExportSQL  implements Closeable
 
     /**
      * Configuration for {@link ExportSQL}
-     * 
+     *
      * @author Claude CHOISNET
      */
     public enum Config
@@ -89,12 +89,12 @@ public class ExportSQL  implements Closeable
          */
         ADD_PREFIX_SCHEMA,
         /**
-         * 
+         *
          */
         ADD_SET_AUTOCOMMIT,
-        
+
     }
-    
+
     private final DataSource            ds;
     private final TableDescription[]    exportTables;
     private final String                schema;
@@ -105,32 +105,32 @@ public class ExportSQL  implements Closeable
 
     /**
      * Initialize ExportSQL object
-     * 
+     *
      * @param dataSource DataSource to retrieve database connection.
      * @param schemaName Schema name of database.
      * @param config {@link EnumSet} of {@link Config} to configure output.
      * @param exportTimestamp Time stamp to identify SQL export.
      * @param exportTables Array of TableDescription (order could be important
-     *        while running result SQL). 
+     *        while running result SQL).
      */
-    public ExportSQL( 
+    public ExportSQL(
             final DataSource            dataSource,
             final String                schemaName,
             final EnumSet<Config>       config,
             final Timestamp             exportTimestamp,
             final TableDescription ...  exportTables
-            ) 
+            )
     {
         this.ds             = dataSource;
         this.schema         = schemaName;
         this.exportTables   = exportTables;
-        this.exportDate     = exportTimestamp; 
+        this.exportDate     = exportTimestamp;
 
         if( config == null ) {
             this.config = EnumSet.noneOf( Config.class );
             }
         else {
-            this.config = EnumSet.copyOf( config );            
+            this.config = EnumSet.copyOf( config );
 
             if( schemaName == null ) {
                 this.config.remove( Config.ADD_USE_SCHEMA );
@@ -138,64 +138,64 @@ public class ExportSQL  implements Closeable
                 }
             }
     }
-    
+
     /**
      * Initialize ExportSQL object.
      * <p>
      * Set configuration with defaults: {@link Config#ADD_PREFIX_SCHEMA},
      * {@link Config#ADD_SET_AUTOCOMMIT} and {@link Config#ADD_USE_SCHEMA}
      * </p>
-     * 
+     *
      * @param dataSource DataSource to retrieve database connection.
      * @param schemaName Schema name of database. If null, do not add schema in export.
      * @param exportTimestamp Time stamp to identify SQL export.
      * @param exportTables Array of TableDescription (order could be important
-     * while running result SQL). 
+     * while running result SQL).
      */
-    public ExportSQL( 
+    public ExportSQL(
             final DataSource            dataSource,
             final String                schemaName,
             final Timestamp             exportTimestamp,
             final TableDescription ...  exportTables
-             ) 
+             )
     {
-        this(   dataSource, 
+        this(   dataSource,
                 schemaName,
                 EnumSet.of(
                         Config.ADD_PREFIX_SCHEMA,
-                        Config.ADD_SET_AUTOCOMMIT, 
+                        Config.ADD_SET_AUTOCOMMIT,
                         Config.ADD_USE_SCHEMA
                         ),
-                exportTimestamp, 
+                exportTimestamp,
                 exportTables
-                ); 
+                );
     }
 
     /**
      * Initialize ExportSQL object
-     * 
+     *
      * @param dataSource DataSource to retrieve database connection.
      * @param schemaName Schema name of database. If null, do not add schema in export.
      * @param exportTimestamp Time stamp to identify SQL export.
      * @param exportTables Array of table names (order could be important
-     * while running result SQL). 
+     * while running result SQL).
      */
-    public ExportSQL( 
+    public ExportSQL(
             final DataSource    dataSource,
             final String        schemaName,
             final Timestamp     exportTimestamp,
             final String ...    exportTables
-            ) 
+            )
     {
-        this(   dataSource, 
-                schemaName, 
+        this(   dataSource,
+                schemaName,
                 exportTimestamp,
                 toTableDescription( exportTables )
-                ); 
+                );
     }
 
-    private static TableDescription[] toTableDescription( 
-            final String[] exportTablenames 
+    private static TableDescription[] toTableDescription(
+            final String[] exportTablenames
             )
     {
         final TableDescription[] ed = new TableDescription[ exportTablenames.length ];
@@ -215,7 +215,7 @@ public class ExportSQL  implements Closeable
     {
         return exportDate;
     }
-    
+
     /**
      * Returns export Time stamp as a String (could be overwrite)
      * @return export Time stamp as a String
@@ -233,14 +233,13 @@ public class ExportSQL  implements Closeable
      * then {@link #exportTablesContent(Writer)}
      * and then {@link #close()}.
      * </P>
-     * 
+     *
      * @param outputWriter output for SQL export
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    final // TODO remove this
-    public void exportAll( final Writer outputWriter ) 
-        throws SQLException, 
+    public void exportAll( final Writer outputWriter )
+        throws SQLException,
                IOException
     {
         try {
@@ -255,23 +254,22 @@ public class ExportSQL  implements Closeable
 
     /**
      * Export comments about export and optionally define schema
-     * 
+     *
      * @param outputWriter output for SQL export
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    final // TODO remove this
-    public void exportHeader( final Writer outputWriter ) 
-        throws SQLException, 
+    public void exportHeader( final Writer outputWriter )
+        throws SQLException,
                IOException
     {
        ExportTable exportTable = new ExportTable( outputWriter );
 
        exportTable.println( "-- ---------------------------" );
        exportTable.print( "-- Export " );
-       
+
        if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-           exportTable.print( "`" ).print( schema ).print( "` " );    
+           exportTable.print( "`" ).print( schema ).print( "` " );
            }
 
        exportTable.print( ": " ).println( getTimestampString() );
@@ -284,17 +282,16 @@ public class ExportSQL  implements Closeable
 
        exportTable.println();
     }
-    
+
     /**
      * Export table content
-     * 
+     *
      * @param outputWriter output for SQL export
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    final // TODO remove this
-    public void exportDeleteContent( final Writer outputWriter ) 
-        throws SQLException, 
+    public void exportDeleteContent( final Writer outputWriter )
+        throws SQLException,
                IOException
     {
         ExportTable exportTable = new ExportTable( outputWriter );
@@ -317,14 +314,13 @@ public class ExportSQL  implements Closeable
 
     /**
      * Export table content
-     * 
+     *
      * @param outputWriter output for SQL export
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    final // TODO remove this
-    public void exportTablesContent( final Writer outputWriter ) 
-        throws SQLException, 
+    public void exportTablesContent( final Writer outputWriter )
+        throws SQLException,
                IOException
     {
         ExportTable exportTable = new ExportTable( outputWriter );
@@ -348,7 +344,7 @@ public class ExportSQL  implements Closeable
         try { if(s != null) s.close(); } catch(Exception e) {}
         try { if(c != null) c.close(); } catch(Exception e) {}
     }
-    
+
     private final class ExportTable
     {
         private Writer          out;
@@ -361,7 +357,7 @@ public class ExportSQL  implements Closeable
 
         public void doExportDeleteData(
                 final TableDescription tableDesc
-                ) 
+                )
             throws IOException
         {
             print( "DELETE FROM `" );
@@ -394,7 +390,7 @@ public class ExportSQL  implements Closeable
                 }
 
             q.append( tableDesc.getName() );
-            
+
             if( tableDesc.getWhereCondition() != null ) {
                 q.append( "` WHERE " );
                 q.append( tableDesc.getWhereCondition() );
@@ -413,7 +409,7 @@ public class ExportSQL  implements Closeable
             println();
             println( "-- ---------------------------" );
             print( "-- Data for `"  );
-            
+
             if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
                 print( schema ).print( "`.`" );
                 }
@@ -443,7 +439,7 @@ public class ExportSQL  implements Closeable
                 print( tableDesc.getName() );
                 print( "` (" );
                 boolean isFirst = true;
-                
+
                 for(int i = 1; i <= rm.getColumnCount(); i++) {
                     if( isFirst ) {
                         isFirst = false;
@@ -467,7 +463,7 @@ public class ExportSQL  implements Closeable
                         print( "," );
                         }
                     String s = r.getString( rm.getColumnName( i ) );
-                    
+
                     if( s == null ) {
                         print( "NULL" );
                         }

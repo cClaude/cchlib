@@ -810,11 +810,9 @@ public class JPanelResult extends JPanel
                         // Keep at least on file in this dir.
                         ////final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
-                      //TODO
-                      //TODO
-                      //TODO
-                      //TODO
-                      //TODO
+
+                        //TODO need to be studies
+
                         //Look for all files in this dir !
                         for(Entry<String, Set<KeyFileState>> entry:duplicateFiles.entrySet()) {
                             int               c = 0;

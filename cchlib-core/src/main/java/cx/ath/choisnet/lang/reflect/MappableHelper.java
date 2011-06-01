@@ -1,5 +1,6 @@
 package cx.ath.choisnet.lang.reflect;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,39 +34,69 @@ import cx.ath.choisnet.ToDo;
 public class MappableHelper
 {
     /**
-     * TODO: Doc!
+     * Attributes for {@link MappableHelper}
      *
      * @author Claude CHOISNET
      */
     public enum Attributes {
         /**
-         *  TODO: Doc!
+         *  Add all primitives to map
          */
         ALL_PRIMITIVE_TYPE,
-        /** TODO: Doc! */
+
+        /**
+         * Include {@link Mappable} child into map
+         */
         DO_RECURSIVE,
-        /** TODO: Doc! */
+
+        /**
+         *  Include arrays into map
+         */
         DO_ARRAYS,
-        /** TODO: Doc! */
+
+        /**
+         * Include {@link Iterator} into map
+         */
         DO_ITERATOR,
-        /** TODO: Doc! */
+
+        /**
+         * Include {@link Iterable} into map
+         */
         DO_ITERABLE,
-        /** TODO: Doc! */
+
+        /**
+         * Include {@link Enumeration} into map
+         */
         DO_ENUMERATION,
-        /** TODO: Doc! */
+
+        /**
+         * Include parents classes into introspection, and
+         * add result to map.
+         */
         DO_PARENT_CLASSES,
-        /** TODO: Doc! */
+
+        /**
+         * Try to include private methods result into map
+         */
         TRY_PRIVATE_METHODS,
-        /** TODO: Doc! */
+
+        /**
+         * Try to include protected methods result into map
+         */
         TRY_PROTECTED_METHODS
     };
 
-    /** TODO: Doc! */
+    /**
+     * TODO: Doc!
+     */
     public static final EnumSet<Attributes> DEFAULT_ATTRIBUTES = EnumSet.of(
             Attributes.ALL_PRIMITIVE_TYPE,
             Attributes.DO_ARRAYS
             );
-    /** TODO: Doc! */
+
+    /**
+     * TODO: Doc!
+     */
     public static final EnumSet<Attributes> SHOW_ALL = EnumSet.of(
             Attributes.ALL_PRIMITIVE_TYPE
             );
@@ -306,7 +337,11 @@ public class MappableHelper
      * @param max
      * @return
      */
-    protected String formatIterableEntry(String methodeName, int index, int max)
+    protected String formatIterableEntry(
+            String  methodeName,
+            int     index,
+            int     max
+            )
     {
         String params[] = {
             methodeName, Integer.toString(index), Integer.toString(max)
@@ -346,7 +381,7 @@ public class MappableHelper
             methodeName,
             Integer.toString(index),
             Integer.toString(max)
-        };
+            };
 
         return messageFormatEnumerationEntry.format(params);
     }
@@ -364,7 +399,7 @@ public class MappableHelper
             methodeName,
             Integer.toString(index),
             Integer.toString(max)
-        };
+            };
 
         return messageFormatArrayEntry.format(params);
     }
@@ -378,7 +413,7 @@ public class MappableHelper
     {
         final String[] params = {
             methodeName
-        };
+            };
 
         return messageFormatMethodName.format(params);
     }
@@ -387,7 +422,7 @@ public class MappableHelper
     {
         if(!attributesSet.contains(Attributes.DO_PARENT_CLASSES)) {
             return clazz.getDeclaredMethods();
-        }
+            }
 
         Set<Method> methodsSet = new HashSet<Method>();
         Method arr0$[] = clazz.getDeclaredMethods();
@@ -396,7 +431,7 @@ public class MappableHelper
         for(int i$ = 0; i$ < len0$; i$++) {
             Method m = arr0$[i$];
             methodsSet.add(m);
-        }
+            }
 
         for(Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
             Method arr1$[] = c.getDeclaredMethods();
@@ -404,14 +439,16 @@ public class MappableHelper
             for(int i$ = 0; i$ < len1$; i$++) {
                 Method m = arr1$[i$];
                 methodsSet.add(m);
+                }
             }
-        }
+
         Method[] methods = new Method[methodsSet.size()];
         int i = 0;
+
         for(Iterator<Method> i$ = methodsSet.iterator(); i$.hasNext();) {
             Method m = i$.next();
             methods[i++] = m;
-        }
+            }
 
         return methods;
     }
@@ -425,14 +462,14 @@ public class MappableHelper
     {
         if(!attributesSet.contains(Attributes.DO_RECURSIVE)) {
             return false;
-        }
+            }
 
         if(clazz.isArray()) {
             return Mappable.class.isAssignableFrom(clazz.getComponentType());
-        }
+            }
         else {
             return Mappable.class.isAssignableFrom(clazz);
-        }
+            }
     }
 
     private final boolean shouldEvaluate(Class<?> returnType)
@@ -441,24 +478,26 @@ public class MappableHelper
 
         if(Modifier.isPrivate(modifier) && !attributesSet.contains(Attributes.TRY_PRIVATE_METHODS)) {
             return false;
-        }
+            }
+
         if(Modifier.isProtected(modifier) && !attributesSet.contains(Attributes.TRY_PROTECTED_METHODS)) {
             return false;
-        }
+            }
         if(attributesSet.contains(Attributes.ALL_PRIMITIVE_TYPE) && returnType.isPrimitive()) {
             return true;
-        }
+            }
+
         if(attributesSet.contains(Attributes.DO_ARRAYS) && returnType.isArray()) {
             return true;
-        }
+            }
 
         for(Iterator<Class<?>> i$ = returnTypeClasses.iterator(); i$.hasNext();) {
             Class<?> c = i$.next();
 
-            if(c.isAssignableFrom(returnType)) {
+            if( c.isAssignableFrom( returnType ) ) {
                 return true;
+                }
             }
-        }
 
         return false;
     }
@@ -470,12 +509,12 @@ public class MappableHelper
      */
     public String toString(final Object object)
     {
-        if(object == null) {
+        if( object == null ) {
             return toStringNullValue;
-        }
+            }
         else {
             return MappableHelper.toString(attributesSet, object);
-        }
+            }
     }
 
     private static final void addRec(
@@ -484,9 +523,8 @@ public class MappableHelper
             Mappable            object
             )
     {
-        Set<Map.Entry<String,String>> set = object.toMap().entrySet();
-
-        Map.Entry<String,String> entry;
+        Set<Map.Entry<String,String>>   set = object.toMap().entrySet();
+        Map.Entry<String,String>        entry;
 
         for(
                 Iterator<Map.Entry<String,String>> i$ = set.iterator();
@@ -676,10 +714,10 @@ public class MappableHelper
     {
         if(map == null) {
             out.append((new StringBuilder()).append("<class name=\"").append(clazz.getName()).append("\" /><!-- NULL OBJECT -->\n").toString());
-        }
+            }
         else if(map.size() == 0) {
             out.append((new StringBuilder()).append("<class name=\"").append(clazz.getName()).append("\" /><!-- EMPTY -->\n").toString());
-        }
+            }
         else {
             out.append((new StringBuilder()).append("<class name=\"").append(clazz.getName()).append("\">\n").toString());
             String name;
@@ -703,7 +741,7 @@ public class MappableHelper
      * @throws java.io.IOException
      */
     public static void toXML(Appendable out, Class<?> clazz, Mappable aMappableObject)
-        throws java.io.IOException
+        throws IOException
     {
         MappableHelper.toXML(out, clazz, aMappableObject != null ? aMappableObject.toMap() : null);
     }
@@ -715,7 +753,7 @@ public class MappableHelper
      * @throws java.io.IOException
      */
     public static void toXML(Appendable out, Mappable aMappableObject)
-        throws java.io.IOException
+        throws IOException
     {
         MappableHelper.toXML(out, aMappableObject.getClass(), aMappableObject);
     }
@@ -732,10 +770,10 @@ public class MappableHelper
 
         try {
             MappableHelper.toXML( sb, clazz, aMappableObject);
-        }
-        catch(java.io.IOException improbable) {
+            }
+        catch( IOException improbable ) {
             throw new RuntimeException(improbable);
-        }
+            }
 
         return sb.toString();
     }
@@ -745,7 +783,7 @@ public class MappableHelper
      * @param aMappableObject
      * @return
      */
-    public static String toXML(Mappable aMappableObject)
+    public static String toXML( Mappable aMappableObject )
     {
         return MappableHelper.toXML(aMappableObject.getClass(), aMappableObject);
     }

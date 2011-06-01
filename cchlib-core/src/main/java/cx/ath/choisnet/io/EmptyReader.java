@@ -2,23 +2,25 @@ package cx.ath.choisnet.io;
 
 import java.io.IOException;
 import java.io.Reader;
-import cx.ath.choisnet.ToDo;
 
 /**
+ * An always empty {@link Reader}
  *
  * @author Claude CHOISNET
- *
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class EmptyReader extends Reader
 {
     private boolean open;
 
+    /**
+     * Create an {@link EmptyReader}
+     */
     public EmptyReader()
     {
         open = true;
     }
 
+    @Override
     public void close() throws IOException
     {
         if(!open) {
@@ -29,6 +31,7 @@ public class EmptyReader extends Reader
         }
     }
 
+    @Override
     public int read(char[] cbuf, int off, int len)
         throws java.io.IOException
     {

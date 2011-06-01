@@ -1,5 +1,6 @@
 package cx.ath.choisnet.io;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
@@ -10,7 +11,7 @@ import java.io.PipedOutputStream;
  * @author Claude CHOISNET
  *
  */
-public class InputStreamThread extends Thread
+public class InputStreamThread extends Thread implements Closeable
 {
     private final InputStream is;
     private final PipedOutputStream pipeOut;
@@ -43,6 +44,7 @@ public class InputStreamThread extends Thread
         return pipeIn;
     }
 
+    @Override
     public void run()
     {
         int errorCount = 0;
@@ -113,8 +115,8 @@ public class InputStreamThread extends Thread
         }
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         running = false;
     }

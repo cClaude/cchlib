@@ -12,7 +12,6 @@ import cx.ath.choisnet.ToDo;
 @ToDo(action=ToDo.Action.DOCUMENTATION)
 public class EmptyWriter extends Writer
 {
-
     private boolean open;
 
     public EmptyWriter()
@@ -20,6 +19,7 @@ public class EmptyWriter extends Writer
         open = true;
     }
 
+    @Override
     public void close() throws IOException
     {
         if(!open) {
@@ -30,16 +30,17 @@ public class EmptyWriter extends Writer
         }
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
         if(!open) {
             throw new IOException("is close");
             }
     }
 
+    @Override
     public void write(char[] cbuf, int off, int len)
-        throws java.io.IOException
+        throws IOException
     {
         if(!open) {
             throw new IOException("is close");

@@ -27,7 +27,7 @@ import javax.swing.table.AbstractTableModel;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
  */
@@ -39,15 +39,15 @@ class CompareRessourceBundlePopupMenu
     /** @serial */
     private CompareRessourceBundleTableModel.Colunms colunms;
 
-    private boolean lineWrap = true; // TODO
-    private boolean wordWrap = true; // TODO
-    
+    private boolean lineWrap = true; // TODO add in pref
+    private boolean wordWrap = true; // TODO add in pref
+
     /**
      * @param jTable
-     * @param abstractTableModel 
-     * @param colunms 
+     * @param abstractTableModel
+     * @param colunms
      */
-    public CompareRessourceBundlePopupMenu( 
+    public CompareRessourceBundlePopupMenu(
             JTable                                      jTable,
             AbstractTableModel                          abstractTableModel,
             CompareRessourceBundleTableModel.Colunms    colunms
@@ -60,9 +60,9 @@ class CompareRessourceBundlePopupMenu
     }
 
     @Override
-    protected JPopupMenu createContextMenu( 
+    protected JPopupMenu createContextMenu(
             final int rowIndex,
-            final int columnIndex 
+            final int columnIndex
             )
     {
         //JPopupMenu contextMenu = super.createContextMenu(rowIndex, columnIndex);
@@ -71,10 +71,10 @@ class CompareRessourceBundlePopupMenu
         addCopyMenuItem(contextMenu, rowIndex, columnIndex);
         addPasteMenuItem(contextMenu, rowIndex, columnIndex);
         contextMenu.addSeparator();
-        
+
         addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
         addEditMultiLineMenuItem(contextMenu, rowIndex, columnIndex);
-        
+
 //        switch( columnIndex ) {
 //            case ExampleTableModel.COLUMN_NAME:
 //                break;
@@ -137,11 +137,11 @@ class CompareRessourceBundlePopupMenu
 //        }
         return contextMenu;
     }
-    
+
     protected void addShowHTMLMenuItem(
             JPopupMenu  contextMenu,
             final int   rowIndex,
-            final int   columnIndex 
+            final int   columnIndex
             )
     {
         if( columnIndex == colunms.colunmKey) {
@@ -158,7 +158,7 @@ class CompareRessourceBundlePopupMenu
 
         copyMenu.setText( "HTML Preview" );
         copyMenu.addActionListener(
-                new ActionListener() 
+                new ActionListener()
                 {
                     @Override
                     public void actionPerformed( ActionEvent e )
@@ -173,15 +173,15 @@ class CompareRessourceBundlePopupMenu
                         }
                     }
                 });
-        
+
         contextMenu.addSeparator();
         contextMenu.add( copyMenu );
     }
-    
+
     protected void addEditMultiLineMenuItem(
             JPopupMenu  contextMenu,
             final int   rowIndex,
-            final int   columnIndex 
+            final int   columnIndex
             )
     {
         if( columnIndex == colunms.colunmKey ) {
@@ -198,13 +198,13 @@ class CompareRessourceBundlePopupMenu
 
         copyMenu.setText( "Edit lines" );
         copyMenu.addActionListener(
-                new ActionListener() 
+                new ActionListener()
                 {
                     @Override
                     public void actionPerformed( ActionEvent e )
                     {
                         Object value = getValueAt( rowIndex, columnIndex );
-                        
+
                         if( value instanceof String ) {
                             openMultiLineEditor(
                                     "Edit Lines",
@@ -224,7 +224,7 @@ class CompareRessourceBundlePopupMenu
     {
         if( frame == null ) {
             Container c = getJTable();
-            
+
             while( c != null ) {
                 if( c instanceof Frame ) {
                     frame = Frame.class.cast( c );
@@ -249,11 +249,11 @@ class CompareRessourceBundlePopupMenu
         htmlComponent.setContentType( "text/html" );
 //        htmlComponent.putClientProperty(
 //                JEditorPane.W3C_LENGTH_UNITS,
-//                Boolean.TRUE 
+//                Boolean.TRUE
 //                );
 //        htmlComponent.putClientProperty(
 //                JEditorPane.HONOR_DISPLAY_PROPERTIES,
-//                Boolean.TRUE 
+//                Boolean.TRUE
 //                );
         htmlComponent.setText( html );
 
@@ -265,9 +265,9 @@ class CompareRessourceBundlePopupMenu
                         )
                 );
         //jButton.setText("OK");
-        jButton.addMouseListener(new MouseAdapter() 
+        jButton.addMouseListener(new MouseAdapter()
         {
-            public void mousePressed(MouseEvent event) 
+            public void mousePressed(MouseEvent event)
             {
                 dialog.dispose();
             }
@@ -295,7 +295,7 @@ class CompareRessourceBundlePopupMenu
             String      title,
             String      txt,
             final int   rowIndex,
-            final int   columnIndex 
+            final int   columnIndex
             )
     {
         System.out.printf("openMultiLineEditor %d/%d\n",rowIndex,columnIndex);
@@ -311,9 +311,9 @@ class CompareRessourceBundlePopupMenu
                         getClass().getResource( "close.png" )
                         )
                 );
-        jButtonCancel.addMouseListener(new MouseAdapter() 
+        jButtonCancel.addMouseListener(new MouseAdapter()
         {
-            public void mousePressed(MouseEvent event) 
+            public void mousePressed(MouseEvent event)
             {
                 dialog.dispose();
             }
@@ -324,26 +324,26 @@ class CompareRessourceBundlePopupMenu
                         getClass().getResource( "commit.png" )
                         )
                 );
-        jButtonCommit.addMouseListener(new MouseAdapter() 
+        jButtonCommit.addMouseListener(new MouseAdapter()
         {
-            public void mousePressed(MouseEvent event) 
+            public void mousePressed(MouseEvent event)
             {
-                setValueAt( 
-                        jTextArea.getText(), 
-                        rowIndex, 
+                setValueAt(
+                        jTextArea.getText(),
+                        rowIndex,
                         columnIndex
                         );
                 int row = getJTable().convertRowIndexToModel( rowIndex );
                 int col = getJTable().convertColumnIndexToModel( columnIndex );
 
                 abstractTableModel.fireTableCellUpdated(
-                        row, 
+                        row,
                         col
-                        ); 
+                        );
                 dialog.dispose();
             }
         });
-        
+
         final JCheckBoxMenuItem mItemLineWrap = new JCheckBoxMenuItem("Line Wrap");
         jTextArea.setLineWrap( lineWrap );
         mItemLineWrap.setSelected( lineWrap );
@@ -373,7 +373,7 @@ class CompareRessourceBundlePopupMenu
                                 );
                     }
                 });
-        
+
         JMenuBar    menuBar = new JMenuBar();
         JMenu       menu    = new JMenu("Options");
         menu.add( mItemLineWrap );

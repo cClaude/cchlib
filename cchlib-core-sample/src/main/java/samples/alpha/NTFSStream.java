@@ -69,7 +69,6 @@ public class NTFSStream
      */
     public static void main( String[] args ) throws IOException
     {
-        // TODO Auto-generated method stub
         File   path       = new File("C:/");
         String filename   = "support.txt";
         String streamname = "test";

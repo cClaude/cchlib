@@ -72,8 +72,8 @@ public class DHCPParameters
 
                 outStream.write(options, 0, options.length);
                 }
-            catch( IOException e ) {
-                // TODO: trace ???
+            catch( IOException shouldNotOccured ) {
+                throw new RuntimeException( shouldNotOccured );
                 }
             }
 

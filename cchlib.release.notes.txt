@@ -1,6 +1,10 @@
 cchlib
 
 ---------------------------------------------------------------------
+4.1.5
+  New dependences organization in pom.xml files.
+  Add many documentation
+---------------------------------------------------------------------
 4.1.3
   cchlib-core
   remove from maven repository: cchlib-core-deprecated

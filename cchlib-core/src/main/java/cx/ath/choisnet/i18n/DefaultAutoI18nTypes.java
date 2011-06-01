@@ -35,6 +35,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
          *
          * @return type for this object
          */
+        @Override
         public abstract Class<T> getType();
 
         /**
@@ -62,13 +63,12 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             if( AutoI18nTypes.Type.class.isAssignableFrom( m.getReturnType() ) ) {
                 if( m.getParameterTypes().length == 0 ) {
                     try {
-                        AutoI18nTypes.Type t = AutoI18nTypes.Type.class.cast( m.invoke( this ) );
+                        AutoI18nTypes.Type t = AutoI18nTypes.Type.class.cast( m.invoke( DefaultAutoI18nTypes.this ) );
 
                         types.add( t );
                     }
-                    catch( Exception e ) {
-                        // TODO Should not occur !
-                        e.printStackTrace();
+                    catch( Exception shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                     }
                 }
             }

@@ -1,89 +1,70 @@
 package cx.ath.choisnet.io;
 
+import java.io.IOException;
 import java.io.Writer;
 
 /**
+ * TODO: Doc!
  *
  * @author Claude CHOISNET
- *
  */
 public final class ParallelWriter extends Writer
 {
-
     private Writer[] writers;
 
     public ParallelWriter(Writer writer1, Writer writer2)
     {
         writers = new Writer[2];
         writers[0] = writer1;
-
         writers[1] = writer2;
     }
 
     public ParallelWriter(Writer...writerList)
     {
-        writers = new Writer[writerList.length];
+        int i        = 0;
+        this.writers = new Writer[writerList.length];
 
-        int i = 0;
-        java.io.Writer arr$[] = writerList;
-        int len$ = arr$.length;
-
-        for(int i$ = 0; i$ < len$; i$++)
-
-        {
-            java.io.Writer w = arr$[i$];
+        for( Writer w : writerList ) {
             writers[i++] = w;
         }
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
-        java.io.IOException lastException = null;
-        for(int i = 0; i < writers.length; i++)
+        IOException lastException = null;
 
-        {
-            try
-            {
+        for(int i = 0; i < writers.length; i++) {
+            try {
                 writers[i].close();
-
-            }
-
-            catch(java.io.IOException e)
-
-            {
+                }
+            catch( IOException e ) {
                 lastException = e;
+                }
             }
-        }
 
-        if(lastException != null)
-        {
+        if(lastException != null) {
             throw lastException;
-        } else
-        {
+            }
+        else {
             return;
-
-        }
+            }
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
-        for(int i = 0; i < writers.length; i++)
-
-        {
+        for(int i = 0; i < writers.length; i++) {
             writers[i].flush();
-
-        }
+            }
     }
 
+    @Override
     public void write(char cbuf[], int off, int len)
-        throws java.io.IOException
+        throws IOException
     {
-        for(int i = 0; i < writers.length; i++)
-
-        {
+        for(int i = 0; i < writers.length; i++) {
             writers[i].write(cbuf, off, len);
-        }
+            }
     }
 }

@@ -90,7 +90,7 @@ class LoadDialog
         initCheckBox(
                 jCheckBox_ini,
                 ACTION_FT_ini,
-                false // TODO
+                false // TODO add in config
                 );
 
         // Properties tab

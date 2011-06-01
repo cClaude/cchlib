@@ -10,9 +10,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
+import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.ExtendTestCase;
 import cx.ath.choisnet.test.SerializableTestCase;
-import cx.ath.choisnet.test.TstCaseHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 public class MessageDigestFileTest extends ExtendTestCase 
@@ -69,7 +69,7 @@ public class MessageDigestFileTest extends ExtendTestCase
             DigestException, 
             ClassNotFoundException
     {
-        Iterator<File> iter = TstCaseHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
+        Iterator<File> iter = AssertHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
         int i = 0;
         while( iter.hasNext() ) {
             File f = iter.next();

@@ -112,13 +112,11 @@ public abstract class AbstractI18nResourceAutoUpdate
                             return; // done
                         }
                     }
-                    catch( IllegalArgumentException e1 ) {
-                        // Should NOT occur !
-                        e1.printStackTrace();
+                    catch( IllegalArgumentException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                     }
-                    catch( IllegalAccessException e1 ) {
-                        // Should NOT occur !
-                        e1.printStackTrace();
+                    catch( IllegalAccessException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                     }
                 }
 
@@ -135,13 +133,11 @@ public abstract class AbstractI18nResourceAutoUpdate
                         needProperty(key, v );
                         return; // done
                     }
-                    catch( IllegalArgumentException e ) {
-                        // Should NOT occur !
-                        e.printStackTrace();
+                    catch( IllegalArgumentException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                     }
-                    catch( IllegalAccessException e ) {
-                        // Should NOT occur !
-                        e.printStackTrace();
+                    catch( IllegalAccessException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                     }
                 }
                 needProperty( getKey( f ), "<<NOT HANDLE (c1)>>");
@@ -181,13 +177,11 @@ public abstract class AbstractI18nResourceAutoUpdate
                         }
                     }
                 }
-                catch( IllegalArgumentException e ) {
-                    // Should NOT occur !
-                    e.printStackTrace();
+                catch( IllegalArgumentException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                 }
-                catch( IllegalAccessException e ) {
-                    // Should NOT occur !
-                    e.printStackTrace();
+                catch( IllegalAccessException shouldNotOccur ) {
+                        throw new RuntimeException( shouldNotOccur );
                 }
 
                 needProperty( getKey( f ), "<<NOT HANDLE (c2)>>");
@@ -212,15 +206,15 @@ public abstract class AbstractI18nResourceAutoUpdate
                 }
                 catch( IllegalArgumentException e ) {
                     // Should NOT occur !
-                    e.printStackTrace();
+                    throw new RuntimeException( e );
                 }
                 catch( IllegalAccessException e ) {
-                    // TODO ??
-                    e.printStackTrace();
+                    // TODO ?? better handle this exception
+                    throw new RuntimeException( e );
                 }
                 catch( InvocationTargetException e ) {
-                    // TODO ??
-                    e.printStackTrace();
+                    // TODO ?? better handle this exception
+                    throw new RuntimeException( e );
                 }
             }
         });

@@ -89,7 +89,7 @@ public class CompareRessourceBundleFrameVS4E extends JFrame
         if (jMenuItemDefaultLocale == null) {
             jMenuItemDefaultLocale = new JMenuItem();
             jMenuItemDefaultLocale.setText("Default Locale");
-            jMenuItemDefaultLocale.setEnabled(false); //TODO
+            jMenuItemDefaultLocale.setEnabled(false); //TODO choose local
             jMenuItemDefaultLocale.addMouseListener(new MouseAdapter() {
 
                 public void mousePressed(MouseEvent event) {

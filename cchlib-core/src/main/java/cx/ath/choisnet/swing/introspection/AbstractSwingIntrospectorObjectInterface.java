@@ -55,7 +55,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return class object used by frame
      */
     @Override
-    final // TODO: remove this
     public Class<FRAME> getFrameClass()
     {
         return this.frameClass;
@@ -69,7 +68,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
 //     * @See {@link ComponentInitializer#initComponent(Object, cx.ath.choisnet.lang.introspection.method.IntrospectionItem, String)}
 //     */
 //    //@Override
-//    final // TODO: remove this
+//    final // TO DO: remove this
 //    public void initComponent(
 //            Object  componentToInit,
 //            String  beanname
@@ -89,7 +88,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return FramePopulator for these instances
      */
     @Override
-    final // TODO: remove this
     public FramePopulator<FRAME,OBJECT> getFramePopulator( 
             final FRAME   frame, 
             final OBJECT  object 
@@ -145,7 +143,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return a map with keys reflex beans names
      */
     @Override
-    final // TODO: remove this
     public Map<String,OBJECT_ENTRY> getObjectInfos()
     {
         return this.introspection.getMap();
@@ -154,7 +151,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     /**
      * @return the Introspection object
      */
-    final // TODO: remove this
     protected Introspection<OBJECT, OBJECT_ENTRY> getIntrospection()
     {
         return introspection;
@@ -164,14 +160,12 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @param beanname 
      * @return the OBJECT_ENTRY
      */
-    final // TODO: remove this
     protected OBJECT_ENTRY getObjectEntry(String beanname)
     {
         return introspection.getItem( beanname );
     }
 
     @Override
-    final // TODO: remove this
     public ComponentInitializer getComponentInitializer()
     {
         return componentInitializer;

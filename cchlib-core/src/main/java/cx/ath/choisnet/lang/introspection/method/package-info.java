@@ -1,6 +1,5 @@
 /**
  * Provide analyze classes using reflection
- * <p>TODO: more doc!</p>
  *
  * @author Claude CHOISNET
  */

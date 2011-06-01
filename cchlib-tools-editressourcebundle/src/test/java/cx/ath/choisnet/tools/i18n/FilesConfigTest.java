@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import cx.ath.choisnet.io.PatternFileFilter;
+import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCase;
-import cx.ath.choisnet.test.TstCaseHelper;
 
 /**
  * TestCase
@@ -19,7 +19,7 @@ public class FilesConfigTest extends SerializableTestCase
                 IOException,
                 ClassNotFoundException
     {
-        Iterator<File>  files = TstCaseHelper.getFilesFrom( 
+        Iterator<File>  files = AssertHelper.getFilesFrom( 
                                     new File("."),
                                     new PatternFileFilter(".*\\.properties")
                                     );

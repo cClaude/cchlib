@@ -1,5 +1,5 @@
 /**
- * TODO
+ * Provide some tools for XML. 
  *
  * @author Claude CHOISNET
  */

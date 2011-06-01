@@ -92,17 +92,18 @@ public final class InputStreamHelper
 
     public static InputStream concat(final InputStream...is)
     {
-        return new java.io.InputStream() {
+        return new InputStream()
+        {
             int index;
 
-            public int available()
-                throws java.io.IOException
+            @Override
+            public int available() throws IOException
             {
                 return is[index].available();
             }
 
-            public void close()
-                throws java.io.IOException
+            @Override
+            public void close() throws IOException
             {
                 IOException anIOE = null;
 
@@ -110,7 +111,7 @@ public final class InputStreamHelper
                     try {
                         is[i].close();
                     }
-                    catch(java.io.IOException e) {
+                    catch( IOException e ) {
                         anIOE = e;
                     }
                 }
@@ -123,13 +124,14 @@ public final class InputStreamHelper
                 }
             }
 
+            @Override
             public boolean markSupported()
             {
                 return false;
             }
 
-            public int read()
-                throws java.io.IOException
+            @Override
+            public int read() throws IOException
             {
                 for(; index < is.length; index++) {
                     int r = is[index].read();

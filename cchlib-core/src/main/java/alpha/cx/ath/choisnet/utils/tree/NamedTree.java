@@ -10,7 +10,9 @@ import alpha.cx.ath.choisnet.utils.Walkable;
 
 //http://fr.wikipedia.org/wiki/Arbre_enracin%C3%A9
 //http://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_largeur
-//L'algorithme de parcours en largeur (ou BFS, pour Breadth First Search) permet le parcours d'un graphe de manière itérative, en utilisant une file. Il peut par exemple servir à déterminer la connexité d'un graphe.
+//L'algorithme de parcours en largeur (ou BFS, pour Breadth First Search)
+// permet le parcours d'un graphe de maniere iterative, en utilisant une file.
+// Il peut par exemple servir a determiner la connexite d'un graphe.
 /**
  * NamedTree is a N-ary tree with named node stored in
  * a binary tree.
@@ -39,7 +41,7 @@ import alpha.cx.ath.choisnet.utils.Walkable;
  *   |L            |L       |L
  *   5-R->6-R->7   8-R->9   10-R->11-R->12-R->13
  * </pre>
- * 
+ *
  * @author Claude CHOISNET
  * @param <T>
   */
@@ -52,12 +54,12 @@ public class NamedTree<T>
 
     /** Root node */
     private DefaultNamedTreeNode<T> head;
-    
+
     /**
-     * 
+     *
      * @param <T>
      */
-    private static class DefaultNamedTreeNode<T> 
+    private static class DefaultNamedTreeNode<T>
         extends DefaultBinaryTreeNode<T>
             implements NamedTreeNode<T>
     {
@@ -95,7 +97,7 @@ public class NamedTree<T>
             this.name = name;
             this.parent = parent;
         }
-    
+
         @Override
         public String getName()
         {
@@ -114,7 +116,7 @@ public class NamedTree<T>
             return sb.toString();
         }
 
-        private void buildPath(StringBuilder sb) 
+        private void buildPath(StringBuilder sb)
         {
             if( parent != null ) {
                 parent.buildPath( sb );
@@ -122,7 +124,7 @@ public class NamedTree<T>
             }
             sb.append( name );
         }
-        
+
         @Override
         public boolean isLeaf()
         {
@@ -174,7 +176,7 @@ public class NamedTree<T>
             }
             return (DefaultNamedTreeNode<T>)last;
         }
-        
+
         //@Override
         void addChild(DefaultNamedTreeNode<T> node)
         {
@@ -202,7 +204,7 @@ public class NamedTree<T>
     {
         return head;
     }
-    
+
     /**
      * Clear binary content. {@link NamedTree} will be empty after
      * this call.
@@ -215,12 +217,12 @@ public class NamedTree<T>
 
     /**
      * Add an new node using is pathName
-     * 
+     *
      * @param content content of node (could be null)
      * @param pathName path name for new node.
      * @return previous value for this node, or null if
      * no data, or new node)
-     * @throws BadRootNameException if root name of 
+     * @throws BadRootNameException if root name of
      *         new node is not equal to root node
      *         name of current tree
      * @throw NullPointerException if pathName is null,
@@ -231,7 +233,7 @@ public class NamedTree<T>
         throws BadRootNameException
     {
         String rname = pathName[0];
- 
+
         if( head != null ) {
             if( head.getName() == null ) {
                 // tree head is the only node,
@@ -251,7 +253,7 @@ public class NamedTree<T>
                 }
                 else {
                     // Not in this tree !
-                    throw new BadRootNameException( 
+                    throw new BadRootNameException(
                             String.format("Found '%s' expected '%s'", rname, head.getName() )
                             );
                 }
@@ -260,7 +262,7 @@ public class NamedTree<T>
         else {
             // No head
             head = new DefaultNamedTreeNode<T>(rname, null);
-            
+
             if( pathName.length == 1 ) {
                 //Set head !
                 T prev = head.getData();
@@ -282,7 +284,7 @@ public class NamedTree<T>
             else {
                 // Node not found.
                 next = new DefaultNamedTreeNode<T>(pathName[i], n);
-                
+
                 DefaultNamedTreeNode<T> prev = n.getLastChild();
                 if( prev == null ) {
                     n.addChild( next );
@@ -294,10 +296,10 @@ public class NamedTree<T>
                 n = next;
             }
         }
-        
+
         // Deal with final node
         DefaultNamedTreeNode<T> existNode = lookup(n, pathName[pathName.length-1]);
-        
+
         if( existNode != null ) {
             // Just set datas !
             T prev = existNode.getData();
@@ -318,7 +320,7 @@ public class NamedTree<T>
             return null;
         }
     }
-    
+
     // Look for child in this node,
     // return first child node with this name.
     private static <T> DefaultNamedTreeNode<T> lookup(DefaultNamedTreeNode<T> node, String childName)
@@ -333,18 +335,18 @@ public class NamedTree<T>
 
     /**
      * TODO: more doc!
-     * 
+     *
      * <p>
      * Handle only {@link VisitResult} values:
      * <br/>
      * {@link VisitResult#TERMINATE} to stop process.
      * <br/>
-     * {@link VisitResult#CONTINUE} to continue 
+     * {@link VisitResult#CONTINUE} to continue
      * <br/>
      * Other values are ignored, and handle as the
      * same way of {@link VisitResult#CONTINUE}
      * </p>
-     * 
+     *
      * @param visitor
      */
     @Override
@@ -358,7 +360,7 @@ public class NamedTree<T>
 
         while( queue.size() > 0 ) {
             NamedTreeNode<T> n = queue.poll();
- 
+
             for(NamedTreeNode<T> child:n) {
                 queue.offer( child );
             }
@@ -373,20 +375,20 @@ public class NamedTree<T>
                 // this king of tree
             //}
             else if( VisitResult.SKIP_SUBTREE.equals( r )) {
-                // TODO
+                // TODO handle this case
             }
         }
     }
-    
+
     /**
      * TODO: more doc!
-     * 
+     *
      * <p>
      * Handle only {@link VisitResult} values:
      * <br/>
      * {@link VisitResult#TERMINATE} to stop process.
      * <br/>
-     * {@link VisitResult#CONTINUE} to continue 
+     * {@link VisitResult#CONTINUE} to continue
      * <br/>
      * Other values are ignored, and handle as the
      * same way of {@link VisitResult#CONTINUE}
@@ -401,7 +403,7 @@ public class NamedTree<T>
             walkerHelperDepthFirst( head, visitor );
         }
     }
-    
+
     private static <T> VisitResult walkerHelperDepthFirst(
             NamedTreeNode<T>            node,
             Visitor<NamedTreeNode<T>>   visitor
@@ -410,7 +412,7 @@ public class NamedTree<T>
         if( node.getLeftNode() == null ) {
             // No childs for this node...
             VisitResult r = visitor.visite( node );
-            
+
             if( VisitResult.TERMINATE.equals( r ) ) {
                 return r;
                 }

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.io.FileIterator;
-import cx.ath.choisnet.test.TstCaseHelper;
+import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
@@ -36,7 +36,7 @@ public class DefaultDigestFileCollectorTest
         
         instance.addDigestEventListener( getDigestEventListener() );
 
-        File            root  = TstCaseHelper.getUserHomeDirFile();
+        File            root  = AssertHelper.getUserHomeDirFile();
         Iterable<File>  files = new FileIterator(
                 root,
                 new java.io.FileFilter()

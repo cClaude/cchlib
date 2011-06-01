@@ -2,6 +2,7 @@ package cx.ath.choisnet.io;
 
 import java.io.Closeable;
 import java.io.Flushable;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -52,16 +53,14 @@ public final class HTMLWriter extends Writer
     }
 
     @Override
-    public void close()
-        throws java.io.IOException
+    public void close()throws IOException
     {
         flush();
         writer.close();
     }
 
     @Override
-    public void flush()
-        throws java.io.IOException
+    public void flush() throws IOException
     {
         writer.flush();
     }
@@ -97,10 +96,14 @@ public final class HTMLWriter extends Writer
 
     /**
      * Format characters into HTML
+     *
+     * @param cbuf
+     * @param off
+     * @param len
+     * @throws IOException
      */
     @Override
-    public void write(char[] cbuf, int off, int len)
-        throws java.io.IOException
+    public void write(char[] cbuf, int off, int len) throws IOException
     {
         synchronized(super.lock) {
 /*        

@@ -22,19 +22,18 @@ import cx.ath.choisnet.ToDo;
  * 
  * @author Claude CHOISNET
  */
-//TODO: Not yet finish :(
 //To request a Windows System you much install "Simple TCP/IP Services Service DLL" to
 //on the requested computer 
 @ToDo
 public class Pinger extends Thread 
 {
     /**
-     * TODO: not yet implemented
+     * Under development. [DO NOT USE]
      */
     public enum Method {
         /**
          * Use all methods in sequence if previous did
-         * not work. (TODO)
+         * not work. (not implemented)
          */
         AllInSequence,
         /**

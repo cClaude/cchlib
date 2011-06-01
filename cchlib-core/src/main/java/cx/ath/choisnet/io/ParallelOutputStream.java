@@ -4,14 +4,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * TODO: Doc!
  *
  * @author Claude CHOISNET
- *
  */
 public final class ParallelOutputStream extends OutputStream
 {
     private OutputStream[] outputStreams;
 
+    /**
+     * TODO: Doc!
+     *
+     * @param stream1
+     * @param stream2
+     */
     public ParallelOutputStream(OutputStream stream1, OutputStream stream2)
     {
         outputStreams = new OutputStream[2];
@@ -20,22 +26,22 @@ public final class ParallelOutputStream extends OutputStream
         outputStreams[1] = stream2;
     }
 
+    /**
+     * TODO: Doc!
+     *
+     * @param streams
+     */
     public ParallelOutputStream(OutputStream...streams)
     {
-        outputStreams = new OutputStream[streams.length];
+        int i               = 0;
+        this.outputStreams  = new OutputStream[streams.length];
 
-        int i = 0;
-        java.io.OutputStream arr$[] = streams;
-        int len$ = arr$.length;
-
-        for(int i$ = 0; i$ < len$; i$++)
-
-        {
-            OutputStream os = arr$[i$];
+        for( OutputStream os: streams) {
             outputStreams[i++] = os;
         }
     }
 
+    @Override
     public void write(int b)
         throws java.io.IOException
     {
@@ -46,44 +52,33 @@ public final class ParallelOutputStream extends OutputStream
         }
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         IOException lastException = null;
-        for(int i = 0; i < outputStreams.length; i++)
 
-        {
-            try
-            {
+        for(int i = 0; i < outputStreams.length; i++) {
+            try {
                 outputStreams[i].close();
-
-            }
-
-            catch(java.io.IOException e)
-
-            {
+                }
+            catch( IOException e) {
                 lastException = e;
+                }
             }
-        }
 
-        if(lastException != null)
-        {
+        if(lastException != null) {
             throw lastException;
-        } else
-        {
+            }
+        else {
             return;
-
-        }
+            }
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
-        for(int i = 0; i < outputStreams.length; i++)
-
-        {
+        for(int i = 0; i < outputStreams.length; i++) {
             outputStreams[i].flush();
-
-        }
+            }
     }
 }

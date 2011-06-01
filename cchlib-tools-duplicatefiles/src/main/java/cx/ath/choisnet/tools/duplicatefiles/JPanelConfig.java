@@ -807,8 +807,7 @@ public class JPanelConfig extends JPanel
         Pattern                 pattern   = null;
 
         if( jCheckBoxUseFilesFilters.isSelected() ) {
-            //TODO
-            //TODO
+            //TODO need to be studies
 //            for(FileTypeCheckBox ft:incDirsType) {
 //                addNameIf(namesList,ft);
 //            }

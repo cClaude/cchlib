@@ -2,52 +2,86 @@ package alpha.cx.ath.choisnet.net.dhcp;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+import org.apache.log4j.Logger;
+import cx.ath.choisnet.ToDo;
 
 /**
  *
- * @author Claude CHOISNET
  *
+ * @author Claude CHOISNET
  */
+@ToDo
 public class DHCPMessage
 {
-    public static final String BROADCAST_IP_ADDR = "255.255.255.255";
-    public static final InetAddress BROADCAST_ADDR;
+    private final static Logger logger = Logger.getLogger( DHCPMessage.class );
+    public final static String BROADCAST_IP_ADDR = "255.255.255.255";
+    public final static InetAddress BROADCAST_ADDR;
     private int messagePort;
-    private java.net.InetAddress messageInetAddress;
+    private InetAddress messageInetAddress;
     private DHCPParameters dhcpParameters;
 
     static
     {
         try {
-            BROADCAST_ADDR = java.net.InetAddress.getByName("255.255.255.255");
+            BROADCAST_ADDR = InetAddress.getByName("255.255.255.255");
         }
-        catch(java.net.UnknownHostException e) {
+        catch(UnknownHostException e) {
             e.printStackTrace( System.err );
             throw new RuntimeException(e);
         }
 
     }
 
-    public DHCPMessage(InetAddress serverInetAddress, int port, DHCPParameters dhcpParameters)
+    /**
+     *
+     * @param serverInetAddress
+     * @param port
+     * @param dhcpParameters
+     */
+    public DHCPMessage(
+            final InetAddress       serverInetAddress,
+            final int               port,
+            final DHCPParameters    dhcpParameters
+            )
     {
-        messageInetAddress = serverInetAddress;
-        messagePort = port;
-        this.dhcpParameters = dhcpParameters;
+        this.messageInetAddress = serverInetAddress;
+        this.messagePort        = port;
+        this.dhcpParameters     = dhcpParameters;
     }
 
-    public DHCPMessage(InetAddress serverInetAddress, int port)
+    /**
+     * Create a {@link DHCPMessage} using default {@link DHCPParameters}
+     *
+     * @param serverInetAddress DHCP Server address
+     * @param port              DHCP Server port
+     */
+    public DHCPMessage(
+            final InetAddress   serverInetAddress,
+            final int           port
+            )
     {
         this(serverInetAddress, port, new DHCPParameters());
     }
 
-    public DHCPMessage(DHCPParameters dhcpParameters)
+    /**
+     * Create a {@link DHCPMessage} using broadcast and default port to
+     * join DHCP
+     *
+     * @param dhcpParameters
+     */
+    public DHCPMessage(final DHCPParameters dhcpParameters)
     {
-        this(BROADCAST_ADDR, 67, dhcpParameters);
+        this(BROADCAST_ADDR, DHCPSocket.SERVER_PORT, dhcpParameters);
     }
 
+    /**
+     * Create a {@link DHCPMessage} using broadcast, default port and
+     * default {@link DHCPParameters} to join DHCP
+     */
     public DHCPMessage()
     {
-        this(new DHCPParameters());
+        this( new DHCPParameters() );
     }
 
     public DHCPMessage setPort(int inPortNum)
@@ -60,7 +94,6 @@ public class DHCPMessage
     public int getPort()
     {
         return messagePort;
-
     }
 
     public DHCPMessage setInetAddress(InetAddress messageInetAddress)
@@ -73,7 +106,6 @@ public class DHCPMessage
     public InetAddress getInetAddress()
     {
         return messageInetAddress;
-
     }
 
     public void setDHCPParameters(DHCPParameters dhcpParameters)
@@ -83,23 +115,21 @@ public class DHCPMessage
 
     public DatagramPacket toDatagramPacket()
     {
-        byte[] data = getDHCPParameters().toByteArray();
-        return new DatagramPacket(data, data.length, getInetAddress(), getPort());
+        final byte[] data = getDHCPParameters().toByteArray();
 
+        return new DatagramPacket(data, data.length, getInetAddress(), getPort());
     }
 
     public DHCPParameters getDHCPParameters()
     {
         return dhcpParameters;
-
     }
 
     public boolean isSameThread(DHCPMessage aOtherDHCPMessage)
     {
         boolean b = getDHCPParameters().getXId() == aOtherDHCPMessage.getDHCPParameters().getXId();
 
-        // TODO: use log !
-        System.out.println(
+        logger.warn(
             (new StringBuilder())
                 .append("######## isSameThread() -> ")
                 .append(b)
@@ -128,7 +158,6 @@ public class DHCPMessage
         sb.append(getDHCPParameters().toString());
 
         return sb.toString();
-
     }
 
     public String toHexString()

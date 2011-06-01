@@ -166,8 +166,8 @@ public class AutoI18n implements Serializable
         else {
             this.types = autoI18nTypes;
         }
-        setI18n( i18n );
-        setAutoI18nExceptionHandler( exceptionHandler );
+        setI18n( i18n ); // could be override
+        setAutoI18nExceptionHandler( exceptionHandler ); // could be override
         this.eventHandler = eventHandler;
 
         if( attributes == null ) {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.i18n.builder;
 
 import java.util.Locale;

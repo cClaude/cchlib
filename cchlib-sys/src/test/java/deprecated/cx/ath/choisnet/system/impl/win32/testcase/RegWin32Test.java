@@ -23,25 +23,25 @@ public class RegWin32Test extends TestCase
 */
     public void testGetRegString()
     {
-        //TODO
+        //TODO test case
 //    public String getRegString(String regName, String regValue)
     }
 
     public void testSetRegString()
     {
-        //TODO
+        //TODO test case
 //      public void setRegString(String regName, String regValue, String regData)
     }
 
     public void testGetRegInteger()
     {
-        //TODO
+        //TODO test case
 //      public Integer getRegInteger(String regName, String regValue)
     }
 
     public void testSetRegInteger()
     {
-        //TODO
+        //TODO test case
 //      public void setRegInteger(String regName, String regValue, int regData)
     }
 

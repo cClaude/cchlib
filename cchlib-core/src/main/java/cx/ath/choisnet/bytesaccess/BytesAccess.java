@@ -123,10 +123,10 @@ public abstract class BytesAccess implements Cloneable
     public BytesAccess( final BytesAccess anOtherInstance )
     {
         this( anOtherInstance.bytes.length );
-
-        for( int i = 0; i< this.bytes.length; i++ ) {
-            this.bytes[ i ] = anOtherInstance.bytes[ i ];
-        }
+//        for( int i = 0; i< this.bytes.length; i++ ) {
+//            this.bytes[ i ] = anOtherInstance.bytes[ i ];
+//        }
+        System.arraycopy(anOtherInstance.bytes, 0, this.bytes, 0, this.bytes.length);
     }
 
     /**
@@ -353,7 +353,7 @@ public abstract class BytesAccess implements Cloneable
      * @param ubyte
      * @return a hex String formatted from a int (but only lower 8 bytes are read has an ubyte)
      */
-    private static final String ubyteToHexString( final int ubyte )
+    private static String ubyteToHexString( final int ubyte )
     {
         return Integer.toHexString(  0x0000FF00 | (0x000000FF & ubyte ) ).substring( 2 ).toUpperCase();
     }
@@ -362,7 +362,7 @@ public abstract class BytesAccess implements Cloneable
      * @param b byte to convert
      * @return a binary String formatted
      */
-    private static final String toBinaryString( final byte b )
+    private static String toBinaryString( final byte b )
     {
         return Integer.toBinaryString( 0x0000FF00 | (0x000000FF & b) ).substring( 8 );
     }
@@ -409,9 +409,10 @@ public abstract class BytesAccess implements Cloneable
     {
         byte[] cpy = new byte[ this.bytes.length ];
 
-        for( int i = 0; i< this.bytes.length; i++ ) {
-            cpy[ i ] = this.bytes[ i ];
-        }
+//        for( int i = 0; i< this.bytes.length; i++ ) {
+//            cpy[ i ] = this.bytes[ i ];
+//        }
+        System.arraycopy(this.bytes, 0, cpy, 0, this.bytes.length);
 
         return cpy;
     }
@@ -454,7 +455,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public static final byte[] xorOperator( final byte[] bytes0, final byte[] bytes1 )
+    public static byte[] xorOperator( final byte[] bytes0, final byte[] bytes1 )
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
@@ -500,7 +501,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public static final byte[] andOperator( final byte[] bytes0, final byte[] bytes1 )
+    public static byte[] andOperator( final byte[] bytes0, final byte[] bytes1 )
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
@@ -546,7 +547,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public static final byte[] orOperator( final byte[] bytes0, final byte[] bytes1 )
+    public static byte[] orOperator( final byte[] bytes0, final byte[] bytes1 )
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
@@ -748,9 +749,10 @@ public abstract class BytesAccess implements Cloneable
      */
     protected void setBytes( final int offset, final byte[] bytes )
     {
-        for( int i = 0; i<bytes.length; i++ ) {
-            this.bytes[ offset + i ] = bytes[ i ];
-            }
+//        for( int i = 0; i<bytes.length; i++ ) {
+//            this.bytes[ offset + i ] = bytes[ i ];
+//            }
+        System.arraycopy(bytes, 0, this.bytes, offset, bytes.length);
     }
 
 }

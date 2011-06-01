@@ -1,13 +1,17 @@
 package cx.ath.choisnet.io;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import cx.ath.choisnet.ToDo;
 
 /**
- * 
+ * {@link InputStream} based on InputStream concatenation.
+ * <p>
+ * InputStreams are read in sequence, when first end of stream is reatch, then
+ * second stream is read.
+ * </p>
  * @author Claude CHOISNET
- *
  */
 @ToDo
 public class ConcateInputStream extends InputStream
@@ -15,7 +19,16 @@ public class ConcateInputStream extends InputStream
     private int currentStream;
     private final InputStream[] inputStreamArray;
 
-    public ConcateInputStream(InputStream firstInputStream, InputStream secondInputStream)
+    /**
+     * Create a ConcateInputStream based on two {@link InputStream}
+     *
+     * @param firstInputStream  First {@link InputStream}
+     * @param secondInputStream Second {@link InputStream}
+     */
+    public ConcateInputStream(
+            final InputStream firstInputStream,
+            final InputStream secondInputStream
+            )
     {
         currentStream = 0;
         inputStreamArray = new java.io.InputStream[2];
@@ -25,16 +38,34 @@ public class ConcateInputStream extends InputStream
         check();
     }
 
-    public ConcateInputStream(InputStream inputStream, String datas)
+    /**
+     * Create a ConcateInputStream based on an {@link InputStream} and
+     * a {@link  String}
+     *
+     * @param inputStream   First {@link InputStream}
+     * @param datas         Second stream based on a {@link  String}
+     */
+    public ConcateInputStream(
+            final InputStream   inputStream,
+            final String        datas
+            )
     {
         this( inputStream, new ByteArrayInputStream( datas.getBytes() ) );
     }
 
+    /**
+     * Create a ConcateInputStream based on a {@link  String} and
+     * an {@link InputStream}
+     *
+     * @param datas         First stream based on a {@link  String}
+     * @param inputStream   Second {@link InputStream}
+     */
     public ConcateInputStream( String datas, InputStream inputStream )
     {
         this( new ByteArrayInputStream( datas.getBytes() ), inputStream );
     }
 
+    @Override
     public int available()
         throws java.io.IOException
     {
@@ -46,6 +77,7 @@ public class ConcateInputStream extends InputStream
         }
     }
 
+    @Override
     public void close()
         throws java.io.IOException
     {
@@ -54,6 +86,7 @@ public class ConcateInputStream extends InputStream
         }
     }
 
+    @Override
     public int read()
         throws java.io.IOException
     {
@@ -70,17 +103,22 @@ public class ConcateInputStream extends InputStream
         return result;
     }
 
+    @Override
     public boolean markSupported()
     {
         return false;
     }
 
+    @Override
     public void mark(int i)
     {
+        super.mark(i);
     }
 
-    public void reset()
+    @Override
+    public void reset() throws IOException
     {
+        super.reset();
     }
 
     private void check()
@@ -98,6 +136,7 @@ public class ConcateInputStream extends InputStream
         }
     }
 
+    @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder("[");
