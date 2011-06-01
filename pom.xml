@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib</artifactId>
-  <version>4.1.3-SNAPSHOT</version>
+  <version>4.1.5-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>cchlib</name>
   <url>http://choisnet.ath.cx/cchlib/</url>
@@ -12,20 +12,15 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- project.cchlib.version>${project.version}</project.cchlib.version -->
   </properties>
 
   <!-- Project description -->
+  <!--
   <scm>
     <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
     <url/>
   </scm>
-  <!--
-  <ciManagement>
-    <system>continuum</system>
-    <url>http://</url>
-  </ciManagement>
    -->
 
   <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical -->
@@ -78,11 +73,13 @@
         <version>1.0-beta-2</version>
       </extension>
       -->
+      <!--  use with googlecode
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
         <version>1.0-beta-2</version>
       </extension>
+      -->
     </extensions>
     <plugins>
       <plugin>
@@ -165,14 +162,13 @@
   <modules>
     <module>cchlib-core</module>
     <module>cchlib-j2ee</module>
-    <!-- should not be include : not in maven repository
+    <!-- should not be include : not in maven repository -->
     <module>cchlib-core-deprecated</module>
     <module>cchlib-core-sample</module>
     <module>cchlib-sys</module>
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools-editressourcebundle</module>
-    -->
   </modules>
 
 </project>
