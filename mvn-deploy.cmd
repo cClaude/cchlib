@@ -8,5 +8,6 @@ IF ERRORLEVEL 1 (
 @Echo ON
 @Echo ------------------------------------------
 @REM Echo mvn deploy -e --projects cchlib-core,cchlib-j2ee
-@Echo mvn deploy -e
+@Echo TODO mvn deploy -e
+@Echo in each needed sub projets
 @Echo (Not done by this batch)

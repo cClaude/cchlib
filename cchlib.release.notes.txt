@@ -4,6 +4,7 @@ cchlib
 4.1.5
   New dependences organization in pom.xml files.
   Add many documentation
+  New module: cchlib-jdbf
 ---------------------------------------------------------------------
 4.1.3
   cchlib-core

@@ -61,15 +61,18 @@ IF ERRORLEVEL 1 (
 @Echo ON
 Rd /S/Q .\releases\cchlib-core\apidocs
 Rd /S/Q .\releases\cchlib-j2ee\apidocs
+Rd /S/Q .\releases\cchlib-jdbf\apidocs
 Rd /S/Q .\releases\cchlib-sys\apidocs
 
 Del /Q .\releases\cchlib-core\cchlib-core-*.jar
 Del /Q .\releases\cchlib-j2ee\cchlib-j2ee-*.jar
+Del /Q .\releases\cchlib-jdbf\cchlib-jdbf-*.jar
 Del /Q .\releases\cchlib-sys\cchlib-sys-*.jar
 Del /Q .\releases\cchlib-tools\cchlib-tools-*.jar
 
 Copy .\cchlib-core\target\cchlib-core-*.jar   .\releases\cchlib-core\
 Copy .\cchlib-j2ee\target\cchlib-j2ee-*.jar   .\releases\cchlib-j2ee\
+Copy .\cchlib-j2ee\target\cchlib-jdbf-*.jar   .\releases\cchlib-jdbf\
 Copy .\cchlib-sys\target\cchlib-sys-*.jar     .\releases\cchlib-sys\
 Copy .\cchlib-tools\target\cchlib-tools-*.jar .\releases\cchlib-tools\
 
@@ -78,10 +81,12 @@ Copy .\cchlib-tools-editressourcebundle\target\cchlib-tools-editressourcebundle-
 
 Md .\releases\cchlib-core\apidocs
 Md .\releases\cchlib-j2ee\apidocs
+Md .\releases\cchlib-jdbf\apidocs
 Md .\releases\cchlib-sys\apidocs
 
 XCopy .\cchlib-core\target\apidocs .\releases\cchlib-core\apidocs\ /E /Y /Q
 XCopy .\cchlib-j2ee\target\apidocs .\releases\cchlib-j2ee\apidocs\ /E /Y /Q
+XCopy .\cchlib-jdbf\target\apidocs .\releases\cchlib-jdbf\apidocs\ /E /Y /Q
 XCopy .\cchlib-sys\target\apidocs  .\releases\cchlib-sys\apidocs\ /E /Y /Q
 
 @Rem not javadoc for cchlib-tools
