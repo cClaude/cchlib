@@ -1,8 +1,7 @@
 package com.googlecode.cchlib.jdbf;
 
 /**
- *
- *
+ * {@link DBFException} create when an error occur while access to a {@link DBFEntry}
  */
 public class DBFEntryException extends DBFException
 {

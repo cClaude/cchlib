@@ -4,9 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 
 /**
- * TODO: Doc!
- *
- * Can collect missing key !
+ * {@link AutoI18nExceptionHandler} build to collect missing keys !
  */
 public abstract class AutoI18nUpdateEvent
     implements AutoI18nExceptionHandler
@@ -16,9 +14,9 @@ public abstract class AutoI18nUpdateEvent
     private AutoI18nExceptionHandler parentHandler;
 
     /**
-     * TODO: Doc!
+     * Create an AutoI18nUpdateEvent, based on a parent {@link AutoI18nExceptionHandler}
      *
-     * @param eHandler
+     * @param eHandler Parent {@link AutoI18nExceptionHandler}
      */
     public AutoI18nUpdateEvent(
             AutoI18nExceptionHandler eHandler
@@ -54,7 +52,7 @@ public abstract class AutoI18nUpdateEvent
     }
 
     /**
-     * @return the parentHandler
+     * @return the parent {@link AutoI18nExceptionHandler}
      */
     protected AutoI18nExceptionHandler getParentHandler()
     {

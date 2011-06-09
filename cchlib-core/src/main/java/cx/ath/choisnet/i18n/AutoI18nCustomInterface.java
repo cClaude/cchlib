@@ -24,10 +24,10 @@ public interface AutoI18nCustomInterface
     public Map<String,String> getI18n( I18nInterface i18n );
 
     /**
-     * TODO: Doc!
+     * Set {@link I18nInterface} 
      *
-     * @param i18n
+     * @param i18n {@link I18nInterface} to set
      */
-    public void setI18n(I18nInterface i18n);
+    public void setI18n( I18nInterface i18n );
 
 }

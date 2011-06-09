@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.i18n.builder;
 
 import java.io.Closeable;
@@ -21,9 +18,8 @@ import cx.ath.choisnet.i18n.AutoI18nTypes;
 import cx.ath.choisnet.i18n.I18nString;
 
 /***
- * TODO: Doc!
- *
- * @author Claude CHOISNET
+ * Abstract class of {@link AutoI18n} that allow to build initial resource
+ * file for localization.
  */
 public abstract class AbstractI18nResourceAutoUpdate
     extends AutoI18n
@@ -32,16 +28,15 @@ public abstract class AbstractI18nResourceAutoUpdate
     private static final long serialVersionUID = 1L;
 
     /**
-     * TODO: Doc !!
-     *
-     * @author Claude CHOISNET
+     * Attributes for {@link AbstractI18nResourceAutoUpdate}
      */
     public enum Attribute {
         /**
-         * TODO: Doc!
+         * Add only key that are not already define in resource
          */
         ADD_ONLY_NEEDED_KEY
-    }
+        };
+
     private transient static Logger slogger = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
     /** @serial */
     private HashMap<String,String> keysValues = new HashMap<String,String>();
@@ -51,7 +46,7 @@ public abstract class AbstractI18nResourceAutoUpdate
     private I18nAutoUpdateInterface i18nAutoUpdateInterface;
 
     /**
-     * TODO: Doc!
+     * Create an AbstractI18nResourceAutoUpdate
      *
      * @param i18nAutoUpdateInterface
      * @param autoI18nTypes

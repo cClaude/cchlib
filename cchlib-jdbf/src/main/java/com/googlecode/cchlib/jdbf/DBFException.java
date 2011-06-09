@@ -3,7 +3,7 @@ package com.googlecode.cchlib.jdbf;
 import java.io.IOException;
 
 /**
- * Exception happen in the jdbf module
+ * Root Exception for the jdbf module
  */
 public class DBFException extends IOException
 {

@@ -9,19 +9,19 @@ import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.sql.mysql.MySQLDataSourceFactory;
 
 /**
- * TODO: Doc!
- * 
+ * Create a simple {@link DataSource} based on a standard driver class object. 
+ *
  * @author Claude CHOISNET
  */
 @ToDo
 public class DataSourceFactory
 {
     //private final static Logger _slogger = Logger.getLogger( DataSourceFactory.class );
-    
+
     private DataSourceFactory()
     {// All static
     }
-    
+
     @Deprecated
     public static DataSource buildDataSource(
             final String driverClassName,
@@ -36,19 +36,20 @@ public class DataSourceFactory
                 url,
                 username,
                 password,
-                new PrintWriter( System.err ) // Mmm : TODO something better
+                new PrintWriter( System.err ) // Mmm : depreciated !
                 );
-    } 
-    
+    }
+
     /**
+     * Create a simple {@link DataSource} based on a standard driver class object. 
      * 
-     * @param driverClassName
-     * @param url
-     * @param username
-     * @param password
-     * @param loggerPrintWriter
-     * @return
-     * @throws ClassNotFoundException
+     * @param driverClassName Driver class name
+     * @param url Database URL according to driver specifications
+     * @param username Default username for connection use by {@link DataSource#getConnection()}
+     * @param password Default password for connection use by {@link DataSource#getConnection()}
+     * @param loggerPrintWriter Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
+     * @return a simple {@link DataSource}
+     * @throws ClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or loggerPrintWriter is null
      */
     public static DataSource buildDataSource(
@@ -58,16 +59,42 @@ public class DataSourceFactory
             final String        password,
             final PrintWriter   loggerPrintWriter
             )
-        throws ClassNotFoundException
+        throws ClassNotFoundException, NullPointerException
+    {
+        return buildDataSource( driverClassName, url, username, password, 30, loggerPrintWriter );
+    }
+
+    /**
+     * Create a simple {@link DataSource} based on a standard driver class object. 
+     * 
+     * @param driverClassName Driver class name
+     * @param url Database URL according to driver specifications
+     * @param username Default username for connection use by {@link DataSource#getConnection()}
+     * @param password Default password for connection use by {@link DataSource#getConnection()}
+     * @param timeout default login timeout in second for {@link DataSource}, see {@link DataSource#getLoginTimeout()}
+     * @param loggerPrintWriter Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
+     * @return a simple {@link DataSource}
+     * @throws ClassNotFoundException if driver class not found
+     * @throws NullPointerException if driverClassName or loggerPrintWriter is null
+     */
+    public static DataSource buildDataSource(
+            final String        driverClassName,
+            final String        url,
+            final String        username,
+            final String        password,
+            final int           timeout,
+            final PrintWriter   loggerPrintWriter
+            )
+        throws ClassNotFoundException, NullPointerException
     {
         if( loggerPrintWriter == null ) {
             throw new NullPointerException();
             }
         Class.forName( driverClassName );
 
-        return new DataSource() 
+        return new DataSource()
         {
-            int         timeOut = 30;
+            int         timeOut = timeout;
             PrintWriter pw      = loggerPrintWriter;
 
             @Override

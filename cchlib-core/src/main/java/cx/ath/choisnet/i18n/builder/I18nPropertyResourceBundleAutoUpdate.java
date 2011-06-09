@@ -20,8 +20,9 @@ import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.AutoI18nTypes;
 import cx.ath.choisnet.i18n.I18nInterface;
 
-/***
- * TODO: Doc! (sample)
+/**
+ * Implementation of {@link AutoI18n} that allow to build initial resource
+ * file for localization.
  *
  * <p><b>IMPORTANT:</b></br>
  * Result is write into your classes directory.
@@ -37,16 +38,6 @@ public class I18nPropertyResourceBundleAutoUpdate
     private transient static Logger slogger = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
     /** @serial */
     private File outputFile;
-
-//    /**
-//     * @param i18n
-//     */
-//    public I18nPropertyResourceBundleAutoUpdate(
-//            I18nAutoUpdateInterface i18n
-//            )
-//    {
-//        super( i18n, null, null );
-//    }
 
     /**
      * @param i18nAutoUpdateInterface

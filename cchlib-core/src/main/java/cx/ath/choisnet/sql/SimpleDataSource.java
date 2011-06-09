@@ -39,11 +39,13 @@ public class SimpleDataSource
     }
 
     /**
-     * TODO: Doc!
+     *  Create a SimpleDataSource object from a valid {@link DataSource}
+     *  using specified user name and password
      *
-     * @param ds
-     * @param username
-     * @param password
+     * @param ds DataSource to use.
+     * @param username User name to use to access to database
+     * @param password Password to use to access to database
+     * @throws NullPointerException if ds is null.
      */
     public SimpleDataSource(
             final DataSource  ds,
@@ -56,9 +58,8 @@ public class SimpleDataSource
     }
 
     /**
-     * TODO: Doc!
-     *
-     * @return
+     * Returns {@link DataSource}
+     * @return {@link DataSource}
      */
     protected DataSource getDataSource()
     {

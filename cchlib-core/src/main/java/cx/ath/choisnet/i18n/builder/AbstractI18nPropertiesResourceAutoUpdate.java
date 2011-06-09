@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.i18n.builder;
 
 import java.io.IOException;
@@ -15,9 +12,8 @@ import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.AutoI18nTypes;
 
 /***
- * TODO: Doc!
- *
- * @author Claude CHOISNET
+ * Abstract class of {@link AutoI18n} that allow to build initial properties
+ * files for localization.
  */
 public abstract class AbstractI18nPropertiesResourceAutoUpdate
     extends AbstractI18nResourceAutoUpdate
@@ -28,12 +24,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     private Properties properties = new Properties();
 
     /**
-     * @param i18nAutoUpdateInterface
-     * @param autoI18nTypes
-     * @param handler
-     * @param eventHandler
-     * @param autoI18nAttributes
-     * @param bundleAttributes
+     * Create an AbstractI18nPropertiesResourceAutoUpdate
      */
     public AbstractI18nPropertiesResourceAutoUpdate(
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,

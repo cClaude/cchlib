@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.i18n;
 
 import javax.swing.JComponent;
@@ -8,9 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
- * TODO: Doc!
- * 
- * @author Claude CHOISNET
+ * Provide some tools for internationalization of swings components.
  */
 public class I18nSwingHelper 
 {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.swing.Icon;
 
 /**
+ * TODO: Doc!
  * 
  * @author Claude CHOISNET
  */

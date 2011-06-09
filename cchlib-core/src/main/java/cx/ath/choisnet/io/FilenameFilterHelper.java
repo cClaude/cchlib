@@ -15,13 +15,13 @@ public class FilenameFilterHelper
     {
         private static final long serialVersionUID = 1L;
     }
-    
+
     private FilenameFilterHelper()
     { // ALL Static!
     }
 
     /**
-     * 
+     *
      * @return FilenameFilter which return only Directories
      * @see FileFilterHelper#directoryFileFilter()
      */
@@ -39,7 +39,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @return FilenameFilter which does not filter
      *  @see FileFilterHelper#trueFileFilter()
      */
@@ -57,7 +57,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @param aFileFilter
      * @return FilenameFilter which return "not" result from giving FilenameFilter
      * @see FileFilterHelper#not(java.io.FileFilter)
@@ -76,7 +76,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a FilenameFilter
@@ -104,7 +104,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @param fileFilters
      * @return a FilenameFilter
      * @see FileFilterHelper#and(java.io.FileFilter...)
@@ -130,7 +130,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a FilenameFilter
@@ -158,7 +158,7 @@ public class FilenameFilterHelper
     }
 
     /**
-     * 
+     *
      * @param fileFilters
      * @return a FilenameFilter
      * @see FileFilterHelper#or(java.io.FileFilter...)
@@ -182,9 +182,9 @@ public class FilenameFilterHelper
             }
         };
     }
-    
+
     /**
-     * 
+     *
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a FilenameFilter
@@ -201,16 +201,15 @@ public class FilenameFilterHelper
             @Override
             public boolean accept( File dir, String filename )
             {
-                // TODO Auto-generated method stub
                 return  firstFileFilter.accept(dir,filename)
-                        ^ 
+                        ^
                         secondFileFilter.accept(dir,filename);
             }
         };
     }
 
     /**
-     * 
+     *
      * @param length
      * @return a FilenameFilter
      * @see FileFilterHelper#fileLengthFileFilter(long)
@@ -227,9 +226,9 @@ public class FilenameFilterHelper
             }
         };
     }
-    
+
     /**
-     * 
+     *
      * @return a FilenameFilter
      * @see FileFilterHelper#zeroLengthFileFilter()
      */

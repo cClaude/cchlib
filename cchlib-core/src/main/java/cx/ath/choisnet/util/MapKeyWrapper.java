@@ -6,7 +6,7 @@ import java.util.Set;
 import cx.ath.choisnet.ToDo;
 
 /**
- * 
+ *
  * @author Claude
  *
  * @param <KS>
@@ -14,20 +14,20 @@ import cx.ath.choisnet.ToDo;
  * @param <V>
  */
 @ToDo
-public class MapKeyWrapper<KS,KR,V> 
+public class MapKeyWrapper<KS,KR,V>
     implements Map<KR,V>
 {
     private Map<KS,V> map;
     private Wrappable<KS,KR> wrapper;
     private Wrappable<KR,KS> unwrapper;
-    
-    
+
+
     /**
      * Create a MapWrapper from a map
-     * 
+     *
      * @param map Map to wrap
      */
-    public MapKeyWrapper( 
+    public MapKeyWrapper(
             final Map<KS,V> map,
             final Wrappable<KS,KR> wrapper,
             final Wrappable<KR,KS> unwrapper
@@ -37,7 +37,7 @@ public class MapKeyWrapper<KS,KR,V>
         this.wrapper = wrapper;
         this.unwrapper = unwrapper;
     }
-    
+
     @Override
     public void clear()
     {
@@ -69,8 +69,8 @@ public class MapKeyWrapper<KS,KR,V>
     @Override
     public Set<Map.Entry<KR,V>> entrySet()
     {
-        return new SetWrapper<Map.Entry<KS,V>,Map.Entry<KR,V>>( 
-                map.entrySet(), 
+        return new SetWrapper<Map.Entry<KS,V>,Map.Entry<KR,V>>(
+                map.entrySet(),
                 new EntryWrapper<KS,KR,V>( wrapper ),
                 new EntryWrapper<KR,KS,V>( unwrapper )
             );
@@ -84,7 +84,7 @@ public class MapKeyWrapper<KS,KR,V>
     {
         @SuppressWarnings("unchecked")
         KR k = (KR)key;
-        // TODO Auto-generated method stub
+
         return map.get( unwrapper.wrappe( k ) );
     }
 
@@ -145,20 +145,20 @@ public class MapKeyWrapper<KS,KR,V>
     {
         return map.values();
     }
-    
+
     /**
-     * 
+     *
      * @author Claude
      *
      * @param <EK0>
      * @param <EK1>
      * @param <EV>
      */
-    private class EntryWrapper<EK0,EK1,EV> 
+    private class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
     {
         private final Wrappable<EK0,EK1> ewrapper;
-        
+
         public EntryWrapper( final Wrappable<EK0,EK1> ewrapper )
         {
             this.ewrapper = ewrapper;
@@ -183,7 +183,7 @@ public class MapKeyWrapper<KS,KR,V>
                 {
                     throw new UnsupportedOperationException();
                 }
-                @Override 
+                @Override
                 public int hashCode()
                 {
                     return (getKey()==null   ? 0 : getKey().hashCode()) ^

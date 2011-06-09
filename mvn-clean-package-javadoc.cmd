@@ -72,7 +72,7 @@ Del /Q .\releases\cchlib-tools\cchlib-tools-*.jar
 
 Copy .\cchlib-core\target\cchlib-core-*.jar   .\releases\cchlib-core\
 Copy .\cchlib-j2ee\target\cchlib-j2ee-*.jar   .\releases\cchlib-j2ee\
-Copy .\cchlib-j2ee\target\cchlib-jdbf-*.jar   .\releases\cchlib-jdbf\
+Copy .\cchlib-jdbf\target\cchlib-jdbf-*.jar   .\releases\cchlib-jdbf\
 Copy .\cchlib-sys\target\cchlib-sys-*.jar     .\releases\cchlib-sys\
 Copy .\cchlib-tools\target\cchlib-tools-*.jar .\releases\cchlib-tools\
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.i18n;
 
 import java.io.Serializable;
@@ -10,73 +7,71 @@ import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 
 /**
- * TODO: doc
- * 
- * @author Claude CHOISNET
+ * Handler to manage exception or errors during internationalization
  */
-public interface AutoI18nExceptionHandler 
+public interface AutoI18nExceptionHandler
     extends Serializable
 {
     /**
-     * TODO: doc
-     * 
-     * @param e
+     * Invoke when an {@link InvocationTargetException} occur
+     *
+     * @param e The exception to handle
      */
     public void handleInvocationTargetException( InvocationTargetException e );
 
     /**
-     * TODO: doc
-     * 
-     * @param e
+     * Invoke when an {@link IllegalAccessException} occur
+     *
+     * @param e The exception to handle
      */
     public void handleIllegalAccessException( IllegalAccessException e );
 
     /**
-     * TODO: doc
-     * 
-     * @param e
+     * Invoke when an {@link IllegalArgumentException} occur
+     *
+     * @param e The exception to handle
      */
     public void handleIllegalArgumentException( IllegalArgumentException e );
 
     /**
-     * TODO: doc
-     * 
-     * @param e
+     * Invoke when an {@link NoSuchMethodException} occur
+     *
+     * @param e The exception to handle
      */
     public void handleNoSuchMethodException( NoSuchMethodException e );
 
     /**
-     * TODO: doc
-     * 
-     * @param e
+     * Invoke when an {@link SecurityException} occur
+     *
+     * @param e The exception to handle
      */
     public void handleSecurityException( SecurityException e );
 
     /**
-     * TODO: doc
-     * 
-     * @param e
-     * @param field 
-     * @param key 
-     * @param methods 
+     * Invoke when an {@link MissingResourceException} occur
+     *
+     * @param e         The exception to handle
+     * @param field     The {@link Field} concern by the exception
+     * @param key       The key ({@link String}) to use for translation
+     * @param methods   Array of {@link Method}, array of 2 methods (setter and getter).
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
 
     /**
-     * TODO: doc
-     * 
-     * @param e
-     * @param field 
-     * @param key 
+     * Invoke when an {@link MissingResourceException} occur
+     *
+     * @param e     The exception to handle
+     * @param field The {@link Field} concern by the exception
+     * @param key   The key ({@link String}) to use for translation
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, String key);
-    
+
     /**
-     * TODO: doc
-     * 
-     * @param e
-     * @param field 
-     * @param key 
+     * Invoke when an {@link MissingResourceException} occur
+     *
+     * @param e     The exception to handle
+     * @param field The {@link Field} concern by the exception
+     * @param key   The key ({@link AutoI18n.Key}) to use for translation
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
 

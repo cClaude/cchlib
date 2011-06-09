@@ -38,7 +38,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
      * @param file
      * @return
      */
-    final // TODO: remove this
+    //final // TO DO: remove this
     protected static boolean add(List<File> list, File file )
     {
         if( file.isDirectory() ) {
@@ -94,13 +94,13 @@ public abstract class AbstractBookmarksAccessoryConfigurator
     protected abstract void storeBookmarks( ArrayList<File> filesList );
 
     @Override
-    final // TODO: remove this
+    //final // TO DO: remove this
     public Collection<File> getBookmarks()
     {
         return bookmarks;
     }
     @Override
-    final // TODO: remove this
+    //final // TO DO: remove this
     public boolean addBookmarkFile( File file )
     {
         if( ! bookmarks.contains( file ) ) {
@@ -115,7 +115,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
         return false;
     }
     @Override
-    final // TODO: remove this
+    //final // TO DO: remove this
     public boolean removeBookmark( File file )
     {
         bookmarks.remove( file );

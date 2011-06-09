@@ -130,13 +130,13 @@ public class ImagePreviewAccessory
     @Override // TabbedAccessoryInterface
     public void register()
     {
-        // TODO Auto-generated method stub
+        // empty
     }
 
     @Override // TabbedAccessoryInterface
     public void unregister()
     {
-        // TODO Auto-generated method stub
+        // empty
     }
 
 }

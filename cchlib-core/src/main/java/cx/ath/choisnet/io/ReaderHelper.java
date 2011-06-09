@@ -47,39 +47,41 @@ public final class ReaderHelper
    }
 
    /**
-    * TODO: doc!
+    * Copy input content to output.
     *
-    * @param input
-    * @param output
-    * @param buffer
-    * @throws java.io.IOException
+    * @param input  {@link Reader} to read from
+    * @param output {@link Writer} to write to
+    * @param buffer Buffer to use for copy
+    * @throws IOException if any
     */
    public static void copy(
-           Reader input,
-           Writer output,
-           char[] buffer
+           final Reader input,
+           final Writer output,
+           final char[] buffer
            )
-       throws java.io.IOException
+       throws IOException
    {
        int len;
 
        while((len = input.read(buffer)) != -1) {
            output.write(buffer, 0, len);
            }
+
+       output.flush();
    }
 
    /**
-    * TODO: doc!
+    * Copy input content to output.
     *
-    * @param input
-    * @param output
-    * @param bufferSize
-    * @throws java.io.IOException
+    * @param input  {@link Reader} to read from
+    * @param output {@link Writer} to write to
+    * @param bufferSize Buffer size to use for copy
+    * @throws IOException if any
     */
    public static void copy(
-           Reader   input,
-           Writer   output,
-           int      bufferSize
+           final Reader   input,
+           final Writer   output,
+           final int      bufferSize
            )
        throws IOException
    {
@@ -87,13 +89,13 @@ public final class ReaderHelper
    }
 
    /**
-    * TODO: doc!
+    * Copy input content to output.
     *
-    * @param input
-    * @param output
-    * @throws java.io.IOException
+    * @param input  {@link Reader} to read from
+    * @param output {@link Writer} to write to
+    * @throws IOException if any
     */
-   public static void copy( Reader input, Writer output )
+   public static void copy( final Reader input, final Writer output )
        throws IOException
    {
        copy(input, output, DEFAULT_BUFFER_SIZE);

@@ -446,15 +446,13 @@ class TstFrame
 
         try {
             populateFrame();
-        }
+            }
         catch( IntrospectionInvokeException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            throw new RuntimeException( e );
+            }
         catch( SwingIntrospectorException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            throw new RuntimeException( e );
+            }
     }
 
     private void jButtonPopulateObject_MouseMousePressed(MouseEvent event)
@@ -463,15 +461,13 @@ class TstFrame
 
         try {
             populateObject();
-        }
+            }
         catch( SwingIntrospectorException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            throw new RuntimeException( e );
+            }
         catch( IntrospectionException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            throw new RuntimeException( e );
+            }
         System.out.println(tstObject);
     }
 
