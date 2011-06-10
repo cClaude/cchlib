@@ -4,6 +4,7 @@ cchlib
 4.1.5
   New dependences organization in pom.xml files.
   New module: cchlib-jdbf
+  New module: cchlib-j2ee-deprecated
   Add many documentation
 ---------------------------------------------------------------------
 4.1.3

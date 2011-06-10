@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.util;
 
 import java.util.Enumeration;
@@ -10,25 +7,35 @@ import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 import cx.ath.choisnet.util.iterator.ArrayIterator;
 
 /**
- * Providing other view for Arrays
- * 
- * @author Claude CHOISNET
- *
+ * Providing tools for Arrays, mainly other views for Arrays
  */
-public class ArrayHelper
+public final class ArrayHelper
 {
     private ArrayHelper()
     {//All static
     }
-    
+
     /**
-     * Wrap an array to get an Enumeration
-     * 
+     * Create an Array from giving values
+     *
+     * @param <T>       Type of array
+     * @param entries   List of entry for the array
+     * @return the new Array
+     * @since 1.4.5
+     */
+    public static <T> T[] createArray( T...entries )
+    {
+        return entries;
+    }
+
+    /**
+     * Wrap an array to get an {@link Enumeration}
+     *
      * @param <T>    array content type
      * @param array  array to wrap
      * @param offset first offset for enumeration
      * @param len    number of item return by this Enumeration
-     * @return an Enumeration for this array 
+     * @return an {@link Enumeration} for this array
      */
     public static <T> Enumeration<T> toEnumeration(
             final T[] array,
@@ -37,8 +44,8 @@ public class ArrayHelper
             )
     {
         final int enumLen = offset + len;
-        
-        return new Enumeration<T>() 
+
+        return new Enumeration<T>()
         {
             private int index = offset;
             public boolean hasMoreElements()
@@ -60,13 +67,13 @@ public class ArrayHelper
             }
         };
     }
-    
+
     /**
-     * Wrap an array to get an Enumeration
-     * 
+     * Wrap an array to get an {@link Enumeration}
+     *
      * @param <T>    array content type
      * @param array  array to wrap
-     * @return an Enumeration for this array 
+     * @return an {@link Enumeration} for this array
      */
     public static <T> Enumeration<T> toEnumeration(
             T[] array
@@ -79,28 +86,33 @@ public class ArrayHelper
             return toEnumeration(array, 0, array.length);
         }
     }
-    
+
     /**
-     * @param <T>
-     * @param array
-     * @return an Iterator
+     * Create an {@link Iterator} based on array content.
+     *
+     * @param <T>    array content type
+     * @param array  array to wrap
+     * @return an {@link Iterator} for this array
      * @see ArrayIterator
      */
-    public static <T> Iterator<T> toIterator(T[] array)
+    public static <T> Iterator<T> toIterator( T[] array )
     {
         return new ArrayIterator<T>(array);
     }
-    
+
     /**
-     * @param <T>
-     * @param array
-     * @param offset 
-     * @param len 
-     * @return an Iterator
+     * Create an {@link Iterator} based on array content.
+     *
+     * @param <T>    array content type
+     * @param array  array to wrap
+     * @param offset First offset index to include in {@link Iterator}
+     * @param len    Length of sub-array to consider
+     * @return an {@link Iterator} for this array
      * @see ArrayIterator
      */
     public static <T> Iterator<T> toIterator(T[] array, int offset, int len)
     {
         return new ArrayIterator<T>(array,offset,len);
     }
+
 }

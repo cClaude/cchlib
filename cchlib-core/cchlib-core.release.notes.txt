@@ -3,6 +3,7 @@ cchlib-core
 ---------------------------------------------------------------------
 4.1.5
   Add many documentation
+  Add: cx.ath.choisnet.util.ArrayHelper.createArray( T...entries)
 ---------------------------------------------------------------------
 4.1.3
   Add: cx.ath.choisnet.sql.ConnectionQuery

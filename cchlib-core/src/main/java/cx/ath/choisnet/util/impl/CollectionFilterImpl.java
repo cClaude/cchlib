@@ -2,42 +2,47 @@ package cx.ath.choisnet.util.impl;
 
 import cx.ath.choisnet.util.CollectionFilter;
 import cx.ath.choisnet.util.Selectable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
- *
- * @author Claude CHOISNET
- * @param <T> 
- *
+ * Implementation of {@link CollectionFilter} base on a {@link Selectable} object.
  */
 public class CollectionFilterImpl<T> implements CollectionFilter<T>
 {
-
     private Selectable<T> selector;
 
-    public CollectionFilterImpl(Selectable<T> selector)
+    /**
+     * Create a {@link CollectionFilter} based on a {@link Selectable} object
+     *
+     * @param selector {@link Selectable} to use to filter entries.
+     */
+    public CollectionFilterImpl( final Selectable<T> selector )
     {
         this.selector = selector;
     }
 
-    public Collection<T> apply(Collection<T> elements)
+    /**
+     * Basic implementation that create a new {@link Collection} according
+     * to {@link Selectable} given object when apply method is invoked.
+     */
+    @Override
+    public Collection<T> apply( final Collection<T> elements )
     {
-        LinkedList<T> list = new LinkedList<T>();
-        Iterator<T> iter = elements.iterator();
+        ArrayList<T> list = new ArrayList<T>();
+        Iterator<T>  iter = elements.iterator();
 
         do {
             if( !iter.hasNext() ) {
                 break;
-            }
+                }
 
             T o = iter.next();
 
-            if(selector.isSelected(o)) {
-                list.add(o);
-            }
-
+            if( selector.isSelected(o) ) {
+                list.add( o );
+                }
         } while(true);
 
         return list;

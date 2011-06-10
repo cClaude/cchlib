@@ -13,7 +13,7 @@
   <artifactId>cchlib-j2ee-deprecated</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-j2ee-deprecated</name>
-  <version>4.1.3-SNAPSHOT</version>
+  <version>4.1.5-SNAPSHOT</version>
   <description>Provide server based features.</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
   <inceptionYear>2002</inceptionYear>

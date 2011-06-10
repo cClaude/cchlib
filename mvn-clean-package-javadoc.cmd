@@ -38,6 +38,8 @@ IF ERRORLEVEL 1 (
   Goto :eof
   )
 
+:TEST
+
 @REM
 @REM javadoc:jar
 @REM    creates an archive file of the generated Javadocs. It
@@ -57,37 +59,36 @@ IF ERRORLEVEL 1 (
 @REM    is an interactive goal which fixes the Javadoc documentation
 @REM    and tags for the Java files.
 @REM
-
 @Echo ON
-Rd /S/Q .\releases\cchlib-core\apidocs
-Rd /S/Q .\releases\cchlib-j2ee\apidocs
-Rd /S/Q .\releases\cchlib-jdbf\apidocs
-Rd /S/Q .\releases\cchlib-sys\apidocs
+Set MODULE_WITH_DOC=cchlib-core;cchlib-j2ee;cchlib-jdbf;cchlib-sys
+Set MODULE_WITH_SUBPROJECT=cchlib-core;cchlib-j2ee;cchlib-tools
 
-Del /Q .\releases\cchlib-core\cchlib-core-*.jar
-Del /Q .\releases\cchlib-j2ee\cchlib-j2ee-*.jar
-Del /Q .\releases\cchlib-jdbf\cchlib-jdbf-*.jar
-Del /Q .\releases\cchlib-sys\cchlib-sys-*.jar
-Del /Q .\releases\cchlib-tools\cchlib-tools-*.jar
+@Echo # Clean previous documentation
+For /D %%F IN ( %MODULE_WITH_DOC% ) DO Rd /S/Q .\releases\%%F\apidocs
 
-Copy .\cchlib-core\target\cchlib-core-*.jar   .\releases\cchlib-core\
-Copy .\cchlib-j2ee\target\cchlib-j2ee-*.jar   .\releases\cchlib-j2ee\
-Copy .\cchlib-jdbf\target\cchlib-jdbf-*.jar   .\releases\cchlib-jdbf\
-Copy .\cchlib-sys\target\cchlib-sys-*.jar     .\releases\cchlib-sys\
-Copy .\cchlib-tools\target\cchlib-tools-*.jar .\releases\cchlib-tools\
+@Echo # Clean previous jar files
+For /D %%F IN ( "cchlib-*" ) DO Del /Q .\releases\%%F\%%F-*.jar
 
-Copy .\cchlib-tools-duplicatefiles\target\cchlib-tools-duplicatefiles-*.jar           .\releases\cchlib-tools\
-Copy .\cchlib-tools-editressourcebundle\target\cchlib-tools-editressourcebundle-*.jar .\releases\cchlib-tools\
+@Echo # Create directories
+For /D %%F IN ( "cchlib-*" ) DO IF NOT EXIST ".\releases\%%F" Md .\releases\%%F
 
-Md .\releases\cchlib-core\apidocs
-Md .\releases\cchlib-j2ee\apidocs
-Md .\releases\cchlib-jdbf\apidocs
-Md .\releases\cchlib-sys\apidocs
+@Echo Copy new jar files
+For /D %%F IN ( "cchlib-*" ) DO Copy .\%%F\target\%%F-*.jar .\releases\%%F\
 
-XCopy .\cchlib-core\target\apidocs .\releases\cchlib-core\apidocs\ /E /Y /Q
-XCopy .\cchlib-j2ee\target\apidocs .\releases\cchlib-j2ee\apidocs\ /E /Y /Q
-XCopy .\cchlib-jdbf\target\apidocs .\releases\cchlib-jdbf\apidocs\ /E /Y /Q
-XCopy .\cchlib-sys\target\apidocs  .\releases\cchlib-sys\apidocs\ /E /Y /Q
+@Echo # Move content of subproject into project
+For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Echo ************* %%F -- %%P ***************
+For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Del .\releases\%%F\*-javadoc.jar
+For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Move .\releases\%%F\*.jar .\releases\%%P\
+For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO RmDir .\releases\%%F
 
-@Rem not javadoc for cchlib-tools
+@Echo # Prepare directories for new documentations
+For /D %%F IN ( %MODULE_WITH_DOC% ) DO IF NOT EXIST ".\releases\%%F\apidocs" Md .\releases\%%F\apidocs
+
+@Echo # Copy new documentations
+For /D %%F IN ( %MODULE_WITH_DOC% ) DO XCopy .\%%F\target\apidocs .\releases\%%F\apidocs\ /E /Y /Q
+
+@Echo # Remove javadoc for cchlib-tools {no doc here}
 Del /Q .\releases\cchlib-tools\cchlib-tools-*-javadoc.jar
+
+@Echo # Remove shaded jar file in tools {fix}
+Del /Q .\releases\cchlib-tools\cchlib-tools-*-shaded.jar

@@ -166,6 +166,7 @@
     <!-- should not be include : not in maven repository -->
     <module>cchlib-core-deprecated</module>
     <module>cchlib-core-sample</module>
+    <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-sys</module>
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
