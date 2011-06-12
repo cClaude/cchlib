@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
  * change.
  * </p>
  *
- * @author Claude CHOISNET
+ * @deprecated use {@link cx.ath.choisnet.sql.SQLTools} instead.
  */
 public class MySQLTools
 {
@@ -73,8 +73,7 @@ public class MySQLTools
             StringTokenizer          st     = new StringTokenizer(input, entry.getKey());
 
             if( st.countTokens() > 1) {
-                // TODO: check code here ! strange to create new StringBuilder
-                output = new StringBuilder( st.nextToken() ); // TODO: BUG?
+                output = new StringBuilder( st.nextToken() );
 
                 while( st.hasMoreTokens() ) {
                     output.append(entry.getValue()).append( st.nextToken() );

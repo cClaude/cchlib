@@ -17,10 +17,9 @@ import cx.ath.choisnet.util.iterator.ArrayIterator;
 import cx.ath.choisnet.util.iterator.IteratorFilter;
 
 /**
- * Tools for {@link File} operations
+ * Provide some extra tools for {@link File} operations
  *
- * @author Claude CHOISNET
- * @see StreamHelper
+ * @see InputStreamHelper
  * @see ReaderHelper
  */
 public final class FileHelper
@@ -33,25 +32,43 @@ public final class FileHelper
     }
 
     /**
-     * Copy a File to a File
+     * Copy a File to an other File
      *
      * @param inputFile     File to copy
      * @param outputFile    File to receive inputFile content.
+     * @param buffer        Buffer to use for copy
      * @throws IOException if any IO occurred
      */
-    public static void copy( File inputFile, File outputFile )
+    public static void copy( 
+            final File  inputFile, 
+            final File  outputFile, 
+            byte[]      buffer 
+            )
         throws IOException
     {
         InputStream  input  = new BufferedInputStream(new FileInputStream(inputFile));
         OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {
-            StreamHelper.copy(input, output, DEFAULT_BUFFER_SIZE);
+            InputStreamHelper.copy(input, output, buffer);
             }
         finally {
             try { input.close(); } catch(Exception ignore) {}
             try { output.close(); } catch(Exception ignore) { }
             }
+    }
+    
+    /**
+     * Copy a File to an other File
+     *
+     * @param inputFile     File to copy
+     * @param outputFile    File to receive inputFile content.
+     * @throws IOException if any IO occurred
+     */
+    public static void copy( final File inputFile, final File outputFile )
+        throws IOException
+    {
+        copy(inputFile, outputFile, new byte[DEFAULT_BUFFER_SIZE] );
     }
 
     /**
@@ -61,13 +78,13 @@ public final class FileHelper
      * @param outputFile    File to receive InputStream content.
      * @throws IOException if any IO occurred
      */
-    public static void copy( InputStream is, File outputFile )
+    public static void copy( final InputStream is, final File outputFile )
         throws IOException
     {
         OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {
-            StreamHelper.copy(is, output, DEFAULT_BUFFER_SIZE);
+            InputStreamHelper.copy(is, output, DEFAULT_BUFFER_SIZE);
             }
         finally {
             try { output.close(); } catch(Exception ignore) { }

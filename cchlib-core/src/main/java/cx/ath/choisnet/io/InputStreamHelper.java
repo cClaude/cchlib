@@ -8,24 +8,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
- * 
- * @author Claude CHOISNET
+ * Provide some extra tools for {@link InputStream} operations
  *
+ * @see FileHelper
+ * @see ReaderHelper
  */
 public final class InputStreamHelper
 {
+    private static final int DEFAULT_BUFFER_SIZE = 4096;
 
     private InputStreamHelper()
     {
     }
 
+    /**
+     * @deprecated use {@link ReaderHelper#toString(java.io.Reader)} instead
+     */
     public static String toString(InputStream is)
-        throws java.io.IOException
+        throws IOException
     {
         StringBuilder   sb      = new StringBuilder();
-        byte[]          buffer  = new byte[2048];
+        byte[]          buffer  = new byte[DEFAULT_BUFFER_SIZE];
 
         try {
             int len;
@@ -42,29 +49,57 @@ public final class InputStreamHelper
     }
 
     /**
-     * 
-     * @param input
-     * @param output
-     * @param bufferSize
-     * @throws IOException
+     * Copy input content to output.
+     *
+     * @param input  {@link Reader} to read from
+     * @param output {@link Writer} to write to
+     * @param buffer Buffer to use for copy
+     * @throws IOException if any
+     * @since 1.4.5
      */
-    public static void copy(InputStream input, OutputStream output, int bufferSize)
+    public static void copy(
+            final InputStream   input,
+            final OutputStream  output,
+            byte[]              buffer
+            )
         throws IOException
     {
-        byte[]  buffer = new byte[bufferSize];
-        int     len;
+        int len;
 
         while((len = input.read(buffer)) != -1) {
             output.write(buffer, 0, len);
-        }
+            }
 
         output.flush();
     }
 
-    public static void copy(InputStream input, OutputStream output)
-        throws java.io.IOException
+    /**
+     *
+     * Copy input content to output.
+     *
+     * @param input  {@link Reader} to read from
+     * @param output {@link Writer} to write to
+     * @param bufferSize Buffer size to use for copy
+     * @throws IOException if any
+     */
+    public static void copy(InputStream input, OutputStream output, int bufferSize)
+        throws IOException
     {
-        InputStreamHelper.copy(input, output, 2048);
+        InputStreamHelper.copy(input, output, new byte[bufferSize] );
+    }
+
+    /**
+    *
+    * Copy input content to output.
+    *
+    * @param input  {@link Reader} to read from
+    * @param output {@link Writer} to write to
+    * @throws IOException if any
+    */
+    public static void copy(InputStream input, OutputStream output)
+        throws IOException
+    {
+        InputStreamHelper.copy(input, output, DEFAULT_BUFFER_SIZE);
     }
 
     public static void copy(File inputFile, File outputFile)
@@ -82,14 +117,45 @@ public final class InputStreamHelper
         }
      }
 
-    public static InputStream concat(InputStream is1,InputStream is2)
+    /**
+     * @deprecated use {@link ConcateInputStream} instead
+     */
+    public static InputStream concat(InputStream is1, InputStream is2)
     {
         InputStream is[] = { is1, is2 };
 
         return InputStreamHelper.concat(is);
-
     }
 
+    /**
+     * Compare content of two {@link InputStream}. {@link InputStream} are consumed but
+     * are not closed after this call.
+     *
+     * @param is1   an {@link InputStream}
+     * @param is2   an other {@link InputStream}
+     * @return true if content (and size) of {@link InputStream} are equals.
+     * @throws IOException if any IO error occur.
+     * @since 1.4.5
+     */
+    public final static boolean isEquals( InputStream is1, InputStream is2 )
+        throws IOException
+    {
+        for(;;) {
+            int c1 = is1.read();
+            int c2 = is2.read();
+
+            if( c1 != c2 ) {
+                return false;
+                }
+            if( c1 == -1 ) { // and c2 == -1 since c1 == c2
+                return true;
+                }
+        }
+    }
+
+    /**
+     * @deprecated use {@link ConcateInputStream} instead
+     */
     public static InputStream concat(final InputStream...is)
     {
         return new InputStream()

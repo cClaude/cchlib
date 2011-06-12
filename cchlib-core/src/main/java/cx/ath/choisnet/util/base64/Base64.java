@@ -2,10 +2,9 @@ package cx.ath.choisnet.util.base64;
 
 /**
  *
- * @author Claude CHOISNET
  *
  */
-public abstract class Base64
+abstract class Base64
 {
     protected static final char[] BASE64 = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',

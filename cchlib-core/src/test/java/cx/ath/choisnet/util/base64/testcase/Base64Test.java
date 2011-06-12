@@ -1,10 +1,14 @@
 package cx.ath.choisnet.util.base64.testcase;
 
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.util.base64.Base64Decoder;
@@ -102,16 +106,34 @@ public class Base64Test extends TestCase
         testAndCompare2SunBASE64( TEST_STRING );
     }
 
+    @SuppressWarnings("deprecation")
     public void testDecodeInputStreamOutputStream()
     throws Base64FormatException, IOException
     {
         String encodedStr = Base64Encoder.encode( TEST_STRING );
 
-        @SuppressWarnings("deprecation")
         InputStream           in  = new java.io.StringBufferInputStream(encodedStr);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         decoder.decode( in, out);
+
+        byte[] dec   = out.toByteArray();
+        String decStr = new String( dec );
+
+        slogger.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + ']' );
+        assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(decStr) );
+    }
+
+    public void testDecodeReaderOutputStream()
+        throws Base64FormatException, IOException
+    {
+        String encodedStr   = Base64Encoder.encode( TEST_STRING );
+        char[] encodedChars = encodedStr.toCharArray();
+
+        Reader                in  = new CharArrayReader( encodedChars );
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        decoder.decode( in, out );
 
         byte[] dec   = out.toByteArray();
         String decStr = new String( dec );
@@ -130,12 +152,16 @@ public class Base64Test extends TestCase
         assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(res) );
     }
 
-    public void testFile()
-    {
-        // TODO; staticTestFile( file, xxx );
-    }
+//    public void testFile()
+//    {
+//        File            file;
+//        OutputStream    out;
+//
+//        staticTestFile( file, out );
+//    }
 
-    public static String staticTestDecodeUsingOutputStream( String str2decode )
+    @SuppressWarnings("deprecation")
+    public static String staticTestDecodeUsingOutputStreamOld( String str2decode )
         throws Base64FormatException, IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -145,32 +171,52 @@ public class Base64Test extends TestCase
         return out.toString();
     }
 
-    public static void staticTestFile( String filename, OutputStream out )
+    public static String staticTestDecodeUsingOutputStream( String str2decode )
         throws Base64FormatException, IOException
     {
-        FileInputStream in = new FileInputStream( filename );
-        Base64Decoder b = new Base64Decoder();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        decoder.decode( str2decode.toCharArray(), out );
+
+        return out.toString();
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void staticTestFileOld( File file, OutputStream out )
+        throws Base64FormatException, IOException
+    {
+        InputStream     in  = new FileInputStream( file );
+        Base64Decoder   b   = new Base64Decoder();
 
         b.decode( in, out );
      }
 
-    public static void testAndCompare2SunBASE64( final String str2code ) 
+    private static void staticTestFile( File file, OutputStream out )
+        throws Base64FormatException, IOException
+    {
+        Reader          in  = new FileReader( file );
+        Base64Decoder   b   = new Base64Decoder();
+
+        b.decode( in, out );
+     }
+
+    public static void testAndCompare2SunBASE64( final String str2code )
         throws IOException
     {
         final byte[] bytes = str2code.getBytes();
-        
+
         @SuppressWarnings("restriction")
         String sunEncode = (new sun.misc.BASE64Encoder()).encode( bytes );
         String encode    = Base64Encoder.encode( str2code );
-        
+
         assertEquals( "bad encoding", sunEncode, encode );
-        
+
         @SuppressWarnings("restriction")
         byte[] sunDecode = (new sun.misc.BASE64Decoder()).decodeBuffer( encode );
         String decode    = Base64Decoder.decode( encode );
-        
+
         String sunDecodeStr = new String( sunDecode );
-        
+
         assertEquals( "bad use Sun Base 64", str2code, sunDecodeStr );
         assertEquals( "bad decoding", str2code, decode );
     }

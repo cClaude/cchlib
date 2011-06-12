@@ -38,8 +38,6 @@ IF ERRORLEVEL 1 (
   Goto :eof
   )
 
-:TEST
-
 @REM
 @REM javadoc:jar
 @REM    creates an archive file of the generated Javadocs. It
@@ -59,7 +57,6 @@ IF ERRORLEVEL 1 (
 @REM    is an interactive goal which fixes the Javadoc documentation
 @REM    and tags for the Java files.
 @REM
-@Echo ON
 Set MODULE_WITH_DOC=cchlib-core;cchlib-j2ee;cchlib-jdbf;cchlib-sys
 Set MODULE_WITH_SUBPROJECT=cchlib-core;cchlib-j2ee;cchlib-tools
 

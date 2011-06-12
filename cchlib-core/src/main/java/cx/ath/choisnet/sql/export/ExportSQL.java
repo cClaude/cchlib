@@ -1,4 +1,4 @@
-package cx.ath.choisnet.sql;
+package cx.ath.choisnet.sql.export;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -8,75 +8,17 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.EnumSet;
-import javax.sql.DataSource;
+import cx.ath.choisnet.sql.SQLTools;
 
 /**
  * Create a SQL script to export values from tables.
- * <br/>
- *
- *
- * @author Claude CHOISNET
  */
 public class ExportSQL  implements Closeable
 {
     /**
-     * Table description
-     *
-     * @author Claude CHOISNET
-     */
-    public static class TableDescription
-    {
-        private String name;
-        private String whereCondition;
-
-        /**
-         * Create a TableDescription without condition, export all values
-         *
-         * @param name
-         */
-        public TableDescription( String name )
-        {
-            this.name = name;
-        }
-
-        /**
-         * Create a TableDescription with conditions, export values
-         * according to where clause
-         *
-         * @param name
-         * @param whereCondition
-         */
-        public TableDescription(
-                final String name,
-                final String whereCondition
-                )
-        {
-            this.name = name;
-        }
-
-        /**
-         * @return the table name to export
-         */
-        public String getName()
-        {
-            return name;
-        }
-
-        /**
-         * @return the where condition for values to export
-         */
-        public String getWhereCondition()
-        {
-            return whereCondition;
-        }
-    }
-
-    /**
      * Configuration for {@link ExportSQL}
-     *
-     * @author Claude CHOISNET
      */
     public enum Config
     {
@@ -89,42 +31,49 @@ public class ExportSQL  implements Closeable
          */
         ADD_PREFIX_SCHEMA,
         /**
-         *
+         * Add SET AUTOCOMMIT=0 in export.
          */
-        ADD_SET_AUTOCOMMIT,
+        ADD_DISABLE_AUTOCOMMIT,
 
     }
 
-    private final DataSource            ds;
+    //private final DataSource            ds;
+    private final Connection            connection;
     private final TableDescription[]    exportTables;
     private final String                schema;
-    private final Timestamp             exportDate;
+    private final Date                  exportDate;
     private final EnumSet<Config>       config;
-    private Connection                  c = null;
     private Statement                   s = null;
 
     /**
      * Initialize ExportSQL object
      *
-     * @param dataSource DataSource to retrieve database connection.
+     * @param connection Connection to database.
      * @param schemaName Schema name of database.
      * @param config {@link EnumSet} of {@link Config} to configure output.
-     * @param exportTimestamp Time stamp to identify SQL export.
+     * @param exportDate {@link Date} to identify SQL export (just in comment section),
+     *        if null use current date.
      * @param exportTables Array of TableDescription (order could be important
      *        while running result SQL).
      */
     public ExportSQL(
-            final DataSource            dataSource,
+            final Connection            connection,
             final String                schemaName,
             final EnumSet<Config>       config,
-            final Timestamp             exportTimestamp,
-            final TableDescription ...  exportTables
+            final Date                  exportDate,
+            final TableDescription...   exportTables
             )
     {
-        this.ds             = dataSource;
+        this.connection     = connection;
         this.schema         = schemaName;
         this.exportTables   = exportTables;
-        this.exportDate     = exportTimestamp;
+
+        if( exportDate ==  null ) {
+            this.exportDate = new Date(); // now
+            }
+        else {
+            this.exportDate = exportDate;
+            }
 
         if( config == null ) {
             this.config = EnumSet.noneOf( Config.class );
@@ -146,27 +95,28 @@ public class ExportSQL  implements Closeable
      * {@link Config#ADD_SET_AUTOCOMMIT} and {@link Config#ADD_USE_SCHEMA}
      * </p>
      *
-     * @param dataSource DataSource to retrieve database connection.
+     * @param connection Connection to database.
      * @param schemaName Schema name of database. If null, do not add schema in export.
-     * @param exportTimestamp Time stamp to identify SQL export.
+     * @param exportDate {@link Date} to identify SQL export (just in comment section),
+     *        if null use current date.
      * @param exportTables Array of TableDescription (order could be important
      * while running result SQL).
      */
     public ExportSQL(
-            final DataSource            dataSource,
+            final Connection            connection,
             final String                schemaName,
-            final Timestamp             exportTimestamp,
-            final TableDescription ...  exportTables
+            final Date                  exportDate,
+            final TableDescription...   exportTables
              )
     {
-        this(   dataSource,
+        this(   connection,
                 schemaName,
                 EnumSet.of(
                         Config.ADD_PREFIX_SCHEMA,
-                        Config.ADD_SET_AUTOCOMMIT,
+                        Config.ADD_DISABLE_AUTOCOMMIT,
                         Config.ADD_USE_SCHEMA
                         ),
-                exportTimestamp,
+                exportDate,
                 exportTables
                 );
     }
@@ -174,22 +124,23 @@ public class ExportSQL  implements Closeable
     /**
      * Initialize ExportSQL object
      *
-     * @param dataSource DataSource to retrieve database connection.
+     * @param connection Connection to database.
      * @param schemaName Schema name of database. If null, do not add schema in export.
-     * @param exportTimestamp Time stamp to identify SQL export.
+     * @param exportDate {@link Date} to identify SQL export (just in comment section),
+     *        if null use current date.
      * @param exportTables Array of table names (order could be important
      * while running result SQL).
      */
     public ExportSQL(
-            final DataSource    dataSource,
+            final Connection    connection,
             final String        schemaName,
-            final Timestamp     exportTimestamp,
+            final Date          exportDate,
             final String ...    exportTables
             )
     {
-        this(   dataSource,
+        this(   connection,
                 schemaName,
-                exportTimestamp,
+                exportDate,
                 toTableDescription( exportTables )
                 );
     }
@@ -201,28 +152,28 @@ public class ExportSQL  implements Closeable
         final TableDescription[] ed = new TableDescription[ exportTablenames.length ];
 
         for(int i = 0; i<exportTablenames.length; i++ ) {
-            ed[i] = new TableDescription( exportTablenames[i] );
+            ed[i] = new TableDescriptionImpl( exportTablenames[i] );
             }
 
         return ed;
     }
 
     /**
-     * Returns export Time stamp (could be overwrite)
-     * @return export Time stamp
+     * Returns export Date (could be overwrite)
+     * @return export Date
      */
-    public Timestamp getTimestamp()
+    public Date getExportDate()
     {
         return exportDate;
     }
 
     /**
-     * Returns export Time stamp as a String (could be overwrite)
-     * @return export Time stamp as a String
+     * Returns export Date as a String (could be overwrite)
+     * @return export Date as a String
      */
-    public String getTimestampString()
+    public String getExportDateToString()
     {
-        return getTimestamp().toString();
+        return getExportDate().toString();
     }
 
     /**
@@ -272,7 +223,7 @@ public class ExportSQL  implements Closeable
            exportTable.print( "`" ).print( schema ).print( "` " );
            }
 
-       exportTable.print( ": " ).println( getTimestampString() );
+       exportTable.print( ": " ).println( getExportDateToString() );
 
        exportTable.println( "-- ---------------------------" );
 
@@ -342,7 +293,7 @@ public class ExportSQL  implements Closeable
     public void close()
     {
         try { if(s != null) s.close(); } catch(Exception e) {}
-        try { if(c != null) c.close(); } catch(Exception e) {}
+        //try { if(c != null) c.close(); } catch(Exception e) {}
     }
 
     private final class ExportTable
@@ -374,11 +325,11 @@ public class ExportSQL  implements Closeable
                 )
             throws SQLException, IOException
         {
-            if( c == null ) {
-                c = ds.getConnection();
-                }
+//            if( c == null ) {
+//                c = ds.getConnection();
+//                }
             if( s == null ) {
-                s = c.createStatement();
+                s = connection.createStatement();
                 }
 
             q.setLength( 0 );
@@ -417,7 +368,7 @@ public class ExportSQL  implements Closeable
             print( tableDesc.getName() ).println( "`" );
             println( "-- ---------------------------" );
 
-            if( config.contains( Config.ADD_SET_AUTOCOMMIT ) ) {
+            if( config.contains( Config.ADD_DISABLE_AUTOCOMMIT ) ) {
                 println( "SET AUTOCOMMIT=0;" );
                 }
 

@@ -6,30 +6,25 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Provide a basic implementation for 
+ * Provide a basic implementation for
  * {@link BookmarksAccessory.Configurator}
- *
- * @author Claude CHOISNET
  */
 public abstract class AbstractBookmarksAccessoryConfigurator
     implements BookmarksAccessory.Configurator
 {
     private static final long serialVersionUID = 1L;
-//    private static final Logger slog = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
     /** @serial */
     private /*List*/ArrayList<File> bookmarks;
-//    /** @serial */
-//    private File configFileProperties;
 
     /**
      *
      * @param bookmarkFiles
      */
     public AbstractBookmarksAccessoryConfigurator(
-            ArrayList<File> bookmarkFiles
+            final List<File> bookmarkFiles
             )
     {
-        this.bookmarks = bookmarkFiles;
+        this.bookmarks = new ArrayList<File>( bookmarkFiles );
     }
 
     /**
@@ -39,7 +34,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
      * @return
      */
     //final // TO DO: remove this
-    protected static boolean add(List<File> list, File file )
+    protected static boolean add( List<File> list, File file )
     {
         if( file.isDirectory() ) {
             boolean found = false;
@@ -88,7 +83,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param filesList
      */
     protected abstract void storeBookmarks( ArrayList<File> filesList );
@@ -99,6 +94,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
     {
         return bookmarks;
     }
+
     @Override
     //final // TO DO: remove this
     public boolean addBookmarkFile( File file )
@@ -114,6 +110,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
         }
         return false;
     }
+
     @Override
     //final // TO DO: remove this
     public boolean removeBookmark( File file )

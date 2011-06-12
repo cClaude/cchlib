@@ -1,76 +1,53 @@
 package cx.ath.choisnet.util.base64;
 
 import java.io.ByteArrayInputStream;
+import java.io.CharArrayReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
+ * Decode Base64 text
  *
- * @author Claude CHOISNET
- *
+ * @see Base64Encoder
  */
 public class Base64Decoder extends Base64
 {
     private static final int DEFAULT_BUFFER_SIZE = 1024;
     private int bufferSize;
 
+    /**
+     * Create a Base64Decoder
+     */
     public Base64Decoder()
     {
         this( DEFAULT_BUFFER_SIZE );
     }
 
-    public Base64Decoder(int bufferSize)
+    /**
+     * Create a Base64Decoder with the specified buffer size.
+     *
+     * @param bufferSize Buffer size to use for IO operations
+     */
+    public Base64Decoder( int bufferSize )
     {
         if( bufferSize%4 != 0 ) {
             this.bufferSize = ((bufferSize / 4) + 1)*4;
-        }
+            }
         else {
             this.bufferSize = bufferSize;
-        }
+            }
     }
 
-//    private final int get1(byte[] buf, int off)
-//    {
-//        return (buf[off] & 0x3f) << 2 | (buf[off + 1] & 0x30) >>> 4;
-//    }
-//
-//    private final int get2(byte[] buf, int off)
-//    {
-//        return (buf[off + 1] & 0xf) << 4 | (buf[off + 2] & 0x3c) >>> 2;
-//    }
-//
-//    private final int get3(byte[] buf, int off)
-//    {
-//        return (buf[off + 2] & 3) << 6 | buf[off + 3] & 0x3f;
-//    }
-//
-//    private final int check(int ch)
-//    {
-//        if(ch >= 65 && ch <= 90) {
-//            return ch - 65;
-//        }
-//        if(ch >= 97 && ch <= 122) {
-//            return (ch - 97) + 26;
-//        }
-//        if(ch >= 48 && ch <= 57) {
-//            return (ch - 48) + 52;
-//        }
-//
-//        switch(ch) {
-//        case 61:
-//            return 65;
-//        case 43:
-//            return 62;
-//        case 47:
-//            return 63;
-//        }
-//        return -1;
-//    }
-
-    public void decode(InputStream in, OutputStream out)
-        throws Base64FormatException, java.io.IOException
+    /**
+     * @deprecated use {@link #decode(Reader, OutputStream)} instead
+     */
+    @Deprecated
+    public void decode( InputStream in, OutputStream out )
+        throws Base64FormatException, IOException
     {
         char[] buffer = new char[this.bufferSize];
 
@@ -94,6 +71,65 @@ public class Base64Decoder extends Base64
 
             out.write( dec );
         }
+    }
+
+    /**
+     * @deprecated use {@link #decode(char[], OutputStream)} instead
+     */
+    @Deprecated
+    public void decode( byte[] datas, OutputStream out )
+        throws Base64FormatException, IOException
+    {
+        decode( new ByteArrayInputStream( datas ), out );
+    }
+
+    /**
+     * TODO: Doc!
+     *
+     * @param in
+     * @param out
+     * @throws Base64FormatException
+     * @throws IOException
+     */
+    public void decode( final Reader in, final OutputStream out )
+        throws Base64FormatException, IOException
+    {
+        char[] buffer = new char[this.bufferSize];
+
+        for(;;) {
+            int len;
+
+            for( len = 0; len<buffer.length; len++ ) {
+                int c = in.read();
+
+                if( c < 0 ) {
+                    break; // EOF
+                }
+                buffer[ len ] = (char)c;
+            }
+
+            if( len == 0 ) {
+                return;
+            }
+
+            byte[] dec = decode( buffer, 0, len);
+
+            out.write( dec );
+        }
+    }
+
+    /**
+     * TODO: Doc!
+     *
+     * @param datas
+     * @param out
+     * @throws Base64FormatException
+     * @throws IOException
+     */
+    public void decode( char[] datas, OutputStream out )
+        throws Base64FormatException, IOException
+    {
+        decode( new CharArrayReader( datas ), out );
     }
 
     /*
@@ -169,14 +205,9 @@ public class Base64Decoder extends Base64
     }
     */
 
-    public void decode(byte[] datas, OutputStream out)
-        throws cx.ath.choisnet.util.base64.Base64FormatException, java.io.IOException
-    {
-        decode(((java.io.InputStream) (new ByteArrayInputStream(datas))), out);
-    }
-
-    /**
+     /**
      * Efficient decode method for String
+     *
      * @param s String to decode
      * @param charsetName
      * @return decoded String according to Charset
@@ -261,5 +292,43 @@ public class Base64Decoder extends Base64
            if (op<oLen) out[op++] = (byte)o2; }
         return out;
         }
-
 }
+
+//private final int get1(byte[] buf, int off)
+//{
+//  return (buf[off] & 0x3f) << 2 | (buf[off + 1] & 0x30) >>> 4;
+//}
+//
+//private final int get2(byte[] buf, int off)
+//{
+//  return (buf[off + 1] & 0xf) << 4 | (buf[off + 2] & 0x3c) >>> 2;
+//}
+//
+//private final int get3(byte[] buf, int off)
+//{
+//  return (buf[off + 2] & 3) << 6 | buf[off + 3] & 0x3f;
+//}
+//
+//private final int check(int ch)
+//{
+//  if(ch >= 65 && ch <= 90) {
+//      return ch - 65;
+//  }
+//  if(ch >= 97 && ch <= 122) {
+//      return (ch - 97) + 26;
+//  }
+//  if(ch >= 48 && ch <= 57) {
+//      return (ch - 48) + 52;
+//  }
+//
+//  switch(ch) {
+//  case 61:
+//      return 65;
+//  case 43:
+//      return 62;
+//  case 47:
+//      return 63;
+//  }
+//  return -1;
+//}
+

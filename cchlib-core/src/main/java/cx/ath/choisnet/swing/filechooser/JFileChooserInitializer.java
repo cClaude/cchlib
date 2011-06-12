@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.filechooser;
 
 import java.beans.PropertyChangeEvent;
@@ -32,9 +28,9 @@ public class JFileChooserInitializer
     private Configure configurator;
     
     /**
-     * TODO: doc
+     * Configure {@link JFileChooserInitializer}
      */
-    public enum Attrib{
+    public enum Attrib {
         /**
          * Provide a workaround according to bug:
          * <br/>
@@ -45,9 +41,9 @@ public class JFileChooserInitializer
 //         * TO DO: doc
 //         */
 //        defaultDirectoryIsUserDir,
-        /**
-         * TO DO: doc
-         */
+//        /**
+//         * TO DO: doc
+//         */
         //doNotSetFileSystemView
         };
     
@@ -195,9 +191,6 @@ public class JFileChooserInitializer
     
     /**
      * Customize JFileChooser
-     * 
-     * @author Claude CHOISNET
-     *
      */
     public interface Configure extends Serializable
     {
@@ -216,8 +209,6 @@ public class JFileChooserInitializer
     
     /**
      * Default implementation for Configure
-     * 
-     * @author Claude CHOISNET
      */
     public static class DefaultConfigurator implements Configure
  {
@@ -244,8 +235,7 @@ public class JFileChooserInitializer
         /**
          * @param attribSet
          */
-        public DefaultConfigurator(
-                EnumSet<Attrib> attribSet )
+        public DefaultConfigurator( EnumSet<Attrib> attribSet )
         {
             if( attribSet == null ) {
                 attribSet = EnumSet.noneOf( Attrib.class );

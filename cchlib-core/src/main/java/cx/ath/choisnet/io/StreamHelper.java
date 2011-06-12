@@ -1,12 +1,11 @@
 package cx.ath.choisnet.io;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated use {@link InputStreamHelper} instead
  */
 public class StreamHelper
 {
@@ -23,6 +22,7 @@ public class StreamHelper
      * @param is
      * @return content of InputStream
      * @throws java.io.IOException
+     * @deprecated use {@link ReaderHelper#toString(java.io.Reader)} instead
      */
      public static String toString(InputStream is)
         throws java.io.IOException
@@ -50,14 +50,14 @@ public class StreamHelper
      * @param output
      * @param buffer
      * @throws java.io.IOException
-     *
+     * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream, byte[])} instead
      */
     public static void copy(
             InputStream  input,
             OutputStream output,
             byte[]       buffer
             )
-        throws java.io.IOException
+        throws IOException
     {
         int len;
 
@@ -67,11 +67,7 @@ public class StreamHelper
     }
 
     /**
-     *
-     * @param input
-     * @param output
-     * @param bufferSize
-     * @throws java.io.IOException
+     * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream, int)} instead
      */
     public static void copy(InputStream input, OutputStream output, int bufferSize)
         throws java.io.IOException
@@ -80,10 +76,7 @@ public class StreamHelper
     }
 
     /**
-     *
-     * @param input
-     * @param output
-     * @throws java.io.IOException
+     * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream)} instead
      */
     public static void copy(InputStream input, OutputStream output)
         throws java.io.IOException
@@ -91,6 +84,9 @@ public class StreamHelper
         copy(input, output, DEFAULT_BUFFER_SIZE);
     }
 
+    /**
+     * @deprecated use {@link InputStreamHelper#concat(InputStream...)} instead
+     */
     public static InputStream concat(
             InputStream is1,
             InputStream is2
@@ -101,6 +97,9 @@ public class StreamHelper
         return concat(is);
     }
 
+    /**
+     * @deprecated use {@link InputStreamHelper#concat(InputStream...)} instead
+     */
     public static InputStream concat(final InputStream...is)
     {
         return new InputStream() {

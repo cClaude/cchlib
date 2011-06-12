@@ -8,14 +8,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import cx.ath.choisnet.ToDo;
 
 /**
- * TODO: Doc!
- * @author Claude CHOISNET
- *
+ * Easy way to obtain a {@link DataSource}
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class SimpleDataSource
     implements Closeable
 {

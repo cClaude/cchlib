@@ -3,7 +3,7 @@ package cx.ath.choisnet.test;
 import java.io.IOException;
 import java.io.Serializable;
 import cx.ath.choisnet.io.SerializableHelper;
-import junit.framework.TestCase;
+import junit.framework.TestCase; // Use TestCase instead Assert to not confused with Assert that exist in this package
 
 /**
  * Base for making a {@link TestCase} for testing
@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  *
  * @author Claude CHOISNET
  */
-public class SerializableTestCase extends TestCase
+public class SerializableTestCase //extends TestCase <- remove avoid JUnit tests crash under eclipse
 {
     /**
      * Clone giving object using Serialization and
@@ -36,8 +36,8 @@ public class SerializableTestCase extends TestCase
     {
         T copy = cloneOverSerialization(anObject);
 
-        assertEquals( "Values do not matches", anObject, copy);
-        assertFalse( "Must be not same Object !", anObject==copy);
+        TestCase.assertEquals( "Values do not matches", anObject, copy);
+        TestCase.assertFalse( "Must be not same Object !", anObject==copy);
 
         return copy;
     }

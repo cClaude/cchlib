@@ -9,18 +9,19 @@ import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
+import junit.framework.TestCase;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.ExtendTestCase;
+import cx.ath.choisnet.test.Assert;
 import cx.ath.choisnet.test.SerializableTestCase;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
-public class MessageDigestFileTest extends ExtendTestCase 
+public class MessageDigestFileTest extends TestCase // ExtendTestCase
 {
-    public void test_MessageDigestFile() 
-        throws  NoSuchAlgorithmException, 
+    public void test_MessageDigestFile()
+        throws  NoSuchAlgorithmException,
                 FileNotFoundException,
-                IOException, 
+                IOException,
                 DigestException,
                 ClassNotFoundException
     {
@@ -46,48 +47,48 @@ public class MessageDigestFileTest extends ExtendTestCase
 
     public void test_MessageDigestFileClone(
             MessageDigestFile mdf
-            ) 
-    throws  NoSuchAlgorithmException, 
+            )
+    throws  NoSuchAlgorithmException,
             FileNotFoundException,
-            IOException, 
-            DigestException, 
+            IOException,
+            DigestException,
             ClassNotFoundException
     {
         test_MessageDigestFile(mdf);
-        
+
         MessageDigestFile clone = SerializableTestCase.cloneOverSerialization( mdf );
-        
+
         test_MessageDigestFile(clone);
     }
-    
+
     public void test_MessageDigestFile(
             MessageDigestFile mdf
-            ) 
-    throws  NoSuchAlgorithmException, 
+            )
+    throws  NoSuchAlgorithmException,
             FileNotFoundException,
-            IOException, 
-            DigestException, 
+            IOException,
+            DigestException,
             ClassNotFoundException
     {
         Iterator<File> iter = AssertHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
         int i = 0;
         while( iter.hasNext() ) {
             File f = iter.next();
-            
+
             byte[] mdfKey1 = mdf.computeInputStream( f );
             test_File( mdf, f, mdfKey1);
 
             byte[] mdfKey2 = mdf.compute( f );
             test_File( mdf, f, mdfKey2);
 
-            assertEquals("Error!",mdfKey1,mdfKey2);
+            Assert.assertEquals("Error!",mdfKey1,mdfKey2);
 
             if( i++ > 10 ) {
                 break;
             }
         }
     }
-    
+
     private void test_File(
             MessageDigestFile   mdf,
             File                f,
@@ -97,7 +98,7 @@ public class MessageDigestFileTest extends ExtendTestCase
         String mdfKeyStr = MessageDigestFile.computeDigestKeyString( mdfKey );
         String algorithm = mdf.getAlgorithm();
 
-        assertEquals(mdfKey,mdf.digest());
+        Assert.assertEquals(mdfKey,mdf.digest());
         String mdfHexStr = mdf.digestString();
         byte[] mdfKey2      = mdf.digest();
         String mdfKey2Str   = MessageDigestFile.computeDigestKeyString(mdfKey2);
@@ -115,19 +116,19 @@ public class MessageDigestFileTest extends ExtendTestCase
         }
 
         assertEquals(
-                "Must be equals", 
+                "Must be equals",
                 mdfKeyStr,
                 mdfKey2Str
                 );
-        assertEquals(mdfKey,mdfKey2);
+        Assert.assertEquals(mdfKey,mdfKey2);
 
         byte[] bytesFromStr = MessageDigestFile.computeDigestKey( mdfHexStr );
 
-        assertEquals("Error!",mdfKey,bytesFromStr);
+        Assert.assertEquals("Error!",mdfKey,bytesFromStr);
     }
 
     private static String getMD5(byte[] input)
-        throws NoSuchAlgorithmException 
+        throws NoSuchAlgorithmException
     {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(input);
@@ -144,8 +145,8 @@ public class MessageDigestFileTest extends ExtendTestCase
     }
 
     private static String getMD5(File input)
-        throws  NoSuchAlgorithmException, 
-                IOException 
+        throws  NoSuchAlgorithmException,
+                IOException
     {
         FileInputStream  fis = new FileInputStream(input);
         ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());

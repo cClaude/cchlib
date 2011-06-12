@@ -9,9 +9,8 @@ import cx.ath.choisnet.ToDo;
  * {@link InputStream} based on InputStream concatenation.
  * <p>
  * InputStreams are read in sequence, when first end of stream is reatch, then
- * second stream is read.
+ * second stream is read (and next if any).
  * </p>
- * @author Claude CHOISNET
  */
 @ToDo
 public class ConcateInputStream extends InputStream
@@ -30,10 +29,10 @@ public class ConcateInputStream extends InputStream
             final InputStream secondInputStream
             )
     {
-        currentStream = 0;
-        inputStreamArray = new java.io.InputStream[2];
-        inputStreamArray[0] = firstInputStream;
-        inputStreamArray[1] = secondInputStream;
+        this.currentStream       = 0;
+        this.inputStreamArray    = new java.io.InputStream[2];
+        this.inputStreamArray[0] = firstInputStream;
+        this.inputStreamArray[1] = secondInputStream;
 
         check();
     }
@@ -65,21 +64,33 @@ public class ConcateInputStream extends InputStream
         this( new ByteArrayInputStream( datas.getBytes() ), inputStream );
     }
 
+    /**
+     * Create a ConcateInputStream based on an array of {@link InputStream}
+     *
+     * @param iss list of {@link InputStream}
+     * @since 1.4.5
+     */
+    public ConcateInputStream( final InputStream...iss )
+    {
+        this.currentStream      = 0;
+        this.inputStreamArray   = iss;
+
+        check();
+    }
+
     @Override
-    public int available()
-        throws java.io.IOException
+    public int available() throws IOException
     {
         if(currentStream < inputStreamArray.length) {
             return inputStreamArray[currentStream].available();
-            } 
+            }
         else {
             return 0;
         }
     }
 
     @Override
-    public void close()
-        throws java.io.IOException
+    public void close() throws IOException
     {
         for(int i = 0; i < inputStreamArray.length; i++) {
             inputStreamArray[i].close();
@@ -87,8 +98,7 @@ public class ConcateInputStream extends InputStream
     }
 
     @Override
-    public int read()
-        throws java.io.IOException
+    public int read() throws IOException
     {
         int result = -1;
 
@@ -121,25 +131,24 @@ public class ConcateInputStream extends InputStream
         super.reset();
     }
 
-    private void check()
-        throws RuntimeException
+    private void check() throws RuntimeException
     {
         if(inputStreamArray == null) {
             throw new RuntimeException("inputStreamArray is null.");
-        }
+            }
         int length = inputStreamArray.length;
 
         for(int i = 0; i < length; i++)  {
             if(inputStreamArray[i] == null) {
                 throw new RuntimeException("one or more InputStream is null.");
                 }
-        }
+            }
     }
 
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder("[");
+        final StringBuilder sb = new StringBuilder("[");
 
         sb.append( getClass().getName() );
         sb.append('[');
@@ -152,7 +161,7 @@ public class ConcateInputStream extends InputStream
         for(int i = 1; i < inputStreamArray.length; i++) {
             sb.append(',');
             sb.append(inputStreamArray[i].toString());
-         }
+             }
 
         sb.append(']');
 

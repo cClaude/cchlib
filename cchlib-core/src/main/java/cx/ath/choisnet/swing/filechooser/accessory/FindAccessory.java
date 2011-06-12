@@ -43,31 +43,30 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
-A threaded file search accessory for JFileChooser.
-<P>
-Presents JFileChooser users with a tabbed panel interface for
-specifying file search criteria including (1) search by name,
-(2) search by date of modification, and (3) search by file content.
-Finded are performed "in the background" with found files displayed
-dynamically as they are found. Only one search can be active at
-a time. FindResults are displayed in a scrolling list within a results
-tab panel.
-<P>
-Findes are performed asynchronously so the user can continue
-browsing the file system. The user may stop the search at any time.
-Accepting or canceling the file chooser or closing the dialog window
-will automatically stop a search in progress.
-<P>
-The starting folder of the search (the search base) is displayed
-at the top of the accessory panel. The search base display will
-not change while a search is running. These search base display
-will change to reflect the current directory of JFileChooser
-when a search is not running.
-<P>
-Changing the search options does not affect a search in progress.
-
-@version    1.0, 2000/01/19
-@author     Ken Klinner, kklinner@opiom.com
+ * A threaded file search accessory for JFileChooser.
+ * <P>
+ * Presents JFileChooser users with a tabbed panel interface for
+ * specifying file search criteria including (1) search by name,
+ * (2) search by date of modification, and (3) search by file content.
+ * Finds are performed "in the background" with found files displayed
+ * dynamically as they are found. Only one search can be active at
+ * a time. FindResults are displayed in a scrolling list within a results
+ * tab panel.
+ * <P>
+ * Finds are performed asynchronously so the user can continue
+ * browsing the file system. The user may stop the search at any time.
+ * Accepting or canceling the file chooser or closing the dialog window
+ * will automatically stop a search in progress.
+ * <P>
+ * The starting folder of the search (the search base) is displayed
+ * at the top of the accessory panel. The search base display will
+ * not change while a search is running. These search base display
+ * will change to reflect the current directory of JFileChooser
+ * when a search is not running.
+ * <P>
+ * Changing the search options does not affect a search in progress.
+ *
+ * @author     Ken Klinner, kklinner@opiom.com
 TODO: Localization,
       optimizations (non-recursing)
       implements TabbedAccessoryInterface
@@ -76,8 +75,8 @@ public class FindAccessory  extends     JPanel
                             implements  Runnable,
                                         PropertyChangeListener,
                                         ActionListener,
-                                        FindProgressCallback//,
-                                        //TabbedAccessoryInterface
+                                        FindProgressCallback,
+                                        TabbedAccessoryInterface
 {
     private static final long serialVersionUID = 1L;
 
@@ -108,9 +107,9 @@ public class FindAccessory  extends     JPanel
     protected JFileChooser      chooser = null;
 
     /** @serial */
-    protected FindAction        actionStart = null;
+    private/*protected*/ FindAction        actionStart = null;
     /** @serial */
-    protected FindAction        actionStop = null;
+    private/*protected*/ FindAction        actionStop = null;
 
     /**
     This version of FindAccesory supports only one active search thread
@@ -128,19 +127,19 @@ public class FindAccessory  extends     JPanel
     Displays full path of search base
     @serial
     */
-    protected FindFolder        pathPanel = null;
+    private/*protected*/ FindFolder        pathPanel = null;
 
     /**
     Find options with results list
     @serial
     */
-    protected FindTabs      searchTabs = null;
+    private/*protected*/ FindTabs      searchTabs = null;
 
     /**
     Find controls with progress display
     @serial
     */
-    protected FindControls  controlPanel = null;
+    private/*protected*/ FindControls  controlPanel = null;
 
     /**
     Number of items inspected by current/last search
@@ -247,6 +246,7 @@ public class FindAccessory  extends     JPanel
 
         @param e PropertyChangeEvent from parent JFileChooser.
      */
+    @Override
     public void propertyChange (PropertyChangeEvent e)
     {
         String prop = e.getPropertyName();
@@ -263,6 +263,7 @@ public class FindAccessory  extends     JPanel
 
         @param e ActionEvent from parent JFileChooser.
      */
+    @Override
     public void actionPerformed (ActionEvent e)
     {
         String command = e.getActionCommand();
@@ -401,6 +402,7 @@ public class FindAccessory  extends     JPanel
     /**
         Find thread
      */
+    @Override
     public void run ()
     {
         if (searchThread == null) {
@@ -424,20 +426,20 @@ public class FindAccessory  extends     JPanel
     }
 
     /**
-        Recursive search beginning at folder <b>base</b> for files and folders
-        matching each filter in the <b>filters</b> array. To interrupt set
-        <b>killFind</b> to true. Also stops when number of search hits (matches)
-        equals <b>maxMatches</b>.
-        <P>
-        <b>Note TODO:</b> Convert this to a non-recursive search algorithm on systems
-        where stack space might be limited and/or the search hierarchy might be
-        very deep.
-
-        @param base starting folder of search
-        @param filters matches must pass each filters in array
-        @exception InterruptedException if thread is interrupted
+     * Recursive search beginning at folder <b>base</b> for files and
+     * folders matching each filter in the <b>filters</b> array. To
+     * interrupt set <b>killFind</b> to true. Also stops when number
+     * of search hits (matches)equals <b>maxMatches</b>.
+     * <P>
+     * <b>Note TODO:</b> Convert this to a non-recursive search algorithm
+     * on systems where stack space might be limited and/or the search
+     * hierarchy might be very deep.
+     *
+     * @param base starting folder of search
+     * @param filters matches must pass each filters in array
+     * @exception InterruptedException if thread is interrupted
      */
-    protected void runFind (File base, FindFilter[] filters)
+    private/*protected*/ void runFind( File base, FindFilter[] filters )
                     throws InterruptedException
     {
         if (base == null) {
@@ -474,7 +476,7 @@ public class FindAccessory  extends     JPanel
                 return;
             }
             //Thread.currentThread().sleep(0);
-            Thread.currentThread();
+            //Thread.currentThread();
             Thread.sleep(0);
 
             if (files[i].isDirectory()) {
@@ -492,7 +494,7 @@ public class FindAccessory  extends     JPanel
 
         @return true if specified file matches each filter's selection criteria
      */
-    protected boolean accept (File file, FindFilter[] filters)
+    private/*protected*/ boolean accept (File file, FindFilter[] filters)
     {
         if (file == null) return false;
         if (filters == null) return false;
@@ -516,6 +518,7 @@ public class FindAccessory  extends     JPanel
 
         @return true to continue search, false to abort
      */
+    @Override
     public boolean reportProgress (FindFilter filter, File file,
                                     long current, long total)
     {
@@ -531,12 +534,14 @@ public class FindAccessory  extends     JPanel
 
         @return Array of search filters from the options panel.
      */
-    protected FindFilter[] newFind ()
+    private/*protected*/ FindFilter[] newFind ()
     {
         total = matches = 0;
         updateProgress();
 
-        if (searchTabs != null) return searchTabs.newFind();
+        if (searchTabs != null) {
+            return searchTabs.newFind();
+        }
         return null;
     }
 
@@ -557,7 +562,9 @@ public class FindAccessory  extends     JPanel
      */
     protected void register (JFileChooser c)
     {
-        if (c == null) return;
+        if (c == null) {
+            return;
+        }
         c.addPropertyChangeListener(this);
         c.addActionListener(this);
     }
@@ -570,7 +577,9 @@ public class FindAccessory  extends     JPanel
      */
     protected void unregister (JFileChooser c)
     {
-        if (c == null) return;
+        if (c == null) {
+            return;
+        }
         c.removeActionListener(this);
         c.removePropertyChangeListener(this);
     }
@@ -591,11 +600,15 @@ public class FindAccessory  extends     JPanel
      */
     public void action (String command)
     {
-        if (command == null) return;
-        if (command.equals(ACTION_START))
+        if (command == null) {
+            return;
+        }
+        if (command.equals(ACTION_START)) {
             start();
-        else if (command.equals(ACTION_STOP))
+        }
+        else if (command.equals(ACTION_STOP)) {
             stop();
+        }
     }
 
     /**
@@ -622,6 +635,7 @@ public class FindAccessory  extends     JPanel
 
             @param e action event
          */
+        @Override
         public void actionPerformed (ActionEvent e)
         {
             action(e.getActionCommand());
@@ -655,9 +669,15 @@ public class FindAccessory  extends     JPanel
         */
         public void setFindDirectory (File f)
         {
-            if (searchDirectory == null) return;
-            if (f != null) searchDirectory.setText(f.getAbsolutePath());
-            else searchDirectory.setText(null);
+            if (searchDirectory == null) {
+                return;
+            }
+            if (f != null) {
+                searchDirectory.setText(f.getAbsolutePath());
+            }
+            else {
+                searchDirectory.setText(null);
+            }
         }
 
     }
@@ -709,7 +729,9 @@ public class FindAccessory  extends     JPanel
         */
         public void showProgress (int matches, int total)
         {
-            if (progress == null) return;
+            if (progress == null) {
+                return;
+            }
             progress.setText(String.valueOf(matches)+'/'+String.valueOf(total));
         }
 
@@ -773,7 +795,9 @@ public class FindAccessory  extends     JPanel
         */
         public void addFoundFile (File f)
         {
-            if (resultsPanel != null) resultsPanel.append(f);
+            if (resultsPanel != null) {
+                resultsPanel.append(f);
+            }
         }
 
         /**
@@ -781,7 +805,9 @@ public class FindAccessory  extends     JPanel
         */
         public void showFindResults ()
         {
-            if (resultsScroller != null) setSelectedComponent(resultsScroller);
+            if (resultsScroller != null) {
+                setSelectedComponent(resultsScroller);
+            }
         }
 
         /**
@@ -796,7 +822,9 @@ public class FindAccessory  extends     JPanel
         public FindFilter[] newFind ()
         {
             // Clear the results display
-            if (resultsPanel != null) resultsPanel.clear();
+            if (resultsPanel != null) {
+                resultsPanel.clear();
+            }
 
             // Fix the width of the scrolling results panel so the layout
             // managers don't try to make it too wide for JFileChooser
@@ -810,13 +838,17 @@ public class FindAccessory  extends     JPanel
                 try {
                     FindFilterFactory fac = (FindFilterFactory)getComponentAt(i);
                     FindFilter f = fac.createFindFilter();
-                    if (f != null) filters.addElement(f);
+                    if (f != null) {
+                        filters.addElement(f);
+                    }
                 }
                 catch (Throwable e) {
                     // The FindResults pane does not implement FindFilterFactory
                 }
             }
-            if (filters.size() == 0) return null;
+            if( filters.isEmpty() ) {
+                return null;
+            }
             FindFilter[] filterArray = new FindFilter[filters.size()];
             for (int i=0; i<filterArray.length; i++) {
                 filterArray[i] = filters.elementAt(i);
@@ -855,6 +887,7 @@ public class FindAccessory  extends     JPanel
             // Double click listener
             MouseListener mouseListener = new MouseAdapter()
             {
+                @Override
                 public void mouseClicked (MouseEvent e)
                 {
                     if (e.getClickCount() == 2) {
@@ -878,7 +911,9 @@ public class FindAccessory  extends     JPanel
         */
         public void append (File f)
         {
-            if (f == null) return;
+            if (f == null) {
+                return;
+            }
             model.addElement(f);
         }
 
@@ -906,6 +941,7 @@ public class FindAccessory  extends     JPanel
                 setOpaque(true);
             }
 
+            @Override
             public Component getListCellRendererComponent (
                                 JList list,
                                 Object value,
@@ -918,8 +954,12 @@ public class FindAccessory  extends     JPanel
                     // This shouldn't happen since we won't be using this
                     // renderer in a combo box
                     int selected = list.getSelectedIndex();
-                    if (selected == -1) return this;
-                    else index = selected;
+                    if (selected == -1) {
+                        return this;
+                    }
+                    else {
+                        index = selected;
+                    }
                 }
 
                 setBorder(new EmptyBorder(1,2,1,2));
@@ -946,21 +986,51 @@ public class FindAccessory  extends     JPanel
         }
     }
 
+    @Override // TabbedAccessoryInterface
+    public String getTabName()
+    {
+        // FIXME TODO Auto-generated method stub
+        return null;
+    }
 
+    @Override // TabbedAccessoryInterface
+    public Icon getTabIcon()
+    {
+        // FIXME TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override // TabbedAccessoryInterface
+    public Component getComponent()
+    {
+        // FIXME TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override // TabbedAccessoryInterface
+    public void register()
+    {
+        // FIXME TODO Auto-generated method stub
+    }
+
+    @Override //TabbedAccessoryInterface
+    public void unregister()
+    {
+        // FIXME TODO Auto-generated method stub
+    }
 }
 
 
 /**
-Each search option tab that implements FindFilterFactory defines an
-inner class that implements FindFilter. When a search is started
-the search panel invokes createFindFilter() on each panel that
-implements FindFilterFactory, thus causing the panel to create
-a FindFilter object that implements its search settings.
-*/
+ * Each search option tab that implements FindFilterFactory defines an
+ * inner class that implements FindFilter. When a search is started
+ * the search panel invokes createFindFilter() on each panel that
+ * implements FindFilterFactory, thus causing the panel to create
+ * a FindFilter object that implements its search settings.
+ * */
 interface FindFilter
 {
-    //public boolean accept (File f);
-    public boolean accept (File f, FindProgressCallback monitor);
+    public boolean accept( File f, FindProgressCallback monitor );
 }
 
 interface FindProgressCallback
@@ -975,8 +1045,7 @@ interface FindProgressCallback
         @param total maximum value
         @return true if search should continue, false to abort
     */
-    public boolean reportProgress (FindFilter filter, File file,
-                                    long current, long total);
+    public boolean reportProgress( FindFilter filter, File file, long current, long total);
 }
 
 /**
@@ -1070,6 +1139,7 @@ class FindByDate extends JPanel implements FindFilterFactory
 
         @return a FindFilter object that implements the selection criteria
     */
+    @Override
     public FindFilter createFindFilter ()
     {
         long from = -1;
@@ -1089,7 +1159,9 @@ class FindByDate extends JPanel implements FindFilterFactory
     */
     protected long startDateToTime (String s)
     {
-        if (s == null) return -1;
+        if (s == null) {
+            return -1;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date d = formatter.parse(s,new ParsePosition(0));
         if (d == null) {
@@ -1109,7 +1181,9 @@ class FindByDate extends JPanel implements FindFilterFactory
                             //close enough for computer work
             }
         }
-        if (d != null) return d.getTime();
+        if (d != null) {
+            return d.getTime();
+        }
         return -1;
     }
 
@@ -1121,7 +1195,9 @@ class FindByDate extends JPanel implements FindFilterFactory
     */
     protected long endDateToTime (String s)
     {
-        if (s == null) return -1;
+        if (s == null) {
+            return -1;
+        }
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
         long time = -1;
@@ -1132,19 +1208,25 @@ class FindByDate extends JPanel implements FindFilterFactory
             {
                 String today = dateFormatter.format(new Date());
                 d = dateFormatter.parse(today,new ParsePosition(0));
-                if (d != null) time = d.getTime() + (24L*3600L*1000L);
+                if (d != null) {
+                    time = d.getTime() + (24L*3600L*1000L);
+                }
             }
             else if (s.equalsIgnoreCase(YESTERDAY))
             {
                 String yesterday = dateFormatter.format(
                     new Date(new Date().getTime() - 24*60*60*1000));
                 d = dateFormatter.parse(yesterday,new ParsePosition(0));
-                if (d != null) time = d.getTime() + (24L*3600L*1000L);
+                if (d != null) {
+                    time = d.getTime() + (24L*3600L*1000L);
+                }
             }
             else if (s.equalsIgnoreCase(NOW))
             {
                 d = new Date();
-                if (d != null) time = d.getTime();
+                if (d != null) {
+                    time = d.getTime();
+                }
             }
             else if (s.equalsIgnoreCase(THE_BIG_CRUNCH))
             {
@@ -1176,19 +1258,26 @@ class FindByDate extends JPanel implements FindFilterFactory
             endTime = to;
         }
 
+        @Override
         public boolean accept (File f, FindProgressCallback callback)
         {
-            if (f == null) return false;
+            if (f == null) {
+                return false;
+            }
 
             long t = f.lastModified();
 
             if (startTime >= 0)
             {
-                if (t < startTime) return false;
+                if (t < startTime) {
+                    return false;
+                }
             }
             if (endTime >= 0)
             {
-                if (t > endTime) return false;
+                if (t > endTime) {
+                    return false;
+                }
             }
 
             return true;
@@ -1252,6 +1341,7 @@ class FindByName extends JPanel implements FindFilterFactory
         add(p,BorderLayout.NORTH);
     }
 
+    @Override
     public FindFilter createFindFilter ()
     {
         return new NameFilter(nameField.getText(),combo.getSelectedIndex(),
@@ -1274,66 +1364,102 @@ class FindByName extends JPanel implements FindFilterFactory
             ignoreCase = ignore;
         }
 
+        @Override
         public boolean accept (File f, FindProgressCallback callback)
         {
-            if (f == null) return false;
+            if (f == null) {
+                return false;
+            }
 
-            if ((match == null) || (match.length() == 0)) return true;
-            if (howToMatch < 0) return true;
+            if ((match == null) || (match.length() == 0)) {
+                return true;
+            }
+            if (howToMatch < 0) {
+                return true;
+            }
 
             String filename = f.getName();
 
 
             if (howToMatch == NAME_CONTAINS_INDEX) {
                 if (ignoreCase) {
-                    if (filename.toLowerCase().indexOf(match.toLowerCase()) >= 0)
+                    if (filename.toLowerCase().indexOf(match.toLowerCase()) >= 0) {
                         return true;
-                    else return false;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else {
-                    if (filename.indexOf(match) >= 0) return true;
-                    else return false;
+                    if (filename.indexOf(match) >= 0) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
             else if (howToMatch == NAME_IS_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.equalsIgnoreCase(match)) return true;
-                    else return false;
+                    if (filename.equalsIgnoreCase(match)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else
                 {
-                    if (filename.equals(match)) return true;
-                    else return false;
+                    if (filename.equals(match)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
             else if (howToMatch == NAME_STARTS_WITH_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.toLowerCase().startsWith(match.toLowerCase()))
+                    if (filename.toLowerCase().startsWith(match.toLowerCase())) {
                         return true;
-                    else return false;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else
                 {
-                    if (filename.startsWith(match)) return true;
-                    else return false;
+                    if (filename.startsWith(match)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
             else if (howToMatch == NAME_ENDS_WITH_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.toLowerCase().endsWith(match.toLowerCase()))
+                    if (filename.toLowerCase().endsWith(match.toLowerCase())) {
                         return true;
-                    else return false;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else
                 {
-                    if (filename.endsWith(match)) return true;
-                    else return false;
+                    if (filename.endsWith(match)) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
 
@@ -1396,6 +1522,7 @@ class FindByContent extends JPanel implements FindFilterFactory
         add(p,BorderLayout.NORTH);
     }
 
+    @Override
     public FindFilter createFindFilter ()
     {
         return new ContentFilter(contentField.getText(),
@@ -1416,11 +1543,18 @@ class FindByContent extends JPanel implements FindFilterFactory
             ignoreCase = ignore;
         }
 
+        @Override
         public boolean accept (File f, FindProgressCallback callback)
         {
-            if (f == null) return false;
-            if (f.isDirectory()) return false;
-            if ((content == null) || (content.length() == 0)) return true;
+            if (f == null) {
+                return false;
+            }
+            if (f.isDirectory()) {
+                return false;
+            }
+            if ((content == null) || (content.length() == 0)) {
+                return true;
+            }
 
             boolean result = false;
             BufferedInputStream in = null;
@@ -1429,10 +1563,12 @@ class FindByContent extends JPanel implements FindFilterFactory
                 long fileLength = f.length();
                 in = new BufferedInputStream(new FileInputStream(f));
                 byte[] contentBytes = null;
-                if (ignoreCase)
+                if (ignoreCase) {
                     contentBytes = content.toLowerCase().getBytes();
-                else
+                }
+                else {
                     contentBytes = content.getBytes();
+                }
                 LocatorStream locator = new LocatorStream(contentBytes);
                 long counter = 0;
                 int callbackCounter = 20; // Only call back every 20 bytes
@@ -1441,8 +1577,9 @@ class FindByContent extends JPanel implements FindFilterFactory
                 {
                     counter++;
                     int matchChar = c;
-                    if (ignoreCase) matchChar =
-                        (int)Character.toLowerCase((char)c);
+                    if (ignoreCase) {
+                        matchChar = (int)Character.toLowerCase((char)c);
+                    }
                     locator.write(matchChar);
 
                     // This search could be time consuming, especially since
@@ -1454,8 +1591,9 @@ class FindByContent extends JPanel implements FindFilterFactory
                         if (--callbackCounter <= 0)
                         {
                             if (!callback.reportProgress(this,
-                                                f,counter,fileLength))
+                                                f,counter,fileLength)) {
                                 return false;
+                            }
                             callbackCounter = 20;
                         }
                     }
@@ -1471,7 +1609,9 @@ class FindByContent extends JPanel implements FindFilterFactory
             finally {
                 try
                 {
-                    if (in != null) in.close();
+                    if (in != null) {
+                        in.close();
+                    }
                 }
                 catch (IOException e)
                 {
@@ -1488,12 +1628,12 @@ class FindByContent extends JPanel implements FindFilterFactory
         {
             private static final long serialVersionUID = 1L;
 
-            public LocatedException (String msg)
+            public LocatedException(String msg)
             {
                 super(msg);
             }
 
-            public LocatedException (long location)
+            public LocatedException(long location)
             {
                 super(String.valueOf(location));
             }
@@ -1515,12 +1655,15 @@ class FindByContent extends JPanel implements FindFilterFactory
                 locate = b;
             }
 
+            @Override
             public void write (int b) throws IOException
             {
-                if (locate == null)
+                if (locate == null) {
                     throw new IOException("NULL locator array");
-                if (locate.length == 0)
+                }
+                if (locate.length == 0) {
                     throw new IOException("Empty locator array");
+                }
 
                 long foundAt = -1;
 
@@ -1596,20 +1739,27 @@ class FindByContent extends JPanel implements FindFilterFactory
                     match = b;
                 }
 
+                @Override
                 public void write (int b) throws IOException
                 {
-                    if (matchMade) return;
-                    if (match == null)
+                    if (matchMade) {
+                        return;
+                    }
+                    if (match == null) {
                         throw new IOException("NULL match array");
+                    }
 
-                    if (match.length == 0)
+                    if (match.length == 0) {
                         throw new IOException("Empty match array");
+                    }
 
-                    if (pos >= match.length)
+                    if (pos >= match.length) {
                         throw new IOException("No match");
+                    }
 
-                    if (b != match[pos])
+                    if (b != match[pos]) {
                         throw new IOException("No match");
+                    }
 
                     pos++;
                     if (pos >= match.length)

@@ -6,28 +6,16 @@ import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.sql.DataSourceFactory;
 
 /**
- * TODO: Doc!
- *
- * @author Claude CHOISNET
+ * 
  */
 @ToDo
 public class MySQLDataSourceFactory
 {
-    //private final static Logger slogger = Logger.getLogger( MySQLDataSourceFactory.class );
-
     private MySQLDataSourceFactory()
     {// All static
     }
 
-    /**
-     *
-     * @param url
-     * @param username
-     * @param password
-     * @param logger
-     * @return
-     * @throws ClassNotFoundException
-     */
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             final String url,
             final String username,
@@ -45,16 +33,7 @@ public class MySQLDataSourceFactory
                 );
     }
 
-    /**
-     *
-     * @param dbHostName
-     * @param dbName
-     * @param username
-     * @param password
-     * @param logger
-     * @return
-     * @throws ClassNotFoundException
-     */
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             final String dbHostName,
             final String dbName,
@@ -74,17 +53,7 @@ public class MySQLDataSourceFactory
                 );
     }
 
-    /**
-     *
-     * @param dbHostName
-     * @param dbPort
-     * @param dbName
-     * @param username
-     * @param password
-     * @param logger
-     * @return
-     * @throws ClassNotFoundException
-     */
+    @Deprecated
     public static DataSource buildMySQLDataSource(
             final String      dbHostName,
             final int         dbPort,

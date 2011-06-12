@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.filechooser;
 
 import java.io.File;
@@ -43,7 +39,7 @@ public class FileNameExtensionFilter extends FileFilter
      * @param description
      * @param extension
      */
-    public FileNameExtensionFilter( String description, String extension)
+    public FileNameExtensionFilter( String description, String extension )
     {
         this.description    = description;
         this.extensions     = new String[1];
@@ -75,9 +71,9 @@ public class FileNameExtensionFilter extends FileFilter
             return true;
         }
 
-        // TODO: Optimization 
-        // get index of last '.'; get rest, toLowerCase() once
-        // and compare rest of string each time
+        // TODO: Optimizations
+        // get index of last '.'; get remaining, toLowerCase() once
+        // and compare remaining of string each time
         for( String s : this.extensions ) {
             if( file.getName().toLowerCase().endsWith( '.' + s ) ) {
                 return true;

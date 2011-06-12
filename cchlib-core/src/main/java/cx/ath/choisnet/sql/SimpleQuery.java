@@ -6,9 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import cx.ath.choisnet.ToDo;
 
@@ -33,7 +31,7 @@ public class SimpleQuery
     private Statement stmt;
 
     /**
-     *  Create a SimpleQuery object from a valid {@link DataSource}
+     *  Create a SimpleQuery from a valid {@link DataSource}
      *
      * @param ds DataSource to use.
      * @throws NullPointerException if ds is null.
@@ -47,26 +45,27 @@ public class SimpleQuery
     }
 
     /**
-     * TODO: Doc!
+     *  Create a SimpleQuery resource name to lookup on {@link InitialContext}
      *
-     * @param resourceName
-     * @throws SimpleDataSourceException
+     * @param resourceName Resource to retrieve on {@link InitialContext}
+     * @throws SimpleDataSourceException if any
+     * @see SimpleDataSource#createDataSource(String)
      */
     public SimpleQuery( final String resourceName )
         throws SimpleDataSourceException
     {
-        super( SimpleQuery.createDataSource( resourceName ) );
+        super( SimpleDataSource.createDataSource( resourceName ) );
 
         conn = null;
         stmt = null;
     }
 
     /**
-     * TODO: Doc!
+     * Execute a SQL query and return corresponding {@link ResultSet}.
      *
-     * @param query
-     * @return
-     * @throws java.sql.SQLException
+     * @param query SQL Query to send to database
+     * @return {@link ResultSet} from SQL query statement
+     * @throws SQLException if any
      */
     public ResultSet executeQuery( final String query )
         throws SQLException
@@ -85,119 +84,104 @@ public class SimpleQuery
             }
         finally {
             if( rset == null ) {
-                flush(); // close connection
+                try {
+                    flush();
+                    }
+                catch( IOException e ) {
+                    // This is probably an SQLException
+                    throw new SQLException( e );
+                    }
                 }
             }
 
         return rset;
     }
 
-    /**
-     * TODO: Doc!
-     *
-     * @param rset
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public static List<String> translateResultSetToStringList(ResultSet rset)
-        throws SQLException
-    {
-        final List<String> list = new ArrayList<String>();
+//    private static List<String> translateResultSetToStringList( final ResultSet rset)
+//        throws SQLException
+//    {
+//        final List<String> list = new ArrayList<String>();
+//
+//        while( rset.next() ) {
+//            list.add( rset.getString(1) );
+//            }
+//
+//        return list;
+//    }
 
-        while( rset.next() ) {
-            list.add( rset.getString(1) );
-            }
+//    private static String[] translateResultSetToStringArray( final ResultSet rset )
+//        throws SQLException
+//    {
+//        List<String>    list    = SimpleQuery.translateResultSetToStringList(rset);
+//        String[]        strings = new String[list.size()];
+//        int             i       = 0;
+//
+//        for(Iterator<String> iter = list.iterator(); iter.hasNext();) {
+//            strings[i++] = iter.next();
+//            }
+//
+//        return strings;
+//    }
 
-        return list;
-    }
+//    /**
+//     * TO DO: Doc!
+//     *
+//     * @param query
+//     * @return
+//     * @throws SQLException if any
+//     */
+//    public String[] translateQueryToStringArray( final String query )
+//        throws SQLException
+//    {
+//        ResultSet   rst = null;
+//        String[]    str;
+//
+//        try {
+//            rst = executeQuery(query);
+//            str = SimpleQuery.translateResultSetToStringArray(rst);
+//            }
+//        finally {
+//            if(rst != null) {
+//                try { rst.close(); } catch(Exception ignore) { }
+//                }
+//            }
+//
+//        return str;
+//    }
 
-    /**
-     * TODO: Doc!
-     *
-     * @param rset
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public static String[] translateResultSetToStringArray(ResultSet rset)
-        throws SQLException
-    {
-        List<String>    list    = SimpleQuery.translateResultSetToStringList(rset);
-        String[]        strings = new String[list.size()];
-        int             i       = 0;
-
-        for(Iterator<String> iter = list.iterator(); iter.hasNext();) {
-            strings[i++] = iter.next();
-            }
-
-        return strings;
-    }
-
-    /**
-     * TODO: Doc!
-     *
-     * @param query
-     * @return
-     * @throws java.sql.SQLException
-     */
-    public String[] translateQueryToStringArray(String query)
-        throws SQLException
-    {
-        ResultSet   rst = null;
-        String[]    str;
-
-        try {
-            rst = executeQuery(query);
-            str = SimpleQuery.translateResultSetToStringArray(rst);
-            }
-        finally {
-            if(rst != null) {
-                try { rst.close(); } catch(Exception ignore) { }
-                }
-            }
-
-        return str;
-    }
-
-    /**
-     * TODO: Doc!
-     *
-     * @param dataSourceName
-     * @param query
-     * @return
-     * @throws SimpleDataSourceException
-     * @throws SQLException
-     */
-    public static String[] translateQueryToStringArray(
-            String  dataSourceName,
-            String  query
-            )
-        throws SimpleDataSourceException, SQLException
-    {
-        SimpleQuery squery = null;
-        String[]    str;
-
-        try {
-            squery = new SimpleQuery(dataSourceName);
-            str    = squery.translateQueryToStringArray(query);
-            }
-        finally {
-            if(squery != null) {
-                try { squery.close(); } catch(Exception ignore) { }
-                }
-            }
-
-        return str;
-    }
+//    @Deprecated
+//    public static String[] translateQueryToStringArray(
+//            String  dataSourceName,
+//            String  query
+//            )
+//        throws SimpleDataSourceException, SQLException
+//    {
+//        SimpleQuery squery = null;
+//        String[]    str;
+//
+//        try {
+//            squery = new SimpleQuery(dataSourceName);
+//            str    = squery.translateQueryToStringArray(query);
+//            }
+//        finally {
+//            if(squery != null) {
+//                try { squery.close(); } catch(Exception ignore) { }
+//                }
+//            }
+//
+//        return str;
+//    }
 
     /**
-     * TODO: Doc!
+     * Get a new {@link Connection} from data source
      *
-     * @throws java.sql.SQLException
+     * @throws SQLException if any (should NOT be called if {@link #getConnection()} has
+     * return a valid {@link Connection})
      */
     protected void openConnection() throws SQLException
     {
         if( conn != null ) {
-            throw new SQLException("SimpleQuery InvalidState [conn != null]");
+            throw new SQLException("SimpleQuery Invalid State [conn != null]");
             }
         else {
             conn = createConnectionFromDataSource();
@@ -205,9 +189,9 @@ public class SimpleQuery
     }
 
     /**
-     * TODO: Doc!
-     *
-     * @return
+     * Returns internal {@link Connection}
+     * @return Internal {@link Connection}, could be null
+     * @see #openConnection()
      */
     protected Connection getConnection()
     {
@@ -215,8 +199,7 @@ public class SimpleQuery
     }
 
     /**
-     * TODO: Doc!
-     *
+     * Free all resources
      */
     protected void closeConnection()
     {
@@ -232,7 +215,7 @@ public class SimpleQuery
     }
 
     @Override
-    public void flush()
+    public void flush() throws IOException
     {
         closeConnection();
     }

@@ -1,9 +1,7 @@
 package cx.ath.choisnet.test;
 
 /**
- * Provide some tools to build test cases
- *
- * @author Claude CHOISNET
+ * Provide some extra tools to build JUnit test cases
  */
 public class Assert
 {
@@ -125,5 +123,54 @@ public class Assert
                     + " (item:" + i + "=" + a + ")"
                     );
             }
+    }
+
+    /**
+     * Compare byte arrays
+     *
+     * @param message
+     * @param expected
+     * @param actual
+     */
+    public static void assertEquals(
+            String message,
+            byte[] expected,
+            byte[] actual
+            )
+    {
+        junit.framework.Assert.assertEquals(
+                String.format(
+                        "%s - Not same size",
+                        message
+                        ),
+                expected.length,
+                actual.length
+                );
+
+        for(int i=0; i<expected.length;i++) {
+            junit.framework.Assert.assertEquals(
+                String.format(
+                        "%s - Not same value offet %d",
+                        message,
+                        i
+                        ),
+                expected[i],
+                actual[i]
+               );
+        }
+    }
+
+    /**
+     * Compare byte arrays
+     *
+     * @param expected
+     * @param actual
+     */
+    public static void assertEquals(
+            byte[] expected,
+            byte[] actual
+            )
+    {
+        assertEquals("byte[] not equals", expected, actual);
     }
 }

@@ -8,14 +8,14 @@ import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import cx.ath.choisnet.io.SerializableHelper;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
-import cx.ath.choisnet.test.ExtendTestCase;
+import cx.ath.choisnet.test.Assert;
 import java.io.ByteArrayInputStream;
+import junit.framework.TestCase;
 
 /**
  * 
- * @author Claude
  */
-public class ByteArrayBuilderTest extends ExtendTestCase 
+public class ByteArrayBuilderTest extends TestCase 
 {
     private final static byte[] BYTES = {'a','b','c','d','e','f'};
     private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
@@ -24,25 +24,25 @@ public class ByteArrayBuilderTest extends ExtendTestCase
     public void testConstructor1()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder();
-        assertEquals("bad length",0,bab.length());
-        assertEquals("bad array",0,bab.array().length);
+        TestCase.assertEquals("bad length",0,bab.length());
+        TestCase.assertEquals("bad array",0,bab.array().length);
     }
     
     public void testConstructor2()
     {
         int capacity = 10;
         ByteArrayBuilder bab = new ByteArrayBuilder(capacity);
-        assertEquals("bad length",0,bab.length());
-        assertEquals("bad array",0,bab.array().length);
-        assertEquals("bad capacity()",capacity,bab.capacity());
+        TestCase.assertEquals("bad length",0,bab.length());
+        TestCase.assertEquals("bad array",0,bab.array().length);
+        TestCase.assertEquals("bad capacity()",capacity,bab.capacity());
     }
     
     public void testConstructor3()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
-        assertEquals("bad length",BYTES.length,bab.length());
+        TestCase.assertEquals("bad length",BYTES.length,bab.length());
 
-        assertEquals("mitchmatch",BYTES,bab.array());
+        Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
 //        
 //        for(int i = 0;i<bytes.length;i++) {
@@ -57,16 +57,16 @@ public class ByteArrayBuilderTest extends ExtendTestCase
     public void testConstructor4()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(null);
-        assertEquals("bad length",0,bab.length());
-        assertEquals("bad array",0,bab.array().length);
+        TestCase.assertEquals("bad length",0,bab.length());
+        TestCase.assertEquals("bad array",0,bab.array().length);
     }
 
     public void test_reset()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         bab.reset();
-        assertEquals("bad length",0,bab.length());
-        assertEquals("bad array",0,bab.array().length);
+        TestCase.assertEquals("bad length",0,bab.length());
+        TestCase.assertEquals("bad array",0,bab.array().length);
     }
     
     public void test_setLength()
@@ -74,13 +74,13 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         final int len = 4;
         bab.setLength( len );
-        assertEquals("bad length",len,bab.length());
-        assertEquals("bad array",len,bab.array().length);
+        TestCase.assertEquals("bad length",len,bab.length());
+        TestCase.assertEquals("bad array",len,bab.array().length);
         
         byte[] bytes = bab.array();
         
         for(int i = 0;i<bytes.length;i++) {
-            assertEquals(
+            TestCase.assertEquals(
                     String.format( "bad value [%d]",i),
                     BYTES[i],
                     bytes[i]
@@ -88,21 +88,21 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         }
         
         bab.setLength( BIG_CAPACITY );
-        assertEquals("bad length",BIG_CAPACITY,bab.length());
-        assertEquals("bad array",BIG_CAPACITY,bab.array().length);
+        TestCase.assertEquals("bad length",BIG_CAPACITY,bab.length());
+        TestCase.assertEquals("bad array",BIG_CAPACITY,bab.array().length);
 
         bytes = bab.array();
         
         for(int i = 0;i<bytes.length;i++) {
             if( i<len ) {
-                assertEquals(
+                TestCase.assertEquals(
                         String.format( "bad value [%d]",i ),
                         BYTES[i],
                         bytes[i]
                         );
             }
             else {
-                assertEquals(
+                TestCase.assertEquals(
                         String.format( "bad value [%d]",i ),
                         0,
                         bytes[i]
@@ -116,10 +116,10 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         bab.ensureCapacity(BIG_CAPACITY);
         
-        assertEquals("bad length",BYTES.length,bab.length());
-        assertEquals("bad array",BYTES.length,bab.array().length);
+        TestCase.assertEquals("bad length",BYTES.length,bab.length());
+        TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
-        assertEquals("mitchmatch",BYTES,bab.array());
+        Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
 //        
 //        for(int i = 0;i<bytes.length;i++) {
@@ -140,8 +140,8 @@ public class ByteArrayBuilderTest extends ExtendTestCase
             bab.append(BYTES);
         }
         
-        assertEquals("bad length",BYTES.length * count,bab.length());
-        assertEquals("bad array",BYTES.length * count,bab.array().length);
+        TestCase.assertEquals("bad length",BYTES.length * count,bab.length());
+        TestCase.assertEquals("bad array",BYTES.length * count,bab.array().length);
    }
 
     public void test_append_bytes2()
@@ -151,12 +151,12 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         final int len = 3;
         bab.append( BYTES, offset, len );
         
-        assertEquals("bad length",len,bab.length());
-        assertEquals("bad array",len,bab.array().length);
+        TestCase.assertEquals("bad length",len,bab.length());
+        TestCase.assertEquals("bad array",len,bab.array().length);
         
         byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
-            assertEquals(
+            TestCase.assertEquals(
                     String.format( "bad value [%d]",i ),
                     BYTES[i + offset],
                     bytes[i]
@@ -172,10 +172,10 @@ public class ByteArrayBuilderTest extends ExtendTestCase
             bab.append( BYTES[i] );
         }
         
-        assertEquals("bad length",BYTES.length,bab.length());
-        assertEquals("bad array",BYTES.length,bab.array().length);
+        TestCase.assertEquals("bad length",BYTES.length,bab.length());
+        TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
         
-        assertEquals("mitchmatch",BYTES,bab.array());
+        Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
 //        for( int i=0; i<bytes.length;i++) {
 //            assertEquals(
@@ -202,7 +202,7 @@ public class ByteArrayBuilderTest extends ExtendTestCase
             
             fos.close();
         }
-        assertEquals( "tmp file bad size",size,file.length());
+        TestCase.assertEquals( "tmp file bad size",size,file.length());
 
         FileInputStream     fis         = new FileInputStream(file );
         ReadableByteChannel fileChannel = fis.getChannel();
@@ -212,11 +212,11 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         bab.append( fileChannel );
         fis.close();
         
-        assertEquals("bab bad len",size,bab.length());
+        TestCase.assertEquals("bab bad len",size,bab.length());
 
         byte[] bytes = bab.array();
 
-        assertEquals("array bad len",size,bytes.length);
+        TestCase.assertEquals("array bad len",size,bytes.length);
 
         //clean up
         file.delete();
@@ -240,7 +240,7 @@ public class ByteArrayBuilderTest extends ExtendTestCase
 //        };
         ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( is );
-        assertEquals("mitchmatch",BYTES,bab.array());
+        Assert.assertEquals("mitchmatch",BYTES,bab.array());
     }
 
     public void test_startsWith()
@@ -253,10 +253,10 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         }
         
         boolean sw0 = bab.startsWith( new ByteArrayBuilder(BYTES) );
-        assertTrue("Should start with !",sw0);
+        TestCase.assertTrue("Should start with !",sw0);
 
         boolean sw1 = bab.startsWith( BYTES );
-        assertTrue("Should start with !",sw1);
+        TestCase.assertTrue("Should start with !",sw1);
     }
 
     public void test_endsWith()
@@ -269,29 +269,29 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         bab.append( BYTES );
         
         boolean sw0 = bab.endsWith( new ByteArrayBuilder(BYTES) );
-        assertTrue("Should end with !",sw0);
+        TestCase.assertTrue("Should end with !",sw0);
 
         boolean sw1 = bab.endsWith( BYTES );
-        assertTrue("Should end with !",sw1);
+        TestCase.assertTrue("Should end with !",sw1);
     }
 
     public void test_compareTo()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
-        assertEquals("Should be equals",0,bab.compareTo( new ByteArrayBuilder(BYTES) ));
-        assertTrue("Should be diffents",0!=bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ));
+        TestCase.assertEquals("Should be equals",0,bab.compareTo( new ByteArrayBuilder(BYTES) ));
+        TestCase.assertTrue("Should be diffents",0!=bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ));
     }
 
     public void test_equals()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
-        assertTrue("Should be equals",bab.equals( new ByteArrayBuilder(BYTES) ));
-        assertFalse("Should be diffents",bab.equals( new ByteArrayBuilder(OTHERBYTES) ));
+        TestCase.assertTrue("Should be equals",bab.equals( new ByteArrayBuilder(BYTES) ));
+        TestCase.assertFalse("Should be diffents",bab.equals( new ByteArrayBuilder(OTHERBYTES) ));
         ByteArrayBuilder nullBab = null;
-        assertFalse("Should be diffents",bab.equals( nullBab ));
-        assertFalse("Should be diffents",bab.equals( new Object() ));
+        TestCase.assertFalse("Should be diffents",bab.equals( nullBab ));
+        TestCase.assertFalse("Should be diffents",bab.equals( new Object() ));
     }
 
 //TODO    @Override
@@ -306,13 +306,13 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
         ByteArrayBuilder clone  = bab.clone();
         
-        assertTrue("Should be equals",bab.equals( clone ));
-        assertEquals("bad length",BYTES.length,bab.length());
-        assertEquals("bad array",BYTES.length,bab.array().length);
+        TestCase.assertTrue("Should be equals",bab.equals( clone ));
+        TestCase.assertEquals("bad length",BYTES.length,bab.length());
+        TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
         byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
-            assertEquals(
+            TestCase.assertEquals(
                     String.format( "bad value [%d]",i ),
                     BYTES[i],
                     bytes[i]
@@ -325,13 +325,13 @@ public class ByteArrayBuilderTest extends ExtendTestCase
         ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
         ByteArrayBuilder clone  = SerializableHelper.clone( bab, ByteArrayBuilder.class );
 
-        assertTrue("Should be equals",bab.equals( clone ));
-        assertEquals("bad length",BYTES.length,bab.length());
-        assertEquals("bad array",BYTES.length,bab.array().length);
+        TestCase.assertTrue("Should be equals",bab.equals( clone ));
+        TestCase.assertEquals("bad length",BYTES.length,bab.length());
+        TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
         byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
-            assertEquals(
+            TestCase.assertEquals(
                     String.format( "bad value [%d]",i ),
                     BYTES[i],
                     bytes[i]

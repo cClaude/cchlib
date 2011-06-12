@@ -1,64 +1,65 @@
-/**
- * 
- */
 package cx.ath.choisnet.test;
 
-import junit.framework.TestCase;
-
 /**
- * Provide some tools to build test cases
- * 
- * @author Claude CHOISNET
+ * @deprecated use {@link Assert#assertEquals(byte[],byte[])} or {@link Assert#assertEquals(String,byte[],byte[])} instead
  */
-public class ExtendTestCase extends TestCase
+@Deprecated
+public class ExtendTestCase //extends TestCase <- remove avoid JUnit tests crash under eclipse
 {
-
+//    /**
+//     * Compare byte arrays
+//     *
+//     * @param message
+//     * @param expected
+//     * @param actual
+//     */
     /**
-     * Compare byte arrays
-     * 
-     * @param message
-     * @param expected
-     * @param actual
+     * @deprecated use {@link Assert#assertEquals(String,byte[],byte[])} instead
      */
-    public void assertEquals(
+    public static void assertEquals(
             String message,
             byte[] expected,
             byte[] actual
             )
     {
-        assertEquals(
-                String.format( 
-                        "%s - Not same size",
-                        message 
-                        ),
-                expected.length,
-                actual.length
-                );
-
-        for(int i=0; i<expected.length;i++) {
-            assertEquals(
-                String.format( 
-                        "%s - Not same value offet %d", 
-                        message,
-                        i 
-                        ),
-                expected[i],
-                actual[i]
-               );
-        }
+//        TestCase.assertEquals(
+//                String.format(
+//                        "%s - Not same size",
+//                        message
+//                        ),
+//                expected.length,
+//                actual.length
+//                );
+//
+//        for(int i=0; i<expected.length;i++) {
+//            TestCase.assertEquals(
+//                String.format(
+//                        "%s - Not same value offet %d",
+//                        message,
+//                        i
+//                        ),
+//                expected[i],
+//                actual[i]
+//               );
+//        }
+        Assert.assertEquals( message, expected, actual );
     }
-    
+
+//    /**
+//     * Compare byte arrays
+//     *
+//     * @param expected
+//     * @param actual
+//     */
     /**
-     * Compare byte arrays
-     * 
-     * @param expected
-     * @param actual
+     * @deprecated use {@link Assert#assertEquals(byte[],byte[])} instead
      */
-    public void assertEquals(
+    public static void assertEquals(
             byte[] expected,
             byte[] actual
             )
     {
-        assertEquals("byte[] not equals", expected, actual);
+//        assertEquals("byte[] not equals", expected, actual);
+        Assert.assertEquals(expected, actual);
     }
 }

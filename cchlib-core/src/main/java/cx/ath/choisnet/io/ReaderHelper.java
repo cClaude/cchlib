@@ -5,9 +5,10 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Tools for {@link Reader} operations
+ * Extra tools for {@link Reader} operations
  *
- * @author Claude CHOISNET
+ * @see InputStreamHelper
+ * @see FileHelper
  */
 public final class ReaderHelper
 {
@@ -30,7 +31,7 @@ public final class ReaderHelper
        throws IOException
    {
        StringBuilder sb     = new StringBuilder();
-       char[]        buffer = new char[DEFAULT_BUFFER_SIZE];
+       char[]        buffer = new char[ DEFAULT_BUFFER_SIZE ];
 
        try {
            int len;
