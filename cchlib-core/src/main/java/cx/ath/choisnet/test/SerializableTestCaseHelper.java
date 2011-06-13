@@ -6,10 +6,12 @@ import cx.ath.choisnet.io.SerializableHelper;
 import junit.framework.TestCase; // Use TestCase instead Assert to not confused with Assert that exist in this package
 
 /**
- * @deprecated use {@link SerializableTestCaseHelper} instead
+ * Helper to build {@link TestCase} to test {@link Serializable} objects
+ * 
+ * @since 1.4.5
  */
 final
-public class SerializableTestCase //extends TestCase <- remove avoid JUnit tests crash under eclipse
+public class SerializableTestCaseHelper
 {
     /**
      * Clone giving object using Serialization and

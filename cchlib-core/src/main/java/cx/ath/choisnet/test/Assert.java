@@ -3,6 +3,7 @@ package cx.ath.choisnet.test;
 /**
  * Provide some extra tools to build JUnit test cases
  */
+final
 public class Assert
 {
     private Assert()
@@ -172,5 +173,41 @@ public class Assert
             )
     {
         assertEquals("byte[] not equals", expected, actual);
+    }
+
+    /**
+     * Compare char arrays
+     *
+     * @param message
+     * @param expected
+     * @param actual
+     * @since 1.4.5
+     */
+    public static void assertEquals(
+            String message,
+            char[] expected,
+            char[] actual
+            )
+    {
+        junit.framework.Assert.assertEquals(
+                String.format(
+                        "%s - Not same size",
+                        message
+                        ),
+                expected.length,
+                actual.length
+                );
+
+        for(int i=0; i<expected.length;i++) {
+            junit.framework.Assert.assertEquals(
+                String.format(
+                        "%s - Not same value offet %d",
+                        message,
+                        i
+                        ),
+                expected[i],
+                actual[i]
+               );
+        }
     }
 }

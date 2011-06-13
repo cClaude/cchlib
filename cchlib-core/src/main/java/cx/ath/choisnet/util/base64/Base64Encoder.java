@@ -3,81 +3,157 @@ package cx.ath.choisnet.util.base64;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Arrays;
 
 /**
+ * Handle Base 64 encoding
  *
- *
+ * @see Base64Decoder
  */
 public class Base64Encoder extends Base64
 {
+    private byte[] buffer;
+
     /**
-     *
-     * @param str
-     * @return
-     * @throws UnsupportedEncodingException
+     * Create a Base64Encoder
      */
-    public static String encode( String str )
+    public Base64Encoder()
+    {
+        this( DEFAULT_BUFFER_SIZE );
+    }
+
+    /**
+     * Create a Base64Encoder
+     *
+     * @param bufferSize Size of buffer to use for I/O operations
+     */
+    public Base64Encoder( final int bufferSize )
+    {
+        this.buffer = new byte[ bufferSize ];
+    }
+
+    /**
+     * Encode {@link InputStream} to {@link Writer}
+     *
+     * @param in    {@link InputStream} to encode
+     * @param out   {@link Writer} where to store base 64 result
+     * @throws IOException if any
+     * @throws UnsupportedEncodingException if any
+     */
+    public synchronized void encode( final InputStream in, final Writer out )
+        throws IOException, UnsupportedEncodingException
+    {
+        //byte[] buffer   = new byte[this.bufferSize ];
+        Writer writer = new BufferedWriter( out );
+
+//        for(;;) {
+//            int len;
+//
+//            for( len = 0; len<buffer.length; len++ ) {
+//                int c = in.read();
+//
+//                if( c < 0 ) {
+//                    break; // EOF
+//                    }
+//                buffer[ len ] = (byte)c;
+//                }
+//
+//            if( len == 0 ) {
+//                writer.flush();
+//                return;
+//                }
+//
+//            char[] enc = encodeToChar( buffer, 0, len );
+//            writer.write( enc );
+//            }
+        int len;
+
+        while( (len = in.read( buffer )) > 0 ) {
+            char[] enc = encodeToChar( buffer, 0, len );
+            writer.write( enc );
+            }
+
+        writer.flush();
+    }
+
+    /**
+     * Encode a {@link String} using default {@link java.nio.charset.Charset}
+     *
+     * @param str String to encode
+     * @return Base 64 encoded string.
+     * @throws UnsupportedEncodingException if any
+     */
+    public static String encode( final String str )
         throws UnsupportedEncodingException
     {
         return encode( str.getBytes() );
     }
 
     /**
+     * Encode a {@link String}
      *
-     * @param str
-     * @param charsetName
-     * @return
-     * @throws UnsupportedEncodingException
+     * @param str           String to encode
+     * @param charsetName   {@link java.nio.charset.Charset} to use transform given string into bytes.
+     * @return Base 64 encoded string.
+     * @throws UnsupportedEncodingException if any
      */
-    public static String encode( String str, String charsetName )
+    public static String encode( final String str, final String charsetName )
         throws UnsupportedEncodingException
     {
-        return Base64Encoder.encode( str.getBytes( charsetName ) );
+        return encode( str.getBytes( charsetName ) );
     }
 
     /**
+     * Encode an array of bytes
      *
-     * @param bytes
-     * @return
-     * @throws UnsupportedEncodingException
+     * @param bytes Array of bytes to encode
+     * @return Base 64 encoded string.
+     * @throws UnsupportedEncodingException if any
      */
-    public static String encode( byte[] bytes )
+    public static String encode( final byte[] bytes )
         throws UnsupportedEncodingException
     {
-        return  new String( encodeToChar( bytes ) );
+        return new String( encodeToChar( bytes ) );
     }
 
     /**
+     * Encode an array of bytes
      *
      * @param bytes
      * @param offset
      * @param length
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return Base 64 encoded array of char
+     * @throws UnsupportedEncodingException if any
      */
-    public static char[] encodeToChar( byte[] bytes, int offset, int length )
+    public static char[] encodeToChar(
+            final byte[]    bytes,
+            final int       offset,
+            final int       length
+            )
         throws UnsupportedEncodingException
     {
-        byte[] resize = Arrays.copyOfRange( bytes, offset, length );
-
-        return encodeToChar( resize );
+        if( offset != 0 || length != bytes.length ) {
+            // Need a new array...
+            return encodeToChar( Arrays.copyOfRange( bytes, offset, length ) );
+            }
+        else {
+            return encodeToChar( bytes );
+            }
     }
 
     /**
+     * Encode an array of bytes
      *
      * @param bytes
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return Base 64 encoded array of char
+     * @throws UnsupportedEncodingException if any
      */
-    public static char[] encodeToChar( byte[] bytes )
+    public static char[] encodeToChar( final byte[] bytes )
         throws UnsupportedEncodingException
     {
-        char[] chars = encodeRaw( bytes );
+        char[] chars = private_encodeRaw( bytes );
 
         // Fix chars length!
         int i = chars.length - 1;
@@ -97,42 +173,45 @@ public class Base64Encoder extends Base64
         return Arrays.copyOf( chars, i );
     }
 
-    private static char[] encodeRaw( byte[] bytes )
+    // result char[] must be fixed !
+    private static char[] private_encodeRaw( final byte[] bytes_ )
         throws UnsupportedEncodingException
     {
-        if( bytes.length == 0 ) {
+        if( bytes_.length == 0 ) {
             return new char[0];
             }
 
         try {
             int    k = 0;
-            int    length = bytes.length;
+            int    length = bytes_.length;
             char[] ac     = new char[(length / 3) * 4 + 4];
             int    b      = (length / 3) * 3;
             int    i;
 
             for(i = 0; i < b; i += 3) {
-                int j = bytes[i] << 16 | bytes[i + 1] << 8 | bytes[i + 2];
+                int j = (bytes_[i] & 0x00FF) << 16 | (bytes_[i + 1] & 0x00FF) << 8 | (bytes_[i + 2] & 0x00FF);
+
                 ac[k + 3] = BASE64[j & 0x3f];
                 ac[k + 2] = BASE64[j >>> 6 & 0x3f];
                 ac[k + 1] = BASE64[j >>> 12 & 0x3f];
                 ac[k] = BASE64[j >>> 18 & 0x3f];
                 k += 4;
-            }
+                }
 
             if(i < length) {
-                ac[k]     = BASE64[bytes[i] >>> 2];
+                //ac[k]     = BASE64[bytes[i] >>> 2];
+                ac[k]     = BASE64[(bytes_[i] & 0x00FF)>>> 2];
                 ac[k + 3] = '=';
-                int l = (bytes[i] & 3) << 4;
+                int l = ((bytes_[i] & 0x00FF) & 3) << 4;
                 ac[k + 1] = BASE64[l];
                 ac[k + 2] = '=';
 
                 if(i != length - 1) {
-                    ac[k + 1] = BASE64[l | (bytes[i + 1] & 0xf0) >>> 4];
-                    ac[k + 2] = BASE64[(bytes[i + 1] & 0xf) << 2];
+                    ac[k + 1] = BASE64[l | ((bytes_[i + 1] & 0x00FF) & 0xf0) >>> 4];
+                    ac[k + 2] = BASE64[((bytes_[i + 1] & 0x00FF) & 0xf) << 2];
+                    }
                 }
-            }
-            return ac;//new String(ac);
+            return ac;
         }
         catch(Exception e) {
             UnsupportedEncodingException uee = new UnsupportedEncodingException("Base64Encode");
@@ -141,49 +220,4 @@ public class Base64Encoder extends Base64
             throw uee;
         }
     }
-
-    private static final int DEFAULT_BUFFER_SIZE = 1024;
-    private int bufferSize;
-
-    public Base64Encoder()
-    {
-        this( DEFAULT_BUFFER_SIZE );
-    }
-
-    public Base64Encoder( int bufferSize )
-    {
-        this.bufferSize = bufferSize;
-    }
-
-    // TODO: method using InputStream/OutputStream
-    // and one using Reader/Writer
-    // decode par part ?
-    public void encode( InputStream in, OutputStream out )
-        throws IOException, UnsupportedEncodingException
-    {
-        byte[] buffer   = new byte[this.bufferSize ];
-        Writer writer   = new BufferedWriter( new OutputStreamWriter( out ) );
-
-        for(;;) {
-            int len;
-
-            for( len = 0; len<buffer.length; len++ ) {
-                int c = in.read();
-
-                if( c < 0 ) {
-                    break; // EOF
-                    }
-                buffer[ len ] = (byte)c;
-                }
-
-            if( len == 0 ) {
-                return;
-                }
-
-            char[] enc = encodeToChar( buffer, 0, len );
-            writer.write( enc );
-            }
-    }
-
-
 }

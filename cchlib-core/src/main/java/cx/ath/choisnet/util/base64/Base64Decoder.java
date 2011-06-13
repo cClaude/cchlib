@@ -16,8 +16,8 @@ import java.nio.charset.Charset;
  */
 public class Base64Decoder extends Base64
 {
-    private static final int DEFAULT_BUFFER_SIZE = 1024;
-    private int bufferSize;
+    //private static final int DEFAULT_BUFFER_SIZE = 1024;
+    private char[] buffer;
 
     /**
      * Create a Base64Decoder
@@ -32,14 +32,18 @@ public class Base64Decoder extends Base64
      *
      * @param bufferSize Buffer size to use for IO operations
      */
-    public Base64Decoder( int bufferSize )
+    public Base64Decoder( final int bufferSize )
     {
+        int _bufferSize;
+
         if( bufferSize%4 != 0 ) {
-            this.bufferSize = ((bufferSize / 4) + 1)*4;
+            _bufferSize = ((bufferSize / 4) + 1)*4;
             }
         else {
-            this.bufferSize = bufferSize;
+            _bufferSize = bufferSize;
             }
+
+        this.buffer = new char[ _bufferSize ];
     }
 
     /**
@@ -49,8 +53,6 @@ public class Base64Decoder extends Base64
     public void decode( InputStream in, OutputStream out )
         throws Base64FormatException, IOException
     {
-        char[] buffer = new char[this.bufferSize];
-
         for(;;) {
             int len;
 
@@ -94,28 +96,16 @@ public class Base64Decoder extends Base64
     public void decode( final Reader in, final OutputStream out )
         throws Base64FormatException, IOException
     {
-        char[] buffer = new char[this.bufferSize];
+        int len;
 
-        for(;;) {
-            int len;
-
-            for( len = 0; len<buffer.length; len++ ) {
-                int c = in.read();
-
-                if( c < 0 ) {
-                    break; // EOF
-                }
-                buffer[ len ] = (char)c;
-            }
-
-            if( len == 0 ) {
-                return;
-            }
-
+        while( (len = in.read( buffer )) > 0 ) {
+            System.out.println( "BUF:" + new String( buffer ) );
+            System.out.println( "LEN:" + len);
             byte[] dec = decode( buffer, 0, len);
+            System.out.println( "dLEN:" + dec.length);
 
             out.write( dec );
-        }
+            }
     }
 
     /**
@@ -132,91 +122,18 @@ public class Base64Decoder extends Base64
         decode( new CharArrayReader( datas ), out );
     }
 
-    /*
-    public void decode(InputStream in, OutputStream out)
-        throws Base64FormatException, java.io.IOException
-    {
-        byte buffer[];
-        byte chunk[];
-        int got;
-        int ready;
-        buffer = new byte[BUFFER_SIZE];
-        chunk = new byte[4];
-
-        got = -1;
-        ready = 0;
-
-        for(;;) { //_L2:
-            int skiped;
-
-            if((got = in.read(buffer)) <= 0) {
-                //break MISSING_BLOCK_LABEL_181;
-                break;
-            }
-            skiped = 0;
-//_L4:
-//  if(skiped >= got) goto _L2; else goto _L1
-            if( skiped >= got ) {
-                continue;
-            }
-//_L1:
-            if(ready >= 4) {
-                //break MISSING_BLOCK_LABEL_86;
-                break;
-            }
-
-//        if(skiped < got) goto _L3; else goto _L2
-            if(!(skiped < got)) {
-                continue;
-            }
-//_L3:
-            int ch = check(buffer[skiped++]);
-
-            if(ch >= 0) {
-                chunk[ready++] = (byte)ch;
-            }
-        //  goto _L1
-        //  goto _L2
-
-        if(chunk[2] == 65) {
-            out.write(get1(chunk, 0));
-            return;
-        }
-
-        if(chunk[3] == 65) {
-            out.write(get1(chunk, 0));
-            out.write(get2(chunk, 0));
-            return;
-        }
-        out.write(get1(chunk, 0));
-        out.write(get2(chunk, 0));
-        out.write(get3(chunk, 0));
-        ready = 0;
-//          goto _L4
-        } // for(;;)
-
-        if(ready != 0) {
-            throw new Base64FormatException("Invalid length.");
-        }
-        else {
-            out.flush();
-            return;
-        }
-    }
-    */
-
      /**
      * Efficient decode method for String
      *
      * @param s String to decode
-     * @param charsetName
+     * @param charsetName   {@link java.nio.charset.Charset} to use to encode String
      * @return decoded String according to Charset
      * @throws UnsupportedEncodingException
      */
-    public static String decode(String s, String charsetName )
+    public static String decode( String s, String charsetName )
         throws UnsupportedEncodingException
     {
-        byte[] dec = decode(s.toCharArray(),0,s.length());
+        byte[] dec = decode( s.toCharArray(), 0, s.length() );
 
         return new String( dec, charsetName );
     }
@@ -249,47 +166,66 @@ public class Base64Decoder extends Base64
     }
 
     /**
-     * Efficient decode method pour char arrays
+     * Efficient decode method for char arrays
      *
-     * @param in
-     * @param iOff
-     * @param iLen
+     * @param in Char array to decode
      * @return an array of bytes
      */
-    public static byte[] decode (char[] in, int iOff, int iLen)
+    public static byte[] decode( char[] in )
     {
-        if (iLen%4 != 0) {
+        return decode( in, 0, in.length );
+    }
+
+    /**
+     * Efficient decode method for char arrays
+     *
+     * @param in        Char array to decode
+     * @param offset    Index of first char to use to decode
+     * @param length    Number of char to read in array (must be divisible by 4)
+     * @return an array of bytes
+     */
+    public static byte[] decode( char[] in, int offset, int length )
+    {
+        if( length%4 != 0 ) {
             throw new IllegalArgumentException ("Length of Base64 encoded input string is not a multiple of 4.");
-        }
-
-        while (iLen > 0 && in[iOff+iLen-1] == '=') iLen--;
-        int oLen = (iLen*3) / 4;
-        byte[] out = new byte[oLen];
-        int ip = iOff;
-        int iEnd = iOff + iLen;
-        int op = 0;
-
-        while (ip < iEnd) {
-           int i0 = in[ip++];
-           int i1 = in[ip++];
-           int i2 = ip < iEnd ? in[ip++] : 'A';
-           int i3 = ip < iEnd ? in[ip++] : 'A';
-           if (i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127) {
-              throw new IllegalArgumentException ("Illegal character in Base64 encoded data. (<127)");
-           }
-           int b0 = map2[i0];
-           int b1 = map2[i1];
-           int b2 = map2[i2];
-           int b3 = map2[i3];
-           if (b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0) {
-              throw new IllegalArgumentException ("Illegal character in Base64 encoded data. (>0)");
             }
-           int o0 = ( b0       <<2) | (b1>>>4);
-           int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
-           int o2 = ((b2 &   3)<<6) |  b3;
-           out[op++] = (byte)o0;
-           if (op<oLen) out[op++] = (byte)o1;
-           if (op<oLen) out[op++] = (byte)o2; }
+
+        while( length > 0 && in[offset+length-1] == '=' ) {
+            length--;
+            }
+
+        int     oLen    = (length*3) / 4;
+        byte[]  out     = new byte[oLen];
+        int     ip      = offset;
+        int     iEnd    = offset + length;
+        int     op      = 0;
+
+        while( ip < iEnd ) {
+            int i0 = in[ip++];
+            int i1 = in[ip++];
+            int i2 = ip < iEnd ? in[ip++] : 'A';
+            int i3 = ip < iEnd ? in[ip++] : 'A';
+            if( i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127 ) {
+                throw new IllegalArgumentException(
+                    "Illegal character in Base64 encoded data. (<127) : ip=" + ip
+                    );
+                }
+            int b0 = map2[i0];
+            int b1 = map2[i1];
+            int b2 = map2[i2];
+            int b3 = map2[i3];
+            if( b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ) {
+                throw new IllegalArgumentException(
+                    "Illegal character in Base64 encoded data. (>0) : ip=" + ip
+                    );
+                }
+            int o0 = ( b0       <<2) | (b1>>>4);
+            int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
+            int o2 = ((b2 &   3)<<6) |  b3;
+            out[op++] = (byte)o0;
+            if (op<oLen) out[op++] = (byte)o1;
+            if (op<oLen) out[op++] = (byte)o2;
+            }
         return out;
         }
 }

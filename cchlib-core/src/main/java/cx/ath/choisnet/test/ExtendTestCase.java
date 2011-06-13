@@ -4,6 +4,7 @@ package cx.ath.choisnet.test;
  * @deprecated use {@link Assert#assertEquals(byte[],byte[])} or {@link Assert#assertEquals(String,byte[],byte[])} instead
  */
 @Deprecated
+final
 public class ExtendTestCase //extends TestCase <- remove avoid JUnit tests crash under eclipse
 {
 //    /**

@@ -7,9 +7,10 @@ import cx.ath.choisnet.io.FileFilterHelper;
 import cx.ath.choisnet.io.FileIterator;
 
 /**
- * use {@link AssertHelper} instead
+ * @deprected use {@link AssertHelper} instead
  */
 @Deprecated
+final
 public class TstCaseHelper
 {
     private TstCaseHelper()

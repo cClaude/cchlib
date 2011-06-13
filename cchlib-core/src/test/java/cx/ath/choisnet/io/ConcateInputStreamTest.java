@@ -9,25 +9,27 @@ import org.junit.Test;
 
 /**
  *
- * @author Claude
  */
 public class ConcateInputStreamTest
 {
-
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() throws Exception
+    {
     }
 
     @AfterClass
-    public static void tearDownClass() throws Exception {
+    public static void tearDownClass() throws Exception
+    {
     }
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() 
+    {
     }
 
     public void test( InputStream is ) throws Exception

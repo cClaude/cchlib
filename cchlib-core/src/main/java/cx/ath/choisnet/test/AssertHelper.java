@@ -11,6 +11,7 @@ import cx.ath.choisnet.io.FileIterator;
  *
  * @author Claude CHOISNET
  */
+final
 public class AssertHelper
 {
     private AssertHelper()

@@ -2,6 +2,7 @@ package cx.ath.choisnet.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,9 +27,29 @@ public final class InputStreamHelper
     }
 
     /**
+     * Copy all remaining data in {@link InputStream} to an byte array
+     * and close the {@link InputStream}.
+     *
+     * @param input {@link InputStream} to read
+     * @return content of {@link InputStream}
+     * @throws IOException if any
+     * @since 1.4.5
+     */
+    public static byte[] toByteArray( final InputStream input )
+        throws IOException
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        copy( input, out );
+        input.close();
+
+        return out.toByteArray();
+    }
+
+    /**
      * @deprecated use {@link ReaderHelper#toString(java.io.Reader)} instead
      */
-    public static String toString(InputStream is)
+    public static String toString( final InputStream is )
         throws IOException
     {
         StringBuilder   sb      = new StringBuilder();
@@ -154,6 +175,34 @@ public final class InputStreamHelper
     }
 
     /**
+     * Compare content of an {@link InputStream} with an array of bytes. {@link InputStream} is consumed but
+     * are not closed after this call.
+     *
+     * @param is    an {@link InputStream}
+     * @param bytes an array of bytes
+     * @return true if content (and size) of {@link InputStream} is equals to array content.
+     * @throws IOException if any IO error occur.
+     * @since 1.4.5
+     */
+    public static boolean isEquals( final InputStream is, final byte[] bytes )
+        throws IOException
+    {
+        int index = 0;
+
+        for(;;) {
+            int c1 = is.read();
+            int c2 = index < bytes.length ? (0x00FF & bytes[ index++ ]) : -1;
+
+            if( c1 != c2 ) {
+                return false;
+                }
+            if( c1 == -1 ) { // and c2 == -1 since c1 == c2
+                return true;
+                }
+        }
+    }
+
+    /**
      * @deprecated use {@link ConcateInputStream} instead
      */
     public static InputStream concat(final InputStream...is)
@@ -211,4 +260,5 @@ public final class InputStreamHelper
             }
         };
     }
+
 }
