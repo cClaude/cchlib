@@ -3,13 +3,14 @@ cchlib-core
 ---------------------------------------------------------------------
 4.1.5
   Add many documentation
+  Improve many test cases
   Add: cx.ath.choisnet.util.ArrayHelper.createArray( T...entries)
   Fix: Some fix for cx.ath.choisnet.util.base64 package (more work todo)
   Add: cx.ath.choisnet.io.InputStreamHelper.toByteArray(InputStream)
   Add: cx.ath.choisnet.io.InputStreamHelper.isEquals(InputStream,InputStream)
   Add: cx.ath.choisnet.io.InputStreamHelper.isEquals(InputStream,byte[])
   Add: cx.ath.choisnet.test.Assert.assertEquals(String,char[],char[])
-
+  Add: cx.ath.choisnet.test.SerializableTestCaseHelper
 ---------------------------------------------------------------------
 4.1.3
   Add: cx.ath.choisnet.sql.ConnectionQuery
