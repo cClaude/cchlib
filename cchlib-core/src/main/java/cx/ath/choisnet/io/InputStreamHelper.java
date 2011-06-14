@@ -33,7 +33,7 @@ public final class InputStreamHelper
      * @param input {@link InputStream} to read
      * @return content of {@link InputStream}
      * @throws IOException if any
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public static byte[] toByteArray( final InputStream input )
         throws IOException
@@ -76,7 +76,7 @@ public final class InputStreamHelper
      * @param output {@link Writer} to write to
      * @param buffer Buffer to use for copy
      * @throws IOException if any
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public static void copy(
             final InputStream   input,
@@ -156,7 +156,7 @@ public final class InputStreamHelper
      * @param is2   an other {@link InputStream}
      * @return true if content (and size) of {@link InputStream} are equals.
      * @throws IOException if any IO error occur.
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public final static boolean isEquals( InputStream is1, InputStream is2 )
         throws IOException
@@ -182,7 +182,7 @@ public final class InputStreamHelper
      * @param bytes an array of bytes
      * @return true if content (and size) of {@link InputStream} is equals to array content.
      * @throws IOException if any IO error occur.
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public static boolean isEquals( final InputStream is, final byte[] bytes )
         throws IOException

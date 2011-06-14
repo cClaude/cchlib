@@ -40,8 +40,6 @@ public class XComboBox extends JComboBox
     /**
      * This enum is design to customized {@link XComboBox},
      * mainly to remove default extra implementations.
-     *
-     * @author Claude CHOISNET
      */
     public enum Attribute {
         /**
@@ -58,7 +56,6 @@ public class XComboBox extends JComboBox
         NO_MOUSE_WHEEL_LISTENER,
 
         /**
-         * TODO: extra Doc<br/>
          * Don't add default MouseWheelListener for
          * this XComboBox.
          *
@@ -71,7 +68,7 @@ public class XComboBox extends JComboBox
     private int maximumItem = -1;
 
     /**
-     * Create an empty XComboBox
+     * Create an empty XComboBox with a default data model.
      */
     public XComboBox()
     {
@@ -79,52 +76,58 @@ public class XComboBox extends JComboBox
     }
 
     /**
-     * TODO:Doc!
+     * Creates a XComboBox that takes its items from an existing ComboBoxModel.
      *
-     * @param comboBoxModel
+     * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
+     *        list of items
      */
-    public XComboBox( ComboBoxModel comboBoxModel )
+    public XComboBox( final ComboBoxModel comboBoxModel )
     {
         this( comboBoxModel, null );
     }
 
     /**
-     * TODO:Doc!
+     * Creates a XComboBox that contains the elements in the specified array.
+     * By default the first item in the array (and therefore the data model)
+     * becomes selected.
      *
-     * @param items
+     * @param items an array of objects to insert into the combo box
      */
-    public XComboBox( Object[] items )
+    public XComboBox( final Object[] items )
     {
         this( new DefaultComboBoxModel(items), null );
     }
 
     /**
-     * TODO:Doc!
+     * Creates a XComboBox that contains the elements in the specified Vector.
+     * By default the first item in the vector (and therefore the data model)
+     * becomes selected.
      *
-     * @param items
+     * @param items an array of vectors to insert into the combo box
      */
-    public XComboBox( Vector<?> items )
+    public XComboBox( final Vector<?> items )
     {
         this( new DefaultComboBoxModel(items), null );
     }
 
     /**
-     * TODO: Doc!
+     * Creates a XComboBox that takes its items from an existing ComboBoxModel.
      *
-     * @param comboBoxModel
-     * @param attrib
+     * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
+     *        list of items
+     * @param attrib  the {@link Attribute} set to configure the XComboBox
      */
     public XComboBox(
-            ComboBoxModel       comboBoxModel,
+            final ComboBoxModel comboBoxModel,
             EnumSet<Attribute>  attrib
             )
     {
         if( comboBoxModel == null ) {
             throw new NullPointerException("defaultComboBoxModel could not be null");
-        }
+            }
         if( attrib == null ) {
             attrib = EnumSet.noneOf( Attribute.class );
-        }
+            }
         super.setEditable(true);
         super.setModel( comboBoxModel );
 
@@ -154,19 +157,20 @@ public class XComboBox extends JComboBox
 
     /**
      * Set the maximumItem could be insert in this XComboBox
-     * @param maximumItem the maximumItem could be insert in this XComboBox, if value is
-     * -1 there is no limit.
+     *
+     * @param maximumItem the maximumItem could be insert in this XComboBox,
+     *          if value is -1 there is no limit.
      * @throws IllegalArgumentException is maximumItem is negative and
-     * not equals to -1.
+     *          not equals to -1.
      */
-    public void setMaximumItem( int maximumItem )
+    public void setMaximumItem( final int maximumItem )
     {
         if( maximumItem == -1 ) {
             this.maximumItem = maximumItem;
-        }
+            }
         else if( maximumItem < 0 ) {
             throw new IllegalArgumentException();
-        }
+            }
         else {
             this.maximumItem = maximumItem;
 
@@ -179,8 +183,9 @@ public class XComboBox extends JComboBox
 
     /**
      * Returns the maximumItem could be insert in this XComboBox
+     *
      * @return the maximumItem could be insert in this XComboBox, if value is
-     * -1 there is no limit.
+     *          -1 there is no limit.
      */
     public int getMaximumItem()
     {
@@ -188,7 +193,7 @@ public class XComboBox extends JComboBox
     }
 
     @Override
-    public void intervalAdded(ListDataEvent e)
+    public void intervalAdded( final ListDataEvent e )
     {
         // Track insertion of items
         if( maximumItem != -1 ) {
@@ -201,14 +206,13 @@ public class XComboBox extends JComboBox
     }
 
     /**
-     * This default implementation expect that new items
-     * are always added at the end of the list. So it
-     * remove items on the top of the list.
+     * This default implementation expect that new items are always added
+     * at the end of the list. So it remove items on the top of the list.
      *
-     * @param itemsToRemove number of item need to be
-     * remove according to {@link #getMaximumItem()}.
+     * @param itemsToRemove number of item need to be remove according
+     *        to {@link #getMaximumItem()}.
      */
-    protected void removeOldestItems(int itemsToRemove)
+    protected void removeOldestItems( final int itemsToRemove )
     {
         for(int i=0;i<itemsToRemove;i++) {
             removeItemAt(0);
@@ -216,12 +220,11 @@ public class XComboBox extends JComboBox
     }
 
     /**
-     * Handle mouse wheel for {@link JComboBox}, could be
-     * use for any JComboBox
+     * Handle mouse wheel for {@link XComboBox}, could be use for any XComboBox
      *
      * @param event current MouseWheelEvent
      */
-    public static void handleMouseWheelMoved(MouseWheelEvent event)
+    public static void handleMouseWheelMoved( final MouseWheelEvent event )
     {
         final Object s = event.getSource();
 
@@ -263,7 +266,7 @@ public class XComboBox extends JComboBox
      *
      * @param event
      */
-    protected void defaultActionPerformed(ActionEvent event)
+    protected void defaultActionPerformed( final ActionEvent event )
     {
         String cmd = event.getActionCommand();
 

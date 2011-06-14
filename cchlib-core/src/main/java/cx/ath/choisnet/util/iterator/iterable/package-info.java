@@ -11,7 +11,6 @@
  * Collections in memory and to generate result
  * in the flow.
  *
- * @author Claude CHOISNET
  * @see cx.ath.choisnet.util.enumeration
  * @see cx.ath.choisnet.util.iterator
  * @see cx.ath.choisnet.util.iterator.iterable.IterableIterator

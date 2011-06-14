@@ -13,10 +13,10 @@ import junit.framework.TestCase;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.Assert;
-import cx.ath.choisnet.test.SerializableTestCase;
+import cx.ath.choisnet.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
-public class MessageDigestFileTest extends TestCase // ExtendTestCase
+public class MessageDigestFileTest extends TestCase
 {
     public void test_MessageDigestFile()
         throws  NoSuchAlgorithmException,
@@ -56,7 +56,7 @@ public class MessageDigestFileTest extends TestCase // ExtendTestCase
     {
         test_MessageDigestFile(mdf);
 
-        MessageDigestFile clone = SerializableTestCase.cloneOverSerialization( mdf );
+        MessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
 
         test_MessageDigestFile(clone);
     }

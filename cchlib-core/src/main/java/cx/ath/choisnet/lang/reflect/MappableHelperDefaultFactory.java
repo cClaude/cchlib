@@ -67,6 +67,7 @@ public class MappableHelperDefaultFactory
      * TODO: Doc!
      *
      * @param attribute
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addAttribute(
             MappableHelper.Attributes attribute
@@ -81,6 +82,7 @@ public class MappableHelperDefaultFactory
      * TODO: Doc!
      *
      * @param attributes
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addAttributes(
             MappableHelper.Attributes...attributes
@@ -97,6 +99,7 @@ public class MappableHelperDefaultFactory
      * TODO: Doc!
      *
      * @param attributes
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addAttributes(
             Collection<MappableHelper.Attributes> attributes
@@ -111,6 +114,7 @@ public class MappableHelperDefaultFactory
      * TODO: Doc!
      *
      * @param clazz
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addClass(Class<?> clazz)
     {
@@ -121,6 +125,9 @@ public class MappableHelperDefaultFactory
 
     /**
      * TODO: Doc!
+     *
+     * @param classes
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addClasses(Class<?>...classes)
     {
@@ -133,6 +140,9 @@ public class MappableHelperDefaultFactory
 
     /**
      * TODO: Doc!
+     *
+     * @param classes
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory addClasses(Collection<Class<?>> classes)
     {
@@ -145,6 +155,9 @@ public class MappableHelperDefaultFactory
 
     /**
      * TODO: Doc!
+     *
+     * @param pattern
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory setMethodesNamePattern(Pattern pattern)
     {
@@ -155,6 +168,9 @@ public class MappableHelperDefaultFactory
 
     /**
      * TODO: Doc!
+     *
+     * @param pattern
+     * @return caller for initialization chaining
      */
     public MappableHelperDefaultFactory setMethodesNamePattern(String pattern)
     {

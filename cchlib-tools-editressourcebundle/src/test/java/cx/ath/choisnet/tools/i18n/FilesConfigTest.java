@@ -7,7 +7,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 import cx.ath.choisnet.io.PatternFileFilter;
 import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.SerializableTestCase;
+import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 /**
  * TestCase
@@ -41,7 +41,7 @@ public class FilesConfigTest extends TestCase
         
         assertEquals("Must be equals",fc,fcCopy);
         
-        FilesConfig fcClone = SerializableTestCase.cloneOverSerialization( fc );
+        FilesConfig fcClone = SerializableTestCaseHelper.cloneOverSerialization( fc );
 
         assertEquals("Must be equals",fc,fcClone);
     }

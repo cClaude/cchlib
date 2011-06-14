@@ -1,6 +1,4 @@
 /**
- * Provide some tools for XML. 
- *
- * @author Claude CHOISNET
+ * Provide some tools for XML.
  */
 package cx.ath.choisnet.xml;

@@ -21,6 +21,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -66,7 +67,8 @@ import java.io.OutputStream;
  * <P>
  * Changing the search options does not affect a search in progress.
  *
- * @author     Ken Klinner, kklinner@opiom.com
+ * @author Ken Klinner, kklinner@opiom.com
+ * @author Claude CHOISNET
 TODO: Localization,
       optimizations (non-recursing)
       implements TabbedAccessoryInterface
@@ -112,63 +114,63 @@ public class FindAccessory  extends     JPanel
     private/*protected*/ FindAction        actionStop = null;
 
     /**
-    This version of FindAccesory supports only one active search thread
-    @serial
-    */
+     * This version of FindAccesory supports only one active search thread
+     * @serial
+     */
     protected transient Thread  searchThread = null;
 
     /**
-    Set to true to stop current search
-    @serial
-    */
+     * Set to true to stop current search
+     * @serial
+     */
     protected boolean           killFind = false;
 
     /**
-    Displays full path of search base
-    @serial
-    */
+     * Displays full path of search base
+     * @serial
+     */
     private/*protected*/ FindFolder        pathPanel = null;
 
     /**
-    Find options with results list
-    @serial
-    */
+     * Find options with results list
+     * @serial
+     */
     private/*protected*/ FindTabs      searchTabs = null;
 
     /**
-    Find controls with progress display
-    @serial
-    */
+     * Find controls with progress display
+     * @serial
+     */
     private/*protected*/ FindControls  controlPanel = null;
 
     /**
-    Number of items inspected by current/last search
-    @serial
-    */
-    protected int               total = 0;
+     * Number of items inspected by current/last search
+     * @serial
+     */
+    protected int total = 0;
 
     /**
-    Number of items found by current/last search
-    @serial
-    */
-    protected int               matches = 0;
+     * Number of items found by current/last search
+     * @serial
+     */
+    protected int matches = 0;
 
     /**
-    Max number of found items to prevent overloading
-    the results list.
-    @serial
-    */
-    protected int               maxMatches = DEFAULT_MAX_SEARCH_HITS;
+     * Max number of found items to prevent overloading the results list.
+     * @serial
+     */
+    protected int maxMatches = DEFAULT_MAX_SEARCH_HITS;
 
     /**
-     Construct a search panel with start and stop actions, option panes and a
-     results list pane that can display up to DEFAULT_MAX_SEARCH_HITS items.
+     * Construct a search panel with start and stop actions, option
+     * panes and a results list pane that can display up to
+     * DEFAULT_MAX_SEARCH_HITS items.
      */
     //public TODO: add some extra controls to restore this
     // this constructor to public, since we need parent
     // JFileChooser object before calling ....
     // openDialog()
-    private FindAccessory ()
+    private FindAccessory()
     {
         super();
 
@@ -187,13 +189,13 @@ public class FindAccessory  extends     JPanel
     }
 
     /**
-        Construct a search panel with start and stop actions and "attach" it to
-        the specified JFileChooser component. Calls register() to establish
-        FindAccessory as a PropertyChangeListener of JFileChooser.
-
-        @param parent JFileChooser containing this accessory
+     * Construct a search panel with start and stop actions and "attach" it
+     * to the specified JFileChooser component. Calls register() to
+     * establish FindAccessory as a PropertyChangeListener of JFileChooser.
+     *
+     * @param parent JFileChooser containing this accessory
      */
-    public FindAccessory (JFileChooser parent)
+    public FindAccessory( JFileChooser parent )
     {
         this();
         chooser = parent;
@@ -201,53 +203,55 @@ public class FindAccessory  extends     JPanel
     }
 
     /**
-        Construct a search panel with start and stop actions and "attach" it to
-        the specified JFileChooser component. Calls register() to establish
-        FindAccessory as a PropertyChangeListener of JFileChooser. Sets maximum
-        number of found items to limit the load in the results list.
-
-        @param parent JFileChooser containing this accessory
-        @param max Max number of items for results list. Find stops when max
-        number of items found.
+     * Construct a search panel with start and stop actions and "attach" it
+     * to the specified JFileChooser component. Calls register() to establish
+     * FindAccessory as a PropertyChangeListener of JFileChooser. Sets
+     * maximum number of found items to limit the load in the results
+     * list.
+     *
+     * @param parent JFileChooser containing this accessory
+     * @param max Max number of items for results list. Find stops when max
+     *          number of items found.
      */
-    public FindAccessory (JFileChooser parent, int max)
+    public FindAccessory( JFileChooser parent, int max )
     {
         this(parent);
         setMaxFindHits(max);
     }
 
     /**
-        Sets maximum capacity of the results list.
-        Find stops when max number of items found.
-
-        @param max Max capacity of results list.
+     * Sets maximum capacity of the results list.
+     * Find stops when max number of items found.
+     *
+     * @param max Max capacity of results list.
      */
-    public void setMaxFindHits (int max)
+    public void setMaxFindHits( int max )
     {
         maxMatches = max;
     }
 
     /**
-        Returns maximum capacity of results list.
-
-        @return Max capacity of results list.
+     * Returns maximum capacity of results list.
+     *
+     * @return Max capacity of results list.
      */
-    public int getMaxFindHits ()
+    public int getMaxFindHits()
     {
         return maxMatches;
     }
 
     /**
-        Called by JFileChooser when a property changes. FindAccessory listens
-        for DIRECTORY_CHANGED_PROPERTY and updates the path component to display
-        the full path of the current JFileChooser directory. When a search is
-        in progress the path component is <b>not</b> updated - the path component
-        will display the starting point of the current search.
-
-        @param e PropertyChangeEvent from parent JFileChooser.
+     * Called by JFileChooser when a property changes. FindAccessory
+     * listens for DIRECTORY_CHANGED_PROPERTY and updates the path
+     * component to display the full path of the current JFileChooser
+     * directory. When a search is in progress the path component
+     * is <b>not</b> updated - the path component will display the
+     * starting point of the current search.
+     *
+     * @param e PropertyChangeEvent from parent JFileChooser.
      */
     @Override
-    public void propertyChange (PropertyChangeEvent e)
+    public void propertyChange( PropertyChangeEvent e  )
     {
         String prop = e.getPropertyName();
         if (prop.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY))
@@ -257,68 +261,70 @@ public class FindAccessory  extends     JPanel
     }
 
     /**
-        Called by JFileChooser when the user provokes an action like "cancel"
-        or "open". Listens for APPROVE_SELECTION and CANCEL_SELECTION action
-        and stops the current search, if there is one.
-
-        @param e ActionEvent from parent JFileChooser.
+     * Called by JFileChooser when the user provokes an action like
+     * "cancel" or "open". Listens for APPROVE_SELECTION and
+     * CANCEL_SELECTION action and stops the current search, if there
+     * is one.
+     *
+     * @param e ActionEvent from parent JFileChooser.
      */
     @Override
-    public void actionPerformed (ActionEvent e)
+    public void actionPerformed( ActionEvent e )
     {
         String command = e.getActionCommand();
-        if (command == null) {
+        if( command == null ) {
             return; // Can this happen? Probably not. Call me paranoid.
-        }
-        if (command.equals(JFileChooser.APPROVE_SELECTION)) {
+            }
+        if( command.equals( JFileChooser.APPROVE_SELECTION ) ) {
             quit();
-        }
-        else if (command.equals(JFileChooser.CANCEL_SELECTION)) {
+            }
+        else if( command.equals( JFileChooser.CANCEL_SELECTION ) ) {
             quit();
-        }
+            }
     }
 
 
     /**
-        Displays the absolute path to the parent's current directory if and only
-        if there is no active search.
+     * Displays the absolute path to the parent's current directory if
+     * and only if there is no active search.
      */
-    public void updateFindDirectory ()
+    public void updateFindDirectory()
     {
-        if (isRunning()) {
+        if( isRunning() ) {
             return;
-        }
-        if (chooser == null) {
+            }
+        if( chooser == null ) {
             return;
-        }
-        if (pathPanel == null) {
+            }
+        if( pathPanel == null ) {
             return;
-        }
+            }
         File f = chooser.getCurrentDirectory();
         pathPanel.setFindDirectory(f);
     }
 
     /**
-        Set parent's current directory to the parent folder of the specified
-        file and select the specified file. This method is invoked when the
-        user double clicks on an item in the results list.
-
-        @param f File to select in parent JFileChooser
+     * Set parent's current directory to the parent folder of the
+     * specified file and select the specified file. This method is
+     * invoked when the user double clicks on an item in the results
+     * list.
+     *
+     * @param f File to select in parent JFileChooser
      */
-    public void goTo (File f)
+    public void goTo( File f )
     {
-        if (f == null) {
+        if( f == null ) {
             return;
-        }
-        if (!f.exists()) {
+            }
+        if( !f.exists() ) {
             return;
-        }
-        if (chooser == null) {
+            }
+        if( chooser == null ) {
             return;
-        }
+            }
 
         // Make sure that files and directories can be displayed
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
 
         // Make sure that parent file chooser will show the type of file
         // specified
@@ -346,10 +352,10 @@ public class FindAccessory  extends     JPanel
         // Emperical evidence suggests that JFileChooser gets "sticky" (i.e. it
         // does not always relinquish the current selection). Nullifying the
         // current selection seems to yield better results.
-        chooser.setSelectedFile(null);
+        chooser.setSelectedFile( null );
 
         // Select the file
-        chooser.setSelectedFile(f);
+        chooser.setSelectedFile( f );
 
         // Refresh file chooser display.
         // Is this really necessary? Testing on a variety of systems with
@@ -360,50 +366,52 @@ public class FindAccessory  extends     JPanel
     }
 
     /**
-        Start a search. The path display will show the starting folder of the
-        search.
-        Finds are recursive and will span the entire folder hierarchy below the
-        base folder. The user may continue to browse with JFileChooser.
+     * Start a search. The path display will show the starting folder
+     * of the search.
+     * <br/>
+     * Finds are recursive and will span the entire folder hierarchy
+     * below the base folder. The user may continue to browse with
+     * JFileChooser.
      */
-    public synchronized void start ()
+    public synchronized void start()
     {
-        if (searchTabs != null) {
+        if( searchTabs != null ) {
             searchTabs.showFindResults();
-        }
+            }
         updateFindDirectory();
         killFind = false;
-        if (searchThread == null) {
+        if( searchThread == null ) {
             searchThread = new Thread(this);
-        }
-        if (searchThread != null) {
+            }
+        if( searchThread != null ) {
             searchThread.start();
-        }
+            }
     }
 
     /**
-        Stop the active search.
+     * Stop the active search.
      */
-    public synchronized void stop ()
+    public synchronized void stop()
     {
         killFind = true;
     }
 
     /**
-        @return true if a search is currently running
+     * @return true if a search is currently running
      */
-    public boolean isRunning ()
+    public boolean isRunning()
     {
-        if (searchThread == null) {
+        if( searchThread == null ) {
             return false;
-        }
+            }
         return searchThread.isAlive();
     }
 
     /**
-        Find thread
+     * Find thread
      */
     @Override
-    public void run ()
+    public void run()
     {
         if (searchThread == null) {
             return;
@@ -494,7 +502,7 @@ public class FindAccessory  extends     JPanel
 
         @return true if specified file matches each filter's selection criteria
      */
-    private/*protected*/ boolean accept (File file, FindFilter[] filters)
+    private/*protected*/ boolean accept( File file, FindFilter[] filters )
     {
         if (file == null) return false;
         if (filters == null) return false;
@@ -519,8 +527,12 @@ public class FindAccessory  extends     JPanel
         @return true to continue search, false to abort
      */
     @Override
-    public boolean reportProgress (FindFilter filter, File file,
-                                    long current, long total)
+    public boolean reportProgress(
+            FindFilter  filter,
+            File        file,
+            long        current,
+            long        total
+            )
     {
         return !killFind;
     }
@@ -534,7 +546,7 @@ public class FindAccessory  extends     JPanel
 
         @return Array of search filters from the options panel.
      */
-    private/*protected*/ FindFilter[] newFind ()
+    private/*protected*/ FindFilter[] newFind()
     {
         total = matches = 0;
         updateProgress();
@@ -548,7 +560,7 @@ public class FindAccessory  extends     JPanel
     /**
         Display progress of running search.
      */
-    protected void updateProgress ()
+    protected void updateProgress()
     {
         controlPanel.showProgress(matches,total);
     }
@@ -560,7 +572,7 @@ public class FindAccessory  extends     JPanel
 
         @param c parent JFileChooser
      */
-    protected void register (JFileChooser c)
+    protected void register(JFileChooser c)
     {
         if (c == null) {
             return;
@@ -575,7 +587,7 @@ public class FindAccessory  extends     JPanel
 
         @param c parent JFileChooser
      */
-    protected void unregister (JFileChooser c)
+    protected void unregister(JFileChooser c)
     {
         if (c == null) {
             return;
@@ -588,7 +600,7 @@ public class FindAccessory  extends     JPanel
         Stop the current search and unregister in preparation for parent
         shutdown.
      */
-    public void quit ()
+    public void quit()
     {
         stop();
         unregister(chooser);
@@ -598,7 +610,7 @@ public class FindAccessory  extends     JPanel
         Invoked by FindAction objects to start and stop searches.
      * @param command
      */
-    public void action (String command)
+    public void action(String command)
     {
         if (command == null) {
             return;
@@ -625,7 +637,7 @@ public class FindAccessory  extends     JPanel
             @param text command
             @param icon button icon
          */
-        FindAction (String text, Icon icon)
+        FindAction(String text, Icon icon)
         {
             super(text,icon);
         }
@@ -636,7 +648,7 @@ public class FindAccessory  extends     JPanel
             @param e action event
          */
         @Override
-        public void actionPerformed (ActionEvent e)
+        public void actionPerformed(ActionEvent e)
         {
             action(e.getActionCommand());
         }
@@ -989,34 +1001,33 @@ public class FindAccessory  extends     JPanel
     @Override // TabbedAccessoryInterface
     public String getTabName()
     {
-        // FIXME TODO Auto-generated method stub
-        return null;
+        // TODO Localization
+        return null; //"Find";
     }
 
     @Override // TabbedAccessoryInterface
     public Icon getTabIcon()
     {
-        // FIXME TODO Auto-generated method stub
-        return null;
+        return new ImageIcon(
+                getClass().getResource( "search.png" )
+                );
     }
 
     @Override // TabbedAccessoryInterface
     public Component getComponent()
     {
-        // FIXME TODO Auto-generated method stub
-        return null;
+        return this;
     }
 
     @Override // TabbedAccessoryInterface
     public void register()
     {
-        // FIXME TODO Auto-generated method stub
     }
 
     @Override //TabbedAccessoryInterface
     public void unregister()
     {
-        // FIXME TODO Auto-generated method stub
+        stop();
     }
 }
 

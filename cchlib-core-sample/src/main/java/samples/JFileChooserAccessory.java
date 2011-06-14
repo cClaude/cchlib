@@ -1,11 +1,7 @@
-/**
- *
- */
 package samples;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -21,6 +17,7 @@ import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
+import cx.ath.choisnet.swing.filechooser.accessory.FindAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.ImagePreviewAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
@@ -29,14 +26,13 @@ import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
 
 /**
  * Show how to use {@link TabbedAccessory}, {@link ImagePreviewAccessory},
- * {@link LastSelectedFilesAccessory}, {@link LookAndFeelHelpers}
- *
- * @author Claude CHOISNET
+ * {@link LastSelectedFilesAccessory}, {@link FindAccessory},
+ * {@link LookAndFeelHelpers}
  */
 //VS 4E -- DO NOT REMOVE THIS LINE!
 public class JFileChooserAccessory extends JFrame {
 
-    private static final long   serialVersionUID        = 1L;
+    private static final long serialVersionUID = 1L;
     /** @serial */
     private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
       = new LastSelectedFilesAccessoryDefaultConfigurator();
@@ -77,11 +73,12 @@ public class JFileChooserAccessory extends JFrame {
 
     protected void initFixComponents()
     {
-        setIconImage(
-            Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource("sample.png")
-                )
-            );
+//        Image iconImage = Toolkit.getDefaultToolkit().getImage(
+//                          getClass().getResource("sample.png")
+//                          );
+//        System.out.println( "iconImage = " + iconImage );
+//
+//        setIconImage( iconImage );
 
         LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
 
@@ -217,14 +214,19 @@ public class JFileChooserAccessory extends JFrame {
             @Override
             public void run()
             {
-                JFileChooserAccessory frame = new JFileChooserAccessory();
-                frame.initFixComponents();
-                frame.setDefaultCloseOperation( JFileChooserAccessory.EXIT_ON_CLOSE );
-                frame.setTitle( "Sample for JFileChooser Accessory" );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
+                try {
+                    JFileChooserAccessory frame = new JFileChooserAccessory();
+                    frame.initFixComponents();
+                    frame.setDefaultCloseOperation( JFileChooserAccessory.EXIT_ON_CLOSE );
+                    frame.setTitle( "Sample for JFileChooser Accessory" );
+                    frame.getContentPane().setPreferredSize( frame.getSize() );
+                    frame.pack();
+                    frame.setLocationRelativeTo( null );
+                    frame.setVisible( true );
+                    }
+                catch( Exception e ) {
+                    e.printStackTrace( System.err );
+                    }
             }
         } );
     }
@@ -272,6 +274,9 @@ public class JFileChooserAccessory extends JFrame {
                          )
                      .addTabbedAccessory(
                          new LastSelectedFilesAccessory( jfc, lSFAConf )
+                         )
+                     .addTabbedAccessory(
+                         new FindAccessory( jfc )
                          )
                 );
         showOpenDialog( jfc );

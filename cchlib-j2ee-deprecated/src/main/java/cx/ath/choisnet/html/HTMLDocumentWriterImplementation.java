@@ -3,7 +3,7 @@ package cx.ath.choisnet.html;
 import java.io.Writer;
 import java.util.Locale;
 
-//TODO: use Appendable ?
+//TO_DO: use Appendable ?
 public class HTMLDocumentWriterImplementation
     implements HTMLDocumentWriter//, Appendable
 {

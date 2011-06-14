@@ -7,7 +7,5 @@
  *  - NTFS used on MS/Win32
  *  - FS (Hierarchical File System) used on MacIntosh.
  * </PRE>
- * 
- * @author Claude CHOISNET
  */
 package alpha.cx.ath.choisnet.io;

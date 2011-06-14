@@ -181,7 +181,7 @@ public class Assert
      * @param message
      * @param expected
      * @param actual
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public static void assertEquals(
             String message,

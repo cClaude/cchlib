@@ -2,7 +2,7 @@ package cx.ath.choisnet.html;
 
 import java.util.Locale;
 
-// TODO: use Appendable ?
+// TO_DO: use Appendable ?
 public interface HTMLDocumentWriter
 {
 

@@ -7,8 +7,8 @@ import junit.framework.TestCase; // Use TestCase instead Assert to not confused 
 
 /**
  * Helper to build {@link TestCase} to test {@link Serializable} objects
- * 
- * @since 1.4.5
+ *
+ * @since 4.1.5
  */
 final
 public class SerializableTestCaseHelper

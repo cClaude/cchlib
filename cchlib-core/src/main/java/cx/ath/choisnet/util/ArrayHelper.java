@@ -21,7 +21,7 @@ public final class ArrayHelper
      * @param <T>       Type of array
      * @param entries   List of entry for the array
      * @return the new Array
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public static <T> T[] createArray( T...entries )
     {

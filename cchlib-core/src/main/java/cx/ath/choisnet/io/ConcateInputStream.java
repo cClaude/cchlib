@@ -68,7 +68,7 @@ public class ConcateInputStream extends InputStream
      * Create a ConcateInputStream based on an array of {@link InputStream}
      *
      * @param iss list of {@link InputStream}
-     * @since 1.4.5
+     * @since 4.1.5
      */
     public ConcateInputStream( final InputStream...iss )
     {
