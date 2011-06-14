@@ -11,6 +11,7 @@ cchlib-core
   Add: cx.ath.choisnet.io.InputStreamHelper.isEquals(InputStream,byte[])
   Add: cx.ath.choisnet.test.Assert.assertEquals(String,char[],char[])
   Add: cx.ath.choisnet.test.SerializableTestCaseHelper
+  Fix: some problems with resources (since maven migration)
 ---------------------------------------------------------------------
 4.1.3
   Add: cx.ath.choisnet.sql.ConnectionQuery
