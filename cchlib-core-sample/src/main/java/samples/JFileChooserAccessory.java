@@ -2,6 +2,8 @@ package samples;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -73,12 +75,10 @@ public class JFileChooserAccessory extends JFrame {
 
     protected void initFixComponents()
     {
-//        Image iconImage = Toolkit.getDefaultToolkit().getImage(
-//                          getClass().getResource("sample.png")
-//                          );
-//        System.out.println( "iconImage = " + iconImage );
-//
-//        setIconImage( iconImage );
+        Image iconImage = Toolkit.getDefaultToolkit().getImage(
+                          getClass().getResource("sample.png")
+                          );
+        setIconImage( iconImage );
 
         LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
 

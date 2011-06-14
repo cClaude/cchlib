@@ -1,4 +1,4 @@
-package samples.undocumented;
+package samples.alpha;
 
 import java.util.prefs.*;
 
