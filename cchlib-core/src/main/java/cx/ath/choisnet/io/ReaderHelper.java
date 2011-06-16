@@ -102,31 +102,19 @@ public final class ReaderHelper
        copy(input, output, DEFAULT_BUFFER_SIZE);
    }
 
-   /**
-    * TODO: doc!
-    *
-    * @param reader1
-    * @param reader2
-    * @return
-    */
-   public static Reader concat( Reader reader1, Reader reader2 )
-    {
-        Reader[] readers = { reader1, reader2 };
-
-        return concat(readers);
-    }
-
     /**
-     * TODO: doc!
+     * Create a {@link Reader} based on content of one or more {@link Reader}
+     * objects. Object are consume in sequence.
      *
-     * @param readers
-     * @return
+     * @param readers {@link Reader} list to be use in giving order.
+     * @return A global {@link Reader}
      */
     public static Reader concat(
             final Reader...readers
             )
     {
-        return new Reader() {
+        return new Reader()
+        {
             int index;
 
             @Override
@@ -163,10 +151,10 @@ public final class ReaderHelper
                 for(; index < readers.length; index++) {
                     int r = readers[index].read();
 
-                    if(r != -1)  {
+                    if( r != -1 ) {
                         return r;
+                        }
                     }
-                }
 
                 return -1;
             }
@@ -178,10 +166,10 @@ public final class ReaderHelper
                 for(; index < readers.length; index++) {
                     int rlen = readers[index].read(cbuf, off, len);
 
-                    if(rlen != -1) {
+                    if( rlen != -1 ) {
                         return rlen;
+                        }
                     }
-                }
 
                 return -1;
             }

@@ -222,7 +222,7 @@ public class XComboBox extends JComboBox
     /**
      * Handle mouse wheel for {@link XComboBox}, could be use for any XComboBox
      *
-     * @param event current MouseWheelEvent
+     * @param event current {@link MouseWheelEvent}
      */
     public static void handleMouseWheelMoved( final MouseWheelEvent event )
     {
@@ -262,9 +262,9 @@ public class XComboBox extends JComboBox
     }
 
     /**
-     * TODO: Doc!
-     *
-     * @param event
+     * Handle "comboBoxEdited" action command
+     * 
+     * @param event Current {@link ActionEvent}
      */
     protected void defaultActionPerformed( final ActionEvent event )
     {

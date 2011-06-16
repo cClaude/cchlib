@@ -18,19 +18,18 @@ import cx.ath.choisnet.ToDo;
  * @author Claude CHOISNET
  */
 @ToDo
+// TODO: make a TestCase !
 public class XMLBuilder
 {
     private static final String DEFAULT_TABULATION = "  ";
     private Appendable anAppendableObject;
-    // TODO: make a TestCase !
-    //@SuppressWarnings("unused")
     private String incTabulation;
-    private String tabulation;
+    // TODO: private String initTabulation;
 
     /**
-     * TODO: doc!
+     * Create an XMLBuilder using giving {@link Appendable} object
      *
-     * @param a an {@link Appendable} object
+     * @param a An {@link Appendable} object
      */
     public XMLBuilder(Appendable a)
     {
@@ -38,20 +37,20 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * Create an XMLBuilder using giving {@link Appendable} object
      *
-     * @param a an {@link Appendable} object
-     * @param iniTabulation
-     * @param incTabulation
+     * @param a             An {@link Appendable} object
+     * @param iniTabulation First level tabulation string
+     * @param incTabulation Others levels tabulation string
      */
     public XMLBuilder(
             Appendable  a,
-            String      iniTabulation,
+            String      initTabulation,
             String      incTabulation
             )
     {
         this.anAppendableObject = a;
-        this.tabulation         = iniTabulation;
+     // TODO: this.initTabulation     = initTabulation;
         this.incTabulation      = incTabulation;
     }
 
@@ -60,46 +59,33 @@ public class XMLBuilder
      *
      * @param aNode
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
-    public XMLBuilder append(Node aNode)
-        throws java.io.IOException
+    public XMLBuilder append( Node aNode ) throws IOException
     {
         if(aNode.getNodeType() == 3) {
-            anAppendableObject.append(
-                    (new StringBuilder())
-                        .append(tabulation)
-                        .append('{')
-                        .append(aNode.getTextContent())
-                        .append("}\n")
-                        .toString()
-                        );
+            anAppendableObject.append(incTabulation)
+                              .append('{')
+                              .append(aNode.getTextContent())
+                              .append("}\n");
             }
         else {
             NodeList nodeList = aNode.getChildNodes();
             int len = nodeList.getLength();
 
-            anAppendableObject.append(
-                    (new StringBuilder())
-                        .append(tabulation)
-                        .append('<')
-                        .append(aNode.getNodeName())
-                        .append(">    (")
-                        .append(len)
-                        .append(")\n")
-                        .toString()
-                        );
+            anAppendableObject.append(incTabulation)
+                              .append('<')
+                              .append(aNode.getNodeName())
+                              .append(">    (")
+                              .append( Integer.toString( len ) )
+                              .append(")\n");
 
             append(nodeList);
 
-            anAppendableObject.append(
-                    (new StringBuilder())
-                        .append(tabulation)
-                        .append("</")
-                        .append(aNode.getNodeName())
-                        .append(">\n")
-                        .toString()
-                        );
+            anAppendableObject.append(incTabulation)
+                              .append("</")
+                              .append(aNode.getNodeName())
+                              .append(">\n");
             }
 
         return this;
@@ -112,17 +98,17 @@ public class XMLBuilder
      * @return
      * @throws IOException
      */
-    public XMLBuilder append(NodeList nodeList)
+    public XMLBuilder append( NodeList nodeList )
         throws IOException
     {
         final int   len             = nodeList.getLength();
-        String      saveTabulation = tabulation;
+        String      saveTabulation  = incTabulation;
 
-        for(int i = 0; i < len; i++) {
-            append(nodeList.item(i));
+        for( int i = 0; i < len; i++ ) {
+            append( nodeList.item(i) );
             }
 
-        tabulation = saveTabulation;
+        incTabulation = saveTabulation;
 
         return this;
     }
@@ -143,7 +129,7 @@ public class XMLBuilder
      * @param aNode
      * @return
      */
-    public static String toString(Node aNode)
+    public static String toString( Node aNode )
     {
         XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
@@ -158,7 +144,7 @@ public class XMLBuilder
      * @param nodeList
      * @return
      */
-    public static String toString(NodeList nodeList)
+    public static String toString( NodeList nodeList )
     {
         StringBuilder   sb      = new StringBuilder();
         XMLBuilder      builder = new XMLBuilder(sb);

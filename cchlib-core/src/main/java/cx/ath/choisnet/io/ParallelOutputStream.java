@@ -2,54 +2,43 @@ package cx.ath.choisnet.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collection;
 
 /**
- * TODO: Doc!
- *
- * @author Claude CHOISNET
+ * {@link OutputStream} able to write data into one or more stream ate once.
  */
 public final class ParallelOutputStream extends OutputStream
 {
     private OutputStream[] outputStreams;
 
     /**
-     * TODO: Doc!
+     * Create a ParallelOutputStream
      *
-     * @param stream1
-     * @param stream2
+     * @param streams array of {@link OutputStream}
      */
-    public ParallelOutputStream(OutputStream stream1, OutputStream stream2)
-    {
-        outputStreams = new OutputStream[2];
-        outputStreams[0] = stream1;
-
-        outputStreams[1] = stream2;
-    }
-
-    /**
-     * TODO: Doc!
-     *
-     * @param streams
-     */
-    public ParallelOutputStream(OutputStream...streams)
+    public ParallelOutputStream( final OutputStream...streams )
     {
         int i               = 0;
         this.outputStreams  = new OutputStream[streams.length];
 
-        for( OutputStream os: streams) {
-            outputStreams[i++] = os;
-        }
+        for( OutputStream os: streams ) {
+            this.outputStreams[i++] = os;
+            }
     }
 
-    @Override
-    public void write(int b)
-        throws java.io.IOException
+    /**
+     * Create a ParallelOutputStream
+     *
+     * @param streams {@link Collection} of {@link OutputStream}
+     */
+    public ParallelOutputStream( final Collection<OutputStream> streams )
     {
-        for(int i = 0; i < outputStreams.length; i++)
+        int i               = 0;
+        this.outputStreams  = new OutputStream[streams.size()];
 
-        {
-            outputStreams[i].write(b);
-        }
+        for( OutputStream os: streams ) {
+            this.outputStreams[i++] = os;
+            }
     }
 
     @Override
@@ -57,7 +46,7 @@ public final class ParallelOutputStream extends OutputStream
     {
         IOException lastException = null;
 
-        for(int i = 0; i < outputStreams.length; i++) {
+        for( int i = 0; i < outputStreams.length; i++ ) {
             try {
                 outputStreams[i].close();
                 }
@@ -77,8 +66,46 @@ public final class ParallelOutputStream extends OutputStream
     @Override
     public void flush() throws IOException
     {
+        IOException lastException = null;
+
+        for( int i = 0; i < outputStreams.length; i++ ) {
+            try {
+                outputStreams[i].flush();
+                }
+            catch( IOException e) {
+                lastException = e;
+                }
+            }
+
+        if(lastException != null) {
+            throw lastException;
+            }
+        else {
+            return;
+            }
+    }
+
+    @Override
+    public void write( int b ) throws IOException
+    {
         for(int i = 0; i < outputStreams.length; i++) {
-            outputStreams[i].flush();
+            outputStreams[i].write(b);
+            }
+    }
+
+    @Override
+    public void write( byte[] b, int offset, int length ) throws IOException
+    {
+        for(int i = 0; i < outputStreams.length; i++) {
+            outputStreams[i].write( b, offset, length );
+            }
+    }
+
+    @Override
+    public void write( byte[] b ) throws IOException
+    {
+        for(int i = 0; i < outputStreams.length; i++ ) {
+            outputStreams[i].write( b );
             }
     }
 }
