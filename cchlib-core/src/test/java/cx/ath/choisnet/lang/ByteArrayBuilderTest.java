@@ -1,4 +1,4 @@
-package cx.ath.choisnet.lang.testcase;
+package cx.ath.choisnet.lang;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import cx.ath.choisnet.io.SerializableHelper;
-import cx.ath.choisnet.lang.ByteArrayBuilder;
+//import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.Assert;
 import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;

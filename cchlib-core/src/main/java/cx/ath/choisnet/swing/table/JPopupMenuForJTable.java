@@ -38,7 +38,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @return JTable
      */
@@ -48,7 +48,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @return get TableModel for current JTable
      */
@@ -91,7 +91,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     final
     public void setMenu()
@@ -139,7 +139,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     final
     protected void cancelCellEditing()
@@ -247,7 +247,7 @@ public abstract class JPopupMenuForJTable
 //        }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param contextMenu
      * @param rowIndex
@@ -282,7 +282,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param textForCopy
      * @param rowIndex
@@ -331,7 +331,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param contextMenu
      * @param rowIndex

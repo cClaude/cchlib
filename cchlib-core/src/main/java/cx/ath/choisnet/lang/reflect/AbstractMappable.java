@@ -1,16 +1,10 @@
 package cx.ath.choisnet.lang.reflect;
 
-import java.io.File;
-import java.net.URL;
 import java.util.Map;
-import cx.ath.choisnet.ToDo;
 
 /**
- * Default implementation for {@link Mappable}amis
- *
- * @author Claude CHOISNET
+ * Basic implementation for {@link Mappable}
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public abstract class AbstractMappable
     implements Mappable
 {
@@ -19,20 +13,13 @@ public abstract class AbstractMappable
      * identify object that should be mapped.
      * <p>
      * Use {@link #getObjectToMap()} to identify object to map, and
-     * use {@link #getMappableHelperFactory()} to
+     * use {@link #createMappableBuilderFactory()} to
      * <p>
      */
     @Override
     public Map<String,String> toMap()
     {
-//        MappableHelper mappableHelper = new MappableHelper(
-//                (new MappableHelperDefaultFactory())
-//                    .setMethodesNamePattern("(get|is).*")
-//                    .addClasses(new Class<?>[] { String.class, File.class, URL.class })
-//                    .addAttribute( MappableHelper.Attributes.ALL_PRIMITIVE_TYPE )
-//                    );
-//      return mappableHelper.toMap(this);
-        MappableHelper mappableHelper = new MappableHelper( getMappableHelperFactory() );
+        MappableBuilder mappableHelper = new MappableBuilder( createMappableBuilderFactory() );
 
         return mappableHelper.toMap( getObjectToMap() );
     }
@@ -47,17 +34,17 @@ public abstract class AbstractMappable
     protected abstract Object getObjectToMap();
 
     /**
-     * TODO: Doc!
+     * Create a default MappableBuilderFactory.
+     * Default implementation is based on {@link MappableBuilder#createMappableBuilderFactory()}
      *
      * @return a {@link MappableHelperFactory}
      */
-    protected MappableHelperFactory getMappableHelperFactory()
+    protected MappableBuilderFactory createMappableBuilderFactory()
     {
-        return (new MappableHelperDefaultFactory())
-                    .setMethodesNamePattern("(get|is).*")
-                    .addClasses(
-                        new Class<?>[] { String.class, File.class, URL.class }
-                        )
-                    .addAttribute( MappableHelper.Attributes.ALL_PRIMITIVE_TYPE );
+//        return (new MappableBuilderDefaultFactory())
+//                    .setMethodesNamePattern("(get|is).*")
+//                    .add( String.class, File.class, URL.class )
+//                    .add( MappableItem.ALL_PRIMITIVE_TYPE );
+        return MappableBuilder.createMappableBuilderFactory();
     }
 }

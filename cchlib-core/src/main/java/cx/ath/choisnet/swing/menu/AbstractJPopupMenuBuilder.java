@@ -14,8 +14,8 @@ import javax.swing.JPopupMenu;
 
 /**
  * TODO: Doc !
- * 
- * 
+ *
+ *
  * @author Claude CHOISNET
  * <p>
  * Code inspired from
@@ -25,37 +25,37 @@ import javax.swing.JPopupMenu;
 public abstract class AbstractJPopupMenuBuilder
 {
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextMenu
      * @param menuItem
      */
-    public final void add( 
+    public final void add(
             JPopupMenu  contextMenu,
-            JMenuItem   menuItem 
+            JMenuItem   menuItem
             )
     {
         contextMenu.add( menuItem );
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextSubMenu
      * @param menuItem
      */
-    final 
-    public void add( 
+    final
+    public void add(
             JMenu       contextSubMenu,
-            JMenuItem   menuItem 
+            JMenuItem   menuItem
             )
     {
         contextSubMenu.add( menuItem );
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextMenu
      * @param menuItem
      * @param listener
@@ -72,8 +72,8 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextSubMenu
      * @param menuItem
      * @param listener
@@ -90,13 +90,13 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextMenu
      * @param menuItem
      * @param listener
-     * @param actionCommand 
-     * 
+     * @param actionCommand
+     *
      * @see JMenuItem#setActionCommand(String)
      */
     final
@@ -113,13 +113,13 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextSubMenu
      * @param menuItem
      * @param listener
-     * @param actionCommand 
-     * 
+     * @param actionCommand
+     *
      * @see JMenuItem#setActionCommand(String)
      */
     final
@@ -136,14 +136,14 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextSubMenu
      * @param menuItem
      * @param listener
-     * @param clientPropertyKey 
+     * @param clientPropertyKey
      * @param clientPropertyValue
-     * 
+     *
      * @see JMenuItem#putClientProperty(Object, Object)
      * @see JMenuItem#getClientProperty(Object)
      */
@@ -152,7 +152,7 @@ public abstract class AbstractJPopupMenuBuilder
             JMenu           contextSubMenu,
             JMenuItem       menuItem,
             ActionListener  listener,
-            Object          clientPropertyKey, 
+            Object          clientPropertyKey,
             Object          clientPropertyValue
             )
     {
@@ -162,14 +162,14 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextMenu
      * @param menuItem
      * @param listener
-     * @param clientPropertyKey 
-     * @param clientPropertyValue 
-     * 
+     * @param clientPropertyKey
+     * @param clientPropertyValue
+     *
      * @see JMenuItem#putClientProperty(Object, Object)
      * @see JMenuItem#getClientProperty(Object)
      */
@@ -178,7 +178,7 @@ public abstract class AbstractJPopupMenuBuilder
             JPopupMenu      contextMenu,
             JMenuItem       menuItem,
             ActionListener  listener,
-            Object          clientPropertyKey, 
+            Object          clientPropertyKey,
             Object          clientPropertyValue
             )
     {
@@ -186,17 +186,17 @@ public abstract class AbstractJPopupMenuBuilder
         menuItem.addActionListener( listener );
         contextMenu.add( menuItem );
     }
-    
+
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextMenu
      * @param menuItem
      * @param listener
      * @param actionCommand ActionCommand to set
-     * @param clientPropertyKey 
-     * @param clientPropertyValue 
-     * 
+     * @param clientPropertyKey
+     * @param clientPropertyValue
+     *
      * @see JMenuItem#putClientProperty(Object, Object)
      * @see JMenuItem#getClientProperty(Object)
      */
@@ -206,7 +206,7 @@ public abstract class AbstractJPopupMenuBuilder
             JMenuItem       menuItem,
             ActionListener  listener,
             String          actionCommand,
-            Object          clientPropertyKey, 
+            Object          clientPropertyKey,
             Object          clientPropertyValue
             )
     {
@@ -217,15 +217,15 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODO: Doc !
-     * 
+     * TODOC
+     *
      * @param contextSubMenu
      * @param menuItem
      * @param listener
-     * @param actionCommand 
-     * @param clientPropertyKey 
+     * @param actionCommand
+     * @param clientPropertyKey
      * @param clientPropertyValue
-     * 
+     *
      * @see JMenuItem#putClientProperty(Object, Object)
      * @see JMenuItem#getClientProperty(Object)
      */
@@ -235,7 +235,7 @@ public abstract class AbstractJPopupMenuBuilder
             JMenuItem       menuItem,
             ActionListener  listener,
             String          actionCommand,
-            Object          clientPropertyKey, 
+            Object          clientPropertyKey,
             Object          clientPropertyValue
             )
     {
@@ -247,9 +247,9 @@ public abstract class AbstractJPopupMenuBuilder
 
     /**
      * Test if clipboard contain text.
-     * 
+     *
      * @param requestor the object requesting the clip data (not used)
-     * 
+     *
      * @return true if clip-board contains text.
      */
     final
@@ -264,13 +264,13 @@ public abstract class AbstractJPopupMenuBuilder
 
     /**
      * Set String content to clipboard
-     * 
+     *
      * @param s String to put in clipboard
-     * 
-     * @throws IllegalStateException if the clipboard 
-     * is currently unavailable. For example, on some 
-     * platforms, the system clipboard is unavailable 
-     * while it is accessed by another application. 
+     *
+     * @throws IllegalStateException if the clipboard
+     * is currently unavailable. For example, on some
+     * platforms, the system clipboard is unavailable
+     * while it is accessed by another application.
      */
     final
     public static void setClipboardContents(String s)
@@ -280,22 +280,22 @@ public abstract class AbstractJPopupMenuBuilder
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
                     .setContents(
-                            selection, 
+                            selection,
                             selection
                             );
     }
 
     /**
-     * Returns String representing the current contents of 
+     * Returns String representing the current contents of
      * the clipboard. If the clipboard currently has no
      * contents, it returns null.
-     * 
+     *
      * @param requestor the object requesting the clip data (not used)
-     * 
+     *
      * @return String representing the current contents of the clipboard.
      *         If the clipboard currently has no contents, it returns null.
-     *         
-     * @throws IllegalStateException if the clipboard is currently 
+     *
+     * @throws IllegalStateException if the clipboard is currently
      *         unavailable. For example, on some platforms, the system
      *         clipboard is unavailable while it is accessed by another
      *         application.

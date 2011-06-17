@@ -6,9 +6,10 @@ import java.util.Map;
  * Give a view of all Attributes(name,value) for this object, could be use to
  * generate XML files, HTML, debugging, ...
  *
+ * @see AbstractMappable
+ * @see MappableBuilder
+ * @see MappableBuilderFactory
  * @see MappableHelper
- * @see MappableHelperFactory
- * @author Claude CHOISNET
  */
 public interface Mappable
 {

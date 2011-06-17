@@ -12,6 +12,19 @@ cchlib-core
   Add: cx.ath.choisnet.test.Assert.assertEquals(String,char[],char[])
   Add: cx.ath.choisnet.test.SerializableTestCaseHelper
   Fix: some problems with resources (since maven migration)
+  Add: com.googlecode.cchlib.io.filetype.FileDataTypes
+  Add: com.googlecode.cchlib.io.filetype.package-info
+  Add: com.googlecode.cchlib.net.download.URLCache
+  Add: com.googlecode.cchlib.net.download.package-info
+  Add: cx.ath.choisnet.lang.reflect.MappableBuilder
+  Add: cx.ath.choisnet.lang.reflect.MappableBuilderDefaultFactory
+  Add: cx.ath.choisnet.lang.reflect.MappableBuilderFactory
+  Add: cx.ath.choisnet.lang.reflect.MappableItem
+  Rem: cx.ath.choisnet.lang.reflect.MappableHelperDefaultFactory
+  Rem: cx.ath.choisnet.lang.reflect.MappableHelperFactory
+  Fix (according to evolutions): cx.ath.choisnet.lang.reflect.AbstractMappable
+  Fix (according to evolutions): cx.ath.choisnet.lang.reflect.MappableHelper
+  Add-test: cx.ath.choisnet.lang.reflect.MappableTest
 ---------------------------------------------------------------------
 4.1.3
   Add: cx.ath.choisnet.sql.ConnectionQuery
