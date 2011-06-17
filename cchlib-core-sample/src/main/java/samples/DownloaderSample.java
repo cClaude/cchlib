@@ -1,11 +1,8 @@
 package samples;
 
-import java.io.CharArrayWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -13,14 +10,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import samples.DownloaderSample.DataTypeFinder.DataTypeDescription;
-import cx.ath.choisnet.io.SerializableHelper;
-import cx.ath.choisnet.net.URLHelper;
+import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
+import com.googlecode.cchlib.io.filetype.FileDataTypes;
+import com.googlecode.cchlib.net.download.DownloadExecutor;
+import com.googlecode.cchlib.net.download.DownloadFileEvent;
+import com.googlecode.cchlib.net.download.DownloadStringEvent;
+import com.googlecode.cchlib.net.download.DownloadToFile;
+import com.googlecode.cchlib.net.download.DownloadToString;
+import com.googlecode.cchlib.net.download.URLCache;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
@@ -37,10 +34,9 @@ public class DownloaderSample
     private MessageDigestFile mdf;
     private File        tempDirectoryFile;
     private File        destinationDirectoryFile;
-    private Object      lock = new Object();
+
     private URLCache    cache = new URLCache();
     private int         downloadMaxThread = 5;
-
 
     /**
      *
@@ -72,77 +68,35 @@ public class DownloaderSample
 
     private List<String> loads() throws IOException
     {
-        final List<String>      result  = new ArrayList<String>();
-        BlockingQueue<Runnable> queue   = new LinkedBlockingDeque<Runnable>();
+        final List<String>      result              = new ArrayList<String>();
+        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
 
-        for( URL u: this.htmlURLList ) {
-            queue.add(  new DownloadURLToString( u, result ) );
-            }
-
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(
-                0, // min thread
-                downloadMaxThread, // max thread
-                0, // keepAliveTime
-                TimeUnit.MILLISECONDS,
-                queue
-                );
-        pool.setCorePoolSize( downloadMaxThread );
-
-        println( "downloadMaxThread = " + downloadMaxThread );
-
-        pool.execute( new Runnable()
+        DownloadStringEvent eventHandler = new DownloadStringEvent()
         {
             @Override
-            public void run()
+            public void downloadStart( final URL url )
             {
-                // Done
-                synchronized( lock ) {
-                    lock.notify();
-                }
+                println( "Start downloading: " + url );
             }
-        });
+            @Override
+            public void downloadDone( final URL url, final String content )
+            {
+                result.add( content );
+            }
+            @Override
+            public void downloadFail( final URL url, final Throwable cause )
+            {
+                // TODO retry ? add count ?
+                Runnable command = new DownloadToString( this, url );
+                //pool.execute( command );
+                downloadExecutor.execute( command );
+            }
+        };
 
-        // Wait until done
-        synchronized( lock ) {
-            try {
-                lock.wait();
-                }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-                }
-        }
+        downloadExecutor.add( eventHandler, htmlURLList );
+        downloadExecutor.waitCompleted();
 
         return result;
-    }
-
-    private class DownloadURLToString implements Runnable
-    {
-        private final URL             url;
-        private final List<String>    postResult;
-
-        DownloadURLToString( final URL url, final List<String> postResult)
-        {
-            this.url        = url;
-            this.postResult = postResult;
-        }
-
-        @Override
-        public void run()
-        {
-            CharArrayWriter buffer = new CharArrayWriter();
-
-            println( "Start downloading: " + url );
-
-            try {
-                URLHelper.copy( url, buffer );
-
-                postResult.add( buffer.toString() );
-                }
-            catch( IOException e ) {
-                // TODO : try again ?
-                e.printStackTrace();
-                }
-        }
     }
 
     private Collection<URL> collectURL() throws IOException
@@ -188,8 +142,70 @@ public class DownloaderSample
 
     void downloadAll() throws IOException
     {
-        Collection<URL>         urls    = collectURL();
-        BlockingQueue<Runnable> queue   = new LinkedBlockingDeque<Runnable>();
+        final Collection<URL>   urls                = collectURL();
+        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
+
+        DownloadFileEvent eventHandler = new DownloadFileEvent()
+        {
+            @Override
+            public void downloadStart( URL url )
+            {
+                println( "Start downloading: " + url );
+            }
+            @Override
+            public void downloadFail( URL url, Throwable cause )
+            {
+                // TODO retry ? add count ?
+                Runnable command = new DownloadToFile( this, url );
+                downloadExecutor.execute( command );
+            }
+            @Override
+            public File createTempFile( URL url ) throws IOException
+            {
+                return File.createTempFile( "pic", null, tempDirectoryFile );
+            }
+            @Override
+            public void downloadDone( URL url, File file )
+            {
+                try {
+                    // Compute MD5 hashc ode
+                    byte[] digestKey        = mdf.compute( file );
+                    String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
+
+                    // Identify file content to generate extension
+                    FileDataTypeDescription type        = FileDataTypes.findDataTypeDescription( file );
+                    String                  extension   = null;
+
+                    if( type != null ) {
+                        extension = type.getExtension();
+                        }
+                    else {
+                        extension = ".xxx";
+                        }
+
+                    // Create new file name
+                    File ffile = new File( destinationDirectoryFile, hashCodeString + extension );
+
+                    // Rename file
+                    boolean isRename = file.renameTo( ffile );
+
+                    if( isRename ) {
+                        println( "new file > " + ffile );
+                        cache.add( url, ffile.getName() );
+                        }
+                    else {
+                        println( "*** already exists ? " + ffile );
+                        }                    }
+                catch( FileNotFoundException e ) {
+                    // Should not occur
+                    e.printStackTrace();
+                    }
+                catch( IOException e ) {
+                    // Should not occur
+                    e.printStackTrace();
+                    }
+            }
+        };
 
         for( URL u: urls ) {
             if( cache.isInCache( u ) ) {
@@ -197,52 +213,11 @@ public class DownloaderSample
                 println( "Already loaded: " + u );
                 }
             else {
-                queue.add( new DownloadToFile( u ) );
-                cache.add( u );
+                downloadExecutor.addDownload( eventHandler, u );
                 }
             }
-        ThreadFactory threadFactory = new ThreadFactory()
-        {
-            @Override
-            public Thread newThread( Runnable arg0 )
-            {
-                // TODO Auto-generated method stub
-                return null;
-            }
-            
-        };
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(
-                downloadMaxThread, // min thread
-                downloadMaxThread, // max thread
-                0, // keepAliveTime
-                TimeUnit.MILLISECONDS,
-                queue,
-                threadFactory
-                );
-        pool.setCorePoolSize( downloadMaxThread );
 
-        println( "downloadMaxThread = " + downloadMaxThread );
-
-        pool.execute( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                synchronized( lock ) {
-                    lock.notify();
-                }
-            }
-        });
-
-        synchronized( lock ) {
-            try {
-                lock.wait();
-                }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-                }
-        }
-
+        downloadExecutor.waitCompleted();
         storeCache();
     }
 
@@ -254,67 +229,6 @@ public class DownloaderSample
         catch( IOException logOnly ) {
             logOnly.printStackTrace();
             }
-    }
-
-    private class DownloadToFile implements Runnable
-    {
-        private final URL url;
-
-        DownloadToFile( URL url )
-        {
-            this.url = url;
-        }
-
-        @Override
-        public void run()
-        {
-            try {
-                download();
-                }
-            catch( IOException e ) {
-                // TODO : try again ?
-                e.printStackTrace();
-                }
-        }
-
-        public void download() throws IOException
-        {
-            final File file = getTmpFile();
-
-            println( "Downloading " + url );
-
-            URLHelper.copy( url, file );
-
-            byte[] digestKey        = mdf.compute( file );
-            String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
-
-            DataTypeDescription type = DataTypeFinder.findDataTypeDescription( file );
-            String              extension = null;
-
-            if( type != null ) {
-                extension = type.getExtension();
-                }
-            else {
-                extension = ".xxx";
-            }
-
-            File ffile = new File( destinationDirectoryFile, hashCodeString + extension );
-
-            boolean isRename = file.renameTo( ffile );
-
-            if( isRename ) {
-                println( "new file > " + ffile );
-                }
-            else {
-                println( "*** already exists ? " + ffile );
-                }
-        }
-
-        public File getTmpFile() throws IOException
-        {
-            return File.createTempFile( "pic", null, tempDirectoryFile );
-        }
-
     }
 
     protected void println( String s )
@@ -337,164 +251,4 @@ public class DownloaderSample
         instance.downloadAll();
         instance.println( "done" );
     }
-
-    public static class URLCache implements Serializable
-    {
-        private static final long serialVersionUID = 1L;
-        // Workaround for generic warning...
-        private class SetOfURL extends HashSet<URL>
-        {
-            private static final long serialVersionUID = 1L;
-        };
-        private SetOfURL cache;
-        private File cacheFile;
-
-        public URLCache()
-        {
-            cache = new SetOfURL();
-        }
-
-        public URLCache( File cacheFile )
-        {
-            setCacheFile( cacheFile );
-            try {
-                load();
-                }
-            catch( Exception e ) {
-                cache = new SetOfURL();
-                }
-        }
-
-        public boolean isInCache( URL url )
-        {
-            return cache.contains( url );
-        }
-
-        public void add( URL url )
-        {
-            cache.add( url );
-        }
-
-        public void clear()
-        {
-            cache.clear();
-        }
-
-        public void setCacheFile( File cacheFile )
-        {
-            this.cacheFile = cacheFile;
-        }
-
-        public File getCacheFile()
-        {
-            return this.cacheFile;
-        }
-
-        /**
-         *
-         * @throws FileNotFoundException if cache does not exist
-         * @throws IOException
-         * @throws ClassNotFoundException
-         */
-        public void load() throws FileNotFoundException, IOException, ClassNotFoundException
-        {
-            cache = SerializableHelper.loadObject( cacheFile, cache.getClass() );
-        }
-
-        public void store() throws IOException
-        {
-            SerializableHelper.toFile( cache, cacheFile );
-        }
-
-    }
-
-    public static class DataTypeFinder
-    {
-        public enum DataType
-        {
-            JPEG, PNG, GIF
-        }
-        public interface DataTypeDescription
-        {
-            public String getExtension();
-            public String getShortExtension();
-            public DataType getDataType();
-        }
-
-        public static DataTypeDescription findDataTypeDescription( File file )
-            throws FileNotFoundException, IOException
-        {
-            FileInputStream     fis = new FileInputStream( file );
-            byte[]              b   = new byte[ 16 ];
-
-            int len = fis.read( b );
-            fis.close();
-
-            if( len > 0 ) {
-                if( b[ 6 ] == 0x4A && b[ 7 ] == 0x46 && b[ 8 ] == 0x49 && b[ 9 ] == 0x46 ) {
-                    return new DataTypeDescription()
-                    {
-                        @Override
-                        public String getExtension()
-                        {
-                            return ".jpeg";
-                        }
-                        @Override
-                        public String getShortExtension()
-                        {
-                            return ".jpg";
-                        }
-                        @Override
-                        public DataType getDataType()
-                        {
-                            return DataType.JPEG;
-                        }
-                    };
-                }
-                if( b[ 1 ] == 0x50 && b[ 2 ] == 0x4E && b[ 3] == 0x47 ) {
-                    return new DataTypeDescription()
-                    {
-                        @Override
-                        public String getExtension()
-                        {
-                            return ".png";
-                        }
-                        @Override
-                        public String getShortExtension()
-                        {
-                            return getExtension();
-                        }
-                        @Override
-                        public DataType getDataType()
-                        {
-                            return DataType.PNG;
-                        }
-                    };
-                }
-                if( b[ 0 ] == 0x47 && b[ 1 ] == 0x49 && b[ 2 ] == 0x46 ) {
-                    return new DataTypeDescription()
-                    {
-                        @Override
-                        public String getExtension()
-                        {
-                            return ".gif";
-                        }
-                        @Override
-                        public String getShortExtension()
-                        {
-                            return getExtension();
-                        }
-                        @Override
-                        public DataType getDataType()
-                        {
-                            return DataType.GIF;
-                        }
-                    };
-                }
-            }
-            return null;
-
-        }
-    }
 }
-
