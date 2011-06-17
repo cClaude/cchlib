@@ -9,7 +9,7 @@ import cx.ath.choisnet.net.URLHelper;
  * Download {@link URL} and put result into a {@link File}
  * @since 4.1.5
  */
-public class DownloadToFile implements Runnable
+public class DownloadToFile implements RunnableDownload
 {
     private final DownloadFileEvent event;
     private final URL url;
@@ -29,8 +29,6 @@ public class DownloadToFile implements Runnable
     @Override
     public void run()
     {
-        event.downloadStart( url );
-
         try {
             download();
             }
@@ -41,10 +39,16 @@ public class DownloadToFile implements Runnable
 
     private void download() throws IOException
     {
-        final File file = event.createTempFile( url );
+        final File file = event.downloadStart( url );
 
         URLHelper.copy( url, file );
 
         this.event.downloadDone( url, file );
+    }
+
+    @Override
+    public URL getURL()
+    {
+        return url;
     }
 }

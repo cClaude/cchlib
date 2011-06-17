@@ -13,7 +13,7 @@
   <artifactId>cchlib-core-sample</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-core-sample</name>
-  <version>4.1.3-SNAPSHOT</version>
+  <version>4.1.5-SNAPSHOT</version>
   <description>Some samples for cchlib-core</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 

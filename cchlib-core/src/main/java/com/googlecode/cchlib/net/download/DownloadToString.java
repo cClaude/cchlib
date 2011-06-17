@@ -9,7 +9,7 @@ import cx.ath.choisnet.net.URLHelper;
  * Download {@link URL} and put result into a {@link String}
  * @since 4.1.5
  */
-public class DownloadToString implements Runnable
+public class DownloadToString implements RunnableDownload
 {
     private final DownloadStringEvent   event;
     private final URL                   url;
@@ -41,5 +41,11 @@ public class DownloadToString implements Runnable
         catch( IOException e ) {
             this.event.downloadFail( url, e );
             }
+    }
+
+    @Override
+    public URL getURL()
+    {
+        return url;
     }
 }

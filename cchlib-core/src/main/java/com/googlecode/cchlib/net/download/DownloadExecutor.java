@@ -2,6 +2,7 @@ package com.googlecode.cchlib.net.download;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
@@ -14,6 +15,10 @@ import java.util.concurrent.TimeUnit;
  * TODO: General description !!!
  * </p>
  * @since 4.1.5
+ * @see DownloadToFile
+ * @see DownloadFileEvent
+ * @see DownloadToString
+ * @see DownloadStringEvent
  */
 public class DownloadExecutor
 {
@@ -46,13 +51,24 @@ public class DownloadExecutor
      * </p>
      *
      * @param command the task to execute
-     * @throws RejectedExecutionException at discretion of RejectedExecutionHandler, if task cannot be accepted for execution
-     * @throws NullPointerException - if command is null
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @throws NullPointerException if command is null
      */
     public void execute( final Runnable command )
         throws RejectedExecutionException, NullPointerException
     {
         pool.execute( command );
+    }
+
+    /**
+     * Attempts to stop all actively executing tasks
+     *
+     * @return list of tasks that never commenced execution
+     * @see ThreadPoolExecutor#shutdownNow()
+     */
+    public List<Runnable> cancel()
+    {
+        return pool.shutdownNow();
     }
 
     /**
@@ -63,7 +79,8 @@ public class DownloadExecutor
      *
      * @param eventHandler  Event handler for these downloads
      * @param URLCollection {@link Collection} of {@link URL} to download.
-     * @throws RejectedExecutionException at discretion of RejectedExecutionHandler, if task cannot be accepted for execution
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToString
      */
     public void add(
             DownloadStringEvent eventHandler,
@@ -84,7 +101,8 @@ public class DownloadExecutor
      *
      * @param eventHandler  Event handler for this download
      * @param url {@link URL} to download
-     * @throws RejectedExecutionException at discretion of RejectedExecutionHandler, if task cannot be accepted for execution
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToString
      */
     public void addDownload(
             DownloadStringEvent eventHandler,
@@ -104,7 +122,8 @@ public class DownloadExecutor
      *
      * @param eventHandler  Event handler for these downloads
      * @param URLCollection {@link Collection} of {@link URL} to download.
-     * @throws RejectedExecutionException at discretion of RejectedExecutionHandler, if task cannot be accepted for execution
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToFile
      */
     public void addDownload(
             DownloadFileEvent   eventHandler,
@@ -125,7 +144,8 @@ public class DownloadExecutor
      *
      * @param eventHandler  Event handler for this download
      * @param url {@link URL} to download
-     * @throws RejectedExecutionException at discretion of RejectedExecutionHandler, if task cannot be accepted for execution
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToFile
      */
     public void addDownload(
             DownloadFileEvent   eventHandler,
@@ -138,15 +158,17 @@ public class DownloadExecutor
     }
 
     /**
-     * Wait process completed
+     * Blocks until all tasks have completed execution
      * <p>
-     * DownloadExecutor is no more valid after this call
+     * DownloadExecutor is no more valid after this call. Any call to
+     * add or execute methods will cause an {@link RejectedExecutionException}
      * </p>
      */
-    public void waitCompleted()
+    public void waitClose()
     {
         // Wait pool finish
         do {
+            // TODO: handle shutdown() use pool.awaitTermination( 1, TimeUnit.SECONDS );
             try { Thread.sleep( 2 * 1000 ); } catch( InterruptedException ignore ) {}
             } while( pool.getActiveCount() > 0 );
 

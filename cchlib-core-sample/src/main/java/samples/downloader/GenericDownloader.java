@@ -1,4 +1,4 @@
-package samples;
+package samples.downloader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,66 +7,64 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
 import com.googlecode.cchlib.net.download.DownloadExecutor;
 import com.googlecode.cchlib.net.download.DownloadFileEvent;
 import com.googlecode.cchlib.net.download.DownloadStringEvent;
-import com.googlecode.cchlib.net.download.DownloadToFile;
-import com.googlecode.cchlib.net.download.DownloadToString;
 import com.googlecode.cchlib.net.download.URLCache;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  *
  *
- *
  */
-public class DownloaderSample
+public abstract class GenericDownloader
 {
-    private final static String serverRootURLString = "http://www.bloggif.com";
-    private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
+    private final MessageDigestFile mdf;
+    private final URLCache cache = new URLCache();
 
-    private List<URL>   htmlURLList = new ArrayList<URL>();
-    private MessageDigestFile mdf;
-    private File        tempDirectoryFile;
-    private File        destinationDirectoryFile;
-
-    private URLCache    cache = new URLCache();
-    private int         downloadMaxThread = 5;
+    private final File  tempDirectoryFile;
+    private final File  destinationDirectoryFile;
+    private final int   downloadMaxThread;
 
     /**
      *
-     * @param destinationFolderFile
+     * @param tempDirectoryFile
+     * @param destinationDirectoryFile
+     * @param downloadMaxThread
      * @throws NoSuchAlgorithmException
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public DownloaderSample( final File destinationFolderFile )
+    public GenericDownloader(
+            final File  tempDirectoryFile,
+            final File  destinationDirectoryFile,
+            final int   downloadMaxThread
+            )
         throws NoSuchAlgorithmException, IOException, ClassNotFoundException
     {
+        this.tempDirectoryFile = tempDirectoryFile;
+        this.destinationDirectoryFile = destinationDirectoryFile;
+        this.downloadMaxThread = downloadMaxThread;
+
+        this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
+
         this.mdf = new MessageDigestFile();
 
-        this.cache.setCacheFile( ( new File( destinationFolderFile, ".cache" ) ) );
         try  {
             this.cache.load();
             }
         catch( FileNotFoundException ignore ) {
             println( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
-
-        for( int i=1; i<23; i++ ) {
-            this.htmlURLList.add( new URL( htmlURLBase + i ) );
-            }
-
-        destinationDirectoryFile    = destinationFolderFile;
-        tempDirectoryFile           = destinationDirectoryFile;
     }
 
-    private List<String> loads() throws IOException
+    protected abstract void println( String msg );
+    protected abstract Collection<URL> collectURL() throws IOException;
+
+    protected List<String> loads( Collection<URL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
@@ -86,58 +84,16 @@ public class DownloaderSample
             @Override
             public void downloadFail( final URL url, final Throwable cause )
             {
-                // TODO retry ? add count ?
-                Runnable command = new DownloadToString( this, url );
-                //pool.execute( command );
-                downloadExecutor.execute( command );
+                // Improve: retry ? add count ?
+                // Runnable command = new DownloadToString( this, url );
+                // downloadExecutor.execute( command );
             }
         };
 
-        downloadExecutor.add( eventHandler, htmlURLList );
-        downloadExecutor.waitCompleted();
+        downloadExecutor.add( eventHandler, urls  );
+        downloadExecutor.waitClose();
 
         return result;
-    }
-
-    private Collection<URL> collectURL() throws IOException
-    {
-        String allContent;
-        {
-            List<String>    contentList = loads();
-            StringBuilder   sb          = new StringBuilder();
-
-            for( String s: contentList ) {
-                sb.append( s );
-                }
-
-            allContent = sb.toString();
-            contentList.clear();
-            sb.setLength( 0 );
-        }
-
-        final String[] regexps = {
-            "<img class=\"img_progress ...\" src=\"",
-            "<img class=\"img_progress ....\" src=\""
-            };
-
-        Set<URL> imagesURLCollection = new HashSet<URL>();
-
-        for( String regexp : regexps ) {
-            String[] strs = allContent.toString().split( regexp );
-            println( "> img founds = " + (strs.length - 1));
-
-            for( int i=1; i<strs.length; i++ ) {
-                String  s   = strs[ i ];
-                int     end = s.indexOf( '"' );
-                String  src = s.substring( 0, end );
-
-                imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                }
-            }
-
-        println( "> URL founds = " + imagesURLCollection.size() );
-
-        return imagesURLCollection;
     }
 
     void downloadAll() throws IOException
@@ -148,27 +104,24 @@ public class DownloaderSample
         DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
             @Override
-            public void downloadStart( URL url )
+            public File downloadStart( URL url ) throws IOException
             {
                 println( "Start downloading: " + url );
+
+                return File.createTempFile( "pic", null, tempDirectoryFile );
             }
             @Override
             public void downloadFail( URL url, Throwable cause )
             {
-                // TODO retry ? add count ?
-                Runnable command = new DownloadToFile( this, url );
-                downloadExecutor.execute( command );
-            }
-            @Override
-            public File createTempFile( URL url ) throws IOException
-            {
-                return File.createTempFile( "pic", null, tempDirectoryFile );
+                // Improve: retry ? add count ?
+                // Runnable command = new DownloadToFile( this, url );
+                // downloadExecutor.execute( command );
             }
             @Override
             public void downloadDone( URL url, File file )
             {
                 try {
-                    // Compute MD5 hashc ode
+                    // Compute MD5 hash ode
                     byte[] digestKey        = mdf.compute( file );
                     String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
 
@@ -217,7 +170,7 @@ public class DownloaderSample
                 }
             }
 
-        downloadExecutor.waitCompleted();
+        downloadExecutor.waitClose();
         storeCache();
     }
 
@@ -229,26 +182,5 @@ public class DownloaderSample
         catch( IOException logOnly ) {
             logOnly.printStackTrace();
             }
-    }
-
-    protected void println( String s )
-    {
-        System.out.println( s );
-    }
-
-    /**
-     * Start Sample here !
-     */
-    public static void main( String...args )
-        throws IOException, NoSuchAlgorithmException, ClassNotFoundException
-    {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
-        destinationFolderFile.mkdirs();
-
-        DownloaderSample instance = new DownloaderSample( destinationFolderFile );
-
-        instance.println( "destinationFolderFile = " + destinationFolderFile );
-        instance.downloadAll();
-        instance.println( "done" );
     }
 }

@@ -9,13 +9,6 @@ import java.net.URL;
 public interface DownloadEvent
 {
     /**
-     * This method is invoked when download start
-     *
-     * @param url {@link URL} of download
-     */
-    public void downloadStart( URL url );
-
-    /**
      * This method is invoked if download fail
      *
      * @param url   {@link URL} of download
