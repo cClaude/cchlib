@@ -37,7 +37,6 @@ public class ExportSQL  implements Closeable
 
     }
 
-    //private final DataSource            ds;
     private final Connection            connection;
     private final TableDescription[]    exportTables;
     private final String                schema;
@@ -293,7 +292,6 @@ public class ExportSQL  implements Closeable
     public void close()
     {
         try { if(s != null) s.close(); } catch(Exception e) {}
-        //try { if(c != null) c.close(); } catch(Exception e) {}
     }
 
     private final class ExportTable
@@ -307,7 +305,7 @@ public class ExportSQL  implements Closeable
         }
 
         public void doExportDeleteData(
-                final TableDescription tableDesc
+                final TableDescription tableDescription
                 )
             throws IOException
         {
@@ -317,7 +315,14 @@ public class ExportSQL  implements Closeable
                 print( schema ).print( "`.`" );
                 }
 
-            print( tableDesc.getName() ).println( "`;" );
+            print( tableDescription.getName() ).print( "`" );
+
+            final String wc = tableDescription.getWhereCondition();
+            if( wc != null ) {
+                // Delete only some values
+                print( " WHERE " ).print( wc );
+                }
+            println( ";" );
         }
 
         public void doExportData(
@@ -325,9 +330,6 @@ public class ExportSQL  implements Closeable
                 )
             throws SQLException, IOException
         {
-//            if( c == null ) {
-//                c = ds.getConnection();
-//                }
             if( s == null ) {
                 s = connection.createStatement();
                 }

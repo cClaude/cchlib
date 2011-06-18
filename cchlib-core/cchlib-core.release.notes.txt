@@ -25,6 +25,8 @@ cchlib-core
   Fix (according to evolutions): cx.ath.choisnet.lang.reflect.AbstractMappable
   Fix (according to evolutions): cx.ath.choisnet.lang.reflect.MappableHelper
   Add-test: cx.ath.choisnet.lang.reflect.MappableTest
+  DatabaseMetaDataCollector use MappableBuilder for results
+  Fix: cx.ath.choisnet.sql.export.ExportSQL where "whereClause" is not null
 ---------------------------------------------------------------------
 4.1.3
   Add: cx.ath.choisnet.sql.ConnectionQuery

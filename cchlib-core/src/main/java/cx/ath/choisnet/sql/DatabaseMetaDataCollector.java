@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.sql;
 
 import java.io.Serializable;
@@ -22,30 +19,30 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.lang.reflect.Mappable;
+import cx.ath.choisnet.lang.reflect.MappableBuilder;
+import cx.ath.choisnet.lang.reflect.MappableBuilderDefaultFactory;
 
 /**
- * Collect informations form {@link DatabaseMetaData} and put then into a
+ * Collect informations on {@link DatabaseMetaData} and put then into a
  * {@link Map} of strings.
- * 
- * @author Claude CHOISNET
  */
 public class DatabaseMetaDataCollector implements Mappable, Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final transient Logger slogger = Logger.getLogger( DatabaseMetaDataCollector.class );
 
-    /** Commons types */
-    private static final Class<?>[] validReturnClassesForString = {
-        Boolean.TYPE,
-        Integer.TYPE,
-        Long.TYPE,
-        Float.TYPE,
-        Double.TYPE,
-        Byte.TYPE,
-        Character.TYPE,
-        Short.TYPE,
-        String.class,
-    };
+//    /** Commons types */
+//    private static final Class<?>[] validReturnClassesForString = {
+//        Boolean.TYPE,
+//        Integer.TYPE,
+//        Long.TYPE,
+//        Float.TYPE,
+//        Double.TYPE,
+//        Byte.TYPE,
+//        Character.TYPE,
+//        Short.TYPE,
+//        String.class,
+//    };
 //    private static final String[] _tableTypes = { "TABLE" };
 
     /** @serial */
@@ -53,7 +50,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Build internal Map of methods names and values
-     * 
+     *
      * @param databaseMetaData DatabaseMetaData to use to build object
      */
     public DatabaseMetaDataCollector(
@@ -65,13 +62,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Build internal Map of methods names and values
-     * 
+     *
      * @param connection Connection to use to build object
      * @throws SQLException if a database access error occurs
      */
     public DatabaseMetaDataCollector(
             final Connection connection
-            ) 
+            )
         throws SQLException
     {
         this( connection.getMetaData() );
@@ -79,13 +76,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Build internal Map of methods names and values
-     * 
+     *
      * @param dataSource DataSource to use to build object
      * @throws SQLException if a database access error occurs
      */
     public DatabaseMetaDataCollector(
             final DataSource dataSource
-            ) 
+            )
         throws SQLException
     {
         this( dataSource.getConnection() );
@@ -93,33 +90,49 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Build internal Map of methods names and values
-     * 
+     *
      * @param contextName context name to use to build object
      * @throws SQLException if a database access error occurs
      * @throws NamingException if a naming exception is encountered
      */
     public DatabaseMetaDataCollector(
             final String contextName
-            ) 
+            )
         throws SQLException, NamingException
     {
         this( (DataSource)new InitialContext().lookup( contextName ) );
     }
 
     /**
-     * 
-     * @return
+     * Returns {@value Map} of methods/results
      */
     @Override
-    public Map<String, String> toMap()
+    public Map<String,String> toMap()
     {
-        MapBuilder builder = new MapBuilder( databaseMetaData );
-        
-        return Collections.unmodifiableMap( builder.toMap() );
+        final Map<String,String> map = new LinkedHashMap<String,String>();
+
+        {
+            final MappableBuilder mb = new MappableBuilder(
+                    new MappableBuilderDefaultFactory()
+                        .setMethodesNamePattern( ".*" )
+                        .add( Object.class )
+                        .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
+                    );
+
+            map.putAll( mb.toMap( databaseMetaData ) );
+        }
+
+        {
+            MapBuilder builder = new MapBuilder( databaseMetaData );
+
+            map.putAll( builder.toMap() );
+        }
+
+        return Collections.unmodifiableMap( map );
     }
 
     /**
-     * 
+     *
      * @return
      * @throws SQLException if a database access error occurs
     private Map<String, String> getTablesMapV1() throws SQLException
@@ -134,32 +147,32 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
             String cName = rs1md.getColumnName( i );
 
             values.put(
-                String.format( "*** Schemas col[%d]", i ), 
-                cName 
+                String.format( "*** Schemas col[%d]", i ),
+                cName
                 );
             }
 
         while( rs1.next()) {
             final String ss = rs1.getString(1); // col: TABLE_SCHEM
- 
+
             values.put("** TABLE_SCHEM", ss);
             values.put("** TABLE_CATALOG", rs1.getString(2));
 
             final ResultSet rs2 = databaseMetaData.getTables(null, ss, "%", null);
-            
+
             while( rs2.next() ) {
                 values.put(rs2.getString(3), rs2.getString(4));
                 }
-            
+
             rs2.close();
             }
 
         rs1.close();
-        
+
         return values;
     }
      */
-    
+
     /**
      * Returns list of table name for current schema
      * @param tableTypes
@@ -170,17 +183,17 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     {
         final List<String>  values      = new ArrayList<String>();
         final ResultSet     allTables   = databaseMetaData.getTables(null,null,null,tableTypes);
-        
+
         while( allTables.next() ) {
             final String tableName = allTables.getString("TABLE_NAME");
-          
+
             values.add( tableName );
             }
         allTables.close();
-        
+
         return values;
     }
-    
+
     /**
      * Returns list of table name for current schema
      * @return list of table name for current schema
@@ -200,40 +213,40 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     {
         return getTableList( "VIEW" );
     }
-        
+
     /**
-     * Returns a Map of tables names associate to a List of columns names for current schema 
+     * Returns a Map of tables names associate to a List of columns names for current schema
      * @param tableTypes
-     * @return a Map of tables names associate to a List of columns names for current schema 
+     * @return a Map of tables names associate to a List of columns names for current schema
      * @throws SQLException if a database access error occurs
      */
     public Map<String,List<String>> getTableMap(final String...tableTypes) throws SQLException
     {
         final Map<String,List<String>> values    = new LinkedHashMap<String,List<String>>();
         final ResultSet                allTables = databaseMetaData.getTables(null,null,null,tableTypes);
-        
-        while( allTables.next() ) {
-          final String tableName = allTables.getString("TABLE_NAME");
-          
-          final ResultSet       colList       = databaseMetaData.getColumns(null,null,tableName,null);
-          final List<String>    columnsList   = new ArrayList<String>();
 
-          while( colList.next() ) {
-              columnsList.add( colList.getString("COLUMN_NAME") );
+        while( allTables.next() ) {
+            final String tableName = allTables.getString("TABLE_NAME");
+
+            final ResultSet       colList       = databaseMetaData.getColumns(null,null,tableName,null);
+            final List<String>    columnsList   = new ArrayList<String>();
+
+            while( colList.next() ) {
+                columnsList.add( colList.getString("COLUMN_NAME") );
+                  }
+
+            values.put( tableName, columnsList );
+            colList.close();
               }
-          
-          values.put( tableName, columnsList );
-          colList.close(); 
-          }
 
         allTables.close();
-        
+
         return values;
     }
-    
+
     /**
-     * Returns a Map of tables names associate to a List of columns names for current schema 
-     * @return a Map of tables names associate to a List of columns names for current schema 
+     * Returns a Map of tables names associate to a List of columns names for current schema
+     * @return a Map of tables names associate to a List of columns names for current schema
      * @throws SQLException if a database access error occurs
      */
     public Map<String,List<String>> getTableMap() throws SQLException
@@ -242,8 +255,8 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     }
 
     /**
-     * Returns a Map of view names associate to a List of columns names for current schema 
-     * @return a Map of view names associate to a List of columns names for current schema 
+     * Returns a Map of view names associate to a List of columns names for current schema
+     * @return a Map of view names associate to a List of columns names for current schema
      * @throws SQLException if a database access error occurs
      */
     public Map<String,List<String>> getViewMap() throws SQLException
@@ -251,33 +264,33 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         return getTableMap( "VIEW" );
     }
 
-    /**
-     * Build list of methods to check that return something easy to put
-     * in a String
-     */
-    private static List<Method> getMethodsToInvokeForString()
-    {
-        final Method[]      methods = DatabaseMetaData.class.getMethods();
-        final List<Method>  methodsToInvoke = new ArrayList<Method>();
+//    /**
+//     * Build list of methods to check that return something easy to put
+//     * in a String
+//     */
+//    private static List<Method> getMethodsToInvokeForString()
+//    {
+//        final Method[]      methods = DatabaseMetaData.class.getMethods();
+//        final List<Method>  methodsToInvoke = new ArrayList<Method>();
+//
+//        for(Method m:methods) {
+//            final Class<?> returnType = m.getReturnType();
+//
+//            if( m.getParameterTypes().length == 0 ) {
+//                for(Class<?> c: validReturnClassesForString) {
+//                    if( returnType == c ) {
+////                        System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
+////                        System.err.println( "---" + returnType );
+//                        methodsToInvoke.add( m );
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return methodsToInvoke;
+//    }
 
-        for(Method m:methods) {
-            final Class<?> returnType = m.getReturnType();
-
-            if( m.getParameterTypes().length == 0 ) {
-                for(Class<?> c: validReturnClassesForString) {
-                    if( returnType == c ) {
-//                        System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
-//                        System.err.println( "---" + returnType );
-                        methodsToInvoke.add( m );
-                        break;
-                    }
-                }
-            }
-        }
-
-        return methodsToInvoke;
-    }
-    
     /**
      * Build list of methods to check that return ResultSet
      */
@@ -323,16 +336,15 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
             }
     }
 
-    private String invokeAndGetString(
-            final DatabaseMetaData  databaseMetaData,
-            final Method            m
-            )
-    {
-        Object result = invoke( databaseMetaData, m );
-        
-        return result == null ? null : result.toString();
-    }
-
+//    private String invokeAndGetString(
+//            final DatabaseMetaData  databaseMetaData,
+//            final Method            m
+//            )
+//    {
+//        Object result = invoke( databaseMetaData, m );
+//
+//        return result == null ? null : result.toString();
+//    }
 
     private class MapBuilder implements Mappable
     {
@@ -341,15 +353,16 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
         /**
          * Build internal Map of methods names and values
-         * 
+         *
          * @param databaseMetaData
          */
         MapBuilder(
                 final DatabaseMetaData databaseMetaData
                 )
         {
-            List<Method> methodsToInvoke = getMethodsToInvokeForString();
-
+            List<Method> methodsToInvoke;
+//            List<Method> methodsToInvoke = getMethodsToInvokeForString();
+//
             Comparator<Method> methodComparator = new Comparator<Method>()
             {
                 @Override
@@ -357,15 +370,15 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                 {
                     return m0.getName().compareTo( m1.getName() );
                 }
-                
+
             };
-            
-            Collections.sort( methodsToInvoke, methodComparator );
-            
-            for(Method m:methodsToInvoke) {
-                final String value = invokeAndGetString( databaseMetaData, m );
-                values.put( m.getName(), value );
-            }
+//
+//            Collections.sort( methodsToInvoke, methodComparator );
+//
+//            for(Method m:methodsToInvoke) {
+//                final String value = invokeAndGetString( databaseMetaData, m );
+//                values.put( m.getName(), value );
+//            }
 
             methodsToInvoke = getMethodsToInvokeForResultSet();
 
@@ -377,28 +390,28 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
                 values.put( "Method that return a ResultSet", m.toString() );
                 addResultSet( m, rSet );
-            }
+                }
         }
 
         private void addResultSet( Method m, Object resultSet )
         {
             if( resultSet == null ) {
-                values.put( 
-                    String.format( "%s ResultSet", m.getName()), 
-                    null 
+                values.put(
+                    String.format( "%s ResultSet", m.getName()),
+                    null
                     );
                 }
             else if( !(resultSet instanceof ResultSet) ) {
                 if( resultSet instanceof Throwable ) {
-                    values.put( 
-                            String.format( "%s ResultSet=>Throwable", m.getName()), 
-                            Throwable.class.cast( resultSet ).getMessage() 
+                    values.put(
+                            String.format( "%s ResultSet=>Throwable", m.getName()),
+                            Throwable.class.cast( resultSet ).getMessage()
                             );
                     }
                 else {
-                    values.put( 
-                            String.format( "%s ResultSet=>?", m.getName()), 
-                            resultSet.getClass().getName() + " : " + resultSet.toString() 
+                    values.put(
+                            String.format( "%s ResultSet=>?", m.getName()),
+                            resultSet.getClass().getName() + " : " + resultSet.toString()
                             );
                     }
                 }
@@ -412,14 +425,14 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
                     cCount = metaData.getColumnCount();
                     cNames = new String[ cCount + 1 ];
-                    
+
                     for( int i = 1; i<=cCount; i++ ) {
                         String cName = metaData.getColumnName( i );
                         cNames[ i ] = cName;
 
 //                        values.put(
-//                            String.format( "%s ResultSetMetaData[%d]", m.getName(), i ), 
-//                            cName 
+//                            String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
+//                            cName
 //                            );
                         }
                     }
@@ -427,27 +440,27 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     slogger.warn( "Error while reading ResultSetMetaData return by " + m, e );
 
                     values.put(
-                        String.format( "%s ResultSetMetaData[SQLException]", m.getName() ), 
+                        String.format( "%s ResultSetMetaData[SQLException]", m.getName() ),
                         e.getMessage()
                         );
-                    
+
                     if( cNames == null ) {
                         cNames = new String[ cCount + 1 ];
                         }
                     }
 
                 int row = 0;
-                
+
                 try {
                     while( rSet.next() ) {
                         for( int i = 1; i <= cCount; i++ ) {
                             values.put(
                                     String.format(
                                         "%s ResultSet[%d][%s].%d",
-                                        m.getName(), 
-                                        i, 
+                                        m.getName(),
+                                        i,
                                         cNames[ i ],
-                                        row 
+                                        row
                                         ),
                                     rSet.getString( i ) );
                         }
@@ -458,7 +471,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     slogger.warn( "Error while reading ResultSet return by " + m, e );
 
                     values.put(
-                        String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), row ), 
+                        String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), row ),
                         e.getMessage()
                         );
                     }
@@ -467,11 +480,12 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     }
                 }
         }
-        
+
         @Override
-        public Map<String, String> toMap()
+        public Map<String,String> toMap()
         {
-            return Collections.unmodifiableMap( values );
+//            return Collections.unmodifiableMap( values );
+            return values;
         }
     }
 }
