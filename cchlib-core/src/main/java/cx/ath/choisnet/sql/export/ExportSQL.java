@@ -4,13 +4,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.EnumSet;
-import cx.ath.choisnet.sql.SQLTools;
 
 /**
  * Create a SQL script to export values from tables.
@@ -42,7 +38,8 @@ public class ExportSQL  implements Closeable
     private final String                schema;
     private final Date                  exportDate;
     private final EnumSet<Config>       config;
-    private Statement                   s = null;
+    //private Statement                   s = null;
+    private ExportSQLPrinter _exporter   = null;
 
     /**
      * Initialize ExportSQL object
@@ -213,24 +210,24 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-       ExportTable exportTable = new ExportTable( outputWriter );
+        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
 
-       exportTable.println( "-- ---------------------------" );
-       exportTable.print( "-- Export " );
+        export.println( "-- ---------------------------" );
+        export.print( "-- Export " );
 
        if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-           exportTable.print( "`" ).print( schema ).print( "` " );
+           export.print( "`" ).print( schema ).print( "` " );
            }
 
-       exportTable.print( ": " ).println( getExportDateToString() );
+       export.print( ": " ).println( getExportDateToString() );
 
-       exportTable.println( "-- ---------------------------" );
+       export.println( "-- ---------------------------" );
 
        if( config.contains( Config.ADD_USE_SCHEMA ) ) {
-           exportTable.print( "USE `" ).print( schema ).println( "`;" );
+           export.print( "USE `" ).print( schema ).println( "`;" );
            }
 
-       exportTable.println();
+       export.println();
     }
 
     /**
@@ -244,22 +241,22 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-        ExportTable exportTable = new ExportTable( outputWriter );
+        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
 
-        exportTable.println( "-- ---------------------------" );
-        exportTable.println( "-- Cleanup" );
-        exportTable.println( "-- ---------------------------" );
+        export.println( "-- ---------------------------" );
+        export.println( "-- Cleanup" );
+        export.println( "-- ---------------------------" );
 
         for( int i = exportTables.length - 1; i>= 0; --i ) {
-            exportTable.doExportDeleteData( exportTables[ i ] );
+            export.doExportDeleteData( exportTables[ i ] );
             }
 
-        for( TableDescription table : exportTables ) {
-            exportTable.doExportData( table );
-            }
+//        for( TableDescription table : exportTables ) {
+//            export.doExportData( table );
+//            }
 
-        exportTable.println( "-- done." );
-        exportTable.println();
+        export.println( "-- Cleanup done." );
+        export.println();
     }
 
     /**
@@ -273,184 +270,53 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-        ExportTable exportTable = new ExportTable( outputWriter );
+        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
+
+        export.println( "-- ---------------------------" );
+        export.println( "-- Export tables" );
+        export.println( "-- ---------------------------" );
 
         try {
             for( TableDescription table : exportTables ) {
-                exportTable.doExportData( table );
+                export.doExportData( table );
                 }
 
-            exportTable.println( "-- done." );
-            exportTable.println();
+            export.println( "-- Export tables done." );
+            export.println();
             }
         finally {
             close();
             }
     }
 
+    protected String getSchemaName()
+    {
+        return this.schema;
+    }
+
+    protected EnumSet<Config> getConfigSet()
+    {
+        return this.config;
+    }
+
+    protected Connection getConnection()
+    {
+        return this.connection;
+    }
+
+    private ExportSQLPrinter getExportSQLPrinter( final Writer outputWriter )
+    {
+        if( _exporter == null ) {
+            _exporter = new ExportSQLPrinter( this, outputWriter );
+            }
+
+        return _exporter;
+    }
+
     @Override
     public void close()
     {
-        try { if(s != null) s.close(); } catch(Exception e) {}
+        try { if(_exporter != null) _exporter.close(); } catch(Exception e) {}
     }
 
-    private final class ExportTable
-    {
-        private Writer          out;
-        private StringBuilder   q = new StringBuilder();
-
-        public ExportTable( Writer out )
-        {
-            this.out = out;
-        }
-
-        public void doExportDeleteData(
-                final TableDescription tableDescription
-                )
-            throws IOException
-        {
-            print( "DELETE FROM `" );
-
-            if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-                print( schema ).print( "`.`" );
-                }
-
-            print( tableDescription.getName() ).print( "`" );
-
-            final String wc = tableDescription.getWhereCondition();
-            if( wc != null ) {
-                // Delete only some values
-                print( " WHERE " ).print( wc );
-                }
-            println( ";" );
-        }
-
-        public void doExportData(
-                final TableDescription tableDesc
-                )
-            throws SQLException, IOException
-        {
-            if( s == null ) {
-                s = connection.createStatement();
-                }
-
-            q.setLength( 0 );
-            q.append(  "select * from `" );
-
-            if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-                q.append( schema );
-                q.append( "`.`" );
-                }
-
-            q.append( tableDesc.getName() );
-
-            if( tableDesc.getWhereCondition() != null ) {
-                q.append( "` WHERE " );
-                q.append( tableDesc.getWhereCondition() );
-                q.append( ";" );
-                }
-            else {
-                q.append( "`;" );
-                }
-
-            s.execute( q.toString() );
-
-            // Get result set
-            ResultSet r = s.getResultSet();
-            ResultSetMetaData rm = r.getMetaData(); // call before r.next() see note 4 above in JDBC hints
-
-            println();
-            println( "-- ---------------------------" );
-            print( "-- Data for `"  );
-
-            if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-                print( schema ).print( "`.`" );
-                }
-
-            print( tableDesc.getName() ).println( "`" );
-            println( "-- ---------------------------" );
-
-            if( config.contains( Config.ADD_DISABLE_AUTOCOMMIT ) ) {
-                println( "SET AUTOCOMMIT=0;" );
-                }
-
-            if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-                print( "USE `" ).print( schema ).println( "`;" );
-                }
-
-            println( "" );
-            println( "" );
-
-            while( r.next() ) {
-                print( "INSERT INTO `" );
-
-                if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-                    print( schema );
-                    print( "`.`" );
-                    }
-
-                print( tableDesc.getName() );
-                print( "` (" );
-                boolean isFirst = true;
-
-                for(int i = 1; i <= rm.getColumnCount(); i++) {
-                    if( isFirst ) {
-                        isFirst = false;
-                        }
-                    else {
-                        print( "," );
-                        }
-                    print( "`" );
-                    print( rm.getColumnName( i ) );
-                    print( "`" );
-                    }
-                print( ") VALUES (" );
-
-                isFirst = true;
-
-                for(int i = 1; i <= rm.getColumnCount(); i++) {
-                    if( isFirst ) {
-                        isFirst = false;
-                        }
-                    else {
-                        print( "," );
-                        }
-                    String s = r.getString( rm.getColumnName( i ) );
-
-                    if( s == null ) {
-                        print( "NULL" );
-                        }
-                    else {
-                        print( "'" );
-                        print( SQLTools.parseFieldValue( s ) );
-                        print( "'" );
-                        }
-                    }
-                println( ");" );
-                }
-
-            println();
-            println( "COMMIT;" );
-            //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
-            println();
-        }
-
-        public void println() throws IOException
-        {
-            out.write( '\n' );
-         }
-
-        public ExportTable print( String s ) throws IOException
-        {
-            out.write( s );
-            return this;
-        }
-
-        public void println( String s ) throws IOException
-        {
-            print( s );
-            println();
-        }
-
-    }
 }
