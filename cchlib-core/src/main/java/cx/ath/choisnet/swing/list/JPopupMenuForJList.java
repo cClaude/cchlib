@@ -3,8 +3,8 @@ package cx.ath.choisnet.swing.list;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -31,7 +31,7 @@ public abstract class JPopupMenuForJList
      *
      * @param jList to use.
      */
-    public JPopupMenuForJList(JList jList)
+    public JPopupMenuForJList( final JList jList )
     {
         this.jList = jList;
     }
@@ -61,28 +61,54 @@ public abstract class JPopupMenuForJList
      * @return value from Model
      */
     final
-    public Object getValueAt( int rowIndex )
+    public Object getValueAt( final int rowIndex )
     {
         return getListModel().getElementAt( rowIndex );
     }
 
 //    /**
-//     * Sets the value.
+//     * Get value from Model
 //     *
-//     * @param aValue      - the new value
-//     * @param rowIndex    - rowIndex according to view
-//     * @param columnIndex - columnIndex according to view
+//     * @param rowIndex rowIndex according to view
+//     * @return value from Model
 //     */
 //    final
-//    public void setValueAt( Object aValue, int rowIndex, int columnIndex )
+//    public void setValueAt( final int rowIndex, Object value )
 //    {
-//        return getListModel()..getElementAt( rowIndex );
+//        return getListModel().setElementAt( rowIndex );
 //    }
+
+    @Override
+    protected void addMouseListener( final MouseListener l )
+    {
+        jList.addMouseListener( l );
+    }
+
+    @Override
+    protected void maybeShowPopup( final MouseEvent e )
+    {
+        if( e.isPopupTrigger() && jList.isEnabled() ) {
+            // get the list item on which the user right-clicked
+            Point   p   = new Point( e.getX(), e.getY() );
+            int     row = jList.locationToIndex( p );
+
+            if( row >= 0 ) {
+                // create popup menu...
+                JPopupMenu contextMenu = createContextMenu( row );
+
+                // ... and show it
+                if( contextMenu != null
+                        && contextMenu.getComponentCount() > 0 ) {
+                    contextMenu.show( jList, p.x, p.y );
+                }
+            }
+        }
+    }
 
     /**
      * TODO: Doc !
      *
-     */
+     *
     final
     public void setMenu()
     {
@@ -119,17 +145,7 @@ public abstract class JPopupMenuForJList
                 maybeShowPopup( e );
             }
         } );
-    }
-
-//    final
-//    protected void cancelCellEditing()
-//    {
-//        CellEditor ce = jList.getCellEditor();
-//
-//        if( ce != null ) {
-//            ce.cancelCellEditing();
-//        }
-//    }
+    }*/
 
     /**
      * <P>
@@ -142,168 +158,14 @@ public abstract class JPopupMenuForJList
      * @param rowIndex current rowIndex.
      * @return JPopupMenu for this row
      */
-    protected JPopupMenu createContextMenu(
+    protected abstract JPopupMenu createContextMenu(
             final int rowIndex
-            )
-    {
-        return new JPopupMenu();
-
-        //addCopyMenuItem(contextMenu, rowIndex);
-        //addPasteMenuItem(contextMenu, rowIndex);
-    }
-
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextMenu
-//     * @param menuItem
-//     */
-//    final
-//    protected void add(
-//            JPopupMenu  contextMenu,
-//            JMenuItem   menuItem
-//            )
+            );
 //    {
-//        contextMenu.add( menuItem );
-//    }
-
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextSubMenu
-//     * @param menuItem
-//     */
-//    final
-//    public void add(
-//            JMenu       contextSubMenu,
-//            JMenuItem   menuItem
-//            )
-//    {
-//        contextSubMenu.add( menuItem );
-//    }
+//        return new JPopupMenu();
 //
-//    /**
-//     * T ODO: Doc !
-//     *
-//     * @param contextMenu
-//     * @param menuItem
-//     * @param listener
-//     */
-//    final
-//    public void add(
-//            JPopupMenu      contextMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener
-//            )
-//    {
-//        menuItem.addActionListener( listener );
-//        contextMenu.add( menuItem );
-//    }
-//
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextSubMenu
-//     * @param menuItem
-//     * @param listener
-//     */
-//    final
-//    public void add(
-//            JMenu           contextSubMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener
-//            )
-//    {
-//        menuItem.addActionListener( listener );
-//        contextSubMenu.add( menuItem );
-//    }
-//
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextMenu
-//     * @param menuItem
-//     * @param listener
-//     * @param actionCommand
-//     */
-//    final
-//    public void add(
-//            JPopupMenu      contextMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener,
-//            String          actionCommand
-//            )
-//    {
-//        menuItem.setActionCommand(actionCommand);
-//        menuItem.addActionListener( listener );
-//        contextMenu.add( menuItem );
-//    }
-//
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextSubMenu
-//     * @param menuItem
-//     * @param listener
-//     * @param clientPropertyKey
-//     * @param clientPropertyValue
-//     */
-//    final
-//    public void add(
-//            JMenu           contextSubMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener,
-//            Object          clientPropertyKey,
-//            Object          clientPropertyValue
-//            )
-//    {
-//        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
-//        menuItem.addActionListener( listener );
-//        contextSubMenu.add( menuItem );
-//    }
-//
-//    /**
-//     * TOD O: Doc !
-//     *
-//     * @param contextMenu
-//     * @param menuItem
-//     * @param listener
-//     * @param clientPropertyKey
-//     * @param clientPropertyValue
-//     */
-//    final
-//    public void add(
-//            JPopupMenu      contextMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener,
-//            Object          clientPropertyKey,
-//            Object          clientPropertyValue
-//            )
-//    {
-//        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
-//        menuItem.addActionListener( listener );
-//        contextMenu.add( menuItem );
-//    }
-//
-//    /**
-//     * TO DO: Doc !
-//     *
-//     * @param contextSubMenu
-//     * @param menuItem
-//     * @param listener
-//     * @param actionCommand
-//     */
-//    final
-//    public void add(
-//            JMenu           contextSubMenu,
-//            JMenuItem       menuItem,
-//            ActionListener  listener,
-//            String          actionCommand
-//            )
-//    {
-//        menuItem.setActionCommand(actionCommand);
-//        menuItem.addActionListener( listener );
-//        contextSubMenu.add( menuItem );
+//        //addCopyMenuItem(contextMenu, rowIndex);
+//        //addPasteMenuItem(contextMenu, rowIndex);
 //    }
 
     /**
@@ -326,7 +188,7 @@ public abstract class JPopupMenuForJList
             );
     }
     /**
-     * TODO: Doc !
+     * TODOC
      *
      * @param contextMenu
      * @param rowIndex
@@ -347,13 +209,13 @@ public abstract class JPopupMenuForJList
     /**
      * Returns an ActionListener for 'copy' from
      * current row to clip-board
-     * @param rowIndex
      *
+     * @param rowIndex
      * @return an ActionListener for 'copy' from
      *         current row to clip-board
      */
     final
-    public ActionListener copyActionListener(final int rowIndex)
+    public ActionListener copyActionListener( final int rowIndex )
     {
         return new ActionListener()
         {
@@ -368,35 +230,4 @@ public abstract class JPopupMenuForJList
             }
         };
     }
-//    final
-//    protected void addPasteMenuItem(
-//            JPopupMenu  contextMenu,
-//            final int   rowIndex,
-//            final int   columnIndex
-//            )
-//    {
-//        JMenuItem pasteMenu = new JMenuItem();
-//        pasteMenu.setText( "Paste" );
-//
-//        if( JPopupMenuForJTable.isClipboardContainingText( this )
-//                && getListModel().isCellEditable( rowIndex, columnIndex ) ) {
-//            pasteMenu.addActionListener(
-//                    new ActionListener()
-//                    {
-//                        @Override
-//                        public void actionPerformed( ActionEvent e )
-//                        {
-//                            String value = JPopupMenuForJTable.getClipboardContents( JPopupMenuForJList.this );
-//
-//                            getListModel().setValueAt( value, rowIndex, columnIndex );
-//                        }
-//                    });
-//            }
-//        else {
-//            pasteMenu.setEnabled( false );
-//        }
-//
-//        contextMenu.add( pasteMenu );
-//    }
-
 }

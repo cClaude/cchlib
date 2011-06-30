@@ -1,10 +1,11 @@
 package cx.ath.choisnet.lang;
 
 import cx.ath.choisnet.ToDo;
-//import cx.ath.choisnet.util.ByteBuffer;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class ExtendableClassLoader extends ClassLoader
         init();
     }
 
-    public ExtendableClassLoader(ClassLoader parent)
+    public ExtendableClassLoader( final ClassLoader parent )
     {
         super(parent);
 
@@ -59,49 +60,48 @@ public class ExtendableClassLoader extends ClassLoader
 //        cache = new HashMap<String,Class<?>>();
     }
 
-    public void addClassPath(String path)
+    public void addClassPath( final String path )
         throws java.io.IOException
     {
         addClassPath(new File(path));
     }
 
-    public void addClassPath(File path)
+    public void addClassPath( final File path )
         throws java.io.IOException
     {
-        if(path.isFile())  {
-
-            synchronized(jars)  {
-                jars.put(path, new JarFile(path));
+        if( path.isFile() ) {
+            synchronized( jars ) {
+                jars.put( path, new JarFile( path ) );
+                }
             }
-        }
         else {
-            synchronized(paths) {
-                paths.add(path);
+            synchronized( paths ) {
+                paths.add( path );
+                }
             }
-        }
     }
 
-    public void removeClassPath(String path)
+    public void removeClassPath( final String path )
     {
-        removeClassPath(new File(path));
+        removeClassPath( new File( path ) );
     }
 
-    public void removeClassPath(File path)
+    public void removeClassPath( final File path )
     {
         JarFile found;
 
-        synchronized(jars)  {
+        synchronized( jars ) {
             found = jars.remove(path);
-        }
-
-        if(found == null) {
-            synchronized(paths) {
-                paths.remove(path);
             }
-        }
+
+        if( found == null ) {
+            synchronized( paths ) {
+                paths.remove( path );
+                }
+            }
     }
 
-    private byte[] getClassFromAddedClassPaths(String className)
+    private byte[] getClassFromAddedClassPaths( final String className )
     {
         byte result[];
 label0:
@@ -109,9 +109,8 @@ label0:
             result = null;
     //    0    0:aconst_null
     //    1    1:astore_2
-            try
-            {
-                String fileName = (new StringBuilder()).append(className.replace('.', '/')).append(".class").toString();
+            try {
+                String fileName = className.replace( '.', '/' ) + ".class";
     //    2    2:new             #22  <Class StringBuilder>
     //    3    5:dup
     //    4    6:invokespecial   #23  <Method void StringBuilder()>
@@ -131,27 +130,25 @@ label0:
     //   17   36:astore          4
                 do
                 {
-                    if(!i$.hasNext())
-                    {
+                    if( !i$.hasNext() ) {
                         break;
                     }
     //   18   38:aload           4
     //   19   40:invokeinterface #29  <Method boolean java.util.Iterator.hasNext()>
     //   20   45:ifeq            99
-                    java.io.File path = i$.next();
+                    File path = i$.next();
     //   21   48:aload           4
     //   22   50:invokeinterface #30  <Method Object java.util.Iterator.next()>
     //   23   55:checkcast       #11  <Class java.io.File>
     //   24   58:astore          5
-                    java.io.File f = new File(path, fileName);
+                    File f = new File(path, fileName);
     //   25   60:new             #11  <Class java.io.File>
     //   26   63:dup
     //   27   64:aload           5
     //   28   66:aload_3
     //   29   67:invokespecial   #31  <Method void File(File, String)>
     //   30   70:astore          6
-                    if(!f.exists())
-                    {
+                    if( !f.exists() ) {
                         continue;
                     }
     //   31   72:aload           6
@@ -203,140 +200,145 @@ label0:
                 result = ExtendableClassLoader.toBytes(jarFile.getInputStream(jarEntry));
             }
             catch(Exception ignore) {
-
             }
         }
         return result;
     }
 
-    @SuppressWarnings("deprecation")
-    public URL findResource(String name)
+    @Override
+    public URL findResource( final String name )
     {
         Iterator<File> i1$ = paths.iterator();
 
         do {
-            if(!i1$.hasNext()) {
+            if( !i1$.hasNext() ) {
                 break;
-            }
+                }
 
             File path = i1$.next();
             File f = new File(path, name);
 
-            if(f.exists()) {
+            if( f.exists() ) {
                 try {
-                    return f.toURL();
-                }
-                catch(java.net.MalformedURLException ignore) {
+                    @SuppressWarnings("deprecation")
+                    URL u = f.toURL();
+                    return u;
                     }
-            }
-        } while(true);
+                catch(MalformedURLException ignore) {
+                    }
+                }
+            } while(true);
 
         Iterator<Map.Entry<File,JarFile>> i2$ = jars.entrySet().iterator();
 
         do {
-            if(!i2$.hasNext()) {
+            if( !i2$.hasNext() ) {
                 break;
-            }
+                }
 
-            Map.Entry<File,JarFile> entry = i2$.next();
-            JarFile jarFile = entry.getValue();
-            JarEntry jarEntry = jarFile.getJarEntry(name);
+            Map.Entry<File,JarFile> entry       = i2$.next();
+            JarFile                 jarFile     = entry.getValue();
+            JarEntry                jarEntry    = jarFile.getJarEntry(name);
 
-            if(jarEntry != null) {
+            if( jarEntry != null ) {
                 try {
+                    @SuppressWarnings("deprecation")
                     URL jarURL = entry.getKey().toURL();
 
-                    return new URL(
-                        (new StringBuilder())
-                            .append("jar:")
-                            .append(jarURL.toString())
-                            .append("!/")
-                            .append(jarEntry.getName())
-                            .toString()
-                            );
-                }
-                catch(java.net.MalformedURLException ignore) {
+                    return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
                     }
-            }
-        } while(true);
-
+                catch(MalformedURLException ignore) {
+                    }
+                }
+            } while(true);
 
         return null;
     }
 
-    protected static final byte[] toBytes(InputStream inputStream)
-        throws java.io.IOException
+    /**
+     *
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    protected static final byte[] toBytes( final InputStream inputStream )
+        throws IOException
     {
-        ByteArrayBuilder result = new ByteArrayBuilder(inputStream.available());
-        byte[]           buffer = new byte[4096];
+        final ByteArrayBuilder  result = new ByteArrayBuilder( inputStream.available() );
+        final byte[]            buffer = new byte[ 4096 ];
+        int                     len;
 
-        int len;
-
-        while((len = inputStream.read(buffer)) != -1) {
+        while( (len = inputStream.read(buffer)) != -1 ) {
             result.append(buffer, 0, len);
-        }
+            }
 
         return result.array();
     }
 
-    public Class<?> loadClass(String className)
+    @Override
+    public Class<?> loadClass( final String className )
         throws ClassNotFoundException
     {
-        return loadClass(className, true);
+        return loadClass( className, true );
     }
 
-    public synchronized Class<?> loadClass(String className, boolean resolveIt)
+    @Override
+    public synchronized Class<?> loadClass(
+            final String    className,
+            final boolean   resolveIt
+            )
         throws ClassNotFoundException
     {
-        if(resolveIt) {
+        if( resolveIt ) {
             ClassLoader parent = getParent();
 
-            if(parent != null) {
+            if( parent != null ) {
                 try {
-                    return parent.loadClass(className);
-                }
-                catch(ClassNotFoundException ignore) {
+                    return parent.loadClass( className );
                     }
+                catch( ClassNotFoundException ignore ) {
+                    }
+                }
             }
-        }
 
-        Class<?> classResult = cache.get(className);
+        Class<?> classResult = cache.get( className );
 
-        if(classResult != null) {
+        if( classResult != null ) {
             return classResult;
-        }
+            }
 
         byte[] classData;
 
         try {
-            classResult = super.findSystemClass(className);
+            classResult = super.findSystemClass( className );
 
             return classResult;
-        }
-        catch(ClassNotFoundException ignore) {
-            classData = getClassFromAddedClassPaths(className);
-        }
+            }
+        catch( ClassNotFoundException ignore ) {
+            classData = getClassFromAddedClassPaths( className );
+            }
 
-        if(classData == null) {
-            throw new ClassNotFoundException(className);
-        }
+        if( classData == null ) {
+            throw new ClassNotFoundException( className );
+            }
 
-        classResult = defineClass(className, classData, 0, classData.length);
+        classResult = defineClass( className, classData, 0, classData.length );
 
-        if(classResult == null) {
+        if( classResult == null ) {
             throw new ClassFormatError();
-        }
+            }
 
-        if(resolveIt) {
-            resolveClass(classResult);
-        }
+        if( resolveIt ) {
+            resolveClass( classResult );
+            }
 
-        cache.put(className, classResult);
+        cache.put( className, classResult );
 
         return classResult;
     }
 
-    protected Class<?> findClass(String name)
+    @Override
+    protected Class<?> findClass( final String name )
         throws ClassNotFoundException
     {
         return loadClass(name);

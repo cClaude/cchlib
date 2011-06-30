@@ -21,7 +21,7 @@ public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
             XMLParserErrorHandler errorHandler
             )
         throws FileNotFoundException, XMLParserException
-    { // TODO : Lock here ! should be deprecated !
+    { // Lock here ! should be deprecated !
         super(new FileInputStream(sourceFile), attributes, errorHandler);
 
         file = sourceFile;

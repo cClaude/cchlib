@@ -13,21 +13,21 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
-public class ByteArrayBuilderTest extends TestCase 
+public class ByteArrayBuilderTest extends TestCase
 {
     private final static byte[] BYTES = {'a','b','c','d','e','f'};
     private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
     private final static int    BIG_CAPACITY = 2048 * 100;
-    
+
     public void testConstructor1()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder();
         TestCase.assertEquals("bad length",0,bab.length());
         TestCase.assertEquals("bad array",0,bab.array().length);
     }
-    
+
     public void testConstructor2()
     {
         int capacity = 10;
@@ -36,7 +36,7 @@ public class ByteArrayBuilderTest extends TestCase
         TestCase.assertEquals("bad array",0,bab.array().length);
         TestCase.assertEquals("bad capacity()",capacity,bab.capacity());
     }
-    
+
     public void testConstructor3()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
@@ -44,7 +44,7 @@ public class ByteArrayBuilderTest extends TestCase
 
         Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
-//        
+//
 //        for(int i = 0;i<bytes.length;i++) {
 //            assertEquals(
 //                    String.format("bad value [%d]",i),
@@ -53,7 +53,7 @@ public class ByteArrayBuilderTest extends TestCase
 //                          );
 //        }
     }
-    
+
     public void testConstructor4()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(null);
@@ -68,7 +68,7 @@ public class ByteArrayBuilderTest extends TestCase
         TestCase.assertEquals("bad length",0,bab.length());
         TestCase.assertEquals("bad array",0,bab.array().length);
     }
-    
+
     public void test_setLength()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
@@ -76,9 +76,9 @@ public class ByteArrayBuilderTest extends TestCase
         bab.setLength( len );
         TestCase.assertEquals("bad length",len,bab.length());
         TestCase.assertEquals("bad array",len,bab.array().length);
-        
+
         byte[] bytes = bab.array();
-        
+
         for(int i = 0;i<bytes.length;i++) {
             TestCase.assertEquals(
                     String.format( "bad value [%d]",i),
@@ -86,13 +86,13 @@ public class ByteArrayBuilderTest extends TestCase
                     bytes[i]
                     );
         }
-        
+
         bab.setLength( BIG_CAPACITY );
         TestCase.assertEquals("bad length",BIG_CAPACITY,bab.length());
         TestCase.assertEquals("bad array",BIG_CAPACITY,bab.array().length);
 
         bytes = bab.array();
-        
+
         for(int i = 0;i<bytes.length;i++) {
             if( i<len ) {
                 TestCase.assertEquals(
@@ -115,13 +115,13 @@ public class ByteArrayBuilderTest extends TestCase
     {
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         bab.ensureCapacity(BIG_CAPACITY);
-        
+
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
         TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
         Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
-//        
+//
 //        for(int i = 0;i<bytes.length;i++) {
 //            assertEquals(
 //                    String.format( "bad value [%d]",i),
@@ -130,7 +130,7 @@ public class ByteArrayBuilderTest extends TestCase
 //                    );
 //        }
    }
-    
+
     public void test_append_bytes()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder();
@@ -139,7 +139,7 @@ public class ByteArrayBuilderTest extends TestCase
         for(int i = 0; i<count; i++ ) {
             bab.append(BYTES);
         }
-        
+
         TestCase.assertEquals("bad length",BYTES.length * count,bab.length());
         TestCase.assertEquals("bad array",BYTES.length * count,bab.array().length);
    }
@@ -150,10 +150,10 @@ public class ByteArrayBuilderTest extends TestCase
         final int offset = 2;
         final int len = 3;
         bab.append( BYTES, offset, len );
-        
+
         TestCase.assertEquals("bad length",len,bab.length());
         TestCase.assertEquals("bad array",len,bab.array().length);
-        
+
         byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
             TestCase.assertEquals(
@@ -171,10 +171,10 @@ public class ByteArrayBuilderTest extends TestCase
         for(int i=0;i<BYTES.length;i++) {
             bab.append( BYTES[i] );
         }
-        
+
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
         TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
-        
+
         Assert.assertEquals("mitchmatch",BYTES,bab.array());
 //        byte[] bytes = bab.array();
 //        for( int i=0; i<bytes.length;i++) {
@@ -195,11 +195,11 @@ public class ByteArrayBuilderTest extends TestCase
         {
             //Create the File
             FileOutputStream fos = new FileOutputStream( file );
-            
+
             for( int i=0; i<count; i++ ) {
                 fos.write( BYTES );
             }
-            
+
             fos.close();
         }
         TestCase.assertEquals( "tmp file bad size",size,file.length());
@@ -208,10 +208,10 @@ public class ByteArrayBuilderTest extends TestCase
         ReadableByteChannel fileChannel = fis.getChannel();
 
         ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
-        
+
         bab.append( fileChannel );
         fis.close();
-        
+
         TestCase.assertEquals("bab bad len",size,bab.length());
 
         byte[] bytes = bab.array();
@@ -221,9 +221,9 @@ public class ByteArrayBuilderTest extends TestCase
         //clean up
         file.delete();
     }
-    
-    
-    public void test_AppendInputStream() 
+
+
+    public void test_AppendInputStream()
         throws IOException
     {
         InputStream is = new ByteArrayInputStream( BYTES );
@@ -247,11 +247,11 @@ public class ByteArrayBuilderTest extends TestCase
     {
         ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( BYTES );
-        
+
         for(int i = 0;i<100;i++) {
             bab.append( OTHERBYTES );
         }
-        
+
         boolean sw0 = bab.startsWith( new ByteArrayBuilder(BYTES) );
         TestCase.assertTrue("Should start with !",sw0);
 
@@ -262,12 +262,12 @@ public class ByteArrayBuilderTest extends TestCase
     public void test_endsWith()
     {
         ByteArrayBuilder bab = new ByteArrayBuilder();
-        
+
         for(int i = 0;i<100;i++) {
             bab.append( OTHERBYTES );
         }
         bab.append( BYTES );
-        
+
         boolean sw0 = bab.endsWith( new ByteArrayBuilder(BYTES) );
         TestCase.assertTrue("Should end with !",sw0);
 
@@ -294,18 +294,23 @@ public class ByteArrayBuilderTest extends TestCase
         TestCase.assertFalse("Should be diffents",bab.equals( new Object() ));
     }
 
-//TODO    @Override
-//    public String toString()
-//    {
-//        return new String(buffer, 0, lastPos);
-//    }
+    public void test_toString()
+    {
+        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
+        final byte[] bytes      = bab.array();
+        final String expected   = new String( bytes );
+
+        String str = bab.toString();
+
+        TestCase.assertEquals("Should be equals",expected, str);
+    }
 
     public void test_clone() throws CloneNotSupportedException
     {
         ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
         ByteArrayBuilder clone  = bab.clone();
-        
+
         TestCase.assertTrue("Should be equals",bab.equals( clone ));
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
         TestCase.assertEquals("bad array",BYTES.length,bab.array().length);

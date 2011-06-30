@@ -6,6 +6,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Reader;
 import javax.swing.JMenu;
@@ -13,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 /**
- * TODO: Doc !
+ * Handle context menu.
  *
  *
  * @author Claude CHOISNET
@@ -25,36 +28,37 @@ import javax.swing.JPopupMenu;
 public abstract class AbstractJPopupMenuBuilder
 {
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
      * @param contextMenu
      * @param menuItem
      */
-    public final void add(
-            JPopupMenu  contextMenu,
-            JMenuItem   menuItem
+    final
+    public void add(
+            final JPopupMenu    contextMenu,
+            final JMenuItem     menuItem
             )
     {
         contextMenu.add( menuItem );
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
      * @param menuItem
      */
     final
     public void add(
-            JMenu       contextSubMenu,
-            JMenuItem   menuItem
+            final JMenu     contextSubMenu,
+            final JMenuItem menuItem
             )
     {
         contextSubMenu.add( menuItem );
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
      * @param contextMenu
      * @param menuItem
@@ -62,9 +66,9 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JPopupMenu      contextMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener
+            final JPopupMenu        contextMenu,
+            final JMenuItem         menuItem,
+            final ActionListener    listener
             )
     {
         menuItem.addActionListener( listener );
@@ -72,7 +76,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
      * @param menuItem
@@ -80,9 +84,9 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JMenu           contextSubMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener
+            final JMenu             contextSubMenu,
+            final JMenuItem         menuItem,
+            final ActionListener    listener
             )
     {
         menuItem.addActionListener( listener );
@@ -90,7 +94,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
      * @param contextMenu
      * @param menuItem
@@ -101,10 +105,10 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JPopupMenu      contextMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            String          actionCommand
+            final JPopupMenu        contextMenu,
+            final JMenuItem         menuItem,
+            final ActionListener    listener,
+            final String            actionCommand
             )
     {
         menuItem.setActionCommand(actionCommand);
@@ -113,7 +117,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
      * @param menuItem
@@ -124,10 +128,10 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JMenu           contextSubMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            String          actionCommand
+            final JMenu             contextSubMenu,
+            final JMenuItem         menuItem,
+            final ActionListener    listener,
+            final String            actionCommand
             )
     {
         menuItem.setActionCommand(actionCommand);
@@ -136,7 +140,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
      * @param menuItem
@@ -149,11 +153,11 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JMenu           contextSubMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            Object          clientPropertyKey,
-            Object          clientPropertyValue
+            final JMenu           contextSubMenu,
+            final JMenuItem       menuItem,
+            final ActionListener  listener,
+            final Object          clientPropertyKey,
+            final Object          clientPropertyValue
             )
     {
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
@@ -162,7 +166,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
      * @param contextMenu
      * @param menuItem
@@ -175,11 +179,11 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JPopupMenu      contextMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            Object          clientPropertyKey,
-            Object          clientPropertyValue
+            final JPopupMenu      contextMenu,
+            final JMenuItem       menuItem,
+            final ActionListener  listener,
+            final Object          clientPropertyKey,
+            final Object          clientPropertyValue
             )
     {
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
@@ -188,7 +192,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
      * @param contextMenu
      * @param menuItem
@@ -202,12 +206,12 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JPopupMenu      contextMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            String          actionCommand,
-            Object          clientPropertyKey,
-            Object          clientPropertyValue
+            final JPopupMenu      contextMenu,
+            final JMenuItem       menuItem,
+            final ActionListener  listener,
+            final String          actionCommand,
+            final Object          clientPropertyKey,
+            final Object          clientPropertyValue
             )
     {
         menuItem.setActionCommand(actionCommand);
@@ -217,7 +221,7 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * TODOC
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
      * @param menuItem
@@ -231,18 +235,49 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            JMenu           contextSubMenu,
-            JMenuItem       menuItem,
-            ActionListener  listener,
-            String          actionCommand,
-            Object          clientPropertyKey,
-            Object          clientPropertyValue
+            final JMenu           contextSubMenu,
+            final JMenuItem       menuItem,
+            final ActionListener  listener,
+            final String          actionCommand,
+            final Object          clientPropertyKey,
+            final Object          clientPropertyValue
             )
     {
         menuItem.setActionCommand(actionCommand);
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
         menuItem.addActionListener( listener );
         contextSubMenu.add( menuItem );
+    }
+
+
+    /**
+     * TODOC
+     */
+    protected abstract void addMouseListener(MouseListener l);
+
+    /**
+     * TODOC
+     */
+    protected abstract void maybeShowPopup(MouseEvent e);
+
+    /**
+     * Install context menu for specified object.
+     */
+    final
+    public void setMenu()
+    {
+        addMouseListener(
+            new MouseAdapter()
+            {
+                public void mousePressed( final MouseEvent e )
+                {
+                    maybeShowPopup( e );
+                }
+                public void mouseReleased( final MouseEvent e )
+                {
+                    maybeShowPopup( e );
+                }
+            } );
     }
 
     /**
@@ -253,7 +288,7 @@ public abstract class AbstractJPopupMenuBuilder
      * @return true if clip-board contains text.
      */
     final
-    public static boolean isClipboardContainingText( Object requestor )
+    public static boolean isClipboardContainingText( final Object requestor )
     {
         Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getContents( requestor );
@@ -267,16 +302,15 @@ public abstract class AbstractJPopupMenuBuilder
      *
      * @param s String to put in clipboard
      *
-     * @throws IllegalStateException if the clipboard
-     * is currently unavailable. For example, on some
-     * platforms, the system clipboard is unavailable
-     * while it is accessed by another application.
+     * @throws IllegalStateException if the clipboard is currently
+     * unavailable. For example, on some platforms, the system clipboard
+     * is unavailable while it is accessed by another application.
      */
     final
-    public static void setClipboardContents(String s)
+    public static void setClipboardContents( final String s )
         throws IllegalStateException
     {
-        StringSelection selection = new StringSelection(s);
+        StringSelection selection = new StringSelection( s );
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
                     .setContents(
@@ -301,33 +335,41 @@ public abstract class AbstractJPopupMenuBuilder
      *         application.
      */
     final
-    public static String getClipboardContents( Object requestor )
+    public static String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {
         Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getContents( requestor );
+
         if( t != null ) {
             DataFlavor df = DataFlavor.stringFlavor;
+
             if( df != null ) {
                 try {
-                    Reader r = df.getReaderForText( t );
-                    char[] charBuf = new char[512];
-                    StringBuffer buf = new StringBuffer();
-                    int n;
+                    final Reader        r       = df.getReaderForText( t );
+                    final char[]        charBuf = new char[ 512 ];
+                    final StringBuilder buf     = new StringBuilder();
+                    int                 n;
+
                     while( (n = r.read( charBuf, 0, charBuf.length )) > 0 ) {
                         buf.append( charBuf, 0, n );
-                    }
+                        }
+
                     r.close();
-                    return (buf.toString());
-                }
-                catch( IOException ex ) {
-                    ex.printStackTrace();
-                }
-                catch( UnsupportedFlavorException ex ) {
-                    ex.printStackTrace();
+
+                    return buf.toString();
+                    }
+                catch( IOException e ) {
+                    // log, but ignore
+                    e.printStackTrace();
+                    }
+                catch( UnsupportedFlavorException e ) {
+                    // log, but ignore
+                    e.printStackTrace();
+                    }
                 }
             }
-        }
+
         return null;
     }
 }

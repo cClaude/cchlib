@@ -3,8 +3,8 @@ package cx.ath.choisnet.swing.table;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.CellEditor;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -15,8 +15,6 @@ import cx.ath.choisnet.swing.menu.AbstractJPopupMenuBuilder;
 /**
  * JPopupMenuForJTable is a context menu builder
  * for {@link JTable}.
- *
- * @author Claude CHOISNET
  * <p>
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
@@ -29,30 +27,29 @@ public abstract class JPopupMenuForJTable
 
     /**
      * Create JPopupMenuForJTable
-     *
-     * @param jTable to use.
+     * @param jTable {@link JTable} to use.
      */
-    public JPopupMenuForJTable(JTable jTable)
+    public JPopupMenuForJTable( final JTable jTable )
     {
         this.jTable = jTable;
     }
 
     /**
-     * TODOC
-     *
-     * @return JTable
+     * Returns {@link JTable} concern by this menu
+     * @return {@link JTable} concern by this menu
      */
-    public JTable getJTable()
+    final
+    protected JTable getJTable()
     {
         return jTable;
     }
 
     /**
-     * TODOC
-     *
-     * @return get TableModel for current JTable
+     * Returns {@link TableModel} use by {@link JTable}
+     * @return {@link TableModel} use by {@link JTable}
      */
-    public TableModel getTableModel()
+    final
+    protected TableModel getTableModel()
     {
         return jTable.getModel();
     }
@@ -65,10 +62,10 @@ public abstract class JPopupMenuForJTable
      * @return value from Model
      */
     final
-    protected Object getValueAt( int rowIndex, int columnIndex )
+    protected Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        int row = getJTable().convertRowIndexToModel( rowIndex );
-        int col = getJTable().convertColumnIndexToModel( columnIndex );
+        final int row = getJTable().convertRowIndexToModel( rowIndex );
+        final int col = getJTable().convertColumnIndexToModel( columnIndex );
 
         return getTableModel().getValueAt( row, col );
     }
@@ -82,17 +79,55 @@ public abstract class JPopupMenuForJTable
      * @param columnIndex columnIndex according to view
      */
     final
-    protected void setValueAt( Object aValue, int rowIndex, int columnIndex )
+    protected void setValueAt(
+            final Object    aValue,
+            final int       rowIndex,
+            final int       columnIndex
+            )
     {
-        int row = getJTable().convertRowIndexToModel( rowIndex );
-        int col = getJTable().convertColumnIndexToModel( columnIndex );
+        final int row = getJTable().convertRowIndexToModel( rowIndex );
+        final int col = getJTable().convertColumnIndexToModel( columnIndex );
 
         getTableModel().setValueAt( aValue, row, col );
     }
 
+    @Override
+    protected void addMouseListener( final MouseListener l )
+    {
+        jTable.addMouseListener( l );
+    }
+
+    @Override
+    protected void maybeShowPopup( final MouseEvent e )
+    {
+        if( e.isPopupTrigger() && jTable.isEnabled() ) {
+            Point p = new Point( e.getX(), e.getY() );
+            int col = jTable.columnAtPoint( p );
+            int row = jTable.rowAtPoint( p );
+
+            // translate table index to model index
+            int mcol = jTable
+                .getColumn( jTable.getColumnName( col ) )
+                .getModelIndex();
+
+            if( row >= 0 && row < jTable.getRowCount() ) {
+                cancelCellEditing();
+
+                // create popup menu...
+                JPopupMenu contextMenu = createContextMenu( row, mcol );
+
+                // ... and show it
+                if( contextMenu != null
+                        && contextMenu.getComponentCount() > 0 ) {
+                    contextMenu.show( jTable, p.x, p.y );
+                    }
+                }
+            }
+    }
+
     /**
-     * TODOC
-     */
+     * Install context menu for specified table.
+     *
     final
     public void setMenu()
     {
@@ -114,48 +149,46 @@ public abstract class JPopupMenuForJTable
                         if( row >= 0 && row < jTable.getRowCount() ) {
                             cancelCellEditing();
 
-                        // create popup menu...
-                        JPopupMenu contextMenu = createContextMenu( row, mcol );
+                            // create popup menu...
+                            JPopupMenu contextMenu = createContextMenu( row, mcol );
 
-                        // ... and show it
-                        if( contextMenu != null
-                                && contextMenu.getComponentCount() > 0 ) {
-                            contextMenu.show( jTable, p.x, p.y );
-                        }
+                            // ... and show it
+                            if( contextMenu != null
+                                    && contextMenu.getComponentCount() > 0 ) {
+                                contextMenu.show( jTable, p.x, p.y );
+                                }
+                            }
                     }
                 }
-            }
-
-            public void mousePressed( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-
-            public void mouseReleased( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-        } );
-    }
+                public void mousePressed( MouseEvent e )
+                {
+                    maybeShowPopup( e );
+                }
+                public void mouseReleased( MouseEvent e )
+                {
+                    maybeShowPopup( e );
+                }
+            });
+    }*/
 
     /**
      * TODOC
      */
     final
-    protected void cancelCellEditing()
+    private void cancelCellEditing()
     {
         CellEditor ce = jTable.getCellEditor();
 
         if( ce != null ) {
             ce.cancelCellEditing();
-        }
+            }
     }
 
     /**
      * <P>
      * You must overwrite this method !
      * </P>
-     * Create a JPopupMenu for this row, this method
+     * Create a JPopupMenu for this cell, this method
      * is call when user try to access to context menu
      * for the 'rowIndex', 'columnIndex' entry in JTable..
      *
@@ -175,7 +208,7 @@ public abstract class JPopupMenuForJTable
      * </pre>
      * @param rowIndex
      * @param columnIndex
-     * @return JPopupMenu for this cel
+     * @return JPopupMenu for this cell
      */
     protected abstract JPopupMenu createContextMenu(
             final int rowIndex,
@@ -256,29 +289,15 @@ public abstract class JPopupMenuForJTable
      */
     final
     public void addCopyMenuItem(
-            JPopupMenu  contextMenu,
-            int         rowIndex,
-            int         columnIndex
+            final JPopupMenu    contextMenu,
+            final int           rowIndex,
+            final int           columnIndex
             )
     {
         add(
             contextMenu,
             buildCopyJMenuItem("Copy",rowIndex,columnIndex)
             );
-//        copyMenu.addActionListener(
-//                new ActionListener()
-//                {
-//                    @Override
-//                    public void actionPerformed( ActionEvent e )
-//                    {
-//                        Object value = getTableModel()
-//                            .getValueAt( rowIndex, columnIndex );
-//
-//                        setClipboardContents( value == null ? "" : value.toString() );
-//                    }
-//                });
-//
-//        contextMenu.add( copyMenu );
     }
 
     /**
@@ -291,9 +310,9 @@ public abstract class JPopupMenuForJTable
      */
     final
     protected JMenuItem buildCopyJMenuItem(
-            String  textForCopy,
-            int     rowIndex,
-            int     columnIndex
+            final String    textForCopy,
+            final int       rowIndex,
+            final int       columnIndex
             )
     {
         JMenuItem m = new JMenuItem(textForCopy);
@@ -339,9 +358,9 @@ public abstract class JPopupMenuForJTable
      */
     final
     protected void addPasteMenuItem(
-            JPopupMenu  contextMenu,
-            final int   rowIndex,
-            final int   columnIndex
+            final JPopupMenu    contextMenu,
+            final int           rowIndex,
+            final int           columnIndex
             )
     {
         JMenuItem pasteMenu = new JMenuItem();
@@ -367,6 +386,4 @@ public abstract class JPopupMenuForJTable
 
         contextMenu.add( pasteMenu );
     }
-
-
 }
