@@ -277,7 +277,7 @@ public class JPanelResult extends JPanel
 
         xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
         xComboBoxPatternRegEx.setModel(
-            new DefaultComboBoxModel(new Object[] { ".*\\.jpg", "item1", "item2", "item3" })
+            new DefaultComboBoxModel(new Object[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
             );
 
         updateDisplay();
@@ -630,7 +630,8 @@ public class JPanelResult extends JPanel
             @Override
             protected JPopupMenu createContextMenu( final int rowIndex )
             {
-                JPopupMenu cm = super.createContextMenu( rowIndex );
+                //JPopupMenu cm = super.createContextMenu( rowIndex );
+                JPopupMenu cm = new JPopupMenu();
 
                 addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
 

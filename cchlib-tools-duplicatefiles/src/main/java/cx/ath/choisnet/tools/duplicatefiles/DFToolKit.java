@@ -2,11 +2,15 @@ package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.Serializable;
 import java.util.Locale;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 
-public interface DFToolKit
+/**
+ * Misc tools for this project
+ */
+public interface DFToolKit extends Serializable
 {
     public JFileChooser getJFileChooser();
     public void beep();

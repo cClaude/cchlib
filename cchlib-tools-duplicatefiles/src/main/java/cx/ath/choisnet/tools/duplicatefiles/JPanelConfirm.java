@@ -354,6 +354,19 @@ public class JPanelConfirm extends JPanel
             final HashMapSet<String,KeyFileState>   duplicateFiles
             )
     {
+        try {
+            private_doDelete( tk, duplicateFiles );
+            }
+        catch( Exception e ) {
+            slogger.fatal( "*** Error catched while delete files", e );
+            }
+    }
+
+    private void private_doDelete(
+            final DFToolKit                         tk,
+            final HashMapSet<String,KeyFileState>   duplicateFiles
+            )
+    {
         //Iterator<KeyFileState>  iter = duplicateFiles.iterator();
         int                     deleteCount = 0;
         final int               size = tableDts_toDelete.size();
@@ -372,7 +385,7 @@ public class JPanelConfirm extends JPanel
             // Delete file
             boolean isDel = kf.getFile().delete();
 
-            slogger.info("Delete=" + isDel + ':' + kf);
+            slogger.info("Delete=" + isDel + ':' + kf + " - i=" + i);
 
             // Store result
             tableDts_deleted[ i ] = new Boolean( isDel );

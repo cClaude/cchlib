@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.io.File;
@@ -8,8 +5,7 @@ import java.io.IOException;
 import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 
 /**
- *
- * @author Claude CHOISNET
+ * Create resources bundles files
  */
 public class I18nPrep
 {

@@ -3,6 +3,8 @@ cchlib-tools-editressourcebundle
 ---------------------------------------------------------------------
 4.1.5
   Fix: some problems with resources (since maven migration)
+  Use: cx.ath.choisnet.swing.XTextField (context menu copy/paste)
+  Fix: Concurrent access problem while deleting files
 ---------------------------------------------------------------------
 4.1.2
   Moving 2 maven (remove ant build number)

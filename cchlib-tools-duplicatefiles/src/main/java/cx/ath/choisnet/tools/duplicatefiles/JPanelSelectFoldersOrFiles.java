@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.I18nString;
+import cx.ath.choisnet.swing.XTextField;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
 
 /**
@@ -37,7 +38,7 @@ import cx.ath.choisnet.util.iterator.iterable.BiIterator;
 public class JPanelSelectFoldersOrFiles
     extends JPanel
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private Logger slogger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
     // TODO:Must be restore by parent !
     private transient DFToolKit dFToolKit;
@@ -57,7 +58,7 @@ public class JPanelSelectFoldersOrFiles
     /* @serial */
     private JPanel jPanelDirButtons;
     /* @serial */
-    private JTextField jTextFieldCurrentDir;
+    private XTextField jTextFieldCurrentDir;
     /* @serial */
     private JPanel jPanelAddEntry;
     /* @serial */
@@ -118,7 +119,7 @@ public class JPanelSelectFoldersOrFiles
                 final int   includeFileListSize = includeFileList.size();
                 boolean     ignore;
                 File        f;
-               
+
                 if( rowIndex < includeFileListSize ) {
                     f = includeFileList.get( rowIndex );
                     ignore = false;
@@ -135,7 +136,7 @@ public class JPanelSelectFoldersOrFiles
                     return f.isFile() ?
                             txtFile : txtDirectory;
                     }
-                else {                    
+                else {
                     if( ignore ) {
                         return txtIgnoreContent;
                         }
@@ -165,12 +166,12 @@ public class JPanelSelectFoldersOrFiles
         jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
     }
 
-    private void initComponents() 
+    private void initComponents()
     {
-    	setLayout(new BorderLayout());
-    	add(getJPanelCommands(), BorderLayout.NORTH);
-    	add(getJScrollPaneSelectedFoldersOrFiles(), BorderLayout.CENTER);
-    	setSize(444, 108);
+        setLayout(new BorderLayout());
+        add(getJPanelCommands(), BorderLayout.NORTH);
+        add(getJScrollPaneSelectedFoldersOrFiles(), BorderLayout.CENTER);
+        setSize(444, 108);
     }
 
     private JPanel getJPanelAddEntry()
@@ -184,7 +185,7 @@ public class JPanelSelectFoldersOrFiles
         return jPanelAddEntry;
     }
 
-    private JScrollPane getJScrollPaneSelectedFoldersOrFiles() 
+    private JScrollPane getJScrollPaneSelectedFoldersOrFiles()
     {
         if (jScrollPaneSelectedFoldersOrFiles == null) {
             jScrollPaneSelectedFoldersOrFiles = new JScrollPane();
@@ -201,7 +202,7 @@ public class JPanelSelectFoldersOrFiles
         return jTableSelectedFoldersOrFiles;
     }
 
-    private JPanel getJPanelCommands() 
+    private JPanel getJPanelCommands()
     {
         if (jPanelCommands == null) {
             jPanelCommands = new JPanel();
@@ -227,7 +228,7 @@ public class JPanelSelectFoldersOrFiles
 //        return jListSelectedDirs;
 //    }
 
-    private JPanel getJPanelDirButtons() 
+    private JPanel getJPanelDirButtons()
     {
         if (jPanelDirButtons == null) {
             jPanelDirButtons = new JPanel();
@@ -239,7 +240,7 @@ public class JPanelSelectFoldersOrFiles
         return jPanelDirButtons;
     }
 
-    private JButton getJButtonAddDir() 
+    private JButton getJButtonAddDir()
     {
         if (jButtonAddDir == null) {
             jButtonAddDir = new JButton();
@@ -268,31 +269,31 @@ public class JPanelSelectFoldersOrFiles
         }
         return jButtonSelectDir;
     }
-    
+
     private JButton getJButtonSelectFile()
     {
-    	if (jButtonSelectFile == null) {
-    		jButtonSelectFile = new JButton();
-    		jButtonSelectFile.setText("Add File");
-    		jButtonSelectFile.addMouseListener(new MouseAdapter() {
-    
-    			public void mousePressed(MouseEvent event) {
-    				jButtonSelectFileMouseMousePressed(event);
-    			}
-    		});
-    	}
-    	return jButtonSelectFile;
+        if (jButtonSelectFile == null) {
+            jButtonSelectFile = new JButton();
+            jButtonSelectFile.setText("Add File");
+            jButtonSelectFile.addMouseListener(new MouseAdapter() {
+
+                public void mousePressed(MouseEvent event) {
+                    jButtonSelectFileMouseMousePressed(event);
+                }
+            });
+        }
+        return jButtonSelectFile;
     }
 
-    private JTextField getJTextFieldCurrentDir() 
+    private JTextField getJTextFieldCurrentDir()
     {
         if (jTextFieldCurrentDir == null) {
-            jTextFieldCurrentDir = new JTextField();
+            jTextFieldCurrentDir = new XTextField();
         }
         return jTextFieldCurrentDir;
     }
 
-    private JButton getJButtonRemEntry() 
+    private JButton getJButtonRemEntry()
     {
         if (jButtonRemEntry == null) {
             jButtonRemEntry = new JButton();
@@ -315,7 +316,7 @@ public class JPanelSelectFoldersOrFiles
 
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             File[] files = jfc.getSelectedFiles();
-            
+
             for(File f:files) {
                 slogger.info( "selected dir:" + f );
                 addEntry( f, false );
@@ -324,8 +325,8 @@ public class JPanelSelectFoldersOrFiles
             //addEntry( jfc.getSelectedFile(), false );
         }
     }
-    
-    private void jButtonSelectFileMouseMousePressed(MouseEvent event) 
+
+    private void jButtonSelectFileMouseMousePressed(MouseEvent event)
     {
         JFileChooser jfc = dFToolKit.getJFileChooser();
         jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
@@ -333,7 +334,7 @@ public class JPanelSelectFoldersOrFiles
 
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             File[] files = jfc.getSelectedFiles();
-            
+
             for(File f:files) {
                 slogger.info( "selected file:" + f );
                 addEntry( f, false );
@@ -366,7 +367,7 @@ public class JPanelSelectFoldersOrFiles
     private void removeEntry( int index )
     {
         final int includeFileListSize = includeFileList.size();
-        
+
         if( index < includeFileListSize ) {
             includeFileList.remove( index );
             }
@@ -460,11 +461,11 @@ public class JPanelSelectFoldersOrFiles
     {
         return new BiIterator<File>( includeFileList, ingoreFileList );
     }
-    
+
     public Iterable<File> entriesToScans()
     {
         return includeFileList;
-        /*        
+        /*
         return new ComputableIterator<File>()
         {
             final Iterator<FileOrFolder> iter = filesList.iterator();
@@ -501,7 +502,7 @@ public class JPanelSelectFoldersOrFiles
                         return ff.getFile();
                     }
                 }
-                throw new NoSuchElementException();            
+                throw new NoSuchElementException();
             }
         };
         */

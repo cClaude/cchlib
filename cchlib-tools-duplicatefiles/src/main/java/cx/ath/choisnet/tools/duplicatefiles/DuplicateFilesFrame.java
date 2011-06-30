@@ -298,9 +298,9 @@ final public class DuplicateFilesFrame
     {
         try {
             Thread.sleep( ms );
-        }
+            }
         catch( InterruptedException ignore ) {
-        }
+            }
     }
     @Override // DFToolKit
     public Image getImage(String name)
@@ -421,7 +421,18 @@ final public class DuplicateFilesFrame
                 if( subState == SUBSTATE_CONFIRM_INIT ) {
                     jButtonNextStep.setEnabled( false );
                     jButtonRestart.setEnabled( false );
-                    new Thread( new Runnable() {
+//                    new Thread( new Runnable() {
+//                        @Override
+//                        public void run()
+//                        {
+//                            jPanel4Confirm.doDelete(DuplicateFilesFrame.this,duplicateFiles);
+//
+//                            //state = STATE_RESULTS;
+//                            subState = SUBSTATE_CONFIRM_DONE;
+//                            updateDisplayAccordState();
+//                        }
+//                    }).start();
+                    SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run()
                         {
@@ -431,7 +442,7 @@ final public class DuplicateFilesFrame
                             subState = SUBSTATE_CONFIRM_DONE;
                             updateDisplayAccordState();
                         }
-                    }).start();
+                        });
                     return;
                 }
             }
