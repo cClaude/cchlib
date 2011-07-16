@@ -3,10 +3,10 @@ package samples.downloader;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +16,17 @@ import java.util.Set;
  *
  *
  */
-public class DownloaderSample extends GenericDownloader
+public class DownloaderSample1 extends GenericDownloader
 {
+    //
+    private final static Proxy PROXY = Proxy.NO_PROXY;
+    // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
+    // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
+    // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.orange.fr", 8080));
+    // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("unblockinschool.com", 3128));
+    // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("122.194.5.154", 80));
+    private final static int    DOWNLOAD_THREAD = 10;
+
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
 
@@ -28,7 +37,7 @@ public class DownloaderSample extends GenericDownloader
      * @return
      * @throws MalformedURLException
      */
-    Collection<URL> collectURLPrepare() throws MalformedURLException
+    Iterable<URL> collectURLPrepare() throws MalformedURLException
     {
         if( _htmlURLList == null ) {
             _htmlURLList = new ArrayList<URL>();
@@ -48,10 +57,10 @@ public class DownloaderSample extends GenericDownloader
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public DownloaderSample( final File destinationFolderFile )
+    public DownloaderSample1( final File destinationFolderFile )
         throws NoSuchAlgorithmException, IOException, ClassNotFoundException
     {
-        super( destinationFolderFile, destinationFolderFile, 5 );
+        super( destinationFolderFile, destinationFolderFile, DOWNLOAD_THREAD, PROXY );
     }
 
     @Override
@@ -61,7 +70,7 @@ public class DownloaderSample extends GenericDownloader
     }
 
     @Override
-    protected Collection<URL> collectURL() throws IOException
+    protected Iterable<URL> collectURLs() throws IOException
     {
         String allContent;
         {
@@ -108,10 +117,10 @@ public class DownloaderSample extends GenericDownloader
     public static void main( String...args )
         throws IOException, NoSuchAlgorithmException, ClassNotFoundException
     {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
+        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.bloggif.com" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
-        DownloaderSample instance = new DownloaderSample( destinationFolderFile );
+        DownloaderSample1 instance = new DownloaderSample1( destinationFolderFile );
 
         instance.println( "destinationFolderFile = " + destinationFolderFile );
         instance.downloadAll();

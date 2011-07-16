@@ -11,8 +11,8 @@ import java.nio.charset.Charset;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import cx.ath.choisnet.io.FileHelper;
-import cx.ath.choisnet.net.URLHelper;
+import com.googlecode.cchlib.io.IOHelper;
+//import cx.ath.choisnet.net.URLHelper;
 
 /**
  *
@@ -69,7 +69,7 @@ public class URLHelperTest
         File file = File.createTempFile( "testCopyURLFile", "tmp" );
         URLHelper.copy( testURL, file );
         
-        String s = FileHelper.toString( file );
+        String s = IOHelper.toString( file );
 //        System.out.println( "testURL = " + testURL );
 //        System.out.println( "s       = " + s );
         assertNotNull( s );

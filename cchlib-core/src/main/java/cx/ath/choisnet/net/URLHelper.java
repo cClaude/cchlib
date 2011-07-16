@@ -1,7 +1,7 @@
 package cx.ath.choisnet.net;
 
-import cx.ath.choisnet.io.InputStreamHelper;
-import cx.ath.choisnet.io.ReaderHelper;
+//import cx.ath.choisnet.io.InputStreamHelper;
+//import cx.ath.choisnet.io.ReaderHelper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +15,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
+import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Extra tools for {@link URL}
@@ -49,7 +50,7 @@ public class URLHelper
         String          content;
 
         try {
-            content = ReaderHelper.toString( reader );
+            content = IOHelper.toString( reader );
             }
         finally {
             reader.close();
@@ -71,7 +72,7 @@ public class URLHelper
         final InputStream input = url.openStream();
 
         try {
-            InputStreamHelper.copy(input, output);
+            IOHelper.copy(input, output);
             }
         catch( IOException e ) {
             throw e;
@@ -83,6 +84,9 @@ public class URLHelper
 
     /**
      * Store URL content in a file
+     * <BR>
+     * File is not created if URL content can't be read
+     * (Previous File is not also deleted in this case)
      *
      * @param url   URL to read
      * @param file  File destination
@@ -92,18 +96,25 @@ public class URLHelper
     public static void copy( final URL url, final File file )
         throws FileNotFoundException, IOException
     {
-        final OutputStream output = new BufferedOutputStream(
+        final InputStream input = url.openStream();
+
+        try {
+            final OutputStream output = new BufferedOutputStream(
                                         new FileOutputStream( file )
                                         );
 
-        try {
-            URLHelper.copy( url, output );
-            }
-        catch( IOException e ) {
-            throw e;
+            try {
+                IOHelper.copy( input, output );
+                }
+            catch( IOException e ) {
+                throw e;
+                }
+            finally {
+                output.close();
+                }
             }
         finally {
-            output.close();
+            input.close();
             }
     }
 
@@ -120,7 +131,7 @@ public class URLHelper
         final Reader input = getBufferedReader( url );
 
         try {
-            ReaderHelper.copy(input, output);
+            IOHelper.copy(input, output);
             }
         catch( IOException e ) {
             throw e;
@@ -149,7 +160,7 @@ public class URLHelper
         final Reader input = getBufferedReader( url, charsetName );
 
         try {
-            ReaderHelper.copy(input, output);
+            IOHelper.copy(input, output);
             }
         catch( IOException e ) {
             throw e;

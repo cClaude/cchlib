@@ -550,14 +550,15 @@ public class JPanelResult extends JPanel
 
             jTextFieldFileInfo.setText(
                 String.format(
-                        "%s - %d [%s%s%s] %s",
+                        "%s - %d [%s%s%s] %s (%s)",
                         f.getName(),
                         f.length(),
                         //f.canExecute()?txtCanExecuteFirstLetter:"-",
                         f.canRead()?txtCanReadFirstLetter:"-",
                         f.canWrite()?txtCanWriteFirstLetter:"-",
                         f.isHidden()?txtHiddenFirstLetter:"-",
-                        date
+                        date,
+                        kf.getKey()
                         )
                 );
         }

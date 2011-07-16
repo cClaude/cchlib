@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import cx.ath.choisnet.io.InputStreamHelper;
+import com.googlecode.cchlib.io.IOHelper;
 import cx.ath.choisnet.util.FormattedProperties;
 import cx.ath.choisnet.util.FormattedProperties.Store;
 import junit.framework.TestCase;
@@ -437,7 +437,7 @@ public class FormattedPropertiesTest
     {
         File            f       = getTmpFile("copy");
         OutputStream    output  = new FileOutputStream( f );
-        InputStreamHelper.copy( is, output );
+        IOHelper.copy( is, output );
         is.close();
         output.close();
 

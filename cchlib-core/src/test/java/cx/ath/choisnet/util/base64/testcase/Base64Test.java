@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import cx.ath.choisnet.io.IO;
-import cx.ath.choisnet.io.InputStreamHelper;
+import com.googlecode.cchlib.io.IOHelper;
+import cx.ath.choisnet.io.IO; // TEST CASE ONLY
 import cx.ath.choisnet.util.base64.Base64Decoder;
 import cx.ath.choisnet.util.base64.Base64Encoder;
 import cx.ath.choisnet.util.base64.Base64FormatException;
@@ -155,7 +155,7 @@ public class Base64Test
         }
 
         {
-            byte[] bytes = InputStreamHelper.toByteArray( IO.getPNGFile() );
+            byte[] bytes = IOHelper.toByteArray( IO.getPNGFile() );
 
             testAndCompare2SunBASE64( bytes );
         }
@@ -287,7 +287,7 @@ public class Base64Test
         // DECODE using SUN Version
         {
             byte[]  sunDecode   = sunDecode( chars );
-            boolean same        = InputStreamHelper.isEquals( IO.getPNGFile(), sunDecode );
+            boolean same        = IOHelper.isEquals( IO.getPNGFile(), sunDecode );
 
             System.out.println( "decode with sun - R=" + same );
             org.junit.Assert.assertTrue( "Error while decoding using SUN B64 classes", same );
@@ -305,7 +305,7 @@ public class Base64Test
         in              = IO.getPNGFile();
         InputStream is  = new ByteArrayInputStream( out.toByteArray() );
 
-        boolean same = InputStreamHelper.isEquals( in, is );
+        boolean same = IOHelper.isEquals( in, is );
 
         org.junit.Assert.assertTrue( same );
 
@@ -329,7 +329,7 @@ public class Base64Test
         in              = IO.getPNGFile();
         InputStream is  = new ByteArrayInputStream( out.toByteArray() );
 
-        boolean same = InputStreamHelper.isEquals( in, is );
+        boolean same = IOHelper.isEquals( in, is );
 
         org.junit.Assert.assertTrue( same );
     }

@@ -2,17 +2,30 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.Proxy;
 import java.net.URL;
-import cx.ath.choisnet.net.URLHelper;
+import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Download {@link URL} and put result into a {@link String}
  * @since 4.1.5
  */
-public class DownloadToString implements RunnableDownload
+public class DownloadToString extends AbstractDownload
 {
-    private final DownloadStringEvent   event;
-    private final URL                   url;
+    private final DownloadStringEvent event;
+
+//    /**
+//     * Create a download task for {@link String}
+//     *
+//     * @param event Event to use for notifications
+//     * @param url   {@link URL} for download
+//     */
+//    public DownloadToString( final DownloadStringEvent event, final URL url )
+//    {
+//        this( event, null, url );
+//    }
 
     /**
      * Create a download task for {@link String}
@@ -20,10 +33,11 @@ public class DownloadToString implements RunnableDownload
      * @param event Event to use for notifications
      * @param url   {@link URL} for download
      */
-    public DownloadToString( final DownloadStringEvent event, final URL url )
+    public DownloadToString( final DownloadStringEvent event, final Proxy proxy, final URL url )
     {
+        super( proxy, url );
+
         this.event  = event;
-        this.url     = url;
     }
 
     @Override
@@ -31,21 +45,22 @@ public class DownloadToString implements RunnableDownload
     {
         CharArrayWriter buffer = new CharArrayWriter();
 
-        this.event.downloadStart( url );
+        this.event.downloadStart( getURL() );
 
         try {
-            URLHelper.copy( url, buffer );
+            Reader r = new InputStreamReader( super.getInputStream() );
 
-            this.event.downloadDone( url, buffer.toString() );
+            try {
+                IOHelper.copy( r, buffer );
+                }
+            finally {
+                r.close();
+                }
+
+            this.event.downloadDone( getURL(), buffer.toString() );
             }
         catch( IOException e ) {
-            this.event.downloadFail( url, e );
+            this.event.downloadFail( getURL(), e );
             }
-    }
-
-    @Override
-    public URL getURL()
-    {
-        return url;
     }
 }

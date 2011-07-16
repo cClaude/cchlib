@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.net.download;
 
+import java.net.Proxy;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
@@ -78,18 +79,44 @@ public class DownloadExecutor
      * </p>
      *
      * @param eventHandler  Event handler for these downloads
+     * @param proxy         {@link Proxy} to use for download (could be null)
      * @param URLCollection {@link Collection} of {@link URL} to download.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
     public void add(
-            DownloadStringEvent eventHandler,
-            Collection<URL>     URLCollection
+            final DownloadStringEvent   eventHandler,
+            final Proxy                 proxy,
+            final Collection<URL>       URLCollection
             )
         throws RejectedExecutionException
     {
         for( URL u: URLCollection ) {
-            addDownload( eventHandler, u );
+            addDownload( eventHandler, proxy, u );
+            }
+    }
+
+    /**
+     * Add downloads based on an {@link Iterable} object of {@link URL}
+     * <p>
+     * Read general description for more details
+     * </p>
+     *
+     * @param eventHandler  Event handler for these downloads
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param URLs          {@link Iterable} of {@link URL} to download.
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToString
+     */
+    public void add(
+            final DownloadStringEvent   eventHandler,
+            final Proxy                 proxy,
+            final Iterable<URL>         URLs
+            )
+        throws RejectedExecutionException
+    {
+        for( URL u: URLs ) {
+            addDownload( eventHandler, proxy, u );
             }
     }
 
@@ -100,17 +127,19 @@ public class DownloadExecutor
      * </p>
      *
      * @param eventHandler  Event handler for this download
-     * @param url {@link URL} to download
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param url           {@link URL} to download
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
     public void addDownload(
-            DownloadStringEvent eventHandler,
-            URL                 url
+            final DownloadStringEvent eventHandler,
+            final Proxy               proxy,
+            final URL                 url
             )
         throws RejectedExecutionException
     {
-        Runnable command = new DownloadToString( eventHandler, url );
+        Runnable command = new DownloadToString( eventHandler, proxy, url );
         pool.execute( command );
     }
 
@@ -121,18 +150,20 @@ public class DownloadExecutor
      * </p>
      *
      * @param eventHandler  Event handler for these downloads
+     * @param proxy         {@link Proxy} to use for download (could be null)
      * @param URLCollection {@link Collection} of {@link URL} to download.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
      */
     public void addDownload(
-            DownloadFileEvent   eventHandler,
-            Collection<URL>     URLCollection
+            final DownloadFileEvent eventHandler,
+            final Proxy             proxy,
+            final Collection<URL>   URLCollection
             )
         throws RejectedExecutionException
     {
         for( URL u: URLCollection ) {
-            addDownload( eventHandler, u );
+            addDownload( eventHandler, proxy, u );
             }
     }
 
@@ -143,17 +174,19 @@ public class DownloadExecutor
      * </p>
      *
      * @param eventHandler  Event handler for this download
-     * @param url {@link URL} to download
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param url           {@link URL} to download
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
      */
     public void addDownload(
-            DownloadFileEvent   eventHandler,
-            URL                 url
+            final DownloadFileEvent eventHandler,
+            final Proxy             proxy,
+            final URL               url
             )
         throws RejectedExecutionException
     {
-        Runnable command = new DownloadToFile( eventHandler, url );
+        Runnable command = new DownloadToFile( eventHandler, proxy, url );
         pool.execute( command );
     }
 

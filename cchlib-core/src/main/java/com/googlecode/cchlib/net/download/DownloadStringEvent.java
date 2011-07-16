@@ -23,5 +23,14 @@ public interface DownloadStringEvent extends DownloadEvent
      * @param url       {@link URL} of download
      * @param content   Download content
      */
-    public void downloadDone( final URL url, final String content );
+    public void downloadDone( URL url, String content );
+
+    /**
+     * This method is invoked if download fail
+     *
+     * @param url   {@link URL} of download
+     * @param cause Abort cause
+     */
+    public void downloadFail( URL url, Throwable cause );
+
 }

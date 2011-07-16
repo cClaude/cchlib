@@ -1,6 +1,5 @@
 package cx.ath.choisnet.zip.testcase;
 
-import cx.ath.choisnet.io.FileHelper;
 import cx.ath.choisnet.zip.SimpleUnZip;
 import cx.ath.choisnet.zip.SimpleZip;
 import cx.ath.choisnet.zip.SimpleZipEntry;
@@ -12,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.IOHelper;
 import junit.framework.TestCase;
 
 /**
@@ -108,6 +108,6 @@ public class SimpleZipTest extends TestCase
 
         assertTrue( "No file to unzip: ", count > 0 );
 
-        FileHelper.deleteTree( UNZIP_DEST_DIR_FILE );
+        IOHelper.deleteTree( UNZIP_DEST_DIR_FILE );
     }
 }

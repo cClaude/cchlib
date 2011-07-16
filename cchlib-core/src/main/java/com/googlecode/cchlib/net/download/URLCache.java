@@ -60,6 +60,7 @@ public class URLCache implements Serializable
      * @param url
      * @param filename
      */
+    synchronized
     public void add( final URL url, final String filename )
     {
         cache.put( url, new EntryImpl( url, filename ) );
@@ -71,9 +72,21 @@ public class URLCache implements Serializable
      * @param url
      * @return
      */
+    synchronized
     public Entry get( final URL url )
     {
         return cache.get( url );
+    }
+
+    /**
+     * TODOC
+     *
+     * @return
+     */
+    synchronized
+    public int size()
+    {
+        return cache.size();
     }
 
     /**
@@ -90,6 +103,7 @@ public class URLCache implements Serializable
     /**
      * TODOC
      */
+    synchronized
     public void clear()
     {
         cache.clear();
@@ -122,6 +136,7 @@ public class URLCache implements Serializable
      * @throws IOException
      * @throws ClassNotFoundException
      */
+    synchronized
     public void load() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         cache = SerializableHelper.loadObject( cacheFile, cache.getClass() );
@@ -132,6 +147,7 @@ public class URLCache implements Serializable
      *
      * @throws IOException
      */
+    synchronized
     public void store() throws IOException
     {
         SerializableHelper.toFile( cache, cacheFile );
@@ -145,6 +161,10 @@ public class URLCache implements Serializable
         public void put( URL key, Entry value )
         {
             cc.put( key, value );
+        }
+        public int size()
+        {
+            return cc.size();
         }
         public boolean contains( URL url )
         {

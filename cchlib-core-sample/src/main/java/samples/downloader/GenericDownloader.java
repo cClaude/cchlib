@@ -3,10 +3,11 @@ package samples.downloader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -22,36 +23,31 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  */
 public abstract class GenericDownloader
 {
-    private final MessageDigestFile mdf;
+    //private final MessageDigestFile mdf;
     private final URLCache cache = new URLCache();
 
     private final File  tempDirectoryFile;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
+    private final Proxy proxy;
 
-    /**
-     *
-     * @param tempDirectoryFile
-     * @param destinationDirectoryFile
-     * @param downloadMaxThread
-     * @throws NoSuchAlgorithmException
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
+
     public GenericDownloader(
             final File  tempDirectoryFile,
             final File  destinationDirectoryFile,
-            final int   downloadMaxThread
+            final int   downloadMaxThread,
+            final Proxy proxy
             )
-        throws NoSuchAlgorithmException, IOException, ClassNotFoundException
+        throws /*NoSuchAlgorithmException,*/ IOException, ClassNotFoundException
     {
-        this.tempDirectoryFile = tempDirectoryFile;
-        this.destinationDirectoryFile = destinationDirectoryFile;
-        this.downloadMaxThread = downloadMaxThread;
+        this.tempDirectoryFile          = tempDirectoryFile;
+        this.destinationDirectoryFile   = destinationDirectoryFile;
+        this.downloadMaxThread          = downloadMaxThread;
+        this.proxy                      = proxy;
 
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
 
-        this.mdf = new MessageDigestFile();
+        //this.mdf = new MessageDigestFile();
 
         try  {
             this.cache.load();
@@ -59,12 +55,15 @@ public abstract class GenericDownloader
         catch( FileNotFoundException ignore ) {
             println( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
+        catch( Exception ignore ) {
+            println( "* warn: can't load cache file : " + ignore.getMessage() );
+            }
     }
 
     protected abstract void println( String msg );
-    protected abstract Collection<URL> collectURL() throws IOException;
+    protected abstract Iterable<URL> collectURLs() throws IOException;
 
-    protected List<String> loads( Collection<URL> urls ) throws IOException
+    protected List<String> loads( final Iterable<URL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
@@ -87,10 +86,11 @@ public abstract class GenericDownloader
                 // Improve: retry ? add count ?
                 // Runnable command = new DownloadToString( this, url );
                 // downloadExecutor.execute( command );
+                println( "*ERROR:" + url + " - " + cause );
             }
         };
 
-        downloadExecutor.add( eventHandler, urls  );
+        downloadExecutor.add( eventHandler, proxy, urls );
         downloadExecutor.waitClose();
 
         return result;
@@ -98,7 +98,7 @@ public abstract class GenericDownloader
 
     void downloadAll() throws IOException
     {
-        final Collection<URL>   urls                = collectURL();
+        final Iterable<URL>     urls                = collectURLs();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
 
         DownloadFileEvent eventHandler = new DownloadFileEvent()
@@ -116,13 +116,34 @@ public abstract class GenericDownloader
                 // Improve: retry ? add count ?
                 // Runnable command = new DownloadToFile( this, url );
                 // downloadExecutor.execute( command );
+                println( "***ERROR:" + url + " - " + cause );
+
+                if( cause instanceof FileNotFoundException ) {
+                    // No stack trace
+                    }
+                else if( cause instanceof ConnectException ) {
+                    // No stack trace
+                    }
+                else {
+                    cause.printStackTrace();
+                    }
+
+            }
+            @Override
+            public void downloadFail( URL url, File file, Throwable cause )
+            {
+                downloadFail( url, cause );
+
+                file.delete();
             }
             @Override
             public void downloadDone( URL url, File file )
             {
                 try {
                     // Compute MD5 hash ode
-                    byte[] digestKey        = mdf.compute( file );
+                    MessageDigestFile   mdf         = new MessageDigestFile();
+                    byte[]              digestKey   = mdf.compute( file );
+
                     String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
 
                     // Identify file content to generate extension
@@ -148,7 +169,8 @@ public abstract class GenericDownloader
                         }
                     else {
                         println( "*** already exists ? " + ffile );
-                        }                    }
+                        }
+                    }
                 catch( FileNotFoundException e ) {
                     // Should not occur
                     e.printStackTrace();
@@ -157,6 +179,10 @@ public abstract class GenericDownloader
                     // Should not occur
                     e.printStackTrace();
                     }
+                catch( NoSuchAlgorithmException e ) {
+                    // Should not occur
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -166,7 +192,7 @@ public abstract class GenericDownloader
                 println( "Already loaded: " + u );
                 }
             else {
-                downloadExecutor.addDownload( eventHandler, u );
+                downloadExecutor.addDownload( eventHandler, proxy, u );
                 }
             }
 

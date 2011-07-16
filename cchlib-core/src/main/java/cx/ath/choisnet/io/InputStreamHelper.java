@@ -17,6 +17,7 @@ import java.io.Writer;
  *
  * @see FileHelper
  * @see ReaderHelper
+ * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
 public final class InputStreamHelper
 {
@@ -103,7 +104,11 @@ public final class InputStreamHelper
      * @param bufferSize Buffer size to use for copy
      * @throws IOException if any
      */
-    public static void copy(InputStream input, OutputStream output, int bufferSize)
+    public static void copy(
+            final InputStream   input,
+            final OutputStream  output,
+            final int           bufferSize
+            )
         throws IOException
     {
         InputStreamHelper.copy(input, output, new byte[bufferSize] );
@@ -117,25 +122,31 @@ public final class InputStreamHelper
     * @param output {@link Writer} to write to
     * @throws IOException if any
     */
-    public static void copy(InputStream input, OutputStream output)
+    public static void copy(
+            final InputStream   input,
+            final OutputStream  output
+            )
         throws IOException
     {
         InputStreamHelper.copy(input, output, DEFAULT_BUFFER_SIZE);
     }
 
+    /**
+     * @deprecated use {@link FileHelper#copy(File, File)} instead
+     */
     public static void copy(File inputFile, File outputFile)
-        throws java.io.IOException
+        throws IOException
     {
         InputStream     input  = new BufferedInputStream(new FileInputStream(inputFile));
         OutputStream    output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {
             InputStreamHelper.copy(input, output, 4096);
-        }
+            }
         finally {
             try { input.close(); } catch(Exception ignore) {}
             output.close();
-        }
+            }
      }
 
     /**
@@ -207,58 +218,59 @@ public final class InputStreamHelper
      */
     public static InputStream concat(final InputStream...is)
     {
-        return new InputStream()
-        {
-            int index;
-
-            @Override
-            public int available() throws IOException
-            {
-                return is[index].available();
-            }
-
-            @Override
-            public void close() throws IOException
-            {
-                IOException anIOE = null;
-
-                for(int i = 0; i < is.length; i++) {
-                    try {
-                        is[i].close();
-                    }
-                    catch( IOException e ) {
-                        anIOE = e;
-                    }
-                }
-
-                if(anIOE != null) {
-                    throw anIOE;
-                }
-                else {
-                    return;
-                }
-            }
-
-            @Override
-            public boolean markSupported()
-            {
-                return false;
-            }
-
-            @Override
-            public int read() throws IOException
-            {
-                for(; index < is.length; index++) {
-                    int r = is[index].read();
-
-                    if(r != -1) {
-                        return r;
-                    }
-                }
-
-                return -1;
-            }
-        };
+        return new ConcateInputStream( is );
+//        return new InputStream()
+//        {
+//            int index;
+//
+//            @Override
+//            public int available() throws IOException
+//            {
+//                return is[index].available();
+//            }
+//
+//            @Override
+//            public void close() throws IOException
+//            {
+//                IOException anIOE = null;
+//
+//                for(int i = 0; i < is.length; i++) {
+//                    try {
+//                        is[i].close();
+//                    }
+//                    catch( IOException e ) {
+//                        anIOE = e;
+//                    }
+//                }
+//
+//                if(anIOE != null) {
+//                    throw anIOE;
+//                }
+//                else {
+//                    return;
+//                }
+//            }
+//
+//            @Override
+//            public boolean markSupported()
+//            {
+//                return false;
+//            }
+//
+//            @Override
+//            public int read() throws IOException
+//            {
+//                for(; index < is.length; index++) {
+//                    int r = is[index].read();
+//
+//                    if(r != -1) {
+//                        return r;
+//                    }
+//                }
+//
+//                return -1;
+//            }
+//        };
     }
 
 }

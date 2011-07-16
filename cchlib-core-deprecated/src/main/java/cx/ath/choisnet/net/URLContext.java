@@ -1,6 +1,7 @@
 package cx.ath.choisnet.net;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
@@ -9,7 +10,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import cx.ath.choisnet.ToDo;
 
 /**
  * <p style="border:groove;">
@@ -21,12 +21,10 @@ import cx.ath.choisnet.ToDo;
  * change.
  * </p>
  *
- * @author Claude CHOISNET
- *
+ * @deprecated no replacement
  */
-@ToDo
-public class URLContext
-    implements java.io.Serializable
+@Deprecated
+public class URLContext implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */

@@ -1,32 +1,26 @@
 package cx.ath.choisnet.io;
 
 import java.io.File;
-import java.io.IOException;
-import cx.ath.choisnet.ToDo;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated use {@link com.googlecode.cchlib.io.FileDeleteException} instead
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
-public class FileDeleteException extends IOException
+public class FileDeleteException extends com.googlecode.cchlib.io.FileDeleteException//extends IOException
 {
     private static final long serialVersionUID = 2L;
 
     public FileDeleteException(File file)
     {
-        super(file.getPath());
+        super(file);
     }
 
     public FileDeleteException(String message)
     {
-        super(message);
+        super(null,message,null);
     }
 
     public FileDeleteException(String message, Throwable cause)
     {
-        super(message);
-        initCause(cause); // old JDK
+        super(null,message,cause);
     }
 }

@@ -18,8 +18,7 @@ import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
- *
- * @author Claude CHOISNET
+ * This class is not thread safe
  */
 public class MessageDigestFile
     implements Serializable
@@ -378,7 +377,7 @@ public class MessageDigestFile
 
             for(DigestEventListener l:listeners) {
                 l.computeDigest( file, bb.position() );
-                
+
                 if( l.isCancel() ) {
                     // User ask to cancel current task
                     throw new CancelRequestException();

@@ -20,7 +20,7 @@ public interface DownloadFileEvent extends DownloadEvent
      * @return a {@link File} able to receive download content.
      * @throws IOException if any when creating {@link File} object
      */
-    public File downloadStart( final URL url ) throws IOException;
+    public File downloadStart( URL url ) throws IOException;
 
     /**
      * This method is invoked when download is done
@@ -28,5 +28,22 @@ public interface DownloadFileEvent extends DownloadEvent
      * @param url   {@link URL} of download
      * @param file  {@link File} that have received download content
      */
-    public void downloadDone( final URL url, final File file );
+    public void downloadDone( URL url, File file );
+
+    /**
+     * This method is invoked if download fail
+     *
+     * @param url   {@link URL} of download
+     * @param file  {@link File} that should receive URL content (could be delete).
+     * @param cause Abort cause
+     */
+    public void downloadFail( URL url, File file, Throwable cause );
+
+    /**
+     * This method is invoked if download fail (when invoking {@link #downloadStart(URL)})
+     *
+     * @param url   {@link URL} of download
+     * @param cause Abort cause
+     */
+    public void downloadFail( URL url, Throwable cause );
 }

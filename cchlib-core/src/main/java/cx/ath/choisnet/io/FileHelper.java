@@ -15,12 +15,14 @@ import java.io.Reader;
 import java.util.Iterator;
 import cx.ath.choisnet.util.iterator.ArrayIterator;
 import cx.ath.choisnet.util.iterator.IteratorFilter;
+import com.googlecode.cchlib.io.FileDeleteException;
 
 /**
  * Provide some extra tools for {@link File} operations
  *
  * @see InputStreamHelper
  * @see ReaderHelper
+ * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
 public final class FileHelper
 {
@@ -39,10 +41,10 @@ public final class FileHelper
      * @param buffer        Buffer to use for copy
      * @throws IOException if any IO occurred
      */
-    public static void copy( 
-            final File  inputFile, 
-            final File  outputFile, 
-            byte[]      buffer 
+    public static void copy(
+            final File  inputFile,
+            final File  outputFile,
+            byte[]      buffer
             )
         throws IOException
     {
@@ -53,11 +55,11 @@ public final class FileHelper
             InputStreamHelper.copy(input, output, buffer);
             }
         finally {
-            try { input.close(); } catch(Exception ignore) {}
-            try { output.close(); } catch(Exception ignore) { }
+            try { input.close();  } catch(Exception ignore) {}
+            try { output.close(); } catch(Exception ignore) {}
             }
     }
-    
+
     /**
      * Copy a File to an other File
      *

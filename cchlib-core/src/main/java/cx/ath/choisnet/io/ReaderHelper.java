@@ -9,6 +9,7 @@ import java.io.Writer;
  *
  * @see InputStreamHelper
  * @see FileHelper
+ * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
 public final class ReaderHelper
 {

@@ -2,30 +2,28 @@ package cx.ath.choisnet.util.iterator;
 
 import java.util.Enumeration;
 import java.util.Iterator;
-import cx.ath.choisnet.io.FileHelper;
 import cx.ath.choisnet.util.ArrayHelper;
 import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 
 /**
  * Providing other view for Iterators
- * 
- * @author Claude CHOISNET
+ *
  * @see ArrayIterator
  * @see EnumerationHelper
  * @see ArrayHelper#toIterator(Object[])
  * @see ArrayHelper#toIterator(Object[], int, int)
- * @see FileHelper#toIterator(java.io.File[], java.io.FileFilter)
+ * @see com.googlecode.cchlib.io.IOHelper#toIterator(java.io.File[], java.io.FileFilter)
  */
+// deprecated
+// * @see cx.ath.choisnet.io.FileHelper#toIterator(java.io.File[], java.io.FileFilter)
 public class IteratorHelper
 {
-
     private IteratorHelper()
     {//All static
     }
 
-
 //    /**
-//     * 
+//     *
 //     * @param <T>
 //     * @param iteratorArray
 //     * @return
@@ -42,7 +40,7 @@ public class IteratorHelper
 //            )
 //    {
 //        final int endIndex = offset + len;
-//        
+//
 //        return new Iterator<T>() {
 //
 //            int index = offset;
@@ -120,16 +118,16 @@ public class IteratorHelper
 //    }
     /**
      * Create an Enumeration using (and consuming) an Iterator
-     * 
+     *
      * @param <T> type content
-     * @param iterator 
+     * @param iterator
      * @return an Enumeration view for this iterator
      */
     public static <T> Enumeration<T> toEnumeration(
             final Iterator<T> iterator
             )
     {
-        return new Enumeration<T>() 
+        return new Enumeration<T>()
         {
             public boolean hasMoreElements()
             {

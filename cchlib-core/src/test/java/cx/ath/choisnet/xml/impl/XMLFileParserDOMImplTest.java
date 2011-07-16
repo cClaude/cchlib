@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import cx.ath.choisnet.io.FileHelper;
+import com.googlecode.cchlib.io.IOHelper;
 import cx.ath.choisnet.xml.XMLParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
@@ -17,7 +17,6 @@ import cx.ath.choisnet.xml.XMLParserException;
 /**
  *
  *
- * @author Claude CHOISNET
  */
 public class XMLFileParserDOMImplTest
 {
@@ -30,12 +29,12 @@ public class XMLFileParserDOMImplTest
     {
         this.xmlFile = File.createTempFile( "~XMLParser_", ".xml" );
         InputStream s = XMLParser.class.getResourceAsStream( "survey-sample.xml" );
-        FileHelper.copy( s, this.xmlFile );
+        IOHelper.copy( s, this.xmlFile );
         s.close();
 
         this.dtdFile = new File( this.xmlFile.getParentFile(), "survey.dtd" );
         s = XMLParser.class.getResourceAsStream( "survey.dtd" );
-        FileHelper.copy( s, this.dtdFile );
+        IOHelper.copy( s, this.dtdFile );
         s.close();
 
         slogger.info( "XML File is " + this.xmlFile );

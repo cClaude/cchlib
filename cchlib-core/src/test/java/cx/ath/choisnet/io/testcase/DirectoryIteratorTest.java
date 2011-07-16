@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.IOHelper;
 import cx.ath.choisnet.io.DirectoryIterator;
-import cx.ath.choisnet.io.FileHelper;
 import junit.framework.TestCase;
 
 /**
@@ -84,7 +84,7 @@ public class DirectoryIteratorTest extends TestCase
     {
         File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
 
-        FileHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree(dirRootFile);
         
         boolean res = dirRootFile.exists();
         assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
@@ -116,7 +116,7 @@ public class DirectoryIteratorTest extends TestCase
             allFiles.add(d);
         }
         for( File f : files ) {
-            FileHelper.toFile(f,f.getPath());
+            IOHelper.toFile(f,f.getPath());
         }
         
         List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
@@ -167,7 +167,7 @@ public class DirectoryIteratorTest extends TestCase
         assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
         
         // cleanup !
-        FileHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree(dirRootFile);
         
         res = dirRootFile.exists();
         assertFalse( "Can't delete(): " + dirRootFile, res);

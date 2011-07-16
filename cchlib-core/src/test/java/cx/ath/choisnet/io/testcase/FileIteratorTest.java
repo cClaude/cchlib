@@ -6,7 +6,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.io.FileHelper;
+import com.googlecode.cchlib.io.IOHelper;
 import cx.ath.choisnet.io.FileIterator;
 import junit.framework.TestCase;
 
@@ -169,7 +169,7 @@ public class FileIteratorTest extends TestCase
     {
         File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
 
-        FileHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree(dirRootFile);
         
         boolean res = dirRootFile.exists();
         assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
@@ -202,7 +202,7 @@ public class FileIteratorTest extends TestCase
             allFiles.add(d);
         }
         for( File f : files ) {
-            FileHelper.toFile(f,f.getPath());
+            IOHelper.toFile(f,f.getPath());
             allFiles.add(f);
         }
         
@@ -230,7 +230,7 @@ public class FileIteratorTest extends TestCase
         assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
         
         // cleanup !
-        FileHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree(dirRootFile);
         
         res = dirRootFile.exists();
         assertFalse( "Can't delete(): " + dirRootFile, res);
