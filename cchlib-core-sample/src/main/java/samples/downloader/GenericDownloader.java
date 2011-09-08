@@ -23,7 +23,6 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  */
 public abstract class GenericDownloader
 {
-    //private final MessageDigestFile mdf;
     private final URLCache cache = new URLCache();
 
     private final File  tempDirectoryFile;
@@ -31,7 +30,15 @@ public abstract class GenericDownloader
     private final int   downloadMaxThread;
     private final Proxy proxy;
 
-
+    /**
+     *
+     * @param tempDirectoryFile
+     * @param destinationDirectoryFile
+     * @param downloadMaxThread
+     * @param proxy
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public GenericDownloader(
             final File  tempDirectoryFile,
             final File  destinationDirectoryFile,
@@ -46,8 +53,7 @@ public abstract class GenericDownloader
         this.proxy                      = proxy;
 
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
-
-        //this.mdf = new MessageDigestFile();
+        this.cache.setAutoStorage(true);
 
         try  {
             this.cache.load();
@@ -63,6 +69,12 @@ public abstract class GenericDownloader
     protected abstract void println( String msg );
     protected abstract Iterable<URL> collectURLs() throws IOException;
 
+    /**
+     *
+     * @param urls
+     * @return
+     * @throws IOException
+     */
     protected List<String> loads( final Iterable<URL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
@@ -96,6 +108,10 @@ public abstract class GenericDownloader
         return result;
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void downloadAll() throws IOException
     {
         final Iterable<URL>     urls                = collectURLs();

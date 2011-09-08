@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  *
  *
- *
+ *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
 public class DownloaderSample2 extends GenericDownloader
 {
@@ -29,8 +29,8 @@ public class DownloaderSample2 extends GenericDownloader
     //private final static int    MIN = 0;
     //private final static int    MAX = 1000000;
     private final static int    MIN = 1000000;
-    //private final static int    MAX = 1100000;
-    private final static int    MAX = 110;
+    private final static int    MAX = 1100000;
+    //private final static int    MAX = 110;
 
     private final static String CACHE_FOLDER_NAME = "output/epins.fr";
 

@@ -18,13 +18,17 @@ public class URLCache implements Serializable
     private static final long serialVersionUID = 2L;
     private CacheContent cache;
     private File cacheFile;
+    private boolean autostore;
+    private int autostoreThreshold = 50;
+    private int modificationCount = 0;
 
     /**
      * TODOC
      */
     public URLCache()
     {
-        cache = new CacheContent();
+        this.cache = new CacheContent();
+        this.autostore = false;
     }
 
     /**
@@ -35,12 +39,15 @@ public class URLCache implements Serializable
     public URLCache( final File cacheFile )
     {
         setCacheFile( cacheFile );
+
         try {
             load();
             }
         catch( Exception e ) {
-            cache = new CacheContent();
+            this.cache = new CacheContent();
             }
+
+        this.autostore = true;
     }
 
     /**
@@ -64,6 +71,9 @@ public class URLCache implements Serializable
     public void add( final URL url, final String filename )
     {
         cache.put( url, new EntryImpl( url, filename ) );
+
+        this.modificationCount++;
+        autoStore();
     }
 
     /**
@@ -114,7 +124,7 @@ public class URLCache implements Serializable
      *
      * @param cacheFile
      */
-    public void setCacheFile( File cacheFile )
+    public void setCacheFile( final File cacheFile )
     {
         this.cacheFile = cacheFile;
     }
@@ -130,6 +140,43 @@ public class URLCache implements Serializable
     }
 
     /**
+     * Enable or disable auto storage off cache content.
+     * @param enable if true enable auto storage
+     */
+    public void setAutoStorage( final boolean enable )
+    {
+    	this.autostore = enable;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isAutoStorage()
+    {
+    	return this.autostore;
+    }
+
+    /**
+     * Set threshold for auto storage.
+     *
+     * @param threshold Count of modification between each save of cache file
+     */
+    public void setAutoStorageThreshold( final int threshold )
+    {
+    	this.autostoreThreshold = threshold;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getAutoStorageThreshold()
+    {
+    	return this.autostoreThreshold;
+    }
+
+    /**
      * TODOC
      *
      * @throws FileNotFoundException if cache does not exist
@@ -139,7 +186,7 @@ public class URLCache implements Serializable
     synchronized
     public void load() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        cache = SerializableHelper.loadObject( cacheFile, cache.getClass() );
+        this.cache = SerializableHelper.loadObject( cacheFile, cache.getClass() );
     }
 
     /**
@@ -151,6 +198,23 @@ public class URLCache implements Serializable
     public void store() throws IOException
     {
         SerializableHelper.toFile( cache, cacheFile );
+
+        this.modificationCount = 0;
+    }
+
+    private void autoStore()
+    {
+    	if( this.autostore && this.cacheFile != null ) {
+    		if( this.modificationCount > this.autostoreThreshold ) {
+    			try {
+					store();
+					}
+    			catch( IOException e ) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
     }
 
     // Workaround for generic warning...
