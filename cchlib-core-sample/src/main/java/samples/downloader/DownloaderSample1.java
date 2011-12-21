@@ -16,7 +16,7 @@ import java.util.Set;
  *
  *
  */
-public class DownloaderSample1 extends GenericDownloader
+public class DownloaderSample1
 {
     //
     private final static Proxy PROXY = Proxy.NO_PROXY;
@@ -30,87 +30,6 @@ public class DownloaderSample1 extends GenericDownloader
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
 
-    private List<URL> _htmlURLList = null;
-
-    /**
-     *
-     * @return
-     * @throws MalformedURLException
-     */
-    Iterable<URL> collectURLPrepare() throws MalformedURLException
-    {
-        if( _htmlURLList == null ) {
-            _htmlURLList = new ArrayList<URL>();
-
-            for( int i=1; i<23; i++ ) {
-                _htmlURLList.add( new URL( htmlURLBase + i ) );
-                }
-            }
-
-        return _htmlURLList;
-    }
-
-    /**
-     *
-     * @param destinationFolderFile
-     * @throws NoSuchAlgorithmException
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
-    public DownloaderSample1( final File destinationFolderFile )
-        throws NoSuchAlgorithmException, IOException, ClassNotFoundException
-    {
-        super( destinationFolderFile, destinationFolderFile, DOWNLOAD_THREAD, PROXY );
-    }
-
-    @Override
-    protected void println( String s )
-    {
-        System.out.println( s );
-    }
-
-    @Override
-    protected Iterable<URL> collectURLs() throws IOException
-    {
-        String allContent;
-        {
-            List<String>    contentList = loads( collectURLPrepare() );
-            StringBuilder   sb          = new StringBuilder();
-
-            for( String s: contentList ) {
-                sb.append( s );
-                }
-
-            allContent = sb.toString();
-            contentList.clear();
-            sb.setLength( 0 );
-        }
-
-        final String[] regexps = {
-            "<img class=\"img_progress ...\" src=\"",
-            "<img class=\"img_progress ....\" src=\""
-            };
-
-        Set<URL> imagesURLCollection = new HashSet<URL>();
-
-        for( String regexp : regexps ) {
-            String[] strs = allContent.toString().split( regexp );
-            println( "> img founds = " + (strs.length - 1));
-
-            for( int i=1; i<strs.length; i++ ) {
-                String  s   = strs[ i ];
-                int     end = s.indexOf( '"' );
-                String  src = s.substring( 0, end );
-
-                imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                }
-            }
-
-        println( "> URL founds = " + imagesURLCollection.size() );
-
-        return imagesURLCollection;
-    }
-
     /**
      * Start Sample here !
      */
@@ -119,11 +38,107 @@ public class DownloaderSample1 extends GenericDownloader
     {
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.bloggif.com" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
-
-        DownloaderSample1 instance = new DownloaderSample1( destinationFolderFile );
+/*
+        DownloaderSample1 instance0 = new DownloaderSample1( destinationFolderFile );
 
         instance.println( "destinationFolderFile = " + destinationFolderFile );
         instance.downloadAll();
         instance.println( "done" );
+*/
+        final GenericDownloader.Logger logger = new GenericDownloader.Logger()
+        {
+            @Override
+            public void warn( String msg )
+            {
+                System.out.println( msg );
+            }
+            @Override
+            public void info( String msg )
+            {
+                System.out.println( msg );
+            }
+            @Override
+            public void error( URL url, Throwable cause )
+            {
+                System.err.println( "*ERROR:" + url + " - " + cause.getMessage() );
+            }
+        };
+
+        GenericDownloader instance
+            = new GenericDownloader(
+                destinationFolderFile,
+                destinationFolderFile,
+                DOWNLOAD_THREAD,
+                PROXY,
+                logger
+                )
+        {
+            private List<URL> _htmlURLList = null;
+
+            @Override
+            protected Iterable<URL> collectURLs() throws IOException
+            {
+                String allContent;
+                {
+                    List<String>    contentList = loads( collectURLPrepare() );
+                    StringBuilder   sb          = new StringBuilder();
+
+                    for( String s: contentList ) {
+                        sb.append( s );
+                        }
+
+                    allContent = sb.toString();
+                    contentList.clear();
+                    sb.setLength( 0 );
+                }
+
+                final String[] regexps = {
+                    "<img class=\"img_progress ...\" src=\"",
+                    "<img class=\"img_progress ....\" src=\""
+                    };
+
+                Set<URL> imagesURLCollection = new HashSet<URL>();
+
+                for( String regexp : regexps ) {
+                    String[] strs = allContent.toString().split( regexp );
+                    logger.info( "> img founds = " + (strs.length - 1));
+
+                    for( int i=1; i<strs.length; i++ ) {
+                        String  s   = strs[ i ];
+                        int     end = s.indexOf( '"' );
+                        String  src = s.substring( 0, end );
+
+                        //imagesURLCollection.add( new URL( serverRootURLString + src ) );
+                        imagesURLCollection.add( new URL( src ) );
+                        }
+                    }
+
+                logger.info( "> URL founds = " + imagesURLCollection.size() );
+
+                return imagesURLCollection;
+            }
+
+            /**
+            *
+            * @return
+            * @throws MalformedURLException
+            */
+           Iterable<URL> collectURLPrepare() throws MalformedURLException
+           {
+               if( _htmlURLList == null ) {
+                   _htmlURLList = new ArrayList<URL>();
+
+                   for( int i=1; i<23; i++ ) {
+                       _htmlURLList.add( new URL( htmlURLBase + i ) );
+                       }
+                   }
+
+               return _htmlURLList;
+           }
+        };
+
+        logger.info( "destinationFolderFile = " + destinationFolderFile );
+        instance.downloadAll();
+        logger.info( "done" );
     }
 }

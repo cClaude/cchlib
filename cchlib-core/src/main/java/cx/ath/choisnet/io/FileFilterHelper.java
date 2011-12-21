@@ -5,10 +5,8 @@ import java.io.FileFilter;
 import cx.ath.choisnet.ToDo;
 
 /**
- *
- * @author Claude CHOISNET
- *
- */
+** Build commons {@link FileFilter} that are {@link Serializable}
+*/
 @ToDo(action=ToDo.Action.DOCUMENTATION)
 public class FileFilterHelper
 {
@@ -45,6 +43,10 @@ public class FileFilterHelper
         };
     }
 
+    /**
+     * Returns a {@link Serializable} {@link FileFilter} that accept(File) method always return true
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter trueFileFilter()
     {
         return new PrivateFileFilterHelper() {
@@ -56,7 +58,24 @@ public class FileFilterHelper
             }
         };
     }
+    
+    /**
+     * Returns a {@link Serializable} {@link FileFilter} that accept(File) method always return false
+     * @return a {@link Serializable} {@link FileFilter}
+     */
+    public static FileFilter falseFileFilter()
+    {
+        return new FileFilter() {
+            private static final long serialVersionUID = 1L;
 
+            @Override
+            public boolean accept( File file )
+            {
+                return false;
+            }
+            
+        };
+    }
     public static FileFilter not(final FileFilter aFileFilter)
     {
         return new PrivateFileFilterHelper() {

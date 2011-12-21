@@ -14,7 +14,7 @@ import java.util.Iterator;
  *
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
-public class DownloaderSample2 extends GenericDownloader
+public class DownloaderSample2 //extends GenericDownloader
 {
     private final static int    DOWNLOAD_THREAD = 20;
     //private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
@@ -35,88 +35,6 @@ public class DownloaderSample2 extends GenericDownloader
     private final static String CACHE_FOLDER_NAME = "output/epins.fr";
 
     /**
-     *
-     * @param destinationFolderFile
-     * @throws NoSuchAlgorithmException
-     * @throws ClassNotFoundException
-     * @throws IOException
-     */
-    public DownloaderSample2( final File destinationFolderFile )
-        throws NoSuchAlgorithmException, IOException, ClassNotFoundException
-    {
-        super(
-            destinationFolderFile,
-            destinationFolderFile,
-            DOWNLOAD_THREAD,
-            PROXY
-            );
-    }
-
-    @Override
-    protected void println( String s )
-    {
-        System.out.println( s );
-    }
-
-    @Override
-    protected Iterable<URL> collectURLs() throws IOException
-    {
-        //return collectURLPrepare();
-        return new Iterable<URL>()
-        {
-            @Override
-            public Iterator<URL> iterator()
-            {
-                return new Iterator<URL>()
-                {
-                    private StringBuilder buildURL_sb1 = new StringBuilder();
-                    //private StringBuilder buildURL_sb2 = new StringBuilder();
-                    private int i = MIN;
-
-                    @Override
-                    public boolean hasNext()
-                    {
-                        return i<MAX;
-                    }
-                    @Override
-                    public URL next()
-                    {
-                        try {
-                            return buildURL( i++ );
-                            }
-                        catch( MalformedURLException e ) {
-                            throw new RuntimeException( e );
-                            }
-                    }
-                    @Override
-                    public void remove()
-                    {
-                        throw new UnsupportedOperationException();
-                    }
-                    private URL buildURL( final int i ) throws MalformedURLException
-                    {
-
-                        buildURL_sb1.setLength( 0 );
-                        //buildURL_sb2.setLength( 0 );
-
-                        buildURL_sb1.append( htmlURLFmt0 );
-
-                        buildURL_sb1.append( i );
-                        //buildURL_sb2.append( htmlURLFmt1 ).append( i );
-                        //int end     = buildURL_sb2.length();
-                        //int start   = end - htmlURLFmt1.length();
-
-                        //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
-                        buildURL_sb1.append( htmlURLFmt2 );
-
-                        return new URL( buildURL_sb1.toString() );
-                    }
-                };
-            }
-        };
-    }
-
-    /**
      * Start Sample here !
      */
     public static void main( String...args )
@@ -125,11 +43,95 @@ public class DownloaderSample2 extends GenericDownloader
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), CACHE_FOLDER_NAME ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
-        DownloaderSample2 instance = new DownloaderSample2( destinationFolderFile );
+        final GenericDownloader.Logger logger = new GenericDownloader.Logger()
+        {
+            @Override
+            public void warn( String msg )
+            {
+                System.out.println( msg );
+            }
+            @Override
+            public void info( String msg )
+            {
+                System.out.println( msg );
+            }
+            @Override
+            public void error( URL url, Throwable cause )
+            {
+                System.err.println( "*** ERROR:" + url + " - " + cause.getMessage() );
+            }
+        };
 
-        instance.println( "destinationFolderFile = " + destinationFolderFile );
+        GenericDownloader instance
+            = new GenericDownloader(
+                destinationFolderFile,
+                destinationFolderFile,
+                DOWNLOAD_THREAD,
+                PROXY,
+                logger
+                )
+        {
+            @Override
+            protected Iterable<URL> collectURLs() throws IOException
+            {
+                return new Iterable<URL>()
+                {
+                    @Override
+                    public Iterator<URL> iterator()
+                    {
+                        return new Iterator<URL>()
+                        {
+                            private StringBuilder buildURL_sb1 = new StringBuilder();
+                            //private StringBuilder buildURL_sb2 = new StringBuilder();
+                            private int i = MIN;
+
+                            @Override
+                            public boolean hasNext()
+                            {
+                                return i<MAX;
+                            }
+                            @Override
+                            public URL next()
+                            {
+                                try {
+                                    return buildURL( i++ );
+                                    }
+                                catch( MalformedURLException e ) {
+                                    throw new RuntimeException( e );
+                                    }
+                            }
+                            @Override
+                            public void remove()
+                            {
+                                throw new UnsupportedOperationException();
+                            }
+                            private URL buildURL( final int i ) throws MalformedURLException
+                            {
+
+                                buildURL_sb1.setLength( 0 );
+                                //buildURL_sb2.setLength( 0 );
+
+                                buildURL_sb1.append( htmlURLFmt0 );
+
+                                buildURL_sb1.append( i );
+                                //buildURL_sb2.append( htmlURLFmt1 ).append( i );
+                                //int end     = buildURL_sb2.length();
+                                //int start   = end - htmlURLFmt1.length();
+
+                                //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
+                                buildURL_sb1.append( htmlURLFmt2 );
+
+                                return new URL( buildURL_sb1.toString() );
+                            }
+                        };
+                    }
+                };
+            }
+        };
+
+        logger.info( "destinationFolderFile = " + destinationFolderFile );
         instance.downloadAll();
-        instance.println( "done" );
+        logger.info( "done" );
     }
 
 }
