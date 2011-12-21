@@ -10,16 +10,17 @@ import cx.ath.choisnet.util.iterator.SingletonIterator;
 /**
  *
  */
-public class FileTree implements Iterable<File>
+class PrivateFileTree implements Iterable<File>
 {
     private static final long serialVersionUID = 1L;
     //private final static Logger logger = Logger.getLogger( FileTree.class );
+
     private SimpleTreeNode<File> root;
 
     /**
      *
      */
-    public FileTree()
+    public PrivateFileTree()
     {
         // empty
     }
@@ -28,7 +29,8 @@ public class FileTree implements Iterable<File>
      *
      * @return
      */
-    public SimpleTreeNode<File> getRoot()
+    final
+    public SimpleTreeNode<File> getRootNode()
     {
         return root;
     }
@@ -37,6 +39,7 @@ public class FileTree implements Iterable<File>
      *
      * @return
      */
+    final
     public int size()
     {
         int             count   = 0;
@@ -66,7 +69,7 @@ public class FileTree implements Iterable<File>
      * @param file Entry to add
      * @return parent node, null if already in tree
      */
-    private SimpleTreeNode<File> privateAdd( final File file )
+    protected final SimpleTreeNode<File> privateAdd( final File file )
     {
         final FileNode          filenode   = new FileNode( file );
         SimpleTreeNode<File>    node       = bestLookupNode( filenode );
@@ -80,7 +83,7 @@ public class FileTree implements Iterable<File>
                 }
             else {
                 // Tree is empty, create root entry
-                root = new SimpleTreeNode<File>( null, filenode.getFile( 0 ) );
+                root = new FileSimpleTreeNode( null, filenode.getFile( 0 ) );
 
                 // best parent is root node
                 node = root;
@@ -113,6 +116,7 @@ public class FileTree implements Iterable<File>
      * @param file
      * @return
      */
+    final
     public SimpleTreeNode<File> lookupNode( final File file )
     {
         final SimpleTreeNode<File> n = bestLookupNode( file );
@@ -131,7 +135,8 @@ public class FileTree implements Iterable<File>
      * @param file
      * @return
      */
-    private/*public*/ SimpleTreeNode<File> bestLookupNode( final File file )
+    final
+    private SimpleTreeNode<File> bestLookupNode( final File file )
     {
         return bestLookupNode( new FileNode( file ) );
     }
@@ -142,6 +147,7 @@ public class FileTree implements Iterable<File>
      * @return the best {@link SimpleTreeNode} for this {@link FileNode}, if
      * even did not match with root tree.
      */
+    final
     private SimpleTreeNode<File> bestLookupNode( final FileNode fileNode )
     {
         SimpleTreeNode<File> parentNode = null;
@@ -159,6 +165,7 @@ public class FileTree implements Iterable<File>
         return parentNode;
     }
 
+    final
     private SimpleTreeNode<File> lookupNodeInChild( SimpleTreeNode<File> node, File f )
     {
         if( node == null ) {
@@ -184,10 +191,10 @@ public class FileTree implements Iterable<File>
             }
 
         return null;
-
     }
 
     @Override
+    final
     public Iterator<File> iterator()
     {
         final Iterator<SimpleTreeNode<File>> iter = nodeIterator();
@@ -212,12 +219,12 @@ public class FileTree implements Iterable<File>
         };
     }
 
-
+    final
     public Iterator<SimpleTreeNode<File>> nodeIterator()
     {
         final ArrayList<Iterator<SimpleTreeNode<File>>> iterators = new ArrayList<Iterator<SimpleTreeNode<File>>>();
 
-        SimpleTreeNode<File> root = getRoot();
+        SimpleTreeNode<File> root = getRootNode();
 
         if( root != null ) {
             iterators.add( new SingletonIterator<SimpleTreeNode<File>>( root ) );
@@ -270,6 +277,32 @@ public class FileTree implements Iterable<File>
                 throw new UnsupportedOperationException();
             }
         };
+    }
+
+    /**
+     * Clear tree.
+     */
+    final
+    public void clear()
+    {
+        this.root = null;
+    }
+
+    final
+    public static class FileSimpleTreeNode extends SimpleTreeNode<File>
+    {
+        private static final long serialVersionUID = 1L;
+
+        protected FileSimpleTreeNode( SimpleTreeNode<File> parent, File data )
+        {
+            super( parent, data );
+        }
+
+        @Override
+        protected SimpleTreeNode<File> createSimpleTreeNode( SimpleTreeNode<File> parent, File data )
+        {
+            return new FileSimpleTreeNode( parent, data );
+        }
     }
 }
 

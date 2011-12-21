@@ -13,7 +13,7 @@ import cx.ath.choisnet.util.iterator.IteratorHelper;
  *
  * @param <E>
  */
-class SimpleTreeNode<E>
+abstract class SimpleTreeNode<E>
     implements  TreeNode,
                 Iterable<SimpleTreeNode<E>>,
                 Serializable
@@ -28,15 +28,18 @@ class SimpleTreeNode<E>
      * @param parent
      * @param data
      */
-    public SimpleTreeNode( SimpleTreeNode<E> parent, E data )
+    protected SimpleTreeNode( SimpleTreeNode<E> parent, E data )
     {
         this.parent = parent;
         this.data   = data;
     }
 
+    protected abstract SimpleTreeNode<E> createSimpleTreeNode( SimpleTreeNode<E> parent, E data );
+
     public SimpleTreeNode<E> add( E data )
     {
-        SimpleTreeNode<E> n = new SimpleTreeNode<E>( this, data );
+        //SimpleTreeNode<E> n = new SimpleTreeNode<E>( this, data );
+        SimpleTreeNode<E> n = createSimpleTreeNode( this, data );
 
         child.add( n );
 

@@ -6,6 +6,7 @@ package cx.ath.choisnet.tools.emptydirectories;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,6 +14,8 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
 public class RemoveEmptyDirectoriesVS4E extends JFrame
@@ -24,13 +27,17 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
     private JPanel jPanelRight;
     private JTextField jTextFieldRootDir;
     private JButton jButtonFind;
-    private JButton jButton0X;
+    private JButton jButtonCancel;
+    private JButton jButton1X;
     private JProgressBar jProgressBarMain;
 
     //private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
     public RemoveEmptyDirectoriesVS4E()
     {
         initComponents();
+
+        // Fix !
+        jPanelRight.setLayout( new BoxLayout(jPanelRight, BoxLayout.Y_AXIS) );
     }
 
     private void initComponents()
@@ -39,14 +46,14 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
         add(getJScrollPaneDir(), BorderLayout.CENTER);
         add(getJPanelRight(), BorderLayout.EAST);
         add(getJProgressBarMain(), BorderLayout.SOUTH);
-        setSize(320, 240);
+        setSize(640, 480);
     }
 
     protected JProgressBar getJProgressBarMain()
     {
         if (jProgressBarMain == null) {
             jProgressBarMain = new JProgressBar();
-            jProgressBarMain.setString( "Select folder" );
+            jProgressBarMain.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
             }
         return jProgressBarMain;
     }
@@ -54,7 +61,7 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
     private JButton getJButtonFind() {
         if (jButtonFind == null) {
             jButtonFind = new JButton();
-            jButtonFind.setText("jButtonFind");
+            jButtonFind.setText( "Select directory to scan" );
             jButtonFind.addMouseListener(new MouseAdapter() {
 
                 public void mouseClicked(MouseEvent event) {
@@ -65,24 +72,43 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
         return jButtonFind;
     }
 
-    private JButton getJButton0X() {
-        if (jButton0X == null) {
-            jButton0X = new JButton();
-            jButton0X.setText("jButton0X");
-            jButton0X.addMouseListener(new MouseAdapter() {
+    private JButton getJButton1X()
+    {
+        if (jButton1X == null) {
+            jButton1X = new JButton();
+            jButton1X.setText("jButton1X");
+            jButton1X.addMouseListener(new MouseAdapter() {
 
                 public void mouseClicked(MouseEvent event) {
-                    jButton0XMouseMouseClicked(event);
+                    jButton1XMouseMouseClicked(event);
                 }
             });
         }
-        return jButton0X;
+        return jButton1X;
     }
 
-    protected JTextField getJTextFieldRootDir() {
+
+    private JButton getJButtonCancel()
+    {
+        if (jButtonCancel == null) {
+            jButtonCancel = new JButton();
+            jButtonCancel.setText("Cancel");
+            jButtonCancel.addMouseListener(new MouseAdapter() {
+
+                public void mouseClicked(MouseEvent event) {
+                    jButtonCancelMouseMouseClicked(event);
+                }
+            });
+        }
+        return jButtonCancel;
+    }
+
+    protected JTextField getJTextFieldRootDir()
+    {
         if (jTextFieldRootDir == null) {
             jTextFieldRootDir = new JTextField();
-            jTextFieldRootDir.setText("jTextFieldRootDir");
+            jTextFieldRootDir.setText("select a directory ]->>");
+            jTextFieldRootDir.setEditable( false );
         }
         return jTextFieldRootDir;
     }
@@ -100,12 +126,14 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
     private JPanel getJPanelRight() {
         if (jPanelRight == null) {
             jPanelRight = new JPanel();
-            jPanelRight.add(getJButton0X());
+            jPanelRight.setLayout( new BoxLayout(jPanelRight, BoxLayout.Y_AXIS) );
+            jPanelRight.add(getJButtonCancel());
+            jPanelRight.add(getJButton1X());
         }
         return jPanelRight;
     }
 
-    protected JScrollPane getJScrollPaneDir()
+    private JScrollPane getJScrollPaneDir()
     {
         if (jScrollPaneDir == null) {
             jScrollPaneDir = new JScrollPane();
@@ -170,9 +198,13 @@ public class RemoveEmptyDirectoriesVS4E extends JFrame
         throw new UnsupportedOperationException();
     }
 
-    protected void jButton0XMouseMouseClicked(MouseEvent event)
+    protected void jButtonCancelMouseMouseClicked( MouseEvent event )
     {
         throw new UnsupportedOperationException();
     }
 
+    protected void jButton1XMouseMouseClicked( MouseEvent event )
+    {
+        throw new UnsupportedOperationException();
+    }
 }

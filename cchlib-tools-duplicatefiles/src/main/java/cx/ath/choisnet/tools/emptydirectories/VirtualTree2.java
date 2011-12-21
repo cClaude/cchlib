@@ -24,7 +24,8 @@ public class VirtualTree2
                 }
         }
 */
-        final FileTree fileTree = new FileTree();
+        //Xfinal FileTree fileTree = new FileTree();
+        final EmptyDirectoriesTreeModel model = new EmptyDirectoriesTreeModel();
 
         {
             File[] rootDirs = { new File( "T:/Data" ) };
@@ -41,7 +42,7 @@ public class VirtualTree2
                 @Override
                 public void newEntry( File emptyDirectoryFile )
                 {
-                    fileTree.add( emptyDirectoryFile );
+                    model.add( emptyDirectoryFile );
                 }
                 @Override
                 public void findStarted()
@@ -65,7 +66,7 @@ public class VirtualTree2
                 }
         }
 
-        EmptyDirectoriesTreeModel model = new EmptyDirectoriesTreeModel( fileTree );
+        //XEmptyDirectoriesTreeModel model = new EmptyDirectoriesTreeModel( fileTree );
 
         // Create a JTree and tell it to display our model
         JTree tree = new JTree(model);

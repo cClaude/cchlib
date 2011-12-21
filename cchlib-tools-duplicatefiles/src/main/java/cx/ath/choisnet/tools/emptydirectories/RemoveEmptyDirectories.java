@@ -6,6 +6,7 @@ package cx.ath.choisnet.tools.emptydirectories;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
@@ -23,10 +24,11 @@ public class RemoveEmptyDirectories extends RemoveEmptyDirectoriesVS4E
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectories.class );
-    private FileTree fileTree = new FileTree();
+    //Xprivate FileTree fileTree = new FileTree();
     private File     rootFile;
     private JFileChooserInitializer jFileChooserInitializer;
     private EmptyDirectoriesTreeModel treeModel;
+    private boolean cancelCalled;
 
     /**
      *
@@ -38,42 +40,57 @@ public class RemoveEmptyDirectories extends RemoveEmptyDirectoriesVS4E
 
     private void init()
     {
+        JProgressBar pBar = getJProgressBarMain();
+        pBar.setStringPainted( true );
+        pBar.setString( "Select directory to scan" );
+        pBar.setIndeterminate( false );
 
+        this.cancelCalled = false;
     }
 
     private void startFind()
     {
+        this.cancelCalled = false;
+
         // Create a JTree and tell it to display our model
-        final JTree jTreeDir = getJTreeDir();
-
-        final EmptyDirectoriesFinder emptyDirs = new EmptyDirectoriesFinder( rootFile );
-
-        UpdateJTreeListeners listener = new UpdateJTreeListeners();
+        final JTree                     jTreeDir    = getJTreeDir();
+        final EmptyDirectoriesFinder    emptyDirs   = new EmptyDirectoriesFinder( rootFile );
+        final UpdateJTreeListeners      listener    = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
 
-        treeModel = new EmptyDirectoriesTreeModel( fileTree );
+        //XtreeModel = new EmptyDirectoriesTreeModel( fileTree );
+        treeModel = new EmptyDirectoriesTreeModel();
         jTreeDir.setModel( treeModel );
 
         jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
         jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
         jTreeDir.setEditable( true );
 
-        SwingUtilities.invokeLater( new Runnable() {
+        //SwingUtilities.invokeLater( );
+        new Thread( new Runnable() {
             @Override
             public void run()
             {
                 try {
                     emptyDirs.find();
-                    treeModel = new EmptyDirectoriesTreeModel( fileTree );
+
+                    // Bad workaround !!!! TODO: find the solution !
+                    //XtreeModel = new EmptyDirectoriesTreeModel( fileTree );
+                    jTreeDir.setModel( null );
                     jTreeDir.setModel( treeModel );
+
+                    logger.info( "setModel size:" + treeModel.size()  );
                     }
                 catch( CancelRequestException e )  {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    logger.info( "Cancel received" );
+
+                    // Call done, to cleanup layout.
+                    listener.findDone();
                     }
+                cancelCalled = false;
             }
-            });
+            }).start();
     }
 
     class UpdateJTreeListeners implements EmptyDirectoriesListener
@@ -81,13 +98,15 @@ public class RemoveEmptyDirectories extends RemoveEmptyDirectoriesVS4E
         @Override
         public boolean isCancel()
         {
-            // TODO Auto-generated method stub
-            return false;
+            return cancelCalled;
         }
         @Override
         public void newEntry( File emptyDirectoryFile )
         {
-            boolean add = fileTree.add( emptyDirectoryFile );
+            //Xboolean add = fileTree.add( emptyDirectoryFile );
+            boolean add = treeModel.add( emptyDirectoryFile );
+
+            logger.info( "tree size:" + treeModel.size() );
 //
 //            if( add ) {
 //                jTreeDir.fireTreeExpanded( path )
@@ -97,16 +116,29 @@ public class RemoveEmptyDirectories extends RemoveEmptyDirectoriesVS4E
         public void findStarted()
         {
             logger.info( "findStarted()" );
-            getJScrollPaneDir().setAutoscrolls( true );
+            //XfileTree.clear();
+            treeModel.clear();
+
+            JProgressBar pBar = getJProgressBarMain();
+            pBar.setString( "Computing..." );
+            pBar.setIndeterminate( true );
         }
         @Override
         public void findDone()
         {
-            getJScrollPaneDir().setAutoscrolls( false );
+            JProgressBar pBar = getJProgressBarMain();
+            pBar.setIndeterminate( false );
+
+            if( cancelCalled ) {
+                pBar.setString( "Scan canceled !" );
+                }
+            else {
+                pBar.setString( "Select file to delete" );
+                }
+
             logger.info( "findDone()" );
         }
     }
-
 
     /**
      * @param args
@@ -175,8 +207,11 @@ public class RemoveEmptyDirectories extends RemoveEmptyDirectoriesVS4E
             }
     }
 
-    protected void jButton0XMouseMouseClicked(MouseEvent event)
+    protected void jButtonCancelMouseMouseClicked( MouseEvent event )
     {
-        throw new UnsupportedOperationException();
+        this.cancelCalled = true;
+
+        logger.info( "jButtonCancelMouseMouseClicked" );
     }
+
 }

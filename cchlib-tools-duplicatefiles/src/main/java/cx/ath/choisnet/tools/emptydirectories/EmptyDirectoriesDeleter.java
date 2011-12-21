@@ -2,6 +2,7 @@ package cx.ath.choisnet.tools.emptydirectories;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.io.File;
@@ -115,10 +116,13 @@ public class EmptyDirectoriesDeleter
 //
 //        emptyFoldersSet.clear();
 
-        for( File f : emptyFoldersSet ) {
+        Iterator<File> iter = emptyFoldersSet.iterator();
+        while( iter.hasNext() ) {
+            File f = iter.next();
+
             if( action.doAction( f ) ) {
                 logger.debug( "doAction:" + f );
-                emptyFoldersSet.remove( f );
+                iter.remove();
                 count++;
                 }
             }

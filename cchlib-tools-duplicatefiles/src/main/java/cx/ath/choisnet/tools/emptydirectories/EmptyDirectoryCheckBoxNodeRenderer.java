@@ -66,9 +66,15 @@ class EmptyDirectoryCheckBoxNodeRenderer implements TreeCellRenderer
         Component               returnValue = this.nodeRenderer;
         SimpleTreeNode<File>    nodeValue   = EmptyDirectoriesTreeModel.getNode( _value );
 
+        String name = nodeValue.getData().getName();
+
+        if( name.isEmpty() ) {
+            name = nodeValue.getData().getPath();
+            }
+
         // Build display
         String stringValue = tree.convertValueToText(
-                nodeValue.getData().getName(),
+                name,
                 selected,
                 expanded,
                 leaf,

@@ -47,7 +47,7 @@ public class FileTreeTest
             { "C:/temps/2/2"  , 8 },/**/
         };
 
-        FileTree tree = new FileTree();
+        PrivateFileTree tree = new PrivateFileTree();
 
         for( int i = 0; i<tstDatas.length; i++ ) {
             String  fs      = tstDatas[ i ][ 0 ].toString();
@@ -61,11 +61,11 @@ public class FileTreeTest
             }
 
         System.out.println( "--- TREE ---" );
-        displayNode( tree.getRoot(), "" );
+        displayNode( tree.getRootNode(), "" );
         System.out.println( "--- DONE ---" );
     }
 
-    private void addEntry( FileTree tree, String fs, int expectedSize )
+    private void addEntry( PrivateFileTree tree, String fs, int expectedSize )
     {
         File f = new File( fs );
 
