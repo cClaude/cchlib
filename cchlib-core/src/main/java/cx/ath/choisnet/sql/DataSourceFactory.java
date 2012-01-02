@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.sql.mysql.MySQLDataSourceFactory;
@@ -153,6 +155,13 @@ public class DataSourceFactory
                 throws SQLException
             {
                 throw new SQLException( "unwrap() not supported" );
+            }
+            @Override
+            public Logger getParentLogger()
+                    throws SQLFeatureNotSupportedException
+            {
+                // TODO: try to implement this.
+                throw new SQLFeatureNotSupportedException();
             }
         };
     }

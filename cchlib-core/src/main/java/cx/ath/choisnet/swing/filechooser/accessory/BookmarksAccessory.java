@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -50,6 +49,8 @@ public class BookmarksAccessory
     /** @serial */
     private Configurator    configurator;
 
+    private ResourcesUtils resourcesUtils;
+
     public BookmarksAccessory(
             JFileChooser    jFileChooser,
             Configurator    config
@@ -57,6 +58,7 @@ public class BookmarksAccessory
     {
         this.jFileChooser = jFileChooser;
         this.configurator = config;
+        this.resourcesUtils = new ResourcesUtils( getClass() );
 
         register();
 
@@ -190,17 +192,12 @@ public class BookmarksAccessory
         public boolean removeBookmark(File file);
     }
 
-
     /**
      * @return a valid JButton for refresh/rescan current directory,
      */
     public JButton getRefreshButton()
     {
-        return new JButton(
-                new ImageIcon(
-                        getClass().getResource( "reload.gif" )
-                        )
-                );
+        return resourcesUtils.getJButton( "reload.gif" );
     }
 
     /**
@@ -208,11 +205,7 @@ public class BookmarksAccessory
      */
     public JButton getAddBookmarkButton()
     {
-        return new JButton(
-                new ImageIcon(
-                        getClass().getResource( "bookmark-add.png" )
-                        )
-                );
+        return resourcesUtils.getJButton( "bookmark-add.png" );
     }
 
     /**
@@ -220,11 +213,7 @@ public class BookmarksAccessory
      */
     public JButton getRemoveBookmarkButton()
     {
-        return new JButton(
-                new ImageIcon(
-                        getClass().getResource( "bookmark-remove.gif" )
-                        )
-                );
+        return resourcesUtils.getJButton( "bookmark-remove.gif" );
     }
 
     @Override // TabbedAccessoryInterface
@@ -237,9 +226,7 @@ public class BookmarksAccessory
     @Override // TabbedAccessoryInterface
     public Icon getTabIcon()
     {
-        return new ImageIcon(
-                getClass().getResource( "bookmark-add.png" )
-                );
+        return resourcesUtils.getImageIcon( "bookmark-add.png" );
     }
 
     @Override // TabbedAccessoryInterface

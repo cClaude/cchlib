@@ -55,6 +55,8 @@ public class LastSelectedFilesAccessory
     private JFileChooser    jFileChooser;
     /** @serial */
     private Configurator    configurator;
+    /** @serial */
+    private ResourcesUtils resourcesUtils;
 
     public LastSelectedFilesAccessory(
             JFileChooser    jFileChooser,
@@ -63,6 +65,7 @@ public class LastSelectedFilesAccessory
     {
         this.jFileChooser = jFileChooser;
         this.configurator = config;
+        this.resourcesUtils = new ResourcesUtils( getClass() );
 
         listModel_LastSelectedFiles = new DefaultListModel();
 
@@ -161,11 +164,7 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRefreshButton()
     {
-        return new JButton(
-            new ImageIcon(
-                getClass().getResource( "reload.gif" )
-                )
-            );
+        return resourcesUtils.getJButton( "reload.gif" );
     }
 
     /**
@@ -173,20 +172,16 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRemoveButton()
     {
-        return new JButton(
-            new ImageIcon(
-                getClass().getResource( "bookmark-remove.gif" )
-                )
-            );
+        return resourcesUtils.getJButton( "bookmark-remove.gif" );
     }
-    
+
     /**
      * Refresh display
      */
     public void refreshAccessory()
     {
         listModel_LastSelectedFiles.clear();
-        
+
         for(File f:configurator.getLastSelectedFiles()) {
             listModel_LastSelectedFiles.addElement( f );
         }
@@ -238,7 +233,7 @@ public class LastSelectedFilesAccessory
      * <br>
      * To unregister this component use {@link #unregisterForce()}
      */
-    @Override 
+    @Override
     public void register()
     {
         //This in case of list of last selected files
@@ -288,7 +283,7 @@ public class LastSelectedFilesAccessory
          * @return true if File has been removed
          */
         public boolean removeLastSelectedFile(File file);
-        
+
         /**
          * @return If true, when double-click a last selected
          *         files, simulate approve button click.

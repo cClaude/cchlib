@@ -16,7 +16,8 @@ import cx.ath.choisnet.util.Selectable;
  */
 public class IteratorFilter<T>
     extends ComputableIterator<T>
-        //implements Iterable<T>
+        implements Iterator<T>
+        //Note: ComputableIterator can't be Iterable<T>
 {
     private Iterator<T>   iterator;
     private Selectable<T> filter;
