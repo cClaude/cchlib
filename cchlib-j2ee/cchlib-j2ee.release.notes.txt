@@ -1,6 +1,10 @@
 cchlib-j2ee
 
 ---------------------------------------------------------------------
+4.1.6
+  Add support of some Java 1.7 features.
+  Generated target code now is Java7
+---------------------------------------------------------------------
 4.1.5
   New module: cchlib-j2ee-deprecated (move all deprecated classes from
   version 3 to cchlib-j2ee-deprecated module)

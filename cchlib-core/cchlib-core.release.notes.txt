@@ -4,6 +4,13 @@ cchlib-core
 4.1.6
   Add support of some Java 1.7 features.
   Generated code now is Java7
+  Add: cx.ath.choisnet.swing.filechooser.accessory.ResourcesUtils
+  Add: cx.ath.choisnet.swing.filechooser.accessory.ResourcesUtilsException
+  Add: cx.ath.choisnet.swing.filechooser.JFileChooserInitializerEvent
+  Add: cx.ath.choisnet.swing.filechooser.JFileChooserInitializerException
+  Add: cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener
+  Add: cx.ath.choisnet.swing.filechooser.accessory.ResourcesUtilsTest
+
 ---------------------------------------------------------------------
 4.1.5
   Add many documentation
