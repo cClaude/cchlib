@@ -1,5 +1,9 @@
-cchlib-tools-editressourcebundle
+cchlib-tools-duplicatefiles
 
+---------------------------------------------------------------------
+4.1.6
+  Add support of some Java 1.7 features.
+  Generated target code now is Java7
 ---------------------------------------------------------------------
 4.1.5
   Fix: some problems with resources (since maven migration)

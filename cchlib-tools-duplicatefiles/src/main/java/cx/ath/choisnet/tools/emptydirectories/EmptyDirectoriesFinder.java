@@ -1,6 +1,7 @@
 package cx.ath.choisnet.tools.emptydirectories;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
@@ -37,7 +38,16 @@ public class EmptyDirectoriesFinder
             this.rootFilesForScan.add( f );
             }
     }
+    
+    public EmptyDirectoriesFinder( Enumeration<File> rootFilesEnumeration )
+    {
+        this.rootFilesForScan = new ArrayList<File>();
 
+        while( rootFilesEnumeration.hasMoreElements() ) {
+            this.rootFilesForScan.add( rootFilesEnumeration.nextElement() );
+            }
+    }
+    
     /**
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
