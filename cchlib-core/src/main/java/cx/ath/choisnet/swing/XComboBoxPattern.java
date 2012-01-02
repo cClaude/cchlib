@@ -14,7 +14,7 @@ import cx.ath.choisnet.swing.text.PatternDocument;
  * @author Claude CHOISNET
  * @see PatternDocument
  */
-public class XComboBoxPattern extends XComboBox
+public class XComboBoxPattern extends XComboBox<String>
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -38,7 +38,7 @@ public class XComboBoxPattern extends XComboBox
      */
     public XComboBoxPattern( Color errorColor )
     {
-        super();
+        super( String.class );
 
         this.setEditor( new ComboBoxEditorPattern( errorColor ) );
     }

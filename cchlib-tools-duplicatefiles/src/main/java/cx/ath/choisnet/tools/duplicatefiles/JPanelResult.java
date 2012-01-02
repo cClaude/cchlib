@@ -69,18 +69,18 @@ public class JPanelResult extends JPanel
     private JSplitPane jSplitPaneResultRight;
     private JScrollPane jScrollPaneDuplicatesFiles;
     private JScrollPane jScrollPaneWillBeDeleted;
-    private JList jListWillBeDeleted;
     private JScrollPane jScrollPaneKeptIntact;
-    private JList jListKeptIntact;
-    private JList jListDuplicatesFiles;
+    private JList<KeyFiles>     jListDuplicatesFiles;
+    private JList<KeyFileState> jListKeptIntact;
+    private JList<KeyFileState> jListWillBeDeleted;
 
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
 
     private HashMapSet<String,KeyFileState>     duplicateFiles;// = new HashMapSet<String,KeyFileState>();
-    private DefaultListModel/* <KeyFiles> */    listModelDuplicatesFiles = new DefaultListModel();
-    private DefaultListModel/* <KeyFileState> */listModelKeptIntact = new DefaultListModel();
-    private DefaultListModel/* <KeyFileState> */listModelWillBeDeleted = new DefaultListModel();
+    private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
+    private DefaultListModel<KeyFileState>      listModelKeptIntact         = new DefaultListModel<KeyFileState>();
+    private DefaultListModel<KeyFileState>      listModelWillBeDeleted      = new DefaultListModel<KeyFileState>();
 
     private ActionListener      actionListenerContextSubMenu;
     private final static String ACTION_OBJECT                            = "KeyFile";
@@ -414,9 +414,9 @@ public class JPanelResult extends JPanel
         return jScrollPaneWillBeDeleted;
     }
 
-    private JList getJListWillBeDeleted() {
+    private JList<KeyFileState> getJListWillBeDeleted() {
         if (jListWillBeDeleted == null) {
-            jListWillBeDeleted = new JList();
+            jListWillBeDeleted = new JList<KeyFileState>();
         }
         return jListWillBeDeleted;
     }
@@ -429,16 +429,16 @@ public class JPanelResult extends JPanel
         return jScrollPaneKeptIntact;
     }
 
-    private JList getJListKeptIntact() {
+    private JList<KeyFileState> getJListKeptIntact() {
         if (jListKeptIntact == null) {
-            jListKeptIntact = new JList();
+            jListKeptIntact = new JList<KeyFileState>();
         }
         return jListKeptIntact;
     }
 
-    private JList getJListDuplicatesFiles() {
+    private JList<KeyFiles> getJListDuplicatesFiles() {
         if (jListDuplicatesFiles == null) {
-            jListDuplicatesFiles = new JList();
+            jListDuplicatesFiles = new JList<KeyFiles>();
         }
         return jListDuplicatesFiles;
     }
@@ -624,7 +624,7 @@ public class JPanelResult extends JPanel
         createPopupMenus( jListWillBeDeleted );
     }
 
-    private void createPopupMenus( final JList jList )
+    private void createPopupMenus( final JList<KeyFileState> jList )
     {
         final JPopupMenuForJList m = new JPopupMenuForJList( jList )
         {

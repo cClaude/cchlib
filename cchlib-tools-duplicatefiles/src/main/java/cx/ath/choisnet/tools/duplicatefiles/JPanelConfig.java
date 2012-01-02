@@ -45,12 +45,12 @@ public class JPanelConfig extends JPanel
     @I18n(methodSuffixName="I18nTileUseFilesFilters")
     private JPanel jPanelUseFilesFilters;
     private JCheckBox jCheckBoxUseFilesFilters;
-    private JComboBox jComboBoxFilesFilters;
+    private JComboBox<String> jComboBoxFilesFilters;
 
     @I18n(methodSuffixName="I18nTileUseDirsFilters")
     private JPanel jPanelUseDirsFilters;
     private JCheckBox jCheckBoxUseDirsFilters;
-    private JComboBox jComboBoxDirsFilters;
+    private JComboBox<String> jComboBoxDirsFilters;
 
     @I18n(methodSuffixName="I18nTileIgnore")
     private JPanel jPanelIgnore;
@@ -93,8 +93,8 @@ public class JPanelConfig extends JPanel
 
     @I18nString private String txtIncludeFilesFilters = "Include filter";
     @I18nString private String txtExcludeFilesFilters = "Exclude filter";
-    @I18nString private Object txtExcludeDirsFilters = "Exclude filter";
-    @I18nString private Object txtIncludeDirsFilters = "Include filter";
+    @I18nString private String txtExcludeDirsFilters = "Exclude filter";
+    @I18nString private String txtIncludeDirsFilters = "Include filter";
 
     public JPanelConfig()
     {
@@ -239,16 +239,16 @@ public class JPanelConfig extends JPanel
         return jPanelIgnore;
     }
 
-    private JComboBox getJComboBoxDirsFilters() {
+    private JComboBox<String> getJComboBoxDirsFilters() {
         if (jComboBoxDirsFilters == null) {
-            jComboBoxDirsFilters = new JComboBox();
+            jComboBoxDirsFilters = new JComboBox<String>();
         }
         return jComboBoxDirsFilters;
     }
 
-    private JComboBox getJComboBoxFilesFilters() {
+    private JComboBox<String> getJComboBoxFilesFilters() {
         if (jComboBoxFilesFilters == null) {
-            jComboBoxFilesFilters = new JComboBox();
+            jComboBoxFilesFilters = new JComboBox<String>();
         }
         return jComboBoxFilesFilters;
     }
@@ -463,8 +463,8 @@ public class JPanelConfig extends JPanel
         };
         jComboBoxFilesFilters.addActionListener( l );
         jComboBoxFilesFilters.setModel(
-                new DefaultComboBoxModel(
-                    new Object[] {
+                new DefaultComboBoxModel<String>(
+                    new String[] {
                         txtIncludeFilesFilters,
                         txtExcludeFilesFilters
                         }
@@ -472,8 +472,8 @@ public class JPanelConfig extends JPanel
                 );
         jComboBoxDirsFilters.addActionListener( l );
         jComboBoxDirsFilters.setModel(
-                new DefaultComboBoxModel(
-                    new Object[] {
+                new DefaultComboBoxModel<String>(
+                    new String[] {
                         txtExcludeDirsFilters,
                         txtIncludeDirsFilters
                         }

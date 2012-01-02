@@ -64,7 +64,7 @@ class EmptyDirectoryCheckBoxNodeRenderer implements TreeCellRenderer
             boolean hasFocus
             )
     {
-        boolean     useDefaultRendering = true;
+        //FIXME: boolean     useDefaultRendering = true;
         String      name;
 
         if( _value instanceof FileTreeNode ) {

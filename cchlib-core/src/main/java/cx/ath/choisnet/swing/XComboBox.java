@@ -35,7 +35,7 @@ import javax.swing.event.ListDataEvent;
  *
  * @author Claude CHOISNET
  */
-public class XComboBox extends JComboBox
+public class XComboBox<E> extends JComboBox<E>
 {
     /**
      * This enum is design to customized {@link XComboBox},
@@ -66,13 +66,15 @@ public class XComboBox extends JComboBox
     private static final long serialVersionUID = 1L;
     /** @serial */
     private int maximumItem = -1;
+    /** @serial */
+    private Class<E> contentClass;
 
     /**
      * Create an empty XComboBox with a default data model.
      */
-    public XComboBox()
+    public XComboBox( final Class<E> contentClass )
     {
-        this( new DefaultComboBoxModel(), null );
+        this( new DefaultComboBoxModel<E>(), contentClass, null );
     }
 
     /**
@@ -81,9 +83,12 @@ public class XComboBox extends JComboBox
      * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
      *        list of items
      */
-    public XComboBox( final ComboBoxModel comboBoxModel )
+    public XComboBox(
+            final ComboBoxModel<E>  comboBoxModel,
+            final Class<E>          contentClass
+            )
     {
-        this( comboBoxModel, null );
+        this( comboBoxModel, contentClass, null );
     }
 
     /**
@@ -93,9 +98,12 @@ public class XComboBox extends JComboBox
      *
      * @param items an array of objects to insert into the combo box
      */
-    public XComboBox( final Object[] items )
+    public XComboBox(
+            final Class<E>  contentClass,
+            final E[]       items
+            )
     {
-        this( new DefaultComboBoxModel(items), null );
+        this( new DefaultComboBoxModel<E>(items), contentClass, null );
     }
 
     /**
@@ -105,9 +113,12 @@ public class XComboBox extends JComboBox
      *
      * @param items an array of vectors to insert into the combo box
      */
-    public XComboBox( final Vector<?> items )
+    public XComboBox(
+            final Class<E>  contentClass,
+            final Vector<E> items
+            )
     {
-        this( new DefaultComboBoxModel(items), null );
+        this( new DefaultComboBoxModel<E>(items), contentClass, null );
     }
 
     /**
@@ -118,10 +129,13 @@ public class XComboBox extends JComboBox
      * @param attrib  the {@link Attribute} set to configure the XComboBox
      */
     public XComboBox(
-            final ComboBoxModel comboBoxModel,
-            EnumSet<Attribute>  attrib
+            final ComboBoxModel<E>  comboBoxModel,
+            final Class<E>          contentClass,
+            EnumSet<Attribute>      attrib
             )
     {
+        this.contentClass = contentClass;
+
         if( comboBoxModel == null ) {
             throw new NullPointerException("defaultComboBoxModel could not be null");
             }
@@ -229,7 +243,7 @@ public class XComboBox extends JComboBox
         final Object s = event.getSource();
 
         if( s instanceof JComboBox ) {
-            JComboBox jcb = JComboBox.class.cast( s );
+            JComboBox<?> jcb = JComboBox.class.cast( s );
 
             if( event.getWheelRotation() > 0 ) {
                 int index = jcb.getSelectedIndex();
@@ -263,7 +277,7 @@ public class XComboBox extends JComboBox
 
     /**
      * Handle "comboBoxEdited" action command
-     * 
+     *
      * @param event Current {@link ActionEvent}
      */
     protected void defaultActionPerformed( final ActionEvent event )
@@ -284,7 +298,10 @@ public class XComboBox extends JComboBox
                 }
             }
             if( !found ) {
-                this.addItem( o );
+                //TODO add a test ?
+                E value = contentClass.cast( o );
+
+                this.addItem( value );
             }
         }
     }

@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JCheckBox;

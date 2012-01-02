@@ -334,16 +334,16 @@ public class Base64Test
         org.junit.Assert.assertTrue( same );
     }
 
-    @SuppressWarnings("deprecation")
-    private String D_staticTestDecodeUsingOutputStream( String str2decode )
-        throws Base64FormatException, IOException
-    {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        decoder.decode( str2decode.getBytes(), out );
-
-        return out.toString();
-    }
+//    @SuppressWarnings("deprecation")
+//    private String D_staticTestDecodeUsingOutputStream( String str2decode )
+//        throws Base64FormatException, IOException
+//    {
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//
+//        decoder.decode( str2decode.getBytes(), out );
+//
+//        return out.toString();
+//    }
 
     private String staticTestDecodeUsingOutputStream( String str2decode )
         throws Base64FormatException, IOException
