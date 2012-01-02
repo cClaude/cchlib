@@ -12,7 +12,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 
 /**
  * Class for VS4E only !
@@ -246,22 +245,22 @@ public class CompareRessourceBundleFrameVS4E extends JFrame
         return jMenuItemSaveLeftFile;
     }
 
-    public static void main( String[] args )
-    {
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                CompareRessourceBundleFrameVS4E frame = new CompareRessourceBundleFrameVS4E();
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                //frame.setTitle( "CompareRessourceBundleFrame VS4E" );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
-            }
-        } );
-    }
+//    public static void main( String[] args )
+//    {
+//        SwingUtilities.invokeLater( new Runnable() {
+//            @Override
+//            public void run()
+//            {
+//                CompareRessourceBundleFrameVS4E frame = new CompareRessourceBundleFrameVS4E();
+//                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//                //frame.setTitle( "CompareRessourceBundleFrame VS4E" );
+//                frame.getContentPane().setPreferredSize( frame.getSize() );
+//                frame.pack();
+//                frame.setLocationRelativeTo( null );
+//                frame.setVisible( true );
+//            }
+//        } );
+//    }
 
     protected void jMenuItem_SaveLeftFile_MouseMousePressed( MouseEvent event )
     {
