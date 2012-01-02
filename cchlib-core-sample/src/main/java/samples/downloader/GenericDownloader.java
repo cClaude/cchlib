@@ -63,7 +63,7 @@ public abstract class GenericDownloader
 
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
         this.cache.setAutoStorage(true);
-
+        
         try  {
             this.cache.load();
             }
