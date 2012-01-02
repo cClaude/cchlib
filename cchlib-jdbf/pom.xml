@@ -14,7 +14,7 @@
   <artifactId>cchlib-jdbf</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-jdbf</name>
-  <version>4.1.5-SNAPSHOT</version>
+  <version>4.1.6-SNAPSHOT</version>
   <description>Provide features to read and write DBF Files.</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
   <inceptionYear>2011</inceptionYear>
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.5-SNAPSHOT</version>
+      <version>4.1.6-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
