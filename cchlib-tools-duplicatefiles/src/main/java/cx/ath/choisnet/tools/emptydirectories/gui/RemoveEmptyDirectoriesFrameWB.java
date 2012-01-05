@@ -39,7 +39,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     private JSeparator separator;
     private JButton btnCancel;
     private JList<File> jListRootDirectories;
-    private JScrollPane scrollPane;
+    private JScrollPane scrollPaneJList;
     private JScrollPane scrollPane_1;
 
     /**
@@ -119,9 +119,9 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         setContentPane( contentPane );
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 3.0, 0.0};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 4.0, 0.0};
         contentPane.setLayout(gbl_contentPane);
 
 //        jListRootDirectories = RemoveEmptyDirectoriesFrameWB.createJList();
@@ -141,17 +141,17 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
             }
         });
 
-        scrollPane = new JScrollPane();
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridheight = 3;
-        gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-        gbc_scrollPane.gridx = 0;
-        gbc_scrollPane.gridy = 0;
-        contentPane.add(scrollPane, gbc_scrollPane);
+        scrollPaneJList = new JScrollPane();
+        GridBagConstraints gbc_scrollPaneJList = new GridBagConstraints();
+        gbc_scrollPaneJList.fill = GridBagConstraints.BOTH;
+        gbc_scrollPaneJList.gridheight = 4;
+        gbc_scrollPaneJList.insets = new Insets(0, 0, 5, 5);
+        gbc_scrollPaneJList.gridx = 0;
+        gbc_scrollPaneJList.gridy = 0;
+        contentPane.add(scrollPaneJList, gbc_scrollPaneJList);
 
         jListRootDirectories = createJList();
-        scrollPane.setViewportView(jListRootDirectories);
+        scrollPaneJList.setViewportView(jListRootDirectories);
 
         GridBagConstraints gbc_btnAddRootDirectory = new GridBagConstraints();
         gbc_btnAddRootDirectory.anchor = GridBagConstraints.PAGE_START;
@@ -191,7 +191,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnStartScan.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnStartScan.insets = new Insets(0, 0, 5, 0);
         gbc_btnStartScan.gridx = 1;
-        gbc_btnStartScan.gridy = 2;
+        gbc_btnStartScan.gridy = 3;
         contentPane.add(btnStartScan, gbc_btnStartScan);
 
         progressBar = new JProgressBar();
@@ -199,7 +199,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
         gbc_progressBar.insets = new Insets( 0, 0, 5, 5 );
         gbc_progressBar.gridx = 0;
-        gbc_progressBar.gridy = 3;
+        gbc_progressBar.gridy = 4;
         contentPane.add( progressBar, gbc_progressBar );
 
         btnCancel = new JButton( "Cancel" );
@@ -214,16 +214,16 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnCancel.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnCancel.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnCancel.gridx = 1;
-        gbc_btnCancel.gridy = 3;
+        gbc_btnCancel.gridy = 4;
         contentPane.add( btnCancel, gbc_btnCancel );
-        
+
         scrollPane_1 = new JScrollPane();
         GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
         gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
         gbc_scrollPane_1.gridheight = 4;
-        gbc_scrollPane_1.insets = new Insets(0, 0, 5, 5);
+        gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
         gbc_scrollPane_1.gridx = 0;
-        gbc_scrollPane_1.gridy = 4;
+        gbc_scrollPane_1.gridy = 5;
         contentPane.add(scrollPane_1, gbc_scrollPane_1);
 
         jTreeEmptyDirectories = createJTree(new SoftBevelBorder( BevelBorder.LOWERED, null, null,
@@ -241,7 +241,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnSelectAll.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnSelectAll.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnSelectAll.gridx = 1;
-        gbc_btnSelectAll.gridy = 4;
+        gbc_btnSelectAll.gridy = 5;
         contentPane.add( btnSelectAll, gbc_btnSelectAll );
 
         btnUnselectAll = new JButton( "Unselect All" );
@@ -255,7 +255,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnUnselectAll.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnUnselectAll.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnUnselectAll.gridx = 1;
-        gbc_btnUnselectAll.gridy = 5;
+        gbc_btnUnselectAll.gridy = 6;
         contentPane.add( btnUnselectAll, gbc_btnUnselectAll );
 
         btnStartDelete = new JButton( "Delete selected" );
@@ -270,15 +270,15 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         GridBagConstraints gbc_separator = new GridBagConstraints();
         gbc_separator.insets = new Insets( 0, 0, 5, 0 );
         gbc_separator.gridx = 1;
-        gbc_separator.gridy = 6;
+        gbc_separator.gridy = 7;
         contentPane.add( separator, gbc_separator );
         GridBagConstraints gbc_btnStartDelete = new GridBagConstraints();
         gbc_btnStartDelete.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnStartDelete.gridx = 1;
-        gbc_btnStartDelete.gridy = 7;
+        gbc_btnStartDelete.gridy = 8;
         contentPane.add( btnStartDelete, gbc_btnStartDelete );
     }
-    
+
     /**
      * @wbp.factory
      * @wbp.factory.parameter.source border new javax.swing.border.SoftBevelBorder( javax.swing.border.BevelBorder.LOWERED, null, null,
@@ -291,7 +291,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         tree.setModel( null );
         return tree;
     }
-    
+
     /**
      * @wbp.factory
      */

@@ -22,16 +22,16 @@ public class TreeModelBuilder implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private TreeModel treeModel;
-    private DefaultMutableTreeNode currentMutableTreeNode;
+    //private TreeModel treeModel;
+    //private DefaultMutableTreeNode currentMutableTreeNode;
     private NamedTree<JPanel> tree = new NamedTree<JPanel>();
     /**
      * 
      */
     public TreeModelBuilder()
     {
-        currentMutableTreeNode = null;
-        treeModel = null;
+        //currentMutableTreeNode = null;
+        //treeModel = null;
     }
 
     public TreeModelBuilder addNode(String path, JPanel panel) throws BadRootNameException
@@ -48,7 +48,7 @@ public class TreeModelBuilder implements Serializable
         @Override
         public VisitResult visite( NamedTreeNode<JPanel> entry )
         {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode( entry.getData() );
+//            DefaultMutableTreeNode node = new DefaultMutableTreeNode( entry.getData() );
             // TODO Auto-generated method stub
             return VisitResult.CONTINUE;
         }
@@ -69,7 +69,7 @@ public class TreeModelBuilder implements Serializable
      * 
      * @param node
      * @param jpanel
-     */
+     * /
     private void addNode(DefaultMutableTreeNode node,JPanel jpanel)
     {
         if( currentMutableTreeNode != null ) {
@@ -84,7 +84,7 @@ public class TreeModelBuilder implements Serializable
         }
         
         //return this;
-    }
+    }*/
 
 //    /**
 //     * 
@@ -159,6 +159,6 @@ public class TreeModelBuilder implements Serializable
             }
             node0.add(node1);
         }
-        treeModel = new DefaultTreeModel(node0);
+        //treeModel = new DefaultTreeModel(node0);
     }
 }

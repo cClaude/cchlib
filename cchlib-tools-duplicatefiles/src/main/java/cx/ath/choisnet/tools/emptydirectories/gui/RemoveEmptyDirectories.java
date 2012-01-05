@@ -2,25 +2,19 @@ package cx.ath.choisnet.tools.emptydirectories.gui;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerEvent;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
-import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
-import cx.ath.choisnet.tools.emptydirectories.EmptyDirectoriesFinder;
-import cx.ath.choisnet.tools.emptydirectories.EmptyDirectoriesListener;
-import cx.ath.choisnet.util.CancelRequestException;
+
+import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
+import cx.ath.choisnet.swing.list.LeftDotListCellRenderer;
 
 /**
  *
@@ -31,10 +25,9 @@ public class RemoveEmptyDirectories
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectories.class );
-    //private File     rootFile;
-    private JFileChooserInitializer jFileChooserInitializer;
     private FileTreeModelable treeModel;
-    private boolean cancelCalled;
+    private FindDeleteAdapter findDeleteAdapter;
+    private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
     /**
      *
@@ -51,14 +44,16 @@ public class RemoveEmptyDirectories
         pBar.setString( "Select directory to scan" );
         pBar.setIndeterminate( false );
 
+        // Create a JTree and tell it to display our model
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
-        jTreeDir.setEditable( false );
-        //jTreeDir.set
-
-        this.cancelCalled = false;
+        treeModel = new FileTreeModel2( jTreeDir );
+        jTreeDir.setModel( treeModel );
+        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
+        jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
+        jTreeDir.setEditable( true );
 
         super.getBtnAddRootDirectory().setEnabled( true );
-        super.getBtnRemoveRootDirectory().setEnabled( true );
+        super.getBtnRemoveRootDirectory().setEnabled( false );
 
         super.getBtnStartScan().setEnabled( true );
         super.getBtnCancel().setEnabled( false );
@@ -67,91 +62,99 @@ public class RemoveEmptyDirectories
         super.getBtnSelectAll().setEnabled( false );
         super.getBtnUnselectAll().setEnabled( false );
 
+        final LeftDotListCellRenderer leftListCellRenderer
+        = new LeftDotListCellRenderer( super.getJListRootDirectories(), true );
+        super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
+
+        super.getJListRootDirectories().addListSelectionListener(
+            new ListSelectionListener()
+            {
+                @Override
+                public void valueChanged( ListSelectionEvent e )
+                {
+                    final int count = getJListRootDirectories().getSelectedValuesList().size();
+
+                    if( count > 0 ) {
+                        getBtnRemoveRootDirectory().setEnabled( true );
+                        }
+                    else {
+                        // No selection
+                        getBtnRemoveRootDirectory().setEnabled( false );
+                        }
+                }
+            });
+
+        // Init Adapter
+        FindDeleteListener findDeleteListener = new FindDeleteListener()
+        {
+            @Override
+            public void findTaskDone( final boolean isCancel )
+            {
+                logger.info( "find thread done" );
+                // Bad workaround !!!!
+                // TODO: find a better solution to expand tree
+                // during build.
+                expandAllRows();
+
+                getBtnStartScan().setEnabled( true );
+                getBtnCancel().setEnabled( false );
+                getBtnStartDelete().setEnabled( true ); // FIXME: enable only when at least 1 file selected
+                getBtnSelectAll().setEnabled( true );
+                getBtnUnselectAll().setEnabled( true );
+                getJListRootDirectories().setEnabled( true );
+                getBtnAddRootDirectory().setEnabled( true );
+
+                JProgressBar pBar = getProgressBar();
+                pBar.setIndeterminate( false );
+
+                if( isCancel ) {
+                    pBar.setString( "Scan canceled !" );
+                    }
+                else {
+                    pBar.setString( "Select file to delete" );
+                    }
+            }
+        };
+
+        findDeleteAdapter = new FindDeleteAdapter(
+                getJListRootDirectoriesModel(),
+                treeModel,
+                findDeleteListener
+                );
+
         logger.info( "init() done" );
     }
 
-    private void startFind()
+    private void findBegin()
     {
         logger.info( "find thread started" );
 
-        this.cancelCalled = false;
-        //getJButtonFind().setEnabled( false );
+        final JProgressBar pBar = getProgressBar();
+        pBar.setString( "Computing..." );
+        pBar.setIndeterminate( true );
+
+        super.getBtnAddRootDirectory().setEnabled( false );
         super.getBtnStartScan().setEnabled( false );
-        //getJButtonCancel().setEnabled( true );
         super.getBtnCancel().setEnabled( true );
-        //getJButtonDeleteSelected().setEnabled( false );
         super.getBtnStartDelete().setEnabled( false );
-        //setJButtonSelectAll().setEnabled( false );
         super.getBtnSelectAll().setEnabled( false );
         super.getBtnUnselectAll().setEnabled( false );
         super.getJListRootDirectories().setEnabled( false );
-        super.getJListRootDirectories().setSelectedIndices( new int[0] );
-
-        // Create a JTree and tell it to display our model
-        final JTree                     jTreeDir        = getJTreeEmptyDirectories();
-        final DefaultListModel<File>    jListRootModel  = super.getJListRootDirectoriesModel();
-        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( jListRootModel.elements() );
-        final UpdateJTreeListeners      listener        = new UpdateJTreeListeners();
-
-        emptyDirs.addListener( listener );
-
-        treeModel = new FileTreeModel2( jTreeDir );
-        jTreeDir.setModel( treeModel );
-
-        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
-        jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
-        //jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer() );
-        //jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( jTreeDir ) );
-        jTreeDir.setEditable( true );
+        super.getJListRootDirectories().clearSelection();
 
         Runnable doRun = new Runnable()
         {
             @Override
             public void run()
             {
-                try {
-                    emptyDirs.find();
-
-                    logger.info( "treeModel.size(): " + treeModel.size() );
-                    }
-                catch( CancelRequestException e )  {
-                    logger.info( "Cancel received" );
-
-                    // Call done, to cleanup layout.
-                    listener.findDone();
-                    }
+                findDeleteAdapter.doFind();
             }
         };
-        // TODO
-        // TODO
-        // TODO
-        // TODO
-//        doRun.run();
-        //
-        try {
-            SwingUtilities.invokeAndWait( doRun );
-            }
-        catch( InvocationTargetException e ) {
-            logger.error( "InvocationTargetException during find", e );
-            }
-        catch( InterruptedException e ) {
-            logger.error( "InterruptedException during find", e );
-            }
 
-        // Bad workaround !!!!
-        // TODO: find a better solution to expand tree
-        // during build.
-        expandAllRows();
-
-        cancelCalled = false;
-        super.getBtnStartScan().setEnabled( true );
-        super.getBtnCancel().setEnabled( false );
-        super.getBtnStartDelete().setEnabled( true ); // FIXME: enable only when at least 1 file selected
-        super.getBtnSelectAll().setEnabled( true );
-        super.getBtnUnselectAll().setEnabled( true );
-        super.getJListRootDirectories().setEnabled( true );
-
-        logger.info( "find thread done" );
+        // KO Lock UI doRun.run();
+        // KO Lock UI SwingUtilities.invokeAndWait( doRun );
+        // KO Lock UI SwingUtilities.invokeLater( doRun );
+        new Thread( doRun ).start();
     }
 
     protected void expandAllRows()
@@ -173,7 +176,6 @@ public class RemoveEmptyDirectories
     {
         logger.info( "delete thread started" );
 
-        this.cancelCalled = false;
         super.getBtnSelectAll().setEnabled( false );
         super.getBtnUnselectAll().setEnabled( false );
         super.getBtnCancel().setEnabled( true );
@@ -183,70 +185,15 @@ public class RemoveEmptyDirectories
         pBar.setString( "Delete selected files" );
         pBar.setIndeterminate( true );
 
-        for( File f : treeModel.selectedFiles() ) {
-            try {
-                boolean res = f.delete();
-                logger.info( "delete [" + f + "] => " + res );
-                }
-            catch( Exception e ) {
-                logger.warn( "delete [" + f + "]", e );
-                }
-            }
+        findDeleteAdapter.doDelete();
 
+        getBtnCancel().setEnabled( false );
+        getJTreeEmptyDirectories().setEditable( true );
         pBar.setIndeterminate( false );
 
-        startFind();
-
-        super.getBtnCancel().setEnabled( false );
-        getJTreeEmptyDirectories().setEditable( true );
+        findBegin();
 
         logger.info( "delete thread done" );
-    }
-
-    class UpdateJTreeListeners implements EmptyDirectoriesListener
-    {
-        @Override
-        public boolean isCancel()
-        {
-            return cancelCalled;
-        }
-        @Override
-        public void newEntry( File emptyDirectoryFile )
-        {
-            //Xboolean add = fileTree.add( emptyDirectoryFile );
-            boolean add = treeModel.add( emptyDirectoryFile );
-
-            //logger.info( "tree size:" + treeModel.size() );
-//
-//            if( add ) {
-//                jTreeDir.fireTreeExpanded( path )
-//                }
-        }
-        @Override
-        public void findStarted()
-        {
-            logger.info( "findStarted()" );
-            treeModel.clear();
-
-            JProgressBar pBar = getProgressBar();
-            pBar.setString( "Computing..." );
-            pBar.setIndeterminate( true );
-        }
-        @Override
-        public void findDone()
-        {
-            JProgressBar pBar = getProgressBar();
-            pBar.setIndeterminate( false );
-
-            if( cancelCalled ) {
-                pBar.setString( "Scan canceled !" );
-                }
-            else {
-                pBar.setString( "Select file to delete" );
-                }
-
-            logger.info( "findDone()" );
-        }
     }
 
     /**
@@ -268,109 +215,25 @@ public class RemoveEmptyDirectories
                 frame.setVisible( true );
 
                 // Prepare JFileChooser
-                frame.getJFileChooserInitializer();
+                frame.getWaitingJFileChooserInitializer();
             }
         } );
 
         logger.fatal( "Running in a thread" );
     }
 
-    private JFileChooserInitializer getJFileChooserInitializer()
+    private WaitingJFileChooserInitializer getWaitingJFileChooserInitializer()
     {
-        if( jFileChooserInitializer == null ) {
-            jFileChooserInitializer = new JFileChooserInitializer(
-                new JFileChooserInitializer.DefaultConfigurator(
-                        //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER
-                        ) {
-                    private static final long serialVersionUID = 1L;
-
-                    public void perfomeConfig( JFileChooser jfc )
-                    {
-                        super.perfomeConfig( jfc );
-
-                        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-                        jfc.setMultiSelectionEnabled( true );
-                        jfc.setAccessory( new TabbedAccessory()
-                                .addTabbedAccessory( new BookmarksAccessory(
-                                        jfc,
-                                        new BookmarksAccessoryDefaultConfigurator() ) ) );
-                    }
-                } );
-
-            JFileChooserInitializerListener l = new JFileChooserInitializerListener()
-            {
-                @Override
-                public void jFileChooserIsReady(
-                        JFileChooserInitializerEvent event
-                        )
-                {
-                    logger.info( "jFileChooserIsReady: " + event.isJFileChooserReady() );
-                }
-                @Override
-                public void jFileChooserInitializationError(
-                        JFileChooserInitializerEvent event
-                        )
-                {
-                    logger.error( "JFileChooser initialization error" );
-                }
-            };
-            jFileChooserInitializer.addFooListener( l );
+        if( waitingJFileChooserInitializer == null ) {
+            waitingJFileChooserInitializer = new WaitingJFileChooserInitializer( this );
             }
-        return jFileChooserInitializer;
+        return waitingJFileChooserInitializer;
     }
 
     private JFileChooser getJFileChooser()
     {
-        JFileChooserInitializer jfci    = getJFileChooserInitializer();
-        WaitingJDialogWB        dialog;
-
-        if( ! jfci.isReady() ) {
-            dialog              = new WaitingJDialogWB( RemoveEmptyDirectories.this );
-
-            final WaitingJDialogWB d = dialog;
-
-            Runnable doRun = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    d.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-                    d.setVisible( true );
-                }
-            };
-
-            try {
-                SwingUtilities.invokeAndWait( doRun  );
-                }
-            catch( InvocationTargetException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                }
-            catch( InterruptedException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                }
-
-            }
-        return jfci.getJFileChooser();
+        return getWaitingJFileChooserInitializer().getJFileChooser();
     }
-
-//    protected void jButtonTmpRefreshTreeMouseMouseClicked(MouseEvent event)
-//    {
-//        final JTree jTreeDir  = getJTree();
-//
-//        // TODO: remove this - just to fix !
-//        jTreeDir.setModel( null );
-//        jTreeDir.setModel( treeModel );
-//        expandAllRows();
-//    }
-//
-//    protected void jButtonTmpClearTreeMouseMouseClicked( MouseEvent event )
-//    {
-//        this.treeModel.clear();
-//
-//        logger.info( "jButtonTmpClearTreeMouseMouseClicked" );
-//    }
 
     @Override
     protected void btnAddRootDirectory_mouseClicked( MouseEvent e )
@@ -404,14 +267,9 @@ public class RemoveEmptyDirectories
             int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                //JList<File>     rootJList   = super.getListRootDirectories();
-                //ListModel<File> model       = rootJList.getModel();
-                DefaultListModel<File> model = super.getJListRootDirectoriesModel();
+                DefaultListModel<File> 	model = super.getJListRootDirectoriesModel();
+                File[] 					files = jfc.getSelectedFiles();
 
-//                rootFile = jfc.getSelectedFile();
-//                logger.info( "selected dir:" + rootFile );
-
-                File[] files = jfc.getSelectedFiles();
                 logger.info( "model:" + model );
                 logger.info( "model.getClass():" + model.getClass() );
 
@@ -424,6 +282,7 @@ public class RemoveEmptyDirectories
             logger.info( "addRootDirectory() done" );
         }
     }
+
     @Override
     protected void btnRemoveRootDirectory_mouseClicked( MouseEvent e )
     {
@@ -437,6 +296,8 @@ public class RemoveEmptyDirectories
             for( File f : selectedList ) {
                 model.removeElement( f );
                 }
+
+            rootList.clearSelection();
             }
     }
 
@@ -446,17 +307,8 @@ public class RemoveEmptyDirectories
         if( super.getBtnStartScan().isEnabled() ) {
             logger.info( "btnStartScan_mouseClicked" );
 
-            Runnable r = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    startFind();
-                }
-            };
-            new Thread( r ).start();
-            // NOTE: do not use of SwingUtilities.invokeLater( r );
-        }
+            findBegin(); // Launch a thread
+            }
     }
 
     @Override
@@ -464,8 +316,7 @@ public class RemoveEmptyDirectories
     {
         logger.info( "btnCancel_mouseClicked" );
         if( super.getBtnCancel().isEnabled() ) {
-            this.cancelCalled = true;
-
+            findDeleteAdapter.cancel();
             logger.info( "Cancel!" );
             }
     }
@@ -487,7 +338,7 @@ public class RemoveEmptyDirectories
         if( super.getBtnUnselectAll().isEnabled() ) {
             logger.info( "btnSelectAll_mouseClicked" );
 
-            treeModel.setSelectAllLeaf( true );
+            treeModel.setSelectAllLeaf( false );
             expandAllRows();
             }
     }
