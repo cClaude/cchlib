@@ -10,6 +10,14 @@ cchlib-core
   Add: cx.ath.choisnet.swing.filechooser.JFileChooserInitializerException
   Add: cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener
   Add: cx.ath.choisnet.swing.filechooser.accessory.ResourcesUtilsTest
+  Add: cx.ath.choisnet.lang.reflect.DefaultMappableBuilderFactory
+  Add: cx.ath.choisnet.swing.filechooser.WaitingDialog
+  Add: cx.ath.choisnet.swing.filechooser.WaitingJDialogWB
+  Add: cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer
+  Add: cx.ath.choisnet.swing.list.LeftDotListCellRenderer
+  Add: cx.ath.choisnet.swing.table.LeftDotTableCellRenderer
+  Add: cx.ath.choisnet.lang.reflect.MappableBuilderTest
+  Add: cx.ath.choisnet.lang.reflect.MappableHelperTest
 
 ---------------------------------------------------------------------
 4.1.5
