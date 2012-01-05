@@ -95,14 +95,15 @@ public class MappableBuilder
     }
 
     /**
-     * Create a default MappableBuilderFactory
+     * Create a default MappableBuilderFactory based
+     * on {@link DefaultMappableBuilderFactory}
      * <p>
      * TODO: doc! describe default initialization
      * </p>
      */
     public static MappableBuilderFactory createMappableBuilderFactory()
     {
-        return new MappableBuilderDefaultFactory()
+        return new DefaultMappableBuilderFactory()
             .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
             .add( CLASSES_STANDARDS_TYPES )
             ;
@@ -250,20 +251,26 @@ public class MappableBuilder
 //            }
 
             if( returnType.isArray() ) {
-//                int len =Array.getLength(enum0);
-                int len =Array.getLength( methodResult );
+                final String methodName = method.getName();
 
-                String methodName = method.getName();
-
-                for(int i = 0; i < len; i++) {
-//                    Object value = Array.get(enum0, i);
-                    Object value = Array.get( methodResult, i );
-
+                if( methodResult == null ) {
                     hashMap.put(
-                            formatArrayEntry(methodName, i, len),
-                            toString(value)
+                    		formatMethodName( methodName ),
+                            toString( methodResult )
                             );
-                }
+            		}
+            	else {
+                    int len = Array.getLength( methodResult );
+
+                    for(int i = 0; i < len; i++) {
+                        Object value = Array.get( methodResult, i );
+
+                        hashMap.put(
+                                formatArrayEntry(methodName, i, len),
+                                toString(value)
+                                );
+                    	}
+            		}
             }
             else {
                 if( methodResult == null ) {

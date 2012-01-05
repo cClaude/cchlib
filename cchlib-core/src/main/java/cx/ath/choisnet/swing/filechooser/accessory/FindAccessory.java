@@ -876,8 +876,8 @@ public class FindAccessory  extends     JPanel
     class FindResults extends JPanel
     {
         private static final long serialVersionUID = 1L;
-        protected DefaultListModel  model = null;
-        protected JList             fileList = null;
+        protected DefaultListModel<File>  model = null;
+        protected JList<File>             fileList = null;
 
         /**
             Construct a search results pane with a scrollable list of files.
@@ -890,8 +890,8 @@ public class FindAccessory  extends     JPanel
             super();
             setLayout(new BorderLayout());
 
-            model = new DefaultListModel();
-            fileList = new JList(model);
+            model = new DefaultListModel<File>();
+            fileList = new JList<File>(model);
             fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             fileList.setCellRenderer(new FindResultsCellRenderer());
             add(fileList,BorderLayout.CENTER);
@@ -921,7 +921,7 @@ public class FindAccessory  extends     JPanel
 
             @param f file found
         */
-        public void append (File f)
+        public void append( File f )
         {
             if (f == null) {
                 return;
@@ -944,7 +944,7 @@ public class FindAccessory  extends     JPanel
         /**
             Convenience class for rendering cells in the results list.
         */
-        class FindResultsCellRenderer extends JLabel implements ListCellRenderer
+        class FindResultsCellRenderer extends JLabel implements ListCellRenderer<File>
         {
             private static final long serialVersionUID = 1L;
 
@@ -955,8 +955,8 @@ public class FindAccessory  extends     JPanel
 
             @Override
             public Component getListCellRendererComponent (
-                                JList list,
-                                Object value,
+                                JList<? extends File> list,
+                                /*Object*/File value,
                                 int index,
                                 boolean isSelected,
                                 boolean cellHasFocus)
@@ -994,7 +994,6 @@ public class FindAccessory  extends     JPanel
                 }
                 return this;
             }
-
         }
     }
 
@@ -1087,8 +1086,8 @@ class FindByDate extends JPanel implements FindFilterFactory
     public static String    FROM_DATE_LABEL = "between start of";
     public static String    TO_DATE_LABEL = "and end of";
 
-    protected JComboBox     fromDateField = null;
-    protected JComboBox     toDateField = null;
+    protected JComboBox<String>     fromDateField = null;
+    protected JComboBox<String>     toDateField = null;
 
     protected String[]      fromDateItems = {THE_BIG_BANG,YESTERDAY,TODAY};
     protected String[]      toDateItems = {THE_BIG_CRUNCH,TODAY,NOW,YESTERDAY};
@@ -1124,7 +1123,7 @@ class FindByDate extends JPanel implements FindFilterFactory
 
         // from date
         //fromDateField = new JTextField(8);
-        fromDateField = new JComboBox(fromDateItems);
+        fromDateField = new JComboBox<String>(fromDateItems);
         fromDateField.setFont(font);
         fromDateField.setEditable(true);
         p.add(fromDateField);
@@ -1136,7 +1135,7 @@ class FindByDate extends JPanel implements FindFilterFactory
         p.add(andLabel);
 
         //toDateField = new JTextField(8);
-        toDateField = new JComboBox(toDateItems);
+        toDateField = new JComboBox<String>(toDateItems);
         toDateField.setFont(font);
         toDateField.setEditable(true);
         p.add(toDateField);
@@ -1318,9 +1317,9 @@ class FindByName extends JPanel implements FindFilterFactory
                                         NAME_STARTS_WITH,
                                         NAME_ENDS_WITH};
 
-    protected JTextField    nameField = null;
-    protected JComboBox     combo = null;
-    protected JCheckBox     ignoreCaseCheck = null;
+    protected JTextField    	nameField = null;
+    protected JComboBox<String> combo = null;
+    protected JCheckBox     	ignoreCaseCheck = null;
 
     FindByName ()
     {
@@ -1332,7 +1331,7 @@ class FindByName extends JPanel implements FindFilterFactory
         p.setLayout(new GridLayout(0,2,2,2));
 
         // Name
-        combo = new JComboBox(criteria);
+        combo = new JComboBox<String>(criteria);
         combo.setFont(new Font("Helvetica",Font.PLAIN,10));
         combo.setPreferredSize(combo.getPreferredSize());
         p.add(combo);

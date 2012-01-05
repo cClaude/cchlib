@@ -18,9 +18,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.lang.reflect.DefaultMappableBuilderFactory;
 import cx.ath.choisnet.lang.reflect.Mappable;
 import cx.ath.choisnet.lang.reflect.MappableBuilder;
-import cx.ath.choisnet.lang.reflect.MappableBuilderDefaultFactory;
 
 /**
  * Collect informations on {@link DatabaseMetaData} and put then into a
@@ -113,7 +113,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
         {
             final MappableBuilder mb = new MappableBuilder(
-                    new MappableBuilderDefaultFactory()
+                    new DefaultMappableBuilderFactory()
                         .setMethodesNamePattern( ".*" )
                         .add( Object.class )
                         .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )

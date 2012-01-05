@@ -8,9 +8,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * @deprecated use {@link DefaultMappableBuilderFactory} instead
+ * Default implementation of {@link MappableBuilderFactory}
  */
-public class MappableBuilderDefaultFactory
+public class DefaultMappableBuilderFactory
     implements MappableBuilderFactory, Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class MappableBuilderDefaultFactory
     /**
      * Create a MappableBuilderDefaultFactory
      */
-    public MappableBuilderDefaultFactory()
+    public DefaultMappableBuilderFactory()
     {
         this.classes             = new HashSet<Class<?>>();
         this.methodesNamePattern = Pattern.compile( DEFAULT_METHODS );
@@ -68,7 +68,7 @@ public class MappableBuilderDefaultFactory
      * @param item A {@link MappableItem} to add
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory add(
+    public DefaultMappableBuilderFactory add(
             final MappableItem item
             )
     {
@@ -82,7 +82,7 @@ public class MappableBuilderDefaultFactory
      * @param items A list of {@link MappableItem} to add
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory add(
+    public DefaultMappableBuilderFactory add(
             final MappableItem...items
             )
     {
@@ -120,7 +120,7 @@ public class MappableBuilderDefaultFactory
      * @param clazz {@link Class} to add
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory add( final Class<?> clazz )
+    public DefaultMappableBuilderFactory add( final Class<?> clazz )
     {
         classes.add( clazz );
         return this;
@@ -132,7 +132,7 @@ public class MappableBuilderDefaultFactory
      * @param classes {@link Class} list to add
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory add( final Class<?>...classes)
+    public DefaultMappableBuilderFactory add( final Class<?>...classes)
     {
         for( Class<?> clazz : classes ) {
             this.classes.add(clazz);
@@ -178,7 +178,7 @@ public class MappableBuilderDefaultFactory
      * @param pattern {@link Pattern} to select methods name.
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory setMethodesNamePattern(
+    public DefaultMappableBuilderFactory setMethodesNamePattern(
             final Pattern pattern
             )
     {
@@ -192,7 +192,7 @@ public class MappableBuilderDefaultFactory
      * @param pattern Regexp to select methods name.
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory setMethodesNamePattern(
+    public DefaultMappableBuilderFactory setMethodesNamePattern(
             final String pattern
             )
     {
@@ -226,7 +226,7 @@ public class MappableBuilderDefaultFactory
      * @param defaultToStringNullValue Value to set
      * @return caller for initialization chaining
      */
-    public MappableBuilderDefaultFactory setStringNullValue(
+    public DefaultMappableBuilderFactory setStringNullValue(
             final String defaultToStringNullValue
             )
     {

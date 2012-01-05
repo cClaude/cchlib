@@ -27,6 +27,8 @@ public class JFileChooserInitializer
     private JFileChooser jFileChooser;
     /** @serial */
     private Configure configurator;
+    /** @serial */
+    private boolean init0Lauched = false;
     /** @serial
      *  Delay is milliseconds between two attempt to return JFileChooser object
      *  @since 4.1.6
@@ -298,11 +300,21 @@ public class JFileChooserInitializer
 
         return jFileChooser;
     }
+    /**
+     * Prepare to start initialization
+     */
+    synchronized private void init()
+    {
+        if( !init0Lauched ) {
+            init0Lauched = true;
+            init0();
+            }
+    }
 
     /**
      * Launch initialization in background.
      */
-    synchronized private void init()
+    private void init0()
     {
         if( this.jFileChooser == null ) {
             Runnable r = new Runnable()
@@ -321,7 +333,7 @@ public class JFileChooserInitializer
                         fireJFileChooserInitializerJFileChooserInitializationError();
 
                         // Synchronization exception
-                        throw new RuntimeException( msg);
+                        throw new RuntimeException( msg );
                         }
 
                     configurator.perfomeConfig( jfc );

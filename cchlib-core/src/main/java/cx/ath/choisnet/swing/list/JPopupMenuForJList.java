@@ -21,17 +21,17 @@ import cx.ath.choisnet.swing.menu.AbstractJPopupMenuBuilder;
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
  * </p>
  */
-public abstract class JPopupMenuForJList
+public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
-    private JList jList;
+    private JList<E> jList;
 
     /**
      * Create JPopupMenuForJList
      *
      * @param jList to use.
      */
-    public JPopupMenuForJList( final JList jList )
+    public JPopupMenuForJList( final JList<E> jList )
     {
         this.jList = jList;
     }
@@ -40,7 +40,7 @@ public abstract class JPopupMenuForJList
      * Returns current JList
      * @return current JList
      */
-    public JList getJList()
+    public JList<E> getJList()
     {
         return jList;
     }
@@ -49,7 +49,7 @@ public abstract class JPopupMenuForJList
      * Returns ListModel for current JList
      * @return ListModel for current JList
      */
-    public ListModel getListModel()
+    public ListModel<E> getListModel()
     {
         return jList.getModel();
     }
@@ -61,7 +61,7 @@ public abstract class JPopupMenuForJList
      * @return value from Model
      */
     final
-    public Object getValueAt( final int rowIndex )
+    public E getValueAt( final int rowIndex )
     {
         return getListModel().getElementAt( rowIndex );
     }
@@ -222,7 +222,7 @@ public abstract class JPopupMenuForJList
             @Override
             public void actionPerformed( ActionEvent e )
             {
-                Object value = getListModel().getElementAt( rowIndex );
+                E value = getListModel().getElementAt( rowIndex );
 
                 setClipboardContents(
                         value == null ? "" : value.toString()

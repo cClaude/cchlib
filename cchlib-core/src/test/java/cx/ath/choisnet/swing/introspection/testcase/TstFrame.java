@@ -43,18 +43,18 @@ import cx.ath.choisnet.swing.introspection.SwingIntrospectorIllegalAccessExcepti
  * @author Claude CHOISNET
  */
 //VS 4E -- DO NOT REMOVE THIS LINE!
-class TstFrame 
+class TstFrame
     extends JFrame
-        implements MouseWheelListener 
+        implements MouseWheelListener
 {
     private static final long serialVersionUID = 1L;
     private transient SwingIntrospector<TstFrame,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
     private TstObject tstObject = new TstObject();
-    
+
     private JLabel                      jLabel_JCheckBox;
     private JCheckBox                   jCheckBox_TestBoolean$root;
     private JLabel                      jLabel_JComboBox;
-    private JComboBox                   jComboBox_TestIntegerJComboBox$root;
+    private JComboBox<String>           jComboBox_TestIntegerJComboBox$root;
     private JLabel                      jLabel_TestIntegerJComboBox;
     private JLabel                      jLabel_JFormattedTextField;
     private JFormattedTextField         jFormattedTextField_TestFMTString$root;
@@ -82,7 +82,7 @@ class TstFrame
         initComponents();
         initFixComponents();
     }
-    
+
     private void initFixComponents()
     {
         //jFormattedTextField_TestFMTString$root.setValue( );
@@ -99,23 +99,23 @@ class TstFrame
             e.printStackTrace();
         }
     }
-    
+
     private MaskFormatter getMaskFormatter()
     {
         MaskFormatter mask = null;
-        
+
         try {
             mask = new MaskFormatter("HH-HH-HH-HH");
             mask.setPlaceholderCharacter('_');
             //mask.setValueClass( Integer.class );
             //mask.install( jFormattedTextField_TestFMTString$root );
-            } 
+            }
         catch(ParseException e) {
             e.printStackTrace();
             }
         return mask;
     }
-    
+
     public void setJFormattedTextFieldValue( int intValue )
     {
         jFormattedTextField_TestFMTString$root.setValue( "11-22-33-44" );
@@ -156,7 +156,7 @@ class TstFrame
     	    jButtonRandomObject = new JButton();
     	    jButtonRandomObject.setText("Random Object");
     	    jButtonRandomObject.addMouseListener(new MouseAdapter() {
-    
+
     			public void mousePressed(MouseEvent event) {
     				jButtonRandomObject_MouseMousePressed(event);
     			}
@@ -275,15 +275,15 @@ class TstFrame
             jPanelMain.add(getJLabel_JCheckBox());
             jPanelMain.add(getJCheckBox_TestBoolean());
             jPanelMain.add(Box.createHorizontalGlue());
-            
+
             jPanelMain.add(getJLabel_JComboBox());
             jPanelMain.add(getJComboBox_TestIntegerJComboBox());
             jPanelMain.add(getJLabel_TestIntegerJComboBox());
-            
+
             jPanelMain.add(getJLabel_JFormattedTextField());
             jPanelMain.add(getJFormattedTextField_TestFMTString());
             jPanelMain.add(Box.createHorizontalGlue());
-            
+
             jPanelMain.add(getJLabel_JSlider());
             jPanelMain.add(getJSlider_TestIntegerJSlider());
             jPanelMain.add(getJTextField_TestIntegerJSlider());
@@ -295,7 +295,7 @@ class TstFrame
             jPanelMain.add(getJLabel_LimitedIntegerJTextField());
             jPanelMain.add(getJTextField_TestIntegerLimitedIntegerJTextField());
             jPanelMain.add(Box.createHorizontalGlue());
-            
+
             jPanelMain.add(getJLabel_JTextField());
             jPanelMain.add(getJTextField_TestString());
             jPanelMain.add(Box.createHorizontalGlue());
@@ -364,14 +364,14 @@ class TstFrame
         return jSlider_TestIntegerJSlider$root;
     }
 
-    public JComboBox getJComboBox_TestIntegerJComboBox() {
+    public JComboBox<String> getJComboBox_TestIntegerJComboBox() {
     	if (jComboBox_TestIntegerJComboBox$root == null) {
-    		jComboBox_TestIntegerJComboBox$root = new JComboBox();
-    		jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel(new Object[] { "item0", "item1", "item2", "item3" }));
+    		jComboBox_TestIntegerJComboBox$root = new JComboBox<String>();
+    		jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel<String>(new String[] { "item0", "item1", "item2", "item3" }));
     		jComboBox_TestIntegerJComboBox$root.setDoubleBuffered(false);
     		jComboBox_TestIntegerJComboBox$root.setBorder(null);
     		jComboBox_TestIntegerJComboBox$root.addItemListener(new ItemListener() {
-    
+
     			public void itemStateChanged(ItemEvent event) {
     				jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(event);
     			}
@@ -471,7 +471,7 @@ class TstFrame
         System.out.println(tstObject);
     }
 
-    private void jButtonRandomObject_MouseMousePressed(MouseEvent event) 
+    private void jButtonRandomObject_MouseMousePressed(MouseEvent event)
     {
         System.out.println("jButtonRandomObject_MouseMousePressed");
         randomObject();
@@ -486,22 +486,22 @@ class TstFrame
                 TstObject.class
                 );
         }
-        
+
         return this.introspector;
     }
-    
+
     public TstObject getTstObject()
     {
         return tstObject;
     }
-    
-    public void initComponentsWithException() 
+
+    public void initComponentsWithException()
         throws  SwingIntrospectorIllegalAccessException,
                 SwingIntrospectorException
     {
         getSwingIntrospector().initComponentsWithException( this );
     }
-    
+
     public void populateFrame()
         throws  IntrospectionInvokeException,
                 SwingIntrospectorException
@@ -510,36 +510,37 @@ class TstFrame
     }
 
     public void populateObject()
-        throws  SwingIntrospectorException, 
+        throws  SwingIntrospectorException,
                 IntrospectionException
     {
         getSwingIntrospector().populateObjectWithException( this, tstObject );
     }
-    
+
     public void randomObject()
     {
         tstObject.randomize();
     }
 
-    private void jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(ItemEvent event) 
+    private void jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(ItemEvent event)
     {
        int    index = jComboBox_TestIntegerJComboBox$root.getSelectedIndex();
-       String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index ).toString(); 
-       
+       //String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index ).toString();
+       String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index );
+
        jLabel_TestIntegerJComboBox.setText( text );
     }
-     
+
     // scroll a combobox if it has the focus
     // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045691
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
-    {   
+    {
         final Component focusOwner = getFocusOwner();
-        
+
         System.out.printf( "mouseWheelMoved: %s\n", focusOwner );
-        
+
         if( focusOwner instanceof JComboBox ) {
-                JComboBox combo = (JComboBox)focusOwner;
+				JComboBox<?> combo = JComboBox.class.cast( focusOwner );
 
                 if (e.getWheelRotation() < 0) {
                     // scroll up
@@ -547,7 +548,7 @@ class TstFrame
                     if (newIndex >= 0) {
                         combo.setSelectedIndex(newIndex);
                     }
-                } 
+                }
                 else {
                     // scroll down
                     int newIndex = combo.getSelectedIndex() + 1;
@@ -565,7 +566,7 @@ class TstFrame
                 if (newIndex >= slider.getMinimum()) {
                     slider.setValue(newIndex);
                 }
-            } 
+            }
             else {
                 // scroll down
                 int newIndex = slider.getValue() + 1;
@@ -573,14 +574,14 @@ class TstFrame
                     slider.setValue(newIndex);
                 }
             }
-        }   
+        }
 //        else if( focusOwner instanceof JFormattedTextField ) {
 //            JFormattedTextField jFormattedTextField = (JFormattedTextField)focusOwner;
 //            //System.out.println( "JFormattedTextField: " + jFormattedTextField.getComponentCount());
 //        }
 //        else if( focusOwner instanceof JSpinner ) {
 //            JSpinner spinner = (JSpinner)focusOwner;
-//            System.out.println( "JSpinner");            
+//            System.out.println( "JSpinner");
 //            if (e.getWheelRotation() < 0) {
 //                // scroll up
 //                Object newValue = spinner.getPreviousValue();
@@ -588,7 +589,7 @@ class TstFrame
 //                if( newValue != null ) {
 //                    spinner.setValue( newValue );
 //                }
-//            } 
+//            }
 //            else {
 //                // scroll down
 //                Object newValue = spinner.getNextValue();
@@ -597,6 +598,6 @@ class TstFrame
 //                    spinner.setValue( newValue );
 //                }
 //            }
-//        }   
+//        }
     }
 }

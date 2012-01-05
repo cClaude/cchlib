@@ -43,9 +43,9 @@ public class LastSelectedFilesAccessory
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private JScrollPane         jScrollPane_LastSelectedFiles;
+    private JScrollPane         	jScrollPane_LastSelectedFiles;
     /** @serial */
-    private DefaultListModel    listModel_LastSelectedFiles;
+    private DefaultListModel<File>	listModel_LastSelectedFiles;
     /** @serial */
     private JButton             jButton_Refresh = new JButton("Refresh");
     /** @serial */
@@ -67,7 +67,7 @@ public class LastSelectedFilesAccessory
         this.configurator = config;
         this.resourcesUtils = new ResourcesUtils( getClass() );
 
-        listModel_LastSelectedFiles = new DefaultListModel();
+        listModel_LastSelectedFiles = new DefaultListModel<File>();
 
         initComponents();
         initLayout();
@@ -81,7 +81,7 @@ public class LastSelectedFilesAccessory
 
     private void initComponents()
     {
-        final JList jList_LastSelectedFiles = new JList(listModel_LastSelectedFiles);
+        final JList<File> jList_LastSelectedFiles = new JList<File>(listModel_LastSelectedFiles);
         jList_LastSelectedFiles.addMouseListener(
             new MouseAdapter()
             {

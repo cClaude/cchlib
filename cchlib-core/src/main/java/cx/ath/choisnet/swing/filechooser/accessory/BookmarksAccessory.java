@@ -34,9 +34,9 @@ public class BookmarksAccessory
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private JScrollPane         jScrollPane_Bookmarks;
+    private JScrollPane         	jScrollPane_Bookmarks;
     /** @serial */
-    private DefaultListModel    listModel_Bookmarks;
+    private DefaultListModel<File> 	listModel_Bookmarks;
     /** @serial */
     private JButton             jButton_AddBookmarks;
     /** @serial */
@@ -62,11 +62,11 @@ public class BookmarksAccessory
 
         register();
 
-        listModel_Bookmarks  = new DefaultListModel();
+        listModel_Bookmarks  = new DefaultListModel<File>();
 
         for(File f:config.getBookmarks()) {
             listModel_Bookmarks.addElement( f );
-        }
+        	}
 
         initComponents();
         initLayout();
@@ -75,7 +75,7 @@ public class BookmarksAccessory
 
     private void initComponents()
     {
-        final JList jList_Bookmarks = new JList(listModel_Bookmarks);
+        final JList<File> jList_Bookmarks = new JList<File>(listModel_Bookmarks);
         jList_Bookmarks.addMouseListener(
                 new MouseAdapter()
                 {

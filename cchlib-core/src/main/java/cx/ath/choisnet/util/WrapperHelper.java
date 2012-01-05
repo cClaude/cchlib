@@ -257,12 +257,12 @@ public class WrapperHelper<T,O>
                         @SuppressWarnings("unchecked")
                         X uncheck = (X)next;
                         array[ i ] = uncheck;
-                    }
+                    	}
                     catch( NullPointerException e ) {
-                        // TODO ! NEED BEST TEST !
+                        // TODO ! NEED BESTER TESTS !
                         throw new ArrayStoreException();
-                    }
-                }
+                    	}
+                	}
 
                 return array;
             }
