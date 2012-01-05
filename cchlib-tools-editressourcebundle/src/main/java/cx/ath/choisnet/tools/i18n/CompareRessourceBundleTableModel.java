@@ -18,7 +18,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.swing.table.LeftDotRenderer;
+
+import cx.ath.choisnet.swing.table.LeftDotTableCellRenderer;
 
 /**
  * {@link TableModel} for {@link CompareRessourceBundleFrame}
@@ -266,10 +267,10 @@ class CompareRessourceBundleTableModel
             private static final long serialVersionUID = 1L;
             final MyJLabel myJLabel = new MyJLabel();
             final DefaultTableCellRenderer leftDotRenderer
-                = new LeftDotRenderer()
+                = new LeftDotTableCellRenderer()
                 {
                     private static final long serialVersionUID = 1L;
-
+                    @Override
                     public Component getTableCellRendererComponent(
                             JTable  table, 
                             Object  value, 
@@ -279,7 +280,8 @@ class CompareRessourceBundleTableModel
                             int     column
                             )
                         {
-                            Component c = super.getTableCellRendererComponent(
+                            //Component c = 
+                    		super.getTableCellRendererComponent(
                                     table, 
                                     value,
                                     isSelected,
@@ -288,7 +290,7 @@ class CompareRessourceBundleTableModel
                                     column
                                     ); 
                             setBackground( Color.LIGHT_GRAY );
-                            return c;
+                            return this; //c;
                         }
                 };
 
