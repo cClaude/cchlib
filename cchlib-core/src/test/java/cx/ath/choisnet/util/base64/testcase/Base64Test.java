@@ -247,7 +247,7 @@ public class Base64Test
         char[]      chars   = encodeInputStreamToCharArray( in );
         in.close();
 
-        int fixme;
+        //FIXME int fixme;
         char[] encodedChars = Base64Encoder.encodeToChar( array );
 
         System.out.println( "chars v1 len = " + chars.length );

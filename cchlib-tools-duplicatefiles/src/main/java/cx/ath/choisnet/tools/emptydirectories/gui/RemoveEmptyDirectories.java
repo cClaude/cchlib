@@ -13,6 +13,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
 
+import cx.ath.choisnet.i18n.I18nString;
+import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.list.LeftDotListCellRenderer;
 
@@ -28,6 +30,8 @@ public class RemoveEmptyDirectories
     private FileTreeModelable treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
+    @I18nString private String jFileChooserInitializerTitle 	= "Waiting...";
+    @I18nString private String jFileChooserInitializerMessage	= "Analyze disk structure";
 
     /**
      *
@@ -225,7 +229,15 @@ public class RemoveEmptyDirectories
     private WaitingJFileChooserInitializer getWaitingJFileChooserInitializer()
     {
         if( waitingJFileChooserInitializer == null ) {
-            waitingJFileChooserInitializer = new WaitingJFileChooserInitializer( this );
+            JFileChooserInitializer.Configure configurator
+                = WaitingJFileChooserInitializer.getDefaultConfigurator();
+
+            waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(
+                    configurator,
+                    this,
+                    jFileChooserInitializerTitle,
+                    jFileChooserInitializerMessage
+                    );
             }
         return waitingJFileChooserInitializer;
     }

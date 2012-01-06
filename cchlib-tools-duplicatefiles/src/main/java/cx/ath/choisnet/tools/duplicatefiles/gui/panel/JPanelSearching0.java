@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -15,7 +15,6 @@ import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,16 +30,20 @@ import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.I18nIgnore;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.io.FileIterator;
+import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
+import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
+import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
+import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
-public class JPanelSearching extends JPanel
+public class JPanelSearching0 extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( JPanelSearching.class );
+    private static final Logger slogger = Logger.getLogger( JPanelSearching0.class );
 
     private DuplicateFileCollector  duplicateFC;
     /* @serial */
@@ -61,7 +64,7 @@ public class JPanelSearching extends JPanel
     private JScrollPane jScrollPaneErrorList;
     private JPanel jPanelDuplicateBottom;
     private JTable jTableErrorList;
-    private JButton jButtonCancelScan;
+    private JButton jButtonCancelScan; // FIXME remove this button
     private File displayFile;
     private int  displayPass;
     private boolean displayRunning;
@@ -79,7 +82,7 @@ public class JPanelSearching extends JPanel
     @I18nString private String txtCurrentFile = "Current File:";
     @I18nString private String txtCurrentDir = "Current directory:";
 
-    public JPanelSearching()
+    public JPanelSearching0()
     {
         initComponents();
 
@@ -139,9 +142,7 @@ public class JPanelSearching extends JPanel
 
     public void initFixComponents()
     {
-        this.iconWorking = new ImageIcon(
-                getClass().getResource( "working.gif" )
-                );
+        this.iconWorking = ResourcesLoader.getImageIcon( "working.gif" );
 
         tableModelErrorList = new DefaultTableModel() {
             private static final long serialVersionUID = 1L;

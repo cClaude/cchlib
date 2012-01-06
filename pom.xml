@@ -12,6 +12,7 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
   </properties>
 
   <!-- Project description -->

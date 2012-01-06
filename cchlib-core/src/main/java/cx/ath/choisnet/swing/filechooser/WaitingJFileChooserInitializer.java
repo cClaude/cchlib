@@ -2,13 +2,10 @@ package cx.ath.choisnet.swing.filechooser;
 
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
-
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerEvent;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener;
@@ -17,42 +14,75 @@ import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConf
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 
 /**
- *
+ * On windows JFileChooser initialization is to slow!
+ * <br>
+ * This class try to use Tread for creating JFileChooser
+ * in background and display a Dialog if JFileChooser is
+ * not yet ready.
  */
 public class WaitingJFileChooserInitializer
+    extends JFileChooserInitializer
 {
+    private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( WaitingJFileChooserInitializer.class );
-    private JFileChooserInitializer jFileChooserInitializer;
     private Frame frame;
-    //private WaitingJDialogWB dialog;
     private WaitingDialog dialog;
     private Object lock = new Object();
+    private String title;
+    private String message;
+
+//    @Deprecated
+//    public WaitingJFileChooserInitializer(
+//            final Frame     parentFrame
+//            )
+//    {
+//        this(
+//            parentFrame,
+//            "Waiting...", // Title: waiting
+//            "Analyze disk structure"  // Msg: analyze disk structure
+//            );
+//    }
+
+//    /**
+//     *
+//     * @param parentFrame
+//     * @param title
+//     * @param message
+//     * @param x
+//     */
+//    @Deprecated
+//    public WaitingJFileChooserInitializer(
+//        final Frame     parentFrame,
+//        final String    title,
+//        final String    message
+//        )
+//    {
+//        this(
+//            getDefaultConfigurator(),
+//            parentFrame,
+//            title,
+//            message
+//            );
+//     }
 
     /**
+     * Create a WaitingJFileChooserInitializer
      *
+     * @param configurator
+     * @param parentFrame
+     * @param title
+     * @param message
      */
-    public WaitingJFileChooserInitializer( final Frame frame )
+    public WaitingJFileChooserInitializer(
+        final JFileChooserInitializer.Configure configurator,
+        final Frame     						parentFrame,
+        final String    						title,
+        final String    						message
+        )
     {
-        this.frame = frame;
+        super( configurator );
 
-        jFileChooserInitializer = new JFileChooserInitializer(
-                new JFileChooserInitializer.DefaultConfigurator(
-                        //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER
-                        ) {
-                    private static final long serialVersionUID = 1L;
-
-                    public void perfomeConfig( JFileChooser jfc )
-                    {
-                        super.perfomeConfig( jfc );
-
-                        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-                        jfc.setMultiSelectionEnabled( true );
-                        jfc.setAccessory( new TabbedAccessory()
-                                .addTabbedAccessory( new BookmarksAccessory(
-                                        jfc,
-                                        new BookmarksAccessoryDefaultConfigurator() ) ) );
-                    }
-                } );
+        this.frame = parentFrame;
 
         JFileChooserInitializerListener l = new JFileChooserInitializerListener()
         {
@@ -78,23 +108,53 @@ public class WaitingJFileChooserInitializer
                 logger.error( "JFileChooser initialization error" );
             }
         };
-        jFileChooserInitializer.addFooListener( l );
+
+        addFooListener( l );
     }
 
-    public JFileChooserInitializer getJFileChooserInitializer()
+    /**
+     *
+     * @return
+     */
+    public static JFileChooserInitializer.Configure getDefaultConfigurator()
     {
-        return jFileChooserInitializer;
+        return new JFileChooserInitializer.DefaultConfigurator(
+            //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER
+            )
+            {
+                private static final long serialVersionUID = 1L;
+
+                public void perfomeConfig( JFileChooser jfc )
+                {
+                    super.perfomeConfig( jfc );
+
+                    jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+                    jfc.setMultiSelectionEnabled( true );
+                    jfc.setAccessory( new TabbedAccessory()
+                        .addTabbedAccessory( new BookmarksAccessory(
+                            jfc,
+                            new BookmarksAccessoryDefaultConfigurator()
+                            )
+                        )
+                    );
+                }
+            };
     }
 
+//    public JFileChooserInitializer getJFileChooserInitializer()
+//    {
+//        return this;
+//    }
+
+    @Override
     public JFileChooser getJFileChooser()
     {
-        JFileChooserInitializer jfci = getJFileChooserInitializer();
-
-        if( ! jfci.isReady() ) {
+        if( ! this.isReady() ) {
             synchronized( lock ) {
                 if( dialog == null ) {
                     dialog = new WaitingJDialogWB( frame );
-                    dialog.setText( "Waiting..." );
+                    dialog.setTitle( title );
+                    dialog.setText( message );
                     }
                 }
 
@@ -118,6 +178,7 @@ public class WaitingJFileChooserInitializer
                 logger.error( e );
                 }
             }
-        return jfci.getJFileChooser();
+
+        return super.getJFileChooser();
     }
 }

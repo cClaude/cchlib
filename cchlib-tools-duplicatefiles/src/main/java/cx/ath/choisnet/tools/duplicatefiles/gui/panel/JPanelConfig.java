@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +27,10 @@ import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.i18n.I18nSwingHelper;
 import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.swing.XComboBoxPattern;
+import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
+import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
+import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
+import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 
 /**
  *
@@ -486,15 +489,15 @@ public class JPanelConfig extends JPanel
         Properties  prop = new Properties();
 
         try {
-            InputStream is   = getClass().getResourceAsStream(
+            InputStream is = ResourcesLoader.getResourceAsStream(
                     "JPanelConfig.properties"
                     );
             prop.load( is );
             is.close();
-        }
-        catch( IOException e ) {
+            }
+        catch( Exception e ) {
             slogger.error( "Can't load properties", e );
-        }
+            }
 
         for(int i=0;;i++) {
             String descKey = String.format( "filetype.%d.description", i );

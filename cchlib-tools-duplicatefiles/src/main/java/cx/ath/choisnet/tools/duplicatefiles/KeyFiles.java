@@ -7,9 +7,8 @@ import java.util.Set;
 
 /**
  *
- * @author Claude CHOISNET
  */
-final class KeyFiles implements Serializable, Iterable<KeyFileState>
+public final class KeyFiles implements Serializable, Iterable<KeyFileState>
 {
     private static final long serialVersionUID = 1L;
     private String              key;

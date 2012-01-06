@@ -13,7 +13,6 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-//public
 class WaitingJDialogWB
     extends JDialog
         implements WaitingDialog, ActionListener
@@ -48,8 +47,12 @@ class WaitingJDialogWB
 
     /**
      * Create the dialog.
+     *
+     * @param owner Parent {@link Frame} for this dialog.
      */
-    public WaitingJDialogWB( final Frame owner )
+    public WaitingJDialogWB(
+            final Frame owner
+            )
     {
         super( owner );
 

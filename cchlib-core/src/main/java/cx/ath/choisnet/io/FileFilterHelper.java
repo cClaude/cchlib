@@ -2,40 +2,47 @@ package cx.ath.choisnet.io;
 
 import java.io.File;
 import java.io.FileFilter;
-import cx.ath.choisnet.ToDo;
 
 /**
 ** Build commons {@link FileFilter} that are {@link Serializable}
 */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class FileFilterHelper
 {
-    private static abstract class PrivateFileFilterHelper implements FileFilter, java.io.Serializable
-    {
-        private static final long serialVersionUID = 1L;
-    }
+//    private static abstract class PrivateFileFilterHelper implements FileFilter, java.io.Serializable
+//    {
+//        private static final long serialVersionUID = 1L;
+//    }
 
     private FileFilterHelper()
     {
+        // All static
     }
 
+    /**
+     *
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter directoryFileFilter()
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 return file.isDirectory();
             }
         };
     }
-    
+
+    /**
+     *
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter fileFileFilter()
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 return file.isFile();
@@ -49,38 +56,42 @@ public class FileFilterHelper
      */
     public static FileFilter trueFileFilter()
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 return true;
             }
         };
     }
-    
+
     /**
      * Returns a {@link Serializable} {@link FileFilter} that accept(File) method always return false
      * @return a {@link Serializable} {@link FileFilter}
      */
     public static FileFilter falseFileFilter()
     {
-        return new FileFilter() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
             @Override
             public boolean accept( File file )
             {
                 return false;
             }
-            
         };
     }
+
+    /**
+     *
+     * @param aFileFilter
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter not(final FileFilter aFileFilter)
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 return !aFileFilter.accept(file);
@@ -88,104 +99,137 @@ public class FileFilterHelper
         };
     }
 
+    /**
+     *
+     * @param firstFileFilter
+     * @param secondFileFilter
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter and(
                 final FileFilter firstFileFilter,
                 final FileFilter secondFileFilter
                 )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 if(firstFileFilter.accept(file)) {
                     return secondFileFilter.accept(file);
-                }
+                    }
                 else {
                     return false;
-                }
+                    }
             }
         };
     }
 
+    /**
+     *
+     * @param fileFilters
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter and(
             final FileFilter...fileFilters
             )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
               for(FileFilter ff : fileFilters ) {
                     if(!ff.accept(file)) {
                         return false;
+                        }
                     }
-                }
                 return true;
             }
         };
     }
 
+    /**
+     *
+     * @param firstFileFilter
+     * @param secondFileFilter
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter or(
             final FileFilter firstFileFilter,
             final FileFilter secondFileFilter
             )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
-            public boolean accept(File pathname)
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
+            public boolean accept( File pathname )
             {
-                if(firstFileFilter.accept(pathname)) {
+                if( firstFileFilter.accept( pathname ) ) {
                     return true;
-                }
+                    }
                 else {
-                    return secondFileFilter.accept(pathname);
-                }
+                    return secondFileFilter.accept( pathname );
+                    }
             }
         };
     }
 
+    /**
+     *
+     * @param fileFilters
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter or(
             final FileFilter...fileFilters
             )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
-            public boolean accept(File pathname)
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
+            public boolean accept( final File pathname )
             {
-                for(FileFilter ff : fileFilters) {
-                    if(ff.accept(pathname)) {
+                for( FileFilter ff : fileFilters ) {
+                    if( ff.accept( pathname ) ) {
                         return true;
+                        }
                     }
-                }
                 return false;
             }
         };
     }
 
+    /**
+     *
+     * @param firstFileFilter
+     * @param secondFileFilter
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter xor(
             final FileFilter firstFileFilter,
             final FileFilter secondFileFilter
             )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
-            public boolean accept(File file)
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
+            public boolean accept( File file )
             {
                 return firstFileFilter.accept(file) ^ secondFileFilter.accept(file);
             }
         };
     }
 
-    public static FileFilter fileLengthFileFilter(final long length)
+    /**
+     *
+     * @param length
+     * @return a {@link Serializable} {@link FileFilter}
+     */
+    public static FileFilter fileLengthFileFilter( final long length )
     {
-        return new PrivateFileFilterHelper() {
-            private static final long serialVersionUID = 1L;
-
+        return new SerializableFileFilter() {
+            private static final long serialVersionUID = 2L;
+            @Override
             public boolean accept(File file)
             {
                 return file.length() == length;
@@ -193,6 +237,10 @@ public class FileFilterHelper
         };
     }
 
+    /**
+     *
+     * @return a {@link Serializable} {@link FileFilter}
+     */
     public static FileFilter zeroLengthFileFilter()
     {
         return fileLengthFileFilter( 0L );

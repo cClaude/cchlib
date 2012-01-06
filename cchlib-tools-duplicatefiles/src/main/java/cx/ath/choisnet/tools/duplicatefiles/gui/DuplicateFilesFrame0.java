@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui;
 
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,6 +27,11 @@ import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
+import cx.ath.choisnet.tools.duplicatefiles.ConfigData;
+import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
+import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
+import cx.ath.choisnet.tools.duplicatefiles.I18nBundle;
+import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
@@ -32,12 +39,12 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  *
  * @author Claude CHOISNET
  */
-final public class DuplicateFilesFrame
+final public class DuplicateFilesFrame0
     extends DuplicateFilesFrameVS4E
         implements DFToolKit
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( DuplicateFilesFrame.class );
+    private static final Logger slogger = Logger.getLogger( DuplicateFilesFrame0.class );
     /* @serial */
     private JFileChooserInitializer  jFileChooserInitializer;
     /* @serial */
@@ -73,7 +80,7 @@ final public class DuplicateFilesFrame
     /* @serial */
     private int bufferSize = 16 * 1024;
 
-    public DuplicateFilesFrame()
+    public DuplicateFilesFrame0()
     {
         super();
 
@@ -143,7 +150,7 @@ final public class DuplicateFilesFrame
 
         //jPanel0SelectFolders.initFixComponents( this );
         jPanel0Select.initFixComponents( this );
-        jPanel2Searching.initFixComponents();
+        jPanel2Searching.initFixComponents( this );
         jPanel3Result.initFixComponents( duplicateFiles, this );
 
         // init
@@ -356,7 +363,7 @@ final public class DuplicateFilesFrame
             public void run()
             {
                 try {
-                    DuplicateFilesFrame frame = new DuplicateFilesFrame();
+                    DuplicateFilesFrame0 frame = new DuplicateFilesFrame0();
                     frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                     frame.setTitle( "Duplicate Files Manager" );
                     frame.getContentPane().setPreferredSize( frame.getSize() );
@@ -436,7 +443,7 @@ final public class DuplicateFilesFrame
                         @Override
                         public void run()
                         {
-                            jPanel4Confirm.doDelete(DuplicateFilesFrame.this,duplicateFiles);
+                            jPanel4Confirm.doDelete(DuplicateFilesFrame0.this,duplicateFiles);
 
                             //state = STATE_RESULTS;
                             subState = SUBSTATE_CONFIRM_DONE;
@@ -450,6 +457,12 @@ final public class DuplicateFilesFrame
             updateDisplayAccordState();
         }
     }
+
+	@Override
+	public AbstractButton getJButtonCancel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     /*
     private void doDelete()

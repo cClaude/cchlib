@@ -5,9 +5,8 @@ import java.io.Serializable;
 
 /**
  *
- * @author Claude CHOISNET
  */
-final class KeyFileState
+final public class KeyFileState
     implements  Serializable,
                 Comparable<KeyFileState>
 {

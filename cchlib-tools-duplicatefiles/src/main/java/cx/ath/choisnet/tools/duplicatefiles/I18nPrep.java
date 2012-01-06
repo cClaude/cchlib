@@ -3,6 +3,7 @@ package cx.ath.choisnet.tools.duplicatefiles;
 import java.io.File;
 import java.io.IOException;
 import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame;
 
 /**
  * Create resources bundles files

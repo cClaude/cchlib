@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,11 +20,12 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-
 import org.apache.log4j.Logger;
-
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
+import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
+import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
+import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 import cx.ath.choisnet.util.HashMapSet;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
@@ -69,12 +69,8 @@ public class JPanelConfirm extends JPanel
         // NOT YET IMPLEMENTED
         jButtonDoScript.setVisible(false);
 
-        iconOk = new ImageIcon(
-                getClass().getResource( "ok.12x12.png" )
-                );
-        iconKo = new ImageIcon(
-                getClass().getResource( "ko.12x12.png" )
-                );
+        iconOk = ResourcesLoader.getImageIcon( "ok.12x12.png" );
+        iconKo = ResourcesLoader.getImageIcon( "ko.12x12.png" );
     }
 
     private void initComponents() {

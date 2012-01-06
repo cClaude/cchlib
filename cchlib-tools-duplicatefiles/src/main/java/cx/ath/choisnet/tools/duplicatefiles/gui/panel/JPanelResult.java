@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,6 +41,10 @@ import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.XComboBoxPattern;
 import cx.ath.choisnet.swing.list.JPopupMenuForJList;
+import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
+import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
+import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
+import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.util.HashMapSet;
 
 /**

@@ -10,7 +10,13 @@ public interface WaitingDialog
      *
      * @param string
      */
-    public void setText(String string);
+    public void setText( String string );
+
+    /**
+     *
+     * @param title
+     */
+    public void setTitle( String title );
 
     /**
      *
@@ -28,4 +34,5 @@ public interface WaitingDialog
      * @param b
      */
     public void setVisible(boolean b);
+
 }

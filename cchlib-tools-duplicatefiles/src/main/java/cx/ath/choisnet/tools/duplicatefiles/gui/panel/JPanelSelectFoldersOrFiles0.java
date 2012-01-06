@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -17,6 +17,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.XTextField;
+import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
 
 /**
@@ -35,11 +36,11 @@ import cx.ath.choisnet.util.iterator.iterable.BiIterator;
  * @author Claude CHOISNET
  */
 //VS 4E -- DO NOT REMOVE THIS LINE!
-public class JPanelSelectFoldersOrFiles
+public class JPanelSelectFoldersOrFiles0
     extends JPanel
 {
     private static final long serialVersionUID = 2L;
-    private Logger slogger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
+    private Logger slogger = Logger.getLogger( JPanelSelectFoldersOrFiles0.class );
     // TODO:Must be restore by parent !
     private transient DFToolKit dFToolKit;
     /* @serial */
@@ -81,7 +82,7 @@ public class JPanelSelectFoldersOrFiles
     @I18nString private String txtIncludeDir = "Include content";
     @I18nString private String txtIncludeFile = "Include file";
 
-    public JPanelSelectFoldersOrFiles()
+    public JPanelSelectFoldersOrFiles0()
     {
         initComponents();
     }
@@ -415,47 +416,7 @@ public class JPanelSelectFoldersOrFiles
     public int getEntriesToScanSize()
     {
         return includeFileList.size();
-        /*
-        int count = 0;
-
-        for( FileOrFolder ff : this.filesList ) {
-            if( ! ff.isIgnoreContent() ) {
-                count++;
-                }
-            }
-
-        return count;
-        */
     }
-//    public int directoriesSize()
-//    {
-//        return listModelDirectoryFiles.size();
-//    }
-
-//    @Override
-//    public Iterator<File> iterator()
-//    {
-//        final int len = listModelDirectoryFiles.size();
-//        return new Iterator<File>()
-//        {
-//            int i = 0;
-//            @Override
-//            public boolean hasNext()
-//            {
-//                return i<len;
-//            }
-//            @Override
-//            public File next()
-//            {
-//                return (File)listModelDirectoryFiles.getElementAt( i++ );
-//            }
-//            @Override
-//            public void remove()
-//            {
-//                throw new UnsupportedOperationException();
-//            }
-//        };
-//    }
 
     private Iterable<File> entries()
     {
@@ -465,65 +426,10 @@ public class JPanelSelectFoldersOrFiles
     public Iterable<File> entriesToScans()
     {
         return includeFileList;
-        /*
-        return new ComputableIterator<File>()
-        {
-            final Iterator<FileOrFolder> iter = filesList.iterator();
-            @Override
-            protected File computeNext() throws NoSuchElementException
-            {
-                while( iter.hasNext() ) {
-                    FileOrFolder ff = iter.next();
-
-                    if( !ff.isIgnoreContent() ) {
-                        return ff.getFile();
-                    }
-                }
-                throw new NoSuchElementException();
-            }
-        };
-        */
     }
 
     public Iterable<File> entriesToIgnore()
     {
         return ingoreFileList;
-        /*
-        return new ComputableIterator<File>()
-        {
-            final Iterator<FileOrFolder> iter = filesList.iterator();
-            @Override
-            protected File computeNext() throws NoSuchElementException
-            {
-                while( iter.hasNext() ) {
-                    FileOrFolder ff = iter.next();
-
-                    if( !ff.isIgnoreContent() ) {
-                        return ff.getFile();
-                    }
-                }
-                throw new NoSuchElementException();
-            }
-        };
-        */
     }
-
-//    private static class FileOrFolder
-//    {
-//        private File file;
-//        private boolean includeContent;
-//        public FileOrFolder( File file, boolean includeContent )
-//        {
-//            this.file = file;
-//            this.includeContent = includeContent;
-//        }
-//        public File getFile()
-//        {
-//            return file;
-//        }
-//        public boolean isIgnoreContent()
-//        {
-//            return this.includeContent;
-//        }
-//    }
 }

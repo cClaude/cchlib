@@ -1,7 +1,4 @@
-/**
- *
- */
-package cx.ath.choisnet.tools.duplicatefiles;
+package cx.ath.choisnet.tools.duplicatefiles.gui;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -16,6 +13,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfig;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfirm;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelResult;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSelectFoldersOrFiles;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
 public class DuplicateFilesFrameVS4E extends JFrame
@@ -25,13 +27,13 @@ public class DuplicateFilesFrameVS4E extends JFrame
     private JMenu jMenuConfig;
     protected JMenu jMenuLookAndFeel;
     private JMenu jMenuConfigMode;
+
     private ButtonGroup buttonGroupConfigMode;
     protected JCheckBoxMenuItem jCheckBoxMenuItemModeBegin;
     protected JCheckBoxMenuItem jCheckBoxMenuItemModeAdvance;
     protected JCheckBoxMenuItem jCheckBoxMenuItemModeExpert;
 
     protected JTabbedPane jTabbedPaneMain;
-    //protected JPanelSelectFolders jPanel0SelectFolders;
     protected JPanelSelectFoldersOrFiles jPanel0Select;
     protected JPanelConfig jPanel1Config;
     protected JPanelSearching jPanel2Searching;
@@ -62,14 +64,6 @@ public class DuplicateFilesFrameVS4E extends JFrame
         buttonGroupConfigMode.add(getJCheckBoxMenuItemModeExpert());
     }
 
-    private JCheckBoxMenuItem getJCheckBoxMenuItemModeExpert() {
-        if (jCheckBoxMenuItemModeExpert == null) {
-            jCheckBoxMenuItemModeExpert = new JCheckBoxMenuItem();
-            jCheckBoxMenuItemModeExpert.setText("Expert");
-        }
-        return jCheckBoxMenuItemModeExpert;
-    }
-
     private JMenu getJMenuConfigMode() {
         if (jMenuConfigMode == null) {
             jMenuConfigMode = new JMenu();
@@ -79,6 +73,14 @@ public class DuplicateFilesFrameVS4E extends JFrame
             jMenuConfigMode.add(getJCheckBoxMenuItemModeExpert());
         }
         return jMenuConfigMode;
+    }
+
+    private JCheckBoxMenuItem getJCheckBoxMenuItemModeExpert() {
+        if (jCheckBoxMenuItemModeExpert == null) {
+            jCheckBoxMenuItemModeExpert = new JCheckBoxMenuItem();
+            jCheckBoxMenuItemModeExpert.setText("Expert");
+        }
+        return jCheckBoxMenuItemModeExpert;
     }
 
     private JCheckBoxMenuItem getJCheckBoxMenuItemModeAdvance() {
@@ -99,11 +101,23 @@ public class DuplicateFilesFrameVS4E extends JFrame
         return jCheckBoxMenuItemModeBegin;
     }
 
-    private JPanel getJPanel4Confirm() {
-        if (jPanel4Confirm == null) {
-            jPanel4Confirm = new JPanelConfirm();
+    private JTabbedPane getJTabbedPanejTabbedPaneMain() {
+        if (jTabbedPaneMain == null) {
+            jTabbedPaneMain = new JTabbedPane();
+            jTabbedPaneMain.addTab("Select", getJPanel0jPanel0Select());
+            jTabbedPaneMain.addTab("Search config", getJPanel1Config());
+            jTabbedPaneMain.addTab("Searching...", getJPanel2Searching());
+            jTabbedPaneMain.addTab("Duplicates", getJPanel3Result());
+            jTabbedPaneMain.addTab("Confirm", getJPanel4Confirm());
         }
-        return jPanel4Confirm;
+        return jTabbedPaneMain;
+    }
+
+    private JPanelSelectFoldersOrFiles getJPanel0jPanel0Select() {
+        if (jPanel0Select == null) {
+            jPanel0Select = new JPanelSelectFoldersOrFiles();
+        }
+        return jPanel0Select;
     }
 
     private JPanelConfig getJPanel1Config() {
@@ -111,6 +125,27 @@ public class DuplicateFilesFrameVS4E extends JFrame
             jPanel1Config = new JPanelConfig();
         }
         return jPanel1Config;
+    }
+
+    private JPanel getJPanel2Searching() {
+        if (jPanel2Searching == null) {
+            jPanel2Searching = new JPanelSearching();
+        }
+        return jPanel2Searching;
+    }
+
+    private JPanel getJPanel3Result() {
+        if (jPanel3Result == null) {
+            jPanel3Result = new JPanelResult();
+        }
+        return jPanel3Result;
+    }
+
+    private JPanel getJPanel4Confirm() {
+        if (jPanel4Confirm == null) {
+            jPanel4Confirm = new JPanelConfirm();
+        }
+        return jPanel4Confirm;
     }
 
     final
@@ -139,13 +174,6 @@ public class DuplicateFilesFrameVS4E extends JFrame
             jMenuConfig.add(getJMenuConfigMode());
         }
         return jMenuConfig;
-    }
-
-    private JPanel getJPanel3Result() {
-        if (jPanel3Result == null) {
-            jPanel3Result = new JPanelResult();
-        }
-        return jPanel3Result;
     }
 
     private JPanel getJPanelBottom() {
@@ -184,39 +212,6 @@ public class DuplicateFilesFrameVS4E extends JFrame
             });
         }
         return jButtonRestart;
-    }
-
-    private JTabbedPane getJTabbedPanejTabbedPaneMain() {
-        if (jTabbedPaneMain == null) {
-            jTabbedPaneMain = new JTabbedPane();
-            //jTabbedPaneMain.addTab("Select folders", getJPanel0SelectFolders());
-            jTabbedPaneMain.addTab("Select", getJPanel0jPanel0Select());
-            jTabbedPaneMain.addTab("Search config", getJPanel1Config());
-            jTabbedPaneMain.addTab("Searching...", getJPanel2Searching());
-            jTabbedPaneMain.addTab("Duplicates", getJPanel3Result());
-            jTabbedPaneMain.addTab("Confirm", getJPanel4Confirm());
-        }
-        return jTabbedPaneMain;
-    }
-
-    private JPanelSelectFoldersOrFiles getJPanel0jPanel0Select() {
-        if (jPanel0Select == null) {
-            jPanel0Select = new JPanelSelectFoldersOrFiles();
-        }
-        return jPanel0Select;
-    }
-//    private JPanelSelectFolders getJPanel0SelectFolders() {
-//        if (jPanel0SelectFolders == null) {
-//            jPanel0SelectFolders = new JPanelSelectFolders();
-//        }
-//        return jPanel0SelectFolders;
-//    }
-
-    private JPanel getJPanel2Searching() {
-        if (jPanel2Searching == null) {
-            jPanel2Searching = new JPanelSearching();
-        }
-        return jPanel2Searching;
     }
 
     public static void main( String[] args )

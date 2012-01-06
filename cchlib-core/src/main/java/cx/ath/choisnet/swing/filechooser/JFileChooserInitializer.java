@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * On windows JFileChooser initialization is to slow!
+ * <br>
  * This class try to use Tread for creating JFileChooser
  * in background,
 
