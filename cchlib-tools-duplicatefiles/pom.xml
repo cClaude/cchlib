@@ -42,8 +42,8 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>cx.ath.choisnet.tools.duplicatefiles.DuplicateFilesFrame</mainClass>
-              <packageName>cx.ath.choisnet.tools.duplicatefiles</packageName>
+              <mainClass>cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame</mainClass>
+              <packageName>cx.ath.choisnet.tools.duplicatefiles.gui</packageName>
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>

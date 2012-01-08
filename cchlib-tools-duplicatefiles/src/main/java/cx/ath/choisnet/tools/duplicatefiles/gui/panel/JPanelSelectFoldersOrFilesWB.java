@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
 import cx.ath.choisnet.swing.XTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

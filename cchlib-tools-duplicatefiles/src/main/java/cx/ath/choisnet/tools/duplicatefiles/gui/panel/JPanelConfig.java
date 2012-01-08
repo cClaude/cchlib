@@ -1,32 +1,19 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.regex.Pattern;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.i18n.I18n;
+import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.i18n.I18nSwingHelper;
 import cx.ath.choisnet.lang.ToStringBuilder;
-import cx.ath.choisnet.swing.XComboBoxPattern;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
@@ -35,655 +22,331 @@ import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 /**
  *
  */
-//VS 4E -- DO NOT REMOVE THIS LINE!
-public class JPanelConfig extends JPanel
+public class JPanelConfig
+    extends JPanelConfigWB
+        implements ActionListener
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( JPanelConfig.class );
+    private static final Logger logger = Logger.getLogger( JPanelConfig.class );
     private ConfigMode mode;
 
-    private JPanel jPanelMisc;
-    private JPanel jPanelMiscLeft;
+    //@I18n( methodSuffixName="I18nTileIncFilesFilter")
+    private JPanelConfigFilter jPanelIncFilesFilter;
+    @I18nString private String jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
+    @I18nString private String jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
+    //@I18n( methodSuffixName="I18nTileExcFilesFilter")
+    private JPanelConfigFilter jPanelExcFilesFilter;
+    @I18nString private String jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
+    @I18nString private String jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
+    //@I18n( methodSuffixName="I18nTileIncDirsFilter")
+    private JPanelConfigFilter jPanelIncDirsFilter;
+    @I18nString private String jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
+    @I18nString private String jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
+    //@I18n( methodSuffixName="I18nTileExcDirsFilter")
+    private JPanelConfigFilter jPanelExcDirsFilter;
+    @I18nString private String jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
+    @I18nString private String jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
 
-    @I18n(methodSuffixName="I18nTileUseFilesFilters")
-    private JPanel jPanelUseFilesFilters;
-    private JCheckBox jCheckBoxUseFilesFilters;
-    private JComboBox<String> jComboBoxFilesFilters;
+    @I18nString private String txtDisableFilesFilters = "Disable files filters";
+    @I18nString private String txtIncludeFilesFilters = "Include filters";
+    @I18nString private String txtExcludeFilesFilters = "Exclude filters";
+    //private final static int FILES_FILTER_DISABLED  = 0;
+    private final static int FILES_FILTER_INCLUDE   = 1;
+    private final static int FILES_FILTER_EXCLUDE   = 2;
 
-    @I18n(methodSuffixName="I18nTileUseDirsFilters")
-    private JPanel jPanelUseDirsFilters;
-    private JCheckBox jCheckBoxUseDirsFilters;
-    private JComboBox<String> jComboBoxDirsFilters;
+    @I18nString private String txtDisableDirsFilters = "Disable dirs filters";
+    @I18nString private String txtExcludeDirsFilters = "Exclude filters";
+    @I18nString private String txtIncludeDirsFilters = "Include filters";
+    //private final static int DIRS_FILTER_DISABLED   = 0;
+    private final static int DIRS_FILTER_EXCLUDE    = 2;
+    private final static int DIRS_FILTER_INCLUDE    = 1;
 
-    @I18n(methodSuffixName="I18nTileIgnore")
-    private JPanel jPanelIgnore;
-    private JCheckBox jCheckBoxIgnoreEmptyFiles;
-    private JCheckBox jCheckBoxFFIgnoreHidden;
-    private JCheckBox jCheckBoxFDIgnoreHidden;
-    private JCheckBox jCheckBoxIgnoreReadOnlyFiles;
-
-    private ArrayList<FileTypeCheckBox> incFilesType = new ArrayList<FileTypeCheckBox>();
-    private ArrayList<FileTypeCheckBox> excFilesType = new ArrayList<FileTypeCheckBox>();
-    private ArrayList<FileTypeCheckBox> excDirsType  = new ArrayList<FileTypeCheckBox>();
-
-    @I18n(methodSuffixName="I18nTileIncFilesFilter")
-    private JScrollPane jScrollPaneIncFilesFilter;
-    private JPanel jPanelIncFilesFilter;
-    private JCheckBox jCheckBoxIFFUseRegEx;
-    //private JTextField jTextFieldIFFRegEx;
-    private XComboBoxPattern xComboBoxPatternIFFRegEx;
-
-    @I18n(methodSuffixName="I18nTileExcFilesFilter")
-    private JScrollPane jScrollPaneExcFilesFilter;
-    private JPanel jPanelExcFilesFilter;
-    private JCheckBox jCheckBoxEFFUseRegEx;
-    //private JTextField jTextFieldEFFRegEx;
-    private XComboBoxPattern xComboBoxPatternEFFRegEx;
-
-    @I18n(methodSuffixName="I18nTileExcDirsFilter")
-    private JScrollPane jScrollPaneExcDirsFilter;
-    private JPanel jPanelExcDirsFilter;
-    private JCheckBox jCheckBoxEFDUseRegEx;
-    //private JTextField jTextFieldEFDRegEx;
-    private XComboBoxPattern xComboBoxPatternEFDRegEx;
-
-    @I18n(methodSuffixName="I18nTileIncDirsFilter")
-    private JScrollPane jScrollPaneIncDirsFilter;
-    private JPanel jPanelIncDirsFilter;
-    private JCheckBox jCheckBoxIFDUseRegEx;
-    //private JTextField jTextFieldIFDRegEx;
-    private XComboBoxPattern xComboBoxPatternIFDRegEx;
-
-    @I18nString private String txtIncludeFilesFilters = "Include filter";
-    @I18nString private String txtExcludeFilesFilters = "Exclude filter";
-    @I18nString private String txtExcludeDirsFilters = "Exclude filter";
-    @I18nString private String txtIncludeDirsFilters = "Include filter";
+    private JFrame rootFrame;
 
     public JPanelConfig()
     {
-        initComponents();
-        initFixComponents();
-
-        //add( Box.createVerticalGlue() );
-
-        //Fix Bug VS4E
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        jPanelIncFilesFilter.setLayout(new BoxLayout(jPanelIncFilesFilter, BoxLayout.Y_AXIS));
-        jPanelExcFilesFilter.setLayout(new BoxLayout(jPanelExcFilesFilter, BoxLayout.Y_AXIS));
-        jPanelIncDirsFilter.setLayout(new BoxLayout(jPanelIncDirsFilter, BoxLayout.Y_AXIS));
+        // No initialization here
     }
 
-    public void setI18nTileIncFilesFilter(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle(jScrollPaneIncFilesFilter,localText);
-    }
+//    public void setI18nTileIncFilesFilter(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( jPanelIncFilesFilter, localText );
+//    }
+//
+//    public String getI18nTileIncFilesFilter()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( jPanelIncFilesFilter );
+//    }
 
-    public String getI18nTileIncFilesFilter()
-    {
-        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneIncFilesFilter);
-    }
+//    public void setI18nTileExcFilesFilter(String localText)
+//    {
+//         I18nSwingHelper.setTitledBorderTitle( jPanelExcFilesFilter, localText );
+//    }
+//
+//    public String getI18nTileExcFilesFilter()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( jPanelExcFilesFilter );
+//    }
 
-    public void setI18nTileExcFilesFilter(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle(jScrollPaneExcFilesFilter,localText);
-    }
+//    public void setI18nTileIncDirsFilter(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( jPanelIncFilesFilter, localText );
+//    }
+//
+//    public String getI18nTileIncDirsFilter()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( jPanelIncFilesFilter );
+//    }
 
-    public String getI18nTileExcFilesFilter()
-    {
-        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneExcFilesFilter);
-    }
-
-    public void setI18nTileIncDirsFilter(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle(jScrollPaneIncDirsFilter,localText);
-    }
-
-    public String getI18nTileIncDirsFilter()
-    {
-        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneIncDirsFilter);
-    }
-
-    public void setI18nTileExcDirsFilter(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle(jScrollPaneExcDirsFilter,localText);
-    }
-
-    public String getI18nTileExcDirsFilter()
-    {
-        return I18nSwingHelper.getTitledBorderTitle(jScrollPaneExcDirsFilter);
-    }
+//    public void setI18nTileExcDirsFilter(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( jPanelExcFilesFilter, localText );
+//    }
+//
+//    public String getI18nTileExcDirsFilter()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( jPanelExcFilesFilter );
+//    }
 
     public void setI18nTileUseFilesFilters(String localText)
     {
-        I18nSwingHelper.setTitledBorderTitle(jPanelUseFilesFilters,localText);
+        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
     }
 
     public String getI18nTileUseFilesFilters()
     {
-        return I18nSwingHelper.getTitledBorderTitle(jPanelUseFilesFilters);
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
     }
 
     public void setI18nTileUseDirsFilters(String localText)
     {
-        I18nSwingHelper.setTitledBorderTitle(jPanelUseDirsFilters,localText);
+        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
     }
 
     public String getI18nTileUseDirsFilters()
     {
-        return I18nSwingHelper.getTitledBorderTitle(jPanelUseDirsFilters);
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
     }
 
     public void setI18nTileIgnore(String localText)
     {
-        I18nSwingHelper.setTitledBorderTitle(jPanelIgnore,localText);
+        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
     }
 
     public String getI18nTileIgnore()
     {
-        return I18nSwingHelper.getTitledBorderTitle(jPanelIgnore);
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
     }
 
-    private void initComponents() {
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        add(getJPanelMisc());
-        add(getJScrollPaneIncFilesFilter());
-        add(getJScrollPaneExcFilesFilter());
-        add(getJScrollPaneIncDirsFilter());
-        add(getJScrollPaneExcDirsFilter());
-        setSize(627, 503);
-    }
-
-    private JPanel getJPanelUseDirsFilters() {
-        if (jPanelUseDirsFilters == null) {
-            jPanelUseDirsFilters = new JPanel();
-            jPanelUseDirsFilters.setBorder(BorderFactory.createTitledBorder(null, "Directories filters", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new Font(
-                    "Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jPanelUseDirsFilters.setLayout(new BorderLayout());
-            jPanelUseDirsFilters.add(getJCheckBoxUseDirsFilters(), BorderLayout.WEST);
-            jPanelUseDirsFilters.add(getJComboBoxDirsFilters(), BorderLayout.CENTER);
-        }
-        return jPanelUseDirsFilters;
-    }
-
-    private JPanel getJPanelUseFilesFilters() {
-        if (jPanelUseFilesFilters == null) {
-            jPanelUseFilesFilters = new JPanel();
-            jPanelUseFilesFilters.setBorder(BorderFactory.createTitledBorder(null, "Files filters", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new Font(
-                    "Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jPanelUseFilesFilters.setLayout(new BorderLayout());
-            jPanelUseFilesFilters.add(getJCheckBoxUseFilesFilters(), BorderLayout.WEST);
-            jPanelUseFilesFilters.add(getJComboBoxFilesFilters(), BorderLayout.CENTER);
-        }
-        return jPanelUseFilesFilters;
-    }
-
-    private JPanel getJPanelMiscLeft() {
-        if (jPanelMiscLeft == null) {
-            jPanelMiscLeft = new JPanel();
-            jPanelMiscLeft.setLayout(new GridLayout(2, 1));
-            jPanelMiscLeft.add(getJPanelUseFilesFilters());
-            jPanelMiscLeft.add(getJPanelUseDirsFilters());
-        }
-        return jPanelMiscLeft;
-    }
-
-    private JPanel getJPanelIgnore() {
-        if (jPanelIgnore == null) {
-            jPanelIgnore = new JPanel();
-            jPanelIgnore.setBorder(
-                    BorderFactory.createTitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new Font("Dialog",
-                    Font.BOLD, 12), new Color(51, 51, 51)));
-            jPanelIgnore.setLayout(new GridLayout(2, 2));
-            jPanelIgnore.add(getJCheckBoxFFIgnoreHidden());
-            jPanelIgnore.add(getJCheckBoxIgnoreReadOnlyFiles());
-            jPanelIgnore.add(getJCheckBoxFDIgnoreHidden());
-            jPanelIgnore.add(getJCheckBoxIgnoreEmptyFiles());
-        }
-        return jPanelIgnore;
-    }
-
-    private JComboBox<String> getJComboBoxDirsFilters() {
-        if (jComboBoxDirsFilters == null) {
-            jComboBoxDirsFilters = new JComboBox<String>();
-        }
-        return jComboBoxDirsFilters;
-    }
-
-    private JComboBox<String> getJComboBoxFilesFilters() {
-        if (jComboBoxFilesFilters == null) {
-            jComboBoxFilesFilters = new JComboBox<String>();
-        }
-        return jComboBoxFilesFilters;
-    }
-
-    private XComboBoxPattern getXComboBoxPatternIFDRegEx() {
-        if (xComboBoxPatternIFDRegEx == null) {
-            xComboBoxPatternIFDRegEx = new XComboBoxPattern();
-        }
-        return xComboBoxPatternIFDRegEx;
-    }
-
-    private XComboBoxPattern getXComboBoxPatternEFFRegEx() {
-        if (xComboBoxPatternEFFRegEx == null) {
-            xComboBoxPatternEFFRegEx = new XComboBoxPattern();
-        }
-        return xComboBoxPatternEFFRegEx;
-    }
-
-    private JCheckBox getJCheckBoxEFFUseRegEx() {
-        if (jCheckBoxEFFUseRegEx == null) {
-            jCheckBoxEFFUseRegEx = new JCheckBox();
-            jCheckBoxEFFUseRegEx.setText("Use RegEx to exclude files (RegEx on name)");
-        }
-        return jCheckBoxEFFUseRegEx;
-    }
-
-    private JScrollPane getJScrollPaneIncDirsFilter() {
-        if (jScrollPaneIncDirsFilter == null) {
-            jScrollPaneIncDirsFilter = new JScrollPane();
-            jScrollPaneIncDirsFilter.setBorder(BorderFactory.createTitledBorder(null, "Include Directories Filter", TitledBorder.LEADING,
-                    TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jScrollPaneIncDirsFilter.setViewportView(getJPanelIncDirsFilter());
-        }
-        return jScrollPaneIncDirsFilter;
-    }
-
-    private JPanel getJPanelIncDirsFilter() {
-        if (jPanelIncDirsFilter == null) {
-            jPanelIncDirsFilter = new JPanel();
-            jPanelIncDirsFilter.setLayout(new BoxLayout(jPanelIncDirsFilter, BoxLayout.Y_AXIS));
-            jPanelIncDirsFilter.add(getJCheckBoxIFDUseRegEx());
-            jPanelIncDirsFilter.add(getXComboBoxPatternIFDRegEx());
-        }
-        return jPanelIncDirsFilter;
-    }
-
-    private JPanel getJPanelExcFilesFilter() {
-        if (jPanelExcFilesFilter == null) {
-            jPanelExcFilesFilter = new JPanel();
-            jPanelExcFilesFilter.setLayout(new BoxLayout(jPanelExcFilesFilter, BoxLayout.Y_AXIS));
-        }
-        return jPanelExcFilesFilter;
-    }
-
-    private JCheckBox getJCheckBoxIFDUseRegEx() {
-        if (jCheckBoxIFDUseRegEx == null) {
-            jCheckBoxIFDUseRegEx = new JCheckBox();
-            jCheckBoxIFDUseRegEx.setText("Use RegEx to include Directories (RegEx on name)");
-        }
-        return jCheckBoxIFDUseRegEx;
-    }
-
-    private JScrollPane getJScrollPaneExcFilesFilter() {
-        if (jScrollPaneExcFilesFilter == null) {
-            jScrollPaneExcFilesFilter = new JScrollPane();
-            jScrollPaneExcFilesFilter.setBorder(BorderFactory.createTitledBorder(null, "Exclude Files Filter", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
-                    new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jScrollPaneExcFilesFilter.setViewportView(getJPanelExcFilesFilter());
-        }
-        return jScrollPaneExcFilesFilter;
-    }
-
-    private JCheckBox getJCheckBoxIgnoreReadOnlyFiles() {
-        if (jCheckBoxIgnoreReadOnlyFiles == null) {
-            jCheckBoxIgnoreReadOnlyFiles = new JCheckBox();
-            jCheckBoxIgnoreReadOnlyFiles.setSelected(true);
-            jCheckBoxIgnoreReadOnlyFiles.setText("'readonly' files");
-        }
-        return jCheckBoxIgnoreReadOnlyFiles;
-    }
-
-    private JCheckBox getJCheckBoxFFIgnoreHidden() {
-        if (jCheckBoxFFIgnoreHidden == null) {
-            jCheckBoxFFIgnoreHidden = new JCheckBox();
-            jCheckBoxFFIgnoreHidden.setSelected(true);
-            jCheckBoxFFIgnoreHidden.setText("hidden files");
-        }
-        return jCheckBoxFFIgnoreHidden;
-    }
-
-    private JCheckBox getJCheckBoxFDIgnoreHidden() {
-        if (jCheckBoxFDIgnoreHidden == null) {
-            jCheckBoxFDIgnoreHidden = new JCheckBox();
-            jCheckBoxFDIgnoreHidden.setSelected(true);
-            jCheckBoxFDIgnoreHidden.setText("hidden directories");
-        }
-        return jCheckBoxFDIgnoreHidden;
-    }
-
-    private XComboBoxPattern getXComboBoxPatternEFDRegEx() {
-        if (xComboBoxPatternEFDRegEx == null) {
-            xComboBoxPatternEFDRegEx = new XComboBoxPattern();
-        }
-        return xComboBoxPatternEFDRegEx;
-    }
-
-    private JCheckBox getJCheckBoxEFDUseRegEx() {
-        if (jCheckBoxEFDUseRegEx == null) {
-            jCheckBoxEFDUseRegEx = new JCheckBox();
-            jCheckBoxEFDUseRegEx.setText("Use RegEx to exclude Directories (RegEx on name)");
-        }
-        return jCheckBoxEFDUseRegEx;
-    }
-
-    private XComboBoxPattern getXComboBoxPatternIFFRegEx() {
-        if (xComboBoxPatternIFFRegEx == null) {
-            xComboBoxPatternIFFRegEx = new XComboBoxPattern();
-        }
-        return xComboBoxPatternIFFRegEx;
-    }
-
-    private JCheckBox getJCheckBoxIFFUseRegEx() {
-        if (jCheckBoxIFFUseRegEx == null) {
-            jCheckBoxIFFUseRegEx = new JCheckBox();
-            jCheckBoxIFFUseRegEx.setText("Use RegEx to include files (RegEx on name)");
-        }
-        return jCheckBoxIFFUseRegEx;
-    }
-
-    private JPanel getJPanelIncFilesFilter() {
-        if (jPanelIncFilesFilter == null) {
-            jPanelIncFilesFilter = new JPanel();
-            //jPanelIncFilesFilter.setLayout(new BoxLayout(jPanelIncFilesFilter, BoxLayout.Y_AXIS));
-            //jPanelIncFilesFilter.add(getJCheckBoxIFFUseRegEx());
-            //jPanelIncFilesFilter.add(getXComboBoxPatternIFFRegEx());
-        }
-        return jPanelIncFilesFilter;
-    }
-
-    private JCheckBox getJCheckBoxUseDirsFilters() {
-        if (jCheckBoxUseDirsFilters == null) {
-            jCheckBoxUseDirsFilters = new JCheckBox();
-            jCheckBoxUseDirsFilters.setText("Enable");
-        }
-        return jCheckBoxUseDirsFilters;
-    }
-
-    private JScrollPane getJScrollPaneExcDirsFilter() {
-        if (jScrollPaneExcDirsFilter == null) {
-            jScrollPaneExcDirsFilter = new JScrollPane();
-            jScrollPaneExcDirsFilter.setBorder(BorderFactory.createTitledBorder(null, "Exclude Directories Filter", TitledBorder.LEADING,
-                    TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jScrollPaneExcDirsFilter.setViewportView(getJPanelExcDirsFilter());
-        }
-        return jScrollPaneExcDirsFilter;
-    }
-
-    private JPanel getJPanelExcDirsFilter() {
-        if (jPanelExcDirsFilter == null) {
-            jPanelExcDirsFilter = new JPanel();
-            jPanelExcDirsFilter.setLayout(new BoxLayout(jPanelExcDirsFilter, BoxLayout.Y_AXIS));
-        }
-        return jPanelExcDirsFilter;
-    }
-
-    private JCheckBox getJCheckBoxUseFilesFilters() {
-        if (jCheckBoxUseFilesFilters == null) {
-            jCheckBoxUseFilesFilters = new JCheckBox();
-            jCheckBoxUseFilesFilters.setText("Enable");
-        }
-        return jCheckBoxUseFilesFilters;
-    }
-
-    private JCheckBox getJCheckBoxIgnoreEmptyFiles() {
-        if (jCheckBoxIgnoreEmptyFiles == null) {
-            jCheckBoxIgnoreEmptyFiles = new JCheckBox();
-            jCheckBoxIgnoreEmptyFiles.setSelected(true);
-            jCheckBoxIgnoreEmptyFiles.setText("empty files");
-        }
-        return jCheckBoxIgnoreEmptyFiles;
-    }
-
-    private JPanel getJPanelMisc() {
-        if (jPanelMisc == null) {
-            jPanelMisc = new JPanel();
-            jPanelMisc.setLayout(new GridLayout(1, 2));
-            jPanelMisc.add(getJPanelMiscLeft());
-            jPanelMisc.add(getJPanelIgnore());
-        }
-        return jPanelMisc;
-    }
-
-    private JScrollPane getJScrollPaneIncFilesFilter() {
-        if (jScrollPaneIncFilesFilter == null) {
-            jScrollPaneIncFilesFilter = new JScrollPane();
-            jScrollPaneIncFilesFilter.setBorder(BorderFactory.createTitledBorder(null, "Include Files Filter", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
-                    new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-            jScrollPaneIncFilesFilter.setViewportView(getJPanelIncFilesFilter());
-        }
-        return jScrollPaneIncFilesFilter;
-    }
-
-    private void initFixComponents()
+    @Override//ActionListener
+    public void actionPerformed( ActionEvent e )
     {
-        ActionListener l = new ActionListener()
-        {
-            @Override
-            public void actionPerformed( ActionEvent e )
-            {
-                updateDisplay();
-            }
-        };
-        jComboBoxFilesFilters.addActionListener( l );
-        jComboBoxFilesFilters.setModel(
-                new DefaultComboBoxModel<String>(
-                    new String[] {
-                        txtIncludeFilesFilters,
-                        txtExcludeFilesFilters
-                        }
-                    )
+        logger.debug( "actionPerformed" );
+        updateDisplayMode( true );
+    }
+
+    public void initFixComponents(
+            final JFrame rootFrame
+            )
+    {
+        this.rootFrame = rootFrame;
+
+        jCheckBoxFFIgnoreHidden.setSelected( true );
+        jCheckBoxFDIgnoreHidden.setSelected( true );
+        jCheckBoxIgnoreReadOnlyFiles.setSelected( true );
+        jCheckBoxIgnoreEmptyFiles.setSelected( true );
+
+        getJComboBoxFilesFilters().addActionListener( this );
+        getJComboBoxDirsFilters().addActionListener( this );
+
+    }
+
+    /**
+     * Must be call to have a
+     * @param autoI18n
+     */
+    public void performeI18n(AutoI18n autoI18n)
+    {
+        autoI18n.performeI18n(this,this.getClass());
+        //autoI18n.performeI18n(jPanelIncFilesFilter,jPanelIncFilesFilter.getClass());
+        //autoI18n.performeI18n(jPanelExcFilesFilter,jPanelExcFilesFilter.getClass());
+        //autoI18n.performeI18n(jPanelIncDirsFilter,jPanelIncDirsFilter.getClass());
+        //autoI18n.performeI18n(jPanelExcDirsFilter,jPanelExcDirsFilter.getClass());
+
+        Properties  prop = ResourcesLoader.getProperties( "JPanelConfig.properties" );
+
+        jPanelIncFilesFilter = new JPanelConfigFilter(
+                jPanelIncFilesFilterTitle,
+                jPanelIncFilesFilterRegExp,
+                prop,
+                "filetype",
+                this
                 );
-        jComboBoxDirsFilters.addActionListener( l );
-        jComboBoxDirsFilters.setModel(
-                new DefaultComboBoxModel<String>(
-                    new String[] {
-                        txtExcludeDirsFilters,
-                        txtIncludeDirsFilters
-                        }
-                    )
+        jPanelIncFilesFilter.getXComboBoxPatternRegExp().addItem(
+                "(.*?)\\.(jpg|jpeg|png|gif)" // TODO: remove this sample
+                );
+        jPanelIncFilesFilter.getXComboBoxPatternRegExp().addItem(
+                "(.*?)\\.(reg)" // TODO: remove this sample
                 );
 
-        jCheckBoxUseDirsFilters.addActionListener( l );
-        jCheckBoxUseFilesFilters.addActionListener( l );
+        jPanelExcFilesFilter = new JPanelConfigFilter(
+                jPanelExcFilesFilterTitle,
+                jPanelExcFilesFilterRegExp,
+                prop,
+                "filetype",
+                this
+                );
+        jPanelIncDirsFilter = new JPanelConfigFilter( // No values
+                jPanelIncDirsFilterTitle,
+                jPanelIncDirsFilterRegExp
+                );
+        jPanelExcDirsFilter = new JPanelConfigFilter(
+                jPanelExcDirsFilterTitle,
+                jPanelExcDirsFilterRegExp,
+                prop,
+                "dirtype",
+                this
+                );
 
-        Properties  prop = new Properties();
-
-        try {
-            InputStream is = ResourcesLoader.getResourceAsStream(
-                    "JPanelConfig.properties"
-                    );
-            prop.load( is );
-            is.close();
-            }
-        catch( Exception e ) {
-            slogger.error( "Can't load properties", e );
-            }
-
-        for(int i=0;;i++) {
-            String descKey = String.format( "filetype.%d.description", i );
-            String dataKey = String.format( "filetype.%d.data", i );
-            String desc    = prop.getProperty( descKey );
-            String data    = prop.getProperty( dataKey );
-
-            if( desc != null && data != null ) {
-                incFilesType.add(
-                        new FileTypeCheckBox(desc,data)
-                        );
-                excFilesType.add(
-                        new FileTypeCheckBox(desc,data)
-                        );
-            }
-            else {
-                slogger.info( "Can't find :" +  descKey );
-                slogger.info( "or         :" +  dataKey );
-                slogger.info( "desc :" + desc );
-                slogger.info( "data :" + data );
-                break;
-            }
-        }
-
-        for(FileTypeCheckBox ft:incFilesType) {
-            JCheckBox jcb = ft.getJCheckBox();
-
-            jPanelIncFilesFilter.add( jcb );
-            jcb.addActionListener( l );
-        }
-        jPanelIncFilesFilter.add(getJCheckBoxIFFUseRegEx());
-        jPanelIncFilesFilter.add(getXComboBoxPatternIFFRegEx());
-        jCheckBoxIFFUseRegEx.addActionListener( l );
-
-        for(FileTypeCheckBox ft:excFilesType) {
-            JCheckBox jcb = ft.getJCheckBox();
-
-            jPanelExcFilesFilter.add( jcb );
-            jcb.addActionListener( l );
-        }
-        jPanelExcFilesFilter.add(getJCheckBoxEFFUseRegEx());
-        jPanelExcFilesFilter.add(getXComboBoxPatternEFFRegEx());
-        jCheckBoxEFFUseRegEx.addActionListener( l );
-
-        for(int i=0;;i++) {
-            String descKey = String.format( "dirtype.%d.description", i );
-            String dataKey = String.format( "dirtype.%d.data", i );
-            String desc    = prop.getProperty( descKey );
-            String data    = prop.getProperty( dataKey );
-
-            if( desc != null && data != null ) {
-                excDirsType.add(
-                        new FileTypeCheckBox(desc,data)
-                        );
-            }
-            else {
-                slogger.info( "Can't find :" +  descKey );
-                slogger.info( "or         :" +  dataKey );
-                slogger.info( "desc :" + desc );
-                slogger.info( "data :" + data );
-                break;
-            }
-        }
-
-        for(FileTypeCheckBox ft:excDirsType) {
-            JCheckBox jcb = ft.getJCheckBox();
-
-            jPanelExcDirsFilter.add( jcb );
-            jcb.addActionListener( l );
-        }
-
-        jPanelExcDirsFilter.add(getJCheckBoxEFDUseRegEx());
-        jPanelExcDirsFilter.add(getXComboBoxPatternEFDRegEx());
-        jCheckBoxEFDUseRegEx.addActionListener( l );
-        jCheckBoxIFDUseRegEx.addActionListener( l );
-
-        Color errorColor = Color.RED;
-        xComboBoxPatternIFFRegEx.setErrorBackGroundColor( errorColor );
-        xComboBoxPatternEFFRegEx.setErrorBackGroundColor( errorColor );
-        xComboBoxPatternEFDRegEx.setErrorBackGroundColor( errorColor );
-        xComboBoxPatternIFDRegEx.setErrorBackGroundColor( errorColor );
-
-        updateDisplay();
+        updateDisplayMode( ConfigMode.EXPERT, false ); // FIXME use begginner !
     }
 
-    public void updateDisplayMode( ConfigMode mode )
+    public void updateDisplayMode(
+            final ConfigMode    newMode,
+            final boolean       doRepaint
+            )
     {
-        this.mode = mode;
+        final ConfigMode prevMode   = this.mode;
+        this.mode                   = newMode;
 
-        if( mode == ConfigMode.BEGINNER ) {
-            jCheckBoxUseFilesFilters.setSelected(false);
-            jCheckBoxUseFilesFilters.setEnabled(false);
+        logger.debug( "updateDisplayMode()"
+            + prevMode
+            + " -> "
+            + mode
+            );
 
-            jCheckBoxUseDirsFilters.setSelected(false);
-            jCheckBoxUseDirsFilters.setEnabled(false);
+        final boolean isModeChanged = !this.mode.equals( prevMode );
 
-            //jScrollPaneFilesFilter.setVisible( false );
-            //jScrollPaneDirsFilter.setVisible( false );
-        }
-        else {
-            jCheckBoxUseFilesFilters.setEnabled(true);
-            jCheckBoxUseDirsFilters.setEnabled(true);
+        if( isModeChanged ) {
+            if( mode == ConfigMode.BEGINNER ) {
+                getJComboBoxFilesFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableFilesFilters
+                                }
+                            )
+                        );
+                getJComboBoxFilesFilters().setEnabled( false );
+                getJComboBoxDirsFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableDirsFilters
+                                }
+                            )
+                        );
+                getJComboBoxDirsFilters().setEnabled( false );
+                }
+            else if( mode == ConfigMode.ADVANCED ) {
+                getJComboBoxFilesFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableFilesFilters,
+                                txtIncludeFilesFilters,
+                                txtExcludeFilesFilters
+                                }
+                            )
+                        );
+                getJComboBoxFilesFilters().setEnabled( true );
+                getJComboBoxDirsFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableDirsFilters
+                                }
+                            )
+                        );
+                getJComboBoxDirsFilters().setEnabled( false );
+                }
+            else { // if( mode == ConfigMode.EXPERT )
+                getJComboBoxFilesFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableFilesFilters,
+                                txtIncludeFilesFilters,
+                                txtExcludeFilesFilters
+                                }
+                            )
+                        );
+                getJComboBoxFilesFilters().setEnabled( true );
+                getJComboBoxDirsFilters().setModel(
+                        new DefaultComboBoxModel<String>(
+                            new String[] {
+                                txtDisableDirsFilters,
+                                txtExcludeDirsFilters,
+                                txtIncludeDirsFilters
+                                }
+                            )
+                        );
+                getJComboBoxDirsFilters().setEnabled( true );
+                }
+            }
 
-            //jScrollPaneFilesFilter.setVisible( true );
-            //jScrollPaneDirsFilter.setVisible( true );
-        }
-
-        if( mode == ConfigMode.EXPERT ) {
-            jCheckBoxIFFUseRegEx.setVisible( true );
-            jCheckBoxEFFUseRegEx.setVisible( true );
-            jCheckBoxIFDUseRegEx.setVisible( true );
-            jCheckBoxEFDUseRegEx.setVisible( true );
-
-            xComboBoxPatternIFFRegEx.setVisible( true );
-            xComboBoxPatternEFFRegEx.setVisible( true );
-            xComboBoxPatternIFDRegEx.setVisible( true );
-            xComboBoxPatternEFDRegEx.setVisible( true );
-
-            jComboBoxDirsFilters.setEnabled(true);
-        }
-        else {
-            jCheckBoxIFFUseRegEx.setVisible( false );
-            jCheckBoxIFFUseRegEx.setEnabled( false );
-
-            jCheckBoxEFFUseRegEx.setVisible( false );
-            jCheckBoxEFFUseRegEx.setEnabled( false );
-
-            jCheckBoxIFDUseRegEx.setVisible( false );
-            jCheckBoxIFDUseRegEx.setEnabled( false );
-
-            jCheckBoxEFDUseRegEx.setVisible( false );
-            jCheckBoxEFDUseRegEx.setEnabled( false );
-
-            xComboBoxPatternIFFRegEx.setVisible( false );
-            xComboBoxPatternEFFRegEx.setVisible( false );
-            xComboBoxPatternIFDRegEx.setVisible( false );
-            xComboBoxPatternEFDRegEx.setVisible( false );
-        }
-        updateDisplay();
+        updateDisplayMode( doRepaint );
     }
 
-    private void updateDisplay()
+    private void updateDisplayMode( final boolean doRepaint )
     {
-        // Global state
-        boolean useFFglobal = jCheckBoxUseFilesFilters.isSelected();
-        int     FFtype      = jComboBoxFilesFilters.getSelectedIndex();
-        boolean useIFF      = useFFglobal && (FFtype == 0);
-        boolean useEFF      = useFFglobal && (FFtype == 1);
-        boolean useDFGlobal = jCheckBoxUseDirsFilters.isSelected();
-        int     EFtype      = jComboBoxDirsFilters.getSelectedIndex();
-        boolean useEDF      = useDFGlobal && (EFtype == 0);
-        boolean useIDF      = useDFGlobal && (EFtype == 1);
+        JPanel jp = getJPanelFilters();
 
-        //Files filters
-        jComboBoxFilesFilters.setEnabled( useFFglobal );
-        for(FileTypeCheckBox ft:incFilesType) {
-            ft.getJCheckBox().setEnabled( useIFF );
-        }
-        jCheckBoxIFFUseRegEx.setEnabled( useIFF );
-        xComboBoxPatternIFFRegEx.setEnabled( useIFF && jCheckBoxIFFUseRegEx.isSelected() );
+        if( jPanelIncFilesFilter != null ) {
+            jp.remove( jPanelIncFilesFilter );
+            }
+        if( jPanelExcFilesFilter != null ) {
+            jp.remove( jPanelExcFilesFilter );
+            }
+        if( jPanelIncDirsFilter != null ) {
+            jp.remove( jPanelIncDirsFilter );
+            }
+        if( jPanelExcDirsFilter != null ) {
+            jp.remove( jPanelExcDirsFilter );
+            }
 
-        for(FileTypeCheckBox ft:excFilesType) {
-            ft.getJCheckBox().setEnabled( useEFF );
-        }
-        jCheckBoxEFFUseRegEx.setEnabled( useEFF );
-        xComboBoxPatternEFFRegEx.setEnabled( useEFF && jCheckBoxEFFUseRegEx.isSelected() );
+        //jsp.revalidate();
+        //this.repaint();//repaint a JFrame jframe in this case
 
-        //Directories Filters
-        if( mode == ConfigMode.EXPERT ) {
-            jComboBoxDirsFilters.setEnabled( useDFGlobal );
-        }
-        else {
-            jComboBoxDirsFilters.setEnabled( false );
-        }
+        if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_INCLUDE ) {
+            jp.add( jPanelIncFilesFilter );
+            logger.debug( "Display jPanelIncFilesFilter" );
+            }
+        else if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_EXCLUDE ) {
+            jp.add( jPanelExcFilesFilter );
+            logger.debug( "Display jPanelExcFilesFilter" );
+            }
+        else { // FILES_FILTER_DISABLED
+            logger.debug(
+                "No Display getJComboBoxFilesFilters()="
+                    + getJComboBoxFilesFilters().getSelectedIndex()
+                );
+            }
 
-        for(FileTypeCheckBox ft:excDirsType) {
-            ft.getJCheckBox().setEnabled( useEDF );
-        }
+        if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_INCLUDE ) {
+            jp.add( jPanelIncDirsFilter );
+            logger.debug( "Display jPanelIncDirsFilter" );
+            }
+        else if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_EXCLUDE ) {
+            jp.add( jPanelExcDirsFilter );
+            logger.debug( "Display jPanelExcDirsFilter" );
+            }
+        else { // DIRS_FILTER_DISABLED
+            logger.debug( "No Display" );
+            }
 
-        jCheckBoxIFDUseRegEx.setEnabled( useIDF );
-        xComboBoxPatternIFDRegEx.setEnabled( useIDF && jCheckBoxIFDUseRegEx.isSelected());
+        if( doRepaint ) {
+            jp.revalidate();
 
-        jCheckBoxEFDUseRegEx.setEnabled( useEDF );
-        xComboBoxPatternEFDRegEx.setEnabled( useEDF && jCheckBoxEFDUseRegEx.isSelected());
+            rootFrame.repaint();//repaint a JFrame jframe in this case
 
-        //System.out.println("getFileFilterBuilders()=" + getFileFilterBuilders() );
+            logger.debug( "repaint: " + rootFrame );
+            }
     }
 
     /**
@@ -696,8 +359,8 @@ public class JPanelConfig extends JPanel
     }
 
     private final static void addExtIf(
-            Collection<String>  c,
-            FileTypeCheckBox    ft
+            Collection<String>                  c,
+            FileTypeCheckBox ft
             )
     {
         if( ft.getJCheckBox().isSelected() ) {
@@ -714,21 +377,27 @@ public class JPanelConfig extends JPanel
         final HashSet<String>   extsList = new HashSet<String>();
         Pattern                 pattern  = null;
 
-        if( jCheckBoxUseFilesFilters.isSelected() ) {
-            for(FileTypeCheckBox ft:incFilesType) {
-                    addExtIf(extsList, ft );
-            }
+        final boolean userIncFilesFilers =
+            (getJComboBoxFilesFilters().getSelectedIndex()
+                == FILES_FILTER_INCLUDE);
 
-            if( jCheckBoxIFFUseRegEx.isSelected() ) {
-                try {
-                    //pattern = Pattern.compile( jTextFieldIFFRegEx.getText() );
-                    pattern = xComboBoxPatternIFFRegEx.getSelectedPattern();
+        if( userIncFilesFilers ) {
+            for( FileTypeCheckBox ft : jPanelIncFilesFilter ) {
+                addExtIf( extsList, ft );
                 }
-                catch( Exception ignore){}
+
+            final boolean useRegExp = jPanelIncFilesFilter.getJCheckBoxRegExp().isSelected();
+
+            if( useRegExp ) {
+                try {
+                    pattern = jPanelIncFilesFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    }
+                catch( Exception ignore ) {
+                    logger.error( ignore );
+                    }
+                }
             }
-        }
         final Pattern sPattern = pattern;
-        //final boolean ignoreExe = jCheckBoxIgnoreExeFiles.isSelected();
 
         return new FileFilterBuilder()
         {
@@ -755,18 +424,25 @@ public class JPanelConfig extends JPanel
         final HashSet<String>   extsList = new HashSet<String>();
         Pattern                 pattern  = null;
 
-        if( jCheckBoxUseFilesFilters.isSelected() ) {
-            for(FileTypeCheckBox ft:excFilesType) {
-                    addExtIf(extsList, ft );
-            }
+        final boolean userExcFilesFilers =
+            (getJComboBoxFilesFilters().getSelectedIndex()
+                == FILES_FILTER_EXCLUDE);
 
-            if( jCheckBoxEFFUseRegEx.isSelected() ) {
-                try {
-                    //pattern = Pattern.compile( jTextFieldEFFRegEx.getText() );
-                    pattern = xComboBoxPatternEFFRegEx.getSelectedPattern();
+        if( userExcFilesFilers ) {
+            for( FileTypeCheckBox ft : jPanelExcFilesFilter ) {
+                addExtIf( extsList, ft );
                 }
-                catch( Exception ignore){}
-            }
+
+            final boolean useRegExp = jPanelExcFilesFilter.getJCheckBoxRegExp().isSelected();
+
+            if( useRegExp ) {
+                try {
+                    pattern = jPanelExcFilesFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    }
+                catch( Exception ignore ) {
+                    logger.error( ignore );
+                    }
+                }
         }
         final Pattern sPattern = pattern;
 
@@ -791,8 +467,8 @@ public class JPanelConfig extends JPanel
     }
 
     private final static void addNameIf(
-            Collection<String>  c,
-            FileTypeCheckBox    ft
+            final Collection<String>    c,
+            final FileTypeCheckBox      ft
             )
     {
         if( ft.getJCheckBox().isSelected() ) {
@@ -809,22 +485,27 @@ public class JPanelConfig extends JPanel
         final HashSet<String>   namesList = new HashSet<String>();
         Pattern                 pattern   = null;
 
-        if( jCheckBoxUseFilesFilters.isSelected() ) {
-            //TODO need to be studies
-//            for(FileTypeCheckBox ft:incDirsType) {
-//                addNameIf(namesList,ft);
-//            }
+        final boolean useIncDirsFilters  =
+            (getJComboBoxDirsFilters().getSelectedIndex()
+                    == DIRS_FILTER_INCLUDE);
 
-            if(jCheckBoxIFDUseRegEx.isSelected()) {
+        if( useIncDirsFilters ) {
+            //TODO need to be studies, not really useful like this !
+            for( FileTypeCheckBox ft : jPanelIncDirsFilter ) {
+                addNameIf(namesList,ft);
+                  }
+
+            final boolean useRegExp = jPanelIncDirsFilter.getJCheckBoxRegExp().isSelected();
+
+            if( useRegExp ) {
                 try {
-                    //pattern = Pattern.compile( jTextFieldIFDRegEx.getText() );
-                    pattern = xComboBoxPatternIFDRegEx.getSelectedPattern();
-                }
-                catch( Exception ignore){
-                    //TODO: display alert ???
+                    pattern = jPanelIncDirsFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    }
+                catch( Exception ignore ) {
+                    logger.error( ignore );
+                    }
                 }
             }
-        }
 
         final Pattern sPattern = pattern;
 
@@ -853,19 +534,26 @@ public class JPanelConfig extends JPanel
         final HashSet<String>   namesList = new HashSet<String>();
         Pattern                 pattern   = null;
 
-        if( jCheckBoxUseFilesFilters.isSelected() ) {
-            for(FileTypeCheckBox ft:excDirsType) {
-                addNameIf(namesList,ft);
-            }
+        final boolean useExcDirsFilters  =
+            (getJComboBoxDirsFilters().getSelectedIndex()
+                    == DIRS_FILTER_EXCLUDE);
 
-            if(jCheckBoxEFDUseRegEx.isSelected()) {
-                try {
-                    //pattern = Pattern.compile( jTextFieldEFDRegEx.getText() );
-                    pattern = xComboBoxPatternEFDRegEx.getSelectedPattern();
+        if( useExcDirsFilters ) {
+            for( FileTypeCheckBox ft : jPanelExcDirsFilter ) {
+                addNameIf(namesList,ft);
                 }
-                catch( Exception ignore){}
+
+            final boolean useRegExp = jPanelExcDirsFilter.getJCheckBoxRegExp().isSelected();
+
+            if( useRegExp ) {
+                try {
+                    pattern = jPanelExcDirsFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    }
+                catch( Exception ignore ){
+                    logger.error( ignore );
+                    }
+                }
             }
-        }
 
         final Pattern sPattern = pattern;
 
@@ -891,77 +579,64 @@ public class JPanelConfig extends JPanel
 
     public FileFilterBuilders getFileFilterBuilders()
     {
-        // Global state
-        boolean useFFglobal = jCheckBoxUseFilesFilters.isSelected();
-        int     FFtype      = jComboBoxFilesFilters.getSelectedIndex();
-        final boolean useIFF      = useFFglobal && (FFtype == 0);
-        final boolean useEFF      = useFFglobal && (FFtype == 1);
-        boolean useDFGlobal = jCheckBoxUseDirsFilters.isSelected();
-        int     EFtype      = jComboBoxDirsFilters.getSelectedIndex();
-        final boolean useEDF      = useDFGlobal && (EFtype == 0);
-        final boolean useIDF      = useDFGlobal && (EFtype == 1);
+        final int   FFtype  = getJComboBoxFilesFilters().getSelectedIndex();
+        final int   EFtype  = getJComboBoxDirsFilters().getSelectedIndex();
 
-        slogger.info( "useFFglobal = " + useFFglobal);
-        slogger.info( "FFtype = " + FFtype);
-        slogger.info( "useIFF = " + useIFF);
-        slogger.info( "useEFF = " + useEFF);
-        slogger.info( "useDFGlobal = " + useDFGlobal);
-        slogger.info( "EFtype = " + EFtype);
-        slogger.info( "useEDF = " + useEDF);
-        slogger.info( "useIDF = " + useIDF);
+        logger.info( "FFtype = " + FFtype );
+        logger.info( "EFtype = " + EFtype);
 
         // Special cases
-        final boolean ignoreEmptyFiles = jCheckBoxIgnoreEmptyFiles.isSelected();
-        final boolean ignoreHiddedFiles = jCheckBoxFFIgnoreHidden.isSelected();
-        final boolean ignoreReadOnlyFiles = jCheckBoxIgnoreReadOnlyFiles.isSelected();
-        final boolean ignoreHiddedDirs = jCheckBoxFDIgnoreHidden.isSelected();
+        final boolean ignoreEmptyFiles      = jCheckBoxIgnoreEmptyFiles.isSelected();
+        final boolean ignoreHiddedFiles     = jCheckBoxFFIgnoreHidden.isSelected();
+        final boolean ignoreReadOnlyFiles   = jCheckBoxIgnoreReadOnlyFiles.isSelected();
+        final boolean ignoreHiddedDirs      = jCheckBoxFDIgnoreHidden.isSelected();
 
-        slogger.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
-        slogger.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);
-        slogger.info( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
-        slogger.info( "ignoreHiddedDirs = " + ignoreHiddedDirs);
+        logger.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
+        logger.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);
+        logger.info( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
+        logger.info( "ignoreHiddedDirs = " + ignoreHiddedDirs);
 
         return new FileFilterBuilders()
         {
             @Override
             public FileFilterBuilder getIncludeDirs()
             {
-                if( useIDF ) {
+                if( EFtype == DIRS_FILTER_INCLUDE ) {
                     return createIncludeDirectoriesFileFilterBuilder();
-                }
+                    }
                 else {
                     return null;
-                }
+                    }
             }
             @Override
             public FileFilterBuilder getExcludeDirs()
             {
-                if( useEDF ) {
+                if( EFtype == DIRS_FILTER_EXCLUDE ) {
                     return createExcludeDirectoriesFileFilterBuilder();
-                }
+                    }
                 else {
                     return null;
-                }
+                    }
             }
             @Override
             public FileFilterBuilder getIncludeFiles()
             {
-                if( useIFF ) {
+                if( FFtype == FILES_FILTER_INCLUDE ) {
                     return createIncludeFilesFileFilterBuilder();
-                }
+                    }
                 else {
                     return null;
-                }
+                    }
             }
             @Override
             public FileFilterBuilder getExcludeFiles()
             {
-                if( useEFF ) {
+                if( FFtype == FILES_FILTER_EXCLUDE ) {
                     return createExcludeFilesFileFilterBuilder();
-                }
+                    }
                 else {
                     return null;
-                }
+                    }
             }
             @Override
             public boolean isIgnoreHiddenDirs()
@@ -991,38 +666,5 @@ public class JPanelConfig extends JPanel
         };
     }
 
-    class FileTypeCheckBox implements Serializable
-    {
-        private static final long serialVersionUID = 1L;
-        private transient JCheckBox jCB;
-        private String description;
-        private String data;
-
-        public FileTypeCheckBox(
-                String description,
-                String data
-                )
-        {
-            this.description = description;
-            this.data = data;
-        }
-
-        public JCheckBox getJCheckBox()
-        {
-            if( jCB == null ) {
-                jCB = new JCheckBox(getDescription());
-            }
-            return jCB;
-        }
-
-        public final String getDescription()
-        {
-            return description;
-        }
-        public final String getData()
-        {
-            return data;
-        }
-    }
 }
 

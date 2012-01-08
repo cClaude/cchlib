@@ -1,8 +1,0 @@
-#Creat by :cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate
-#Fri Jan 06 19:14:10 CET 2012
-cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching.jLabelDuplicateSetsFoundValue=
-cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching.jTextFieldCurrentFile=
-cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching.jLabelDuplicateFilesFoundValue=
-cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfig.txtExcludeDirsFilters=Exclude filter
-cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfig.txtIncludeDirsFilters=Include filter
-cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame.jButtonCancel=Cancel

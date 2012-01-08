@@ -2,8 +2,10 @@ package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -16,6 +18,8 @@ import org.apache.log4j.Logger;
 public class ResourcesLoader
 {
     private final static Logger logger = Logger.getLogger( ResourcesLoader.class );
+
+    // static methods
     private ResourcesLoader()
     {
         // All static
@@ -26,9 +30,19 @@ public class ResourcesLoader
      * @param name
      * @return
      */
+    public static URL getResource( final String name )
+    {
+        return ResourcesLoader.class.getResource( name );
+    }
+
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static InputStream getResourceAsStream( final String name )
     {
-        InputStream stream = ResourcesLoader.class.getResourceAsStream( name );
+        final InputStream stream = ResourcesLoader.class.getResourceAsStream( name );
 
         if( stream == null ) {
             logger.error( "Can't find resource: " + name );
@@ -37,12 +51,15 @@ public class ResourcesLoader
         return stream;
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Icon getImageIcon( final String name )
     {
         try {
-            return new ImageIcon(
-                    ResourcesLoader.class.getResource( name )
-                    );
+            return new ImageIcon( getResource( name ) );
             }
         catch( Exception e ) {
             logger.error( "Can't find image: " + name );
@@ -51,9 +68,14 @@ public class ResourcesLoader
             }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public static Image getImage( final String name )
     {
-        URL url = ResourcesLoader.getResource( name );
+        final URL url = getResource( name );
 
         if( url == null ) {
             logger.error(
@@ -63,19 +85,42 @@ public class ResourcesLoader
             return null;
             }
 
-        Image image = Toolkit.getDefaultToolkit().getImage( url );
+        final Image image = Toolkit.getDefaultToolkit().getImage( url );
 
         if( image == null ) {
             logger.error(
                 String.format( "No image for : '%s'", name )
                 );
-        }
+            }
 
         return image;
     }
 
-    public static URL getResource( final String name )
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public static Properties getProperties( final String name )
     {
-        return ResourcesLoader.class.getResource( name );
+        final Properties prop = new Properties();
+
+        try {
+            InputStream is   = ResourcesLoader.getResourceAsStream(
+                    "JPanelConfig.properties"
+                    );
+
+            if( is != null ) {
+                prop.load( is );
+                is.close();
+                }
+            }
+        catch( IOException e ) {
+            logger.error( "Can't load properties", e );
+            }
+
+        return prop;
     }
+
 }

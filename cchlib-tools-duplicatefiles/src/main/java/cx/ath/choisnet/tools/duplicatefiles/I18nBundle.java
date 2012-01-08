@@ -8,6 +8,7 @@ import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.AutoI18nEventHandler;
 import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
 import cx.ath.choisnet.i18n.I18nSimpleResourceBundle;
+import cx.ath.choisnet.i18n.I18nSimpleStatsResourceBundle;
 import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
 import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 import cx.ath.choisnet.i18n.logging.AutoI18nLog4JEventHandler;
@@ -16,6 +17,7 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
 public class I18nBundle
 {
     private static AutoI18n autoI18n = null;
+    private static I18nSimpleStatsResourceBundle autoI18nSimpleStatsResourceBundle;
 
     public static String getMessagesBundle()
     {
@@ -59,12 +61,21 @@ public class I18nBundle
         return autoI18n;
     }
 
+    public static I18nSimpleStatsResourceBundle getAutoI18nSimpleStatsResourceBundle()
+    {
+        if( autoI18nSimpleStatsResourceBundle == null ) {
+            autoI18nSimpleStatsResourceBundle
+                = new I18nSimpleStatsResourceBundle(
+                    getMessagesBundle()
+                    );
+        }
+        return autoI18nSimpleStatsResourceBundle;
+    }
+
     public static I18nPropertyResourceBundleAutoUpdate getI18nPropertyResourceBundleAutoUpdate()
     {
         return getI18nPropertyResourceBundleAutoUpdate(
-                new I18nSimpleResourceBundle(
-                        getMessagesBundle()
-                        )
+                getAutoI18nSimpleStatsResourceBundle()
                 );
     }
 

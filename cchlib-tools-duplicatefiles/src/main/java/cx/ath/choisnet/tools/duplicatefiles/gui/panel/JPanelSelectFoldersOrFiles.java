@@ -137,40 +137,58 @@ public class JPanelSelectFoldersOrFiles
     @Override
     protected void jButtonSelectDirMouseMousePressed( MouseEvent event )
     {
-        JFileChooser jfc = dFToolKit.getJFileChooser();
-        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-        int returnVal = jfc.showOpenDialog( this );
+        Runnable doJob = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                JFileChooser jfc = dFToolKit.getJFileChooser();
+                jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+                int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
-        if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            File[] files = jfc.getSelectedFiles();
+                if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                    File[] files = jfc.getSelectedFiles();
 
-            for(File f:files) {
-                slogger.info( "selected dir:" + f );
-                addEntry( f, false );
+                    for(File f:files) {
+                        slogger.info( "selected dir:" + f );
+                        addEntry( f, false );
+                        }
+                    //slogger.info( "selected dir:" + jfc.getSelectedFile() );
+                    //addEntry( jfc.getSelectedFile(), false );
+                }
             }
-            //slogger.info( "selected dir:" + jfc.getSelectedFile() );
-            //addEntry( jfc.getSelectedFile(), false );
-        }
+        };
+        
+        new Thread( doJob ).start();
     }
 
     @Override
     protected void jButtonSelectFileMouseMousePressed(MouseEvent event)
-    {
-        JFileChooser jfc = dFToolKit.getJFileChooser();
-        jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
-        int returnVal = jfc.showOpenDialog( this );
+    {       
+        Runnable doJob = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                JFileChooser jfc = dFToolKit.getJFileChooser();
+                jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+                int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
-        if( returnVal == JFileChooser.APPROVE_OPTION ) {
-            File[] files = jfc.getSelectedFiles();
+                if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                    File[] files = jfc.getSelectedFiles();
 
-            for(File f:files) {
-                slogger.info( "selected file:" + f );
-                addEntry( f, false );
+                    for(File f:files) {
+                        slogger.info( "selected file:" + f );
+                        addEntry( f, false );
+                        }
+                    //slogger.info( "selected file:" + jfc.getSelectedFile() );
+                    //addEntry( jfc.getSelectedFile(), false );
+                }
             }
-            //slogger.info( "selected file:" + jfc.getSelectedFile() );
-            //addEntry( jfc.getSelectedFile(), false );
-        }
-    }
+        };
+        
+        new Thread( doJob ).start();
+   }
 
     @Override
     protected void jButtonAddDirMouseMousePressed( MouseEvent event )

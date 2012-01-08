@@ -9,6 +9,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import cx.ath.choisnet.i18n.I18nIgnore;
 
 /**
  *
@@ -20,13 +21,13 @@ public class JPanelSearchingWB extends JPanel
     private JTable jTableErrorList;
     private JProgressBar jProgressBarFiles;
     private JProgressBar jProgressBarOctets;
-    protected JLabel jTextFieldCurrentFile;
+    @I18nIgnore protected JLabel jTextFieldCurrentFile;
     protected JLabel jLabelCurrentFile;
     protected JLabel jLabelBytesReadFromDisk;
     protected JLabel jLabelDuplicateSetsFound;
-    protected JLabel jLabelDuplicateSetsFoundValue;
+    @I18nIgnore protected JLabel jLabelDuplicateSetsFoundValue;
     protected JLabel jLabelDuplicateFilesFound;
-    protected JLabel jLabelDuplicateFilesFoundValue;
+    @I18nIgnore protected JLabel jLabelDuplicateFilesFoundValue;
 
     /**
      * Create the panel.

@@ -394,9 +394,8 @@ public class JPanelSearching extends JPanelSearchingWB
 
         if( includeFilesFileFilterBuilder != null ) {
             final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
-
-            final String[] fileExts  = includeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
-            final int      fileExtsL = fileExts.length;
+            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
+            final int      fileExtsL    = fileExts.length;
 
             slogger.info( "createFilesFileFilter: case1");
             slogger.info( "files regex=" + regex );
@@ -405,28 +404,38 @@ public class JPanelSearching extends JPanelSearchingWB
             slogger.info( "fileExtsL=" + fileExtsL);
             slogger.info( "fileExts=" + includeFilesFileFilterBuilder.getNamePart() );
 
-            return new FileFilter() {
+            FileFilter ff = new FileFilter() {
                 @Override
                 public boolean accept( File f )
                 {
                     if( f.isFile() ) {
+                        
                         // Hidden files
                         if( skipHidden ) {
                             if( f.isHidden() ) {
+                                //slogger.debug( "f:" + f + " -> false1" );
                                 return false;
+                                }
                             }
-                        }
+                        
+                        // ReadOnly files
                         if( skipReadOnly ) {
                             if( !f.canWrite() ) {
+                                //slogger.debug( "f:" + f + " -> false2" );
                                 return false;
+                                }
                             }
-                        }
+                        
                         // RegEx
                         if( regex != null ) {
-                            if( ! regex.matcher(f.getName()).matches() ) {
-                                return false;
+                            if( regex.matcher(f.getName()).matches() ) {
+                                pass1CountFile++;
+                                pass1BytesCount += f.length();
+                                //slogger.debug( "f:" + f + " -> (true regex match)" );
+                                return true;
+                                }
                             }
-                        }
+                        
                         // Extensions
                         String name = f.getName().toLowerCase();
 
@@ -434,14 +443,24 @@ public class JPanelSearching extends JPanelSearchingWB
                             if(name.endsWith( fileExts[i] )) {
                                 pass1CountFile++;
                                 pass1BytesCount += f.length();
+                                //slogger.debug( "f:" + f + " -> (true endsWith match)" );
                                 return true;
+                                }
                             }
-                        }
+                        
+                        //slogger.debug( "f:" + f + " -> false4" );
                         return false;
                     }
+                    //slogger.debug( "f:" + f + " -> false5 (not a file)" );
                     return false;
                 }
             };
+//            File f = new File( "C:\\toto.reg" );
+//            slogger.info( "fileTst toto.reg=" + regex.matcher( "toto.reg" ).matches() );
+//            slogger.info( "fileTst " + f.getName() + "=" + regex.matcher( f.getName() ).matches() );
+//            slogger.info( "fileTst " + f + "=" + ff.accept( f ) );
+
+            return ff;
         }
         else {
             FileFilterBuilder excludeFilesFileFilterBuilder = fbs.getExcludeFiles();

@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JProgressBar;
 import javax.swing.JTree;
@@ -209,21 +210,32 @@ public class RemoveEmptyDirectories
             @Override
             public void run()
             {
-                RemoveEmptyDirectories frame = new RemoveEmptyDirectories();
-                //Done!frame.setDefaultCloseOperation( RemoveEmptyDirectories.EXIT_ON_CLOSE );
-                frame.setTitle( "RemoveEmptyDirectories" );
-                //Done?frame.getContentPane().setPreferredSize( frame.getSize() );
-                //Done?frame.pack();
-                //Done?frame.setLocationRelativeTo( null );
-                frame.init();
-                frame.setVisible( true );
-
-                // Prepare JFileChooser
-                frame.getWaitingJFileChooserInitializer();
+                RemoveEmptyDirectories frame = RemoveEmptyDirectories.start();
+                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             }
         } );
 
         logger.fatal( "Running in a thread" );
+    }
+
+    /**
+     * A WindowHandler should be add on frame.
+     */
+    public static RemoveEmptyDirectories start()
+    {
+        RemoveEmptyDirectories frame = new RemoveEmptyDirectories();
+        //Done!frame.setDefaultCloseOperation( RemoveEmptyDirectories.EXIT_ON_CLOSE );
+        frame.setTitle( "RemoveEmptyDirectories" );
+        //Done?frame.getContentPane().setPreferredSize( frame.getSize() );
+        //Done?frame.pack();
+        //Done?frame.setLocationRelativeTo( null );
+        frame.init();
+        frame.setVisible( true );
+
+        // Prepare JFileChooser
+        frame.getWaitingJFileChooserInitializer();
+
+        return frame;
     }
 
     private WaitingJFileChooserInitializer getWaitingJFileChooserInitializer()

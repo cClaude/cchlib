@@ -112,8 +112,9 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
      */
     public RemoveEmptyDirectoriesFrameWB()
     {
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setBounds( 20, 20, 800, 400 );
+        //setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        //setBounds( 20, 20, 800, 400 );
+        setSize( 800, 400 );
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( contentPane );
