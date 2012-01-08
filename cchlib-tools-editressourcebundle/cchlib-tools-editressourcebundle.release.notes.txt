@@ -5,6 +5,9 @@ cchlib-tools-editressourcebundle
   Add support of some Java 1.7 features.
   Generated target code now is Java7
   Use some new class from core
+
+  Ask before saving
+  Save when window is closed
 ---------------------------------------------------------------------
 4.1.2
   Moving 2 maven (remove ant build number)

@@ -1,11 +1,10 @@
-/**
- *
- */
 package cx.ath.choisnet.tools.i18n;
 
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import javax.swing.Box;
 import javax.swing.JFileChooser;
@@ -13,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
@@ -31,16 +31,39 @@ import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
 public class CompareRessourceBundleFrame
     extends CompareRessourceBundleFrameVS4E
 {
-    private static final Logger slogger = Logger.getLogger(CompareRessourceBundleFrame.class);
+    private static final Logger logger = Logger.getLogger(CompareRessourceBundleFrame.class);
     private static final long serialVersionUID = 1L;
     private FilesConfig filesConfig = new FilesConfig();
     private CompareRessourceBundleTableModel tableModel;
     private JFileChooserInitializer jFileChooserInitializer;
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
+    @I18nString // TODO i18n
+    private final String fileSavedMsg = "File '%s' saved.";
+    @I18nString // TODO i18n
+    private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
 
     public CompareRessourceBundleFrame()
     {
         super(); // initComponents();
+
+        WindowListener wl = new WindowAdapter()
+        {
+            @Override
+            public void windowClosing( final WindowEvent event )
+            {
+                super.windowClosing( event );
+
+                if( tableModel != null ) {
+                    // FIXME add a dialog to ask if should be saved
+                    saveFile( true ); // save left
+                    saveFile( false ); // save right
+                    }
+
+                System.exit( 0 );
+            }
+        };
+        super.addWindowListener( wl );
+
 
         initFixComponents();
     }
@@ -68,13 +91,14 @@ public class CompareRessourceBundleFrame
 
     public static void main( String[] args )
     {
-        slogger.info( "started" );
+        logger.info( "started" );
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()
             {
                 CompareRessourceBundleFrame frame = new CompareRessourceBundleFrame();
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                // frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                frame.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
                 frame.setTitle( "Compare Ressource Bundle" );
                 frame.getContentPane().setPreferredSize( frame.getSize() );
                 frame.pack();
@@ -87,8 +111,8 @@ public class CompareRessourceBundleFrame
 
     protected void updateDisplay()
     {
-        slogger.info( "Left :" + filesConfig.getLeftFileObject());
-        slogger.info( "Right:" + filesConfig.getRightFileObject());
+        logger.info( "Left :" + filesConfig.getLeftFileObject());
+        logger.info( "Right:" + filesConfig.getRightFileObject());
 
         if( filesConfig.getLeftFileObject() != null ) {
             jMenuItemSaveLeftFile.setEnabled(
@@ -150,55 +174,124 @@ public class CompareRessourceBundleFrame
         return jFileChooserInitializer;
     }
 
-    @Override
-    protected void jMenuItem_SaveLeftFile_MouseMousePressed(MouseEvent event)
+    protected void saveFile(
+        final boolean isLeft
+        )
     {
-        slogger.info( "request to save Left");
-        try {
-            if( this.tableModel.saveLeftFile(this.filesConfig.getLeftFileObject()) ) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "File '" + filesConfig.getLeftFileObject().getDisplayName() + "' saved."
-                        ,
-                        "Left File",
-                        JOptionPane.INFORMATION_MESSAGE
-                        );
+        final String        saveFileTypeMsg;
+        final FileObject    fileObject;
+
+        if( isLeft ) {
+            saveFileTypeMsg = "Left File"; // TODO i18n
+            fileObject      = filesConfig.getLeftFileObject();
             }
-        }
-        catch( FileNotFoundException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        else {
+            saveFileTypeMsg = "Right File"; // TODO i18n
+            fileObject      = filesConfig.getRightFileObject();
+            }
+
+        logger.info( "request to save: " + saveFileTypeMsg);
+
+        if( fileObject.isReadOnly() ) {
+            logger.info( "read only file (cancel): " + fileObject );
+            }
+        else {
+            //Confirm to save
+            int n = JOptionPane.showConfirmDialog(
+                      this,
+                      String.format(
+                              fileSaveNowQuestionMsg,
+                              fileObject.getDisplayName()
+                              ),
+                      saveFileTypeMsg,
+                      JOptionPane.YES_NO_OPTION
+                      );
+
+            if( n == 1 ) {
+                return; // save canceled
+                  }
+
+            try {
+                final boolean res;
+
+                if( isLeft ) {
+                    res = this.tableModel.saveLeftFile( fileObject );
+                    }
+                else {
+                    res = this.tableModel.saveRightFile( fileObject );
+                    }
+
+                if( res ) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            String.format( fileSavedMsg, fileObject.getDisplayName() ) ,
+                            saveFileTypeMsg,
+                            JOptionPane.INFORMATION_MESSAGE
+                            );
+                    }
+                }
+            catch( IOException e ) {
+                // FIXME add a dialog show this error
+                logger.error( e );
+                }
         }
     }
 
     @Override
+    protected void jMenuItem_SaveLeftFile_MouseMousePressed(MouseEvent event)
+    {
+        //saveLeftFile();
+        saveFile( true /*isLeft*/ );
+    }
+
+
+//    protected void saveLeftFile()
+//    {
+//        logger.info( "request to save Left");
+//
+//        try {
+//            if( this.tableModel.saveLeftFile(this.filesConfig.getLeftFileObject()) ) {
+//                JOptionPane.showMessageDialog(
+//                        this,
+//                        "File '" + filesConfig.getLeftFileObject().getDisplayName() + "' saved."
+//                        ,
+//                        "Left File",
+//                        JOptionPane.INFORMATION_MESSAGE
+//                        );
+//                }
+//            }
+//        catch( IOException e ) {
+//            // FIME add a dialog show this error
+//            logger.error( e );
+//            }
+//    }
+
+    @Override
     protected void jMenuItem_SaveRightFile_MouseMousePressed(MouseEvent event)
     {
-        slogger.info( "request to save Right");
-        try {
-            if( this.tableModel.saveRightFile(this.filesConfig.getRightFileObject()) ) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "File '" + filesConfig.getRightFileObject().getDisplayName() + "' saved."
-                        ,
-                        "Righ File",
-                        JOptionPane.INFORMATION_MESSAGE
-                        );
-            }
-        }
-        catch( FileNotFoundException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        //saveRightFile();
+        saveFile( false /*isLeft*/ );
     }
+
+//    protected void saveRightFile()
+//    {
+//        logger.info( "request to save Right");
+//        try {
+//            if( this.tableModel.saveRightFile(this.filesConfig.getRightFileObject()) ) {
+//                JOptionPane.showMessageDialog(
+//                        this,
+//                        "File '" + filesConfig.getRightFileObject().getDisplayName() + "' saved."
+//                        ,
+//                        "Righ File",
+//                        JOptionPane.INFORMATION_MESSAGE
+//                        );
+//                }
+//            }
+//        catch( IOException e ) {
+//            // FIME add a dialog show this error
+//            logger.error( e );
+//            }
+//    }
 
     @Override
     protected void jMenuItem_Quit_MouseMousePressed(MouseEvent event)
