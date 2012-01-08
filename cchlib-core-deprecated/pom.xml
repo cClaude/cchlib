@@ -9,7 +9,6 @@
     <version>4.1.6-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-core-deprecated</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-core-deprecated</name>
