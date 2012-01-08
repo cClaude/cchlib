@@ -142,6 +142,7 @@ public class JFileChooserInitializer
                             // LookAndFeel has change, JFileChooser is
                             // no more valid. Build a new one !
                             jFileChooser = null;
+                            init0Lauched = false;
                         }
 
                         init();
