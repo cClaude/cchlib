@@ -19,6 +19,9 @@ cchlib-core
   Add: cx.ath.choisnet.lang.reflect.MappableBuilderTest
   Add: cx.ath.choisnet.lang.reflect.MappableHelperTest
 
+  Add: cx.ath.choisnet.i18n.I18nSimpleStatsResourceBundle
+  Fix: cx.ath.choisnet.swing.filechooser.JFileChooserInitializer (when changing
+       lookandfeel while JFileChooser not yet initialised)
 ---------------------------------------------------------------------
 4.1.5
   Add many documentation

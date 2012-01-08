@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -22,12 +23,14 @@ public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {
     private static final long serialVersionUID = 1L;
-    private transient static final Logger slog = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
+    private transient static final Logger logger = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
     /** @serial */
     private File configFileProperties;
 
     /**
-     * TODO: Doc!
+     * Create a BookmarksAccessoryDefaultConfigurator using
+     * default rules. Store a properties files under $user.home
+     * with full name of this class.
      */
     public BookmarksAccessoryDefaultConfigurator()
     {
@@ -40,20 +43,28 @@ public class BookmarksAccessoryDefaultConfigurator
     }
 
     /**
-     * TODO: Doc!
-     *
-     * @param configFileProperties
+     * Create a BookmarksAccessoryDefaultConfigurator based
+     * on giving properties file.
+     * 
+     * @param configFileProperties File to use as input/output
+     * properties
      */
     public BookmarksAccessoryDefaultConfigurator(
-            File configFileProperties
+            final File configFileProperties
             )
     {
         super( loadBookmarks(configFileProperties) );
+        
         this.configFileProperties = configFileProperties;
     }
 
+    /**
+     * Load bookmarks from a properties file.
+     * @param configFileProperties Properties file
+     * @return a sorted array of {@link File} objects
+     */
     private static ArrayList<File> loadBookmarks(
-            File configFileProperties
+            final File configFileProperties
             )
     {
         ArrayList<File> list = new ArrayList<File>();
@@ -63,10 +74,10 @@ public class BookmarksAccessoryDefaultConfigurator
             InputStream is = new FileInputStream(configFileProperties);
             properties.load( is );
             is.close();
-        }
+            }
         catch( IOException e ) {
-            slog.warning( "File error : " + configFileProperties + " - " + e );
-        }
+            logger.warning( "File error : " + configFileProperties + " - " + e );
+            }
 
         Set<String> keys = properties.stringPropertyNames();
 
@@ -75,29 +86,30 @@ public class BookmarksAccessoryDefaultConfigurator
             File    file  = new File( value );
 
             add(list,file);
-        }
+            }
+        
+        Collections.sort( list );
         
         return list;
     }
 
     @Override
-    protected void storeBookmarks( ArrayList<File> list )
+    protected void storeBookmarks( final ArrayList<File> list )
     {
         Properties  properties  = new Properties();
         int         i           = 0;
 
-        for(File f:list) {
+        for( File f:list ) {
             properties.put( Integer.toString( i++ ), f.getPath() );
-        }
+            }
 
         try {
             Writer writer = new FileWriter(configFileProperties);
             properties.store( writer, "" );
             writer.close();
-        }
+            }
         catch( IOException e ) {
-            slog.warning( "File error : " + configFileProperties + " - " + e );
-        }
-        //slog.fine( "Store to : " + configFileProperties );
+            logger.warning( "File error : " + configFileProperties + " - " + e );
+            }
     }
 }

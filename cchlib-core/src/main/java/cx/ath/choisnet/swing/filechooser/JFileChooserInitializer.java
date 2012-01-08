@@ -133,14 +133,16 @@ public class JFileChooserInitializer
                     @Override
                     public void propertyChange( PropertyChangeEvent e )
                     {
-                        // Save Current directory
-                        JFileChooserInitializer.this.configurator.restoreCurrentDirectory(
-                                jFileChooser.getCurrentDirectory()
-                                );
+                        if( jFileChooser != null ) {
+                            // Save Current directory
+                            JFileChooserInitializer.this.configurator.restoreCurrentDirectory(
+                                    jFileChooser.getCurrentDirectory()
+                                    );
 
-                        // LookAndFeel has change, JFileChooser is
-                        // no more valid. Build a new one !
-                        jFileChooser = null;
+                            // LookAndFeel has change, JFileChooser is
+                            // no more valid. Build a new one !
+                            jFileChooser = null;
+                        }
 
                         init();
                     }

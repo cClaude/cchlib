@@ -52,8 +52,8 @@ public class BookmarksAccessory
     private ResourcesUtils resourcesUtils;
 
     public BookmarksAccessory(
-            JFileChooser    jFileChooser,
-            Configurator    config
+            final JFileChooser  jFileChooser,
+            final Configurator  config
             )
     {
         this.jFileChooser = jFileChooser;
@@ -66,7 +66,7 @@ public class BookmarksAccessory
 
         for(File f:config.getBookmarks()) {
             listModel_Bookmarks.addElement( f );
-        	}
+            }
 
         initComponents();
         initLayout();
@@ -167,32 +167,6 @@ public class BookmarksAccessory
     }
 
     /**
-     *
-     *
-     * @author Claude CHOISNET
-     */
-    public interface Configurator extends Serializable
-    {
-        /**
-         * @return list of already know bookmarks, must
-         * be a list of existing directory File object.
-         */
-        public Collection<File> getBookmarks();
-
-        /**
-         * @param file File to add to bookmarks Collection
-         * @return return true if file have been had.
-         */
-        public boolean addBookmarkFile(File file);
-
-        /**
-         * @param file File to remove to bookmark Collection
-         * @return return true if file have been removed.
-         */
-        public boolean removeBookmark(File file);
-    }
-
-    /**
      * @return a valid JButton for refresh/rescan current directory,
      */
     public JButton getRefreshButton()
@@ -245,17 +219,28 @@ public class BookmarksAccessory
     {
     }
 
+    /**
+    *
+    */
+   public interface Configurator extends Serializable
+   {
+       /**
+        * @return list of already know bookmarks, must
+        * be a list of existing directory File object.
+        */
+       public Collection<File> getBookmarks();
 
-//    public static void main( String[] args ) throws IOException
-//    {
-//        javax.swing.JFileChooser jfc = new javax.swing.JFileChooser();
-//        jfc.setAccessory(
-//                new BookmarksAccessory(
-//                        jfc,
-//                        new BookmarksAccessoryDefaultConfigurator()
-//                    )
-//                );
-//        jfc.showOpenDialog( null );
-//    }
+       /**
+        * @param file File to add to bookmarks Collection
+        * @return return true if file have been had.
+        */
+       public boolean addBookmarkFile(File file);
+
+       /**
+        * @param file File to remove to bookmark Collection
+        * @return return true if file have been removed.
+        */
+       public boolean removeBookmark(File file);
+   }
 }
 

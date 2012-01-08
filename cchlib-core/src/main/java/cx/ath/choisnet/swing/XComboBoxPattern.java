@@ -28,6 +28,8 @@ public class XComboBoxPattern extends XComboBox<String>
     public XComboBoxPattern()
     {
         this(Color.RED);
+
+        editor.setBorder( null ); // already a border in XComboBox
     }
 
     /**

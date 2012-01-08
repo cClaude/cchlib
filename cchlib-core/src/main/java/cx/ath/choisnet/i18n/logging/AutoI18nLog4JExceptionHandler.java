@@ -22,7 +22,7 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private transient static final Logger slogger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private transient static final Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
     /** @serial */
     private Level level;
 
@@ -57,7 +57,7 @@ public class AutoI18nLog4JExceptionHandler
     @Override
     public void defaultHandle(Exception e )
     {
-        slogger.log( level, "AutoI18n error", e );
+        logger.log( level, "AutoI18n error", e );
     }
 
     @Override
@@ -67,13 +67,17 @@ public class AutoI18nLog4JExceptionHandler
             String                      key
             )
     {
-        slogger.warn( 
-          "* MissingResourceException for:" 
-              + key 
-              + " - " 
-              + e.getLocalizedMessage(),
-          e
-          );
+        final String msg = "* MissingResourceException for:" 
+                    + key 
+                    + " - "
+                    + e.getLocalizedMessage();
+
+        if( logger.isDebugEnabled() ) {
+            logger.error( msg, e );
+            }
+        else {
+            logger.warn( msg );
+            }
     }
 
     @Override
@@ -94,14 +98,18 @@ public class AutoI18nLog4JExceptionHandler
             Method[]                    methods
             )
     {
-        slogger.warn( 
-            String.format( 
-                "* MissingResourceException for: %s using [%s] - %s\n",
-                key,
-                methods[0],
-                e.getLocalizedMessage()
-                ),
-            e
-            );
+        final String msg = String.format( 
+                    "* MissingResourceException for: %s using [%s] - %s\n",
+                    key,
+                    methods[0],
+                    e.getLocalizedMessage()
+                    );
+        
+        if( logger.isDebugEnabled() ) {
+            logger.error( msg, e );
+            }
+        else {
+            logger.warn( msg );
+            }
     }
 }

@@ -3,6 +3,7 @@ package cx.ath.choisnet.swing.filechooser.accessory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,8 +34,10 @@ public abstract class AbstractBookmarksAccessoryConfigurator
      * @param file
      * @return
      */
-    //final // TO DO: remove this
-    protected static boolean add( List<File> list, File file )
+    protected static boolean add(
+        final List<File>    list, 
+        final File          file 
+        )
     {
         if( file.isDirectory() ) {
             boolean found = false;
@@ -53,50 +56,28 @@ public abstract class AbstractBookmarksAccessoryConfigurator
         return false;
     }
 
-//    private ArrayList<File> loadBookmarks()
-//    {
-//        ArrayList<File> list = new ArrayList<File>();
-//        Properties      properties = new Properties();
-//
-//        try {
-//            InputStream is = new FileInputStream(configFileProperties);
-//            properties.load( is );
-//            is.close();
-//        }
-//        catch( IOException e ) {
-//            slog.warning( "File error : " + configFileProperties + " - " + e );
-//        }
-//
-//        Set<String> keys = properties.stringPropertyNames();
-//
-//        for(String key:keys) {
-//            String  value = properties.getProperty( key );
-//            File    file  = new File( value );
-//
-//            add(list,file);
-//        }
-//
-//        //slog.fine( "load from : " + configFileProperties );
-//
-//        return list;
-//    }
-
     /**
-     * TODO: Doc!
+     * Custom method to store content of ArrayList
      *
-     * @param filesList
+     * @param filesList {@link ArrayList} of {@link File} objects.
      */
     protected abstract void storeBookmarks( ArrayList<File> filesList );
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return a sorted array of {@link File} objects
+     */
     @Override
-    //final // TO DO: remove this
     public Collection<File> getBookmarks()
     {
+        // be sure content is sorted
+        Collections.sort( bookmarks );
+        
         return bookmarks;
     }
 
     @Override
-    //final // TO DO: remove this
     public boolean addBookmarkFile( File file )
     {
         if( ! bookmarks.contains( file ) ) {
@@ -112,7 +93,6 @@ public abstract class AbstractBookmarksAccessoryConfigurator
     }
 
     @Override
-    //final // TO DO: remove this
     public boolean removeBookmark( File file )
     {
         bookmarks.remove( file );

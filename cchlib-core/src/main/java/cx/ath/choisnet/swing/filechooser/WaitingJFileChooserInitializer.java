@@ -75,9 +75,9 @@ public class WaitingJFileChooserInitializer
      */
     public WaitingJFileChooserInitializer(
         final JFileChooserInitializer.Configure configurator,
-        final Frame     						parentFrame,
-        final String    						title,
-        final String    						message
+        final Frame                             parentFrame,
+        final String                            title,
+        final String                            message
         )
     {
         super( configurator );
@@ -146,6 +146,12 @@ public class WaitingJFileChooserInitializer
 //        return this;
 //    }
 
+    /**
+     * {@inheritDoc}
+     * <br/>
+     * Important: This method should not be invoke from the
+     * event dispatcher thread
+     */
     @Override
     public JFileChooser getJFileChooser()
     {

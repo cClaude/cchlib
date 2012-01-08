@@ -42,7 +42,6 @@ public class I18nResourceBundle implements I18nInterface
     }
 
     @Override // I18nInterface
-    final
     public String getString(String key)
         throws java.util.MissingResourceException
     {
