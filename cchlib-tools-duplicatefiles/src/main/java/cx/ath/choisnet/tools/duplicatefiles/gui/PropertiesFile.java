@@ -5,17 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.io.Reader;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
-import java.nio.charset.Charset;
-import java.nio.file.OpenOption;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Properties;
 
 /**
@@ -80,7 +74,13 @@ public class PropertiesFile extends Properties
             catch( OverlappingFileLockException e ) {
                 // File is already locked in this thread or virtual machine
                 }
-
+/*
+            Path 			path	= Paths.
+            OpenOption[] 	options	= {
+            		
+            		};
+			InputStream is = Files.newInputStream( path, options );
+*/
             // Release the lock
             this.fileLock.release();
 

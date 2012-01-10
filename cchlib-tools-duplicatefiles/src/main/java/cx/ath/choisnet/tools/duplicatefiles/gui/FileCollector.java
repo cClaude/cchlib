@@ -2,10 +2,12 @@ package cx.ath.choisnet.tools.duplicatefiles.gui;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import cx.ath.choisnet.io.DirectoryIterator;
 import cx.ath.choisnet.io.FileFilterHelper;
 
@@ -20,7 +22,6 @@ import cx.ath.choisnet.io.FileFilterHelper;
  * If rootFolderFile is <b>not</b> a element return by this Iterator.
  * </p>
  *
- * @author Claude CHOISNET
  * @see FileFilterHelper
  * @see DirectoryIterator
  */
@@ -29,6 +30,9 @@ public class FileCollector
     private ArrayList<File> rootDirectoriesList = new ArrayList<File>();
     private FileFilter directoriesFilter;
     private FileFilter filesFilter;
+	private boolean cancel	= false;
+	private boolean running	= false;
+	private CancelState cancelState;
 
     /**
      * Create a FileCollector able to inspect rootFolderFiles
@@ -79,7 +83,9 @@ public class FileCollector
     {
         for( File f : rootFolderFiles ) {
             if( !f.isDirectory() ) {
-                throw new IllegalArgumentException();
+            	if( f.isFile() ) {
+                    throw new IllegalArgumentException( "Received file instead directory: " + f );
+            		}
                 }
             this.rootDirectoriesList.add( f );
             }
@@ -96,30 +102,55 @@ public class FileCollector
             this.directoriesFilter = FileFilterHelper.directoryFileFilter();
             }
 
-        this.filesFilter = filesFilter;
+        if( filesFilter != null ) {
+            this.filesFilter = FileFilterHelper.and(
+            		FileFilterHelper.not(
+            			FileFilterHelper.directoryFileFilter()
+            			),
+                    directoriesFilter
+                    );   	
+        	}
+        else {
+            this.filesFilter = FileFilterHelper.not(
+        			FileFilterHelper.directoryFileFilter()
+        			);
+        	}
     }
 
     /**
      *
      * @param event
      */
-    public void walk( final FileCollectorEvent event )
+    public void walk( final FileCollectorVisitor event )
     {
-        final LinkedList<File> directoriesList = new LinkedList<File>( this.rootDirectoriesList );
-        final LinkedList<File> dirToCloseList  = new LinkedList<File>();
+    	this.cancel			= false;
+    	this.running 	 	= true;
+    	this.cancelState 	= null;
 
-        while( directoriesList.size() > 0 ) {
-            final File 		dir 	= directoriesList.removeLast();
-            final File[]	dirs 	= dir.listFiles( this.directoriesFilter );
+        final LinkedList<File> rootList = new LinkedList<File>( this.rootDirectoriesList );
+        final LinkedList<File> dirsList = new LinkedList<File>( this.rootDirectoriesList );
 
-            // start reading 'dir'
-            event.openDirectory( dir );
+        while( rootList.size() > 0 || dirsList.size() > 0 ) {
+            final File dir;
+            
+            if( dirsList.size() > 0 ) {
+            	dir = dirsList.removeLast();
+            	
+                // start reading 'dir'
+                event.openDirectory( dir );
+            	}
+            else {
+            	dir = rootList.removeLast();
+            	
+                // start reading 'dir'
+                event.openRootDirectory( dir );
+            	}
+            final File[] dirs = dir.listFiles( this.directoriesFilter );
 
             if( dirs != null ) {
                 for( File d : dirs ) {
-                    // Discover dir f
-                    //event.discoverDirectory( f );
-                    directoriesList.add( d );
+                    // Discover dir d
+                	dirsList.add( d );
                     }
                 }
 
@@ -127,43 +158,90 @@ public class FileCollector
 
             if( files != null ) {
                 for( File f : files ) {
-                    // Discover file f.
+                    // Discover file f
                     event.discoverFile( f );
                     }
                 }
-
-            //event.closeDirectory( dir );
-        }
-    }
-
-
-    public static void main(String...args)
+            
+            if( cancel ) {
+            	// Store current state.
+            	this.cancelState = new CancelState( rootList, dirsList );
+            	break;
+            	}
+        	}
+        
+    	this.running = false;
+   }
+    
+    public void cancel()
     {
-        FileCollector fc = new FileCollector( new File( "C:\\Temps\\D" ) );
+    	this.cancel = true;
+    }
+    
+    public boolean isRunning()
+    {
+    	return this.running;
+    }
+    
+    public CancelState getCancelState()
+    {
+    	return this.cancelState;
+    }
+    
+    /**
+     * 
+     *
+     */
+    public class CancelState implements Serializable
+    {
+		private static final long serialVersionUID = 1L;
+		private LinkedList<File> rootList;
+    	private LinkedList<File> dirsList;
+    	
+    	/**
+    	 * 
+    	 * @param rootList
+    	 * @param dirsList
+    	 */
+    	protected CancelState(
+    		final LinkedList<File> rootList,
+    		final LinkedList<File> dirsList
+    		)
+    	{
+    		this.rootList = rootList;
+    		this.dirsList = dirsList;
+    	}
 
-        fc.walk( new FileCollectorEvent()
-            {
-                @Override
-                public void openDirectory(File directoryFile)
-                {
-                    System.out.println(
-                        "openDirectory: " + directoryFile
-                        );
-                }
-                @Override
-                public void discoverFile(File file)
-                {
-                    System.out.println(
-                        "discoverFile: " + file.length()
-                        + "|" + file.lastModified()
-                        + "|" + file.getPath()
-                        );
-                }
-                @Override
-                public void closeDirectory(File directoryFile)
-                {
-                    System.out.println( "closeDirectory: " + directoryFile );
-                }
-            });
+		/**
+		 * @return the rootList
+		 */
+		public List<File> getRootList()
+		{
+			return rootList;
+		}
+
+		/**
+		 * @param rootList the rootList to set
+		 */
+		public void setRootList( final List<File> rootList) 
+		{
+			this.rootList = new LinkedList<File>( rootList );
+		}
+
+		/**
+		 * @return the dirsList
+		 */
+		public List<File> getDirsList() 
+		{
+			return dirsList;
+		}
+
+		/**
+		 * @param dirsList the dirsList to set
+		 */
+		public void setDirsList( final List<File> dirsList)
+		{
+			this.dirsList = new LinkedList<File>( dirsList );
+		}
     }
 }

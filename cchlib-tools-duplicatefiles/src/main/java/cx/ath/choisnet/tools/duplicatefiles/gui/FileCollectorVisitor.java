@@ -5,8 +5,14 @@ import java.io.File;
 /**
  *
  */
-public interface FileCollectorEvent
+public interface FileCollectorVisitor
 {
+    /**
+     *
+     * @param directoryFile
+     */
+    public void openRootDirectory(File rootDirectoryFile);
+    
     /**
      *
      * @param directoryFile
@@ -19,9 +25,9 @@ public interface FileCollectorEvent
      */
     public void discoverFile(File file);
 
-    /**
-     *
-     * @param directoryFile
-     */
-    public void closeDirectory(File directoryFile);
+//    /**
+//     *
+//     * @param directoryFile
+//     */
+//    public void closeDirectory(/*File directoryFile*/);
 }
