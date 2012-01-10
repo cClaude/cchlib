@@ -8,23 +8,20 @@ import java.io.FileFilter;
 */
 public class FileFilterHelper
 {
-//    private static abstract class PrivateFileFilterHelper implements FileFilter, java.io.Serializable
-//    {
-//        private static final long serialVersionUID = 1L;
-//    }
-
     private FileFilterHelper()
     {
         // All static
     }
 
     /**
-     *
+     * Returns a filter that keep only directories
      * @return a {@link Serializable} {@link FileFilter}
+     * @see File#isDirectory()
      */
     public static FileFilter directoryFileFilter()
     {
-        return new SerializableFileFilter() {
+        return new SerializableFileFilter()
+        {
             private static final long serialVersionUID = 2L;
             @Override
             public boolean accept(File file)
@@ -35,8 +32,9 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * Returns a filter that keep only file
      * @return a {@link Serializable} {@link FileFilter}
+     * @see File#isFile()
      */
     public static FileFilter fileFileFilter()
     {
@@ -51,12 +49,14 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a {@link Serializable} {@link FileFilter} that accept(File) method always return true
+     * Returns a {@link Serializable} {@link FileFilter} with an
+     * accept(File) method that always return true
      * @return a {@link Serializable} {@link FileFilter}
      */
     public static FileFilter trueFileFilter()
     {
-        return new SerializableFileFilter() {
+        return new SerializableFileFilter()
+        {
             private static final long serialVersionUID = 2L;
             @Override
             public boolean accept(File file)
@@ -67,12 +67,14 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a {@link Serializable} {@link FileFilter} that accept(File) method always return false
+     * Returns a {@link Serializable} {@link FileFilter} with an
+     * accept(File) method that always return false
      * @return a {@link Serializable} {@link FileFilter}
      */
     public static FileFilter falseFileFilter()
     {
-        return new SerializableFileFilter() {
+        return new SerializableFileFilter()
+        {
             private static final long serialVersionUID = 2L;
             @Override
             public boolean accept( File file )

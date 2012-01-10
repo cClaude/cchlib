@@ -3,6 +3,7 @@ package cx.ath.choisnet.swing;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.regex.Pattern;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JTextField;
@@ -13,23 +14,38 @@ import cx.ath.choisnet.swing.text.PatternDocument;
  *
  * @author Claude CHOISNET
  * @see PatternDocument
+ * @see Pattern
  */
 public class XComboBoxPattern extends XComboBox<String>
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+    /** Default background to display errors : {@value} */
+    public static final Color DEFAULT_ERROR_COLOR = Color.RED;
     /** @serial */
     private JTextField editor = new JTextField();
     /** @serial */
     private PatternDocument documentEditor;
 
     /**
-     * Create a XComboBoxPattern using red error Color.
+     * Create an empty XComboBoxPattern using default error Color.
      */
     public XComboBoxPattern()
     {
-        this(Color.RED);
+        this( DEFAULT_ERROR_COLOR );
+    }
 
-        editor.setBorder( null ); // already a border in XComboBox
+    /**
+     * Create an empty XComboBoxPattern
+     *
+     * @param errorColor background color when an current text
+     * is <B>not</B> a valid Regular Expression
+     */
+    public XComboBoxPattern( final Color errorColor )
+    {
+        super( String.class );
+
+        this.setEditor( new ComboBoxEditorPattern( errorColor ) );
+        this.editor.setBorder( null ); // already a border in XComboBox
     }
 
     /**
@@ -37,27 +53,72 @@ public class XComboBoxPattern extends XComboBox<String>
      *
      * @param errorColor background color when an current text
      * is <B>not</B> a valid Regular Expression
+     * @param regExps arrays of String (must be valid regular
+     * expression)
+     * @since 4.1.6
      */
-    public XComboBoxPattern( Color errorColor )
+    public XComboBoxPattern(
+            final Color    errorColor,
+            final String...regExps
+            )
     {
-        super( String.class );
+        this( errorColor );
 
-        this.setEditor( new ComboBoxEditorPattern( errorColor ) );
+        for( String s : regExps ) {
+            addItem( s );
+            }
+    }
+
+    /**
+     * Create a XComboBoxPattern using default color to display errors
+     *
+     * @param regExps arrays of String (must be valid regular
+     * expression)
+     */
+    public XComboBoxPattern( String...regExps )
+    {
+        this();
+
+        for( String s : regExps ) {
+            addItem( s );
+            }
     }
 
     /**
      * Create a XComboBoxPattern
      *
-     * @param regExps arrays of String (must be valid regular
+     * @param errorColor background color when an current text
+     * is <B>not</B> a valid Regular Expression
+     * @param regExps Collection of String (must be valid regular
      * expression)
+     * @since 4.1.6
      */
-    public XComboBoxPattern( String[] regExps )
+    public XComboBoxPattern(
+            final Color    				errorColor,
+            final Collection<String>	regExps
+            )
+    {
+        this( errorColor );
+
+        for( String s : regExps ) {
+            addItem( s );
+            }
+    }
+
+    /**
+     * Create a XComboBoxPattern using default color to display errors
+     *
+     * @param regExps Collection of String (must be valid regular
+     * expression)
+     * @since 4.1.6
+     */
+    public XComboBoxPattern( Collection<String> regExps )
     {
         this();
 
-        for(String s:regExps) {
-            addItem(s);
-        }
+        for( String s : regExps ) {
+            addItem( s );
+            }
     }
 
     /**
@@ -77,7 +138,7 @@ public class XComboBoxPattern extends XComboBox<String>
 
         if( selected == -1 ) {
             return null;
-        }
+            }
         Object o = super.getSelectedItem();
 
         // java.util.regex.PatternSyntaxException
@@ -136,18 +197,18 @@ public class XComboBoxPattern extends XComboBox<String>
     private class ComboBoxEditorPattern
         implements ComboBoxEditor
     {
-        public ComboBoxEditorPattern( Color errorColor )
+        public ComboBoxEditorPattern( final Color errorColor )
         {
             documentEditor = new PatternDocument( editor, errorColor );
             editor.setDocument( documentEditor );
         }
         @Override
-        public void addActionListener( ActionListener l )
+        public void addActionListener( final ActionListener l )
         {
             editor.addActionListener( l );
         }
         @Override
-        public void removeActionListener( ActionListener l )
+        public void removeActionListener( final ActionListener l )
         {
             editor.removeActionListener( l );
         }
@@ -167,7 +228,7 @@ public class XComboBoxPattern extends XComboBox<String>
             return editor.getText();
         }
         @Override
-        public void setItem( Object anObject )
+        public void setItem( final Object anObject )
         {
             if ( anObject != null ) {
                 editor.setText( anObject.toString() );
