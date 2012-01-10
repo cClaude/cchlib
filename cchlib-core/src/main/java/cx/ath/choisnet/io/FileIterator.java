@@ -30,7 +30,7 @@ public class FileIterator
     private FileFilter fileFilter;
 
     /**
-     * Create a FileIterator started to rootFolderFile
+     * Create a FileIterator starting from rootFolderFile
      * 
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
@@ -41,7 +41,7 @@ public class FileIterator
     }
 
     /**
-     * Create a DirectoryIterator started to rootFolderFile,
+     * Create a FileIterator starting from rootFolderFile,
      * with giving {@link FileFilter} to filter File result.
      * 
      * @param rootFolderFile    Root File directory for this Iterator
@@ -58,7 +58,7 @@ public class FileIterator
     }
 
     /**
-     * Create a DirectoryIterator started to rootFolderFile,
+     * Create a FileIterator starting from rootFolderFile,
      * with giving {@link FileFilter}.
      * 
      * @param rootFolderFile    Root File directory for this Iterator

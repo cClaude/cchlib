@@ -29,7 +29,7 @@ public class DirectoryIterator
     private FileFilter       directoryFileFilter;
 
     /**
-     * Create a DirectoryIterator started to rootFolderFile,
+     * Create a DirectoryIterator starting from rootFolderFile,
      * with no {@link FileFilter}.
      * 
      * @param rootFolderFile root File directory for this Iterator
@@ -41,7 +41,7 @@ public class DirectoryIterator
     }
 
     /**
-     * Create a DirectoryIterator started to rootFolderFile,
+     * Create a DirectoryIterator starting from rootFolderFile,
      * with giving {@link FileFilter}.
      * 
      * @param rootFolderFile    Root File directory for this Iterator
