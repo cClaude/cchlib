@@ -108,7 +108,7 @@ public class ArrayIteratorTest extends TestCase
         test_BuildFromItems( Integer.class, iter, 3 );
     }
 
-    public <T> void test_BuildFromItems( Class<T> clazz, T...items)
+    public <T> void test_BuildFromItems( Class<T> clazz, T[] items)
     {
         ArrayIterator<T> iter = new ArrayIterator<T>(clazz, items[0], items[1]);
         test_BuildFromItems( clazz, iter, 2 );

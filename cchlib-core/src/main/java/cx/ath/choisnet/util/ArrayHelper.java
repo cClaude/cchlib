@@ -1,5 +1,6 @@
 package cx.ath.choisnet.util;
 
+import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -16,16 +17,42 @@ public final class ArrayHelper
     }
 
     /**
+     * Convert varargs in a Array. 
+     *
+     * @param <T>       Type of array
+     * @param entries   List of entry for the array
+     * @return the varargs Array (documented as a new 
+     *         arrays in previous versions)
+     * @since 4.1.5
+     * @deprecated does not check entries content, and did
+     *             not create a shadow copy given values.
+     */
+    @SafeVarargs
+	public static <T> T[] createArray( T...entries )
+    {
+        return entries;
+    }
+    
+    /**
      * Create an Array from giving values
      *
      * @param <T>       Type of array
      * @param entries   List of entry for the array
      * @return the new Array
-     * @since 4.1.5
+     * @since 4.1.6
      */
-    public static <T> T[] createArray( T...entries )
+    @SafeVarargs
+	public static <T> T[] createArray( Class<T> clazz, T...entries )
     {
-        return entries;
+    	//Workaround for: T[] array = new T[ entries.length ];
+    	@SuppressWarnings("unchecked")
+		final T[] array = (T[])Array.newInstance( clazz, entries.length );
+    	
+    	for( int i = 0; i<entries.length; i++ ) {
+    		array[ i ] = entries[ i ];
+    		}
+    	
+        return array;
     }
 
     /**

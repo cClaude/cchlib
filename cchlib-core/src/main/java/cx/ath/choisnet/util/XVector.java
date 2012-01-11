@@ -20,39 +20,71 @@ import java.util.Vector;
  *          ;
  * </pre>
  * 
- * @author Claude CHOISNET
  * @param <E> entries type
  *
  */
 public class XVector<E> extends Vector<E> 
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
      
+    /**
+     * Create an empty XVector
+     */
     public XVector()
     {
         super();
     }
 
+    /**
+     * Create an XVector populate with given collection items
+     *  
+     * @param c {@link Collection} to use to initialize XVector
+     */
     public XVector( Collection<? extends E> c )
     {
         super( c );
     }
 
+    /**
+     * Constructs an empty XVector with the specified initial capacity
+     * and capacity increment.
+     * 
+     * @param initialCapacity the initial capacity of the XVector
+     * @param capacityIncrement the amount by which the capacity is increased when the vector overflows
+     * @throws IllegalArgumentException if the specified initial capacity is
+     *         negative
+     */
     public XVector( int initialCapacity, int capacityIncrement )
     {
         super( initialCapacity, capacityIncrement );
     }
 
+    /**
+     * Constructs an empty XVector with the specified initial capacity
+     * and capacity increment.
+     * 
+     * @param initialCapacity the initial capacity of the XVector
+     * @throws IllegalArgumentException if the specified initial capacity is
+     *         negative
+     */
     public XVector( int initialCapacity )
     {
         super( initialCapacity );
     }
 
-    public XVector(E...elements)
+    /**
+     * Create an XVector populate with given items
+     *  
+     * @param elements Array of element to use to initialize XVector
+     */
+    @SafeVarargs
+	public XVector( final E...elements )
     {
-        for(E element:elements) {
-            add(element);
-        }
+    	super( elements.length );
+    	
+        for( E element : elements ) {
+            add( element );
+        	}
     }
     
     /**
@@ -63,6 +95,7 @@ public class XVector<E> extends Vector<E>
     public XVector<E> xadd( E element )
     {
         super.addElement( element );
+        
         return this;
     }
 
@@ -75,7 +108,7 @@ public class XVector<E> extends Vector<E>
     public XVector<E> xadd( int index, E element )
     {
         super.add( index, element );
+        
         return this;
     }
-    
 }

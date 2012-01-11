@@ -98,7 +98,8 @@ public class MultiIterator<T> extends ComputableIterator<T>
      * 
      * @param arrayOfIterator
      */
-    public MultiIterator(
+    @SafeVarargs
+	public MultiIterator(
             Iterator<? extends T>...arrayOfIterator
             )
     {

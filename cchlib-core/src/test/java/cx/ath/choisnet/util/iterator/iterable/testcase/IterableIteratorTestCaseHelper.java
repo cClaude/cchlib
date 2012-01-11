@@ -24,7 +24,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
    * @param values values to add in Collection
    * @return a Collection populate with values
    */
-    public final static <T> Collection<T> buildCollection(T...values)
+    public final static <T> Collection<T> buildCollection(T[] values)
     {
         List<T> c = new ArrayList<T>(values.length);
 
@@ -62,7 +62,8 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      */
     public final static Collection<Integer> buildDefaultIntegerCollection1()
     {
-        return buildCollection( 0, 1, 2, 3 );
+        //return buildCollection( 0, 1, 2, 3 );
+        return buildCollection( new Integer[]{ 0, 1, 2, 3 });
     }
 
     /**
@@ -71,7 +72,8 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      */
     public final static Collection<Integer> buildDefaultIntegerCollection2()
     {
-        return buildCollection( 4, 5, 6 );
+        //return buildCollection( 4, 5, 6 );
+        return buildCollection( new Integer[]{ 4, 5, 6 });
     }
 
     /**
