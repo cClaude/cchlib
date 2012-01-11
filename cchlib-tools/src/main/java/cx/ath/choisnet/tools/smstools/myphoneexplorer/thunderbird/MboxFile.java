@@ -80,12 +80,12 @@ public class MboxFile
     public static final String READ_WRITE = "rw";
 //    private static final String TEMP_FILE_EXTENSION = ".tmp";
     public static final String FROM__PREFIX = "From ";
-    private static final Pattern VALID_MBOX_PATTERN = java.util.regex.Pattern.compile("^From .*", 32);
-    private static final Pattern FROM__LINE_PATTERN = java.util.regex.Pattern.compile("(\\A|\\n{2}|(\\r\\n){2})^From .*$", 8);
-    private static final Pattern RELAXED_FROM__LINE_PATTERN = java.util.regex.Pattern.compile("^From .*$", 8);
+    private static final Pattern VALID_MBOX_PATTERN = Pattern.compile("^From .*", 32);
+    private static final Pattern FROM__LINE_PATTERN = Pattern.compile("(\\A|\\n{2}|(\\r\\n){2})^From .*$", 8);
+//notuse    private static final Pattern RELAXED_FROM__LINE_PATTERN = Pattern.compile("^From .*$", 8);
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 //    private static java.nio.charset.Charset charset = java.nio.charset.Charset.forName(net.fortuna.mstor.util.Configurator.getProperty("mstor.mbox.encoding", "ISO-8859-1"));
-    private static Charset charset; //= new Charset("ISO-8859-1" );
+    private Charset charset; //= new Charset("ISO-8859-1" );
 //    private org.apache.commons.logging.Log log;
     private CharsetDecoder decoder;
     private CharsetEncoder encoder;
@@ -103,7 +103,7 @@ public class MboxFile
 
     public MboxFile(File file, Charset charset, String mode)
     {
-        this.charset = charset;
+    	this.charset = charset;
 
         decoder = charset.newDecoder();
         encoder = charset.newEncoder();

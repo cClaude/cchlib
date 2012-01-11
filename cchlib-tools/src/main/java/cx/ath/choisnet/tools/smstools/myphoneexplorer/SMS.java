@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 /**
  * SMS content
  * 
- * @author Claude CHOISNET
  */
 public class SMS implements Serializable
 {
@@ -152,7 +151,7 @@ public class SMS implements Serializable
 
                 computedTimeDate = c.getTime();
                 
-                SimpleDateFormat sd = new SimpleDateFormat( DATE_FORMAT_ISO );
+//              SimpleDateFormat sd = new SimpleDateFormat( DATE_FORMAT_ISO );
 
 //                slogger.debug( "->" );
 //                slogger.debug( sd.format( computedTimeDate ) );
