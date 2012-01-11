@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui;
+package cx.ath.choisnet.tools.analysis;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -45,7 +45,7 @@ public class FileCollector
         this(null,null,rootFolderFiles);
     }
 
-    /**
+    /* *
      * Create a DirectoryIterator started to rootFolderFile,
      * with giving {@link FileFilter} to filter File result.
      *
@@ -53,31 +53,31 @@ public class FileCollector
      * @param fileFilter        File filter to select files (any File object)
      *                          than should be in result (could be null).
      * @throws NullPointerException if rootFolderFile is null
-     */
+     * /
     public FileCollector(
             FileFilter  fileFilter,
             File...     rootFolderFiles
             )
     {
         this(fileFilter,null,rootFolderFiles);
-    }
+    }*/
 
     /**
      * Create a DirectoryIterator started to rootFolderFile,
      * with giving {@link FileFilter}.
      *
      * @param rootFolderFile    Root File directory for this Iterator
-     * @param fileFilter        File filter to select files (any File object)
-     *                          than should be in result (could be null).
      * @param directoryFilter   File filter to select directories than should
      *                          be explored (could be null) .
+     * @param fileFilter        File filter to select files (any File object)
+     *                          than should be in result (could be null).
      * @throws NullPointerException if rootFolderFile is null
      * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
     public FileCollector(
-            FileFilter  filesFilter,
-            FileFilter  directoriesFilter,
-            File...     rootFolderFiles
+            final FileFilter  directoriesFilter,
+            final FileFilter  filesFilter,
+            final File...     rootFolderFiles
             )
         throws IllegalArgumentException
     {

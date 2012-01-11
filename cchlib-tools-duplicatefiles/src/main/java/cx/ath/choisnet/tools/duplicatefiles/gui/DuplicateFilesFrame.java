@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -175,6 +176,29 @@ final public class DuplicateFilesFrame
 
         // initDynComponents
         LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+
+        UIManager.addPropertyChangeListener(
+                new PropertyChangeListener()
+                {
+                    @Override
+                    public void propertyChange( PropertyChangeEvent e )
+                    {
+                        if( "lookAndFeel".equals( e.getPropertyName() ) ) {
+                            LookAndFeel oldLAF = LookAndFeel.class.cast( e.getOldValue() );
+                            LookAndFeel newLAF = LookAndFeel.class.cast( e.getNewValue() );
+
+                            if( ! newLAF.equals( oldLAF ) ) {
+                                // TODO extra customization
+                                jPanel1Config.initFixComponents( DuplicateFilesFrame.this );
+
+                                if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
+//                            		DuplicateFilesFrame.this.removeEmptyDirectories.init();
+
+                                    }
+                                }
+                            }
+                    }
+                });
     }
 
     protected void updateDisplayAccordingState()

@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui;
+package cx.ath.choisnet.tools.analysis;
 
 import java.io.File;
 
