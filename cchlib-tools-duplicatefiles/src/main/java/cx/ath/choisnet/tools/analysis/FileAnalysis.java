@@ -20,7 +20,31 @@ public class FileAnalysis
     private Writer writerIgnore;
     private FileFilter directoryFilter;
     private FileFilter fileFilter;
-
+    private FileCollector fileCollector;
+    
+    /**
+     * 
+     * @param commonOutputDirFile
+     * @throws IOException
+     */
+    public FileAnalysis(
+    	final File commonOutputDirFile
+    	) throws IOException
+    {
+    	this(
+    		new File( commonOutputDirFile, ".FileAnalysis" + ".files" ),
+    		new File( commonOutputDirFile, ".FileAnalysis" + ".dirs" ),
+    		new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" )
+    		);
+    }
+    
+    /**
+     * 
+     * @param outputFileFiles
+     * @param outputFileDirs
+     * @param outputFileIgnored
+     * @throws IOException
+     */
     public FileAnalysis(
         final File outputFileFiles,
         final File outputFileDirs,
@@ -42,22 +66,42 @@ public class FileAnalysis
         };
     }
 
+    /**
+     * 
+     */
     public void start()
     {
         logger.info( "Start: " + new Date( System.currentTimeMillis()) );
 
-        FileCollector fc 	= new FileCollector(
+        this.fileCollector = new FileCollector(
                 directoryFilter,
                 fileFilter,
                 File.listRoots()
                 );
         FileAnalysisVisitor fce = new FileAnalysisVisitor( writerDirs, writerFile );
 
-        fc.walk( fce );
+        this.fileCollector.walk( fce );
 
         logger.info( "Done: " + new Date( System.currentTimeMillis()) );
     }
 
+	protected void stop() 
+	{
+        logger.info( "stop(): " + new Date( System.currentTimeMillis()) );
+		
+        if( this.fileCollector != null ) {
+			this.fileCollector.cancel();
+			
+			try {
+				Thread.sleep( 2 * 1000 );
+				}
+			catch(InterruptedException ignore) {}
+			}
+	}
+	
+    /**
+     * 
+     */
     public void close()
     {
         if( writerIgnore != null ) {
@@ -90,29 +134,37 @@ public class FileAnalysis
 
     public static void main( final String[] args )
     {
-        File outputFile;
-        File outputDirs;
-        File outputIgnore;
+    	File outputDirectory = new File( "." );
+//        File outputFile;
+//        File outputDirs;
+//        File outputIgnore;
+//
+//        try {
+//            outputFile 		= File.createTempFile( "FileCollectorTst",".files");
+//            outputDirs 		= File.createTempFile( "FileCollectorTst",".dirs");
+//            outputIgnore	= File.createTempFile( "FileCollectorTst",".ignore");
+//            }
+//        catch( IOException e ) {
+//            logger.error( "Init error", e );
+//            return;
+//            }
 
         try {
-            outputFile 		= File.createTempFile( "FileCollectorTst",".files");
-            outputDirs 		= File.createTempFile( "FileCollectorTst",".dirs");
-            outputIgnore	= File.createTempFile( "FileCollectorTst",".ignore");
-            }
-        catch( IOException e ) {
-            logger.error( "Init error", e );
-            return;
-            }
-
-        try {
-            FileAnalysis fa = new FileAnalysis(
-                    outputFile,
-                    outputDirs,
-                    outputIgnore
-                    );
+//            FileAnalysis fa = new FileAnalysis(
+//                    outputFile,
+//                    outputDirs,
+//                    outputIgnore
+//                    );
+            final FileAnalysis fa = new FileAnalysis( outputDirectory );
 
             fa.start();
             fa.close();
+            
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                	fa.stop();
+                	}
+             });
             }
         catch( IOException e ) {
             logger.error( "I/O error", e );
@@ -122,62 +174,4 @@ public class FileAnalysis
             }
     }
 
-    static class FileAnalysisVisitor implements FileCollectorVisitor
-    {
-        private static final Logger logger = Logger.getLogger( FileAnalysisVisitor.class );
-        private Writer outDir;
-        private Writer outFile;
-        private StringBuilder sb = new StringBuilder();
-
-        public FileAnalysisVisitor(
-            final Writer outDir,
-            final Writer outFile
-            )
-        {
-            this.outDir 	= outDir;
-            this.outFile	= outFile;
-        }
-        @Override
-        public void openRootDirectory( final File rootDirectoryFile )
-        {
-            sb.setLength( 0 );
-            sb.append( "Exploring: " );
-            sb.append( rootDirectoryFile );
-            logger.info( sb.toString() );
-        }
-        @Override
-        public void openDirectory( final File directoryFile )
-        {
-            sb.setLength( 0 );
-            sb.append( "D||||" );
-            sb.append( directoryFile );
-            sb.append( "\n" );
-
-            try {
-                outDir.write( sb.toString() );
-                }
-            catch( IOException e ) {
-                throw new RuntimeException( "Error writing to output", e );
-                }
-        }
-        @Override
-        public void discoverFile( final File file )
-        {
-            sb.setLength( 0 );
-            sb.append( "F|" );
-            sb.append( file.length() );
-            sb.append( "|" );
-            sb.append( file.lastModified() );
-            sb.append( "||" ); // space for MD5
-            sb.append( file.getPath() );
-            sb.append( "\n" );
-
-            try {
-                outFile.write( sb.toString() );
-                }
-            catch( IOException e ) {
-                throw new RuntimeException( "Error writing to output", e );
-                }
-        }
-    };
 }

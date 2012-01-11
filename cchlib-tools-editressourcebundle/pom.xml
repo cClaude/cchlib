@@ -7,10 +7,8 @@
     <version>4.1.6-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib-tools-editressourcebundle</artifactId>
   <name>cchlib-tools-editressourcebundle</name>
-  <version>4.1.6-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <dependencies>
