@@ -14,7 +14,8 @@ import cx.ath.choisnet.swing.XComboBoxPattern;
 public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder
 {
-    private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
     private PropertiesFile propertiesFile;
     private String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;

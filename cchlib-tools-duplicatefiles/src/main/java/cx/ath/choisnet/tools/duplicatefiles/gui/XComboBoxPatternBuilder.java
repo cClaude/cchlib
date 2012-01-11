@@ -1,9 +1,7 @@
-/**
- *
- */
 package cx.ath.choisnet.tools.duplicatefiles.gui;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -13,7 +11,7 @@ import cx.ath.choisnet.swing.XComboBoxPattern;
 /**
  *
  */
-public class XComboBoxPatternBuilder
+public class XComboBoxPatternBuilder implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private Color 				errorColor	= null;
