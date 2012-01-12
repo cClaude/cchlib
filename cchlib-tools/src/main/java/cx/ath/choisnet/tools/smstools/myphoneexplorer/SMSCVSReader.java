@@ -15,7 +15,6 @@ import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * 
- * @author Claude CHOISNET
  */
 public class SMSCVSReader
     implements Closeable
