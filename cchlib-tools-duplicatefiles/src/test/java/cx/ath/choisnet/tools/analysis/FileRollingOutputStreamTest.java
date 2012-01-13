@@ -14,10 +14,25 @@ public class FileRollingOutputStreamTest
 {
     private final static Logger logger = Logger.getLogger( FileRollingOutputStreamTest.class );
 
+    final static byte[]	BUFFER 			= new byte[ 30 ];
+    final static int    BUFFER_OFFSET	= BUFFER.length / 3;
+    final static int    LEN    			= BUFFER.length / 6;
+
+    static {
+    	for( int i = 0; i<BUFFER.length; i++ ) {
+    		BUFFER[ i ] = (byte)(0x30 + i);
+        	}
+    	}
+    
     @Test
     public void test1FileRollingOutputStream() throws IOException
     {
         testFileRollingOutputStream( 4096 );
+    }
+
+    @Test
+    public void test2FileRollingOutputStream() throws IOException
+    {
         testFileRollingOutputStream( 5 ); // 5 bytes only :)
     }
 
@@ -25,37 +40,35 @@ public class FileRollingOutputStreamTest
         final int maxsize
         ) throws IOException
     {
-        final File         file    = File.createTempFile("FileRollingOutputStreamTest", null);
+        final File file = File.createTempFile(
+        		"FileRollingOutputStreamTest", 
+        		""
+        		);
 
         logger.info( "work with " + file );
         logger.info( "maxsize " + maxsize );
 
-        final byte[]     b     = new byte[ 30 ];
-        final int         off    = 10;
-        final int         len    = 5;
-
-        for( int i = 0; i<b.length; i++ ) {
-            b[ i ] = (byte)(0x30 + i);
-            }
-
         FileRollingOutputStream os = new FileRollingOutputStream( file, maxsize );
 
-        os.write( b[ 0 ] );
+        os.write( BUFFER[ 0 ] );
         int l = 1;
         Assert.assertEquals( l, os.length() );
         Assert.assertEquals( l, os.currentLength() );
 
-        os.write( b );
+        os.write( BUFFER );
         os.flush();
-        l += b.length;
+        l += BUFFER.length;
         Assert.assertEquals( l, os.length() );
-        //Assert.assertEquals( l % maxsize, os.currentLength() );
+        
+        logger.info( "os.length() = " + os.length() );
+        logger.info( "os.currentLength() = " + os.currentLength() );
+        Assert.assertEquals( l % maxsize, os.currentLength() );
 
-        os.write( b, off, len );
-        l += len;
+        os.write( BUFFER, BUFFER_OFFSET, LEN );
+        l += LEN;
         os.flush();
         Assert.assertEquals( l, os.length() );
-        //Assert.assertEquals( l, os.currentLength() );
+        Assert.assertEquals( l, os.currentLength() );
 
         os.flush();
         os.close();
@@ -69,6 +82,7 @@ public class FileRollingOutputStreamTest
             logger.info( "result in " + f );
             filelen += f.length();
             }
+
         Assert.assertEquals( filelen, os.length() );
     }
 }
