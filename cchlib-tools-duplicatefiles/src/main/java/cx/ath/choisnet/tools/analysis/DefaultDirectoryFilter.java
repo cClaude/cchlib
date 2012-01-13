@@ -17,31 +17,30 @@ class DefaultDirectoryFilter implements FileFilter
 {
     private final static Logger logger = Logger.getLogger( DefaultDirectoryFilter.class );
     private final StringBuilder sb = new StringBuilder();
-    private final String[] DIR_PATH_TO_IGNORE_FROM_ENV = {
-        	"ProgramFiles",
-        	"SystemRoot"
-        	};	
-    private final String[] DIR_PATH_TO_IGNORE = {
-        	};	
-    private final String[] dirPathToIgnore;
-    private final String[] dirNameToIgnore = {
-        //"program files".toLowerCase(), // FIME: use %ProgramFiles%
-        //"windows".toLowerCase(), // FIME: user %SystemRoot%
-        "i386".toLowerCase(),
-        "temporary internet files".toLowerCase(),
-        "apache software foundation".toLowerCase(),
-        "system volume information".toLowerCase(), // NTFS (under root)
-        "recycler".toLowerCase(), // NTFS (under root)
-        "Recycled".toLowerCase(), // FAT32 (under root)
-        
-        "drivers".toLowerCase(),
-        "apps".toLowerCase(),
+    private final Writer writerIgnore;
 
-        ".eclipse".toLowerCase(),
-        };
-    private final String[] endWithToIgnore = {
+    //
+    // Full path matching
+    //
+    private final static String[] DIR_PATH_TO_IGNORE_FROM_ENV = {
+            "ProgramFiles",
+            "SystemRoot"
+            };
+    private final static String[] DIR_PATH_TO_IGNORE = {
+            };
+    /** Exclude directory matching with this full path */
+    private final String[] dirPathToIgnore;
+
+    //
+    // End of Path matching
+    //
+    private final String[] DIR_PATH_END_WITH_TO_IGNORE = {
+        // Windows
+        "\\application data\\microsoft",
+        "\\Temporary Files",
+
+        // Standards
         "\\application data\\mozilla\\firefox".toLowerCase(),
-        "\\application data\\microsoft".toLowerCase(),
         "\\application data\\thunderbird".toLowerCase(),
         "\\application data\\google".toLowerCase(),
         "\\application data\\sun\\java".toLowerCase(),
@@ -51,8 +50,11 @@ class DefaultDirectoryFilter implements FileFilter
         "\\application data\\adobe".toLowerCase(),
         "\\Application Data\\Kaspersky Lab\\".toLowerCase(),
         "\\Application Data\\Symantec".toLowerCase(),
-        "\\Temporary Files".toLowerCase(),
-        
+
+        // Genetics
+        "\\data\\java".toLowerCase(),
+
+        // Java/Dev
         "\\jre\\lib".toLowerCase(),
         "\\docs\\manual".toLowerCase(), // doc files
         "\\javadoc".toLowerCase(), // doc files
@@ -63,48 +65,112 @@ class DefaultDirectoryFilter implements FileFilter
         "\\src\\org".toLowerCase(), // sources files
         "\\src\\java".toLowerCase(), // sources files mvn
         "\\src\\test".toLowerCase(), // sources files mvn
-        
+
         "\\cygwin\\usr".toLowerCase(),
 
         "\\workspace\\.metadata".toLowerCase(),
         "\\.metadata\\.plugins".toLowerCase(),
         "\\.m2\\repository".toLowerCase(),
+        };
+    private final String[] pathEndWithToIgnore = new String[ DIR_PATH_END_WITH_TO_IGNORE.length ];
 
-        "\\data\\java".toLowerCase()
+    //
+    // Full path RegExp matching
+    //
+    private final static String[] PATH_REGEXP_TO_IGNORE = {
+        ".\\\\System Volume Information", // NTFS/FAT32 (under root)
+        ".\\\\Recycler", // NTFS (under root)
+        ".\\\\Recycled", // FAT32 (under root)
+
+        ".*\\\\oracle\\\\ora.*",
+        };
+    private final Pattern[] pathPatternsToIgnore = new Pattern[PATH_REGEXP_TO_IGNORE.length];
+
+    //
+    // Name matching
+    //
+    private final static String[] DIR_NAME_TO_IGNORE = {
+        // Windows
+        "temporary internet files",
+
+        // Standards
+        ".eclipse",
+        "apache software foundation",
+
+        // Genetics
+        "i386",
+        "drivers",
+        "apps",
+        "Tutorials",
+        "plugins",
+        };
+    private final String[] dirNameToIgnore = new String[DIR_NAME_TO_IGNORE.length];;
+
+    //
+    // Name RegExp matching
+    //
+    private final static String[] NAME_REX_EXP_TO_IGNORE = {
+        "apache-tomcat-.*",
+        "apache-ant-.*,"
         };
 
-    private final static String[] PATH_REGEXP = {
-    	".*\\\\oracle\\\\ora.*",
-        };
-    private final Pattern[] pathPatterns = new Pattern[PATH_REGEXP.length];
-	private Writer writerIgnore;
-
-	/**
-	 * 
-	 * @param writerIgnore
-	 */
+    /**
+     *
+     * @param writerIgnore
+     */
     public DefaultDirectoryFilter( final Writer writerIgnore )
     {
-    	this.writerIgnore = writerIgnore;
+        this.writerIgnore = writerIgnore;
 
-    	final ArrayList<String> tmpList = new ArrayList<String>();
-    	
-    	for( String envname : DIR_PATH_TO_IGNORE ) {
-    		String value = System.getenv( envname );
-    		
-    		if( value != null ) {
-    			tmpList.add( value.toLowerCase() );
-    			}
-    		}
-    	for( String path : DIR_PATH_TO_IGNORE_FROM_ENV ) {
-    		tmpList.add( path.toLowerCase() );
-    		}
+        final ArrayList<String> tmpList = new ArrayList<String>();
 
-    	dirPathToIgnore = tmpList.toArray( new String[ tmpList.size() ]);
+        // Path to ignore (read from environment vars)
+        for( String envname : DIR_PATH_TO_IGNORE_FROM_ENV ) {
+            String value = System.getenv( envname );
 
-        for( int i = 0; i<PATH_REGEXP.length; i++ ) {
-            pathPatterns[ i ] = Pattern.compile( PATH_REGEXP[ i ] );
+            if( value == null ) {
+                logger.warn( "Var not found: " + envname );
+                }
+            else {
+                tmpList.add( value.toLowerCase() );
+
+                logger.trace( "Var: " + envname + " = " + value );
+                }
             }
+        for( String path : DIR_PATH_TO_IGNORE ) {
+            tmpList.add( path.toLowerCase() );
+            }
+
+        dirPathToIgnore = tmpList.toArray( new String[ tmpList.size() ]);
+
+        for( String p2i : dirPathToIgnore ) {
+            logger.debug( "dirPathToIgnore (env & static): " + p2i );
+            }
+
+        // Path RegExp filter
+        for( int i = 0; i<PATH_REGEXP_TO_IGNORE.length; i++ ) {
+            pathPatternsToIgnore[ i ] = Pattern.compile(
+                                    PATH_REGEXP_TO_IGNORE[ i ],
+                                    Pattern.CASE_INSENSITIVE
+                                    );
+
+            logger.debug( "pathPatternsToIgnore[" + i + "]: " + pathPatternsToIgnore[ i ] );
+            }
+
+        // full path endWith to ignore
+        for( int i = 0; i<DIR_PATH_END_WITH_TO_IGNORE.length; i++ ) {
+            pathEndWithToIgnore[ i ] = DIR_PATH_END_WITH_TO_IGNORE[ i ].toLowerCase();
+
+            logger.debug( "pathEndWithToIgnore[" + i + "]: " + pathEndWithToIgnore[ i ] );
+            }
+
+        // Name to ignore
+        for( int i = 0; i<DIR_NAME_TO_IGNORE.length; i++ ) {
+            dirNameToIgnore[ i ] = DIR_NAME_TO_IGNORE[ i ].toLowerCase();
+
+            logger.debug( "dirNameToIgnore[" + i + "]: " + dirNameToIgnore[ i ] );
+            }
+
     }
 
     @Override
@@ -124,14 +190,14 @@ class DefaultDirectoryFilter implements FileFilter
                 try {
                     this.writerIgnore.write( sb.toString() );
                     }
-                catch (IOException e) {
-                    logger.warn( sb.toString() );
+                catch( IOException e ) {
+                    logger.error( sb.toString(), e );
                     }
 
                 return false;
                 }
             }
-        
+
         for( String s : dirNameToIgnore ) {
             if( s.equals( nlc ) ) {
                 sb.setLength( 0 );
@@ -142,15 +208,15 @@ class DefaultDirectoryFilter implements FileFilter
                 try {
                     this.writerIgnore.write( sb.toString() );
                     }
-                catch (IOException e) {
-                    logger.warn( sb.toString() );
+                catch( IOException e ) {
+                    logger.error( sb.toString(), e );
                     }
 
                 return false;
                 }
             }
 
-        for( String s : endWithToIgnore ) {
+        for( String s : pathEndWithToIgnore ) {
             if( plc.endsWith( s ) ) {
                 sb.setLength( 0 );
                 sb.append( "DIEOP||||" ); // DirectoryIgnoreEndOfPath
@@ -160,16 +226,16 @@ class DefaultDirectoryFilter implements FileFilter
                 try {
                     this.writerIgnore.write( sb.toString() );
                     }
-                catch (IOException e) {
-                    logger.warn( sb.toString() );
+                catch( IOException e ) {
+                    logger.error( sb.toString(), e );
                     }
 
                 return false;
                 }
             }
 
-        for( Pattern pattern : pathPatterns ) {
-        	if( pattern.matcher( plc ).matches() ) {
+        for( Pattern pattern : pathPatternsToIgnore ) {
+            if( pattern.matcher( plc ).matches() ) {
                 sb.setLength( 0 );
                 sb.append( "DIRE||||" ); // DirectoryIgnoreRegExp
                 sb.append( path );
@@ -178,13 +244,13 @@ class DefaultDirectoryFilter implements FileFilter
                 try {
                     this.writerIgnore.write( sb.toString() );
                     }
-                catch (IOException e) {
-                    logger.warn( sb.toString() );
+                catch( IOException e ) {
+                    logger.error( sb.toString(), e );
                     }
 
                 return false;
-        		}
-        	}
+                }
+            }
 
         return true;
     }
