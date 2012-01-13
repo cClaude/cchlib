@@ -21,25 +21,25 @@ public class FileAnalysis
     private FileFilter directoryFilter;
     private FileFilter fileFilter;
     private FileCollector fileCollector;
-    
+
     /**
-     * 
+     *
      * @param commonOutputDirFile
      * @throws IOException
      */
     public FileAnalysis(
-    	final File commonOutputDirFile
-    	) throws IOException
+        final File commonOutputDirFile
+        ) throws IOException
     {
-    	this(
-    		new File( commonOutputDirFile, ".FileAnalysis" + ".files" ),
-    		new File( commonOutputDirFile, ".FileAnalysis" + ".dirs" ),
-    		new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" )
-    		);
+        this(
+            new File( commonOutputDirFile, ".FileAnalysis" + ".files" ),
+            new File( commonOutputDirFile, ".FileAnalysis" + ".dirs" ),
+            new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" )
+            );
     }
-    
+
     /**
-     * 
+     *
      * @param outputFileFiles
      * @param outputFileDirs
      * @param outputFileIgnored
@@ -51,9 +51,17 @@ public class FileAnalysis
         final File outputFileIgnored
         ) throws IOException
     {
-        this.writerFile 	= new BufferedWriter( new FileWriter( outputFileFiles ) );
-        this.writerDirs		= new BufferedWriter( new FileWriter( outputFileDirs ) );
-        this.writerIgnore	= new BufferedWriter( new FileWriter( outputFileIgnored ) );
+        //this.writerFile 	= new BufferedWriter( new FileWriter( outputFileFiles ) );
+        FileRoller frFiles 	= new DefaultFileRoller( outputFileFiles );
+        this.writerFile 	= new FileRollingWriter( frFiles, 10 * 1024 * 1024 );
+
+        //this.writerDirs		= new BufferedWriter( new FileWriter( outputFileDirs ) );
+        FileRoller frDirs	= new DefaultFileRoller( outputFileDirs );
+        this.writerDirs		= new FileRollingWriter( frDirs, 1024 * 1024 );
+
+        //this.writerIgnore	= new BufferedWriter( new FileWriter( outputFileIgnored ) );
+        FileRoller frIgnore	= new DefaultFileRoller( outputFileIgnored );
+        this.writerIgnore	= new FileRollingWriter( frIgnore, 256 * 1024 );
 
         this.directoryFilter = new DefaultDirectoryFilter( writerIgnore );
         this.fileFilter 	 = new FileFilter()
@@ -67,7 +75,7 @@ public class FileAnalysis
     }
 
     /**
-     * 
+     *
      */
     public void start()
     {
@@ -85,22 +93,22 @@ public class FileAnalysis
         logger.info( "Done: " + new Date( System.currentTimeMillis()) );
     }
 
-	protected void stop() 
-	{
+    protected void stop()
+    {
         logger.info( "stop(): " + new Date( System.currentTimeMillis()) );
-		
+
         if( this.fileCollector != null ) {
-			this.fileCollector.cancel();
-			
-			try {
-				Thread.sleep( 2 * 1000 );
-				}
-			catch(InterruptedException ignore) {}
-			}
-	}
-	
+            this.fileCollector.cancel();
+
+            try {
+                Thread.sleep( 2 * 1000 );
+                }
+            catch(InterruptedException ignore) {}
+            }
+    }
+
     /**
-     * 
+     *
      */
     public void close()
     {
@@ -134,7 +142,7 @@ public class FileAnalysis
 
     public static void main( final String[] args )
     {
-    	File outputDirectory = new File( "." );
+        File outputDirectory = new File( "." );
 //        File outputFile;
 //        File outputDirs;
 //        File outputIgnore;
@@ -159,11 +167,11 @@ public class FileAnalysis
 
             fa.start();
             fa.close();
-            
+
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
-                	fa.stop();
-                	}
+                    fa.stop();
+                    }
              });
             }
         catch( IOException e ) {

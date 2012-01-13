@@ -19,11 +19,11 @@ public class FileRollingOutputStreamTest
     final static int    LEN    			= BUFFER.length / 6;
 
     static {
-    	for( int i = 0; i<BUFFER.length; i++ ) {
-    		BUFFER[ i ] = (byte)(0x30 + i);
-        	}
-    	}
-    
+        for( int i = 0; i<BUFFER.length; i++ ) {
+            BUFFER[ i ] = (byte)(0x30 + i);
+            }
+        }
+
     @Test
     public void test1FileRollingOutputStream() throws IOException
     {
@@ -36,53 +36,83 @@ public class FileRollingOutputStreamTest
         testFileRollingOutputStream( 5 ); // 5 bytes only :)
     }
 
+    @Test
+    public void test3FileRollingOutputStream() throws IOException
+    {
+        testFileRollingOutputStream( 35 );
+        testFileRollingOutputStream( 36 );
+        testFileRollingOutputStream( 37 );
+    }
+
     public void testFileRollingOutputStream(
         final int maxsize
         ) throws IOException
     {
+        final String assertMsgPrefix = "max:" + maxsize + " ->";
         final File file = File.createTempFile(
-        		"FileRollingOutputStreamTest", 
-        		""
-        		);
+                "FileRollingOutputStreamTest",
+                ""
+                );
+        final FileRoller fileRoller = new DefaultFileRoller( file );
 
         logger.info( "work with " + file );
         logger.info( "maxsize " + maxsize );
 
-        FileRollingOutputStream os = new FileRollingOutputStream( file, maxsize );
+        FileRollingOutputStream os = new FileRollingOutputStream( fileRoller, maxsize );
 
         os.write( BUFFER[ 0 ] );
         int l = 1;
-        Assert.assertEquals( l, os.length() );
-        Assert.assertEquals( l, os.currentLength() );
+        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        //Assert.assertEquals( assertMsgPrefix, l, os.currentLength() );
 
         os.write( BUFFER );
-        os.flush();
         l += BUFFER.length;
-        Assert.assertEquals( l, os.length() );
-        
-        logger.info( "os.length() = " + os.length() );
-        logger.info( "os.currentLength() = " + os.currentLength() );
-        Assert.assertEquals( l % maxsize, os.currentLength() );
+        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+
+        //logger.info( "os.currentLength() = " + os.currentLength() );
+        //Assert.assertEquals( assertMsgPrefix, l % maxsize, os.currentLength() );
 
         os.write( BUFFER, BUFFER_OFFSET, LEN );
         l += LEN;
-        os.flush();
-        Assert.assertEquals( l, os.length() );
-        Assert.assertEquals( l, os.currentLength() );
+        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        //Assert.assertEquals( assertMsgPrefix, l, os.currentLength() );
 
         os.flush();
+        //Assert.assertNotNull( os.getCurrentFile() );
+
+        logger.info(
+            assertMsgPrefix
+                + "os.length() after flush = "
+                + os.length()
+            );
+
         os.close();
+        //Assert.assertNull( os.getCurrentFile() );
 
-        Assert.assertEquals( 0, os.currentLength() );
-        Assert.assertEquals( l, os.length() );
+        //Assert.assertEquals( assertMsgPrefix, 0, os.currentLength() );
+        Assert.assertEquals( assertMsgPrefix, l, os.length() );
 
         int filelen = 0;
-        
+
         for( File f : os.getFileList() ) {
-            logger.info( "result in " + f );
+            logger.info(
+                assertMsgPrefix
+                    + "result in " + f
+                    + " (" + f.length() + ")"
+                );
             filelen += f.length();
+
+            if( f.length() > maxsize ) {
+                logger.warn(
+                    assertMsgPrefix
+                        + " length found is " + f.length()
+                        );
+                }
+
+            f.delete(); // cleanup
             }
 
-        Assert.assertEquals( filelen, os.length() );
+        Assert.assertEquals( assertMsgPrefix, filelen, os.length() );
+        Assert.assertEquals( assertMsgPrefix, os.getMaxLength(), maxsize );
     }
 }

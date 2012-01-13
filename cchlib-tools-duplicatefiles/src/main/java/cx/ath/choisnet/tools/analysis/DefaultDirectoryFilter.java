@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 
 /**
