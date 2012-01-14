@@ -21,7 +21,8 @@ import javax.swing.UIManager;
  * </p>
  * 
  * @author Jan Goyvaerts
- * @version 1.0
+ * @author Claude CHOISNET
+ * @version 1.1
  */
 
 public class RegexApp
@@ -63,10 +64,10 @@ public class RegexApp
             UIManager.setLookAndFeel( 
                     UIManager.getSystemLookAndFeelClassName() 
                     );
-        }
+            }
         catch( Exception e ) {
             e.printStackTrace();
-        }
+            }
         new RegexApp();
     }
 }

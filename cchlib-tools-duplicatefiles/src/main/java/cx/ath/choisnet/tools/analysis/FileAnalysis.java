@@ -1,13 +1,12 @@
 package cx.ath.choisnet.tools.analysis;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
 
 /**
  *
@@ -93,18 +92,17 @@ public class FileAnalysis
         logger.info( "Done: " + new Date( System.currentTimeMillis()) );
     }
 
-    protected void stop()
+    protected CancelState stop()
     {
-        logger.info( "stop(): " + new Date( System.currentTimeMillis()) );
+        logger.info( "stop() recipe: " + new Date( System.currentTimeMillis()) );
 
         if( this.fileCollector != null ) {
             this.fileCollector.cancel();
-
-            try {
-                Thread.sleep( 2 * 1000 );
-                }
-            catch(InterruptedException ignore) {}
+            
+            return this.fileCollector.getCancelState();
             }
+        
+        return null;
     }
 
     /**
@@ -170,7 +168,20 @@ public class FileAnalysis
 
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
-                    fa.stop();
+                    CancelState cs = fa.stop();
+                    fa.close();
+                    logger.info( "ShutdownHook CancelState=" + cs );
+                    
+                    if( cs != null ) {
+                        // TODO: store cs !!!
+                        
+                        try {
+                            Thread.sleep( 2 * 1000 );
+                            }
+                        catch(InterruptedException ignore) {}
+                            }
+
+                    logger.info( "ShutdownHook done" + new Date( System.currentTimeMillis()) );
                     }
              });
             }

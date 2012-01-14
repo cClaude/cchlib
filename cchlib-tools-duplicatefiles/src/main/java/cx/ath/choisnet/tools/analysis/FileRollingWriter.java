@@ -128,7 +128,7 @@ public class FileRollingWriter
     public void flush() throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( "Writer closed" );
             }
 
         currentOutput.flush();
@@ -145,7 +145,7 @@ public class FileRollingWriter
     public void write(char[] cbuf, int off, int len) throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( len );
@@ -162,8 +162,8 @@ public class FileRollingWriter
     @Override
     public void write( char[] b ) throws IOException
     {
-        if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+        if( this.currentOutput == null ) {
+            throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( b.length );
@@ -176,8 +176,8 @@ public class FileRollingWriter
     @Override
     public void write( int b ) throws IOException
     {
-        if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+        if( this.currentOutput == null ) {
+            throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( 1 );
@@ -191,8 +191,8 @@ public class FileRollingWriter
      */
     public void roolNow() throws IOException
     {
-        if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+        if( this.currentOutput == null ) {
+            throw new IOException( "Writer closed" );
             }
 
         roolToNewFile();
@@ -236,6 +236,6 @@ public class FileRollingWriter
      */
     public boolean isClose()
     {
-        return this.isClose;
+        return currentOutput == null;
     }
 }

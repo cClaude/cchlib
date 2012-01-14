@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -22,6 +23,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 //import javax.swing.*;
 import javax.swing.JPanel;
+import javax.swing.JEditorPane;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
+import com.googlecode.cchlib.awt.DesktopHelper;
+import com.googlecode.cchlib.awt.PlateformeDesktopNotSupportedException;
 
 /**
  * <p>
@@ -47,31 +53,31 @@ import javax.swing.JPanel;
  * HREF="http://www.regular-expressions.info"
  * >http://www.regular-expressions.info</A>.
  * </p>
- * 
+ *
  * @author Jan Goyvaerts
  * @version 1.0
  */
 
-public class RegexFrame extends JFrame 
+public class RegexFrame extends JFrame implements HyperlinkListener
 {
     private static final long serialVersionUID = 1L;
 
-    JPanel       contentPane;
-    BorderLayout borderLayout1         = new BorderLayout();
-    JSplitPane   jSplitPane1           = new JSplitPane();
-    JSplitPane   jSplitPane2           = new JSplitPane();
-    JPanel       jPanel1               = new JPanel();
-    BorderLayout borderLayout2         = new BorderLayout();
-    JPanel       jPanel2               = new JPanel();
-    JLabel       jLabel1               = new JLabel();
-    BorderLayout borderLayout3         = new BorderLayout();
-    JLabel       jLabel2               = new JLabel();
-    JTextArea    textRegex             = new JTextArea();
-    JPanel       jPanel3               = new JPanel();
-    GridLayout   gridLayout1           = new GridLayout();
-    JCheckBox    checkDotAll           = new JCheckBox();
-    JCheckBox    checkCanonEquivalence = new JCheckBox();
-    JCheckBox    checkMultiLine        = new JCheckBox();
+    JPanel          contentPane;
+    BorderLayout    borderLayout1         = new BorderLayout();
+    JSplitPane      jSplitPane1           = new JSplitPane();
+    JSplitPane      jSplitPane2           = new JSplitPane();
+    JPanel          jPanel1               = new JPanel();
+    BorderLayout    borderLayout2         = new BorderLayout();
+    JPanel          jPanel2               = new JPanel();
+    JLabel          jLabel1             = new JLabel();
+    BorderLayout    borderLayout3       = new BorderLayout();
+    JEditorPane     jEditorPane_Info    = new JEditorPane();
+    JTextArea       textRegex           = new JTextArea();
+    JPanel          jPanel3               = new JPanel();
+    GridLayout      gridLayout1           = new GridLayout();
+    JCheckBox       checkDotAll           = new JCheckBox();
+    JCheckBox       checkCanonEquivalence = new JCheckBox();
+    JCheckBox       checkMultiLine        = new JCheckBox();
     JCheckBox    checkCaseInsensitive  = new JCheckBox();
     JPanel       jPanel4               = new JPanel();
     BorderLayout borderLayout4         = new BorderLayout();
@@ -125,7 +131,7 @@ public class RegexFrame extends JFrame
         contentPane.setLayout( borderLayout1 );
         this.setFont( new java.awt.Font( "Dialog", 0, 12 ) );
         this.setSize( new Dimension( 629, 523 ) );
-        this.setTitle( "Regular Expressions Demo" );
+        this.setTitle( "Regular Expressions Tester" );
         jPanel1.setAlignmentY( (float)0.5 );
         jPanel1.setLayout( borderLayout2 );
         jSplitPane1.setOrientation( JSplitPane.VERTICAL_SPLIT );
@@ -137,7 +143,10 @@ public class RegexFrame extends JFrame
         jLabel1.setMinimumSize( new Dimension( 97, 15 ) );
         jLabel1.setLabelFor( textRegex );
         jLabel1.setText( "Regular Expression:" );
-        jLabel2.setText( "Visit http://www.regular-expressions.info for a complete regex tutorial" );
+        jEditorPane_Info.addHyperlinkListener( this );
+        jEditorPane_Info.setEditable(false);
+        jEditorPane_Info.setContentType("text/html");
+        jEditorPane_Info.setText( "<html>Visit <a href=\"http://www.regular-expressions.info\">http://www.regular-expressions.info</a> for a complete regex tutorial</html>" );
         textRegex.setFont( new java.awt.Font( "Monospaced", 0, 12 ) );
         textRegex.setBorder( BorderFactory.createLoweredBevelBorder() );
         textRegex.setText( "t[a-z]+" );
@@ -247,7 +256,7 @@ public class RegexFrame extends JFrame
         jSplitPane1.add( jPanel1, JSplitPane.LEFT );
         jPanel1.add( jPanel2, BorderLayout.NORTH );
         jPanel2.add( jLabel1, BorderLayout.CENTER );
-        jPanel2.add( jLabel2, BorderLayout.EAST );
+        jPanel2.add( jEditorPane_Info, BorderLayout.EAST );
         jPanel1.add( textRegex, BorderLayout.CENTER );
         jPanel1.add( jPanel3, BorderLayout.SOUTH );
         jPanel3.add( checkDotAll, null );
@@ -299,14 +308,14 @@ public class RegexFrame extends JFrame
      * expression to it. It is not possible to set matching options this way, so
      * the checkboxes in this demo are ignored when clicking btnMatch.
      * <p>
-     * 
+     *
      * One disadvantage of this method is that it will only return true if the
      * regex matches the *entire* string. In other words, an implicit caret is
      * prepended to the regex and an implicit dollar sign is appended to it. So
      * you cannot use matches() to test if a substring anywhere in the string
      * matches the regex.
      * <p>
-     * 
+     *
      * Note that when typing in a regular expression into textSubject,
      * backslashes are interpreted at the regex level. So typing in \( will
      * match a literal ( character and \\ matches a literal backslash. When
@@ -342,24 +351,24 @@ public class RegexFrame extends JFrame
      * expression with the replacement string, while replaceFirst() will only
      * replace the first match.
      * <p>
-     * 
+     *
      * Again, you cannot set matching options this way, so the checkboxes in
      * this demo are ignored when clicking btnMatch.
      * <p>
-     * 
+     *
      * In the replacement text, you can use $0 to insert the entire regex match,
      * and $1, $2, $3, etc. for the backreferences (text matched by the part in
      * the regex between the first, second, third, etc. pair of round brackets)<br>
      * \$ inserts a single $ character.
      * <p>
-     * 
+     *
      * $$ or other improper use of the $ sign will raise an
      * IllegalArgumentException. If you reference a group that does not exist
      * (e.g. $4 if there are only 3 groups), will raise an
      * IndexOutOfBoundsException. Be sure to properly handle these exceptions if
      * you allow the end user to type in the replacement text.
      * <p>
-     * 
+     *
      * Note that in the memo control, you type \$ to insert a dollar sign, and
      * \\ to insert a backslash. If you provide the replacement string as a
      * string literal in your Java code, you need to use "\\$" and "\\\\"
@@ -369,25 +378,25 @@ public class RegexFrame extends JFrame
     void btnReplace_actionPerformed( ActionEvent e )
     {
         try {
-            textReplaceResults.setText( 
+            textReplaceResults.setText(
                     textSubject.getText().replaceAll(
                             textRegex.getText(),
                             textReplace.getText()
-                            ) 
+                            )
                         );
             textResults.setText( "n/a" );
         }
         catch( PatternSyntaxException ex ) {
             // textRegex does not contain a valid regular expression
-            textResults.setText( 
+            textResults.setText(
                     "You have an error in your regular expression:\n"
-                            + ex.getDescription() 
+                            + ex.getDescription()
                             );
             textReplaceResults.setText( "n/a" );
         }
         catch( IllegalArgumentException ex ) {
             // textReplace contains inapropriate dollar signs
-            textResults.setText( 
+            textResults.setText(
                     "You have an error in the replacement text:\n"
                     + ex.getMessage()
                     );
@@ -398,7 +407,7 @@ public class RegexFrame extends JFrame
             // (e.g. $4 if there are only three groups)
             textResults.setText(
                     "You have used a non-existent group in the replacement text:\n"
-                            + ex.getMessage() 
+                            + ex.getMessage()
                             );
             textReplaceResults.setText( "n/a" );
         }
@@ -408,13 +417,13 @@ public class RegexFrame extends JFrame
     void printSplitArray( String[] array )
     {
         textResults.setText( null );
-        
+
         for( int i = 0; i < array.length; i++ ) {
             textResults.append(
-                    Integer.toString( i ) 
-                    + ": \"" 
+                    Integer.toString( i )
+                    + ": \""
                     + array[ i ]
-                    + "\"\r\n" 
+                    + "\"\r\n"
                     );
         }
     }
@@ -425,14 +434,14 @@ public class RegexFrame extends JFrame
      * that matches the regular expression. The regex matches themselves are
      * thrown away.
      * <p>
-     * 
+     *
      * If the split would result in trailing empty strings, i.e. when the regex
      * matches at the end of the string, the trailing empty strings are also
      * thrown away. If you want to keep the empty strings, call split(regex,
      * -1). The -1 tells the split() method to add trailing empty strings to the
      * resulting array.
      * <p>
-     * 
+     *
      * You can limit the number of items in the resulting array by specifying a
      * positive number as the second parameter to split(). The limit you specify
      * it the number of items the array will at most contain. So the regex is
@@ -446,10 +455,10 @@ public class RegexFrame extends JFrame
     {
         textReplaceResults.setText( "n/a" );
         try {
-            printSplitArray( 
-                    textSubject.getText().split( 
+            printSplitArray(
+                    textSubject.getText().split(
                             textRegex.getText() /* , Limit */
-                            ) 
+                            )
                         );
         }
         catch( PatternSyntaxException ex ) {
@@ -468,7 +477,7 @@ public class RegexFrame extends JFrame
     int getRegexOptions()
     {
         int Options = 0;
-        
+
         if( checkCanonEquivalence.isSelected() ) {
             // In Unicode, certain characters can be encoded in more than one
             // way.
@@ -481,7 +490,7 @@ public class RegexFrame extends JFrame
             // rendered to the screen, the result is exactly the same.
             Options |= Pattern.CANON_EQ;
         }
-        
+
         if( checkCaseInsensitive.isSelected() ) {
             // Omitting UNICODE_CASE causes only US ASCII characters to be
             // matched case insensitively
@@ -490,14 +499,14 @@ public class RegexFrame extends JFrame
             // US ASCII characters as it speeds up the pattern matching.
             Options |= Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
         }
-        
+
         if( checkDotAll.isSelected() ) {
             // By default, the dot will not match line break characters.
             // Specify this option to make the dot match all characters,
             // including line breaks
             Options |= Pattern.DOTALL;
         }
-        
+
         if( checkMultiLine.isSelected() ) {
             // By default, the caret ^, dollar $ as well as \A, \z and \Z
             // only match at the start and the end of the string
@@ -506,7 +515,7 @@ public class RegexFrame extends JFrame
             // and make $, \z and \Z match before line breaks in the string
             Options |= Pattern.MULTILINE;
         }
-        
+
         return Options;
     }
 
@@ -523,12 +532,12 @@ public class RegexFrame extends JFrame
      * create a Pattern object to store the regular expression. You can then
      * reuse the regex as often as you want by reusing the Pattern object.
      * <p>
-     * 
+     *
      * To use the regular expression on a string, create a Matcher object by
      * calling compiledRegex.matcher() passing the subject string to it. The
      * Matcher will do the actual searching, replacing or splitting.
      * <p>
-     * 
+     *
      * You can create as many Matcher objects from a single Pattern object as
      * you want, and use the Matchers at the same time. To apply the regex to
      * another subject string, either create a new Matcher using
@@ -539,12 +548,12 @@ public class RegexFrame extends JFrame
     {
         compiledRegex = null;
         textReplaceResults.setText( "n/a" );
-        
+
         try {
             // If you do not want to specify any options (this is the case when
             // all checkboxes in this demo are unchecked), you can omit the
             // second parameter for the Pattern.compile() class factory.
-            compiledRegex = Pattern.compile( 
+            compiledRegex = Pattern.compile(
                     textRegex.getText(),
                     getRegexOptions()
                     );
@@ -555,14 +564,14 @@ public class RegexFrame extends JFrame
         }
         catch( PatternSyntaxException ex ) {
             // textRegex does not contain a valid regular expression
-            textResults.setText( 
+            textResults.setText(
                     "You have an error in your regular expression:\n"
                             + ex.getDescription()
                             );
         }
         catch( IllegalArgumentException ex ) {
             // This exception indicates a bug in getRegexOptions
-            textResults.setText( 
+            textResults.setText(
                     "Undefined bit values are set in the regex options"
                     );
         }
@@ -577,21 +586,21 @@ public class RegexFrame extends JFrame
         try {
             textResults.setText(
                     "Index of the first character in the match: "
-                    + Integer.toString( regexMatcher.start() ) 
-                    + "\n" 
+                    + Integer.toString( regexMatcher.start() )
+                    + "\n"
                     );
-            textResults.append( 
+            textResults.append(
                     "Index of the first character after the match: "
-                            + Integer.toString( regexMatcher.end() ) 
+                            + Integer.toString( regexMatcher.end() )
                             + "\n"
                             );
             textResults.append(
                     "Length of the match: "
-                    + Integer.toString( 
+                    + Integer.toString(
                             regexMatcher.end()
                             - regexMatcher.start()
                             )
-                    + "\n" 
+                    + "\n"
                     );
             textResults.append( "Matched text: " + regexMatcher.group() + "\n" );
 
@@ -645,7 +654,7 @@ public class RegexFrame extends JFrame
      * search came up empty. Otherwise, it finds the next match after the
      * previous match.
      * <p>
-     * 
+     *
      * Note that even if you typed in new text for the regex or subject,
      * btnNextMatch uses the subject and regex as they were when you clicked
      * btnCreateObjects.
@@ -679,12 +688,12 @@ public class RegexFrame extends JFrame
      * to do a search-and-replace. You should also reuse the Matcher object by
      * calling Matcher.reset(nextSubjectString) for improved efficiency.
      * <p>
-     * 
+     *
      * You also need to use the Pattern and Matcher objects for the
      * search-and-replace if you want to use the regex options such as
      * "case insensitive" or "dot all".
      * <p>
-     * 
+     *
      * See the notes with btnReplace for the special $-syntax in the replacement
      * text.
      */
@@ -722,12 +731,12 @@ public class RegexFrame extends JFrame
      * allow you to compute the replacement string in your own code. So the
      * replacement text can be whatever you want.
      * <p>
-     * 
+     *
      * To do this, simply call Matcher.find() in a loop. For each match returned
      * by find(), call appendReplacement() with whatever replacement text you
      * want. When find() can no longer find matches, call appendTail().
      * <p>
-     * 
+     *
      * appendReplacement() appends the substring between the end of the previous
      * match that was replaced with appendReplacement() and the current match.
      * If this is the first call to appendReplacement() since creating the
@@ -737,13 +746,13 @@ public class RegexFrame extends JFrame
      * usual. E.g. $1 is replaced with the match between the first pair of
      * capturing parentheses.
      * <p>
-     * 
+     *
      * appendTail() appends the substring between the end of the previous match
      * that was replaceced with appendReplacement() and the end of the string.
      * If appendReplacement() was not called since creating the Matcher or
      * calling reset(), the entire subject string is appended.
      * <p>
-     * 
+     *
      * The above means that you should call Matcher.reset() before starting the
      * operation, unless you're sure the Matcher is freshly constructed. If
      * certain matches do not need to be replaced, simply skip calling
@@ -824,7 +833,7 @@ public class RegexFrame extends JFrame
      * when creating a Pattern object, you can specify options such as
      * "case insensitive" and "dot all".
      * <p>
-     * 
+     *
      * Note that no Matcher object is used.
      */
     void btnObjSplit_actionPerformed( ActionEvent e )
@@ -838,9 +847,25 @@ public class RegexFrame extends JFrame
                     .split( textSubject.getText() /* , Limit */) );
         }
     }
+
+    @Override // HyperlinkListener
+    public void hyperlinkUpdate( HyperlinkEvent hle )
+    {
+        if( HyperlinkEvent.EventType.ACTIVATED.equals(hle.getEventType()) ) {
+            URL url = hle.getURL();
+
+            try {
+                DesktopHelper.browse( url );
+                }
+            catch( PlateformeDesktopNotSupportedException e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                }
+            }
+    }
 }
 
-class FrameRegexDemo_btnMatch_actionAdapter 
+class FrameRegexDemo_btnMatch_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -856,7 +881,7 @@ class FrameRegexDemo_btnMatch_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnReplace_actionAdapter 
+class FrameRegexDemo_btnReplace_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -872,7 +897,7 @@ class FrameRegexDemo_btnReplace_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnSplit_actionAdapter 
+class FrameRegexDemo_btnSplit_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -888,7 +913,7 @@ class FrameRegexDemo_btnSplit_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnObjects_actionAdapter 
+class FrameRegexDemo_btnObjects_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -904,7 +929,7 @@ class FrameRegexDemo_btnObjects_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnNextMatch_actionAdapter 
+class FrameRegexDemo_btnNextMatch_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -920,7 +945,7 @@ class FrameRegexDemo_btnNextMatch_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnObjReplace_actionAdapter 
+class FrameRegexDemo_btnObjReplace_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -936,7 +961,7 @@ class FrameRegexDemo_btnObjReplace_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnAdvancedReplace_actionAdapter 
+class FrameRegexDemo_btnAdvancedReplace_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;
@@ -952,7 +977,7 @@ class FrameRegexDemo_btnAdvancedReplace_actionAdapter
     }
 }
 
-class FrameRegexDemo_btnObjSplit_actionAdapter 
+class FrameRegexDemo_btnObjSplit_actionAdapter
     implements ActionListener
 {
     RegexFrame adaptee;

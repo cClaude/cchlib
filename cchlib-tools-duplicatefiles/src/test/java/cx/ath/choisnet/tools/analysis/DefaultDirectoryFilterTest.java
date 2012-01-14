@@ -27,6 +27,7 @@ public class DefaultDirectoryFilterTest
         "C:\\System Volume Information",
         "C:\\Recycled",
         "C:\\Program Files",
+        "C:\\WINDOWS",
         };
     private final List<File> fullPathToTestList = new ArrayList<File>();
 
@@ -78,7 +79,11 @@ public class DefaultDirectoryFilterTest
             boolean accept = defaultDirectoryFilter.accept( dirFile );
 
             logger.info( "Res:" + accept + " File: " + dirFile );
-            Assert.assertFalse( "File not matching: " + dirFile, accept );
+            
+            Assert.assertFalse(
+                    "File not matching (should be ignored): " + dirFile,
+                    accept
+                    );
             }
 
         logger.info( "####" );

@@ -22,8 +22,8 @@ class DefaultDirectoryFilter implements FileFilter
     // Full path matching
     //
     private final static String[] DIR_PATH_TO_IGNORE_FROM_ENV = {
-            "ProgramFiles",
-            "SystemRoot"
+            "ProgramFiles",     // Typically C:\Program Files
+            "SystemRoot"        // Typically C:\WINDOWS
             };
     private final static String[] DIR_PATH_TO_IGNORE = {
             };
@@ -39,37 +39,37 @@ class DefaultDirectoryFilter implements FileFilter
         "\\Temporary Files",
 
         // Standards
-        "\\application data\\mozilla\\firefox".toLowerCase(),
-        "\\application data\\thunderbird".toLowerCase(),
-        "\\application data\\google".toLowerCase(),
-        "\\application data\\sun\\java".toLowerCase(),
-        "\\application data\\skype".toLowerCase(),
-        "\\application data\\macromedia".toLowerCase(),
-        "\\application data\\openoffice.org".toLowerCase(),
-        "\\application data\\adobe".toLowerCase(),
-        "\\Application Data\\Kaspersky Lab\\".toLowerCase(),
-        "\\Application Data\\Symantec".toLowerCase(),
+        "\\application data\\mozilla\\firefox",
+        "\\application data\\thunderbird",
+        "\\application data\\google",
+        "\\application data\\sun\\java",
+        "\\application data\\skype",
+        "\\application data\\macromedia",
+        "\\application data\\openoffice.org",
+        "\\application data\\adobe",
+        "\\Application Data\\Kaspersky Lab",
+        "\\Application Data\\Symantec",
 
         // Genetics
-        "\\data\\java".toLowerCase(),
+        //"\\data\\java",
 
         // Java/Dev
-        "\\jre\\lib".toLowerCase(),
-        "\\docs\\manual".toLowerCase(), // doc files
-        "\\javadoc".toLowerCase(), // doc files
-        "\\classes".toLowerCase(),
-        "\\samples".toLowerCase(),
-        "\\src\\net".toLowerCase(), // sources files
-        "\\src\\com".toLowerCase(), // sources files
-        "\\src\\org".toLowerCase(), // sources files
-        "\\src\\java".toLowerCase(), // sources files mvn
-        "\\src\\test".toLowerCase(), // sources files mvn
+        "\\jre\\lib",
+        "\\docs\\manual", // doc files
+        "\\javadoc", // doc files
+        "\\classes",
+        "\\samples",
+        "\\src\\net", // sources files
+        "\\src\\com", // sources files
+        "\\src\\org", // sources files
+        "\\src\\java", // sources files mvn
+        "\\src\\test", // sources files mvn
 
-        "\\cygwin\\usr".toLowerCase(),
+        "\\cygwin\\usr",
 
-        "\\workspace\\.metadata".toLowerCase(),
-        "\\.metadata\\.plugins".toLowerCase(),
-        "\\.m2\\repository".toLowerCase(),
+        "\\workspace\\.metadata",   // eclipse
+        "\\.metadata\\.plugins",    //
+        "\\.m2\\repository",        // maven
         };
     private final String[] pathEndWithToIgnore = new String[ DIR_PATH_END_WITH_TO_IGNORE.length ];
 
@@ -77,13 +77,13 @@ class DefaultDirectoryFilter implements FileFilter
     // Full path RegExp matching
     //
     private final static String[] PATH_REGEXP_TO_IGNORE = {
-        ".\\\\System Volume Information", // NTFS/FAT32 (under root)
-        ".\\\\Recycler", // NTFS (under root)
-        ".\\\\Recycled", // FAT32 (under root)
+        ".:\\\\System Volume Information", // NTFS/FAT32 (under root)
+        ".:\\\\Recycler", // NTFS (under root)
+        ".:\\\\Recycled", // FAT32 (under root)
 
         ".*\\\\oracle\\\\ora.*",
         };
-    private final Pattern[] pathPatternsToIgnore = new Pattern[PATH_REGEXP_TO_IGNORE.length];
+    private final Pattern[] pathRexExpToIgnore = new Pattern[PATH_REGEXP_TO_IGNORE.length];
 
     //
     // Name matching
@@ -112,6 +112,8 @@ class DefaultDirectoryFilter implements FileFilter
         "apache-tomcat-.*",
         "apache-ant-.*,"
         };
+
+    private final Pattern[] nameRexExpToIgnore = new Pattern[NAME_REX_EXP_TO_IGNORE.length];
 
     /**
      *
@@ -148,12 +150,12 @@ class DefaultDirectoryFilter implements FileFilter
 
         // Path RegExp filter
         for( int i = 0; i<PATH_REGEXP_TO_IGNORE.length; i++ ) {
-            pathPatternsToIgnore[ i ] = Pattern.compile(
+            pathRexExpToIgnore[ i ] = Pattern.compile(
                                     PATH_REGEXP_TO_IGNORE[ i ],
                                     Pattern.CASE_INSENSITIVE
                                     );
 
-            logger.debug( "pathPatternsToIgnore[" + i + "]: " + pathPatternsToIgnore[ i ] );
+            logger.debug( "pathRexExpToIgnore[" + i + "]: " + pathRexExpToIgnore[ i ] );
             }
 
         // full path endWith to ignore
@@ -170,6 +172,16 @@ class DefaultDirectoryFilter implements FileFilter
             logger.debug( "dirNameToIgnore[" + i + "]: " + dirNameToIgnore[ i ] );
             }
 
+
+        // Name RegExp filter
+        for( int i = 0; i<NAME_REX_EXP_TO_IGNORE.length; i++ ) {
+            nameRexExpToIgnore[ i ] = Pattern.compile(
+                            NAME_REX_EXP_TO_IGNORE[ i ],
+                            Pattern.CASE_INSENSITIVE
+                            );
+
+            logger.debug( "nameRexExpToIgnore[" + i + "]: " + nameRexExpToIgnore[ i ] );
+            }
     }
 
     @Override
@@ -233,10 +245,10 @@ class DefaultDirectoryFilter implements FileFilter
                 }
             }
 
-        for( Pattern pattern : pathPatternsToIgnore ) {
-            if( pattern.matcher( plc ).matches() ) {
+        for( Pattern regExp : pathRexExpToIgnore ) {
+            if( regExp.matcher( plc ).matches() ) {
                 sb.setLength( 0 );
-                sb.append( "DIRE||||" ); // DirectoryIgnoreRegExp
+                sb.append( "DIPRE||||" ); // DirectoryIgnorePathRegExp
                 sb.append( path );
                 sb.append( "\n" );
 
@@ -250,6 +262,25 @@ class DefaultDirectoryFilter implements FileFilter
                 return false;
                 }
             }
+
+        for( Pattern regExp : nameRexExpToIgnore ) {
+            if( regExp.matcher( nlc ).matches() ) {
+                sb.setLength( 0 );
+                sb.append( "DINRE||||" ); // DirectoryIgnoreNameRegExp
+                sb.append( path );
+                sb.append( "\n" );
+
+                try {
+                    this.writerIgnore.write( sb.toString() );
+                    }
+                catch( IOException e ) {
+                    logger.error( sb.toString(), e );
+                    }
+
+                return false;
+                }
+            }
+
 
         return true;
     }

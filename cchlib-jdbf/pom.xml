@@ -86,8 +86,8 @@
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${project.javadoc.source.version}</source>
+          <target>${project.javadoc.target.version}</target>
         </configuration>
       </plugin>
       <plugin>

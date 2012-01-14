@@ -110,8 +110,8 @@
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${project.javadoc.source.version}</source>
+          <target>${project.javadoc.target.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -128,7 +128,7 @@
             <link>http://download.oracle.com/javaee/6/api/</link>
           </links>
           <show>protected</show>
-          <source>1.6</source>
+          <source>${project.javadoc.source.version}</source>
       </configuration>
       </plugin>
     </plugins>
