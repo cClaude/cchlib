@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Date;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.DefaultFileRoller;
+import com.googlecode.cchlib.io.FileRoller;
+import com.googlecode.cchlib.io.FileRollingWriter;
 import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
 
 /**
@@ -27,13 +31,15 @@ public class FileAnalysis
      * @throws IOException
      */
     public FileAnalysis(
-        final File commonOutputDirFile
+        final File      commonOutputDirFile,
+        final Charset   charset
         ) throws IOException
     {
         this(
             new File( commonOutputDirFile, ".FileAnalysis" + ".files" ),
             new File( commonOutputDirFile, ".FileAnalysis" + ".dirs" ),
-            new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" )
+            new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" ),
+            charset
             );
     }
 
@@ -42,25 +48,24 @@ public class FileAnalysis
      * @param outputFileFiles
      * @param outputFileDirs
      * @param outputFileIgnored
+     * @param charset
      * @throws IOException
      */
     public FileAnalysis(
         final File outputFileFiles,
         final File outputFileDirs,
-        final File outputFileIgnored
+        final File outputFileIgnored,
+        final Charset charset
         ) throws IOException
     {
-        //this.writerFile 	= new BufferedWriter( new FileWriter( outputFileFiles ) );
         FileRoller frFiles 	= new DefaultFileRoller( outputFileFiles );
-        this.writerFile 	= new FileRollingWriter( frFiles, 10 * 1024 * 1024 );
+        this.writerFile 	= new FileRollingWriter( frFiles, 10 * 1024 * 1024, charset );
 
-        //this.writerDirs		= new BufferedWriter( new FileWriter( outputFileDirs ) );
         FileRoller frDirs	= new DefaultFileRoller( outputFileDirs );
-        this.writerDirs		= new FileRollingWriter( frDirs, 1024 * 1024 );
+        this.writerDirs		= new FileRollingWriter( frDirs, 1024 * 1024, charset );
 
-        //this.writerIgnore	= new BufferedWriter( new FileWriter( outputFileIgnored ) );
         FileRoller frIgnore	= new DefaultFileRoller( outputFileIgnored );
-        this.writerIgnore	= new FileRollingWriter( frIgnore, 256 * 1024 );
+        this.writerIgnore	= new FileRollingWriter( frIgnore, 256 * 1024, charset );
 
         this.directoryFilter = new DefaultDirectoryFilter( writerIgnore );
         this.fileFilter 	 = new FileFilter()
@@ -78,6 +83,10 @@ public class FileAnalysis
      */
     public void start()
     {
+        if( this.fileCollector != null ) {
+            throw new IllegalStateException();
+            }
+
         logger.info( "Start: " + new Date( System.currentTimeMillis()) );
 
         this.fileCollector = new FileCollector(
@@ -88,20 +97,26 @@ public class FileAnalysis
         FileAnalysisVisitor fce = new FileAnalysisVisitor( writerDirs, writerFile );
 
         this.fileCollector.walk( fce );
+        this.fileCollector = null;
 
         logger.info( "Done: " + new Date( System.currentTimeMillis()) );
     }
 
     protected CancelState stop()
     {
-        logger.info( "stop() recipe: " + new Date( System.currentTimeMillis()) );
+        logger.info(
+            "stop() recipe: "
+                + new Date( System.currentTimeMillis())
+                + " fc is null ? "
+                + (this.fileCollector == null)
+            );
 
         if( this.fileCollector != null ) {
             this.fileCollector.cancel();
-            
+
             return this.fileCollector.getCancelState();
             }
-        
+
         return null;
     }
 
@@ -141,27 +156,9 @@ public class FileAnalysis
     public static void main( final String[] args )
     {
         File outputDirectory = new File( "." );
-//        File outputFile;
-//        File outputDirs;
-//        File outputIgnore;
-//
-//        try {
-//            outputFile 		= File.createTempFile( "FileCollectorTst",".files");
-//            outputDirs 		= File.createTempFile( "FileCollectorTst",".dirs");
-//            outputIgnore	= File.createTempFile( "FileCollectorTst",".ignore");
-//            }
-//        catch( IOException e ) {
-//            logger.error( "Init error", e );
-//            return;
-//            }
 
         try {
-//            FileAnalysis fa = new FileAnalysis(
-//                    outputFile,
-//                    outputDirs,
-//                    outputIgnore
-//                    );
-            final FileAnalysis fa = new FileAnalysis( outputDirectory );
+            final FileAnalysis fa = new FileAnalysis( outputDirectory, Charset.forName( "ISO-8859-1" ) );
 
             fa.start();
             fa.close();
@@ -169,12 +166,13 @@ public class FileAnalysis
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
                     CancelState cs = fa.stop();
-                    fa.close();
+
                     logger.info( "ShutdownHook CancelState=" + cs );
-                    
+
                     if( cs != null ) {
+                        fa.close();
                         // TODO: store cs !!!
-                        
+
                         try {
                             Thread.sleep( 2 * 1000 );
                             }

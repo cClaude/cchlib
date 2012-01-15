@@ -15,8 +15,8 @@ import org.apache.log4j.Logger;
 class DefaultDirectoryFilter implements FileFilter
 {
     private final static Logger logger = Logger.getLogger( DefaultDirectoryFilter.class );
-    private final StringBuilder sb = new StringBuilder();
-    private final Writer writerIgnore;
+    private final FileResultFormater    frf = new FileResultFormater();
+    private final Writer                writerIgnore;
 
     //
     // Full path matching
@@ -49,6 +49,10 @@ class DefaultDirectoryFilter implements FileFilter
         "\\application data\\adobe",
         "\\Application Data\\Kaspersky Lab",
         "\\Application Data\\Symantec",
+        "\\Application Data\\Mindjet\\MindManager",
+        "\\Application Data\\LibreOffice",
+        "\\.netbeans\\7.0\\var\\cache", // FIXME: remove version number
+        "\\.netbeans\\7.0\\config", // FIXME: remove version number
 
         // Genetics
         //"\\data\\java",
@@ -62,8 +66,10 @@ class DefaultDirectoryFilter implements FileFilter
         "\\src\\net", // sources files
         "\\src\\com", // sources files
         "\\src\\org", // sources files
-        "\\src\\java", // sources files mvn
-        "\\src\\test", // sources files mvn
+        "\\src\\main\\java", // sources files mvn
+        "\\src\\main\\resources", // resources files mvn
+        "\\src\\test\\java", // sources files mvn
+        "\\src\\test\\resources", // resources files mvn
 
         "\\cygwin\\usr",
 
@@ -81,6 +87,10 @@ class DefaultDirectoryFilter implements FileFilter
         ".:\\\\Recycler", // NTFS (under root)
         ".:\\\\Recycled", // FAT32 (under root)
 
+        ".*\\\\Mozilla\\\\Firefox\\\\Profiles\\\\.*\\\\extensions\\\\.*", // Firefox
+        ".*\\\\Mozilla\\\\Firefox\\\\Profiles\\\\.*\\\\Cache\\\\.*", // Firefox
+        ".*\\\\Thunderbird\\\\Profiles\\\\.*\\\\extensions\\\\.*", // Thunderbird
+        ".*\\\\Thunderbird\\\\Profiles\\\\.*\\\\cache\\\\.*", // Thunderbird
         ".*\\\\oracle\\\\ora.*",
         };
     private final Pattern[] pathRexExpToIgnore = new Pattern[PATH_REGEXP_TO_IGNORE.length];
@@ -93,6 +103,7 @@ class DefaultDirectoryFilter implements FileFilter
         "temporary internet files",
 
         // Standards
+        ".svn", // SVN cache files
         ".eclipse",
         "apache software foundation",
 
@@ -191,18 +202,20 @@ class DefaultDirectoryFilter implements FileFilter
         final String plc  = path.toLowerCase();
         final String nlc  = dirFile.getName().toLowerCase();
 
+//        if( ! dirFile.isDirectory() ) {
+//            throw new IllegalStateException( "Is not a directory: " + dirFile );
+//            }
+
         for( String s : dirPathToIgnore ) {
             if( s.equals( plc ) ) {
-                sb.setLength( 0 );
-                sb.append( "DIFP||||" ); // DirectoryIgnoreFullPath
-                sb.append( path );
-                sb.append( "\n" );
+                // DirectoryIgnoreFullPath
+                final String fmt = frf.format( dirFile, "DIFP");
 
                 try {
-                    this.writerIgnore.write( sb.toString() );
+                    this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( sb.toString(), e );
+                    logger.error( fmt, e );
                     }
 
                 return false;
@@ -211,16 +224,14 @@ class DefaultDirectoryFilter implements FileFilter
 
         for( String s : dirNameToIgnore ) {
             if( s.equals( nlc ) ) {
-                sb.setLength( 0 );
-                sb.append( "DIN||||" ); // DirectoryIgnoreName
-                sb.append( path );
-                sb.append( "\n" );
+                // DirectoryIgnoreName
+                final String fmt = frf.format( dirFile, "DIN");
 
                 try {
-                    this.writerIgnore.write( sb.toString() );
+                    this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( sb.toString(), e );
+                    logger.error( fmt, e );
                     }
 
                 return false;
@@ -229,16 +240,14 @@ class DefaultDirectoryFilter implements FileFilter
 
         for( String s : pathEndWithToIgnore ) {
             if( plc.endsWith( s ) ) {
-                sb.setLength( 0 );
-                sb.append( "DIEOP||||" ); // DirectoryIgnoreEndOfPath
-                sb.append( path );
-                sb.append( "\n" );
+                // DirectoryIgnoreEndOfPath
+                final String fmt = frf.format( dirFile, "DIEOP");
 
                 try {
-                    this.writerIgnore.write( sb.toString() );
+                    this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( sb.toString(), e );
+                    logger.error( fmt, e );
                     }
 
                 return false;
@@ -247,16 +256,14 @@ class DefaultDirectoryFilter implements FileFilter
 
         for( Pattern regExp : pathRexExpToIgnore ) {
             if( regExp.matcher( plc ).matches() ) {
-                sb.setLength( 0 );
-                sb.append( "DIPRE||||" ); // DirectoryIgnorePathRegExp
-                sb.append( path );
-                sb.append( "\n" );
+                // DirectoryIgnorePathRegExp
+                final String fmt = frf.format( dirFile, "DIEOP");
 
                 try {
-                    this.writerIgnore.write( sb.toString() );
+                    this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( sb.toString(), e );
+                    logger.error( fmt, e );
                     }
 
                 return false;
@@ -265,16 +272,14 @@ class DefaultDirectoryFilter implements FileFilter
 
         for( Pattern regExp : nameRexExpToIgnore ) {
             if( regExp.matcher( nlc ).matches() ) {
-                sb.setLength( 0 );
-                sb.append( "DINRE||||" ); // DirectoryIgnoreNameRegExp
-                sb.append( path );
-                sb.append( "\n" );
+                // DirectoryIgnoreNameRegExp
+                final String fmt = frf.format( dirFile, "DIEOP");
 
                 try {
-                    this.writerIgnore.write( sb.toString() );
+                    this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( sb.toString(), e );
+                    logger.error( fmt, e );
                     }
 
                 return false;

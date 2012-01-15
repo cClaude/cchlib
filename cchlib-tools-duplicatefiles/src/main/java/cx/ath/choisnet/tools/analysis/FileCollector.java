@@ -30,9 +30,9 @@ public class FileCollector
     private ArrayList<File> rootDirectoriesList = new ArrayList<File>();
     private FileFilter directoriesFilter;
     private FileFilter filesFilter;
-	private boolean cancel	= false;
-	private boolean running	= false;
-	private CancelState cancelState;
+    private boolean cancel	= false;
+    private boolean running	= false;
+    private CancelState cancelState;
 
     /**
      * Create a FileCollector able to inspect rootFolderFiles
@@ -83,9 +83,9 @@ public class FileCollector
     {
         for( File f : rootFolderFiles ) {
             if( !f.isDirectory() ) {
-            	if( f.isFile() ) {
+                if( f.isFile() ) {
                     throw new IllegalArgumentException( "Received file instead directory: " + f );
-            		}
+                    }
                 }
             this.rootDirectoriesList.add( f );
             }
@@ -104,17 +104,17 @@ public class FileCollector
 
         if( filesFilter != null ) {
             this.filesFilter = FileFilterHelper.and(
-            		FileFilterHelper.not(
-            			FileFilterHelper.directoryFileFilter()
-            			),
-                    directoriesFilter
-                    );   	
-        	}
+                    FileFilterHelper.not(
+                        FileFilterHelper.directoryFileFilter()
+                        ),
+                    filesFilter
+                    );
+            }
         else {
             this.filesFilter = FileFilterHelper.not(
-        			FileFilterHelper.directoryFileFilter()
-        			);
-        	}
+                    FileFilterHelper.directoryFileFilter()
+                    );
+            }
     }
 
     /**
@@ -123,34 +123,34 @@ public class FileCollector
      */
     public void walk( final FileCollectorVisitor event )
     {
-    	this.cancel			= false;
-    	this.running 	 	= true;
-    	this.cancelState 	= null;
+        this.cancel			= false;
+        this.running 	 	= true;
+        this.cancelState 	= null;
 
         final LinkedList<File> rootList = new LinkedList<File>( this.rootDirectoriesList );
         final LinkedList<File> dirsList = new LinkedList<File>( this.rootDirectoriesList );
 
         while( rootList.size() > 0 || dirsList.size() > 0 ) {
             final File dir;
-            
+
             if( dirsList.size() > 0 ) {
-            	dir = dirsList.removeLast();
-            	
+                dir = dirsList.removeLast();
+
                 // start reading 'dir'
                 event.openDirectory( dir );
-            	}
+                }
             else {
-            	dir = rootList.removeLast();
-            	
+                dir = rootList.removeLast();
+
                 // start reading 'dir'
                 event.openRootDirectory( dir );
-            	}
+                }
             final File[] dirs = dir.listFiles( this.directoriesFilter );
 
             if( dirs != null ) {
                 for( File d : dirs ) {
                     // Discover dir d
-                	dirsList.add( d );
+                    dirsList.add( d );
                     }
                 }
 
@@ -162,86 +162,86 @@ public class FileCollector
                     event.discoverFile( f );
                     }
                 }
-            
+
             if( cancel ) {
-            	// Store current state.
-            	this.cancelState = new CancelState( rootList, dirsList );
-            	break;
-            	}
-        	}
-        
-    	this.running = false;
+                // Store current state.
+                this.cancelState = new CancelState( rootList, dirsList );
+                break;
+                }
+            }
+
+        this.running = false;
    }
-    
+
     public void cancel()
     {
-    	this.cancel = true;
+        this.cancel = true;
     }
-    
+
     public boolean isRunning()
     {
-    	return this.running;
+        return this.running;
     }
-    
+
     public CancelState getCancelState()
     {
-    	return this.cancelState;
+        return this.cancelState;
     }
-    
+
     /**
-     * 
+     *
      *
      */
     public class CancelState implements Serializable
     {
-		private static final long serialVersionUID = 1L;
-		private LinkedList<File> rootList;
-    	private LinkedList<File> dirsList;
-    	
-    	/**
-    	 * 
-    	 * @param rootList
-    	 * @param dirsList
-    	 */
-    	protected CancelState(
-    		final LinkedList<File> rootList,
-    		final LinkedList<File> dirsList
-    		)
-    	{
-    		this.rootList = rootList;
-    		this.dirsList = dirsList;
-    	}
+        private static final long serialVersionUID = 1L;
+        private LinkedList<File> rootList;
+        private LinkedList<File> dirsList;
 
-		/**
-		 * @return the rootList
-		 */
-		public List<File> getRootList()
-		{
-			return rootList;
-		}
+        /**
+         *
+         * @param rootList
+         * @param dirsList
+         */
+        protected CancelState(
+            final LinkedList<File> rootList,
+            final LinkedList<File> dirsList
+            )
+        {
+            this.rootList = rootList;
+            this.dirsList = dirsList;
+        }
 
-		/**
-		 * @param rootList the rootList to set
-		 */
-		public void setRootList( final List<File> rootList) 
-		{
-			this.rootList = new LinkedList<File>( rootList );
-		}
+        /**
+         * @return the rootList
+         */
+        public List<File> getRootList()
+        {
+            return rootList;
+        }
 
-		/**
-		 * @return the dirsList
-		 */
-		public List<File> getDirsList() 
-		{
-			return dirsList;
-		}
+        /**
+         * @param rootList the rootList to set
+         */
+        public void setRootList( final List<File> rootList)
+        {
+            this.rootList = new LinkedList<File>( rootList );
+        }
 
-		/**
-		 * @param dirsList the dirsList to set
-		 */
-		public void setDirsList( final List<File> dirsList)
-		{
-			this.dirsList = new LinkedList<File>( dirsList );
-		}
+        /**
+         * @return the dirsList
+         */
+        public List<File> getDirsList()
+        {
+            return dirsList;
+        }
+
+        /**
+         * @param dirsList the dirsList to set
+         */
+        public void setDirsList( final List<File> dirsList)
+        {
+            this.dirsList = new LinkedList<File>( dirsList );
+        }
     }
 }

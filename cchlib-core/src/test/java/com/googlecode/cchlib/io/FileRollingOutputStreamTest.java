@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.analysis;
+package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +14,9 @@ public class FileRollingOutputStreamTest
 {
     private final static Logger logger = Logger.getLogger( FileRollingOutputStreamTest.class );
 
-    final static byte[]	BUFFER 			= new byte[ 30 ];
-    final static int    BUFFER_OFFSET	= BUFFER.length / 3;
-    final static int    LEN    			= BUFFER.length / 6;
+    final static byte[] BUFFER          = new byte[ 30 ];
+    final static int    BUFFER_OFFSET   = BUFFER.length / 3;
+    final static int    LEN             = BUFFER.length / 6;
 
     static {
         for( int i = 0; i<BUFFER.length; i++ ) {
@@ -63,22 +63,16 @@ public class FileRollingOutputStreamTest
         os.write( BUFFER[ 0 ] );
         int l = 1;
         Assert.assertEquals( assertMsgPrefix, l, os.length() );
-        //Assert.assertEquals( assertMsgPrefix, l, os.currentLength() );
 
         os.write( BUFFER );
         l += BUFFER.length;
         Assert.assertEquals( assertMsgPrefix, l, os.length() );
 
-        //logger.info( "os.currentLength() = " + os.currentLength() );
-        //Assert.assertEquals( assertMsgPrefix, l % maxsize, os.currentLength() );
-
         os.write( BUFFER, BUFFER_OFFSET, LEN );
         l += LEN;
         Assert.assertEquals( assertMsgPrefix, l, os.length() );
-        //Assert.assertEquals( assertMsgPrefix, l, os.currentLength() );
-
+ 
         os.flush();
-        //Assert.assertNotNull( os.getCurrentFile() );
 
         logger.info(
             assertMsgPrefix
@@ -87,9 +81,6 @@ public class FileRollingOutputStreamTest
             );
 
         os.close();
-        //Assert.assertNull( os.getCurrentFile() );
-
-        //Assert.assertEquals( assertMsgPrefix, 0, os.currentLength() );
         Assert.assertEquals( assertMsgPrefix, l, os.length() );
 
         int filelen = 0;

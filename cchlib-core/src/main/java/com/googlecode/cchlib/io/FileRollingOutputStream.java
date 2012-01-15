@@ -1,10 +1,11 @@
-package cx.ath.choisnet.tools.analysis;
+package com.googlecode.cchlib.io;
 
-import java.io.BufferedWriter;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,34 +14,39 @@ import org.apache.log4j.Logger;
 /**
  *
  *
+ *@since 4.1.6
  */
-public class FileRollingWriter
-    extends Writer
+public class FileRollingOutputStream
+    extends OutputStream
 {
-    private final static Logger logger = Logger.getLogger( FileRollingWriter.class );
+    private final static Logger logger = Logger.getLogger( FileRollingOutputStream.class );
 
-    private final FileRoller 	fileRoller;
     private final List<File>	fileList	= new ArrayList<File>();;
+    private FileRoller 			fileRoller;
     private final int 			maxLength;
 
-    private File 	currentFile;
-    private Writer	currentOutput;
-    private int 	currentLength;
-    private long 	prevLength;
+    private File 			currentFile;
+    private OutputStream	currentOutput;
+    private int 			currentLength;
+    private long 			prevLength;
+
+    private boolean isClose;
 
     /**
      * Create a new FileRollingOutputStream
      *
-     * @param fileRoller
+     * @param baseFile
      * @param maxLength
+     * @throws FileNotFoundException if an error while
+     *         creating first File
      * @throws IllegalArgumentException if maxLength < 1
-     * @throws IOException
      */
-    public FileRollingWriter(
+    public FileRollingOutputStream(
             final FileRoller	fileRoller,
             final int			maxLength
             )
-        throws  IllegalArgumentException, IOException
+        throws  FileNotFoundException,
+                IllegalArgumentException
     {
         if( maxLength < 1 ) {
             throw new IllegalArgumentException(
@@ -50,16 +56,19 @@ public class FileRollingWriter
 
         this.fileRoller	= fileRoller;
         this.maxLength 	= maxLength;
-        this.prevLength	= 0;
 
-        openCurrentOutput();
+        this.prevLength			= 0;
+
+        openCurrentOutputStream();
+
+        this.isClose = false;
     }
 
-    private void openCurrentOutput() throws IOException
+    private void openCurrentOutputStream() throws FileNotFoundException
     {
         this.currentFile 	= this.fileRoller.createNewRollFile();
-        this.currentOutput 	= new BufferedWriter(
-                new FileWriter( this.currentFile )
+        this.currentOutput 	= new BufferedOutputStream(
+                new FileOutputStream( this.currentFile )
                 );
 
         if( logger.isTraceEnabled() ) {
@@ -67,7 +76,7 @@ public class FileRollingWriter
             }
     }
 
-    private void closeCurrentOutput() throws IOException
+    private void closeCurrentOutputStream() throws IOException
     {
         this.currentOutput.flush();
         this.currentOutput.close();
@@ -94,17 +103,10 @@ public class FileRollingWriter
             }
     }
 
-//    private void checkIfNeedToChangeFile() throws IOException
-//    {
-//        if( this.currentLength > this.maxLength ) {
-//            roolToNewFile();
-//            }
-//    }
-
     private void roolToNewFile() throws IOException
     {
-        closeCurrentOutput();
-        openCurrentOutput();
+        closeCurrentOutputStream();
+        openCurrentOutputStream();
     }
 
     /**
@@ -113,11 +115,13 @@ public class FileRollingWriter
     @Override
     public void close() throws IOException
     {
-        if( this.currentOutput == null ) {
+        if( this.isClose ) {
             throw new IOException( "Already close." );
             }
         else {
-            closeCurrentOutput();
+            closeCurrentOutputStream();
+
+            this.isClose = true;
             }
     }
 
@@ -127,8 +131,8 @@ public class FileRollingWriter
     @Override
     public void flush() throws IOException
     {
-        if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+        if( this.isClose ) {
+            throw new IOException( "Stream closed" );
             }
 
         currentOutput.flush();
@@ -142,14 +146,14 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException
+    public void write( byte[] b, int off, int len ) throws IOException
     {
-        if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+        if( this.isClose ) {
+            throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( len );
-        currentOutput.write( cbuf, off, len );
+        currentOutput.write( b, off, len );
     }
 
     /**
@@ -160,10 +164,10 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write( char[] b ) throws IOException
+    public void write( byte[] b ) throws IOException
     {
-        if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+        if( this.isClose ) {
+            throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( b.length );
@@ -176,8 +180,8 @@ public class FileRollingWriter
     @Override
     public void write( int b ) throws IOException
     {
-        if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+        if( this.isClose ) {
+            throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( 1 );
@@ -191,8 +195,8 @@ public class FileRollingWriter
      */
     public void roolNow() throws IOException
     {
-        if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+        if( this.isClose ) {
+            throw new IOException( "Stream closed" );
             }
 
         roolToNewFile();
@@ -236,6 +240,6 @@ public class FileRollingWriter
      */
     public boolean isClose()
     {
-        return currentOutput == null;
+        return this.isClose;
     }
 }
