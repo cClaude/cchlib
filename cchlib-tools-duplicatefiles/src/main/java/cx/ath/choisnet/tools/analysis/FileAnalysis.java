@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Date;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.DefaultFileRoller;
 import com.googlecode.cchlib.io.FileRoller;
 import com.googlecode.cchlib.io.FileRollingWriter;
@@ -17,7 +16,8 @@ import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
  */
 public class FileAnalysis
 {
-    static final Logger logger = Logger.getLogger( FileAnalysis.class );
+    //static final Logger logger = Logger.getLogger( FileAnalysis.class );
+    private final XLogger logger;
     private Writer writerFile;
     private Writer writerDirs;
     private Writer writerIgnore;
@@ -32,14 +32,16 @@ public class FileAnalysis
      */
     public FileAnalysis(
         final File      commonOutputDirFile,
-        final Charset   charset
+        final Charset   charset,
+        final XLogger    logger
         ) throws IOException
     {
         this(
             new File( commonOutputDirFile, ".FileAnalysis" + ".files" ),
             new File( commonOutputDirFile, ".FileAnalysis" + ".dirs" ),
             new File( commonOutputDirFile, ".FileAnalysis" + ".ignore" ),
-            charset
+            charset,
+            logger
             );
     }
 
@@ -55,20 +57,21 @@ public class FileAnalysis
         final File outputFileFiles,
         final File outputFileDirs,
         final File outputFileIgnored,
-        final Charset charset
+        final Charset charset,
+        final XLogger logger
         ) throws IOException
     {
-        FileRoller frFiles 	= new DefaultFileRoller( outputFileFiles );
-        this.writerFile 	= new FileRollingWriter( frFiles, 10 * 1024 * 1024, charset );
+        FileRoller frFiles  = new DefaultFileRoller( outputFileFiles );
+        this.writerFile     = new FileRollingWriter( frFiles, 10 * 1024 * 1024, charset );
 
-        FileRoller frDirs	= new DefaultFileRoller( outputFileDirs );
-        this.writerDirs		= new FileRollingWriter( frDirs, 1024 * 1024, charset );
+        FileRoller frDirs   = new DefaultFileRoller( outputFileDirs );
+        this.writerDirs     = new FileRollingWriter( frDirs, 1024 * 1024, charset );
 
-        FileRoller frIgnore	= new DefaultFileRoller( outputFileIgnored );
-        this.writerIgnore	= new FileRollingWriter( frIgnore, 256 * 1024, charset );
+        FileRoller frIgnore = new DefaultFileRoller( outputFileIgnored );
+        this.writerIgnore   = new FileRollingWriter( frIgnore, 256 * 1024, charset );
 
         this.directoryFilter = new DefaultDirectoryFilter( writerIgnore );
-        this.fileFilter 	 = new FileFilter()
+        this.fileFilter      = new FileFilter()
         {
             @Override
             public boolean accept( File file )
@@ -76,6 +79,8 @@ public class FileAnalysis
                 return true;
             }
         };
+
+        this.logger = logger;
     }
 
     /**
@@ -94,7 +99,7 @@ public class FileAnalysis
                 fileFilter,
                 File.listRoots()
                 );
-        FileAnalysisVisitor fce = new FileAnalysisVisitor( writerDirs, writerFile );
+        FileAnalysisVisitor fce = new FileAnalysisVisitor( writerDirs, writerFile, logger );
 
         this.fileCollector.walk( fce );
         this.fileCollector = null;
@@ -153,35 +158,77 @@ public class FileAnalysis
             }
     }
 
+    public static FileAnalysis createFileAnalysis(
+            final File         outputDirectory,
+            final XLogger     logger
+            ) throws IOException
+    {
+        final FileAnalysis fa = new FileAnalysis(
+                outputDirectory,
+                Charset.forName( "ISO-8859-1" ),
+                logger
+                );
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                CancelState cs = fa.stop();
+
+                logger.info( "ShutdownHook CancelState=" + cs );
+
+                if( cs != null ) {
+                    fa.close();
+                    // TODO: store cs !!!
+
+                    try {
+                        Thread.sleep( 2 * 1000 );
+                          }
+                    catch(InterruptedException ignore) {}
+                          }
+
+                logger.info( "ShutdownHook done" + new Date( System.currentTimeMillis()) );
+                  }
+               });
+        return fa;
+    }
+
+    /**
+     *
+     * @param args
+     */
     public static void main( final String[] args )
     {
-        File outputDirectory = new File( "." );
+        File     outputDirectory = new File( "." );
+        XLogger logger             = new Log4jXLogger( FileAnalysis.class );
 
         try {
-            final FileAnalysis fa = new FileAnalysis( outputDirectory, Charset.forName( "ISO-8859-1" ) );
+//            final FileAnalysis fa = new FileAnalysis( outputDirectory, Charset.forName( "ISO-8859-1" ) );
+//
+//            fa.start();
+//            fa.close();
+//
+//            Runtime.getRuntime().addShutdownHook(new Thread() {
+//                public void run() {
+//                    CancelState cs = fa.stop();
+//
+//                    logger.info( "ShutdownHook CancelState=" + cs );
+//
+//                    if( cs != null ) {
+//                        fa.close();
+//                        // TODO: store cs !!!
+//
+//                        try {
+//                            Thread.sleep( 2 * 1000 );
+//                            }
+//                        catch(InterruptedException ignore) {}
+//                            }
+//
+//                    logger.info( "ShutdownHook done" + new Date( System.currentTimeMillis()) );
+//                    }
+//             });
+            final FileAnalysis fa = FileAnalysis.createFileAnalysis( outputDirectory, logger );
 
             fa.start();
             fa.close();
-
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    CancelState cs = fa.stop();
-
-                    logger.info( "ShutdownHook CancelState=" + cs );
-
-                    if( cs != null ) {
-                        fa.close();
-                        // TODO: store cs !!!
-
-                        try {
-                            Thread.sleep( 2 * 1000 );
-                            }
-                        catch(InterruptedException ignore) {}
-                            }
-
-                    logger.info( "ShutdownHook done" + new Date( System.currentTimeMillis()) );
-                    }
-             });
             }
         catch( IOException e ) {
             logger.error( "I/O error", e );

@@ -30,8 +30,8 @@ public class FileCollector
     private ArrayList<File> rootDirectoriesList = new ArrayList<File>();
     private FileFilter directoriesFilter;
     private FileFilter filesFilter;
-    private boolean cancel	= false;
-    private boolean running	= false;
+    private boolean cancel    = false;
+    private boolean running    = false;
     private CancelState cancelState;
 
     /**
@@ -44,23 +44,6 @@ public class FileCollector
     {
         this(null,null,rootFolderFiles);
     }
-
-    /* *
-     * Create a DirectoryIterator started to rootFolderFile,
-     * with giving {@link FileFilter} to filter File result.
-     *
-     * @param rootFolderFile    Root File directory for this Iterator
-     * @param fileFilter        File filter to select files (any File object)
-     *                          than should be in result (could be null).
-     * @throws NullPointerException if rootFolderFile is null
-     * /
-    public FileCollector(
-            FileFilter  fileFilter,
-            File...     rootFolderFiles
-            )
-    {
-        this(fileFilter,null,rootFolderFiles);
-    }*/
 
     /**
      * Create a DirectoryIterator started to rootFolderFile,
@@ -123,9 +106,9 @@ public class FileCollector
      */
     public void walk( final FileCollectorVisitor event )
     {
-        this.cancel			= false;
-        this.running 	 	= true;
-        this.cancelState 	= null;
+        this.cancel            = false;
+        this.running          = true;
+        this.cancelState     = null;
 
         final LinkedList<File> rootList = new LinkedList<File>( this.rootDirectoriesList );
         final LinkedList<File> dirsList = new LinkedList<File>( this.rootDirectoriesList );

@@ -11,19 +11,22 @@ import org.apache.log4j.Logger;
  */
 class FileAnalysisVisitor implements FileCollectorVisitor
 {
-    private static final Logger logger = Logger.getLogger( FileAnalysisVisitor.class );
+    //private static final Logger logger = Logger.getLogger( FileAnalysisVisitor.class );
+    private final XLogger logger;
     private Writer outDir;
     private Writer outFile;
     private StringBuilder       sb      = new StringBuilder();
     private FileResultFormater  frf     = new FileResultFormater();
 
     public FileAnalysisVisitor(
-        final Writer outDir,
-        final Writer outFile
+        final Writer 	outDir,
+        final Writer 	outFile,
+        final XLogger 	logger
         )
     {
         this.outDir 	= outDir;
         this.outFile	= outFile;
+        this.logger		= logger;
     }
     @Override
     public void openRootDirectory( final File rootDirectoryFile )
