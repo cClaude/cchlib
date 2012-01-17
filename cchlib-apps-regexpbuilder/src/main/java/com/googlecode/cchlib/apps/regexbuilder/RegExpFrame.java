@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.regex;
+package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -53,7 +53,7 @@ import com.googlecode.cchlib.awt.PlateformeDesktopNotSupportedException;
  * @version 1.0
  */
 
-public class RegexFrame extends JFrame implements HyperlinkListener
+public class RegExpFrame extends JFrame implements HyperlinkListener
 {
     private static final long serialVersionUID = 1L;
 
@@ -108,7 +108,7 @@ public class RegexFrame extends JFrame implements HyperlinkListener
     JTextArea    textReplaceResults    = new JTextArea();
 
     // Construct the frame
-    public RegexFrame()
+    public RegExpFrame()
     {
         enableEvents( AWTEvent.WINDOW_EVENT_MASK );
         try {

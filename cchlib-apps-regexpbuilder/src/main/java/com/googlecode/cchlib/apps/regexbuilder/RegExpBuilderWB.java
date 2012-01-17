@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.regex;
+package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;

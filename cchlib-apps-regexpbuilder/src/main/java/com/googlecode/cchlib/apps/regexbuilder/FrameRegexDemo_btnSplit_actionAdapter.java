@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.regex;
+package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 class FrameRegexDemo_btnSplit_actionAdapter
     implements ActionListener
 {
-    RegexFrame adaptee;
+    RegExpFrame adaptee;
 
-    FrameRegexDemo_btnSplit_actionAdapter( RegexFrame adaptee )
+    FrameRegexDemo_btnSplit_actionAdapter( RegExpFrame adaptee )
     {
         this.adaptee = adaptee;
     }

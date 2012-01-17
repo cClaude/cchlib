@@ -175,6 +175,8 @@
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools-editressourcebundle</module>
+    <!-- Applications -->
+    <module>cchlib-apps-regexpbuilder</module>
   </modules>
 
 </project>

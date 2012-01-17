@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.regex;
+package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -25,14 +25,14 @@ import javax.swing.UIManager;
  * @version 1.1
  */
 
-public class RegexApp
+public class RegExpApp
 {
     boolean packFrame = false;
 
     // Construct the application
-    public RegexApp()
+    public RegExpApp()
     {
-        RegexFrame frame = new RegexFrame();
+        RegExpFrame frame = new RegExpFrame();
         // Validate frames that have preset sizes
         // Pack frames that have useful preferred size info, e.g. from their
         // layout
@@ -68,6 +68,6 @@ public class RegexApp
         catch( Exception e ) {
             e.printStackTrace();
             }
-        new RegexApp();
+        new RegExpApp();
     }
 }
