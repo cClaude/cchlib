@@ -11,31 +11,25 @@ public class JTextAreaXLogger
         implements XLogger
 {
     private final JTextArea textArea;
-    private final StringBuilder sb;
 
     public JTextAreaXLogger( final JTextArea textArea )
     {
         super();
         this.textArea = textArea;
         this.textArea.setEditable( false );
-        this.sb = new StringBuilder( this.textArea.getText() );
     }
 
     @Override // XLogger
-    public void info( String message )
+    public void info( final String message )
     {
         super.info( message );
-//        final String contenttxt = textArea.getText();
-//        textArea.setText( contenttxt + message );
-        this.sb.append( message );
-        this.textArea.setText( this.toString() );
+        this.textArea.append( message );
     }
 
     @Override // XLogger
-    public void error( String message, Exception e )
+    public void error( final String message, final Exception e )
     {
         super.error( message, e );
-        this.sb.append( message );
-        this.textArea.setText( this.toString() );
+        this.textArea.append( message );
     }
 }

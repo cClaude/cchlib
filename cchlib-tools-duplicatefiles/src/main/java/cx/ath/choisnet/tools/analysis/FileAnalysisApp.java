@@ -76,10 +76,17 @@ public class FileAnalysisApp
     @Override
     protected void jButton_Cancel_mouseClicked( MouseEvent event )
     {
-        CancelState cancelState = fa.stop();
-
-        System.out.println( "cancelState = " + cancelState );
-    }
+        new Thread( new Runnable(){
+            @Override
+            public void run()
+            {
+                System.out.println( "jButton_Cancel_mouseClicked" );
+                CancelState cancelState = fa.stop();
+                System.out.println( "cancelState = " + cancelState );
+                getJProgressBar().setIndeterminate( false );
+            }
+        }).start();
+   }
 
 
 }

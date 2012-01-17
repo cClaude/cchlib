@@ -106,9 +106,9 @@ public class FileCollector
      */
     public void walk( final FileCollectorVisitor event )
     {
-        this.cancel            = false;
-        this.running          = true;
-        this.cancelState     = null;
+        this.cancel         = false;
+        this.running        = true;
+        this.cancelState    = null;
 
         final LinkedList<File> rootList = new LinkedList<File>( this.rootDirectoriesList );
         final LinkedList<File> dirsList = new LinkedList<File>( this.rootDirectoriesList );
@@ -149,7 +149,7 @@ public class FileCollector
             if( cancel ) {
                 // Store current state.
                 this.cancelState = new CancelState( rootList, dirsList );
-                break;
+                return; // quit now
                 }
             }
 

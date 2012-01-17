@@ -117,9 +117,19 @@ public class FileAnalysis
             );
 
         if( this.fileCollector != null ) {
-            this.fileCollector.cancel();
+            FileCollector fc = fileCollector;
 
-            return this.fileCollector.getCancelState();
+            fc.cancel();
+
+            // Wait cancel !
+            do {
+                try {
+                    Thread.sleep( 1000 );
+                    }
+                catch( InterruptedException ignore ) {}
+                } while( this.fileCollector == null );
+
+            return fc.getCancelState();
             }
 
         return null;

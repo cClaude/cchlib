@@ -15,19 +15,19 @@ public class Log4JXLogger implements XLogger
         this( Log4JXLogger.class );
     }
 
-    public Log4JXLogger( Class<?> clazz )
+    public Log4JXLogger( final Class<?> clazz )
     {
         this.logger = Logger.getLogger( clazz );
     }
 
     @Override
-    public void info( String message )
+    public void info( final String message )
     {
         this.logger.info( message );
     }
 
     @Override
-    public void error( String message, Exception e )
+    public void error( final String message, final Exception e )
     {
         this.logger.error( message, e );
     }
