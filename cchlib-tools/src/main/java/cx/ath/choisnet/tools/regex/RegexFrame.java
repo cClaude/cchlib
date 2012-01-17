@@ -1,19 +1,15 @@
 package cx.ath.choisnet.tools.regex;
 
-//import java.util.regex.*;
-//import java.awt.*;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-//import java.awt.event.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-//import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkListener;
@@ -862,133 +857,5 @@ public class RegexFrame extends JFrame implements HyperlinkListener
                 e.printStackTrace();
                 }
             }
-    }
-}
-
-class FrameRegexDemo_btnMatch_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnMatch_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnMatch_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnReplace_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnReplace_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnReplace_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnSplit_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnSplit_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnSplit_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnObjects_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnObjects_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnObjects_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnNextMatch_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnNextMatch_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnNextMatch_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnObjReplace_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnObjReplace_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnObjReplace_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnAdvancedReplace_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnAdvancedReplace_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnAdvancedReplace_actionPerformed( e );
-    }
-}
-
-class FrameRegexDemo_btnObjSplit_actionAdapter
-    implements ActionListener
-{
-    RegexFrame adaptee;
-
-    FrameRegexDemo_btnObjSplit_actionAdapter( RegexFrame adaptee )
-    {
-        this.adaptee = adaptee;
-    }
-
-    public void actionPerformed( ActionEvent e )
-    {
-        adaptee.btnObjSplit_actionPerformed( e );
     }
 }

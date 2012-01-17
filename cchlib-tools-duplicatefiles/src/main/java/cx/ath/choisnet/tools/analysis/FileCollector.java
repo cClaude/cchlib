@@ -226,5 +226,14 @@ public class FileCollector
         {
             this.dirsList = new LinkedList<File>( dirsList );
         }
+
+        @Override
+        public String toString()
+        {
+            return "CancelState [rootList="
+                    + rootList
+                    + ", dirsList="
+                    + dirsList + "]";
+        }
     }
 }

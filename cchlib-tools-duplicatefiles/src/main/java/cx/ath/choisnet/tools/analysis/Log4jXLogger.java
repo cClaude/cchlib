@@ -6,11 +6,16 @@ import org.apache.log4j.Logger;
  *
  *
  */
-public class Log4jXLogger implements XLogger
+public class Log4JXLogger implements XLogger
 {
     private final Logger logger;
 
-    public Log4jXLogger( Class<?> clazz )
+    public Log4JXLogger()
+    {
+        this( Log4JXLogger.class );
+    }
+
+    public Log4JXLogger( Class<?> clazz )
     {
         this.logger = Logger.getLogger( clazz );
     }
@@ -26,5 +31,4 @@ public class Log4jXLogger implements XLogger
     {
         this.logger.error( message, e );
     }
-
 }

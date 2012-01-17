@@ -4,9 +4,6 @@ import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-
-import javax.swing.JTextArea;
-
 import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
 
 /**
@@ -14,9 +11,9 @@ import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
  */
 public class FileAnalysisApp
     extends FileAnalysisAppWB
-        implements XLogger
 {
     private FileAnalysis fa;
+    private JTextAreaXLogger logger;
 
     /**
      * Create the application.
@@ -24,6 +21,8 @@ public class FileAnalysisApp
     public FileAnalysisApp()
     {
         super();
+
+        this.logger = new JTextAreaXLogger( super.getJTextArea_Logs() );
 
         super.getJProgressBar().setIndeterminate( true );
 
@@ -42,16 +41,16 @@ public class FileAnalysisApp
         File outputDirectory = new File( "." );
 
         try {
-            fa = FileAnalysis.createFileAnalysis( outputDirectory, this );
+            fa = FileAnalysis.createFileAnalysis( outputDirectory, logger );
 
             fa.start();
             fa.close();
             }
         catch( IOException e ) {
-            this.error( "I/O error", e );
+            logger.error( "I/O error", e );
             }
         catch( Exception e ) {
-            this.error( "Error", e );
+            logger.error( "Error", e );
             }
     }
 
@@ -78,24 +77,8 @@ public class FileAnalysisApp
     protected void jButton_Cancel_mouseClicked( MouseEvent event )
     {
         CancelState cancelState = fa.stop();
-    }
 
-    @Override // XLogger
-    public void info( String message )
-    {
-        JTextArea textArea = super.getJTextArea_Logs();
-
-        String contenttxt = textArea.getText();
-        textArea.setText( contenttxt + message );
-    }
-
-    @Override // XLogger
-    public void error( String message, Exception e )
-    {
-        JTextArea textArea = super.getJTextArea_Logs();
-
-        String contenttxt = textArea.getText();
-        textArea.setText( contenttxt + message );
+        System.out.println( "cancelState = " + cancelState );
     }
 
 

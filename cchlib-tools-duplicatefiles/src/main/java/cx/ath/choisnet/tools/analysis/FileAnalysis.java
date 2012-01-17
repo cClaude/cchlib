@@ -198,7 +198,7 @@ public class FileAnalysis
     public static void main( final String[] args )
     {
         File     outputDirectory = new File( "." );
-        XLogger logger             = new Log4jXLogger( FileAnalysis.class );
+        XLogger logger             = new Log4JXLogger( FileAnalysis.class );
 
         try {
 //            final FileAnalysis fa = new FileAnalysis( outputDirectory, Charset.forName( "ISO-8859-1" ) );
