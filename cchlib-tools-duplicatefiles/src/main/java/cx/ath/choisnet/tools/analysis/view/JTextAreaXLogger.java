@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.analysis;
+package cx.ath.choisnet.tools.analysis.view;
 
 import javax.swing.JTextArea;
 

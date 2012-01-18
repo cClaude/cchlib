@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
+import cx.ath.choisnet.tools.analysis.view.FileAnalysisAppWB;
+import cx.ath.choisnet.tools.analysis.view.JTextAreaXLogger;
 
 /**
  *

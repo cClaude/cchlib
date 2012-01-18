@@ -10,6 +10,8 @@ import com.googlecode.cchlib.io.DefaultFileRoller;
 import com.googlecode.cchlib.io.FileRoller;
 import com.googlecode.cchlib.io.FileRollingWriter;
 import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
+import cx.ath.choisnet.tools.analysis.view.Log4JXLogger;
+import cx.ath.choisnet.tools.analysis.view.XLogger;
 
 /**
  *

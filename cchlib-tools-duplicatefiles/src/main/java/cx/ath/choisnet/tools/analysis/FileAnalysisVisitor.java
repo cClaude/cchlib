@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
+import cx.ath.choisnet.tools.analysis.view.XLogger;
+
 /**
  *
  *
  */
 class FileAnalysisVisitor implements FileCollectorVisitor
 {
-    //private static final Logger logger = Logger.getLogger( FileAnalysisVisitor.class );
     private final XLogger logger;
     private Writer outDir;
     private Writer outFile;

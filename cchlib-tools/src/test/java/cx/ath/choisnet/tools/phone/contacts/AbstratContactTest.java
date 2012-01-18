@@ -1,6 +1,5 @@
 package cx.ath.choisnet.tools.phone.contacts;
 
-import java.util.Collection;
 import org.junit.Test;
 
 /**
@@ -11,34 +10,11 @@ public class AbstratContactTest
     @Test
     public void test1()
     {
-        ContactProperties contactProperties = new ContactProperties()
+        ContactPropertiesBuilder builder = new AbstractContactPropertiesBuilder()
         {
 
-            @Override
-            public int size() {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-
-            @Override
-            public int getIndex(String valueName) {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-
-            @Override
-            public ContactValueType getType(int index) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
-            public Collection<? extends String> getDefault() {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
         };
+        ContactProperties contactProperties = new DefaultContactProperties( builder  );
         AbstratContact ac = new AbstratContact(contactProperties)
         {
             private static final long serialVersionUID = 1L;
