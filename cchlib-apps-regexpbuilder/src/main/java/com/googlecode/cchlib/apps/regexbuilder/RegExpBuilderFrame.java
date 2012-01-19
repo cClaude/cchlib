@@ -1,124 +1,38 @@
 package com.googlecode.cchlib.apps.regexbuilder;
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JPanel;
-import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 import com.googlecode.cchlib.awt.DesktopHelper;
 import com.googlecode.cchlib.awt.PlateformeDesktopNotSupportedException;
 
 /**
- * <p>
- * Regular Expressions Demo
- * </p>
- * <p>
- * Demonstration showing how to use the java.util.regex package that is part of
- * JDK 1.4 and later
- * </p>
- * <p>
- * Copyright (c) 2003 Jan Goyvaerts. All rights reserved.
- * </p>
- * <p>
- * Visit <A
- * HREF="http://www.regular-expressions.info">http://www.regular-expressions
- * .info</A> for a detailed tutorial to regular expressions.
- * </p>
- * <p>
- * This source code is provided for educational purposes only, without any
- * warranty of any kind. Distribution of this source code and/or the application
- * compiled from this source code is prohibited. Please refer everybody
- * interested in getting a copy of the source code to <A
- * HREF="http://www.regular-expressions.info"
- * >http://www.regular-expressions.info</A>.
- * </p>
  *
- * @author Jan Goyvaerts
- * @version 1.0
+ *
  */
-
-public class RegExpFrame extends JFrame implements HyperlinkListener
+public class RegExpBuilderFrame
+    extends RegExpBuilderWB
+        implements HyperlinkListener
 {
     private static final long serialVersionUID = 1L;
 
-    JPanel          contentPane;
-    BorderLayout    borderLayout1         = new BorderLayout();
-    JSplitPane      jSplitPane1           = new JSplitPane();
-    JSplitPane      jSplitPane2           = new JSplitPane();
-    JPanel          jPanel1               = new JPanel();
-    BorderLayout    borderLayout2         = new BorderLayout();
-    JPanel          jPanel2               = new JPanel();
-    JLabel          jLabel1             = new JLabel();
-    BorderLayout    borderLayout3       = new BorderLayout();
-    JEditorPane     jEditorPane_Info    = new JEditorPane();
-    JTextArea       textRegex           = new JTextArea();
-    JPanel          jPanel3               = new JPanel();
-    GridLayout      gridLayout1           = new GridLayout();
-    JCheckBox       checkDotAll           = new JCheckBox();
-    JCheckBox       checkCanonEquivalence = new JCheckBox();
-    JCheckBox       checkMultiLine        = new JCheckBox();
-    JCheckBox    checkCaseInsensitive  = new JCheckBox();
-    JPanel       jPanel4               = new JPanel();
-    BorderLayout borderLayout4         = new BorderLayout();
-    JPanel       jPanel5               = new JPanel();
-    JPanel       jPanel6               = new JPanel();
-    GridLayout   gridLayout2           = new GridLayout();
-    JButton      btnMatch              = new JButton();
-    JButton      btnSplit              = new JButton();
-    JButton      btnObjects            = new JButton();
-    JButton      btnNextMatch          = new JButton();
-    JButton      btnObjReplace         = new JButton();
-    JButton      btnObjSplit           = new JButton();
-    JButton      btnReplace            = new JButton();
-    JLabel       jLabel3               = new JLabel();
-    BorderLayout borderLayout5         = new BorderLayout();
-    JLabel       jLabel4               = new JLabel();
-    JTextArea    textSubject           = new JTextArea();
-    JPanel       jPanel8               = new JPanel();
-    GridLayout   gridLayout3           = new GridLayout();
-    BorderLayout borderLayout6         = new BorderLayout();
-    JPanel       jPanel7               = new JPanel();
-    JLabel       jLabel5               = new JLabel();
-    JTextArea    textReplace           = new JTextArea();
-    JPanel       jPanel9               = new JPanel();
-    GridLayout   gridLayout4           = new GridLayout();
-    JPanel       jPanel10              = new JPanel();
-    JPanel       jPanel11              = new JPanel();
-    BorderLayout borderLayout7         = new BorderLayout();
-    BorderLayout borderLayout8         = new BorderLayout();
-    JLabel       jLabel6               = new JLabel();
-    JTextArea    textResults           = new JTextArea();
-    JLabel       jLabel7               = new JLabel();
-    JTextArea    textReplaceResults    = new JTextArea();
-
-    // Construct the frame
-    public RegExpFrame()
+    /**
+     *  Construct the frame
+     */
+    public RegExpBuilderFrame()
     {
-        enableEvents( AWTEvent.WINDOW_EVENT_MASK );
-        try {
-            jbInit();
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-    }
 
+    }
+/*
     // Component initialization
     private void jbInit() throws Exception
     {
@@ -287,7 +201,7 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
         jPanel11.add( jLabel7, BorderLayout.NORTH );
         jPanel11.add( textReplaceResults, BorderLayout.CENTER );
     }
-
+*/
     // Overridden so we can exit when window is closed
     protected void processWindowEvent( WindowEvent e )
     {
@@ -318,8 +232,14 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * backslashes in strings as usual. So the string "\\(" matches a literal (
      * and "\\\\" matches a single literal backslash.
      */
-    void btnMatch_actionPerformed( ActionEvent e )
+    @Override
+    public void btnMatch_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+
         textReplaceResults.setText( "n/a" );
         // Calling the Pattern.matches static method is an alternative way to
         // achieve the same
@@ -370,8 +290,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * respectively. This is because backslashes need to be escaped in Java
      * string literals as well.
      */
-    void btnReplace_actionPerformed( ActionEvent e )
+    @Override
+    public void btnReplace_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         try {
             textReplaceResults.setText(
                     textSubject.getText().replaceAll(
@@ -411,6 +338,11 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
     /** Show the results of splitting a string. */
     void printSplitArray( String[] array )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+
         textResults.setText( null );
 
         for( int i = 0; i < array.length; i++ ) {
@@ -446,8 +378,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * last item. This is more efficient than having the string split
      * completely.
      */
-    void btnSplit_actionPerformed( ActionEvent e )
+    @Override
+    public void btnSplit_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         textReplaceResults.setText( "n/a" );
         try {
             printSplitArray(
@@ -471,6 +410,12 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      */
     int getRegexOptions()
     {
+        final JCheckBox checkCanonEquivalence    = getCheckCanonEquivalence();
+        final JCheckBox checkCaseInsensitive     = getCheckCaseInsensitive();
+        final JCheckBox checkDotAll             = getCheckDotAll();
+        final JCheckBox checkMultiLine             = getCheckMultiLine();
+
+
         int Options = 0;
 
         if( checkCanonEquivalence.isSelected() ) {
@@ -539,8 +484,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * compiledRegex.matcher() or tell the existing Matcher to work on a new
      * string by calling regexMatcher.reset(subjectString).
      */
-    void btnObjects_actionPerformed( ActionEvent e )
+    @Override
+    public void btnObjects_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         compiledRegex = null;
         textReplaceResults.setText( "n/a" );
 
@@ -578,6 +530,12 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      */
     void printMatch()
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         try {
             textResults.setText(
                     "Index of the first character in the match: "
@@ -654,8 +612,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * btnNextMatch uses the subject and regex as they were when you clicked
      * btnCreateObjects.
      */
-    void btnNextMatch_actionPerformed( ActionEvent e )
+    @Override
+    public void btnNextMatch_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         textReplaceResults.setText( "n/a" );
         if( regexMatcher == null ) {
             textResults
@@ -692,8 +657,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * See the notes with btnReplace for the special $-syntax in the replacement
      * text.
      */
-    void btnObjReplace_actionPerformed( ActionEvent e )
+    @Override
+    public void btnObjReplace_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         if( regexMatcher == null ) {
             textResults
                     .setText( "Please click Create Objects to create the Matcher object" );
@@ -756,8 +728,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      * may get you into trouble with dollar signs that may appear in the regex
      * match.)
      */
-    void btnAdvancedReplace_actionPerformed( ActionEvent e )
+    @Override
+    public void btnAdvancedReplace_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         if( regexMatcher == null ) {
             textResults
                     .setText( "Please click Create Objects to create the Matcher object" );
@@ -831,8 +810,15 @@ public class RegExpFrame extends JFrame implements HyperlinkListener
      *
      * Note that no Matcher object is used.
      */
-    void btnObjSplit_actionPerformed( ActionEvent e )
+    @Override
+    public void btnObjSplit_actionPerformed( ActionEvent e )
     {
+        final JTextArea textReplaceResults     = getTextReplaceResults();
+        final JTextArea textSubject         = getTextSubject();
+        final JTextArea textRegex             = getTextRegExp();
+        final JTextArea textResults         = getTextResults();
+        final JTextArea textReplace         = getTextReplace();
+
         textReplaceResults.setText( "n/a" );
         if( compiledRegex == null ) {
             textResults

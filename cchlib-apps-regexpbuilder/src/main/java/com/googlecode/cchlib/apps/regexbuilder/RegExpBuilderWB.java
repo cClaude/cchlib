@@ -3,7 +3,6 @@ package com.googlecode.cchlib.apps.regexbuilder;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,15 +15,31 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.ComponentOrientation;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 
-public class RegExpBuilderWB extends JFrame
+public abstract class RegExpBuilderWB extends JFrame
 {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+    private JTextArea javaRegExp;
+    private JTextArea textRegExp;
+    private JTextArea textReplaceResults;
+    private JTextArea textSubject;
+    private JTextArea textResults;
+    private JTextArea textReplace;
+    private JCheckBox checkCanonEquivalence;
+    private JCheckBox checkCaseInsensitive;
+    private JCheckBox checkDotAll;
+    private JCheckBox checkMultiLine;
 
     /**
      * Launch the application.
-     */
+     *
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -36,7 +51,7 @@ public class RegExpBuilderWB extends JFrame
                 }
             }
         });
-    }
+    }*/
 
     /**
      * Create the frame.
@@ -54,6 +69,14 @@ public class RegExpBuilderWB extends JFrame
         enableEvents( AWTEvent.WINDOW_EVENT_MASK );
 
         try {
+            setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("icon.gif")));
+            //setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("com/googlecode/cchlib/apps/regexbuilder/icon.gif")));
+            }
+        catch( Exception e ) {
+            e.printStackTrace();
+            }
+
+        try {
             initComponents();
             }
         catch( Exception e ) {
@@ -67,28 +90,16 @@ public class RegExpBuilderWB extends JFrame
         contentPane = (JPanel)this.getContentPane();
         contentPane.setLayout( borderLayout1 );
         this.setFont( new java.awt.Font( "Dialog", 0, 12 ) );
-        this.setSize( new Dimension( 629, 523 ) );
+        this.setSize( new Dimension(720, 520) );
         this.setTitle( "Regular Expressions Tester" );
-        JPanel          jPanel1               = new JPanel();
-        jPanel1.setAlignmentY( (float)0.5 );
-        BorderLayout    borderLayout2         = new BorderLayout();
-        jPanel1.setLayout( borderLayout2 );
-        JSplitPane      jSplitPane1           = new JSplitPane();
-        jSplitPane1.setOrientation( JSplitPane.VERTICAL_SPLIT );
+        JPanel          jPanelTopCmd               = new JPanel();
+        jPanelTopCmd.setAlignmentY( (float)0.5 );
+        JSplitPane      jSplitPaneFrame           = new JSplitPane();
+        jSplitPaneFrame.setOrientation( JSplitPane.VERTICAL_SPLIT );
         JSplitPane      jSplitPane2           = new JSplitPane();
-        jSplitPane1.setBottomComponent( jSplitPane2 );
-        jSplitPane1.setLeftComponent( jPanel1 );
-        jSplitPane1.setRightComponent( null );
-        BorderLayout    borderLayout3       = new BorderLayout();
-        JPanel          jPanel2             = new JPanel();
-        JLabel          jLabel1             = new JLabel();
-        jPanel2.setLayout( borderLayout3 );
-        jLabel1.setAlignmentX( (float)0.0 );
-        jLabel1.setMinimumSize( new Dimension( 97, 15 ) );
-        JTextArea       textRegex           = new JTextArea();
-        jLabel1.setLabelFor( textRegex );
-        jLabel1.setText( "Regular Expression:" );
-        JEditorPane     jEditorPane_Info    = new JEditorPane();
+        jSplitPaneFrame.setBottomComponent( jSplitPane2 );
+        jSplitPaneFrame.setLeftComponent( jPanelTopCmd );
+        jSplitPaneFrame.setRightComponent( null );
         HyperlinkListener hyperlinkListener = new HyperlinkListener()
         {
             @Override
@@ -97,30 +108,6 @@ public class RegExpBuilderWB extends JFrame
                 // TODO Auto-generated method stub
             }
         };
-        jEditorPane_Info.addHyperlinkListener( hyperlinkListener  );
-        jEditorPane_Info.setEditable(false);
-        jEditorPane_Info.setContentType("text/html");
-        jEditorPane_Info.setText( "<html>Visit <a href=\"http://www.regular-expressions.info\">http://www.regular-expressions.info</a> for a complete regex tutorial</html>" );
-        textRegex.setFont( new java.awt.Font( "Monospaced", 0, 12 ) );
-        textRegex.setBorder( BorderFactory.createLoweredBevelBorder() );
-        textRegex.setText( "t[a-z]+" );
-        textRegex.setLineWrap( true );
-        JPanel          jPanel3               = new JPanel();
-        GridLayout      gridLayout1           = new GridLayout();
-        jPanel3.setLayout( gridLayout1 );
-        gridLayout1.setColumns( 2 );
-        gridLayout1.setHgap( 2 );
-        gridLayout1.setRows( 2 );
-        gridLayout1.setVgap( 2 );
-        JCheckBox       checkDotAll           = new JCheckBox();
-        JCheckBox       checkCanonEquivalence = new JCheckBox();
-        JCheckBox       checkMultiLine        = new JCheckBox();
-        JCheckBox    checkCaseInsensitive  = new JCheckBox();
-        checkDotAll.setText( "Dot matches newlines" );
-        checkCanonEquivalence
-                .setText( "Ignore differences in Unicode encoding" );
-        checkMultiLine.setText( "^ and $ match at embedded newlines" );
-        checkCaseInsensitive.setText( "Case insensitive" );
         contentPane.setPreferredSize( new Dimension( 438, 142 ) );
         JPanel       jPanel4               = new JPanel();
         BorderLayout borderLayout4         = new BorderLayout();
@@ -138,34 +125,34 @@ public class RegExpBuilderWB extends JFrame
         gridLayout2.setVgap( 2 );
         JButton      btnMatch              = new JButton();
         btnMatch.setText( "Match Test" );
-        btnMatch.addActionListener( new FrameRegexDemo_btnMatch_actionAdapter( this ) );
+        btnMatch.addActionListener( new REBF_btnMatch_actionAdapter( this ) );
         JButton      btnSplit              = new JButton();
         btnSplit.setText( "Split" );
-        btnSplit.addActionListener( new FrameRegexDemo_btnSplit_actionAdapter( this ) );
+        btnSplit.addActionListener( new REBF_btnSplit_actionAdapter( this ) );
         JButton      btnObjects            = new JButton();
         btnObjects.setAlignmentY( (float)0.5 );
         btnObjects.setActionCommand( "Create Objects" );
         btnObjects.setText( "Create Objects" );
-        btnObjects.addActionListener( new FrameRegexDemo_btnObjects_actionAdapter( this ) );
+        btnObjects.addActionListener( new REBF_btnObjects_actionAdapter( this ) );
         JButton      btnNextMatch          = new JButton();
         btnNextMatch.setText( "Next Match" );
-        btnNextMatch.addActionListener( new FrameRegexDemo_btnNextMatch_actionAdapter( this ) );
+        btnNextMatch.addActionListener( new REBF_btnNextMatch_actionAdapter( this ) );
         JButton      btnObjReplace         = new JButton();
         btnObjReplace.setSelected( false );
         btnObjReplace.setText( "Obj Replace" );
-        btnObjReplace.addActionListener( new FrameRegexDemo_btnObjReplace_actionAdapter( this ) );
+        btnObjReplace.addActionListener( new REBF_btnObjReplace_actionAdapter( this ) );
         JButton      btnObjSplit           = new JButton();
         btnObjSplit.setText( "Obj Split" );
-        btnObjSplit.addActionListener( new FrameRegexDemo_btnObjSplit_actionAdapter( this ) );
+        btnObjSplit.addActionListener( new REBF_btnObjSplit_actionAdapter( this ) );
         JButton      btnReplace            = new JButton();
         btnReplace.setText( "Replace" );
-        btnReplace.addActionListener( new FrameRegexDemo_btnReplace_actionAdapter( this ) );
+        btnReplace.addActionListener( new REBF_btnReplace_actionAdapter( this ) );
         JLabel       jLabel3               = new JLabel();
         jLabel3.setPreferredSize( new Dimension( 0, 0 ) );
         jLabel3.setRequestFocusEnabled( true );
         jLabel3.setText( "" );
         JLabel       jLabel4               = new JLabel();
-        JTextArea    textSubject           = new JTextArea();
+        textSubject           = new JTextArea();
         jLabel4.setLabelFor( textSubject );
         jLabel4.setText( "Test Subject:" );
         textSubject.setBorder( BorderFactory.createLoweredBevelBorder() );
@@ -183,7 +170,7 @@ public class RegExpBuilderWB extends JFrame
         BorderLayout borderLayout6         = new BorderLayout();
         jPanel7.setLayout( borderLayout6 );
         JLabel       jLabel5               = new JLabel();
-        JTextArea    textReplace           = new JTextArea();
+        textReplace           = new JTextArea();
         jLabel5.setMaximumSize( new Dimension( 89, 15 ) );
         jLabel5.setLabelFor( textReplace );
         jLabel5.setText( "Replacement Text:" );
@@ -193,7 +180,6 @@ public class RegExpBuilderWB extends JFrame
         textReplace.setLineWrap( true );
         textReplace.setWrapStyleWord( true );
         borderLayout4.setVgap( 4 );
-        borderLayout2.setVgap( 4 );
         borderLayout1.setHgap( 0 );
         borderLayout1.setVgap( 0 );
         JPanel       jPanel9               = new JPanel();
@@ -210,7 +196,7 @@ public class RegExpBuilderWB extends JFrame
         jPanel11.setLayout( borderLayout8 );
         JLabel       jLabel6               = new JLabel();
         jLabel6.setToolTipText( "" );
-        JTextArea    textResults           = new JTextArea();
+        textResults           = new JTextArea();
         jLabel6.setLabelFor( textResults );
         jLabel6.setText( "Results:" );
         textResults.setBorder( BorderFactory.createLoweredBevelBorder() );
@@ -218,7 +204,7 @@ public class RegExpBuilderWB extends JFrame
         textResults.setLineWrap( true );
         textResults.setWrapStyleWord( true );
         JLabel       jLabel7               = new JLabel();
-        JTextArea    textReplaceResults    = new JTextArea();
+        textReplaceResults    = new JTextArea();
         jLabel7.setLabelFor( textReplaceResults );
         jLabel7.setText( "Replacement Results:" );
         textReplaceResults.setBorder( BorderFactory.createLoweredBevelBorder() );
@@ -230,19 +216,111 @@ public class RegExpBuilderWB extends JFrame
         jLabel8.setText( "" );
         JButton btnAdvancedReplace = new JButton();
         btnAdvancedReplace.setText( "Advanced Replace" );
-        btnAdvancedReplace.addActionListener( new FrameRegexDemo_btnAdvancedReplace_actionAdapter( this ) );
-        contentPane.add( jSplitPane1, BorderLayout.CENTER );
-        jSplitPane1.add( jSplitPane2, JSplitPane.RIGHT );
-        jSplitPane1.add( jPanel1, JSplitPane.LEFT );
-        jPanel1.add( jPanel2, BorderLayout.NORTH );
-        jPanel2.add( jLabel1, BorderLayout.CENTER );
-        jPanel2.add( jEditorPane_Info, BorderLayout.EAST );
-        jPanel1.add( textRegex, BorderLayout.CENTER );
-        jPanel1.add( jPanel3, BorderLayout.SOUTH );
-        jPanel3.add( checkDotAll, null );
-        jPanel3.add( checkCaseInsensitive, null );
-        jPanel3.add( checkMultiLine, null );
-        jPanel3.add( checkCanonEquivalence, null );
+        btnAdvancedReplace.addActionListener( new REBF_btnAdvancedReplace_actionAdapter( this ) );
+        contentPane.add( jSplitPaneFrame, BorderLayout.CENTER );
+        jSplitPaneFrame.add( jSplitPane2, JSplitPane.RIGHT );
+        jSplitPaneFrame.add( jPanelTopCmd, JSplitPane.LEFT );
+        GridBagLayout gbl_jPanelTopCmd = new GridBagLayout();
+        gbl_jPanelTopCmd.columnWidths = new int[]{0, 0, 0, 0};
+        gbl_jPanelTopCmd.rowHeights = new int[]{0, 50, 0, 50, 0, 0, 0};
+        gbl_jPanelTopCmd.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_jPanelTopCmd.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+        jPanelTopCmd.setLayout(gbl_jPanelTopCmd);
+        JLabel          jLabel1             = new JLabel();
+        GridBagConstraints gbc_jLabel1 = new GridBagConstraints();
+        gbc_jLabel1.insets = new Insets(0, 0, 5, 5);
+        gbc_jLabel1.fill = GridBagConstraints.BOTH;
+        gbc_jLabel1.gridx = 0;
+        gbc_jLabel1.gridy = 0;
+        jPanelTopCmd.add(jLabel1, gbc_jLabel1);
+        jLabel1.setAlignmentX( (float)0.0 );
+        jLabel1.setMinimumSize( new Dimension( 97, 15 ) );
+        jLabel1.setText( "Regular Expression:" );
+        JEditorPane     jEditorPane_Info    = new JEditorPane();
+        jEditorPane_Info.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        jEditorPane_Info.setOpaque(false);
+        GridBagConstraints gbc_jEditorPane_Info = new GridBagConstraints();
+        gbc_jEditorPane_Info.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jEditorPane_Info.anchor = GridBagConstraints.EAST;
+        gbc_jEditorPane_Info.gridwidth = 2;
+        gbc_jEditorPane_Info.insets = new Insets(0, 0, 5, 0);
+        gbc_jEditorPane_Info.gridx = 1;
+        gbc_jEditorPane_Info.gridy = 0;
+        jPanelTopCmd.add(jEditorPane_Info, gbc_jEditorPane_Info);
+        jEditorPane_Info.addHyperlinkListener( hyperlinkListener  );
+        jEditorPane_Info.setEditable(false);
+        jEditorPane_Info.setContentType("text/html");
+        jEditorPane_Info.setText( "<html>Visit <a href=\"http://www.regular-expressions.info\">http://www.regular-expressions.info</a> for a complete regex tutorial</html>" );
+
+        JLabel label2 = new JLabel();
+        label2.setText("Regular Expression for Java source code:");
+        label2.setMinimumSize(new Dimension(97, 15));
+        label2.setAlignmentX(0.0f);
+        GridBagConstraints gbc_label2 = new GridBagConstraints();
+        gbc_label2.fill = GridBagConstraints.HORIZONTAL;
+        gbc_label2.anchor = GridBagConstraints.WEST;
+        gbc_label2.gridwidth = 2;
+        gbc_label2.insets = new Insets(0, 0, 5, 5);
+        gbc_label2.gridx = 0;
+        gbc_label2.gridy = 2;
+        jPanelTopCmd.add(label2, gbc_label2);
+
+        javaRegExp = new JTextArea();
+        label2.setLabelFor(javaRegExp);
+        javaRegExp.setText("Java text Area");
+        GridBagConstraints gbc_javaRegExp = new GridBagConstraints();
+        gbc_javaRegExp.gridwidth = 3;
+        gbc_javaRegExp.insets = new Insets(0, 0, 5, 0);
+        gbc_javaRegExp.fill = GridBagConstraints.BOTH;
+        gbc_javaRegExp.gridx = 0;
+        gbc_javaRegExp.gridy = 3;
+        jPanelTopCmd.add(javaRegExp, gbc_javaRegExp);
+        checkCanonEquivalence = new JCheckBox();
+        GridBagConstraints gbc_checkCanonEquivalence = new GridBagConstraints();
+        gbc_checkCanonEquivalence.fill = GridBagConstraints.BOTH;
+        gbc_checkCanonEquivalence.insets = new Insets(0, 0, 5, 5);
+        gbc_checkCanonEquivalence.gridx = 1;
+        gbc_checkCanonEquivalence.gridy = 4;
+        jPanelTopCmd.add(checkCanonEquivalence, gbc_checkCanonEquivalence);
+        checkCanonEquivalence
+                .setText( "Ignore differences in Unicode encoding" );
+        textRegExp           = new JTextArea();
+        jLabel1.setLabelFor( textRegExp );
+        textRegExp.setFont( new java.awt.Font( "Monospaced", 0, 12 ) );
+        textRegExp.setBorder( BorderFactory.createLoweredBevelBorder() );
+        textRegExp.setText( "t[a-z]+" );
+        textRegExp.setLineWrap( true );
+        GridBagConstraints gbc_textRegExp = new GridBagConstraints();
+        gbc_textRegExp.insets = new Insets(0, 0, 5, 0);
+        gbc_textRegExp.gridwidth = 3;
+        gbc_textRegExp.fill = GridBagConstraints.BOTH;
+        gbc_textRegExp.gridx = 0;
+        gbc_textRegExp.gridy = 1;
+        jPanelTopCmd.add( textRegExp, gbc_textRegExp );
+        checkDotAll           = new JCheckBox();
+        GridBagConstraints gbc_checkDotAll = new GridBagConstraints();
+        gbc_checkDotAll.fill = GridBagConstraints.BOTH;
+        gbc_checkDotAll.insets = new Insets(0, 0, 5, 5);
+        gbc_checkDotAll.gridx = 0;
+        gbc_checkDotAll.gridy = 4;
+        jPanelTopCmd.add(checkDotAll, gbc_checkDotAll);
+        checkDotAll.setText( "Dot matches newlines" );
+        checkMultiLine        = new JCheckBox();
+        GridBagConstraints gbc_checkMultiLine = new GridBagConstraints();
+        gbc_checkMultiLine.fill = GridBagConstraints.BOTH;
+        gbc_checkMultiLine.insets = new Insets(0, 0, 0, 5);
+        gbc_checkMultiLine.gridx = 1;
+        gbc_checkMultiLine.gridy = 5;
+        jPanelTopCmd.add(checkMultiLine, gbc_checkMultiLine);
+        checkMultiLine.setText( "^ and $ match at embedded newlines" );
+        checkCaseInsensitive  = new JCheckBox();
+        GridBagConstraints gbc_checkCaseInsensitive = new GridBagConstraints();
+        gbc_checkCaseInsensitive.fill = GridBagConstraints.BOTH;
+        gbc_checkCaseInsensitive.insets = new Insets(0, 0, 0, 5);
+        gbc_checkCaseInsensitive.gridx = 0;
+        gbc_checkCaseInsensitive.gridy = 5;
+        jPanelTopCmd.add(checkCaseInsensitive, gbc_checkCaseInsensitive);
+        checkCaseInsensitive.setText( "Case insensitive" );
         jSplitPane2.add( jPanel4, JSplitPane.LEFT );
         jPanel4.add( jPanel5, BorderLayout.SOUTH );
         jPanel5.add( btnMatch, null );
@@ -259,7 +337,7 @@ public class RegExpBuilderWB extends JFrame
         jPanel6.add( textSubject, BorderLayout.CENTER );
         jPanel4.add( jPanel8, BorderLayout.CENTER );
         jPanel8.add( jPanel6, null );
-        jSplitPane1.setDividerLocation( 150 );
+        jSplitPaneFrame.setDividerLocation( 150 );
         jSplitPane2.setDividerLocation( 200 );
         jPanel8.add( jPanel7, null );
         jPanel7.add( jLabel5, BorderLayout.NORTH );
@@ -273,4 +351,45 @@ public class RegExpBuilderWB extends JFrame
         jPanel11.add( textReplaceResults, BorderLayout.CENTER );
     }
 
+    public abstract void btnMatch_actionPerformed( ActionEvent event );
+    public abstract void btnSplit_actionPerformed( ActionEvent event );
+    public abstract void btnAdvancedReplace_actionPerformed(ActionEvent event );
+    public abstract void btnNextMatch_actionPerformed(ActionEvent event );
+    public abstract void btnObjects_actionPerformed(ActionEvent event );
+    public abstract void btnObjReplace_actionPerformed(ActionEvent event );
+    public abstract void btnObjSplit_actionPerformed(ActionEvent event );
+    public abstract void btnReplace_actionPerformed(ActionEvent event );
+
+    protected JTextArea getJavaRegExp() {
+        return javaRegExp;
+    }
+
+    protected JTextArea getTextRegExp() {
+        return textRegExp;
+    }
+
+    protected JTextArea getTextReplaceResults() {
+        return textReplaceResults;
+    }
+    protected JTextArea getTextSubject() {
+        return textSubject;
+    }
+    protected JTextArea getTextResults() {
+        return textResults;
+    }
+    protected JTextArea getTextReplace() {
+        return textReplace;
+    }
+    protected JCheckBox getCheckCanonEquivalence() {
+        return checkCanonEquivalence;
+    }
+    protected JCheckBox getCheckCaseInsensitive() {
+        return checkCaseInsensitive;
+    }
+    protected JCheckBox getCheckDotAll() {
+        return checkDotAll;
+    }
+    protected JCheckBox getCheckMultiLine() {
+        return checkMultiLine;
+    }
 }

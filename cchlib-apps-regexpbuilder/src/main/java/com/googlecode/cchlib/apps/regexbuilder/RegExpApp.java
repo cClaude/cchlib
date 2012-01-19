@@ -32,7 +32,7 @@ public class RegExpApp
     // Construct the application
     public RegExpApp()
     {
-        RegExpFrame frame = new RegExpFrame();
+    	RegExpBuilderFrame frame = new RegExpBuilderFrame();
         // Validate frames that have preset sizes
         // Pack frames that have useful preferred size info, e.g. from their
         // layout
