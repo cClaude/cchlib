@@ -1,4 +1,4 @@
 /**
- * Provide extension for standard package {@link java.io}
+ * Provide some extensions to standard {@link java.io} package
  */
 package com.googlecode.cchlib.io;
