@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing;
+package com.googlecode.cchlib.swing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +18,12 @@ import javax.swing.event.ListDataEvent;
  * <BR/>
  * <BR/>
  * - XComboBox handle mouse wheel by default (could be disable or customize
- * using {@link XComboBox.Attribute#NO_MOUSE_WHEEL_LISTENER} and
+ * using {@link XComboBoxAttribute#NO_MOUSE_WHEEL_LISTENER} and
  * {@link #handleMouseWheelMoved(MouseWheelEvent)},
  * <BR/>
  * <BR/>
  * - XComboBox handle insertion of <B>new</B> values by default (could be disable or customize
- * using {@link XComboBox.Attribute#NO_DEFAULT_ACTION_LISTENER} and
+ * using {@link XComboBoxAttribute#NO_DEFAULT_ACTION_LISTENER} and
  * {@link #defaultActionPerformed(ActionEvent)}.
  * <BR/>
  * <BR/>
@@ -34,36 +34,10 @@ import javax.swing.event.ListDataEvent;
  * </P>
  *
  * @author Claude CHOISNET
- * @deprecated use {@link com.googlecode.cchlib.swing.XComboBox} instead
+ * @since 4.1.6
  */
 public class XComboBox<E> extends JComboBox<E>
 {
-    /**
-     * This enum is design to customized {@link XComboBox},
-     * mainly to remove default extra implementations.
-     */
-    public enum Attribute {
-        /**
-         * Don't add default MouseWheelListener for
-         * this XComboBox.
-         * <BR/>
-         * Current implementation handle mouse wheel only
-         * when mouse is on XComboBox, if you wan't to handle
-         * mouse wheel when XComboBox has focus, you must disable
-         * this feature.
-         *
-         * @see XComboBox#handleMouseWheelMoved(MouseWheelEvent)
-         */
-        NO_MOUSE_WHEEL_LISTENER,
-
-        /**
-         * Don't add default MouseWheelListener for
-         * this XComboBox.
-         *
-         * @see XComboBox#defaultActionPerformed(ActionEvent)
-         */
-        NO_DEFAULT_ACTION_LISTENER
-    }
     private static final long serialVersionUID = 1L;
     /** @serial */
     private int maximumItem = -1;
@@ -127,12 +101,12 @@ public class XComboBox<E> extends JComboBox<E>
      *
      * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
      *        list of items
-     * @param attrib  the {@link Attribute} set to configure the XComboBox
+     * @param attrib  the {@link XComboBoxAttribute} set to configure the XComboBox
      */
     public XComboBox(
             final ComboBoxModel<E>  comboBoxModel,
             final Class<E>          contentClass,
-            EnumSet<Attribute>      attrib
+            EnumSet<XComboBoxAttribute>      attrib
             )
     {
         this.contentClass = contentClass;
@@ -141,12 +115,12 @@ public class XComboBox<E> extends JComboBox<E>
             throw new NullPointerException("defaultComboBoxModel could not be null");
             }
         if( attrib == null ) {
-            attrib = EnumSet.noneOf( Attribute.class );
+            attrib = EnumSet.noneOf( XComboBoxAttribute.class );
             }
         super.setEditable(true);
         super.setModel( comboBoxModel );
 
-        if( !attrib.contains( Attribute.NO_MOUSE_WHEEL_LISTENER ) ) {
+        if( !attrib.contains( XComboBoxAttribute.NO_MOUSE_WHEEL_LISTENER ) ) {
             super.addMouseWheelListener(
                     new MouseWheelListener()
                     {
@@ -157,7 +131,7 @@ public class XComboBox<E> extends JComboBox<E>
                         }
                     });
         }
-        if( !attrib.contains( Attribute.NO_DEFAULT_ACTION_LISTENER ) ) {
+        if( !attrib.contains( XComboBoxAttribute.NO_DEFAULT_ACTION_LISTENER ) ) {
             super.addActionListener(
                     new ActionListener()
                     {

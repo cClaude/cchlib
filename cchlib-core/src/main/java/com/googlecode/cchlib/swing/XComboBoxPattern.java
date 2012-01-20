@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing;
+package com.googlecode.cchlib.swing;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -15,11 +15,11 @@ import cx.ath.choisnet.swing.text.PatternDocument;
  * @author Claude CHOISNET
  * @see PatternDocument
  * @see Pattern
- * @deprecated use {@link com.googlecode.cchlib.swing.XComboBoxPattern} instead
+ * @since 4.1.6
  */
 public class XComboBoxPattern extends XComboBox<String>
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 1L;
     /** Default background to display errors : {@value} */
     public static final Color DEFAULT_ERROR_COLOR = Color.RED;
     /** @serial */
@@ -95,8 +95,8 @@ public class XComboBoxPattern extends XComboBox<String>
      * @since 4.1.6
      */
     public XComboBoxPattern(
-            final Color    				errorColor,
-            final Collection<String>	regExps
+            final Color                    errorColor,
+            final Collection<String>    regExps
             )
     {
         this( errorColor );
