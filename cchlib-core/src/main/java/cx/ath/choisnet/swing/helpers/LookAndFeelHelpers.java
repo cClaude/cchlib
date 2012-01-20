@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
@@ -18,7 +19,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * Provide some tools for LookAndFeel
- * 
+ *
  * @author Claude CHOISNET
  */
 public class LookAndFeelHelpers
@@ -28,7 +29,7 @@ public class LookAndFeelHelpers
     }
     /**
      * Change LookAndFeel.
-     * 
+     *
      * @param frame    Root frame
      * @param lnfName  LookAndFeel name to set
      * @throws ClassNotFoundException if the LookAndFeel class could not be found
@@ -37,10 +38,10 @@ public class LookAndFeelHelpers
      * @throws UnsupportedLookAndFeelException if lnf.isSupportedLookAndFeel() is false
      * @throws ClassCastException if className does not identify a class that extends LookAndFeel
      */
-    public static void setLookAndFeel( JFrame frame, String lnfName ) 
+    public static void setLookAndFeel( JFrame frame, String lnfName )
         throws ClassNotFoundException,
-               InstantiationException, 
-               IllegalAccessException, 
+               InstantiationException,
+               IllegalAccessException,
                UnsupportedLookAndFeelException,
                ClassCastException
     {
@@ -54,22 +55,47 @@ public class LookAndFeelHelpers
      * Change LookAndFeel, but never goes to Exception.
      * If any error occur, just report exception stack trace
      * to {@link System#err}.
-     * 
+     *
      * @param frame    Root frame
      * @param lnfName  LookAndFeel name to set
      */
-    public static void setLookAndFeelNoException( JFrame frame, String lnfName )
+    public static void setLookAndFeelNoException(
+        final JFrame frame,
+        final String lnfName
+        )
     {
         try {
             setLookAndFeel( frame, lnfName );
-        }
+            }
         catch( Exception e ) {
             // ClassNotFoundException
             // InstantiationException
             // IllegalAccessException
             // UnsupportedLookAndFeelException
+            final String message =
+                "Can not change LookAndFeel: "
+                    + e.getLocalizedMessage();
 
-            // TODO open a dialog !
+            // Launch a thread outside event thread
+            new Thread( new Runnable() {
+                @Override
+                public void run()
+                {
+                    // Append task to event thread.
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            JOptionPane.showInternalConfirmDialog(
+                                    frame,
+                                    message
+                                    );
+                        }
+                    });
+                }
+            }).start();
+
+            // TODO open a dialog !n
             e.printStackTrace();
         }
     }
@@ -86,16 +112,16 @@ public class LookAndFeelHelpers
      * {@link UIManager#addPropertyChangeListener(java.beans.PropertyChangeListener)}
      * and implement you custom initialization in method
      * {@link java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)}
-     * 
+     *
      * @param jFrame {@link JFrame} that will be customize with
      *        selected LookAndFeel
      * @param jMenu {@link JMenu} where {@link JRadioButtonMenuItem}
      *        list will be added.
      * @see #setLookAndFeelNoException(JFrame, String
      */
-    public static void buildLookAndFeelMenu( 
-            final JFrame    jFrame, 
-            final JMenu     jMenu 
+    public static void buildLookAndFeelMenu(
+            final JFrame    jFrame,
+            final JMenu     jMenu
             )
     {
         LookAndFeelInfo[] lookAndFeelInfos = UIManager
@@ -110,18 +136,18 @@ public class LookAndFeelHelpers
 
             jMenuItem.setText( info.getName() );
             final String cname = info.getClassName();
-            
+
             if( cname.equals( currentLookAndFeelClassName )) {
                 jMenuItem.setSelected( true );
-            	}
-            
+                }
+
             buttonGroup.add( jMenuItem );
-            
-            jMenuItem.addMouseListener( new MouseAdapter() 
+
+            jMenuItem.addMouseListener( new MouseAdapter()
             {
                 public void mousePressed( MouseEvent event )
                 {
-                    SwingUtilities.invokeLater( new Runnable() 
+                    SwingUtilities.invokeLater( new Runnable()
                     {
                         @Override
                         public void run()

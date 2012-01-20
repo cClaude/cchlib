@@ -309,7 +309,7 @@ public class JFileChooserInitializer
      */
     synchronized private void init()
     {
-        if( !init0Lauched ) {
+        if(!init0Lauched ) {
             init0Lauched = true;
             init0();
             }

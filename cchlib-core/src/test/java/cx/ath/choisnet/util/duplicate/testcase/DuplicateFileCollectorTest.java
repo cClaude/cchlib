@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.util.duplicate.testcase;
 
 import java.io.File;
@@ -10,8 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.FileHelper;
 import cx.ath.choisnet.io.FileIterator;
-import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
@@ -33,7 +30,7 @@ public class DuplicateFileCollectorTest
     {
         MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
         DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
-        File                    root              = AssertHelper.getUserHomeDirFile();
+        File                    root              = FileHelper.getUserHomeDirFile();
         Iterable<File>          files = new FileIterator(
                 root,
                 new java.io.FileFilter()

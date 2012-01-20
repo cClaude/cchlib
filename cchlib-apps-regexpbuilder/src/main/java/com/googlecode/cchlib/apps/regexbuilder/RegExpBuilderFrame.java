@@ -338,9 +338,9 @@ public class RegExpBuilderFrame
     /** Show the results of splitting a string. */
     void printSplitArray( String[] array )
     {
-        final JTextArea textReplaceResults     = getTextReplaceResults();
-        final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textReplaceResults     = getTextReplaceResults();
+//        final JTextArea textSubject         = getTextSubject();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
 
         textResults.setText( null );
@@ -385,7 +385,7 @@ public class RegExpBuilderFrame
         final JTextArea textSubject         = getTextSubject();
         final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         textReplaceResults.setText( "n/a" );
         try {
@@ -491,7 +491,7 @@ public class RegExpBuilderFrame
         final JTextArea textSubject         = getTextSubject();
         final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         compiledRegex = null;
         textReplaceResults.setText( "n/a" );
@@ -530,11 +530,11 @@ public class RegExpBuilderFrame
      */
     void printMatch()
     {
-        final JTextArea textReplaceResults     = getTextReplaceResults();
-        final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textReplaceResults     = getTextReplaceResults();
+//        final JTextArea textSubject         = getTextSubject();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         try {
             textResults.setText(
@@ -616,10 +616,10 @@ public class RegExpBuilderFrame
     public void btnNextMatch_actionPerformed( ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
-        final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textSubject         = getTextSubject();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         textReplaceResults.setText( "n/a" );
         if( regexMatcher == null ) {
@@ -661,8 +661,8 @@ public class RegExpBuilderFrame
     public void btnObjReplace_actionPerformed( ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
-        final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textSubject         = getTextSubject();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
         final JTextArea textReplace         = getTextReplace();
 
@@ -732,10 +732,10 @@ public class RegExpBuilderFrame
     public void btnAdvancedReplace_actionPerformed( ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
-        final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textSubject         = getTextSubject();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         if( regexMatcher == null ) {
             textResults
@@ -815,9 +815,9 @@ public class RegExpBuilderFrame
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
-        final JTextArea textRegex             = getTextRegExp();
+//        final JTextArea textRegex             = getTextRegExp();
         final JTextArea textResults         = getTextResults();
-        final JTextArea textReplace         = getTextReplace();
+//        final JTextArea textReplace         = getTextReplace();
 
         textReplaceResults.setText( "n/a" );
         if( compiledRegex == null ) {

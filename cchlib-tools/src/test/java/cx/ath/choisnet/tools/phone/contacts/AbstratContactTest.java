@@ -7,78 +7,25 @@ import org.junit.Test;
  */
 public class AbstratContactTest
 {
+    //private final static Logger logger = Logger.getLogger( AbstratContactTest.class );
+
     @Test
     public void test1()
     {
+    	/*
         ContactPropertiesBuilder builder = new AbstractContactPropertiesBuilder()
         {
 
         };
         ContactProperties contactProperties = new DefaultContactProperties( builder  );
-        AbstratContact ac = new AbstratContact(contactProperties)
+        Contact ac = new AbstratContact(contactProperties)
         {
             private static final long serialVersionUID = 1L;
         };
+*/
 
 
     }
-    /**
-    private static final long serialVersionUID = 1L;
-    private final static transient Logger logger = Logger.getLogger( AbstratContactTest.class );
-    //public static final String DATE_FORMAT_ISO = "yyyy-MM-dd.HH-mm-ss";
 
-    private LinkedList<String> values;
 
-    protected AbstratContactTest(
-        final ContactProperties contactProperties
-        )
-    {
-        this.contactProperties = contactProperties;
-        this.values = new LinkedList<String>( contactProperties.getDefault() );
-
-        // Assert( this.value.size() == this.contactProperties.size() );
-    }
-
-    public String getValue( final int index )
-    {
-        return this.values.get( index );
-    }
-
-    public String getValue( final String valueName )
-    {
-        return getValue(
-            this.contactProperties.getIndex( valueName )
-            );
-    }
-
-    public void setValue(
-        final int 		index,
-        final String	value
-        )
-    {
-        this.values.set( index, value );
-    }
-
-    public void setValue(
-        final String valueName,
-        final String value
-        )
-    {
-        setValue(
-            this.contactProperties.getIndex( valueName ),
-            value
-            );
-    }
-
-    public ContactValueType getType( final int index )
-    {
-        return this.contactProperties.getType( index );
-    }
-
-    public ContactValueType getType( final String valueName )
-    {
-        return getType(
-            this.contactProperties.getIndex( valueName )
-            );
-    }*/
 }

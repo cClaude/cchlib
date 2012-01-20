@@ -7,7 +7,7 @@ import java.util.LinkedList;
  *
  *
  */
-public class AbstractContactPropertiesBuilder
+public abstract class AbstractContactPropertiesBuilder
     implements ContactPropertiesBuilder
 {
     private final LinkedList<String> 			nameList	= new LinkedList<>();
@@ -15,12 +15,20 @@ public class AbstractContactPropertiesBuilder
     private final LinkedList<String> 			defaultList = new LinkedList<>();
 
     /**
-     *
+     * Use {@link #setContactProperty(int, String, ContactValueType, String)}
+     * to populate builder.
      */
-    public AbstractContactPropertiesBuilder()
-    {
+    protected AbstractContactPropertiesBuilder()
+    { // empty
     }
 
+    /**
+     *
+     * @param index
+     * @param name
+     * @param type
+     * @param defaultValue
+     */
     protected void setContactProperty(
         final int 				index,
         final String 			name,
@@ -51,11 +59,13 @@ public class AbstractContactPropertiesBuilder
     {
         return this.nameList;
     }
+
     @Override
     public Collection<? extends ContactValueType> getTypes()
     {
         return this.typeList;
     }
+
     @Override
     public Collection<? extends String> getDefaultValues()
     {

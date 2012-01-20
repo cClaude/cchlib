@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
- * 
+ *
  */
 public class SMSCVSReader
     implements Closeable
@@ -60,10 +60,10 @@ public class SMSCVSReader
 
         if( line == null ) {
             return false; // eof
-        }
+            }
 
         if( line.length != 6 && line.length != 8) {
-            throw new IOException( 
+            throw new IOException(
                 "Can't read entry #" + (smsList.size() + 1)
                 );
         }
@@ -111,7 +111,7 @@ public class SMSCVSReader
      * Returns list of SMS
      * @return list of SMS
      * @throws IOException
-     * @throws ParseException 
+     * @throws ParseException
      */
     public List<SMS> getSMSList() throws IOException, ParseException
     {

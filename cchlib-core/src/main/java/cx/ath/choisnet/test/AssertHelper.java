@@ -9,7 +9,6 @@ import cx.ath.choisnet.io.FileIterator;
 /**
  * Provide some tools to build test cases
  *
- * @author Claude CHOISNET
  */
 final
 public class AssertHelper
@@ -23,6 +22,7 @@ public class AssertHelper
      * according to java.io.tmpdir Java property.
      *
      * @return File object for tmp directory
+     * @deprecated use {@link com.googlecode.cchlib.io.FileHelper#getTmpDirFile()} instead
      */
     public final static File getTmpDirFile()
     {
@@ -34,6 +34,7 @@ public class AssertHelper
      * according to user.home Java property.
      *
      * @return File object for current user home directory
+     * @deprecated use {@link com.googlecode.cchlib.io.FileHelper#getUserHomeDirFile()} instead
      */
     public final static File getUserHomeDirFile()
     {
@@ -43,13 +44,12 @@ public class AssertHelper
     /**
      * Returns File object for root system directory
      * @return File object for root system directory
+     * @deprecated use {@link com.googlecode.cchlib.io.FileHelper#getSystemRootFile()} instead
      */
     public final static File getSystemRootFile()
     {
         return new File( "/" );
     }
-
-
 
     /**
      * Returns File iterator from given directory (does

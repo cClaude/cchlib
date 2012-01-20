@@ -7,12 +7,11 @@ import java.util.LinkedList;
  * AbstractContact try to unify all contact's formats
  *
  */
-public abstract class AbstratContact implements Serializable
+public abstract class AbstratContact
+    implements 	Contact,
+                Serializable
 {
     private static final long serialVersionUID = 1L;
-    //private final static transient Logger logger = Logger.getLogger( AbstratContact.class );
-    //public static final String DATE_FORMAT_ISO = "yyyy-MM-dd.HH-mm-ss";
-
     private ContactProperties contactProperties;
     private LinkedList<String> values;
 
@@ -26,16 +25,18 @@ public abstract class AbstratContact implements Serializable
         )
     {
         this.contactProperties = contactProperties;
-        this.values = new LinkedList<String>( contactProperties.getDefault() );
-
-        // Assert( this.value.size() == this.contactProperties.size() );
+        this.values = new LinkedList<String>(
+                contactProperties.getDefaultCollecion()
+                );
     }
 
+    @Override
     public String getValue( final int index )
     {
         return this.values.get( index );
     }
 
+    @Override
     public String getValue( final String valueName )
     {
         return getValue(
@@ -43,6 +44,7 @@ public abstract class AbstratContact implements Serializable
             );
     }
 
+    @Override
     public void setValue(
         final int 		index,
         final String	value
@@ -52,6 +54,7 @@ public abstract class AbstratContact implements Serializable
         this.values.set( index, value );
     }
 
+    @Override
     public void setValue(
         final String valueName,
         final String value
@@ -63,15 +66,9 @@ public abstract class AbstratContact implements Serializable
             );
     }
 
-    public ContactValueType getType( final int index )
+    @Override
+    public ContactProperties getContactProperties()
     {
-        return this.contactProperties.getType( index );
-    }
-
-    public ContactValueType getType( final String valueName )
-    {
-        return getType(
-            this.contactProperties.getIndex( valueName )
-            );
+        return this.contactProperties;
     }
 }

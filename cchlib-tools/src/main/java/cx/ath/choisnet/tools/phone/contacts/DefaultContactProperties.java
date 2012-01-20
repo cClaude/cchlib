@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -16,11 +20,14 @@ public class DefaultContactProperties
                 Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( DefaultContactProperties.class );
 
     private final String[] 				names;
-    private final ContactValueType []	types;
+    private final ContactValueType[]	types;
     private final String[]				defaultValues;
     private final List<String>			defaultValueList;
+
+    private Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
 
     /**
      *
@@ -43,29 +50,35 @@ public class DefaultContactProperties
         int index = 0;
 
         while( iterName.hasNext() ) {
-            final String 			n = iterName.next();
-            final ContactValueType 	t = iterType.next();
-            final String 			d = iterDefaults.next();
+            final String 			name = iterName.next();
+            final ContactValueType 	type = iterType.next();
+            final String 			def  = iterDefaults.next();
 
-            this.names[ index ] 		= n;
-            this.types[ index ] 		= t;
-            this.defaultValues[ index ] = d;
-            this.defaultValueList.add( d );
+            logger.info( "Prop[" + index + "]=\"" + name + "\" (" + type + ")/\"" + def + "\"" );
+
+            this.names[ index ] 		= name;
+            this.types[ index ] 		= type;
+            this.defaultValues[ index ] = def;
+            this.defaultValueList.add( def );
+            index++;
             }
+
+        logger.info( "Number of properties: " + names.length );
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.phone.contacts.ContactProperties#size()
-     */
     @Override
     public int size()
     {
         return this.names.length;
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.phone.contacts.ContactProperties#getIndex(java.lang.String)
-     */
+    @Override
+    public String getName( int index )
+    {
+        checkIndex( index );
+        return this.names[ index ];
+    }
+
     @Override
     public int getIndex( final String valueName )
     {
@@ -74,32 +87,32 @@ public class DefaultContactProperties
                 return index;
                 }
             }
+
         return -1; // FIXME exception ?
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.phone.contacts.ContactProperties#getType(int)
-     */
     @Override
     public ContactValueType getType( int index )
     {
+        checkIndex( index );
         return this.types[ index ];
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.phone.contacts.ContactProperties#getDefault()
-     */
     @Override
-    public Collection<? extends String> getDefault()
+    public String getDefault( int index )
+    {
+        checkIndex( index );
+        return this.defaultValues[ index ];
+    }
+
+    @Override
+    public Collection<? extends String> getDefaultCollecion()
     {
         return Collections.unmodifiableCollection(
             this.defaultValueList
             );
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.phone.contacts.ContactProperties#checkIndex(int)
-     */
     @Override
     public void checkIndex( final int index )
         throws IllegalArgumentException
@@ -107,5 +120,29 @@ public class DefaultContactProperties
         if( index < 0 || index >= size() ) {
             throw new IllegalArgumentException( "Out of range:" + index );
             }
+    }
+
+    @Override
+    public Collection<Integer> getTypeCollection(
+        final ContactValueType type
+        )
+    {
+        Collection<Integer> c = this.typeIndexMap.get( type );
+
+        if( c == null ) {
+            c = new ArrayList<>();
+
+            // Compute value
+            for( int i = 0; i<this.types.length; i++ ) {
+                if( this.types[ i ].equals( type) ) {
+                    c.add( i );
+                    }
+                }
+
+            // Store computed value
+            this.typeIndexMap.put( type, c );
+            }
+
+        return null;
     }
 }
