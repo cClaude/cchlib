@@ -270,58 +270,14 @@ public class CompareResourcesBundleFrame
     @Override
     protected void jMenuItem_SaveLeftFile_MouseMousePressed(MouseEvent event)
     {
-        //saveLeftFile();
         saveFile( true /*isLeft*/ );
     }
-
-
-//    protected void saveLeftFile()
-//    {
-//        logger.info( "request to save Left");
-//
-//        try {
-//            if( this.tableModel.saveLeftFile(this.filesConfig.getLeftFileObject()) ) {
-//                JOptionPane.showMessageDialog(
-//                        this,
-//                        "File '" + filesConfig.getLeftFileObject().getDisplayName() + "' saved."
-//                        ,
-//                        "Left File",
-//                        JOptionPane.INFORMATION_MESSAGE
-//                        );
-//                }
-//            }
-//        catch( IOException e ) {
-//            // FIME add a dialog show this error
-//            logger.error( e );
-//            }
-//    }
 
     @Override
     protected void jMenuItem_SaveRightFile_MouseMousePressed(MouseEvent event)
     {
-        //saveRightFile();
         saveFile( false /*isLeft*/ );
     }
-
-//    protected void saveRightFile()
-//    {
-//        logger.info( "request to save Right");
-//        try {
-//            if( this.tableModel.saveRightFile(this.filesConfig.getRightFileObject()) ) {
-//                JOptionPane.showMessageDialog(
-//                        this,
-//                        "File '" + filesConfig.getRightFileObject().getDisplayName() + "' saved."
-//                        ,
-//                        "Righ File",
-//                        JOptionPane.INFORMATION_MESSAGE
-//                        );
-//                }
-//            }
-//        catch( IOException e ) {
-//            // FIME add a dialog show this error
-//            logger.error( e );
-//            }
-//    }
 
     @Override
     protected void jMenuItem_Quit_MouseMousePressed(MouseEvent event)

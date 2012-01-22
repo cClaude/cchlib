@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
-import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 
@@ -153,36 +152,36 @@ class LoadDialog
     protected void udpateFilesDisplay()
     {
         if( this.filesConfig.getLeftFileObject()!=null ) {
-            jTextField_Left.setText(
+            getJTextField_Left().setText(
                 this.filesConfig.getLeftFileObject().getFile().getPath()
                 );
         }
         else {
-            jTextField_Left.setText("");
+            getJTextField_Left().setText("");
         }
         if( this.filesConfig.getRightFileObject()!=null ) {
-            jTextField_Right.setText(
+            getJTextField_Right().setText(
                 this.filesConfig.getRightFileObject().getFile().getPath()
                 );
         }
         else {
-            jTextField_Right.setText("");
+            getJTextField_Right().setText("");
         }
     }
 
     protected void udpateTabFileTypeDisplay()
     {
         if( jCheckBox_Properties.isSelected() ) {
-            jTabbedPaneRoot.setEnabledAt( PROPERTIES, true );
-            jTabbedPaneRoot.setEnabledAt( FORMATTED_PROPERTIES, false );
+            getJTabbedPaneRoot().setEnabledAt( PROPERTIES, true );
+            getJTabbedPaneRoot().setEnabledAt( FORMATTED_PROPERTIES, false );
         }
         else if( jCheckBox_FormattedProperties.isSelected() ) {
-            jTabbedPaneRoot.setEnabledAt( PROPERTIES, true );
-            jTabbedPaneRoot.setEnabledAt( FORMATTED_PROPERTIES, true );
+            getJTabbedPaneRoot().setEnabledAt( PROPERTIES, true );
+            getJTabbedPaneRoot().setEnabledAt( FORMATTED_PROPERTIES, true );
         }
         else {
-            jTabbedPaneRoot.setEnabledAt( PROPERTIES, false );
-            jTabbedPaneRoot.setEnabledAt( FORMATTED_PROPERTIES, false );
+            getJTabbedPaneRoot().setEnabledAt( PROPERTIES, false );
+            getJTabbedPaneRoot().setEnabledAt( FORMATTED_PROPERTIES, false );
         }
     }
 
@@ -211,7 +210,7 @@ class LoadDialog
         }
         return null;
     }
-
+/*
     public static void main( String[] args )
     {
         SwingUtilities.invokeLater( new Runnable() {
@@ -234,7 +233,7 @@ class LoadDialog
             }
         } );
     }
-
+*/
     @Override
     protected void jButton_LeftMouseMousePressed(MouseEvent event)
     {

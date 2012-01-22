@@ -117,7 +117,7 @@ public class LookAndFeelHelpers
      *        selected LookAndFeel
      * @param jMenu {@link JMenu} where {@link JRadioButtonMenuItem}
      *        list will be added.
-     * @see #setLookAndFeelNoException(JFrame, String
+     * @see #setLookAndFeelNoException(JFrame, String)
      */
     public static void buildLookAndFeelMenu(
             final JFrame    jFrame,
@@ -127,6 +127,36 @@ public class LookAndFeelHelpers
         LookAndFeelInfo[] lookAndFeelInfos = UIManager
                 .getInstalledLookAndFeels();
 
+        buildLookAndFeelMenu( jFrame, jMenu, lookAndFeelInfos );
+    }
+
+    /**
+     * Add menu entries ({@link JRadioButtonMenuItem}) on giving
+     * jMenu with a list of all LookAndFeel known by the jvm.
+     * <br>
+     * When a new item is selected, then call {@link #setLookAndFeelNoException(JFrame, String)}
+     * with selected LookAndFeel.
+     * <br>
+     * If you need to do extra customization when LookAndFeel
+     * is change you can use
+     * {@link UIManager#addPropertyChangeListener(java.beans.PropertyChangeListener)}
+     * and implement you custom initialization in method
+     * {@link java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)}
+     *
+     * @param jFrame {@link JFrame} that will be customize with
+     *        selected LookAndFeel
+     * @param jMenu {@link JMenu} where {@link JRadioButtonMenuItem}
+     *        list will be added.
+     * @param lookAndFeelInfos Array
+     * @see #setLookAndFeelNoException(JFrame, String)
+     * @since 4.1.6
+     */
+    public static void buildLookAndFeelMenu(
+            final JFrame            jFrame,
+            final JMenu             jMenu,
+            final LookAndFeelInfo...lookAndFeelInfos
+            )
+    {
         ButtonGroup buttonGroup = new ButtonGroup();
         LookAndFeel currentLookAndFeel = UIManager.getLookAndFeel();
         String      currentLookAndFeelClassName = currentLookAndFeel.getClass().getName();

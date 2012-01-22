@@ -10,6 +10,8 @@
   <artifactId>cchlib-tools-editressourcebundle</artifactId>
   <name>cchlib-tools-editressourcebundle</name>
   <packaging>jar</packaging>
+  <description>Tools based on cchlib</description>
+  <url>http://choisnet.ath.cx/cchlib/</url>
 
   <dependencies>
     <dependency>
@@ -29,8 +31,6 @@
     </dependency>
   </dependencies>
 
-  <description>Tools based on cchlib</description>
-  <url>http://choisnet.ath.cx/cchlib/</url>
   <build>
     <plugins>
       <plugin>
@@ -40,12 +40,12 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame</mainClass>
-              <packageName>cx.ath.choisnet.tools.i18n</packageName>
+              <mainClass>com.googlecode.cchlib.apps.editresourcesbundle.EditResourcesBundle</mainClass>
+              <packageName>com.googlecode.cchlib.apps.editresourcesbundle</packageName>
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <SplashScreen-Image>cx/ath/choisnet/tools/i18n/splash.png</SplashScreen-Image>
+              <SplashScreen-Image>com/googlecode/apps/tools/editresourcesbundle/splash.png</SplashScreen-Image>
             </manifestEntries>
           </archive>
         </configuration>

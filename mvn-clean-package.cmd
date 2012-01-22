@@ -5,7 +5,7 @@ IF ERRORLEVEL 1 (
   Pause
   Goto :eof
   )
-@CALL mvn package -e
+@CALL mvn package --errors
 @Echo EL=%ERRORLEVEL%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: mvn package -e

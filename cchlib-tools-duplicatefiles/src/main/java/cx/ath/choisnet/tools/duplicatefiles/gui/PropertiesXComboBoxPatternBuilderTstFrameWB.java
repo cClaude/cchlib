@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SpringLayout;
-import cx.ath.choisnet.swing.XComboBoxPattern;
+import com.googlecode.cchlib.swing.XComboBoxPattern;
 
 public class PropertiesXComboBoxPatternBuilderTstFrameWB extends JFrame
 {

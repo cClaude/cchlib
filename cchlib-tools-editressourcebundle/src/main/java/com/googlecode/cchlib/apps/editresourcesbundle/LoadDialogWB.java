@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -12,12 +11,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+import cx.ath.choisnet.i18n.I18nString;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -26,19 +24,20 @@ import java.awt.Insets;
  *
  * @author Claude CHOISNET
  */
-public class LoadDialogWB extends JDialog
+public abstract class LoadDialogWB extends JDialog
 {
-    private static final long   serialVersionUID        = 1L;
+    private static final long   serialVersionUID        = 2L;
     private ButtonGroup buttonGroup_FileType;
     private JButton jButton_Cancel;
     private JButton jButton_Left;
     private JButton jButton_Ok;
     private JButton jButton_Right;
-    private JLabel jLabel_Fake1;
-    private JPanel jPanel_Left;
-    private JPanel jPanel_Params;
-    private JPanel jPanel_Right;
     private JPanel jPanel_TabSelect;
+    private JPanel jPanel_TabFMTProperties;
+    private JPanel jPanel_TabProperties;
+    private JTabbedPane jTabbedPaneRoot;
+    private JTextField jTextField_Left;
+    private JTextField jTextField_Right;
     protected JCheckBox jCheckBox_CUT_LINE_AFTER_HTML_BR;
     protected JCheckBox jCheckBox_CUT_LINE_AFTER_HTML_END_P;
     protected JCheckBox jCheckBox_CUT_LINE_AFTER_NEW_LINE;
@@ -49,13 +48,15 @@ public class LoadDialogWB extends JDialog
     protected JCheckBox jCheckBox_Properties;
     protected JCheckBox jCheckBox_RightUseLeftHasDefaults;
     protected JCheckBox jCheckBox_ini;
-    protected JPanel jPanel_TabFMTProperties;
-    protected JPanel jPanel_TabProperties;
-    protected JTabbedPane jTabbedPaneRoot;
-    protected JTextField jTextField_Left;
-    protected JTextField jTextField_Right;
     protected JCheckBox jCheckBox_ShowLineNumbers;
-//    private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
+
+
+    @I18nString
+    private String msgStringLeft = "Left";
+    @I18nString
+    private String msgStringRight = "Right";
+
+
     public LoadDialogWB()
     {
         initComponents();
@@ -73,9 +74,9 @@ public class LoadDialogWB extends JDialog
         setForeground(Color.black);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{100, 0, 100, 0};
-        gridBagLayout.rowHeights = new int[]{180, 33, 0};
+        gridBagLayout.rowHeights = new int[]{180, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
         GridBagConstraints gbc_jTabbedPaneRoot = new GridBagConstraints();
         gbc_jTabbedPaneRoot.gridwidth = 3;
@@ -83,7 +84,13 @@ public class LoadDialogWB extends JDialog
         gbc_jTabbedPaneRoot.insets = new Insets(0, 0, 5, 0);
         gbc_jTabbedPaneRoot.gridx = 0;
         gbc_jTabbedPaneRoot.gridy = 0;
-        getContentPane().add(getJTabbedRoot(), gbc_jTabbedPaneRoot);
+
+        jTabbedPaneRoot = new JTabbedPane();
+        jTabbedPaneRoot.addTab("Files", getJPanel_TabSelect());
+        jTabbedPaneRoot.addTab("Properties", getJPanel_TabProperties());
+        jTabbedPaneRoot.addTab("Formatted Properties", getJPanel_TabFMTProperties());
+
+        getContentPane().add(jTabbedPaneRoot, gbc_jTabbedPaneRoot);
         GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
         gbc_jButton_Ok.fill = GridBagConstraints.HORIZONTAL;
         gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
@@ -96,7 +103,7 @@ public class LoadDialogWB extends JDialog
         gbc_jButton_Cancel.gridy = 1;
         getContentPane().add(getJButton_Cancel(), gbc_jButton_Cancel);
         initButtonGroup_FileType();
-        setSize(500, 270);
+        setSize(500, 290);
     }
 
     private JCheckBox getJCheckBox_ShowLineNumbers() {
@@ -198,14 +205,6 @@ public class LoadDialogWB extends JDialog
         return jCheckBox_RightUseLeftHasDefaults;
     }
 
-    private JLabel getJLabel_Fake1() {
-        if (jLabel_Fake1 == null) {
-            jLabel_Fake1 = new JLabel();
-            //jLabel_Fake1.setText("jLabel1");
-        }
-        return jLabel_Fake1;
-    }
-
     private JCheckBox getJCheckBox_LeftReadOnly() {
         if (jCheckBox_LeftReadOnly == null) {
             jCheckBox_LeftReadOnly = new JCheckBox();
@@ -219,15 +218,6 @@ public class LoadDialogWB extends JDialog
         buttonGroup_FileType.add(getJCheckBox_Properties());
         buttonGroup_FileType.add(getJCheckBox_FormattedProperties());
         buttonGroup_FileType.add(getJCheckBox_ini());
-    }
-
-    private JPanel getJPanel_Params() {
-        if (jPanel_Params == null) {
-            jPanel_Params = new JPanel();
-            jPanel_Params.setLayout(new GridLayout(3, 2));
-            jPanel_Params.add(getJLabel_Fake1());
-        }
-        return jPanel_Params;
     }
 
     private JCheckBox getJCheckBox_Properties() {
@@ -283,16 +273,6 @@ public class LoadDialogWB extends JDialog
         return jButton_Cancel;
     }
 
-    private JTabbedPane getJTabbedRoot() {
-        if (jTabbedPaneRoot == null) {
-            jTabbedPaneRoot = new JTabbedPane();
-            jTabbedPaneRoot.addTab("Files", getJPanel_TabSelect());
-            jTabbedPaneRoot.addTab("Properties", getJPanel_TabProperties());
-            jTabbedPaneRoot.addTab("Formatted Properties", getJPanel_TabFMTProperties());
-        }
-        return jTabbedPaneRoot;
-    }
-
     private JPanel getJPanel_TabProperties() {
         if (jPanel_TabProperties == null) {
             jPanel_TabProperties = new JPanel();
@@ -317,7 +297,7 @@ public class LoadDialogWB extends JDialog
             jPanel_TabSelect = new JPanel();
             GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
             gbl_jPanel_TabSelect.columnWidths = new int[]{0, 0, 0, 0};
-            gbl_jPanel_TabSelect.rowHeights = new int[]{47, 47, 0, 0, 0, 0};
+            gbl_jPanel_TabSelect.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
             gbl_jPanel_TabSelect.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
             gbl_jPanel_TabSelect.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
             jPanel_TabSelect.setLayout(gbl_jPanel_TabSelect);
@@ -327,7 +307,19 @@ public class LoadDialogWB extends JDialog
             gbc_jPanel_Left.insets = new Insets(0, 0, 5, 0);
             gbc_jPanel_Left.gridx = 0;
             gbc_jPanel_Left.gridy = 0;
-            jPanel_TabSelect.add(getJPanel_Left(), gbc_jPanel_Left);
+
+            JPanel jPanel_Left = new JPanel();
+            jPanel_Left.setBorder(
+                    BorderFactory.createTitledBorder(null, msgStringLeft , TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
+                            new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+            jPanel_Left.setLayout(new BorderLayout());
+            jPanel_Left.add(getJButton_Left(), BorderLayout.EAST);
+
+            jTextField_Left = new JTextField();
+
+            jPanel_Left.add(jTextField_Left, BorderLayout.CENTER);
+
+            jPanel_TabSelect.add(jPanel_Left, gbc_jPanel_Left);
             GridBagConstraints gbc_jCheckBox_Properties = new GridBagConstraints();
             gbc_jCheckBox_Properties.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_Properties.insets = new Insets(0, 0, 5, 5);
@@ -340,13 +332,19 @@ public class LoadDialogWB extends JDialog
             gbc_jPanel_Right.insets = new Insets(0, 0, 5, 5);
             gbc_jPanel_Right.gridx = 0;
             gbc_jPanel_Right.gridy = 1;
-            jPanel_TabSelect.add(getJPanel_Right(), gbc_jPanel_Right);
-            GridBagConstraints gbc_jPanel_Params = new GridBagConstraints();
-            gbc_jPanel_Params.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jPanel_Params.insets = new Insets(0, 0, 5, 5);
-            gbc_jPanel_Params.gridx = 0;
-            gbc_jPanel_Params.gridy = 2;
-            jPanel_TabSelect.add(getJPanel_Params(), gbc_jPanel_Params);
+
+            JPanel jPanel_Right = new JPanel();
+            jPanel_Right.setBorder(
+                    BorderFactory.createTitledBorder(null, msgStringRight , TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
+                            new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+            jPanel_Right.setLayout(new BorderLayout());
+            jPanel_Right.add(getJButton_Right(), BorderLayout.EAST);
+
+            jTextField_Right = new JTextField();
+
+            jPanel_Right.add(jTextField_Right, BorderLayout.CENTER);
+
+            jPanel_TabSelect.add(jPanel_Right, gbc_jPanel_Right);
             GridBagConstraints gbc_jCheckBox_LeftReadOnly = new GridBagConstraints();
             gbc_jCheckBox_LeftReadOnly.anchor = GridBagConstraints.WEST;
             gbc_jCheckBox_LeftReadOnly.insets = new Insets(0, 0, 5, 5);
@@ -373,30 +371,6 @@ public class LoadDialogWB extends JDialog
             jPanel_TabSelect.add(getJCheckBox_ini(), gbc_jCheckBox_ini);
         }
         return jPanel_TabSelect;
-    }
-
-    private JPanel getJPanel_Left() {
-        if (jPanel_Left == null) {
-            jPanel_Left = new JPanel();
-            jPanel_Left.setBorder(BorderFactory.createTitledBorder(null, "Left", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD,
-                    12), new Color(51, 51, 51)));
-            jPanel_Left.setLayout(new BorderLayout());
-            jPanel_Left.add(getJButton_Left(), BorderLayout.EAST);
-            jPanel_Left.add(getJTextField_Left(), BorderLayout.CENTER);
-        }
-        return jPanel_Left;
-    }
-
-    private JPanel getJPanel_Right() {
-        if (jPanel_Right == null) {
-            jPanel_Right = new JPanel();
-            jPanel_Right.setBorder(BorderFactory.createTitledBorder(null, "Right", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, new Font("Dialog",
-                    Font.BOLD, 12), new Color(51, 51, 51)));
-            jPanel_Right.setLayout(new BorderLayout());
-            jPanel_Right.add(getJButton_Right(), BorderLayout.EAST);
-            jPanel_Right.add(getJTextField_Right(), BorderLayout.CENTER);
-        }
-        return jPanel_Right;
     }
 
     private JButton getJButton_Left() {
@@ -427,71 +401,18 @@ public class LoadDialogWB extends JDialog
         return jButton_Right;
     }
 
-    private JTextField getJTextField_Left() {
-        if (jTextField_Left == null) {
-            jTextField_Left = new JTextField();
-        }
+    protected abstract void jButton_LeftMouseMousePressed(MouseEvent event);
+    protected abstract void jButton_RightMouseMousePressed(MouseEvent event);
+    protected abstract void jButton_CancelMouseMousePressed(MouseEvent event);
+    protected abstract void jButton_OkMouseMousePressed(MouseEvent event);
+
+    protected JTextField getJTextField_Left() {
         return jTextField_Left;
     }
-
-    private JTextField getJTextField_Right() {
-        if (jTextField_Right == null) {
-            jTextField_Right = new JTextField();
-          }
+    protected JTextField getJTextField_Right() {
         return jTextField_Right;
     }
-
-//    @SuppressWarnings("unused")
-//    private static void installLnF()
-//    {
-//        try {
-//            String lnfClassname = PREFERRED_LOOK_AND_FEEL;
-//            if( lnfClassname == null )
-//                lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
-//            UIManager.setLookAndFeel( lnfClassname );
-//        }
-//        catch( Exception e ) {
-//            System.err.println( "Cannot install " + PREFERRED_LOOK_AND_FEEL
-//                    + " on this platform:" + e.getMessage() );
-//        }
-//    }
-
-    /** Test only */
-    public static void main( String[] args )
-    {
-//        installLnF();
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                LoadDialogWB dialog = new LoadDialogWB();
-                dialog.setDefaultCloseOperation( LoadDialogWB.DISPOSE_ON_CLOSE );
-                dialog.setTitle( "Load Dialog (Debug)" );
-                dialog.setLocationRelativeTo( null );
-                dialog.getContentPane().setPreferredSize( dialog.getSize() );
-                dialog.pack();
-                dialog.setVisible( true );
-            }
-        } );
-    }
-
-    protected void jButton_LeftMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jButton_RightMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jButton_CancelMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jButton_OkMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
+    protected JTabbedPane getJTabbedPaneRoot() {
+        return jTabbedPaneRoot;
     }
 }

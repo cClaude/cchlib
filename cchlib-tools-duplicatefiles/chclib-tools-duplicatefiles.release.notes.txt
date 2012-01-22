@@ -33,13 +33,39 @@ Known problems:
     'keep' (panel 'duplicates') should be disabled during process.
     -> try to make a better interface.
 ---------------------------------------------------------------------
-To add/improve:
+To improve:
   - Compare only some files (advanced or expert only)
   - Ignore some folders :
     a) Before compare
     b) After compare (context menu, add ignore all files in) - should
     remove from list also files that not have duplicate any more.
+  - Bypass compressed files and recycle bin option
+---------------------------------------------------------------------
+To add:
  - Change default for scan (include hidden folders and hidden files)
+ - Ultra Fast filename only scan option
+ - MP3 Support:
+    Search for Duplicate Songs (ID3 Tag Comparison)
+    Scan your computer for duplicate music
+    Compare by: Song Title, Artist, Album, and more!
+ - Save scan results to a file and re-import later for further
+   analysis and resolution
+ - Protect critical system files and folders
+ - Easily rename selected duplicates to test which files are safe
+   to delete (must be able to restore previous version)
+ - Rename duplicate files with prefix/postfix
+ - Save program state on exit and re-entrance
+ - Move duplicate files to folder
+ - Show file properties
+ - Open file with associated program
+---------------------------------------------------------------------
+Nice to have:
+ - Move files to Recycle Bin or delete duplicate files permanently
+ - Duplicates Report Export
+    Generate an HTML fully hyper-linked report
+    Export duplicates report to a TXT file
+    Export a report of duplicates to Excel in CSV format
+
 ---------------------------------------------------------------------
 Future extensions:
   - Ability to generate scripts (instead of delete) [on the last panel]

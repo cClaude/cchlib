@@ -20,7 +20,7 @@ import cx.ath.choisnet.swing.text.PatternDocument;
 public class XComboBoxPattern extends XComboBox<String>
 {
     private static final long serialVersionUID = 1L;
-    /** Default background to display errors : {@value} */
+    /** Default background to display errors : {@link Color#RED} */
     public static final Color DEFAULT_ERROR_COLOR = Color.RED;
     /** @serial */
     private JTextField editor = new JTextField();
@@ -39,7 +39,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * Create an empty XComboBoxPattern
      *
      * @param errorColor background color when an current text
-     * is <B>not</B> a valid Regular Expression
+     *                   is <B>not</B> a valid Regular Expression
      */
     public XComboBoxPattern( final Color errorColor )
     {
@@ -53,10 +53,9 @@ public class XComboBoxPattern extends XComboBox<String>
      * Create a XComboBoxPattern
      *
      * @param errorColor background color when an current text
-     * is <B>not</B> a valid Regular Expression
+     *                   is <B>not</B> a valid Regular Expression
      * @param regExps arrays of String (must be valid regular
-     * expression)
-     * @since 4.1.6
+     *                expression)
      */
     public XComboBoxPattern(
             final Color    errorColor,
@@ -74,7 +73,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * Create a XComboBoxPattern using default color to display errors
      *
      * @param regExps arrays of String (must be valid regular
-     * expression)
+     *                expression)
      */
     public XComboBoxPattern( String...regExps )
     {
@@ -89,13 +88,12 @@ public class XComboBoxPattern extends XComboBox<String>
      * Create a XComboBoxPattern
      *
      * @param errorColor background color when an current text
-     * is <B>not</B> a valid Regular Expression
+     *                   is <B>not</B> a valid Regular Expression
      * @param regExps Collection of String (must be valid regular
-     * expression)
-     * @since 4.1.6
+     *                expression)
      */
     public XComboBoxPattern(
-            final Color                    errorColor,
+            final Color                 errorColor,
             final Collection<String>    regExps
             )
     {
@@ -110,8 +108,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * Create a XComboBoxPattern using default color to display errors
      *
      * @param regExps Collection of String (must be valid regular
-     * expression)
-     * @since 4.1.6
+     *                expression)
      */
     public XComboBoxPattern( Collection<String> regExps )
     {
@@ -152,7 +149,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * <B>not</B> a valid Regular Expression
      *
      * @param errorColor background color when an current text
-     * is <B>not</B> a valid Regular Expression
+     *                   is <B>not</B> a valid Regular Expression
      */
     public void setErrorBackGroundColor( Color errorColor )
     {
@@ -164,7 +161,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * <B>not</B> a valid Regular Expression
      *
      * @return background color when an current text
-     * is <B>not</B> a valid Regular Expression
+     *                    is <B>not</B> a valid Regular Expression
      */
     public Color getErrorBackgoundColor()
     {
@@ -176,7 +173,7 @@ public class XComboBoxPattern extends XComboBox<String>
      * a valid Regular Expression
      *
      * @param defaultColor background color when an current text
-     * is a valid Regular Expression
+     *                     is a valid Regular Expression
      */
     public void setDefaultBackgoundColor( Color defaultColor )
     {

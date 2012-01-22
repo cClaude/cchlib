@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.swing.XComboBoxPattern;
+import com.googlecode.cchlib.swing.XComboBoxPattern;
 
 /**
  *
