@@ -8,13 +8,15 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.URL;
-
 import javax.swing.Box;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.DefaultI18nBundleFactory;
+import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.I18nPrepAutoUpdatable;
+import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
@@ -33,6 +35,7 @@ import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
  */
 public class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
+        implements I18nPrepAutoUpdatable
 {
     private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
@@ -40,6 +43,8 @@ public class CompareResourcesBundleFrame
     private CompareResourcesBundleTableModel tableModel;
     private JFileChooserInitializer jFileChooserInitializer;
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
+    /* @serial */
+    private AutoI18n autoI18n;
     @I18nString // TODO i18n
     private final String fileSavedMsg = "File '%s' saved.";
     @I18nString // TODO i18n
@@ -72,6 +77,12 @@ public class CompareResourcesBundleFrame
         super.addWindowListener( wl );
 
         initFixComponents();
+
+        // Init i18n
+        this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( this ).getAutoI18n();
+
+        // Apply i18n !
+        performeI18n(autoI18n);
     }
 
     public static final URL getResource( final String name )
@@ -309,4 +320,23 @@ public class CompareResourcesBundleFrame
             }
         }).start();
     }
+
+    /**
+     * I18n this frame !
+     *
+     * @param autoI18n
+     */
+    @Override // I18nAutoUpdatable
+    public void performeI18n( AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n(this,this.getClass());
+        //autoI18n.performeI18n(aPanelOrFrame,aPanelOrFrame.getClass());
+    }
+
+    @Override // I18nPrepAutoUpdatable
+    public String getMessagesBundle()
+    {
+        return DefaultI18nBundleFactory.getMessagesBundle( EditResourcesBundleApp.class );
+    }
+
 }

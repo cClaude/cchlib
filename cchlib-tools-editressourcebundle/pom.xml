@@ -40,7 +40,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.googlecode.cchlib.apps.editresourcesbundle.EditResourcesBundle</mainClass>
+              <mainClass>com.googlecode.cchlib.apps.editresourcesbundle.EditResourcesBundleApp</mainClass>
               <packageName>com.googlecode.cchlib.apps.editresourcesbundle</packageName>
               <addClasspath>true</addClasspath>
             </manifest>
