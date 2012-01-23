@@ -1,9 +1,7 @@
-/**
- *
- */
 package cx.ath.choisnet.i18n;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
@@ -19,7 +17,8 @@ public class I18nSimpleResourceBundle
         implements I18nAutoUpdateInterface
 {
     private static final long serialVersionUID = 1L;
-    private transient static Logger  slogger = Logger.getLogger(I18nSimpleResourceBundle.class);
+    // FIXME: need Log4J (fix it ?)
+    private transient static Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
     /** @serial */
     private String         resourceBundleBaseName;
     /** @serial */
@@ -69,17 +68,31 @@ public class I18nSimpleResourceBundle
     {
         this.currentLocale = locale;
 
-        slogger.info( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
-        slogger.info( "setLocale() - currentLocale= " + currentLocale );
-        slogger.info( "setLocale() - getLocale() = " + getLocale() );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
+            logger.trace( "setLocale() - currentLocale= " + currentLocale );
+            logger.trace( "setLocale() - getLocale() = " + getLocale() );
+        	}
 
-        super.resourceBundle
-            = ResourceBundle.getBundle(
+        try {
+            super.resourceBundle
+            	= ResourceBundle.getBundle(
                     resourceBundleBaseName,
                     getLocale()
                     );
-        slogger.info( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
-        slogger.info( "ResourceBundle = " + resourceBundle );
+        	}
+        catch( MissingResourceException e ) {
+        	logger.error(
+        		"Error while trying to open default resource bundle for: " 
+        			+ resourceBundleBaseName
+        		);
+        	throw e;
+        	}
+        
+        if( logger.isTraceEnabled() ) {
+        	logger.trace( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
+        	logger.trace( "ResourceBundle = " + resourceBundle );
+        	}
     }
 
 
