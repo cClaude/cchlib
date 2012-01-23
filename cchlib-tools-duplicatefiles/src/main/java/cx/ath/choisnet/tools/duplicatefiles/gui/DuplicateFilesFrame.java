@@ -192,7 +192,7 @@ final public class DuplicateFilesFrame
                                 jPanel1Config.initFixComponents( DuplicateFilesFrame.this );
 
                                 if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
-//                            		DuplicateFilesFrame.this.removeEmptyDirectories.init();
+//                                    DuplicateFilesFrame.this.removeEmptyDirectories.init();
 
                                     }
                                 }
