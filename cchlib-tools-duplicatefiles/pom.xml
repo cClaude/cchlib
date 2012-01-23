@@ -40,12 +40,12 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame</mainClass>
-              <packageName>cx.ath.choisnet.tools.duplicatefiles.gui</packageName>
+              <mainClass>com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesFrame</mainClass>
+              <packageName>com.googlecode.cchlib.apps.duplicatefiles</packageName>
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <SplashScreen-Image>cx/ath/choisnet/tools/duplicatefiles/splash.png</SplashScreen-Image>
+              <SplashScreen-Image>com/googlecode/cchlib/apps/duplicatefiles/splash.png</SplashScreen-Image>
             </manifestEntries>
           </archive>
         </configuration>

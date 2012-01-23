@@ -42,6 +42,8 @@ To improve:
   - Bypass compressed files and recycle bin option
 ---------------------------------------------------------------------
 To add:
+ - Preferences (create a folder under userhome .duplicatefiles)
+   - Save files filters, user level, looknfeel, regexp, ...
  - Change default for scan (include hidden folders and hidden files)
  - Ultra Fast filename only scan option
  - MP3 Support:
