@@ -1,15 +1,32 @@
 package cx.ath.choisnet.tools.duplicatefiles.prefs;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Locale;
+
+import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 
 /**
  *
  */
 public interface Preferences extends Serializable
 {
-    public boolean getUserLevel();
+    /**
+     * Returns {@link ConfigMode} according to user level
+     * @return {@link ConfigMode} according to user level
+     */
+    public ConfigMode getUserLevel();
+
+    /**
+     * Returns expected {@link Locale} for display
+     * @return expected {@link Locale} for display
+     */
+    public Locale getLocale();
+
+    /**
+     * Returns expected look and feel for display
+     * @return expected look and feel for display
+     */
     public String getLookAndFeelName();
 
     /**
