@@ -19,6 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+
 import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
@@ -33,7 +36,6 @@ import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.I18nBundle;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
-import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 import cx.ath.choisnet.tools.emptydirectories.gui.RemoveEmptyDirectories;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;

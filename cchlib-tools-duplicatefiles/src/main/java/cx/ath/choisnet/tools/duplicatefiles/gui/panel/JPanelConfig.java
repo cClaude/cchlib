@@ -10,6 +10,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+
 import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.i18n.I18nSwingHelper;
@@ -17,7 +20,6 @@ import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
-import cx.ath.choisnet.tools.duplicatefiles.ResourcesLoader;
 
 /**
  *

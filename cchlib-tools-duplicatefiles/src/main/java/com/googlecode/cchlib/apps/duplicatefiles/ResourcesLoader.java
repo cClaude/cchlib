@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.Image;
 import java.awt.Toolkit;
