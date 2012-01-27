@@ -7,6 +7,8 @@ import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.googlecode.cchlib.io.IOHelper;
+
 /**
  *
 */
@@ -121,7 +123,27 @@ public class FileFilterHelperTest
             final FileFilter firstFileFilter,
             final FileFilter secondFileFilter
             )
-    public static FileFilter fileLengthFileFilter( final long length )
-    public static FileFilter zeroLengthFileFilter()
     */
+    @Test
+    public void test_zeroLengthFileFilter()
+    	throws IOException
+    {
+    	// Create a empty file !
+    	File f = File.createTempFile( this.getClass().getName(), "tmp" );
+    	
+    	FileFilter ff1 = FileFilterHelper.zeroLengthFileFilter();
+    	FileFilter ff2 = FileFilterHelper.noneZeroLengthFileFilter();
+    	
+    	Assert.assertTrue( "Should be empty", ff1.accept( f ) );
+    	Assert.assertFalse( "Should be empty", ff2.accept( f ));
+
+    	// Now file is not empty
+    	IOHelper.toFile(f, "no empty");
+    	
+    	Assert.assertFalse( "Should not be empty", ff1.accept( f ) );
+    	Assert.assertTrue( "Should not be empty", ff2.accept( f ));
+    	
+    	boolean isDel = f.delete();
+    	Assert.assertTrue( "Can not delete file", isDel );
+    }
 }

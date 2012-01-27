@@ -60,6 +60,11 @@ To add:
  - Move duplicate files to folder
  - Show file properties
  - Open file with associated program
+ - Improve filter:
+   + Add editor for advance users able to chooser order of
+     filters, type of filter (on name, on path, on properties /
+     begin, end, regexp,...). Also able to do some OR or AND
+ operation on filters.
 ---------------------------------------------------------------------
 Nice to have:
  - Move files to Recycle Bin or delete duplicate files permanently

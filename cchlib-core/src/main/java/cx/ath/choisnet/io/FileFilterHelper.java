@@ -240,11 +240,28 @@ public class FileFilterHelper
     }
 
     /**
-     *
-     * @return a {@link Serializable} {@link FileFilter}
-     */
-    public static FileFilter zeroLengthFileFilter()
-    {
-        return fileLengthFileFilter( 0L );
-    }
+    *
+    * @return a {@link Serializable} {@link FileFilter}
+    */
+   public static FileFilter zeroLengthFileFilter()
+   {
+       return fileLengthFileFilter( 0L );
+   }
+
+   /**
+   *
+   * @return a {@link Serializable} {@link FileFilter}
+   * @since 4.1.6
+   */
+  public static FileFilter noneZeroLengthFileFilter()
+  {
+      return new SerializableFileFilter() {
+          private static final long serialVersionUID = 1L;
+          @Override
+          public boolean accept(File file)
+          {
+              return file.length() != 0;
+          }
+      };
+  }
 }
