@@ -445,19 +445,19 @@ public class FormattedProperties
 
         if( config == null ) {
             attribs = EnumSet.noneOf( Store.class );
-        }
+            }
         else {
             attribs = EnumSet.copyOf( config );
-        }
+            }
 
         PrintWriter writer;
 
         if( out instanceof PrintWriter ) {
             writer = PrintWriter.class.cast( out );
-        }
+            }
         else {
             writer = new PrintWriter( out );
-        }
+            }
         // We ignore the header, because if we prepend a
         // commented header then read it back in it is
         // now a comment, which will be saved and then
@@ -469,7 +469,7 @@ public class FormattedProperties
             if( line.isComment ) {
                 // was a blank or comment line, so just restore it
                 writer.println(line.content);
-            }
+                }
             else {
                 // This is a 'property' line, so rebuild it
                 formatForOutput(
@@ -488,8 +488,8 @@ public class FormattedProperties
                         attribs
                         );
                 writer.println (sb);
+                }
             }
-        }
         writer.flush ();
     }
 

@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import alpha.com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.I18nPrepAutoUpdatable;
 import cx.ath.choisnet.i18n.AutoI18n;
@@ -45,14 +46,16 @@ public class CompareResourcesBundleFrame
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
     /* @serial */
     private AutoI18n autoI18n;
-    @I18nString // TODO i18n
+    @I18nString // i18n
     private final String fileSavedMsg = "File '%s' saved.";
-    @I18nString // TODO i18n
+    @I18nString // i18n
     private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
-    @I18nString // TODO i18n
+    @I18nString // i18n
     private final String saveLeftFileTypeMsg = "Left File";
-    @I18nString // TODO i18n
+    @I18nString // i18n
     private final String saveRightFileTypeMsg = "Right File";
+    @I18nString // i18n - An error occur when saving '%s'
+    private final String fileSaveIOException = "Error while saving '%s'";
 
     public CompareResourcesBundleFrame()
     {
@@ -66,7 +69,6 @@ public class CompareResourcesBundleFrame
                 super.windowClosing( event );
 
                 if( tableModel != null ) {
-                    // FIXME add a dialog to ask if should be saved
                     saveFile( true ); // save left
                     saveFile( false ); // save right
                     }
@@ -159,14 +161,15 @@ public class CompareResourcesBundleFrame
             jMenuItemSaveLeftFile.setEnabled(
                 !filesConfig.getLeftFileObject().isReadOnly()
                 );
-        }
+            }
         else {
             jMenuItemSaveLeftFile.setEnabled( true );
-        }
+            }
 
         if( this.filesConfig.isFilesExists() ) {
             this.tableModel = new CompareResourcesBundleTableModel(
-                    this.filesConfig
+                    this.filesConfig,
+                    this.autoI18n
                     );
             jTableProperties = this.tableModel.getJTable();
             jScrollPaneProperties.setViewportView( jTableProperties );
@@ -219,22 +222,28 @@ public class CompareResourcesBundleFrame
         final boolean isLeft
         )
     {
-        final String        saveFileTypeMsg;
-        final FileObject    fileObject;
+        final String            saveFileTypeMsg;
+        final FileObject        fileObject;
+        final CustomProperties  customProperties;
 
         if( isLeft ) {
-            saveFileTypeMsg = saveLeftFileTypeMsg;
-            fileObject      = filesConfig.getLeftFileObject();
+            saveFileTypeMsg     = saveLeftFileTypeMsg;
+            fileObject          = filesConfig.getLeftFileObject();
+            customProperties    = tableModel.getLeftCustomProperties();
             }
         else {
-            saveFileTypeMsg = saveRightFileTypeMsg;
-            fileObject      = filesConfig.getRightFileObject();
+            saveFileTypeMsg     = saveRightFileTypeMsg;
+            fileObject          = filesConfig.getRightFileObject();
+            customProperties    = tableModel.getRightCustomProperties();
             }
 
         logger.info( "request to save: " + saveFileTypeMsg);
 
         if( fileObject.isReadOnly() ) {
             logger.info( "read only file (cancel): " + fileObject );
+            }
+        else if( !customProperties.isEdited() ) {
+            logger.info( "Content not change for: " + fileObject );
             }
         else {
             //Confirm to save
@@ -250,17 +259,16 @@ public class CompareResourcesBundleFrame
 
             if( n == 1 ) {
                 return; // save canceled
-                  }
+                }
 
             try {
-                final boolean res;
-
-                if( isLeft ) {
-                    res = this.tableModel.saveLeftFile( fileObject );
-                    }
-                else {
-                    res = this.tableModel.saveRightFile( fileObject );
-                    }
+                final boolean res = customProperties.store();
+//                if( isLeft ) {
+//                    res = this.tableModel.saveLeftFile( fileObject );
+//                    }
+//                else {
+//                    res = this.tableModel.saveRightFile( fileObject );
+//                    }
 
                 if( res ) {
                     JOptionPane.showMessageDialog(
@@ -272,8 +280,12 @@ public class CompareResourcesBundleFrame
                     }
                 }
             catch( IOException e ) {
-                // FIXME add a dialog show this error
                 logger.error( e );
+                DialogHelper.showMessageExceptionDialog(
+                    this,
+                    String.format( fileSaveIOException, fileObject.getDisplayName() ),
+                    e
+                    );
                 }
         }
     }
@@ -330,7 +342,9 @@ public class CompareResourcesBundleFrame
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
-        //autoI18n.performeI18n(aPanelOrFrame,aPanelOrFrame.getClass());
+
+        // TODO: complete i18n support !!!
+        //autoI18n.performeI18n(tableModel,tableModel.getClass());
     }
 
     @Override // I18nPrepAutoUpdatable

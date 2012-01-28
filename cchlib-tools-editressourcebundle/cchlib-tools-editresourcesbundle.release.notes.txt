@@ -8,6 +8,11 @@ cchlib-tools-editressourcebundle
 
   Ask before saving
   Save when window is closed
+
+  Don't save if no modifications
+  Fix some encoding problems using FormattedProperties
+  New Main class (migrate under package com.googlecode.cchlib)
+  Add I18n
 ---------------------------------------------------------------------
 4.1.2
   Moving 2 maven (remove ant build number)
@@ -24,9 +29,14 @@ cchlib-tools-editressourcebundle
 ---------------------------------------------------------------------
 Known problems:
 ---------------------------------------------------------------------
-To add/improve:
+To add:
+  Java web start support
+---------------------------------------------------------------------
+To improve:
 ---------------------------------------------------------------------
 Future extensions:
+---------------------------------------------------------------------
+---------------------------------------------------------------------
 ---------------------------------------------------------------------
           <sign>
             <keystore>${project.build.directory}/keyStore</keystore> <!-- path or URI (if empty, the default keystore ".keystore"-file in the user-homedir is used) -->
@@ -103,9 +113,9 @@ Future extensions:
             <jnlpFile>
               <templateFilename>jnlpTemplate.vm</templateFilename>
               <outputFilename>launch1.jnlp</outputFilename> <!- - when there's only one jnlpFile, can be optioanl and defaults to launch.jnlp - ->
-              <inputTemplate>jnlp/template.vm</inputTemplate- ->
-           <outputFile>test.jnlp</outputFile>
-           <mainClass>org.codehaus.mojo.webstart.test.Test</mainClass>
+ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  <inputTemplate>jnlp/template.vm</inputTemplate- ->
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<outputFile>test.jnlp</outputFile>
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<mainClass>org.codehaus.mojo.webstart.test.Test</mainClass>
               <jarResources>
                 <jarResource>
                   <groupId>org.codehaus.mojo.webstart.it003</groupId>

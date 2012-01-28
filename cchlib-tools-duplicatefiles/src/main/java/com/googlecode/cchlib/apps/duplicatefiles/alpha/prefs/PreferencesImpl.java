@@ -6,9 +6,6 @@ import java.util.Locale;
 
 import javax.swing.UIManager;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
-import cx.ath.choisnet.tools.duplicatefiles.prefs.DefaultRootFile;
-import cx.ath.choisnet.tools.duplicatefiles.prefs.RootFile;
-import cx.ath.choisnet.tools.duplicatefiles.prefs.RootFileAction;
 
 /**
  *

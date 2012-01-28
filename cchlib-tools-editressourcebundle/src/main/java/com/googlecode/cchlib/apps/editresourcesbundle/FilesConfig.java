@@ -331,23 +331,23 @@ class FilesConfig implements Serializable
                 );
     }
 
-    private static CustomPropertiesInterface createCustomProperties(
+    private static CustomProperties createCustomProperties(
             FileObject          fileObject,
             Properties          properties,
             FormattedProperties formattedProperties
             )
     {
         if( properties != null ) {
-            return new CustomProperties(fileObject,properties);
-        }
+            return new DefaultCustomProperties( fileObject, properties );
+            }
         else if( formattedProperties != null ) {
-            return new CustomFormattedProperties(fileObject,formattedProperties);
-        }
+            return new FormattedCustomProperties(fileObject,formattedProperties);
+            }
 
         return null;
     }
 
-    public CustomPropertiesInterface createLeftCustomProperties()
+    public CustomProperties createLeftCustomProperties()
     {
         return createCustomProperties(
                 this.leftFileObject,
@@ -356,7 +356,7 @@ class FilesConfig implements Serializable
                 );
     }
 
-    public CustomPropertiesInterface createRightCustomProperties()
+    public CustomProperties createRightCustomProperties()
     {
         return createCustomProperties(
                 this.rightFileObject,

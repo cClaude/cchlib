@@ -24,8 +24,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
+import org.apache.log4j.Logger;
 
 
+import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 
 /**
@@ -36,6 +38,7 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
+    private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private Frame               frame;
     private AbstractTableModel  abstractTableModel;
     /** @serial */
@@ -43,6 +46,16 @@ class CompareResourcesBundlePopupMenu
 
     private boolean lineWrap = true; // TODO add in pref
     private boolean wordWrap = true; // TODO add in pref
+
+    // TODO: i18n
+    @I18nString
+    private String txtHTMLPreview = "HTML Preview";
+    // TODO: i18n
+    @I18nString
+    private String txtEditLines = "Edit lines";
+    // TODO: i18n
+    @I18nString
+    private String txtOptions = "Options";
 
     /**
      * @param jTable
@@ -148,17 +161,17 @@ class CompareResourcesBundlePopupMenu
     {
         if( columnIndex == colunms.colunmKey) {
             return;
-        }
+            }
         else if( columnIndex == colunms.colunmLeftLine ) {
             return;
-        }
+            }
         else if( columnIndex == colunms.colunmRightLine ) {
             return;
-        }
+            }
 
         JMenuItem copyMenu = new JMenuItem();
 
-        copyMenu.setText( "HTML Preview" ); // TODO i18n
+        copyMenu.setText( txtHTMLPreview );
         copyMenu.addActionListener(
                 new ActionListener()
                 {
@@ -169,7 +182,7 @@ class CompareResourcesBundlePopupMenu
 
                         if( value instanceof String ) {
                             openHTLMPreview(
-                                    "HTML Preview", // TODO i18n
+                                    txtHTMLPreview,
                                     "<html>" + value + "<html>"
                                     );
                         }
@@ -188,17 +201,17 @@ class CompareResourcesBundlePopupMenu
     {
         if( columnIndex == colunms.colunmKey ) {
             return;
-        }
+            }
         else if( columnIndex == colunms.colunmLeftLine ) {
             return;
-        }
+            }
         else if( columnIndex == colunms.colunmRightLine ) {
             return;
-        }
+            }
 
         JMenuItem copyMenu = new JMenuItem();
 
-        copyMenu.setText( "Edit lines" ); // TODO i18n
+        copyMenu.setText( txtEditLines );
         copyMenu.addActionListener(
                 new ActionListener()
                 {
@@ -209,7 +222,7 @@ class CompareResourcesBundlePopupMenu
 
                         if( value instanceof String ) {
                             openMultiLineEditor(
-                                    "Edit Lines", // TODO i18n
+                                    txtEditLines,
                                     String.class.cast( value ),
                                     rowIndex,
                                     columnIndex
@@ -300,8 +313,13 @@ class CompareResourcesBundlePopupMenu
             final int   columnIndex
             )
     {
-        // FIXME
-        System.out.printf("openMultiLineEditor %d/%d\n",rowIndex,columnIndex);
+        logger.trace(
+            String.format(
+                "openMultiLineEditor %d/%d\n",
+                rowIndex,
+                columnIndex
+                )
+            );
         final JDialog dialog = new JDialog( getFrame() );
 
         final JTextArea jTextArea = new JTextArea();
@@ -378,7 +396,7 @@ class CompareResourcesBundlePopupMenu
                 });
 
         JMenuBar    menuBar = new JMenuBar();
-        JMenu       menu    = new JMenu("Options"); // TODO i18n
+        JMenu       menu    = new JMenu( txtOptions  );
         menu.add( mItemLineWrap );
         menu.add( mItemWordWrap );
         menuBar.add( menu );

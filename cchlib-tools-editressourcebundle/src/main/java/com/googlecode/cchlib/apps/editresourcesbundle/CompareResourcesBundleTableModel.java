@@ -2,8 +2,6 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -15,8 +13,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
-
-
+import cx.ath.choisnet.i18n.AutoI18n;
+import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.table.LeftDotTableCellRenderer;
 
 /**
@@ -49,9 +47,12 @@ class CompareResourcesBundleTableModel
     /** @serial */
     private Colunms colunms = new Colunms();
 
+    @I18nString
+    private String txtKey = "Key";
+
     /** @serial */
     private String[] columnNames = {
-                "Key",  // TODO i18n
+                txtKey,
                 "#",
                 "(%s)",
                 "#",
@@ -60,24 +61,30 @@ class CompareResourcesBundleTableModel
     /** @serial */
     private final ArrayList<String> keyList = new ArrayList<String>();
     /** @serial */
-    private CustomPropertiesInterface leftCProperties;
+    private CustomProperties leftCProperties;
     /** @serial */
-    private CustomPropertiesInterface rightCProperties;
+    private CustomProperties rightCProperties;
+    private AutoI18n autoI18n;
 
     /**
      *
      * @param filesConfig
+     * @param autoI18n 
      */
     public CompareResourcesBundleTableModel(
-            FilesConfig filesConfig
-            )
+        final FilesConfig   filesConfig,
+        final AutoI18n      autoI18n
+        )
     {
+        this.autoI18n = autoI18n;
+        autoI18n.performeI18n(this,this.getClass());
+
         leftCProperties  = filesConfig.createLeftCustomProperties();
         rightCProperties = filesConfig.createRightCustomProperties();
 
         if(leftCProperties == null || rightCProperties == null) {
             throw new IllegalArgumentException();
-        }
+            }
 
         boolean showLineNumberIfPossible = filesConfig.isShowLineNumbers();
 
@@ -91,12 +98,12 @@ class CompareResourcesBundleTableModel
                 colunms.colunmLeftValue  = 2;
                 colunms.colunmRightLine  = 3;
                 colunms.colunmRightValue = 4;
-            }
+                }
             else {
                 // Not supported
                 showLineNumberIfPossible = false;
+                }
             }
-        }
 
         if( !showLineNumberIfPossible ) {
             colunms.colunmCount      = 3;
@@ -105,7 +112,7 @@ class CompareResourcesBundleTableModel
             colunms.colunmLeftValue  = 1;
             colunms.colunmRightLine  = -1;
             colunms.colunmRightValue = 2;
-        }
+            }
 
         SortedSet<String> keyBuilderSet = new TreeSet<String>();
 
@@ -114,20 +121,18 @@ class CompareResourcesBundleTableModel
 
         for(String s:keyBuilderSet) {
             keyList.add( s );
-        }
+            }
         keyBuilderSet.clear();
 
         slogger.info("keys:" + keyList.size());
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
     @Override
     public int getColumnCount()
     {
         return colunms.colunmCount;
     }
+    
     @Override
     public String getColumnName(int column)
     {
@@ -149,6 +154,7 @@ class CompareResourcesBundleTableModel
 
         return null;
     }
+    
     @Override
     public Class<?> getColumnClass(int columnIndex)
     {
@@ -160,15 +166,16 @@ class CompareResourcesBundleTableModel
         }
         return String.class;
     }
+    
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex)
     {
         if( columnIndex == colunms.colunmKey ) {
             return false;
-        }
+            }
         else if( columnIndex == colunms.colunmLeftLine ) {
             return false;
-        }
+            }
         else if( columnIndex == colunms.colunmLeftValue ) {
             if( this.leftCProperties.getFileObject().isReadOnly() ) {
                 return false;
@@ -177,10 +184,10 @@ class CompareResourcesBundleTableModel
                  String key = keyList.get( rowIndex );
                  return isStringEditable( leftCProperties.getProperty( key ) );
                  }
-        }
+            }
         else if( columnIndex == colunms.colunmRightLine ) {
             return false;
-        }
+            }
         else if( columnIndex == colunms.colunmRightValue ) {
             if( this.rightCProperties.getFileObject().isReadOnly() ) {
                 return false;
@@ -189,7 +196,7 @@ class CompareResourcesBundleTableModel
                 String key = keyList.get( rowIndex );
                 return isStringEditable( rightCProperties.getProperty( key ) );
                 }
-        }
+            }
         return false;
     }
 
@@ -197,20 +204,22 @@ class CompareResourcesBundleTableModel
     {
         if( str == null ) {
             return true;
-        }
+            }
         else if( str.contains( "\n" ) ) {
             return false;
-        }
+            }
         else if( str.contains( "\r" ) ) {
             return false;
-        }
+            }
         return true;
     }
+    
     @Override
     public int getRowCount()
     {
         return keyList.size();
     }
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
@@ -218,44 +227,45 @@ class CompareResourcesBundleTableModel
 
         if( columnIndex == colunms.colunmKey ) {
             return key;
-        }
+            }
         else if( columnIndex == colunms.colunmLeftLine ) {
             return leftCProperties.getLineNumber( key );
-        }
+            }
         else if( columnIndex == colunms.colunmLeftValue ) {
             return leftCProperties.getProperty( key );
-        }
+            }
         else if( columnIndex == colunms.colunmRightLine ) {
             return rightCProperties.getLineNumber( key );
-        }
+            }
         else if( columnIndex == colunms.colunmRightValue ) {
             return rightCProperties.getProperty( key );
-        }
+            }
 
         return null;
     }
+    
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex)
     {
         if( columnIndex == colunms.colunmKey ) {
             return;
-        }
+            }
         if( columnIndex == colunms.colunmLeftLine ) {
             return;
-        }
+            }
         if( columnIndex == colunms.colunmRightLine ) {
             return;
-        }
+            }
 
         String key   = keyList.get( rowIndex );
         String value = String.class.cast( aValue );
 
         if( columnIndex == colunms.colunmLeftValue ) {
             leftCProperties.setProperty( key, value );
-        }
+            }
         else if( columnIndex == colunms.colunmRightValue ) {
             rightCProperties.setProperty( key, value );
-        }
+            }
     }
 
     public JTable getJTable()
@@ -297,16 +307,16 @@ class CompareResourcesBundleTableModel
             {
                 if( column == colunms.colunmKey ) {
                     return leftDotRenderer;
-                }
+                    }
                 else if( column == colunms.colunmLeftValue ) {
                     return myJLabel;
-                }
+                    }
                 else if( column == colunms.colunmRightValue ) {
                     return myJLabel;
-                }
+                    }
                 else {
                     return super.getCellRenderer(row, column);
-                }
+                    }
             }
 
             class MyJLabel extends JLabel implements TableCellRenderer
@@ -340,11 +350,11 @@ class CompareResourcesBundleTableModel
                         }
                         else {
                             setBackground( Color.WHITE );
+                            }
                         }
-                    }
                     else {
                         setBackground( Color.LIGHT_GRAY );
-                    }
+                        }
 
                     //slogger.info( "value = " + value );
                     setText( str );
@@ -369,6 +379,7 @@ class CompareResourcesBundleTableModel
                     this,
                     this.colunms
                     );
+        autoI18n.performeI18n(popupMenu,popupMenu.getClass());
 
         popupMenu.setMenu();
 
@@ -376,21 +387,32 @@ class CompareResourcesBundleTableModel
     }
 
 
-    public boolean saveLeftFile( FileObject  fileObject )
-        throws FileNotFoundException, IOException
-    {//Not Override
-        slogger.info( "trying to save left: " + fileObject );
+//    public boolean saveLeftFile( FileObject  fileObject )
+//        throws FileNotFoundException, IOException
+//    {//Not Override
+//        slogger.info( "trying to save left: " + fileObject );
+//
+//        return this.leftCProperties.store();
+//     }
 
-        return this.leftCProperties.store();
-     }
-
-    public boolean saveRightFile( FileObject fileObject )
-        throws FileNotFoundException, IOException
-    {//Not Override
-        slogger.info( "trying to save right: " + fileObject );
-
-        return this.rightCProperties.store();
+    public CustomProperties getLeftCustomProperties()
+    {
+        return this.leftCProperties;
     }
+
+//    public boolean saveRightFile( FileObject fileObject )
+//        throws FileNotFoundException, IOException
+//    {//Not Override
+//        slogger.info( "trying to save right: " + fileObject );
+//
+//        return this.rightCProperties.store();
+//    }
+
+    public CustomProperties getRightCustomProperties()
+    {
+        return this.rightCProperties;
+    }
+
 
     public void setColumnWidth(JTable table)
     {//Not Override
@@ -401,19 +423,19 @@ class CompareResourcesBundleTableModel
 
             if( i == colunms.colunmKey ) {
                 column.setPreferredWidth( 100 );
-            }
+                }
             else if( i == colunms.colunmLeftLine ) {
                 column.setPreferredWidth( 30 );
-            }
+                }
             else if( i == colunms.colunmLeftValue ) {
                 column.setPreferredWidth( 300 );
-            }
+                }
             else if( i == colunms.colunmRightLine ) {
                 column.setPreferredWidth( 30 );
-            }
+                }
             else if( i == colunms.colunmRightValue ) {
                 column.setPreferredWidth( 300 );
-            }
+                }
         }
     }
 }

@@ -108,7 +108,7 @@ public class ResourcesLoader
 
         try {
             InputStream is   = ResourcesLoader.getResourceAsStream(
-                    "JPanelConfig.properties"
+                    name
                     );
 
             if( is != null ) {
@@ -117,7 +117,7 @@ public class ResourcesLoader
                 }
             }
         catch( IOException e ) {
-            logger.error( "Can't load properties", e );
+            logger.error( "Can't load properties: " + name, e );
             }
 
         return prop;

@@ -1,98 +1,84 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.io.Serializable;
 import java.util.Set;
-import org.apache.log4j.Logger;
-
 
 /**
- * Use standard Properties
  *
  * @author Claude CHOISNET
  */
-class CustomProperties
-    implements CustomPropertiesInterface
+public
+interface CustomProperties
+    extends Serializable
 {
-    private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( CustomProperties.class );
-    private Properties properties;
-    private FileObject fileObject;
-
-    public CustomProperties(
-            FileObject  fileObject,
-            Properties  properties
-            )
-    {
-        this.properties = properties;
-        this.fileObject = fileObject;
-    }
-
-    @Override
-    public Set<String> stringPropertyNames()
-    {
-        return properties.stringPropertyNames();
-    }
-
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.i18n.PropertiesInOut#store(cx.ath.choisnet.tools.i18n.FileObject)
+    /**
+     * @return FileObject use by the CustomProperties
      */
-    @Override
+    public FileObject getFileObject();
+
+    /**
+     * @return true if current object handle lines numbers,
+     * false otherwise.
+     */
+    public boolean handleLinesNumbers();
+
+    /**
+     * Get line number for giving property
+     * @param key key property
+     * @return line number of property,
+     *         0 if not found (should not occur)
+     */
+    public int getLineNumber(String key);
+
+    /**
+     * Get value for giving property
+     * @param key key property
+     * @return value of property,
+     *         null if not exist (should not occur)
+     */
+    public String getProperty( String key );
+
+    /**
+     * @param key property to set
+     * @param value for this property
+     */
+    public void setProperty( String key, String value );
+
+    /**
+     * @return a set of String keys
+     */
+    public Set<String> stringPropertyNames();
+
+//    /**
+//     * Load from fileObject
+//     * @param keyBuilderSet
+//     *
+//     * @throws FileNotFoundException
+//     * @throws IOException
+//     */
+//    public void load(Set<String> keyBuilderSet)
+//        throws FileNotFoundException, IOException;
+
+    /**
+     * Save from fileObject
+     *
+     * @return true if file has been saved
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public boolean store()
-        throws FileNotFoundException, IOException
-    {
-        if( fileObject.isReadOnly() ) {
-            slogger.warn( "Can't save (readOnly): " + fileObject );
+        throws FileNotFoundException, IOException;
+/* TODO: public boolean storeAs(File file)
+        throws FileNotFoundException, IOException;
+        */
 
-            return false;
-       }
-        else {
-            String              comment = fileObject.getFile().getPath();
-            FileOutputStream    os      = new FileOutputStream(fileObject.getFile());
+    /**
+     * Returns false if content has not been edited.
+     * @return false if content has not been edited.
+     */
+    public boolean isEdited();
 
-            properties.store(
-                os,
-                "Creat by "
-                    + CompareResourcesBundleFrame.class
-                    + " :"
-                    + comment
-                );
-            os.close();
-            slogger.info( "Save : " + fileObject );
-
-            return true;
-        }
-    }
-
-    @Override
-    public FileObject getFileObject()
-    {
-        return fileObject;
-    }
-
-    @Override
-    public String getProperty( String key )
-    {
-        return properties.getProperty( key );
-    }
-
-    @Override
-    public void setProperty( String key, String value )
-    {
-        properties.setProperty( key, value );
-    }
-
-    @Override
-    public boolean handleLinesNumbers()
-    {
-        return false;
-    }
-
-    @Override
-    public int getLineNumber( String key )
-    {
-        return 0;
-    }
 }

@@ -119,8 +119,9 @@ final public class DuplicateFilesFrame
 
         //TODO
         super.jMenuItemLanguageEnglish.setEnabled( false );
-        //TODO
         super.jMenuItemLanguageFrench.setEnabled( false );
+        super.jMenuItemLanguageDefaultSystem.setEnabled( true );
+        super.jMenuItemLanguageDefaultSystem.setSelected( true );
 
         this.iconContinue = getIcon( "continue.png" );
         this.iconRestart  = getIcon( "restart.png" );
