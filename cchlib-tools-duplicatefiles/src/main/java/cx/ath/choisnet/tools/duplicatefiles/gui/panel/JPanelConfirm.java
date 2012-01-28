@@ -62,6 +62,7 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtWaiting = "Waitting for user...";
     @I18nString private String txtTitle = "%d file(s) selected to be deleted";
     @I18nString private String txtMsgDone = "Done";
+    @I18nString private String txtCopy = "Copy";
 
     public JPanelConfirm()
     {
@@ -285,7 +286,7 @@ public class JPanelConfirm extends JPanel
                 JPopupMenu contextMenu = new JPopupMenu();
 
                 if( rowIndex == 0 ) {
-                    addCopyMenuItem(contextMenu, rowIndex, columnIndex);
+                    addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
                 }
 
                 return contextMenu;

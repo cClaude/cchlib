@@ -2,6 +2,8 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -47,17 +49,18 @@ class CompareResourcesBundleTableModel
     /** @serial */
     private Colunms colunms = new Colunms();
 
-    @I18nString
-    private String txtKey = "Key";
+//    @I18nString
+//    private String txtKey = "Key";
 
     /** @serial */
+    @I18nString
     private String[] columnNames = {
-                txtKey,
-                "#",
-                "(%s)",
-                "#",
-                "(%s)"
-                };
+            "Key",
+            "#",
+            "(%s)",
+            "#",
+            "(%s)"
+            };
     /** @serial */
     private final ArrayList<String> keyList = new ArrayList<String>();
     /** @serial */
@@ -69,7 +72,7 @@ class CompareResourcesBundleTableModel
     /**
      *
      * @param filesConfig
-     * @param autoI18n 
+     * @param autoI18n
      */
     public CompareResourcesBundleTableModel(
         final FilesConfig   filesConfig,
@@ -132,7 +135,7 @@ class CompareResourcesBundleTableModel
     {
         return colunms.colunmCount;
     }
-    
+
     @Override
     public String getColumnName(int column)
     {
@@ -154,7 +157,7 @@ class CompareResourcesBundleTableModel
 
         return null;
     }
-    
+
     @Override
     public Class<?> getColumnClass(int columnIndex)
     {
@@ -166,7 +169,7 @@ class CompareResourcesBundleTableModel
         }
         return String.class;
     }
-    
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex)
     {
@@ -213,13 +216,13 @@ class CompareResourcesBundleTableModel
             }
         return true;
     }
-    
+
     @Override
     public int getRowCount()
     {
         return keyList.size();
     }
-    
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex)
     {
@@ -243,7 +246,7 @@ class CompareResourcesBundleTableModel
 
         return null;
     }
-    
+
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex)
     {
@@ -377,9 +380,9 @@ class CompareResourcesBundleTableModel
             = new CompareResourcesBundlePopupMenu(
                     jTable,
                     this,
-                    this.colunms
+                    this.colunms,
+                    autoI18n
                     );
-        autoI18n.performeI18n(popupMenu,popupMenu.getClass());
 
         popupMenu.setMenu();
 
@@ -416,26 +419,49 @@ class CompareResourcesBundleTableModel
 
     public void setColumnWidth(JTable table)
     {//Not Override
-        TableColumn column = null;
+        Font        font    = table.getFont();
+        FontMetrics fm      = table.getFontMetrics( font );
 
-        for( int i = 0; i < getColumnCount(); i++ ) {
-            column = table.getColumnModel().getColumn( i );
+        for( int ci = 0; ci < getColumnCount(); ci++ ) {
+            int maxWidth = 0;
 
-            if( i == colunms.colunmKey ) {
-                column.setPreferredWidth( 100 );
+            // Find max for this column
+            for( int ri = 0; ri < keyList.size(); ri++ ) {
+                Object content = getValueAt( ri, ci );
+
+                if( content instanceof String ) {
+                    String s = String.class.cast( content );
+
+                    int width = fm.stringWidth( s );
+
+                    if( width > maxWidth ) {
+                        maxWidth = width;
+                        }
+                    }
                 }
-            else if( i == colunms.colunmLeftLine ) {
-                column.setPreferredWidth( 30 );
-                }
-            else if( i == colunms.colunmLeftValue ) {
-                column.setPreferredWidth( 300 );
-                }
-            else if( i == colunms.colunmRightLine ) {
-                column.setPreferredWidth( 30 );
-                }
-            else if( i == colunms.colunmRightValue ) {
-                column.setPreferredWidth( 300 );
-                }
-        }
+
+            TableColumn column = table.getColumnModel().getColumn( ci );
+            column.setPreferredWidth( maxWidth );
+            }
+
+//        for( int i = 0; i < getColumnCount(); i++ ) {
+//            TableColumn column = table.getColumnModel().getColumn( i );
+//
+//            if( i == colunms.colunmKey ) {
+//                column.setPreferredWidth( 100 );
+//                }
+//            else if( i == colunms.colunmLeftLine ) {
+//                column.setPreferredWidth( 30 );
+//                }
+//            else if( i == colunms.colunmLeftValue ) {
+//                column.setPreferredWidth( 300 );
+//                }
+//            else if( i == colunms.colunmRightLine ) {
+//                column.setPreferredWidth( 30 );
+//                }
+//            else if( i == colunms.colunmRightValue ) {
+//                column.setPreferredWidth( 300 );
+//                }
+//        }
     }
 }

@@ -27,6 +27,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 
 
+import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 
@@ -47,28 +48,33 @@ class CompareResourcesBundlePopupMenu
     private boolean lineWrap = true; // TODO add in pref
     private boolean wordWrap = true; // TODO add in pref
 
-    // TODO: i18n
     @I18nString
     private String txtHTMLPreview = "HTML Preview";
-    // TODO: i18n
     @I18nString
     private String txtEditLines = "Edit lines";
-    // TODO: i18n
     @I18nString
     private String txtOptions = "Options";
+    @I18nString
+    private String txtCopy = "Copy";
+    @I18nString
+    private String txtPaste = "Paste";
 
     /**
      * @param jTable
      * @param abstractTableModel
      * @param colunms
+     * @param autoI18n
      */
     public CompareResourcesBundlePopupMenu(
             JTable                                      jTable,
             AbstractTableModel                          abstractTableModel,
-            CompareResourcesBundleTableModel.Colunms    colunms
+            CompareResourcesBundleTableModel.Colunms    colunms,
+            AutoI18n                                    autoI18n
             )
     {
         super( jTable );
+
+        autoI18n.performeI18n(this,this.getClass());
 
         this.abstractTableModel = abstractTableModel;
         this.colunms            = colunms;
@@ -83,8 +89,8 @@ class CompareResourcesBundlePopupMenu
         //JPopupMenu contextMenu = super.createContextMenu(rowIndex, columnIndex);
         JPopupMenu contextMenu = new JPopupMenu();
 
-        addCopyMenuItem(contextMenu, rowIndex, columnIndex);
-        addPasteMenuItem(contextMenu, rowIndex, columnIndex);
+        addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
+        addPasteMenuItem(contextMenu, txtPaste, rowIndex, columnIndex);
         contextMenu.addSeparator();
 
         addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
@@ -169,10 +175,10 @@ class CompareResourcesBundlePopupMenu
             return;
             }
 
-        JMenuItem copyMenu = new JMenuItem();
+        JMenuItem previewMenu = new JMenuItem();
 
-        copyMenu.setText( txtHTMLPreview );
-        copyMenu.addActionListener(
+        previewMenu.setText( txtHTMLPreview );
+        previewMenu.addActionListener(
                 new ActionListener()
                 {
                     @Override
@@ -189,8 +195,8 @@ class CompareResourcesBundlePopupMenu
                     }
                 });
 
-        contextMenu.addSeparator();
-        contextMenu.add( copyMenu );
+        //contextMenu.addSeparator();
+        contextMenu.add( previewMenu );
     }
 
     protected void addEditMultiLineMenuItem(
