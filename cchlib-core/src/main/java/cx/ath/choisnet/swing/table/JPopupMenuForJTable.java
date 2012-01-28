@@ -280,13 +280,9 @@ public abstract class JPopupMenuForJTable
 //        }
 
     /**
-     * TODOC
-     *
-     * @param contextMenu
-     * @param rowIndex
-     * @param columnIndex
-     *
+     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String, int, int)} instead
      */
+    @Deprecated
     final
     public void addCopyMenuItem(
             final JPopupMenu    contextMenu,
@@ -294,9 +290,31 @@ public abstract class JPopupMenuForJTable
             final int           columnIndex
             )
     {
+//        add(
+//            contextMenu,
+//            buildCopyJMenuItem("Copy",rowIndex,columnIndex)
+//            );
+        addCopyMenuItem( contextMenu, "Copy", rowIndex, columnIndex );
+    }
+    
+    /**
+     * Add copy to clip-board sub-menu 
+     * @param contextMenu
+     * @param textForCopy
+     * @param rowIndex
+     * @param columnIndex
+     */
+    final
+    public void addCopyMenuItem(
+            final JPopupMenu    contextMenu,
+            final String        textForCopy,
+            final int           rowIndex,
+            final int           columnIndex
+            )
+    {
         add(
             contextMenu,
-            buildCopyJMenuItem("Copy",rowIndex,columnIndex)
+            buildCopyJMenuItem(textForCopy,rowIndex,columnIndex)
             );
     }
 
@@ -350,11 +368,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODOC
-     *
-     * @param contextMenu
-     * @param rowIndex
-     * @param columnIndex
+     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String, int, int)} instead
      */
     final
     protected void addPasteMenuItem(
@@ -363,8 +377,27 @@ public abstract class JPopupMenuForJTable
             final int           columnIndex
             )
     {
+        addPasteMenuItem(contextMenu,"Paste",rowIndex,columnIndex);
+    }
+
+    /**
+     * Add paste to clip-board sub-menu 
+     * 
+     * @param contextMenu
+     * @param txtForPaste
+     * @param rowIndex
+     * @param columnIndex
+     */
+    final
+    protected void addPasteMenuItem(
+            final JPopupMenu    contextMenu,
+            final String        txtForPaste,
+            final int           rowIndex,
+            final int           columnIndex
+            )
+    {
         JMenuItem pasteMenu = new JMenuItem();
-        pasteMenu.setText( "Paste" );
+        pasteMenu.setText( txtForPaste );
 
         if( isClipboardContainingText( this )
                 && getTableModel().isCellEditable( rowIndex, columnIndex ) ) {
