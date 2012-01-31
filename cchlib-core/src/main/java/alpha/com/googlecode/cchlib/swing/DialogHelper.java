@@ -1,24 +1,26 @@
 package alpha.com.googlecode.cchlib.swing;
 
-import java.awt.Component;
-import java.io.IOException;
-
 import javax.swing.JFrame;
 
-public class DialogHelper {
-
-	public static void showMessageExceptionDialog(
-			Component compareResourcesBundleFrame,
-			String format, Exception e) {
-		// TODO Auto-generated method stub
-		
+public class DialogHelper
+{
+	private DialogHelper()
+	{
+		// static
 	}
 
 	public static void showMessageExceptionDialog(
-			JFrame compareResourcesBundleFrame,
-			String format, IOException e) {
-		// TODO Auto-generated method stub
-		
+			final JFrame 	parentFrame,
+			final String 	title,
+			final Exception exception
+			)
+	{
+		StringBuilder 	msg 	= new StringBuilder();
+		CustomDialogWB 	dialog 	= new CustomDialogWB( parentFrame, title, msg .toString(), false );
+
+		dialog.setVisible(true);
+
 	}
+
 
 }

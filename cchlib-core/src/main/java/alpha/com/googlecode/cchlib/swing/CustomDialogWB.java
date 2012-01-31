@@ -5,6 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -26,16 +28,23 @@ public class CustomDialogWB extends JDialog
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void main( String[] args )
+    {
         try {
-            CustomDialogWB dialog = new CustomDialogWB(
-                "message test"
+            Frame 			parentFrame 	= null;
+			boolean 		addCancelButton = false;
+			CustomDialogWB 	dialog 			= new CustomDialogWB(
+        		parentFrame,
+        		"title test",
+                "message test",
+                addCancelButton
                 );
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
-        } catch (Exception e) {
+        	}
+        catch( Exception e ) {
             e.printStackTrace();
-        }
+        	}
     }
 
     private class CustomActionListener implements ActionListener
@@ -73,19 +82,29 @@ public class CustomDialogWB extends JDialog
      * Create the dialog.
      */
     public CustomDialogWB(
-        final String message
+		final Frame 	parentFrame,
+		final String	title,
+        final String	message,
+    	final boolean 	addCancelButton
         )
     {
-        this();
+        this( parentFrame, addCancelButton );
 
+        setTitle( title );
         this.jLabelMessage.setText( message );
     }
 
     /**
      * Create the dialog.
+     * @param addCancelButton
+     * @param x
      */
-    public CustomDialogWB()
+    public CustomDialogWB(
+    	final Frame 	parentFrame,
+    	final boolean 	addCancelButton
+    	)
     {
+    	super( parentFrame );
         //setBounds(100, 100, 450, 300);
         setSize( 450, 300);
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -107,7 +126,8 @@ public class CustomDialogWB extends JDialog
             jLabelMessage = new JLabel();
             contentPanel.add(jLabelMessage);
         }
-        {
+
+        if( addCancelButton  ) {
             jButtonCancel = new JButton("Cancel");
             GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.HORIZONTAL;
@@ -129,12 +149,15 @@ public class CustomDialogWB extends JDialog
             getRootPane().setDefaultButton(jButtonOk);
         }
     }
+
     public JLabel getJLabelMessage() {
         return jLabelMessage;
     }
+
     public JButton getJButtonOk() {
         return jButtonOk;
     }
+
     public JButton getJButtonCancel() {
         return jButtonCancel;
     }
