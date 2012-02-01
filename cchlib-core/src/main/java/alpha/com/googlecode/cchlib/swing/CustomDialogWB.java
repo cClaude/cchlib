@@ -136,6 +136,7 @@ public class CustomDialogWB extends JDialog
 
         /*if( addCancelButton  )*/ {
             jButtonCancel = new JButton("Cancel");
+            jButtonCancel.addActionListener( getActionListener() );
             GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonCancel.gridx = 2;
