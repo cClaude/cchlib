@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle.cchlib;
+package com.googlecode.cchlib.i18n.config;
 
 import java.util.EnumSet;
 import org.apache.log4j.Level;
@@ -14,7 +14,11 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 /**
  * TODO: Move this in cchlib-core after add some documentation.
- *
+ * <br/>
+ * This class is design to be use has a common class
+ * for building first resource bundle of the application
+ * has a properties file and also to be use to apply
+ * internationalization of the application.
  */
 public abstract class AbstractI18nBundle
 {
@@ -27,17 +31,20 @@ public abstract class AbstractI18nBundle
     }
 
     /**
-     * Returns MessagesBundle as a String
-     * @return MessagesBundle
+     * Returns base name of properties file that should
+     * receive keys and values for the internationalization
+     * process
+     * @return Messages bundle base name
      */
     public abstract String getMessagesBundle();
 
     /**
-    *
-    * @return
-    */
-   public AutoI18n getAutoI18n()
-   {
+     * Returns an {@link AutoI18n} for production version
+     * of the application.
+     * @return an {@link AutoI18n} able to do the I18n.
+     */
+    public AutoI18n getAutoI18n()
+    {
        if( autoI18n == null ) {
            autoI18n = new AutoI18n(
                    new I18nSimpleResourceBundle(
@@ -53,8 +60,14 @@ public abstract class AbstractI18nBundle
     }
 
     /**
-     *
-     * @return
+     * Returns an {@link AutoI18n} for a development
+     * version of the application. This version must
+     * open all frames an build all object that should
+     * be internationalized using same object structure
+     * (key are based on object structure).
+     * @return an {@link AutoI18n} able to identify
+     * keys that should be translated, able to collection
+     * how many times keys are used.
      */
     public I18nSimpleStatsResourceBundle getAutoI18nSimpleStatsResourceBundle()
     {
@@ -63,7 +76,7 @@ public abstract class AbstractI18nBundle
                = new I18nSimpleStatsResourceBundle(
                    getMessagesBundle()
                    );
-        }
+            }
         return autoI18nSimpleStatsResourceBundle;
     }
 

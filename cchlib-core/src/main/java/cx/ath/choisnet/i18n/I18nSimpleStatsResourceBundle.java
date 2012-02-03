@@ -4,9 +4,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
-/**
- *
+/** 
+ * Extend default implementation based on {@link ResourceBundle}
+ * for {@link I18nInterface} and add keep trace of use of
+ * each key.
+ * <br/>
+ * This class could be use to identify dead keys.
+ * @see #getUsageMap()
  */
 public class I18nSimpleStatsResourceBundle extends I18nSimpleResourceBundle
 {

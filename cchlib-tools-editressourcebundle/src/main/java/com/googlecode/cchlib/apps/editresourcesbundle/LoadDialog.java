@@ -10,8 +10,9 @@ import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
-
-
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import cx.ath.choisnet.i18n.AutoI18n;
+import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.util.FormattedProperties;
 
@@ -21,12 +22,14 @@ import cx.ath.choisnet.util.FormattedProperties;
  */
 class LoadDialog
     extends LoadDialogWB
-        implements ActionListener
+        implements 	ActionListener,
+                    I18nAutoUpdatable
 {
     private static final long   serialVersionUID        = 1L;
     private final static Logger slogger = Logger.getLogger( LoadDialog.class );
     private JFileChooserInitializer jFileChooserInitializer = new JFileChooserInitializer();
     private FilesConfig filesConfig;
+
     private final static int PROPERTIES = 1;
     private final static int FORMATTED_PROPERTIES = 2;
     private final static String ACTION_FT_Properties = "Properties";
@@ -40,6 +43,9 @@ class LoadDialog
     private final static String ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P = "CUT_LINE_BEFORE_HTML_BEGIN_P";
     private final static String ACTION_Change_CUT_LINE_BEFORE_HTML_BR = "CUT_LINE_BEFORE_HTML_BR";
 
+    @I18nString
+    private String strMsgTitle = "Load...";
+
     public LoadDialog(
         Frame                   parent,
         JFileChooserInitializer jFileChooserInitializer,
@@ -52,10 +58,16 @@ class LoadDialog
         initFixComponents();
 
         setDefaultCloseOperation( LoadDialog.DISPOSE_ON_CLOSE );
-        setTitle( "Load..." ); // TODO i18n
+        setTitle( strMsgTitle  );
         setLocationRelativeTo( parent );
         getContentPane().setPreferredSize( this.getSize() );
         pack();
+    }
+
+    @Override // I18nAutoUpdatable
+    public void performeI18n(AutoI18n autoI18n)
+    {
+        autoI18n.performeI18n( this, this.getClass() );
     }
 
     public void initFixComponents()
@@ -71,7 +83,6 @@ class LoadDialog
                 ACTION_Change_ShowLineNumbers,
                 filesConfig.isShowLineNumbers()
                 );
-
 
         // Load tab - FileType
         initCheckBox(
@@ -210,30 +221,7 @@ class LoadDialog
         }
         return null;
     }
-/*
-    public static void main( String[] args )
-    {
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                FilesConfig fc = new FilesConfig();
-                CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame();
-                LoadDialog dialog = new LoadDialog(
-                        frame,
-                        frame.getJFileChooserInitializer(),
-                        fc
-                        );
-                dialog.setDefaultCloseOperation( LoadDialog.DISPOSE_ON_CLOSE );
-                dialog.setTitle( "Load Dialog (Debug)" );
-                dialog.setLocationRelativeTo( null );
-                dialog.getContentPane().setPreferredSize( dialog.getSize() );
-                dialog.pack();
-                dialog.setVisible( true );
-            }
-        } );
-    }
-*/
+
     @Override
     protected void jButton_LeftMouseMousePressed(MouseEvent event)
     {
@@ -287,15 +275,15 @@ class LoadDialog
 
         try {
             filesConfig.load();
-        }
+            }
         catch( FileNotFoundException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+            }
         catch( IOException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+            }
 
         dispose();
     }
@@ -308,68 +296,67 @@ class LoadDialog
         if( ACTION_FT_Properties.equals( c )) {
             udpateTabFileTypeDisplay();
             filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
-        }
+            }
         else if( ACTION_FT_FormattedProperties.equals( c )) {
             udpateTabFileTypeDisplay();
             filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
-        }
+            }
         else if( ACTION_FT_ini.equals( c )) {
             udpateTabFileTypeDisplay();
             //TODO:  !
-        }
+            }
         else if( ACTION_Change_isUseLeftHasDefault.equals( c )) {
             filesConfig.setUseLeftHasDefault(
                     jCheckBox_RightUseLeftHasDefaults.isSelected()
                     );
-        }
+            }
         else if( ACTION_Change_CUT_LINE_AFTER_HTML_BR.equals( c )) {
             updateStoreOptions(
                     jCheckBox_CUT_LINE_AFTER_HTML_BR,
                     FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
                     );
-        }
+            }
         else if( ACTION_Change_CUT_LINE_AFTER_HTML_END_P.equals( c )) {
             updateStoreOptions(
                     jCheckBox_CUT_LINE_AFTER_HTML_END_P,
                     FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
                     );
-        }
+            }
         else if( ACTION_Change_CUT_LINE_AFTER_NEW_LINE.equals( c )) {
             updateStoreOptions(
                     jCheckBox_CUT_LINE_AFTER_NEW_LINE,
                     FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
                     );
-        }
+            }
         else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P.equals( c )) {
             updateStoreOptions(
                     jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P,
                     FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
                     );
-        }
+            }
         else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BR.equals( c )) {
             updateStoreOptions(
                     jCheckBox_CUT_LINE_BEFORE_HTML_BR,
                     FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
                     );
-        }
+            }
         else if( ACTION_Change_ShowLineNumbers.equals( c )) {
             filesConfig.setShowLineNumbers(
                     jCheckBox_ShowLineNumbers.isSelected()
                     );
-        }
+            }
         else {
             slogger.warn( "Unknown ActionCommand: " + c );
-        }
+            }
     }
 
     private void updateStoreOptions(JCheckBox jCheckBox,FormattedProperties.Store storeOption)
     {
         if( jCheckBox.isSelected() ) {
             filesConfig.add( storeOption );
-        }
+            }
         else {
             filesConfig.remove( storeOption );
-        }
+            }
     }
-
 }

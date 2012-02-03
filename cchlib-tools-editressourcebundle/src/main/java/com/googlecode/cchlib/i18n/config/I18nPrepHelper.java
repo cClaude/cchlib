@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle.cchlib;
+package com.googlecode.cchlib.i18n.config;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,11 @@ import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
  */
 public class I18nPrepHelper
 {
+    private I18nPrepHelper()
+    {
+        // All static
+    }
+
     /**
     *
     * @param mainFrame
@@ -26,10 +31,11 @@ public class I18nPrepHelper
     * @throws IOException
     */
     public static void defaultPrep(
-        final I18nPrepAutoUpdatable mainFrame,
         final Locale                defaultLocale,
         final PrintStream           usageStatPrintStream,
-        final PrintStream           notUsePrintStream
+        final PrintStream           notUsePrintStream,
+        final I18nPrepAutoUpdatable mainFrame,
+        final I18nAutoUpdatable...	otherFrames
         ) throws IOException
     {
         // Default language !
@@ -54,6 +60,10 @@ public class I18nPrepHelper
 
         mainFrame.performeI18n( autoI18n );
 
+        for( I18nAutoUpdatable f : otherFrames ) {
+        	f.performeI18n( autoI18n );
+        	}
+        
         ResourceBundle      rb          = abstractI18nBundle.getAutoI18nSimpleStatsResourceBundle().getResourceBundle();
         Enumeration<String> enu         = rb.getKeys();
         Map<String,String>  knowKeyMap  = new HashMap<String,String>();

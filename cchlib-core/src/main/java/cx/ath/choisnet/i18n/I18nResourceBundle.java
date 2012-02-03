@@ -15,10 +15,10 @@ public class I18nResourceBundle implements I18nInterface
 {
     private static final long serialVersionUID = 1L;
     /**
-    * This classe is not serialisable if you don't implements
-    * a solution to restaure this field.
+    * This field is not serialisable if you don't implements
+    * a solution to restore this field.
     */
-    protected ResourceBundle resourceBundle; // NOT SERIALISABLE !
+    protected transient ResourceBundle resourceBundle; // NOT SERIALISABLE !
 
     /**
      * Provide a non initialized object for inherit class

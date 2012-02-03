@@ -21,7 +21,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 /**
- *
  * @author Claude CHOISNET
  */
 public abstract class LoadDialogWB extends JDialog
@@ -50,12 +49,10 @@ public abstract class LoadDialogWB extends JDialog
     protected JCheckBox jCheckBox_ini;
     protected JCheckBox jCheckBox_ShowLineNumbers;
 
-
     @I18nString
     private String msgStringLeft = "Left";
     @I18nString
     private String msgStringRight = "Right";
-
 
     public LoadDialogWB()
     {
@@ -110,7 +107,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_ShowLineNumbers == null) {
             jCheckBox_ShowLineNumbers = new JCheckBox();
             jCheckBox_ShowLineNumbers.setText("Show line numbers (if possible)");
-        }
+            }
         return jCheckBox_ShowLineNumbers;
     }
 
@@ -118,7 +115,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_CUT_LINE_AFTER_HTML_END_P == null) {
             jCheckBox_CUT_LINE_AFTER_HTML_END_P = new JCheckBox();
             jCheckBox_CUT_LINE_AFTER_HTML_END_P.setText("CUT_LINE_AFTER_HTML_END_P");
-        }
+            }
         return jCheckBox_CUT_LINE_AFTER_HTML_END_P;
     }
 
@@ -126,7 +123,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P == null) {
             jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new JCheckBox();
             jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P.setText("CUT_LINE_BEFORE_HTML_BEGIN_P");
-        }
+            }
         return jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P;
     }
 
@@ -134,7 +131,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_CUT_LINE_BEFORE_HTML_BR == null) {
             jCheckBox_CUT_LINE_BEFORE_HTML_BR = new JCheckBox();
             jCheckBox_CUT_LINE_BEFORE_HTML_BR.setText("CUT_LINE_BEFORE_HTML_BR");
-        }
+            }
         return jCheckBox_CUT_LINE_BEFORE_HTML_BR;
     }
 
@@ -142,7 +139,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_CUT_LINE_AFTER_HTML_BR == null) {
             jCheckBox_CUT_LINE_AFTER_HTML_BR = new JCheckBox();
             jCheckBox_CUT_LINE_AFTER_HTML_BR.setText("CUT_LINE_AFTER_HTML_BR");
-        }
+            }
         return jCheckBox_CUT_LINE_AFTER_HTML_BR;
     }
 
@@ -150,7 +147,7 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_CUT_LINE_AFTER_NEW_LINE == null) {
             jCheckBox_CUT_LINE_AFTER_NEW_LINE = new JCheckBox();
             jCheckBox_CUT_LINE_AFTER_NEW_LINE.setText("CUT_LINE_AFTER_NEW_LINE");
-        }
+            }
         return jCheckBox_CUT_LINE_AFTER_NEW_LINE;
     }
 
@@ -193,7 +190,7 @@ public abstract class LoadDialogWB extends JDialog
             gbc_jCheckBox_CUT_LINE_AFTER_HTML_END_P.gridx = 0;
             gbc_jCheckBox_CUT_LINE_AFTER_HTML_END_P.gridy = 4;
             jPanel_TabFMTProperties.add(getJCheckBox_CUT_LINE_AFTER_HTML_END_P(), gbc_jCheckBox_CUT_LINE_AFTER_HTML_END_P);
-        }
+            }
         return jPanel_TabFMTProperties;
     }
 
@@ -201,71 +198,80 @@ public abstract class LoadDialogWB extends JDialog
         if (jCheckBox_RightUseLeftHasDefaults == null) {
             jCheckBox_RightUseLeftHasDefaults = new JCheckBox();
             jCheckBox_RightUseLeftHasDefaults.setText("Right file use Left file has defaults");
-        }
+            }
         return jCheckBox_RightUseLeftHasDefaults;
     }
 
-    private JCheckBox getJCheckBox_LeftReadOnly() {
+    private JCheckBox getJCheckBox_LeftReadOnly()
+    {
         if (jCheckBox_LeftReadOnly == null) {
             jCheckBox_LeftReadOnly = new JCheckBox();
             jCheckBox_LeftReadOnly.setText("Left file readonly");
-        }
+            }
         return jCheckBox_LeftReadOnly;
     }
 
-    private void initButtonGroup_FileType() {
+    private void initButtonGroup_FileType()
+    {
         buttonGroup_FileType = new ButtonGroup();
         buttonGroup_FileType.add(getJCheckBox_Properties());
         buttonGroup_FileType.add(getJCheckBox_FormattedProperties());
         buttonGroup_FileType.add(getJCheckBox_ini());
     }
 
-    private JCheckBox getJCheckBox_Properties() {
+    private JCheckBox getJCheckBox_Properties()
+    {
         if (jCheckBox_Properties == null) {
             jCheckBox_Properties = new JCheckBox();
             jCheckBox_Properties.setText("Properties");
-        }
+            }
         return jCheckBox_Properties;
     }
 
-    private JCheckBox getJCheckBox_ini() {
+    private JCheckBox getJCheckBox_ini()
+    {
         if (jCheckBox_ini == null) {
             jCheckBox_ini = new JCheckBox();
             jCheckBox_ini.setText("*.ini files");
             jCheckBox_ini.setEnabled(false);
-        }
+            }
         return jCheckBox_ini;
     }
 
-    private JCheckBox getJCheckBox_FormattedProperties() {
+    private JCheckBox getJCheckBox_FormattedProperties()
+    {
         if (jCheckBox_FormattedProperties == null) {
             jCheckBox_FormattedProperties = new JCheckBox();
             jCheckBox_FormattedProperties.setText("Formatted Properties");
-        }
+            }
         return jCheckBox_FormattedProperties;
     }
 
-    private JButton getJButton_Ok() {
+    private JButton getJButton_Ok()
+    {
         if (jButton_Ok == null) {
             jButton_Ok = new JButton();
             jButton_Ok.setText("OK");
-            jButton_Ok.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
+            jButton_Ok.addMouseListener(new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
+                {
                     jButton_OkMouseMousePressed(event);
                 }
             });
-        }
+            }
         return jButton_Ok;
     }
 
-    private JButton getJButton_Cancel() {
+    private JButton getJButton_Cancel()
+    {
         if (jButton_Cancel == null) {
             jButton_Cancel = new JButton();
             jButton_Cancel.setText("Cancel");
-            jButton_Cancel.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
+            jButton_Cancel.addMouseListener(new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
+                {
                     jButton_CancelMouseMousePressed(event);
                 }
             });
@@ -273,7 +279,8 @@ public abstract class LoadDialogWB extends JDialog
         return jButton_Cancel;
     }
 
-    private JPanel getJPanel_TabProperties() {
+    private JPanel getJPanel_TabProperties()
+    {
         if (jPanel_TabProperties == null) {
             jPanel_TabProperties = new JPanel();
             GridBagLayout gbl_jPanel_TabProperties = new GridBagLayout();
@@ -288,11 +295,12 @@ public abstract class LoadDialogWB extends JDialog
             gbc_jCheckBox_RightUseLeftHasDefaults.gridx = 0;
             gbc_jCheckBox_RightUseLeftHasDefaults.gridy = 0;
             jPanel_TabProperties.add(getJCheckBox_RightUseLeftHasDefaults(), gbc_jCheckBox_RightUseLeftHasDefaults);
-        }
+            }
         return jPanel_TabProperties;
     }
 
-    private JPanel getJPanel_TabSelect() {
+    private JPanel getJPanel_TabSelect()
+    {
         if (jPanel_TabSelect == null) {
             jPanel_TabSelect = new JPanel();
             GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
@@ -373,31 +381,35 @@ public abstract class LoadDialogWB extends JDialog
         return jPanel_TabSelect;
     }
 
-    private JButton getJButton_Left() {
+    private JButton getJButton_Left()
+    {
         if (jButton_Left == null) {
             jButton_Left = new JButton();
             jButton_Left.setText("select");
-            jButton_Left.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
+            jButton_Left.addMouseListener(new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
+                {
                     jButton_LeftMouseMousePressed(event);
                 }
             });
-        }
+            }
         return jButton_Left;
     }
 
-    private JButton getJButton_Right() {
+    private JButton getJButton_Right()
+    {
         if (jButton_Right == null) {
             jButton_Right = new JButton();
             jButton_Right.setText("select");
-            jButton_Right.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
+            jButton_Right.addMouseListener(new MouseAdapter()
+            {
+                public void mousePressed(MouseEvent event)
+                {
                     jButton_RightMouseMousePressed(event);
                 }
             });
-        }
+            }
         return jButton_Right;
     }
 
@@ -406,13 +418,16 @@ public abstract class LoadDialogWB extends JDialog
     protected abstract void jButton_CancelMouseMousePressed(MouseEvent event);
     protected abstract void jButton_OkMouseMousePressed(MouseEvent event);
 
-    protected JTextField getJTextField_Left() {
+    protected JTextField getJTextField_Left()
+    {
         return jTextField_Left;
     }
-    protected JTextField getJTextField_Right() {
+    protected JTextField getJTextField_Right()
+    {
         return jTextField_Right;
     }
-    protected JTabbedPane getJTabbedPaneRoot() {
+    protected JTabbedPane getJTabbedPaneRoot()
+    {
         return jTabbedPaneRoot;
     }
 }

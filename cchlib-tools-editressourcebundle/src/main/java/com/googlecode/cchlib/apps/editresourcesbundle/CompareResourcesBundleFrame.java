@@ -14,9 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
+import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+
 import alpha.com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.apps.editresourcesbundle.cchlib.I18nPrepAutoUpdatable;
 import cx.ath.choisnet.i18n.AutoI18n;
 import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
@@ -322,6 +324,7 @@ public class CompareResourcesBundleFrame
                         CompareResourcesBundleFrame.this.getJFileChooserInitializer(),
                         fc
                         );
+                dialog.performeI18n(autoI18n);
                 dialog.setModal( true );
                 dialog.setVisible( true );
 

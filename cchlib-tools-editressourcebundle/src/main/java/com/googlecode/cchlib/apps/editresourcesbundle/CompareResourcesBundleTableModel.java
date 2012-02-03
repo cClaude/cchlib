@@ -27,8 +27,8 @@ import cx.ath.choisnet.swing.table.LeftDotTableCellRenderer;
 class CompareResourcesBundleTableModel
     extends AbstractTableModel
 {
-    private static Logger slogger = Logger.getLogger(CompareResourcesBundleTableModel.class);
-    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(CompareResourcesBundleTableModel.class);
+    private static final long serialVersionUID = 2L;
 
     public class Colunms implements Serializable
     {
@@ -49,9 +49,6 @@ class CompareResourcesBundleTableModel
     /** @serial */
     private Colunms colunms = new Colunms();
 
-//    @I18nString
-//    private String txtKey = "Key";
-
     /** @serial */
     @I18nString
     private String[] columnNames = {
@@ -67,6 +64,7 @@ class CompareResourcesBundleTableModel
     private CustomProperties leftCProperties;
     /** @serial */
     private CustomProperties rightCProperties;
+    /** @serial */
     private AutoI18n autoI18n;
 
     /**
@@ -80,6 +78,8 @@ class CompareResourcesBundleTableModel
         )
     {
         this.autoI18n = autoI18n;
+
+        // Perform internationalization
         autoI18n.performeI18n(this,this.getClass());
 
         leftCProperties  = filesConfig.createLeftCustomProperties();
@@ -119,6 +119,7 @@ class CompareResourcesBundleTableModel
 
         SortedSet<String> keyBuilderSet = new TreeSet<String>();
 
+        logger.info( "leftCProperties.stringPropertyNames()=" + leftCProperties.stringPropertyNames() );
         keyBuilderSet.addAll( leftCProperties.stringPropertyNames() );
         keyBuilderSet.addAll( rightCProperties.stringPropertyNames() );
 
@@ -127,7 +128,7 @@ class CompareResourcesBundleTableModel
             }
         keyBuilderSet.clear();
 
-        slogger.info("keys:" + keyList.size());
+        logger.info("keys:" + keyList.size());
     }
 
     @Override

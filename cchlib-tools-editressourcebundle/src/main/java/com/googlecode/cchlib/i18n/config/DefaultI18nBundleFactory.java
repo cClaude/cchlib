@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle.cchlib;
+package com.googlecode.cchlib.i18n.config;
 
 /**
  * TODO: Move this in cchlib-core after add some documentation.
@@ -6,6 +6,11 @@ package com.googlecode.cchlib.apps.editresourcesbundle.cchlib;
  */
 public class DefaultI18nBundleFactory
 {
+    private DefaultI18nBundleFactory()
+    {
+        //All static
+    }
+
     /**
     *
     * @param clazz

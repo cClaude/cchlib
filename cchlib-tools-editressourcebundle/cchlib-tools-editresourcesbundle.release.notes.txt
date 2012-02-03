@@ -113,9 +113,9 @@ Future extensions:
             <jnlpFile>
               <templateFilename>jnlpTemplate.vm</templateFilename>
               <outputFilename>launch1.jnlp</outputFilename> <!- - when there's only one jnlpFile, can be optioanl and defaults to launch.jnlp - ->
- �����������  <inputTemplate>jnlp/template.vm</inputTemplate- ->
-�����������<outputFile>test.jnlp</outputFile>
-�����������<mainClass>org.codehaus.mojo.webstart.test.Test</mainClass>
+ ???????????  <inputTemplate>jnlp/template.vm</inputTemplate- ->
+???????????<outputFile>test.jnlp</outputFile>
+???????????<mainClass>org.codehaus.mojo.webstart.test.Test</mainClass>
               <jarResources>
                 <jarResource>
                   <groupId>org.codehaus.mojo.webstart.it003</groupId>

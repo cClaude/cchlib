@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle.cchlib;
+package com.googlecode.cchlib.i18n.config;
 
 /**
  *
