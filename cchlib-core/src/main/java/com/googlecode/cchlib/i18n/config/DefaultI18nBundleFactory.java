@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n.config;
 
 /**
- * TODO: Move this in cchlib-core after add some documentation.
+ * TODOC
  *
  */
 public class DefaultI18nBundleFactory

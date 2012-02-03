@@ -13,8 +13,6 @@ import cx.ath.choisnet.i18n.logging.AutoI18nLog4JEventHandler;
 import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 /**
- * TODO: Move this in cchlib-core after add some documentation.
- * <br/>
  * This class is design to be use has a common class
  * for building first resource bundle of the application
  * has a properties file and also to be use to apply

@@ -1,9 +1,10 @@
 package alpha.com.googlecode.cchlib.swing;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.swing.JFrame;
+import java.awt.Component;
+import javax.swing.JDialog;
+import com.googlecode.cchlib.io.ExceptionHelper;
+import com.googlecode.cchlib.resources.ResourcesLoader;
+import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
  *
@@ -13,41 +14,66 @@ public class DialogHelper
 {
     private DialogHelper()
     {
-        // static
+        // All static
     }
 
+//    /**
+//     *
+//     * @param parentComponent
+//     * @param exception
+//     */
+//    public static void showMessageExceptionDialog(
+//        final Component parentComponent,
+//        final Throwable exception
+//        )
+//    {
+//        showMessageExceptionDialog(
+//            parentComponent,
+//            exception.getLocalizedMessage(),
+//            exception
+//            );
+//    }
+
+    /**
+     * TODO: Doc:
+     *
+     * @param parentComponent
+     * @param title
+     * @param exception
+     */
     public static void showMessageExceptionDialog(
-            final JFrame 	parentFrame,
-            final String 	title,
-            final Exception exception
-            )
+        final Component parentComponent,
+        final String    title,
+        final Throwable exception
+        )
     {
-        StringBuilder 	msg = new StringBuilder();
-        StringWriter 	sw 	= new StringWriter();
-        PrintWriter 	pw	= new PrintWriter( sw );
-        exception.printStackTrace( pw );
-        
-        msg.append( "<html><i>" );
+        StringBuilder msg = new StringBuilder();
+        msg.append( "<HTML><b>" );
         msg.append( exception.getLocalizedMessage() );
-        msg.append( "</i>" );
-        
-        for( String line : sw.toString().split( "\\n") ) {
+        msg.append( "</b><br/>\n" );
+
+        for( String l : ExceptionHelper.getStackTraceHasLines( exception ) ) {
             msg.append( "<pre>" );
-            msg.append( line );
-            msg.append( "</pre>" );
-        	}
-        msg.append( "</html>" );
-        CustomDialogWB 	dialog 	= new CustomDialogWB( parentFrame, title, msg .toString(), false );
+            msg.append( l );
+            msg.append( "</pre>\n" );
+            }
+        msg.append( "</HTML>" );
 
-        dialog.setVisible(true);
+        MessageDialog dialog = new MessageDialog(
+                title,
+                msg.toString(),
+                null
+                );
 
-    }
-
-
-    public static void main(String[] args)
-    {
-		String title = "my title";
-    	Exception exception = new Exception( "test", new Exception( "retest" ) );
-		DialogHelper.showMessageExceptionDialog(null, title , exception);
+        try {
+            dialog.getJButtonOK().setIcon(
+                ResourcesLoader.getImageIcon( ResourcesLoader.OK_ICON_16x16 )
+                );
+            }
+        catch( ResourcesLoaderException e ) {
+            dialog.setJButtonOK( "OK" );
+            }
+        dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+        dialog.setVisible( true );
     }
 }

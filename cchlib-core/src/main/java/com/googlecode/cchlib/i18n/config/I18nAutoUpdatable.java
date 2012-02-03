@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n.config;
 import cx.ath.choisnet.i18n.AutoI18n;
 
 /**
- *
+ * TODOC
  */
 public interface I18nAutoUpdatable
 {
