@@ -193,6 +193,8 @@ public class Preferences
     {
         final String name = getLocaleName();
 
+        logger.info( "Locale name = " + name );
+
         if( name != null ) {
             Locale locale = new Locale( name );
             Locale.setDefault( locale );
@@ -212,13 +214,13 @@ public class Preferences
         return this.localeName;
     }
 
-    /**
-     *
-     */
-    public void setLocale()
-    {
-        setLocale( Locale.getDefault() );
-    }
+//    /**
+//     *
+//     */
+//    public void setLocale()
+//    {
+//        setLocale( Locale.getDefault() );
+//    }
 
     /**
      *

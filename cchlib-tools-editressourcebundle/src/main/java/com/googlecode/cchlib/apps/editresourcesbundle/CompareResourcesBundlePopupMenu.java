@@ -1,30 +1,13 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
@@ -37,21 +20,16 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
-    private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
+    //private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private Frame               frame;
     private AbstractTableModel  abstractTableModel;
     /** @serial */
     private CompareResourcesBundleTableModel.Colunms colunms;
 
-    private boolean lineWrap = true; // TODO add in pref
-    private boolean wordWrap = true; // TODO add in pref
-
     @I18nString
     private String txtHTMLPreview = "HTML Preview";
     @I18nString
     private String txtEditLines = "Edit lines";
-    @I18nString
-    private String txtOptions = "Options";
     @I18nString
     private String txtCopy = "Copy";
     @I18nString
@@ -185,7 +163,8 @@ class CompareResourcesBundlePopupMenu
                         Object value = getValueAt( rowIndex, columnIndex );
 
                         if( value instanceof String ) {
-                            openHTLMPreview(
+                            new HTMLPreviewDialog(
+                                    getFrame(),
                                     txtHTMLPreview,
                                     "<html>" + value + "<html>"
                                     );
@@ -226,7 +205,7 @@ class CompareResourcesBundlePopupMenu
 
                         if( value instanceof String ) {
                             openMultiLineEditor(
-                                    txtEditLines,
+                                    //txtEditLines,
                                     String.class.cast( value ),
                                     rowIndex,
                                     columnIndex
@@ -237,6 +216,34 @@ class CompareResourcesBundlePopupMenu
 
         contextMenu.addSeparator();
         contextMenu.add( copyMenu );
+    }
+
+    protected void openMultiLineEditor(
+            final String    title,
+            final int       rowIndex,
+            final int       columnIndex
+            )
+    {
+        new MultiLineEditorDialog(
+            getFrame(),
+            getJTable(),
+            abstractTableModel,
+            title,
+            txtEditLines,
+            columnIndex,
+            columnIndex
+            )
+        {
+            private static final long serialVersionUID = 1L;
+            @Override
+            protected void setValueAt(
+                    String  text,
+                    int     rowIndex,
+                    int     columnIndex )
+            {
+                setValueAt( text, rowIndex, columnIndex );
+            }
+        };
     }
 
     private Frame getFrame()
@@ -254,176 +261,5 @@ class CompareResourcesBundlePopupMenu
         }
 
         return frame;
-    }
-
-    public void openHTLMPreview(
-            String  title,
-            String  html
-            )
-    {
-        final JDialog dialog = new JDialog( getFrame() );
-
-        JEditorPane htmlComponent = new JEditorPane();
-        htmlComponent.setEditable( false );
-        htmlComponent.setContentType( "text/html" );
-//        htmlComponent.putClientProperty(
-//                JEditorPane.W3C_LENGTH_UNITS,
-//                Boolean.TRUE
-//                );
-//        htmlComponent.putClientProperty(
-//                JEditorPane.HONOR_DISPLAY_PROPERTIES,
-//                Boolean.TRUE
-//                );
-        htmlComponent.setText( html );
-
-        JScrollPane jScrollPane = new JScrollPane(htmlComponent);
-
-        JButton jButton = new JButton(
-                new ImageIcon(
-                        getClass().getResource( "close.png" )
-                        )
-                );
-        //jButton.setText("OK");
-        jButton.addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent event)
-            {
-                dialog.dispose();
-            }
-        });
-
-        JPanel cmdPanel = new JPanel();
-        cmdPanel.add(jButton);
-
-        dialog.setFont(new Font("Dialog", Font.PLAIN, 12));
-        dialog.setBackground(Color.white);
-        dialog.setForeground(Color.black);
-        dialog.add(jScrollPane, BorderLayout.CENTER);
-        dialog.add(cmdPanel, BorderLayout.SOUTH);
-        dialog.setSize(320, 240);
-
-        dialog.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-        dialog.setTitle( title );
-        dialog.setLocationRelativeTo( getFrame() );
-        dialog.getContentPane().setPreferredSize( dialog.getSize() );
-        dialog.pack();
-        dialog.setVisible( true );
-    }
-
-    public void openMultiLineEditor(
-            String      title,
-            String      txt,
-            final int   rowIndex,
-            final int   columnIndex
-            )
-    {
-        logger.trace(
-            String.format(
-                "openMultiLineEditor %d/%d\n",
-                rowIndex,
-                columnIndex
-                )
-            );
-        final JDialog dialog = new JDialog( getFrame() );
-
-        final JTextArea jTextArea = new JTextArea();
-        jTextArea.setText( txt );
-
-        JScrollPane jScrollPane = new JScrollPane(jTextArea);
-
-        JButton jButtonCancel = new JButton(
-                new ImageIcon(
-                        getClass().getResource( "close.png" )
-                        )
-                );
-        jButtonCancel.addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent event)
-            {
-                dialog.dispose();
-            }
-        });
-
-        JButton jButtonCommit = new JButton(
-                new ImageIcon(
-                        getClass().getResource( "commit.png" )
-                        )
-                );
-        jButtonCommit.addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent event)
-            {
-                setValueAt(
-                        jTextArea.getText(),
-                        rowIndex,
-                        columnIndex
-                        );
-                int row = getJTable().convertRowIndexToModel( rowIndex );
-                int col = getJTable().convertColumnIndexToModel( columnIndex );
-
-                abstractTableModel.fireTableCellUpdated(
-                        row,
-                        col
-                        );
-                dialog.dispose();
-            }
-        });
-
-        final JCheckBoxMenuItem mItemLineWrap = new JCheckBoxMenuItem("Line Wrap");
-        jTextArea.setLineWrap( lineWrap );
-        mItemLineWrap.setSelected( lineWrap );
-        mItemLineWrap.addActionListener(
-            new ActionListener()
-            {
-                @Override
-                public void actionPerformed( ActionEvent arg0 )
-                {
-                    jTextArea.setLineWrap(
-                            mItemLineWrap.isSelected()
-                            );
-                }
-            });
-
-        final JCheckBoxMenuItem mItemWordWrap = new JCheckBoxMenuItem("Word Wrap");
-        jTextArea.setWrapStyleWord( wordWrap );
-        mItemWordWrap.setSelected( wordWrap );
-        mItemWordWrap.addActionListener(
-                new ActionListener()
-                {
-                    @Override
-                    public void actionPerformed( ActionEvent arg0 )
-                    {
-                        jTextArea.setWrapStyleWord(
-                                mItemWordWrap.isSelected()
-                                );
-                    }
-                });
-
-        JMenuBar    menuBar = new JMenuBar();
-        JMenu       menu    = new JMenu( txtOptions  );
-        menu.add( mItemLineWrap );
-        menu.add( mItemWordWrap );
-        menuBar.add( menu );
-        dialog.setJMenuBar( menuBar  );
-
-        dialog.setFont(new Font("Dialog", Font.PLAIN, 12));
-        dialog.setBackground(Color.white);
-        dialog.setForeground(Color.black);
-
-        JPanel cmdPanel = new JPanel();
-        cmdPanel.add(jButtonCancel);
-        cmdPanel.add(jButtonCommit);
-
-        dialog.add(jScrollPane, BorderLayout.CENTER);
-        dialog.add(cmdPanel, BorderLayout.SOUTH);
-        dialog.setSize(320, 240);
-
-        dialog.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-        dialog.setTitle( title );
-        dialog.setLocationRelativeTo( getFrame() );
-        dialog.getContentPane().setPreferredSize( dialog.getSize() );
-        dialog.pack();
-        dialog.setModal( true );
-        dialog.setVisible( true );
     }
 }

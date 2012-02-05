@@ -18,11 +18,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 
 /**
  * @author Claude CHOISNET
  */
-public abstract class LoadDialogWB extends JDialog implements ActionListener
+public abstract class LoadDialogWB extends JDialog
 {
     private static final long   serialVersionUID        = 2L;
     protected static final String ACTIONCMD_SELECT_LEFT = "ACTIONCMD_SELECT_LEFT";
@@ -52,10 +53,8 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
     protected JCheckBox jCheckBox_ini;
     protected JCheckBox jCheckBox_ShowLineNumbers;
 
-    @I18nString
-    private String msgStringLeft = "Left";
-    @I18nString
-    private String msgStringRight = "Right";
+    @I18nString private String msgStringLeft  = "Left";
+    @I18nString private String msgStringRight = "Right";
 
     public LoadDialogWB()
     {
@@ -97,8 +96,9 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
         gbc_jButton_Ok.gridx = 0;
         gbc_jButton_Ok.gridy = 1;
         jButton_Ok = new JButton("OK");
+        jButton_Ok.setIcon(new ImageIcon(LoadDialogWB.class.getResource("ok.png")));
         jButton_Ok.setActionCommand( ACTIONCMD_OK_BUTTON );
-        jButton_Ok.addActionListener( this );
+        jButton_Ok.addActionListener( getActionListener() );
         getContentPane().add(jButton_Ok, gbc_jButton_Ok);
         GridBagConstraints gbc_jButton_Cancel = new GridBagConstraints();
         gbc_jButton_Cancel.fill = GridBagConstraints.HORIZONTAL;
@@ -106,8 +106,9 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
         gbc_jButton_Cancel.gridy = 1;
 
         jButton_Cancel = new JButton("Cancel");
+        jButton_Cancel.setIcon(new ImageIcon(LoadDialogWB.class.getResource("cancel.png")));
         jButton_Cancel.setActionCommand( ACTIONCMD_CANCEL_BUTTON );
-        jButton_Cancel.addActionListener( this );
+        jButton_Cancel.addActionListener( getActionListener() );
         getContentPane().add(jButton_Cancel, gbc_jButton_Cancel);
         initButtonGroup_FileType();
         setSize(500, 290);
@@ -302,7 +303,7 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
 
             jButton_Left = new JButton("Select");
             jButton_Left.setActionCommand( ACTIONCMD_SELECT_LEFT );
-            jButton_Left.addActionListener( this );
+            jButton_Left.addActionListener( getActionListener() );
             jPanel_Left.add(jButton_Left, BorderLayout.EAST);
 
             jTextField_Left = new JTextField();
@@ -332,7 +333,7 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
             jButton_Right = new JButton();
             jButton_Right.setText("select");
             jButton_Right.setActionCommand( ACTIONCMD_SELECT_RIGHT );
-            jButton_Right.addActionListener( this );
+            jButton_Right.addActionListener( getActionListener() );
             jPanel_Right.add(jButton_Right, BorderLayout.EAST);
 
             jTextField_Right = new JTextField();
@@ -383,4 +384,5 @@ public abstract class LoadDialogWB extends JDialog implements ActionListener
         return jTabbedPaneRoot;
     }
 
+    protected abstract ActionListener getActionListener();
 }

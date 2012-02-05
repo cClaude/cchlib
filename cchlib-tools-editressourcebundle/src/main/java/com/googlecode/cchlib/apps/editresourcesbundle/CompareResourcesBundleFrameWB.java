@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;
+import java.awt.Toolkit;
 
 /**
  *
@@ -52,6 +53,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
 
     public CompareResourcesBundleFrameWB()
     {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(CompareResourcesBundleFrameWB.class.getResource("icon.png")));
         jScrollPaneProperties = new JScrollPane();
         jTableProperties = new JTable();
         jScrollPaneProperties.setViewportView( jTableProperties );

@@ -21,8 +21,7 @@ import cx.ath.choisnet.util.FormattedProperties;
  */
 class LoadDialog
     extends LoadDialogWB
-        implements     ActionListener,
-                    I18nAutoUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long   serialVersionUID        = 1L;
     private final static Logger slogger = Logger.getLogger( LoadDialog.class );
@@ -44,6 +43,7 @@ class LoadDialog
 
     @I18nString
     private String strMsgTitle = "Load...";
+    private ActionListener thisActionListener;
 
     public LoadDialog(
         Frame                   parent,
@@ -155,7 +155,7 @@ class LoadDialog
             )
     {
         jCheckBox.setActionCommand(actionCommand);
-        jCheckBox.addActionListener( this );
+        jCheckBox.addActionListener( getActionListener() );
         jCheckBox.setSelected( value );
     }
 
@@ -287,79 +287,6 @@ class LoadDialog
         dispose();
     }
 
-    @Override
-    public void actionPerformed( ActionEvent e )
-    {
-        final String c = e.getActionCommand();
-
-        if( ACTIONCMD_SELECT_LEFT.equals( e.getActionCommand() ) ) {
-            jButton_LeftMouseMousePressed();
-            }
-        else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
-            jButton_RightMouseMousePressed();
-            }
-        else if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
-            jButton_OkMouseMousePressed();
-            }
-        else if( ACTIONCMD_CANCEL_BUTTON.equals( e.getActionCommand() ) ) {
-            jButton_CancelMouseMousePressed();
-            }
-        else if( ACTION_FT_Properties.equals( c )) {
-            udpateTabFileTypeDisplay();
-            filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
-            }
-        else if( ACTION_FT_FormattedProperties.equals( c )) {
-            udpateTabFileTypeDisplay();
-            filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
-            }
-        else if( ACTION_FT_ini.equals( c )) {
-            udpateTabFileTypeDisplay();
-            //TODO:  !
-            }
-        else if( ACTION_Change_isUseLeftHasDefault.equals( c )) {
-            filesConfig.setUseLeftHasDefault(
-                    jCheckBox_RightUseLeftHasDefaults.isSelected()
-                    );
-            }
-        else if( ACTION_Change_CUT_LINE_AFTER_HTML_BR.equals( c )) {
-            updateStoreOptions(
-                    jCheckBox_CUT_LINE_AFTER_HTML_BR,
-                    FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
-                    );
-            }
-        else if( ACTION_Change_CUT_LINE_AFTER_HTML_END_P.equals( c )) {
-            updateStoreOptions(
-                    jCheckBox_CUT_LINE_AFTER_HTML_END_P,
-                    FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
-                    );
-            }
-        else if( ACTION_Change_CUT_LINE_AFTER_NEW_LINE.equals( c )) {
-            updateStoreOptions(
-                    jCheckBox_CUT_LINE_AFTER_NEW_LINE,
-                    FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
-                    );
-            }
-        else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P.equals( c )) {
-            updateStoreOptions(
-                    jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P,
-                    FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
-                    );
-            }
-        else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BR.equals( c )) {
-            updateStoreOptions(
-                    jCheckBox_CUT_LINE_BEFORE_HTML_BR,
-                    FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
-                    );
-            }
-        else if( ACTION_Change_ShowLineNumbers.equals( c )) {
-            filesConfig.setShowLineNumbers(
-                    jCheckBox_ShowLineNumbers.isSelected()
-                    );
-            }
-        else {
-            slogger.warn( "Unknown ActionCommand: " + c );
-            }
-    }
 
     private void updateStoreOptions(JCheckBox jCheckBox,FormattedProperties.Store storeOption)
     {
@@ -370,4 +297,89 @@ class LoadDialog
             filesConfig.remove( storeOption );
             }
     }
+
+    @Override
+    protected ActionListener getActionListener()
+    {
+        if( this.thisActionListener == null ) {
+            this.thisActionListener = new ThisActionListener();
+            }
+        return this.thisActionListener;
+    }
+
+    class ThisActionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed( ActionEvent e )
+        {
+            final String c = e.getActionCommand();
+
+            if( ACTIONCMD_SELECT_LEFT.equals( e.getActionCommand() ) ) {
+                jButton_LeftMouseMousePressed();
+                }
+            else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
+                jButton_RightMouseMousePressed();
+                }
+            else if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
+                jButton_OkMouseMousePressed();
+                }
+            else if( ACTIONCMD_CANCEL_BUTTON.equals( e.getActionCommand() ) ) {
+                jButton_CancelMouseMousePressed();
+                }
+            else if( ACTION_FT_Properties.equals( c )) {
+                udpateTabFileTypeDisplay();
+                filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
+                }
+            else if( ACTION_FT_FormattedProperties.equals( c )) {
+                udpateTabFileTypeDisplay();
+                filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
+                }
+            else if( ACTION_FT_ini.equals( c )) {
+                udpateTabFileTypeDisplay();
+                //TODO:  !
+                }
+            else if( ACTION_Change_isUseLeftHasDefault.equals( c )) {
+                filesConfig.setUseLeftHasDefault(
+                        jCheckBox_RightUseLeftHasDefaults.isSelected()
+                        );
+                }
+            else if( ACTION_Change_CUT_LINE_AFTER_HTML_BR.equals( c )) {
+                updateStoreOptions(
+                        jCheckBox_CUT_LINE_AFTER_HTML_BR,
+                        FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
+                        );
+                }
+            else if( ACTION_Change_CUT_LINE_AFTER_HTML_END_P.equals( c )) {
+                updateStoreOptions(
+                        jCheckBox_CUT_LINE_AFTER_HTML_END_P,
+                        FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
+                        );
+                }
+            else if( ACTION_Change_CUT_LINE_AFTER_NEW_LINE.equals( c )) {
+                updateStoreOptions(
+                        jCheckBox_CUT_LINE_AFTER_NEW_LINE,
+                        FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
+                        );
+                }
+            else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P.equals( c )) {
+                updateStoreOptions(
+                        jCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P,
+                        FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
+                        );
+                }
+            else if( ACTION_Change_CUT_LINE_BEFORE_HTML_BR.equals( c )) {
+                updateStoreOptions(
+                        jCheckBox_CUT_LINE_BEFORE_HTML_BR,
+                        FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
+                        );
+                }
+            else if( ACTION_Change_ShowLineNumbers.equals( c )) {
+                filesConfig.setShowLineNumbers(
+                        jCheckBox_ShowLineNumbers.isSelected()
+                        );
+                }
+            else {
+                slogger.warn( "Unknown ActionCommand: " + c );
+                }
+        }    }
 }

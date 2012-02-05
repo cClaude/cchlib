@@ -1,8 +1,6 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -43,14 +41,21 @@ class CompareResourcesBundleFrame
 {
     private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
+    /* @serial */
     private FilesConfig filesConfig = new FilesConfig();
+    /* @serial */
     private CompareResourcesBundleTableModel tableModel;
+    /* @serial */
     private JFileChooserInitializer jFileChooserInitializer;
+    /* @serial */
     private FrameActionListener frameActionListener;
+    /* @serial */
     private Preferences preferences;
+    /* @serial */
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
     /* @serial */
     private AutoI18n autoI18n;
+
     @I18nString private final String fileSavedMsg = "File '%s' saved.";
     @I18nString private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
     @I18nString private final String saveLeftFileTypeMsg = "Left File";
@@ -59,7 +64,7 @@ class CompareResourcesBundleFrame
     @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private final String msgStringAlertLocaleTitle = "Change language";
-    @I18nString private final String msgStringAlertLocale = "You need to restart application to apply this change.";
+    @I18nString private final String msgStringAlertLocale = "You need to restart application to apply this language: %s";
 
     /**
      * For I18n only
@@ -99,7 +104,7 @@ class CompareResourcesBundleFrame
         };
         super.addWindowListener( wl );
 
-        setIconImage( getImage( "icon.png" ) );
+        //setIconImage( getImage( "icon.png" ) );
 
         // initDynComponents
         LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
@@ -129,17 +134,17 @@ class CompareResourcesBundleFrame
         return url;
     }
 
-    public static final Image getImage( final String image )
-    {
-        URL url = getResource( image );
-
-        if( url != null ) {
-            return Toolkit.getDefaultToolkit().getImage( url );
-            }
-
-        logger.error( "Could create image: " + image );
-        return null;
-    }
+//    private static final Image getImage( final String image )
+//    {
+//        URL url = getResource( image );
+//
+//        if( url != null ) {
+//            return Toolkit.getDefaultToolkit().getImage( url );
+//            }
+//
+//        logger.error( "Could create image: " + image );
+//        return null;
+//    }
 
     public static void main(/* String[] args*/)
     {
@@ -360,7 +365,7 @@ class CompareResourcesBundleFrame
 
             if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
                 preferences.setLookAndFeelClassName();
-                preferences.setLocale();
+                preferences.setLocale( Locale.getDefault() );
 
                 Dimension size = getSize();
                 preferences.setWindowWidth( size.width );
@@ -425,13 +430,13 @@ class CompareResourcesBundleFrame
 
     public void setGuiLocale( final Locale locale )
     {
-        this.preferences.setLocale( locale );
+        preferences.setLocale( locale );
 
         savePreferences();
 
         JOptionPane.showMessageDialog(
             this,
-            msgStringAlertLocale,
+            String.format( msgStringAlertLocale, locale ),
             msgStringAlertLocaleTitle,
             JOptionPane.INFORMATION_MESSAGE
             );
