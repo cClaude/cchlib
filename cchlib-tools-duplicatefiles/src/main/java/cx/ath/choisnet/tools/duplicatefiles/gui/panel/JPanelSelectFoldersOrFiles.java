@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
 
@@ -158,13 +158,13 @@ public class JPanelSelectFoldersOrFiles
                 }
             }
         };
-        
+
         new Thread( doJob ).start();
     }
 
     @Override
     protected void jButtonSelectFileMouseMousePressed(MouseEvent event)
-    {       
+    {
         Runnable doJob = new Runnable()
         {
             @Override
@@ -186,7 +186,7 @@ public class JPanelSelectFoldersOrFiles
                 }
             }
         };
-        
+
         new Thread( doJob ).start();
    }
 

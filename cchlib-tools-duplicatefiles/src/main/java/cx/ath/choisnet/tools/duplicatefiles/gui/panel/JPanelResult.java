@@ -38,8 +38,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
-import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.list.JPopupMenuForJList;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
@@ -477,11 +477,11 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>	m,
-            JPopupMenu          				parentMenu,
-            JMenuItem           				menu,
-            String              				actionCommand,
-            KeyFileState        				kf
+            JPopupMenuForJList<KeyFileState>    m,
+            JPopupMenu                          parentMenu,
+            JMenuItem                           menu,
+            String                              actionCommand,
+            KeyFileState                        kf
             )
     {
         m.add(
@@ -495,10 +495,10 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>	m,
-            JMenu               				parentMenu,
-            String              				actionCommand,
-            KeyFileState        				kf
+            JPopupMenuForJList<KeyFileState>    m,
+            JMenu                               parentMenu,
+            String                              actionCommand,
+            KeyFileState                        kf
             )
     {
         m.add(
@@ -512,11 +512,11 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommandRec(
-            JPopupMenuForJList<KeyFileState>  	m,
-            JPopupMenu          				parentMenu,
-            JMenu               				menu,
-            String              				actionCommand,
-            KeyFileState        				kf
+            JPopupMenuForJList<KeyFileState>      m,
+            JPopupMenu                          parentMenu,
+            JMenu                               menu,
+            String                              actionCommand,
+            KeyFileState                        kf
             )
     {
         m.add( parentMenu, menu );

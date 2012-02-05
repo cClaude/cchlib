@@ -4,15 +4,14 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.util.FormattedProperties;
 
@@ -22,7 +21,7 @@ import cx.ath.choisnet.util.FormattedProperties;
  */
 class LoadDialog
     extends LoadDialogWB
-        implements 	ActionListener,
+        implements     ActionListener,
                     I18nAutoUpdatable
 {
     private static final long   serialVersionUID        = 1L;
@@ -222,8 +221,8 @@ class LoadDialog
         return null;
     }
 
-    @Override
-    protected void jButton_LeftMouseMousePressed(MouseEvent event)
+    //@Override
+    private void jButton_LeftMouseMousePressed(/*MouseEvent event*/)
     {
         FileObject fo = getLoadFile(
                         filesConfig.getLeftFileObject(),
@@ -236,8 +235,8 @@ class LoadDialog
         }
     }
 
-    @Override
-    protected void jButton_RightMouseMousePressed(MouseEvent event)
+    //@Override
+    protected void jButton_RightMouseMousePressed(/*MouseEvent event*/)
     {
         FileObject fo = getLoadFile(
                         filesConfig.getRightFileObject(),
@@ -250,15 +249,15 @@ class LoadDialog
         }
     }
 
-    @Override
-    protected void jButton_CancelMouseMousePressed(MouseEvent event)
+    //@Override
+    protected void jButton_CancelMouseMousePressed(/*MouseEvent event*/)
     {
         this.filesConfig.clear();
         dispose();
     }
 
-    @Override
-    protected void jButton_OkMouseMousePressed(MouseEvent event)
+    //@Override
+    protected void jButton_OkMouseMousePressed(/*MouseEvent event*/)
     {
         if( !filesConfig.isFilesExists() ) {
             Toolkit.getDefaultToolkit().beep();
@@ -293,7 +292,19 @@ class LoadDialog
     {
         final String c = e.getActionCommand();
 
-        if( ACTION_FT_Properties.equals( c )) {
+        if( ACTIONCMD_SELECT_LEFT.equals( e.getActionCommand() ) ) {
+            jButton_LeftMouseMousePressed();
+            }
+        else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
+            jButton_RightMouseMousePressed();
+            }
+        else if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
+            jButton_OkMouseMousePressed();
+            }
+        else if( ACTIONCMD_CANCEL_BUTTON.equals( e.getActionCommand() ) ) {
+            jButton_CancelMouseMousePressed();
+            }
+        else if( ACTION_FT_Properties.equals( c )) {
             udpateTabFileTypeDisplay();
             filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
             }

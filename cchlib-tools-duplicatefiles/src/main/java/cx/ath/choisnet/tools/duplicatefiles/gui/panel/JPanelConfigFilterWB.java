@@ -7,8 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
+import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
-import cx.ath.choisnet.i18n.I18nIgnore;
 
 /**
  *

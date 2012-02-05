@@ -10,6 +10,6 @@ public class EditResourcesBundleApp
     */
     public static void main(String[] args)
     {
-        CompareResourcesBundleFrame.main( args );
+        CompareResourcesBundleFrame.main(/* args */);
     }
 }

@@ -21,10 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
-
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;

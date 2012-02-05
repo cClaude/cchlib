@@ -25,10 +25,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-
-
-import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 
 /**

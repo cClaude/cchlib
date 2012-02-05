@@ -13,8 +13,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
-
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.list.LeftDotListCellRenderer;

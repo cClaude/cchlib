@@ -1,283 +1,136 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButtonMenuItem;
 
 /**
  *
  * @author Claude CHOISNET
  */
-public class CompareResourcesBundleFrameWB extends JFrame
+public abstract class CompareResourcesBundleFrameWB extends JFrame
 {
     private static final long serialVersionUID = 1L;
+    public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
+    public static final String ACTIONCMD_OPEN = "ACTIONCMD_OPEN";
+    public static final String ACTIONCMD_QUIT = "ACTIONCMD_QUIT";
+    public static final String ACTIONCMD_SAVE_ALL = "ACTIONCMD_SAVE_ALL";
+    public static final String ACTIONCMD_SAVE_RIGHT = "ACTIONCMD_SAVE_RIGHT";
+    public static final String ACTIONCMD_SAVE_LEFT = "ACTIONCMD_SAVE_LEFT";
+    public static final String ACTIONCMD_DEFAULT_LOCAL = "ACTIONCMD_DEFAULT_LOCAL";
+    public static final String ACTIONCMD_ENGLISH = "ACTIONCMD_ENGLISH";
+    public static final String ACTIONCMD_FRENCH = "ACTIONCMD_FRENCH";
 
-    private JMenu               jMenuFile;
-    private JMenu               jMenuOptions;
-    private JMenu               jMenuSave;
-    private JMenuItem           jMenuItemDefaultLocale;
     private JMenuItem           jMenuItemQuit;
     private JMenuItem           jMenuItemSaveAll;
     private JMenuItem           jMenuItemSaveRightFile;
-    private JMenuItem           jMenuItem_Open;
-    //protected JCheckBoxMenuItem jCheckBoxMenuItem_ShowLineNumbers;
     protected JMenu             jMenuLookAndFeel;
     protected JMenuBar          jMenuBarFrame;
     protected JMenuItem         jMenuItemSaveLeftFile;
     protected JScrollPane       jScrollPaneProperties;
     protected JTable            jTableProperties;
+    private JMenu               jMenuItemLanguage;
+
+    private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
+    private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
+    private JRadioButtonMenuItem jRadioButtonMenuItemEnglish;
+    private JRadioButtonMenuItem jRadioButtonMenuItemFrench;
+
+    private JMenu jMenuFile;
+    private JMenu jMenuSave;
+    private JMenu jMenuOptions;
+    private JMenuItem jMenuItemSaveCurrentPrefs;
+    private JMenuItem jMenuItemOpen;
 
     public CompareResourcesBundleFrameWB()
     {
-        initComponents();
+        jScrollPaneProperties = new JScrollPane();
+        jTableProperties = new JTable();
+        jScrollPaneProperties.setViewportView( jTableProperties );
+        getContentPane().add(jScrollPaneProperties, BorderLayout.CENTER);
+
+        jMenuFile = new JMenu( "File" );
+
+        jMenuSave = new JMenu( "Save" );
+
+        jMenuItemOpen = new JMenuItem( "Open..." );
+        jMenuItemOpen.setActionCommand( ACTIONCMD_OPEN );
+        jMenuItemOpen.addActionListener( getActionListener() );
+        jMenuFile.add( jMenuItemOpen );
+
+        jMenuItemSaveLeftFile = new JMenuItem( "Save left" );
+        jMenuItemSaveLeftFile.setActionCommand( ACTIONCMD_SAVE_LEFT );
+        jMenuItemSaveLeftFile.addActionListener( getActionListener() );
+        jMenuSave.add( jMenuItemSaveLeftFile );
+
+        jMenuItemSaveRightFile = new JMenuItem( "Save right" );
+        jMenuItemSaveRightFile.setActionCommand( ACTIONCMD_SAVE_RIGHT );
+        jMenuItemSaveRightFile.addActionListener( getActionListener() );
+
+        jMenuSave.add( jMenuItemSaveRightFile );
+
+        jMenuFile.add( jMenuSave );
+
+        jMenuItemSaveAll = new JMenuItem( "Save all" );
+        jMenuItemSaveAll.setActionCommand( ACTIONCMD_SAVE_ALL );
+        jMenuItemSaveAll.addActionListener( getActionListener() );
+        jMenuFile.add( jMenuItemSaveAll );
+
+        jMenuItemQuit = new JMenuItem("Quit");
+        jMenuItemQuit.setActionCommand( ACTIONCMD_QUIT );
+        jMenuItemQuit.addActionListener( getActionListener() );
+        jMenuFile.add( jMenuItemQuit );
+
+        jMenuBarFrame = new JMenuBar();
+        jMenuBarFrame.add( jMenuFile );
+
+        jMenuOptions = new JMenu();
+        jMenuOptions.setText("Options");
+
+        jMenuItemLanguage = new JMenu("Language");
+
+        jRadioButtonMenuItemDefaultLocale = new JRadioButtonMenuItem("Default Locale");
+        buttonGroupLanguage.add(jRadioButtonMenuItemDefaultLocale);
+        jRadioButtonMenuItemDefaultLocale.setSelected(true);
+        jRadioButtonMenuItemDefaultLocale.setActionCommand( ACTIONCMD_DEFAULT_LOCAL );
+        jRadioButtonMenuItemDefaultLocale.addActionListener( getActionListener() );
+        jMenuItemLanguage.add( jRadioButtonMenuItemDefaultLocale );
+
+        jRadioButtonMenuItemEnglish = new JRadioButtonMenuItem("English");
+        buttonGroupLanguage.add( jRadioButtonMenuItemEnglish );
+        jRadioButtonMenuItemEnglish.setActionCommand( ACTIONCMD_ENGLISH );
+        jRadioButtonMenuItemEnglish.addActionListener( getActionListener() );
+        jMenuItemLanguage.add( jRadioButtonMenuItemEnglish );
+
+        jRadioButtonMenuItemFrench = new JRadioButtonMenuItem("French");
+        buttonGroupLanguage.add( jRadioButtonMenuItemFrench );
+        jRadioButtonMenuItemFrench.setActionCommand( ACTIONCMD_FRENCH );
+        jRadioButtonMenuItemFrench.addActionListener( getActionListener() );
+        jMenuItemLanguage.add( jRadioButtonMenuItemFrench );
+
+        jMenuOptions.add( jMenuItemLanguage );
+        jMenuOptions.addSeparator();
+
+        jMenuItemSaveCurrentPrefs = new JMenuItem( "Save preferences" );
+        jMenuItemSaveCurrentPrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
+        jMenuItemSaveCurrentPrefs.addActionListener( getActionListener() );
+        jMenuOptions.add( jMenuItemSaveCurrentPrefs );
+
+        jMenuBarFrame.add( jMenuOptions );
+        setJMenuBar( jMenuBarFrame );
+
+        jMenuBarFrame.add(Box.createHorizontalGlue());
+        jMenuLookAndFeel = new JMenu("Look And Feel");
+        jMenuBarFrame.add( jMenuLookAndFeel );
     }
 
-    private void initComponents() {
-        add(getJScrollPaneProperties(), BorderLayout.CENTER);
-        setJMenuBar(getJMenuBarFrame());
-        setSize(640, 440);
-    }
-
-//    private JCheckBoxMenuItem getJCheckBoxMenuItem_ShowLineNumbers() {
-//        if (jCheckBoxMenuItem_ShowLineNumbers == null) {
-//            jCheckBoxMenuItem_ShowLineNumbers = new JCheckBoxMenuItem();
-//            jCheckBoxMenuItem_ShowLineNumbers.setText("Show line numbers (if possible)");
-//        }
-//        return jCheckBoxMenuItem_ShowLineNumbers;
-//    }
-
-    private JMenuItem getJMenuItem_Open() {
-        if (jMenuItem_Open == null) {
-            jMenuItem_Open = new JMenuItem();
-            jMenuItem_Open.setText("Open...");
-            jMenuItem_Open.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
-                    jMenuItem_OpenMouseMousePressed(event);
-                }
-            });
-        }
-        return jMenuItem_Open;
-    }
-
-    private JMenu getJMenuOptions() {
-        if (jMenuOptions == null) {
-            jMenuOptions = new JMenu();
-            jMenuOptions.setText("Options");
-            jMenuOptions.setOpaque(false);
-            //jMenuOptions.add(getJCheckBoxMenuItem_ShowLineNumbers());
-            jMenuOptions.add(getJMenuItemDefaultLocale());
-        }
-        return jMenuOptions;
-    }
-
-    final
-    private JMenuItem getJMenuItemDefaultLocale() {
-        if (jMenuItemDefaultLocale == null) {
-            jMenuItemDefaultLocale = new JMenuItem();
-            jMenuItemDefaultLocale.setText("Default Locale");
-            jMenuItemDefaultLocale.setEnabled(false); //TODO choose local
-            jMenuItemDefaultLocale.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
-                    jMenuItemDefaultLocaleMouseMousePressed(event);
-                }
-            });
-        }
-        return jMenuItemDefaultLocale;
-    }
-
-    final
-    private JScrollPane getJScrollPaneProperties()
-    {
-        if( jScrollPaneProperties == null ) {
-            jScrollPaneProperties = new JScrollPane();
-            jScrollPaneProperties.setViewportView( getJTableProperties() );
-        }
-        return jScrollPaneProperties;
-    }
-
-    final
-    private JTable getJTableProperties()
-    {
-        if( jTableProperties == null ) {
-            jTableProperties = new JTable();
-            // jTableProperties.setModel(new
-            // javax.swing.table.DefaultTableModel(new Object[][] { { "0x0",
-            // "0x1", }, { "1x0", "1x1", }, }, new String[] { "Title 0",
-            // "Title 1", }) {
-            // private static final long serialVersionUID = 1L;
-            // Class<?>[] types = new Class<?>[] { Object.class, Object.class,
-            // };
-            //
-            // public Class<?> getColumnClass(int columnIndex) {
-            // return types[columnIndex];
-            // }
-            // });
-        }
-        return jTableProperties;
-    }
-
-    private JMenuBar getJMenuBarFrame() {
-        if (jMenuBarFrame == null) {
-            jMenuBarFrame = new JMenuBar();
-            jMenuBarFrame.add(getJMenuFile());
-            jMenuBarFrame.add(getJMenuOptions());
-        }
-        return jMenuBarFrame;
-    }
-
-    final
-    protected JMenu getJMenuLookAndFeel()
-    {
-        if( jMenuLookAndFeel == null ) {
-            jMenuLookAndFeel = new JMenu();
-            jMenuLookAndFeel.setText( "Look And Feel" );
-        }
-        return jMenuLookAndFeel;
-    }
-
-    final
-    private JMenu getJMenuFile() {
-        if (jMenuFile == null) {
-            jMenuFile = new JMenu();
-            jMenuFile.setText("File");
-            jMenuFile.setOpaque(false);
-            jMenuFile.add(getJMenuItem_Open());
-            jMenuFile.add(getJMenuSave());
-            jMenuFile.add(getJMenuItemSaveAll());
-            jMenuFile.add(getJMenuItemQuit());
-        }
-        return jMenuFile;
-    }
-
-    final
-    private JMenuItem getJMenuItemQuit()
-    {
-        if( jMenuItemQuit == null ) {
-            jMenuItemQuit = new JMenuItem();
-            jMenuItemQuit.setText( "Quit" );
-            jMenuItemQuit.addMouseListener( new MouseAdapter() {
-
-                public void mousePressed( MouseEvent event )
-                {
-                    jMenuItem_Quit_MouseMousePressed( event );
-                }
-            } );
-        }
-        return jMenuItemQuit;
-    }
-
-    final
-    private JMenuItem getJMenuItemSaveAll()
-    {
-        if( jMenuItemSaveAll == null ) {
-            jMenuItemSaveAll = new JMenuItem();
-            jMenuItemSaveAll.setText( "Save all" );
-            jMenuItemSaveAll.addMouseListener( new MouseAdapter() {
-
-                public void mousePressed( MouseEvent event )
-                {
-                    jMenuItem_SaveLeftFile_MouseMousePressed( event );
-                    jMenuItem_SaveRightFile_MouseMousePressed( event );
-                }
-            } );
-        }
-        return jMenuItemSaveAll;
-    }
-
-    final
-    private JMenuItem getJMenuItemSaveRightFile()
-    {
-        if( jMenuItemSaveRightFile == null ) {
-            jMenuItemSaveRightFile = new JMenuItem();
-            jMenuItemSaveRightFile.setText( "Save right" );
-            jMenuItemSaveRightFile.addMouseListener( new MouseAdapter() {
-
-                public void mousePressed( MouseEvent event )
-                {
-                    jMenuItem_SaveRightFile_MouseMousePressed( event );
-                }
-            } );
-        }
-        return jMenuItemSaveRightFile;
-    }
-
-
-    final
-    private JMenu getJMenuSave() {
-        if (jMenuSave == null) {
-            jMenuSave = new JMenu();
-            jMenuSave.setText("Save");
-            jMenuSave.setOpaque(false);
-            jMenuSave.add(getJMenuItemSaveLeftFile());
-            jMenuSave.add(getJMenuItemSaveRightFile());
-        }
-        return jMenuSave;
-    }
-
-    final
-    private JMenuItem getJMenuItemSaveLeftFile()
-    {
-        if( jMenuItemSaveLeftFile == null ) {
-            jMenuItemSaveLeftFile = new JMenuItem();
-            jMenuItemSaveLeftFile.setText( "Save left" );
-            jMenuItemSaveLeftFile.addMouseListener( new MouseAdapter() {
-
-                public void mousePressed( MouseEvent event )
-                {
-                    jMenuItem_SaveLeftFile_MouseMousePressed( event );
-                }
-            } );
-        }
-        return jMenuItemSaveLeftFile;
-    }
-
-//    public static void main( String[] args )
-//    {
-//        SwingUtilities.invokeLater( new Runnable() {
-//            @Override
-//            public void run()
-//            {
-//                CompareRessourceBundleFrameVS4E frame = new CompareRessourceBundleFrameVS4E();
-//                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//                //frame.setTitle( "CompareRessourceBundleFrame VS4E" );
-//                frame.getContentPane().setPreferredSize( frame.getSize() );
-//                frame.pack();
-//                frame.setLocationRelativeTo( null );
-//                frame.setVisible( true );
-//            }
-//        } );
-//    }
-
-    protected void jMenuItem_SaveLeftFile_MouseMousePressed( MouseEvent event )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jMenuItem_SaveRightFile_MouseMousePressed( MouseEvent event )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jMenuItem_Quit_MouseMousePressed( MouseEvent event )
-    {
-        dispose();
-    }
-
-    protected void jMenuItemDefaultLocaleMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    protected void jMenuItem_OpenMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
+    protected abstract ActionListener getActionListener();
 }

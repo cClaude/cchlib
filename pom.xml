@@ -11,6 +11,8 @@
 
   <!-- Global properties -->
   <properties>
+    <maven.build.timestamp.format>yyMMdd_HHmm</maven.build.timestamp.format>
+    <buildNumber>${maven.build.timestamp}</buildNumber>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.javadoc.source.version>1.7</project.javadoc.source.version>
     <project.javadoc.target.version>1.7</project.javadoc.target.version>
@@ -84,6 +86,25 @@
       -->
     </extensions>
     <plugins>
+      <!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+          <timestampFormat>{0, date, yyyy-MM-dd HH:mm:ss}</timestampFormat>
+        </configuration>
+      </plugin>
+      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -130,11 +151,6 @@
           <name>Linux</name>
         </os>
       </activation>
-      <!--
-      <properties>
-        <python.maven.interpreter>python</python.maven.interpreter>
-      </properties>
-      -->
     </profile>
     <profile>
       <id>windows-system</id>
@@ -143,11 +159,6 @@
           <family>Windows</family>
         </os>
       </activation>
-      <!--
-      <properties>
-        <python.maven.interpreter>python</python.maven.interpreter>
-      </properties>
-      -->
     </profile>
   </profiles>
 

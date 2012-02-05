@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 import cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame;
 
 /**

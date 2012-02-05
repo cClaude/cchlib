@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing;
 
 import java.awt.Color;
@@ -17,7 +14,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.i18n.AutoI18nBasicInterface;
+import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 
 /**
  * JSlider than showing current value in title Border

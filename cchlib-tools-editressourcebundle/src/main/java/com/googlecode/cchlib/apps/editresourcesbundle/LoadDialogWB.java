@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,17 +13,22 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.I18nString;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 
 /**
  * @author Claude CHOISNET
  */
-public abstract class LoadDialogWB extends JDialog
+public abstract class LoadDialogWB extends JDialog implements ActionListener
 {
     private static final long   serialVersionUID        = 2L;
+    protected static final String ACTIONCMD_SELECT_LEFT = "ACTIONCMD_SELECT_LEFT";
+    protected static final String ACTIONCMD_SELECT_RIGHT = "ACTIONCMD_SELECT_RIGHT";
+    protected static final String ACTIONCMD_OK_BUTTON = "ACTIONCMD_OK_BUTTON";
+    protected static final String ACTIONCMD_CANCEL_BUTTON = "ACTIONCMD_CANCEL_BUTTON";
     private ButtonGroup buttonGroup_FileType;
     private JButton jButton_Cancel;
     private JButton jButton_Left;
@@ -93,12 +96,19 @@ public abstract class LoadDialogWB extends JDialog
         gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
         gbc_jButton_Ok.gridx = 0;
         gbc_jButton_Ok.gridy = 1;
-        getContentPane().add(getJButton_Ok(), gbc_jButton_Ok);
+        jButton_Ok = new JButton("OK");
+        jButton_Ok.setActionCommand( ACTIONCMD_OK_BUTTON );
+        jButton_Ok.addActionListener( this );
+        getContentPane().add(jButton_Ok, gbc_jButton_Ok);
         GridBagConstraints gbc_jButton_Cancel = new GridBagConstraints();
         gbc_jButton_Cancel.fill = GridBagConstraints.HORIZONTAL;
         gbc_jButton_Cancel.gridx = 2;
         gbc_jButton_Cancel.gridy = 1;
-        getContentPane().add(getJButton_Cancel(), gbc_jButton_Cancel);
+
+        jButton_Cancel = new JButton("Cancel");
+        jButton_Cancel.setActionCommand( ACTIONCMD_CANCEL_BUTTON );
+        jButton_Cancel.addActionListener( this );
+        getContentPane().add(jButton_Cancel, gbc_jButton_Cancel);
         initButtonGroup_FileType();
         setSize(500, 290);
     }
@@ -247,38 +257,6 @@ public abstract class LoadDialogWB extends JDialog
         return jCheckBox_FormattedProperties;
     }
 
-    private JButton getJButton_Ok()
-    {
-        if (jButton_Ok == null) {
-            jButton_Ok = new JButton();
-            jButton_Ok.setText("OK");
-            jButton_Ok.addMouseListener(new MouseAdapter()
-            {
-                public void mousePressed(MouseEvent event)
-                {
-                    jButton_OkMouseMousePressed(event);
-                }
-            });
-            }
-        return jButton_Ok;
-    }
-
-    private JButton getJButton_Cancel()
-    {
-        if (jButton_Cancel == null) {
-            jButton_Cancel = new JButton();
-            jButton_Cancel.setText("Cancel");
-            jButton_Cancel.addMouseListener(new MouseAdapter()
-            {
-                public void mousePressed(MouseEvent event)
-                {
-                    jButton_CancelMouseMousePressed(event);
-                }
-            });
-        }
-        return jButton_Cancel;
-    }
-
     private JPanel getJPanel_TabProperties()
     {
         if (jPanel_TabProperties == null) {
@@ -321,7 +299,11 @@ public abstract class LoadDialogWB extends JDialog
                     BorderFactory.createTitledBorder(null, msgStringLeft , TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                             new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             jPanel_Left.setLayout(new BorderLayout());
-            jPanel_Left.add(getJButton_Left(), BorderLayout.EAST);
+
+            jButton_Left = new JButton("Select");
+            jButton_Left.setActionCommand( ACTIONCMD_SELECT_LEFT );
+            jButton_Left.addActionListener( this );
+            jPanel_Left.add(jButton_Left, BorderLayout.EAST);
 
             jTextField_Left = new JTextField();
 
@@ -337,7 +319,7 @@ public abstract class LoadDialogWB extends JDialog
             GridBagConstraints gbc_jPanel_Right = new GridBagConstraints();
             gbc_jPanel_Right.gridwidth = 3;
             gbc_jPanel_Right.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jPanel_Right.insets = new Insets(0, 0, 5, 5);
+            gbc_jPanel_Right.insets = new Insets(0, 0, 5, 0);
             gbc_jPanel_Right.gridx = 0;
             gbc_jPanel_Right.gridy = 1;
 
@@ -346,7 +328,12 @@ public abstract class LoadDialogWB extends JDialog
                     BorderFactory.createTitledBorder(null, msgStringRight , TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION,
                             new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
             jPanel_Right.setLayout(new BorderLayout());
-            jPanel_Right.add(getJButton_Right(), BorderLayout.EAST);
+
+            jButton_Right = new JButton();
+            jButton_Right.setText("select");
+            jButton_Right.setActionCommand( ACTIONCMD_SELECT_RIGHT );
+            jButton_Right.addActionListener( this );
+            jPanel_Right.add(jButton_Right, BorderLayout.EAST);
 
             jTextField_Right = new JTextField();
 
@@ -381,53 +368,19 @@ public abstract class LoadDialogWB extends JDialog
         return jPanel_TabSelect;
     }
 
-    private JButton getJButton_Left()
-    {
-        if (jButton_Left == null) {
-            jButton_Left = new JButton();
-            jButton_Left.setText("select");
-            jButton_Left.addMouseListener(new MouseAdapter()
-            {
-                public void mousePressed(MouseEvent event)
-                {
-                    jButton_LeftMouseMousePressed(event);
-                }
-            });
-            }
-        return jButton_Left;
-    }
-
-    private JButton getJButton_Right()
-    {
-        if (jButton_Right == null) {
-            jButton_Right = new JButton();
-            jButton_Right.setText("select");
-            jButton_Right.addMouseListener(new MouseAdapter()
-            {
-                public void mousePressed(MouseEvent event)
-                {
-                    jButton_RightMouseMousePressed(event);
-                }
-            });
-            }
-        return jButton_Right;
-    }
-
-    protected abstract void jButton_LeftMouseMousePressed(MouseEvent event);
-    protected abstract void jButton_RightMouseMousePressed(MouseEvent event);
-    protected abstract void jButton_CancelMouseMousePressed(MouseEvent event);
-    protected abstract void jButton_OkMouseMousePressed(MouseEvent event);
-
     protected JTextField getJTextField_Left()
     {
         return jTextField_Left;
     }
+
     protected JTextField getJTextField_Right()
     {
         return jTextField_Right;
     }
+
     protected JTabbedPane getJTabbedPaneRoot()
     {
         return jTabbedPaneRoot;
     }
+
 }

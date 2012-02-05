@@ -1,28 +1,30 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.URL;
-import javax.swing.Box;
+import java.util.Locale;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
-
-import alpha.com.googlecode.cchlib.swing.DialogHelper;
-import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.swing.DialogHelper;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
+import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessory;
@@ -31,12 +33,11 @@ import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
 
 /**
- * cx.ath.choisnet.tools.i18n.CompareRessourceBundleFrame
  *
  * @author Claude CHOISNET
- *
  */
-public class CompareResourcesBundleFrame
+/* not public */
+class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nPrepAutoUpdatable
 {
@@ -45,23 +46,41 @@ public class CompareResourcesBundleFrame
     private FilesConfig filesConfig = new FilesConfig();
     private CompareResourcesBundleTableModel tableModel;
     private JFileChooserInitializer jFileChooserInitializer;
+    private FrameActionListener frameActionListener;
+    private Preferences preferences;
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
     /* @serial */
     private AutoI18n autoI18n;
-    @I18nString // i18n
-    private final String fileSavedMsg = "File '%s' saved.";
-    @I18nString // i18n
-    private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
-    @I18nString // i18n
-    private final String saveLeftFileTypeMsg = "Left File";
-    @I18nString // i18n
-    private final String saveRightFileTypeMsg = "Right File";
-    @I18nString // i18n - An error occur when saving '%s'
-    private final String fileSaveIOException = "Error while saving '%s'";
+    @I18nString private final String fileSavedMsg = "File '%s' saved.";
+    @I18nString private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
+    @I18nString private final String saveLeftFileTypeMsg = "Left File";
+    @I18nString private final String saveRightFileTypeMsg = "Right File";
+    @I18nString private final String fileSaveIOException = "Error while saving '%s'";
+    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
+    @I18nString private final String msgStringAlertLocaleTitle = "Change language";
+    @I18nString private final String msgStringAlertLocale = "You need to restart application to apply this change.";
 
+    /**
+     * For I18n only
+     */
     public CompareResourcesBundleFrame()
     {
+        this( Preferences.createPreferences() );
+    }
+
+    /**
+     * Build main frame using giving preferences
+     * @param prefs preferences to use
+     */
+    public CompareResourcesBundleFrame( Preferences prefs )
+    {
         super(); // initComponents();
+
+        this.preferences = prefs;
+
+        //setSize(640, 440);
+        setSize( this.preferences.getWindowWidth(), this.preferences.getWindowHeight() );
 
         WindowListener wl = new WindowAdapter()
         {
@@ -80,10 +99,20 @@ public class CompareResourcesBundleFrame
         };
         super.addWindowListener( wl );
 
-        initFixComponents();
+        setIconImage( getImage( "icon.png" ) );
+
+        // initDynComponents
+        LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+
+        updateDisplay();
+
+        //lastSelectedFilesAccessoryDefaultConfigurator.getLastSelectedFiles();
 
         // Init i18n
+        logger.info( "Init I18n using: " + Locale.getDefault() );
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( this ).getAutoI18n();
+
+        //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 
         // Apply i18n !
         performeI18n(autoI18n);
@@ -112,35 +141,23 @@ public class CompareResourcesBundleFrame
         return null;
     }
 
-    private void initFixComponents()
-    {
-        setIconImage( getImage( "icon.png" ) );
-        // build menu (VS4E does not support Box!)
-        jMenuBarFrame.add(Box.createHorizontalGlue());
-        jMenuBarFrame.add(getJMenuLookAndFeel());
-
-        // initDynComponents
-        LookAndFeelHelpers.buildLookAndFeelMenu( this, this.jMenuLookAndFeel );
-
-        //TODO: prefs !
-
-        updateDisplay();
-
-        //lastSelectedFilesAccessoryDefaultConfigurator.getLastSelectedFiles();
-    }
-
-    public static void main( String[] args )
+    public static void main(/* String[] args*/)
     {
         logger.info( "started" );
+
+        final Preferences prefs = Preferences.createPreferences();
+
+        prefs.installPreferences();
+
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()
             {
                 try {
-                    CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame();
+                    CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame(prefs);
                     // frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                     frame.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
-                    frame.setTitle( "Compare Ressource Bundle" );
+                    frame.setTitle( "Edit Ressource Bundle" );
                     frame.getContentPane().setPreferredSize( frame.getSize() );
                     frame.pack();
                     frame.setLocationRelativeTo( null );
@@ -149,6 +166,7 @@ public class CompareResourcesBundleFrame
                     }
                 catch( Exception e ) {
                     logger.error( "Error while building main frame", e );
+                    DialogHelper.showMessageExceptionDialog( null, "Fatal error", e );
                     }
             }
         } );
@@ -184,39 +202,45 @@ public class CompareResourcesBundleFrame
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-            jFileChooserInitializer = new JFileChooserInitializer(
-                new JFileChooserInitializer.DefaultConfigurator()
+            JFileChooserInitializer.DefaultConfigurator configurator = new JFileChooserInitializer.DefaultConfigurator()
+            {
+                private static final long serialVersionUID = 1L;
+                public void perfomeConfig(JFileChooser jfc)
                 {
-                    private static final long serialVersionUID = 1L;
-                    public void perfomeConfig(JFileChooser jfc)
-                    {
-                        super.perfomeConfig( jfc );
+                    super.perfomeConfig( jfc );
 
-                        jfc.setAccessory(
-                            new TabbedAccessory()
-                                .addTabbedAccessory(
-                                    new BookmarksAccessory(
-                                        jfc,
-                                        new BookmarksAccessoryDefaultConfigurator()
-                                        )
+                    jfc.setAccessory(
+                        new TabbedAccessory()
+                            .addTabbedAccessory(
+                                new BookmarksAccessory(
+                                    jfc,
+                                    new BookmarksAccessoryDefaultConfigurator()
                                     )
-                                 .addTabbedAccessory(
-                                     new LastSelectedFilesAccessory(
-                                         jfc,
-                                         lastSelectedFilesAccessoryDefaultConfigurator
-                                         )
+                                )
+                             .addTabbedAccessory(
+                                 new LastSelectedFilesAccessory(
+                                     jfc,
+                                     lastSelectedFilesAccessoryDefaultConfigurator
                                      )
-                            );
-                    }
+                                 )
+                        );
                 }
-                .setFileFilter(
+            };
+            configurator.setFileFilter(
                     new FileNameExtensionFilter(
-                        "Properties",
-                        "properties"
-                        )
-                    )
-                );
+                            "Properties",
+                            "properties"
+                            )
+                        );
+            jFileChooserInitializer = new WaitingJFileChooserInitializer(
+                    configurator,
+                    this,
+                    jFileChooserInitializerTitle,
+                    jFileChooserInitializerMessage
+                    );
+            //jFileChooserInitializer = new JFileChooserInitializer();
         }
+
         return jFileChooserInitializer;
     }
 
@@ -292,26 +316,7 @@ public class CompareResourcesBundleFrame
         }
     }
 
-    @Override
-    protected void jMenuItem_SaveLeftFile_MouseMousePressed(MouseEvent event)
-    {
-        saveFile( true /*isLeft*/ );
-    }
-
-    @Override
-    protected void jMenuItem_SaveRightFile_MouseMousePressed(MouseEvent event)
-    {
-        saveFile( false /*isLeft*/ );
-    }
-
-    @Override
-    protected void jMenuItem_Quit_MouseMousePressed(MouseEvent event)
-    {
-        dispose();
-    }
-
-    @Override
-    protected void jMenuItem_OpenMouseMousePressed(MouseEvent event)
+    private void jMenuItem_Open()
     {
         new Thread( new Runnable()
         {
@@ -336,6 +341,63 @@ public class CompareResourcesBundleFrame
         }).start();
     }
 
+    @Override
+    protected ActionListener getActionListener()
+    {
+        if( frameActionListener == null ) {
+            this.frameActionListener = new FrameActionListener();
+            }
+
+        return frameActionListener;
+    }
+
+    private class FrameActionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed( ActionEvent event )
+        {
+            final String c = event.getActionCommand();
+
+            if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
+                preferences.setLookAndFeelClassName();
+                preferences.setLocale();
+
+                Dimension size = getSize();
+                preferences.setWindowWidth( size.width );
+                preferences.setWindowHeight( size.height );
+
+                // TODO: Add here extra preferences values
+
+                savePreferences();
+                }
+            else if( ACTIONCMD_OPEN.equals( c ) ) {
+                jMenuItem_Open();
+                }
+            else if( ACTIONCMD_QUIT.equals( c ) ) {
+                dispose();
+                }
+            else if( ACTIONCMD_SAVE_ALL.equals( c ) ) {
+                saveFile( true /*isLeft*/ );
+                saveFile( false /*isLeft*/ );
+                }
+            else if( ACTIONCMD_SAVE_RIGHT.equals( c ) ) {
+                saveFile( false /*isLeft*/ );
+                }
+            else if( ACTIONCMD_SAVE_LEFT.equals( c ) ) {
+                saveFile( true /*isLeft*/ );
+                }
+            else if( ACTIONCMD_DEFAULT_LOCAL.equals( c ) ) {
+                setGuiLocale( null );
+                }
+            else if( ACTIONCMD_ENGLISH.equals( c ) ) {
+                setGuiLocale( Locale.ENGLISH );
+                }
+            else if( ACTIONCMD_FRENCH.equals( c ) ) {
+                setGuiLocale( Locale.FRENCH );
+                }
+        }
+    }
+
     /**
      * I18n this frame !
      *
@@ -345,9 +407,34 @@ public class CompareResourcesBundleFrame
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
+    }
 
-        // TODO: complete i18n support !!!
-        //autoI18n.performeI18n(tableModel,tableModel.getClass());
+    private void savePreferences()
+    {
+        try {
+            preferences.save();
+            }
+        catch( IOException e ) {
+            DialogHelper.showMessageExceptionDialog(
+                CompareResourcesBundleFrame.this,
+                "Error while saving preferences", //title
+                e
+                );
+            }
+    }
+
+    public void setGuiLocale( final Locale locale )
+    {
+        this.preferences.setLocale( locale );
+
+        savePreferences();
+
+        JOptionPane.showMessageDialog(
+            this,
+            msgStringAlertLocale,
+            msgStringAlertLocaleTitle,
+            JOptionPane.INFORMATION_MESSAGE
+            );
     }
 
     @Override // I18nPrepAutoUpdatable
@@ -355,5 +442,4 @@ public class CompareResourcesBundleFrame
     {
         return DefaultI18nBundleFactory.getMessagesBundle( EditResourcesBundleApp.class );
     }
-
 }

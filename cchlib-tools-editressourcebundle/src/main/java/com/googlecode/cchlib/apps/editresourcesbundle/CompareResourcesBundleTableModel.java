@@ -15,8 +15,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.table.LeftDotTableCellRenderer;
 
 /**

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 
 /**
  * Create resources bundles files
@@ -35,7 +35,7 @@ public class I18nPrepHelper
         final PrintStream           usageStatPrintStream,
         final PrintStream           notUsePrintStream,
         final I18nPrepAutoUpdatable mainFrame,
-        final I18nAutoUpdatable...	otherFrames
+        final I18nAutoUpdatable...    otherFrames
         ) throws IOException
     {
         // Default language !
@@ -61,9 +61,9 @@ public class I18nPrepHelper
         mainFrame.performeI18n( autoI18n );
 
         for( I18nAutoUpdatable f : otherFrames ) {
-        	f.performeI18n( autoI18n );
-        	}
-        
+            f.performeI18n( autoI18n );
+            }
+
         ResourceBundle      rb          = abstractI18nBundle.getAutoI18nSimpleStatsResourceBundle().getResourceBundle();
         Enumeration<String> enu         = rb.getKeys();
         Map<String,String>  knowKeyMap  = new HashMap<String,String>();

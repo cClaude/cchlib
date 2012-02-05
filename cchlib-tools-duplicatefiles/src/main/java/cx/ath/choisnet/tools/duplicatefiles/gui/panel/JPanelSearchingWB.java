@@ -9,7 +9,7 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import cx.ath.choisnet.i18n.I18nIgnore;
+import com.googlecode.cchlib.i18n.I18nIgnore;
 
 /**
  *

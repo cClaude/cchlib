@@ -2,15 +2,15 @@ package com.googlecode.cchlib.i18n.config;
 
 import java.util.EnumSet;
 import org.apache.log4j.Level;
-import cx.ath.choisnet.i18n.AutoI18n;
-import cx.ath.choisnet.i18n.AutoI18nEventHandler;
-import cx.ath.choisnet.i18n.AutoI18nExceptionHandler;
-import cx.ath.choisnet.i18n.I18nSimpleResourceBundle;
-import cx.ath.choisnet.i18n.I18nSimpleStatsResourceBundle;
-import cx.ath.choisnet.i18n.builder.I18nAutoUpdateInterface;
-import cx.ath.choisnet.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
-import cx.ath.choisnet.i18n.logging.AutoI18nLog4JEventHandler;
-import cx.ath.choisnet.i18n.logging.AutoI18nLog4JExceptionHandler;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
+import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
+import com.googlecode.cchlib.i18n.I18nSimpleResourceBundle;
+import com.googlecode.cchlib.i18n.I18nSimpleStatsResourceBundle;
+import com.googlecode.cchlib.i18n.builder.I18nAutoUpdateInterface;
+import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
+import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 /**
  * This class is design to be use has a common class

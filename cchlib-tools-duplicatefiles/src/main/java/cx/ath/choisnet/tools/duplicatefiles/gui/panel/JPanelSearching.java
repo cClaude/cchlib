@@ -14,7 +14,7 @@ import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.i18n.I18nString;
+import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
@@ -409,7 +409,7 @@ public class JPanelSearching extends JPanelSearchingWB
                 public boolean accept( File f )
                 {
                     if( f.isFile() ) {
-                        
+
                         // Hidden files
                         if( skipHidden ) {
                             if( f.isHidden() ) {
@@ -417,7 +417,7 @@ public class JPanelSearching extends JPanelSearchingWB
                                 return false;
                                 }
                             }
-                        
+
                         // ReadOnly files
                         if( skipReadOnly ) {
                             if( !f.canWrite() ) {
@@ -425,7 +425,7 @@ public class JPanelSearching extends JPanelSearchingWB
                                 return false;
                                 }
                             }
-                        
+
                         // RegEx
                         if( regex != null ) {
                             if( regex.matcher(f.getName()).matches() ) {
@@ -435,7 +435,7 @@ public class JPanelSearching extends JPanelSearchingWB
                                 return true;
                                 }
                             }
-                        
+
                         // Extensions
                         String name = f.getName().toLowerCase();
 
@@ -447,7 +447,7 @@ public class JPanelSearching extends JPanelSearchingWB
                                 return true;
                                 }
                             }
-                        
+
                         //slogger.debug( "f:" + f + " -> false4" );
                         return false;
                     }
