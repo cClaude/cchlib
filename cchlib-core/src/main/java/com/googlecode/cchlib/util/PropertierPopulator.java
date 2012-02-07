@@ -30,7 +30,9 @@ public class PropertierPopulator<E>
                 }
             }
 
-        logger.info( "Found " + this.keyFieldSet.size() + " fields." );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "Found " + this.keyFieldSet.size() + " fields." );
+            }
     }
 
     /**
@@ -66,22 +68,25 @@ public class PropertierPopulator<E>
     {
         for( Field f : this.keyFieldSet ) {
             final String strValue = properties.getProperty( f.getName() );
-            final Object value;
-
-            if( f.getDeclaringClass().isInstance( String.class ) ) {
-                value = strValue;
-                }
-            else if( f.getDeclaringClass().isInstance( Boolean.class ) ) {
-                value = Boolean.valueOf( strValue );
-                }
-            else {
-                logger .error( "Bad type for field:" + f + " * class=" + f.getDeclaringClass() );
-                break;
-                }
-
-            try {
+             try {
                 f.setAccessible( true );
-                f.set( bean, value );
+
+                //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
+                //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
+
+                if( String.class.isAssignableFrom( f.getType() ) ) {
+                    f.set( bean, strValue );
+                    }
+                else if( boolean.class.isAssignableFrom( f.getType() ) ) {
+                    f.setBoolean( bean, Boolean.valueOf( strValue ).booleanValue() );
+                    }
+                else if( int.class.isAssignableFrom( f.getType() ) ) {
+                    f.setInt( bean, Integer.valueOf( strValue ).intValue() );
+                    }
+                else {
+                    logger .error( "Bad type for field:" + f + " * class=" + f.getType() );
+                    }
+
                 f.setAccessible( false );
                 }
             catch( IllegalArgumentException | IllegalAccessException e ) {
