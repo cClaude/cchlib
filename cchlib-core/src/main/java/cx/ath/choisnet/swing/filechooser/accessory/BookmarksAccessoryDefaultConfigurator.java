@@ -7,25 +7,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * Provide a basic implementation for 
- * {@link BookmarksAccessory.Configurator}
- * based on {@link Properties}
- *
- * @author Claude CHOISNET
+ * @deprecated use {@link #DefaultBookmarksAccessoryConfigurator} instead
  */
 public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private transient static final Logger logger = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
     /** @serial */
     private File configFileProperties;
+    /** @serial */
+    private ArrayList<File> bookmarks;
 
     /**
      * Create a BookmarksAccessoryDefaultConfigurator using
@@ -53,7 +52,9 @@ public class BookmarksAccessoryDefaultConfigurator
             final File configFileProperties
             )
     {
-        super( loadBookmarks(configFileProperties) );
+        //super( loadBookmarks(configFileProperties) );
+        this.bookmarks = new ArrayList<File>();
+        loadBookmarks(configFileProperties);
         
         this.configFileProperties = configFileProperties;
     }
@@ -63,11 +64,10 @@ public class BookmarksAccessoryDefaultConfigurator
      * @param configFileProperties Properties file
      * @return a sorted array of {@link File} objects
      */
-    private static ArrayList<File> loadBookmarks(
+    private void loadBookmarks(
             final File configFileProperties
             )
     {
-        ArrayList<File> list = new ArrayList<File>();
         Properties      properties = new Properties();
 
         try {
@@ -85,21 +85,19 @@ public class BookmarksAccessoryDefaultConfigurator
             String  value = properties.getProperty( key );
             File    file  = new File( value );
 
-            add(list,file);
+            add( file );
             }
         
-        Collections.sort( list );
-        
-        return list;
+        Collections.sort( bookmarks );
     }
 
     @Override
-    protected void storeBookmarks( final ArrayList<File> list )
+    protected void storeBookmarks(/*final ArrayList<File> list*/)
     {
         Properties  properties  = new Properties();
         int         i           = 0;
 
-        for( File f:list ) {
+        for( File f : bookmarks ) {
             properties.put( Integer.toString( i++ ), f.getPath() );
             }
 
@@ -111,5 +109,43 @@ public class BookmarksAccessoryDefaultConfigurator
         catch( IOException e ) {
             logger.warning( "File error : " + configFileProperties + " - " + e );
             }
+    }
+
+    @Override
+    public Collection<File> getBookmarks()
+    {
+        return this.bookmarks;
+    }
+
+    @Override
+    public boolean removeBookmark( File file )
+    {
+        boolean res = bookmarks.remove( file );
+        
+        if( res ) {
+            storeBookmarks();
+            }
+        
+        return res;
+    }
+
+    @Override
+    protected boolean add( File file )
+    {
+        if( file.isDirectory() ) {
+            boolean found = false;
+
+            for( File f : bookmarks ) {
+                if( f.getPath().equals( file.getPath() ) ) {
+                    found = true;
+                    }
+                }
+
+            if( !found ) {
+                bookmarks.add( file );
+                return true;
+                }
+            }
+        return false;
     }
 }
