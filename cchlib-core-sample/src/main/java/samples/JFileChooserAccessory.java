@@ -1,7 +1,5 @@
 package samples;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -12,19 +10,24 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
+import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer.Configure;
+import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.FindAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.ImagePreviewAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
+import java.awt.Frame;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /**
  * Show how to use {@link TabbedAccessory}, {@link ImagePreviewAccessory},
@@ -40,6 +43,8 @@ public class JFileChooserAccessory extends JFrame
     /** @serial */
     private JFileChooserInitializer jFileChooserInitializer;
     /** @serial */
+    private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
+    /** @serial */
     private JButton jButton_StdJFileChooser;
     /** @serial */
     private JButton jButton_Bookmarks;
@@ -54,11 +59,11 @@ public class JFileChooserAccessory extends JFrame
     /** @serial */
     private JButton jButton_LastSelectedFiles;
     /** @serial */
-    private JPanel jPanel_Buttons;
-    /** @serial */
     private JTextField jTextField_LastSelected;
     /** @serial */
     private JButton jButton_JFileChooserInitializer;
+    /** @serial */
+    private JButton jButton_WaitingJFileChooserInitializer;
 
     public JFileChooserAccessory()
     {
@@ -66,10 +71,78 @@ public class JFileChooserAccessory extends JFrame
     }
 
     private void initComponents() {
-        add(getJPanel_Buttons(), BorderLayout.CENTER);
-        add(getJTextField_LastSelected(), BorderLayout.SOUTH);
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+        getContentPane().setLayout(gridBagLayout);
+        GridBagConstraints gbc_jButton_StdJFileChooser = new GridBagConstraints();
+        gbc_jButton_StdJFileChooser.fill = GridBagConstraints.BOTH;
+        gbc_jButton_StdJFileChooser.insets = new Insets(0, 0, 5, 5);
+        gbc_jButton_StdJFileChooser.gridx = 0;
+        gbc_jButton_StdJFileChooser.gridy = 0;
+        getContentPane().add(getJButton_StdJFileChooser(), gbc_jButton_StdJFileChooser);
+        GridBagConstraints gbc_jButton_Bookmarks = new GridBagConstraints();
+        gbc_jButton_Bookmarks.fill = GridBagConstraints.BOTH;
+        gbc_jButton_Bookmarks.insets = new Insets(0, 0, 5, 0);
+        gbc_jButton_Bookmarks.gridx = 1;
+        gbc_jButton_Bookmarks.gridy = 0;
+        getContentPane().add(getJButton_Bookmarks(), gbc_jButton_Bookmarks);
+        GridBagConstraints gbc_jButton_JFileChooserInitializer = new GridBagConstraints();
+        gbc_jButton_JFileChooserInitializer.fill = GridBagConstraints.BOTH;
+        gbc_jButton_JFileChooserInitializer.insets = new Insets(0, 0, 5, 5);
+        gbc_jButton_JFileChooserInitializer.gridx = 0;
+        gbc_jButton_JFileChooserInitializer.gridy = 1;
+
+        jButton_JFileChooserInitializer = new JButton("JFileChooserInitializer");
+        jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                jButton_JFileChooserInitializerMouseMousePressed(event);
+            }
+        });
+        getContentPane().add(jButton_JFileChooserInitializer, gbc_jButton_JFileChooserInitializer);
+        GridBagConstraints gbc_jButton_Picture = new GridBagConstraints();
+        gbc_jButton_Picture.fill = GridBagConstraints.BOTH;
+        gbc_jButton_Picture.insets = new Insets(0, 0, 5, 0);
+        gbc_jButton_Picture.gridx = 1;
+        gbc_jButton_Picture.gridy = 1;
+        getContentPane().add(getJButton_Picture(), gbc_jButton_Picture);
+        GridBagConstraints gbc_jButton_WaitingJFileChooserInitializer = new GridBagConstraints();
+        gbc_jButton_WaitingJFileChooserInitializer.fill = GridBagConstraints.BOTH;
+        gbc_jButton_WaitingJFileChooserInitializer.insets = new Insets(0, 0, 5, 5);
+        gbc_jButton_WaitingJFileChooserInitializer.gridx = 0;
+        gbc_jButton_WaitingJFileChooserInitializer.gridy = 2;
+
+		jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
+		jButton_WaitingJFileChooserInitializer.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+            	jButton_WaitingJFileChooserInitializerMouseMousePressed(event);
+            }
+		});
+        getContentPane().add(jButton_WaitingJFileChooserInitializer, gbc_jButton_WaitingJFileChooserInitializer);
+        GridBagConstraints gbc_jButton_LastSelectedFiles = new GridBagConstraints();
+        gbc_jButton_LastSelectedFiles.fill = GridBagConstraints.BOTH;
+        gbc_jButton_LastSelectedFiles.insets = new Insets(0, 0, 5, 0);
+        gbc_jButton_LastSelectedFiles.gridx = 1;
+        gbc_jButton_LastSelectedFiles.gridy = 2;
+        getContentPane().add(getJButton_LastSelectedFiles(), gbc_jButton_LastSelectedFiles);
+        GridBagConstraints gbc_jButton_Tabbed = new GridBagConstraints();
+        gbc_jButton_Tabbed.fill = GridBagConstraints.BOTH;
+        gbc_jButton_Tabbed.insets = new Insets(0, 0, 5, 0);
+        gbc_jButton_Tabbed.gridx = 1;
+        gbc_jButton_Tabbed.gridy = 3;
+        getContentPane().add(getJButton_Tabbed(), gbc_jButton_Tabbed);
+        GridBagConstraints gbc_jTextField_LastSelected = new GridBagConstraints();
+        gbc_jTextField_LastSelected.gridwidth = 2;
+        gbc_jTextField_LastSelected.fill = GridBagConstraints.BOTH;
+        gbc_jTextField_LastSelected.gridx = 0;
+        gbc_jTextField_LastSelected.gridy = 4;
+        jTextField_LastSelected = new JTextField("...");
+        jTextField_LastSelected.setEditable( false );
+        getContentPane().add(jTextField_LastSelected, gbc_jTextField_LastSelected);
         setJMenuBar(getJMenuBarFrame());
-        setSize(320, 119);
+        setSize(367, 196);
     }
 
     protected void initFixComponents()
@@ -82,43 +155,6 @@ public class JFileChooserAccessory extends JFrame
         LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
 
         jFileChooserInitializer = getJFileChooserInitializer();
-    }
-
-    private JButton getJButton_JFileChooserInitializer() {
-        if (jButton_JFileChooserInitializer == null) {
-            jButton_JFileChooserInitializer = new JButton();
-            jButton_JFileChooserInitializer.setText("JFileChooserInitializer");
-            jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
-
-                public void mousePressed(MouseEvent event) {
-                    jButton_JFileChooserInitializerMouseMousePressed(event);
-                }
-            });
-        }
-        return jButton_JFileChooserInitializer;
-    }
-
-    private JTextField getJTextField_LastSelected() {
-        if (jTextField_LastSelected == null) {
-            jTextField_LastSelected = new JTextField();
-            jTextField_LastSelected.setText("...");
-            jTextField_LastSelected.setEditable( false );
-        }
-        return jTextField_LastSelected;
-    }
-
-    private JPanel getJPanel_Buttons() {
-        if (jPanel_Buttons == null) {
-            jPanel_Buttons = new JPanel();
-            jPanel_Buttons.setLayout(new GridLayout(3, 2));
-            jPanel_Buttons.add(getJButton_StdJFileChooser());
-            jPanel_Buttons.add(getJButton_Bookmarks());
-            jPanel_Buttons.add(getJButton_Picture());
-            jPanel_Buttons.add(getJButton_LastSelectedFiles());
-            jPanel_Buttons.add(getJButton_Tabbed());
-            jPanel_Buttons.add(getJButton_JFileChooserInitializer());
-        }
-        return jPanel_Buttons;
     }
 
     private JButton getJButton_LastSelectedFiles() {
@@ -165,8 +201,7 @@ public class JFileChooserAccessory extends JFrame
 
     private JButton getJButton_Bookmarks() {
         if (jButton_Bookmarks == null) {
-            jButton_Bookmarks = new JButton();
-            jButton_Bookmarks.setText("Bookmarks");
+            jButton_Bookmarks = new JButton("Bookmarks");
             jButton_Bookmarks.addMouseListener(new MouseAdapter() {
 
                 public void mousePressed(MouseEvent event) {
@@ -179,8 +214,7 @@ public class JFileChooserAccessory extends JFrame
 
     private JButton getJButton_StdJFileChooser() {
         if (jButton_StdJFileChooser == null) {
-            jButton_StdJFileChooser = new JButton();
-            jButton_StdJFileChooser.setText("Classic JFileChooser");
+            jButton_StdJFileChooser = new JButton("Classic JFileChooser");
             jButton_StdJFileChooser.addMouseListener(new MouseAdapter() {
 
                 public void mousePressed(MouseEvent event) {
@@ -201,8 +235,7 @@ public class JFileChooserAccessory extends JFrame
 
     private JMenu getJMenuLookAndFeel() {
         if (jMenuLookAndFeel == null) {
-            jMenuLookAndFeel = new JMenu();
-            jMenuLookAndFeel.setText("Look And Feel");
+            jMenuLookAndFeel = new JMenu("Look And Feel");
         }
         return jMenuLookAndFeel;
     }
@@ -297,6 +330,30 @@ public class JFileChooserAccessory extends JFrame
                 );
     }
 
+    private void jButton_WaitingJFileChooserInitializerMouseMousePressed(MouseEvent event)
+    {
+    	Runnable r = new Runnable()
+    	{
+			@Override
+			public void run()
+			{
+		    	if( waitingJFileChooserInitializer == null ) {
+		    		Configure 	config	= getJFileChooserInitializerConfigurator();
+					Frame 		frame	= JFileChooserAccessory.this;
+					String 		waitTitle	= "waitTitle";
+					String 		waitMessage	= "waitMessage";
+					waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(config, frame, waitTitle, waitMessage );
+		    		}
+
+		        showOpenDialog(
+		        		waitingJFileChooserInitializer.getJFileChooser()
+		                );
+			}
+    	};
+
+    	new Thread( r ).start();
+    }
+
     private void showOpenDialog(JFileChooser jfc)
     {
         int returnVal = jfc.showOpenDialog(this);
@@ -317,10 +374,9 @@ public class JFileChooserAccessory extends JFrame
         jTextField_LastSelected.setText(txt);
     }
 
-    private JFileChooserInitializer getJFileChooserInitializer()
+    private JFileChooserInitializer.Configure getJFileChooserInitializerConfigurator()
     {
-        return new JFileChooserInitializer(
-            new JFileChooserInitializer.DefaultConfigurator()
+        return new JFileChooserInitializer.DefaultConfigurator()
             {
                 private static final long serialVersionUID = 1L;
                 public void perfomeConfig(JFileChooser jfc)
@@ -358,7 +414,13 @@ public class JFileChooserAccessory extends JFrame
                     "jpg",
                     "png"
                     )
-                )
             );
         }
+
+    private JFileChooserInitializer getJFileChooserInitializer()
+    {
+        return new JFileChooserInitializer(
+    		getJFileChooserInitializerConfigurator()
+            );
+    }
 }
