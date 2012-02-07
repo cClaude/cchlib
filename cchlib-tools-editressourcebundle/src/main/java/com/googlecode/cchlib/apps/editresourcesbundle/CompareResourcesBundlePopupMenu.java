@@ -20,6 +20,7 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
  */
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
+         implements MultiLineEditorDialog.StoreResult
 {
     private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
@@ -220,31 +221,32 @@ class CompareResourcesBundlePopupMenu
     }
 
     protected void openMultiLineEditor(
-            final String    title,
+            final String    contentText,
             final int       rowIndex,
             final int       columnIndex
             )
     {
         new MultiLineEditorDialog(
             getFrame(),
-            getJTable(),
-            abstractTableModel,
-            title,
+//            getJTable(),
+//            abstractTableModel,
+            this,
             txtEditLines,
+            contentText,
             columnIndex,
             columnIndex
-            )
-        {
-            private static final long serialVersionUID = 1L;
-            @Override
-            protected void setValueAt(
-                    String  text,
-                    int     rowIndex,
-                    int     columnIndex )
-            {
-                setValueAt( text, rowIndex, columnIndex );
-            }
-        };
+            );
+//        {
+//            private static final long serialVersionUID = 1L;
+//            @Override
+//            protected void setValueAt(
+//                    String  text,
+//                    int     rowIndex,
+//                    int     columnIndex )
+//            {
+//                CompareResourcesBundlePopupMenu.this.setValueAt( text, rowIndex, columnIndex );
+//            }
+//        };
     }
 
     private CompareResourcesBundleFrame getFrame()
@@ -270,5 +272,24 @@ class CompareResourcesBundlePopupMenu
         }
 
         return frame;
+    }
+
+    @Override
+    public void setValueAt(
+            String text,
+            int rowIndex,
+            int columnIndex
+            )
+    {
+        super.setValueAt(text, rowIndex, columnIndex);
+
+        // Update display
+        int row = getJTable().convertRowIndexToModel( rowIndex );
+        int col = getJTable().convertColumnIndexToModel( columnIndex );
+
+        abstractTableModel.fireTableCellUpdated(
+                row,
+                col
+                );
     }
 }

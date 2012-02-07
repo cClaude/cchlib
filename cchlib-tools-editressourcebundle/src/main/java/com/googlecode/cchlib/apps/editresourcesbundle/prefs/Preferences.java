@@ -1,12 +1,8 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Properties;
 import javax.swing.LookAndFeel;
@@ -17,6 +13,7 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.Populator;
 import com.googlecode.cchlib.util.PropertierPopulator;
+import com.googlecode.cchlib.util.PropertiesHelper;
 
 /**
  * User preferences
@@ -27,10 +24,11 @@ public class Preferences
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
     private PropertierPopulator<Preferences> pp = new PropertierPopulator<>(Preferences.class);
+    private final File preferencesFile;
     @Populator private String lookAndFeelClassName;
     @Populator private String localeName;
-    @Populator private String windowWidth;
-    @Populator private String windowHeight;
+    @Populator private int windowWidth;
+    @Populator private int windowHeight;
     @Populator private boolean multiLineEditorLineWrap;
     @Populator private boolean multiLineEditorWordWrap;
 
@@ -41,13 +39,27 @@ public class Preferences
     {
         this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
         this.localeName = null;
+        this.preferencesFile = createPropertiesFile();
     }
 
+//    /**
+//     * Build preferences from {@link Properties}
+//     * @throws IOException
+//     */
+//    public Preferences( File preferencesFile ) throws IOException
+//    {
+//        this( preferencesFile, PropertiesHelper.loadProperties( preferencesFile ) );
+//    }
+
     /**
-     * Build preferences from {@link Properties}
+     *
+     * @param preferencesFile
+     * @param properties
      */
-    public Preferences( Properties properties )
+    private Preferences( File preferencesFile, Properties properties )
     {
+        this.preferencesFile = preferencesFile;
+
         pp.populateBean( properties, this );
     }
 
@@ -55,9 +67,18 @@ public class Preferences
      * Returns properties {@link File} object
      * @return properties {@link File} object
      */
-    private static File getPropertiesFile()
+    private static File createPropertiesFile()
     {
         return FileHelper.getUserHomeDirFile( DEFAULT_PREFS_FILE );
+    }
+
+    /**
+     * Returns properties {@link File} object
+     * @return properties {@link File} object
+     */
+    public File getPreferencesFile()
+    {
+        return this.preferencesFile;
     }
 
     /**
@@ -67,26 +88,19 @@ public class Preferences
     public static Preferences createPreferences()
     {
         // Try to load pref
-        File prefs = getPropertiesFile();
+        File preferencesFile = createPropertiesFile();
 
         try {
-            Properties  prop    = new Properties();
-            InputStream is      = new FileInputStream( prefs );
-
-            try {
-                prop.load( is );
-                }
-            finally {
-                is.close();
-                }
-
-            return new Preferences( prop );
+            return new Preferences(
+                preferencesFile,
+                PropertiesHelper.loadProperties( preferencesFile )
+                );
             }
         catch( FileNotFoundException e ) {
-            logger.info( String.format( "No prefs '%s'. Use default", prefs ) );
+            logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {
-            final String msg = "Cannot load preferences: " + prefs;
+            final String msg = "Cannot load preferences: " + preferencesFile;
             logger.warn( msg, e );
 
             DialogHelper.showMessageExceptionDialog( null, msg, e );
@@ -105,15 +119,9 @@ public class Preferences
 
         pp.populateProperties( this, properties );
 
-        File            prefs   = getPropertiesFile();
-        OutputStream    os      = new FileOutputStream( prefs );
-
-        try {
-            properties.store( os, "" );
-            }
-        finally {
-            os.close();
-            }
+        File prefs = getPreferencesFile();
+        PropertiesHelper.saveProperties(prefs, properties, "" );
+        logger.info( "Preferences saved in " + prefs );
     }
 
     /**
@@ -248,14 +256,7 @@ public class Preferences
      */
     public int getWindowWidth()
     {
-        int w;
-
-        try {
-            w = Integer.parseInt( this.windowWidth );
-            }
-        catch( Exception e ) {
-            w = 0;
-            }
+        int w = this.windowWidth;
 
         if( w < 320 ) {
             return 640;
@@ -271,7 +272,7 @@ public class Preferences
      */
     public void setWindowWidth( final int width )
     {
-        this.windowWidth = String.valueOf( width );
+        this.windowWidth = width ;
     }
 
     /**
@@ -280,14 +281,7 @@ public class Preferences
      */
     public int getWindowHeight()
     {
-        int w;
-
-        try {
-            w = Integer.parseInt( this.windowHeight );
-            }
-        catch( Exception e ) {
-            w = 0;
-            }
+        int w = this.windowHeight;
 
         if( w < 200 ) {
             return 440;
@@ -303,7 +297,7 @@ public class Preferences
      */
     public void setWindowHeight( final int  height )
     {
-        this.windowHeight = String.valueOf( height );
+        this.windowHeight = height;
     }
 
     public boolean getMultiLineEditorLineWrap()
