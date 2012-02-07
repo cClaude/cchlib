@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
+import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.FindAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.ImagePreviewAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessory;
@@ -31,9 +31,8 @@ import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
  * {@link LastSelectedFilesAccessory}, {@link FindAccessory},
  * {@link LookAndFeelHelpers}
  */
-//VS 4E -- DO NOT REMOVE THIS LINE!
-public class JFileChooserAccessory extends JFrame {
-
+public class JFileChooserAccessory extends JFrame
+{
     private static final long serialVersionUID = 1L;
     /** @serial */
     private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
@@ -243,7 +242,7 @@ public class JFileChooserAccessory extends JFrame {
         jfc.setAccessory(
                 new BookmarksAccessory(
                                 jfc,
-                                new BookmarksAccessoryDefaultConfigurator()
+                                new DefaultBookmarksAccessoryConfigurator()
                                 )
                 );
         showOpenDialog( jfc );
@@ -266,7 +265,7 @@ public class JFileChooserAccessory extends JFrame {
                     .addTabbedAccessory(
                         new BookmarksAccessory(
                                 jfc,
-                                new BookmarksAccessoryDefaultConfigurator()
+                                new DefaultBookmarksAccessoryConfigurator()
                                 )
                         )
                      .addTabbedAccessory(
@@ -333,7 +332,7 @@ public class JFileChooserAccessory extends JFrame {
                             .addTabbedAccessory(
                                 new BookmarksAccessory(
                                     jfc,
-                                    new BookmarksAccessoryDefaultConfigurator()
+                                    new DefaultBookmarksAccessoryConfigurator()
                                     )
                                 )
                              .addTabbedAccessory(

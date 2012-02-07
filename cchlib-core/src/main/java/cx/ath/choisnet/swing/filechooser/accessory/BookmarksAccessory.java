@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * TODO: NOT YET IMPLEMENTED !
  *
  *
  * @author Claude CHOISNET

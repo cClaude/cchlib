@@ -25,7 +25,7 @@ import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
+import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigData;
@@ -300,7 +300,7 @@ final public class DuplicateFilesFrame
                     jfc.setAccessory( new TabbedAccessory()
                             .addTabbedAccessory( new BookmarksAccessory(
                                     jfc,
-                                    new BookmarksAccessoryDefaultConfigurator() ) ) );
+                                    new DefaultBookmarksAccessoryConfigurator() ) ) );
                 }
             };
 

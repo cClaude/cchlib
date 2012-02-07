@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
@@ -20,8 +21,8 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
-    //private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
-    private Frame               frame;
+    private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
+    private CompareResourcesBundleFrame frame;
     private AbstractTableModel  abstractTableModel;
     /** @serial */
     private CompareResourcesBundleTableModel.Colunms colunms;
@@ -246,17 +247,25 @@ class CompareResourcesBundlePopupMenu
         };
     }
 
-    private Frame getFrame()
+    private CompareResourcesBundleFrame getFrame()
     {
         if( frame == null ) {
             Container c = getJTable();
 
             while( c != null ) {
                 if( c instanceof Frame ) {
-                    frame = Frame.class.cast( c );
+                    if( c instanceof CompareResourcesBundleFrame ) {
+                        frame = CompareResourcesBundleFrame.class.cast( c );
+                        }
+                    else {
+                        logger.fatal( "Found a frame but not expected one !" + c );
+                        }
                     break;
-                }
+                    }
                 c = c.getParent();
+                }
+            if( frame == null ) {
+                logger.fatal( "Parent frame not found" );
             }
         }
 

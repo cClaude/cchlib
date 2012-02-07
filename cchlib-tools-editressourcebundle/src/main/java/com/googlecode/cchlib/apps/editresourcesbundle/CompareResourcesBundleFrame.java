@@ -24,7 +24,7 @@ import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
+import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import cx.ath.choisnet.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
@@ -34,7 +34,7 @@ import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
  *
  * @author Claude CHOISNET
  */
-/* not public */
+// not public
 class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nPrepAutoUpdatable
@@ -219,7 +219,7 @@ class CompareResourcesBundleFrame
                             .addTabbedAccessory(
                                 new BookmarksAccessory(
                                     jfc,
-                                    new BookmarksAccessoryDefaultConfigurator()
+                                    new DefaultBookmarksAccessoryConfigurator()
                                     )
                                 )
                              .addTabbedAccessory(
@@ -331,7 +331,6 @@ class CompareResourcesBundleFrame
                 FilesConfig fc     = new FilesConfig(filesConfig);
                 LoadDialog  dialog = new LoadDialog(
                         CompareResourcesBundleFrame.this,
-                        CompareResourcesBundleFrame.this.getJFileChooserInitializer(),
                         fc
                         );
                 dialog.performeI18n(autoI18n);
@@ -446,5 +445,10 @@ class CompareResourcesBundleFrame
     public String getMessagesBundle()
     {
         return DefaultI18nBundleFactory.getMessagesBundle( EditResourcesBundleApp.class );
+    }
+
+    public Preferences getPreferences()
+    {
+        return this.preferences;
     }
 }

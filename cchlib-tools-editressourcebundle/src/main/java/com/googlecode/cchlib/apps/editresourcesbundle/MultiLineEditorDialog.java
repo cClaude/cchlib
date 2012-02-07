@@ -3,7 +3,6 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -30,28 +29,30 @@ public abstract class MultiLineEditorDialog extends JDialog
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( MultiLineEditorDialog.class );
-    private boolean lineWrap = true; // TODO add in pref
-    private boolean wordWrap = true; // TODO add in pref
+    //private boolean lineWrap = true; // TO DO add in pref
+    //private boolean wordWrap = true; // TO DO add in pref
 
     // TODO: I18n !!!
     @I18nString private String msgTxt_Options = "Options";
     @I18nString private String msgTxt_LineWrap = "Line Wrap";
     @I18nString private String msgTxt_WordWrap = "Word Wrap";
+    private CompareResourcesBundleFrame frame;
 
     /**
      *
      */
     public MultiLineEditorDialog(
-            final Frame                 frame,
-            final JTable                jTable,
-            final AbstractTableModel    tableModel,
-            final String                title,
-            final String                txt,
-            final int                   rowIndex,
-            final int                   columnIndex
+            final CompareResourcesBundleFrame   frame,
+            final JTable                        jTable,
+            final AbstractTableModel            tableModel,
+            final String                        title,
+            final String                        txt,
+            final int                           rowIndex,
+            final int                           columnIndex
             )
     {
         super( frame );
+        this.frame = frame;
 
         logger.trace(
             String.format(
@@ -106,32 +107,36 @@ public abstract class MultiLineEditorDialog extends JDialog
         });
 
         final JCheckBoxMenuItem mItemLineWrap = new JCheckBoxMenuItem( msgTxt_LineWrap );
-        jTextArea.setLineWrap( lineWrap );
-        mItemLineWrap.setSelected( lineWrap );
+///        jTextArea.setLineWrap( lineWrap );
+        jTextArea.setLineWrap( this.frame.getPreferences().getMultiLineEditorLineWrap() );
+        mItemLineWrap.setSelected( this.frame.getPreferences().getMultiLineEditorLineWrap() );
         mItemLineWrap.addActionListener(
             new ActionListener()
             {
                 @Override
                 public void actionPerformed( ActionEvent arg0 )
                 {
-                    jTextArea.setLineWrap(
-                            mItemLineWrap.isSelected()
-                            );
+                    boolean lw = mItemLineWrap.isSelected();
+
+                    jTextArea.setLineWrap( lw );
+                    frame.getPreferences().setMultiLineEditorLineWrap( lw );
                 }
             });
 
         final JCheckBoxMenuItem mItemWordWrap = new JCheckBoxMenuItem( msgTxt_WordWrap );
-        jTextArea.setWrapStyleWord( wordWrap );
-        mItemWordWrap.setSelected( wordWrap );
+        //jTextArea.setWrapStyleWord( wordWrap );
+        jTextArea.setWrapStyleWord( this.frame.getPreferences().getMultiLineEditorWordWrap() );
+        mItemWordWrap.setSelected(  this.frame.getPreferences().getMultiLineEditorWordWrap() );
         mItemWordWrap.addActionListener(
                 new ActionListener()
                 {
                     @Override
                     public void actionPerformed( ActionEvent arg0 )
                     {
-                        jTextArea.setWrapStyleWord(
-                                mItemWordWrap.isSelected()
-                                );
+                        boolean ww = mItemWordWrap.isSelected();
+
+                        jTextArea.setWrapStyleWord( ww );
+                        frame.getPreferences().setMultiLineEditorWordWrap( ww );
                     }
                 });
 

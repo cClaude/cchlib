@@ -10,7 +10,7 @@ import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerEvent;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessoryDefaultConfigurator;
+import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 
 /**
@@ -133,7 +133,7 @@ public class WaitingJFileChooserInitializer
                     jfc.setAccessory( new TabbedAccessory()
                         .addTabbedAccessory( new BookmarksAccessory(
                             jfc,
-                            new BookmarksAccessoryDefaultConfigurator()
+                            new DefaultBookmarksAccessoryConfigurator()
                             )
                         )
                     );

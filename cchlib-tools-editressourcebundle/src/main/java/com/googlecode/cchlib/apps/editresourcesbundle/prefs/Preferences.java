@@ -31,6 +31,8 @@ public class Preferences
     @Populator private String localeName;
     @Populator private String windowWidth;
     @Populator private String windowHeight;
+    @Populator private boolean multiLineEditorLineWrap;
+    @Populator private boolean multiLineEditorWordWrap;
 
     /**
      * Build default preferences
@@ -303,4 +305,24 @@ public class Preferences
     {
         this.windowHeight = String.valueOf( height );
     }
+
+    public boolean getMultiLineEditorLineWrap()
+    {
+        return this.multiLineEditorLineWrap;
+    }
+    public void setMultiLineEditorLineWrap( boolean lw )
+    {
+        this.multiLineEditorLineWrap = lw;
+    }
+
+    public boolean getMultiLineEditorWordWrap()
+    {
+        return this.multiLineEditorWordWrap;
+    }
+
+    public void setMultiLineEditorWordWrap( boolean ww )
+    {
+        this.multiLineEditorWordWrap = ww;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,19 +45,18 @@ class LoadDialog
     private ActionListener thisActionListener;
 
     public LoadDialog(
-        Frame                   parent,
-        JFileChooserInitializer jFileChooserInitializer,
-        FilesConfig             filesConfig
+        final CompareResourcesBundleFrame   parentFrame,
+        final FilesConfig                   filesConfig
         )
     {
-        super( parent );
-        this.jFileChooserInitializer = jFileChooserInitializer;
+        super( parentFrame );
+        this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
         this.filesConfig = filesConfig;
         initFixComponents();
 
         setDefaultCloseOperation( LoadDialog.DISPOSE_ON_CLOSE );
         setTitle( strMsgTitle  );
-        setLocationRelativeTo( parent );
+        setLocationRelativeTo( parentFrame );
         getContentPane().setPreferredSize( this.getSize() );
         pack();
     }
