@@ -22,10 +22,11 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
+
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigData;
