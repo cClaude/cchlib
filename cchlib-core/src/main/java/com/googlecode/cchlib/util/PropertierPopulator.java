@@ -24,14 +24,12 @@ public class PropertierPopulator<E>
         this.keyFieldSet     = new HashSet<>();
         Field[] fields  = clazz.getDeclaredFields();
 
-        for( Field f : fields ) {           
+        for( Field f : fields ) {
             if( f.getAnnotation( Populator.class ) != null ) {
-                if( f.getType().equals( String.class ) ) {
-                    this.keyFieldSet.add( f );
-                    }
+                this.keyFieldSet.add( f );
                 }
             }
-        
+
         logger.info( "Found " + this.keyFieldSet.size() + " fields." );
     }
 
@@ -67,7 +65,19 @@ public class PropertierPopulator<E>
     public void populateBean( Properties properties, E bean )
     {
         for( Field f : this.keyFieldSet ) {
-            final String value = properties.getProperty( f.getName() );
+            final String strValue = properties.getProperty( f.getName() );
+            final Object value;
+
+            if( f.getDeclaringClass().isInstance( String.class ) ) {
+                value = strValue;
+                }
+            else if( f.getDeclaringClass().isInstance( Boolean.class ) ) {
+                value = Boolean.valueOf( strValue );
+                }
+            else {
+                logger .error( "Bad type for field:" + f + " * class=" + f.getDeclaringClass() );
+                break;
+                }
 
             try {
                 f.setAccessible( true );
@@ -76,7 +86,7 @@ public class PropertierPopulator<E>
                 }
             catch( IllegalArgumentException | IllegalAccessException e ) {
                 // ignore !
-                logger .warn( "Cannot set field:" + f, e );
+                logger .error( "Cannot set field:" + f, e );
                 }
             }
     }

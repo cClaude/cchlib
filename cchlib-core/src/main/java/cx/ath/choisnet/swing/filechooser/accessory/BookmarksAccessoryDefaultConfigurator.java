@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 /**
- * @deprecated use {@link #DefaultBookmarksAccessoryConfigurator} instead
+ * @deprecated use {@link com.googlecode.cchlib.swing.filechooser.accessory#DefaultBookmarksAccessoryConfigurator} instead
  */
 public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
