@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -86,7 +85,7 @@ class CompareResourcesBundleFrame
         this.preferences = prefs;
 
         //setSize(640, 440);
-        setSize( this.preferences.getWindowWidth(), this.preferences.getWindowHeight() );
+        setSize( this.preferences.getWindowDimension() );
 
         WindowListener wl = new WindowAdapter()
         {
@@ -367,9 +366,7 @@ class CompareResourcesBundleFrame
                 preferences.setLookAndFeelClassName();
                 preferences.setLocale( Locale.getDefault() );
 
-                Dimension size = getSize();
-                preferences.setWindowWidth( size.width );
-                preferences.setWindowHeight( size.height );
+                preferences.setWindowDimension( getSize() );
 
                 // TODO: Add here extra preferences values
 

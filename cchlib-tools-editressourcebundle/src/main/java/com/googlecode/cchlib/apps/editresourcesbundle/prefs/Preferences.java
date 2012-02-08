@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,9 +32,11 @@ public class Preferences
     @Populator private int windowHeight;
     @Populator private boolean multiLineEditorLineWrap;
     @Populator private boolean multiLineEditorWordWrap;
+    @Populator private int multiLineEditorDimension_width;
+    @Populator private int multiLineEditorDimension_height;
 
     /**
-     * Build default preferences
+     * Build default preferences (file not found)
      */
     private Preferences()
     {
@@ -42,17 +45,8 @@ public class Preferences
         this.preferencesFile = createPropertiesFile();
     }
 
-//    /**
-//     * Build preferences from {@link Properties}
-//     * @throws IOException
-//     */
-//    public Preferences( File preferencesFile ) throws IOException
-//    {
-//        this( preferencesFile, PropertiesHelper.loadProperties( preferencesFile ) );
-//    }
-
     /**
-     *
+     * Build preferences using giving file.
      * @param preferencesFile
      * @param properties
      */
@@ -250,54 +244,22 @@ public class Preferences
         this.localeName = name;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getWindowWidth()
+    public Dimension getWindowDimension()
     {
-        int w = this.windowWidth;
+        if( this.windowWidth < 320 ) {
+            this.windowWidth = 640;
+            }
+        if( this.windowHeight < 200 ) {
+            this.windowHeight = 440;
+            }
 
-        if( w < 320 ) {
-            return 640;
-            }
-        else {
-            return w;
-            }
+        return new Dimension( this.windowWidth, this.windowHeight );
     }
 
-    /**
-     *
-     * @param width
-     */
-    public void setWindowWidth( final int width )
+    public void setWindowDimension( final Dimension size )
     {
-        this.windowWidth = width ;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getWindowHeight()
-    {
-        int w = this.windowHeight;
-
-        if( w < 200 ) {
-            return 440;
-            }
-        else {
-            return w;
-            }
-    }
-
-    /**
-     *
-     * @param height
-     */
-    public void setWindowHeight( final int  height )
-    {
-        this.windowHeight = height;
+        this.windowWidth = size.width;
+        this.windowHeight = size.height;
     }
 
     public boolean getMultiLineEditorLineWrap()
@@ -317,6 +279,24 @@ public class Preferences
     public void setMultiLineEditorWordWrap( boolean ww )
     {
         this.multiLineEditorWordWrap = ww;
+    }
+
+    public Dimension getMultiLineEditorDimension()
+    {
+        if( this.multiLineEditorDimension_width < 300 ) {
+            this.multiLineEditorDimension_width = 300;
+            }
+        if( this.multiLineEditorDimension_height < 100 ) {
+            this.multiLineEditorDimension_height = 100;
+            }
+
+        return new Dimension( multiLineEditorDimension_width, multiLineEditorDimension_height );
+    }
+
+    public void setMultiLineEditorDimension( Dimension size )
+    {
+        this.multiLineEditorDimension_width = size.width;
+        this.multiLineEditorDimension_height = size.height;
     }
 
 }

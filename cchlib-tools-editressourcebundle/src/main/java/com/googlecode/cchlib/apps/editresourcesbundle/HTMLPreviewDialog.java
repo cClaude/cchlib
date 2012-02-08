@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -20,62 +20,94 @@ import javax.swing.JScrollPane;
 public class HTMLPreviewDialog extends JDialog
 {
     private static final long serialVersionUID = 1L;
+    // TODO: I18n
+    private JButton jButtonClose;
 
     /**
      *
      */
     public HTMLPreviewDialog(
-        final Frame     frame,
-        final String    title,
-        final String    html
+        final CompareResourcesBundleFrame   frame,
+        final String                        title,
+        final String                        htmlSource
         )
     {
-        //final JDialog dialog = new JDialog( getFrame() );
         super( frame );
 
-        JEditorPane htmlComponent = new JEditorPane();
-        htmlComponent.setEditable( false );
-        htmlComponent.setContentType( "text/html" );
-//        htmlComponent.putClientProperty(
-//                JEditorPane.W3C_LENGTH_UNITS,
-//                Boolean.TRUE
-//                );
-//        htmlComponent.putClientProperty(
-//                JEditorPane.HONOR_DISPLAY_PROPERTIES,
-//                Boolean.TRUE
-//                );
-        htmlComponent.setText( html );
+        // clean up content
+        String          htmlCmp = htmlSource.trim().toLowerCase();
+        StringBuilder   html    = new StringBuilder();
 
-        JScrollPane jScrollPane = new JScrollPane(htmlComponent);
-
-        JButton jButton = new JButton(
-                new ImageIcon(
-                        getClass().getResource( "close.png" )
-                        )
-                );
-        //jButton.setText("OK");
-        jButton.addMouseListener(new MouseAdapter()
-        {
-            public void mousePressed(MouseEvent event)
-            {
-                dispose();
+        if( !htmlCmp.startsWith( "<html>" ) ) {
+            html.append( "<html>" );
             }
-        });
-
-        JPanel cmdPanel = new JPanel();
-        cmdPanel.add(jButton);
+        html.append( htmlSource );
+        if( ! htmlCmp.endsWith( "</html>" ) ) {
+            html.append( "</html>" );
+            }
 
         setFont(new Font("Dialog", Font.PLAIN, 12));
         setBackground(Color.white);
         setForeground(Color.black);
-        add(jScrollPane, BorderLayout.CENTER);
-        add(cmdPanel, BorderLayout.SOUTH);
-        setSize(320, 240);
+        setSize(640, 480); // TODO: put this in prefs
 
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
         setTitle( title );
         setLocationRelativeTo( frame );
         getContentPane().setPreferredSize( getSize() );
+
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+        getContentPane().setLayout(gridBagLayout);
+
+        {
+            JEditorPane htmlComponent = new JEditorPane();
+            htmlComponent.setEditable( false );
+            htmlComponent.setContentType( "text/html" );
+            //        htmlComponent.putClientProperty(
+            //                JEditorPane.W3C_LENGTH_UNITS,
+            //                Boolean.TRUE
+            //                );
+            //        htmlComponent.putClientProperty(
+            //                JEditorPane.HONOR_DISPLAY_PROPERTIES,
+            //                Boolean.TRUE
+            //                );
+
+
+            htmlComponent.setText( html.toString() );
+
+            JScrollPane jScrollPane = new JScrollPane(htmlComponent);
+            GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
+            gbc_jScrollPane.gridwidth = 3;
+            gbc_jScrollPane.fill = GridBagConstraints.BOTH;
+            gbc_jScrollPane.insets = new Insets(0, 0, 5, 5);
+            gbc_jScrollPane.gridx = 0;
+            gbc_jScrollPane.gridy = 0;
+            getContentPane().add(jScrollPane, gbc_jScrollPane);
+        }
+
+        {
+            jButtonClose = new JButton( "Close",
+                    new ImageIcon(
+                            getClass().getResource( "close.png" )
+                            )
+                    );
+            jButtonClose.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+            GridBagConstraints gbc_jButtonOk = new GridBagConstraints();
+            gbc_jButtonOk.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jButtonOk.insets = new Insets(0, 0, 0, 5);
+            gbc_jButtonOk.gridx = 1;
+            gbc_jButtonOk.gridy = 1;
+            getContentPane().add(jButtonClose, gbc_jButtonOk);
+        }
+
         pack();
         setVisible( true );
     }

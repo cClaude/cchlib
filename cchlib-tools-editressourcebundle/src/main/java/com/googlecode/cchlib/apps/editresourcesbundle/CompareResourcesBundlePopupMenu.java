@@ -20,7 +20,6 @@ import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
  */
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
-         implements MultiLineEditorDialog.StoreResult
 {
     private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
@@ -168,7 +167,7 @@ class CompareResourcesBundlePopupMenu
                             new HTMLPreviewDialog(
                                     getFrame(),
                                     txtHTMLPreview,
-                                    "<html>" + value + "<html>"
+                                    value.toString()
                                     );
                         }
                     }
@@ -226,27 +225,60 @@ class CompareResourcesBundlePopupMenu
             final int       columnIndex
             )
     {
+        if( logger.isTraceEnabled() ) {
+            logger.trace(
+                    String.format(
+                        "openMultiLineEditor @(%d;%d)\n",
+                        rowIndex,
+                        columnIndex
+                        )
+                    );
+            }
+
         new MultiLineEditorDialog(
             getFrame(),
-//            getJTable(),
-//            abstractTableModel,
-            this,
             txtEditLines,
-            contentText,
-            columnIndex,
-            columnIndex
-            );
-//        {
-//            private static final long serialVersionUID = 1L;
-//            @Override
-//            protected void setValueAt(
-//                    String  text,
-//                    int     rowIndex,
-//                    int     columnIndex )
-//            {
-//                CompareResourcesBundlePopupMenu.this.setValueAt( text, rowIndex, columnIndex );
-//            }
-//        };
+            contentText
+            )
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void storeResult( String text )
+            {
+                if( logger.isTraceEnabled() ) {
+                    logger.trace(
+                            String.format(
+                                "Update value @(%d;%d)\n",
+                                rowIndex,
+                                columnIndex
+                                )
+                            );
+                    }
+
+                setValueAt(text, rowIndex, columnIndex);
+
+                // Update display
+                int row = getJTable().convertRowIndexToModel( rowIndex );
+                int col = getJTable().convertColumnIndexToModel( columnIndex );
+
+                if( logger.isTraceEnabled() ) {
+                    logger.trace(
+                            String.format(
+                                "Update display @(%d;%d)\n",
+                                row,
+                                col
+                                )
+                            );
+                    }
+
+                abstractTableModel.fireTableCellUpdated(
+                        row,
+                        col
+                        );
+            }
+
+        };
     }
 
     private CompareResourcesBundleFrame getFrame()
@@ -274,22 +306,4 @@ class CompareResourcesBundlePopupMenu
         return frame;
     }
 
-    @Override
-    public void setValueAt(
-            String text,
-            int rowIndex,
-            int columnIndex
-            )
-    {
-        super.setValueAt(text, rowIndex, columnIndex);
-
-        // Update display
-        int row = getJTable().convertRowIndexToModel( rowIndex );
-        int col = getJTable().convertColumnIndexToModel( columnIndex );
-
-        abstractTableModel.fireTableCellUpdated(
-                row,
-                col
-                );
-    }
 }
