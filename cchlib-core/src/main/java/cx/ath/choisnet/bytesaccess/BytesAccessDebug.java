@@ -187,7 +187,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         }
         for(;i<8;i++) { // looking next 0
             if( (iMask & mask) == 0 ) {
-
+            	// ????? FIXME ??? Why this test ???
             }
             iMask>>=1;
         }

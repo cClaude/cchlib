@@ -73,15 +73,46 @@ public class PropertierPopulator<E>
 
                 //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
                 //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
+                final Class<?> type = f.getType();
 
-                if( String.class.isAssignableFrom( f.getType() ) ) {
+                if( String.class.isAssignableFrom( type ) ) {
                     f.set( bean, strValue );
                     }
-                else if( boolean.class.isAssignableFrom( f.getType() ) ) {
+                else if( boolean.class.isAssignableFrom( type ) ) {
                     f.setBoolean( bean, Boolean.valueOf( strValue ).booleanValue() );
                     }
-                else if( int.class.isAssignableFrom( f.getType() ) ) {
+                else if( Boolean.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Boolean.valueOf( strValue ) );
+                    }
+                else if( int.class.isAssignableFrom( type ) ) {
                     f.setInt( bean, Integer.valueOf( strValue ).intValue() );
+                    }
+                else if( Integer.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Integer.valueOf( strValue ) );
+                    }
+                else if( short.class.isAssignableFrom( type ) ) {
+                    f.setShort( bean, Short.valueOf( strValue ).shortValue() );
+                    }
+                else if( Short.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Short.valueOf( strValue ) );
+                    }
+                else if( byte.class.isAssignableFrom( type ) ) {
+                    f.setByte( bean, Byte.valueOf( strValue ).byteValue() );
+                    }
+                else if( Byte.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Byte.valueOf( strValue ) );
+                    }
+                else if( long.class.isAssignableFrom( type ) ) {
+                    f.setLong( bean, Long.valueOf( strValue ).longValue() );
+                    }
+                else if( Long.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Long.valueOf( strValue ) );
+                    }
+                else if( float.class.isAssignableFrom( type ) ) {
+                    f.setFloat( bean, Float.valueOf( strValue ).floatValue() );
+                    }
+                else if( Float.class.isAssignableFrom( type ) ) {
+                    f.set( bean, Float.valueOf( strValue ) );
                     }
                 else {
                     logger .error( "Bad type for field:" + f + " * class=" + f.getType() );

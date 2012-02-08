@@ -49,8 +49,6 @@ public class FormattedProperties
 
     /**
      * Configure store operation.
-     *
-     * @author Claude CHOISNET
      */
     public enum Store {
         /**
@@ -181,10 +179,10 @@ public class FormattedProperties
 
         if( aReader instanceof BufferedReader ) {
             reader = BufferedReader.class.cast( aReader );
-        }
+            }
         else {
             reader = new BufferedReader( aReader );
-        }
+            }
 
         while ((line = reader.readLine()) != null) {
             char    c   = 0;
@@ -194,7 +192,7 @@ public class FormattedProperties
             while ( pos < line.length()
                     && Character.isWhitespace(c = line.charAt(pos))) {
                 pos++;
-            }
+                }
 
             // If empty line or begins with a comment character, save this line
             // in lineData and save a "" in keyData.
@@ -203,7 +201,7 @@ public class FormattedProperties
                     || line.charAt(pos) == '!') {
                 addCommentLine(line);
                 continue;
-            }
+                }
 
             // The characters up to the next Whitespace, ':', or '='
             // describe the key.  But look for escape sequences.
@@ -223,13 +221,13 @@ public class FormattedProperties
                         line = reader.readLine();
                         if(line == null) {
                             line = "";
-                        }
+                            }
                         pos = 0;
                         while( pos < line.length()
                                 && Character.isWhitespace(c = line.charAt(pos))) {
                             pos++;
+                            }
                         }
-                    }
                     else {
                         c = line.charAt(pos++);
                         switch(c) {
@@ -248,52 +246,50 @@ public class FormattedProperties
                                                (line.substring(pos, pos + 4), 16);
                                     key.append(uni);
                                     pos += 4;
-                                }   // else throw exception?
+                                    }   // else throw exception?
                                 break;
                             default:
                                 key.append(c);
                                 break;
+                            }
                         }
                     }
-                }
                 else if(needsEscape) {
                     key.append(c);
+                    }
                 }
-            }
 
             boolean isDelim = (c == ':' || c == '=');
             String  keyString;
 
             if( needsEscape ) {
                 keyString = key.toString();
-            }
+                }
             else if( isDelim || Character.isWhitespace(c) ) {
                 keyString = line.substring(start, pos - 1);
-            }
+                }
             else {
                 keyString = line.substring(start, pos);
-            }
+                }
 
             while ( pos < line.length()
                     && Character.isWhitespace(c = line.charAt(pos))) {
                 pos++;
-            }
+                }
 
             if (! isDelim && (c == ':' || c == '=')) {
                 pos++;
                 while ( pos < line.length()
                         && Character.isWhitespace(c = line.charAt(pos))) {
                     pos++;
+                    }
                 }
-            }
 
             // Short-circuit if no escape chars found.
             if( !needsEscape ) {
-                //super.put( keyString, line.substring(pos) );
-                //lines.addKey(keyString);
                 this.put( keyString, line.substring(pos) );
                 continue;
-            }
+                }
 
             // Escape char found so iterate through the rest of the line.
             StringBuilder element = new StringBuilder(line.length() - pos);
@@ -316,7 +312,7 @@ public class FormattedProperties
                             pos++;
                         element.ensureCapacity(line.length() - pos +
                                                element.length());
-                    }
+                        }
                     else {
                         c = line.charAt(pos++);
                         switch (c) {
@@ -330,23 +326,24 @@ public class FormattedProperties
                                 element.append('\r');
                                 break;
                             case 'u':
-                                if (pos + 4 <= line.length()) {
+                                if( pos + 4 <= line.length() ) {
                                     char uni = (char) Integer.parseInt
                                                (line.substring(pos, pos + 4), 16);
                                     element.append(uni);
                                     pos += 4;
-                                }   // else throw exception?
+                                    }
+                                // else throw exception?
                                 break;
                             default:
                                 element.append(c);
                                 break;
+                            }
                         }
                     }
-                } else
+                else {
                     element.append(c);
-            }
-            //super.put(keyString, element.toString());
-            //lines.addKey(keyString);
+                    }
+                }
             this.put(keyString, element.toString());
         }
     }
@@ -397,10 +394,11 @@ public class FormattedProperties
     {
         try {
             store(out,comment);
-        }
+            }
         catch( IOException e ) {
-            e.printStackTrace();
-        }
+            //e.printStackTrace();
+            throw new RuntimeException( e ); // Show exception to the word :)
+            }
     }
 
     /**
@@ -487,7 +485,7 @@ public class FormattedProperties
                         false,
                         attribs
                         );
-                writer.println (sb);
+                writer.println( sb );
                 }
             }
         writer.flush ();
@@ -498,25 +496,28 @@ public class FormattedProperties
      *
      * @param str    - the string to format
      * @param buffer - buffer to hold the string
-     * @param key    - true if 'str' the key is formatted,
+     * @param isKey  - true if 'str' the key is formatted,
      *                 false if the value is formatted
      * @param config - Configure how store operation will be
      *                  handle, see {@link Store}.
      */
     protected void formatForOutput(
-            String          str,
-            StringBuilder   buffer,
-            boolean         key,
-            EnumSet<Store>  config
+            final String            str,
+            final StringBuilder     buffer,
+            final boolean           isKey,
+            final EnumSet<Store>    config
             )
     {
-        if( key ) {
+        if( isKey ) {
             buffer.setLength(0);
             buffer.ensureCapacity(str.length());
             }
         else {
             buffer.ensureCapacity(buffer.length() + str.length());
             }
+
+        // If 'str' contains one \n we don't add extra \n (already formatted)
+        boolean isAlreadyFormatted = str.contains( "\n" );
 
         boolean head = true;
         int     size = str.length();
@@ -526,11 +527,11 @@ public class FormattedProperties
             switch(c) {
                 case '\n':
                     buffer.append("\\n");
-                    if( !key ) {
-                        if( config.contains( Store.CUT_LINE_AFTER_NEW_LINE) ) {
+                    if( !isKey ) {
+                        if( ! isAlreadyFormatted && config.contains( Store.CUT_LINE_AFTER_NEW_LINE) ) {
                             buffer.append("\\\n");
+                            }
                         }
-                    }
                     break;
                 case '\r':
                     buffer.append("\\r");
@@ -549,74 +550,78 @@ public class FormattedProperties
                     buffer.append('\\').append(c);
                     break;
                 case '<':
-                    if( !key ) {
-                        boolean cutLine = false;
-                        if( config.contains( Store.CUT_LINE_BEFORE_HTML_BR )) {
-                            if( matches(PATTERN_BR_ADD_BEFORE,str.substring( i )) ) {
-                                cutLine = true;
-                            }
-                        }
-                        if( config.contains( Store.CUT_LINE_BEFORE_HTML_BEGIN_P )) {
-                            if( matches(PATTERN_P_BEGIN_ADD_BEFORE,str.substring( i )) ) {
-                                cutLine = true;
-                            }
-                        }
+                    if( !isKey ) {
+                        if( !isAlreadyFormatted ) {
+                            boolean cutLine = false;
+                            if( config.contains( Store.CUT_LINE_BEFORE_HTML_BR )) {
+                                if( matches(PATTERN_BR_ADD_BEFORE,str.substring( i )) ) {
+                                    cutLine = true;
+                                    }
+                                }
+                            if( config.contains( Store.CUT_LINE_BEFORE_HTML_BEGIN_P )) {
+                                if( matches(PATTERN_P_BEGIN_ADD_BEFORE,str.substring( i )) ) {
+                                    cutLine = true;
+                                    }
+                                }
 
-                        if( cutLine ) {
-                            buffer.append( "\\\n" );
-                        }
+                            if( cutLine ) {
+                                buffer.append( "\\\n" );
+                                }
+                            }
                     }
                 default:
                     if( isISO_8859_1( c ) ) {
                         buffer.append(c);
-                    }
+                        }
                     else {
                         String hex = Integer.toHexString(c);
                         buffer.append("\\u0000".substring(0, 6 - hex.length()));
                         buffer.append(hex);
                         }
 
-                    if( !key && c == '>' ) {
-                        boolean cutLine = false;
+                    if( !isKey && c == '>' ) {
+                        if( !isAlreadyFormatted ) {
+                            boolean cutLine = false;
 
-                        if(config.contains( Store.CUT_LINE_AFTER_HTML_BR )) {
-                            if( matches(PATTERN_BR_ADD_AFTER,str.substring(0,i+1)) ) {
-                                cutLine = true;
-                            }
-                        }
-                        if(config.contains( Store.CUT_LINE_AFTER_HTML_END_P )) {
-                            if( matches(PATTERN_P_END_ADD_AFTER,str.substring(0,i+1)) ) {
-                                cutLine = true;
-                            }
-                        }
-
-                        if( cutLine ) {
-                            // To keep Properties consistent,
-                            // must add all next Whitespaces
-                            // before add new line
-                            int i2 = i + 1;
-
-                            while( i2 < size ) {
-                                char c2 = str.charAt(i2);
-                                if( Character.isWhitespace(c2) ) {
-                                    buffer.append( c2 );
-                                    i++;
-                                    i2++;
+                            if(config.contains( Store.CUT_LINE_AFTER_HTML_BR )) {
+                                if( matches(PATTERN_BR_ADD_AFTER,str.substring(0,i+1)) ) {
+                                    cutLine = true;
+                                    }
                                 }
-                                else {
-                                    break;
+                            if(config.contains( Store.CUT_LINE_AFTER_HTML_END_P )) {
+                                if( matches(PATTERN_P_END_ADD_AFTER,str.substring(0,i+1)) ) {
+                                    cutLine = true;
+                                    }
+                                }
+
+                            if( cutLine ) {
+                                // To keep Properties consistent,
+                                // must add all next Whitespaces
+                                // before add new line
+                                int i2 = i + 1;
+
+                                while( i2 < size ) {
+                                    char c2 = str.charAt(i2);
+                                    if( Character.isWhitespace(c2) ) {
+                                        buffer.append( c2 );
+                                        i++;
+                                        i2++;
+                                        }
+                                    else {
+                                        break;
+                                        }
+                                    }
+
+                                buffer.append( "\\\n" );
                                 }
                             }
-
-                            buffer.append( "\\\n" );
                         }
-                    }
-            }
+                }
 
             if(c != ' ') {
-                head = key;
+                head = isKey;
+                }
             }
-        }
     }
 
     /**
@@ -648,16 +653,16 @@ public class FormattedProperties
     {
         if (c < 0x20 ) { // before space
             return false;
-        }
+            }
         if( c > 0x00FF ) {
             return false;
-        }
+            }
         if( c < 0x7F ) { // last value '~', 0x7F exclude
             return true;
-        }
+            }
         if( c > 0xA0 ) { // first value, 0xA0 exclude
             return true;
-        }
+            }
 
         return false;
     }
@@ -686,12 +691,12 @@ public class FormattedProperties
             throw new IllegalArgumentException(
                     "Support only String for key"
                     );
-        }
+            }
         if( !(valueString instanceof String) ) {
             throw new IllegalArgumentException(
                     "Support only String for key"
                     );
-        }
+            }
         if( super.containsKey( keyString ) ) {
             Object prev = super.put( keyString, valueString );
 
@@ -743,7 +748,7 @@ public class FormattedProperties
                 && !(check.length() == 0)
                 ) {
             throw new IllegalArgumentException("Must be a comment line");
-        }
+            }
 
         lines.addCommentLine( line );
     }
@@ -883,7 +888,7 @@ public class FormattedProperties
             put(    e.getKey(),
                     e.getValue()
                     );
-        }
+            }
     }
 
     /**
@@ -916,21 +921,21 @@ public class FormattedProperties
                 throw new RuntimeException(
                         "Internal error key exist in Hashmap, but not in lines"
                         );
-            }
+                }
             else {
                 return prev;
-            }
+                }
         }
         else {
             if( lines.contains( key ) ) {
                 throw new RuntimeException(
                         "Internal error key exist in lines, but not in Hashmap"
                         );
-            }
+                }
             else {
                 return null; // nothing to do !
+                }
             }
-        }
     }
 
     /**
@@ -973,23 +978,23 @@ public class FormattedProperties
     {
         if( this == obj ) {
             return true;
-        }
+            }
         if( !super.equals( obj ) ) {
             return false;
-        }
+            }
         if( getClass() != obj.getClass() ) {
             return false;
-        }
+            }
         FormattedProperties other = (FormattedProperties)obj;
 
         if( lines == null ) {
             if( other.lines != null ) {
                 return false;
+                }
             }
-        }
         else if( !lines.equals( other.lines ) ) {
             return false;
-        }
+            }
         return true;
     }
 
@@ -1017,14 +1022,14 @@ public class FormattedProperties
         for( Line line:lines ) {
             if( line.isComment ) {
                 clone.addCommentLine( line.content );
-            }
+                }
             else {
                 clone.put(
                         line.content,
                         this.getProperty( line.content )
                         );
+                }
             }
-        }
 
         return clone;
     }
@@ -1069,7 +1074,7 @@ public class FormattedProperties
         {
             if( isComment ) {
                 return content;
-            }
+                }
             return null;
         }
         /**
@@ -1080,7 +1085,7 @@ public class FormattedProperties
         {
             if( !isComment ) {
                 return content;
-            }
+                }
             return null;
         }
 
@@ -1092,12 +1097,13 @@ public class FormattedProperties
         {
             if( isComment ) {
                 return content;
-            }
+                }
             else {
                 //TODO: encode?
                 return content + '=' + getProperty(content);
-            }
+                }
         }
+
         /* (non-Javadoc)
          * @see java.lang.Object#hashCode()
          */
@@ -1121,25 +1127,25 @@ public class FormattedProperties
         {
             if( this == obj ) {
                 return true;
-            }
+                }
             if( obj == null ) {
                 return false;
-            }
+                }
             if( getClass() != obj.getClass() ) {
                 return false;
-            }
+                }
             Line other = (Line)obj;
             if( content == null ) {
                 if( other.content != null ) {
                     return false;
+                    }
                 }
-            }
             else if( !content.equals( other.content ) ) {
                 return false;
-            }
+                }
             if( isComment != other.isComment ) {
                 return false;
-            }
+                }
             return true;
         }
     }
@@ -1188,9 +1194,9 @@ public class FormattedProperties
                 if( ! line.isComment ) {
                     if( line.content.equals( key )) {
                         return true;
+                        }
                     }
                 }
-            }
             return false;
         }
 
@@ -1205,9 +1211,9 @@ public class FormattedProperties
                     if( line.content.equals( key )) {
                         iter.remove();
                         return line;
+                        }
                     }
                 }
-            }
             return null;
         }
         @Override
@@ -1242,23 +1248,23 @@ public class FormattedProperties
         {
             if( this == obj ) {
                 return true;
-            }
+                }
             if( obj == null ) {
                 return false;
-            }
+                }
             if( getClass() != obj.getClass() ) {
                 return false;
-            }
+                }
             Lines other = (Lines)obj;
 
             if( lines == null ) {
                 if( other.lines != null ) {
                     return false;
+                    }
                 }
-            }
             else if( !lines.equals( other.lines ) ) {
                 return false;
-            }
+                }
 
             return true;
         }
