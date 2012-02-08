@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.swing;
 
-import java.awt.Frame;
+import java.awt.Window;
 import javax.swing.JDialog;
 import com.googlecode.cchlib.io.ExceptionHelper;
 import com.googlecode.cchlib.resources.ResourcesLoader;
@@ -38,12 +38,12 @@ public class DialogHelper
     /**
      * TODO: Doc:
      *
-     * @param parentComponent
+     * @param parentWindow
      * @param title
      * @param exception
      */
     public static void showMessageExceptionDialog(
-        final Frame     parentFrame,
+        final Window  	parentWindow,
         final String    title,
         final Throwable exception
         )
@@ -62,7 +62,7 @@ public class DialogHelper
         msg.append( "</html>" );
 
         final CustomDialogWB dialog = new CustomDialogWB(
-                parentFrame,
+        		parentWindow,
                 false,
                 title,
                 msg.toString()

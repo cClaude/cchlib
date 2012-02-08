@@ -120,9 +120,12 @@ public class PropertierPopulator<E>
 
                 f.setAccessible( false );
                 }
+            catch( NumberFormatException e ) {
+                logger.warn( "Cannot set field:" + f );
+                }
             catch( IllegalArgumentException | IllegalAccessException e ) {
                 // ignore !
-                logger .error( "Cannot set field:" + f, e );
+                logger.error( "Cannot set field:" + f, e );
                 }
             }
     }

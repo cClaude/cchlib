@@ -3,13 +3,14 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
- * Use InputStream
+ * Use OutputStream
  *
  * @author Claude CHOISNET
  */
@@ -18,11 +19,11 @@ class FormattedCustomProperties
     implements CustomProperties
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( FormattedCustomProperties.class );
+    private static final Logger logger = Logger.getLogger( FormattedCustomProperties.class );
     private FileObject          fileObject;
     private FormattedProperties properties;
     private HashMap<String,Integer> linesNumbers;
-    private boolean hasChanged;
+    private boolean _hasChanged;
 
     public FormattedCustomProperties(
             final FileObject            fileObject,
@@ -34,6 +35,8 @@ class FormattedCustomProperties
         this.linesNumbers   = new HashMap<String,Integer>();
 
         refreshLinesNumber();
+
+           setEdited( false );
     }
 
     @Override
@@ -50,18 +53,19 @@ class FormattedCustomProperties
         throws FileNotFoundException, IOException
     {
         if( fileObject.isReadOnly() ) {
-            slogger.warn( "Can't save (readOnly): " + fileObject );
+            logger.warn( "Can't save (readOnly): " + fileObject );
 
             return false;
             }
         else {
-            FileOutputStream os = new FileOutputStream( fileObject.getFile() );
+            OutputStream os = new FileOutputStream( fileObject.getFile() );
 
             properties.store( os, "" );
 
             os.close();
-            slogger.info( "Save : " + fileObject );
+            logger.info( "Save : " + fileObject );
 
+               setEdited( false );
             return true;
             }
     }
@@ -81,7 +85,7 @@ class FormattedCustomProperties
     @Override
     public void setProperty( String key, String value )
     {
-        this.hasChanged = true;
+        setEdited( true );
         properties.setProperty( key, value );
     }
 
@@ -117,9 +121,15 @@ class FormattedCustomProperties
             }
     }
 
+    private void setEdited( boolean isEdited )
+    {
+        // TODO: add a listener her !
+        this._hasChanged = isEdited;
+    }
+
     @Override
     public boolean isEdited()
     {
-        return this.hasChanged;
+        return this._hasChanged;
     }
 }

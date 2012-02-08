@@ -5,10 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Window;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -95,7 +95,7 @@ class CustomDialogWB extends JDialog
      * @wbp.parser.constructor
      */
     public CustomDialogWB(
-        final Frame     parentFrame,
+        final Window  	parentWindow,
         final String    title,
         final String    message,
         final String    okText,
@@ -103,7 +103,7 @@ class CustomDialogWB extends JDialog
 
         )
     {
-        this( parentFrame, true, title, message );
+        this( parentWindow, true, title, message );
 
         this.setJButtonOk( okText );
         this.setJButtonCancel( cancelText );
@@ -112,19 +112,19 @@ class CustomDialogWB extends JDialog
     /**
      * Create the dialog.
      *
-     * @param parentFrame
+     * @param parentWindow
      * @param addCancelButton
      * @param title
      * @param message
      */
     public CustomDialogWB(
-        final Frame     parentFrame,
+        final Window  	parentWindow,
         final boolean   addCancelButton,
         final String    title,
         final String    message
         )
     {
-        this( parentFrame, addCancelButton );
+        this( parentWindow, addCancelButton );
 
         setTitle( title );
         this.jLabelMessage.setText( message );
@@ -133,15 +133,15 @@ class CustomDialogWB extends JDialog
     /**
      * Create the dialog.
      *
-     * @param parentFrame
+     * @param parentWindow
      * @param addCancelButton
      */
     public CustomDialogWB(
-        final Frame     parentFrame,
+        final Window  	parentWindow,
         final boolean   addCancelButton
         )
     {
-        super( parentFrame );
+        super( parentWindow );
 
         setSize( 450, 300);
 

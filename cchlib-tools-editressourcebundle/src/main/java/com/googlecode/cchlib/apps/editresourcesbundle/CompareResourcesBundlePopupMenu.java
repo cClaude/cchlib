@@ -164,12 +164,14 @@ class CompareResourcesBundlePopupMenu
                         Object value = getValueAt( rowIndex, columnIndex );
 
                         if( value instanceof String ) {
-                            new HTMLPreviewDialog(
+                            HTMLPreviewDialog d = new HTMLPreviewDialog(
                                     getFrame(),
                                     txtHTMLPreview,
                                     value.toString()
                                     );
-                        }
+                            d.pack();
+                            d.setVisible( true );
+                            }
                     }
                 });
 
@@ -235,14 +237,8 @@ class CompareResourcesBundlePopupMenu
                     );
             }
 
-        new MultiLineEditorDialog(
-            getFrame(),
-            txtEditLines,
-            contentText
-            )
+        MultiLineEditorDialog.StoreResult storeResult = new MultiLineEditorDialog.StoreResult()
         {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void storeResult( String text )
             {
@@ -277,8 +273,15 @@ class CompareResourcesBundlePopupMenu
                         col
                         );
             }
-
         };
+        MultiLineEditorDialog d = new MultiLineEditorDialog(
+            getFrame(),
+            storeResult , txtEditLines,
+            contentText
+            );
+        d.pack();
+        d.setModal( true );
+        d.setVisible( true );
     }
 
     private CompareResourcesBundleFrame getFrame()

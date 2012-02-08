@@ -56,15 +56,15 @@ class CompareResourcesBundleFrame
     /* @serial */
     private AutoI18n autoI18n;
 
-    @I18nString private final String fileSavedMsg = "File '%s' saved.";
-    @I18nString private final String fileSaveNowQuestionMsg = "Save file '%s' now ?";
-    @I18nString private final String saveLeftFileTypeMsg = "Left File";
-    @I18nString private final String saveRightFileTypeMsg = "Right File";
-    @I18nString private final String fileSaveIOException = "Error while saving '%s'";
-    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private final String msgStringAlertLocaleTitle = "Change language";
-    @I18nString private final String msgStringAlertLocale = "You need to restart application to apply this language: %s";
+    @I18nString private String fileSavedMsg = "File '%s' saved.";
+    @I18nString private String fileSaveNowQuestionMsg = "Save file '%s' now ?";
+    @I18nString private String saveLeftFileTypeMsg = "Left File";
+    @I18nString private String saveRightFileTypeMsg = "Right File";
+    @I18nString private String fileSaveIOException = "Error while saving '%s'";
+    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
+    @I18nString private String msgStringAlertLocaleTitle = "Change language";
+    @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
 
     /**
      * For I18n only
@@ -237,13 +237,14 @@ class CompareResourcesBundleFrame
                             "properties"
                             )
                         );
+            configurator.setCurrentDirectory( getPreferences().getLastDirectory() );
+
             jFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
                     this,
                     jFileChooserInitializerTitle,
                     jFileChooserInitializerMessage
                     );
-            //jFileChooserInitializer = new JFileChooserInitializer();
         }
 
         return jFileChooserInitializer;
@@ -294,12 +295,6 @@ class CompareResourcesBundleFrame
 
             try {
                 final boolean res = customProperties.store();
-//                if( isLeft ) {
-//                    res = this.tableModel.saveLeftFile( fileObject );
-//                    }
-//                else {
-//                    res = this.tableModel.saveRightFile( fileObject );
-//                    }
 
                 if( res ) {
                     JOptionPane.showMessageDialog(

@@ -34,11 +34,16 @@ public class Preferences
     @Populator private boolean multiLineEditorWordWrap;
     @Populator private int multiLineEditorDimension_width;
     @Populator private int multiLineEditorDimension_height;
+    @Populator private boolean htmlPreview_W3C_LENGTH_UNITS;
+    @Populator private boolean htmlPreview_HONOR_DISPLAY_PROPERTIES;
+    @Populator private int htmlPreviewDimension_width;
+    @Populator private int htmlPreviewDimension_height;
+    @Populator private String lastDirectory;
 
     /**
      * Build default preferences (file not found)
      */
-    private Preferences()
+    public Preferences()
     {
         this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
         this.localeName = null;
@@ -209,37 +214,22 @@ public class Preferences
             }
     }
 
-    /**
-     *
-     * @return
-     */
     protected String getLocaleName()
     {
         return this.localeName;
     }
 
-//    /**
-//     *
-//     */
-//    public void setLocale()
-//    {
-//        setLocale( Locale.getDefault() );
-//    }
-
-    /**
-     *
-     * @param locale
-     */
     public void setLocale( final Locale locale )
     {
-        setLocaleName( locale.getLanguage() );
+        if( locale == null ) {
+            setLocaleName( "" );
+            }
+        else {
+            setLocaleName( locale.getLanguage() );
+            }
     }
 
-    /**
-     *
-     * @param name
-     */
-    public void setLocaleName( final String name )
+    protected void setLocaleName( final String name )
     {
         this.localeName = name;
     }
@@ -252,7 +242,6 @@ public class Preferences
         if( this.windowHeight < 200 ) {
             this.windowHeight = 440;
             }
-
         return new Dimension( this.windowWidth, this.windowHeight );
     }
 
@@ -293,10 +282,63 @@ public class Preferences
         return new Dimension( multiLineEditorDimension_width, multiLineEditorDimension_height );
     }
 
-    public void setMultiLineEditorDimension( Dimension size )
+    public void setMultiLineEditorDimension(Dimension size)
     {
-        this.multiLineEditorDimension_width = size.width;
+        this.multiLineEditorDimension_width  = size.width;
         this.multiLineEditorDimension_height = size.height;
+    }
+
+    public Dimension getHTMLPreviewDimension()
+    {
+        if( this.htmlPreviewDimension_width < 300 ) {
+            this.htmlPreviewDimension_width = 300;
+            }
+        if( this.htmlPreviewDimension_height < 100 ) {
+            this.htmlPreviewDimension_height = 100;
+            }
+
+        return new Dimension( htmlPreviewDimension_width, htmlPreviewDimension_height );
+    }
+
+    public void setHTMLPreviewDimension(Dimension size)
+    {
+        this.htmlPreviewDimension_width  = size.width;
+        this.htmlPreviewDimension_height = size.height;
+    }
+
+    public void setHTMLPreview_W3C_LENGTH_UNITS(Boolean b)
+    {
+        this.htmlPreview_W3C_LENGTH_UNITS = b;
+    }
+
+    public Boolean getHTMLPreview_W3C_LENGTH_UNITS()
+    {
+        return this.htmlPreview_W3C_LENGTH_UNITS;
+    }
+
+    public void setHTMLPreview_HONOR_DISPLAY_PROPERTIES(Boolean b)
+    {
+        this.htmlPreview_HONOR_DISPLAY_PROPERTIES = b;
+    }
+
+    public Boolean getHTMLPreview_HONOR_DISPLAY_PROPERTIES()
+    {
+        return this.htmlPreview_HONOR_DISPLAY_PROPERTIES;
+    }
+
+    public void setLastDirectory( final File file )
+    {
+        this.lastDirectory = file.getPath();
+    }
+
+    public File getLastDirectory()
+    {
+        if( this.lastDirectory != null ) {
+            return new File( this.lastDirectory );
+            }
+        else {
+            return new File( "." );
+            }
     }
 
 }
