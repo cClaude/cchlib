@@ -129,7 +129,7 @@ public class Preferences
     public void installPreferences()
     {
         installLookAndFeel();
-        installLocale();
+//        installLocale();
     }
 
     /**
@@ -195,43 +195,46 @@ public class Preferences
         this.lookAndFeelClassName = name;
     }
 
-    /**
-     *
-     */
-    private void installLocale()
+//    /**
+//     *
+//     */
+//    private void installLocale()
+//    {
+//        final String name = getLocaleName();
+//
+//        logger.info( "Locale name = " + name );
+//
+//        if( name != null ) {
+//            Locale locale = new Locale( name );
+//            Locale.setDefault( locale );
+//            logger.info( "Set new default Locale to :" + locale );
+//            }
+//        else {
+//            logger.info( "No Locale toset" );
+//            }
+//    }
+
+    public Locale getLocale()
     {
-        final String name = getLocaleName();
+        logger.info( "LocaleName = " + this.localeName );
 
-        logger.info( "Locale name = " + name );
-
-        if( name != null ) {
-            Locale locale = new Locale( name );
-            Locale.setDefault( locale );
-            logger.info( "Set new default Locale to :" + locale );
+        if( this.localeName == null || this.localeName.isEmpty() ) {
+            //return Locale.getDefault();
+            return null;
             }
         else {
-            logger.info( "No Locale toset" );
+            return new Locale( this.localeName );
             }
-    }
-
-    protected String getLocaleName()
-    {
-        return this.localeName;
     }
 
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
-            setLocaleName( "" );
+            this.localeName = "";
             }
         else {
-            setLocaleName( locale.getLanguage() );
+            this.localeName = locale.getLanguage();
             }
-    }
-
-    protected void setLocaleName( final String name )
-    {
-        this.localeName = name;
     }
 
     public Dimension getWindowDimension()
@@ -340,5 +343,4 @@ public class Preferences
             return new File( "." );
             }
     }
-
 }

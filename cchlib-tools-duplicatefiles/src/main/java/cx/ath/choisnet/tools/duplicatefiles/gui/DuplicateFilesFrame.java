@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
@@ -64,7 +65,7 @@ final public class DuplicateFilesFrame
     private final static int    SUBSTATE_CONFIRM_DONE  = 1;
 
     /* @serial */
-    private AutoI18n autoI18n = I18nBundle.getAutoI18n();
+    private AutoI18n autoI18n = I18nBundle.getAutoI18n( Locale.getDefault() );
 
     private Icon iconContinue;
     private Icon iconRestart;

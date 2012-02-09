@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.i18n.config;
 
+import java.util.Locale;
+
 /**
  * TODOC
  *
@@ -17,10 +19,11 @@ public class DefaultI18nBundleFactory
     * @return
     */
     public final static AbstractI18nBundle createDefaultI18nBundle(
-        final Class<?> clazz
+        final Locale    locale,
+        final Class<?>  clazz
         )
     {
-        return new AbstractI18nBundle()
+        return new AbstractI18nBundle( locale )
         {
             @Override
             public String getMessagesBundle()
@@ -36,10 +39,11 @@ public class DefaultI18nBundleFactory
      * @return
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
+            final Locale                locale,
             final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
             )
         {
-            return new AbstractI18nBundle()
+            return new AbstractI18nBundle( locale )
             {
                 @Override
                 public String getMessagesBundle()

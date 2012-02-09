@@ -3,11 +3,12 @@ package com.googlecode.cchlib.i18n;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-/** 
+/**
  * Extend default implementation based on {@link ResourceBundle}
  * for {@link I18nInterface} and add keep trace of use of
  * each key.
@@ -23,9 +24,12 @@ public class I18nSimpleStatsResourceBundle extends I18nSimpleResourceBundle
     /**
      * @param resourceBundle
      */
-    public I18nSimpleStatsResourceBundle( final String resourceBundle )
+    public I18nSimpleStatsResourceBundle(
+            final Locale locale,
+            final String resourceBundle
+            )
     {
-        super( resourceBundle );
+        super( locale, resourceBundle );
     }
 
     @Override

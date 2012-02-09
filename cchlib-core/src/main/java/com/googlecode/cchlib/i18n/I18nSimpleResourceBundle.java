@@ -25,15 +25,15 @@ public class I18nSimpleResourceBundle
     /** @serial */
     private Locale         currentLocale;
 
-    /**
-     * @param resourceBundleBaseName
-     */
-    public I18nSimpleResourceBundle(
-            String resourceBundleBaseName
-            )
-    {
-        this(null,resourceBundleBaseName);
-    }
+//    /**
+//     * @param resourceBundleBaseName
+//     */
+//    public I18nSimpleResourceBundle(
+//            String resourceBundleBaseName
+//            )
+//    {
+//        this(null,resourceBundleBaseName);
+//    }
 
     /**
      *

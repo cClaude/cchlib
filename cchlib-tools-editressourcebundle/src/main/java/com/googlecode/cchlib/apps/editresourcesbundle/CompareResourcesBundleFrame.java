@@ -114,8 +114,17 @@ class CompareResourcesBundleFrame
         //lastSelectedFilesAccessoryDefaultConfigurator.getLastSelectedFiles();
 
         // Init i18n
-        logger.info( "Init I18n using: " + Locale.getDefault() );
-        this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( this ).getAutoI18n();
+        Locale locale = this.preferences.getLocale();
+
+        if( logger.isTraceEnabled() ) {
+            logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
+            logger.info( "I18n Init: locale = " + locale );
+            }
+        this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
+
+        // FIXME: set menu checkbox to good locale !!!
+        // FIXME: set menu checkbox to good locale !!!
+        // FIXME: set menu checkbox to good locale !!!
 
         //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 

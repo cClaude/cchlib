@@ -1,6 +1,7 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
 import java.util.EnumSet;
+import java.util.Locale;
 
 import org.apache.log4j.Level;
 import com.googlecode.cchlib.i18n.AutoI18n;
@@ -44,11 +45,12 @@ public class I18nBundle
         return new AutoI18nLog4JExceptionHandler();
     }
 
-    public static AutoI18n getAutoI18n()
+    public static AutoI18n getAutoI18n( Locale locale )
     {
         if( autoI18n == null ) {
             autoI18n = new AutoI18n(
                     new I18nSimpleResourceBundle(
+                            locale,
                             getMessagesBundle()
                             ),
                     null,
@@ -60,21 +62,22 @@ public class I18nBundle
         return autoI18n;
     }
 
-    public static I18nSimpleStatsResourceBundle getAutoI18nSimpleStatsResourceBundle()
+    public static I18nSimpleStatsResourceBundle getAutoI18nSimpleStatsResourceBundle( Locale locale )
     {
         if( autoI18nSimpleStatsResourceBundle == null ) {
             autoI18nSimpleStatsResourceBundle
                 = new I18nSimpleStatsResourceBundle(
+                    locale,
                     getMessagesBundle()
                     );
         }
         return autoI18nSimpleStatsResourceBundle;
     }
 
-    public static I18nPropertyResourceBundleAutoUpdate getI18nPropertyResourceBundleAutoUpdate()
+    public static I18nPropertyResourceBundleAutoUpdate getI18nPropertyResourceBundleAutoUpdate(Locale locale)
     {
         return getI18nPropertyResourceBundleAutoUpdate(
-                getAutoI18nSimpleStatsResourceBundle()
+                getAutoI18nSimpleStatsResourceBundle( locale )
                 );
     }
 

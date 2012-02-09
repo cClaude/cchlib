@@ -24,14 +24,16 @@ public class I18nPrepHelper
     }
 
     /**
-    *
-    * @param mainFrame
-    * @param defaultLocale
-    * @param usageStatPrintStream
-    * @throws IOException
-    */
+     *
+     * @param locale
+     * @param usageStatPrintStream
+     * @param notUsePrintStream
+     * @param mainFrame
+     * @param otherFrames
+     * @throws IOException
+     */
     public static void defaultPrep(
-        final Locale                defaultLocale,
+        final Locale                locale,
         final PrintStream           usageStatPrintStream,
         final PrintStream           notUsePrintStream,
         final I18nPrepAutoUpdatable mainFrame,
@@ -39,13 +41,10 @@ public class I18nPrepHelper
         ) throws IOException
     {
         // Default language !
-        Locale.setDefault( defaultLocale );
-
-        //TODO: remove this        // Build frame
-        //TODO: remove this CompareResourcesBundleFrame mainFrame = new CompareResourcesBundleFrame();
+        // TODO remove this Locale.setDefault( defaultLocale );
 
         AbstractI18nBundle abstractI18nBundle
-            = DefaultI18nBundleFactory.createDefaultI18nBundle( mainFrame );
+            = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, mainFrame );
 
         // Prepare custom I18n to get all statics fields
         I18nPropertyResourceBundleAutoUpdate autoI18n

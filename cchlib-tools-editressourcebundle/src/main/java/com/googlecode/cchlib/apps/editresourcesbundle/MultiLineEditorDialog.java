@@ -195,6 +195,4 @@ public class MultiLineEditorDialog
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-
-    //public abstract void storeResult( String text );
 }

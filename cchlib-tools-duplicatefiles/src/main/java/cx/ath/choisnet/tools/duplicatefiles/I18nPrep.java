@@ -21,13 +21,14 @@ public class I18nPrep
     public static void main( String[] args ) throws IOException
     {
         // Default language !
-        Locale.setDefault( Locale.ENGLISH );
+        Locale locale = Locale.ENGLISH;
+        Locale.setDefault( locale ); // ceinture et bretelles
 
         // Build frame
         DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame();
 
         // Prepare custom I18n to get all statics fields
-        I18nPropertyResourceBundleAutoUpdate autoI18n = I18nBundle.getI18nPropertyResourceBundleAutoUpdate();
+        I18nPropertyResourceBundleAutoUpdate autoI18n = I18nBundle.getI18nPropertyResourceBundleAutoUpdate(locale);
         File outputFile = new File(
                 new File(".").getAbsoluteFile(),
                 I18nBundle.getMessagesBundle()
@@ -36,7 +37,7 @@ public class I18nPrep
 
         duplicateFilesFrame.performeI18n( autoI18n );
 
-        ResourceBundle      rb          = I18nBundle.getAutoI18nSimpleStatsResourceBundle().getResourceBundle();
+        ResourceBundle      rb          = I18nBundle.getAutoI18nSimpleStatsResourceBundle(locale).getResourceBundle();
         Enumeration<String> enu         = rb.getKeys();
         Map<String,String>  knowKeyMap  = new HashMap<String,String>();
 
@@ -47,7 +48,7 @@ public class I18nPrep
 
         autoI18n.close();
 
-        Map<String,Integer> statsMap        = new HashMap<String,Integer>( I18nBundle.getAutoI18nSimpleStatsResourceBundle().getUsageMap() );
+        Map<String,Integer> statsMap        = new HashMap<String,Integer>( I18nBundle.getAutoI18nSimpleStatsResourceBundle( locale ).getUsageMap() );
         List<String>        sortedKeyList   = new ArrayList<String>( statsMap.keySet() );
 
         Collections.sort( sortedKeyList );

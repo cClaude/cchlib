@@ -23,7 +23,9 @@ import javax.swing.JCheckBoxMenuItem;
 /**
  *
  */
-public class HTMLPreviewDialog extends JDialog implements I18nAutoUpdatable
+public class HTMLPreviewDialog 
+    extends JDialog 
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final String ACTIONCMD_W3C_LENGTH_UNITS = "ACTIONCMD_W3C_LENGTH_UNITS";
@@ -64,7 +66,7 @@ public class HTMLPreviewDialog extends JDialog implements I18nAutoUpdatable
         setFont(new Font("Dialog", Font.PLAIN, 12));
         setBackground(Color.white);
         setForeground(Color.black);
-        //setSize(600, 400);/
+        //setSize(600, 400);
         setSize( frame.getPreferences().getHTMLPreviewDimension() );
 
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );

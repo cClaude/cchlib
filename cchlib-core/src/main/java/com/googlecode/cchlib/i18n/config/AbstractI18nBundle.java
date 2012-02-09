@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n.config;
 
 import java.util.EnumSet;
+import java.util.Locale;
 import org.apache.log4j.Level;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
@@ -22,10 +23,11 @@ public abstract class AbstractI18nBundle
 {
     private AutoI18n autoI18n = null;
     private I18nSimpleStatsResourceBundle autoI18nSimpleStatsResourceBundle;
+    private Locale locale;
 
-    protected AbstractI18nBundle()
+    protected AbstractI18nBundle( Locale locale )
     {
-        // Abstract class
+        this.locale = locale;
     }
 
     /**
@@ -46,6 +48,7 @@ public abstract class AbstractI18nBundle
        if( autoI18n == null ) {
            autoI18n = new AutoI18n(
                    new I18nSimpleResourceBundle(
+                           locale,
                            getMessagesBundle()
                            ),
                    null,
@@ -71,7 +74,8 @@ public abstract class AbstractI18nBundle
     {
         if( autoI18nSimpleStatsResourceBundle == null ) {
             autoI18nSimpleStatsResourceBundle
-               = new I18nSimpleStatsResourceBundle(
+                = new I18nSimpleStatsResourceBundle(
+                   locale,
                    getMessagesBundle()
                    );
             }
