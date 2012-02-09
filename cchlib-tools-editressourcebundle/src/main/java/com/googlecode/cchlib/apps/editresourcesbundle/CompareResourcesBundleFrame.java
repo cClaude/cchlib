@@ -7,7 +7,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -119,12 +123,32 @@ class CompareResourcesBundleFrame
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
+            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundle() );
             }
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
 
-        // FIXME: set menu checkbox to good locale !!!
-        // FIXME: set menu checkbox to good locale !!!
-        // FIXME: set menu checkbox to good locale !!!
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle(), locale );
+        logger.info( "TEST: resourceBundle = " + resourceBundle );      
+        logger.info( "TEST: resourceBundle.getLocale() = " + resourceBundle.getLocale() );
+        
+        // Init menu according to locale
+        Enumeration<AbstractButton> enumeration = getButtonGroupLanguage().getElements();
+
+        while( enumeration.hasMoreElements() ) {
+            AbstractButton  button       = enumeration.nextElement();
+            Locale          buttonLocale = Locale.class.cast( button.getClientProperty( Locale.class ) );
+
+            if( buttonLocale == null ) {
+                if( locale == null ) {
+                    button.setSelected( true );
+                    break;
+                    }
+                }
+            else if( buttonLocale.equals( locale ) ) {
+                button.setSelected( true );
+                break;
+                }
+        }
 
         //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 

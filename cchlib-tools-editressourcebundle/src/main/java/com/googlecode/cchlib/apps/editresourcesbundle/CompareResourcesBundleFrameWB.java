@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;
 import java.awt.Toolkit;
+import java.util.Locale;
 
 /**
  *
@@ -42,8 +43,8 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
 
     private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
     private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
-    private JRadioButtonMenuItem jRadioButtonMenuItemEnglish;
-    private JRadioButtonMenuItem jRadioButtonMenuItemFrench;
+    //private JRadioButtonMenuItem jRadioButtonMenuItemEnglish;
+    //private JRadioButtonMenuItem jRadioButtonMenuItemFrench;
 
     private JMenu jMenuFile;
     private JMenu jMenuSave;
@@ -104,18 +105,21 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jRadioButtonMenuItemDefaultLocale.setSelected(true);
         jRadioButtonMenuItemDefaultLocale.setActionCommand( ACTIONCMD_DEFAULT_LOCAL );
         jRadioButtonMenuItemDefaultLocale.addActionListener( getActionListener() );
+        jRadioButtonMenuItemDefaultLocale.putClientProperty( Locale.class, null );
         jMenuItemLanguage.add( jRadioButtonMenuItemDefaultLocale );
 
-        jRadioButtonMenuItemEnglish = new JRadioButtonMenuItem("English");
+        JRadioButtonMenuItem jRadioButtonMenuItemEnglish = new JRadioButtonMenuItem( Locale.ENGLISH.getDisplayLanguage() );
         buttonGroupLanguage.add( jRadioButtonMenuItemEnglish );
         jRadioButtonMenuItemEnglish.setActionCommand( ACTIONCMD_ENGLISH );
         jRadioButtonMenuItemEnglish.addActionListener( getActionListener() );
+        jRadioButtonMenuItemEnglish.putClientProperty( Locale.class, Locale.ENGLISH );
         jMenuItemLanguage.add( jRadioButtonMenuItemEnglish );
 
-        jRadioButtonMenuItemFrench = new JRadioButtonMenuItem("French");
+        JRadioButtonMenuItem jRadioButtonMenuItemFrench = new JRadioButtonMenuItem( Locale.FRENCH.getDisplayLanguage() );
         buttonGroupLanguage.add( jRadioButtonMenuItemFrench );
         jRadioButtonMenuItemFrench.setActionCommand( ACTIONCMD_FRENCH );
         jRadioButtonMenuItemFrench.addActionListener( getActionListener() );
+        jRadioButtonMenuItemFrench.putClientProperty( Locale.class, Locale.FRENCH );
         jMenuItemLanguage.add( jRadioButtonMenuItemFrench );
 
         jMenuOptions.add( jMenuItemLanguage );
@@ -132,6 +136,11 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuBarFrame.add(Box.createHorizontalGlue());
         jMenuLookAndFeel = new JMenu("Look And Feel");
         jMenuBarFrame.add( jMenuLookAndFeel );
+    }
+
+    protected ButtonGroup getButtonGroupLanguage()
+    {
+        return this.buttonGroupLanguage;
     }
 
     protected abstract ActionListener getActionListener();

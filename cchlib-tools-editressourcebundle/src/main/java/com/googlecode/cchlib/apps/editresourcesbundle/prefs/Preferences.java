@@ -27,7 +27,8 @@ public class Preferences
     private PropertierPopulator<Preferences> pp = new PropertierPopulator<>(Preferences.class);
     private final File preferencesFile;
     @Populator private String lookAndFeelClassName;
-    @Populator private String localeName;
+    //@Populator private String localeName;
+    @Populator private String localeLanguage;
     @Populator private int windowWidth;
     @Populator private int windowHeight;
     @Populator private boolean multiLineEditorLineWrap;
@@ -46,7 +47,7 @@ public class Preferences
     public Preferences()
     {
         this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
-        this.localeName = null;
+        this.localeLanguage = null;
         this.preferencesFile = createPropertiesFile();
     }
 
@@ -216,24 +217,24 @@ public class Preferences
 
     public Locale getLocale()
     {
-        logger.info( "LocaleName = " + this.localeName );
+        logger.info( "localeLanguage = " + this.localeLanguage );
 
-        if( this.localeName == null || this.localeName.isEmpty() ) {
+        if( this.localeLanguage == null || this.localeLanguage.isEmpty() ) {
             //return Locale.getDefault();
             return null;
             }
         else {
-            return new Locale( this.localeName );
+            return new Locale( this.localeLanguage );
             }
     }
 
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
-            this.localeName = "";
+            this.localeLanguage = "";
             }
         else {
-            this.localeName = locale.getLanguage();
+            this.localeLanguage = locale.getLanguage();
             }
     }
 

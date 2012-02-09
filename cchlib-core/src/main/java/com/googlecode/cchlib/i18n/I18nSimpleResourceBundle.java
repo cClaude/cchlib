@@ -74,6 +74,10 @@ public class I18nSimpleResourceBundle
             logger.trace( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
             logger.trace( "setLocale() - currentLocale= " + currentLocale );
             logger.trace( "setLocale() - getLocale() = " + getLocale() );
+
+            if( ! getLocale().equals(currentLocale) ) {
+                logger.error( "getLocale() != currentLocale" );
+                }
             }
 
         try {
@@ -92,7 +96,10 @@ public class I18nSimpleResourceBundle
             }
 
         if( logger.isTraceEnabled() ) {
-            logger.trace( "ResourceBundle.getLocale() = " + resourceBundle.getLocale() );
+            if( ! resourceBundle.getLocale().equals(currentLocale) ) {
+                logger.error( "resourceBundle.getLocale() != currentLocale" );
+                }
+            logger.trace( "resourceBundle.getLocale() = " + resourceBundle.getLocale() );
             logger.trace( "ResourceBundle = " + resourceBundle );
             }
     }
