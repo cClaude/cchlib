@@ -82,5 +82,4 @@ public class ParentAccessSerializable<C>
         // restore transient fields
         this.initTransientFields();
     }
-
 }

@@ -1,9 +1,9 @@
-package yann;
+package paper.reflexion;
 
 /**
  *
  */
-public abstract class ParentClass
+public abstract class LegacyParentClass
 {
     public final static String aPublicFinalStaticField = "**aPublicFinalStaticField**";
     protected final String aProtectedFinalField = "**aProtectedFinalField**";
@@ -12,14 +12,27 @@ public abstract class ParentClass
     private String aString;
     private int aInt;
 
-    /**
-     *
-     */
-    public ParentClass()
+    public LegacyParentClass()
     {
         this.aLong      = 10L;
         this.aString    = "FOO";
         this.aInt       = 20;
+
+        doNothing(); // Just to hide warning !
+        try {
+            doNullPointerException();
+            }
+        catch( NullPointerException ignore ) {}
+    }
+
+    private void doNothing()
+    {
+        // Well, nothing !
+    }
+
+    private void doNullPointerException()
+    {
+        throw new NullPointerException( "Exception for testing" );
     }
 
     public String doFoo( final String value )
@@ -61,11 +74,18 @@ public abstract class ParentClass
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append( "ParentClass [aLong=" );
-        builder.append( aLong );
-        builder.append( ", aString=" );
-        builder.append( aString );
-        builder.append( "]" );
+        builder.append("ParentClass [aProtectedFinalField=");
+        builder.append(aProtectedFinalField);
+        builder.append(", aProtectedField=");
+        builder.append(aProtectedField);
+        builder.append(", aLong=");
+        builder.append(aLong);
+        builder.append(", aString=");
+        builder.append(aString);
+        builder.append(", aInt=");
+        builder.append(aInt);
+        builder.append("]");
         return builder.toString();
     }
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import paper.reflexion.ParentClass;
+import paper.reflexion.LegacyParentClass;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 /**
@@ -18,10 +18,10 @@ public class ParentAccessSerializableTest
     @Test
     public void test_Serialization() throws ClassNotFoundException, IOException
     {
-        ParentAccessSerializable<ParentClass> pa0 = new ParentAccessSerializable<ParentClass>( ParentClass.class );
+        ParentAccessSerializable<LegacyParentClass> pa0 = new ParentAccessSerializable<LegacyParentClass>( LegacyParentClass.class );
 
         // Launch serialization
-        ParentAccessSerializable<ParentClass> pa1 = SerializableTestCaseHelper.cloneOverSerialization( pa0 );
+        ParentAccessSerializable<LegacyParentClass> pa1 = SerializableTestCaseHelper.cloneOverSerialization( pa0 );
 
         List<Field> hiddenFields0 = pa0.getHiddenFieldList();
         List<Field> hiddenFields1 = pa1.getHiddenFieldList();

@@ -2,9 +2,9 @@ package paper.reflexion;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class ChildClass extends ParentClass
+public class ChildClass extends LegacyParentClass
 {
-    private ParentAccess<ParentClass> parentAcces = new ParentAccess<ParentClass>( ParentClass.class );
+    private ParentAccess<LegacyParentClass> parentAcces = new ParentAccess<LegacyParentClass>( LegacyParentClass.class );
 
     public ChildClass()
     {
@@ -86,6 +86,4 @@ public class ChildClass extends ParentClass
             e.printStackTrace();
             }
     }
-
-
 }
