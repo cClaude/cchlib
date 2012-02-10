@@ -32,7 +32,7 @@
   </dependencies>
 
   <build>
-    <finalName>${project.name}-${version}-r${buildNumber}</finalName>
+    <finalName>${project.name}-${project.version}-r${buildNumber}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

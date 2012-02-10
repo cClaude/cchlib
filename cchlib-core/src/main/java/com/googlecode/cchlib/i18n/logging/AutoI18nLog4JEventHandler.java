@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.Field;
 import org.apache.log4j.Level;
@@ -52,7 +51,7 @@ public class AutoI18nLog4JEventHandler
      * Create object using giving {@link Logger}
      *
      * @param levelIgnoredField Level to use for logging
-     *        {@link #ignoredField(Field, cx.ath.choisnet.i18n.AutoI18nEventHandler.Cause)} informations
+     *        {@link #ignoredField(Field, com.googlecode.cchlib.i18n.AutoI18nEventHandler.Cause)} informations
      * @param levelLocalizedField Level to use for logging
      *        {@link #localizedField(Field)} informations
      */

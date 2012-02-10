@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
@@ -16,7 +15,7 @@ public abstract class AbstractAutoI18nLoggingEventHandler
     private static final long serialVersionUID = 1L;
 
     /**
-     * Log formatted message from {@link #ignoredField(Field, cx.ath.choisnet.i18n.AutoI18nEventHandler.Cause)}
+     * Log formatted message from {@link #ignoredField(Field, com.googlecode.cchlib.i18n.AutoI18nEventHandler.Cause)}
      * @param msg message to log
      */
     protected abstract void logIgnoredField(String msg);

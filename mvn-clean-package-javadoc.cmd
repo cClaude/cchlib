@@ -1,5 +1,5 @@
 Set EXEC=mvn clean --offline
-Call %EXEC%
+REM ******* Call %EXEC%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: %EXEC%
   Pause
@@ -9,7 +9,7 @@ IF ERRORLEVEL 1 (
 @Echo ON
 @Echo ------------------------------------------
 Set EXEC=mvn compile --errors --fail-fast -Dmaven.test.skip=true
-Call %EXEC%
+REM ******* Call %EXEC%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: %EXEC%
   Pause
@@ -20,7 +20,8 @@ IF ERRORLEVEL 1 (
 @Echo ------------------------------------------
 @Rem install ??? TODO fix this if possible
 @Set EXEC=mvn install package --errors --fail-fast
-@Rem Set EXEC=mvn package -e
+REM *******
+@Set EXEC=mvn install package --errors --fail-fast -Dmaven.test.skip=true
 Call %EXEC%
 IF ERRORLEVEL 1 (
   @Echo ERROR in: %EXEC%
