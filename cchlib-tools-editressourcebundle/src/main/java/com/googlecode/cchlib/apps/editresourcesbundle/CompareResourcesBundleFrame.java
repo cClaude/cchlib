@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.ResourceBundle;
-
 import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,7 +22,6 @@ import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
-
 import cx.ath.choisnet.swing.filechooser.FileNameExtensionFilter;
 import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
@@ -127,10 +124,16 @@ class CompareResourcesBundleFrame
             }
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
 
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle(), locale );
-        logger.info( "TEST: resourceBundle = " + resourceBundle );      
-        logger.info( "TEST: resourceBundle.getLocale() = " + resourceBundle.getLocale() );
-        
+//        ResourceBundle resourceBundle;
+//        if( locale == null ) {
+//            resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle() );
+//            }
+//        else {
+//            resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle(), locale );
+//            }
+//        logger.info( "TEST: resourceBundle = " + resourceBundle );
+//        logger.info( "TEST: resourceBundle.getLocale() = " + resourceBundle.getLocale() );
+
         // Init menu according to locale
         Enumeration<AbstractButton> enumeration = getButtonGroupLanguage().getElements();
 
