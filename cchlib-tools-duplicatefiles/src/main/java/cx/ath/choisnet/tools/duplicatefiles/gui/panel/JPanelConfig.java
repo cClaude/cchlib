@@ -1,5 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
@@ -7,7 +8,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
@@ -16,6 +16,7 @@ import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.I18nSwingHelper;
 import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
+import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
 
@@ -29,6 +30,7 @@ public class JPanelConfig
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( JPanelConfig.class );
     private ConfigMode mode;
+    private Window rootFrame;
 
     //@I18n( methodSuffixName="I18nTileIncFilesFilter")
     private JPanelConfigFilter jPanelIncFilesFilter;
@@ -61,7 +63,6 @@ public class JPanelConfig
     private final static int DIRS_FILTER_EXCLUDE    = 2;
     private final static int DIRS_FILTER_INCLUDE    = 1;
 
-    private JFrame rootFrame;
 
     public JPanelConfig()
     {
@@ -146,10 +147,10 @@ public class JPanelConfig
     }
 
     public void initFixComponents(
-            final JFrame rootFrame
+            final DFToolKit dfToolKit
             )
     {
-        this.rootFrame = rootFrame;
+        this.rootFrame = dfToolKit.getMainWindow();
 
         jCheckBoxFFIgnoreHidden.setSelected( true );
         jCheckBoxFDIgnoreHidden.setSelected( true );

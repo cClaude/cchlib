@@ -1,6 +1,5 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -46,23 +44,18 @@ import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.util.HashMapSet;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /**
  *
- * @author Claude CHOISNET
  */
-//VS 4E -- DO NOT REMOVE THIS LINE!
 public class JPanelResult extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger slogger = Logger.getLogger( JPanelResult.class );
-
-    private JPanel jPanelResultsButtons;
-    private JButton jButtonPrevSet;
-    private JButton jButtonNextSet;
     private JTextField jTextFieldFileInfo;
-
-    private JPanel jPanelExtraCmd;
     private JToggleButton jToggleButtonSelectByRegEx;
     private XComboBoxPattern xComboBoxPatternRegEx;
     private JCheckBox jCheckBoxKeepOne;
@@ -71,10 +64,6 @@ public class JPanelResult extends JPanel
 
     private JSplitPane jSplitPaneResultMain;
     private JSplitPane jSplitPaneResultRight;
-    private JScrollPane jScrollPaneDuplicatesFiles;
-    private JScrollPane jScrollPaneWillBeDeleted;
-    private JScrollPane jScrollPaneKeptIntact;
-
     private JList<KeyFiles>     jListDuplicatesFiles;
     private JList<KeyFileState> jListKeptIntact;
     private JList<KeyFileState> jListWillBeDeleted;
@@ -116,86 +105,116 @@ public class JPanelResult extends JPanel
 
     public JPanelResult()
     {
-        initComponents();
-    }
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.rowHeights = new int[]{25, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+        setLayout(gridBagLayout);
+        GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
+        gbc_jButtonPrevSet.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jButtonPrevSet.insets = new Insets(0, 0, 5, 5);
+        gbc_jButtonPrevSet.gridx = 0;
+        gbc_jButtonPrevSet.gridy = 0;
 
-    private void initComponents() {
-        setLayout(new BorderLayout());
-        add(getJSplitPaneResultMain(), BorderLayout.CENTER);
-        add(getJPanelResultsButtons(), BorderLayout.NORTH);
-        add(getJPanelExtraCmd(), BorderLayout.SOUTH);
+        JButton jButtonPrevSet = new JButton( "<<" );
+        jButtonPrevSet.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                jButtonPrevSetMouseMousePressed(event);
+                }
+            });
+        add(jButtonPrevSet, gbc_jButtonPrevSet);
+        GridBagConstraints gbc_jTextFieldFileInfo = new GridBagConstraints();
+        gbc_jTextFieldFileInfo.gridwidth = 4;
+        gbc_jTextFieldFileInfo.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jTextFieldFileInfo.insets = new Insets(0, 0, 5, 5);
+        gbc_jTextFieldFileInfo.gridx = 1;
+        gbc_jTextFieldFileInfo.gridy = 0;
+
+        jTextFieldFileInfo = new JTextField();
+        jTextFieldFileInfo.setEditable( false );
+        jTextFieldFileInfo.setHorizontalAlignment( JTextField.CENTER );
+        add(jTextFieldFileInfo, gbc_jTextFieldFileInfo);
+        GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
+        gbc_jButtonNextSet.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jButtonNextSet.insets = new Insets(0, 0, 5, 0);
+        gbc_jButtonNextSet.gridx = 5;
+        gbc_jButtonNextSet.gridy = 0;
+
+        JButton jButtonNextSet = new JButton( ">>" );
+        jButtonNextSet.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                jButtonNextSetMouseMousePressed(event);
+                }
+            });
+        add(jButtonNextSet, gbc_jButtonNextSet);
+        GridBagConstraints gbc_jSplitPaneResultMain = new GridBagConstraints();
+        gbc_jSplitPaneResultMain.gridwidth = 6;
+        gbc_jSplitPaneResultMain.fill = GridBagConstraints.BOTH;
+        gbc_jSplitPaneResultMain.insets = new Insets(0, 0, 5, 0);
+        gbc_jSplitPaneResultMain.gridx = 0;
+        gbc_jSplitPaneResultMain.gridy = 1;
+        add(getJSplitPaneResultMain(), gbc_jSplitPaneResultMain);
         setSize(488, 240);
-    }
+        GridBagConstraints gbc_jToggleButtonSelectByRegEx = new GridBagConstraints();
+        gbc_jToggleButtonSelectByRegEx.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jToggleButtonSelectByRegEx.gridwidth = 2;
+        gbc_jToggleButtonSelectByRegEx.insets = new Insets(0, 0, 0, 5);
+        gbc_jToggleButtonSelectByRegEx.gridx = 0;
+        gbc_jToggleButtonSelectByRegEx.gridy = 2;
 
-    private XComboBoxPattern getXComboBoxPatternRegEx() {
-        if (xComboBoxPatternRegEx == null) {
-            xComboBoxPatternRegEx = new XComboBoxPattern();
-        }
-        return xComboBoxPatternRegEx;
-    }
-
-    private JButton getJButtonRegExDelete() {
-        if (jButtonRegExDelete == null) {
-            jButtonRegExDelete = new JButton();
-            jButtonRegExDelete.setText("Delete");
-            jButtonRegExDelete.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonRegExDeleteMouseMousePressed(event);
+        jToggleButtonSelectByRegEx = new JToggleButton( "Select by RegEx" );
+        jToggleButtonSelectByRegEx.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent event) {
+                jToggleButtonSelectByRegExChangeStateChanged(event);
                 }
             });
-        }
-        return jButtonRegExDelete;
-    }
+        add( jToggleButtonSelectByRegEx, gbc_jToggleButtonSelectByRegEx );
+        GridBagConstraints gbc_xComboBoxPatternRegEx = new GridBagConstraints();
+        gbc_xComboBoxPatternRegEx.fill = GridBagConstraints.HORIZONTAL;
+        gbc_xComboBoxPatternRegEx.insets = new Insets(0, 0, 0, 5);
+        gbc_xComboBoxPatternRegEx.gridx = 2;
+        gbc_xComboBoxPatternRegEx.gridy = 2;
 
-    private JButton getJButtonRegExKeep() {
-        if (jButtonRegExKeep == null) {
-            jButtonRegExKeep = new JButton();
-            jButtonRegExKeep.setText("Keep");
-            jButtonRegExKeep.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonRegExKeepMouseMousePressed(event);
+        xComboBoxPatternRegEx = new XComboBoxPattern();
+        add( xComboBoxPatternRegEx, gbc_xComboBoxPatternRegEx );
+        GridBagConstraints gbc_jCheckBoxKeepOne = new GridBagConstraints();
+        gbc_jCheckBoxKeepOne.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jCheckBoxKeepOne.insets = new Insets(0, 0, 0, 5);
+        gbc_jCheckBoxKeepOne.gridx = 3;
+        gbc_jCheckBoxKeepOne.gridy = 2;
+
+        jCheckBoxKeepOne = new JCheckBox( "Keep one" );
+        jCheckBoxKeepOne.setSelected( true );
+        add( jCheckBoxKeepOne, gbc_jCheckBoxKeepOne );
+        GridBagConstraints gbc_jButtonRegExDelete = new GridBagConstraints();
+        gbc_jButtonRegExDelete.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jButtonRegExDelete.insets = new Insets(0, 0, 0, 5);
+        gbc_jButtonRegExDelete.gridx = 4;
+        gbc_jButtonRegExDelete.gridy = 2;
+
+        jButtonRegExDelete = new JButton( "Delete" );
+        jButtonRegExDelete.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                jButtonRegExDeleteMouseMousePressed();
                 }
             });
-        }
-        return jButtonRegExKeep;
-    }
+        add(jButtonRegExDelete, gbc_jButtonRegExDelete);
+        GridBagConstraints gbc_jButtonRegExKeep = new GridBagConstraints();
+        gbc_jButtonRegExKeep.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jButtonRegExKeep.gridx = 5;
+        gbc_jButtonRegExKeep.gridy = 2;
 
-    private JCheckBox getJCheckBoxKeepOne() {
-        if (jCheckBoxKeepOne == null) {
-            jCheckBoxKeepOne = new JCheckBox();
-            jCheckBoxKeepOne.setText("Keep one");
-            jCheckBoxKeepOne.setSelected( true );
-        }
-        return jCheckBoxKeepOne;
-    }
-
-    private JToggleButton getJToggleButtonSelectByRegEx() {
-        if (jToggleButtonSelectByRegEx == null) {
-            jToggleButtonSelectByRegEx = new JToggleButton();
-            jToggleButtonSelectByRegEx.setText("Select by RegEx");
-            jToggleButtonSelectByRegEx.addChangeListener(new ChangeListener() {
-                public void stateChanged(ChangeEvent event) {
-                    jToggleButtonSelectByRegExChangeStateChanged(event);
+        jButtonRegExKeep = new JButton( "Keep" );
+        jButtonRegExKeep.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent event) {
+                jButtonRegExKeepMouseMousePressed();
                 }
             });
-        }
-        return jToggleButtonSelectByRegEx;
+        add( jButtonRegExKeep, gbc_jButtonRegExKeep );
     }
 
-    private JPanel getJPanelExtraCmd() {
-        if (jPanelExtraCmd == null) {
-            jPanelExtraCmd = new JPanel();
-            jPanelExtraCmd.setLayout(new BoxLayout(jPanelExtraCmd, BoxLayout.X_AXIS));
-            jPanelExtraCmd.add(getJToggleButtonSelectByRegEx());
-            jPanelExtraCmd.add(getXComboBoxPatternRegEx());
-            jPanelExtraCmd.add(getJCheckBoxKeepOne());
-            jPanelExtraCmd.add(getJButtonRegExDelete());
-            jPanelExtraCmd.add(getJButtonRegExKeep());
-        }
-        return jPanelExtraCmd;
-    }
-
-    public void initFixComponents(
+    public void initComponents(
             HashMapSet<String,KeyFileState> duplicateFiles,
             DFToolKit                       dFToolKit
             )
@@ -293,11 +312,17 @@ public class JPanelResult extends JPanel
         updateDisplay();
     }
 
-    public void initDisplay()
+    final//TODO: remove this
+    public void clear()
     {
         listModelDuplicatesFiles.clear();
         listModelKeptIntact.clear();
         listModelWillBeDeleted.clear();
+    }
+
+    public void initDisplay()
+    {
+        clear();
 
         for(Map.Entry<String,Set<KeyFileState>> e:duplicateFiles.entrySet()) {
             String              k    = e.getKey();
@@ -314,10 +339,10 @@ public class JPanelResult extends JPanel
         if( dFToolKit.getConfigMode() == ConfigMode.BEGINNER ) {
             jToggleButtonSelectByRegEx.setSelected( false );
             jToggleButtonSelectByRegEx.setEnabled( false );
-        }
+            }
         else {
             jToggleButtonSelectByRegEx.setEnabled( true );
-        }
+            }
 
         boolean useRegEx = jToggleButtonSelectByRegEx.isSelected();
 
@@ -333,63 +358,21 @@ public class JPanelResult extends JPanel
             KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.getElementAt( index );
 
             updateDisplayKeptDelete( kf.getKey() );
-        }
+            }
     }
 
     private JSplitPane getJSplitPaneResultMain() {
         if (jSplitPaneResultMain == null) {
             jSplitPaneResultMain = new JSplitPane();
             jSplitPaneResultMain.setDividerLocation(100);
-            jSplitPaneResultMain.setLeftComponent(getJScrollPaneDuplicatesFiles());
+
+            JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
+            jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
+
+            jSplitPaneResultMain.setLeftComponent( jScrollPaneDuplicatesFiles );
             jSplitPaneResultMain.setRightComponent(getJSplitPaneResultRight());
-        }
+            }
         return jSplitPaneResultMain;
-    }
-
-    private JPanel getJPanelResultsButtons() {
-        if (jPanelResultsButtons == null) {
-            jPanelResultsButtons = new JPanel();
-            jPanelResultsButtons.setLayout(new BoxLayout(jPanelResultsButtons, BoxLayout.X_AXIS));
-            jPanelResultsButtons.add(getJButtonPrevSet());
-            jPanelResultsButtons.add(getJButtonNextSet());
-            jPanelResultsButtons.add(getJTextFieldFileInfo());
-        }
-        return jPanelResultsButtons;
-    }
-
-    private JTextField getJTextFieldFileInfo() {
-        if (jTextFieldFileInfo == null) {
-            jTextFieldFileInfo = new JTextField();
-            jTextFieldFileInfo.setEditable( false );
-            jTextFieldFileInfo.setHorizontalAlignment( JTextField.CENTER );
-        }
-        return jTextFieldFileInfo;
-    }
-
-    private JButton getJButtonNextSet() {
-        if (jButtonNextSet == null) {
-            jButtonNextSet = new JButton();
-            jButtonNextSet.setText(">>");
-            jButtonNextSet.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonNextSetMouseMousePressed(event);
-                }
-            });
-        }
-        return jButtonNextSet;
-    }
-
-    private JButton getJButtonPrevSet() {
-        if (jButtonPrevSet == null) {
-            jButtonPrevSet = new JButton();
-            jButtonPrevSet.setText("<<");
-            jButtonPrevSet.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonPrevSetMouseMousePressed(event);
-                }
-            });
-        }
-        return jButtonPrevSet;
     }
 
     private JSplitPane getJSplitPaneResultRight() {
@@ -397,53 +380,32 @@ public class JPanelResult extends JPanel
             jSplitPaneResultRight = new JSplitPane();
             jSplitPaneResultRight.setDividerLocation(100);
             jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
-            jSplitPaneResultRight.setTopComponent(getJScrollPaneKeptIntact());
-            jSplitPaneResultRight.setBottomComponent(getJScrollPaneWillBeDeleted());
+            JScrollPane jScrollPaneKeptIntact = new JScrollPane();
+            jListKeptIntact = new JList<KeyFileState>();
+
+            jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
+            jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
+
+            JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
+            jListWillBeDeleted = new JList<KeyFileState>();
+            jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
+
+            jSplitPaneResultRight.setBottomComponent( jScrollPaneWillBeDeleted );
         }
         return jSplitPaneResultRight;
-    }
-
-    private JScrollPane getJScrollPaneDuplicatesFiles() {
-        if (jScrollPaneDuplicatesFiles == null) {
-            jScrollPaneDuplicatesFiles = new JScrollPane();
-            jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
-        }
-        return jScrollPaneDuplicatesFiles;
-    }
-
-    private JScrollPane getJScrollPaneWillBeDeleted() {
-        if (jScrollPaneWillBeDeleted == null) {
-            jScrollPaneWillBeDeleted = new JScrollPane();
-            jScrollPaneWillBeDeleted.setViewportView(getJListWillBeDeleted());
-        }
-        return jScrollPaneWillBeDeleted;
-    }
-
-    private JList<KeyFileState> getJListWillBeDeleted() {
-        if (jListWillBeDeleted == null) {
-            jListWillBeDeleted = new JList<KeyFileState>();
-        }
-        return jListWillBeDeleted;
-    }
-
-    private JScrollPane getJScrollPaneKeptIntact() {
-        if (jScrollPaneKeptIntact == null) {
-            jScrollPaneKeptIntact = new JScrollPane();
-            jScrollPaneKeptIntact.setViewportView(getJListKeptIntact());
-        }
-        return jScrollPaneKeptIntact;
-    }
-
-    private JList<KeyFileState> getJListKeptIntact() {
-        if (jListKeptIntact == null) {
-            jListKeptIntact = new JList<KeyFileState>();
-        }
-        return jListKeptIntact;
     }
 
     private JList<KeyFiles> getJListDuplicatesFiles() {
         if (jListDuplicatesFiles == null) {
             jListDuplicatesFiles = new JList<KeyFiles>();
+            jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if( e.getClickCount() == 2 ) {
+                        // TODO: move current file to other list !
+                        }
+                    }
+                });
         }
         return jListDuplicatesFiles;
     }
@@ -457,9 +419,9 @@ public class JPanelResult extends JPanel
 
             if( i < 0 ) {
                 i = size - 1;
-            }
+                }
             jListDuplicatesFiles.setSelectedIndex( i );
-        }
+            }
     }
 
     protected void jButtonNextSetMouseMousePressed( MouseEvent event )
@@ -471,9 +433,9 @@ public class JPanelResult extends JPanel
 
             if( i >= size ) {
                 i = 0;
-            }
+                }
             jListDuplicatesFiles.setSelectedIndex( i );
-        }
+            }
     }
 
     private void addContextSubMenuActionCommand(
@@ -540,10 +502,10 @@ public class JPanelResult extends JPanel
     {
         if( kf == null ) {
             jTextFieldFileInfo.setText( "" );
-        }
+            }
         else {
             File f = kf.getFile();
-            Locale locale = dFToolKit.getLocale();
+            Locale locale = dFToolKit.getValidLocale();
 
             String date = DateFormat.getDateTimeInstance(
                     DateFormat.FULL,
@@ -584,15 +546,15 @@ public class JPanelResult extends JPanel
             for( KeyFileState sf : ss ) {
                 if( sf.isSelectedToDelete() ) {
                     listModelWillBeDeleted.addElement( sf );
-                }
+                    }
                 else {
                     listModelKeptIntact.addElement( sf );
+                    }
                 }
             }
-        }
         else {
             slogger.error( "Missing key:" + key );
-        }
+            }
         ss.clear();
     }
 
@@ -738,10 +700,10 @@ public class JPanelResult extends JPanel
 
                     if( ACTION_COMMAND_DeleteThisFile.equals( cmd ) ) {
                         DeleteThisFile(kf);
-                    }
+                        }
                     else if( ACTION_COMMAND_KeepThisFile.equals( cmd ) ) {
                         KeptThisFile(kf);
-                    }
+                        }
                     else if( ACTION_COMMAND_DeleteAllExceptThisFile.equals( cmd ) ) {
                         final String k    = kf.getKey();
                         final File   file = kf.getFile();
@@ -752,14 +714,14 @@ public class JPanelResult extends JPanel
                             for(KeyFileState f:s) {
                                 if( file.equals( f.getFile() ) ) {
                                     f.setSelectedToDelete( false );
-                                }
+                                    }
                                 else {
                                     f.setSelectedToDelete( true );
+                                    }
                                 }
                             }
-                        }
                         updateDisplayKeptDelete( k );
-                    }
+                        }
                     else if( ACTION_COMMAND_KeepAllExceptThisFile.equals( cmd ) ) {
                         final String k    = kf.getKey();
                         final File   file = kf.getFile();
@@ -770,14 +732,14 @@ public class JPanelResult extends JPanel
                             for(KeyFileState f:s) {
                                 if( file.equals( f.getFile() ) ) {
                                     f.setSelectedToDelete( true );
-                                }
+                                    }
                                 else {
                                     f.setSelectedToDelete( false );
+                                    }
                                 }
                             }
-                        }
                         updateDisplayKeptDelete( k );
-                    }
+                        }
                     else if( ACTION_COMMAND_DeleteDuplicateInDir.equals( cmd ) ) {
                         // Delete all files in this dir, but keep one (globally)
                         final String dirPath = kf.getFile().getPath() + File.separator;
@@ -791,8 +753,8 @@ public class JPanelResult extends JPanel
                             for(KeyFileState f:s) {
                                 if( !f.isSelectedToDelete() ) {
                                    c++;
+                                    }
                                 }
-                            }
 
                             // Keep one file !
                             int maxDel = c - 1;
@@ -804,15 +766,15 @@ public class JPanelResult extends JPanel
                                         if( c < maxDel ) {
                                             f.setSelectedToDelete( true );
                                             c++;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
                         // Update display for current file
                         updateDisplayKeptDelete( kf.getKey() );
-                    }
+                        }
                     else if( ACTION_COMMAND_KeepNonDuplicateInDir.equals( cmd ) ) {
                         // Keep at least on file in this dir.
                         ////final String k       = kf.getKey();
@@ -829,9 +791,9 @@ public class JPanelResult extends JPanel
                                 if( !f.isSelectedToDelete() ) {
                                     if( f.isInDirectory( dirPath ) ) {
                                        c++;
+                                        }
                                     }
                                 }
-                            }
 
                             Iterator<KeyFileState> iter = s.iterator();
 
@@ -842,14 +804,14 @@ public class JPanelResult extends JPanel
                                     if( f.isInDirectory( dirPath ) ) {
                                         f.setSelectedToDelete( false );
                                         c++;
+                                        }
                                     }
                                 }
                             }
-                        }
 
                         // Update display for current file
                         updateDisplayKeptDelete( kf.getKey() );
-                    }
+                        }
                     else if( ACTION_COMMAND_KeepAllInDir.equals( cmd )) {
                         final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
@@ -857,10 +819,10 @@ public class JPanelResult extends JPanel
                         for(KeyFileState f:duplicateFiles.get(k)) {
                             if( f.isInDirectory( dirPath ) ) {
                                 f.setSelectedToDelete( false );
+                                }
                             }
-                        }
                         updateDisplayKeptDelete( k );
-                    }
+                        }
                     else if( ACTION_COMMAND_DeleteAllInDir.equals( cmd ) ) {
                         final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
@@ -868,14 +830,14 @@ public class JPanelResult extends JPanel
                         for(KeyFileState f:duplicateFiles.get(k)) {
                             if( f.isInDirectory( dirPath ) ) {
                                 f.setSelectedToDelete( true );
-                            }
+                                }
                             updateDisplayKeptDelete( k );
+                            }
                         }
-                    }
                     else {
                         slogger.error("Don't known how to handle: " + cmd);
+                        }
                     }
-                }
             };
         }
         return actionListenerContextSubMenu;
@@ -890,7 +852,7 @@ public class JPanelResult extends JPanel
     {
         try {
             return xComboBoxPatternRegEx.getSelectedPattern();
-        }
+            }
         catch( java.util.regex.PatternSyntaxException e ) {
             // TODO display alert !
             JOptionPane.showMessageDialog(
@@ -900,18 +862,18 @@ public class JPanelResult extends JPanel
                     JOptionPane.ERROR_MESSAGE
                     );
             return null;
-        }
+            }
     }
 
-    private void jButtonRegExDeleteMouseMousePressed(MouseEvent event)
+    private void jButtonRegExDeleteMouseMousePressed()
     {
         Pattern p = getCurrentPattern();
         if( p == null ) {
             return;
-        }
+            }
         boolean keepOne = jCheckBoxKeepOne.isSelected();
 
-        for(KeyFileState f:duplicateFiles) {
+        for( KeyFileState f:duplicateFiles ) {
             if( !f.isSelectedToDelete() ) {
                 slogger.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
@@ -923,36 +885,37 @@ public class JPanelResult extends JPanel
                         for(KeyFileState fc:s) {
                             if( !fc.isSelectedToDelete() ) {
                                 c++;
+                                }
                             }
-                        }
                         slogger.info( "count=" + c );
                         if( c > 1 ) {
                             f.setSelectedToDelete( true );
+                            }
                         }
-                    }
                     else {
                         f.setSelectedToDelete( true );
+                        }
                     }
                 }
             }
-        }
         updateDisplay();
     }
 
-    private void jButtonRegExKeepMouseMousePressed(MouseEvent event)
+    private void jButtonRegExKeepMouseMousePressed()
     {
         Pattern p = getCurrentPattern();
+
         if( p == null ) {
             return;
-        }
+            }
 
         for(KeyFileState f:duplicateFiles) {
             if( f.isSelectedToDelete() ) {
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
                     f.setSelectedToDelete( false );
+                    }
                 }
             }
-        }
         updateDisplay();
     }
 }

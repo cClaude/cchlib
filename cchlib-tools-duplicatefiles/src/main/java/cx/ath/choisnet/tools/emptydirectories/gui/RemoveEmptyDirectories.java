@@ -219,6 +219,7 @@ public class RemoveEmptyDirectories
 
     /**
      * A WindowHandler should be add on frame.
+     * @return Main Window
      */
     public static RemoveEmptyDirectories start()
     {

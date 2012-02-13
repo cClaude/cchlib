@@ -38,10 +38,17 @@ public class I18nResourceBundle implements I18nInterface
     /**
      *
      * @param resourceBundleBaseName
+     * @throws IllegalArgumentException if resourceBundleBaseName is null
      */
     protected I18nResourceBundle( final String resourceBundleBaseName )
     {
         this.resourceBundleBaseName = resourceBundleBaseName;
+        
+        if( resourceBundleBaseName == null ) {
+            throw new IllegalArgumentException(
+                new NullPointerException( "resourceBundleBaseName is null" )
+                );
+            }
     }
 
     /**

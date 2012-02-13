@@ -12,6 +12,6 @@ public class DuplicateFilesApp
      */
     public static void main( String[] args )
     {
-        DuplicateFilesFrame.main(args);
+        DuplicateFilesFrame.main(/*args*/);
     }
 }

@@ -40,7 +40,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesFrame</mainClass>
+              <mainClass>com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesApp</mainClass>
               <packageName>com.googlecode.cchlib.apps.duplicatefiles</packageName>
               <addClasspath>true</addClasspath>
             </manifest>

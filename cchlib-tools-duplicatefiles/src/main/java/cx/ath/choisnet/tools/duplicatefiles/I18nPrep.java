@@ -1,16 +1,9 @@
 package cx.ath.choisnet.tools.duplicatefiles;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.io.PrintStream;
 import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
 import cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame;
 
 /**
@@ -22,11 +15,20 @@ public class I18nPrep
     {
         // Default language !
         Locale locale = Locale.ENGLISH;
-        Locale.setDefault( locale ); // ceinture et bretelles
 
         // Build frame
-        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame();
+        DuplicateFilesFrame duplicateFilesFrame     = new DuplicateFilesFrame();
+        PrintStream         usageStatPrintStream    = System.err;
+        PrintStream         notUsePrintStream       = System.out;
 
+        I18nPrepHelper.defaultPrep(
+            locale,
+            usageStatPrintStream,
+            notUsePrintStream,
+            duplicateFilesFrame/*,
+            otherFrames*/
+            );
+/*
         // Prepare custom I18n to get all statics fields
         I18nPropertyResourceBundleAutoUpdate autoI18n = I18nBundle.getI18nPropertyResourceBundleAutoUpdate(locale);
         File outputFile = new File(
@@ -86,6 +88,7 @@ public class I18nPrep
         System.out.flush();
 
         System.exit( 0 );
+*/
     }
 
 }

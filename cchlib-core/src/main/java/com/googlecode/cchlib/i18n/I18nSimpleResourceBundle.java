@@ -41,8 +41,8 @@ public class I18nSimpleResourceBundle
      * @param resourceBundleBaseName
      */
     public I18nSimpleResourceBundle(
-            Locale locale,
-            String resourceBundleBaseName
+            final Locale locale,
+            final String resourceBundleBaseName
             )
     {
         super( resourceBundleBaseName );

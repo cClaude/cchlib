@@ -1,9 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,24 +20,27 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.swing.DialogHelper;
 import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.util.HashMapSet;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-//VS 4E -- DO NOT REMOVE THIS LINE!
 public class JPanelConfirm extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger slogger = Logger.getLogger(JPanelConfirm.class);
+    public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
 
+    private DFToolKit dfToolKit;
     private JTable jTableFiles2Delete;
-    private JScrollPane jScrollPaneFiles2Delete;
-    private JPanel jPanelHeader;
     private JLabel jLabelTitle;
-    private JPanel jPanelBottom;
     private JProgressBar jProgressBarDeleteProcess;
-    private JPanel jPanelScript;
     private JButton jButtonDoScript;
 
     private Icon iconOk;
@@ -61,108 +61,83 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtTitle = "%d file(s) selected to be deleted";
     @I18nString private String txtMsgDone = "Done";
     @I18nString private String txtCopy = "Copy";
+    @I18nString private String msgStr_doDeleteExceptiontitle = "Error while deleting files";
 
-    public JPanelConfirm()
+    public JPanelConfirm( DFToolKit dfToolKit )
     {
-        initComponents();
+        this.tableDts_toDelete  = new ArrayList<KeyFileState>();
+        this.dfToolKit          = dfToolKit;
+
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{0, 0};
+        gridBagLayout.rowHeights = new int[]{26, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+        setLayout(gridBagLayout);
+        jLabelTitle = new JLabel("Files selected to be deleted");
+        GridBagConstraints gbc_jLabelTitle = new GridBagConstraints();
+        gbc_jLabelTitle.insets = new Insets(0, 0, 5, 0);
+        gbc_jLabelTitle.gridx = 0;
+        gbc_jLabelTitle.gridy = 0;
+        add(jLabelTitle, gbc_jLabelTitle);
+        GridBagConstraints gbc_jScrollPaneFiles2Delete = new GridBagConstraints();
+        gbc_jScrollPaneFiles2Delete.fill = GridBagConstraints.BOTH;
+        gbc_jScrollPaneFiles2Delete.insets = new Insets(0, 0, 5, 0);
+        gbc_jScrollPaneFiles2Delete.gridx = 0;
+        gbc_jScrollPaneFiles2Delete.gridy = 1;
+        JScrollPane jScrollPaneFiles2Delete = new JScrollPane();
+        jTableFiles2Delete = new JTable();
+        jScrollPaneFiles2Delete.setViewportView( jTableFiles2Delete );
+        add( jScrollPaneFiles2Delete, gbc_jScrollPaneFiles2Delete );
+
+        setSize(320, 240);
+
+        JPanel jPanelBottom = new JPanel();
         jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
+        GridBagConstraints gbc_jProgressBarDeleteProcess = new GridBagConstraints();
+        gbc_jProgressBarDeleteProcess.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jProgressBarDeleteProcess.insets = new Insets(0, 0, 5, 0);
+        gbc_jProgressBarDeleteProcess.gridx = 0;
+        gbc_jProgressBarDeleteProcess.gridy = 2;
+        jProgressBarDeleteProcess = new JProgressBar();
+        add( jProgressBarDeleteProcess, gbc_jProgressBarDeleteProcess);
+        GridBagConstraints gbc_jButtonDoScript = new GridBagConstraints();
+        gbc_jButtonDoScript.gridx = 0;
+        gbc_jButtonDoScript.gridy = 3;
+        jButtonDoScript = new JButton("Create script");
+        jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
+        jButtonDoScript.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        add( jButtonDoScript, gbc_jButtonDoScript);
 
         // NOT YET IMPLEMENTED
-        jButtonDoScript.setVisible(false);
+        jButtonDoScript.setVisible(true);
 
         iconOk = ResourcesLoader.getImageIcon( "ok.12x12.png" );
         iconKo = ResourcesLoader.getImageIcon( "ko.12x12.png" );
     }
 
-    private void initComponents() {
-        setLayout(new BorderLayout());
-        add(getJPanelHeader(), BorderLayout.NORTH);
-        add(getJScrollPaneFiles2Delete(), BorderLayout.CENTER);
-        add(getJPanelBottom(), BorderLayout.SOUTH);
-        setSize(320, 240);
-    }
-
-    private JPanel getJPanelScript() {
-        if (jPanelScript == null) {
-            jPanelScript = new JPanel();
-            jPanelScript.add(getJButtonDoScript());
-        }
-        return jPanelScript;
-    }
-
-    private JButton getJButtonDoScript() {
-        if (jButtonDoScript == null) {
-            jButtonDoScript = new JButton();
-            jButtonDoScript.setText("Create script");
-            jButtonDoScript.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonDoScriptMouseMousePressed(event);
-                }
-            });
-        }
-        return jButtonDoScript;
-    }
-
-    private JPanel getJPanelBottom() {
-        if (jPanelBottom == null) {
-            jPanelBottom = new JPanel();
-            jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
-            jPanelBottom.add(getJProgressBarDeleteProcess());
-            jPanelBottom.add(getJPanelScript());
-        }
-        return jPanelBottom;
-    }
-
-    private JProgressBar getJProgressBarDeleteProcess() {
-        if (jProgressBarDeleteProcess == null) {
-            jProgressBarDeleteProcess = new JProgressBar();
-        }
-        return jProgressBarDeleteProcess;
-    }
-
-    private JPanel getJPanelHeader() {
-        if (jPanelHeader == null) {
-            jPanelHeader = new JPanel();
-            jPanelHeader.add(getJLabelTitle());
-        }
-        return jPanelHeader;
-    }
-
-    private JLabel getJLabelTitle() {
-        if (jLabelTitle == null) {
-            jLabelTitle = new JLabel();
-            jLabelTitle.setText("Files selected to be deleted");
-        }
-        return jLabelTitle;
-    }
-
-    private JScrollPane getJScrollPaneFiles2Delete() {
-        if (jScrollPaneFiles2Delete == null) {
-            jScrollPaneFiles2Delete = new JScrollPane();
-            jScrollPaneFiles2Delete.setViewportView(getJTableFiles2Delete());
-        }
-        return jScrollPaneFiles2Delete;
-    }
-
-    private JTable getJTableFiles2Delete() {
-        if (jTableFiles2Delete == null) {
-            jTableFiles2Delete = new JTable();
-        }
-        return jTableFiles2Delete;
+    /**
+     * Clear content list
+     */
+    public void clear()
+    {
+        tableDts_toDelete.clear();
     }
 
     public void initComponents(
             final HashMapSet<String,KeyFileState> dupFiles
             )
     {
-        // final List<KeyFileState> toDelete = new ArrayList<KeyFileState>();
-        tableDts_toDelete = new ArrayList<KeyFileState>();
+        clear();
 
-        for(KeyFileState f:dupFiles) {
+        for( KeyFileState f:dupFiles ) {
             if( f.isSelectedToDelete() ) {
                 tableDts_toDelete.add( f );
+                }
             }
-        }
 
         final int size = tableDts_toDelete.size();
 
@@ -172,7 +147,7 @@ public class JPanelConfirm extends JPanel
         for(int i=0;i<size;i++) {
             KeyFileState f = tableDts_toDelete.get( i );
             tableDts_length[i] = f.getFile().length();
-        }
+            }
 
         DefaultTableCellRenderer render = new DefaultTableCellRenderer()
         {
@@ -347,29 +322,33 @@ public class JPanelConfirm extends JPanel
     }
 
     public void doDelete(
-            final DFToolKit                         tk,
+            //final DFToolKit                         tk,
             final HashMapSet<String,KeyFileState>   duplicateFiles
             )
     {
         try {
-            private_doDelete( tk, duplicateFiles );
+            private_doDelete( /*tk,*/ duplicateFiles );
             }
         catch( Exception e ) {
             slogger.fatal( "*** Error catched while delete files", e );
+            DialogHelper.showMessageExceptionDialog(
+                    dfToolKit.getMainWindow(),
+                    msgStr_doDeleteExceptiontitle,
+                    e
+                    );
             }
     }
 
     private void private_doDelete(
-            final DFToolKit                         tk,
+            /*final DFToolKit                         tk,*/
             final HashMapSet<String,KeyFileState>   duplicateFiles
             )
     {
-        //Iterator<KeyFileState>  iter = duplicateFiles.iterator();
         int                     deleteCount = 0;
         final int               size = tableDts_toDelete.size();
         final long deleteSleepDisplay =
-            size < tk.getConfigData().getDeleteSleepDisplayMaxEntries() ?
-                    tk.getConfigData().getDeleteSleepDisplay()
+            size < this.dfToolKit.getConfigData().getDeleteSleepDisplayMaxEntries() ?
+                    this.dfToolKit.getConfigData().getDeleteSleepDisplay()
                     :
                     0;
 
@@ -393,7 +372,9 @@ public class JPanelConfirm extends JPanel
                     jTableFiles2Delete.getCellRect(i, 0, true)
                     );
 
-            tk.sleep( deleteSleepDisplay );
+            if( deleteSleepDisplay > 0 ) {
+                this.dfToolKit.sleep( deleteSleepDisplay );
+                }
 
             deleteCount++;
             updateProgressBar(deleteCount,msg);
@@ -414,8 +395,8 @@ public class JPanelConfirm extends JPanel
 
             if( !f.getFile().exists() ) {
                 iter.remove();
+                }
             }
-        }
 
         // Remove from list, files with no more
         // duplicate entry
@@ -425,10 +406,5 @@ public class JPanelConfirm extends JPanel
 
         slogger.info( "newDupCount= " + newDupCount );
         //tk.sleep( tk.getConfigData().getDeleteFinalDisplay() );
-    }
-
-    private void jButtonDoScriptMouseMousePressed(MouseEvent event)
-    {
-        throw new UnsupportedOperationException();
-    }
+        }
 }
