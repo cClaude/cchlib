@@ -7,8 +7,8 @@
     <version>4.1.6-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cchlib-tools-editressourcebundle</artifactId>
-  <name>cchlib-tools-editressourcebundle</name>
+  <artifactId>cchlib-apps-editresourcebundle</artifactId>
+  <name>cchlib-apps-editresourcebundle</name>
   <packaging>jar</packaging>
   <description>Tools based on cchlib</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
@@ -46,7 +46,7 @@
               <addClasspath>true</addClasspath>
             </manifest>
             <manifestEntries>
-              <SplashScreen-Image>com/googlecode/apps/tools/editresourcesbundle/splash.png</SplashScreen-Image>
+              <SplashScreen-Image>com/googlecode/cchlib/apps/editresourcesbundle/splash.png</SplashScreen-Image>
             </manifestEntries>
           </archive>
         </configuration>

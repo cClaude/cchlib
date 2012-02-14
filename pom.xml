@@ -182,13 +182,13 @@
     <!-- should not be include : not in maven repository -->
     <!-- Applications -->
     <module>cchlib-apps-regexpbuilder</module>
+    <module>cchlib-apps-editresourcebundle</module>
     <module>cchlib-core-deprecated</module>
     <module>cchlib-core-sample</module>
     <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-sys</module>
     <module>cchlib-tools</module>
     <module>cchlib-tools-duplicatefiles</module>
-    <module>cchlib-tools-editressourcebundle</module>
   </modules>
 
 </project>

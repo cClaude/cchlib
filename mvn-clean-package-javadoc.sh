@@ -124,8 +124,8 @@ cchlib-core-sample"
 PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 
 PROJECTS_APPS="cchlib-apps-regexpbuilder
-cchlib-tools-duplicatefiles
-cchlib-tools-editressourcebundle"
+cchlib-apps-editresourcebundle
+cchlib-tools-duplicatefiles"
 
 echo "------------------------------------------"
 for project in ${PROJECTS}
