@@ -112,8 +112,10 @@ public class JPanelConfirm extends JPanel
         });
         add( jButtonDoScript, gbc_jButtonDoScript);
 
-        // NOT YET IMPLEMENTED
-        jButtonDoScript.setVisible(true);
+        // TODO: NOT YET IMPLEMENTED
+        // $hide>>$
+        jButtonDoScript.setVisible(false);
+        // $hide<<$
 
         iconOk = ResourcesLoader.getImageIcon( "ok.12x12.png" );
         iconKo = ResourcesLoader.getImageIcon( "ko.12x12.png" );
@@ -127,7 +129,7 @@ public class JPanelConfirm extends JPanel
         tableDts_toDelete.clear();
     }
 
-    public void initComponents(
+    public void populate(
             final HashMapSet<String,KeyFileState> dupFiles
             )
     {
@@ -340,15 +342,14 @@ public class JPanelConfirm extends JPanel
     }
 
     private void private_doDelete(
-            /*final DFToolKit                         tk,*/
             final HashMapSet<String,KeyFileState>   duplicateFiles
             )
     {
         int                     deleteCount = 0;
         final int               size = tableDts_toDelete.size();
         final long deleteSleepDisplay =
-            size < this.dfToolKit.getConfigData().getDeleteSleepDisplayMaxEntries() ?
-                    this.dfToolKit.getConfigData().getDeleteSleepDisplay()
+            size < this.dfToolKit.getPreferences().getDeleteSleepDisplayMaxEntries() ?
+                    this.dfToolKit.getPreferences().getDeleteSleepDisplay()
                     :
                     0;
 

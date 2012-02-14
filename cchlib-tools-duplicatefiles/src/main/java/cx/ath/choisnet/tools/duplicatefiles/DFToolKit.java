@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Locale;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 
 /**
  * Misc tools for this project
@@ -17,13 +18,13 @@ public interface DFToolKit extends Serializable
     public void beep();
     public void openDesktop( File file );
     public Locale getValidLocale();
-    public Locale getLocale();
-    public void setLocale( Locale locale );
-    public ConfigMode getConfigMode();
+//    public Locale getLocale();
+//    public void setLocale( Locale locale );
+//    public ConfigMode getConfigMode();
     public void sleep(long ms);
     public Image getImage(String name);
     public Icon getIcon(String name);
-    public ConfigData getConfigData();
+    public Preferences getPreferences();
     public Window getMainWindow();
     public void setEnabledJButtonCancel( boolean b );
     public boolean isEnabledJButtonCancel();

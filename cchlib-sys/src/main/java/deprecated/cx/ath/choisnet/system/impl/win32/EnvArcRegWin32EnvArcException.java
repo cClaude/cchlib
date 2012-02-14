@@ -1,14 +1,10 @@
-/**
- * 
- */
 package deprecated.cx.ath.choisnet.system.impl.win32;
 
-import deprecated.cx.ath.choisnet.system.EnvArcException;
-
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
-public class EnvArcRegWin32EnvArcException extends EnvArcException 
+public class EnvArcRegWin32EnvArcException
+    extends deprecated.cx.ath.choisnet.system.EnvArcException
 {
     private static final long serialVersionUID = 1L;
 

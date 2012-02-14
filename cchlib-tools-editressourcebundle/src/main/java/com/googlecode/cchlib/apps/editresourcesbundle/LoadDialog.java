@@ -13,7 +13,7 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**

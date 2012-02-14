@@ -7,12 +7,6 @@ import java.util.Date;
  */
 public interface DBFRecord extends Iterable<DBFEntry>
 {
-//    /**
-//     * Returns a array of all {@link DBFEntry} for this record
-//     * @return a array of {@link DBFEntry}
-//     */
-//    public DBFEntry[] getDBFEntries();
-
     /**
      * Return {@link DBFEntry}
      *
@@ -20,7 +14,8 @@ public interface DBFRecord extends Iterable<DBFEntry>
      * @return {@link DBFEntry} for this column/field number
      * @throws DBFEntryException if any
      */
-    public DBFEntry getDBFEntry( int columnNumber ) throws DBFEntryException;
+    public DBFEntry getDBFEntry( int columnNumber )
+        throws DBFEntryException;
 
     /**
      * Return {@link DBFEntry}

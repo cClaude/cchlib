@@ -16,9 +16,8 @@ import com.ice.jni.registry.RegistryValue;
 import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
-@Deprecated
 public class RegWin32
 {
     final private static Logger slogger = Logger.getLogger(RegWin32.class);
@@ -30,7 +29,7 @@ public class RegWin32
         checkLib();
     }
 
-    final 
+    final
     private void checkLib() throws EnvArcRegWin32EnvArcException
     {
         if( checkOnceDone ) {
@@ -49,7 +48,7 @@ public class RegWin32
         checkOnceDone = true;
     }
 
-    final 
+    final
     private void checkLibOnce()
         throws
             ClassNotFoundException,
@@ -184,8 +183,8 @@ public class RegWin32
     /**
      * Get an Iterator for the giving key, this Iterator
      * return sub-key (directories) names.
-     * 
-     * @param regKeyName key to inspect 
+     *
+     * @param regKeyName key to inspect
      * @return An Iterator
      * @throws EnvArcRegWin32EnvArcException
      */
@@ -194,25 +193,25 @@ public class RegWin32
         throws EnvArcRegWin32EnvArcException
     {
         RegWin32Key regKey = new RegWin32Key(regKeyName);
-        
+
         try {
             RegistryKey registryKey = regKey.getRegistryKeyReadOnly();
 
             @SuppressWarnings("unchecked")
             Enumeration<String> enu = registryKey.keyElements();
-        
+
             return EnumerationHelper.toIterator( enu );
         }
         catch( RegistryException e ) {
             throw new EnvArcRegWin32EnvArcException(e);
         }
     }
-    
+
     /**
      * Get an Iterator for the giving key, this Iterator
      * return values (files) names.
-     * 
-     * @param regKeyName key to inspect 
+     *
+     * @param regKeyName key to inspect
      * @return An Iterator
      * @throws EnvArcRegWin32EnvArcException
      */

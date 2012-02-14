@@ -84,7 +84,8 @@ public abstract class AbstractI18nBundle
 
    /**
     *
-    * @return
+    * @return I18nPropertyResourceBundleAutoUpdate for this
+    *         AbstractI18nBundle
     */
    public I18nPropertyResourceBundleAutoUpdate getI18nPropertyResourceBundleAutoUpdate()
    {
@@ -94,8 +95,9 @@ public abstract class AbstractI18nBundle
    }
 
     /**
-     *
-     * @return
+     * Returns default configuration
+     * @see com.googlecode.cchlib.i18n.AutoI18n.Attribute#DO_DEEP_SCAN
+     * @return default configuration
      */
     protected EnumSet<AutoI18n.Attribute> getAutoI18nAttributes()
     {
@@ -105,8 +107,9 @@ public abstract class AbstractI18nBundle
     }
 
     /**
-     *
-     * @return
+     * Returns a AutoI18nEventHandler (In this implementation
+     * it's a {@link AutoI18nLog4JEventHandler})
+     * @return a new AutoI18nEventHandler
      */
     protected AutoI18nEventHandler getAutoI18nEventHandler()
     {
@@ -117,8 +120,9 @@ public abstract class AbstractI18nBundle
     }
 
     /**
-     *
-     * @return
+     * Returns a AutoI18nExceptionHandler (In this implementation
+     * it's a {@link AutoI18nLog4JExceptionHandler})
+     * @return a new AutoI18nExceptionHandler
      */
     protected AutoI18nExceptionHandler getAutoI18nExceptionHandler()
     {

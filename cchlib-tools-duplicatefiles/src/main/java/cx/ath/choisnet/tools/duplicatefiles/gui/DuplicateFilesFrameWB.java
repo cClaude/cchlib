@@ -38,7 +38,9 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     public static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
     public static final String ACTIONCMD_SET_LOCALE = "ACTIONCMD_SET_LOCALE";
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
+
     //private static final Logger logger = Logger.getLogger( DuplicateFilesFrameWB.class );
+
     private JPanel contentPane;
     private ButtonGroup buttonGroupConfigMode = new ButtonGroup();
     private ButtonGroup buttonGroupLanguage = new ButtonGroup();
@@ -180,11 +182,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         contentPane.add(getJButtonNextStep(), gbc_jButtonNextStep);
     }
 
-//    protected JTabbedPane getJTabbedPaneMain()
-//    {
-//        return jTabbedPaneMain;
-//    }
-
     protected JMenu getJMenuLookAndFeel()
     {
         return jMenuLookAndFeel;
@@ -198,6 +195,41 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     protected JButton getJButtonCancel()
     {
         return jButtonCancel;
+    }
+
+    protected JPanelSelectFoldersOrFiles getJPanel0Select()
+    {
+        return jPanel0Select;
+    }
+
+    protected JPanelConfig getJPanel1Config()
+    {
+        return jPanel1Config;
+    }
+
+    protected JPanelSearching getJPanel2Searching()
+    {
+        return jPanel2Searching;
+    }
+
+    protected JPanelResult getJPanel3Result()
+    {
+        return jPanel3Result;
+    }
+
+    protected JPanelConfirm getJPanel4Confirm()
+    {
+        return jPanel4Confirm;
+    }
+
+    protected AbstractButton getJButtonRestart()
+    {
+        return jButtonRestart;
+    }
+
+    protected JTabbedPane getJTabbedPaneMain()
+    {
+        return jTabbedPaneMain;
     }
 
     public abstract ActionListener getActionListener();
@@ -238,17 +270,17 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     /**
      * @wbp.factory
      */
-    public static JPanelSelectFoldersOrFiles createJPanel0Select()
+    public JPanelSelectFoldersOrFiles createJPanel0Select()
     {
-        return new JPanelSelectFoldersOrFiles();
+        return new JPanelSelectFoldersOrFiles( getDFToolKit() );
     }
 
     /**
      * @wbp.factory
      */
-    public static JPanelConfig createJPanel1Config()
+    public JPanelConfig createJPanel1Config()
     {
-        return new JPanelConfig();
+        return new JPanelConfig( getDFToolKit() );
     }
 
     /**
@@ -262,9 +294,9 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     /**
      * @wbp.factory
      */
-    public static JPanelResult createJPanel3Result()
+    public JPanelResult createJPanel3Result()
     {
-        return new JPanelResult();
+        return new JPanelResult( getDFToolKit() );
     }
 
     /**
@@ -276,40 +308,4 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     {
         return new JPanelConfirm( getDFToolKit() );
     }
-
-    protected JPanelSelectFoldersOrFiles getJPanel0Select()
-    {
-        return jPanel0Select;
-    }
-
-    protected JPanelConfig getJPanel1Config()
-    {
-        return jPanel1Config;
-    }
-
-    protected JPanelSearching getJPanel2Searching()
-    {
-        return jPanel2Searching;
-    }
-
-    protected JPanelResult getJPanel3Result()
-    {
-        return jPanel3Result;
-    }
-
-    protected JPanelConfirm getJPanel4Confirm()
-    {
-        return jPanel4Confirm;
-    }
-
-    protected AbstractButton getJButtonRestart()
-    {
-        return jButtonRestart;
-    }
-
-    protected JTabbedPane getJTabbedPaneMain()
-    {
-        return jTabbedPaneMain;
-    }
-
 }

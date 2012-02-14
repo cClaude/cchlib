@@ -103,8 +103,12 @@ public class JPanelResult extends JPanel
     @I18nString private String txtCanReadFirstLetter = "R";
     @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
-    public JPanelResult()
+    public JPanelResult(
+        final DFToolKit dFToolKit
+        )
     {
+        this.dFToolKit = dFToolKit;
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
         gridBagLayout.rowHeights = new int[]{25, 0, 0, 0};
@@ -214,13 +218,11 @@ public class JPanelResult extends JPanel
         add( jButtonRegExKeep, gbc_jButtonRegExKeep );
     }
 
-    public void initComponents(
-            HashMapSet<String,KeyFileState> duplicateFiles,
-            DFToolKit                       dFToolKit
+    public void populate(
+            final HashMapSet<String,KeyFileState> duplicateFiles
             )
     {
         this.duplicateFiles = duplicateFiles;
-        this.dFToolKit      = dFToolKit;
 
         jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
@@ -307,12 +309,6 @@ public class JPanelResult extends JPanel
         updateDisplay();
     }
 
-    public void updateDisplayMode( ConfigMode mode )
-    {
-        updateDisplay();
-    }
-
-    final//TODO: remove this
     public void clear()
     {
         listModelDuplicatesFiles.clear();
@@ -336,7 +332,7 @@ public class JPanelResult extends JPanel
 
     public void updateDisplay()
     {
-        if( dFToolKit.getConfigMode() == ConfigMode.BEGINNER ) {
+        if( dFToolKit.getPreferences().getConfigMode() == ConfigMode.BEGINNER ) {
             jToggleButtonSelectByRegEx.setSelected( false );
             jToggleButtonSelectByRegEx.setEnabled( false );
             }
@@ -347,10 +343,10 @@ public class JPanelResult extends JPanel
         boolean useRegEx = jToggleButtonSelectByRegEx.isSelected();
 
         //jTextFieldRegEx.setVisible(useRegEx);
-        xComboBoxPatternRegEx.setVisible(useRegEx);
-        jCheckBoxKeepOne.setVisible(useRegEx);
-        jButtonRegExDelete.setVisible(useRegEx);
-        jButtonRegExKeep.setVisible(useRegEx);
+        xComboBoxPatternRegEx.setVisible( useRegEx );
+        jCheckBoxKeepOne.setVisible( useRegEx );
+        jButtonRegExDelete.setVisible( useRegEx );
+        jButtonRegExKeep.setVisible( useRegEx );
 
         int index = jListDuplicatesFiles.getSelectedIndex();
 
@@ -361,7 +357,8 @@ public class JPanelResult extends JPanel
             }
     }
 
-    private JSplitPane getJSplitPaneResultMain() {
+    private JSplitPane getJSplitPaneResultMain()
+    {
         if (jSplitPaneResultMain == null) {
             jSplitPaneResultMain = new JSplitPane();
             jSplitPaneResultMain.setDividerLocation(100);
@@ -375,7 +372,8 @@ public class JPanelResult extends JPanel
         return jSplitPaneResultMain;
     }
 
-    private JSplitPane getJSplitPaneResultRight() {
+    private JSplitPane getJSplitPaneResultRight()
+    {
         if (jSplitPaneResultRight == null) {
             jSplitPaneResultRight = new JSplitPane();
             jSplitPaneResultRight.setDividerLocation(100);
@@ -395,7 +393,8 @@ public class JPanelResult extends JPanel
         return jSplitPaneResultRight;
     }
 
-    private JList<KeyFiles> getJListDuplicatesFiles() {
+    private JList<KeyFiles> getJListDuplicatesFiles()
+    {
         if (jListDuplicatesFiles == null) {
             jListDuplicatesFiles = new JList<KeyFiles>();
             jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
@@ -504,8 +503,8 @@ public class JPanelResult extends JPanel
             jTextFieldFileInfo.setText( "" );
             }
         else {
-            File f = kf.getFile();
-            Locale locale = dFToolKit.getValidLocale();
+            File    f       = kf.getFile();
+            Locale  locale  = dFToolKit.getValidLocale();
 
             String date = DateFormat.getDateTimeInstance(
                     DateFormat.FULL,

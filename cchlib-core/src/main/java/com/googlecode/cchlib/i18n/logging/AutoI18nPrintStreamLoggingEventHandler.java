@@ -1,12 +1,11 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 
 /**
- * {@link AutoI18nEventHandler} using PrintStream
- * to trace Localization events.
+ * {@link com.googlecode.cchlib.i18n.AutoI18nEventHandler}
+ * using PrintStream to trace Localization events.
  * <p>
  * This object is not Serializable, you must use
  * this debugging your application only!

@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,7 +8,7 @@ import java.util.logging.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
- * {@link AutoI18nExceptionHandler} using standard
+ * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using standard
  * java logging to trace Localization exceptions.
  *
  * @author Claude CHOISNET

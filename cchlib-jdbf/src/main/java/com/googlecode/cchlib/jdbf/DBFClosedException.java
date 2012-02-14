@@ -7,9 +7,6 @@ public class DBFClosedException extends DBFException
 {
     private static final long serialVersionUID = 1L;
 
-//    public DBFClosedException()
-//    {
-//    }
     public DBFClosedException( String msg )
     {
         super( msg );

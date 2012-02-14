@@ -10,8 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
-import cx.ath.choisnet.swing.filechooser.accessory.FindAccessory;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.accessory.FindAccessory;
 
 //VS 4E -- DO NOT REMOVE THIS LINE!
 public class BetaTestJFileChooser extends JFrame

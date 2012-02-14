@@ -21,12 +21,6 @@ final class DBFRecordImpl implements DBFRecord
         this.entries   = entries;
     }
 
-//    @Override
-//    public DBFEntry[] getDBFEntries()
-//    {
-//        return entries;
-//    }
-
     @Override
     public Iterator<DBFEntry> iterator()
     {

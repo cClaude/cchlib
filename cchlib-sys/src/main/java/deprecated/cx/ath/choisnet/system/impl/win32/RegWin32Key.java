@@ -6,7 +6,7 @@ import com.ice.jni.registry.RegistryException;
 import com.ice.jni.registry.RegistryKey;
 
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
 public class RegWin32Key
 {

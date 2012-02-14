@@ -1,24 +1,15 @@
 package cx.ath.choisnet.system.impl.win32.testcase;
 
-/*import java.util.Collection;
-import org.apache.log4j.Logger;
-import deprecated.cx.ath.choisnet.system.EnvArc;
-import deprecated.cx.ath.choisnet.system.EnvArcException;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite;
-*/
 import junit.framework.TestCase;
 
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
-@Deprecated
 public class EnvArcTest extends TestCase
 {
     public void testFake()
     {
-        
+
     }
     /*
     final private static Logger slogger = Logger.getLogger(EnvArcTest.class);
@@ -29,7 +20,7 @@ public class EnvArcTest extends TestCase
         this.anEnvArcRegWin32ReadOnly  = new EnvArcRegWin32ReadOnly();
         this.anEnvArcRegWin32ReadWrite = new EnvArcRegWin32ReadWrite();
     }
-    
+
     @Deprecated
     public void testBasicGet() throws EnvArcException
     {
@@ -53,7 +44,7 @@ public class EnvArcTest extends TestCase
             fail("Should fail here!");
         }
         catch( EnvArcException ok ) {
-            
+
         }
     }
 
@@ -61,13 +52,13 @@ public class EnvArcTest extends TestCase
     {
         try {
             this.anEnvArcRegWin32ReadOnly.setVar( this.getClass().getName(), this.getClass().getName() );
-            
+
             fail("Should fail here!");
         }
         catch( UnsupportedOperationException ok ) {
-            
+
         }
-        
+
         this.anEnvArcRegWin32ReadWrite.setVar( this.getClass().getName(), this.getClass().getName() );
     }
 
@@ -77,7 +68,7 @@ public class EnvArcTest extends TestCase
         test_getVarNameList(anEnvArcRegWin32ReadOnly);
         test_getVarNameList(anEnvArcRegWin32ReadWrite);
     }
-    
+
     @Deprecated
     public void test_getVarNameList(EnvArc envarc) throws EnvArcException
     {
@@ -87,9 +78,9 @@ public class EnvArcTest extends TestCase
         slogger.info( "getVarNameList() # : " + c.size());
 
         for(String name: c) {
-            slogger.info( "Known var name : " 
-                    + name 
-                    + " = " 
+            slogger.info( "Known var name : "
+                    + name
+                    + " = "
                     + envarc.getVar( name )
                     );
         }

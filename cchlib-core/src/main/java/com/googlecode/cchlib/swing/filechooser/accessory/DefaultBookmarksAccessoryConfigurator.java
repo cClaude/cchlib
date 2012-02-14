@@ -13,11 +13,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-import cx.ath.choisnet.swing.filechooser.accessory.AbstractBookmarksAccessoryConfigurator;
 
 /**
  * Provide a basic implementation for
- * {@link BookmarksAccessory.Configurator}
+ * {@link com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory.Configurator}
  * based on {@link Properties}
  *
  * @author Claude CHOISNET

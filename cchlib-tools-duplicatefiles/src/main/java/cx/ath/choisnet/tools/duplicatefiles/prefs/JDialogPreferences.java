@@ -115,7 +115,7 @@ public class JDialogPreferences extends JDialog
     		jTreeMenu = new JTree();
     		DefaultTreeModel treeModel = null;
     		{
-    			DefaultMutableTreeNode node0 = new DefaultMutableTreeNode("Preferences");
+    			DefaultMutableTreeNode node0 = new DefaultMutableTreeNode("DefaultPreferences");
     			{
     				DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
     				{

@@ -2,7 +2,7 @@
  *                                                                                  *
  *                                                                                  *
  ************************************************************************************/
-package cx.ath.choisnet.swing.filechooser.accessory;
+package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

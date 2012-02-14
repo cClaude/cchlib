@@ -3,14 +3,12 @@ package deprecated.cx.ath.choisnet.system.impl;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import deprecated.cx.ath.choisnet.system.EnvArc;
-import deprecated.cx.ath.choisnet.system.EnvArcException;
 
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
-@Deprecated
-public class EnvArcDefaultImpl implements EnvArc
+public class EnvArcDefaultImpl 
+    implements deprecated.cx.ath.choisnet.system.EnvArc
 {
     private Map<String,String> env;
 
@@ -21,14 +19,15 @@ public class EnvArcDefaultImpl implements EnvArc
 
     @Override
     public void setVar(String varname, String value)
-        throws EnvArcException, UnsupportedOperationException
+        throws  deprecated.cx.ath.choisnet.system.EnvArcException,
+                UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public String getVar(String varname)
-        throws EnvArcException
+        throws deprecated.cx.ath.choisnet.system.EnvArcException
     {
         return env.get(varname);
     }
@@ -40,8 +39,9 @@ public class EnvArcDefaultImpl implements EnvArc
     }
 
     @Override
-    public void deleteVar( String varname ) throws EnvArcException,
-            UnsupportedOperationException
+    public void deleteVar( String varname ) 
+        throws  deprecated.cx.ath.choisnet.system.EnvArcException,
+                UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }

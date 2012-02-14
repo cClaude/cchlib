@@ -2,7 +2,7 @@ package com.googlecode.cchlib.swing;
 
 import java.awt.Window;
 import javax.swing.JDialog;
-import com.googlecode.cchlib.io.ExceptionHelper;
+import com.googlecode.cchlib.lang.ExceptionHelper;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
@@ -43,7 +43,7 @@ public class DialogHelper
      * @param exception
      */
     public static void showMessageExceptionDialog(
-        final Window  	parentWindow,
+        final Window      parentWindow,
         final String    title,
         final Throwable exception
         )
@@ -54,7 +54,7 @@ public class DialogHelper
         msg.append( exception.getLocalizedMessage() );
         msg.append( "</b><br/>\n" );
 
-        for( String l : ExceptionHelper.getStackTraceHasLines( exception ) ) {
+        for( String l : ExceptionHelper.getStackTraceLines( exception ) ) {
             msg.append( "<pre>" );
             msg.append( l );
             msg.append( "</pre>\n" );
@@ -62,7 +62,7 @@ public class DialogHelper
         msg.append( "</html>" );
 
         final CustomDialogWB dialog = new CustomDialogWB(
-        		parentWindow,
+                parentWindow,
                 false,
                 title,
                 msg.toString()

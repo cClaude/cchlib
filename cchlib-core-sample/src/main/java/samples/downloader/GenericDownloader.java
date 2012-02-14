@@ -82,7 +82,7 @@ public abstract class GenericDownloader
     /**
      *
      * @param urls
-     * @return
+     * @return list of urls
      * @throws IOException
      */
     protected List<String> loads( final Iterable<URL> urls ) throws IOException

@@ -95,7 +95,7 @@ class CustomDialogWB extends JDialog
      * @wbp.parser.constructor
      */
     public CustomDialogWB(
-        final Window  	parentWindow,
+        final Window      parentWindow,
         final String    title,
         final String    message,
         final String    okText,
@@ -118,7 +118,7 @@ class CustomDialogWB extends JDialog
      * @param message
      */
     public CustomDialogWB(
-        final Window  	parentWindow,
+        final Window      parentWindow,
         final boolean   addCancelButton,
         final String    title,
         final String    message
@@ -137,7 +137,7 @@ class CustomDialogWB extends JDialog
      * @param addCancelButton
      */
     public CustomDialogWB(
-        final Window  	parentWindow,
+        final Window      parentWindow,
         final boolean   addCancelButton
         )
     {

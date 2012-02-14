@@ -1,14 +1,9 @@
 package deprecated.cx.ath.choisnet.system.impl.win32;
 
-import deprecated.cx.ath.choisnet.system.EnvArcException;
-
 /**
- * Expand REG_EXPAND_SZ
- * 
- * @author Claude CHOISNET
+ * @deprecated No replacement
  * @see EnvArcRegWin32ReadWrite
  */
-@Deprecated
 public class EnvArcRegWin32ReadOnly
     extends AbstractEnvArcRegWin32
 {
@@ -16,7 +11,7 @@ public class EnvArcRegWin32ReadOnly
 
     /**
      * Create a ReadOnly EnvArc object
-     * @throws EnvArcRegWin32EnvArcException 
+     * @throws EnvArcRegWin32EnvArcException
      */
     public EnvArcRegWin32ReadOnly() throws EnvArcRegWin32EnvArcException
     {
@@ -30,14 +25,14 @@ public class EnvArcRegWin32ReadOnly
      */
     @Override
     public String getVar(String varname)
-        throws EnvArcException
+        throws deprecated.cx.ath.choisnet.system.EnvArcException
     {
         try {
-            // TODO: if REG_EXPAND_SZ then expend value !
+            // TxOxDxO: if REG_EXPAND_SZ then expend value !
             // <!> but on my computer acceding to REG_EXPAND_SZ crash !
             return getRegString(SYSTEM_ENVIRONMENT_BASE, varname);
         }
-        catch(Exception e) {            
+        catch(Exception e) {
             throw new EnvArcRegWin32EnvArcException(e);
         }
     }
@@ -47,7 +42,8 @@ public class EnvArcRegWin32ReadOnly
      */
     @Override
     public void setVar(String varname, String value)
-        throws EnvArcException, UnsupportedOperationException
+        throws  deprecated.cx.ath.choisnet.system.EnvArcException, 
+                UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
@@ -56,8 +52,9 @@ public class EnvArcRegWin32ReadOnly
      * Unsupported operation
      */
     @Override
-    public void deleteVar( String varname ) throws EnvArcException,
-            UnsupportedOperationException
+    public void deleteVar( String varname ) 
+        throws  deprecated.cx.ath.choisnet.system.EnvArcException,
+                UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }

@@ -33,7 +33,7 @@ public class PreferencesImpl implements Preferences
         this.rootFileList.add( testEntry  );
     }
 
-    @Override // Preferences
+    @Override // DefaultPreferences
     public ConfigMode getUserLevel()
     {
         if( this.userLevel == null ) {
@@ -42,7 +42,7 @@ public class PreferencesImpl implements Preferences
         return this.userLevel;
     }
 
-    @Override // Preferences
+    @Override // DefaultPreferences
     public String getLookAndFeelName()
     {
         if( this.lookAndFeelName == null ) {

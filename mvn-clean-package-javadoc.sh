@@ -7,9 +7,14 @@
 # #########################################################
 #
 MVN="${MAVEN_HOME}/bin/mvn"
-LOGSDIR=logs
-LOGS=${LOGSDIR}/.logs.javadoc
-LOGSWARN=${LOGSDIR}/.logs.javadoc.WARNING
+LOGSDIR="./logs"
+LOGS_TMP="${LOGSDIR}/.mvn.logs"
+LOGS_COMPIL="${LOGSDIR}/.mvn.logs.compilation.WARNING"
+LOGS_JAVADOC="${LOGSDIR}/.mvn.logs.javadoc.WARNING"
+
+if [ ! -e "${LOGSDIR}" ]; then
+  mkdir "${LOGSDIR}"
+fi
 
 #
 # Perform a full clean first
@@ -17,7 +22,8 @@ LOGSWARN=${LOGSDIR}/.logs.javadoc.WARNING
 echo "------------------------------------------"
 MVNPARAM="clean --offline"
 echo ${MVN} ${MVNPARAM}
-### ${MVN} ${MVNPARAM}
+###
+${MVN} ${MVNPARAM}
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
@@ -29,13 +35,17 @@ fi
 #
 echo "------------------------------------------"
 MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
-echo ${MVN} ${MVNPARAM}
-### ${MVN} ${MVNPARAM}
+echo "${MVN} ${MVNPARAM}"
+###
+${MVN} ${MVNPARAM} | tee "${LOGS_TMP}"
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
   exit 1
 fi
+
+cat "${LOGS_TMP}" | grep -F "[WARNING]
+[ERROR]" >"${LOGS_COMPIL}"
 
 #
 # Package projets
@@ -43,8 +53,9 @@ fi
 echo "------------------------------------------"
 # install ??? TODO fix this if possible
 MVNPARAM="install package --errors --fail-fast"
-echo ${MVN} ${MVNPARAM}
-### ${MVN} ${MVNPARAM}
+echo "${MVN} ${MVNPARAM}"
+###
+${MVN} ${MVNPARAM}
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
@@ -56,12 +67,10 @@ fi
 # Build javadocs
 #
 echo "------------------------------------------"
-if [ ! -e "${LOGSDIR}" ]; then
-  mkdir "${LOGSDIR}"
-fi
 MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
 echo ${MVN} ${MVNPARAM}
-### ${MVN} ${MVNPARAM} | tee ${LOGS}
+###
+${MVN} ${MVNPARAM} | tee "${LOGS_TMP}"
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
@@ -72,8 +81,11 @@ echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
 echo "------------------------------------------"
 
-cat "${LOGS}" | grep -F "[WARNING]
-[ERROR]" | grep -v -F "[ERROR] Error fetching link:">"${LOGSWARN}"
+cat "${LOGS_TMP}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -F "[WARNING]
+[ERROR]" >"${LOGS_JAVADOC}"
+
+cat "${LOGS_JAVADOC}" | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC}.returntag"
+cat "${LOGS_JAVADOC}" | grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC}.others"
 
 #
 # javadoc:jar
@@ -94,10 +106,26 @@ cat "${LOGS}" | grep -F "[WARNING]
 #    is an interactive goal which fixes the Javadoc documentation
 #    and tags for the Java files.
 #
-PROJECTS="cchlib-core cchlib-j2ee cchlib-jdbf cchlib-sys cchlib-apps cchlib-tools"
-PROJECTS_WITH_DOC="cchlib-core cchlib-j2ee cchlib-jdbf cchlib-sys"
+PROJECTS="cchlib-core
+cchlib-j2ee
+cchlib-jdbf
+cchlib-sys
+cchlib-apps
+cchlib-tools"
 
-PROJECTS_APPS="cchlib-apps-cchlib-apps-regexpbuilder cchlib-tools-duplicatefiles cchlib-apps-regexpbuilder"
+PROJECTS_WITH_DOC="cchlib-core
+cchlib-j2ee
+cchlib-jdbf
+cchlib-sys"
+
+PROJECTS_SUB_CCHLIB_CORE="cchlib-core-deprecated
+cchlib-core-sample"
+
+PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
+
+PROJECTS_APPS="cchlib-apps-regexpbuilder
+cchlib-tools-duplicatefiles
+cchlib-tools-editressourcebundle"
 
 echo "------------------------------------------"
 for project in ${PROJECTS}
@@ -106,7 +134,7 @@ do
   echo "Init. project [${DIR}]"
   if [ ! -e "${DIR}" ]; then
     mkdir -p "${DIR}"
-  elif [[ ! -d "${DIR}" ]]; then
+  elif [ ! -d "${DIR}" ]; then
     echo "${DIR} already exists but is not a directory" 1>&2
     exit 1
   fi
@@ -133,6 +161,10 @@ do
   do
     echo "Copy ${jar}"
     cp "${jar}" "${DIR}"
+    if [ "$?" -ne "0" ]; then
+      echo "***[ERROR] Copy error" 1>&2
+      exit 1
+    fi
   done
 done
 
@@ -142,58 +174,64 @@ do
   SDIR="./${project}/target/apidocs"
   DDIR="./releases/${project}"
   echo "Prepare javadoc: [${SDIR}] -> [${DDIR}]"
-  cp -r "${SDIR}" "${DDIR}"
+  cp -r --no-preserve=all "${SDIR}" "${DDIR}"
+  if [ "$?" -ne "0" ]; then
+    echo "***[ERROR] Copy error" 1>&2
+    exit 1
+  fi
 done
 
+echo "------------------------------------------ ${PROJECTS_SUB_cchlib-core}"
+DDIR="./releases/cchlib-core"
+for project in ${PROJECTS_SUB_CCHLIB_CORE}
+do
+  SJAR="./${project}/target/*.jar"
+
+  echo "Append sub-project ${project}"
+  echo "Copy [${SJAR}] to [${DDIR}]"
+  cp ${SJAR} ${DDIR}
+  if [ "$?" -ne "0" ]; then
+    echo "***[ERROR] Copy error" 1>&2
+    exit 1
+  fi
+done
+# No javadoc for these projects
+rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+
 echo "------------------------------------------"
+DDIR="./releases/cchlib-j2ee"
+for project in ${PROJECTS_SUB_CCHLIB_J2EE}
+do
+  SJAR="./${project}/target/*.jar"
+
+  echo "Append sub-project ${project}"
+  echo "Copy [${SJAR}] to [${DDIR}]"
+  cp ${SJAR} ${DDIR}
+  if [ "$?" -ne "0" ]; then
+    echo "***[ERROR] Copy error" 1>&2
+    exit 1
+  fi
+done
+# No javadoc for these projects
+rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+
+
+echo "------------------------------------------"
+DDIR="./releases/cchlib-apps"
 for project in ${PROJECTS_APPS}
 do
   SJAR="./${project}/target/*.jar"
-  DDIR="./releases/cchlib-apps"
 
   echo "Prepare project ${project}"
   echo "Copy [${SJAR}] to [${DDIR}]"
   cp ${SJAR} ${DDIR}
+  if [ "$?" -ne "0" ]; then
+    echo "***[ERROR] Copy error" 1>&2
+    exit 1
+  fi
 done
-
-
-#echo "------------------------------------------"
-#for project in ${PROJECTS_TOOLS}
-#do
-#  SJAR="./${project}/target/*.jar"
-#  DDIR="./releases/cchlib-tools"
-#
-#  echo "Prepare project ${project}"
-#  echo "Copy [${SJAR}] to [${DDIR}]"
-#  cp ${SJAR} ${DDIR}
-#done
+# No javadoc for these projects
+rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
 echo "------------------------------------------"
 exit 0
-
-# @Echo ON
-# Set MODULE_WITH_DOC=cchlib-core;cchlib-j2ee;cchlib-jdbf;cchlib-sys
-# Set MODULE_WITH_SUBPROJECT=cchlib-core;cchlib-j2ee;cchlib-tools;cchlib-apps
-
-
-#********* @Echo # Move content of subproject into project
-#********* IF NOT EXIST ".\releases\cchlib-apps" Md ."\releases\cchlib-apps"
-#********* For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Echo ************* %%F -- %%P ***************
-#********* For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Del ".\releases\%%F\*-javadoc.jar"
-#********* For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO Move ".\releases\%%F\*.jar .\releases\%%P\"
-#********* For /D %%P IN ( %MODULE_WITH_SUBPROJECT% ) DO For /D %%F IN ( "%%P-*" ) DO RmDir ".\releases\%%F"
-
-# @Echo # Prepare directories for new documentations
-# For /D %%F IN ( %MODULE_WITH_DOC% ) DO IF NOT EXIST ".\releases\%%F\apidocs" Md ".\releases\%%F\apidocs"
-
-# @Echo # Copy new documentations
-# For /D %%F IN ( %MODULE_WITH_DOC% ) DO XCopy ".\%%F\target\apidocs" ".\releases\%%F\apidocs\" /E /Y /Q
-
-# @Echo # Remove javadoc for cchlib-tools {no doc here}
-# Del /Q ".\releases\cchlib-tools\cchlib-tools-*-javadoc.jar"
-
-# @Echo # Remove javadoc for cchlib-apps {no doc here}
-# Del /Q ".\releases\cchlib-tools\cchlib-apps-*-javadoc.jar"
-
-# @Echo # Remove shaded jar file in tools {fix}
-# Del /Q ".\releases\cchlib-tools\cchlib-tools-*-shaded.jar"

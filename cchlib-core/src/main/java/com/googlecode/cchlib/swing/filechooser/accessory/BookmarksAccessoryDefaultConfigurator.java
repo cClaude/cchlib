@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.filechooser.accessory;
+package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.io.File;
 import java.io.FileInputStream;

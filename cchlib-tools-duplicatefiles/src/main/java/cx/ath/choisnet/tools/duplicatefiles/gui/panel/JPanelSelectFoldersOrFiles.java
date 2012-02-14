@@ -70,8 +70,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     /**
      * Create the panel.
      */
-    public JPanelSelectFoldersOrFiles()
+    public JPanelSelectFoldersOrFiles( DFToolKit dFToolKit )
     {
+        this.dFToolKit = dFToolKit;
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{23, 0, 0, 0};
@@ -80,6 +82,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         setLayout(gridBagLayout);
 
         jButtonRemEntry = new JButton("Remove");
+        jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
         jButtonRemEntry.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -88,6 +91,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             });
 
         jButtonAddDir = new JButton("Append");
+        jButtonAddDir.setIcon( dFToolKit.getIcon( "add.png" ) );
         jButtonAddDir.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -102,6 +106,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         add(jButtonAddDir, gbc_jButtonAddDir);
 
         jButtonSelectFile = new JButton("Select File");
+        jButtonSelectFile.setIcon( dFToolKit.getIcon( "file.png" ) );
         jButtonSelectFile.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -132,6 +137,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         add(jButtonRemEntry, gbc_jButtonRemEntry);
 
         jButtonSelectDir = new JButton("Select Folder");
+        jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
         jButtonSelectDir.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -160,11 +166,14 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     /**
      * @wbp.factory
      */
-    public static XTextField createXTextField() {
+    public static XTextField createXTextField()
+    {
         return new XTextField();
     }
-    public void initJTableSelectedFoldersOrFiles()
+
+    public void initFixComponents()
     {
+        // Init JTable
         tableModelSelectedFoldersOrFiles = new AbstractTableModel()
         {
             private static final long serialVersionUID = 1L;
@@ -226,19 +235,6 @@ public class JPanelSelectFoldersOrFiles extends JPanel
          };
 
         jTableSelectedFoldersOrFiles.setModel( tableModelSelectedFoldersOrFiles );
-    }
-
-    public void initFixComponents( DFToolKit dFToolKit )
-    {
-        this.dFToolKit = dFToolKit;
-
-        // Init JTable
-        initJTableSelectedFoldersOrFiles();
-
-        jButtonSelectFile.setIcon( dFToolKit.getIcon( "file.png" ) );
-        jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
-        jButtonAddDir.setIcon( dFToolKit.getIcon( "add.png" ) );
-        jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
     }
 
     private void jButtonSelectDirMouseMousePressed( MouseEvent event )

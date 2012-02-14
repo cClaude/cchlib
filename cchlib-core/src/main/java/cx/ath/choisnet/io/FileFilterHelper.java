@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
-** Build commons {@link FileFilter} that are {@link Serializable}
+** Build commons {@link FileFilter} that are {@link java.io.Serializable}
 */
 public class FileFilterHelper
 {
@@ -15,7 +15,7 @@ public class FileFilterHelper
 
     /**
      * Returns a filter that keep only directories
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see File#isDirectory()
      */
     public static FileFilter directoryFileFilter()
@@ -33,7 +33,7 @@ public class FileFilterHelper
 
     /**
      * Returns a filter that keep only file
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see File#isFile()
      */
     public static FileFilter fileFileFilter()
@@ -49,9 +49,9 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a {@link Serializable} {@link FileFilter} with an
+     * Returns a {@link java.io.Serializable} {@link FileFilter} with an
      * accept(File) method that always return true
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter trueFileFilter()
     {
@@ -67,9 +67,9 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a {@link Serializable} {@link FileFilter} with an
+     * Returns a {@link java.io.Serializable} {@link FileFilter} with an
      * accept(File) method that always return false
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter falseFileFilter()
     {
@@ -87,7 +87,7 @@ public class FileFilterHelper
     /**
      *
      * @param aFileFilter
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter not(final FileFilter aFileFilter)
     {
@@ -105,7 +105,7 @@ public class FileFilterHelper
      *
      * @param firstFileFilter
      * @param secondFileFilter
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter and(
                 final FileFilter firstFileFilter,
@@ -130,7 +130,7 @@ public class FileFilterHelper
     /**
      *
      * @param fileFilters
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter and(
             final FileFilter...fileFilters
@@ -155,7 +155,7 @@ public class FileFilterHelper
      *
      * @param firstFileFilter
      * @param secondFileFilter
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter or(
             final FileFilter firstFileFilter,
@@ -180,7 +180,7 @@ public class FileFilterHelper
     /**
      *
      * @param fileFilters
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter or(
             final FileFilter...fileFilters
@@ -205,7 +205,7 @@ public class FileFilterHelper
      *
      * @param firstFileFilter
      * @param secondFileFilter
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter xor(
             final FileFilter firstFileFilter,
@@ -225,7 +225,7 @@ public class FileFilterHelper
     /**
      *
      * @param length
-     * @return a {@link Serializable} {@link FileFilter}
+     * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static FileFilter fileLengthFileFilter( final long length )
     {
@@ -241,7 +241,7 @@ public class FileFilterHelper
 
     /**
     *
-    * @return a {@link Serializable} {@link FileFilter}
+    * @return a {@link java.io.Serializable} {@link FileFilter}
     */
    public static FileFilter zeroLengthFileFilter()
    {
@@ -250,7 +250,7 @@ public class FileFilterHelper
 
    /**
    *
-   * @return a {@link Serializable} {@link FileFilter}
+   * @return a {@link java.io.Serializable} {@link FileFilter}
    * @since 4.1.6
    */
   public static FileFilter noneZeroLengthFileFilter()

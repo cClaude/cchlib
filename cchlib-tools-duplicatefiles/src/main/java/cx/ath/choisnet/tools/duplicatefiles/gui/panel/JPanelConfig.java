@@ -1,6 +1,5 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
@@ -11,9 +10,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
-import com.googlecode.cchlib.i18n.I18nSwingHelper;
 import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
@@ -25,12 +24,13 @@ import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
  */
 public class JPanelConfig
     extends JPanelConfigWB
-        implements ActionListener
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( JPanelConfig.class );
+    private DFToolKit dfToolKit;
+    private ActionListener actionListener;
     private ConfigMode mode;
-    private Window rootFrame;
+//    private Window rootFrame;
 
     //@I18n( methodSuffixName="I18nTileIncFilesFilter")
     private JPanelConfigFilter jPanelIncFilesFilter;
@@ -64,102 +64,42 @@ public class JPanelConfig
     private final static int DIRS_FILTER_INCLUDE    = 1;
 
 
-    public JPanelConfig()
+    public JPanelConfig( final DFToolKit dfToolKit )
     {
-        // No initialization here
+        super();
+
+        this.dfToolKit = dfToolKit;
+        //this.rootFrame = dfToolKit.getMainWindow();
     }
 
-//    public void setI18nTileIncFilesFilter(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( jPanelIncFilesFilter, localText );
-//    }
-//
-//    public String getI18nTileIncFilesFilter()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( jPanelIncFilesFilter );
-//    }
-
-//    public void setI18nTileExcFilesFilter(String localText)
-//    {
-//         I18nSwingHelper.setTitledBorderTitle( jPanelExcFilesFilter, localText );
-//    }
-//
-//    public String getI18nTileExcFilesFilter()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( jPanelExcFilesFilter );
-//    }
-
-//    public void setI18nTileIncDirsFilter(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( jPanelIncFilesFilter, localText );
-//    }
-//
-//    public String getI18nTileIncDirsFilter()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( jPanelIncFilesFilter );
-//    }
-
-//    public void setI18nTileExcDirsFilter(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( jPanelExcFilesFilter, localText );
-//    }
-//
-//    public String getI18nTileExcDirsFilter()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( jPanelExcFilesFilter );
-//    }
-
-    public void setI18nTileUseFilesFilters(String localText)
+    @Override
+    protected ActionListener getActionListener()
     {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
+        if( this.actionListener == null ) {
+            this.actionListener = new ActionListener()
+            {
+                @Override//ActionListener
+                public void actionPerformed( ActionEvent e )
+                {
+                    //logger.debug( "actionPerformed" );
+                    Tools.invokeLater( new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            updateDisplay( true );
+                        }});
+                }
+            };
+            }
+        return this.actionListener;
     }
 
-    public String getI18nTileUseFilesFilters()
+    public void initFixComponents()
     {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
-    }
-
-    public void setI18nTileUseDirsFilters(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
-    }
-
-    public String getI18nTileUseDirsFilters()
-    {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
-    }
-
-    public void setI18nTileIgnore(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
-    }
-
-    public String getI18nTileIgnore()
-    {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
-    }
-
-    @Override//ActionListener
-    public void actionPerformed( ActionEvent e )
-    {
-        logger.debug( "actionPerformed" );
-        updateDisplayMode( true );
-    }
-
-    public void initFixComponents(
-            final DFToolKit dfToolKit
-            )
-    {
-        this.rootFrame = dfToolKit.getMainWindow();
-
         jCheckBoxFFIgnoreHidden.setSelected( true );
         jCheckBoxFDIgnoreHidden.setSelected( true );
         jCheckBoxIgnoreReadOnlyFiles.setSelected( true );
         jCheckBoxIgnoreEmptyFiles.setSelected( true );
-
-        getJComboBoxFilesFilters().addActionListener( this );
-        getJComboBoxDirsFilters().addActionListener( this );
-
     }
 
     /**
@@ -169,10 +109,6 @@ public class JPanelConfig
     public void performeI18n(AutoI18n autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
-        //autoI18n.performeI18n(jPanelIncFilesFilter,jPanelIncFilesFilter.getClass());
-        //autoI18n.performeI18n(jPanelExcFilesFilter,jPanelExcFilesFilter.getClass());
-        //autoI18n.performeI18n(jPanelIncDirsFilter,jPanelIncDirsFilter.getClass());
-        //autoI18n.performeI18n(jPanelExcDirsFilter,jPanelExcDirsFilter.getClass());
 
         Properties  prop = ResourcesLoader.getProperties( "JPanelConfig.properties" );
 
@@ -181,7 +117,7 @@ public class JPanelConfig
                 jPanelIncFilesFilterRegExp,
                 prop,
                 "filetype",
-                this
+                getActionListener()
                 );
         jPanelIncFilesFilter.getXComboBoxPatternRegExp().addItem(
                 "(.*?)\\.(jpg|jpeg|png|gif)" // TODO: remove this sample
@@ -195,7 +131,7 @@ public class JPanelConfig
                 jPanelExcFilesFilterRegExp,
                 prop,
                 "filetype",
-                this
+                getActionListener()
                 );
         jPanelIncDirsFilter = new JPanelConfigFilter( // No values
                 jPanelIncDirsFilterTitle,
@@ -206,19 +142,18 @@ public class JPanelConfig
                 jPanelExcDirsFilterRegExp,
                 prop,
                 "dirtype",
-                this
+                getActionListener()
                 );
 
-        updateDisplayMode( ConfigMode.EXPERT, false ); // FIXME use begginner !
+        updateDisplay( false );
     }
 
-    public void updateDisplayMode(
-            final ConfigMode    newMode,
-            final boolean       doRepaint
+    public void updateDisplay(
+            final boolean doRepaint
             )
     {
         final ConfigMode prevMode   = this.mode;
-        this.mode                   = newMode;
+        this.mode                   = this.dfToolKit.getPreferences().getConfigMode();
 
         logger.debug( "updateDisplayMode()"
             + prevMode
@@ -291,63 +226,62 @@ public class JPanelConfig
                 }
             }
 
-        updateDisplayMode( doRepaint );
-    }
+        // private_updateDisplayMode( final boolean doRepaint )
+        {
+            JPanel jp = getJPanelFilters();
 
-    private void updateDisplayMode( final boolean doRepaint )
-    {
-        JPanel jp = getJPanelFilters();
+            if( jPanelIncFilesFilter != null ) {
+                jp.remove( jPanelIncFilesFilter );
+                }
+            if( jPanelExcFilesFilter != null ) {
+                jp.remove( jPanelExcFilesFilter );
+                }
+            if( jPanelIncDirsFilter != null ) {
+                jp.remove( jPanelIncDirsFilter );
+                }
+            if( jPanelExcDirsFilter != null ) {
+                jp.remove( jPanelExcDirsFilter );
+                }
 
-        if( jPanelIncFilesFilter != null ) {
-            jp.remove( jPanelIncFilesFilter );
-            }
-        if( jPanelExcFilesFilter != null ) {
-            jp.remove( jPanelExcFilesFilter );
-            }
-        if( jPanelIncDirsFilter != null ) {
-            jp.remove( jPanelIncDirsFilter );
-            }
-        if( jPanelExcDirsFilter != null ) {
-            jp.remove( jPanelExcDirsFilter );
-            }
+            //jsp.revalidate();
+            //this.repaint();//repaint a JFrame jframe in this case
 
-        //jsp.revalidate();
-        //this.repaint();//repaint a JFrame jframe in this case
+            if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_INCLUDE ) {
+                jp.add( jPanelIncFilesFilter );
+                logger.debug( "Display jPanelIncFilesFilter" );
+                }
+            else if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_EXCLUDE ) {
+                jp.add( jPanelExcFilesFilter );
+                logger.debug( "Display jPanelExcFilesFilter" );
+                }
+            else { // FILES_FILTER_DISABLED
+                logger.debug(
+                    "No Display getJComboBoxFilesFilters()="
+                        + getJComboBoxFilesFilters().getSelectedIndex()
+                    );
+                }
 
-        if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_INCLUDE ) {
-            jp.add( jPanelIncFilesFilter );
-            logger.debug( "Display jPanelIncFilesFilter" );
-            }
-        else if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_EXCLUDE ) {
-            jp.add( jPanelExcFilesFilter );
-            logger.debug( "Display jPanelExcFilesFilter" );
-            }
-        else { // FILES_FILTER_DISABLED
-            logger.debug(
-                "No Display getJComboBoxFilesFilters()="
-                    + getJComboBoxFilesFilters().getSelectedIndex()
-                );
-            }
+            if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_INCLUDE ) {
+                jp.add( jPanelIncDirsFilter );
+                logger.debug( "Display jPanelIncDirsFilter" );
+                }
+            else if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_EXCLUDE ) {
+                jp.add( jPanelExcDirsFilter );
+                logger.debug( "Display jPanelExcDirsFilter" );
+                }
+            else { // DIRS_FILTER_DISABLED
+                logger.debug( "No Display" );
+                }
 
-        if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_INCLUDE ) {
-            jp.add( jPanelIncDirsFilter );
-            logger.debug( "Display jPanelIncDirsFilter" );
-            }
-        else if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_EXCLUDE ) {
-            jp.add( jPanelExcDirsFilter );
-            logger.debug( "Display jPanelExcDirsFilter" );
-            }
-        else { // DIRS_FILTER_DISABLED
-            logger.debug( "No Display" );
-            }
+            if( doRepaint ) {
+                jp.revalidate();
 
-        if( doRepaint ) {
-            jp.revalidate();
+              //repaint a JFrame jframe in this case
+                dfToolKit.getMainWindow().repaint();
 
-            rootFrame.repaint();//repaint a JFrame jframe in this case
-
-            logger.debug( "repaint: " + rootFrame );
-            }
+                logger.debug( "repaint MainWindow" );
+                }
+        }
     }
 
     /**
@@ -666,6 +600,5 @@ public class JPanelConfig
             }
         };
     }
-
 }
 

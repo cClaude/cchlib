@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * TODO:Doc
  *
  *@since 4.1.6
  */
@@ -21,29 +21,29 @@ public class FileRollingOutputStream
 {
     private final static Logger logger = Logger.getLogger( FileRollingOutputStream.class );
 
-    private final List<File>	fileList	= new ArrayList<File>();;
-    private FileRoller 			fileRoller;
-    private final int 			maxLength;
+    private final List<File>    fileList    = new ArrayList<File>();;
+    private FileRoller          fileRoller;
+    private final int           maxLength;
 
-    private File 			currentFile;
-    private OutputStream	currentOutput;
-    private int 			currentLength;
-    private long 			prevLength;
+    private File            currentFile;
+    private OutputStream    currentOutput;
+    private int             currentLength;
+    private long            prevLength;
 
     private boolean isClose;
 
     /**
      * Create a new FileRollingOutputStream
      *
-     * @param baseFile
+     * @param fileRoller
      * @param maxLength
      * @throws FileNotFoundException if an error while
      *         creating first File
      * @throws IllegalArgumentException if maxLength < 1
      */
     public FileRollingOutputStream(
-            final FileRoller	fileRoller,
-            final int			maxLength
+            final FileRoller    fileRoller,
+            final int            maxLength
             )
         throws  FileNotFoundException,
                 IllegalArgumentException
@@ -54,10 +54,10 @@ public class FileRollingOutputStream
                 );
             }
 
-        this.fileRoller	= fileRoller;
-        this.maxLength 	= maxLength;
+        this.fileRoller    = fileRoller;
+        this.maxLength     = maxLength;
 
-        this.prevLength			= 0;
+        this.prevLength            = 0;
 
         openCurrentOutputStream();
 
@@ -66,8 +66,8 @@ public class FileRollingOutputStream
 
     private void openCurrentOutputStream() throws FileNotFoundException
     {
-        this.currentFile 	= this.fileRoller.createNewRollFile();
-        this.currentOutput 	= new BufferedOutputStream(
+        this.currentFile     = this.fileRoller.createNewRollFile();
+        this.currentOutput     = new BufferedOutputStream(
                 new FileOutputStream( this.currentFile )
                 );
 
@@ -89,8 +89,8 @@ public class FileRollingOutputStream
         this.fileList.add( this.currentFile );
 
         this.prevLength += this.currentLength;
-        this.currentFile	= null;
-        this.currentLength 	= 0;
+        this.currentFile    = null;
+        this.currentLength     = 0;
     }
 
     private void checkIfNeedToChangeFile( int len )

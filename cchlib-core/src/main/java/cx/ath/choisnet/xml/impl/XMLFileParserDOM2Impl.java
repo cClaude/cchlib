@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.EnumSet;
 
-@Deprecated
+/**
+ * @deprecated use {@link XMLFileParserDOMImpl} instead
+ */
 public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
     implements XMLFileParser
 {

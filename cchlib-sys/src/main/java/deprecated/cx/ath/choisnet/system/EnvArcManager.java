@@ -1,6 +1,3 @@
-/**
- *
- */
 package deprecated.cx.ath.choisnet.system;
 
 import java.util.Collection;
@@ -8,19 +5,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import deprecated.cx.ath.choisnet.system.impl.EnvArcDefaultImpl;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite;
-
 /**
- * @author Claude CHOISNET
- *
+ * @deprecated No replacement
  */
-@Deprecated
 public final class EnvArcManager
 {
-    private static EnvArc defaultEnvArc = new EnvArcDefaultImpl();
+    private static EnvArc defaultEnvArc = new deprecated.cx.ath.choisnet.system.impl.EnvArcDefaultImpl();
     private static EnvArc currentEnvArc;
     private static final Map<String,EnvArc> envArcMap = new HashMap<String,EnvArc>();
 
@@ -37,21 +27,21 @@ public final class EnvArcManager
 
     private static void perfomeInit()
     {
-        // TODO: 1. identify operating system
-        // TODO: 2. load EnvArc implementation(s?) (using reflexion)
+        // TxOxDxO: 1. identify operating system
+        // TxOxDxO: 2. load EnvArc implementation(s?) (using reflexion)
 
         try {
-            EnvArcRegWin32ReadOnly envArcRegWin32 = new EnvArcRegWin32ReadOnly();
+            deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly envArcRegWin32 = new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly();
             addEnvArcEntry( envArcRegWin32 );
             currentEnvArc = envArcRegWin32;
         }
-        catch( EnvArcRegWin32EnvArcException notSupported ) {
+        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
         }
 
         try {
-            addEnvArcEntry( new EnvArcRegWin32ReadWrite() );
+            addEnvArcEntry( new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite() );
         }
-        catch( EnvArcRegWin32EnvArcException notSupported ) {
+        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
         }
 
         // Initialize current (if not yet done)

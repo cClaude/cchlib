@@ -43,7 +43,7 @@ public class Preferences
     /**
      * Build default preferences (file not found)
      */
-    public Preferences()
+    private Preferences()
     {
         this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
         this.localeLanguage = null;
@@ -82,6 +82,15 @@ public class Preferences
     {
         return this.preferencesFile;
     }
+    
+    /**
+     * Returns default Preferences
+     * @return default Preferences
+     */
+    public static Preferences createDefaultPreferences()
+    {
+        return new Preferences();
+    }
 
     /**
      * Returns user preferences if exist or default
@@ -108,7 +117,7 @@ public class Preferences
             DialogHelper.showMessageExceptionDialog( null, msg, e );
             }
 
-        return new Preferences();
+        return createDefaultPreferences();
     }
 
     /**

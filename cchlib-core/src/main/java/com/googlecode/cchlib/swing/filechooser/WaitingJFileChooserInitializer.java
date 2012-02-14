@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.filechooser;
+package com.googlecode.cchlib.swing.filechooser;
 
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
@@ -7,13 +7,13 @@ import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerEvent;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerListener;
+import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
+import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerEvent;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializerListener;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
 
 /**
  * On windows JFileChooser initialization is to slow!

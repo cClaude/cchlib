@@ -2,7 +2,7 @@
  *                                                                                  *
  *                                                                                  *
  ************************************************************************************/
-package cx.ath.choisnet.swing.filechooser.accessory;
+package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.Component;
 import java.awt.Dimension;

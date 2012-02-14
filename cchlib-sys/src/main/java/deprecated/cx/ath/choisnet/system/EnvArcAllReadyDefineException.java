@@ -1,11 +1,7 @@
-/**
- * 
- */
 package deprecated.cx.ath.choisnet.system;
 
 /**
- * @author Claude CHOISNET
- *
+ * @deprecated No replacement
  */
 public class EnvArcAllReadyDefineException extends RuntimeException
 {

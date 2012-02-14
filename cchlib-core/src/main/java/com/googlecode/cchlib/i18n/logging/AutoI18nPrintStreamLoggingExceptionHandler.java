@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.io.PrintStream;
 import java.lang.reflect.Field;
@@ -8,7 +7,8 @@ import java.util.MissingResourceException;
 import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
- * {@link AutoI18nExceptionHandler} using {@link System#err}
+ * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler}
+ * using {@link System#err} or any custom {@link PrintStream} 
  * to trace Localization exceptions.
  * <p>
  * This object is not Serializable, you must use

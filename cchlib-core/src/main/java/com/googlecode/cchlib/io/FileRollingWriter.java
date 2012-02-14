@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * TODO:Docs
  *@since 4.1.6
  */
 public class FileRollingWriter
@@ -21,15 +21,15 @@ public class FileRollingWriter
 {
     private final static Logger logger = Logger.getLogger( FileRollingWriter.class );
 
-    private final FileRoller 	fileRoller;
-    private final List<File>	fileList	= new ArrayList<File>();;
-    private final int 			maxLength;
+    private final FileRoller    fileRoller;
+    private final List<File>    fileList    = new ArrayList<File>();;
+    private final int           maxLength;
     private final Charset       charset;
 
-    private File 	currentFile;
-    private Writer	currentOutput;
-    private int 	currentLength;
-    private long 	prevLength;
+    private File    currentFile;
+    private Writer  currentOutput;
+    private int     currentLength;
+    private long    prevLength;
 
     /**
      * Create a new FileRollingOutputStream
@@ -40,8 +40,8 @@ public class FileRollingWriter
      * @throws IOException
      */
     public FileRollingWriter(
-            final FileRoller	fileRoller,
-            final int			maxLength,
+            final FileRoller    fileRoller,
+            final int           maxLength,
             final Charset       charset
             )
         throws  IllegalArgumentException, IOException
@@ -52,8 +52,8 @@ public class FileRollingWriter
                 );
             }
 
-        this.fileRoller	= fileRoller;
-        this.maxLength 	= maxLength;
+        this.fileRoller = fileRoller;
+        this.maxLength  = maxLength;
         this.prevLength = 0;
         this.charset    = charset;
 
@@ -62,8 +62,8 @@ public class FileRollingWriter
 
     private void openCurrentOutput() throws IOException
     {
-        this.currentFile 	= this.fileRoller.createNewRollFile();
-        this.currentOutput 	= new BufferedWriter(
+        this.currentFile    = this.fileRoller.createNewRollFile();
+        this.currentOutput  = new BufferedWriter(
                 new OutputStreamWriter(
                     new FileOutputStream( this.currentFile ),
                     this.charset
@@ -88,8 +88,8 @@ public class FileRollingWriter
         this.fileList.add( this.currentFile );
 
         this.prevLength += this.currentLength;
-        this.currentFile	= null;
-        this.currentLength 	= 0;
+        this.currentFile    = null;
+        this.currentLength     = 0;
     }
 
     private void checkIfNeedToChangeFile( int len )
@@ -101,13 +101,6 @@ public class FileRollingWriter
             roolToNewFile();
             }
     }
-
-//    private void checkIfNeedToChangeFile() throws IOException
-//    {
-//        if( this.currentLength > this.maxLength ) {
-//            roolToNewFile();
-//            }
-//    }
 
     private void roolToNewFile() throws IOException
     {

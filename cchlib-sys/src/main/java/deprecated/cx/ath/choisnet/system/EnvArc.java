@@ -3,10 +3,8 @@ package deprecated.cx.ath.choisnet.system;
 import java.util.Collection;
 
 /**
- * 
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
-@Deprecated
 public interface EnvArc
 {
     /**

@@ -13,7 +13,7 @@ import java.util.Arrays;
  * <p>
  * Provide similar feature than {@link StringBuilder}
  * </p>
- * 
+ *
  * @author Claude CHOISNET
  */
 public class ByteArrayBuilder
@@ -165,7 +165,7 @@ public class ByteArrayBuilder
         ensureCapacity(length() + len);
         System.arraycopy(bytes, offset, buffer, lastPos, len);
         lastPos += len;
-        
+
         return this;
     }
 
@@ -188,11 +188,11 @@ public class ByteArrayBuilder
 
         return this;
     }
-    
+
     /**
-     * Apprend content of an {@link InputSteam}
+     * Apprend content of an {@link InputStream}
      * <br/>
-     * (InputSteam is not close by this method)
+     * (InputStream is not close by this method)
      *
      * @param is InputStream to add
      * @return caller for initialization chaining
@@ -203,11 +203,11 @@ public class ByteArrayBuilder
     {
         return append(is, DEFAULT_SIZE);
     }
-    
+
     /**
-     * Apprend content of an {@link InputSteam}
+     * Apprend content of an {@link InputStream}
      * <br/>
-     * (InputSteam is not close by this method)
+     * (InputStream is not close by this method)
      *
      * @param is InputStream to add
      * @param bufferSize intermediate buffer size
@@ -222,11 +222,11 @@ public class ByteArrayBuilder
     {
         return append(is, new byte[bufferSize]);
     }
-    
+
     /**
-     * Apprend content of an {@link InputSteam}
+     * Apprend content of an {@link InputStream}
      * <br/>
-     * (InputSteam is not close by this method)
+     * (InputStream is not close by this method)
      *
      * @param is InputStream to add
      * @param intermediateBuffer intermediate buffer for
@@ -241,11 +241,11 @@ public class ByteArrayBuilder
         throws java.io.IOException
     {
         int len;
-        
+
         while( (len = is.read( intermediateBuffer )) != -1 ) {
             append( intermediateBuffer, 0, len);
             }
-        
+
         return this;
     }
 
@@ -306,7 +306,7 @@ public class ByteArrayBuilder
     /**
      * Tests if this ByteArrayBuilder starts with the
      * specified prefix.
-     * 
+     *
      * @param prefix the prefix
      * @return true if current ByteArrayBuilder start with giving
      *         ByteArrayBuilder
@@ -319,7 +319,7 @@ public class ByteArrayBuilder
     /**
      * Tests if this ByteArrayBuilder starts with the
      * specified prefix.
-     * 
+     *
      * @param prefix the prefix
      * @return true if current ByteArrayBuilder start with giving
      *         bytes
@@ -341,13 +341,13 @@ public class ByteArrayBuilder
 
     /**
      * Tests if this ByteArrayBuilder ends with the
-     * specified suffix. 
-     * 
-     * @param suffix the suffix. 
+     * specified suffix.
+     *
+     * @param suffix the suffix.
      * @return true if the byte sequence represented by
      *         the argument is a suffix of the byte
      *         sequence represented by this object;
-     *         false otherwise. 
+     *         false otherwise.
      */
     public boolean endsWith(ByteArrayBuilder suffix)
     {
@@ -356,13 +356,13 @@ public class ByteArrayBuilder
 
     /**
      * Tests if this ByteArrayBuilder ends with the
-     * specified suffix. 
-     * 
-     * @param suffix the suffix. 
+     * specified suffix.
+     *
+     * @param suffix the suffix.
      * @return true if the byte sequence represented by
      *         the argument is a suffix of the byte
      *         sequence represented by this object;
-     *         false otherwise. 
+     *         false otherwise.
      */
     public boolean endsWith(byte[] suffix)
     {
@@ -391,13 +391,13 @@ public class ByteArrayBuilder
     @Override
     public int compareTo(ByteArrayBuilder aByteArrayBuilder)
     {
-        int length = lastPos >= aByteArrayBuilder.lastPos 
-                        ? aByteArrayBuilder.lastPos 
+        int length = lastPos >= aByteArrayBuilder.lastPos
+                        ? aByteArrayBuilder.lastPos
                         : lastPos;
 
         for(int i = 0; i < length; i++) {
             int cmp = buffer[i] - aByteArrayBuilder.buffer[i];
-            
+
             if(cmp != 0) {
                 return cmp;
             }
@@ -428,8 +428,8 @@ public class ByteArrayBuilder
      * Returns internal buffer as a String by decoding
      * the internal array of bytes using the platform's
      * default charset.
-     * 
-     * @return a string representing the data in this sequence. 
+     *
+     * @return a string representing the data in this sequence.
      */
     @Override
     public String toString()
@@ -440,8 +440,8 @@ public class ByteArrayBuilder
     /**
      * Returns internal buffer as a String by decoding
      * the internal array of bytes using the specified charset.
-     * 
-     * @return a string representing the data in this sequence. 
+     *
+     * @return a string representing the data in this sequence.
      */
     public String toString(Charset charset)
     {
@@ -554,8 +554,8 @@ public class ByteArrayBuilder
 
         lastPos = max;
     }
-    
-    
+
+
     /**
      * The Knuth-Morris-Pratt Pattern Matching Algorithm can be used
      * to search a byte array.

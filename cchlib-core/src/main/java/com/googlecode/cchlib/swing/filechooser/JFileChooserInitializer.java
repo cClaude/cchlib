@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.filechooser;
+package com.googlecode.cchlib.swing.filechooser;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

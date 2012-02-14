@@ -1,13 +1,9 @@
 package deprecated.cx.ath.choisnet.system.impl.win32.testcase;
 
-/*import java.util.Iterator;
-import org.apache.log4j.Logger;
-import deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException;
-import deprecated.cx.ath.choisnet.system.impl.win32.RegWin32;*/
 import junit.framework.TestCase;
 
 /**
- * @author Claude CHOISNET
+ * @deprecated No replacement
  */
 public class RegWin32Test extends TestCase
 {

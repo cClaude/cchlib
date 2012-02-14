@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.filechooser.accessory;
+package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.filechooser.accessory.ResourcesUtils;
 
 /**
  *

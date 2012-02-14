@@ -98,7 +98,7 @@ public class TreeModelBuilder implements Serializable
 //    }
 
     {
-        DefaultMutableTreeNode node0 = new DefaultMutableTreeNode("Preferences");
+        DefaultMutableTreeNode node0 = new DefaultMutableTreeNode("DefaultPreferences");
         {
             DefaultMutableTreeNode node1 = new DefaultMutableTreeNode("colors");
             {

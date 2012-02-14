@@ -20,18 +20,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.Tools;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
-import cx.ath.choisnet.swing.filechooser.JFileChooserInitializer;
-import cx.ath.choisnet.swing.filechooser.WaitingJFileChooserInitializer;
-import cx.ath.choisnet.swing.filechooser.accessory.BookmarksAccessory;
-import cx.ath.choisnet.swing.filechooser.accessory.TabbedAccessory;
+import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
-import cx.ath.choisnet.tools.duplicatefiles.ConfigData;
 import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
@@ -84,15 +85,15 @@ final public class DuplicateFilesFrame
     @I18nString private String txtopenDesktopExceptionTitle = "Can not open file";
 
     /* @serial */
-    private final ConfigData configData;
-    /* @serial */
-    private ConfigMode mode = ConfigMode.BEGINNER; // default mode
-    /* @serial */
-    private int bufferSize = 16 * 1024;
+    private final Preferences preferences;
 
-    public DuplicateFilesFrame()
+    public DuplicateFilesFrame(
+        final Preferences preferences
+        )
     {
         super();
+        this.preferences    = preferences;
+        //this.mode           = preferences.getConfigMode();
 
         initFixComponents();
 
@@ -112,8 +113,6 @@ final public class DuplicateFilesFrame
         // Init display
         updateDisplayAccordingState();
         logger.info( "DuplicateFilesFrame() done." );
-
-        configData = new ConfigData();
     }
 
     public void performeI18n(AutoI18n autoI18n)
@@ -142,14 +141,15 @@ final public class DuplicateFilesFrame
 
         this.state = STATE_SELECT_DIRS;
 
-        getJPanel0Select().initFixComponents( getDFToolKit() );
-        getJPanel1Config().initFixComponents( getDFToolKit() );
+        getJPanel0Select().initFixComponents();
+        getJPanel1Config().initFixComponents();
         getJPanel2Searching().initFixComponents( getDFToolKit() );
-        getJPanel3Result().initComponents( duplicateFiles, getDFToolKit() );
+        // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
 
         //        // init
         //        modeListener.actionPerformed( null );
-        mode = ConfigMode.BEGINNER; // TODO: prefs
+//        mode = ConfigMode.BEGINNER; // TO DO: prefs
+//        preferences.setConfigMode( ConfigMode.BEGINNER );
 
         // initDynComponents
         LookAndFeelHelpers.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
@@ -166,7 +166,7 @@ final public class DuplicateFilesFrame
 
                         if( ! newLAF.equals( oldLAF ) ) {
                             // TODO extra customization
-                            getJPanel1Config().initFixComponents( getDFToolKit() );
+                            getJPanel1Config().initFixComponents();
 
                             if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
                                 // DuplicateFilesFrame.this.removeEmptyDirectories.init();
@@ -175,22 +175,7 @@ final public class DuplicateFilesFrame
                         }
                 }
             });
-    }
-
-    /**
-     * Make sure to be outside swing even threads
-     * @param safeRunner
-     */
-    private static void invokeLater( final Runnable safeRunner )
-    {
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                SwingUtilities.invokeLater( safeRunner );
-            }
-        }).start();
+        super.setSize( preferences.getWindowDimension() );
     }
 
     private void updateDisplayAccordingState()
@@ -203,12 +188,18 @@ final public class DuplicateFilesFrame
                 logger.debug( "updateDisplayAccordState: " + state );
 
                 getJTabbedPaneMain().setSelectedIndex( state );
+
                 getJButtonNextStep().setText( txtContinue );
                 getJButtonNextStep().setIcon( iconContinue );
+
                 getJButtonRestart().setText( txtRestart );
                 getJButtonRestart().setIcon( iconRestart );
 
                 if( state == STATE_SELECT_DIRS ) {
+                    getJPanel2Searching().clear();
+                    getJPanel3Result().clear();
+                    getJPanel4Confirm().clear();
+
                     getJButtonRestart().setEnabled( false );
                     getJButtonNextStep().setEnabled( true );
                     }
@@ -223,7 +214,10 @@ final public class DuplicateFilesFrame
 
                     try {
                         getJPanel2Searching().prepareScan(
-                                new MessageDigestFile( "MD5", bufferSize  ),
+                                new MessageDigestFile(
+                                        "MD5",
+                                        preferences.getMessageDigestBufferSize()
+                                        ),
                                 getJPanel1Config().IsIgnoreEmptyFiles()
                                 );
                         }
@@ -272,7 +266,7 @@ final public class DuplicateFilesFrame
                     if( subState == SUBSTATE_CONFIRM_INIT ) {
                         getJButtonNextStep().setEnabled( true );
                         getJButtonNextStep().setText( txtDeleteNow  );
-                        getJPanel4Confirm().initComponents( duplicateFiles );
+                        getJPanel4Confirm().populate( duplicateFiles );
                         }
                     else {
                         getJButtonNextStep().setEnabled( false );
@@ -280,10 +274,10 @@ final public class DuplicateFilesFrame
                     }
             }
         };
-        invokeLater( safeRunner );
+        Tools.invokeLater( safeRunner );
     }
 
-    private JFileChooserInitializer getJFileChooserInitializer()
+    public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
             final JFileChooserInitializer.DefaultConfigurator configurator = new JFileChooserInitializer.DefaultConfigurator()
@@ -315,44 +309,7 @@ final public class DuplicateFilesFrame
         return jFileChooserInitializer;
     }
 
-    public static void main()
-    {
-        final String title = "Duplicate Files Manager";
 
-        logger.info( "starting..." );
-        //Locale.setDefault( Locale.ENGLISH ); // Debug Only
-
-        try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName()
-                    );
-            }
-        catch( Exception e ) {
-            logger.warn( e );
-            }
-
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    DuplicateFilesFrame frame = new DuplicateFilesFrame();
-                    frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                    frame.setTitle( title );
-                    frame.getContentPane().setPreferredSize( frame.getSize() );
-                    frame.pack();
-                    frame.setLocationRelativeTo( null );
-                    frame.setVisible( true );
-                    frame.getJFileChooserInitializer();
-                    }
-                catch( Throwable e ) {
-                    logger.fatal( "Can't load application", e );
-
-                    DialogHelper.showMessageExceptionDialog( title, e );
-                    }
-            }
-        } );
-    }
 
     private void jButtonNextStep_ActionPerformed()
     {
@@ -378,13 +335,21 @@ final public class DuplicateFilesFrame
             else if( state == STATE_RESULTS ) {
                 state = STATE_CONFIRM;
                 subState = SUBSTATE_CONFIRM_INIT;
+
+                Tools.invokeLater(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        getJPanel4Confirm().clear();
+                    }
+                } );
                 }
             else if( state == STATE_CONFIRM ) {
                 if( subState == SUBSTATE_CONFIRM_INIT ) {
                     getJButtonNextStep().setEnabled( false );
                     getJButtonRestart().setEnabled( false );
 
-                    invokeLater(new Runnable() {
+                    Tools.invokeLater(new Runnable() {
                         @Override
                         public void run()
                         {
@@ -442,7 +407,7 @@ final public class DuplicateFilesFrame
             this.dfToolKit = new DFToolKit()
             {
                 private static final long serialVersionUID = 1L;
-                private Locale locale;
+//                private Locale locale;
 
                 @Override // DFToolKit
                 public JFileChooser getJFileChooser()
@@ -473,11 +438,11 @@ final public class DuplicateFilesFrame
                                 );
                         }
                 }
-                @Override // DFToolKit
-                public ConfigMode getConfigMode()
-                {
-                    return mode;
-                }
+//                @Override // DFToolKit
+//                public ConfigMode getConfigMode()
+//                {
+//                    return mode;
+//                }
                 @Override // DFToolKit
                 public void sleep(long ms)
                 {
@@ -498,11 +463,11 @@ final public class DuplicateFilesFrame
                     return ResourcesLoader.getImageIcon( name );
                 }
                 @Override // DFToolKit
-                public ConfigData getConfigData()
+                public Preferences getPreferences()
                 {
-                    return configData;
+                    return preferences;
                 }
-                @Override
+                @Override // DFToolKit
                 public Locale getValidLocale()
                 {
                     if( getLocale() == null ) {
@@ -510,32 +475,22 @@ final public class DuplicateFilesFrame
                         }
                     return getLocale();
                 }
-                @Override
-                public Locale getLocale()
-                {
-                    return locale;
-                }
-                @Override
-                public void setLocale( final Locale locale )
-                {
-                    this.locale = locale;
-                }
-                @Override
+                @Override // DFToolKit
                 public Window getMainWindow()
                 {
                     return DuplicateFilesFrame.this;
                 }
-                @Override
+                @Override // DFToolKit
                 public void setEnabledJButtonCancel( boolean b )
                 {
                     DuplicateFilesFrame.this.getJButtonCancel().setEnabled( b );
                 }
-                @Override
+                @Override // DFToolKit
                 public boolean isEnabledJButtonCancel()
                 {
                     return DuplicateFilesFrame.this.getJButtonCancel().isEnabled();
                 }
-                @Override
+                @Override // DFToolKit
                 public void initComponentsJPanelConfirm()
                 {
                     getJButtonNextStep().setEnabled( false );
@@ -553,7 +508,7 @@ final public class DuplicateFilesFrame
                                 logger.warn( "Interrupted", e );
                                 }
                             logger.info( "initComponentsJPanelConfirm start" );
-                            getJPanel3Result().initComponents(duplicateFiles, dfToolKit);
+                            getJPanel3Result().populate( duplicateFiles );
                             getJButtonNextStep().setEnabled( true );
                             logger.info( "initComponentsJPanelConfirm done" );
                         }
@@ -605,45 +560,34 @@ final public class DuplicateFilesFrame
                             break;
 
                         case ACTIONCMD_SET_LOCALE :
-//                          //TODO
-//                          super.getJMenuItemLanguageEnglish().setEnabled( false );
-//                          super.getJMenuItemLanguageFrench().setEnabled( false );
-//                          super.getJMenuItemLanguageDefaultSystem().setEnabled( true );
-//                          super.getJMenuItemLanguageDefaultSystem().setSelected( true );
+                            {
+                            AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
+                            logger.debug( "source: " + sourceLocale );
+
+                            Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
+                            logger.debug( "locale: " + locale );
+
+                            getDFToolKit().getPreferences().setLocale( locale );
+                            // TODO: show alert, restart !
+                            }
                             break;
 
                         case ACTIONCMD_SET_MODE :
-                            AbstractButton source = AbstractButton.class.cast( event.getSource() );
-                            logger.info( "source: " + source );
-//                            ActionListener modeListener = new ActionListener()
-//                            {
-//                                @Override
-//                                public void actionPerformed( ActionEvent e )
-//                                {
-//                                    logger.debug("ActionEvent:" +e);
-//
-//                                    if( getJMenuItemModeBegin().isSelected() ) {
-//                                        mode = ConfigMode.BEGINNER;
-//                                        }
-//                                    else if( getJMenuItemModeAdvance().isSelected() ) {
-//                                        mode = ConfigMode.ADVANCED;
-//                                        }
-//                                    else if( getJMenuItemModeExpert().isSelected() ) {
-//                                        mode = ConfigMode.EXPERT;
-//                                        }
-//
-//                                    logger.debug( "ConfigMode:" + mode );
-//
-//                                    getJPanel1Config().updateDisplayMode( mode, true );
-//                                    getJPanel3Result().updateDisplayMode( mode );
-//                                    //TODO: more !!!
-//                                }
-//                            };
-                            mode = ConfigMode.class.cast( source.getClientProperty( ConfigMode.class ) );
-                            logger.debug( "ConfigMode:" + mode );
+                            {
+                            AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
+                            logger.debug( "source: " + sourceConfigMode );
 
-                            getJPanel1Config().updateDisplayMode( mode, true );
-                            getJPanel3Result().updateDisplayMode( mode );
+                            preferences.setConfigMode(
+                                ConfigMode.class.cast(
+                                    sourceConfigMode.getClientProperty( ConfigMode.class )
+                                    )
+                                );
+                            logger.debug( "ConfigMode:" + preferences.getConfigMode() );
+
+                            getJPanel1Config().updateDisplay( true );
+                            getJPanel3Result().updateDisplay();
+                            //TODO: more panel ?
+                            }
                             break;
 
                         default:

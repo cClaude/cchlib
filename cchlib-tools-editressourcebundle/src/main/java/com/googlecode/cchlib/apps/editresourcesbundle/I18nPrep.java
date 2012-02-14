@@ -15,7 +15,7 @@ public class I18nPrep
 {
     public static void main( String[] args ) throws IOException
     {
-        CompareResourcesBundleFrame mainFrame0              = new CompareResourcesBundleFrame( new Preferences() );
+        CompareResourcesBundleFrame mainFrame0              = new CompareResourcesBundleFrame( Preferences.createDefaultPreferences() );
         I18nPrepAutoUpdatable       mainFrame               = mainFrame0;
         FilesConfig                 filesConfig             = new FilesConfig();
         I18nAutoUpdatable           loadFrame               = new LoadDialog( mainFrame0, filesConfig );

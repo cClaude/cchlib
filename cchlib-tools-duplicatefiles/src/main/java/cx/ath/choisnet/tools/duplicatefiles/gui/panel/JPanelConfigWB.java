@@ -5,18 +5,20 @@ import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import com.googlecode.cchlib.i18n.I18n;
+import com.googlecode.cchlib.i18n.I18nSwingHelper;
 
 /**
  *
  *
  */
-public class JPanelConfigWB extends JPanel
+public abstract class JPanelConfigWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private JComboBox<String> jComboBoxFilesFilters;
@@ -39,7 +41,8 @@ public class JPanelConfigWB extends JPanel
     /**
      * Create the panel.
      */
-    public JPanelConfigWB() {
+    public JPanelConfigWB()
+    {
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
@@ -63,6 +66,7 @@ public class JPanelConfigWB extends JPanel
         jPanelFilesFilers.setLayout(gbl_jPanelFilesFilers);
 
         jComboBoxFilesFilters = createJComboBoxString();
+        jComboBoxFilesFilters.addActionListener( getActionListener() );
         GridBagConstraints gbc_jComboBoxFilesFilters = new GridBagConstraints();
         gbc_jComboBoxFilesFilters.fill = GridBagConstraints.HORIZONTAL;
         gbc_jComboBoxFilesFilters.gridx = 0;
@@ -132,6 +136,7 @@ public class JPanelConfigWB extends JPanel
         jPanelDirectoryFilters.setLayout(gbl_jPanelDirectoryFilters);
 
         jComboBoxDirsFilters = createJComboBoxString();
+        jComboBoxDirsFilters.addActionListener( getActionListener() );
         GridBagConstraints gbc_jComboBoxDirsFilters = new GridBagConstraints();
         gbc_jComboBoxDirsFilters.fill = GridBagConstraints.HORIZONTAL;
         gbc_jComboBoxDirsFilters.gridx = 0;
@@ -151,30 +156,74 @@ public class JPanelConfigWB extends JPanel
         jPanelFilters.setLayout(new BoxLayout(jPanelFilters, BoxLayout.Y_AXIS));
     }
 
+    protected abstract ActionListener getActionListener();
+
+    public void setI18nTileUseFilesFilters(String localText)
+    {
+        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
+    }
+
+    public String getI18nTileUseFilesFilters()
+    {
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
+    }
+
+    public void setI18nTileUseDirsFilters(String localText)
+    {
+        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
+    }
+
+    public String getI18nTileUseDirsFilters()
+    {
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
+    }
+
+    public void setI18nTileIgnore(String localText)
+    {
+        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
+    }
+
+    public String getI18nTileIgnore()
+    {
+        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
+    }
+
     /**
      * @wbp.factory
      */
-    public static JComboBox<String> createJComboBoxString() {
+    public static JComboBox<String> createJComboBoxString()
+    {
         JComboBox<String> comboBox = new JComboBox<String>();
         return comboBox;
     }
 
-    protected JComboBox<String> getJComboBoxFilesFilters() {
+    protected JComboBox<String> getJComboBoxFilesFilters()
+    {
         return jComboBoxFilesFilters;
     }
-    protected JComboBox<String> getJComboBoxDirsFilters() {
+
+    protected JComboBox<String> getJComboBoxDirsFilters()
+    {
         return jComboBoxDirsFilters;
     }
-    protected JPanel getJPanelFilters() {
+
+    protected JPanel getJPanelFilters()
+    {
         return jPanelFilters;
     }
-    protected JPanel getJPanelFilesFilers() {
+
+    protected JPanel getJPanelFilesFilers()
+    {
         return jPanelFilesFilers;
     }
-    protected JPanel getJPanelDirectoryFilters() {
+
+    protected JPanel getJPanelDirectoryFilters()
+    {
         return jPanelDirectoryFilters;
     }
-    protected JPanel getJPanelIgnore() {
+
+    protected JPanel getJPanelIgnore()
+    {
         return jPanelIgnore;
     }
 }
