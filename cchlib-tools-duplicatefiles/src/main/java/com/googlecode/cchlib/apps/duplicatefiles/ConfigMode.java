@@ -1,5 +1,8 @@
-package cx.ath.choisnet.tools.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles;
 
+/**
+ * Usage level for GUI
+ */
 public enum ConfigMode
 {
         BEGINNER,

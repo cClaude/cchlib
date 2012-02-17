@@ -11,7 +11,7 @@ import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
 /**
  * Create resources bundles files
  */
-public class I18nPrep
+public class CompareResourcesBundleI18nPrep
 {
     public static void main( String[] args ) throws IOException
     {

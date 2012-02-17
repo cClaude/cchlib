@@ -10,15 +10,19 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Enumeration;
 import java.util.Locale;
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
@@ -33,8 +37,6 @@ import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
-import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
-import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.emptydirectories.gui.RemoveEmptyDirectories;
 import cx.ath.choisnet.util.HashMapSet;
@@ -71,6 +73,8 @@ final public class DuplicateFilesFrame
 
     /* @serial */
     private AutoI18n autoI18n;
+    /* @serial */
+    private final Preferences preferences;
 
     private Icon iconContinue;
     private Icon iconRestart;
@@ -82,10 +86,11 @@ final public class DuplicateFilesFrame
     @I18nString private String txtBack      = "Back";
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private String txtopenDesktopExceptionTitle = "Can not open file";
-
-    /* @serial */
-    private final Preferences preferences;
+    @I18nString private String txtOpenDesktopExceptionTitle = "Can not open file";
+    @I18nString private String msgStringSavePrefsExceptionTitle = "Can not open save configuration";
+    @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
+    @I18nString private String msgStringDefaultLocale = "default system";
+    @I18nString private String msgStringAlertLocaleTitle = "Change language";
 
     public DuplicateFilesFrame(
         final Preferences preferences
@@ -93,13 +98,46 @@ final public class DuplicateFilesFrame
     {
         super();
         this.preferences    = preferences;
-        //this.mode           = preferences.getConfigMode();
 
-        initFixComponents();
+        //
+        // Menu: configMode
+        //
+        {
+            Enumeration<AbstractButton> modeEntriesEnum = getButtonGroupConfigMode().getElements();
+            ConfigMode                  configMode      = preferences.getConfigMode();
+
+            while( modeEntriesEnum.hasMoreElements() ) {
+                AbstractButton  entry   = modeEntriesEnum.nextElement();
+                Object          cf      = entry.getClientProperty( ConfigMode.class );
+
+                entry.setSelected( configMode.equals( cf ) );
+                }
+        }
+
+        //
+        // Menu: Locale
+        //
+        final Locale locale = this.preferences.getLocale();
+        {
+            Enumeration<AbstractButton> localEntriesEnum = getButtonGroupLanguage().getElements();
+
+            while( localEntriesEnum.hasMoreElements() ) {
+                AbstractButton  entry   = localEntriesEnum.nextElement();
+                Object          l       = entry.getClientProperty( Locale.class );
+
+                //logger.info( "getButtonGroupLanguage() : entry=" + entry );
+                //logger.info( "getButtonGroupLanguage() : l=" + l );
+
+                if( locale == null ) {
+                    entry.setSelected( l == null );
+                    }
+                else {
+                    entry.setSelected( locale.equals( l ) );
+                    }
+                }
+        }
 
         // Init i18n
-        Locale locale = Locale.getDefault();//this.preferences.getLocale();
-
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
@@ -107,10 +145,13 @@ final public class DuplicateFilesFrame
             }
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
 
+        setSize( this.preferences.getWindowDimension() );
+
         // Apply i18n !
-        performeI18n(autoI18n);
+        performeI18n( autoI18n );
 
         // Init display
+        initFixComponents();
         updateDisplayAccordingState();
         logger.info( "DuplicateFilesFrame() done." );
     }
@@ -433,7 +474,7 @@ final public class DuplicateFilesFrame
                         e.printStackTrace();
                         DialogHelper.showMessageExceptionDialog(
                                 getMainWindow(),
-                                txtopenDesktopExceptionTitle,
+                                txtOpenDesktopExceptionTitle,
                                 e
                                 );
                         }
@@ -530,6 +571,10 @@ final public class DuplicateFilesFrame
                 public void actionPerformed( ActionEvent event )
                 {
                     switch( event.getActionCommand() ) {
+                        case ACTIONCMD_EXIT :
+                            exitApplication();
+                            break;
+
                         case ACTIONCMD_RESTART :
                             if( getJButtonRestart().isEnabled() ) {
                                 if( state == STATE_CONFIRM ) {
@@ -568,7 +613,8 @@ final public class DuplicateFilesFrame
                             logger.debug( "locale: " + locale );
 
                             getDFToolKit().getPreferences().setLocale( locale );
-                            // TODO: show alert, restart !
+
+                            setGuiLocale( locale );
                             }
                             break;
 
@@ -590,6 +636,15 @@ final public class DuplicateFilesFrame
                             }
                             break;
 
+                        case ACTIONCMD_SAVE_PREFS :
+                            new Thread( new Runnable() {
+                                @Override
+                                public void run()
+                                {
+                                    saveCurrentPreferences();
+                                }} ).start();
+                            break;
+
                         default:
                             logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
                             break;
@@ -599,6 +654,60 @@ final public class DuplicateFilesFrame
         }
         return this.mainActionListener;
     }
+
+    protected void exitApplication()
+    {
+        // TODO Perform some checks: running : this frame ?
+        // TODO Perform some checks: running : empty directories frame ?
+        // TODO Save prefs ???
+
+        System.exit( 0 );
+    }
+
+    private void saveCurrentPreferences()
+    {
+        preferences.setLookAndFeelClassName(
+                UIManager.getLookAndFeel().getClass().getName()
+                );
+        preferences.setLocale( Locale.getDefault() );
+        preferences.setWindowDimension( getSize() );
+
+        // TODO: Add here extra preferences values
+
+        savePreferences();
+    }
+
+    private void setGuiLocale( final Locale locale )
+    {
+        preferences.setLocale( locale );
+
+        savePreferences();
+
+        JOptionPane.showMessageDialog(
+            this,
+            String.format(
+                    msgStringAlertLocale,
+                    locale == null ? msgStringDefaultLocale : locale.getDisplayLanguage()
+                    ),
+            msgStringAlertLocaleTitle,
+            JOptionPane.INFORMATION_MESSAGE
+            );
+    }
+
+    protected void savePreferences()
+    {
+        try {
+            this.preferences.save();
+            }
+        catch( IOException e ) {
+            DialogHelper.showMessageExceptionDialog(
+                    this,
+                    msgStringSavePrefsExceptionTitle,
+                    e
+                    );
+            }
+    }
+
 
     @Override
     public String getMessagesBundle()

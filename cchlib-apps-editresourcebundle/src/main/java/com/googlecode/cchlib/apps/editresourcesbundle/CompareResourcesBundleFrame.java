@@ -66,6 +66,8 @@ class CompareResourcesBundleFrame
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private String msgStringAlertLocaleTitle = "Change language";
     @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
+    @I18nString private String msgStringSavePrefsExceptionTitle = "Error while saving preferences";
+    @I18nString private String msgStringDefaultLocale = "default system";
 
     /**
      * For I18n only
@@ -394,14 +396,7 @@ class CompareResourcesBundleFrame
             final String c = event.getActionCommand();
 
             if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
-                preferences.setLookAndFeelClassName();
-                preferences.setLocale( Locale.getDefault() );
-
-                preferences.setWindowDimension( getSize() );
-
-                // TODO: Add here extra preferences values
-
-                savePreferences();
+                saveCurrentPreferences();
                 }
             else if( ACTIONCMD_OPEN.equals( c ) ) {
                 jMenuItem_Open();
@@ -442,6 +437,35 @@ class CompareResourcesBundleFrame
         autoI18n.performeI18n(this,this.getClass());
     }
 
+    private void saveCurrentPreferences()
+    {
+        preferences.setLookAndFeelClassName();
+        preferences.setLocale( Locale.getDefault() );
+
+        preferences.setWindowDimension( getSize() );
+
+        // TODO: Add here extra preferences values
+
+        savePreferences();
+    }
+
+    private void setGuiLocale( final Locale locale )
+    {
+        preferences.setLocale( locale );
+
+        savePreferences();
+
+        JOptionPane.showMessageDialog(
+                this,
+                String.format(
+                        msgStringAlertLocale,
+                        locale == null ? msgStringDefaultLocale : locale.getDisplayLanguage()
+                        ),
+                msgStringAlertLocaleTitle,
+                JOptionPane.INFORMATION_MESSAGE
+                );
+    }
+
     private void savePreferences()
     {
         try {
@@ -450,24 +474,10 @@ class CompareResourcesBundleFrame
         catch( IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                 CompareResourcesBundleFrame.this,
-                "Error while saving preferences", //title
+                msgStringSavePrefsExceptionTitle,
                 e
                 );
             }
-    }
-
-    public void setGuiLocale( final Locale locale )
-    {
-        preferences.setLocale( locale );
-
-        savePreferences();
-
-        JOptionPane.showMessageDialog(
-            this,
-            String.format( msgStringAlertLocale, locale ),
-            msgStringAlertLocaleTitle,
-            JOptionPane.INFORMATION_MESSAGE
-            );
     }
 
     @Override // I18nPrepAutoUpdatable

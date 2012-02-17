@@ -15,8 +15,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
-import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
-import cx.ath.choisnet.tools.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfig;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfirm;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelResult;
@@ -24,41 +24,51 @@ import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSelectFoldersOrFiles;
 import java.awt.event.ActionListener;
 import java.util.Locale;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
- *
- *
+ * Main frame layout.
  */
 public abstract class DuplicateFilesFrameWB extends JFrame
 {
     private static final long serialVersionUID = 1L;
+    //private static final Logger logger = Logger.getLogger( DuplicateFilesFrameWB.class );
+
     public static final String ACTIONCMD_DELETE_EMPTY_DIRECTORIES = "ACTIONCMD_DELETE_EMPTY_DIRECTORIES";
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
     public static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
     public static final String ACTIONCMD_SET_LOCALE = "ACTIONCMD_SET_LOCALE";
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
-
-    //private static final Logger logger = Logger.getLogger( DuplicateFilesFrameWB.class );
+    public static final String ACTIONCMD_EXIT = "ACTIONCMD_EXIT";
+    public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
 
     private JPanel contentPane;
     private ButtonGroup buttonGroupConfigMode = new ButtonGroup();
     private ButtonGroup buttonGroupLanguage = new ButtonGroup();
-    private JMenu jMenuLookAndFeel;
+    private JMenu                       jMenuFile;
+    private JMenuItem                   jMenuItemExit;
+    private JMenu                       jMenuConfig;
+    private JMenu                       jMenuConfigMode;
+    private JRadioButtonMenuItem        jMenuItemModeBeginner;
+    private JRadioButtonMenuItem        jMenuItemModeAdvance;
+    private JRadioButtonMenuItem        jMenuItemModeExpert;
+    private JMenu                       jMenuItemLanguage;
+    private JRadioButtonMenuItem        jMenuItemLanguageDefaultSystem;
+    private JMenuItem                   jMenuItem_SavePrefs;
+    private JMenu                       jMenuTools;
+    private JMenuItem                   jMenuItemDeleteEmptyDirectories;
+    private JMenu                       jMenuLookAndFeel;
+    private JTabbedPane                 jTabbedPaneMain;
     private JPanelSelectFoldersOrFiles  jPanel0Select;
     private JPanelConfig                jPanel1Config;
     private JPanelSearching             jPanel2Searching;
     private JPanelResult                jPanel3Result;
     private JPanelConfirm               jPanel4Confirm;
     private JButton                     jButtonNextStep;
-    private JMenuBar                    jMenuBarMain;
     private JButton                     jButtonRestart;
     private JButton                     jButtonCancel;
-    private JMenu                       jMenuConfig;
-    private JMenu                       jMenuTools;
-    private JMenuItem                   jMenuItemDeleteEmptyDirectories;
-    private JMenu                       jMenuConfigMode;
-    private JTabbedPane                 jTabbedPaneMain;
 
     /**
      * Create the frame.
@@ -66,35 +76,48 @@ public abstract class DuplicateFilesFrameWB extends JFrame
      */
     public DuplicateFilesFrameWB()
     {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exitApplication();
+            }
+        });
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setBounds(100, 100, 450, 300);
-        setSize(650, 500);
+        setSize(650, 500); // Just for design
 
-        jMenuBarMain = new JMenuBar();
+        JMenuBar jMenuBarMain = new JMenuBar();
         setJMenuBar(jMenuBarMain);
 
-        jMenuConfig = new JMenu("Config");
+        jMenuFile = new JMenu("File");
+        jMenuBarMain.add(jMenuFile);
+
+        jMenuItemExit = new JMenuItem("Exit");
+        jMenuItemExit.setActionCommand( ACTIONCMD_EXIT );
+        jMenuItemExit.addActionListener( getActionListener() );
+        jMenuFile.add( jMenuItemExit );
+
+        jMenuConfig = new JMenu("Configuration");
         jMenuBarMain.add(jMenuConfig);
 
         jMenuConfigMode = new JMenu("Mode");
         jMenuConfig.add(jMenuConfigMode);
 
-        JRadioButtonMenuItem jMenuItemModeBeginner = new JRadioButtonMenuItem( "Beginner" );
-        jMenuItemModeBeginner.setSelected(true); // TODO prefs !
+        jMenuItemModeBeginner = new JRadioButtonMenuItem( "Beginner" );
         buttonGroupConfigMode.add( jMenuItemModeBeginner );
         jMenuItemModeBeginner.setActionCommand( ACTIONCMD_SET_MODE );
         jMenuItemModeBeginner.putClientProperty( ConfigMode.class, ConfigMode.BEGINNER );
         jMenuItemModeBeginner.addActionListener( getActionListener() );
         jMenuConfigMode.add( jMenuItemModeBeginner );
 
-        JRadioButtonMenuItem jMenuItemModeAdvance = new JRadioButtonMenuItem( "Advance" );
+        jMenuItemModeAdvance = new JRadioButtonMenuItem( "Advance" );
         buttonGroupConfigMode.add( jMenuItemModeAdvance );
         jMenuItemModeAdvance.setActionCommand( ACTIONCMD_SET_MODE );
         jMenuItemModeAdvance.putClientProperty( ConfigMode.class, ConfigMode.ADVANCED );
         jMenuItemModeAdvance.addActionListener( getActionListener() );
         jMenuConfigMode.add( jMenuItemModeAdvance );
 
-        JRadioButtonMenuItem jMenuItemModeExpert = new JRadioButtonMenuItem( "Expert" );
+        jMenuItemModeExpert = new JRadioButtonMenuItem( "Expert" );
         buttonGroupConfigMode.add( jMenuItemModeExpert );
         jMenuItemModeExpert.setActionCommand( ACTIONCMD_SET_MODE );
         jMenuItemModeExpert.putClientProperty( ConfigMode.class, ConfigMode.EXPERT );
@@ -103,6 +126,12 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
         JMenu jMenuItemLanguage = createJMenuLanguage();
         jMenuConfig.add(jMenuItemLanguage);
+
+        jMenuItem_SavePrefs = new JMenuItem("Save preferences");
+        jMenuItem_SavePrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
+        jMenuItem_SavePrefs.addActionListener( getActionListener() );
+        jMenuConfig.addSeparator();
+        jMenuConfig.add(jMenuItem_SavePrefs);
 
         jMenuTools = new JMenu("Tools");
         jMenuBarMain.add(jMenuTools);
@@ -182,6 +211,16 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         contentPane.add(getJButtonNextStep(), gbc_jButtonNextStep);
     }
 
+    protected ButtonGroup getButtonGroupConfigMode()
+    {
+        return buttonGroupConfigMode;
+    }
+
+    protected ButtonGroup getButtonGroupLanguage()
+    {
+        return buttonGroupLanguage;
+    }
+
     protected JMenu getJMenuLookAndFeel()
     {
         return jMenuLookAndFeel;
@@ -234,30 +273,28 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
     public abstract ActionListener getActionListener();
     public abstract DFToolKit getDFToolKit();
+    protected abstract void exitApplication();
 
-    /**
-     * @wbp.factory
-     */
-    public JMenu createJMenuLanguage()
+    private JMenu createJMenuLanguage()
     {
-        JMenu jMenuItemLanguage = new JMenu("Language");
+        jMenuItemLanguage = new JMenu("Language");
 
-        JMenuItem jMenuItemLanguageDefaultSystem = new JRadioButtonMenuItem(" Default system" );
+        jMenuItemLanguageDefaultSystem = new JRadioButtonMenuItem( "Default system" );
         buttonGroupLanguage.add( jMenuItemLanguageDefaultSystem );
-        jMenuItemLanguageDefaultSystem.setSelected(true); // TODO: prefs
+        //jMenuItemLanguageDefaultSystem.setSelected(true); // TOxDO: prefs
         jMenuItemLanguageDefaultSystem.setActionCommand( ACTIONCMD_SET_LOCALE );
         jMenuItemLanguageDefaultSystem.putClientProperty( Locale.class, null );
         jMenuItemLanguageDefaultSystem.addActionListener( getActionListener() );
         jMenuItemLanguage.add( jMenuItemLanguageDefaultSystem );
 
-        JMenuItem jMenuItemLanguageEnglish = new JRadioButtonMenuItem( "English" );
+        JMenuItem jMenuItemLanguageEnglish = new JRadioButtonMenuItem( Locale.ENGLISH.getDisplayLanguage() );
         buttonGroupLanguage.add( jMenuItemLanguageEnglish );
         jMenuItemLanguageEnglish.setActionCommand( ACTIONCMD_SET_LOCALE );
         jMenuItemLanguageEnglish.putClientProperty( Locale.class, Locale.ENGLISH );
         jMenuItemLanguageEnglish.addActionListener( getActionListener() );
         jMenuItemLanguage.add( jMenuItemLanguageEnglish );
 
-        JMenuItem jMenuItemLanguageFrench = new JRadioButtonMenuItem( "French" );
+        JMenuItem jMenuItemLanguageFrench = new JRadioButtonMenuItem( Locale.FRENCH.getDisplayLanguage() );
         buttonGroupLanguage.add( jMenuItemLanguageFrench );
         jMenuItemLanguageFrench.setActionCommand( ACTIONCMD_SET_LOCALE );
         jMenuItemLanguageFrench.putClientProperty( Locale.class, Locale.FRENCH );

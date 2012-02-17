@@ -8,12 +8,12 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.Populator;
 import com.googlecode.cchlib.util.PropertierPopulator;
 import com.googlecode.cchlib.util.PropertiesHelper;
-import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
 
 /**
  *
@@ -247,6 +247,21 @@ public class Preferences implements Serializable
             this.messageDigestBufferSize = 16 * 1024;
             }
         return this.messageDigestBufferSize;
+    }
+
+    /**
+     * Save Preferences to disk
+     * @throws IOException if any
+     */
+    public void save() throws IOException
+    {
+        Properties properties = new Properties();
+
+        pp.populateProperties( this, properties );
+
+        File prefs = getPreferencesFile();
+        PropertiesHelper.saveProperties(prefs, properties, "" );
+        logger.info( "Preferences saved in " + prefs );
     }
 
 }

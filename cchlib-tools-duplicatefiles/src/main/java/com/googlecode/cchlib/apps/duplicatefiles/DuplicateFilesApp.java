@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
@@ -40,7 +39,7 @@ public class DuplicateFilesApp
             {
                 try {
                     DuplicateFilesFrame frame = new DuplicateFilesFrame(preferences);
-                    frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                    //frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                     frame.setTitle( title );
                     frame.getContentPane().setPreferredSize( frame.getSize() );
                     frame.pack();

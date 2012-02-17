@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import javax.swing.UIManager;
-import cx.ath.choisnet.tools.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 
 /**
  *

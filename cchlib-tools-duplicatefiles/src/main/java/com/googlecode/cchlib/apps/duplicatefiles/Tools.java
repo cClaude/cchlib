@@ -1,16 +1,12 @@
-/**
- * 
- */
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.SwingUtilities;
 
 /**
- * @author Claude
  *
  */
-public class Tools {
-
+public class Tools 
+{
     /**
      * Make sure to be outside swing even threads
      * @param safeRunner
