@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.6-SNAPSHOT</version>
+    <version>4.1.6</version>
   </parent>
 
   <artifactId>cchlib-j2ee-deprecated</artifactId>
@@ -25,21 +25,15 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.6-SNAPSHOT</version>
+      <version>4.1.6</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-j2ee</artifactId>
-      <version>4.1.6-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
+      <version>4.1.6</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -52,13 +46,6 @@
         <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
 </project>

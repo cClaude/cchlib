@@ -4,6 +4,7 @@ cchlib
 4.1.6
   Add support of some Java 1.7 features.
   Generated target code now is Java7
+  Need maven 3.0.3
 ---------------------------------------------------------------------
 4.1.5
   New dependences organization in pom.xml files.
@@ -33,3 +34,20 @@ To add/improve:
 ---------------------------------------------------------------------
 Future extensions:
 ---------------------------------------------------------------------
+
+
+---------------------------------------------------------------------
+Tools:
+* Check new version of dependency
+  mvn versions:display-dependency-updates
+
+* Check new version of plugin
+  mvn versions:display-plugin-updates
+
+* Update dependency & plugin versions
+  mvn versions:use-latest-versions
+http://weblogs.java.net/blog/johnsmart/archive/2010/08/18/managing-version-numbers-maven-maven-versions-plugin
+
+* Set version
+  mvn versions:set -DnewVersion=4.1.6
+

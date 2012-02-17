@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
-    <version>4.1.6-SNAPSHOT</version>
+    <version>4.1.6</version>
     <artifactId>cchlib</artifactId>
   </parent>
   <artifactId>cchlib-core</artifactId>
@@ -41,20 +41,6 @@
   </distributionManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <build>
@@ -67,19 +53,6 @@
     </extensions>
 
     <plugins>
-      <!-- plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <optimize>true</optimize>
-          <showWarnings>true</showWarnings>
-          <showDeprecation>true</showDeprecation>
-          <source>${project.javadoc.source.version}</source>
-          <target>${project.javadoc.target.version}</target>
-          <!- - compilerArgument>-nowarn</compilerArgument - ->
-        </configuration>
-      </plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>

@@ -46,33 +46,11 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.6-SNAPSHOT</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
+      <version>4.1.6</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
 
-    <!--dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
-      <type>jar</type>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
-      <type>jar</type>
-      <scope>provided</scope>
-    </dependency-->
     <dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-api</artifactId>
@@ -81,13 +59,6 @@
         <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
@@ -134,6 +105,6 @@
   <parent>
    <artifactId>cchlib</artifactId>
    <groupId>com.googlecode.cchlib</groupId>
-   <version>4.1.6-SNAPSHOT</version>
+   <version>4.1.6</version>
   </parent>
 </project>

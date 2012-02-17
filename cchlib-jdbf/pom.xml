@@ -3,13 +3,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!--
   <parent>
-    <groupId>com.googlecode.cchlib</groupId>
-    <artifactId>cchlib</artifactId>
-    <version>4.1.4-SNAPSHOT</version>
+   <groupId>com.googlecode.cchlib</groupId>
+   <artifactId>cchlib</artifactId>
+   <version>4.1.6</version>
   </parent>
-  -->
   <artifactId>cchlib-jdbf</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-jdbf</name>
@@ -46,23 +44,9 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.6-SNAPSHOT</version>
+      <version>4.1.6</version>
       <type>jar</type>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.4</version>
-      <type>jar</type>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -107,9 +91,4 @@
       </plugin>
     </plugins>
   </build>
-  <parent>
-   <groupId>com.googlecode.cchlib</groupId>
-   <artifactId>cchlib</artifactId>
-   <version>4.1.6-SNAPSHOT</version>
-  </parent>
 </project>
