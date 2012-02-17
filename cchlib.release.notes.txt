@@ -1,10 +1,16 @@
 cchlib
 
 ---------------------------------------------------------------------
+4.1.7
+  Prepare 4.1.7
+
+---------------------------------------------------------------------
 4.1.6
   Add support of some Java 1.7 features.
   Generated target code now is Java7
   Need maven 3.0.3
+  New bash script for running maven builds
+  Release tag
 ---------------------------------------------------------------------
 4.1.5
   New dependences organization in pom.xml files.
@@ -49,5 +55,6 @@ Tools:
 http://weblogs.java.net/blog/johnsmart/archive/2010/08/18/managing-version-numbers-maven-maven-versions-plugin
 
 * Set version
-  mvn versions:set -DnewVersion=4.1.6
+  #mvn versions:set -DnewVersion=4.1.6
+  mvn versions:set -DnewVersion=4.1.7-SNAPSHOT
 

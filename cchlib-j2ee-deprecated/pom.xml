@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.6</version>
+    <version>4.1.7-SNAPSHOT</version>
   </parent>
 
   <artifactId>cchlib-j2ee-deprecated</artifactId>
@@ -25,7 +25,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.6</version>
+      <version>4.1.7-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-j2ee</artifactId>
-      <version>4.1.6</version>
+      <version>4.1.7-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
