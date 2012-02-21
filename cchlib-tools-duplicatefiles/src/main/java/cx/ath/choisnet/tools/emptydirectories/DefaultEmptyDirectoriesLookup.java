@@ -13,11 +13,11 @@ import cx.ath.choisnet.util.CancelRequestException;
  * Find empty directories
  *
  */
-public class EmptyDirectoriesFinder
-    implements EmptyDirectoriesFinderInterface, Serializable
+public class DefaultEmptyDirectoriesLookup
+    implements EmptyDirectoriesLookup, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( EmptyDirectoriesFinder.class );
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
     private List<File> rootFilesForScan;
     private FileFilter excludeDirectoriesFile;
     private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
@@ -30,7 +30,7 @@ public class EmptyDirectoriesFinder
      *
      * @param rootFiles
      */
-    public EmptyDirectoriesFinder( File...rootFiles )
+    public DefaultEmptyDirectoriesLookup( File...rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>( rootFiles.length );
 
@@ -38,8 +38,8 @@ public class EmptyDirectoriesFinder
             this.rootFilesForScan.add( f );
             }
     }
-    
-    public EmptyDirectoriesFinder( Enumeration<File> rootFilesEnumeration )
+
+    public DefaultEmptyDirectoriesLookup( Enumeration<File> rootFilesEnumeration )
     {
         this.rootFilesForScan = new ArrayList<File>();
 
@@ -47,7 +47,7 @@ public class EmptyDirectoriesFinder
             this.rootFilesForScan.add( rootFilesEnumeration.nextElement() );
             }
     }
-    
+
     /**
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
@@ -56,9 +56,9 @@ public class EmptyDirectoriesFinder
      * @throws CancelRequestException
      */
     @Override
-    public void find() throws CancelRequestException
+    public void lookup() throws CancelRequestException
     {
-        find( FileFilterHelper.falseFileFilter() );
+        lookup( FileFilterHelper.falseFileFilter() );
     }
 
 
@@ -69,7 +69,7 @@ public class EmptyDirectoriesFinder
      * @throws CancelRequestException
      */
     @Override
-    public void find( FileFilter excludeDirectoriesFile )
+    public void lookup( FileFilter excludeDirectoriesFile )
         throws CancelRequestException
     {
         for( EmptyDirectoriesListener l : this.listeners ) {
@@ -103,8 +103,8 @@ public class EmptyDirectoriesFinder
     }
 
     /**
-     *
-     * @param folder
+     * Returns true if folder has no file
+     * @param folder Folder to examine
      * @return
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
@@ -156,20 +156,13 @@ public class EmptyDirectoriesFinder
 
     /**
      * Add empty directory to current set, and notify all
-     * listeners ({@link EmptyDirectoriesListener#addEntry(File, boolean)})
-     *
-     * {@inheritDoc}
+     * listeners: {@link EmptyDirectoriesListener#newEntry(File)}
      */
-    private void/*boolean*/ add( final File emptyDirectoryFile )
+    private void add( final File emptyDirectoryFile )
     {
-//        boolean r = emptyFoldersSet.add( emptyDirectoryFile );
-
         for( EmptyDirectoriesListener l : this.listeners ) {
-            //l.addEntry( emptyDirectoryFile, r );
-            l.newEntry( emptyDirectoryFile );
+             l.newEntry( emptyDirectoryFile );
             }
-
-//        return r;
     }
 
     /**

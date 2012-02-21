@@ -19,7 +19,7 @@ public class EmptyDirectoriesDeleter
 {
     private static final long serialVersionUID = 1L;
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( EmptyDirectoriesDeleter.class );
-    private EmptyDirectoriesFinder emptyDirectoriesFinder;
+    private DefaultEmptyDirectoriesLookup emptyDirectoriesFinder;
     private SortedSet<File> emptyFoldersSet = new TreeSet<File>();
 
     /**
@@ -32,7 +32,7 @@ public class EmptyDirectoriesDeleter
      */
     public EmptyDirectoriesDeleter( File...rootFiles )
     {
-        this.emptyDirectoriesFinder = new EmptyDirectoriesFinder( rootFiles );
+        this.emptyDirectoriesFinder = new DefaultEmptyDirectoriesLookup( rootFiles );
         this.emptyDirectoriesFinder.addListener(
                 new EmptyDirectoriesListener()
                 {
@@ -60,9 +60,9 @@ public class EmptyDirectoriesDeleter
      * @throws CancelRequestException
      */
     @Override
-    public void find() throws CancelRequestException
+    public void lookup() throws CancelRequestException
     {
-        emptyDirectoriesFinder.find();
+        emptyDirectoriesFinder.lookup();
     }
 
     /**
@@ -72,11 +72,11 @@ public class EmptyDirectoriesDeleter
      * @throws CancelRequestException
      */
     @Override
-    public void find( FileFilter excludeDirectoriesFile )
+    public void lookup( FileFilter excludeDirectoriesFile )
         throws CancelRequestException
     {
         emptyFoldersSet.clear();
-        emptyDirectoriesFinder.find( excludeDirectoriesFile);
+        emptyDirectoriesFinder.lookup( excludeDirectoriesFile);
     }
 
     /**

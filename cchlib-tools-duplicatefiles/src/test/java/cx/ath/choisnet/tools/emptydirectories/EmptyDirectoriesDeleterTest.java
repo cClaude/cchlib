@@ -41,7 +41,7 @@ public class EmptyDirectoriesDeleterTest
         emptyDirs.addListener( listener );
 
         try {
-            emptyDirs.find();
+            emptyDirs.lookup();
             System.out.println( "size : " + emptyDirs.getCollection().size() );
 
             int c = emptyDirs.doDelete();

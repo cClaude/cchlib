@@ -15,6 +15,7 @@ import org.junit.Test;
  *
  *
  */
+@Deprecated
 public class FileTreeModel1Test
 {
     private static final Logger logger = Logger.getLogger( FileTreeModel1Test.class );

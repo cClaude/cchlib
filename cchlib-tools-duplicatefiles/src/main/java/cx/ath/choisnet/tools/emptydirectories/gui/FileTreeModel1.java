@@ -13,6 +13,7 @@ import cx.ath.choisnet.util.iterator.SingletonIterator;
 /**
  *
  */
+@Deprecated
 public
 class FileTreeModel1
     extends AbstractFileTreeModel //DefaultTreeModel

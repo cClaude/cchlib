@@ -8,7 +8,7 @@ import java.util.Collection;
  *
  */
 public interface EmptyDirectoriesDeleterInterface
-    extends EmptyDirectoriesFinderInterface
+    extends EmptyDirectoriesLookup
 {
     /**
      *

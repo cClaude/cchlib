@@ -120,6 +120,8 @@ abstract class AbstractFileTreeModel
 //                }
             }
 
+        logger.info( "try to add: " + file + " to GUI * added? =" + added );
+
         return added;
     }
 

@@ -4,7 +4,7 @@ import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.tools.emptydirectories.EmptyDirectoriesFinder;
+import cx.ath.choisnet.tools.emptydirectories.DefaultEmptyDirectoriesLookup;
 import cx.ath.choisnet.tools.emptydirectories.EmptyDirectoriesListener;
 import cx.ath.choisnet.util.CancelRequestException;
 
@@ -23,20 +23,20 @@ public class FindDeleteAdapter
      *
      */
     public FindDeleteAdapter(
-        final DefaultListModel<File>	listModel,
-        final FileTreeModelable 		treeModel,
-        final FindDeleteListener		listener
+        final DefaultListModel<File>    listModel,
+        final FileTreeModelable         treeModel,
+        final FindDeleteListener        listener
         )
     {
         if( listModel == null ) {
-        	throw new IllegalArgumentException( "listModel" );
-        	}
+            throw new IllegalArgumentException( "listModel" );
+            }
         if( treeModel == null ) {
-        	throw new IllegalArgumentException( "treeModel" );
-        	}
+            throw new IllegalArgumentException( "treeModel" );
+            }
         if( listener == null ) {
-        	throw new IllegalArgumentException( "listener" );
-        	}
+            throw new IllegalArgumentException( "listener" );
+            }
 
         this.listModel = listModel;
         this.treeModel = treeModel;
@@ -77,8 +77,8 @@ public class FindDeleteAdapter
 
 //        final DefaultListModel<File>    jListRootModel  = super.getJListRootDirectoriesModel();
 //        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( jListRootModel.elements() );
-        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( listModel.elements() );
-        final UpdateJTreeListeners      listener        = new UpdateJTreeListeners();
+        final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel.elements() );
+        final UpdateJTreeListeners          listener    = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
 
@@ -95,11 +95,11 @@ public class FindDeleteAdapter
             public void run()
             {
                 try {
-                    emptyDirs.find();
+                    emptyDirs.lookup();
 
                     logger.info(
-                    	"treeModel.size(): " + treeModel == null ? null : treeModel.size()
-                    	);
+                        "treeModel.size(): " + treeModel == null ? null : treeModel.size()
+                        );
                     }
                 catch( CancelRequestException e )  {
                     logger.info( "Cancel received" );

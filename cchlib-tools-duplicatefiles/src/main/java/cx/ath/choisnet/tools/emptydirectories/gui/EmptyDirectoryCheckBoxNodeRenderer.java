@@ -13,7 +13,8 @@ import javax.swing.tree.TreeCellRenderer;
  *
  *
  */
-class EmptyDirectoryCheckBoxNodeRenderer implements TreeCellRenderer
+class EmptyDirectoryCheckBoxNodeRenderer
+    implements TreeCellRenderer
 {
     final private JCheckBox                 nodeLeafRenderer    = new JCheckBox();
     final private DefaultTreeCellRenderer   nonLeafRenderer     = new DefaultTreeCellRenderer();

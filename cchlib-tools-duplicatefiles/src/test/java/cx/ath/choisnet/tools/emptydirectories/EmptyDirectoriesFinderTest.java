@@ -34,14 +34,14 @@ public class EmptyDirectoriesFinderTest
     public void testFindDir()
     {
         File[] rootDirs = { new File( "T:/Data" ) };
-        EmptyDirectoriesFinder emptyDirs = new EmptyDirectoriesFinder( rootDirs );
+        DefaultEmptyDirectoriesLookup emptyDirs = new DefaultEmptyDirectoriesLookup( rootDirs );
 
         EmptyDirectoriesListener listener = new MyEmptyDirectoriesListener();
 
         emptyDirs.addListener( listener );
 
         try {
-            emptyDirs.find();
+            emptyDirs.lookup();
             }
         catch( CancelRequestException e ) {
             e.printStackTrace();
