@@ -83,7 +83,7 @@ public class IntuiGraph extends Applet
 
         if (center != null) {
             String cPos = getParameter("cpos");
-            Node n = this.panel.nodes[this.panel.findNode(center)];
+            Node n = this.panel.getNode( this.panel.findNode(center) );
             if (cPos != null) {
                 int I = cPos.indexOf('-');
                 n.px = (n.x = new Double(cPos.substring(0, I)).doubleValue());
@@ -100,8 +100,8 @@ public class IntuiGraph extends Applet
                 .hasMoreTokens();) {
             String pos = pp.nextToken();
             int I = pos.indexOf('-');
-            for (int i = 0; i < this.panel.nnodes; i++) {
-                Node n = this.panel.nodes[i];
+            for (int i = 0; i < this.panel.getNnodes(); i++) {
+                Node n = this.panel.getNode( i );
                 if ((!n.lbl.equals("Intuitec")) && (!n.pfixed)) {
                     n.px = new Double(pos.substring(0, I)).doubleValue();
                     n.py = new Double(pos.substring(I + 1)).doubleValue();
@@ -145,19 +145,23 @@ public class IntuiGraph extends Applet
             }
     }
 
-    public synchronized Image newImage(String iName)
+    public synchronized Image loadImage( final String name )
     {
-        System.out.println("loading " + iName);
+        System.out.println("loading " + name);
 
         try {
-            String uName = iName + ".gif";
-            URL iUrl = new URL(getDocumentBase(), "./images/" + uName);
-            System.out.println("loading " + iUrl);
-            return getImage(iUrl);
+            URL url = new URL(
+                getDocumentBase(),
+                "./images/" + name + ".gif"
+                );
+            System.out.println( "loading " + url );
+
+            return getImage( url );
             }
-        catch (Exception e) {
+        catch( Exception e ) {
             e.printStackTrace( System.err );
             }
+
         return null;
     }
 }

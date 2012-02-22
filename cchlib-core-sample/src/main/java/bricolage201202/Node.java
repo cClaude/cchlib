@@ -10,6 +10,10 @@ public class Node extends Component
 {
     private static final long serialVersionUID = 1L;
 
+    final Color nodeColor1 = new Color(0, 186, 185);
+    final Color nodeColor2 = new Color(249, 196, 106);
+    //NOT USE: GraphPanel parent;
+
     int circel;
     double x;
     double y;
@@ -21,11 +25,28 @@ public class Node extends Component
     boolean pfixed;
     boolean jumped;
     String action;
-    GraphPanel parent;
     String lbl;
     Image image;
-    final Color nodeColor1 = new Color(0, 186, 185);
-    final Color nodeColor2 = new Color(249, 196, 106);
+
+    public Node(
+        //final GraphPanel    parentPanel,
+        final int           circel,
+        final String        label,
+        //final IntuiGraph    graph
+        final Image            image
+        )
+    {
+        this.x = (10.0D + 380.0D * Math.random());
+        this.y = (10.0D + 380.0D * Math.random());
+
+        //this.parent = parentPanel;
+        this.circel = circel;
+        this.jumped = false;
+        this.image = image;
+
+        this.lbl = label;
+    }
+
 
     public synchronized void paint(Graphics g, FontMetrics fm) {
         Node n = this;

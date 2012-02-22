@@ -6,20 +6,18 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Panel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class GraphPanel
-    extends Panel
-        implements Runnable
+    extends GraphPanelHideNodes //Panel
+          implements Runnable
 {
     private static final long serialVersionUID = 1L;
 
-    IntuiGraph graph;
-    int nnodes;
-    Node[] nodes = new Node[10];
+    //IntuiGraph graph;
+
     int nedges;
     Edge[] edges = new Edge[20];
     Thread relaxer;
@@ -42,50 +40,12 @@ public class GraphPanel
     private MouseListener myMouseListener;
     private MouseMotionListener myMouseMotionListener;
 
-    GraphPanel(IntuiGraph graph)
+    public GraphPanel(IntuiGraph applet)
     {
-        this.graph = graph;
+        super( applet );
+        //this.graph = graph;
 
         addMouseListener( getMouseListener() );
-    }
-
-    int findNode(String lbl) {
-        for (int i = 0; i < this.nnodes; i++) {
-            if (this.nodes[i].lbl.equals(lbl)) {
-                return i;
-            }
-        }
-        return addNode(lbl);
-    }
-
-    public Node getNode(String name) {
-        Node node = null;
-        for (int i = 0; i < this.nnodes; i++) {
-            if (this.nodes[i].lbl.equals(name)) {
-                node = this.nodes[i];
-                break;
-            }
-        }
-        return node;
-    }
-
-    int addNode(String lbl) {
-        try {
-            Node n = new Node();
-            n.x = (10.0D + 380.0D * Math.random());
-            n.y = (10.0D + 380.0D * Math.random());
-            n.parent = this;
-            n.circel = (this.nnodes * 45);
-            n.jumped = false;
-            if (lbl.equals("Intuitec")) {
-                n.image = this.graph.newImage(lbl);
-            }
-            n.lbl = lbl;
-            this.nodes[this.nnodes] = n;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this.nnodes++;
     }
 
     void addEdge(String from, String to, int len) {
@@ -104,7 +64,9 @@ public class GraphPanel
             relax();
 
             if ((this.random) && (Math.random() < 0.03D)) {
-                Node n = this.nodes[(int) (Math.random() * this.nnodes)];
+                Node n = getNode(
+                    (int) (Math.random() * this.getNnodes())
+                    );
 
                 if (!n.fixed) {
                     n.x += n.px * Math.random() - 50.0D;
@@ -128,8 +90,9 @@ public class GraphPanel
     }
 
     private void nodesRelax2(Dimension d) {
-        for (int i = 0; i < this.nnodes; i++) {
-            Node n = this.nodes[i];
+        for (int i = 0; i < this.getNnodes(); i++) {
+            Node n = getNode( i );
+
             if (!n.fixed) {
                 if (n.px > n.x)
                     n.x += Math.abs((n.px - n.x) / 12.0D * Math.random());
@@ -158,15 +121,15 @@ public class GraphPanel
     }
 
     private void nodesRelax1() {
-        for (int i = 0; i < this.nnodes; i++) {
-            Node n1 = this.nodes[i];
+        for (int i = 0; i < this.getNnodes(); i++) {
+            Node n1 = getNode( i );
             double dx = 0.0D;
             double dy = 0.0D;
-            for (int j = 0; j < this.nnodes; j++) {
+            for (int j = 0; j < this.getNnodes(); j++) {
                 if (i == j) {
                     continue;
                 }
-                Node n2 = this.nodes[j];
+                Node n2 = getNode( j );
                 double vx = n1.x - n2.x;
                 double vy = n1.y - n2.y;
                 double len = vx * vx + vy * vy;
@@ -190,16 +153,17 @@ public class GraphPanel
     private void edgesRelax() {
         for (int i = 0; i < this.nedges; i++) {
             Edge e = this.edges[i];
-            double vx = this.nodes[e.getTo()].x - this.nodes[e.getFrom()].x;
-            double vy = this.nodes[e.getTo()].y - this.nodes[e.getFrom()].y;
+            double vx = getNode( e.getTo() ).x - getNode( e.getFrom() ).x;
+            double vy = getNode( e.getTo() ).y - getNode( e.getFrom() ).y;
             double len = Math.sqrt(vx * vx + vy * vy);
             double f = (this.edges[i].getLen() - len) / (len * 3.0D);
             double dx = f * vx;
             double dy = f * vy;
-            this.nodes[e.getTo()].dx += dx;
-            this.nodes[e.getTo()].dy += dy;
-            this.nodes[e.getFrom()].dx += -dx;
-            this.nodes[e.getFrom()].dy += -dy;
+
+            getNode( e.getTo() ).dx += dx;
+            getNode( e.getTo() ).dy += dy;
+            getNode( e.getFrom() ).dx += -dx;
+            getNode( e.getFrom() ).dy += -dy;
         }
     }
 
@@ -228,12 +192,18 @@ public class GraphPanel
 
     private void nodeLoop() {
         FontMetrics fm = this.offgraphics.getFontMetrics();
-        for (int i = 0; i < this.nnodes; i++)
-            if (this.nodes[i] == this.nodes[findNode("Intuitec")])
-                this.offgraphics.drawImage(this.nodes[i].image,
-                        (int) this.nodes[i].x, (int) this.nodes[i].y, this);
-            else
-                this.nodes[i].paint(this.offgraphics, fm);
+        for (int i = 0; i < this.getNnodes(); i++)
+            if( getNode( i ) == getNode( findNode("Intuitec") ) ) {
+                this.offgraphics.drawImage(
+                        getNode( i ).image,
+                        (int)getNode( i ).x,
+                        (int)getNode( i ).y,
+                        this
+                        );
+                }
+            else {
+                getNode( i ).paint(this.offgraphics, fm);
+                }
     }
 
     private void edgeLoop(int l) {
@@ -244,22 +214,22 @@ public class GraphPanel
             int[] yy2 = new int[l];
 
             Edge e = this.edges[i];
-            Node m = this.nodes[findNode("Intuitec")];
+            Node m = getNode( findNode("Intuitec") );
             int y2;
             int x1;
             int y1;
             int x2;
-            /* int y2; */
-            if (this.nodes[e.getFrom()].lbl.equals("Intuitec")) {
-                /* int */x1 = (int) this.nodes[e.getFrom()].x + 19;
-                /* int */y1 = (int) this.nodes[e.getFrom()].y + 48;
-                /* int */x2 = (int) this.nodes[e.getTo()].x;
-                y2 = (int) this.nodes[e.getTo()].y;
+
+            if( getNode( e.getFrom() ).lbl.equals("Intuitec") ) {
+                x1 = (int)getNode( e.getFrom() ).x + 19;
+                y1 = (int)getNode( e.getFrom() ).y + 48;
+                x2 = (int)getNode( e.getTo() ).x;
+                y2 = (int)getNode( e.getTo() ).y;
             } else {
-                x1 = (int) this.nodes[e.getFrom()].x;
-                y1 = (int) this.nodes[e.getFrom()].y;
-                x2 = (int) this.nodes[e.getTo()].x;
-                y2 = (int) this.nodes[e.getTo()].y;
+                x1 = (int)getNode( e.getFrom() ).x;
+                y1 = (int)getNode( e.getFrom() ).y;
+                x2 = (int)getNode( e.getTo() ).x;
+                y2 = (int)getNode( e.getTo() ).y;
             }
             int x0 = (int) m.x + 19;
 
@@ -279,7 +249,8 @@ public class GraphPanel
             this.offgraphics.setColor(len < 20 ? this.arcColor2
                     : len < 10 ? this.arcColor1 : this.arcColor3);
             this.offgraphics.drawLine(x1, y1, x2, y2);
-            if (!this.nodes[e.getFrom()].lbl.equals("Intuitec")) {
+
+            if (! getNode( e.getFrom() ).lbl.equals("Intuitec")) {
                 for (int j = 0; j < l; j++) {
                     this.offgraphics.drawLine(xx1[j], yy1[j], xx2[j], yy2[j]);
                 }
@@ -302,15 +273,16 @@ public class GraphPanel
         setCursor(Cursor.getPredefinedCursor(0));
     }
 
-    public synchronized void start() {
+    public synchronized void start()
+    {
         this.relaxer = new Thread(this);
         this.relaxer.start();
     }
 
-    public synchronized void stop() {
+    public synchronized void stop()
+    {
         this.relaxer = null;
     }
-
 
     private MouseListener getMouseListener()
     {
@@ -324,8 +296,8 @@ public class GraphPanel
                     int y = e.getY();
                     double bestdist = 1.7976931348623157E+308D;
 
-                    for (int i = 0; i < nnodes; i++) {
-                        Node n = nodes[i];
+                    for (int i = 0; i < getNnodes(); i++) {
+                        Node n = getNode( i );
                         n.jumped = false;
                         double dist = (n.x - x) * (n.x - x) + (n.y - y)
                                 * (n.y - y);
@@ -376,7 +348,7 @@ public class GraphPanel
                 public synchronized void mouseClicked(MouseEvent e)
                 {
                     if( !pick.lbl.equals("Intuitec") ) {
-                        graph.jumpTo(pick.lbl);
+                        jumpTo(pick.lbl);
                         }
 
                     pick.jumped = true;
