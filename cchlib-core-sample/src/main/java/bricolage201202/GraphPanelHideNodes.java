@@ -1,25 +1,26 @@
 package bricolage201202;
 
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.Panel;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class GraphPanelHideNodes extends Panel
+public class GraphPanelHideNodes
+    extends GraphPanelBase
 {
     private static final long serialVersionUID = 1L;
-    private IntuiGraph applet;
 
     public GraphPanelHideNodes( final IntuiGraph applet )
     {
-        this.applet = applet;
+        super( applet );
     }
 
-    public GraphPanelHideNodes( LayoutManager layout )
-    {
-        super( layout );
-    }
+//    public GraphPanelHideNodes( LayoutManager layout )
+//    {
+//        super( layout );
+//    }
 
     //private Node[] nodes = new Node[10];
     private List<Node> nodeList = new ArrayList<>();
@@ -30,7 +31,7 @@ public class GraphPanelHideNodes extends Panel
     //private int nnodes;
     //final public int getNnodes() { return nnodes; }
     //
-    @Deprecated final public int getNnodes() { return nodeList.size(); }
+    final public int getNodeListSize() { return nodeList.size(); }
     //@Deprecated final public void setNnodes(int nnodes) { this.nnodes = nnodes;}
 
     final
@@ -39,7 +40,7 @@ public class GraphPanelHideNodes extends Panel
         for( int i = 0; i < this.nodeList.size(); i++ ) {
             Node node = getNode( i );
 
-            if( node.lbl.equals( name ) ) {
+            if( node.get_lbl().equals( name ) ) {
                 return node;
                 }
             }
@@ -68,7 +69,7 @@ public class GraphPanelHideNodes extends Panel
         Image image;
 
         if( lbl.equals("Intuitec") ) {
-            image = applet.loadImage( lbl );
+            image = loadImage( lbl );
             }
         else {
             image = null;
@@ -89,6 +90,7 @@ public class GraphPanelHideNodes extends Panel
         return this.nodeList.size() - 1;
     }
 
+
     protected int findNode( final String label )
     {
 //        for (int i = 0; i < this.getNnodes(); i++) {
@@ -97,7 +99,7 @@ public class GraphPanelHideNodes extends Panel
 //            }
 //        }
         for( int i = 0; i < this.nodeList.size(); i++ ) {
-            if( label.equals( nodeList.get( i ).lbl ) ) {
+            if( label.equals( nodeList.get( i ).get_lbl() ) ) {
                 return i;
                 }
             }
@@ -105,12 +107,37 @@ public class GraphPanelHideNodes extends Panel
         return addNode( label );
     }
 
-
+    public Iterable<Node> getNodes()
+    {
+        return new Iterable<Node>()
+        {
+            @Override
+            public Iterator<Node> iterator()
+            {
+                return nodeList.iterator();
+            }
+        };
+    }
 
     final
-    protected void jumpTo( final String label )
+    protected void nodesPaint( final Graphics gfx )
     {
-        applet.jumpTo( label );
+        FontMetrics fm = gfx.getFontMetrics();
+
+        //for (int i = 0; i < this.getNnodes(); i++) {
+        for( Node n : this .nodeList ) {
+            if( n == getNode( findNode("Intuitec") ) ) {
+                gfx.drawImage(
+                        n.get_image(),
+                        (int)n.get_x(),
+                        (int)n.get_y(),
+                        this
+                        );
+                }
+            else {
+                n.paint( gfx, fm );
+                }
+            }
     }
 
 }

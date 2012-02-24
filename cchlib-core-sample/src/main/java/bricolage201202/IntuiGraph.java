@@ -86,34 +86,44 @@ public class IntuiGraph extends Applet
             Node n = this.panel.getNode( this.panel.findNode(center) );
             if (cPos != null) {
                 int I = cPos.indexOf('-');
-                n.px = (n.x = new Double(cPos.substring(0, I)).doubleValue());
-                n.py = (n.y = new Double(cPos.substring(I + 1)).doubleValue());
-                n.fixed = (n.pfixed = /* 1 */true);
+                n.set_px((n.set_x(new Double(cPos.substring(0, I)).doubleValue())));
+                n.set_py((n.set_y(new Double(cPos.substring(I + 1)).doubleValue())));
+                n.set_fixed((n.set_pfixed(/* 1 */true)));
             } else {
                 System.out.println("width " + d.width + "heigth " + d.height);
-                n.px = (n.x = d.width / 2 - 19.5D);
-                n.py = (n.y = d.height / 2 - 48.5D);
-                n.fixed = /* ( */n.pfixed = /* 1) */true;
+                n.set_px((n.set_x(d.width / 2 - 19.5D)));
+                n.set_py((n.set_y(d.height / 2 - 48.5D)));
+                n.set_fixed(n.set_pfixed(/* 1) */true));
             }
         }
         for (StringTokenizer pp = new StringTokenizer(position, ","); pp
                 .hasMoreTokens();) {
             String pos = pp.nextToken();
             int I = pos.indexOf('-');
-            for (int i = 0; i < this.panel.getNnodes(); i++) {
-                Node n = this.panel.getNode( i );
-                if ((!n.lbl.equals("Intuitec")) && (!n.pfixed)) {
-                    n.px = new Double(pos.substring(0, I)).doubleValue();
-                    n.py = new Double(pos.substring(I + 1)).doubleValue();
-                    if (d.width / 2 > n.px)
-                        n.x = ((n.px - 20.0D) * Math.random());
-                    else
-                        n.x = ((n.px + 20.0D) * Math.random());
-                    if (d.height / 2 > n.py)
-                        n.y = ((n.py - 20.0D) * Math.random());
-                    else
-                        n.y = ((n.py + 20.0D) * Math.random());
-                    n.pfixed = true;
+
+//            for (int i = 0; i < this.panel.getNnodes(); i++) {
+//                Node n = this.panel.getNode( i );
+            for( Node n : this.panel.getNodes() ) {
+
+                if ((!n.get_lbl().equals("Intuitec")) && (!n.is_pfixed())) {
+                    n.set_px(new Double(pos.substring(0, I)).doubleValue());
+                    n.set_py(new Double(pos.substring(I + 1)).doubleValue());
+
+                    if (d.width / 2 > n.get_px()) {
+                        n.set_x(((n.get_px() - 20.0D) * Math.random()));
+                        }
+                    else {
+                        n.set_x(((n.get_px() + 20.0D) * Math.random()));
+                        }
+
+                    if (d.height / 2 > n.get_py()) {
+                        n.set_y(((n.get_py() - 20.0D) * Math.random()));
+                        }
+                    else {
+                        n.set_y(((n.get_py() + 20.0D) * Math.random()));
+                        }
+
+                    n.set_pfixed(true);
                     break;
                 }
             }

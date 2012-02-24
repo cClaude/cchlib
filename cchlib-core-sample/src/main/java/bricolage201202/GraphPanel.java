@@ -3,7 +3,6 @@ package bricolage201202;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -11,23 +10,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class GraphPanel
-    extends GraphPanelHideNodes //Panel
-          implements Runnable
+    extends GraphPanelHideEdges //GraphPanelHideNodes //Panel
+        implements Runnable
 {
     private static final long serialVersionUID = 1L;
-
-    //IntuiGraph graph;
-
-    int nedges;
-    Edge[] edges = new Edge[20];
-    Thread relaxer;
-    boolean stress;
-    boolean random;
-    Node pick;
-    boolean pickfixed;
-    Image offscreen;
-    Dimension offscreensize;
-    Graphics offgraphics;
     final Color fixedColor = Color.blue;
     final Color selectColor = Color.pink;
     final Color edgeColor = Color.black;
@@ -37,8 +23,18 @@ public class GraphPanel
     final Color arcColor1 = Color.black;
     final Color arcColor2 = Color.pink;
     final Color arcColor3 = Color.blue;
+
     private MouseListener myMouseListener;
     private MouseMotionListener myMouseMotionListener;
+
+    Thread relaxer;
+    boolean stress;
+    boolean random;
+    Node pick;
+    boolean pickfixed;
+    Image offscreen;
+    Dimension offscreensize;
+    Graphics offgraphics;
 
     public GraphPanel(IntuiGraph applet)
     {
@@ -48,14 +44,6 @@ public class GraphPanel
         addMouseListener( getMouseListener() );
     }
 
-    void addEdge(String from, String to, int len) {
-        // Edge e = new Edge();
-        // e.from = findNode(from);
-        // e.to = findNode(to);
-        // e.len = len;
-        Edge e = new Edge(findNode(from), findNode(to), len);
-        this.edges[(this.nedges++)] = e;
-    }
 
     @Override
     public void run()
@@ -65,12 +53,12 @@ public class GraphPanel
 
             if ((this.random) && (Math.random() < 0.03D)) {
                 Node n = getNode(
-                    (int) (Math.random() * this.getNnodes())
+                    (int) (Math.random() * this.getNodeListSize())
                     );
 
-                if (!n.fixed) {
-                    n.x += n.px * Math.random() - 50.0D;
-                    n.y += n.py * Math.random() - 50.0D;
+                if (!n.is_fixed()) {
+                    n.set_x(n.get_x() + (n.get_px() * Math.random() - 50.0D));
+                    n.set_y(n.get_y() + (n.get_py() * Math.random() - 50.0D));
                     }
                 }
             try {
@@ -82,61 +70,78 @@ public class GraphPanel
         }
     }
 
-    synchronized void relax() {
+    synchronized void relax()
+    {
         edgesRelax();
         nodesRelax1();
         nodesRelax2(getSize());
         repaint();
     }
 
-    private void nodesRelax2(Dimension d) {
-        for (int i = 0; i < this.getNnodes(); i++) {
-            Node n = getNode( i );
+    private void nodesRelax2(Dimension d)
+    {
+//        for (int i = 0; i < this.getNnodes(); i++) {
+//            Node n = getNode( i );
+        for( Node n : getNodes() ) {
+            if (!n.is_fixed()) {
+                if (n.get_px() > n.get_x()) {
+                    n.set_x(n.get_x() + Math.abs((n.get_px() - n.get_x()) / 12.0D * Math.random()));
+                    }
+                else {
+                    n.set_x(n.get_x() - Math.abs((n.get_px() - n.get_x()) / 12.0D * Math.random()));
+                    }
 
-            if (!n.fixed) {
-                if (n.px > n.x)
-                    n.x += Math.abs((n.px - n.x) / 12.0D * Math.random());
-                else
-                    n.x -= Math.abs((n.px - n.x) / 12.0D * Math.random());
-                if (n.py > n.y)
-                    n.y += Math.abs((n.py - n.y) / 12.0D * Math.random());
-                else
-                    n.y -= Math.abs((n.py - n.y) / 12.0D * Math.random());
-                if (n.x < 0.0D)
-                    n.x = 1.0D;
-                else if (n.x > d.width) {
-                    n.x = (d.width - 10);
-                }
-                if (n.y < 0.0D)
-                    n.y = 1.0D;
-                else if (n.y > d.height) {
-                    n.y = (d.height - 10);
+                if (n.get_py() > n.get_y()) {
+                    n.set_y(n.get_y() + Math.abs((n.get_py() - n.get_y()) / 12.0D * Math.random()));
+                    }
+                else {
+                    n.set_y(n.get_y() - Math.abs((n.get_py() - n.get_y()) / 12.0D * Math.random()));
+                    }
+
+                if (n.get_x() < 0.0D) {
+                    n.set_x(1.0D);
+                    }
+                else if (n.get_x() > d.width) {
+                    n.set_x((d.width - 10));
+                    }
+
+                if (n.get_y() < 0.0D) {
+                    n.set_y(1.0D);
+                    }
+                else if (n.get_y() > d.height) {
+                    n.set_y((d.height - 10));
+                    }
                 }
 
+            n.set_dx(n.get_dx() / 2.0D);
+            n.set_dy(n.get_dy() / 2.0D);
             }
-
-            n.dx /= 2.0D;
-            n.dy /= 2.0D;
-        }
     }
 
-    private void nodesRelax1() {
-        for (int i = 0; i < this.getNnodes(); i++) {
-            Node n1 = getNode( i );
+    private void nodesRelax1()
+    {
+//        for (int i = 0; i < this.getNnodes(); i++) {
+//            Node n1 = getNode( i );
+        for( Node n1 : this.getNodes() ) {
             double dx = 0.0D;
             double dy = 0.0D;
-            for (int j = 0; j < this.getNnodes(); j++) {
-                if (i == j) {
+
+//            for (int j = 0; j < this.getNnodes(); j++) {
+//            Node n2 = getNode( j );
+            for( Node n2 : this.getNodes() ) {
+                //if (i == j) {
+                if( n1 == n2 ) {
                     continue;
-                }
-                Node n2 = getNode( j );
-                double vx = n1.x - n2.x;
-                double vy = n1.y - n2.y;
+                    }
+                double vx = n1.get_x() - n2.get_x();
+                double vy = n1.get_y() - n2.get_y();
                 double len = vx * vx + vy * vy;
+
                 if (len == 0.0D) {
                     dx += Math.random();
                     dy += Math.random();
-                } else if (len < 10000.0D) {
+                    }
+                else if (len < 10000.0D) {
                     dx += vx / len;
                     dy += vy / len;
                 }
@@ -144,26 +149,29 @@ public class GraphPanel
             double dlen = dx * dx + dy * dy;
             if (dlen > 0.0D) {
                 dlen = Math.sqrt(dlen) / 2.0D;
-                n1.dx += dx / dlen;
-                n1.dy += dy / dlen;
+                n1.set_dx(n1.get_dx() + dx / dlen);
+                n1.set_dy(n1.get_dy() + dy / dlen);
             }
         }
     }
 
-    private void edgesRelax() {
-        for (int i = 0; i < this.nedges; i++) {
-            Edge e = this.edges[i];
-            double vx = getNode( e.getTo() ).x - getNode( e.getFrom() ).x;
-            double vy = getNode( e.getTo() ).y - getNode( e.getFrom() ).y;
+    private void edgesRelax()
+    {
+//        for (int i = 0; i < this.getNedges(); i++) {
+//            Edge e = this.getEdge( i );
+        for( Edge e : this.getEdges() ) {
+            double vx = getNode( e.getTo() ).get_x() - getNode( e.getFrom() ).get_x();
+            double vy = getNode( e.getTo() ).get_y() - getNode( e.getFrom() ).get_y();
             double len = Math.sqrt(vx * vx + vy * vy);
-            double f = (this.edges[i].getLen() - len) / (len * 3.0D);
+//            double f = (this.getEdge( i ).getLen() - len) / (len * 3.0D);
+            double f = (e.getLen() - len) / (len * 3.0D);
             double dx = f * vx;
             double dy = f * vy;
 
-            getNode( e.getTo() ).dx += dx;
-            getNode( e.getTo() ).dy += dy;
-            getNode( e.getFrom() ).dx += -dx;
-            getNode( e.getFrom() ).dy += -dy;
+            getNode( e.getTo() ).set_dx(getNode( e.getTo() ).get_dx() + dx);
+            getNode( e.getTo() ).set_dy(getNode( e.getTo() ).get_dy() + dy);
+            getNode( e.getFrom() ).set_dx(getNode( e.getFrom() ).get_dx() + -dx);
+            getNode( e.getFrom() ).set_dy(getNode( e.getFrom() ).get_dy() + -dy);
         }
     }
 
@@ -186,54 +194,40 @@ public class GraphPanel
         this.offgraphics.setColor(Color.white);
         this.offgraphics.fillRect(0, 0, d.width, d.height);
         edgeLoop(Edge.getLev());
-        nodeLoop();
+        nodesPaint( this.offgraphics );
         g.drawImage(this.offscreen, 0, 0, null);
     }
 
-    private void nodeLoop() {
-        FontMetrics fm = this.offgraphics.getFontMetrics();
-        for (int i = 0; i < this.getNnodes(); i++)
-            if( getNode( i ) == getNode( findNode("Intuitec") ) ) {
-                this.offgraphics.drawImage(
-                        getNode( i ).image,
-                        (int)getNode( i ).x,
-                        (int)getNode( i ).y,
-                        this
-                        );
-                }
-            else {
-                getNode( i ).paint(this.offgraphics, fm);
-                }
-    }
-
-    private void edgeLoop(int l) {
-        for (int i = 0; i < this.nedges; i++) {
+    private void edgeLoop(int l)
+    {
+        //for (int i = 0; i < this.getNedges(); i++) {
+        for( Edge e : this.getEdges() ) {
             int[] xx1 = new int[l];
             int[] xx2 = new int[l];
             int[] yy1 = new int[l];
             int[] yy2 = new int[l];
 
-            Edge e = this.edges[i];
+            //Edge e = this.getEdge( i );
             Node m = getNode( findNode("Intuitec") );
             int y2;
             int x1;
             int y1;
             int x2;
 
-            if( getNode( e.getFrom() ).lbl.equals("Intuitec") ) {
-                x1 = (int)getNode( e.getFrom() ).x + 19;
-                y1 = (int)getNode( e.getFrom() ).y + 48;
-                x2 = (int)getNode( e.getTo() ).x;
-                y2 = (int)getNode( e.getTo() ).y;
+            if( getNode( e.getFrom() ).get_lbl().equals("Intuitec") ) {
+                x1 = (int)getNode( e.getFrom() ).get_x() + 19;
+                y1 = (int)getNode( e.getFrom() ).get_y() + 48;
+                x2 = (int)getNode( e.getTo() ).get_x();
+                y2 = (int)getNode( e.getTo() ).get_y();
             } else {
-                x1 = (int)getNode( e.getFrom() ).x;
-                y1 = (int)getNode( e.getFrom() ).y;
-                x2 = (int)getNode( e.getTo() ).x;
-                y2 = (int)getNode( e.getTo() ).y;
+                x1 = (int)getNode( e.getFrom() ).get_x();
+                y1 = (int)getNode( e.getFrom() ).get_y();
+                x2 = (int)getNode( e.getTo() ).get_x();
+                y2 = (int)getNode( e.getTo() ).get_y();
             }
-            int x0 = (int) m.x + 19;
+            int x0 = (int) m.get_x() + 19;
 
-            int y0 = (int) m.y + 48;
+            int y0 = (int) m.get_y() + 48;
             for (int j = 0; j < l; j++) {
                 xx1[j] = (((l - j) * x1 + j * x0) / l);
                 xx2[j] = (((l - j) * x2 + j * x0) / l);
@@ -250,7 +244,7 @@ public class GraphPanel
                     : len < 10 ? this.arcColor1 : this.arcColor3);
             this.offgraphics.drawLine(x1, y1, x2, y2);
 
-            if (! getNode( e.getFrom() ).lbl.equals("Intuitec")) {
+            if (! getNode( e.getFrom() ).get_lbl().equals("Intuitec")) {
                 for (int j = 0; j < l; j++) {
                     this.offgraphics.drawLine(xx1[j], yy1[j], xx2[j], yy2[j]);
                 }
@@ -296,25 +290,26 @@ public class GraphPanel
                     int y = e.getY();
                     double bestdist = 1.7976931348623157E+308D;
 
-                    for (int i = 0; i < getNnodes(); i++) {
-                        Node n = getNode( i );
-                        n.jumped = false;
-                        double dist = (n.x - x) * (n.x - x) + (n.y - y)
-                                * (n.y - y);
+//                    for (int i = 0; i < getNnodes(); i++) {
+//                        Node n = getNode( i );
+                    for( Node n : getNodes() ) {
+                        n.set_jumped(false);
+                        double dist = (n.get_x() - x) * (n.get_x() - x) + (n.get_y() - y)
+                                * (n.get_y() - y);
                         if (dist < bestdist) {
                             pick = n;
                             bestdist = dist;
                             }
                         }
 
-                    if (pick.lbl.equals("Intuitec")) {
+                    if (pick.get_lbl().equals("Intuitec")) {
                         return;
                         }
 
-                    pickfixed = pick.fixed;
-                    pick.fixed = true;
-                    pick.x = x;
-                    pick.y = y;
+                    pickfixed = pick.is_fixed();
+                    pick.set_fixed(true);
+                    pick.set_x(x);
+                    pick.set_y(y);
 
                     repaint();
 
@@ -324,9 +319,9 @@ public class GraphPanel
                 @Override
                 public synchronized void mouseReleased(MouseEvent e)
                 {
-                    pick.x = e.getX();
-                    pick.y = e.getY();
-                    pick.fixed = pickfixed;
+                    pick.set_x(e.getX());
+                    pick.set_y(e.getY());
+                    pick.set_fixed(pickfixed);
 
                     repaint();
                     removeMouseMotionListener(getMouseMotionListener());
@@ -347,11 +342,11 @@ public class GraphPanel
                 @Override
                 public synchronized void mouseClicked(MouseEvent e)
                 {
-                    if( !pick.lbl.equals("Intuitec") ) {
-                        jumpTo(pick.lbl);
+                    if( !pick.get_lbl().equals("Intuitec") ) {
+                        jumpTo(pick.get_lbl());
                         }
 
-                    pick.jumped = true;
+                    pick.set_jumped(true);
                     pick = null;
                 }
             };
@@ -369,8 +364,8 @@ public class GraphPanel
                 @Override
                 public synchronized void mouseDragged(MouseEvent e)
                 {
-                    pick.x = e.getX();
-                    pick.y = e.getY();
+                    pick.set_x(e.getX());
+                    pick.set_y(e.getY());
 
                     repaint();
                 }
