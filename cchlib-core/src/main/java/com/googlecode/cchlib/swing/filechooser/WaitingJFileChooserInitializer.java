@@ -1,19 +1,17 @@
 package com.googlecode.cchlib.swing.filechooser;
 
-import java.awt.Frame;
+import java.awt.Window;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerEvent;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerListener;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
-
 
 /**
  * On windows JFileChooser initialization is to slow!
@@ -25,66 +23,32 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 public class WaitingJFileChooserInitializer
     extends JFileChooserInitializer
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private final static Logger logger = Logger.getLogger( WaitingJFileChooserInitializer.class );
-    private Frame frame;
+    private Window parentWindow;
     private WaitingDialog dialog;
     private Object lock = new Object();
     private String title;
     private String message;
 
-//    @Deprecated
-//    public WaitingJFileChooserInitializer(
-//            final Frame     parentFrame
-//            )
-//    {
-//        this(
-//            parentFrame,
-//            "Waiting...", // Title: waiting
-//            "Analyze disk structure"  // Msg: analyze disk structure
-//            );
-//    }
-
-//    /**
-//     *
-//     * @param parentFrame
-//     * @param title
-//     * @param message
-//     * @param x
-//     */
-//    @Deprecated
-//    public WaitingJFileChooserInitializer(
-//        final Frame     parentFrame,
-//        final String    title,
-//        final String    message
-//        )
-//    {
-//        this(
-//            getDefaultConfigurator(),
-//            parentFrame,
-//            title,
-//            message
-//            );
-//     }
-
     /**
      * Create a WaitingJFileChooserInitializer
      *
      * @param configurator
-     * @param parentFrame
+     * @param parentWindow
      * @param title
      * @param message
      */
     public WaitingJFileChooserInitializer(
         final JFileChooserInitializer.Configure configurator,
-        final Frame                             parentFrame,
+        final Window                            parentWindow,
         final String                            title,
         final String                            message
         )
     {
         super( configurator );
 
-        this.frame = parentFrame;
+        this.parentWindow = parentWindow;
 
         JFileChooserInitializerListener l = new JFileChooserInitializerListener()
         {
@@ -143,11 +107,6 @@ public class WaitingJFileChooserInitializer
             };
     }
 
-//    public JFileChooserInitializer getJFileChooserInitializer()
-//    {
-//        return this;
-//    }
-
     /**
      * {@inheritDoc}
      * <br/>
@@ -160,7 +119,7 @@ public class WaitingJFileChooserInitializer
         if( ! this.isReady() ) {
             synchronized( lock ) {
                 if( dialog == null ) {
-                    dialog = new WaitingJDialogWB( frame );
+                    dialog = new WaitingJDialogWB( parentWindow );
                     dialog.setTitle( title );
                     dialog.setText( message );
                     }

@@ -2,7 +2,7 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.Window;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,41 +17,18 @@ class WaitingJDialogWB
     extends JDialog
         implements WaitingDialog, ActionListener
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private final JPanel contentPanel = new JPanel();
     private JProgressBar jProgressBar;
     private JLabel jLabel;
 
-    /* *
-     * Launch the application.
-     * /
-    public static void main( String[] args )
-    {
-        try {
-            WaitingJDialogWB dialog = new WaitingJDialogWB( null );
-            dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-            dialog.setVisible( true );
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
-    }*/
-
-//    /**
-//     * Create the dialog.
-//     */
-//    public WaitingJDialogWB()
-//    {
-//        this( null );
-//    }
-
     /**
      * Create the dialog.
      *
-     * @param owner Parent {@link Frame} for this dialog.
+     * @param owner Parent {@link Window} for this dialog.
      */
     public WaitingJDialogWB(
-            final Frame owner
+            final Window owner
             )
     {
         super( owner );
