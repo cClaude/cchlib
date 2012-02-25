@@ -167,7 +167,7 @@ public class DBFReader extends DBFBase
      * Returns the asked Field. In case of an invalid index,
      * it returns a ArrayIndexOutofboundsException.
      *
-     * @param index. Index of the field. Index of the first field is zero.
+     * @param index Index of the field. Index of the first field is zero.
      * @throws ArrayIndexOutofboundsException if index in not in range.
     */
     public DBFField getField( int index )
@@ -216,7 +216,7 @@ public class DBFReader extends DBFBase
     /**
      * Returns the next row in the DBF stream as a {@link DBFRecord}
      *
-     * @returns The next row as a {@link DBFRecord}.
+     * @return The next row as a {@link DBFRecord}.
      */
     public DBFRecord nextRecord() throws DBFException
     {

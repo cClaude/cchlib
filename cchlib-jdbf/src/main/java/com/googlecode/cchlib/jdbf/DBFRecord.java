@@ -77,7 +77,7 @@ public interface DBFRecord extends Iterable<DBFEntry>
 
     /**
      * Returns value as a boolean for this column/field
-     * @param columnNumber Column/field name
+     * @param columnName Column/field name
      * @return value for this column/field
      * @throws DBFEntryException if any
      * @see DBFEntry#getInt()
@@ -96,7 +96,7 @@ public interface DBFRecord extends Iterable<DBFEntry>
 
     /**
      * Returns value as a double for this column/field
-     * @param columnNumber Column/field name
+     * @param columnName Column/field name
      * @return value for this column/field
      * @throws DBFEntryException if any
      * @see DBFEntry#getInt()
@@ -106,7 +106,7 @@ public interface DBFRecord extends Iterable<DBFEntry>
 
     /**
      * Returns value as a {@link Date} for this column/field
-     * @param columnName Column/field number
+     * @param columnNumber Column/field number
      * @return value for this column/field
      * @throws DBFEntryException if any
      * @see DBFEntry#getDate()
