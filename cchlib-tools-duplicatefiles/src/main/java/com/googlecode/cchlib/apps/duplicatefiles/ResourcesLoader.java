@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
  * Load resources for GUI
@@ -26,9 +27,12 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Find {@link URL} for resource, according to this 
+     * class {@link ClassLoader}
+     * 
+     * @param name Resource name
+     * @return {@link URL} for giving resource name
+     * @see Class#getResource(String)
      */
     public static URL getResource( final String name )
     {
@@ -36,9 +40,13 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Find {@link InputStream} for resource, according to this 
+     * class {@link ClassLoader}
+     * 
+     * @param name Resource name
+     * @return {@link InputStream} for giving resource name
+     * @see Class#getResourceAsStream(String)
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static InputStream getResourceAsStream( final String name )
     {
@@ -52,9 +60,10 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Build {@link Icon} for giving resource name
+     * @param name Resource name
+     * @return {@link Icon} for giving resource name
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static Icon getImageIcon( final String name )
     {
@@ -69,9 +78,10 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Build {@link Image} for giving resource name
+     * @param name Resource name
+     * @return {@link Image} for giving resource name
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static Image getImage( final String name )
     {
@@ -98,18 +108,17 @@ public class ResourcesLoader
 
 
     /**
-     *
-     * @param name
-     * @return
+     * Build {@link Properties} for giving resource name
+     * @param name Resource name
+     * @return {@link Properties} for giving resource name
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static Properties getProperties( final String name )
     {
         final Properties prop = new Properties();
 
         try {
-            InputStream is   = ResourcesLoader.getResourceAsStream(
-                    name
-                    );
+            InputStream is = ResourcesLoader.getResourceAsStream( name );
 
             if( is != null ) {
                 prop.load( is );
