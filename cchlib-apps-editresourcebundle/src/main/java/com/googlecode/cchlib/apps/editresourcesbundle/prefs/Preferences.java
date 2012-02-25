@@ -199,7 +199,7 @@ public class Preferences
 
     /**
      * Set current LookAndFeelClassName
-     * @param nameLook and Feel class name to set
+     * @param name Look and Feel class name to set
      */
     public void setLookAndFeelClassName( final String name )
     {
