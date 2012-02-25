@@ -93,20 +93,6 @@ public class MappableBuilderDefaultFactory
         return this;
     }
 
-//    /**
-//     * Add {@link MappableItem} list to internal set
-//     *
-//     * @param items A list of {@link MappableItem} to add
-//     * @return caller for initialization chaining
-//     */
-//    public MappableBuilderDefaultFactory addItems(
-//            final Collection<MappableItem> items
-//            )
-//    {
-//        attributesSet.addAll( items );
-//        return this;
-//    }
-
     @Override
     public Set<MappableItem> getMappableItemSet()
     {
@@ -141,26 +127,9 @@ public class MappableBuilderDefaultFactory
         return this;
     }
 
-//    /**
-//     * Add the giving {@link Class} list to the internal collection
-//     *
-//     * @param classes {@link Class} list to add
-//     * @return caller for initialization chaining
-//     */
-//    public MappableBuilderDefaultFactory addClasses(
-//            final Collection<Class<?>> classes
-//            )
-//    {
-//        for( Class<?> clazz : classes ) {
-//            this.classes.add( clazz );
-//            }
-//
-//        return this;
-//    }
-
     /**
      * If internal set is empty the return a unmodifiable set
-     * within value of {@link MappableBuilder#ALL_CLASS}.
+     * within value of {@link #ALL_CLASS_SET}.
      */
     @Override
     public Set<Class<?>> getClasses()

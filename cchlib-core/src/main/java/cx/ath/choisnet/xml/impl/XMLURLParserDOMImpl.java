@@ -20,9 +20,9 @@ public class XMLURLParserDOMImpl extends XMLParserDOMImpl
     /**
      * TODO: doc!
      *
-     * @param sourceFile
-     * @param attributes
+     * @param sourceURL
      * @param errorHandler
+     * @param attributes
      * @throws FileNotFoundException
      * @throws XMLParserException
      */

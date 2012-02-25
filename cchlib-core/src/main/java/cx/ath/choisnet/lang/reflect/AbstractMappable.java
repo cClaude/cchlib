@@ -37,14 +37,10 @@ public abstract class AbstractMappable
      * Create a default MappableBuilderFactory.
      * Default implementation is based on {@link MappableBuilder#createMappableBuilderFactory()}
      *
-     * @return a {@link MappableHelperFactory}
+     * @return a {@link MappableBuilderFactory}
      */
     protected MappableBuilderFactory createMappableBuilderFactory()
     {
-//        return (new MappableBuilderDefaultFactory())
-//                    .setMethodesNamePattern("(get|is).*")
-//                    .add( String.class, File.class, URL.class )
-//                    .add( MappableItem.ALL_PRIMITIVE_TYPE );
         return MappableBuilder.createMappableBuilderFactory();
     }
 }

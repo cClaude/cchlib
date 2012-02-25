@@ -1,14 +1,14 @@
-package alpha.cx.ath.choisnet.io;
+package alpha.com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import alpha.com.googlecode.cchlib.io.AlternateDataStream;
 import junit.framework.TestCase;
 
 public class AlternateDataStreamTest extends TestCase
 {
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
-
 
     public void testXX() throws IOException
     {

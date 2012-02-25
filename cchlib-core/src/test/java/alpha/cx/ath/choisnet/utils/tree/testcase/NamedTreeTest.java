@@ -5,8 +5,8 @@ package alpha.cx.ath.choisnet.utils.tree.testcase;
 
 import java.util.Iterator;
 import org.apache.log4j.Logger;
-import alpha.cx.ath.choisnet.utils.VisitResult;
-import alpha.cx.ath.choisnet.utils.Visitor;
+import alpha.com.googlecode.cchlib.utils.VisitResult;
+import alpha.com.googlecode.cchlib.utils.Visitor;
 import alpha.cx.ath.choisnet.utils.tree.BadRootNameException;
 import alpha.cx.ath.choisnet.utils.tree.BinaryTree;
 import alpha.cx.ath.choisnet.utils.tree.BinaryTreeNode;

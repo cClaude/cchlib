@@ -1,6 +1,19 @@
 cchlib-core
 
 ---------------------------------------------------------------------
+4.1.7
+  Fix some javadoc issues
+  Move some classes from alpha.cx.ath.choisnet to alpha.com.googlecode.cchlib
+  Add: com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException
+  Add: com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanel
+  Add: com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources
+  Add: com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelWB
+  Add: com.googlecode.cchlib.swing.batchrunner.DefaultBatchRunnerJFrame
+  Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunner
+  Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunnerApp
+  Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunnerLocaleResources
+
+---------------------------------------------------------------------
 4.1.6
   Add support of some Java 1.7 features.
   Generated code now is Java7

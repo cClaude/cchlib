@@ -20,7 +20,7 @@ import cx.ath.choisnet.swing.text.PatternDocument;
 public class XComboBoxPattern extends XComboBox<String>
 {
     private static final long serialVersionUID = 2L;
-    /** Default background to display errors : {@value} */
+    /** Default background to display errors */
     public static final Color DEFAULT_ERROR_COLOR = Color.RED;
     /** @serial */
     private JTextField editor = new JTextField();

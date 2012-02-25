@@ -21,10 +21,10 @@ public class XMLFileParserDOMImpl extends XMLParserDOMImpl
      * TODO: doc!
      *
      * @param sourceFile
-     * @param attributes
      * @param errorHandler
-     * @throws FileNotFoundException
-     * @throws XMLParserException
+     * @param attributes
+     * @throws FileNotFoundException if file does not exist
+     * @throws XMLParserException if file is not valid
      */
     public XMLFileParserDOMImpl(
             final File                  sourceFile,

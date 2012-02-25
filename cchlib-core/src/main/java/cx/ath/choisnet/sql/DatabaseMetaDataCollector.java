@@ -31,20 +31,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     private static final long serialVersionUID = 2L;
     private static final transient Logger slogger = Logger.getLogger( DatabaseMetaDataCollector.class );
 
-//    /** Commons types */
-//    private static final Class<?>[] validReturnClassesForString = {
-//        Boolean.TYPE,
-//        Integer.TYPE,
-//        Long.TYPE,
-//        Float.TYPE,
-//        Double.TYPE,
-//        Byte.TYPE,
-//        Character.TYPE,
-//        Short.TYPE,
-//        String.class,
-//    };
-//    private static final String[] _tableTypes = { "TABLE" };
-
     /** @serial */
     private DatabaseMetaData databaseMetaData;
 
@@ -104,7 +90,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     }
 
     /**
-     * Returns {@value Map} of methods/results
+     * Returns {@link Map} of methods/results
      */
     @Override
     public Map<String,String> toMap()
@@ -130,48 +116,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
         return Collections.unmodifiableMap( map );
     }
-
-    /**
-     *
-     * @return
-     * @throws SQLException if a database access error occurs
-    private Map<String, String> getTablesMapV1() throws SQLException
-    {
-        Map<String, String> values  = new LinkedHashMap<String,String>();
-        ResultSet           rs1     = databaseMetaData.getSchemas();
-
-        final ResultSetMetaData rs1md = rs1.getMetaData();
-        final int               rs1cc = rs1md.getColumnCount();
-
-        for( int i = 1; i<=rs1cc; i++ ) {
-            String cName = rs1md.getColumnName( i );
-
-            values.put(
-                String.format( "*** Schemas col[%d]", i ),
-                cName
-                );
-            }
-
-        while( rs1.next()) {
-            final String ss = rs1.getString(1); // col: TABLE_SCHEM
-
-            values.put("** TABLE_SCHEM", ss);
-            values.put("** TABLE_CATALOG", rs1.getString(2));
-
-            final ResultSet rs2 = databaseMetaData.getTables(null, ss, "%", null);
-
-            while( rs2.next() ) {
-                values.put(rs2.getString(3), rs2.getString(4));
-                }
-
-            rs2.close();
-            }
-
-        rs1.close();
-
-        return values;
-    }
-     */
 
     /**
      * Returns list of table name for current schema

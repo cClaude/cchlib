@@ -160,7 +160,7 @@ public class DefaultMappableBuilderFactory
 
     /**
      * If internal set is empty the return a unmodifiable set
-     * within value of {@link MappableBuilder#ALL_CLASS}.
+     * within value of {@link #ALL_CLASS_SET}.
      */
     @Override
     public Set<Class<?>> getClasses()

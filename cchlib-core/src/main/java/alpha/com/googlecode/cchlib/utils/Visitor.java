@@ -1,7 +1,4 @@
-/*
-**
-*/
-package alpha.cx.ath.choisnet.utils;
+package alpha.com.googlecode.cchlib.utils;
 
 /**
  * TODO: doc!

@@ -1,18 +1,14 @@
 package com.googlecode.cchlib.swing.filechooser;
 
 /**
- *
+ * {@link JFileChooserInitializer} Event
  *
  * @since 4.1.6
  */
 public interface JFileChooserInitializerEvent
 {
     /**
-     *
-     * @param jFileChooserInitializerEvent
+     * @return true when JFileChooser has been initialized
      */
     public boolean isJFileChooserReady();
-//            JFileChooserInitializerEvent jFileChooserInitializerEvent
-//            );
-
 }

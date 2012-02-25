@@ -45,19 +45,11 @@ public interface MapCollection<K,V>
      */
     public Collection<V> getCollection(K key);
     
-//    /**
-//     * Get all values on Iterable object, compute their keys add add(key,values) in this HashMapSet.
-//     * @param iterable
-//     */
-//    void   addAll(HashMapSet.ComputeKeyIterable<K,V> iterable)
-//    void   addAll(HashMapSet.ComputeKeyIterator<K,V> iterator)
-//             Add all key-value from ComputeKeyIterator iterator
-
     /**
      * Add all values with same key in this MapCollection.
      * 
-     * @param key   key to use for all values
-     * @param value values to add
+     * @param key       key to use for all values
+     * @param values    values to add
      * @return number of values add in MapCollection
      */
     public int addAll(K key, Collection<V> values);

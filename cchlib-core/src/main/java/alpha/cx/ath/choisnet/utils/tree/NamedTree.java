@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import alpha.cx.ath.choisnet.utils.VisitResult;
-import alpha.cx.ath.choisnet.utils.Visitor;
-import alpha.cx.ath.choisnet.utils.Walkable;
+import alpha.com.googlecode.cchlib.utils.VisitResult;
+import alpha.com.googlecode.cchlib.utils.Visitor;
+import alpha.com.googlecode.cchlib.utils.Walkable;
 
 //http://fr.wikipedia.org/wiki/Arbre_enracin%C3%A9
 //http://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_largeur

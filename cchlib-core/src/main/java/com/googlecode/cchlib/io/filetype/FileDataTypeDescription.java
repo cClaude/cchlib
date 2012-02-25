@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.io.filetype;
 
 /**
- * Description return by {@link FileDataType}
+ * Description return by {@link FileDataTypes}
  * @since 4.1.5
  */
 public interface FileDataTypeDescription

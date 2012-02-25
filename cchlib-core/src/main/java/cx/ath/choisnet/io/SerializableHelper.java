@@ -19,7 +19,6 @@ import java.io.Serializable;
 /**
  * Some useful tools for java.io.Serializable
  *
- * @author Claude CHOISNET
  * @see java.io.Serializable
  */
 public class SerializableHelper
@@ -135,18 +134,14 @@ public class SerializableHelper
         try { c.close(); } catch( IOException ignore ) {}
     }
 
-
-
     /**
      * Serialize an Object in a file
      *
      * @param <T> type of the object
      * @param anObject Object to serialize
      * @param aFile     {@link File} to use to store object.
-     * @return a byte array build using standard serialization
-     *         process for this object
      * @throws IOException if any I/O occurred
-     * @see {@link #loadObject(File, Class)}
+     * @see #loadObject(File, Class)
      * @since 4.1.5
      */
     public static <T extends Serializable> void toFile(

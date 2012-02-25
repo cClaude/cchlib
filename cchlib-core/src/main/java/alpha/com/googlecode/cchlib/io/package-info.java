@@ -8,4 +8,4 @@
  *  - FS (Hierarchical File System) used on MacIntosh.
  * </PRE>
  */
-package alpha.cx.ath.choisnet.io;
+package alpha.com.googlecode.cchlib.io;

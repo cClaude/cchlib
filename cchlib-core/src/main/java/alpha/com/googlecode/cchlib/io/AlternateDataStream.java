@@ -1,4 +1,4 @@
-package alpha.cx.ath.choisnet.io;
+package alpha.com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileOutputStream;

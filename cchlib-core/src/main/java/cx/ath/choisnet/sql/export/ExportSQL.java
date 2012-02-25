@@ -30,7 +30,6 @@ public class ExportSQL  implements Closeable
          * Add SET AUTOCOMMIT=0 in export.
          */
         ADD_DISABLE_AUTOCOMMIT,
-
     }
 
     private final Connection            connection;
@@ -88,7 +87,7 @@ public class ExportSQL  implements Closeable
      * Initialize ExportSQL object.
      * <p>
      * Set configuration with defaults: {@link Config#ADD_PREFIX_SCHEMA},
-     * {@link Config#ADD_SET_AUTOCOMMIT} and {@link Config#ADD_USE_SCHEMA}
+     * {@link Config#ADD_DISABLE_AUTOCOMMIT} and {@link Config#ADD_USE_SCHEMA}
      * </p>
      *
      * @param connection Connection to database.

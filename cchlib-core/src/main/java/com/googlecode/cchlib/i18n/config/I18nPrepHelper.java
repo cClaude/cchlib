@@ -37,12 +37,9 @@ public class I18nPrepHelper
         final PrintStream           usageStatPrintStream,
         final PrintStream           notUsePrintStream,
         final I18nPrepAutoUpdatable mainFrame,
-        final I18nAutoUpdatable...    otherFrames
+        final I18nAutoUpdatable...  otherFrames
         ) throws IOException
     {
-        // Default language !
-        // TODO remove this Locale.setDefault( defaultLocale );
-
         AbstractI18nBundle abstractI18nBundle
             = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, mainFrame );
 

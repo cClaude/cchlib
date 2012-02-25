@@ -1,7 +1,7 @@
 /**
  * 
  */
-package alpha.cx.ath.choisnet.io.impl;
+package alpha.com.googlecode.cchlib.io.impl.win32;
 
 /**
  * Provide some tool to access to AlternateDataStream

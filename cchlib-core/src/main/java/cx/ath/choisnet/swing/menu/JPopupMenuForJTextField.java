@@ -83,44 +83,6 @@ public abstract class JPopupMenuForJTextField
             }
     }
 
-
-    /**
-     * TODOC
-     *
-    final
-    public void setMenu()
-    {
-        this.jTextField.addMouseListener(
-            new MouseAdapter()
-            {
-                private void maybeShowPopup( MouseEvent e )
-                {
-                    if( e.isPopupTrigger() && jTextField.isEnabled() ) {
-                        Point p = new Point( e.getX(), e.getY() );
-
-                        // create popup menu...
-                        JPopupMenu contextMenu = createContextMenu();
-
-                        // ... and show it
-                        if( contextMenu != null
-                                && contextMenu.getComponentCount() > 0 ) {
-                            contextMenu.show( jTextField, p.x, p.y );
-                            }
-                }
-            }
-
-            public void mousePressed( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-
-            public void mouseReleased( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-        } );
-    }*/
-
     /**
      * <P>
      * You must overwrite this method !
@@ -142,76 +104,10 @@ public abstract class JPopupMenuForJTextField
      */
     protected abstract JPopupMenu createContextMenu();
 
-//        addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
-
-
-//        switch( columnIndex ) {
-//            case ExampleTableModel.COLUMN_NAME:
-//                break;
-//            case ExampleTableModel.COLUMN_PRICE:
-//                break;
-//            case ExampleTableModel.COLUMN_QUANTITY:
-//                contextMenu.addSeparator();
-//                ActionListener changer = new ActionListener() {
-//
-//                    public void actionPerformed( ActionEvent e )
-//                    {
-//                        JMenuItem sourceItem = (JMenuItem)e.getSource();
-//                        Object value = sourceItem
-//                                .getClientProperty( PROP_CHANGE_QUANTITY );
-//                        if( value instanceof Integer ) {
-//                            Integer changeValue = (Integer)value;
-//                            Integer currentValue = (Integer)getTableModel()
-//                                    .getValueAt( rowIndex, columnIndex );
-//                            getTableModel().setValueAt(
-//                                    new Integer( currentValue.intValue()
-//                                            + changeValue.intValue() ),
-//                                    rowIndex, columnIndex );
-//                        }
-//                    }
-//                };
-//                JMenuItem changeItem = new JMenuItem();
-//                changeItem.setText( "+1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "+10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = null;
-//                break;
-//            case ExampleTableModel.COLUMN_AMOUNT:
-//                break;
-//            default:
-//                break;
-//        }
-
     /**
      * TODOC
      *
      * @param contextMenu
-     * @param rowIndex
-     * @param columnIndex
      *
      */
     final
@@ -226,7 +122,7 @@ public abstract class JPopupMenuForJTextField
     /**
      * TODOC
      *
-     * @param columnIndex
+     * @param textForCopy
      * @return
      */
     final

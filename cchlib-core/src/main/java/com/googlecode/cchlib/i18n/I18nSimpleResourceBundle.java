@@ -20,20 +20,9 @@ public class I18nSimpleResourceBundle
     private static final long serialVersionUID = 2L;
     // FIXME: need Log4J (fix it ?)
     private transient static Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
-//    /** @serial */
-//    private String         resourceBundleBaseName;
     /** @serial */
     private Locale         currentLocale;
 
-//    /**
-//     * @param resourceBundleBaseName
-//     */
-//    public I18nSimpleResourceBundle(
-//            String resourceBundleBaseName
-//            )
-//    {
-//        this(null,resourceBundleBaseName);
-//    }
 
     /**
      *
@@ -46,7 +35,6 @@ public class I18nSimpleResourceBundle
             )
     {
         super( resourceBundleBaseName );
-//        this.resourceBundleBaseName = resourceBundleBaseName;
 
         setLocale( locale );
     }

@@ -39,9 +39,9 @@ public class XMLBuilder
     /**
      * Create an XMLBuilder using giving {@link Appendable} object
      *
-     * @param a             An {@link Appendable} object
-     * @param iniTabulation First level tabulation string
-     * @param incTabulation Others levels tabulation string
+     * @param a              An {@link Appendable} object
+     * @param initTabulation First level tabulation string
+     * @param incTabulation  Others levels tabulation string
      */
     public XMLBuilder(
             Appendable  a,
