@@ -1,6 +1,9 @@
 cchlib-j2ee
 
 ---------------------------------------------------------------------
+4.1.7
+  Fix some javadoc issues
+---------------------------------------------------------------------
 4.1.6
   Add support of some Java 1.7 features.
   Generated target code now is Java7
