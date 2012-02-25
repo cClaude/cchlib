@@ -1,4 +1,4 @@
-cchlib-tools-editressourcebundle
+cchlib-apps-editresourcebundle
 
 ---------------------------------------------------------------------
 4.1.7
