@@ -197,10 +197,10 @@ public class DBFReader extends DBFBase
     }
 
     /**
-     *
-     * @param columnName
-     * @return
-     * @throws DBFUnknownFieldNameException
+     * Returns column number for giving columnName
+     * @param columnName Column name to retrieve
+     * @return column number for giving columnName
+     * @throws DBFUnknownFieldNameException if columnName is not found
      */
     public int getColumnNumber( final String columnName )
         throws DBFUnknownFieldNameException
