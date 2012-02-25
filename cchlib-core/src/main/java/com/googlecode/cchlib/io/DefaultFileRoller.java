@@ -3,9 +3,9 @@ package com.googlecode.cchlib.io;
 import java.io.File;
 
 /**
- * Provide a very basic implementation 
+ * Provide a very basic implementation
  * of {@link FileRoller#createNewRollFile()}
- * 
+ *
  * @since 4.1.6
  */
 public class DefaultFileRoller implements FileRoller
@@ -13,8 +13,12 @@ public class DefaultFileRoller implements FileRoller
     private final File baseFile;
     private int currentFileIndex;
 
+    /**
+     * 
+     * @param baseFile
+     */
     public DefaultFileRoller(
-        final File	baseFile
+        final File    baseFile
         )
     {
         this.baseFile = baseFile;
@@ -22,12 +26,13 @@ public class DefaultFileRoller implements FileRoller
     }
 
     @Override
-	public File createNewRollFile()
+    public File createNewRollFile()
     {
-        File currentFile = new File(
+        final File currentFile = new File(
             this.baseFile.getAbsolutePath()
                 + "." + this.currentFileIndex
                 );
+
         this.currentFileIndex++;
 
         return currentFile;

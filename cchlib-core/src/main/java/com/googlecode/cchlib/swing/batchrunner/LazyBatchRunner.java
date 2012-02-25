@@ -13,6 +13,22 @@ import java.io.OutputStream;
 public interface LazyBatchRunner
 {
     /**
+     * Implementation must build a valid destination file for
+     * giving sourceFile, output File must be store under
+     * output folder select by user
+     * (see {@link LazyBatchRunnerApp#getOutputFolderFile()}).
+     *
+     * @param sourceFile Source {@link File}
+     * @return output {@link File} object for giving sourceFile
+     * @throws BatchRunnerInterruptedException if output {@link File}
+     *         can not be created
+     * @see LazyBatchRunnerApp#getOutputFolderFile()
+     */
+    public File buildOuputFile( File sourceFile )
+       throws BatchRunnerInterruptedException;
+
+    /**
+     * TODO: Doc
      *
      * @param inputStream
      * @param outputStream
@@ -26,20 +42,15 @@ public interface LazyBatchRunner
     throws IOException, BatchRunnerInterruptedException;
 
     /**
-     *
+     * TODO: Doc
      */
     public void initializeBath();
 
     /**
+     * TODO: Doc
      *
      * @param isCancelled
      */
     public void finalizeBath( boolean isCancelled );
 
-    /**
-     *
-     * @param sourceFile
-     * @return
-     */
-    public File buildDestinationFile( File sourceFile );
 }

@@ -5,13 +5,13 @@ import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
  *
  *
- * @author Claude CHOISNET
  */
 public class ExternalApp
 {
@@ -57,28 +57,29 @@ public class ExternalApp
     }
 
     /**
-     * 
+     *
      * @param command
      * @param input
      * @param stdout
      * @param stderr
-     * @return
+     * @return the exit value for the subprocess.
+     *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      */
     public static final int execute(
-            final String command, 
-            final InputStream input, 
-            final OutputStream stdout, 
-            final OutputStream stderr
+            final String        command,
+            final InputStream   input,
+            final OutputStream  stdout,
+            final OutputStream  stderr
             )
         throws ExternalAppException
     {
         int exitValue;
 
         try {
-            Process process = Runtime.getRuntime().exec(command);
-            InputStream procIn = new BufferedInputStream(process.getInputStream());
-            InputStream procErr = new BufferedInputStream(process.getErrorStream());
+            Process      process = Runtime.getRuntime().exec(command);
+            InputStream  procIn  = new BufferedInputStream(process.getInputStream());
+            InputStream  procErr = new BufferedInputStream(process.getErrorStream());
             OutputStream procOut = new BufferedOutputStream(process.getOutputStream());
             ExternalAppException exception = null;
             int c;
@@ -86,48 +87,52 @@ public class ExternalApp
             try {
                 while((c = input.read()) >= 0) {
                     procOut.write(c);
-                }
+                    }
 
                 procOut.flush();
                 procOut.close();
-            }
-            catch(java.io.IOException e) {
+                }
+            catch( IOException e ) {
                 exception = new ExternalAppException("IOException while running extern application", e);
-            }
+                }
 
             while((c = procIn.read()) >= 0){
                 stdout.write(c);
-            }
+                }
 
             while((c = procErr.read()) >= 0) {
                 stderr.write(c);
-            }
+                }
 
             if(exception != null) {
                 throw exception;
-            }
+                }
 
             exitValue = process.exitValue();
-        }
+            }
         catch(java.io.IOException e) {
-            throw new ExternalAppException("IOException while running extern application", e);
-        }
+            throw new ExternalAppException(
+                "IOException while running extern application",
+                e
+                );
+            }
 
         return exitValue;
     }
 
     /**
-     * 
+     *
      * @param command
      * @param stdout
      * @param stderr
-     * @return
+     * @return the exit value for the subprocess.
+     *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      */
     public static final int execute(
-            String command, 
-            OutputStream stdout,
-            OutputStream stderr
+            final String        command,
+            final OutputStream  stdout,
+            final OutputStream  stderr
             )
         throws ExternalAppException
     {
@@ -135,14 +140,15 @@ public class ExternalApp
     }
 
     /**
-     * 
+     *
      * @param command
      * @param input
-     * @return
+     * @return the exit value for the subprocess.
+     *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      */
     public static final Output execute(
-            String command, 
+            String command,
             InputStream input
             )
         throws ExternalAppException
@@ -156,9 +162,10 @@ public class ExternalApp
     }
 
     /**
-     * 
+     *
      * @param command
-     * @return
+     * @return the exit value for the subprocess.
+     *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      */
     public static final Output execute(String command)
@@ -168,12 +175,13 @@ public class ExternalApp
     }
 
     /**
-     * 
+     *
      * @param command
      * @param input
      * @param stdout
      * @param stderr
-     * @return
+     * @return the exit value for the subprocess.
+     *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      * @throws InterruptedException
      */
@@ -188,109 +196,28 @@ public class ExternalApp
         int exitValue;
 
         try {
-            Process process = Runtime.getRuntime().exec(command);
+            Process          process       = Runtime.getRuntime().exec(command);
             StreamCopyThread procOutThread = new StreamCopyThread("OutputStream", input, process.getOutputStream());
-            StreamCopyThread procInThread = new StreamCopyThread("InputStream", process.getInputStream(), stdout);
+            StreamCopyThread procInThread  = new StreamCopyThread("InputStream", process.getInputStream(), stdout);
             StreamCopyThread procErrThread = new StreamCopyThread("ErrorStream", process.getErrorStream(), stderr);
 
             procOutThread.start();
             procInThread.start();
             procErrThread.start();
+
             exitValue = process.waitFor();
 
             procOutThread.cancel();
             procInThread.cancel();
             procErrThread.cancel();
-        }
-        catch(java.io.IOException e) {
-            throw new ExternalAppException("IOException while running extern application", e);
-        }
+            }
+        catch( IOException e ) {
+            throw new ExternalAppException(
+                "IOException while running extern application",
+                e
+                );
+            }
 
         return exitValue;
     }
-
-//    /**
-//     * @param command
-//     * @param input
-//     * @param inputCharsetName
-//     * @param stdout
-//     * @param stdoutCharsetName
-//     * @param stderr
-//     * @param stderrCharsetName
-//     * @return  xx
-//     * @throws cx.ath.choisnet.util.ExternalAppException
-//     * @deprecated Method execute is deprecated
-//     */
-//    public static final int execute(
-//        String command,
-//        Reader input,
-//        String inputCharsetName,
-//        Writer stdout,
-//        String stdoutCharsetName,
-//        Writer stderr,
-//        String stderrCharsetName
-//        )
-//        throws cx.ath.choisnet.util.ExternalAppException
-//    {
-//        int exitValue;
-//
-//        try {
-//            Process process = Runtime.getRuntime().exec(command);
-//            Writer procOut  = new OutputStreamWriter(process.getOutputStream(), inputCharsetName);
-//            Reader procIn   = new InputStreamReader(process.getInputStream(), stdoutCharsetName);
-//            Reader procErr  = new InputStreamReader(process.getErrorStream(), stderrCharsetName);
-//
-//            ExternalAppException exception = null;
-//            int c;
-//
-//            try {
-//                while((c = input.read()) >= 0) {
-//                    procOut.write(c);
-//                }
-//
-//                procOut.flush();
-//                procOut.close();
-//            }
-//            catch(java.io.IOException e) {
-//                exception = new ExternalAppException("IOException while running extern application", e);
-//            }
-//
-//            while((c = procIn.read()) >= 0) {
-//                stdout.write(c);
-//            }
-//
-//            while((c = procErr.read()) >= 0) {
-//                stderr.write(c);
-//            }
-//
-//            if(exception != null) {
-//                throw exception;
-//            }
-//
-//            exitValue = process.exitValue();
-//        }
-//        catch(java.io.IOException e) {
-//            throw new ExternalAppException("IOException while running extern application", e);
-//        }
-//
-//        return exitValue;
-//    }
-
-//    /**
-//     * @param command
-//     * @param stdout
-//     * @param stderr
-//     * @return xxx
-//     * @throws cx.ath.choisnet.util.ExternalAppException
-//     * @deprecated Method execute is deprecated
-//     */
-//    public static final int execute(
-//        String command,
-//        Writer stdout,
-//        Writer stderr
-//        )
-//        throws cx.ath.choisnet.util.ExternalAppException
-//    {
-//        return ExternalApp.execute(command, new EmptyReader(), "Cp850", stdout, "Cp850", stderr, "Cp850");
-//    }
 }

@@ -18,7 +18,7 @@ import javax.swing.JProgressBar;
 
 /**
  * Build JPanel for task runner display
- * 
+ *
  * @see BatchRunnerPanel
  * @see DefaultBatchRunnerJFrame
  * @since 4.1.7
@@ -186,7 +186,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
      * Returns destination {@link File} object or null if not defined
      * @return destination {@link File} object or null if not defined
      */
-    public File getDestinationFolderFile()
+    public File getOutputFolderFile()
     {
         return File.class.cast(
             this.jTextFieldDestination.getClientProperty( File.class )

@@ -25,12 +25,12 @@ public class FileDataTypes
     }
 
     /**
-     * TODO: Doc!
+     * Returns {@link FileDataTypeDescription} for giving file
      *
-     * @param file
-     * @return
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @param file {@link File} to examine
+     * @return {@link FileDataTypeDescription} for giving file
+     * @throws FileNotFoundException If file not exist
+     * @throws IOException If any I/O error occur
      */
     public static FileDataTypeDescription findDataTypeDescription( final File file )
         throws FileNotFoundException, IOException

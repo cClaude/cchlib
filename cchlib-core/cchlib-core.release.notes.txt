@@ -12,6 +12,12 @@ cchlib-core
   Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunner
   Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunnerApp
   Add: com.googlecode.cchlib.swing.batchrunner.LazyBatchRunnerLocaleResources
+  Add: com.googlecode.cchlib.swing.filechooser.WaitingDialog
+  Add: com.googlecode.cchlib.swing.filechooser.WaitingJDialogWB
+  Add: com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer
+
+  Fix: com.googlecode.cchlib.swing.CustomDialogWB
+  Fix: com.googlecode.cchlib.swing.DialogHelper
 
 ---------------------------------------------------------------------
 4.1.6

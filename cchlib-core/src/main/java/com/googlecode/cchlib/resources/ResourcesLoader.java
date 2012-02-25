@@ -23,9 +23,12 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
+     * Find {@link URL} for resource, according to this 
+     * class {@link ClassLoader}
+     * 
+     * @param name Resource name
+     * @return {@link URL} for giving resource name
+     * @see Class#getResource(String)
      */
     public static URL getResource( final String name )
     {
@@ -33,10 +36,13 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
-     * @throws ResourcesLoaderException
+     * Find {@link InputStream} for resource, according to this 
+     * class {@link ClassLoader}
+     * 
+     * @param name Resource name
+     * @return {@link InputStream} for giving resource name
+     * @see Class#getResourceAsStream(String)
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static InputStream getResourceAsStream( final String name )
         throws ResourcesLoaderException
@@ -51,10 +57,10 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
-     * @throws ResourcesLoaderException
+     * Build {@link Icon} for giving resource name
+     * @param name Resource name
+     * @return {@link Icon} for giving resource name
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static Icon getImageIcon( final String name )
         throws ResourcesLoaderException
@@ -68,10 +74,10 @@ public class ResourcesLoader
     }
 
     /**
-     *
-     * @param name
-     * @return
-     * @throws ResourcesLoaderException
+     * Build {@link Image} for giving resource name
+     * @param name Resource name
+     * @return {@link Image} for giving resource name
+     * @throws ResourcesLoaderException If resource is not found
      */
     public static Image getImage( final String name )
         throws ResourcesLoaderException

@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Enumeration;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
@@ -17,7 +18,8 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 /**
  * Build JPanel to handle task runner based on a list of files
- *
+ * <br/>
+ * Warning: Top level ancestor must be a {@link Window}
  * @since 1.4.7
  */
 public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
@@ -105,7 +107,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
             return;
             }
 
-        final File destinationFolderFile = this.getDestinationFolderFile();
+        final File destinationFolderFile = this.getOutputFolderFile();
 
         if( destinationFolderFile == null ) {
             setCurrentMessage( localeResources.getTextNoDestinationFolder() );
@@ -131,7 +133,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                 try {
                     while( enumFile.hasMoreElements() ) {
                         final File sourceFile      = enumFile.nextElement();
-                        final File destinationFile = buildDestinationFile( sourceFile );
+                        final File destinationFile = buildOutputFile( sourceFile );
 
                         setCurrentTaskNumber( i++ );
                         setCurrentMessage(
@@ -149,6 +151,15 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                     //logger.info( "BatchRunnerInterruptedException", e );
                     finalizeBath( true );
                     }
+                catch( Exception e ) {
+                    logger.fatal( "Unexpected error", e );
+
+                    DialogHelper.showMessageExceptionDialog(
+                        getTopLevelWindow(),
+                        localeResources.getTextUnexpectedExceptionTitle(),
+                        e
+                        );
+                    }
 
                 BatchRunnerPanel.this.setCursor(
                         Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
@@ -159,13 +170,14 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO:Doc
+     * Returns output {@link File} object for giving sourceFile
      *
-     * @param sourceFile
-     * @return
-     * @throws BatchRunnerInterruptedException
+     * @param sourceFile Source {@link File}
+     * @return output {@link File} object for giving sourceFile
+     * @throws BatchRunnerInterruptedException if output {@link File}
+     *         can not be created
      */
-    protected abstract File buildDestinationFile( File sourceFile )
+    protected abstract File buildOutputFile( File sourceFile )
         throws BatchRunnerInterruptedException;
 
     /**
@@ -249,5 +261,16 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
         }
 
         return jFileChooserInitializer;
+    }
+
+    /**
+     * Top level ancestor must be a {@link Window}
+     *
+     * @return top level window
+     * @see #getTopLevelAncestor()
+     */
+    public Window getTopLevelWindow()
+    {
+        return Window.class.cast( getTopLevelAncestor() );
     }
 }

@@ -13,11 +13,12 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+//Not public
 class WaitingJDialogWB
     extends JDialog
-        implements WaitingDialog, ActionListener
+        implements ActionListener
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
     private final JPanel contentPanel = new JPanel();
     private JProgressBar jProgressBar;
     private JLabel jLabel;
@@ -52,12 +53,6 @@ class WaitingJDialogWB
             JPanel buttonPane = new JPanel();
             buttonPane.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
             getContentPane().add( buttonPane, BorderLayout.SOUTH );
-//            {
-//                JButton okButton = new JButton( "OK" );
-//                okButton.setActionCommand( "OK" );
-//                buttonPane.add( okButton );
-//                getRootPane().setDefaultButton( okButton );
-//            }
             {
                 JButton cancelButton = new JButton( "Cancel" );
                 cancelButton.addActionListener( this );
@@ -72,7 +67,7 @@ class WaitingJDialogWB
         return jLabel;
     }
 
-    public void setText( final String text )
+    protected void setText( final String text )
     {
         jLabel.setText( text );
     }
@@ -82,9 +77,9 @@ class WaitingJDialogWB
         return jProgressBar;
     }
 
-    public void setIndeterminate( final boolean newValue )
+    protected void setIndeterminate( final boolean newValue )
     {
-        jProgressBar.setIndeterminate( newValue  );
+        jProgressBar.setIndeterminate( newValue );
     }
 
     @Override

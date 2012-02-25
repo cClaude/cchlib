@@ -255,11 +255,11 @@ public class MappableBuilder
 
                 if( methodResult == null ) {
                     hashMap.put(
-                    		formatMethodName( methodName ),
+                            formatMethodName( methodName ),
                             toString( methodResult )
                             );
-            		}
-            	else {
+                    }
+                else {
                     int len = Array.getLength( methodResult );
 
                     for(int i = 0; i < len; i++) {
@@ -269,8 +269,8 @@ public class MappableBuilder
                                 formatArrayEntry(methodName, i, len),
                                 toString(value)
                                 );
-                    	}
-            		}
+                        }
+                    }
             }
             else {
                 if( methodResult == null ) {
@@ -297,7 +297,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return
+     * @return TODO: doc
      */
     protected String formatIterableEntry(
             String  methodeName,
@@ -318,7 +318,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return
+     * @return TODO: doc
      */
     protected String formatIteratorEntry(String methodeName, int index, int max)
     {
@@ -337,7 +337,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return
+     * @return TODO: doc
      */
     protected String formatEnumerationEntry(String methodeName, int index, int max)
     {
@@ -356,7 +356,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return
+     * @return TODO: doc
      */
     protected String formatArrayEntry(String methodeName, int index, int max)
     {
@@ -373,7 +373,7 @@ public class MappableBuilder
      * TODOC
      *
      * @param methodeName
-     * @return
+     * @return TODO: doc
      */
     protected String formatMethodName(String methodeName)
     {
@@ -423,7 +423,7 @@ public class MappableBuilder
      * TODOC
      *
      * @param clazz
-     * @return
+     * @return TODO: doc
      */
     protected final boolean isMappable(Class<?> clazz)
     {
@@ -585,7 +585,7 @@ public class MappableBuilder
      * @param method
      * @param hashMap
      * @param resultClass
-     * @return
+     * @return TODO: doc
      */
     protected final Object invoke(
             final Object object,

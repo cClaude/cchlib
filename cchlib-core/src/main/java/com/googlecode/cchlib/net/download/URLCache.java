@@ -23,7 +23,7 @@ public class URLCache implements Serializable
     private int modificationCount = 0;
 
     /**
-     * TODOC
+     * Create a new URLCache
      */
     public URLCache()
     {
@@ -32,9 +32,9 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
+     * Create a new URLCache using giving cacheFile
      *
-     * @param cacheFile
+     * @param cacheFile {@link File} to use has cache
      */
     public URLCache( final File cacheFile )
     {
@@ -44,6 +44,7 @@ public class URLCache implements Serializable
             load();
             }
         catch( Exception e ) {
+            // FIXME: only for FileNotFoundException ?
             this.cache = new CacheContent();
             }
 
@@ -51,21 +52,22 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
+     * Check if an {@link URL} is in cache
      *
-     * @param url
-     * @return
+     * @param url {@link URL} to check
+     * @return true if {@link URL} is in cache, false otherwise
      */
     public boolean isInCache( final URL url )
     {
+        // FIXME: Verify if File exist on disk ?
         return cache.contains( url );
     }
 
     /**
-     * TODOC
+     * Add a new ({@link URL},filename) couple in cache
      *
-     * @param url
-     * @param filename
+     * @param url       {@link URL} for this filename
+     * @param filename  Local filename
      */
     synchronized
     public void add( final URL url, final String filename )
@@ -77,10 +79,10 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
+     * Retrieve {@link URL} in cache
      *
-     * @param url
-     * @return
+     * @param url {@link URL} to retrieve
+     * @return {@link Entry} for giving url if in cache, null otherwise
      */
     synchronized
     public Entry get( final URL url )
@@ -89,9 +91,8 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
-     *
-     * @return
+     * Returns cache size
+     * @return cache size
      */
     synchronized
     public int size()
@@ -100,29 +101,39 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
+     * Returns filename for giving {@link URL}
      *
-     * @param url
-     * @return
+     * @param url {@link URL} to retrieve
+     * @return filename for giving {@link URL},
+     *         or null if URL is not in cache
      */
     public String getFilename( final URL url )
     {
-        return get( url ).getFilename();
+        Entry entry = get( url );
+
+        if( entry != null ) {
+            return entry.getFilename();
+            }
+        else {
+            return null;
+            }
     }
 
     /**
-     * TODOC
+     * Clear cache in memory, file cache will be updated
+     * according to auto-store status
      */
     synchronized
     public void clear()
     {
         cache.clear();
+
+        autoStore();
     }
 
     /**
-     * TODOC
-     *
-     * @param cacheFile
+     * Set cacheFile for this cache
+     * @param cacheFile {@link File} to set
      */
     public void setCacheFile( final File cacheFile )
     {
@@ -130,9 +141,8 @@ public class URLCache implements Serializable
     }
 
     /**
-     * TODOC
-     *
-     * @return
+     * Returns cache {@link File}
+     * @return cacheFile for this cache
      */
     public File getCacheFile()
     {
@@ -145,16 +155,16 @@ public class URLCache implements Serializable
      */
     public void setAutoStorage( final boolean enable )
     {
-    	this.autostore = enable;
+        this.autostore = enable;
     }
 
     /**
-     *
-     * @return
+     * Returns true if auto-storage is enable, false otherwise
+     * @return true if auto-storage is enable, false otherwise
      */
     public boolean isAutoStorage()
     {
-    	return this.autostore;
+        return this.autostore;
     }
 
     /**
@@ -164,23 +174,23 @@ public class URLCache implements Serializable
      */
     public void setAutoStorageThreshold( final int threshold )
     {
-    	this.autostoreThreshold = threshold;
+        this.autostoreThreshold = threshold;
     }
 
     /**
-     *
-     * @return
+     * Returns AutoStorage Threshold value
+     * @return AutoStorage Threshold value
      */
     public int getAutoStorageThreshold()
     {
-    	return this.autostoreThreshold;
+        return this.autostoreThreshold;
     }
 
     /**
      * TODOC
      *
      * @throws FileNotFoundException if cache does not exist
-     * @throws IOException
+     * @throws IOException if any I/O error occur
      * @throws ClassNotFoundException
      */
     synchronized
@@ -192,7 +202,7 @@ public class URLCache implements Serializable
     /**
      * TODOC
      *
-     * @throws IOException
+     * @throws IOException if any I/O error occur
      */
     synchronized
     public void store() throws IOException
@@ -204,17 +214,17 @@ public class URLCache implements Serializable
 
     private void autoStore()
     {
-    	if( this.autostore && this.cacheFile != null ) {
-    		if( this.modificationCount > this.autostoreThreshold ) {
-    			try {
-					store();
-					}
-    			catch( IOException e ) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    		}
-    	}
+        if( this.autostore && this.cacheFile != null ) {
+            if( this.modificationCount > this.autostoreThreshold ) {
+                try {
+                    store();
+                    }
+                catch( IOException e ) {
+                    // FIXME: Send a notification ?
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     // Workaround for generic warning...

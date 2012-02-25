@@ -3,6 +3,7 @@ package com.googlecode.cchlib.swing.batchrunner;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,7 +12,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 /**
- * TODO:Doc!
+ * This class is provide to build a quick application able
+ * to do a task for a list of selected files and to store
+ * result into a select output folder.
  *
  * @since 1.4.7
  */
@@ -23,7 +26,7 @@ public abstract class LazyBatchRunnerApp
     private ResourceBundle resourceBundle;
 
     /**
-     * TODO:Doc!
+     * Build a LazyBatchRunnerApp using default resource bundle
      */
     protected LazyBatchRunnerApp()
     {
@@ -36,7 +39,10 @@ public abstract class LazyBatchRunnerApp
     }
 
     /**
-     * TODO:Doc!
+     * Build a LazyBatchRunnerApp using giving resource bundle
+     *
+     * @param resourceBundle ResourceBundle to use to find
+     *        string localization
      */
     protected LazyBatchRunnerApp( ResourceBundle resourceBundle )
     {
@@ -100,7 +106,10 @@ public abstract class LazyBatchRunnerApp
                     }
                 catch( Exception e ) {
                     e.printStackTrace();
-                    DialogHelper.showMessageExceptionDialog( getTextFrameTitle(), e );
+                    DialogHelper.showMessageExceptionDialog(
+                            getTextFrameTitle(),
+                            e
+                            );
                     }
             }
         });
@@ -112,13 +121,23 @@ public abstract class LazyBatchRunnerApp
      * @return
      * @throws IllegalStateException if not yet started
      */
-    public File getDestinationFolderFile() throws IllegalStateException
+    public File getOutputFolderFile() throws IllegalStateException
     {
         if( this.frame == null ) {
             throw new IllegalStateException( "Not yet started" );
             }
 
-        return this.frame.getDestinationFolderFile();
+        return this.frame.getOutputFolderFile();
+    }
+
+    /**
+     * TODO: Doc
+     *
+     * @return
+     */
+    public Window getTopLevelWindow()
+    {
+        return this.frame;
     }
 
     /**
@@ -185,4 +204,20 @@ public abstract class LazyBatchRunnerApp
     {
         return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextEndOfBatch" );
     }
+    @Override//LazyBatchRunnerLocaleResources
+    public String getTextIOExceptionDuringBatch()
+    {
+        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatch" );
+    }
+    @Override//LazyBatchRunnerLocaleResources
+    public String getTextProgressMonitorTitle_FMT()
+    {
+        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextProgressMonitorTitle_FMT" );
+    }
+    @Override//LazyBatchRunnerLocaleResources
+    public String getTextUnexpectedExceptionTitle()
+    {
+        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextUnexpectedExceptionTitle" );
+    }
 }
+

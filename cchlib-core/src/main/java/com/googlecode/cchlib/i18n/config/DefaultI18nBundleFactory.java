@@ -14,10 +14,15 @@ public class DefaultI18nBundleFactory
     }
 
     /**
-    *
-    * @param clazz
-    * @return
-    */
+     * Create AbstractI18nBundle for giving locale and giving
+     * class to build message bundle base name
+     * (see {@link #getMessagesBundle(Class)})
+     * 
+     * @param locale    {@link Locale} to use
+     * @param clazz     {@link Class} to use
+     * @return an AbstractI18nBundle
+     * @see #getMessagesBundle(Class)
+     */
     public final static AbstractI18nBundle createDefaultI18nBundle(
         final Locale    locale,
         final Class<?>  clazz
@@ -34,9 +39,14 @@ public class DefaultI18nBundleFactory
     }
 
     /**
-     *
-     * @param i18nPrepAutoUpdatable
-     * @return
+     * Create AbstractI18nBundle for giving locale and giving
+     * i18nPrepAutoUpdatable to build message bundle base name
+     * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
+     * 
+     * @param locale                {@link Locale} to use
+     * @param i18nPrepAutoUpdatable {@link I18nPrepAutoUpdatable} to use
+     * @return an AbstractI18nBundle
+     * @see I18nPrepAutoUpdatable#getMessagesBundle()
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
             final Locale                locale,
@@ -54,9 +64,11 @@ public class DefaultI18nBundleFactory
         }
 
     /**
-     *
-     * @param clazz
-     * @return
+     * Returns Message Bundle base name based on giving class name
+     * and ".MessagesBundle" as extension.
+     * 
+     * @param clazz Class to use to build Message Bundle base name
+     * @return Message Bundle base name based on giving class name
      */
     public final static String getMessagesBundle( Class<?> clazz )
     {

@@ -58,21 +58,21 @@ public class DefaultBatchRunnerJFrame extends JFrame
             }
             @Override
             protected void runTask(
-                    File sourceFile,
-                    File destinationFile
+                    final File sourceFile,
+                    final File destinationFile
                     ) throws BatchRunnerInterruptedException
             {
-                _runTask( sourceFile, destinationFile );
+                private_runTask( sourceFile, destinationFile );
             }
             @Override
-            protected File buildDestinationFile(
-                    File sourceFile
-                    )
+            protected File buildOutputFile(
+                    final File sourceFile
+                    ) throws BatchRunnerInterruptedException
             {
-                return lazyBatchRunner.buildDestinationFile( sourceFile );
+                return lazyBatchRunner.buildOuputFile( sourceFile );
             }
             @Override
-            protected void finalizeBath( boolean isCancelled )
+            protected void finalizeBath( final boolean isCancelled )
             {
                 lazyBatchRunner.finalizeBath( isCancelled );
             }
@@ -81,26 +81,27 @@ public class DefaultBatchRunnerJFrame extends JFrame
         setContentPane( contentPane );
     }
 
-    private void _runTask(
+    private void private_runTask(
         final File sourceFile,
         final File destinationFile
         ) throws BatchRunnerInterruptedException
     {
         try {
-            _runTask_Throwable( sourceFile, destinationFile );
+            private_runTask_Throwable( sourceFile, destinationFile );
 
             this.contentPane.setCurrentMessage(
                     localeResources.getTextEndOfBatch()
                     );
 
-            logger.info( "Convert done" );
+            logger.info( "Task done for: " + sourceFile );
             }
         catch( InterruptedIOException e ) {
-            logger.info( "Convert cancelled" );
+            logger.warn( "User cancel batch in: " + sourceFile );
+
             throw new BatchRunnerInterruptedException( e );
             }
         catch( IOException e ) {
-            final String title = "Erreur de conversion";
+            final String title =  this.localeResources.getTextIOExceptionDuringBatch();
 
             logger.error( title, e );
             this.contentPane.setCurrentMessage( title );
@@ -110,18 +111,23 @@ public class DefaultBatchRunnerJFrame extends JFrame
                 title,
                 e
                 );
+            // TODO: Cancel all batch ?
         }
     }
 
-    private void _runTask_Throwable(
+    private void private_runTask_Throwable(
             final File sourceFile,
             final File destinationFile
             ) throws IOException,
                      BatchRunnerInterruptedException
     {
+        final String title = String.format(
+                this.localeResources.getTextProgressMonitorTitle_FMT(),
+                sourceFile.getName()
+                );
         final ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
             this,
-            "Reading " + sourceFile.getName(),
+            title,
             new FileInputStream( sourceFile )
             );
         final InputStream is = new BufferedInputStream( pmis );
@@ -144,11 +150,11 @@ public class DefaultBatchRunnerJFrame extends JFrame
     }
 
     /**
-     * @see LazyBatchRunnerApp#getDestinationFolderFile()
+     * @see LazyBatchRunnerApp#getOutputFolderFile()
      */
-    protected File getDestinationFolderFile()
+    protected File getOutputFolderFile()
     {
-        return this.contentPane.getDestinationFolderFile();
+        return this.contentPane.getOutputFolderFile();
     }
 
     /**

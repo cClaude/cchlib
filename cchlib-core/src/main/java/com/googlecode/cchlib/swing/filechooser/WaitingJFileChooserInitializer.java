@@ -25,9 +25,9 @@ public class WaitingJFileChooserInitializer
 {
     private static final long serialVersionUID = 2L;
     private final static Logger logger = Logger.getLogger( WaitingJFileChooserInitializer.class );
-    private Window parentWindow;
-    private WaitingDialog dialog;
     private Object lock = new Object();
+    private Window parentWindow;
+    private WaitingJDialogWB dialog;
     private String title;
     private String message;
 
@@ -48,7 +48,9 @@ public class WaitingJFileChooserInitializer
     {
         super( configurator );
 
-        this.parentWindow = parentWindow;
+        this.parentWindow   = parentWindow;
+        this.title          = title;
+        this.message        = message;
 
         JFileChooserInitializerListener l = new JFileChooserInitializerListener()
         {
@@ -120,8 +122,6 @@ public class WaitingJFileChooserInitializer
             synchronized( lock ) {
                 if( dialog == null ) {
                     dialog = new WaitingJDialogWB( parentWindow );
-                    dialog.setTitle( title );
-                    dialog.setText( message );
                     }
                 }
 
@@ -130,13 +130,15 @@ public class WaitingJFileChooserInitializer
                 @Override
                 public void run()
                 {
+                    dialog.setTitle( title );
+                    dialog.setText( message );
                     dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
                     dialog.setVisible( true );
                 }
             };
 
             try {
-                SwingUtilities.invokeAndWait( doRun  );
+                SwingUtilities.invokeAndWait( doRun );
                 }
             catch( InvocationTargetException e ) {
                 logger.error( e );

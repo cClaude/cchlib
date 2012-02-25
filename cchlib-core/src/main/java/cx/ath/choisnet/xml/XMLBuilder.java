@@ -58,7 +58,7 @@ public class XMLBuilder
      * TODO: doc!
      *
      * @param aNode
-     * @return
+     * @return this object for chaining initialization
      * @throws IOException
      */
     public XMLBuilder append( Node aNode ) throws IOException
@@ -95,7 +95,7 @@ public class XMLBuilder
      * TODO: doc!
      *
      * @param nodeList
-     * @return
+     * @return this object for chaining initialization
      * @throws IOException
      */
     public XMLBuilder append( NodeList nodeList )

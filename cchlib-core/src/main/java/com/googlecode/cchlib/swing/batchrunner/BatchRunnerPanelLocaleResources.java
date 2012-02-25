@@ -2,7 +2,7 @@ package com.googlecode.cchlib.swing.batchrunner;
 
 /**
  * Text for localization of {@link BatchRunnerPanel}
- * 
+ *
  * @since 1.4.7
  */
 public interface BatchRunnerPanelLocaleResources
@@ -22,4 +22,5 @@ public interface BatchRunnerPanelLocaleResources
     public String getTextNoSourceFile();
     public String getTextNoDestinationFolder();
     public String getTextWorkingOn_FMT();
+    public String getTextUnexpectedExceptionTitle();
 }

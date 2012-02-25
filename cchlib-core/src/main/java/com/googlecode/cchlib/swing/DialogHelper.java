@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.swing;
 
 import java.awt.Window;
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import com.googlecode.cchlib.lang.ExceptionHelper;
 import com.googlecode.cchlib.resources.ResourcesLoader;
@@ -18,10 +20,10 @@ public class DialogHelper
     }
 
     /**
-     * TODO: Doc:
-     *
-     * @param title
-     * @param exception
+     * Open a message exception dialog, and wait for user input
+     * 
+     * @param title         the title of the Dialog.
+     * @param exception     the exception to display stack trace
      */
     public static void showMessageExceptionDialog(
             final String    title,
@@ -36,16 +38,49 @@ public class DialogHelper
     }
 
     /**
-     * TODO: Doc:
-     *
-     * @param parentWindow
-     * @param title
-     * @param exception
+     * Open a message exception dialog, and wait for user input
+     * 
+     * @param parentWindow  the Window from which the dialog is displayed
+     *                      or null if this dialog has no owner.
+     * @param title         the title of the Dialog.
+     * @param exception     the exception to display stack trace
      */
     public static void showMessageExceptionDialog(
-        final Window      parentWindow,
+        final Window    parentWindow,
         final String    title,
         final Throwable exception
+        )
+    {
+        AbstractButton[] buttons = {
+                buildJButtonIconOrText(
+                        ResourcesLoader.OK_ICON_16x16,
+                        "OK"
+                        )
+                };
+
+        showMessageExceptionDialog(
+                parentWindow,
+                title,
+                exception,
+                buttons
+                );
+    }
+
+    /**
+     * Open a message exception dialog, and wait for user input
+     * 
+     * @param parentWindow  the Window from which the dialog is displayed
+     *                      or null if this dialog has no owner.
+     * @param title         the title of the Dialog.
+     * @param exception     the exception to display stack trace
+     * @param buttons       Buttons array for user input
+     * @return index of button select by user.
+     */
+    public static int showMessageExceptionDialog(
+        final Window            parentWindow,
+        final String            title,
+        final Throwable         exception,
+        final AbstractButton[]  buttons
         )
     {
         final StringBuilder msg = new StringBuilder();
@@ -63,21 +98,47 @@ public class DialogHelper
 
         final CustomDialogWB dialog = new CustomDialogWB(
                 parentWindow,
-                false,
-                title,
-                msg.toString()
+                buttons
                 );
 
+        if( title != null ) {
+            dialog.setTitle( title );
+            }
+
+        dialog.getJLabelMessage().setText( msg.toString() );
+
+        dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+        dialog.setModal( true );
+        dialog.setVisible( true );
+
+        return dialog.getSelectedButtonIndex();
+    }
+
+    private static JButton buildJButtonIconOrText(
+            final String    iconResourceName,
+            final String    textIfError
+            )
+    {
+        JButton button = new JButton();
+
+        setAbstractButtonIconOrText( button, iconResourceName, textIfError );
+
+        return button;
+    }
+
+    private static void setAbstractButtonIconOrText(
+            final AbstractButton    button,
+            final String            iconResourceName,
+            final String            textIfError
+            )
+    {
         try {
-            dialog.getJButtonOk().setIcon(
-                ResourcesLoader.getImageIcon( ResourcesLoader.OK_ICON_16x16 )
+            button.setIcon(
+                ResourcesLoader.getImageIcon( iconResourceName )
                 );
             }
         catch( ResourcesLoaderException e ) {
-            dialog.setJButtonOk( "OK" );
+            button.setText( textIfError );
             }
-
-        dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-        dialog.setVisible( true );
     }
 }

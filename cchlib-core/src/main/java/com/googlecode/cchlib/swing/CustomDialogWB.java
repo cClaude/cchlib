@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.swing;
 
 import java.awt.BorderLayout;
-import javax.swing.JButton;
+import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,125 +10,23 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Window;
 import javax.swing.JLabel;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JScrollPane;
+import java.awt.FlowLayout;
 
 /* not public */
 class CustomDialogWB extends JDialog
 {
     private static final long serialVersionUID = 1L;
-    private static final String ACTION_CMD_OK = "OK";
-    private static final String ACTION_CMD_CANCEL = "Cancel";
+    private static final String ACTION_CMD_COMPONENT = "ACTION_CMD_COMPONENT";
+    private static final String CLIENT_PROPERTY_INDEX = "CLIENT_PROPERTY_INDEX";
     private final JPanel contentPanel = new JPanel();
     private JLabel jLabelMessage;
-    private JButton jButtonOk;
-    private JButton jButtonCancel;
-    private ActionListener actionListener;
     private JScrollPane scrollPane;
-
-//    /**
-//     * Test only
-//     */
-//    public static void main( String[] args )
-//    {
-//        try {
-//            Frame           parentFrame = null;
-//            String          title       = "<<title>>";
-//            String          message     = "<html>&lt;&lt;<b>HTML</b> message&gt;&gt;</html>";
-//            String          okText      = "<<ok>>";
-//            String          cancelText  = "<<cancel>>";
-//            CustomDialogWB  dialog      = new CustomDialogWB(
-//                    parentFrame,
-//                    title,
-//                    message,
-//                    okText,
-//                    cancelText
-//                    );
-//            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//            dialog.setVisible(true);
-//            }
-//        catch( Exception e ) {
-//            e.printStackTrace();
-//            }
-//    }
-
-    private class CustomActionListener implements ActionListener
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if( ACTION_CMD_OK.equals( e.getActionCommand() ) ) {
-                closeDisposeDialog();
-                }
-            else if( ACTION_CMD_CANCEL.equals( e.getActionCommand() ) ) {
-                closeDisposeDialog();
-            }
-        }
-
-        /**
-         *
-         */
-        public void closeDisposeDialog()
-        {
-            CustomDialogWB.this.setVisible( false );
-            CustomDialogWB.this.dispose();
-        }
-    }
-
-    private ActionListener getActionListener()
-    {
-        if( this.actionListener == null ) {
-            this.actionListener = new CustomActionListener();
-            }
-        return this.actionListener;
-    }
-
-    /**
-     * Create the dialog.
-     *
-     * @param parentFrame
-     * @param title
-     * @param message
-     * @param okText
-     * @param cancelText
-     * @wbp.parser.constructor
-     */
-    public CustomDialogWB(
-        final Window      parentWindow,
-        final String    title,
-        final String    message,
-        final String    okText,
-        final String    cancelText
-
-        )
-    {
-        this( parentWindow, true, title, message );
-
-        this.setJButtonOk( okText );
-        this.setJButtonCancel( cancelText );
-    }
-
-    /**
-     * Create the dialog.
-     *
-     * @param parentWindow
-     * @param addCancelButton
-     * @param title
-     * @param message
-     */
-    public CustomDialogWB(
-        final Window      parentWindow,
-        final boolean   addCancelButton,
-        final String    title,
-        final String    message
-        )
-    {
-        this( parentWindow, addCancelButton );
-
-        setTitle( title );
-        this.jLabelMessage.setText( message );
-    }
+    private JPanel commandPanel;
+    private ActionListener actionListener;
+    private int selectedButtonIndex;
 
     /**
      * Create the dialog.
@@ -137,8 +35,8 @@ class CustomDialogWB extends JDialog
      * @param addCancelButton
      */
     public CustomDialogWB(
-        final Window      parentWindow,
-        final boolean   addCancelButton
+        final Window            parentWindow,
+        final AbstractButton[]  abstractButtons
         )
     {
         super( parentWindow );
@@ -146,17 +44,16 @@ class CustomDialogWB extends JDialog
         setSize( 450, 300);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+        gridBagLayout.columnWidths = new int[]{0, 0};
         gridBagLayout.rowHeights = new int[]{0, 33, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
         {
             scrollPane = new JScrollPane();
             GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
-            gbc_scrollPane.gridwidth = 3;
-            gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+            gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
             gbc_scrollPane.gridx = 0;
             gbc_scrollPane.gridy = 0;
             getContentPane().add(scrollPane, gbc_scrollPane);
@@ -168,60 +65,65 @@ class CustomDialogWB extends JDialog
                 contentPanel.add(jLabelMessage);
             }
         }
-
-        // CANCEL
-        // $hide>>$
-        if( addCancelButton )
-        // $hide<<$
         {
-            jButtonCancel = new JButton();
-            jButtonCancel.addActionListener( getActionListener() );
-            GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
-            gbc_jButtonCancel.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonCancel.gridx = 2;
-            gbc_jButtonCancel.gridy = 1;
-            getContentPane().add(jButtonCancel, gbc_jButtonCancel);
-            jButtonCancel.setActionCommand( ACTION_CMD_CANCEL );
-            }
+            commandPanel = new JPanel();
+            GridBagConstraints gbc_commandPanel = new GridBagConstraints();
+            gbc_commandPanel.fill = GridBagConstraints.BOTH;
+            gbc_commandPanel.gridx = 0;
+            gbc_commandPanel.gridy = 1;
+            getContentPane().add(commandPanel, gbc_commandPanel);
+            commandPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        // OK
-        {
-            jButtonOk = new JButton();
-            jButtonOk.addActionListener( getActionListener() );
-            GridBagConstraints gbc_jButtonOk = new GridBagConstraints();
-            gbc_jButtonOk.insets = new Insets(0, 0, 0, 5);
-            gbc_jButtonOk.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonOk.gridx = 1;
-            gbc_jButtonOk.gridy = 1;
-            getContentPane().add(jButtonOk, gbc_jButtonOk);
-            jButtonOk.setActionCommand( ACTION_CMD_OK );
-            getRootPane().setDefaultButton(jButtonOk);
+            for( int i = 0; i < abstractButtons.length; i++ ) {
+                AbstractButton b = abstractButtons[ i ];
+                commandPanel.add( b );
+                b.putClientProperty( CLIENT_PROPERTY_INDEX, i );
+                b.setActionCommand( ACTION_CMD_COMPONENT );
+                b.addActionListener( getActionListener() );
+                }
         }
     }
 
-    public JLabel getJLabelMessage()
+    /**
+     *
+     * @return
+     */
+    protected JLabel getJLabelMessage()
     {
         return jLabelMessage;
     }
 
-    public JButton getJButtonOk()
+    /**
+     *
+     * @return
+     */
+    protected int getSelectedButtonIndex()
     {
-        return jButtonOk;
+        return this.selectedButtonIndex;
     }
 
-    public void setJButtonOk( final String okText )
+    private void closeDisposeDialog()
     {
-        jButtonOk.setText( okText );
+        CustomDialogWB.this.setVisible( false );
+        CustomDialogWB.this.dispose();
     }
 
-    public JButton getJButtonCancel()
+    private ActionListener getActionListener()
     {
-        return jButtonCancel;
-    }
+        if( this.actionListener == null ) {
+            this.actionListener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    if( ACTION_CMD_COMPONENT.equals( e.getActionCommand() ) ) {
+                        AbstractButton b = AbstractButton.class.cast( e.getSource() );
+                        selectedButtonIndex = Integer.class.cast( b.getClientProperty( CLIENT_PROPERTY_INDEX ) );
 
-    public void setJButtonCancel( final String cancelText )
-    {
-        jButtonCancel.setText( cancelText );
-    }
+                        closeDisposeDialog();
+                        }
+                }};
+            }
 
+        return this.actionListener;
+    }
 }

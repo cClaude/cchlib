@@ -10,7 +10,7 @@ public interface DateInterface
 {
     /**
      * TODO: Doc!
-     * 
+     *
      * @param date
      * @return true if date is before current date
      */
@@ -18,7 +18,7 @@ public interface DateInterface
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param date
      * @return true if date is after current date
      */
@@ -26,7 +26,7 @@ public interface DateInterface
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param date
      * @return TODO doc!
      * @throws BasicDateTimeException
@@ -36,7 +36,7 @@ public interface DateInterface
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param date
      * @return TODO doc!
      * @throws BasicDateTimeException
@@ -44,17 +44,17 @@ public interface DateInterface
     public abstract DateInterface sub(DateInterface date)
         throws BasicDateTimeException;
 
-    /**
-     * TODO: Doc!
-     * 
-     * @param date
-     * @return TODO doc!
-     */
-    public abstract int compareTo(DateInterface date);
+//    /**
+//     * TODO: Doc!
+//     *
+//     * @param date
+//     * @return TODO doc!
+//     */
+//    public abstract int compareTo(DateInterface date);
 
     /**
      * TODO: Doc!
-     * 
+     *
      * @param date
      * @return TODO doc!
      */
