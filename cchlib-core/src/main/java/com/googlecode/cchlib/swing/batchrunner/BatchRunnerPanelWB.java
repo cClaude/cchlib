@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JProgressBar;
+import com.googlecode.cchlib.swing.batchrunner.lazy.DefaultBatchRunnerJFrame;
 
 /**
  * Build JPanel for task runner display

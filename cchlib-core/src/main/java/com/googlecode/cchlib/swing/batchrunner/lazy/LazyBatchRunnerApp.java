@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.swing.batchrunner;
+package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import java.awt.EventQueue;
 import java.awt.Image;

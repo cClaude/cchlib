@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.swing.batchrunner;
+package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import java.awt.HeadlessException;
 import java.io.BufferedInputStream;
@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.ProgressMonitorInputStream;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
+import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanel;
 
 /**
  * Provide a default {@link JFrame} to support {@link BatchRunnerPanel}
@@ -152,7 +154,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
     /**
      * @see LazyBatchRunnerApp#getOutputFolderFile()
      */
-    protected File getOutputFolderFile()
+    public File getOutputFolderFile()
     {
         return this.contentPane.getOutputFolderFile();
     }
@@ -160,7 +162,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
     /**
      * @see LazyBatchRunnerApp#setCurrentMessage(String)
      */
-    protected void setCurrentMessage( final String msg )
+    public void setCurrentMessage( final String msg )
     {
         this.contentPane.setCurrentMessage( msg );
     }

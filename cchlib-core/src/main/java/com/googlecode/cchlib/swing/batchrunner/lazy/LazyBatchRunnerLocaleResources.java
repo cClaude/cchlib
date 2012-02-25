@@ -1,4 +1,6 @@
-package com.googlecode.cchlib.swing.batchrunner;
+package com.googlecode.cchlib.swing.batchrunner.lazy;
+
+import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
 
 /**
  * Text for localization of {@link LazyBatchRunnerLocaleResources}

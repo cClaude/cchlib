@@ -1,9 +1,10 @@
-package com.googlecode.cchlib.swing.batchrunner;
+package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 
 /**
  * TODO:Doc!
