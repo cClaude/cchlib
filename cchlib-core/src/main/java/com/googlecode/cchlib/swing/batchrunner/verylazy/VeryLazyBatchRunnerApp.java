@@ -96,8 +96,8 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
                     break;
 
                 case JOptionPane.NO_OPTION :
-                    throw new UnsupportedOperationException();
-                    //break;
+                    outputFile = buildNotUsedOuputFile( outputFile );
+                    break;
 
                 //case JOptionPane.CANCEL_OPTION :
                 default : {
@@ -113,6 +113,27 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
 
         return outputFile;
     }
+
+    /**
+     * Returns a non existing {@link File} based on giving sourceFile
+     * @param sourceFile {@link File} to use to build new {@link File}
+     * @return a non existing {@link File} based on giving sourceFile
+     */
+    public File buildNotUsedOuputFile(
+           final File sourceFile
+           )
+   {
+       File     dir         = sourceFile.getParentFile();
+       String   filename    = sourceFile.getName();
+
+       for( int i = 1;; i++ ) {
+           File newFile = new File( dir, filename + "(" + i + ")" );
+
+           if( ! newFile.exists() ) {
+               return  newFile;
+               }
+           }
+   }
 
     @Override//LazyBatchRunner
     public void runTask(
