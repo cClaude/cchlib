@@ -1,5 +1,7 @@
 package cnamts.gui;
 
+import java.io.File;
+import org.apache.log4j.Logger;
 import cnamts.DelNonAlphaChar;
 import com.googlecode.cchlib.swing.DialogHelper;
 
@@ -10,6 +12,7 @@ import com.googlecode.cchlib.swing.DialogHelper;
 public class B2TransformApp
     extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>
 {
+    private static final transient Logger logger = Logger.getLogger( B2TransformApp.class );
     private B2TransformApp() {}
 
     /**
@@ -23,6 +26,7 @@ public class B2TransformApp
             instance.start();
             }
         catch( Exception e ) {
+            logger.fatal( "FATAL Error", e );
             DialogHelper.showMessageExceptionDialog( B2TransformApp.class.getName(), e );
             }
     }
@@ -34,6 +38,15 @@ public class B2TransformApp
     public DelNonAlphaChar buildTask()
     {
          return new DelNonAlphaChar( DelNonAlphaChar.REPLACEMENT_CHAR, 128 );
+    }
+
+    @Override//VeryLazyBatchRunnerApp
+    public File buildBasicOuputFile( File destinationFolderFile, File sourceFile )
+    {
+        return new File(
+                destinationFolderFile,
+                sourceFile.getName() + ".b2-128"
+                );
     }
     //
     //END: VeryLazyBatchRunnerApp

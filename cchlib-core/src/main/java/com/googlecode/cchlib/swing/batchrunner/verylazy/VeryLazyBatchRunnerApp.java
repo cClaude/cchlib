@@ -15,6 +15,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp;
  */
 public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     extends LazyBatchRunnerApp
+        implements VeryLazyBatchRunnerLocaleResources
 {
     private static final transient Logger logger = Logger.getLogger( VeryLazyBatchRunnerApp.class );
 
@@ -35,10 +36,19 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     }
 
     /**
+     * Build TASK
      *
-     * @return
+     * @return a reusable task for each file
      */
     public abstract TASK buildTask();
+
+    /**
+     *
+     */
+    public abstract File buildBasicOuputFile(
+            final File destinationFolderFile,
+            final File sourceFile
+            );
 
     //
     // BEGIN: LazyBatchRunner
@@ -57,28 +67,19 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     }
 
     @Override//LazyBatchRunner
-    public File buildOuputFile( File sourceFile )
+    public File buildOuputFile( final File sourceFile )
             throws BatchRunnerInterruptedException
     {
-        final File destinationFolderFile = super.getOutputFolderFile();
-
-        File outputFile = new File(
-                destinationFolderFile,
-                sourceFile.getName() + ".b2-128"
-                );
+        final File  destinationFolderFile   = super.getOutputFolderFile();
+        File        outputFile              = buildBasicOuputFile( destinationFolderFile, sourceFile );
 
         if( outputFile.exists() ) {
             String message = String.format(
-                    "Le fichier %s existe déjà !\n"
-                    + "Souhaitez-vous le remplacer ?",
+                    getTextFileExistShouldReplaceIt_FMT(),
                     outputFile
                     );
-            String title = "Le fichier destination existe déjà.";
-            String[] choices = {
-                    "oui",
-                    "Non, renommer automatiquement",
-                    "Non, arrêter tous les traitements"
-                    };
+            String   title   = getTextFileExistTitle();
+            String[] choices = getTextFileExistChoices();
             int res = JOptionPane.showOptionDialog(
                     getTopLevelWindow(),
                     message,
@@ -114,14 +115,17 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     }
 
     @Override//LazyBatchRunner
-    public void runTask( InputStream inputStream, OutputStream outputStream )
-            throws IOException, BatchRunnerInterruptedException
+    public void runTask(
+        final InputStream   inputStream,
+        final OutputStream  outputStream
+        )
+        throws IOException, BatchRunnerInterruptedException
     {
         this.batchInstance.runTask( inputStream, outputStream );
     }
 
     @Override//LazyBatchRunner
-    public void finalizeBath( boolean isCancelled )
+    public void finalizeBath( final boolean isCancelled )
     {
         long endTimeMillis = System.currentTimeMillis();
         long millis = endTimeMillis - beginTimeMillis;
@@ -136,5 +140,38 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
 
     //
     // END: LazyBatchRunner
+    //
+
+    //
+    // BEGIN: VeryLazyBatchRunnerLocaleResources
+    //
+
+    @Override//VeryLazyBatchRunnerLocaleResources
+    public String getTextFileExistShouldReplaceIt_FMT()
+    {
+        return resourceBundle.getString( "VeryLazyBatchRunnerLocaleResources.TextFileExistShouldReplaceIt_FMT" );
+    }
+
+    @Override//VeryLazyBatchRunnerLocaleResources
+    public String getTextFileExistTitle()
+    {
+        return resourceBundle.getString( "VeryLazyBatchRunnerLocaleResources.TextFileExistTitle" );
+    }
+
+    @Override//VeryLazyBatchRunnerLocaleResources
+    public String[] getTextFileExistChoices()
+    {
+        final String    keyPrefix = "VeryLazyBatchRunnerLocaleResources.TextFileExistChoices.";
+        final String[]  choices = {
+            resourceBundle.getString( keyPrefix + "YesReplace" ),
+            resourceBundle.getString( keyPrefix + "NoRename" ),
+            resourceBundle.getString( keyPrefix + "NoCancel" ),
+            };
+
+        return choices;
+    }
+
+    //
+    // END: VeryLazyBatchRunnerLocaleResources
     //
 }

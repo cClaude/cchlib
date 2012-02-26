@@ -23,7 +23,7 @@ public abstract class LazyBatchRunnerApp
                 LazyBatchRunnerLocaleResources
 {
     private DefaultBatchRunnerJFrame frame;
-    private ResourceBundle resourceBundle;
+    protected final ResourceBundle resourceBundle;
 
     /**
      * Build a LazyBatchRunnerApp using default resource bundle

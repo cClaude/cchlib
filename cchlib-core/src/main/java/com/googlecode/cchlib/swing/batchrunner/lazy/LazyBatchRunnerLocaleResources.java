@@ -3,11 +3,12 @@ package com.googlecode.cchlib.swing.batchrunner.lazy;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
 
 /**
- * Text for localization of {@link LazyBatchRunnerLocaleResources}
+ * Text for localization of {@link LazyBatchRunnerApp}
  *
  * @since 1.4.7
  */
-public interface LazyBatchRunnerLocaleResources extends BatchRunnerPanelLocaleResources
+public interface LazyBatchRunnerLocaleResources 
+    extends BatchRunnerPanelLocaleResources
 {
     /**
      * @return localized text for end of batch message
