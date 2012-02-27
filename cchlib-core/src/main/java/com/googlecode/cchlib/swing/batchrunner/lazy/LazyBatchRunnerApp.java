@@ -7,6 +7,8 @@ import java.awt.Window;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -24,18 +26,14 @@ public abstract class LazyBatchRunnerApp
 {
     private DefaultBatchRunnerJFrame frame;
     protected final ResourceBundle resourceBundle;
+    private final LazyBatchRunnerCustomJPanelFactory customJPanelFactory;
 
     /**
      * Build a LazyBatchRunnerApp using default resource bundle
      */
     protected LazyBatchRunnerApp()
     {
-        this(
-            ResourceBundle.getBundle(
-                LazyBatchRunnerApp.class.getPackage().getName()
-                    + ".DefaultLazyBatchRunnerAppResourceBundle"
-                )
-            );
+        this( null, null );
     }
 
     /**
@@ -44,9 +42,39 @@ public abstract class LazyBatchRunnerApp
      * @param resourceBundle ResourceBundle to use to find
      *        string localization
      */
-    protected LazyBatchRunnerApp( ResourceBundle resourceBundle )
+    protected LazyBatchRunnerApp(
+        final LazyBatchRunnerCustomJPanelFactory   customJPanelFactory,
+        final ResourceBundle                 resourceBundle
+        )
     {
-        this.resourceBundle = resourceBundle;
+        if( resourceBundle == null ) {
+            this.resourceBundle = ResourceBundle.getBundle(
+                LazyBatchRunnerApp.class.getPackage().getName()
+                    + ".DefaultLazyBatchRunnerAppResourceBundle"
+                );
+            }
+        else {
+            this.resourceBundle = resourceBundle;
+            }
+
+        if( customJPanelFactory == null ) {
+            this.customJPanelFactory = new LazyBatchRunnerCustomJPanelFactory()
+                {
+                    @Override
+                    public JPanel createCustomJPanel()
+                    {
+                        return null;
+                    }
+                    @Override
+                    public BorderLayoutConstraints getCustomJPanelLayoutConstraints()
+                    {
+                        return null;
+                    }
+                };
+            }
+        else {
+            this.customJPanelFactory = customJPanelFactory;
+            }
     }
 
     /**
@@ -99,7 +127,11 @@ public abstract class LazyBatchRunnerApp
             public void run()
             {
                 try {
-                    frame = new DefaultBatchRunnerJFrame( LazyBatchRunnerApp.this, LazyBatchRunnerApp.this );
+                    frame = new DefaultBatchRunnerJFrame(
+                                LazyBatchRunnerApp.this,
+                                LazyBatchRunnerApp.this,
+                                customJPanelFactory
+                                );
                     frame.setTitle( getTextFrameTitle() );
                     frame.setIconImage( image );
                     frame.setVisible(true);
@@ -116,9 +148,8 @@ public abstract class LazyBatchRunnerApp
     }
 
     /**
-     * TODO: Doc
-     *
-     * @return
+     * Returns destination {@link File} object or null if not defined
+     * @return destination {@link File} object or null if not defined
      * @throws IllegalStateException if not yet started
      */
     public File getOutputFolderFile() throws IllegalStateException
@@ -131,9 +162,8 @@ public abstract class LazyBatchRunnerApp
     }
 
     /**
-     * TODO: Doc
-     *
-     * @return
+     * Returns main {@link Window} object
+     * @return main {@link Window} object
      */
     public Window getTopLevelWindow()
     {
@@ -141,9 +171,17 @@ public abstract class LazyBatchRunnerApp
     }
 
     /**
-     * TODO: Doc
-     *
-     * @param message
+     * Returns custom {@link JPanel} if defined, null otherwise
+     * @return custom {@link JPanel} if defined, null otherwise
+     */
+    public JPanel getCustomJPanel()
+    {
+        return this.frame.getCustomJPanel();
+    }
+
+    /**
+     * Set current message
+     * @param message Message to set
      * @throws IllegalStateException if not yet started
      */
     public void setCurrentMessage( final String message )
@@ -209,6 +247,17 @@ public abstract class LazyBatchRunnerApp
     {
         return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatch" );
     }
+    @Override//LazyBatchRunnerLocaleResources
+    public String[] getTextIOExceptionDuringBatchButtons()
+    {
+        String[] buttons = {
+            resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatchButtons.Continue" ),
+            resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatchButtons.Cancel" )
+            };
+
+        return buttons;
+    }
+
     @Override//LazyBatchRunnerLocaleResources
     public String getTextProgressMonitorTitle_FMT()
     {

@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 
 /**
- * TODO:Doc!
+ * Methods that should be implements by customization.
  *
  * @since 1.4.7
  */
@@ -29,12 +29,12 @@ public interface LazyBatchRunner
        throws BatchRunnerInterruptedException;
 
     /**
-     * TODO: Doc
+     * Invoke for each file
      *
-     * @param inputStream
-     * @param outputStream
-     * @throws IOException
-     * @throws BatchRunnerInterruptedException
+     * @param inputStream    {@link InputStream} from source file
+     * @param outputStream   {@link OutputStream} on destination file
+     * @throws IOException if any I/O occurred (This error is shown to the user)
+     * @throws BatchRunnerInterruptedException if batch should be cancel
      */
     public void runTask(
         final InputStream  inputStream,
@@ -43,14 +43,14 @@ public interface LazyBatchRunner
     throws IOException, BatchRunnerInterruptedException;
 
     /**
-     * TODO: Doc
+     * Invoke when user call start batch action
      */
     public void initializeBath();
 
     /**
-     * TODO: Doc
+     * Invoke when batch is finish
      *
-     * @param isCancelled
+     * @param isCancelled true if batch has been cancelled, false otherwise
      */
     public void finalizeBath( boolean isCancelled );
 

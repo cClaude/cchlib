@@ -7,7 +7,7 @@ import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
  *
  * @since 1.4.7
  */
-public interface LazyBatchRunnerLocaleResources 
+public interface LazyBatchRunnerLocaleResources
     extends BatchRunnerPanelLocaleResources
 {
     /**
@@ -21,12 +21,19 @@ public interface LazyBatchRunnerLocaleResources
     public String getTextFrameTitle();
 
     /**
-     * @return localized text to say that a IO Exception occur during batch 
+     * @return localized text to say that an IO Exception occur during batch
      */
     public String getTextIOExceptionDuringBatch();
+
+    /**
+     * @return localized text for buttons when an IO Exception occur
+     *         during batch (2 buttons: [0]=Continue,[1]=Cancel)
+     */
+    public String[] getTextIOExceptionDuringBatchButtons();
 
     /**
      * @return localized text to say that specified file (%s) is reading
      */
     public String getTextProgressMonitorTitle_FMT();
+
 }

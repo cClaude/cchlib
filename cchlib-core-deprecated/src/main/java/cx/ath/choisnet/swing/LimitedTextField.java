@@ -10,6 +10,7 @@ import javax.swing.text.DocumentFilter;
 /**
  * @author oma
  * @author cc
+ * @deprecated use {@link LimitedJTextField} instead
  */
 public class LimitedTextField extends JTextField
 {

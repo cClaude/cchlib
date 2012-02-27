@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.swing.batchrunner.lazy;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -11,11 +13,14 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.ProgressMonitorInputStream;
+import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanel;
+import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory.BorderLayoutConstraints;
 
 /**
  * Provide a default {@link JFrame} to support {@link BatchRunnerPanel}
@@ -26,9 +31,11 @@ public class DefaultBatchRunnerJFrame extends JFrame
 {
     private static final transient Logger logger = Logger.getLogger( DefaultBatchRunnerJFrame.class );
     private static final long serialVersionUID = 1L;
-    private BatchRunnerPanel contentPane;
+    private JPanel contentPane;
+    private BatchRunnerPanel batchRunnerPanel;
     private LazyBatchRunner lazyBatchRunner;
     private LazyBatchRunnerLocaleResources localeResources;
+    private JPanel customJPanel;
 
     /**
      * Create the frame.
@@ -39,7 +46,8 @@ public class DefaultBatchRunnerJFrame extends JFrame
      */
     public DefaultBatchRunnerJFrame(
         final LazyBatchRunner                   lazyBatchRunner,
-        final LazyBatchRunnerLocaleResources    localeResources
+        final LazyBatchRunnerLocaleResources    localeResources,
+        final LazyBatchRunnerCustomJPanelFactory       customJPanelFactory
         ) throws HeadlessException
     {
         super();
@@ -50,7 +58,58 @@ public class DefaultBatchRunnerJFrame extends JFrame
         this.lazyBatchRunner = lazyBatchRunner;
         this.localeResources = localeResources;
 
-        contentPane = new BatchRunnerPanel( localeResources )
+        //contentPane = createBatchRunnerPanel();
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        setContentPane( contentPane );
+        contentPane.setLayout(new BorderLayout(0, 0));
+
+        batchRunnerPanel = createBatchRunnerPanel();
+        contentPane.add(batchRunnerPanel, BorderLayout.CENTER);
+
+        customJPanel = customJPanelFactory.createCustomJPanel();
+
+        if( customJPanel != null ) {
+            int extraWidth  = customJPanel.getSize().width;
+            int extraHeight = customJPanel.getSize().height;
+
+            BorderLayoutConstraints c = customJPanelFactory.getCustomJPanelLayoutConstraints();
+            Dimension frameDimension = getSize();
+
+            switch( c ) {
+                case WEST:
+                    contentPane.add(customJPanel, BorderLayout.WEST);
+                    frameDimension.width += extraWidth;
+                    break;
+
+                case SOUTH:
+                    contentPane.add(customJPanel, BorderLayout.SOUTH);
+                    frameDimension.height += extraHeight;
+                    break;
+
+                case NORTH:
+                    contentPane.add(customJPanel, BorderLayout.NORTH);
+                    frameDimension.height += extraHeight;
+                    break;
+
+                //case EAST:
+                default:
+                    contentPane.add(customJPanel, BorderLayout.EAST);
+                    frameDimension.width += extraWidth;
+                    break;
+                }
+
+            frameDimension.setSize(frameDimension);
+            }
+    }
+
+    /**
+     * @wbp.factory
+     */
+    private BatchRunnerPanel createBatchRunnerPanel()
+    {
+        return new BatchRunnerPanel( localeResources )
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -79,8 +138,6 @@ public class DefaultBatchRunnerJFrame extends JFrame
                 lazyBatchRunner.finalizeBath( isCancelled );
             }
         };
-
-        setContentPane( contentPane );
     }
 
     private void private_runTask(
@@ -91,7 +148,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
         try {
             private_runTask_Throwable( sourceFile, destinationFile );
 
-            this.contentPane.setCurrentMessage(
+            this.batchRunnerPanel.setCurrentMessage(
                     localeResources.getTextEndOfBatch()
                     );
 
@@ -106,14 +163,23 @@ public class DefaultBatchRunnerJFrame extends JFrame
             final String title =  this.localeResources.getTextIOExceptionDuringBatch();
 
             logger.error( title, e );
-            this.contentPane.setCurrentMessage( title );
+            this.batchRunnerPanel.setCurrentMessage( title );
 
-            DialogHelper.showMessageExceptionDialog(
+            String[] buttonsText = this.localeResources.getTextIOExceptionDuringBatchButtons();
+
+            int response = DialogHelper.showMessageExceptionDialog(
                 this,
                 title,
-                e
+                e,
+                buttonsText
                 );
-            // TODO: Cancel all batch ?
+            if( response != 0 ) {
+                // Cancel batch
+                throw new BatchRunnerInterruptedException( e );
+                }
+            else {
+                // Continue (do next file)
+                }
         }
     }
 
@@ -156,7 +222,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
      */
     public File getOutputFolderFile()
     {
-        return this.contentPane.getOutputFolderFile();
+        return this.batchRunnerPanel.getOutputFolderFile();
     }
 
     /**
@@ -164,6 +230,15 @@ public class DefaultBatchRunnerJFrame extends JFrame
      */
     public void setCurrentMessage( final String msg )
     {
-        this.contentPane.setCurrentMessage( msg );
+        this.batchRunnerPanel.setCurrentMessage( msg );
+    }
+
+    /**
+     * Returns custom {@link JPanel} if defined, null otherwise
+     * @return custom {@link JPanel} if defined, null otherwise
+     */
+    public JPanel getCustomJPanel()
+    {
+        return customJPanel;
     }
 }

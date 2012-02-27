@@ -33,12 +33,12 @@ public abstract class BatchRunnerPanelWB extends JPanel
 
     private JTextField jTextFieldDestination;
     private JTextField jTextFieldMessage;
-    private JScrollPane scrollPane;
+    // private JScrollPane scrollPane;
     private DefaultListModel<File> listModel;
-    private JButton jButtonClearFileList;
-    private JButton jButtonDestination;
-    private JButton jButtonSource;
-    private JButton jButtonDoAction;
+    //private JButton jButtonClearFileList;
+    //private JButton jButtonDestination;
+    //private JButton jButtonSource;
+    //private JButton jButtonDoAction;
     private JProgressBar jProgressBarGlobal;
 
     /**
@@ -61,9 +61,11 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.setLayout(gbl_contentPane);
         }
         {
-            jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
+            JButton jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
             jButtonSource.setActionCommand( ACTIONCMD_SELECT_SOURCE_FILES );
+            // $hide>>$
             jButtonSource.addActionListener( getActionListener() );
+            // $hide<<$
             GridBagConstraints gbc_jButtonSource = new GridBagConstraints();
             gbc_jButtonSource.fill = GridBagConstraints.BOTH;
             gbc_jButtonSource.insets = new Insets(0, 0, 5, 5);
@@ -72,7 +74,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.add( jButtonSource, gbc_jButtonSource );
         }
         {
-            scrollPane = new JScrollPane();
+            JScrollPane scrollPane = new JScrollPane();
             GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.gridheight = 3;
             gbc_scrollPane.gridwidth = 2;
@@ -82,15 +84,19 @@ public abstract class BatchRunnerPanelWB extends JPanel
             gbc_scrollPane.gridy = 0;
             this.add(scrollPane, gbc_scrollPane);
 
+            // $hide>>$ BUG WindowBuilder ???
             JList<File> list = new JList<>();
             listModel = new DefaultListModel<File>();
             list.setModel( listModel);
             scrollPane.setViewportView(list);
+            // $hide<<$
         }
         {
-            jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
+            JButton jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
             jButtonDestination.setActionCommand( ACTIONCMD_SELECT_DESTINATION_FOLDER );
+            // $hide>>$
             jButtonDestination.addActionListener( getActionListener() );
+            // $hide<<$
             GridBagConstraints gbc_jButtonDestination = new GridBagConstraints();
             gbc_jButtonDestination.fill = GridBagConstraints.BOTH;
             gbc_jButtonDestination.insets = new Insets(0, 0, 5, 5);
@@ -99,7 +105,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.add(jButtonDestination, gbc_jButtonDestination);
         }
         {
-            jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
+            JButton jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
             jButtonClearFileList.addActionListener( new ActionListener() {
                 @Override
                 public void actionPerformed( ActionEvent e )
@@ -125,8 +131,10 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.add(jTextFieldDestination, gbc_jTextFieldDestination);
         }
         {
-            jButtonDoAction = new JButton( localeResources.getTextDoAction() );
+            JButton jButtonDoAction = new JButton( localeResources.getTextDoAction() );
+            // $hide>>$
             jButtonDoAction.setActionCommand( ACTIONCMD_DO_ACTION );
+            // $hide<<$
             jButtonDoAction.addActionListener( getActionListener() );
             GridBagConstraints gbc_jButtonDoAction = new GridBagConstraints();
             gbc_jButtonDoAction.fill = GridBagConstraints.HORIZONTAL;
@@ -161,7 +169,9 @@ public abstract class BatchRunnerPanelWB extends JPanel
      * Returns ActionListener for this panel
      * @return ActionListener for this panel
      */
+    // $hide>>$
     protected abstract ActionListener getActionListener();
+    // $hide<<$
 
     /**
      * Add {@link File} to source files list
@@ -236,10 +246,10 @@ public abstract class BatchRunnerPanelWB extends JPanel
      */
     protected void setEnabledButtons( final boolean b )
     {
-        jButtonSource.setEnabled( b );
-        jButtonDestination.setEnabled( b );
-        jButtonClearFileList.setEnabled( b );
-        jButtonDoAction.setEnabled( b );
+        //jButtonSource.setEnabled( b );
+        //jButtonDestination.setEnabled( b );
+        //jButtonClearFileList.setEnabled( b );
+        //jButtonDoAction.setEnabled( b );
     }
 
 }

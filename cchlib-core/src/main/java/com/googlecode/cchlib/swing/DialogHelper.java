@@ -21,7 +21,7 @@ public class DialogHelper
 
     /**
      * Open a message exception dialog, and wait for user input
-     * 
+     *
      * @param title         the title of the Dialog.
      * @param exception     the exception to display stack trace
      */
@@ -39,7 +39,7 @@ public class DialogHelper
 
     /**
      * Open a message exception dialog, and wait for user input
-     * 
+     *
      * @param parentWindow  the Window from which the dialog is displayed
      *                      or null if this dialog has no owner.
      * @param title         the title of the Dialog.
@@ -65,10 +65,37 @@ public class DialogHelper
                 buttons
                 );
     }
-
     /**
      * Open a message exception dialog, and wait for user input
-     * 
+     *
+     * @param parentWindow  the Window from which the dialog is displayed
+     *                      or null if this dialog has no owner.
+     * @param title         the title of the Dialog.
+     * @param exception     the exception to display stack trace
+     * @param buttonsText   String by references of buttons text.
+     * @return index of button select by user.
+     */
+    public static int showMessageExceptionDialog(
+        final Window            parentWindow,
+        final String            title,
+        final Throwable         exception,
+        final String...         buttonsText
+        )
+    {
+        final AbstractButton[] buttons = new AbstractButton[ buttonsText.length ];
+
+        for( int i=0; i<buttons.length; i++ ) {
+            buttons[ i ] = new JButton( buttonsText[ i ] );
+            };
+
+        return showMessageExceptionDialog(parentWindow, title, exception, buttons);
+    }
+
+    
+    
+    /**
+     * Open a message exception dialog, and wait for user input
+     *
      * @param parentWindow  the Window from which the dialog is displayed
      *                      or null if this dialog has no owner.
      * @param title         the title of the Dialog.

@@ -1,54 +1,18 @@
 package cx.ath.choisnet.util;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
-import cx.ath.choisnet.util.iterator.IteratorWrapper;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODO: Doc!
+ * 
  * @param <T> 
  * @param <O> 
- *
  */
 public class WrapperHelper<T,O>
 {
     private WrapperHelper()
     {//All static
     }
-
-//    static class DefaultValueWrapper<T,O> implements Wrappable<T,O>
-//    {
-//        private Wrappable<T,O> wrapper;
-//        private O defValue;
-//
-//        public DefaultValueWrapper(Wrappable<T,O> wrapper, O defValue)
-//        {
-//            this.wrapper  = wrapper;
-//            this.defValue = defValue;
-//        }
-//
-//        public O wrappe(T o)
-//        {
-//            try {
-//                return wrapper.wrappe(o);
-//            }
-//            catch(Exception e) {
-//                return defValue;
-//            }
-//        }
-//    }
-    
-//    private static final Wrappable<String,Long> WRAPPESTRINGTOLONG = new Wrappable<String,Long>() 
-//    {
-//        public Long wrappe(String o)
-//        {
-//            return Long.valueOf( Long.parseLong(o) );
-//        }
-//    };
 
     /**
      * Create a Wrappable object using Object.toString()
@@ -65,69 +29,7 @@ public class WrapperHelper<T,O>
             }
         };
     }
-
-//    public static final Wrappable<String,Long> wrappeStringToLong()
-//    {
-//        return WRAPPESTRINGTOLONG;
-//    }
-//
-//    public static final Wrappable<String,Long> wrappeString(Long defValue)
-//    {
-//        return new DefaultValueWrapper<String,Long>(WRAPPESTRINGTOLONG, defValue);
-//    }
-
-//    public static final Wrappable<String,Integer> wrappeStringToInteger()
-//    {
-//        return new Wrappable<String,Integer>() {
-//
-//            public Integer wrappe(String o)
-//            {
-//                return Integer.valueOf(Integer.parseInt(o));
-//            }
-//        };
-//
-//    }
-//
-//    public static final Wrappable<String,Integer> wrappeString(Integer defValue)
-//    {
-//        return new DefaultValueWrapper<String,Integer>(WrapperHelper.wrappeStringToInteger(), defValue);
-//    }
-//
-//    public static final Wrappable<String,Float> wrappeStringToFloat()
-//    {
-//        return new Wrappable<String,Float>() {
-//
-//            public Float wrappe(String o)
-//            {
-//                return Float.valueOf(Float.parseFloat(o));
-//            }
-//        };
-//
-//    }
-//
-//    public static final Wrappable<String,Float> wrappeString(Float defValue)
-//    {
-//        return new DefaultValueWrapper<String,Float>( WrapperHelper.wrappeStringToFloat(), defValue );
-//    }
-//
-//    public static final Wrappable<String,Double> wrappeStringToDouble()
-//    {
-//        return new Wrappable<String,Double>() {
-//
-//            public Double wrappe(String o)
-//            {
-//                return Double.valueOf(Double.parseDouble(o));
-//            }
-//        };
-//
-//    }
-//
-//    public static final Wrappable<String,Double> wrappeString(Double defValue)
-//    {
-//        return new DefaultValueWrapper<String,Double>(WrapperHelper.wrappeStringToDouble(), defValue);
-//    }
-    
-    
+/*
     // TODO: TestCase needed !
     @Deprecated // Move to a new class ! (new package?)
     public static final <E,O> Collection<O> wrappeCollection(
@@ -268,7 +170,7 @@ public class WrapperHelper<T,O>
             }
         };
     }
-    
+*/    
     /**
      * Wrap an Enumeration.
      * 
