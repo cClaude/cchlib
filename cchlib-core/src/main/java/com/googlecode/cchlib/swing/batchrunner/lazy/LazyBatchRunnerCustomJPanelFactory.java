@@ -2,13 +2,15 @@ package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import javax.swing.JPanel;
 
+import com.googlecode.cchlib.swing.batchrunner.EnableListener;
+
 /**
  * Handle custom panel.
  * <br/>
  * A custom panel is a panel with a content that is not handled by
  * {@link LazyBatchRunnerApp}. {@link LazyBatchRunnerApp} only handle
  * the panel it self.
- * 
+ *
  * @since 1.4.7
  */
 public interface LazyBatchRunnerCustomJPanelFactory
@@ -41,4 +43,11 @@ public interface LazyBatchRunnerCustomJPanelFactory
      *         needed.
      */
     public BorderLayoutConstraints getCustomJPanelLayoutConstraints();
+
+    /**
+     * TODO: Doc
+     *
+     * @return
+     */
+    public EnableListener getEnableListener();
 }

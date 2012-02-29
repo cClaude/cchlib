@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.util.Populator;
-import com.googlecode.cchlib.util.PropertierPopulator;
-import com.googlecode.cchlib.util.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.properties.PropertierPopulator;
+import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 /**
  *

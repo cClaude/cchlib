@@ -128,7 +128,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                 BatchRunnerPanel.this.setCursor(
                         Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)
                         );
-                setEnabledButtons( false );
+                fireStateChanged( false );
 
                 try {
                     while( enumFile.hasMoreElements() ) {
@@ -164,7 +164,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                 BatchRunnerPanel.this.setCursor(
                         Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
                         );
-                setEnabledButtons( true );
+                fireStateChanged( true );
             }
         }).start();
     }
@@ -273,4 +273,42 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     {
         return Window.class.cast( getTopLevelAncestor() );
     }
+
+    /**
+     * TODO: Doc  Enable
+     *
+     * @param l the listener to be added
+     */
+    public void addEnableListener( EnableListener l )
+    {
+        listenerList.add( EnableListener.class, l );
+    }
+
+    /**
+     * TODO: Doc
+     *
+     * @param l the listener to be removed
+     */
+    public void removeEnableListener( EnableListener l )
+    {
+        listenerList.remove( EnableListener.class, l );
+    }
+
+    /**
+     * Runs each <code>EnableListener</code>'s <code>stateChanged</code>
+     * method.
+     */
+    protected void fireStateChanged( final boolean enable )
+    {
+        setEnabledButtons( enable );
+
+        Object[] listeners = listenerList.getListenerList();
+
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+            if (listeners[i] == EnableListener.class) {
+                ((EnableListener) listeners[i + 1]).setEnabled( enable );
+                }
+            }
+    }
+
 }

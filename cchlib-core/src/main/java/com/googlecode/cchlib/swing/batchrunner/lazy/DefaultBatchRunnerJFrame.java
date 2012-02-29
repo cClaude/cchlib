@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanel;
+import com.googlecode.cchlib.swing.batchrunner.EnableListener;
 import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory.BorderLayoutConstraints;
 
 /**
@@ -45,9 +46,9 @@ public class DefaultBatchRunnerJFrame extends JFrame
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      */
     public DefaultBatchRunnerJFrame(
-        final LazyBatchRunner                   lazyBatchRunner,
-        final LazyBatchRunnerLocaleResources    localeResources,
-        final LazyBatchRunnerCustomJPanelFactory       customJPanelFactory
+        final LazyBatchRunner                    lazyBatchRunner,
+        final LazyBatchRunnerLocaleResources     localeResources,
+        final LazyBatchRunnerCustomJPanelFactory customJPanelFactory
         ) throws HeadlessException
     {
         super();
@@ -240,5 +241,27 @@ public class DefaultBatchRunnerJFrame extends JFrame
     public JPanel getCustomJPanel()
     {
         return customJPanel;
+    }
+
+    /**
+     * TODO: Doc  Enable
+     *
+     * @param l the listener to be added
+     * @see BatchRunnerPanel#addEnableListener(EnableListener)
+     */
+    public void addEnableListener( EnableListener l )
+    {
+        batchRunnerPanel.addEnableListener( l );
+    }
+
+    /**
+     * TODO: Doc
+     *
+     * @param l the listener to be removed
+     * @see BatchRunnerPanel#removeEnableListener(EnableListener)
+     */
+    public void removeEnableListener( EnableListener l )
+    {
+        batchRunnerPanel.removeEnableListener( l );
     }
 }

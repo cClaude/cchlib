@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.util;
+package com.googlecode.cchlib.util.properties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +9,7 @@ import java.io.Writer;
 import java.util.Properties;
 
 /**
- *
+ * TODO: Doc
  */
 public class PropertiesHelper
 {
@@ -19,6 +19,7 @@ public class PropertiesHelper
     }
 
     /**
+     * TODO: Doc
      *
      * @param propertiesFile
      * @throws IOException if any
@@ -27,8 +28,8 @@ public class PropertiesHelper
         final File propertiesFile
         ) throws IOException
    {
-       Properties     properties     = new Properties();
-       InputStream is             = new FileInputStream( propertiesFile );
+       Properties  properties = new Properties();
+       InputStream is         = new FileInputStream( propertiesFile );
 
        try {
            properties.load( is );
@@ -41,6 +42,7 @@ public class PropertiesHelper
        }
 
     /**
+     * TODO: Doc
      *
      * @param propertiesFile
      * @param properties
@@ -64,11 +66,12 @@ public class PropertiesHelper
     }
 
     /**
-    *
-    * @param propertiesFile
-    * @param properties
-    * @throws IOException if any
-    */
+     * TODO: Doc
+     *
+     * @param propertiesFile
+     * @param properties
+     * @throws IOException if any I/O occur
+     */
     public static void saveProperties(
         final File          propertiesFile,
         final Properties    properties

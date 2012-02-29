@@ -33,13 +33,12 @@ public abstract class BatchRunnerPanelWB extends JPanel
 
     private JTextField jTextFieldDestination;
     private JTextField jTextFieldMessage;
-    // private JScrollPane scrollPane;
     private DefaultListModel<File> listModel;
-    //private JButton jButtonClearFileList;
-    //private JButton jButtonDestination;
-    //private JButton jButtonSource;
-    //private JButton jButtonDoAction;
     private JProgressBar jProgressBarGlobal;
+    private JButton jButtonSource;
+    private JButton jButtonDestination;
+    private JButton jButtonDoAction;
+    private JButton jButtonClearFileList;
 
     /**
      * Create the panel.
@@ -61,7 +60,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.setLayout(gbl_contentPane);
         }
         {
-            JButton jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
+            jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
             jButtonSource.setActionCommand( ACTIONCMD_SELECT_SOURCE_FILES );
             // $hide>>$
             jButtonSource.addActionListener( getActionListener() );
@@ -92,7 +91,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             // $hide<<$
         }
         {
-            JButton jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
+            jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
             jButtonDestination.setActionCommand( ACTIONCMD_SELECT_DESTINATION_FOLDER );
             // $hide>>$
             jButtonDestination.addActionListener( getActionListener() );
@@ -105,7 +104,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.add(jButtonDestination, gbc_jButtonDestination);
         }
         {
-            JButton jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
+            jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
             jButtonClearFileList.addActionListener( new ActionListener() {
                 @Override
                 public void actionPerformed( ActionEvent e )
@@ -131,7 +130,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
             this.add(jTextFieldDestination, gbc_jTextFieldDestination);
         }
         {
-            JButton jButtonDoAction = new JButton( localeResources.getTextDoAction() );
+            jButtonDoAction = new JButton( localeResources.getTextDoAction() );
             // $hide>>$
             jButtonDoAction.setActionCommand( ACTIONCMD_DO_ACTION );
             // $hide<<$
@@ -246,10 +245,10 @@ public abstract class BatchRunnerPanelWB extends JPanel
      */
     protected void setEnabledButtons( final boolean b )
     {
-        //jButtonSource.setEnabled( b );
-        //jButtonDestination.setEnabled( b );
-        //jButtonClearFileList.setEnabled( b );
-        //jButtonDoAction.setEnabled( b );
+        jButtonSource.setEnabled( b );
+        jButtonDestination.setEnabled( b );
+        jButtonClearFileList.setEnabled( b );
+        jButtonDoAction.setEnabled( b );
     }
 
 }

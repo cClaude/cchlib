@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.util;
+package com.googlecode.cchlib.util.properties;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * TODO: Doc
  *
  */
 public class PropertierPopulator<E>
@@ -16,6 +16,7 @@ public class PropertierPopulator<E>
     private Set<Field> keyFieldSet;
 
     /**
+     * TODO: Doc
      *
      * @param clazz
      */
@@ -36,6 +37,7 @@ public class PropertierPopulator<E>
     }
 
     /**
+     * TODO: Doc
      *
      * @param bean
      * @param properties
@@ -60,6 +62,7 @@ public class PropertierPopulator<E>
     }
 
     /**
+     * TODO: Doc
      *
      * @param properties
      * @param bean
@@ -129,6 +132,4 @@ public class PropertierPopulator<E>
                 }
             }
     }
-
-
 }

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.batchrunner.EnableListener;
 
 /**
  * This class is provide to build a quick application able
@@ -43,8 +44,8 @@ public abstract class LazyBatchRunnerApp
      *        string localization
      */
     protected LazyBatchRunnerApp(
-        final LazyBatchRunnerCustomJPanelFactory   customJPanelFactory,
-        final ResourceBundle                 resourceBundle
+        final LazyBatchRunnerCustomJPanelFactory    customJPanelFactory,
+        final ResourceBundle                        resourceBundle
         )
     {
         if( resourceBundle == null ) {
@@ -69,6 +70,15 @@ public abstract class LazyBatchRunnerApp
                     public BorderLayoutConstraints getCustomJPanelLayoutConstraints()
                     {
                         return null;
+                    }
+                    @Override
+                    public EnableListener getEnableListener()
+                    {
+                        return new EnableListener()
+                        {
+                            @Override
+                            public void setEnabled(boolean enable) {}
+                        };
                     }
                 };
             }
@@ -132,6 +142,9 @@ public abstract class LazyBatchRunnerApp
                                 LazyBatchRunnerApp.this,
                                 customJPanelFactory
                                 );
+                    frame.addEnableListener(
+                        customJPanelFactory.getEnableListener()
+                        );
                     frame.setTitle( getTextFrameTitle() );
                     frame.setIconImage( image );
                     frame.setVisible(true);

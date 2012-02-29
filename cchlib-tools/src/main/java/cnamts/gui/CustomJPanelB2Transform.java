@@ -10,6 +10,9 @@ import java.awt.Insets;
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
+
+import com.googlecode.cchlib.swing.batchrunner.EnableListener;
+
 import cx.ath.choisnet.swing.LimitedIntegerJTextField;
 
 /**
@@ -17,6 +20,7 @@ import cx.ath.choisnet.swing.LimitedIntegerJTextField;
  */
 public class CustomJPanelB2Transform
     extends JPanel
+        implements EnableListener
 {
     private static final long serialVersionUID = 1L;
     private JTextField extentionJTextField;
@@ -101,6 +105,17 @@ public class CustomJPanelB2Transform
             gbc_charReplacementJCheckBox.gridy = 2;
             add(charReplacementJCheckBox, gbc_charReplacementJCheckBox);
         }
+        super.setEnabled(false);
+    }
+
+    @Override//EnableListener//javax.swing.JComponent
+    public void setEnabled( final boolean enabled )
+    {
+        super.setEnabled( enabled );
+
+        this.extentionJTextField.setEnabled( enabled );
+        this.lineLengthJTextField.setEnabled( enabled );
+        this.charReplacementJSpinner.setEnabled( enabled );
     }
 
     public char getReplacementChar()

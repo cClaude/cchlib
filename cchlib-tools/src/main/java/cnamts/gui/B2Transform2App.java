@@ -1,9 +1,7 @@
 package cnamts.gui;
 
 import java.io.File;
-
 import javax.swing.JPanel;
-
 import org.apache.log4j.Logger;
 import cnamts.DelNonAlphaChar;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -67,7 +65,6 @@ public class B2Transform2App
         logger.info( "User getLineLength() = " + lineLength );
 
         return new DelNonAlphaChar( rchar, lineLength );
-        //return new DelNonAlphaChar( DelNonAlphaChar.REPLACEMENT_CHAR, 128 );
     }
 
     @Override//VeryLazyBatchRunnerApp
@@ -80,7 +77,6 @@ public class B2Transform2App
 
         return new File(
                 destinationFolderFile,
-//                sourceFile.getName() + ".b2-128"
                 sourceFile.getName() + fileExtension
                 );
     }
