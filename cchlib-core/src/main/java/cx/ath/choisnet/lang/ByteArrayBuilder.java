@@ -480,7 +480,8 @@ public class ByteArrayBuilder
     }
 
     /**
-     * TODO:  Doc! + make public (improve?)
+     * TODOC
+     * TODO make public (improve?)
      *
      * @param sbytes
      * @param pattern

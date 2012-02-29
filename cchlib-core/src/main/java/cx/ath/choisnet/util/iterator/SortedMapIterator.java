@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  * @param <K> Type of key
@@ -19,7 +19,7 @@ public class SortedMapIterator<K,V>
     private K               prevKey;
 
     /**
-     * TODO: Doc!
+     * TODOC
      * 
      * @param sortedMap
      */

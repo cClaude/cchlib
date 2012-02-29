@@ -15,9 +15,8 @@ import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
- * @author Claude CHOISNET
  */
 public class DefaultDigestFileCollector
     implements DigestFileCollector
@@ -37,7 +36,7 @@ public class DefaultDigestFileCollector
     protected int duplicateFilesCount = 0;
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @throws NoSuchAlgorithmException
      */
@@ -48,7 +47,7 @@ public class DefaultDigestFileCollector
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param messageDigestFile
      */
@@ -83,7 +82,7 @@ public class DefaultDigestFileCollector
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(

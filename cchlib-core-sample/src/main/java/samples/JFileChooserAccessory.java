@@ -114,12 +114,12 @@ public class JFileChooserAccessory extends JFrame
         gbc_jButton_WaitingJFileChooserInitializer.gridx = 0;
         gbc_jButton_WaitingJFileChooserInitializer.gridy = 2;
 
-		jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
-		jButton_WaitingJFileChooserInitializer.addMouseListener(new MouseAdapter() {
+        jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
+        jButton_WaitingJFileChooserInitializer.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent event) {
-            	jButton_WaitingJFileChooserInitializerMouseMousePressed(event);
+                jButton_WaitingJFileChooserInitializerMouseMousePressed(event);
             }
-		});
+        });
         getContentPane().add(jButton_WaitingJFileChooserInitializer, gbc_jButton_WaitingJFileChooserInitializer);
         GridBagConstraints gbc_jButton_LastSelectedFiles = new GridBagConstraints();
         gbc_jButton_LastSelectedFiles.fill = GridBagConstraints.BOTH;
@@ -332,26 +332,26 @@ public class JFileChooserAccessory extends JFrame
 
     private void jButton_WaitingJFileChooserInitializerMouseMousePressed(MouseEvent event)
     {
-    	Runnable r = new Runnable()
-    	{
-			@Override
-			public void run()
-			{
-		    	if( waitingJFileChooserInitializer == null ) {
-		    		Configure 	config	= getJFileChooserInitializerConfigurator();
-					Frame 		frame	= JFileChooserAccessory.this;
-					String 		waitTitle	= "waitTitle";
-					String 		waitMessage	= "waitMessage";
-					waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(config, frame, waitTitle, waitMessage );
-		    		}
+        Runnable r = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if( waitingJFileChooserInitializer == null ) {
+                    Configure     config    = getJFileChooserInitializerConfigurator();
+                    Frame         frame    = JFileChooserAccessory.this;
+                    String         waitTitle    = "waitTitle";
+                    String         waitMessage    = "waitMessage";
+                    waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(config, frame, waitTitle, waitMessage );
+                    }
 
-		        showOpenDialog(
-		        		waitingJFileChooserInitializer.getJFileChooser()
-		                );
-			}
-    	};
+                showOpenDialog(
+                        waitingJFileChooserInitializer.getJFileChooser()
+                        );
+            }
+        };
 
-    	new Thread( r ).start();
+        new Thread( r ).start();
     }
 
     private void showOpenDialog(JFileChooser jfc)
@@ -420,7 +420,7 @@ public class JFileChooserAccessory extends JFrame
     private JFileChooserInitializer getJFileChooserInitializer()
     {
         return new JFileChooserInitializer(
-    		getJFileChooserInitializerConfigurator()
+            getJFileChooserInitializerConfigurator()
             );
     }
 }

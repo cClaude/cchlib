@@ -9,8 +9,6 @@ import java.util.EnumSet;
 
 /**
  * DOM parser implementation that allow to retrieve based XML File for XML
- *
- * @author Claude CHOISNET
  */
 public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     implements XMLFileParser
@@ -18,7 +16,7 @@ public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     private File file;
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param sourceFile
      * @param errorHandler

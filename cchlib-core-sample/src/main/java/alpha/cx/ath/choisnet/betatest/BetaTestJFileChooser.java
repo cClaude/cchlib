@@ -23,48 +23,48 @@ public class BetaTestJFileChooser extends JFrame
     private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
     private JFileChooser jFileChooser;
     private JFileChooserInitializer jFileChooserInitializer;
-    
+
     public BetaTestJFileChooser()
     {
         initComponents();
-        
+
         this.jFileChooserInitializer = new JFileChooserInitializer();
     }
 
     private void initComponents() {
-    	add(getJButtonGO(), BorderLayout.NORTH);
+        add(getJButtonGO(), BorderLayout.NORTH);
         add(getJScrollPane0(), BorderLayout.CENTER);
-    	setSize(320, 85);
+        setSize(320, 85);
     }
 
     private JScrollPane getJScrollPane0() {
-    	if (jScrollPane0 == null) {
-    		jScrollPane0 = new JScrollPane();
-    		jScrollPane0.setViewportView(getJTextAreaLogs());
-    	}
-    	return jScrollPane0;
+        if (jScrollPane0 == null) {
+            jScrollPane0 = new JScrollPane();
+            jScrollPane0.setViewportView(getJTextAreaLogs());
+        }
+        return jScrollPane0;
     }
 
     private JTextArea getJTextAreaLogs() {
-    	if (jTextAreaLogs == null) {
-    	    jTextAreaLogs = new JTextArea();
-    	    jTextAreaLogs.setText("----\n");
-    	}
-    	return jTextAreaLogs;
+        if (jTextAreaLogs == null) {
+            jTextAreaLogs = new JTextArea();
+            jTextAreaLogs.setText("----\n");
+        }
+        return jTextAreaLogs;
     }
 
     private JButton getJButtonGO() {
-    	if (jButtonGO == null) {
-    	    jButtonGO = new JButton();
-    	    jButtonGO.setText("Go !");
-    	    jButtonGO.addMouseListener(new MouseAdapter() {
-    
-    			public void mousePressed(MouseEvent event) {
-    				jButtonGO_MouseMousePressed(event);
-    			}
-    		});
-    	}
-    	return jButtonGO;
+        if (jButtonGO == null) {
+            jButtonGO = new JButton();
+            jButtonGO.setText("Go !");
+            jButtonGO.addMouseListener(new MouseAdapter() {
+
+                public void mousePressed(MouseEvent event) {
+                    jButtonGO_MouseMousePressed(event);
+                }
+            });
+        }
+        return jButtonGO;
     }
 
     @SuppressWarnings("unused")
@@ -88,7 +88,7 @@ public class BetaTestJFileChooser extends JFrame
      * Note: This class is only created so that you can easily preview the result at runtime.
      * It is not expected to be managed by the designer.
      * You can modify it as you like.
-     * @param args 
+     * @param args
      */
     public static void main( String[] args )
     {
@@ -108,18 +108,18 @@ public class BetaTestJFileChooser extends JFrame
         } );
     }
 
-    private void jButtonGO_MouseMousePressed(MouseEvent event) 
+    private void jButtonGO_MouseMousePressed(MouseEvent event)
     {
         long   begin = System.currentTimeMillis();
         String msg;
-        
+
         msg = "start: " + begin;
         System.out.println( msg );
         jTextAreaLogs.append( msg + "\n" );
-       
+
         //jFileChooser = new JFileChooser();
         jFileChooser = jFileChooserInitializer.getJFileChooser();
-        
+
         msg = "2: " + (System.currentTimeMillis()-begin);
         System.out.println( msg );
         jTextAreaLogs.append( msg + "\n" );
@@ -129,7 +129,7 @@ public class BetaTestJFileChooser extends JFrame
         msg = "3: " + (System.currentTimeMillis()-begin);
         System.out.println( msg );
         jTextAreaLogs.append( msg + "\n" );
-        
+
         jFileChooser.showOpenDialog( this );
     }
 

@@ -16,7 +16,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * TODO: TestCase, Doc!
+ * TODOC
  *
  * <p><b>This class is suspect, no time for now
  * to check it, but decompile process give
@@ -36,7 +36,7 @@ import java.util.jar.JarFile;
  */
 @ToDo
 public class ExtendableClassLoader extends ClassLoader
-{
+{//TODO: TestCase
     final private List<File>              paths = new ArrayList<File>();
     final private Map<File,JarFile>       jars  = new HashMap<File,JarFile>();
     final private Map<String,Class<?>>    cache = new HashMap<String,Class<?>>();

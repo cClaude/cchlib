@@ -51,7 +51,7 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      * Build a *new* array of bytes from a given bytes
-     * 
+     *
      * @param bytes  byte array to copy
      * @param offset first offset to copy
      * @param length number of bytes to copy
@@ -64,12 +64,12 @@ public abstract class BytesAccess implements Cloneable
             throw new IllegalArgumentException("offset can't be negative");
         }
         this.bytes = new byte[ length ];
-        
+
         for( int i = 0; i<length; i++ ) {
             this.bytes[ i ] = bytes[ offset + i ];
         }
     }
-    
+
     /**
      ** Load bytes from an InputStream
      * @param is a valid InputStream
@@ -225,13 +225,13 @@ public abstract class BytesAccess implements Cloneable
         for( int i=0; i<bytes0.length; i++ ) {
             if( bytes0[ i ] != bytes1[ i ] ) {
 //Logger slogger = Logger.getLogger(BytesAccess.class);
-//i = bytes0.length - 1; 
+//i = bytes0.length - 1;
 //slogger.info( String.format("diff found at %1$d (%1$02X)", i) );
                 long offset = i<<CMP_MASK_ROT_OFFSET;
 
                 if( (i & CMP_MASK_OFFSET_LOW) != i ) {
                     // Can't store offset
-                    // BUT: this can't occur since, 
+                    // BUT: this can't occur since,
                     // arrays are limited to Integer.MAX_VALUE
                     // here just to try to deal with all cases
                     // and perhaps some Java evolution ;)
@@ -275,16 +275,16 @@ public abstract class BytesAccess implements Cloneable
      * Call compare(byte[], byte[]) to build is result,
      * so have a look at compare(byte[], byte[]).
      * <BR/>
-     * If you just want to make a basic comparison to 
-     * care one return value, just compare it to 0. 
-     * It's safe to use result for sorting or building 
+     * If you just want to make a basic comparison to
+     * care one return value, just compare it to 0.
+     * It's safe to use result for sorting or building
      * something like an hash code.
      * <br/>
      * But you can also use result to identify difference
-     * in yours arrays. Since compare(byte[], byte[]) 
+     * in yours arrays. Since compare(byte[], byte[])
      * return use a long to store informations, you may
      * loose offset information.
-     * 
+     *
      * @param someBytes
      * @return 0 if byte array have same length and same content
      * @see #compare(byte[], byte[])
@@ -296,10 +296,10 @@ public abstract class BytesAccess implements Cloneable
         if( (l & 0xFFFFFFFF00000000L) != 0 ) {
             // Greater than what Integer can't store
             // So we can't remember offset.
-            
+
             // Remove bad informations
             l &= (CMP_MASK_BYTE0_VALUE|CMP_MASK_BYTE1_VALUE);
-            
+
             //set offset to 0xFF (255)
             l ^= (0x00FFL<<CMP_MASK_ROT_OFFSET);
         }
@@ -319,7 +319,7 @@ public abstract class BytesAccess implements Cloneable
      }
 
    /**
-    * TODO: document result String (format and limitations)
+    * TODOC: add documentation of result String (format and limits)
     *
     * @param someBytes
     * @return null if both BytesAcces byte[] are identical
@@ -343,21 +343,22 @@ public abstract class BytesAccess implements Cloneable
                     //+ BinStuffs.toBinaryString( someBytes[ i ] )
                     + toBinaryString( someBytes[ i ] )
                     + ']';
+                }
             }
-        }
 
         return null;
     }
 
     /**
      * @param ubyte
-     * @return a hex String formatted from a int (but only lower 8 bytes are read has an ubyte)
+     * @return a hex String formatted from a int (but only
+     *         lower 8 bytes are read has an ubyte)
      */
     private static String ubyteToHexString( final int ubyte )
     {
         return Integer.toHexString(  0x0000FF00 | (0x000000FF & ubyte ) ).substring( 2 ).toUpperCase();
     }
-    
+
     /**
      * @param b byte to convert
      * @return a binary String formatted
@@ -366,7 +367,7 @@ public abstract class BytesAccess implements Cloneable
     {
         return Integer.toBinaryString( 0x0000FF00 | (0x000000FF & b) ).substring( 8 );
     }
-    
+
     /* ---------------------------------------------------------------------- */
     /* ------ saving stuffs ------------------------------------------------- */
     /* ---------------------------------------------------------------------- */

@@ -9,7 +9,7 @@ import java.io.Writer;
 import java.util.Properties;
 
 /**
- * TODO: Doc
+ * TODOC
  */
 public class PropertiesHelper
 {
@@ -19,7 +19,7 @@ public class PropertiesHelper
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param propertiesFile
      * @throws IOException if any
@@ -42,7 +42,7 @@ public class PropertiesHelper
        }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param propertiesFile
      * @param properties
@@ -66,7 +66,7 @@ public class PropertiesHelper
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param propertiesFile
      * @param properties

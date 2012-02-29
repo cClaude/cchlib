@@ -11,7 +11,7 @@ import java.net.URL;
 public interface XMLURLParser extends XMLParser
 {
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @return a {@link java.net.URL} object.
      */

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.util;
 
@@ -12,8 +12,8 @@ import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.util.iterator.IteratorWrapper;
 
 /**
- * TODO: Doc!
- * @author Claude CHOISNET
+ * TODOC
+ *
  */
 @ToDo
 public class SetWrapper<S,R> implements Set<R>
@@ -23,7 +23,8 @@ public class SetWrapper<S,R> implements Set<R>
     private Wrappable<R,S> unwrapper;
 
     /**
-     * 
+     * TODOC
+     *
      * @param set
      * @param wrapper
      * @param unwrapper
@@ -40,7 +41,7 @@ public class SetWrapper<S,R> implements Set<R>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean add( R e )
@@ -71,7 +72,7 @@ public class SetWrapper<S,R> implements Set<R>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean contains( Object o )
@@ -105,7 +106,7 @@ public class SetWrapper<S,R> implements Set<R>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean remove( Object o )
@@ -116,7 +117,7 @@ public class SetWrapper<S,R> implements Set<R>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean removeAll( Collection<?> c )
@@ -163,11 +164,11 @@ public class SetWrapper<S,R> implements Set<R>
     {
         Object[] array = new Object[ set.size() ];
         int      i     = 0;
-            
+
         for( R e : this ) {
             array[ i++ ] = e;
         }
-        
+
         return array;
     }
 

@@ -17,7 +17,6 @@ import com.googlecode.cchlib.servlet.action.ServletAction;
  *      DEFAULTERRORURL:
  * </pre>
  *
- * @author Claude CHOISNET
  */
 public class ActionServlet extends HttpServlet
 {
@@ -46,7 +45,7 @@ public class ActionServlet extends HttpServlet
     /** @serial */
     private String nextParamName;
 //    /** @serial */
-//    private String faultBackURL; TODO faultBackURL ???
+//    private String faultBackURL; TO DO faultBackURL ???
     /** @serial */
     private String errorParamName;
 
@@ -97,7 +96,7 @@ public class ActionServlet extends HttpServlet
 //            }
 //        catch( Exception e ) {
 //            log("Error(redirect).", e);
-//            //TODO set error on URL? or on Session!
+//            //TO DO set error on URL? or on Session!
 //            response.sendRedirect( request.getContextPath() + getFaultBackURL(request) );
 //            }
 //        catch(ThreadDeath e) { }
@@ -214,8 +213,9 @@ public class ActionServlet extends HttpServlet
 //    }
 
     /**
-     * TODO: Doc!
-     * @return
+     * TODOC
+     * 
+     * @return TODOC
      */
     protected String getActionParameterName()
     {
@@ -223,8 +223,9 @@ public class ActionServlet extends HttpServlet
     }
 
     /**
-     * TODO: Doc!
-     * @return
+     * TODOC
+     * 
+     * @return TODOC
      */
     protected String getNextURLParameterName()
     {
@@ -232,8 +233,9 @@ public class ActionServlet extends HttpServlet
     }
 
     /**
-     * TODO: Doc!
-     * @return
+     * TODOC
+     * 
+     * @return TODOC
      */
     protected String getErrorParameterName()
     {
@@ -254,8 +256,6 @@ public class ActionServlet extends HttpServlet
 
     /**
      * How ActionServlet should handle display
-     *
-     * Claude CHOISNET
      */
     public enum Action {
         /**

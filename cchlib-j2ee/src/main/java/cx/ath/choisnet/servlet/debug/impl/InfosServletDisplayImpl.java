@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * TODO: doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  *
@@ -20,7 +20,7 @@ public class InfosServletDisplayImpl
     private String                      messageIfMapEmpty;
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param title
      * @param anchor
@@ -41,7 +41,7 @@ public class InfosServletDisplayImpl
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param title
      * @param anchorName
@@ -81,7 +81,7 @@ public class InfosServletDisplayImpl
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param title
      * @param anchorName
@@ -97,7 +97,7 @@ public class InfosServletDisplayImpl
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param title
      * @param anchorName

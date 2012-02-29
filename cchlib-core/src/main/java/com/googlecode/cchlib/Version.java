@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * TODO:Doc
+ * Library Version object
  *
  * @since 1.4.7
  */
@@ -20,7 +20,8 @@ public class Version
     private Date date;
 
     /**
-     *
+     * Create library Version object
+     * 
      * @throws IOException if any I/O occur
      * @throws ParseException if build.date is not a valid date
      *        according to maven.build.timestamp.format

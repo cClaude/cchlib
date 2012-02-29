@@ -189,7 +189,7 @@ public class AutoRenameMain {
         instance.doJob();
         System.out.println( "Done." );
     }
-
+/*
     private static File buildRenameFile( File f, String newFilename )
     {
         return new File( f.getParentFile(), newFilename );
@@ -207,4 +207,5 @@ public class AutoRenameMain {
         
         return res;
     }
+*/
 }

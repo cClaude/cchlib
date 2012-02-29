@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * TODO: Docs
+ * TODOC
  * 
  * @author Claude CHOISNET
  */

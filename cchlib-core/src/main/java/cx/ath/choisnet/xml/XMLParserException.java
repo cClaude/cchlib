@@ -1,7 +1,7 @@
 package cx.ath.choisnet.xml;
 
 /**
- * TODO: doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  * @version $Id: $

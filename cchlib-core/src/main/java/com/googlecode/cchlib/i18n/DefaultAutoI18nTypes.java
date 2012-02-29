@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,9 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
- * @author Claude CHOISNET
  */
 public class DefaultAutoI18nTypes implements AutoI18nTypes
 {
@@ -22,9 +20,8 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     private ArrayList<AutoI18nTypes.Type> types;
 
     /**
-     * TODO: Doc!
+     * TODC
      *
-     * @author Claude CHOISNET
      * @param <T>
      */
     public abstract class AbstractType<T> implements AutoI18nTypes.Type
@@ -32,7 +29,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         private static final long serialVersionUID = 1L;
 
         /**
-         * TODO: Doc!
+         * TODOC
          *
          * @return type for this object
          */
@@ -40,7 +37,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         public abstract Class<T> getType();
 
         /**
-         * TODO: Doc!
+         * TODOC
          *
          * @param toI18n
          * @return cast field to localize to current type
@@ -52,7 +49,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     public DefaultAutoI18nTypes()
     {
@@ -94,6 +91,10 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         return types;
     }
 
+    /**
+     * TODOC:
+     * @return
+     */
     public AbstractType<JLabel> getJLabel()
     {
         return new AbstractType<JLabel>()
@@ -119,6 +120,10 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
 
+    /**
+     * TODOC:
+     * @return
+     */
     public AbstractType<AbstractButton> getAbstractButton()
     {
         return new AbstractType<AbstractButton>()
@@ -144,6 +149,10 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
 
+    /**
+     * TODOC:
+     * @return
+     */
     public AbstractType<JCheckBox> getJCheckBox()
     {
         return new AbstractType<JCheckBox>()
@@ -169,6 +178,10 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         };
     }
 
+    /**
+     * TODOC:
+     * @return
+     */
     public AbstractType<JTabbedPane> getJTabbedPane()
     {
         return new AbstractType<JTabbedPane>()

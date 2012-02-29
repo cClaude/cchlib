@@ -165,16 +165,16 @@ public abstract class BytesAccessDebug extends BytesAccess
     }
 
     /**
-     *  Check mask does not contain 0 between first 1 and last 1
-     * @param mask
+     * Check mask does not contain 0 between first 1 and last 1
+     * @param mask The binary mask
      * @return true if there is no 0 bit between fist 1 and last 1,
      *         and if mask is not empty !
      */
-    private boolean isMaskLinear( final byte mask )
-    {
+    protected boolean isMaskLinear( final byte mask )
+    {// TODO: TestCase !
         if( mask == 0 ) {
             return false;
-        }
+            }
 
         byte    iMask = 0x70;
         int     i     = 0;
@@ -182,21 +182,21 @@ public abstract class BytesAccessDebug extends BytesAccess
         for(;i<8;i++) { // looking for first left 1 bit value
             if( (iMask & mask) == iMask ) {
                 break;
-            }
+                }
             iMask>>=1;
-        }
+            }
         for(;i<8;i++) { // looking next 0
             if( (iMask & mask) == 0 ) {
-            	// ????? FIXME ??? Why this test ???
-            }
+                break;
+                }
             iMask>>=1;
-        }
+            }
         for(;i<8;i++) { // looking for next 1
             if( (iMask & mask) == iMask ) {
                 return false;
-            }
+                }
             iMask>>=1;
-        }
+            }
 
         return true;
     }

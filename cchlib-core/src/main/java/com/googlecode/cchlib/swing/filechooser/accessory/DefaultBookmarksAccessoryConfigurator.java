@@ -68,9 +68,6 @@ public class DefaultBookmarksAccessoryConfigurator
         loadBookmarks();
     }
 
-    /**
-     *
-     */
     private Properties loadProperties()
     {
         Properties properties = new Properties();

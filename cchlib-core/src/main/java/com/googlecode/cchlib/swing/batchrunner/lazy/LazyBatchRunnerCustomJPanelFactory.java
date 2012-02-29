@@ -45,9 +45,8 @@ public interface LazyBatchRunnerCustomJPanelFactory
     public BorderLayoutConstraints getCustomJPanelLayoutConstraints();
 
     /**
-     * TODO: Doc
-     *
-     * @return
+     * Returns a valid EnableListener for custom panel
+     * @return a valid EnableListener for custom panel
      */
     public EnableListener getEnableListener();
 }

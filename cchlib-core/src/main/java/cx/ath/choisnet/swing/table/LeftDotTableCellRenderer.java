@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: Doc
+ * TODOC
  *
  * @author Claude CHOISNET
  */

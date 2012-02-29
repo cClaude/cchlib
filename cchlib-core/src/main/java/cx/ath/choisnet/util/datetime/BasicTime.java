@@ -6,7 +6,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 
 /**
- * TODO:Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */
@@ -15,11 +15,11 @@ public class BasicTime
 {
     private static final long serialVersionUID = 2L;
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public static final BasicTime MIN_VALUE = BasicTime.buildBasicTime(0, 0, 0);
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public static final BasicTime MAX_VALUE = BasicTime.buildBasicTime(23, 59, 59);
     /** {@value} */
@@ -36,7 +36,7 @@ public class BasicTime
     private transient DateFormat transient_ISO_DATE_FMT;// = new SimpleDateFormat(TIMEFMT);
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public BasicTime(BasicTime time)
     {
@@ -53,7 +53,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public BasicTime()
     {
@@ -61,7 +61,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public BasicTime(java.util.Date javadate)
     {
@@ -73,7 +73,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public BasicTime(int hours, int minutes, int secondes)
         throws BasicTimeException
@@ -86,7 +86,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public BasicTime(int hours, int minutes)
         throws BasicTimeException
@@ -99,7 +99,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
    public BasicTime(long secondsFormMidnight)
         throws BasicDateTimeNegativeValueException
@@ -112,7 +112,7 @@ public class BasicTime
     }
 
    /**
-    * TODO:Doc!
+    * TODOC
     */
     public BasicTime(String time, SimpleDateFormat formatter)
         throws java.text.ParseException
@@ -125,7 +125,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public void set(int hours, int minutes, int seconds)
         throws BasicTimeException
@@ -149,7 +149,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     protected void set(long secondsFromMidnight)
         throws BasicDateTimeNegativeValueException
@@ -177,7 +177,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     protected void setWithFmtString(String fmtTime)
     {
@@ -187,7 +187,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     protected void set(java.util.Date javaDate)
     {
@@ -195,7 +195,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public int getHours()
     {
@@ -203,7 +203,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public int getMinutes()
     {
@@ -211,7 +211,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public int getSeconds()
     {
@@ -219,7 +219,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public String toString()
     {
@@ -233,7 +233,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public String toString(Format formatter)
     {
@@ -241,7 +241,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public String toStringHours()
     {
@@ -257,7 +257,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public String toStringMinutes()
     {
@@ -265,7 +265,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public String toStringSeconds()
     {
@@ -273,7 +273,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public long longValue()
     {
@@ -281,7 +281,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public java.util.Date getJavaDate()
     {
@@ -339,7 +339,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public boolean isBefore(TimeInterface anotherTime)
     {
@@ -347,7 +347,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public boolean isAfter(TimeInterface anotherTime)
         throws ClassCastException
@@ -356,7 +356,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public TimeInterface add(TimeInterface anotherTime)
         throws BasicDateTimeNegativeValueException
@@ -367,7 +367,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public TimeInterface sub(TimeInterface anotherTime)
         throws BasicDateTimeNegativeValueException
@@ -396,7 +396,7 @@ public class BasicTime
 //    }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     public static BasicTime subtract(BasicTime basicTime1, BasicTime basicTime2)
         throws BasicDateTimeNegativeValueException
@@ -405,7 +405,7 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     private static BasicTime buildBasicTime(int hours, int minutes, int seconds)
     {
@@ -418,13 +418,13 @@ public class BasicTime
     }
 
     /**
-     * TODO:Doc!
+     * TODOC
      */
     private DateFormat getIsoDateFormat()
     {
         if( transient_ISO_DATE_FMT == null ) {
             transient_ISO_DATE_FMT = new SimpleDateFormat(TIME_FMT);
-        }
+        	}
         return transient_ISO_DATE_FMT;
     }
 

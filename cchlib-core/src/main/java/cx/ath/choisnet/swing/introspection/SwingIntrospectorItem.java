@@ -11,12 +11,12 @@ import java.util.EnumSet;
 /**
  * This object is created by {@link SwingIntrospector}
  *
- * TODO: Some doc !
- * 
+ * TODOC
+ *
  * @author CC
- * @param <FRAME> 
+ * @param <FRAME>
  */
-public class SwingIntrospectorItem<FRAME> 
+public class SwingIntrospectorItem<FRAME>
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -34,8 +34,8 @@ public class SwingIntrospectorItem<FRAME>
      * @param f
      * @param attribs
      */
-    public SwingIntrospectorItem( 
-            final Bean                              bean, 
+    public SwingIntrospectorItem(
+            final Bean                              bean,
             final Field                             f,
             final EnumSet<SwingIntrospector.Attrib> attribs
             )
@@ -52,7 +52,7 @@ public class SwingIntrospectorItem<FRAME>
         else {
             this.index = -1;
         }
-        
+
         this.isRoot = bean.isRoot();
     }
 
@@ -65,7 +65,7 @@ public class SwingIntrospectorItem<FRAME>
     {
         return this.field;
     }
-    
+
     /**
      * @return the index
      */
@@ -109,7 +109,7 @@ public class SwingIntrospectorItem<FRAME>
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        
+
         builder.append( "SwingIntrospectorItem [field=" );
         builder.append( field.getName() );
         builder.append( ", index=" );
@@ -117,7 +117,7 @@ public class SwingIntrospectorItem<FRAME>
         builder.append( ", isRoot=" );
         builder.append( isRoot );
         builder.append( ']' );
-        
+
         return builder.toString();
     }
 }

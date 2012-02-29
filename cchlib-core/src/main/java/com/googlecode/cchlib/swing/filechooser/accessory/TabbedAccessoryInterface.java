@@ -5,28 +5,28 @@ import java.io.Serializable;
 import javax.swing.Icon;
 
 /**
- * TODO: Doc!
- * 
+ * TODOC
+ *
  * @author Claude CHOISNET
  */
-public interface TabbedAccessoryInterface 
+public interface TabbedAccessoryInterface
     extends Serializable
 {
     /**
      * @return String (or null) for tab name
      */
     public String getTabName();
-    
+
     /**
      * @return Icon (or null) for tab icon
      */
     public Icon getTabIcon();
-    
+
     /**
      * @return Component
      */
     public Component getComponent();
-    
+
     /**
      * Register Component, to be active when tab is selected
      */

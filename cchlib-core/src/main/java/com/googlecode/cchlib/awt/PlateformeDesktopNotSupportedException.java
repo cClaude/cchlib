@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.awt;
 
 /**
+ * Use by {@link DesktopHelper} if {@link java.awt.Desktop} is not
+ * supported
  * 
  * @since 4.1.6
  */
@@ -9,33 +11,20 @@ public class PlateformeDesktopNotSupportedException extends Exception
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
     public PlateformeDesktopNotSupportedException()
     {
     }
 
-    /**
-     * @param message
-     */
     public PlateformeDesktopNotSupportedException( String message )
     {
         super( message );
     }
 
-    /**
-     * @param cause
-     */
     public PlateformeDesktopNotSupportedException( Throwable cause )
     {
         super( cause );
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
     public PlateformeDesktopNotSupportedException(
             String message,
             Throwable cause 
@@ -43,21 +32,4 @@ public class PlateformeDesktopNotSupportedException extends Exception
     {
         super( message, cause );
     }
-
-    /**
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
-     */
-    public PlateformeDesktopNotSupportedException(
-            String message,
-            Throwable cause,
-            boolean enableSuppression,
-            boolean writableStackTrace
-            )
-    {
-        super( message, cause, enableSuppression, writableStackTrace );
-    }
-
 }

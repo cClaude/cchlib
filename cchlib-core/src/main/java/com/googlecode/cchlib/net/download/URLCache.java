@@ -10,7 +10,8 @@ import java.util.HashMap;
 import cx.ath.choisnet.io.SerializableHelper;
 
 /**
- * TODO: Doc!
+ * TODOC
+ *
  * @since 4.1.5
  */
 public class URLCache implements Serializable
@@ -35,6 +36,7 @@ public class URLCache implements Serializable
      * Create a new URLCache using giving cacheFile
      *
      * @param cacheFile {@link File} to use has cache
+     * @throws IllegalStateException if cache file exist but can not be read
      */
     public URLCache( final File cacheFile )
     {
@@ -43,9 +45,11 @@ public class URLCache implements Serializable
         try {
             load();
             }
-        catch( Exception e ) {
-            // FIXME: only for FileNotFoundException ?
+        catch( FileNotFoundException e ) {
             this.cache = new CacheContent();
+            }
+        catch( Exception e ) {
+            throw new IllegalStateException( e );
             }
 
         this.autostore = true;
@@ -55,12 +59,22 @@ public class URLCache implements Serializable
      * Check if an {@link URL} is in cache
      *
      * @param url {@link URL} to check
-     * @return true if {@link URL} is in cache, false otherwise
+     * @return true if {@link URL} is in cache and if
+     *   cached file exist in directory cache,
+     *   false otherwise
      */
     public boolean isInCache( final URL url )
     {
-        // FIXME: Verify if File exist on disk ?
-        return cache.contains( url );
+        Entry entry = get( url );
+
+        if( entry != null ) {
+            // TODO: allow to define a relative filename
+            // (add set/get cacheHomeDirectory File)
+            File f = new File( entry.getFilename() );
+
+            return f.isFile();
+            }
+        return false;
     }
 
     /**
@@ -240,10 +254,6 @@ public class URLCache implements Serializable
         {
             return cc.size();
         }
-        public boolean contains( URL url )
-        {
-            return cc.containsKey( url );
-        }
         public void clear()
         {
             cc.clear();
@@ -347,35 +357,38 @@ final class EntryImpl implements URLCache.Entry
     {
         if( this == obj ) {
             return true;
-        }
+            }
         if( obj == null ) {
             return false;
-        }
+            }
         if( !(obj instanceof EntryImpl) ) {
             return false;
-        }
+            }
         EntryImpl other = (EntryImpl)obj;
         if( date == null ) {
             if( other.date != null ) {
                 return false;
+                }
             }
-        } else if( !date.equals( other.date ) ) {
+        else if( !date.equals( other.date ) ) {
             return false;
-        }
+            }
         if( filename == null ) {
             if( other.filename != null ) {
                 return false;
+                }
             }
-        } else if( !filename.equals( other.filename ) ) {
+        else if( !filename.equals( other.filename ) ) {
             return false;
-        }
+            }
         if( url == null ) {
             if( other.url != null ) {
                 return false;
+                }
             }
-        } else if( !url.equals( other.url ) ) {
+        else if( !url.equals( other.url ) ) {
             return false;
-        }
+            }
         return true;
     }
 

@@ -12,7 +12,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp;
 import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory;
 
 /**
- * TODO: Doc
+ * TODOC
  *
  * @since 1.4.7
  */

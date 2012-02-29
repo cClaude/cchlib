@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * TODO: Doc!
+ * TODOC
  * 
  * @author Claude CHOISNET
  */

@@ -1,7 +1,7 @@
 package cx.ath.choisnet.util.datetime;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */
@@ -9,7 +9,7 @@ public interface TimeInterface
     extends DateTimeInterface, Comparable<TimeInterface>
 {
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param time
      * @return true if time is before current time
@@ -17,7 +17,7 @@ public interface TimeInterface
     public abstract boolean isBefore(TimeInterface time);
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param time
     * @return true if time is after current time
@@ -25,7 +25,7 @@ public interface TimeInterface
     public abstract boolean isAfter(TimeInterface time);
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param time
      * @return TODO doc!
@@ -35,7 +35,7 @@ public interface TimeInterface
         throws BasicDateTimeException;
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param time
      * @return TODO doc!
@@ -45,13 +45,10 @@ public interface TimeInterface
         throws BasicDateTimeException;
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param time
      * @return TODO doc!
      */
     public abstract boolean equals(TimeInterface time);
-
-    //@Override
-    //public abstract int compareTo(TimeInterface time);
 }

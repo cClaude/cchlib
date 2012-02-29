@@ -7,7 +7,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- *
+ * Tools for {@link java.awt.Desktop}
+ * 
  * @since 4.1.6
  */
 public class DesktopHelper
@@ -72,6 +73,12 @@ public class DesktopHelper
                 );
     }
 
+    /**
+     * TODOC
+     * 
+     * @param url
+     * @throws PlateformeDesktopNotSupportedException
+     */
     public static void browse( final URL url )
         throws PlateformeDesktopNotSupportedException
     {

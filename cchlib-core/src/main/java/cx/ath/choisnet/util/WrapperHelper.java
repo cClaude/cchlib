@@ -3,7 +3,7 @@ package cx.ath.choisnet.util;
 import java.util.Enumeration;
 
 /**
- * TODO: Doc!
+ * TODOC
  * 
  * @param <T> 
  * @param <O> 
@@ -30,7 +30,8 @@ public class WrapperHelper<T,O>
         };
     }
 /*
-    // TODO: TestCase needed !
+    // TO DO: TestCase needed !
+    x
     @Deprecated // Move to a new class ! (new package?)
     public static final <E,O> Collection<O> wrappeCollection(
             final Collection<E>   collection,
@@ -161,7 +162,8 @@ public class WrapperHelper<T,O>
                         array[ i ] = uncheck;
                     	}
                     catch( NullPointerException e ) {
-                        // TODO ! NEED BESTER TESTS !
+                        // TO DO ! NEED BESTER TESTS !
+                        x
                         throw new ArrayStoreException();
                     	}
                 	}

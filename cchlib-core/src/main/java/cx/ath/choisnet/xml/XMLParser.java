@@ -3,7 +3,7 @@ package cx.ath.choisnet.xml;
 import org.w3c.dom.Document;
 
 /**
- * TODO: doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  * @version $Id: $
@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 public interface XMLParser
 {
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @return a {@link org.w3c.dom.Document} object.
      */

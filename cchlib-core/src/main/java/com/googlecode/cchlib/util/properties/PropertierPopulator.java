@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
- * TODO: Doc
+ * TODOC
  *
  */
 public class PropertierPopulator<E>
@@ -16,7 +16,7 @@ public class PropertierPopulator<E>
     private Set<Field> keyFieldSet;
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param clazz
      */
@@ -37,7 +37,7 @@ public class PropertierPopulator<E>
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param bean
      * @param properties
@@ -62,7 +62,7 @@ public class PropertierPopulator<E>
     }
 
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param properties
      * @param bean

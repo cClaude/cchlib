@@ -8,17 +8,15 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * TODO: doc!
+ * TODOC
  *
- * @author Claude CHOISNET
- * @version $Id: $
  */
 public class XMLParserErrorHandler
 {
     private final ErrorHandler saxErrorHandler;
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param saxErrorHandler a {@link org.xml.sax.ErrorHandler} object.
      * @see SAXErrorHandlerImpl
@@ -29,7 +27,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param out a {@link java.io.PrintWriter} object.
      */
@@ -39,9 +37,9 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
-     * @return a {@link org.xml.sax.ErrorHandler} object.
+     * @return a {@link ErrorHandler} object.
      */
     public ErrorHandler getSAXErrorHandler()
     {
@@ -49,10 +47,10 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
-     * @param ioe a {@link java.io.IOException} object.
-     * @throws cx.ath.choisnet.xml.XMLParserException if any.
+     * @param ioe a {@link IOException} object.
+     * @throws XMLParserException if any.
      */
     public void ioError( final IOException ioe )
         throws XMLParserException
@@ -65,10 +63,10 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
-     * @param pce a {@link javax.xml.parsers.ParserConfigurationException} object.
-     * @throws cx.ath.choisnet.xml.XMLParserException if any.
+     * @param pce a {@link ParserConfigurationException} object.
+     * @throws XMLParserException if any.
      */
     public void parserError( final ParserConfigurationException pce )
         throws XMLParserException
@@ -81,10 +79,10 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
-     * @param saxe a {@link org.xml.sax.SAXException} object.
-     * @throws cx.ath.choisnet.xml.XMLParserException if any.
+     * @param saxe a {@link SAXException} object.
+     * @throws XMLParserException if any.
      */
     public void saxError( final SAXException saxe )
         throws XMLParserException

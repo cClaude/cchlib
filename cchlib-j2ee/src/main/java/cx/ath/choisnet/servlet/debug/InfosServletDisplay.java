@@ -3,14 +3,14 @@ package cx.ath.choisnet.servlet.debug;
 import java.io.IOException;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */
 public interface InfosServletDisplay
 {
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @author Claude CHOISNET
      */
@@ -22,14 +22,14 @@ public interface InfosServletDisplay
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @return
      */
     public abstract Anchor getAnchor();
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param s
      * @param s1
@@ -38,7 +38,7 @@ public interface InfosServletDisplay
     public abstract InfosServletDisplay put(String s, String s1);
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param appendable
      * @throws IOException

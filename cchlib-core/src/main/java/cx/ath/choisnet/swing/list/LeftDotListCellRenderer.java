@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */

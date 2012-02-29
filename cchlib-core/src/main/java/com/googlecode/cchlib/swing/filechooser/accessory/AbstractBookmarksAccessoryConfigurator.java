@@ -8,7 +8,7 @@ import java.util.Collection;
  * {@link BookmarksAccessory.Configurator}
  */
 public abstract class AbstractBookmarksAccessoryConfigurator
-    implements BookmarksAccessory.Configurator
+    implements BookmarksAccessoryConfigurator
 {
     private static final long serialVersionUID = 2L;
 
@@ -21,7 +21,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
     }
 
     /**
-     * Custom method to store bookmarks 
+     * Custom method to store bookmarks
      */
     protected abstract void storeBookmarks();
 

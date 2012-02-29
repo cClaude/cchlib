@@ -90,13 +90,14 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO:Doc
+     * Invoke when user call start batch action
      */
     protected abstract void initializeBath();
 
     /**
-     * TODO:Doc
-     * @param isCancelled
+     * Invoke when batch is finish
+     *
+     * @param isCancelled true if batch has been cancelled, false otherwise
      */
     protected abstract void finalizeBath(boolean isCancelled);
 
@@ -181,11 +182,12 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
         throws BatchRunnerInterruptedException;
 
     /**
-     * TODO:Doc
+     * Invoke for each file
      *
-     * @param sourceFile
-     * @param destinationFile
-     * @throws BatchRunnerInterruptedException
+     * @param inputStream    {@link InputStream} from source file
+     * @param outputStream   {@link OutputStream} on destination file
+     * @throws IOException if any I/O occurred (This error is shown to the user)
+     * @throws BatchRunnerInterruptedException if batch should be cancel
      */
     protected abstract void runTask(
         File sourceFile,
@@ -194,7 +196,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
         throws BatchRunnerInterruptedException;
 
     /**
-     * TODO:Doc
+     * Open a {@link JFileChooser} to select sources files
      */
     protected void selectSourceFiles()
     {
@@ -214,7 +216,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO:Doc
+     * Open a {@link JFileChooser} to select destination directory folder
      */
     protected void selectDestinationFolder()
     {
@@ -232,7 +234,8 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO:Doc
+     * Returns a {@link JFileChooserInitializer} a based on a {@link WaitingJFileChooserInitializer}.
+     * @return a {@link JFileChooserInitializer}.
      */
     public JFileChooserInitializer getJFileChooserInitializer()
     {
@@ -275,7 +278,9 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO: Doc  Enable
+     * Adds an EnableListener to the listener list.
+     * The listener is registered for invocation of
+     * {@link #fireStateChanged(boolean)}.
      *
      * @param l the listener to be added
      */
@@ -285,7 +290,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     }
 
     /**
-     * TODO: Doc
+     * Remove an EnableListener to the listener list.
      *
      * @param l the listener to be removed
      */

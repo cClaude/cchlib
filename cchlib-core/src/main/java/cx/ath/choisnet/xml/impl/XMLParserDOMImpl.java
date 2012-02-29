@@ -16,7 +16,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
 /**
- * TODO: doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */
@@ -90,7 +90,8 @@ public class XMLParserDOMImpl
     }
 
     /**
-     *
+     * TODOC
+     * 
      * @param file
      * @param errorHandler
      * @param attributes
@@ -117,7 +118,7 @@ public class XMLParserDOMImpl
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param anURL
      * @param errorHandler
@@ -145,7 +146,7 @@ public class XMLParserDOMImpl
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param aStream
      * @param errorHandler
@@ -179,7 +180,7 @@ public class XMLParserDOMImpl
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param document
      */

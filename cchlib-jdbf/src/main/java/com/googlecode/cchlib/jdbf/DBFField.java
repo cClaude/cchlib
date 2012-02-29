@@ -40,7 +40,7 @@ public class DBFField
     public static final byte FIELD_TYPE_D = (byte)'D';
 
 //    /**
-//     * {@value} define a {@link xxxx} TODO
+//     * {@value} define a {@link xxxx} TODOC
 //     */
     public static final byte FIELD_TYPE_M = (byte)'M';
 

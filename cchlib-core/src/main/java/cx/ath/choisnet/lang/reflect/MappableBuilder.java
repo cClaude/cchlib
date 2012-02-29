@@ -20,13 +20,13 @@ import java.util.regex.Pattern;
 import cx.ath.choisnet.ToDo;
 
 /**
- * TODO: Doc!
+ * TODOC
  */
 @ToDo
 public class MappableBuilder
 {
     /**
-     * TODO: Doc!
+     * TODOC
      */
     public static final MappableItem[] MAPPABLE_ITEM_DEFAULT_CONFIG = {
         MappableItem.ALL_PRIMITIVE_TYPE,
@@ -34,21 +34,21 @@ public class MappableBuilder
         };
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     public static final MappableItem[] MAPPABLE_ITEM_SHOW_ALL = {
             MappableItem.ALL_PRIMITIVE_TYPE
             };
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     public static final Class<?>[] CLASSES_SHOW_ALL = {
         Object.class
         };
 
     /**
-     *  TODO: Doc!
+     *  TODOC
      */
     public static final Class<?>[] CLASSES_STANDARDS_TYPES = {
         Boolean.class, Character.class, Enum.class, Number.class, String.class,

@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.BorderLayout;
@@ -10,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.Serializable;
-import java.util.Collection;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -21,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- *
+ * TODOC
  *
  * @author Claude CHOISNET
  * Note: Need JRE 1.6
@@ -33,9 +27,9 @@ public class BookmarksAccessory
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private JScrollPane         	jScrollPane_Bookmarks;
+    private JScrollPane             jScrollPane_Bookmarks;
     /** @serial */
-    private DefaultListModel<File> 	listModel_Bookmarks;
+    private DefaultListModel<File>     listModel_Bookmarks;
     /** @serial */
     private JButton             jButton_AddBookmarks;
     /** @serial */
@@ -44,15 +38,20 @@ public class BookmarksAccessory
     private JButton             jButton_Refresh;
 
     /** @serial */
-    private JFileChooser    jFileChooser;
+    private JFileChooser jFileChooser;
     /** @serial */
-    private Configurator    configurator;
+    private BookmarksAccessoryConfigurator configurator;
 
     private ResourcesUtils resourcesUtils;
 
+    /**
+     * TODOC
+     * @param jFileChooser
+     * @param config
+     */
     public BookmarksAccessory(
-            final JFileChooser  jFileChooser,
-            final Configurator  config
+            final JFileChooser                   jFileChooser,
+            final BookmarksAccessoryConfigurator config
             )
     {
         this.jFileChooser = jFileChooser;
@@ -219,27 +218,27 @@ public class BookmarksAccessory
     }
 
     /**
-    *
+    * @deprecated use {@link BookmarksAccessoryConfigurator} instead
     */
-   public interface Configurator extends Serializable
+   public interface Configurator extends BookmarksAccessoryConfigurator
    {
-       /**
-        * @return list of already know bookmarks, must
-        * be a list of existing directory File object.
-        */
-       public Collection<File> getBookmarks();
-
-       /**
-        * @param file File to add to bookmarks Collection
-        * @return return true if file have been had.
-        */
-       public boolean addBookmarkFile(File file);
-
-       /**
-        * @param file File to remove to bookmark Collection
-        * @return return true if file have been removed.
-        */
-       public boolean removeBookmark(File file);
+//       /**
+//        * @return list of already know bookmarks, must
+//        * be a list of existing directory File object.
+//        */
+//       public Collection<File> getBookmarks();
+//
+//       /**
+//        * @param file File to add to bookmarks Collection
+//        * @return return true if file have been had.
+//        */
+//       public boolean addBookmarkFile(File file);
+//
+//       /**
+//        * @param file File to remove to bookmark Collection
+//        * @return return true if file have been removed.
+//        */
+//       public boolean removeBookmark(File file);
    }
 }
 

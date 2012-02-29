@@ -79,6 +79,7 @@ public class LimitedTextField extends JTextField
     }
 
     /**
+     * Get the max length
      * @return the maxLength
      */
     public int getMaxLength()
@@ -87,6 +88,7 @@ public class LimitedTextField extends JTextField
     }
 
     /**
+     * Set the max length
      * @param maxLength the maxLength to set
      * @throws IllegalArgumentException if maxValue is negative
      */
@@ -96,9 +98,7 @@ public class LimitedTextField extends JTextField
 
         if( maxLength < 0 ) { // maxLength should be greater than 0
             throw new IllegalArgumentException( "maxLength should be greater than 0" );
-        }
-
-        // TODO: Check current size !
+        	}
     }
 
     public void setText( String str )

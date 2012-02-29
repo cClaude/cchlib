@@ -1,7 +1,7 @@
 package alpha.com.googlecode.cchlib.utils;
 
 /**
- * TODO: doc!
+ * TODOC
  * @author Claude CHOISNET
  * @param <T> 
  */

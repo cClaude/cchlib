@@ -7,7 +7,7 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
 /**
- * TODO: Doc!
+ * TODOC
  * 
  * @author Claude CHOISNET
  * @param <E> 
@@ -16,7 +16,7 @@ public class EmptyEnumeration<E>
     implements Enumeration<E> 
 {
     /**
-     * TODO: Doc!
+     * TODOC
      * 
      */
     public EmptyEnumeration()

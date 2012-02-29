@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 import cx.ath.choisnet.ToDo;
 
 /**
- * TODO: doc!
+ * TODOC
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling

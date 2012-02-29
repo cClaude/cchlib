@@ -18,7 +18,7 @@ public class XMLURLParserDOMImpl extends XMLParserDOMImpl
     private URL url;
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param sourceURL
      * @param errorHandler

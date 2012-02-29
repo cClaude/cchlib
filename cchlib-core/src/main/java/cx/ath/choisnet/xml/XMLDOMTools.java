@@ -14,10 +14,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Node;
 
 /**
- * TODO: doc!
+ * TODOC
  *
- * @author Claude CHOISNET
- * @version $Id: $
  */
 public class XMLDOMTools
 {
@@ -26,7 +24,7 @@ public class XMLDOMTools
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param node a {@link org.w3c.dom.Node} object.
      * @param output a {@link java.io.OutputStream} object.
@@ -44,7 +42,7 @@ public class XMLDOMTools
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param node a {@link org.w3c.dom.Node} object.
      * @param output a {@link java.io.Writer} object.
@@ -62,7 +60,7 @@ public class XMLDOMTools
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param node a {@link org.w3c.dom.Node} object.
      * @return a {@link java.lang.String} object.

@@ -59,9 +59,9 @@ public class XComboBox<E> extends JComboBox<E>
      *        list of items
      */
     public XComboBox(
-            final ComboBoxModel<E>  comboBoxModel,
-            final Class<E>          contentClass
-            )
+        final ComboBoxModel<E>  comboBoxModel,
+        final Class<E>          contentClass
+        )
     {
         this( comboBoxModel, contentClass, null );
     }
@@ -74,9 +74,9 @@ public class XComboBox<E> extends JComboBox<E>
      * @param items an array of objects to insert into the combo box
      */
     public XComboBox(
-            final Class<E>  contentClass,
-            final E[]       items
-            )
+        final Class<E>  contentClass,
+        final E[]       items
+        )
     {
         this( new DefaultComboBoxModel<E>(items), contentClass, null );
     }
@@ -89,9 +89,9 @@ public class XComboBox<E> extends JComboBox<E>
      * @param items an array of vectors to insert into the combo box
      */
     public XComboBox(
-            final Class<E>  contentClass,
-            final Vector<E> items
-            )
+        final Class<E>  contentClass,
+        final Vector<E> items
+        )
     {
         this( new DefaultComboBoxModel<E>(items), contentClass, null );
     }
@@ -130,7 +130,7 @@ public class XComboBox<E> extends JComboBox<E>
                             handleMouseWheelMoved(event);
                         }
                     });
-        }
+            }
         if( !attrib.contains( XComboBoxAttribute.NO_DEFAULT_ACTION_LISTENER ) ) {
             super.addActionListener(
                     new ActionListener()
@@ -141,7 +141,7 @@ public class XComboBox<E> extends JComboBox<E>
                             defaultActionPerformed(event);
                         }
                     });
-        }
+            }
     }
 
     /**
@@ -203,7 +203,7 @@ public class XComboBox<E> extends JComboBox<E>
      */
     protected void removeOldestItems( final int itemsToRemove )
     {
-        for(int i=0;i<itemsToRemove;i++) {
+        for( int i=0; i<itemsToRemove; i++ ) {
             removeItemAt(0);
         }
     }
@@ -224,30 +224,30 @@ public class XComboBox<E> extends JComboBox<E>
                 int index = jcb.getSelectedIndex();
                 if( index == -1 ) {
                     index = 0;
-                }
+                    }
                 else {
                     index++;
-                }
+                    }
                 if( index < jcb.getModel().getSize() ) {
                     jcb.setSelectedIndex( index );
+                    }
                 }
-            }
             else if( event.getWheelRotation() < 0 ) {
                 int index = jcb.getSelectedIndex();
                 if( index == -1 ) {
                     index = 0;
-                }
+                    }
                 else {
                     index--;
                     if( index < 0 ) {
                         index = 0;
+                        }
                     }
-                }
                 if( index < jcb.getItemCount() ) {
                     jcb.setSelectedIndex( index );
+                    }
                 }
             }
-        }
     }
 
     /**
@@ -270,14 +270,13 @@ public class XComboBox<E> extends JComboBox<E>
                 if( o.equals( getModel().getElementAt( i ) ) ) {
                     found = true;
                     break;
+                    }
                 }
-            }
             if( !found ) {
-                //TODO add a test ?
                 E value = contentClass.cast( o );
 
                 this.addItem( value );
+                }
             }
-        }
     }
 }

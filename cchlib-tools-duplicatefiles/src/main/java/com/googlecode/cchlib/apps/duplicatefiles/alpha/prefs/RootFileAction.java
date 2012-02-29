@@ -13,7 +13,7 @@ public enum RootFileAction
     INCLUDE_ALL_FILES,
 
     /*
-     * TODO:
+     * TODO: extra actions :
      * INCLUDE_ONLY_CURRENT_FOLDER,
      * EXCLUDE_ALL_FILES
      * EXCLUDE_ONLY_CURRENT_FOLDER (include sub directories)

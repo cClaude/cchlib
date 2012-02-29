@@ -299,7 +299,7 @@ public class XComboBox<E> extends JComboBox<E>
                 }
             }
             if( !found ) {
-                //TODO add a test ?
+                //TO DO add a test ?
                 E value = contentClass.cast( o );
 
                 this.addItem( value );

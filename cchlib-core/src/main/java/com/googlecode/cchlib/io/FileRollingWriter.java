@@ -13,7 +13,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * TODO:Docs
+ * TODOC
+ *
  *@since 4.1.6
  */
 public class FileRollingWriter

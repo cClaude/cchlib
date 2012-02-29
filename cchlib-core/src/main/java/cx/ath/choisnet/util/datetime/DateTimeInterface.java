@@ -3,8 +3,7 @@ package cx.ath.choisnet.util.datetime;
 import java.text.Format;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public interface DateTimeInterface
@@ -12,13 +11,13 @@ public interface DateTimeInterface
     /**
      * 
      * @param format
-     * @return TODO doc!
+     * @return TODOC
      */
     public abstract String toString(Format format);
 
     /**
      * 
-     * @return TODO doc!
+     * @return TODOC
      */
     public abstract long longValue();
 }

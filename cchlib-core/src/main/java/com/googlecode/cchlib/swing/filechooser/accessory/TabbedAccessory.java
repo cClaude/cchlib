@@ -12,7 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * TODO: Doc!
+ * TODOC
  *
  * @author Claude CHOISNET
  */
@@ -40,8 +40,8 @@ public class TabbedAccessory
      * @param dimension
      */
     public TabbedAccessory(
-            Dimension dimension
-            )
+        final Dimension dimension
+        )
     {
         tabbedAccessoryInterfaceList = new ArrayList<TabbedAccessoryInterface>();
 
@@ -50,17 +50,19 @@ public class TabbedAccessory
     }
 
     /**
-     *
+     * TODOC
      * @param tai
      * @return current Object for chaining initialization.
      */
-    public TabbedAccessory addTabbedAccessory( TabbedAccessoryInterface tai )
+    public TabbedAccessory addTabbedAccessory(
+        final TabbedAccessoryInterface tai
+        )
     {
         super.addTab(
-                tai.getTabName(),
-                tai.getTabIcon(),
-                tai.getComponent()
-                );
+            tai.getTabName(),
+            tai.getTabIcon(),
+            tai.getComponent()
+            );
 
         tabbedAccessoryInterfaceList.add( tai );
 
@@ -69,7 +71,7 @@ public class TabbedAccessory
         if( first ) {
             first = false;
             tai.register();
-        }
+            }
 
         return this;
     }
@@ -77,21 +79,17 @@ public class TabbedAccessory
     @Override // ChangeListener
     public void stateChanged( ChangeEvent event )
     {
-        //System.out.println( event );
         int         sel = getSelectedIndex();
         Component   c   = super.getComponentAt( sel );
 
         for(TabbedAccessoryInterface tai:tabbedAccessoryInterfaceList) {
             if( c == tai.getComponent() ) {
                 tai.register();
-                //System.out.println( "register" + c );
-            }
+                }
             else {
                 tai.unregister();
-                //System.out.println( "unregister" + tai.getComponent() );
+                }
             }
-        }
-
     }
 }
 

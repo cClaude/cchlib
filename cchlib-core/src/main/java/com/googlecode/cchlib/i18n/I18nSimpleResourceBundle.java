@@ -18,7 +18,7 @@ public class I18nSimpleResourceBundle
         implements I18nAutoUpdateInterface
 {
     private static final long serialVersionUID = 2L;
-    // FIXME: need Log4J (fix it ?)
+    // TODO: need Log4J (fix it ?)
     private transient static Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
     /** @serial */
     private Locale         currentLocale;

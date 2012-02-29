@@ -3,14 +3,14 @@ package cx.ath.choisnet.servlet.debug;
 import java.io.IOException;
 
 /**
- * TODO: Doc!
+ * TODOC
  * 
  * @author Claude CHOISNET
  */
 public interface InfosServletDisplayer
 {
     /**
-     * TODO: Doc!
+     * TODOC
      * 
      * @param appendable
      */
