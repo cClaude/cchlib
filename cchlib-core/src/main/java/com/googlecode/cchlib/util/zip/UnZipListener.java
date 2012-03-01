@@ -13,7 +13,6 @@ public interface UnZipListener extends EventListener
      * @param zipEntry
      */
     public void entryPostProcessing( UnZipEvent event );
-//    public void entryPostProcessing( ZipEntry zipEntry );
 
     /**
      * TODOC
@@ -22,5 +21,4 @@ public interface UnZipListener extends EventListener
      * @param zipEntry
      */
     public void entryAdded( UnZipEvent event );
-//    public void entryAdded( File file, ZipEntry zipEntry );
 }

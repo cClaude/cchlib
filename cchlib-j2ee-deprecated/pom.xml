@@ -37,6 +37,14 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+    
+    <dependency>
+     <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core-deprecated</artifactId>
+      <version>4.1.7-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
 
     <dependency>
         <groupId>javax</groupId>

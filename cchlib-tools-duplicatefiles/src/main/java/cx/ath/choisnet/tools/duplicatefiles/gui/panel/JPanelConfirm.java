@@ -294,7 +294,7 @@ public class JPanelConfirm extends JPanel
         int               c = 0;
 
         if( s != null ) {
-            for(KeyFileState f:s) {
+            for( KeyFileState f:s ) {
                 if(!f.isSelectedToDelete()) {
                     c++;
                 }
@@ -324,7 +324,6 @@ public class JPanelConfirm extends JPanel
     }
 
     public void doDelete(
-            //final DFToolKit                         tk,
             final HashMapSet<String,KeyFileState>   duplicateFiles
             )
     {
@@ -362,7 +361,9 @@ public class JPanelConfirm extends JPanel
             // Delete file
             boolean isDel = kf.getFile().delete();
 
-            slogger.info("Delete=" + isDel + ':' + kf + " - i=" + i);
+            if( slogger.isTraceEnabled() ) {
+                slogger.trace("Delete=" + isDel + ':' + kf + " - i=" + i);
+            	}
 
             // Store result
             tableDts_deleted[ i ] = new Boolean( isDel );

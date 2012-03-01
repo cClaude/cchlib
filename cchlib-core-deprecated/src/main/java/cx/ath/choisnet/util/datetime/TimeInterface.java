@@ -24,25 +24,25 @@ public interface TimeInterface
      */
     public abstract boolean isAfter(TimeInterface time);
 
-    /**
-     * TODOC
-     *
-     * @param time
-     * @return TODO doc!
-     * @throws BasicDateTimeException
-     */
-    public abstract TimeInterface add(TimeInterface time)
-        throws BasicDateTimeException;
-
-    /**
-     * TODOC
-     *
-     * @param time
-     * @return TODO doc!
-     * @throws BasicDateTimeException
-     */
-    public abstract TimeInterface sub(TimeInterface time)
-        throws BasicDateTimeException;
+//    /**
+//     * TO DOC
+//     *
+//     * @param time
+//     * @return TODO doc!
+//     * @throws BasicDateTimeException
+//     */
+//    public abstract TimeInterface add(TimeInterface time)
+//        throws BasicDateTimeException;
+//
+//    /**
+//     * TO DOC
+//     *
+//     * @param time
+//     * @return TODO doc!
+//     * @throws BasicDateTimeException
+//     */
+//    public abstract TimeInterface sub(TimeInterface time)
+//        throws BasicDateTimeException;
 
     /**
      * TODOC

@@ -3,28 +3,30 @@ package cx.ath.choisnet.util.datetime;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * TODOC
  *
- * @author Claude CHOISNET
+ * <br>
+ * This class is not thread save.
  */
 public class BasicTime
     implements Serializable, Cloneable, TimeInterface
 {
     private static final long serialVersionUID = 2L;
     /**
-     * TODOC
+     * Min value for {@link BasicTime}: 00:00:00
      */
     public static final BasicTime MIN_VALUE = BasicTime.buildBasicTime(0, 0, 0);
     /**
-     * TODOC
+     * Max value for {@link BasicTime}: 23:59:59
      */
     public static final BasicTime MAX_VALUE = BasicTime.buildBasicTime(23, 59, 59);
     /** {@value} */
     protected static final String TIME_FMT = "HH:mm:ss";
-    //protected static final SimpleDateFormat TIME_FMT = new SimpleDateFormat("HH:mm:ss");
     /** @serial */
     protected int hours;
     /** @serial */
@@ -36,86 +38,109 @@ public class BasicTime
     private transient DateFormat transient_ISO_DATE_FMT;// = new SimpleDateFormat(TIMEFMT);
 
     /**
-     * TODOC
+     * Create a {@link BasicTime} from a another
      */
-    public BasicTime(BasicTime time)
+    public BasicTime( final BasicTime time )
     {
         hours = -1;
         minutes = -1;
         seconds = -1;
 
         try {
-            set(time.getHours(), time.getMinutes(), time.getSeconds());
+            set( time.getHours(), time.getMinutes(), time.getSeconds() );
             }
-        catch(BasicTimeException e) {
-            throw new RuntimeException("Internal error", e);
+        catch( BasicTimeException e ) {
+            throw createInternalErrorException( e );
             }
     }
 
     /**
-     * TODOC
+     * Create a {@link BasicTime} using current time.
      */
     public BasicTime()
     {
-        this(new java.util.Date());
+        this( new Date() );
     }
 
     /**
-     * TODOC
+     * Create a {@link BasicTime} using giving {@link Date}.
+     *
+     * @param javadate {@link Date} to use to get time
      */
-    public BasicTime(java.util.Date javadate)
+    public BasicTime( final Date javadate )
     {
         hours = -1;
         minutes = -1;
         seconds = -1;
 
-        set(javadate);
+        set( javadate );
     }
 
     /**
-     * TODOC
+     * Create a {@link BasicTime}
+     *
+     * @param hours      Hours to set
+     * @param minutes    Minutes to set
+     * @param seconds    Seconds to set
+     * @throws BasicTimeException if any value is out of range
      */
-    public BasicTime(int hours, int minutes, int secondes)
+    public BasicTime( int hours, int minutes, int seconds )
         throws BasicTimeException
     {
         this.hours = -1;
         this.minutes = -1;
-        seconds = -1;
+        this.seconds = -1;
 
-        set(hours, minutes, secondes);
+        set(hours, minutes, seconds);
     }
 
     /**
-     * TODOC
+     * Create a {@link BasicTime}
+     *
+     * @param hours      Hours to set
+     * @param minutes    Minutes to set
+     * @throws BasicTimeException if any value is out of range
      */
     public BasicTime(int hours, int minutes)
-        throws BasicTimeException
-    {
-        this.hours = -1;
-        this.minutes = -1;
-        seconds = -1;
+            throws BasicTimeException
+        {
+            this.hours = -1;
+            this.minutes = -1;
+            this.seconds = -1;
 
-        set(hours, minutes, 0);
-    }
+            set(hours, minutes, 0);
+        }
 
     /**
-     * TODOC
+     * Create a {@link BasicTime}
+     *
+     * @param secondsFormMidnight
+     * @throws BasicDateTimeNegativeValueException if value is negative
+     * @throws BasicTimeException if value is out of range
      */
-   public BasicTime(long secondsFormMidnight)
-        throws BasicDateTimeNegativeValueException
-    {
-        hours = -1;
-        minutes = -1;
-        seconds = -1;
+    public BasicTime(long secondsFormMidnight)
+            throws BasicDateTimeNegativeValueException,
+                   BasicTimeException
+        {
+            hours = -1;
+            minutes = -1;
+            seconds = -1;
 
-        set(secondsFormMidnight);
-    }
+            set(secondsFormMidnight);
+        }
 
    /**
-    * TODOC
-    */
-    public BasicTime(String time, SimpleDateFormat formatter)
-        throws java.text.ParseException
+     * TODOC
+     *
+     * @param time
+     * @param formatter
+     * @throws ParseException
+     */
+    public BasicTime(
+        final String     time,
+        final DateFormat formatter
+        )
+        throws ParseException
     {
         hours = -1;
         minutes = -1;
@@ -125,21 +150,26 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * Set news values for this {@link BasicTime}
+     *
+     * @param hours      Hours to set
+     * @param minutes    Minutes to set
+     * @param seconds    Seconds to set
+     * @throws BasicTimeException if any value is out of range
      */
     public void set(int hours, int minutes, int seconds)
         throws BasicTimeException
     {
-        if(hours < 0 || hours > 23) {
-            throw new BasicTimeException((new StringBuilder()).append("invalid hours : ").append(hours).toString());
+        if( hours < 0 || hours > 23 ) {
+            throw new BasicTimeException( "invalid hours : " + hours );
             }
 
-        if(minutes < 0 || minutes > 59) {
-            throw new BasicTimeException((new StringBuilder()).append("invalid minutes: ").append(minutes).toString());
+        if( minutes < 0 || minutes > 59 ) {
+            throw new BasicTimeException( "invalid minutes: " + minutes );
             }
 
-        if(seconds < 0 || seconds > 59) {
-            throw new BasicTimeException((new StringBuilder()).append("invalid seconds : ").append(seconds).toString());
+        if( seconds < 0 || seconds > 59 ) {
+            throw new BasicTimeException( "invalid seconds : " + seconds );
             }
         else {
             this.hours = hours;
@@ -150,11 +180,15 @@ public class BasicTime
 
     /**
      * TODOC
+     *
+     * @param secondsFromMidnight
+     * @throws BasicDateTimeNegativeValueException if value is negative
+     * @throws BasicTimeException if value is greater than {@link BasicTime#MAX_VALUE}.
      */
-    protected void set(long secondsFromMidnight)
-        throws BasicDateTimeNegativeValueException
+    protected void set( long secondsFromMidnight )
+        throws BasicDateTimeNegativeValueException, BasicTimeException
     {
-        if(secondsFromMidnight < 0L) {
+        if( secondsFromMidnight < 0L ) {
             throw new BasicDateTimeNegativeValueException();
             }
 
@@ -167,19 +201,13 @@ public class BasicTime
         long mins = secondsFromMidnight / 60L;
         secondsFromMidnight -= mins * 60L;
 
-        try {
-            set((int)hours, (int)mins, (int)secondsFromMidnight);
-            }
-        catch(BasicTimeException bug) {
-            throw new RuntimeException((new StringBuilder()).append("BasicTime.set( int secondsFormMidnight ) INTERNAL ERROR : ").append(bug).toString());
-            }
-
+        set( (int)hours, (int)mins, (int)secondsFromMidnight );
     }
 
     /**
      * TODOC
      */
-    protected void setWithFmtString(String fmtTime)
+    protected void setWithFmtString( String fmtTime )
     {
         hours   = Integer.parseInt(fmtTime.substring(0, 2));
         minutes = Integer.parseInt(fmtTime.substring(3, 5));
@@ -189,9 +217,9 @@ public class BasicTime
     /**
      * TODOC
      */
-    protected void set(java.util.Date javaDate)
+    protected void set( final Date javaDate )
     {
-        setWithFmtString(getIsoDateFormat().format(javaDate));
+        setWithFmtString( getIsoDateFormat().format( javaDate ) );
     }
 
     /**
@@ -223,21 +251,15 @@ public class BasicTime
      */
     public String toString()
     {
-        return (new StringBuilder())
-            .append(toStringHours())
-            .append(':')
-            .append(toStringMinutes())
-            .append(':')
-            .append(toStringSeconds()
-                    ).toString();
+        return toStringHours() + ':' + toStringMinutes() + ':' + toStringSeconds();
     }
 
     /**
      * TODOC
      */
-    public String toString(Format formatter)
+    public String toString( final Format formatter )
     {
-        return formatter.format(getJavaDate());
+        return formatter.format( getJavaDate() );
     }
 
     /**
@@ -245,7 +267,7 @@ public class BasicTime
      */
     public String toStringHours()
     {
-        if(hours > 9) {
+        if( hours > 9 ) {
             return Integer.toString(hours);
             }
         else {
@@ -283,24 +305,24 @@ public class BasicTime
     /**
      * TODOC
      */
-    public java.util.Date getJavaDate()
+    public Date getJavaDate()
     {
         try {
-            return getIsoDateFormat().parse(toString());
+            return getIsoDateFormat().parse( toString() );
             }
-        catch(java.text.ParseException e) {
-            throw new RuntimeException("BasicTime.getJavaDate() INTERNAL ERROR");
+        catch( ParseException e ) {
+            throw createInternalErrorException( e );
             }
     }
 
     @Override
-    public boolean equals(TimeInterface anotherTime)
+    public boolean equals( TimeInterface anotherTime )
     {
         return compareTo(anotherTime) == 0;
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals( Object o )
     {
         if( o instanceof TimeInterface ) {
             return compareTo( TimeInterface.class.cast( o ) ) == 0;
@@ -314,7 +336,7 @@ public class BasicTime
     public int compareTo(TimeInterface anotherTime)
         throws ClassCastException
     {
-        if(anotherTime instanceof BasicTime) {
+        if( anotherTime instanceof BasicTime ) {
             BasicTime aBasicTime = (BasicTime)anotherTime;
 
             int cmp = hours - aBasicTime.hours;
@@ -357,9 +379,10 @@ public class BasicTime
 
     /**
      * TODOC
+     * @throws BasicTimeException
      */
     public TimeInterface add(TimeInterface anotherTime)
-        throws BasicDateTimeNegativeValueException
+        throws BasicDateTimeNegativeValueException, BasicTimeException
     {
         set(longValue() + anotherTime.longValue());
 
@@ -368,64 +391,54 @@ public class BasicTime
 
     /**
      * TODOC
+     * @throws BasicTimeException
      */
     public TimeInterface sub(TimeInterface anotherTime)
-        throws BasicDateTimeNegativeValueException
+        throws BasicDateTimeNegativeValueException, BasicTimeException
     {
         set(longValue() - anotherTime.longValue());
 
         return this;
     }
 
-//    private void writeObject(ObjectOutputStream stream)
-//        throws java.io.IOException
-//    {
-//        stream.defaultWriteObject();
-//        stream.writeInt(seconds);
-//        stream.writeInt(minutes);
-//        stream.writeInt(hours);
-//    }
-//
-//    private void readObject(ObjectInputStream stream)
-//        throws java.io.IOException, ClassNotFoundException
-//    {
-//        stream.defaultReadObject();
-//        seconds = stream.readInt();
-//        minutes = stream.readInt();
-//        hours = stream.readInt();
-//    }
-
     /**
      * TODOC
+     *
+     * @param basicTime1
+     * @param basicTime2
+     * @return
+     * @throws BasicDateTimeNegativeValueException
+     * @throws BasicTimeException
      */
     public static BasicTime subtract(BasicTime basicTime1, BasicTime basicTime2)
-        throws BasicDateTimeNegativeValueException
+        throws BasicDateTimeNegativeValueException, BasicTimeException
     {
         return new BasicTime(basicTime1.longValue() - basicTime2.longValue());
     }
 
     /**
-     * TODOC
+     * @return {@link DateFormat} according to ISO time standard
      */
+    private DateFormat getIsoDateFormat()
+    {
+        if( transient_ISO_DATE_FMT == null ) {
+            transient_ISO_DATE_FMT = new SimpleDateFormat( TIME_FMT );
+            }
+        return transient_ISO_DATE_FMT;
+    }
+
     private static BasicTime buildBasicTime(int hours, int minutes, int seconds)
     {
         try {
             return new BasicTime(hours, minutes, seconds);
             }
-        catch(BasicTimeException e) {
-            throw new RuntimeException(e);
+        catch( BasicTimeException e ) {
+            throw createInternalErrorException( e );
             }
     }
 
-    /**
-     * TODOC
-     */
-    private DateFormat getIsoDateFormat()
+    private static RuntimeException createInternalErrorException( Throwable e )
     {
-        if( transient_ISO_DATE_FMT == null ) {
-            transient_ISO_DATE_FMT = new SimpleDateFormat(TIME_FMT);
-        	}
-        return transient_ISO_DATE_FMT;
+        throw new RuntimeException("INTERNAL ERROR");
     }
-
 }

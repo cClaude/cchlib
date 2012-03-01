@@ -7,7 +7,7 @@ import java.util.zip.ZipEntry;
 /**
  * This class is used to represent a ZIP file entry.
  * 
- * @author Claude CHOISNET
+ * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleZipEntry} instead
  */
 public interface SimpleZipEntry
 {

@@ -1,12 +1,9 @@
-/**
- * 
- */
 package cx.ath.choisnet.zip;
 
 /**
  * Listener for post-processing and processing
  * 
- * @author Claude CHOISNET
+ * @deprecated no replacement
  */
 public interface ZipListener 
 {

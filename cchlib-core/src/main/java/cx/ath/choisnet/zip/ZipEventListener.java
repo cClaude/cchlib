@@ -1,14 +1,11 @@
-/**
- * 
- */
 package cx.ath.choisnet.zip;
 
 import java.util.EventListener;
 import java.util.zip.ZipEntry;
 
 /**
- * 
- * @author Claude CHOISNET
+ * @deprecated use {@link com.googlecode.cchlib.util.zip.ZipListener}
+ * or {@link com.googlecode.cchlib.util.zip.UnZipListener} instead
  */
 public interface ZipEventListener 
     extends EventListener

@@ -9,10 +9,9 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated no replacement
  */
+@Deprecated
 public class SimpleZipEntryImpl
     implements SimpleZipEntry
 {
@@ -20,12 +19,12 @@ public class SimpleZipEntryImpl
     private ZipEntry zipEntry;
 
     /**
-     * 
+     *
      * @param file
      * @param zipEntry
      */
     public SimpleZipEntryImpl(
-            File        file, 
+            File        file,
             ZipEntry    zipEntry
             )
     {

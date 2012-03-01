@@ -15,9 +15,7 @@ import com.googlecode.cchlib.io.IOHelper;
 import junit.framework.TestCase;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated
  */
 public class SimpleZipTest extends TestCase
 {
@@ -36,7 +34,7 @@ public class SimpleZipTest extends TestCase
         SimpleZip instance = new SimpleZip(
                 new FileOutputStream( ZIP_DESTINATION_ZIP )
                 );
-        instance.addPostProcessingListener( 
+        instance.addPostProcessingListener(
                 new ZipEventListener()
                 {
                     @Override
@@ -45,7 +43,7 @@ public class SimpleZipTest extends TestCase
                         slogger.info("PP>add: " + zipentry.getName() );
                     }
                 });
-        instance.addProcessingListener( 
+        instance.addProcessingListener(
                 new ZipEventListener()
                 {
                     @Override
@@ -81,7 +79,7 @@ public class SimpleZipTest extends TestCase
         InputStream is       = new FileInputStream( UNZIP_ZIP_FILENAME );
         SimpleUnZip instance = new SimpleUnZip( is );
 
-        instance.addPostProcessingListener( 
+        instance.addPostProcessingListener(
                 new ZipEventListener()
                 {
                     @Override
@@ -90,7 +88,7 @@ public class SimpleZipTest extends TestCase
                         slogger.info("PP>ext: " + zipentry.getName() );
                     }
                 });
-        instance.addProcessingListener( 
+        instance.addProcessingListener(
                 new ZipEventListener()
                 {
                     @Override

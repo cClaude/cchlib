@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
  * TODOC
  *
  */
-public class SimpleZipEntryFactoryImpl
+public class DefaultSimpleZipWrapper
     implements Wrappable<File,SimpleZipEntry>
 {
     private String refFolder;
@@ -26,7 +26,7 @@ public class SimpleZipEntryFactoryImpl
      * @param refFolderFile
      * @throws IOException
      */
-    public SimpleZipEntryFactoryImpl(
+    public DefaultSimpleZipWrapper(
             final File refFolderFile
             )
         throws IOException
@@ -42,7 +42,7 @@ public class SimpleZipEntryFactoryImpl
      * @param refFolder
      * @throws IOException
      */
-    public SimpleZipEntryFactoryImpl(
+    public DefaultSimpleZipWrapper(
             final String refFolder
             )
         throws IOException
@@ -77,7 +77,7 @@ public class SimpleZipEntryFactoryImpl
 
         final ZipEntry zipEntry = new ZipEntry(name);
 
-        zipEntry.setTime(file.lastModified());
+        zipEntry.setTime( file.lastModified() );
 //        zipEntry.setComment( comment );
 //        zipEntry.setCompressedSize( csize );
 //        zipEntry.setCrc( crc );

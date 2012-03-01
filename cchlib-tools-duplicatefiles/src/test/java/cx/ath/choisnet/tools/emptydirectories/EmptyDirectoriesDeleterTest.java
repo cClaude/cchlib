@@ -50,7 +50,7 @@ public class EmptyDirectoriesDeleterTest
             System.out.println( "size : " + emptyDirs.getCollection().size() );
             }
         catch( CancelRequestException e ) {
-            // TODO Auto-generated catch block
+            // OK.
             e.printStackTrace();
             }
     }

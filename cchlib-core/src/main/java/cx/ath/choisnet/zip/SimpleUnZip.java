@@ -12,9 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleUnZip} instead
  */
 public class SimpleUnZip 
     implements  Closeable, 

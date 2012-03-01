@@ -2,6 +2,8 @@ package cx.ath.choisnet.html.gadgets.formaters;
 
 import cx.ath.choisnet.util.datetime.BasicDateTimeNegativeValueException;
 import cx.ath.choisnet.util.datetime.BasicTime;
+import cx.ath.choisnet.util.datetime.BasicTimeException;
+
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import cx.ath.choisnet.html.gadgets.BGSelectAbstractCollectionFormater;
@@ -48,7 +50,7 @@ public class AGFormatTimeFormater
                 optionDatas[i] = datas.get(i);
             }
         }
-        catch(BasicDateTimeNegativeValueException e) {
+        catch(BasicDateTimeNegativeValueException | BasicTimeException e) {
             throw new RuntimeException(e);
         }
     }

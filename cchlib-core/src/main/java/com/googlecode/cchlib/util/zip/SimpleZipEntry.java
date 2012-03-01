@@ -21,6 +21,5 @@ public interface SimpleZipEntry extends Serializable
      * @return InputStream for current file
      * @throws IOException if any I/O error occur.
      */
-    public InputStream createInputStream()
-        throws IOException;
+    public InputStream createInputStream() throws IOException;
 }

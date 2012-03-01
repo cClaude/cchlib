@@ -2,6 +2,8 @@ package cx.ath.choisnet.html.validation;
 
 import cx.ath.choisnet.util.datetime.BasicDateTimeNegativeValueException;
 import cx.ath.choisnet.util.datetime.BasicTime;
+import cx.ath.choisnet.util.datetime.BasicTimeException;
+
 import java.io.PrintWriter;
 import java.util.Locale;
 import cx.ath.choisnet.html.HTMLDocumentException;
@@ -27,10 +29,10 @@ public class ValidationDocument extends HTMLDocument
         addBody((new StringBuilder()).append("end build() ").append(endTime).append("<br />\n").toString());
 
         try {
-            addBody((new StringBuilder()).append("=> ").append(cx.ath.choisnet.util.datetime.BasicTime.subtract(endTime, beginTime)).append("<br />\n").toString());
+            addBody((new StringBuilder()).append("=> ").append( BasicTime.subtract(endTime, beginTime)).append("<br />\n").toString());
         }
-        catch(BasicDateTimeNegativeValueException e) { 
-            
+        catch(BasicDateTimeNegativeValueException | BasicTimeException e) {
+
         }
     }
 

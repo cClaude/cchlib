@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Launch download tasks
  * <p>
- * TODOC: General description !!!
+ * {@link DownloadExecutor} use a {@link ThreadPoolExecutor} to
+ * manage downloads.
  * </p>
  * @since 4.1.5
  * @see DownloadToFile

@@ -5,8 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.zip.ZipEntry;
+import javax.swing.event.EventListenerList;
 import cx.ath.choisnet.io.SerializableHelper;
 
 /**
@@ -16,6 +17,8 @@ import cx.ath.choisnet.io.SerializableHelper;
  */
 public class URLCache implements Serializable
 {
+    /** The listeners waiting for object changes. */
+    protected EventListenerList listenerList = new EventListenerList();
     private static final long serialVersionUID = 2L;
     private CacheContent cache;
     private File cacheFile;
@@ -65,7 +68,7 @@ public class URLCache implements Serializable
      */
     public boolean isInCache( final URL url )
     {
-        Entry entry = get( url );
+        URLCacheEntry entry = get( url );
 
         if( entry != null ) {
             // TODO: allow to define a relative filename
@@ -86,7 +89,7 @@ public class URLCache implements Serializable
     synchronized
     public void add( final URL url, final String filename )
     {
-        cache.put( url, new EntryImpl( url, filename ) );
+        cache.put( url, new DefaultURLCacheEntry( url, filename ) );
 
         this.modificationCount++;
         autoStore();
@@ -96,10 +99,10 @@ public class URLCache implements Serializable
      * Retrieve {@link URL} in cache
      *
      * @param url {@link URL} to retrieve
-     * @return {@link Entry} for giving url if in cache, null otherwise
+     * @return {@link URLCacheEntry} for giving url if in cache, null otherwise
      */
     synchronized
-    public Entry get( final URL url )
+    public URLCacheEntry get( final URL url )
     {
         return cache.get( url );
     }
@@ -123,7 +126,7 @@ public class URLCache implements Serializable
      */
     public String getFilename( final URL url )
     {
-        Entry entry = get( url );
+        URLCacheEntry entry = get( url );
 
         if( entry != null ) {
             return entry.getFilename();
@@ -234,19 +237,18 @@ public class URLCache implements Serializable
                     store();
                     }
                 catch( IOException e ) {
-                    // FIXME: Send a notification ?
-                    e.printStackTrace();
+                    fireIOException( e );
+                    }
                 }
             }
-        }
     }
 
     // Workaround for generic warning...
     private class CacheContent implements Serializable
     {
         private static final long serialVersionUID = 3L;
-        private HashMap<URL,Entry> cc = new HashMap<URL,Entry>();
-        public void put( URL key, Entry value )
+        private HashMap<URL,URLCacheEntry> cc = new HashMap<URL,URLCacheEntry>();
+        public void put( URL key, URLCacheEntry value )
         {
             cc.put( key, value );
         }
@@ -258,147 +260,50 @@ public class URLCache implements Serializable
         {
             cc.clear();
         }
-        public Entry get( URL url )
+        public URLCacheEntry get( URL url )
         {
             return cc.get( url );
         }
     }
 
     /**
-     * Cache entry
+     * Adds a {@link UnZipListener} to the
+     * {@link SimpleUnZip}'s listener list.
+     *
+     * @param l the {@link UnZipListener} to add
      */
-    public interface Entry extends Serializable
+    public void addZipListener( URLCacheListener l )
     {
-        /**
-         * Returns the {@link URL} of this entry
-         * @return the {@link URL} of this entry
-         */
-        public URL getURL();
-        /**
-         * Returns the {@link Date} for this entry
-         * @return the {@link Date} for this entry
-         */
-        public Date getDate();
-        /**
-         * Returns the filename of this entry
-         * @return the filename of this entry
-         */
-        public String getFilename();
-    }
-}
-
-final class EntryImpl implements URLCache.Entry
-{
-    private static final long serialVersionUID = 1L;
-    private URL     url;
-    private Date    date;
-    private String  filename;
-
-    public EntryImpl( final URL url, final String filename )
-    {
-        this( url, null, filename );
+        listenerList.add( URLCacheListener.class, l );
     }
 
-    public EntryImpl( final URL url, final Date date, final String filename )
-    {
-        this.url = url;
-        this.date = date == null ? new Date() : date;
-        this.filename = filename;
-    }
-
-    @Override
-    public URL getURL()
-    {
-        return url;
-    }
-//    public void setUrl( URL url )
-//    {
-//        this.url = url;
-//    }
-    @Override
-    public Date getDate()
-    {
-        return date;
-    }
-//    public void setDate( Date date )
-//    {
-//        this.date = date;
-//    }
-    @Override
-    public String getFilename()
-    {
-        return filename;
-    }
-//    public void setFilename( String filename )
-//    {
-//        this.filename = filename;
-//    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
+    /**
+     * Removes a {@link UnZipListener} from the
+     *  {@link SimpleUnZip}'s listener list.
+     *
+     * @param l the {@link UnZipListener} to remove
      */
-    @Override
-    public int hashCode()
+    public void removeZipListener( URLCacheListener l )
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result
-                + ((filename == null) ? 0 : filename.hashCode());
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
-        return result;
+        listenerList.remove( URLCacheListener.class, l );
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * Runs each {@link UnZipListener}'s
+     * {@link UnZipListener#entryPostProcessing(ZipEntry)}
+     * method.
      */
-    @Override
-    public boolean equals( Object obj )
+    protected void fireIOException(
+            final IOException ioe
+        )
     {
-        if( this == obj ) {
-            return true;
-            }
-        if( obj == null ) {
-            return false;
-            }
-        if( !(obj instanceof EntryImpl) ) {
-            return false;
-            }
-        EntryImpl other = (EntryImpl)obj;
-        if( date == null ) {
-            if( other.date != null ) {
-                return false;
+        Object[] listeners = listenerList.getListenerList();
+
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+            if( listeners[i] == URLCacheListener.class ) {
+                ((URLCacheListener)listeners[i + 1]).errorHandler( ioe );
                 }
             }
-        else if( !date.equals( other.date ) ) {
-            return false;
-            }
-        if( filename == null ) {
-            if( other.filename != null ) {
-                return false;
-                }
-            }
-        else if( !filename.equals( other.filename ) ) {
-            return false;
-            }
-        if( url == null ) {
-            if( other.url != null ) {
-                return false;
-                }
-            }
-        else if( !url.equals( other.url ) ) {
-            return false;
-            }
-        return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return "EntryImpl [url=" + url + ", date=" + date + ", filename="
-                + filename + "]";
-    }
 }

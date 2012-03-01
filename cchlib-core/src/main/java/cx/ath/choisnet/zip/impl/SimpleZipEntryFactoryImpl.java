@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * @deprecated use {@link com.googlecode.cchlib.util.zip.DefaultSimpleZipWrapper} instead
  */
+@Deprecated
 public class SimpleZipEntryFactoryImpl
     implements Wrappable<File,SimpleZipEntry>
 {
@@ -18,13 +17,13 @@ public class SimpleZipEntryFactoryImpl
     private int    refFolderLen;
 
     /**
-     * 
+     *
      * @param refFolderFile
      * @throws IOException
      */
     public SimpleZipEntryFactoryImpl(
             File refFolderFile
-            ) 
+            )
         throws IOException
     {
         String canonicalPath = refFolderFile.getCanonicalPath();
@@ -34,13 +33,13 @@ public class SimpleZipEntryFactoryImpl
     }
 
     /**
-     * 
+     *
      * @param refFolder
      * @throws IOException
      */
     public SimpleZipEntryFactoryImpl(
             String refFolder
-            ) 
+            )
         throws IOException
     {
         this(new File(refFolder));

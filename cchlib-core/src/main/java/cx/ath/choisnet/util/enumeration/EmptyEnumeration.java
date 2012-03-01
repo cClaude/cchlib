@@ -1,23 +1,17 @@
-/**
- * 
- */
 package cx.ath.choisnet.util.enumeration;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
 /**
- * TODOC
- * 
- * @author Claude CHOISNET
+ * {@link EmptyEnumeration} is an {@link Enumeration} with no element.
  * @param <E> 
  */
 public class EmptyEnumeration<E>
     implements Enumeration<E> 
 {
     /**
-     * TODOC
-     * 
+     * Create a {@link EmptyEnumeration}
      */
     public EmptyEnumeration()
     {
@@ -26,9 +20,7 @@ public class EmptyEnumeration<E>
     /**
      * Tests if this enumeration contains more elements. 
      * 
-     * @return true if and only if this enumeration
-     *         object contains at least one more element
-     *         to provide; false otherwise.
+     * @return always false
      */
     @Override
     public boolean hasMoreElements()

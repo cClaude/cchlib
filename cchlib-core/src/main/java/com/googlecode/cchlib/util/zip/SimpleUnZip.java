@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.zip;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -12,8 +13,8 @@ import java.util.zip.ZipInputStream;
 import javax.swing.event.EventListenerList;
 
 /**
- * TODOC
- *
+ * {@link SimpleUnZip} is a fronted of {@link ZipInputStream}
+ * to extract all content to a specified directory.
  */
 public class SimpleUnZip
     implements Closeable
@@ -25,9 +26,9 @@ public class SimpleUnZip
     private int fileCount;
 
     /**
-     * TODOC
-     *
-     * @param input
+     * Creates a new {@link SimpleUnZip} based on giving {@link InputStream}
+     * using default buffer size (4096).
+     * @param input {@link InputStream} that content a zip stream (typically a file)
      * @throws IOException if any I/O occur
      */
     public SimpleUnZip( final InputStream input )
@@ -37,10 +38,12 @@ public class SimpleUnZip
     }
 
     /**
-     * TODOC
+     * Creates a new {@link SimpleUnZip} based on giving {@link InputStream}
+     * <br/>
+     * The UTF-8 charset is used to decode the entry names.
      *
-     * @param input
-     * @param bufferSize
+     * @param input {@link InputStream} that content a zip stream (typically a file)
+     * @param bufferSize size of buffer
      * @throws IOException if any I/O occur
      */
     public SimpleUnZip(
@@ -48,16 +51,23 @@ public class SimpleUnZip
         final int           bufferSize
         ) throws IOException
     {
-        zis = new ZipInputStream(input);
-        buffer = new byte[bufferSize];
-        fileCount = 0;
+        if( input instanceof BufferedInputStream ) {
+            this.zis = new ZipInputStream( input );
+            }
+        else {
+            this.zis = new ZipInputStream(
+                new BufferedInputStream( input )
+                );
+            }
+
+        this.buffer    = new byte[ bufferSize ];
+        this.fileCount = 0;
     }
 
     @Override
-    public void close()
-        throws java.io.IOException
+    public void close() throws IOException
     {
-        zis.close();
+        this.zis.close();
     }
 
     @Override
@@ -68,27 +78,26 @@ public class SimpleUnZip
     }
 
     /**
-     * TODOC
+     * Save next entry relative to giving folderFile
      *
-     * @param folderFile
+     * @param folderFile Home directory {@link File} for next file or folder
      * @return File object for this new file, or null
      *         if no more entry in zip.
      * @throws IOException if any I/O occur
      */
-    public File saveNextEntry( final File folderFile )
+    protected File saveNextEntry( final File folderFile )
         throws IOException
     {
-        ZipEntry zipEntry = zis.getNextEntry();
+        final ZipEntry zipEntry = zis.getNextEntry();
 
         if( zipEntry == null ) {
             return null;
             }
 
-        this.fireEntryPostProcessing( zipEntry );
+        final File file = new File( folderFile, zipEntry.getName() );
+        file.setLastModified( zipEntry.getTime() );
 
-        final File file = new File(folderFile, zipEntry.getName());
-
-        file.setLastModified(zipEntry.getTime());
+        this.fireEntryPostProcessing( zipEntry, file );
 
         final File parent = file.getParentFile();
 
@@ -96,16 +105,16 @@ public class SimpleUnZip
             file.mkdirs();
             }
         else {
-            if(!parent.isDirectory()) {
+            if( !parent.isDirectory() ) {
                 parent.mkdirs();
                 }
-            OutputStream output = new BufferedOutputStream(
-                        new FileOutputStream( file )
-                        );
-            int len;
-
+            final OutputStream output = new BufferedOutputStream(
+                    new FileOutputStream( file )
+                    );
             try {
-                while((len = zis.read(buffer, 0, buffer.length)) != -1) {
+                int len;
+
+                while( (len = zis.read(buffer, 0, buffer.length)) != -1 ) {
                     output.write(buffer, 0, len);
                     }
                 }
@@ -116,15 +125,15 @@ public class SimpleUnZip
 
         this.fileCount++;
 
-        this.fireEntryAdded( file, zipEntry );
+        this.fireEntryAdded( zipEntry, file );
 
         return file;
     }
 
     /**
-     * TODOC
+     * Extract all archive content to giving folder
      *
-     * @param folderFile
+     * @param folderFile Home directory {@link File} for next file or folder
      * @throws IOException if any I/O occur
      */
     public void saveAll( final File folderFile )
@@ -170,14 +179,15 @@ public class SimpleUnZip
      * method.
      */
     protected void fireEntryPostProcessing(
-        final ZipEntry zipEntry
+            final ZipEntry zipEntry,
+            final File     file
         )
     {
-        UnZipEvent event = new UnZipEvent( zipEntry );
-        Object[] listeners = listenerList.getListenerList();
+        UnZipEvent event     = new UnZipEvent( zipEntry, file );
+        Object[]   listeners = listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
-            if (listeners[i] == UnZipListener.class) {
+            if( listeners[i] == UnZipListener.class ) {
                 ((UnZipListener)listeners[i + 1]).entryPostProcessing( event );
                 }
             }
@@ -189,15 +199,15 @@ public class SimpleUnZip
      * method.
      */
     protected void fireEntryAdded(
-        final File     file,
-        final ZipEntry zipEntry
+        final ZipEntry zipEntry,
+        final File     file
         )
     {
-        UnZipEvent event = new UnZipEvent( zipEntry );
-        Object[] listeners = listenerList.getListenerList();
+        UnZipEvent event     = new UnZipEvent( zipEntry, file );
+        Object[]   listeners = listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
-            if (listeners[i] == UnZipListener.class) {
+            if( listeners[i] == UnZipListener.class ) {
                 ((UnZipListener)listeners[i + 1]).entryAdded( event );
                 }
             }

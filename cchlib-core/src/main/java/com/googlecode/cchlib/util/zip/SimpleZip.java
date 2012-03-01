@@ -14,8 +14,10 @@ import java.util.zip.ZipOutputStream;
 import javax.swing.event.EventListenerList;
 
 /**
- * TODOC
- *
+ * {@link SimpleZip} is a fronted of {@link ZipOutputStream}
+ * to add all content of a specified directory to an
+ * {@link OutputStream} (see {@link #addFolder(File, Wrappable)})
+ * but can also be use to create an archive with a only some files.
  */
 public class SimpleZip
     implements  Closeable
@@ -104,28 +106,28 @@ public class SimpleZip
     public void setMethod( final int method )
         throws IllegalArgumentException
     {
-        zos.setMethod(method);
+        zos.setMethod( method );
     }
 
     /**
-     * TODOC
+     * Add {@link SimpleZipEntry} to {@link SimpleZip}
      *
-     * @param simpleZipEntry
+     * @param sze {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
-    public void add(
-        final SimpleZipEntry sze
-        ) throws IOException
+    public void add( final SimpleZipEntry sze ) throws IOException
     {
         this.fireEntryPostProcessing( sze );
 
         zos.putNextEntry( sze.getZipEntry() );
 
         if( !sze.getZipEntry().isDirectory() ) {
-            BufferedInputStream bis = new BufferedInputStream( sze.createInputStream() );
-            int len;
-
+            BufferedInputStream bis = new BufferedInputStream(
+                    sze.createInputStream()
+                    );
             try {
+                int len;
+
                 while( (len = bis.read(buffer, 0, buffer.length)) != -1 ) {
                     zos.write(buffer, 0, len);
                     }
@@ -142,9 +144,10 @@ public class SimpleZip
     }
 
     /**
-     * TODOC
+     * Add all {@link SimpleZipEntry} of giving {@link Iterable}
+     * object to {@link SimpleZip}
      *
-     * @param c
+     * @param c {@link Iterable} of {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
     public void addAll( Iterable<SimpleZipEntry> c )
@@ -154,12 +157,13 @@ public class SimpleZip
     }
 
     /**
-     * TODOC
+     * Add all {@link SimpleZipEntry} of giving {@link Iterator}
+     * object to {@link SimpleZip}
      *
-     * @param iterator
+     * @param iterator {@link Iterator} of {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
-    public void addAll( Iterator<SimpleZipEntry> iterator )
+    protected void addAll( final Iterator<SimpleZipEntry> iterator )
         throws IOException
     {
         while( iterator.hasNext() ) {
@@ -168,15 +172,18 @@ public class SimpleZip
     }
 
     /**
-     * TODOC
+     * Add all content of a specified directory to {@link SimpleZip}
      *
-     * @param folderFile
-     * @param wrapper
+     * @param folderFile Home directory that will be archived
+     * @param wrapper	 {@link Wrappable} object able to transform
+     *                   any {@link File} found under giving directory
+     *                   to a {@link SimpleZipEntry}.
      * @throws IOException if any I/O occur
+     * @see DefaultSimpleZipWrapper
      */
     public void addFolder(
-            File                            folderFile,
-            Wrappable<File,SimpleZipEntry>  wrapper
+            final File                            folderFile,
+            final Wrappable<File,SimpleZipEntry>  wrapper
             )
         throws IOException
     {
