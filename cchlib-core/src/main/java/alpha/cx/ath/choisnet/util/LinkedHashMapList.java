@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util;
+package alpha.cx.ath.choisnet.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

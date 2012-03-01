@@ -1,10 +1,6 @@
-/**
- * 
- */
-package cx.ath.choisnet.util.testcase;
+package alpha.cx.ath.choisnet.util;
 
 import java.util.Iterator;
-import cx.ath.choisnet.util.LinkedHashMapList;
 import junit.framework.TestCase;
 
 /**

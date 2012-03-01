@@ -1,7 +1,4 @@
-/**
- *
- */
-package cx.ath.choisnet.util;
+package alpha.cx.ath.choisnet.util;
 
 import java.util.AbstractCollection;
 import java.util.Collection;

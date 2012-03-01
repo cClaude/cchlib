@@ -1,7 +1,4 @@
-/**
- * 
- */
-package cx.ath.choisnet.util;
+package alpha.cx.ath.choisnet.util;
 
 import java.io.Serializable;
 import java.util.Collection;
