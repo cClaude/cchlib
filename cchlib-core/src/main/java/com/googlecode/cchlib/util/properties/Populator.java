@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 
 /**
- * Field annotation for {@link PropertierPopulator}
+ * Field annotation for {@link PropertiesPopulator}
  *
  * @see PropertiesHelper
  */

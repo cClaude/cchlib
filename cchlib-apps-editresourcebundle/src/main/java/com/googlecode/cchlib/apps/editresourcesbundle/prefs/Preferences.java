@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertierPopulator;
+import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 /**
@@ -24,7 +24,7 @@ public class Preferences
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
-    private PropertierPopulator<Preferences> pp = new PropertierPopulator<>(Preferences.class);
+    private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
     @Populator private String lookAndFeelClassName;
     @Populator private String localeLanguage;

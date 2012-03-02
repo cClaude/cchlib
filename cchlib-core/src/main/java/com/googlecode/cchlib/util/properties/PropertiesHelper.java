@@ -9,7 +9,7 @@ import java.io.Writer;
 import java.util.Properties;
 
 /**
- * TODOC
+ * Extra tools for {@link Properties}.
  */
 public class PropertiesHelper
 {
