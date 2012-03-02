@@ -1,7 +1,4 @@
-/**
- * 
- */
-package cx.ath.choisnet.swing.introspection.testcase;
+package cx.ath.choisnet.swing.introspection;
 
 import java.text.ParseException;
 import java.util.Map;

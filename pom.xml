@@ -11,6 +11,7 @@
 
   <!-- Global properties -->
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <build.date>${maven.build.timestamp}</build.date>
@@ -158,6 +159,7 @@
   <!-- Sub projects -->
   <modules>
     <module>cchlib-core</module>
+    <module>cchlib-swing</module>
     <module>cchlib-j2ee</module>
     <module>cchlib-jdbf</module>
 

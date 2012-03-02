@@ -1,7 +1,7 @@
 /**
  *
  */
-package cx.ath.choisnet.swing.introspection.testcase;
+package cx.ath.choisnet.swing.introspection;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

@@ -109,13 +109,15 @@ PROJECTS="cchlib-core
 cchlib-j2ee
 cchlib-jdbf
 cchlib-sys
+cchlib-swing
 cchlib-apps
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
 cchlib-j2ee
 cchlib-jdbf
-cchlib-sys"
+cchlib-sys
+cchlib-swing"
 
 PROJECTS_SUB_CCHLIB_CORE="cchlib-core-deprecated
 cchlib-core-sample"

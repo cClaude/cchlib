@@ -105,7 +105,10 @@ public class Version
 
             System.out.println( instance );
             }
-        catch( IOException | ParseException e ) {
+        catch( IOException e ) {
+            e.printStackTrace( System.err );
+            }
+        catch( ParseException e ) {
             e.printStackTrace( System.err );
             }
     }

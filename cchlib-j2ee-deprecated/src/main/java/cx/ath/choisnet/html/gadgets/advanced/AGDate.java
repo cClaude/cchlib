@@ -1,7 +1,5 @@
 package cx.ath.choisnet.html.gadgets.advanced;
 
-import cx.ath.choisnet.util.datetime.BasicDate;
-import cx.ath.choisnet.util.datetime.BasicDateException;
 import java.util.Locale;
 import javax.servlet.ServletRequest;
 import cx.ath.choisnet.html.AbstractFormHTML;
@@ -13,6 +11,8 @@ import cx.ath.choisnet.html.gadgets.advanced.items.SelectDay;
 import cx.ath.choisnet.html.gadgets.advanced.items.SelectMonth;
 import cx.ath.choisnet.html.gadgets.advanced.items.SelectYear;
 import cx.ath.choisnet.html.javascript.AbstractJavascript;
+import cx.ath.choisnet.util.datetime.BasicDate;
+import cx.ath.choisnet.util.datetime.BasicDateException;
 
 public class AGDate extends AbstractGadget
     implements AbstractFormHTML
