@@ -116,11 +116,19 @@ public class ParentAccess<C> implements Serializable
         try {
             setObject(thisObject, fieldName, value);
             }
-        catch (NoSuchFieldException | SecurityException
-                | IllegalArgumentException | IllegalAccessException e)
-        {
+        catch (NoSuchFieldException /*| SecurityException
+                | IllegalArgumentException | IllegalAccessException*/ e ) {
             throw new ParentAccessException( e );
-        }
+            }
+        catch (SecurityException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalArgumentException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalAccessException e) {
+            throw new ParentAccessException( e );
+            }
     }
 
     public <T> T getObject(
@@ -154,8 +162,17 @@ public class ParentAccess<C> implements Serializable
         try {
             return this.getObject( thisObject, fieldName, returnClass );
             }
-        catch( NoSuchFieldException | SecurityException
-                | IllegalArgumentException | IllegalAccessException e) {
+        catch( NoSuchFieldException /*| SecurityException
+                | IllegalArgumentException | IllegalAccessException*/ e) {
+            throw new ParentAccessException( e );
+            }
+        catch (SecurityException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalArgumentException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalAccessException e) {
             throw new ParentAccessException( e );
             }
     }
@@ -199,9 +216,21 @@ public class ParentAccess<C> implements Serializable
         try {
             return call( thisObject, resultClass, methodName, values );
             }
-        catch( NoSuchMethodException | SecurityException
+        catch( NoSuchMethodException /* | SecurityException
                 | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e ) {
+                | InvocationTargetException*/ e ) {
+            throw new ParentAccessException( e );
+            }
+        catch (SecurityException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalAccessException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (IllegalArgumentException e) {
+            throw new ParentAccessException( e );
+            }
+        catch (InvocationTargetException e) {
             throw new ParentAccessException( e );
             }
     }

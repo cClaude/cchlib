@@ -47,22 +47,6 @@ public class BadFileFormatException extends Exception
     }
 
     /**
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
-     */
-    public BadFileFormatException(
-            String message,
-            Throwable cause,
-            boolean enableSuppression,
-            boolean writableStackTrace
-            )
-    {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    /**
      * Create a BadFileFormatException for a specified file
      * @param file File that cause this exception
      */

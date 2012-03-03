@@ -570,85 +570,73 @@ final public class DuplicateFilesFrame
                 @Override
                 public void actionPerformed( ActionEvent event )
                 {
-                    switch( event.getActionCommand() ) {
-                        case ACTIONCMD_EXIT :
-                            exitApplication();
-                            break;
+                    final String c = event.getActionCommand();
 
-                        case ACTIONCMD_RESTART :
-                            if( getJButtonRestart().isEnabled() ) {
-                                if( state == STATE_CONFIRM ) {
-                                    state = STATE_RESULTS;
-                                    }
-                                else {
-                                    state = STATE_SELECT_DIRS;
-                                    getJPanel2Searching().clear();
-                                    }
-
-                                updateDisplayAccordingState();
+                    if( ACTIONCMD_EXIT.equals( c ) ) {
+                        exitApplication();
+                        }
+                    else if( ACTIONCMD_RESTART.equals( c ) ) {
+                        if( getJButtonRestart().isEnabled() ) {
+                            if( state == STATE_CONFIRM ) {
+                                state = STATE_RESULTS;
                                 }
-                            break;
-
-                        case ACTIONCMD_NEXT:
-                            jButtonNextStep_ActionPerformed();
-                            break;
-
-                        case ACTIONCMD_DELETE_EMPTY_DIRECTORIES :
-                            jMenuItemDeleteEmptyDirectories_ActionPerformed();
-                            break;
-
-                        case ACTIONCMD_CANCEL :
-                            if( getJButtonCancel().isEnabled() ) {
-                                getJButtonCancel().setEnabled( false );
-                                getJPanel2Searching().cancelProcess();
+                            else {
+                                state = STATE_SELECT_DIRS;
+                                getJPanel2Searching().clear();
                                 }
-                            break;
 
-                        case ACTIONCMD_SET_LOCALE :
-                            {
-                            AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
-                            logger.debug( "source: " + sourceLocale );
-
-                            Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
-                            logger.debug( "locale: " + locale );
-
-                            getDFToolKit().getPreferences().setLocale( locale );
-
-                            setGuiLocale( locale );
+                            updateDisplayAccordingState();
                             }
-                            break;
-
-                        case ACTIONCMD_SET_MODE :
-                            {
-                            AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
-                            logger.debug( "source: " + sourceConfigMode );
-
-                            preferences.setConfigMode(
-                                ConfigMode.class.cast(
-                                    sourceConfigMode.getClientProperty( ConfigMode.class )
-                                    )
-                                );
-                            logger.debug( "ConfigMode:" + preferences.getConfigMode() );
-
-                            getJPanel1Config().updateDisplay( true );
-                            getJPanel3Result().updateDisplay();
-                            //TODO: more panel ?
+                        }
+                    else if( ACTIONCMD_NEXT.equals( c ) ) {
+                        jButtonNextStep_ActionPerformed();
+                        }
+                    else if( ACTIONCMD_DELETE_EMPTY_DIRECTORIES.equals( c ) ) {
+                        jMenuItemDeleteEmptyDirectories_ActionPerformed();
+                        }
+                    else if( ACTIONCMD_CANCEL.equals( c ) ) {
+                        if( getJButtonCancel().isEnabled() ) {
+                            getJButtonCancel().setEnabled( false );
+                            getJPanel2Searching().cancelProcess();
                             }
-                            break;
+                        }
+                    else if( ACTIONCMD_SET_LOCALE.equals( c ) ) {
+                        AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
+                        logger.debug( "source: " + sourceLocale );
 
-                        case ACTIONCMD_SAVE_PREFS :
-                            new Thread( new Runnable() {
-                                @Override
-                                public void run()
-                                {
-                                    saveCurrentPreferences();
-                                }} ).start();
-                            break;
+                        Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
+                        logger.debug( "locale: " + locale );
 
-                        default:
-                            logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
-                            break;
-                    }
+                        getDFToolKit().getPreferences().setLocale( locale );
+
+                        setGuiLocale( locale );
+                        }
+                    else if( ACTIONCMD_SET_MODE.equals( c ) ) {
+                        AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
+                        logger.debug( "source: " + sourceConfigMode );
+
+                        preferences.setConfigMode(
+                            ConfigMode.class.cast(
+                                sourceConfigMode.getClientProperty( ConfigMode.class )
+                                )
+                            );
+                        logger.debug( "ConfigMode:" + preferences.getConfigMode() );
+
+                        getJPanel1Config().updateDisplay( true );
+                        getJPanel3Result().updateDisplay();
+                        //TODO: more panel ?
+                        }
+                    else if ( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
+                        new Thread( new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                saveCurrentPreferences();
+                            }} ).start();
+                        }
+                    else {
+                        logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
+                        }
                 }
             };
         }

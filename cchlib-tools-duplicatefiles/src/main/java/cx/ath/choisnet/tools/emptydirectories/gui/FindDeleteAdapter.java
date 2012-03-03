@@ -1,6 +1,8 @@
 package cx.ath.choisnet.tools.emptydirectories.gui;
 
 import java.io.File;
+import java.util.Enumeration;
+
 import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
@@ -14,7 +16,7 @@ import cx.ath.choisnet.util.CancelRequestException;
 public class FindDeleteAdapter
 {
     private final static Logger logger = Logger.getLogger( FindDeleteAdapter.class );
-    private DefaultListModel<File> listModel;
+    private DefaultListModel/*<File>*/ listModel;
     private FileTreeModelable treeModel;
     private FindDeleteListener listener;
     private boolean isCancel;
@@ -23,20 +25,20 @@ public class FindDeleteAdapter
      *
      */
     public FindDeleteAdapter(
-        final DefaultListModel<File>	listModel,
-        final FileTreeModelable 		treeModel,
-        final FindDeleteListener		listener
+        final DefaultListModel/*<File>*/    listModel,
+        final FileTreeModelable         treeModel,
+        final FindDeleteListener        listener
         )
     {
         if( listModel == null ) {
-        	throw new IllegalArgumentException( "listModel" );
-        	}
+            throw new IllegalArgumentException( "listModel" );
+            }
         if( treeModel == null ) {
-        	throw new IllegalArgumentException( "treeModel" );
-        	}
+            throw new IllegalArgumentException( "treeModel" );
+            }
         if( listener == null ) {
-        	throw new IllegalArgumentException( "listener" );
-        	}
+            throw new IllegalArgumentException( "listener" );
+            }
 
         this.listModel = listModel;
         this.treeModel = treeModel;
@@ -60,24 +62,23 @@ public class FindDeleteAdapter
         logger.info( "doFind() thread started" );
 
         this.isCancel = false;
-//
-//        super.getBtnAddRootDirectory().setEnabled( false );
-//        super.getBtnStartScan().setEnabled( false );
-//        super.getBtnCancel().setEnabled( true );
-//        super.getBtnStartDelete().setEnabled( false );
-//        super.getBtnSelectAll().setEnabled( false );
-//        super.getBtnUnselectAll().setEnabled( false );
-//        super.getJListRootDirectories().setEnabled( false );
-//        super.getJListRootDirectories().clearSelection();
-//        //super.getJListRootDirectories().setSelectedIndices( new int[0] );
-//        super.getProgressBar().setIndeterminate( true );
 
-        // Create a JTree and tell it to display our model
-//        final JTree                     jTreeDir        = getJTreeEmptyDirectories();
-
-//        final DefaultListModel<File>    jListRootModel  = super.getJListRootDirectoriesModel();
-//        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( jListRootModel.elements() );
-        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( listModel.elements() );
+        /*final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( listModel.elements() );*/
+        Enumeration<File> list = new Enumeration<File>()
+            {
+            Enumeration<?> l = listModel.elements();
+            @Override
+            public boolean hasMoreElements()
+            {
+                return l.hasMoreElements();
+            }
+            @Override
+            public File nextElement()
+            {
+                return (File)l.nextElement();
+            }
+        };
+        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( list );
         final UpdateJTreeListeners      listener        = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
@@ -98,8 +99,8 @@ public class FindDeleteAdapter
                     emptyDirs.find();
 
                     logger.info(
-                    	"treeModel.size(): " + treeModel == null ? null : treeModel.size()
-                    	);
+                        "treeModel.size(): " + treeModel == null ? null : treeModel.size()
+                        );
                     }
                 catch( CancelRequestException e )  {
                     logger.info( "Cancel received" );

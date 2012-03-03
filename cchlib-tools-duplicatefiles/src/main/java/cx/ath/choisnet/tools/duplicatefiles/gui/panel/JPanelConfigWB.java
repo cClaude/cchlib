@@ -21,8 +21,8 @@ import com.googlecode.cchlib.i18n.I18nSwingHelper;
 public abstract class JPanelConfigWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private JComboBox<String> jComboBoxFilesFilters;
-    private JComboBox<String> jComboBoxDirsFilters;
+    private JComboBox/*<String>*/ jComboBoxFilesFilters;
+    private JComboBox/*<String>*/ jComboBoxDirsFilters;
     protected JCheckBox jCheckBoxFFIgnoreHidden;
     protected JCheckBox jCheckBoxFDIgnoreHidden;
     protected JCheckBox jCheckBoxIgnoreReadOnlyFiles;
@@ -191,18 +191,18 @@ public abstract class JPanelConfigWB extends JPanel
     /**
      * @wbp.factory
      */
-    public static JComboBox<String> createJComboBoxString()
+    public static JComboBox/*<String>*/ createJComboBoxString()
     {
-        JComboBox<String> comboBox = new JComboBox<String>();
+        JComboBox/*<String>*/ comboBox = new JComboBox/*<String>*/();
         return comboBox;
     }
 
-    protected JComboBox<String> getJComboBoxFilesFilters()
+    protected JComboBox/*<String>*/ getJComboBoxFilesFilters()
     {
         return jComboBoxFilesFilters;
     }
 
-    protected JComboBox<String> getJComboBoxDirsFilters()
+    protected JComboBox/*<String>*/ getJComboBoxDirsFilters()
     {
         return jComboBoxDirsFilters;
     }

@@ -12,12 +12,12 @@ import java.util.NoSuchElementException;
  * This new Iterator that consume all sub-Iterator in
  * order of main Iterator for it's
  * results (Order is preserve).
- * 
+ *
  * <BR/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
  * @author Claude CHOISNET
- * @param <T> 
+ * @param <T>
  * @see CascadingIterator
  */
 public class MultiIterator<T> extends ComputableIterator<T>
@@ -26,7 +26,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     private Iterator<? extends T>                           currentIterator;
 
     /**
-     * 
+     *
      * @param iteratorOfIterator
      */
     public MultiIterator(Iterator<? extends Iterator<? extends T>> iteratorOfIterator)
@@ -36,7 +36,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     * 
+     *
      * @param collectionOfIterator
      */
     public MultiIterator(Collection<? extends Iterator<? extends T>> collectionOfIterator)
@@ -45,12 +45,12 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     * 
+     *
      * @param iter0
      * @param iter1
      */
     public MultiIterator(
-            Iterator<? extends T> iter0, 
+            Iterator<? extends T> iter0,
             Iterator<? extends T> iter1
             )
     {
@@ -63,7 +63,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     * 
+     *
      * @param iter
      * @param element
      */
@@ -74,12 +74,12 @@ public class MultiIterator<T> extends ComputableIterator<T>
         List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
         listOfIterator.add( iter );
         listOfIterator.add( new SingletonIterator<T>(element) );
-        
+
         metaIterator = listOfIterator.iterator();
     }
 
     /**
-     * 
+     *
      * @param element
      * @param iter
      */
@@ -90,16 +90,16 @@ public class MultiIterator<T> extends ComputableIterator<T>
         List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
         listOfIterator.add(new SingletonIterator<T>(element));
         listOfIterator.add(iter);
-        
+
         metaIterator = listOfIterator.iterator();
     }
 
     /**
-     * 
+     *
      * @param arrayOfIterator
      */
-    @SafeVarargs
-	public MultiIterator(
+    //@SafeVarargs
+    public MultiIterator(
             Iterator<? extends T>...arrayOfIterator
             )
     {
@@ -107,14 +107,14 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     * 
+     *
      * @param arrayOfIterator
      * @param offset
      * @param len
      */
     public MultiIterator(
-            Iterator<? extends T>[] arrayOfIterator, 
-            int                     offset, 
+            Iterator<? extends T>[] arrayOfIterator,
+            int                     offset,
             int                     len
             )
     {
@@ -122,7 +122,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
             new ArrayIterator<Iterator<? extends T>>(arrayOfIterator, offset, len)
             );
     }
-    
+
     @Override
     protected T computeNext()throws NoSuchElementException
     {
@@ -147,10 +147,10 @@ public class MultiIterator<T> extends ComputableIterator<T>
 
 //    /**
 //     * Removes from the underlying collection the last element
-//     * returned by the iterator. 
-//     * 
+//     * returned by the iterator.
+//     *
 //     * @throws UnsupportedOperationException if the remove
-//     *         operation is not supported by current Iterator. 
+//     *         operation is not supported by current Iterator.
 //     * @throws IllegalStateException if the next method has
 //     *         not yet been called, or the remove method has
 //     *         already been called after the last call to the

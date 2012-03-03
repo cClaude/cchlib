@@ -15,7 +15,7 @@ public class PreferencesImpl implements Preferences
     private static final long serialVersionUID = 1L;
     private ConfigMode userLevel;
     private String lookAndFeelName;
-    private ArrayList<RootFile> rootFileList = new ArrayList<>();
+    private ArrayList<RootFile> rootFileList = new ArrayList<RootFile>();
     private Locale locale;
 
     /**

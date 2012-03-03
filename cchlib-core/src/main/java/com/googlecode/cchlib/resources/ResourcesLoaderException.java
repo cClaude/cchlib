@@ -54,25 +54,4 @@ public class ResourcesLoaderException extends Exception
     {
         super( message, cause );
     }
-
-    /**
-     * Constructs a new exception with the specified detail message,
-     * cause, suppression enabled or disabled, and writable
-     * stack trace enabled or disabled.
-     * 
-     * @param message the detail message.
-     * @param cause the cause. (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled or disabled
-     * @param writableStackTrace whether or not the stack trace should be writable
-     */
-    public ResourcesLoaderException(
-            final String    message,
-            final Throwable cause,
-            final boolean   enableSuppression,
-            final boolean   writableStackTrace 
-            )
-    {
-        super( message, cause, enableSuppression, writableStackTrace );
-    }
-
 }

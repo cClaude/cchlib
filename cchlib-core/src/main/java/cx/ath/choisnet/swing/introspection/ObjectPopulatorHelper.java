@@ -122,7 +122,7 @@ public class ObjectPopulatorHelper
             value = new Boolean( f.isSelected() );
         }
         else if( fieldObject instanceof JComboBox ) {
-            JComboBox<?> f = JComboBox.class.cast( fieldObject );
+            JComboBox/*<?>*/ f = JComboBox.class.cast( fieldObject );
             // Value is a relative value !
             int    index = f.getSelectedIndex();
             Object min   = iItem.getMinValue();

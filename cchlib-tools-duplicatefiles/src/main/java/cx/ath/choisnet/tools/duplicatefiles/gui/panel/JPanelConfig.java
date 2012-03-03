@@ -166,7 +166,7 @@ public class JPanelConfig
         if( isModeChanged ) {
             if( mode == ConfigMode.BEGINNER ) {
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableFilesFilters
                                 }
@@ -174,7 +174,7 @@ public class JPanelConfig
                         );
                 getJComboBoxFilesFilters().setEnabled( false );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableDirsFilters
                                 }
@@ -184,7 +184,7 @@ public class JPanelConfig
                 }
             else if( mode == ConfigMode.ADVANCED ) {
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableFilesFilters,
                                 txtIncludeFilesFilters,
@@ -194,7 +194,7 @@ public class JPanelConfig
                         );
                 getJComboBoxFilesFilters().setEnabled( true );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableDirsFilters
                                 }
@@ -204,7 +204,7 @@ public class JPanelConfig
                 }
             else { // if( mode == ConfigMode.EXPERT )
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableFilesFilters,
                                 txtIncludeFilesFilters,
@@ -214,7 +214,7 @@ public class JPanelConfig
                         );
                 getJComboBoxFilesFilters().setEnabled( true );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel/*<String>*/(
                             new String[] {
                                 txtDisableDirsFilters,
                                 txtExcludeDirsFilters,

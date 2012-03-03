@@ -156,8 +156,9 @@ public class DataSourceFactory
             {
                 throw new SQLException( "unwrap() not supported" );
             }
-            @Override
-            public Logger getParentLogger()
+            //@Override
+            @SuppressWarnings("unused")
+			public Logger getParentLogger()
                     throws SQLFeatureNotSupportedException
             {
                 // TODO: try to implement this.

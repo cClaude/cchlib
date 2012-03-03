@@ -64,17 +64,17 @@ public class JPanelResult extends JPanel
 
     private JSplitPane jSplitPaneResultMain;
     private JSplitPane jSplitPaneResultRight;
-    private JList<KeyFiles>     jListDuplicatesFiles;
-    private JList<KeyFileState> jListKeptIntact;
-    private JList<KeyFileState> jListWillBeDeleted;
+    private JList/*<KeyFiles>*/     jListDuplicatesFiles;
+    private JList/*<KeyFileState>*/ jListKeptIntact;
+    private JList/*<KeyFileState>*/ jListWillBeDeleted;
 
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
 
     private HashMapSet<String,KeyFileState>     duplicateFiles;// = new HashMapSet<String,KeyFileState>();
-    private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
-    private DefaultListModel<KeyFileState>      listModelKeptIntact         = new DefaultListModel<KeyFileState>();
-    private DefaultListModel<KeyFileState>      listModelWillBeDeleted      = new DefaultListModel<KeyFileState>();
+    private DefaultListModel/*<KeyFiles>*/          listModelDuplicatesFiles    = new DefaultListModel/*<KeyFiles>*/();
+    private DefaultListModel/*<KeyFileState>*/      listModelKeptIntact         = new DefaultListModel/*<KeyFileState>*/();
+    private DefaultListModel/*<KeyFileState>*/      listModelWillBeDeleted      = new DefaultListModel/*<KeyFileState>*/();
 
     private ActionListener      actionListenerContextSubMenu;
     private final static String ACTION_OBJECT                            = "KeyFile";
@@ -303,7 +303,7 @@ public class JPanelResult extends JPanel
 
         xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
         xComboBoxPatternRegEx.setModel(
-            new DefaultComboBoxModel<String>(new String[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
+            new DefaultComboBoxModel/*<String>*/(new Object/*String*/[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
             );
 
         updateDisplay();
@@ -379,13 +379,13 @@ public class JPanelResult extends JPanel
             jSplitPaneResultRight.setDividerLocation(100);
             jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
             JScrollPane jScrollPaneKeptIntact = new JScrollPane();
-            jListKeptIntact = new JList<KeyFileState>();
+            jListKeptIntact = new JList/*<KeyFileState>*/();
 
             jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
             jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
 
             JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
-            jListWillBeDeleted = new JList<KeyFileState>();
+            jListWillBeDeleted = new JList/*<KeyFileState>*/();
             jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
 
             jSplitPaneResultRight.setBottomComponent( jScrollPaneWillBeDeleted );
@@ -393,10 +393,10 @@ public class JPanelResult extends JPanel
         return jSplitPaneResultRight;
     }
 
-    private JList<KeyFiles> getJListDuplicatesFiles()
+    private JList/*<KeyFiles>*/ getJListDuplicatesFiles()
     {
         if (jListDuplicatesFiles == null) {
-            jListDuplicatesFiles = new JList<KeyFiles>();
+            jListDuplicatesFiles = new JList/*<KeyFiles>*/();
             jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -438,7 +438,7 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>    m,
+            JPopupMenuForJList/*<KeyFileState>*/    m,
             JPopupMenu                          parentMenu,
             JMenuItem                           menu,
             String                              actionCommand,
@@ -456,7 +456,7 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>    m,
+            JPopupMenuForJList/*<KeyFileState>*/    m,
             JMenu                               parentMenu,
             String                              actionCommand,
             KeyFileState                        kf
@@ -473,7 +473,7 @@ public class JPanelResult extends JPanel
     }
 
     private void addContextSubMenuActionCommandRec(
-            JPopupMenuForJList<KeyFileState>      m,
+            JPopupMenuForJList/*<KeyFileState>*/      m,
             JPopupMenu                          parentMenu,
             JMenu                               menu,
             String                              actionCommand,
@@ -590,9 +590,9 @@ public class JPanelResult extends JPanel
         createPopupMenus( jListWillBeDeleted );
     }
 
-    private void createPopupMenus( final JList<KeyFileState> jList )
+    private void createPopupMenus( final JList/*<KeyFileState>*/ jList )
     {
-        final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList )
+        final JPopupMenuForJList/*<KeyFileState>*/ m = new JPopupMenuForJList/*<KeyFileState>*/( jList )
         {
             @Override
             protected JPopupMenu createContextMenu( final int rowIndex )

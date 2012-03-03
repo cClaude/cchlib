@@ -28,7 +28,7 @@ public class MPECVSContactList
     public static final char CSV_SEPARATOR = ',';
     public static final String CHARSET="UTF8";
     private MPECVSContactProperties contactProperties;
-    private List<Contact> contactList = new ArrayList<>();
+    private List<Contact> contactList = new ArrayList<Contact>();
 
     /**
      *
@@ -39,9 +39,9 @@ public class MPECVSContactList
      * @throws BadFileFormatException
      */
     public MPECVSContactList(
-            final File 		myPhoneExplorerCVSFile,
-            final String	charsetName,
-            final char 		cvsSeparator
+            final File         myPhoneExplorerCVSFile,
+            final String    charsetName,
+            final char         cvsSeparator
             )
             throws IOException, BadFileFormatException
     {
@@ -60,9 +60,9 @@ public class MPECVSContactList
      * @throws IOException
      */
     public MPECVSContactList(
-        final File 		myPhoneExplorerCVSFile,
-        final Charset	charset,
-        final char 		cvsSeparator
+        final File         myPhoneExplorerCVSFile,
+        final Charset    charset,
+        final char         cvsSeparator
         )
         throws IOException, BadFileFormatException
     {

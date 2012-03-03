@@ -28,13 +28,4 @@ public class UnsupportedSystemException extends Exception
     {
         super( message, cause );
     }
-
-    public UnsupportedSystemException(
-            String message,
-            Throwable cause,
-            boolean enableSuppression,
-            boolean writableStackTrace )
-    {
-        super( message, cause, enableSuppression, writableStackTrace );
-    }
 }

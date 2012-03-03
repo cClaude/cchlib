@@ -10,9 +10,9 @@ import java.util.LinkedList;
 public abstract class AbstractContactPropertiesBuilder
     implements ContactPropertiesBuilder
 {
-    private final LinkedList<String> 			nameList	= new LinkedList<>();
-    private final LinkedList<ContactValueType> 	typeList	= new LinkedList<>();
-    private final LinkedList<String> 			defaultList = new LinkedList<>();
+    private final LinkedList<String> 			nameList	= new LinkedList<String>();
+    private final LinkedList<ContactValueType> 	typeList	= new LinkedList<ContactValueType>();
+    private final LinkedList<String> 			defaultList = new LinkedList<String>();
 
     /**
      * Use {@link #setContactProperty(int, String, ContactValueType, String)}

@@ -27,7 +27,8 @@ public class DefaultContactProperties
     private final String[]				defaultValues;
     private final List<String>			defaultValueList;
 
-    private Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
+    private Map<ContactValueType,Collection<Integer>> typeIndexMap 
+    	= new HashMap<ContactValueType,Collection<Integer>>();
 
     /**
      *
@@ -42,7 +43,7 @@ public class DefaultContactProperties
         this.names 				= new String[ size ];
         this.types 				= new ContactValueType[ size ];
         this.defaultValues 		= new String[ size ];
-        this.defaultValueList 	= new ArrayList<>( size );
+        this.defaultValueList 	= new ArrayList<String>( size );
 
         final Iterator<? extends String> 			iterName 	 = nameCollection.iterator();
         final Iterator<? extends ContactValueType> 	iterType 	 = builder.getTypes().iterator();
@@ -130,7 +131,7 @@ public class DefaultContactProperties
         Collection<Integer> c = this.typeIndexMap.get( type );
 
         if( c == null ) {
-            c = new ArrayList<>();
+            c = new ArrayList<Integer>();
 
             // Compute value
             for( int i = 0; i<this.types.length; i++ ) {

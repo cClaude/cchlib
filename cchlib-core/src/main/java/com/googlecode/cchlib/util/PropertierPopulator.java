@@ -21,7 +21,7 @@ public class PropertierPopulator<E>
      */
     public PropertierPopulator( Class<? extends E> clazz )
     {
-        this.keyFieldSet     = new HashSet<>();
+        this.keyFieldSet     = new HashSet<Field>();
         Field[] fields  = clazz.getDeclaredFields();
 
         for( Field f : fields ) {
@@ -52,7 +52,11 @@ public class PropertierPopulator<E>
                     properties.put( f.getName(), o.toString() );
                     }
                 }
-            catch( IllegalArgumentException | IllegalAccessException e ) {
+            catch( IllegalArgumentException /*| IllegalAccessException*/ e ) {
+                // ignore !
+                logger .warn( "Cannot read field:" + f, e );
+                }
+            catch (IllegalAccessException e) {
                 // ignore !
                 logger .warn( "Cannot read field:" + f, e );
                 }
@@ -123,10 +127,14 @@ public class PropertierPopulator<E>
             catch( NumberFormatException e ) {
                 logger.warn( "Cannot set field:" + f );
                 }
-            catch( IllegalArgumentException | IllegalAccessException e ) {
+            catch( IllegalArgumentException /*| IllegalAccessException*/ e ) {
                 // ignore !
                 logger.error( "Cannot set field:" + f, e );
                 }
+             catch (IllegalAccessException e) {
+                 // ignore !
+                 logger.error( "Cannot set field:" + f, e );
+                 }
             }
     }
 

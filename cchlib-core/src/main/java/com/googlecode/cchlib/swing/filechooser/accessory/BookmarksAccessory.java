@@ -35,7 +35,7 @@ public class BookmarksAccessory
     /** @serial */
     private JScrollPane         	jScrollPane_Bookmarks;
     /** @serial */
-    private DefaultListModel<File> 	listModel_Bookmarks;
+    private DefaultListModel/*<File>*/ 	listModel_Bookmarks;
     /** @serial */
     private JButton             jButton_AddBookmarks;
     /** @serial */
@@ -61,7 +61,7 @@ public class BookmarksAccessory
 
         register();
 
-        listModel_Bookmarks  = new DefaultListModel<File>();
+        listModel_Bookmarks  = new DefaultListModel/*<File>*/();
 
         for(File f:config.getBookmarks()) {
             listModel_Bookmarks.addElement( f );
@@ -74,7 +74,7 @@ public class BookmarksAccessory
 
     private void initComponents()
     {
-        final JList<File> jList_Bookmarks = new JList<File>(listModel_Bookmarks);
+        final JList/*<File>*/ jList_Bookmarks = new JList/*<File>*/(listModel_Bookmarks);
         jList_Bookmarks.addMouseListener(
                 new MouseAdapter()
                 {

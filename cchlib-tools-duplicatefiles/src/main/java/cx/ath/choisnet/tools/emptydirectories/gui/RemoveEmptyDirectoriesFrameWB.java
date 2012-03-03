@@ -12,7 +12,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
-import java.io.File;
+//import java.io.File;
 import javax.swing.JTree;
 import javax.swing.JProgressBar;
 import javax.swing.border.SoftBevelBorder;
@@ -38,7 +38,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     private JProgressBar progressBar;
     private JSeparator separator;
     private JButton btnCancel;
-    private JList<File> jListRootDirectories;
+    private JList/*<File>*/ jListRootDirectories;
     private JScrollPane scrollPaneJList;
     private JScrollPane scrollPane_1;
 
@@ -296,21 +296,21 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     /**
      * @wbp.factory
      */
-    public static JList<File> createJList()
+    public static JList/*<File>*/ createJList()
     {
-        DefaultListModel<File>  model = new DefaultListModel<File>();
-        JList<File>             list = new JList<File>( model );
+        DefaultListModel/*<File>*/  model = new DefaultListModel/*<File>*/();
+        JList/*<File>*/             list = new JList/*<File>*/( model );
 
         return list;
     }
 
-    public DefaultListModel<File> getJListRootDirectoriesModel()
+    public DefaultListModel/*<File>*/ getJListRootDirectoriesModel()
     {
-        JList<File>     list    = getJListRootDirectories();
-        ListModel<File> lmodel = list.getModel();
+        JList/*<File>*/     list    = getJListRootDirectories();
+        ListModel/*<File>*/ lmodel = list.getModel();
 
-        @SuppressWarnings("unchecked")
-        DefaultListModel<File> model = DefaultListModel.class.cast( lmodel );
+        //@SuppressWarnings("unchecked")
+        DefaultListModel/*<File>*/ model = DefaultListModel.class.cast( lmodel );
         return model;
     }
 
@@ -332,7 +332,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     protected JTree getJTreeEmptyDirectories() {
         return jTreeEmptyDirectories;
     }
-    protected JList<File> getJListRootDirectories() {
+    protected JList/*<File>*/ getJListRootDirectories() {
         return jListRootDirectories;
     }
     protected JButton getBtnStartDelete() {

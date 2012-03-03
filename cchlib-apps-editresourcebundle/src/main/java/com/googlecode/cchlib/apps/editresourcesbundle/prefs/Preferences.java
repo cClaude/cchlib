@@ -24,7 +24,7 @@ public class Preferences
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
-    private PropertierPopulator<Preferences> pp = new PropertierPopulator<>(Preferences.class);
+    private PropertierPopulator<Preferences> pp = new PropertierPopulator<Preferences>(Preferences.class);
     private final File preferencesFile;
     @Populator private String lookAndFeelClassName;
     @Populator private String localeLanguage;
@@ -82,7 +82,7 @@ public class Preferences
     {
         return this.preferencesFile;
     }
-    
+
     /**
      * Returns default Preferences
      * @return default Preferences
@@ -154,20 +154,36 @@ public class Preferences
             lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
             }
 
+        Exception exception;
+
         try {
             logger.info( "trying to install look and feel: " + lnfClassname );
 
             UIManager.setLookAndFeel( lnfClassname );
+            exception = null;
             }
-        catch( ClassNotFoundException
+        catch( ClassNotFoundException/*
                 | InstantiationException
                 | IllegalAccessException
-                | UnsupportedLookAndFeelException e ) {
+                | UnsupportedLookAndFeelException*/ e ) {
+            exception = e;
+            }
+        catch (InstantiationException e) {
+            exception = e;
+            }
+        catch (IllegalAccessException e) {
+            exception = e;
+            }
+        catch (UnsupportedLookAndFeelException e) {
+            exception = e;
+            }
+
+        if( exception != null ) {
             final String msg = "Cannot install look and feel: " + lnfClassname;
 
-            logger.warn( msg, e );
+            logger.warn( msg, exception );
 
-            DialogHelper.showMessageExceptionDialog( null, msg, e );
+            DialogHelper.showMessageExceptionDialog( null, msg, exception );
             }
     }
 

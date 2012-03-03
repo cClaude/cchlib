@@ -25,7 +25,7 @@ public class Preferences implements Serializable
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
-    private PropertierPopulator<Preferences> pp = new PropertierPopulator<>(Preferences.class);
+    private PropertierPopulator<Preferences> pp = new PropertierPopulator<Preferences>(Preferences.class);
     private final File preferencesFile;
     @Populator private String lookAndFeelClassName;
     @Populator private String localeLanguage;

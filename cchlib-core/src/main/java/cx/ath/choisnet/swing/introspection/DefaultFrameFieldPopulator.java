@@ -211,7 +211,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
                 c.setText( iItemInteger.toString() );
             }
             else if( obj instanceof JComboBox ) {
-                JComboBox<?> c = JComboBox.class.cast( obj );
+                JComboBox/*<?>*/ c = JComboBox.class.cast( obj );
                 int index = iItemInteger - Integer.class.cast( iItem.getMinValue() );
                 c.setSelectedIndex( index );
             }

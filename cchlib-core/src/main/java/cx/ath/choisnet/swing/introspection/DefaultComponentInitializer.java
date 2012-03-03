@@ -61,7 +61,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
     throws SwingIntrospectorException
     {
         if( componentToInit instanceof JComboBox ) {
-            JComboBox<?> c = JComboBox.class.cast( componentToInit );
+            JComboBox/*<?>*/ c = JComboBox.class.cast( componentToInit );
 
             int maxValue  = Integer.class.cast( iItem.getMaxValue() );
             int maxLength = (int)Math.log10( maxValue );
@@ -169,7 +169,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
      * @param isRightAligned
      */
     public <E> void setModel(
-            final JComboBox<E>			combo,
+            final JComboBox/*<E>*/			combo,
             final IntrospectionItem<?>  iItem,
             final int                   minLength,
             final boolean               isRightAligned
@@ -178,15 +178,15 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
         int minValue = Integer.class.cast( iItem.getMinValue() );
         int maxValue = Integer.class.cast( iItem.getMaxValue() );
 
-        ComboBoxModel<String> model = new DefaultComboBoxModel<String>(
+        ComboBoxModel/*<String>*/ model = new DefaultComboBoxModel/*<String>*/(
                 //DeprecatedSwingHelpers.initObjectArray( minValue, maxValue, minLength, true )
                 //initObjectArray( minValue, maxValue, minLength, true )
                 initStringArray( minValue, maxValue, minLength, true )
                 );
 
         // Hack to change type, to initialize content with strings
-        @SuppressWarnings("unchecked")
-        JComboBox<String> comboString = (JComboBox<String>) combo;
+        /*@SuppressWarnings("unchecked")*/
+        JComboBox/*<String>*/ comboString = (JComboBox/*<String>*/) combo;
 
         comboString.setModel( model );
     }

@@ -54,7 +54,7 @@ class TstFrame
     private JLabel                      jLabel_JCheckBox;
     private JCheckBox                   jCheckBox_TestBoolean$root;
     private JLabel                      jLabel_JComboBox;
-    private JComboBox<String>           jComboBox_TestIntegerJComboBox$root;
+    private JComboBox/*<String>*/           jComboBox_TestIntegerJComboBox$root;
     private JLabel                      jLabel_TestIntegerJComboBox;
     private JLabel                      jLabel_JFormattedTextField;
     private JFormattedTextField         jFormattedTextField_TestFMTString$root;
@@ -364,10 +364,10 @@ class TstFrame
         return jSlider_TestIntegerJSlider$root;
     }
 
-    public JComboBox<String> getJComboBox_TestIntegerJComboBox() {
+    public JComboBox/*<String>*/ getJComboBox_TestIntegerJComboBox() {
     	if (jComboBox_TestIntegerJComboBox$root == null) {
-    		jComboBox_TestIntegerJComboBox$root = new JComboBox<String>();
-    		jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel<String>(new String[] { "item0", "item1", "item2", "item3" }));
+    		jComboBox_TestIntegerJComboBox$root = new JComboBox/*<String>*/();
+    		jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel/*<String>*/(new Object/*String*/[] { "item0", "item1", "item2", "item3" }));
     		jComboBox_TestIntegerJComboBox$root.setDoubleBuffered(false);
     		jComboBox_TestIntegerJComboBox$root.setBorder(null);
     		jComboBox_TestIntegerJComboBox$root.addItemListener(new ItemListener() {
@@ -525,9 +525,9 @@ class TstFrame
     {
        int    index = jComboBox_TestIntegerJComboBox$root.getSelectedIndex();
        //String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index ).toString();
-       String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index );
+       Object/*String*/ text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index );
 
-       jLabel_TestIntegerJComboBox.setText( text );
+       jLabel_TestIntegerJComboBox.setText( (String)text );
     }
 
     // scroll a combobox if it has the focus
@@ -540,7 +540,7 @@ class TstFrame
         System.out.printf( "mouseWheelMoved: %s\n", focusOwner );
 
         if( focusOwner instanceof JComboBox ) {
-				JComboBox<?> combo = JComboBox.class.cast( focusOwner );
+				JComboBox/*<?>*/ combo = JComboBox.class.cast( focusOwner );
 
                 if (e.getWheelRotation() < 0) {
                     // scroll up

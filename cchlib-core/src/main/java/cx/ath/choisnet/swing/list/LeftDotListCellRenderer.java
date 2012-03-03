@@ -29,7 +29,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
      * false or if JScrollPane is not found use JList to compute that size.
      */
     public LeftDotListCellRenderer(
-            final JList<?> jList,
+            final JList/*<?>*/ jList,
             final boolean  useParentJScrollPane
             )
     {
@@ -68,7 +68,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
     @Override
     public Component getListCellRendererComponent(
-            final JList<?>	list,
+            final JList/*<?>*/	list,
             final Object 	value,
             final int 		index,
             final boolean 	isSelected,

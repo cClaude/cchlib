@@ -20,7 +20,7 @@ public class DialogHelperTest
             }
 
         try {
-            Thread.sleep( 5_000 );
+            Thread.sleep( 5000 );
             }
         catch( InterruptedException ignore ) {}
     }
@@ -34,7 +34,7 @@ public class DialogHelperTest
             crashLoop( i+1 );
             }
     }
-    
+
     private static void crashTest() throws ClassNotFoundException
     {
         try {

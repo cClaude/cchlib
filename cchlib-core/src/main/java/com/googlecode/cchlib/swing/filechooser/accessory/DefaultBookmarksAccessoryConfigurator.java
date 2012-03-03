@@ -61,7 +61,7 @@ public class DefaultBookmarksAccessoryConfigurator
             final String    keysPropertyPrefix
             )
     {
-        this.bookmarks              = new ArrayList<>();
+        this.bookmarks              = new ArrayList<File>();
         this.configFileProperties   = configFileProperties;
         this.keysPropertyPrefix     = keysPropertyPrefix;
 

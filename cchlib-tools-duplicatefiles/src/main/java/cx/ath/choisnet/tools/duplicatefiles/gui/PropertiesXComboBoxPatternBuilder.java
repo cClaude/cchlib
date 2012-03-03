@@ -75,11 +75,11 @@ public class PropertiesXComboBoxPatternBuilder
 
         for( int i = 0; i<this.xComboBoxPattern.getItemCount(); i++ ) {
             final String key 	= keyPrefix + "." + i;
-            final String value	= this.xComboBoxPattern.getItemAt( i );
+            final Object/*String*/ value	= this.xComboBoxPattern.getItemAt( i );
 
             logger.info("save k=" + key + " v=" + value );
 
-            this.propertiesFile.setProperty( key, value );
+            this.propertiesFile.setProperty( key, (String)value );
             }
 
         this.propertiesFile.store( "" );

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.util;
 
@@ -19,14 +19,14 @@ import java.util.Vector;
  *          .xadd( new XVector&lt;Object&gt;( "ComputerBar" , new Float(60) ))
  *          ;
  * </pre>
- * 
+ *
  * @param <E> entries type
  *
  */
-public class XVector<E> extends Vector<E> 
+public class XVector<E> extends Vector<E>
 {
     private static final long serialVersionUID = 2L;
-     
+
     /**
      * Create an empty XVector
      */
@@ -37,7 +37,7 @@ public class XVector<E> extends Vector<E>
 
     /**
      * Create an XVector populate with given collection items
-     *  
+     *
      * @param c {@link Collection} to use to initialize XVector
      */
     public XVector( Collection<? extends E> c )
@@ -48,7 +48,7 @@ public class XVector<E> extends Vector<E>
     /**
      * Constructs an empty XVector with the specified initial capacity
      * and capacity increment.
-     * 
+     *
      * @param initialCapacity the initial capacity of the XVector
      * @param capacityIncrement the amount by which the capacity is increased when the vector overflows
      * @throws IllegalArgumentException if the specified initial capacity is
@@ -62,7 +62,7 @@ public class XVector<E> extends Vector<E>
     /**
      * Constructs an empty XVector with the specified initial capacity
      * and capacity increment.
-     * 
+     *
      * @param initialCapacity the initial capacity of the XVector
      * @throws IllegalArgumentException if the specified initial capacity is
      *         negative
@@ -74,19 +74,19 @@ public class XVector<E> extends Vector<E>
 
     /**
      * Create an XVector populate with given items
-     *  
+     *
      * @param elements Array of element to use to initialize XVector
      */
-    @SafeVarargs
-	public XVector( final E...elements )
+    //@SafeVarargs
+    public XVector( final E...elements )
     {
-    	super( elements.length );
-    	
+        super( elements.length );
+
         for( E element : elements ) {
             add( element );
-        	}
+            }
     }
-    
+
     /**
      * Same has {@link #add(Object)}
      * @param element
@@ -95,20 +95,20 @@ public class XVector<E> extends Vector<E>
     public XVector<E> xadd( E element )
     {
         super.addElement( element );
-        
+
         return this;
     }
 
     /**
      * Same has {@link #add(int, Object)}
-     * @param index 
-     * @param element 
+     * @param index
+     * @param element
      * @return this object
      */
     public XVector<E> xadd( int index, E element )
     {
         super.add( index, element );
-        
+
         return this;
     }
 }

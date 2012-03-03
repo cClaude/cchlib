@@ -36,7 +36,7 @@ import javax.swing.event.ListDataEvent;
  * @author Claude CHOISNET
  * @since 4.1.6
  */
-public class XComboBox<E> extends JComboBox<E>
+public class XComboBox<E> extends JComboBox/*<E>*/
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -49,7 +49,7 @@ public class XComboBox<E> extends JComboBox<E>
      */
     public XComboBox( final Class<E> contentClass )
     {
-        this( new DefaultComboBoxModel<E>(), contentClass, null );
+        this( new DefaultComboBoxModel/*<E>*/(), contentClass, null );
     }
 
     /**
@@ -59,7 +59,7 @@ public class XComboBox<E> extends JComboBox<E>
      *        list of items
      */
     public XComboBox(
-            final ComboBoxModel<E>  comboBoxModel,
+            final ComboBoxModel/*<E>*/  comboBoxModel,
             final Class<E>          contentClass
             )
     {
@@ -78,7 +78,7 @@ public class XComboBox<E> extends JComboBox<E>
             final E[]       items
             )
     {
-        this( new DefaultComboBoxModel<E>(items), contentClass, null );
+        this( new DefaultComboBoxModel/*<E>*/(items), contentClass, null );
     }
 
     /**
@@ -93,7 +93,7 @@ public class XComboBox<E> extends JComboBox<E>
             final Vector<E> items
             )
     {
-        this( new DefaultComboBoxModel<E>(items), contentClass, null );
+        this( new DefaultComboBoxModel/*<E>*/(items), contentClass, null );
     }
 
     /**
@@ -104,7 +104,7 @@ public class XComboBox<E> extends JComboBox<E>
      * @param attrib  the {@link XComboBoxAttribute} set to configure the XComboBox
      */
     public XComboBox(
-            final ComboBoxModel<E>  comboBoxModel,
+            final ComboBoxModel/*<E>*/  comboBoxModel,
             final Class<E>          contentClass,
             EnumSet<XComboBoxAttribute>      attrib
             )
@@ -218,7 +218,7 @@ public class XComboBox<E> extends JComboBox<E>
         final Object s = event.getSource();
 
         if( s instanceof JComboBox ) {
-            JComboBox<?> jcb = JComboBox.class.cast( s );
+            JComboBox/*<?>*/ jcb = JComboBox.class.cast( s );
 
             if( event.getWheelRotation() > 0 ) {
                 int index = jcb.getSelectedIndex();

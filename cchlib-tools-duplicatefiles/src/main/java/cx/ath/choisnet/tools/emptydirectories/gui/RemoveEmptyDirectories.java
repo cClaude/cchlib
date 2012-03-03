@@ -2,7 +2,7 @@ package cx.ath.choisnet.tools.emptydirectories.gui;
 
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.List;
+//import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -30,8 +30,8 @@ public class RemoveEmptyDirectories
     private FileTreeModelable treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
-    @I18nString private String jFileChooserInitializerTitle 	= "Waiting...";
-    @I18nString private String jFileChooserInitializerMessage	= "Analyze disk structure";
+    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private String jFileChooserInitializerMessage    = "Analyze disk structure";
 
     /**
      *
@@ -76,7 +76,7 @@ public class RemoveEmptyDirectories
                 @Override
                 public void valueChanged( ListSelectionEvent e )
                 {
-                    final int count = getJListRootDirectories().getSelectedValuesList().size();
+                    final int count = getJListRootDirectories().getSelectedValues/*List*/()./*size()*/length;
 
                     if( count > 0 ) {
                         getBtnRemoveRootDirectory().setEnabled( true );
@@ -291,8 +291,8 @@ public class RemoveEmptyDirectories
             int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                DefaultListModel<File> 	model = super.getJListRootDirectoriesModel();
-                File[] 					files = jfc.getSelectedFiles();
+                DefaultListModel/*<File>*/     model = super.getJListRootDirectoriesModel();
+                File[]                     files = jfc.getSelectedFiles();
 
                 logger.info( "model:" + model );
                 logger.info( "model.getClass():" + model.getClass() );
@@ -313,11 +313,12 @@ public class RemoveEmptyDirectories
         logger.info( "btnRemoveRootDirectory_mouseClicked" );
 
         if( super.getBtnRemoveRootDirectory().isEnabled() ) {
-            JList<File>             rootList        = super.getJListRootDirectories();
-            List<File>              selectedList    = rootList.getSelectedValuesList();
-            DefaultListModel<File>  model           = super.getJListRootDirectoriesModel();
+            JList/*<File>*/             rootList        = super.getJListRootDirectories();
+            //List<?>/*<File>*/              selectedList    = rootList.getSelectedValuesList();
+            Object[]              selectedList    = rootList.getSelectedValues();
+            DefaultListModel/*<File>*/  model           = super.getJListRootDirectoriesModel();
 
-            for( File f : selectedList ) {
+            for( Object/*File*/ f : selectedList ) {
                 model.removeElement( f );
                 }
 
