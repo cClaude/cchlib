@@ -181,8 +181,8 @@ public class ArrayIterator<T>
      * @param entries
      * @return an ArrayIterator
      */
-    @SafeVarargs
-	public static <T> ArrayIterator<T> of(T...entries)
+    //Java 1.7 @SafeVarargs
+    public static <T> ArrayIterator<T> of(T...entries)
     {
         return new ArrayIterator<T>( entries );
     }

@@ -19,6 +19,9 @@ cchlib-core
   Fix: com.googlecode.cchlib.swing.CustomDialogWB
   Fix: com.googlecode.cchlib.swing.DialogHelper
 
+  Java 1.7 no more needed, code that need Java 1.7 has been moved to cchlib-swing
+  Add some javadoc
+
 ---------------------------------------------------------------------
 4.1.6
   Add support of some Java 1.7 features.

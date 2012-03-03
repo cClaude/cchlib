@@ -17,22 +17,22 @@ public final class ArrayHelper
     }
 
     /**
-     * Convert varargs in a Array. 
+     * Convert varargs in a Array.
      *
      * @param <T>       Type of array
      * @param entries   List of entry for the array
-     * @return the varargs Array (documented as a new 
+     * @return the varargs Array (documented as a new
      *         arrays in previous versions)
      * @since 4.1.5
      * @deprecated does not check entries content, and did
      *             not create a shadow copy given values.
      */
-    @SafeVarargs
-	public static <T> T[] createArray( T...entries )
+    //Java 1.7 @SafeVarargs
+    public static <T> T[] createArray( T...entries )
     {
         return entries;
     }
-    
+
     /**
      * Create an Array from giving values
      *
@@ -41,17 +41,17 @@ public final class ArrayHelper
      * @return the new Array
      * @since 4.1.6
      */
-    @SafeVarargs
-	public static <T> T[] createArray( Class<T> clazz, T...entries )
+    //Java 1.7 @SafeVarargs
+    public static <T> T[] createArray( Class<T> clazz, T...entries )
     {
-    	//Workaround for: T[] array = new T[ entries.length ];
-    	@SuppressWarnings("unchecked")
-		final T[] array = (T[])Array.newInstance( clazz, entries.length );
-    	
-    	for( int i = 0; i<entries.length; i++ ) {
-    		array[ i ] = entries[ i ];
-    		}
-    	
+        //Workaround for: T[] array = new T[ entries.length ];
+        @SuppressWarnings("unchecked")
+        final T[] array = (T[])Array.newInstance( clazz, entries.length );
+
+        for( int i = 0; i<entries.length; i++ ) {
+            array[ i ] = entries[ i ];
+            }
+
         return array;
     }
 

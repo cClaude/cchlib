@@ -74,7 +74,7 @@ public class XVector<E> extends Vector<E>
      *
      * @param elements Array of element to use to initialize XVector
      */
-    @SafeVarargs
+    //Java 1.7 @SafeVarargs
     public XVector( final E...elements )
     {
         super( elements.length );

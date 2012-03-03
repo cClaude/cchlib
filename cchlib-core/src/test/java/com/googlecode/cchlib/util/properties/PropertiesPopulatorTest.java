@@ -16,7 +16,7 @@ public class PropertiesPopulatorTest
     @Test
     public void test_PropertiesPopulator() throws PopulatorException
     {
-        PropertiesPopulator<BeanTst> pp = new PropertiesPopulator<>( BeanTst.class );
+        PropertiesPopulator<BeanTst> pp = new PropertiesPopulator<BeanTst>( BeanTst.class );
 
         BeanTst bean = new BeanTst( "String", 1, 1.5F );
 
@@ -45,7 +45,7 @@ public class PropertiesPopulatorTest
     @Test
     public void test_PropertiesPopulator2() throws PopulatorException
     {
-        PropertiesPopulator<BeanTst2> pp = new PropertiesPopulator<>( BeanTst2.class );
+        PropertiesPopulator<BeanTst2> pp = new PropertiesPopulator<BeanTst2>( BeanTst2.class );
 
         BeanTst2 bean = new BeanTst2( "String", 1, 1.5F, "Hello" );
 
@@ -175,33 +175,33 @@ class BeanTst2 //extends BeanTst
         strangeClassContener.set( new StrangeClass( initString ) );
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((strangeClassContener == null) ? 0 : strangeClassContener
-						.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime
+                * result
+                + ((strangeClassContener == null) ? 0 : strangeClassContener
+                        .hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BeanTst2 other = (BeanTst2) obj;
-		if (strangeClassContener == null) {
-			if (other.strangeClassContener != null)
-				return false;
-		} else if (!strangeClassContener.equals(other.strangeClassContener))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BeanTst2 other = (BeanTst2) obj;
+        if (strangeClassContener == null) {
+            if (other.strangeClassContener != null)
+                return false;
+        } else if (!strangeClassContener.equals(other.strangeClassContener))
+            return false;
+        return true;
+    }
 }
 
 class StrangeClass
