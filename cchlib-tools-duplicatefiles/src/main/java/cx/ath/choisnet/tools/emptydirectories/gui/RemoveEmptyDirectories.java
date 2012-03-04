@@ -30,8 +30,8 @@ public class RemoveEmptyDirectories
     private FileTreeModelable treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
-    @I18nString private String jFileChooserInitializerTitle 	= "Waiting...";
-    @I18nString private String jFileChooserInitializerMessage	= "Analyze disk structure";
+    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private String jFileChooserInitializerMessage    = "Analyze disk structure";
 
     /**
      *
@@ -180,24 +180,44 @@ public class RemoveEmptyDirectories
     {
         logger.info( "delete thread started" );
 
-        super.getBtnSelectAll().setEnabled( false );
-        super.getBtnUnselectAll().setEnabled( false );
-        super.getBtnCancel().setEnabled( true );
+        getBtnAddRootDirectory().setEnabled( false );
+        getBtnRemoveRootDirectory().setEnabled( false );
+        getBtnStartScan().setEnabled( false );
+        getBtnCancel().setEnabled( true );
+        getBtnSelectAll().setEnabled( false );
+        getBtnUnselectAll().setEnabled( false );
+        getBtnStartDelete().setEnabled( false );
+
         getJTreeEmptyDirectories().setEditable( false );
 
-        JProgressBar pBar = getProgressBar();
+        final JProgressBar pBar = getProgressBar();
         pBar.setString( "Delete selected files" );
         pBar.setIndeterminate( true );
 
-        findDeleteAdapter.doDelete();
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    findDeleteAdapter.doDelete();
+                    }
+                catch( Exception e ) {
+                    logger.warn( "doDelete()", e );
+                    }
+                finally {
+                    getBtnStartDelete().setEnabled( true );
 
-        getBtnCancel().setEnabled( false );
-        getJTreeEmptyDirectories().setEditable( true );
-        pBar.setIndeterminate( false );
+                    getBtnCancel().setEnabled( false );
+                    getJTreeEmptyDirectories().setEditable( true );
+                    pBar.setIndeterminate( false );
 
-        findBegin();
+                    findBegin();
+                    }
 
-        logger.info( "delete thread done" );
+                logger.info( "delete thread done" );
+            }
+        }).start();
     }
 
     /**
@@ -291,8 +311,8 @@ public class RemoveEmptyDirectories
             int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                DefaultListModel<File> 	model = super.getJListRootDirectoriesModel();
-                File[] 					files = jfc.getSelectedFiles();
+                DefaultListModel<File>     model = super.getJListRootDirectoriesModel();
+                File[]                     files = jfc.getSelectedFiles();
 
                 logger.info( "model:" + model );
                 logger.info( "model.getClass():" + model.getClass() );

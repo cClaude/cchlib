@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
@@ -72,7 +71,8 @@ public class JPanelResult extends JPanel
     private transient DFToolKit dFToolKit;
 
     private HashMapSet<String,KeyFileState>     duplicateFiles;// = new HashMapSet<String,KeyFileState>();
-    private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
+    //private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
+    private JPanelResultDefaultListModel        listModelDuplicatesFiles;//    = new DefaultListModel<KeyFiles>();
     private DefaultListModel<KeyFileState>      listModelKeptIntact         = new DefaultListModel<KeyFileState>();
     private DefaultListModel<KeyFileState>      listModelWillBeDeleted      = new DefaultListModel<KeyFileState>();
 
@@ -224,6 +224,7 @@ public class JPanelResult extends JPanel
     {
         this.duplicateFiles = duplicateFiles;
 
+        listModelDuplicatesFiles = new JPanelResultDefaultListModel( duplicateFiles );
         jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
         jListDuplicatesFiles.addListSelectionListener(
@@ -234,7 +235,8 @@ public class JPanelResult extends JPanel
                     int i = jListDuplicatesFiles.getSelectedIndex();
 
                     if( i >= 0 ) {
-                        KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.get( i );
+                        //KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.get( i );
+                        KeyFiles kf = listModelDuplicatesFiles.getElementAt( i );
                         String   k = kf.getKey();
 
                         updateDisplayKeptDelete( k );
@@ -311,24 +313,24 @@ public class JPanelResult extends JPanel
 
     public void clear()
     {
-        listModelDuplicatesFiles.clear();
+        //listModelDuplicatesFiles.clear();
         listModelKeptIntact.clear();
         listModelWillBeDeleted.clear();
     }
 
-    public void initDisplay()
-    {
-        clear();
-
-        for(Map.Entry<String,Set<KeyFileState>> e:duplicateFiles.entrySet()) {
-            String              k    = e.getKey();
-            Set<KeyFileState>   sf   = e.getValue();
-
-            listModelDuplicatesFiles.addElement(
-                    new KeyFiles( k, sf )
-                    );
-        }
-    }
+//    public void initDisplay()
+//    {
+//        clear();
+//
+//        for(Map.Entry<String,Set<KeyFileState>> e:duplicateFiles.entrySet()) {
+//            String              k    = e.getKey();
+//            Set<KeyFileState>   sf   = e.getValue();
+//
+//            listModelDuplicatesFiles.addElement(
+//                    new KeyFiles( k, sf )
+//                    );
+//        }
+//    }
 
     public void updateDisplay()
     {
@@ -351,7 +353,8 @@ public class JPanelResult extends JPanel
         int index = jListDuplicatesFiles.getSelectedIndex();
 
         if( index >= 0 ) {
-            KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.getElementAt( index );
+            //KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.getElementAt( index );
+            KeyFiles kf = listModelDuplicatesFiles.getElementAt( index );
 
             updateDisplayKeptDelete( kf.getKey() );
             }
@@ -552,7 +555,7 @@ public class JPanelResult extends JPanel
                 }
             }
         else {
-            slogger.error( "Missing key:" + key );
+            slogger.error( "updateDisplayKeptDelete() * Missing key:" + key );
             }
         ss.clear();
     }
@@ -562,7 +565,7 @@ public class JPanelResult extends JPanel
         if( kf != null ) {
             kf.setSelectedToDelete( true );
             updateDisplayKeptDelete( kf.getKey() );
-        }
+            }
     }
 
     private void KeptThisFile( KeyFileState kf )
@@ -570,7 +573,7 @@ public class JPanelResult extends JPanel
         if( kf != null ) {
             kf.setSelectedToDelete( false );
             updateDisplayKeptDelete( kf.getKey() );
-        }
+            }
     }
 
     private ActionListener createOpenFileActionListener( final File file )

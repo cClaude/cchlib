@@ -173,24 +173,12 @@ final public class DuplicateFilesFrame
         this.iconContinue = getDFToolKit().getIcon( "continue.png" );
         this.iconRestart  = getDFToolKit().getIcon( "restart.png" );
 
-//        // Moving the Icon in a JButton Component
-//        getJButtonNextStep().setVerticalTextPosition(SwingConstants.CENTER);
-//        getJButtonNextStep().setHorizontalTextPosition(SwingConstants.LEFT);
-
-//        // Init. mode state
-//        getJMenuItemModeBegin().setSelected( true );
-
         this.state = STATE_SELECT_DIRS;
 
         getJPanel0Select().initFixComponents();
         getJPanel1Config().initFixComponents();
         getJPanel2Searching().initFixComponents( getDFToolKit() );
         // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
-
-        //        // init
-        //        modeListener.actionPerformed( null );
-//        mode = ConfigMode.BEGINNER; // TO DO: prefs
-//        preferences.setConfigMode( ConfigMode.BEGINNER );
 
         // initDynComponents
         LookAndFeelHelpers.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
@@ -206,8 +194,10 @@ final public class DuplicateFilesFrame
                         LookAndFeel newLAF = LookAndFeel.class.cast( e.getNewValue() );
 
                         if( ! newLAF.equals( oldLAF ) ) {
-                            // TODO extra customization
-                            getJPanel1Config().initFixComponents();
+                             getJPanel1Config().initFixComponents();
+                             //
+                             // Add extra customization here
+                             //
 
                             if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
                                 // DuplicateFilesFrame.this.removeEmptyDirectories.init();
@@ -228,7 +218,8 @@ final public class DuplicateFilesFrame
             {
                 logger.debug( "updateDisplayAccordState: " + state );
 
-                getJTabbedPaneMain().setSelectedIndex( state );
+                //getJTabbedPaneMain().setSelectedIndex( state );
+                selectedPanel( state );
 
                 getJButtonNextStep().setText( txtContinue );
                 getJButtonNextStep().setIcon( iconContinue );
@@ -239,7 +230,6 @@ final public class DuplicateFilesFrame
                 if( state == STATE_SELECT_DIRS ) {
                     getJPanel2Searching().clear();
                     getJPanel3Result().clear();
-                    getJPanel4Confirm().clear();
 
                     getJButtonRestart().setEnabled( false );
                     getJButtonNextStep().setEnabled( true );
@@ -266,25 +256,21 @@ final public class DuplicateFilesFrame
                         logger.error( ignore );
                         }
 
-                    Runnable r = new Runnable()
-                    {
-                        @Override
-                        public void run()
+                    new Thread( new Runnable()
                         {
-                            getJPanel2Searching().doScan(
+                            @Override
+                            public void run()
+                            {
+                                getJPanel2Searching().doScan(
                                     getJPanel0Select().entriesToScans(),
                                     getJPanel0Select().entriesToIgnore(),
                                     getJPanel1Config().getFileFilterBuilders(),
                                     duplicateFiles
                                     );
-
-                            //getJButtonNextStep().setEnabled( true );
-                            getJMenuLookAndFeel().setEnabled( true );
-                            getJButtonRestart().setEnabled( true );
-                        }
-                    };
-
-                    new Thread(r ).start();
+                                getJMenuLookAndFeel().setEnabled( true );
+                                getJButtonRestart().setEnabled( true );
+                            }
+                        }).start();
                     }
                 else if( state == STATE_RESULTS ) {
                     getJButtonRestart().setEnabled( false );
@@ -295,14 +281,15 @@ final public class DuplicateFilesFrame
                         @Override
                         public void run()
                         {
-                            getJPanel3Result().initDisplay();
+                            //getJPanel3Result().initDisplay();
+                            getJPanel3Result().clear();
                             getJButtonRestart().setEnabled( true );
                             getJButtonNextStep().setEnabled( true );
                         }} );
                     }
                 else if( state == STATE_CONFIRM ) {
                     getJButtonRestart().setEnabled( true );
-                    getJButtonRestart().setText( txtBack  );
+                    getJButtonRestart().setText( txtBack );
 
                     if( subState == SUBSTATE_CONFIRM_INIT ) {
                         getJButtonNextStep().setEnabled( true );
@@ -350,12 +337,11 @@ final public class DuplicateFilesFrame
         return jFileChooserInitializer;
     }
 
-
-
     private void jButtonNextStep_ActionPerformed()
     {
         if( getJButtonNextStep().isEnabled() ) {
             logger.info( "Next: " + state );
+            getJButtonNextStep().setEnabled( false );
 
             if( state == STATE_SELECT_DIRS ) {
                 if( getJPanel0Select().getEntriesToScanSize() > 0 ) {
@@ -376,18 +362,9 @@ final public class DuplicateFilesFrame
             else if( state == STATE_RESULTS ) {
                 state = STATE_CONFIRM;
                 subState = SUBSTATE_CONFIRM_INIT;
-
-                Tools.invokeLater(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        getJPanel4Confirm().clear();
-                    }
-                } );
                 }
             else if( state == STATE_CONFIRM ) {
                 if( subState == SUBSTATE_CONFIRM_INIT ) {
-                    getJButtonNextStep().setEnabled( false );
                     getJButtonRestart().setEnabled( false );
 
                     Tools.invokeLater(new Runnable() {
@@ -448,7 +425,6 @@ final public class DuplicateFilesFrame
             this.dfToolKit = new DFToolKit()
             {
                 private static final long serialVersionUID = 1L;
-//                private Locale locale;
 
                 @Override // DFToolKit
                 public JFileChooser getJFileChooser()
@@ -470,8 +446,6 @@ final public class DuplicateFilesFrame
                         desktop.open( file );
                         }
                     catch( IOException e ) {
-                        // FIXME improve this. Show dialog to user
-                        e.printStackTrace();
                         DialogHelper.showMessageExceptionDialog(
                                 getMainWindow(),
                                 txtOpenDesktopExceptionTitle,
@@ -479,11 +453,6 @@ final public class DuplicateFilesFrame
                                 );
                         }
                 }
-//                @Override // DFToolKit
-//                public ConfigMode getConfigMode()
-//                {
-//                    return mode;
-//                }
                 @Override // DFToolKit
                 public void sleep(long ms)
                 {

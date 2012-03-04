@@ -1,12 +1,15 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 
 /**
  *
  */
-public class Tools 
+public class Tools
 {
+    private static final Logger logger = Logger.getLogger( Tools.class );
+
     /**
      * Make sure to be outside swing even threads
      * @param safeRunner
@@ -18,7 +21,12 @@ public class Tools
             @Override
             public void run()
             {
-                SwingUtilities.invokeLater( safeRunner );
+                try {
+                    SwingUtilities.invokeLater( safeRunner );
+                    }
+                catch( Exception e ) {
+                    logger.warn( "Unexpected error", e );
+                    }
             }
         }).start();
     }

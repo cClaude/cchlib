@@ -9,7 +9,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -26,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.CardLayout;
 
 /**
  * Main frame layout.
@@ -60,7 +60,8 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private JMenu                       jMenuTools;
     private JMenuItem                   jMenuItemDeleteEmptyDirectories;
     private JMenu                       jMenuLookAndFeel;
-    private JTabbedPane                 jTabbedPaneMain;
+    private JPanel                      jPanelMain;
+    private CardLayout                  jPanelMainCardLayout;
     private JPanelSelectFoldersOrFiles  jPanel0Select;
     private JPanelConfig                jPanel1Config;
     private JPanelSearching             jPanel2Searching;
@@ -154,33 +155,60 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         gbl_contentPane.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
 
-        jTabbedPaneMain = new JTabbedPane();
-        jTabbedPaneMain.setEnabled( false );
-        GridBagConstraints gbc_jTabbedPaneMain = new GridBagConstraints();
-        gbc_jTabbedPaneMain.anchor = GridBagConstraints.WEST;
-        gbc_jTabbedPaneMain.gridwidth = 4;
-        gbc_jTabbedPaneMain.gridheight = 1;
-        gbc_jTabbedPaneMain.insets = new Insets(0, 0, 5, 0);
-        gbc_jTabbedPaneMain.fill = GridBagConstraints.BOTH;
-        gbc_jTabbedPaneMain.gridx = 0;
-        gbc_jTabbedPaneMain.gridy = 0;
-        contentPane.add(jTabbedPaneMain, gbc_jTabbedPaneMain);
+        {
+            jPanelMain = new JPanel();
+            //jPanelMain.setEnabled( false );
+            GridBagConstraints gbc_jPanelMain = new GridBagConstraints();
+            gbc_jPanelMain.anchor = GridBagConstraints.WEST;
+            gbc_jPanelMain.gridwidth = 4;
+            gbc_jPanelMain.gridheight = 1;
+            gbc_jPanelMain.insets = new Insets(0, 0, 5, 0);
+            gbc_jPanelMain.fill = GridBagConstraints.BOTH;
+            gbc_jPanelMain.gridx = 0;
+            gbc_jPanelMain.gridy = 0;
+            contentPane.add(jPanelMain, gbc_jPanelMain);
+            jPanelMainCardLayout = new CardLayout(0, 0);
+            jPanelMain.setLayout( jPanelMainCardLayout );
 
+//            panel = new JPanel();
+//            jTabbedPaneMain.add(panel, "name_57516025965064");
+            int panelNumber = 0;
+            jPanel0Select = createJPanel0Select();
+            jPanelMain.add( jPanel0Select, Integer.toString( panelNumber++ ) );
+
+            jPanel1Config = createJPanel1Config();
+            jPanelMain.add( jPanel1Config, Integer.toString( panelNumber++ ) );
+
+            jPanel2Searching = createJPanel2Searching();
+            jPanelMain.add( jPanel2Searching, Integer.toString( panelNumber++ ) );
+
+            jPanel3Result = createJPanel3Result();
+            jPanelMain.add( jPanel3Result, Integer.toString( panelNumber++ ) );
+
+            jPanel4Confirm = createJPanel4Confirm();
+            jPanelMain.add( jPanel4Confirm, Integer.toString( panelNumber++ ) );
+        }
+/*
         jPanel0Select = createJPanel0Select();
-        jTabbedPaneMain.addTab("Select", null, jPanel0Select, null);
+        //jTabbedPaneMain.addTab("Select", null, jPanel0Select, null);
+        jTabbedPaneMain.addTab(null, null, jPanel0Select, null);
 
         jPanel1Config = createJPanel1Config();
-        jTabbedPaneMain.addTab("Search config", null, jPanel1Config, null);
+        //jTabbedPaneMain.addTab("Search config", null, jPanel1Config, null);
+        jTabbedPaneMain.addTab(null, null, jPanel1Config, null);
 
         jPanel2Searching = createJPanel2Searching();
-        jTabbedPaneMain.addTab("Search config", null, jPanel2Searching, null);
+        //jTabbedPaneMain.addTab("Search config", null, jPanel2Searching, null);
+        jTabbedPaneMain.addTab(null, null, jPanel2Searching, null);
 
         jPanel3Result = createJPanel3Result();
-        jTabbedPaneMain.addTab("Duplicates", null, jPanel3Result, null);
+        //jTabbedPaneMain.addTab("Duplicates", null, jPanel3Result, null);
+        jTabbedPaneMain.addTab(null, null, jPanel3Result, null);
 
         jPanel4Confirm = createJPanel4Confirm();
-        jTabbedPaneMain.addTab("Confirm", null, jPanel4Confirm, null);
-
+        //jTabbedPaneMain.addTab("Confirm", null, jPanel4Confirm, null);
+        jTabbedPaneMain.addTab(null, null, jPanel4Confirm, null);
+*/
         jButtonRestart = new JButton("Restart");
         jButtonRestart.setActionCommand( ACTIONCMD_RESTART );
         jButtonRestart.addActionListener( getActionListener() );
@@ -266,9 +294,18 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         return jButtonRestart;
     }
 
-    protected JTabbedPane getJTabbedPaneMain()
+//    @Deprecated
+//    protected JPanel getJTabbedPaneMain()
+//    {
+//        return jPanelMain;
+//    }
+
+    protected void selectedPanel( final int state )
     {
-        return jTabbedPaneMain;
+        jPanelMainCardLayout.show(
+                jPanelMain,
+                Integer.toString( state )
+                );
     }
 
     public abstract ActionListener getActionListener();
@@ -323,7 +360,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     /**
      * @wbp.factory
      */
-    public static JPanelSearching createJPanel2Searching()
+    public /*static*/ JPanelSearching createJPanel2Searching()
     {
         return new JPanelSearching();
     }
@@ -337,8 +374,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     }
 
     /**
-     * @param modalBlocker
-     * @param dfToolKit
      * @wbp.factory
      */
     public JPanelConfirm createJPanel4Confirm()

@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.XTextField;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
+import javax.swing.JLabel;
 
 /**
  * <pre>
@@ -81,86 +83,104 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        jButtonRemEntry = new JButton("Remove");
-        jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
-        jButtonRemEntry.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                jButtonRemEntryMouseMousePressed( e );
+        {
+            jButtonRemEntry = new JButton("Remove");
+            jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
+            jButtonRemEntry.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    jButtonRemEntryMouseMousePressed( e );
+                    }
+                });
+        }
+        {
+            jButtonAddDir = new JButton("Append");
+            jButtonAddDir.setIcon( dFToolKit.getIcon( "add.png" ) );
+            jButtonAddDir.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    jButtonAddDirMouseMousePressed( e );
+                    }
+                });
+
+            GridBagConstraints gbc_jButtonAddDir = new GridBagConstraints();
+            gbc_jButtonAddDir.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jButtonAddDir.insets = new Insets(0, 0, 5, 5);
+            gbc_jButtonAddDir.gridx = 1;
+            gbc_jButtonAddDir.gridy = 0;
+            add(jButtonAddDir, gbc_jButtonAddDir);
+        }
+        {
+            Icon image = null; // TODO FIXME
+            JLabel jLabelDeco = new JLabel( image );
+            GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
+            gbc_jLabelDeco.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelDeco.gridx = 0;
+            gbc_jLabelDeco.gridy = 0;
+            add(jLabelDeco, gbc_jLabelDeco);
+        }
+        {
+            jButtonSelectFile = new JButton("Select File");
+            jButtonSelectFile.setIcon( dFToolKit.getIcon( "file.png" ) );
+            jButtonSelectFile.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    jButtonSelectFileMouseMousePressed(e);
                 }
             });
-
-        jButtonAddDir = new JButton("Append");
-        jButtonAddDir.setIcon( dFToolKit.getIcon( "add.png" ) );
-        jButtonAddDir.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                jButtonAddDirMouseMousePressed( e );
+            GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
+            gbc_jButtonSelectFile.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jButtonSelectFile.insets = new Insets(0, 0, 5, 0);
+            gbc_jButtonSelectFile.anchor = GridBagConstraints.NORTH;
+            gbc_jButtonSelectFile.gridx = 2;
+            gbc_jButtonSelectFile.gridy = 0;
+            add(jButtonSelectFile, gbc_jButtonSelectFile);
+        }
+        {
+            jTextFieldCurrentDir = createXTextField();
+            GridBagConstraints gbc_jTextFieldCurrentDir = new GridBagConstraints();
+            gbc_jTextFieldCurrentDir.insets = new Insets(0, 0, 5, 5);
+            gbc_jTextFieldCurrentDir.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jTextFieldCurrentDir.gridx = 0;
+            gbc_jTextFieldCurrentDir.gridy = 1;
+            add(jTextFieldCurrentDir, gbc_jTextFieldCurrentDir);
+        }
+        {
+            GridBagConstraints gbc_jButtonRemEntry = new GridBagConstraints();
+            gbc_jButtonRemEntry.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jButtonRemEntry.insets = new Insets(0, 0, 5, 5);
+            gbc_jButtonRemEntry.gridx = 1;
+            gbc_jButtonRemEntry.gridy = 1;
+            add(jButtonRemEntry, gbc_jButtonRemEntry);
+        }
+        {
+            jButtonSelectDir = new JButton("Select Folder");
+            jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
+            jButtonSelectDir.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    jButtonSelectDirMouseMousePressed( e );
                 }
             });
-        GridBagConstraints gbc_jButtonAddDir = new GridBagConstraints();
-        gbc_jButtonAddDir.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jButtonAddDir.insets = new Insets(0, 0, 5, 5);
-        gbc_jButtonAddDir.gridx = 1;
-        gbc_jButtonAddDir.gridy = 0;
-        add(jButtonAddDir, gbc_jButtonAddDir);
+            GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
+            gbc_jButtonSelectDir.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jButtonSelectDir.insets = new Insets(0, 0, 5, 0);
+            gbc_jButtonSelectDir.gridx = 2;
+            gbc_jButtonSelectDir.gridy = 1;
+            add(jButtonSelectDir, gbc_jButtonSelectDir);
+        }
+        {
+            JScrollPane scrollPane = new JScrollPane();
+            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            gbc_scrollPane.gridwidth = 3;
+            gbc_scrollPane.fill = GridBagConstraints.BOTH;
+            gbc_scrollPane.gridx = 0;
+            gbc_scrollPane.gridy = 2;
+            add(scrollPane, gbc_scrollPane);
 
-        jButtonSelectFile = new JButton("Select File");
-        jButtonSelectFile.setIcon( dFToolKit.getIcon( "file.png" ) );
-        jButtonSelectFile.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                jButtonSelectFileMouseMousePressed(e);
-            }
-        });
-        GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
-        gbc_jButtonSelectFile.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jButtonSelectFile.insets = new Insets(0, 0, 5, 0);
-        gbc_jButtonSelectFile.anchor = GridBagConstraints.NORTH;
-        gbc_jButtonSelectFile.gridx = 2;
-        gbc_jButtonSelectFile.gridy = 0;
-        add(jButtonSelectFile, gbc_jButtonSelectFile);
-
-        jTextFieldCurrentDir = createXTextField();
-        GridBagConstraints gbc_jTextFieldCurrentDir = new GridBagConstraints();
-        gbc_jTextFieldCurrentDir.insets = new Insets(0, 0, 5, 5);
-        gbc_jTextFieldCurrentDir.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jTextFieldCurrentDir.gridx = 0;
-        gbc_jTextFieldCurrentDir.gridy = 1;
-        add(jTextFieldCurrentDir, gbc_jTextFieldCurrentDir);
-
-        GridBagConstraints gbc_jButtonRemEntry = new GridBagConstraints();
-        gbc_jButtonRemEntry.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jButtonRemEntry.insets = new Insets(0, 0, 5, 5);
-        gbc_jButtonRemEntry.gridx = 1;
-        gbc_jButtonRemEntry.gridy = 1;
-        add(jButtonRemEntry, gbc_jButtonRemEntry);
-
-        jButtonSelectDir = new JButton("Select Folder");
-        jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
-        jButtonSelectDir.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                jButtonSelectDirMouseMousePressed( e );
-            }
-        });
-        GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
-        gbc_jButtonSelectDir.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jButtonSelectDir.insets = new Insets(0, 0, 5, 0);
-        gbc_jButtonSelectDir.gridx = 2;
-        gbc_jButtonSelectDir.gridy = 1;
-        add(jButtonSelectDir, gbc_jButtonSelectDir);
-
-        JScrollPane scrollPane = new JScrollPane();
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.gridwidth = 3;
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridx = 0;
-        gbc_scrollPane.gridy = 2;
-        add(scrollPane, gbc_scrollPane);
-
-        jTableSelectedFoldersOrFiles = new JTable();
-        scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
+            jTableSelectedFoldersOrFiles = new JTable();
+            scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
+        }
     }
 
     /**
