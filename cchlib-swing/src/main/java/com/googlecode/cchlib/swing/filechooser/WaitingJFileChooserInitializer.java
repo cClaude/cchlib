@@ -141,10 +141,13 @@ public class WaitingJFileChooserInitializer
                 SwingUtilities.invokeAndWait( doRun );
                 }
             catch( InvocationTargetException e ) {
-                logger.error( e );
+                logger.error( 
+                        "Run InvocationTargetException - target exception", 
+                        e.getTargetException()
+                        );
                 }
             catch( InterruptedException e ) {
-                logger.error( e );
+                logger.error( "Run InterruptedException", e );
                 }
             }
 
