@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
+
+import org.apache.log4j.Logger;
+
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.util.HashMapSet;
@@ -20,22 +23,30 @@ public class JPanelResultListModel
     extends AbstractListModel<KeyFiles>
 {
     private static final long serialVersionUID = 1L;
+    private final static Logger logger = Logger.getLogger( JPanelResultListModel.class );
     private HashMapSet<String,KeyFileState> duplicateFiles;
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
-    public JPanelResultListModel(
-        final HashMapSet<String,KeyFileState> duplicateFiles
-        )
+    public JPanelResultListModel()
     {
-        this.duplicateFiles = duplicateFiles;
-
-        for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
-            String              k    = e.getKey();
-            Set<KeyFileState>   sf   = e.getValue();
-
-            duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
-            }
+        updateCache( new HashMapSet<String,KeyFileState>() );
     }
+
+    public void updateCache(
+            final HashMapSet<String,KeyFileState> duplicateFiles
+            )
+        {
+            this.duplicateFiles = duplicateFiles;
+
+            for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
+                String              k    = e.getKey();
+                Set<KeyFileState>   sf   = e.getValue();
+
+                duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
+                }
+
+            super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
+        }
 
     @Override
     public int getSize()
@@ -100,6 +111,7 @@ public class JPanelResultListModel
 
     public void setKeepDelete( Set<KeyFileState> s )
     {
+        logger.info( "setKeepDelete: " + s );
 //      Set<KeyFileState>       s  = duplicateFiles.get( key );
       SortedSet<KeyFileState> ss = new TreeSet<KeyFileState>();
 
@@ -107,12 +119,14 @@ public class JPanelResultListModel
 
       for( KeyFileState sf : ss ) {
           if( sf.isSelectedToDelete() ) {
-              listModelWillBeDeleted.add( sf );
+              listModelWillBeDeleted._add( sf );
               }
           else {
-              listModelKeptIntact.add( sf );
+              listModelKeptIntact._add( sf );
               }
           }
+      listModelWillBeDeleted._fireAddedAll();
+      listModelKeptIntact._fireAddedAll();
       ss.clear();
     }
 

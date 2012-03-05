@@ -616,12 +616,12 @@ final public class DuplicateFilesFrame
                             break;
 
                         case ACTIONCMD_SAVE_PREFS :
-                            new Thread( new Runnable() {
+                            Tools.run( new Runnable() {
                                 @Override
                                 public void run()
                                 {
                                     saveCurrentPreferences();
-                                }} ).start();
+                                }} );
                             break;
 
                         default:

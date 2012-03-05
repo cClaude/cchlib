@@ -11,7 +11,7 @@ public class Tools
     private static final Logger logger = Logger.getLogger( Tools.class );
 
     /**
-     * Make sure to be outside swing even threads
+     * Make sure to be outside swing even threads and log errors
      * @param safeRunner
      */
     public static void invokeLater( final Runnable safeRunner )
@@ -23,6 +23,27 @@ public class Tools
             {
                 try {
                     SwingUtilities.invokeLater( safeRunner );
+                    }
+                catch( Exception e ) {
+                    logger.warn( "Unexpected error", e );
+                    }
+            }
+        }).start();
+    }
+
+    /**
+     * Launch task in a new thread and log errors
+     * @param runner
+     */
+    public static void run( final Runnable runner )
+    {
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    runner.run();
                     }
                 catch( Exception e ) {
                     logger.warn( "Unexpected error", e );

@@ -156,11 +156,11 @@ public class JPanelSearching extends JPanel//SearchingWB
         add(jLabelDuplicateSetsFoundValue, gbc_jLabelDuplicateSetsFoundValue);
 
         jLabelDuplicateFilesFound = new JLabel();
-        jLabelDuplicateFilesFound.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabelDuplicateFilesFound.setHorizontalAlignment(SwingConstants.RIGHT);
         jLabelDuplicateFilesFound.setText("DuplicateFilesFound :");
         GridBagConstraints gbc_jLabelDuplicateFilesFound = new GridBagConstraints();
-        gbc_jLabelDuplicateFilesFound.insets = new Insets(0, 0, 5, 5);
         gbc_jLabelDuplicateFilesFound.fill = GridBagConstraints.HORIZONTAL;
+        gbc_jLabelDuplicateFilesFound.insets = new Insets(0, 0, 5, 5);
         gbc_jLabelDuplicateFilesFound.gridx = 0;
         gbc_jLabelDuplicateFilesFound.gridy = 4;
         add(jLabelDuplicateFilesFound, gbc_jLabelDuplicateFilesFound);

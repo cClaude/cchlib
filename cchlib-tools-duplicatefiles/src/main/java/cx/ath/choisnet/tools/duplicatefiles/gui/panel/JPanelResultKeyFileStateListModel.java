@@ -38,13 +38,14 @@ class JPanelResultKeyFileStateListModel
         return value;
     }
 
-    public void add( final KeyFileState value )
+    void _add( final KeyFileState value )
     {
-        int index = dataList.size();
-
         dataList.add( value );
+    }
 
-        super.fireIntervalAdded( this, index, index );
+    void _fireAddedAll()
+    {
+        fireIntervalAdded( this, 0, dataList.size() );
     }
 
     public void clear()

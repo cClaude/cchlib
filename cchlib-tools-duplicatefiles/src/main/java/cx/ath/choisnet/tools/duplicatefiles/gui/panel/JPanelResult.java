@@ -1,9 +1,7 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
@@ -13,63 +11,48 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.I18nString;
-import com.googlecode.cchlib.swing.XComboBoxPattern;
 import cx.ath.choisnet.swing.list.JPopupMenuForJList;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.util.HashMapSet;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 /**
  *
  */
-public class JPanelResult extends JPanel
+public class JPanelResult extends JPanelResultWB
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( JPanelResult.class );
-    private JTextField jTextFieldFileInfo;
+    private static final Logger logger = Logger.getLogger( JPanelResult.class );
+
+    /*private JTextField jTextFieldFileInfo;
     private JToggleButton jToggleButtonSelectByRegEx;
     private XComboBoxPattern xComboBoxPatternRegEx;
     private JCheckBox jCheckBoxKeepOne;
     private JButton jButtonRegExDelete;
-    private JButton jButtonRegExKeep;
+    private JButton jButtonRegExKeep;*/
 
-    private JSplitPane jSplitPaneResultMain;
-    private JSplitPane jSplitPaneResultRight;
-    private JList<KeyFiles>     jListDuplicatesFiles;
-    private JList<KeyFileState> jListKeptIntact;
-    private JList<KeyFileState> jListWillBeDeleted;
+    //private JSplitPane jSplitPaneResultMain;
+    //private JSplitPane jSplitPaneResultRight;
+    //private JList<KeyFiles>     jListDuplicatesFiles;
+    //private JList<KeyFileState> jListKeptIntact;
+    //private JList<KeyFileState> jListWillBeDeleted;
 
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
 
     //private HashMapSet<String,KeyFileState>     duplicateFiles;
     //private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
-    private JPanelResultListModel               listModelDuplicatesFiles;
+    //private JPanelResultListModel               listModelDuplicatesFiles;
     //private DefaultListModel<KeyFileState>      listModelKeptIntact         = new DefaultListModel<KeyFileState>();
     //private DefaultListModel<KeyFileState>      listModelWillBeDeleted      = new DefaultListModel<KeyFileState>();
 
@@ -105,133 +88,8 @@ public class JPanelResult extends JPanel
         )
     {
         this.dFToolKit = dFToolKit;
-        setSize(488, 240);
-        {
-            GridBagLayout gridBagLayout = new GridBagLayout();
-            gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-            gridBagLayout.rowHeights = new int[]{25, 0, 0, 0};
-            gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-            gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-            setLayout(gridBagLayout);
-        }
-        {
-            GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
-            gbc_jButtonPrevSet.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonPrevSet.insets = new Insets(0, 0, 5, 5);
-            gbc_jButtonPrevSet.gridx = 0;
-            gbc_jButtonPrevSet.gridy = 0;
 
-            JButton jButtonPrevSet = new JButton( "<<" );
-            jButtonPrevSet.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonPrevSetMouseMousePressed(event);
-                    }
-                });
-            add(jButtonPrevSet, gbc_jButtonPrevSet);
-        }
-        {
-            GridBagConstraints gbc_jTextFieldFileInfo = new GridBagConstraints();
-            gbc_jTextFieldFileInfo.gridwidth = 4;
-            gbc_jTextFieldFileInfo.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jTextFieldFileInfo.insets = new Insets(0, 0, 5, 5);
-            gbc_jTextFieldFileInfo.gridx = 1;
-            gbc_jTextFieldFileInfo.gridy = 0;
-
-            jTextFieldFileInfo = new JTextField();
-            jTextFieldFileInfo.setEditable( false );
-            jTextFieldFileInfo.setHorizontalAlignment( JTextField.CENTER );
-            add(jTextFieldFileInfo, gbc_jTextFieldFileInfo);
-        }
-        {
-            GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
-            gbc_jButtonNextSet.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonNextSet.insets = new Insets(0, 0, 5, 0);
-            gbc_jButtonNextSet.gridx = 5;
-            gbc_jButtonNextSet.gridy = 0;
-
-            JButton jButtonNextSet = new JButton( ">>" );
-            jButtonNextSet.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonNextSetMouseMousePressed(event);
-                    }
-                });
-            add(jButtonNextSet, gbc_jButtonNextSet);
-        }
-        {
-            GridBagConstraints gbc_jSplitPaneResultMain = new GridBagConstraints();
-            gbc_jSplitPaneResultMain.gridwidth = 6;
-            gbc_jSplitPaneResultMain.fill = GridBagConstraints.BOTH;
-            gbc_jSplitPaneResultMain.insets = new Insets(0, 0, 5, 0);
-            gbc_jSplitPaneResultMain.gridx = 0;
-            gbc_jSplitPaneResultMain.gridy = 1;
-            add(getJSplitPaneResultMain(), gbc_jSplitPaneResultMain);
-        }
-        {
-            GridBagConstraints gbc_jToggleButtonSelectByRegEx = new GridBagConstraints();
-            gbc_jToggleButtonSelectByRegEx.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jToggleButtonSelectByRegEx.gridwidth = 2;
-            gbc_jToggleButtonSelectByRegEx.insets = new Insets(0, 0, 0, 5);
-            gbc_jToggleButtonSelectByRegEx.gridx = 0;
-            gbc_jToggleButtonSelectByRegEx.gridy = 2;
-
-            jToggleButtonSelectByRegEx = new JToggleButton( "Select by RegEx" );
-            jToggleButtonSelectByRegEx.addChangeListener(new ChangeListener() {
-                public void stateChanged(ChangeEvent event) {
-                    jToggleButtonSelectByRegExChangeStateChanged(event);
-                    }
-                });
-            add( jToggleButtonSelectByRegEx, gbc_jToggleButtonSelectByRegEx );
-        }
-        {
-            GridBagConstraints gbc_xComboBoxPatternRegEx = new GridBagConstraints();
-            gbc_xComboBoxPatternRegEx.fill = GridBagConstraints.HORIZONTAL;
-            gbc_xComboBoxPatternRegEx.insets = new Insets(0, 0, 0, 5);
-            gbc_xComboBoxPatternRegEx.gridx = 2;
-            gbc_xComboBoxPatternRegEx.gridy = 2;
-
-            xComboBoxPatternRegEx = new XComboBoxPattern();
-            add( xComboBoxPatternRegEx, gbc_xComboBoxPatternRegEx );
-        }
-        {
-            GridBagConstraints gbc_jCheckBoxKeepOne = new GridBagConstraints();
-            gbc_jCheckBoxKeepOne.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jCheckBoxKeepOne.insets = new Insets(0, 0, 0, 5);
-            gbc_jCheckBoxKeepOne.gridx = 3;
-            gbc_jCheckBoxKeepOne.gridy = 2;
-
-            jCheckBoxKeepOne = new JCheckBox( "Keep one" );
-            jCheckBoxKeepOne.setSelected( true );
-            add( jCheckBoxKeepOne, gbc_jCheckBoxKeepOne );
-        }
-        {
-            GridBagConstraints gbc_jButtonRegExDelete = new GridBagConstraints();
-            gbc_jButtonRegExDelete.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonRegExDelete.insets = new Insets(0, 0, 0, 5);
-            gbc_jButtonRegExDelete.gridx = 4;
-            gbc_jButtonRegExDelete.gridy = 2;
-
-            jButtonRegExDelete = new JButton( "Delete" );
-            jButtonRegExDelete.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonRegExDeleteMouseMousePressed();
-                    }
-                });
-            add(jButtonRegExDelete, gbc_jButtonRegExDelete);
-        }
-        {
-            GridBagConstraints gbc_jButtonRegExKeep = new GridBagConstraints();
-            gbc_jButtonRegExKeep.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonRegExKeep.gridx = 5;
-            gbc_jButtonRegExKeep.gridy = 2;
-
-            jButtonRegExKeep = new JButton( "Keep" );
-            jButtonRegExKeep.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButtonRegExKeepMouseMousePressed();
-                    }
-                });
-            add( jButtonRegExKeep, gbc_jButtonRegExKeep );
-        }
+        createPopupMenus();
     }
 
     public void populate(
@@ -240,101 +98,7 @@ public class JPanelResult extends JPanel
     {
         //this.duplicateFiles = duplicateFiles;
 
-        listModelDuplicatesFiles = new JPanelResultListModel( duplicateFiles );
-        jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
-        jListDuplicatesFiles.addListSelectionListener(
-            new ListSelectionListener() {
-                @Override
-                public void valueChanged( ListSelectionEvent e )
-                {
-                    int i = jListDuplicatesFiles.getSelectedIndex();
-
-                    updateDisplayKeptDelete( i );
-//                    if( i >= 0 ) {
-//                        //KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.get( i );
-//                        KeyFiles kf = listModelDuplicatesFiles.getElementAt( i );
-//                        String   k = kf.getKey();
-//
-//                        updateDisplayKeptDelete( k );
-//                        }
-                }
-            } );
-
-        jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        //jListKeptIntact.setModel( listModelKeptIntact );
-        jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
-        jListKeptIntact.addMouseListener( new MouseAdapter() {
-            @Override
-            public void mouseClicked( MouseEvent e )
-            {
-                if( e.getClickCount() > 0 ) {
-                    jListWillBeDeleted.clearSelection();
-                    int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                    if( index >= 0 ) {
-                        //KeyFileState kf = (KeyFileState)listModelKeptIntact.get( index );
-                        KeyFileState kf = listModelDuplicatesFiles
-                                .getKeptIntactListModel().getElementAt( index );
-
-                        displayFileInfo( kf );
-                        }
-                    }
-                if( e.getClickCount() == 2 ) { // Double-click
-                    int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                    if( index >= 0 ) {
-                        //KeyFileState kf = (KeyFileState)listModelKeptIntact.remove( index );
-                        KeyFileState kf = listModelDuplicatesFiles
-                                .getKeptIntactListModel().remove( index );
-
-                        DeleteThisFile( kf );
-                        }
-                    }
-            }
-        } );
-
-        jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        //jListWillBeDeleted.setModel( listModelWillBeDeleted );
-        jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );
-        jListWillBeDeleted.addMouseListener( new MouseAdapter() {
-            @Override
-            public void mouseClicked( MouseEvent e )
-            {
-                if( e.getClickCount() > 0 ) {
-                    jListKeptIntact.clearSelection();
-                    int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                    if( index >= 0 ) {
-                        //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.get( index );
-                        KeyFileState kf = listModelDuplicatesFiles
-                                .getWillBeDeletedListModel().getElementAt( index );
-
-                        displayFileInfo( kf );
-                        }
-                    }
-                if( e.getClickCount() == 2 ) { // Double-click
-                    int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                    if( index >= 0 ) {
-                        //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.remove( index );
-                        KeyFileState kf = listModelDuplicatesFiles
-                                .getWillBeDeletedListModel().remove( index );
-
-                        KeptThisFile( kf );
-                        }
-                    }
-            }
-        });
-        createPopupMenus();
-
-        Color errorColor = Color.RED;
-
-        xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
-        xComboBoxPatternRegEx.setModel(
-            new DefaultComboBoxModel<String>(new String[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
-            );
-
+        getListModelDuplicatesFiles().updateCache( duplicateFiles );
         updateDisplay();
     }
 
@@ -342,30 +106,31 @@ public class JPanelResult extends JPanel
     {
         //listModelKeptIntact.clear();
         //listModelWillBeDeleted.clear();
-        if( listModelDuplicatesFiles != null ) {
-            listModelDuplicatesFiles.clearKeepDelete();
-            }
+        getListModelDuplicatesFiles().clearKeepDelete();
+//        if( listModelDuplicatesFiles != null ) {
+//            getListModelDuplicatesFiles().clearKeepDelete();
+//            }
     }
 
     public void updateDisplay()
     {
         if( dFToolKit.getPreferences().getConfigMode() == ConfigMode.BEGINNER ) {
-            jToggleButtonSelectByRegEx.setSelected( false );
-            jToggleButtonSelectByRegEx.setEnabled( false );
+            getJToggleButtonSelectByRegEx().setSelected( false );
+            getJToggleButtonSelectByRegEx().setEnabled( false );
             }
         else {
-            jToggleButtonSelectByRegEx.setEnabled( true );
+            getJToggleButtonSelectByRegEx().setEnabled( true );
             }
 
-        boolean useRegEx = jToggleButtonSelectByRegEx.isSelected();
+        boolean useRegEx = getJToggleButtonSelectByRegEx().isSelected();
 
         //jTextFieldRegEx.setVisible(useRegEx);
-        xComboBoxPatternRegEx.setVisible( useRegEx );
-        jCheckBoxKeepOne.setVisible( useRegEx );
-        jButtonRegExDelete.setVisible( useRegEx );
-        jButtonRegExKeep.setVisible( useRegEx );
+        getXComboBoxPatternRegEx().setVisible( useRegEx );
+        getJCheckBoxKeepOne().setVisible( useRegEx );
+        getJButtonRegExDelete().setVisible( useRegEx );
+        getJButtonRegExKeep().setVisible( useRegEx );
 
-        int index = jListDuplicatesFiles.getSelectedIndex();
+        int index = getJListDuplicatesFiles().getSelectedIndex();
 
         updateDisplayKeptDelete( index );
 //        if( index >= 0 ) {
@@ -375,83 +140,35 @@ public class JPanelResult extends JPanel
 //            }
     }
 
-    private JSplitPane getJSplitPaneResultMain()
-    {
-        if (jSplitPaneResultMain == null) {
-            jSplitPaneResultMain = new JSplitPane();
-            jSplitPaneResultMain.setDividerLocation(100);
 
-            JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
-            jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
 
-            jSplitPaneResultMain.setLeftComponent( jScrollPaneDuplicatesFiles );
-            jSplitPaneResultMain.setRightComponent(getJSplitPaneResultRight());
-            }
-        return jSplitPaneResultMain;
-    }
-
-    private JSplitPane getJSplitPaneResultRight()
-    {
-        if (jSplitPaneResultRight == null) {
-            jSplitPaneResultRight = new JSplitPane();
-            jSplitPaneResultRight.setDividerLocation(100);
-            jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
-            JScrollPane jScrollPaneKeptIntact = new JScrollPane();
-            jListKeptIntact = new JList<KeyFileState>();
-
-            jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
-            jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
-
-            JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
-            jListWillBeDeleted = new JList<KeyFileState>();
-            jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
-
-            jSplitPaneResultRight.setBottomComponent( jScrollPaneWillBeDeleted );
-        }
-        return jSplitPaneResultRight;
-    }
-
-    private JList<KeyFiles> getJListDuplicatesFiles()
-    {
-        if (jListDuplicatesFiles == null) {
-            jListDuplicatesFiles = new JList<KeyFiles>();
-            jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if( e.getClickCount() == 2 ) {
-                        // TODO: move current file to other list !
-                        }
-                    }
-                });
-        }
-        return jListDuplicatesFiles;
-    }
 
     protected void jButtonPrevSetMouseMousePressed( MouseEvent event )
     {
-        final int size = jListDuplicatesFiles.getModel().getSize();
+        final int size = getJListDuplicatesFiles().getModel().getSize();
 
         if( size > 0 ) {
-            int i = jListDuplicatesFiles.getSelectedIndex() - 1;
+            int i = getJListDuplicatesFiles().getSelectedIndex() - 1;
 
             if( i < 0 ) {
                 i = size - 1;
                 }
-            jListDuplicatesFiles.setSelectedIndex( i );
+            getJListDuplicatesFiles().setSelectedIndex( i );
             }
     }
 
+    @Override
     protected void jButtonNextSetMouseMousePressed( MouseEvent event )
     {
-        final int size = jListDuplicatesFiles.getModel().getSize();
+        final int size = getJListDuplicatesFiles().getModel().getSize();
 
         if( size > 0 ) {
-            int i = jListDuplicatesFiles.getSelectedIndex() + 1;
+            int i = getJListDuplicatesFiles().getSelectedIndex() + 1;
 
             if( i >= size ) {
                 i = 0;
                 }
-            jListDuplicatesFiles.setSelectedIndex( i );
+            getJListDuplicatesFiles().setSelectedIndex( i );
             }
     }
 
@@ -515,10 +232,11 @@ public class JPanelResult extends JPanel
         }
     }
 
-    private void displayFileInfo( KeyFileState kf )
+    @Override
+    protected void displayFileInfo( KeyFileState kf )
     {
         if( kf == null ) {
-            jTextFieldFileInfo.setText( "" );
+            getJTextFieldFileInfo().setText( "" );
             }
         else {
             File    f       = kf.getFile();
@@ -532,7 +250,7 @@ public class JPanelResult extends JPanel
                         new Date(f.lastModified())
                         );
 
-            jTextFieldFileInfo.setText(
+            getJTextFieldFileInfo().setText(
                 String.format(
                         "%s - %d [%s%s%s] %s (%s)",
                         f.getName(),
@@ -548,13 +266,16 @@ public class JPanelResult extends JPanel
         }
     }
 
-    private void updateDisplayKeptDelete( int index )
+    @Override
+    protected void updateDisplayKeptDelete( int index )
     {
+        logger.info( "updateDisplayKeptDelete: index = " + index );
+
         if( index < 0 ) {
             return;
             }
 
-        final KeyFiles kf  = listModelDuplicatesFiles.getElementAt( index );
+        final KeyFiles kf  = getListModelDuplicatesFiles().getElementAt( index );
         final String   key = kf.getKey();
 
         updateDisplayKeptDelete( key );
@@ -562,16 +283,16 @@ public class JPanelResult extends JPanel
 
     private void updateDisplayKeptDelete( String key )
     {
-        slogger.info( "updateDisplayKeptDelete: " + key );
+        logger.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
 //        listModelKeptIntact.clear();
 //        listModelWillBeDeleted.clear();
         displayFileInfo( null );
-        Set<KeyFileState> s = listModelDuplicatesFiles.getStateSet( key );
+        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
         if( s != null ) {
-            listModelDuplicatesFiles.setKeepDelete( s );
+            getListModelDuplicatesFiles().setKeepDelete( s );
             }
         else {
-            slogger.error( "updateDisplayKeptDelete() * Missing key:" + key );
+            logger.error( "updateDisplayKeptDelete() * Missing key:" + key );
             }
 
 ////        Set<KeyFileState>       s  = duplicateFiles.get( key );
@@ -595,7 +316,8 @@ public class JPanelResult extends JPanel
 //        ss.clear();
     }
 
-    private void DeleteThisFile( KeyFileState kf )
+    @Override
+    protected void DeleteThisFile( KeyFileState kf )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( true );
@@ -603,7 +325,8 @@ public class JPanelResult extends JPanel
             }
     }
 
-    private void KeptThisFile( KeyFileState kf )
+    @Override
+    protected void KeptThisFile( KeyFileState kf )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( false );
@@ -624,8 +347,8 @@ public class JPanelResult extends JPanel
 
     private void createPopupMenus()
     {
-        createPopupMenus( jListKeptIntact );
-        createPopupMenus( jListWillBeDeleted );
+        createPopupMenus( getJListKeptIntact() );
+        createPopupMenus( getJListWillBeDeleted() );
     }
 
     private void createPopupMenus( final JList<KeyFileState> jList )
@@ -649,7 +372,7 @@ public class JPanelResult extends JPanel
                     );
                 cm.addSeparator();
 
-                if( jList == jListKeptIntact ) {
+                if( jList == getJListKeptIntact() ) {
                     // ONLY: jListKeptIntact
                     addContextSubMenuActionCommand(
                         this,
@@ -733,7 +456,7 @@ public class JPanelResult extends JPanel
                     final KeyFileState kf         = (KeyFileState)sourceItem.getClientProperty(ACTION_OBJECT);
                     final String       cmd        = sourceItem.getActionCommand();
 
-                    slogger.info( "cmd:" + cmd + " - " + kf );
+                    logger.info( "cmd:" + cmd + " - " + kf );
 
                     if( ACTION_COMMAND_DeleteThisFile.equals( cmd ) ) {
                         DeleteThisFile(kf);
@@ -745,7 +468,7 @@ public class JPanelResult extends JPanel
                         final String k    = kf.getKey();
                         final File   file = kf.getFile();
 
-                        Set<KeyFileState> s = listModelDuplicatesFiles.getStateSet( k );
+                        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
                         //Set<KeyFileState> s = duplicateFiles.get( k );
 
                         if( s != null ) {
@@ -764,7 +487,7 @@ public class JPanelResult extends JPanel
                         final String k    = kf.getKey();
                         final File   file = kf.getFile();
 
-                        Set<KeyFileState> s = listModelDuplicatesFiles.getStateSet( k );
+                        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
 //                        Set<KeyFileState> s = duplicateFiles.get( k );
 
                         if( s != null ) {
@@ -784,7 +507,7 @@ public class JPanelResult extends JPanel
                         final String dirPath = kf.getFile().getPath() + File.separator;
 
                         //Look for all files in this dir !
-                        for( Entry<String,Set<KeyFileState>> entry : listModelDuplicatesFiles.getStateEntrySet() ) {
+                        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
 //                        for(Entry<String, Set<KeyFileState>> entry:duplicateFiles.entrySet()) {
                             //String              k = entry.getKey();
                             Set<KeyFileState>   s = entry.getValue();
@@ -823,7 +546,7 @@ public class JPanelResult extends JPanel
                         //TODO need to be studies
 
                         //Look for all files in this dir !
-                        for( Entry<String,Set<KeyFileState>> entry : listModelDuplicatesFiles.getStateEntrySet() ) {
+                        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
                             int               c = 0;
                             Set<KeyFileState> s = entry.getValue();
 
@@ -856,7 +579,7 @@ public class JPanelResult extends JPanel
                         final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
 
-                        for( KeyFileState f : listModelDuplicatesFiles.getStateSet( k ) ) {
+                        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
                             if( f.isInDirectory( dirPath ) ) {
                                 f.setSelectedToDelete( false );
                                 }
@@ -867,7 +590,7 @@ public class JPanelResult extends JPanel
                         final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
 
-                        for( KeyFileState f : listModelDuplicatesFiles.getStateSet( k ) ) {
+                        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
                             if( f.isInDirectory( dirPath ) ) {
                                 f.setSelectedToDelete( true );
                                 }
@@ -875,7 +598,7 @@ public class JPanelResult extends JPanel
                             }
                         }
                     else {
-                        slogger.error("Don't known how to handle: " + cmd);
+                        logger.error("Don't known how to handle: " + cmd);
                         }
                     }
             };
@@ -883,7 +606,8 @@ public class JPanelResult extends JPanel
         return actionListenerContextSubMenu;
     }
 
-    private void jToggleButtonSelectByRegExChangeStateChanged(ChangeEvent e)
+    @Override
+    protected void jToggleButtonSelectByRegExChangeStateChanged(ChangeEvent e)
     {
         updateDisplay();
     }
@@ -891,10 +615,9 @@ public class JPanelResult extends JPanel
     private Pattern getCurrentPattern()
     {
         try {
-            return xComboBoxPatternRegEx.getSelectedPattern();
+            return getXComboBoxPatternRegEx().getSelectedPattern();
             }
         catch( java.util.regex.PatternSyntaxException e ) {
-            // TODO display alert !
             JOptionPane.showMessageDialog(
                     this,
                     e.getLocalizedMessage(),
@@ -905,22 +628,23 @@ public class JPanelResult extends JPanel
             }
     }
 
-    private void jButtonRegExDeleteMouseMousePressed()
+    @Override
+    protected void jButtonRegExDeleteMouseMousePressed()
     {
         Pattern p = getCurrentPattern();
         if( p == null ) {
             return;
             }
-        boolean keepOne = jCheckBoxKeepOne.isSelected();
+        boolean keepOne = getJCheckBoxKeepOne().isSelected();
 
-        for( KeyFileState f : listModelDuplicatesFiles.iter() ) {
+        for( KeyFileState f : getListModelDuplicatesFiles().iter() ) {
             if( !f.isSelectedToDelete() ) {
-                slogger.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
+                logger.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
                     if( keepOne ) {
                         String            k = f.getKey();
 //                        Set<KeyFileState> s = duplicateFiles.get( k );
-                        Set<KeyFileState> s = listModelDuplicatesFiles.getStateSet( k );
+                        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
                         int               c = 0;
 
                         for(KeyFileState fc:s) {
@@ -928,7 +652,7 @@ public class JPanelResult extends JPanel
                                 c++;
                                 }
                             }
-                        slogger.info( "count=" + c );
+                        logger.info( "count=" + c );
                         if( c > 1 ) {
                             f.setSelectedToDelete( true );
                             }
@@ -942,7 +666,8 @@ public class JPanelResult extends JPanel
         updateDisplay();
     }
 
-    private void jButtonRegExKeepMouseMousePressed()
+    @Override
+    protected void jButtonRegExKeepMouseMousePressed()
     {
         Pattern p = getCurrentPattern();
 
@@ -950,7 +675,7 @@ public class JPanelResult extends JPanel
             return;
             }
 
-        for( KeyFileState f : listModelDuplicatesFiles.iter() ) {
+        for( KeyFileState f : getListModelDuplicatesFiles().iter() ) {
             if( f.isSelectedToDelete() ) {
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
                     f.setSelectedToDelete( false );
@@ -966,6 +691,6 @@ public class JPanelResult extends JPanel
         // TODO Auto-generated method stub
         // TODO Auto-generated method stub
         // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 }
