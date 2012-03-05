@@ -95,7 +95,7 @@ public class Base64Test
         StringBuilder encodeCharSB = new StringBuilder();
 
         for( int i = 0; i<9; i++)  {
-            encodeCharSB.append( new Character( (char)('A' + i) ) );
+            encodeCharSB.append( Character.valueOf( (char)('A' + i) ) );
             String s     = encodeCharSB.toString();
             String enc   = Base64Encoder.encode( s );
             slogger.info( "encode " + s.length() + " Character String res = [" + enc + "] " + enc.length() );

@@ -98,7 +98,7 @@ public class MappableBuilder
      * Create a default MappableBuilderFactory based
      * on {@link DefaultMappableBuilderFactory}
      * <p>
-     * TODO: doc! describe default initialization
+     * TODOC: describe default initialization
      * </p>
      */
     public static MappableBuilderFactory createMappableBuilderFactory()
@@ -297,7 +297,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return TODO: doc
+     * @return TODOC
      */
     protected String formatIterableEntry(
             String  methodeName,
@@ -318,7 +318,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return TODO: doc
+     * @return TODOC
      */
     protected String formatIteratorEntry(String methodeName, int index, int max)
     {
@@ -337,7 +337,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return TODO: doc
+     * @return TODOC
      */
     protected String formatEnumerationEntry(String methodeName, int index, int max)
     {
@@ -356,7 +356,7 @@ public class MappableBuilder
      * @param methodeName
      * @param index
      * @param max
-     * @return TODO: doc
+     * @return TODOC
      */
     protected String formatArrayEntry(String methodeName, int index, int max)
     {
@@ -373,7 +373,7 @@ public class MappableBuilder
      * TODOC
      *
      * @param methodeName
-     * @return TODO: doc
+     * @return TODOC
      */
     protected String formatMethodName(String methodeName)
     {
@@ -423,7 +423,7 @@ public class MappableBuilder
      * TODOC
      *
      * @param clazz
-     * @return TODO: doc
+     * @return TODOC
      */
     protected final boolean isMappable(Class<?> clazz)
     {
@@ -585,7 +585,7 @@ public class MappableBuilder
      * @param method
      * @param hashMap
      * @param resultClass
-     * @return TODO: doc
+     * @return TODOC
      */
     protected final Object invoke(
             final Object object,

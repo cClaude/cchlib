@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  * Provide a default implementation for IntrospectionItem
  * </p>
  * <p>
- * This implementation use annotation to fill minValue, maxValue 
+ * This implementation use annotation to fill minValue, maxValue
  * and defaultValue.
  * <br/>
  * Annotation MUST be set on setter's methods
@@ -22,51 +22,51 @@ import java.lang.reflect.Method;
  *  - IVLong
  * </pre>
  * </p>
- * 
+ *
  * @author Claude CHOISNET
- * 
- * @param <O> 
+ *
+ * @param <O>
  * @see IVInt
  * @see IVLong
  */
-public class DefaultIntrospectionItem<O> 
-    extends AbstractIntrospectionItem<O> 
+public class DefaultIntrospectionItem<O>
+    extends AbstractIntrospectionItem<O>
 {
     private Object minValue;
     private Object defaultValue;
     private Object maxValue;
-    
-    public DefaultIntrospectionItem( 
-            final Method getter, 
+
+    public DefaultIntrospectionItem(
+            final Method getter,
             final Method setter
             )
     {
         super( getter, setter );
-        
+
         IVInt  ivInt  = setter.getAnnotation( IVInt.class );
         IVLong ivLong = setter.getAnnotation( IVLong.class );
 
         if( ivInt != null && ivLong != null ) {
             // Exception ? or log ? nothing ?
-        }
-        
+            }
+
         if( ivInt != null ) {
             // Use protected setters ?
             this.minValue     = ivInt.minValue();
             this.defaultValue = ivInt.defaultValue();
             this.maxValue     = ivInt.maxValue();
-        }
+            }
         else if( ivLong != null ) {
             // Use protected setters ?
             this.minValue     = ivLong.minValue();
             this.defaultValue = ivLong.defaultValue();
             this.maxValue     = ivLong.maxValue();
-        }
+            }
         else {
             // Don't do anything, since this
             // class could be extended to implements
             // others cases !
-        }
+            }
     }
 
     @Override
@@ -110,7 +110,7 @@ public class DefaultIntrospectionItem<O>
     {
         this.maxValue = maxValue;
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */

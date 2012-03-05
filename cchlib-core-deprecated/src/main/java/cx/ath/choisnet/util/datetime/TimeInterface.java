@@ -28,7 +28,7 @@ public interface TimeInterface
 //     * TO DOC
 //     *
 //     * @param time
-//     * @return TODO doc!
+//     * @return TOD O doc!
 //     * @throws BasicDateTimeException
 //     */
 //    public abstract TimeInterface add(TimeInterface time)
@@ -38,7 +38,7 @@ public interface TimeInterface
 //     * TO DOC
 //     *
 //     * @param time
-//     * @return TODO doc!
+//     * @return TOD O doc!
 //     * @throws BasicDateTimeException
 //     */
 //    public abstract TimeInterface sub(TimeInterface time)
@@ -48,7 +48,7 @@ public interface TimeInterface
      * TODOC
      *
      * @param time
-     * @return TODO doc!
+     * @return TODOC
      */
     public abstract boolean equals(TimeInterface time);
 }

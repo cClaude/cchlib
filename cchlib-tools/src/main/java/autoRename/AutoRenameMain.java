@@ -180,7 +180,6 @@ public class AutoRenameMain {
      */
     public static void main( String[] args )
     {
-        // TODO Auto-generated method stub
         File homeDir = new File( "ZZ:/Datas/Photos" );
         
         System.out.println( "Running from: " + homeDir );

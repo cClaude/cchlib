@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import org.apache.log4j.Logger;
 
 /**
- * 
+ *
  * @author CC
  * @param <O> Object to inspect
  */
@@ -29,17 +29,17 @@ public class IntrospectionBuilder<O>
     private Map<String,Method> setterMethodsMap = new TreeMap<String,Method>();
 
     /**
-     * 
+     *
      * @param inpectClass
      * @param attribSet
      * @see IVIgnore
-     * 
+     *
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
     public IntrospectionBuilder(
             Class<O>                        inpectClass,
             EnumSet<Introspection.Attrib>   attribSet
-            ) 
+            )
     {
         if( attribSet == null ) {
             attribSet = EnumSet.noneOf( Introspection.Attrib.class );
@@ -68,17 +68,21 @@ public class IntrospectionBuilder<O>
                     final String methodName = m.getName();
 
                     //TODO: check if return something !
-                    
+
                     if( methodName.equals( "getClass" ) ) {
                         // ignore privateSLog.trace( "Ignored Method: " + m );
-                    } else if( methodName.startsWith( "is" ) ) {
+                        }
+                    else if( methodName.startsWith( "is" ) ) {
                         addGetter( methodName.substring( 2 ), m );
-                    } else if( methodName.startsWith( "get" ) ) {
+                        }
+                    else if( methodName.startsWith( "get" ) ) {
                         addGetter( methodName.substring( 3 ), m );
-                    } /*else if( sLog.isDebugEnabled() ) {
+                        }
+                    /*else if( sLog.isDebugEnabled() ) {
                         sLog.debug( "* (0)Ignore this Method: " + m );
                     } */
-                } else if( m.getParameterTypes().length == 1 ) {
+                    }
+                else if( m.getParameterTypes().length == 1 ) {
                     final String methodName = m.getName();
 
                     if( methodName.startsWith( "is" ) ) {
@@ -92,7 +96,7 @@ public class IntrospectionBuilder<O>
                 } /*else if( sLog.isDebugEnabled() ) {
                     sLog.debug( "* (>1)Ignore this Method: " + m );
                 }*/
-            } // if( getThis ) 
+            } // if( getThis )
             else if( sLog.isDebugEnabled() ) {
                 sLog.debug( "* (out of scope) Ignore this Method: " + m );
             }
@@ -108,9 +112,9 @@ public class IntrospectionBuilder<O>
     {
         addMethod( this.setterMethodsMap, beanName, method );
     }
-    
-    private void addMethod( 
-            final Map<String,Method>    methodsMap, 
+
+    private void addMethod(
+            final Map<String,Method>    methodsMap,
             final String                beanName,
             final Method                method
             )

@@ -65,7 +65,7 @@ public class DHCPOptions
 
     public DHCPOptions setOption(byte option, DHCPOptionEntry value)
     {
-        optionsTable.put(new Byte(option), value);
+        optionsTable.put( Byte.valueOf( option ), value);
 
         return this;
     }
@@ -109,12 +109,12 @@ public class DHCPOptions
 
     public void removeOption(byte code)
     {
-        removeOption(new Byte(code));
+        removeOption( Byte.valueOf( code ) );
     }
 
     public DHCPOptionEntry getDHCPOptionEntry(byte code)
     {
-        return optionsTable.get(new Byte(code));
+        return optionsTable.get( Byte.valueOf( code ) );
     }
 
     public byte[] getOption(byte code)

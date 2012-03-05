@@ -129,7 +129,7 @@ public class SimpleZip
     }
 
     /**
-     * TODO:doc!
+     * Deprecated
      *
      * @param c
      * @throws java.io.IOException
@@ -144,7 +144,7 @@ public class SimpleZip
     }
 
     /**
-     * TODO:doc!
+     * Deprecated
      *
      * @param iterator
      * @throws java.io.IOException
@@ -158,7 +158,7 @@ public class SimpleZip
     }
 
     /**
-     *
+     * Deprecated
      * @param folderFile
      * @param wrapper
      * @throws java.io.IOException

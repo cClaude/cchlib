@@ -48,7 +48,6 @@ public class SMS implements Serializable
      */
     public SMS()
     {
-        // TODO Auto-generated constructor stub
     }
 
     /**

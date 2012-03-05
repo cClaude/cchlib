@@ -17,7 +17,6 @@ public class MPEContact extends DefaultContact
     protected MPEContact( final ContactProperties contactProperties )
     {
         super(contactProperties);
-        // TODO Auto-generated constructor stub
     }
 
 }

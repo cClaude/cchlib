@@ -45,7 +45,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean containsKey( Object key )
@@ -57,7 +57,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public boolean containsValue( Object value )
@@ -77,7 +77,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public V get( Object key )
@@ -101,7 +101,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public V put( KR key, V value )
@@ -111,7 +111,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public void putAll( Map<? extends KR, ? extends V> m )
@@ -123,7 +123,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      */
     @Override
     public V remove( Object key )
@@ -189,6 +189,18 @@ public class MapKeyWrapper<KS,KR,V>
                     return (getKey()==null   ? 0 : getKey().hashCode()) ^
                            (getValue()==null ? 0 : getValue().hashCode());
                  }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (obj == null) {
+                        return false;
+                    }
+                    if (getClass() != obj.getClass()) {
+                        return false;
+                    }
+                    // FIXME: TODO !!! equals !
+                    return true;
+                }
             };
         }
     }

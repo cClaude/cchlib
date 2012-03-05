@@ -17,24 +17,24 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 /**
  * Generic class to find getters/setters observers using Reflection
- * 
+ *
  * @author CC
  * @param <O> Object to inspect
  * @param <I> Content objects for values, must extends IntropectionItem
  *
  */
-public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>> 
-    implements Comparator<O> 
+public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
+    implements Comparator<O>
 {
     /** Some logs */
     private final static Logger sLog = Logger.getLogger(Introspection.class);
 
     /**
-     * 
+     *
      * @author CC
      */
-    public enum Attrib{ 
-        ONLY_PUBLIC, 
+    public enum Attrib{
+        ONLY_PUBLIC,
         NO_DEPRECATED
         };
 
@@ -53,31 +53,31 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             Class<O>                                        inpectClass,
             IntrospectionItemFactory<IntrospectionItem<O>>  itemFactory,
             EnumSet<Attrib>                                 attribSet
-            ) 
+            )
     {
         if( attribSet == null ) {
             attribSet = EnumSet.noneOf( Attrib.class );
-        }
-        
+            }
+
         // get generic class !
         this.itemFactory    = itemFactory;
         this.itemsMap       = new TreeMap<String,I>();
-        
+
         IntrospectionBuilder<O> builder = new IntrospectionBuilder<O>(inpectClass, attribSet);
-        
+
         for( Map.Entry<String,Method> entry : builder.getGetterMethodsMap().entrySet() ) {
             String beanName = entry.getKey();
             Method setter   = builder.getSetterMethodsMap().get( beanName );
-            
+
             if( setter != null ) {
-                //final I methodInfo = 
+                //final I methodInfo =
                 addMethod( beanName, entry.getValue(), setter );
+                }
             }
-        }
     }
 
     /**
-     * 
+     *
      */
     private void addMethod( final String beanName, final Method getter, final Method setter )
     {
@@ -115,17 +115,17 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     {
         try {
             return compareWithException( o1, o2 );
-        }
+            }
         catch( IntrospectionCompareException e ) {
             sLog.info( "Compare diff found using: " + e.getMethod(), e );
 
             return e.getCompareValue();
-        }
+            }
         catch( IntrospectionInvokeException e ) {
             sLog.warn( "Exception while compare: " + e.getMethod(), e );
 
             return Integer.MIN_VALUE;
-        }
+            }
     }
 
     /**
@@ -143,7 +143,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             final Object v2 = item.getObjectValue( o2 );
 
             compareWithExceptionObjects( v1, v2, item.getGetterMethod() );
-        }
+            }
 
         return 0;
     }
@@ -154,31 +154,31 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         if( v1 == null ) {
             if( v2 == null ) {
                 // continue
-            }
+                }
             else {
                 throw new IntrospectionCompareException( "v1 is null, but v2=" + v2, m, v1, v2, 1 );
+                }
             }
-        }
         else if( v2 == null ) {
             throw new IntrospectionCompareException( "v2 is null, but v1=" + v1, m, v1, v2, -1 );
-        }
+            }
         else if( v1 instanceof Comparable ) {
             @SuppressWarnings("unchecked")
             final int c = Comparable.class.cast( v1 ).compareTo( v2 );
 
             if( c != 0 ) {
                 throw new IntrospectionCompareException( m, v1, v2, c );
-            }
+                }
             else {
                 // continue
+                }
             }
-        }
         else if( v1.getClass().isArray() && v2.getClass().isArray() ) {
             compareWithExceptionArrays( v1, v2, m );
-        }
+            }
         else if( ! v1.equals( v2 ) ) {
             throw new IntrospectionCompareException( m, v1, v2, Integer.MAX_VALUE );
-        }
+            }
     }
 
     private void compareWithExceptionArrays( final Object a1, final Object a2, final Method m )
@@ -188,10 +188,10 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
 
         if( len != Array.getLength( a2 ) ) {
             throw new IntrospectionCompareException( "Arrays not same size", m, a1, a2, Integer.MAX_VALUE );
-        }
+            }
         if( len == 0 ) {
             // continue
-        }
+            }
         else {
             for( int i = 0; i<len; i++ ) {
                 Object av1 = Array.get( a1, 0 );
@@ -200,21 +200,21 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
                 if( av1 == null ) {
                     if( av2 == null ) {
                         // continue
-                    }
+                        }
                     else {
                         throw new IntrospectionCompareException( "Arrays diff(1)", m, a1, a2, Integer.MAX_VALUE );
+                        }
                     }
-                }
                 else {
                     if( av2 == null ) {
                         throw new IntrospectionCompareException( "Arrays diff(2)", m, a1, a2, Integer.MAX_VALUE );
-                    }
+                        }
                     else {
                         compareWithExceptionObjects( av1, av2, m );
+                        }
                     }
                 }
             }
-        }
     }
 }
 

@@ -25,7 +25,6 @@ public class SMSConfig
                 badDates[ i ] = fmt.parse( badDatesString[ i ] );
             }
             catch( ParseException e ) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

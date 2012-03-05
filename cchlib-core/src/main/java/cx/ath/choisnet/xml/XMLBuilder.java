@@ -55,7 +55,7 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param aNode
      * @return this object for chaining initialization
@@ -92,7 +92,7 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param nodeList
      * @return this object for chaining initialization
@@ -114,9 +114,9 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
-     * @return
+     * @return TODOC
      */
     public String appendableToString()
     {
@@ -124,10 +124,10 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param aNode
-     * @return
+     * @return TODOC
      */
     public static String toString( Node aNode )
     {
@@ -139,10 +139,10 @@ public class XMLBuilder
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param nodeList
-     * @return
+     * @return TODOC
      */
     public static String toString( NodeList nodeList )
     {

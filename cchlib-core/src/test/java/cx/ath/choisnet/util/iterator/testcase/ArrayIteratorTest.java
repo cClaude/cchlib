@@ -104,7 +104,7 @@ public class ArrayIteratorTest extends TestCase
         test_BuildFromItems(Integer.class,ARRAY_INT);
         test_BuildFromItems(List.class,ARRAY_LIST);
 
-        Iterator<Integer> iter = ArrayIterator.of( new Integer(1), new Integer(2), new Integer(3) );
+        Iterator<Integer> iter = ArrayIterator.of( Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3) );
         test_BuildFromItems( Integer.class, iter, 3 );
     }
 

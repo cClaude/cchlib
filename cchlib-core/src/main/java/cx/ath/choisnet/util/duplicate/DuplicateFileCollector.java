@@ -108,7 +108,7 @@ public class DuplicateFileCollector
                 continue;
             }
 
-            mapLengthFiles.add( new Long(size), f );
+            mapLengthFiles.add( Long.valueOf( size ), f );
 
             if( cancelProcess ) {
                 internalClear();
@@ -288,7 +288,7 @@ public class DuplicateFileCollector
     }
 
     /**
-     * TODO: Doc !
+     * TODOC
      *
      * @return true if
      */

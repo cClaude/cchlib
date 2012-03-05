@@ -13,7 +13,7 @@ package alpha.com.googlecode.cchlib.utils;
 public interface Walkable<T>
 {
     /**
-     * TODO: Doc!
+     * TODOC
      * 
      * @param visitor
      */

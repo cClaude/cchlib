@@ -12,7 +12,7 @@ public class SerializableTest
     @Test
     public void testBase() throws IOException, ClassNotFoundException
     {
-        SerializableTestCaseHelper.testSerialization(new Integer( 15 ));
-        SerializableTestCaseHelper.testSerialization("Serialization test");
+        SerializableTestCaseHelper.testSerialization( Integer.valueOf( 15 ) );
+        SerializableTestCaseHelper.testSerialization( "Serialization test" );
     }
 }

@@ -153,7 +153,7 @@ public abstract class AbstractIntrospectionItem<O>
     public void setIntegerValue( final O object, final int value )
             throws IntrospectionInvokeException
     {
-        setObjectValue( object, new Integer( value ) );
+        setObjectValue( object, Integer.valueOf( value ) );
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class AbstractIntrospectionItem<O>
     public void setBooleanValue( final O object, final boolean value )
             throws IntrospectionInvokeException
     {
-        setObjectValue( object, new Boolean( value ) );
+        setObjectValue( object, Boolean.valueOf( value ) );
     }
 
     /**

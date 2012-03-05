@@ -334,7 +334,7 @@ public class NamedTree<T>
     }
 
     /**
-     * TODO: more doc!
+     * TODOC: more doc!
      *
      * <p>
      * Handle only {@link VisitResult} values:
@@ -381,7 +381,7 @@ public class NamedTree<T>
     }
 
     /**
-     * TODO: more doc!
+     * TODOC: more doc!
      *
      * <p>
      * Handle only {@link VisitResult} values:

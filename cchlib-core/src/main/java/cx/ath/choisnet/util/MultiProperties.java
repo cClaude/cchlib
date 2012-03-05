@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.util;
 
 import java.io.Serializable;

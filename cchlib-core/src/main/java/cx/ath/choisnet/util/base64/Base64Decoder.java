@@ -86,7 +86,7 @@ public class Base64Decoder extends Base64
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param in
      * @param out
@@ -99,17 +99,17 @@ public class Base64Decoder extends Base64
         int len;
 
         while( (len = in.read( buffer )) > 0 ) {
-            System.out.println( "BUF:" + new String( buffer ) );
-            System.out.println( "LEN:" + len);
+            //System.out.println( "BUF:" + new String( buffer ) );
+            //System.out.println( "LEN:" + len);
             byte[] dec = decode( buffer, 0, len);
-            System.out.println( "dLEN:" + dec.length);
+            //System.out.println( "dLEN:" + dec.length);
 
             out.write( dec );
             }
     }
 
     /**
-     * TODO: Doc!
+     * TODOC
      *
      * @param datas
      * @param out
