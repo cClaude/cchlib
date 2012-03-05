@@ -12,6 +12,8 @@ import com.googlecode.cchlib.io.FileHelper;
 public class BuildAppTest
 {
     private final static Logger logger = Logger.getLogger( BuildAppTest.class );
+    private final int DIFF_FILES_COUNT = 5000;
+    private final int DUPLICATE_FILES_COUNT = 3;
 
     //@Test
     public void test_BuidTst() throws IOException
@@ -20,7 +22,7 @@ public class BuildAppTest
                     FileHelper.getTmpDirFile(),
                     ".duplicatefiles-tst"
                     );
-        final String[] strings = new String[ 5000 ];
+        final String[] strings = new String[ DIFF_FILES_COUNT ];
 
         logger.info( "BuildAppTest in: " + tstRootFolder );
 
@@ -41,7 +43,7 @@ public class BuildAppTest
 
         final File toDelDir = new File( tstRootFolder, "DEL" );
 
-        for( int d = 0; d<5; d++ ) {
+        for( int d = 0; d<DUPLICATE_FILES_COUNT; d++ ) {
             final File tstFolder = new File(
                     toDelDir,
                     "dir-" + d

@@ -84,6 +84,8 @@ final public class DuplicateFilesFrame
     @I18nString private String txtRemove    = "Remove";
     @I18nString private String txtDeleteNow = "Delete now";
     @I18nString private String txtBack      = "Back";
+    @I18nString private String txtCancel            = "Cancel";
+    @I18nString private String txtClearSelection    = "Clear selection";
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private String txtOpenDesktopExceptionTitle = "Can not open file";
@@ -97,6 +99,7 @@ final public class DuplicateFilesFrame
         )
     {
         super();
+
         this.preferences    = preferences;
 
         //
@@ -200,7 +203,9 @@ final public class DuplicateFilesFrame
                              //
 
                             if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
-                                // DuplicateFilesFrame.this.removeEmptyDirectories.init();
+                                SwingUtilities.updateComponentTreeUI(
+                                    DuplicateFilesFrame.this.removeEmptyDirectories
+                                    );
                                 }
                             }
                         }
@@ -226,6 +231,8 @@ final public class DuplicateFilesFrame
 
                 getJButtonRestart().setText( txtRestart );
                 getJButtonRestart().setIcon( iconRestart );
+
+                getJButtonCancel().setText( txtCancel );
 
                 if( state == STATE_SELECT_DIRS ) {
                     getJPanel2Searching().clear();
@@ -276,6 +283,8 @@ final public class DuplicateFilesFrame
                     getJButtonRestart().setEnabled( false );
                     getJButtonNextStep().setEnabled( false );
                     getJButtonNextStep().setText( txtRemove );
+                    getJButtonCancel().setText( txtClearSelection );
+                    getJButtonCancel().setEnabled( true );
 
                     SwingUtilities.invokeLater( new Runnable() {
                         @Override
@@ -570,6 +579,7 @@ final public class DuplicateFilesFrame
                             if( getJButtonCancel().isEnabled() ) {
                                 getJButtonCancel().setEnabled( false );
                                 getJPanel2Searching().cancelProcess();
+                                getJPanel3Result().clearSelected();
                                 }
                             break;
 

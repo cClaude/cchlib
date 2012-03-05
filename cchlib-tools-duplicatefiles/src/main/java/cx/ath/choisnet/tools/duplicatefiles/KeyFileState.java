@@ -56,7 +56,7 @@ final public class KeyFileState
     {
         if( path == null ) {
             path = file.getPath();
-        }
+            }
 
         return path.startsWith( dirPath );
     }

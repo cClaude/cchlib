@@ -26,6 +26,7 @@ public final class KeyFiles implements Serializable, Iterable<KeyFileState>
         this.key   = key;
         this.files = files;
 
+        //FIXME: have a better choice than first one !
         // Get first File.
         File f = this.files.iterator().next().getFile();
         this.firstFileDisplayCache = f.getName();
