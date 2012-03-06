@@ -28,6 +28,8 @@ public class JPanelResultListModel
     private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( JPanelResultListModel.class );
     private HashMapSet<String,KeyFileState> duplicateFiles;
+    private SortMode sortMode;
+
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
     private Comparator<KeyFiles> filenameComparator;
@@ -69,6 +71,47 @@ public class JPanelResultListModel
             );
     }
 
+    public void updateCache()
+    {
+        final int prevLastIndex;
+
+        if( this.duplicatesFileCacheList.size() == 0 ) {
+            prevLastIndex = 0;
+            }
+        else {
+            prevLastIndex = this.duplicatesFileCacheList.size() - 1;
+            }
+
+        duplicatesFileCacheList.clear();
+
+        for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
+            String              k    = e.getKey();
+            Set<KeyFileState>   sf   = e.getValue();
+
+            duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
+            }
+
+        Comparator<? super KeyFiles> cmp;
+
+        switch( sortMode ) {
+            case FIRST_FILENAME :
+                cmp = this.filenameComparator;
+                break;
+
+            case FIRST_FILEPATH :
+                cmp = this.pathComparator;
+                break;
+
+            default : //case FILESIZE :
+                cmp = this.sizeComparator;
+                break;
+            }
+        Collections.sort( duplicatesFileCacheList, cmp  );
+
+        super.fireIntervalRemoved( this, 0, prevLastIndex );
+        super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
+    }
+
     /**
      *
      * @param duplicateFiles
@@ -79,42 +122,7 @@ public class JPanelResultListModel
             )
         {
             this.duplicateFiles = duplicateFiles;
-
-            final int prevLastIndex;
-
-            if( this.duplicatesFileCacheList.size() == 0 ) {
-                prevLastIndex = 0;
-                }
-            else {
-                prevLastIndex = this.duplicatesFileCacheList.size() - 1;
-                }
-
-            for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
-                String              k    = e.getKey();
-                Set<KeyFileState>   sf   = e.getValue();
-
-                duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
-                }
-
-            Comparator<? super KeyFiles> cmp;
-
-            switch( sortMode ) {
-                case FIRST_FILENAME :
-                    cmp = this.filenameComparator;
-                    break;
-
-                case FIRST_FILEPATH :
-                    cmp = this.pathComparator;
-                    break;
-
-                default : //case FILESIZE :
-                    cmp = this.sizeComparator;
-                    break;
-                }
-            Collections.sort( duplicatesFileCacheList, cmp  );
-
-            super.fireIntervalRemoved( this, 0, prevLastIndex );
-            super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
+            this.sortMode = sortMode;
         }
 
     @Override

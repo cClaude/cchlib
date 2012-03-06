@@ -36,27 +36,8 @@ public class JPanelResult extends JPanelResultWB
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( JPanelResult.class );
 
-    /*private JTextField jTextFieldFileInfo;
-    private JToggleButton jToggleButtonSelectByRegEx;
-    private XComboBoxPattern xComboBoxPatternRegEx;
-    private JCheckBox jCheckBoxKeepOne;
-    private JButton jButtonRegExDelete;
-    private JButton jButtonRegExKeep;*/
-
-    //private JSplitPane jSplitPaneResultMain;
-    //private JSplitPane jSplitPaneResultRight;
-    //private JList<KeyFiles>     jListDuplicatesFiles;
-    //private JList<KeyFileState> jListKeptIntact;
-    //private JList<KeyFileState> jListWillBeDeleted;
-
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
-
-    //private HashMapSet<String,KeyFileState>     duplicateFiles;
-    //private DefaultListModel<KeyFiles>          listModelDuplicatesFiles    = new DefaultListModel<KeyFiles>();
-    //private JPanelResultListModel               listModelDuplicatesFiles;
-    //private DefaultListModel<KeyFileState>      listModelKeptIntact         = new DefaultListModel<KeyFileState>();
-    //private DefaultListModel<KeyFileState>      listModelWillBeDeleted      = new DefaultListModel<KeyFileState>();
 
     private ActionListener      actionListenerContextSubMenu;
     private final static String ACTION_OBJECT                            = "KeyFile";
@@ -111,6 +92,7 @@ public class JPanelResult extends JPanelResultWB
         //listModelKeptIntact.clear();
         //listModelWillBeDeleted.clear();
         getListModelDuplicatesFiles().clearKeepDelete();
+        getListModelDuplicatesFiles().updateCache();
 //        if( listModelDuplicatesFiles != null ) {
 //            getListModelDuplicatesFiles().clearKeepDelete();
 //            }
@@ -144,9 +126,7 @@ public class JPanelResult extends JPanelResultWB
 //            }
     }
 
-
-
-
+    @Override
     protected void jButtonPrevSetMouseMousePressed( MouseEvent event )
     {
         final int size = getJListDuplicatesFiles().getModel().getSize();
