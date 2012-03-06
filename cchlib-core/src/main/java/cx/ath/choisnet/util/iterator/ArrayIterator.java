@@ -68,7 +68,7 @@ public class ArrayIterator<T>
      */
     private ArrayIterator( Class<T> clazz, int capacity)
     {
-        //TODO: perhaps something cleaner later?
+        //TODO: perhaps something better later?
         @SuppressWarnings("unchecked")
         T[] array = (T[])Array.newInstance(clazz,capacity);
         this.array = array;

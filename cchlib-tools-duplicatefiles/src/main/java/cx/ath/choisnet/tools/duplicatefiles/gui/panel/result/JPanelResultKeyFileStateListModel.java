@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
-import cx.ath.choisnet.tools.duplicatefiles.gui.panel.KeyFileStateListModel;
 
 //not public
 class JPanelResultKeyFileStateListModel
@@ -18,7 +17,6 @@ class JPanelResultKeyFileStateListModel
     {
         this.dataList = new ArrayList<>();
 
-        //this.dataList.add( new KeyFileState("xx", new File("xx")) );
         fireIntervalAdded( this, 0, dataList.size() );
     }
     @Override

@@ -17,8 +17,8 @@ final class DefaultKeyFiles extends AbstractKeyFiles
 
     /**
      *
-     * @param key
-     * @param files
+     * @param key    Key for theses files (hash code, MD5, ...)
+     * @param files Set with at least 2 entries
      */
     public DefaultKeyFiles(
         final String             key,

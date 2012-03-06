@@ -104,17 +104,17 @@ public class ObjectPopulatorHelper
         if( fieldObject instanceof LimitedIntegerJTextField ) {
             LimitedIntegerJTextField f = LimitedIntegerJTextField.class.cast( fieldObject );
             value = new Integer( f.getValue() );
-        }
+        	}
         else if( fieldObject instanceof JFormattedTextField ) {
             JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
-            //TODO: don't work !!!!!!
+            //TODO: did not work !!!!!!
             
             try {
                 f.commitEdit();
-            }
+            	}
             catch( ParseException e ) {
                 throw new SwingIntrospectorParseException( e );
-            }
+            	}
             value = f.getValue();
         }
         else if( fieldObject instanceof JCheckBox ) {

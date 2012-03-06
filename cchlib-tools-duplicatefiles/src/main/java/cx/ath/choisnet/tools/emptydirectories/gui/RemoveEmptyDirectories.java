@@ -14,7 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nString;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import cx.ath.choisnet.swing.list.LeftDotListCellRenderer;
 
@@ -261,7 +261,7 @@ public class RemoveEmptyDirectories
     private WaitingJFileChooserInitializer getWaitingJFileChooserInitializer()
     {
         if( waitingJFileChooserInitializer == null ) {
-            JFileChooserInitializer.Configure configurator
+            JFileChooserInitializerCustomize configurator
                 = WaitingJFileChooserInitializer.getDefaultConfigurator();
 
             waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(

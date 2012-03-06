@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
-import cx.ath.choisnet.tools.duplicatefiles.gui.panel.KeyFileStateListModel;
 import cx.ath.choisnet.util.HashMapSet;
 
 /**

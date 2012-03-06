@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import org.apache.log4j.Logger;
 
 /**
- * <p>TODO: Documentation, and some examples.</p>
+ * <p>TODOC: Documentation, and some examples.</p>
  * 
  * <p>
  * Field name must use following syntax:

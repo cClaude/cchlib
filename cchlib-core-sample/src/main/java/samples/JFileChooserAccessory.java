@@ -12,10 +12,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.Configure;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.FindAccessory;
@@ -338,7 +339,7 @@ public class JFileChooserAccessory extends JFrame
             public void run()
             {
                 if( waitingJFileChooserInitializer == null ) {
-                    Configure     config    = getJFileChooserInitializerConfigurator();
+                    JFileChooserInitializerCustomize     config    = getJFileChooserInitializerConfigurator();
                     Frame         frame    = JFileChooserAccessory.this;
                     String         waitTitle    = "waitTitle";
                     String         waitMessage    = "waitMessage";
@@ -374,7 +375,7 @@ public class JFileChooserAccessory extends JFrame
         jTextField_LastSelected.setText(txt);
     }
 
-    private JFileChooserInitializer.Configure getJFileChooserInitializerConfigurator()
+    private JFileChooserInitializerCustomize getJFileChooserInitializerConfigurator()
     {
         return new JFileChooserInitializer.DefaultConfigurator()
             {

@@ -27,7 +27,7 @@ public class JFileChooserInitializer
     /** @serial */
     private JFileChooser jFileChooser;
     /** @serial */
-    private Configure configurator;
+    private JFileChooserInitializerCustomize configurator;
     /** @serial */
     private boolean init0Lauched = false;
     /** @serial
@@ -117,11 +117,11 @@ public class JFileChooserInitializer
 
     /**
      * Build a {@link JFileChooser} using
-     * {@link Configure}
+     * {@link JFileChooserInitializerCustomize}
      *
      * @param configurator
      */
-    public JFileChooserInitializer(Configure configurator)
+    public JFileChooserInitializer(JFileChooserInitializerCustomize configurator)
     {
         this.configurator = configurator;
 
@@ -356,27 +356,9 @@ public class JFileChooserInitializer
     }
 
     /**
-     * Customize JFileChooser
-     */
-    public interface Configure extends Serializable
-    {
-        /**
-         * This method was call once, when JFileChooser is
-         * ready.
-         * @param jFileChooser
-         */
-        public void perfomeConfig(JFileChooser jFileChooser);
-
-        /**
-         * @param currentDirectory the currentDirectory to set
-         */
-        public void restoreCurrentDirectory( File currentDirectory );
-    }
-
-    /**
      * Default implementation for Configure
      */
-    public static class DefaultConfigurator implements Configure
+    public static class DefaultConfigurator implements JFileChooserInitializerCustomize
  {
         private static final long serialVersionUID = 1L;
         /** @serial */

@@ -40,7 +40,7 @@ public class WaitingJFileChooserInitializer
      * @param message
      */
     public WaitingJFileChooserInitializer(
-        final JFileChooserInitializer.Configure configurator,
+        final JFileChooserInitializerCustomize configurator,
         final Window                            parentWindow,
         final String                            title,
         final String                            message
@@ -84,7 +84,7 @@ public class WaitingJFileChooserInitializer
      *
      * @return
      */
-    public static JFileChooserInitializer.Configure getDefaultConfigurator()
+    public static JFileChooserInitializerCustomize getDefaultConfigurator()
     {
         return new JFileChooserInitializer.DefaultConfigurator(
             //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER

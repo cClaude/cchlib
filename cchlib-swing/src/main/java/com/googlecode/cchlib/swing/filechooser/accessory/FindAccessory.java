@@ -50,7 +50,7 @@ public class FindAccessory
      */
     public FindAccessory(JFileChooser parent)
     {
-        super(parent);
+        super( parent );
     }
 
     @Override // TabbedAccessoryInterface

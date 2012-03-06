@@ -15,7 +15,7 @@ import java.util.Map;
 public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
 {
     /**
-     * TODO: Doc
+     * TODOC
      *
      * @param title
      * @param anchorName
@@ -36,7 +36,7 @@ public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
 
     /**
      *
-     * TODO: Doc
+     * TODOC
      */
     public static MappableBuilderFactory getMappableBuilderFactory()
     {

@@ -196,7 +196,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
     /**
      *
-     * @return TODO: doc
+     * @return TODOC
      */
     public Map<String,SwingIntrospectorRootItem<FRAME>> getItemMap()
     {
@@ -206,7 +206,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     /**
      *
      * @param beanName
-     * @return TODO: doc
+     * @return TODOC
      */
     public SwingIntrospectorRootItem<FRAME> getRootItem( final String beanName )
     {
@@ -214,7 +214,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param frame  FRAME object to populate
      * @param object OBJECT where data will be read
@@ -282,7 +282,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODO: doc
+     * TODOC
      *
      * @param frame  FRAME where data will be read
      * @param object OBJECT object to populate
@@ -368,7 +368,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODO: doc!
+     * TODOC
      *
      * @param populateObject
      * @throws SwingIntrospectorIllegalAccessException

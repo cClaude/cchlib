@@ -331,11 +331,23 @@ public class JPanelResult extends JPanelResultWB
 
     private void createPopupMenus()
     {
-        createPopupMenus( getJListKeptIntact() );
-        createPopupMenus( getJListWillBeDeleted() );
-    }
+        createKeyFileStatePopupMenu( getJListKeptIntact() );
+        createKeyFileStatePopupMenu( getJListWillBeDeleted() );
 
-    private void createPopupMenus( final JList<KeyFileState> jList )
+        new JPopupMenuForJList<KeyFiles>( getJListDuplicatesFiles() )
+            {
+                @Override
+                protected JPopupMenu createContextMenu( final int rowIndex )
+                {
+                    JPopupMenu cm = new JPopupMenu();
+
+                    // TODO Auto-generated method stub
+                    return cm;
+                }
+            }.setMenu();
+   }
+
+    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList )
     {
         final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList )
         {
@@ -347,7 +359,7 @@ public class JPanelResult extends JPanelResultWB
 
                 addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
 
-                KeyFileState kf = (KeyFileState)getValueAt( rowIndex );
+                KeyFileState kf = /*(KeyFileState)*/getValueAt( rowIndex );
 
                 add(
                     cm,
@@ -373,7 +385,7 @@ public class JPanelResult extends JPanelResultWB
                         ACTION_COMMAND_DeleteAllExceptThisFile,
                         kf
                         );
-                }
+                    }
                 else {
                     // ONLY: jListWillBeDeleted
                     addContextSubMenuActionCommand(
@@ -391,7 +403,7 @@ public class JPanelResult extends JPanelResultWB
                         ACTION_COMMAND_KeepAllExceptThisFile,
                         kf
                         );
-                }
+                    }
 
                 addContextSubMenuActionCommandRec(
                     this,
