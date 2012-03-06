@@ -20,9 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.swing.XComboBoxPattern;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;

@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
-
 import org.apache.log4j.Logger;
 
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
@@ -32,9 +31,9 @@ public class JPanelResultListModel
 
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
-    private Comparator<KeyFiles> filenameComparator;
-    private Comparator<KeyFiles> pathComparator;
-    private Comparator<KeyFiles> sizeComparator;
+    private Comparator<? super KeyFiles> filenameComparator;
+    private Comparator<? super KeyFiles> pathComparator;
+    private Comparator<? super KeyFiles> sizeComparator;
 
     public JPanelResultListModel()
     {
@@ -85,10 +84,9 @@ public class JPanelResultListModel
         duplicatesFileCacheList.clear();
 
         for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
-            String              k    = e.getKey();
-            Set<KeyFileState>   sf   = e.getValue();
-
-            duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
+            duplicatesFileCacheList.add(
+                new DefaultKeyFiles( e.getKey(), e.getValue() )
+                );
             }
 
         Comparator<? super KeyFiles> cmp;
@@ -106,7 +104,7 @@ public class JPanelResultListModel
                 cmp = this.sizeComparator;
                 break;
             }
-        Collections.sort( duplicatesFileCacheList, cmp  );
+        Collections.sort( duplicatesFileCacheList, cmp );
 
         super.fireIntervalRemoved( this, 0, prevLastIndex );
         super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
