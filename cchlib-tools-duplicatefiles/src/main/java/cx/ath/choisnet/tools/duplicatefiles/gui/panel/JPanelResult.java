@@ -24,6 +24,8 @@ import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.swing.list.JPopupMenuForJList;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.JPanelResultWB;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.SortMode;
 import cx.ath.choisnet.util.HashMapSet;
 
 /**
@@ -98,7 +100,9 @@ public class JPanelResult extends JPanelResultWB
     {
         //this.duplicateFiles = duplicateFiles;
 
-        getListModelDuplicatesFiles().updateCache( duplicateFiles );
+        SortMode sortMode = SortMode.FILESIZE; // FIXME
+
+        getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode  );
         updateDisplay();
     }
 

@@ -1,10 +1,12 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.result;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.KeyFileStateListModel;
 
+//not public
 class JPanelResultKeyFileStateListModel
     extends AbstractListModel<KeyFileState>
         implements KeyFileStateListModel
@@ -16,6 +18,7 @@ class JPanelResultKeyFileStateListModel
     {
         this.dataList = new ArrayList<>();
 
+        //this.dataList.add( new KeyFileState("xx", new File("xx")) );
         fireIntervalAdded( this, 0, dataList.size() );
     }
     @Override
@@ -38,12 +41,12 @@ class JPanelResultKeyFileStateListModel
         return value;
     }
 
-    void _add( final KeyFileState value )
+    void private_add( final KeyFileState value )
     {
         dataList.add( value );
     }
 
-    void _fireAddedAll()
+    void private_fireAddedAll()
     {
         fireIntervalAdded( this, 0, dataList.size() );
     }

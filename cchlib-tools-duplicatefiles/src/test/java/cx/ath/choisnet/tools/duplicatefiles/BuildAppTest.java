@@ -12,7 +12,7 @@ import com.googlecode.cchlib.io.FileHelper;
 public class BuildAppTest
 {
     private final static Logger logger = Logger.getLogger( BuildAppTest.class );
-    private final int DIFF_FILES_COUNT = 5000;
+    private final int DIFF_FILES_COUNT = 50;
     private final int DUPLICATE_FILES_COUNT = 3;
 
     //@Test

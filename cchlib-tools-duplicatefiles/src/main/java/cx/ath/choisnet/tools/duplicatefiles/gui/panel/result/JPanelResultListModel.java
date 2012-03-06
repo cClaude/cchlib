@@ -1,5 +1,7 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.result;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.KeyFileStateListModel;
 import cx.ath.choisnet.util.HashMapSet;
 
 /**
@@ -27,16 +30,64 @@ public class JPanelResultListModel
     private HashMapSet<String,KeyFileState> duplicateFiles;
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
+    private Comparator<KeyFiles> filenameComparator;
+    private Comparator<KeyFiles> pathComparator;
+    private Comparator<KeyFiles> sizeComparator;
+
     public JPanelResultListModel()
     {
-        updateCache( new HashMapSet<String,KeyFileState>() );
+        filenameComparator = new Comparator<KeyFiles>() {
+                @Override
+                public int compare( KeyFiles o1, KeyFiles o2 )
+                {
+                    return o1.toString().compareTo( o2.toString() );
+                }
+            };
+        pathComparator = new Comparator<KeyFiles>() {
+                @Override
+                public int compare( KeyFiles o1, KeyFiles o2 )
+                {
+                    return o1.getFirstFile().getPath().compareTo(
+                            o2.getFirstFile().getPath()
+                            );
+                }
+            };
+        sizeComparator = new Comparator<KeyFiles>() {
+                @Override
+                public int compare( KeyFiles o1, KeyFiles o2 )
+                {
+                    return (int)(
+                        o1.getFirstFile().length() -
+                            o2.getFirstFile().length()
+                            );
+                }
+            };
+
+        updateCache(
+            new HashMapSet<String,KeyFileState>(),
+            SortMode.FILESIZE
+            );
     }
 
+    /**
+     *
+     * @param duplicateFiles
+     */
     public void updateCache(
-            final HashMapSet<String,KeyFileState> duplicateFiles
+            final HashMapSet<String,KeyFileState> duplicateFiles,
+            final SortMode                        sortMode
             )
         {
             this.duplicateFiles = duplicateFiles;
+
+            final int prevLastIndex;
+
+            if( this.duplicatesFileCacheList.size() == 0 ) {
+                prevLastIndex = 0;
+                }
+            else {
+                prevLastIndex = this.duplicatesFileCacheList.size() - 1;
+                }
 
             for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
                 String              k    = e.getKey();
@@ -45,6 +96,24 @@ public class JPanelResultListModel
                 duplicatesFileCacheList.add( new KeyFiles( k, sf ) );
                 }
 
+            Comparator<? super KeyFiles> cmp;
+
+            switch( sortMode ) {
+                case FIRST_FILENAME :
+                    cmp = this.filenameComparator;
+                    break;
+
+                case FIRST_FILEPATH :
+                    cmp = this.pathComparator;
+                    break;
+
+                default : //case FILESIZE :
+                    cmp = this.sizeComparator;
+                    break;
+                }
+            Collections.sort( duplicatesFileCacheList, cmp  );
+
+            super.fireIntervalRemoved( this, 0, prevLastIndex );
             super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
         }
 
@@ -83,11 +152,10 @@ public class JPanelResultListModel
     }
 
     private JPanelResultKeyFileStateListModel listModelKeptIntact;
-    //private List<KeyFileState> listKeptIntact = new ArrayList<>();
     private JPanelResultKeyFileStateListModel listModelWillBeDeleted;
-    //private List<KeyFileState> listWillBeDeleted = new ArrayList<>();
 
-    public KeyFileStateListModel getKeptIntactListModel()
+    //not public
+    KeyFileStateListModel getKeptIntactListModel()
     {
         if( listModelKeptIntact == null ) {
             listModelKeptIntact = new JPanelResultKeyFileStateListModel();
@@ -95,7 +163,8 @@ public class JPanelResultListModel
         return listModelKeptIntact;
     }
 
-    public KeyFileStateListModel getWillBeDeletedListModel()
+    //not public
+    KeyFileStateListModel getWillBeDeletedListModel()
     {
         if( listModelWillBeDeleted == null ) {
             listModelWillBeDeleted = new JPanelResultKeyFileStateListModel();
@@ -117,17 +186,19 @@ public class JPanelResultListModel
 
       ss.addAll( s );
 
+      listModelWillBeDeleted.clear();
+      listModelKeptIntact.clear();
+
       for( KeyFileState sf : ss ) {
           if( sf.isSelectedToDelete() ) {
-              listModelWillBeDeleted._add( sf );
+              listModelWillBeDeleted.private_add( sf );
               }
           else {
-              listModelKeptIntact._add( sf );
+              listModelKeptIntact.private_add( sf );
               }
           }
-      listModelWillBeDeleted._fireAddedAll();
-      listModelKeptIntact._fireAddedAll();
+      listModelWillBeDeleted.private_fireAddedAll();
+      listModelKeptIntact.private_fireAddedAll();
       ss.clear();
     }
-
 }

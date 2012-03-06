@@ -10,11 +10,12 @@ import java.util.Set;
  */
 public final class KeyFiles implements Serializable, Iterable<KeyFileState>
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private String              key;
     private Set<KeyFileState>   files;
-    private String              firstFileDisplayCache;
-    private long                firstFileSizeCache;
+    private File                firstFileCache;
+    //private String              firstFileDisplayCache;
+    //private long                firstFileSizeCache;
 
     /**
      *
@@ -28,20 +29,34 @@ public final class KeyFiles implements Serializable, Iterable<KeyFileState>
 
         //FIXME: have a better choice than first one !
         // Get first File.
-        File f = this.files.iterator().next().getFile();
-        this.firstFileDisplayCache = f.getName();
-        this.firstFileSizeCache = f.length();
+        this.firstFileCache = this.files.iterator().next().getFile();
+        //this.firstFileDisplayCache = f.getName();
+        //this.firstFileSizeCache = this.firstFileCache.length();
     }
 
+    /**
+     * @return String use by UI display
+     */
     @Override
     public String toString()
     {
-        return firstFileDisplayCache;
+        return this.firstFileCache.getName();
+        //return firstFileDisplayCache;
+    }
+
+    /**
+     * Returns 'first' File for this KeyFile
+     * @return 'first' File for this KeyFile
+     */
+    public File getFirstFile()
+    {
+        return this.firstFileCache;
     }
 
     public long length()
     {
-        return this.firstFileSizeCache;
+        //return this.firstFileSizeCache;
+        return this.firstFileCache.length();
     }
 
     /**
@@ -53,7 +68,7 @@ public final class KeyFiles implements Serializable, Iterable<KeyFileState>
     }
 
     /**
-     * @return the files
+     * @return the file set
      */
     public Set<KeyFileState> getFiles()
     {

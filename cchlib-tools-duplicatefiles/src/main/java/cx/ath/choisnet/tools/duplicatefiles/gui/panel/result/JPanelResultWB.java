@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.result;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.KeyFileStateListModel;
 
 /**
  *
@@ -55,6 +56,8 @@ public abstract class JPanelResultWB extends JPanel
         Color errorColor = Color.RED;
 
         setSize(488, 240);
+
+        listModelDuplicatesFiles = new JPanelResultListModel();
 
         {
             GridBagLayout gridBagLayout = new GridBagLayout();
@@ -188,7 +191,7 @@ public abstract class JPanelResultWB extends JPanel
             add( jButtonRegExKeep, gbc_jButtonRegExKeep );
         }
         {
-            listModelDuplicatesFiles = new JPanelResultListModel();
+            //listModelDuplicatesFiles = new JPanelResultListModel();
             jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
             jListDuplicatesFiles.addListSelectionListener(
@@ -212,74 +215,6 @@ public abstract class JPanelResultWB extends JPanel
 //                            }
                     }
                 } );
-        }
-        {
-            jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-            //jListKeptIntact.setModel( listModelKeptIntact );
-            jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
-            jListKeptIntact.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mouseClicked( MouseEvent e )
-                {
-                    if( e.getClickCount() > 0 ) {
-                        jListWillBeDeleted.clearSelection();
-                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.get( index );
-                            KeyFileState kf = listModelDuplicatesFiles
-                                    .getKeptIntactListModel().getElementAt( index );
-
-                            displayFileInfo( kf );
-                            }
-                        }
-                    if( e.getClickCount() == 2 ) { // Double-click
-                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.remove( index );
-                            KeyFileState kf = listModelDuplicatesFiles
-                                    .getKeptIntactListModel().remove( index );
-
-                            DeleteThisFile( kf );
-                            }
-                        }
-                }
-            } );
-        }
-        {
-            jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-            //jListWillBeDeleted.setModel( listModelWillBeDeleted );
-            jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );
-            jListWillBeDeleted.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mouseClicked( MouseEvent e )
-                {
-                    if( e.getClickCount() > 0 ) {
-                        jListKeptIntact.clearSelection();
-                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.get( index );
-                            KeyFileState kf = listModelDuplicatesFiles
-                                    .getWillBeDeletedListModel().getElementAt( index );
-
-                            displayFileInfo( kf );
-                            }
-                        }
-                    if( e.getClickCount() == 2 ) { // Double-click
-                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.remove( index );
-                            KeyFileState kf = listModelDuplicatesFiles
-                                    .getWillBeDeletedListModel().remove( index );
-
-                            KeptThisFile( kf );
-                            }
-                        }
-                }
-            });
         }
     }
 
@@ -337,18 +272,81 @@ public abstract class JPanelResultWB extends JPanel
             jSplitPaneResultRight = new JSplitPane();
             jSplitPaneResultRight.setDividerLocation(100);
             jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
-            JScrollPane jScrollPaneKeptIntact = new JScrollPane();
-            jListKeptIntact = new JList<KeyFileState>();
 
+            JScrollPane jScrollPaneKeptIntact = new JScrollPane();
+            final KeyFileStateListModel jListKeptIntactListModel = listModelDuplicatesFiles.getKeptIntactListModel();
+            jListKeptIntact = new JList<KeyFileState>();
+            jListKeptIntact.setModel( jListKeptIntactListModel );
+            jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+            //jListKeptIntact.setModel( listModelKeptIntact );
+            //jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
+            jListKeptIntact.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mouseClicked( MouseEvent e )
+                {
+                    if( e.getClickCount() > 0 ) {
+                        jListWillBeDeleted.clearSelection();
+                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
+
+                        if( index >= 0 ) {
+                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.get( index );
+                            KeyFileState kf = jListKeptIntactListModel.getElementAt( index );
+
+                            displayFileInfo( kf );
+                            }
+                        }
+                    if( e.getClickCount() == 2 ) { // Double-click
+                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
+
+                        if( index >= 0 ) {
+                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.remove( index );
+                            KeyFileState kf = jListKeptIntactListModel.remove( index );
+
+                            DeleteThisFile( kf );
+                            }
+                        }
+                }
+            } );
             jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
             jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
 
             JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
             jListWillBeDeleted = new JList<KeyFileState>();
-            jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
+            final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
+            jListWillBeDeleted.setModel( jListWillBeDeletedListModel );
+            jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+            //jListWillBeDeleted.setModel( listModelWillBeDeleted );
+            //jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );
+            jListWillBeDeleted.addMouseListener( new MouseAdapter() {
+                @Override
+                public void mouseClicked( MouseEvent e )
+                {
+                    if( e.getClickCount() > 0 ) {
+                        jListKeptIntact.clearSelection();
+                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
 
+                        if( index >= 0 ) {
+                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.get( index );
+                            KeyFileState kf = jListWillBeDeletedListModel.getElementAt( index );
+
+                            displayFileInfo( kf );
+                            }
+                        }
+                    if( e.getClickCount() == 2 ) { // Double-click
+                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
+
+                        if( index >= 0 ) {
+                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.remove( index );
+                            KeyFileState kf = jListWillBeDeletedListModel.remove( index );
+
+                            KeptThisFile( kf );
+                            }
+                        }
+                }
+            });
+            jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
             jSplitPaneResultRight.setBottomComponent( jScrollPaneWillBeDeleted );
-        }
+            }
         return jSplitPaneResultRight;
     }
 
@@ -364,7 +362,7 @@ public abstract class JPanelResultWB extends JPanel
                         }
                     }
                 });
-        }
+            }
         return jListDuplicatesFiles;
     }
 
