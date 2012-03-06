@@ -48,7 +48,11 @@ class JPanelResultKeyFileStateListModel
 
     void private_fireAddedAll()
     {
-        fireIntervalAdded( this, 0, dataList.size() );
+        int size = dataList.size();
+
+        if( size > 0 ) {
+            fireIntervalAdded( this, 0, size -1 );
+            }
     }
 
     public void clear()

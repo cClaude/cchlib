@@ -159,6 +159,7 @@ public class JPanelResultListModel
 
     private JPanelResultKeyFileStateListModel listModelKeptIntact;
     private JPanelResultKeyFileStateListModel listModelWillBeDeleted;
+    private String key;
 
     //not public
     KeyFileStateListModel getKeptIntactListModel()
@@ -184,9 +185,16 @@ public class JPanelResultListModel
         listModelWillBeDeleted.clear();
     }
 
-    public void setKeepDelete( Set<KeyFileState> s )
+    public void setKeepDelete(
+        final String            key,
+        final Set<KeyFileState> s
+        )
     {
-        logger.info( "setKeepDelete: " + s );
+        this.key = key;
+
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "setKeepDelete: " + s );
+            }
 //      Set<KeyFileState>       s  = duplicateFiles.get( key );
       SortedSet<KeyFileState> ss = new TreeSet<KeyFileState>();
 
@@ -207,4 +215,25 @@ public class JPanelResultListModel
       listModelKeptIntact.private_fireAddedAll();
       ss.clear();
     }
+
+    public void clearSelected()
+    {
+        //logger.info( "clearSelected() start" );
+        //
+        // Update global list
+        //
+        for( KeyFileState kfs : duplicateFiles ) {
+            kfs.setSelectedToDelete( false );
+            }
+
+        //
+        // Update current models
+        //
+        Set<KeyFileState> kfs = duplicateFiles.get( this.key );
+
+        setKeepDelete( this.key, kfs );
+
+        //logger.info( "clearSelected() done" );
+    }
+
 }

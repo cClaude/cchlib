@@ -265,7 +265,7 @@ public class JPanelResult extends JPanelResultWB
         updateDisplayKeptDelete( key );
     }
 
-    private void updateDisplayKeptDelete( String key )
+    private void updateDisplayKeptDelete( final String key )
     {
         logger.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
 //        listModelKeptIntact.clear();
@@ -273,7 +273,7 @@ public class JPanelResult extends JPanelResultWB
         displayFileInfo( null );
         Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
         if( s != null ) {
-            getListModelDuplicatesFiles().setKeepDelete( s );
+            getListModelDuplicatesFiles().setKeepDelete( key, s );
             }
         else {
             logger.error( "updateDisplayKeptDelete() * Missing key:" + key );
@@ -671,10 +671,21 @@ public class JPanelResult extends JPanelResultWB
 
     public void clearSelected()
     {
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    getListModelDuplicatesFiles().clearSelected();
+                    }
+                catch( Exception e ) {
+                    logger.error( "clearSelected()", e );
+                    }
+                finally {
+                    dFToolKit.setEnabledJButtonCancel( true );
+                    }
+            }
+        }).start();
     }
 }
