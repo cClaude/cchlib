@@ -19,5 +19,5 @@ public interface ZipListener
      * Invoke after having compress zipEntry
      * @param zipEntry that has been compress
      */
-    public void entryAdded( ZipEntry zipentry );
+    public void entryAdded( ZipEntry zipEntry );
 }

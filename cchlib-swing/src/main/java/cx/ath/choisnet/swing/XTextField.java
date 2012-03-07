@@ -7,9 +7,9 @@ import cx.ath.choisnet.swing.menu.JPopupMenuForJTextField;
 
 /**
  * e<B>X</B>tended <B>TextField</B> is a JTextField with extra features...
- * <p>
- *
- * </P>
+ * <ul>
+ * <li>Copy/Paste support using context menu</li>
+ * </ul>
  */
 public class XTextField extends JTextField
 {
@@ -30,9 +30,10 @@ public class XTextField extends JTextField
      *
      * @param text the initial string to display, or null
      */
-    public XTextField( String text )
+    public XTextField( final String text )
     {
         super( text );
+        
         init();
     }
 
@@ -45,9 +46,10 @@ public class XTextField extends JTextField
      *             will be whatever naturally results from the component
      *             implementation
      */
-    public XTextField( int columns )
+    public XTextField( final int columns )
     {
         super( columns );
+        
         init();
     }
 
@@ -61,9 +63,10 @@ public class XTextField extends JTextField
      *             will be whatever naturally results from the component
      *             implementation
      */
-    public XTextField( String text, int columns )
+    public XTextField( final String text, int columns )
     {
         super( text, columns );
+        
         init();
     }
 
@@ -82,28 +85,46 @@ public class XTextField extends JTextField
      *             implementation
      * @throws IllegalArgumentException if columns < 0
      */
-    public XTextField( Document doc, String text, int columns )
+    public XTextField( final Document doc, String text, int columns )
     {
         super( doc, text, columns );
+        
         init();
     }
 
     private void init()
     {
-        JPopupMenuForJTextField m = new JPopupMenuForJTextField( XTextField.this )
+        new JPopupMenuForJTextField( XTextField.this )
         {
             @Override
             protected JPopupMenu createContextMenu()
             {
                 JPopupMenu contextMenu = new JPopupMenu();
 
-                addCopyMenuItem( contextMenu ); // TODO localization
-                addPasteMenuItem( contextMenu );// TODO localization
+                addCopyMenuItem( contextMenu, getTextForCopy() );
+                addPasteMenuItem( contextMenu,getTextForPaste() );
 
                 return contextMenu;
             }
-        };
-        m.setMenu();
+        }.setMenu();
+    }
+
+    /**
+     * TODO default localization
+     * @return TODO
+     */
+    public String getTextForCopy()
+    {
+        return "Copy";
+    }
+
+    /**
+     * TODO default localization
+     * @return TODO
+     */
+    public String getTextForPaste()
+    {
+        return "Paste";
     }
 
 }

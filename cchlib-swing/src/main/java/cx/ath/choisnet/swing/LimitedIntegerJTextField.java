@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                .                                                 *
- *                                .                                                 *
- ************************************************************************************/
 package cx.ath.choisnet.swing;
 
 import java.awt.Toolkit;
@@ -13,8 +9,7 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 /**
- * @author CC
- *
+ * TODOC
  */
 public class LimitedIntegerJTextField extends JTextField
 {
@@ -59,6 +54,7 @@ public class LimitedIntegerJTextField extends JTextField
 //            slogger.info( "remove after doc: [" + doc.getText( 0, doc.getLength() ) + "]" );
 //        }
 
+        @Override
         public void insertString(
                 DocumentFilter.FilterBypass fb,
                 int offset,
@@ -70,6 +66,7 @@ public class LimitedIntegerJTextField extends JTextField
             replace(fb, offset, 0, str, attrs);
         }
 
+        @Override
         public void replace(
                 DocumentFilter.FilterBypass fb,
                 int offset,
@@ -129,7 +126,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param maxValue maxValue for current JTextField, range [0...maxValue]
      * @throws IllegalArgumentException if maxValue is negative
      */
-    public LimitedIntegerJTextField(int maxValue)
+    public LimitedIntegerJTextField( int maxValue )
     {
         this(Integer.MAX_VALUE,10);
     }
@@ -141,7 +138,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *
      */
-    public LimitedIntegerJTextField(int maxValue,int radix)
+    public LimitedIntegerJTextField( int maxValue, int radix )
         throws IllegalArgumentException
     {
         super();
@@ -153,16 +150,28 @@ public class LimitedIntegerJTextField extends JTextField
         doc.setDocumentFilter(new IntegerTextLimiter());
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public int getMaxValue()
     {
         return this.maxValue;
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public int getRadix()
     {
         return radix;
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public int getValue()
     {
         try {
@@ -170,18 +179,18 @@ public class LimitedIntegerJTextField extends JTextField
 
             if( value >=0 ) {
                 return value;
+                }
             }
-        }
         catch( NumberFormatException ignore ) {
             // continue
-        }
+            }
 
         setValue( 0 );
         return 0;
     }
 
     /**
-     *
+     * TODOC
      * @param maxValue Maximum integer allowed by LimitedIntegerTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
@@ -191,7 +200,7 @@ public class LimitedIntegerJTextField extends JTextField
     {
         if( maxValue < 0 ) { // maxValue should be greater than 0
             throw new IllegalArgumentException( "maxValue should be greater than 0" );
-        }
+            }
 
         this.maxValue = maxValue;
 
@@ -200,13 +209,14 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     *
+     * TODOC
      * @param value
      * @throws IllegalArgumentException
      */
     public void setValue( int value ) throws IllegalArgumentException
     {
         checkValue( value );
+
         super.setText( Integer.toString( value ) );
     }
 
@@ -216,28 +226,32 @@ public class LimitedIntegerJTextField extends JTextField
      * @param radix
      * @throws IllegalArgumentException
      */
-    public void setRadix(int radix)  throws IllegalArgumentException
+    public void setRadix( int radix ) throws IllegalArgumentException
     {
         this.radix = radix;
 
         // Check value, and validate radix value.
-        setValue(getValue());
+        setValue( getValue() );
     }
 
     /**
-    *
-    * @param value
-    * @throws IllegalArgumentException
-    */
-   private void checkValue( int value ) throws IllegalArgumentException
-   {
-       if( value > this.maxValue ) {
-           //slogger.warn( "Checking: " + value );
-           throw new IllegalArgumentException( String.format( "need a value(%d) less than %d ",value, this.maxValue) );
-       }
-       if( value < 0 ) {
-           //slogger.warn( "Checking: " + value );
-           throw new IllegalArgumentException( String.format( "need a value(%d) greater than: 0 ", value ) );
-       }
-   }
+     * TODOC
+     * @param value
+     * @throws IllegalArgumentException
+     */
+    private void checkValue( int value ) throws IllegalArgumentException
+    {
+        if( value > this.maxValue ) {
+            //slogger.warn( "Checking: " + value );
+            throw new IllegalArgumentException(
+                String.format( "need a value(%d) less than %d ",value, this.maxValue)
+                );
+            }
+        if( value < 0 ) {
+            //slogger.warn( "Checking: " + value );
+            throw new IllegalArgumentException(
+                String.format( "need a value(%d) greater than: 0 ", value )
+                );
+            }
+    }
 }
