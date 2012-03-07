@@ -4,36 +4,35 @@ import java.io.IOException;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public interface InfosServletDisplay
 {
-    /**
-     * TODOC
-     *
-     * @author Claude CHOISNET
-     */
-    public static interface Anchor
-    {
-        @Deprecated public abstract String getHTMLName();
-        public abstract String getId();
-        public abstract String getDisplay();
-    }
+//    /**
+//     * TODOC
+//     */
+//    @Deprecated
+//    public static interface Anchor extends InfosServletDisplayAnchor
+//    {
+//        @Deprecated public abstract String getHTMLName();
+//        @Override
+//        public abstract String getId();
+//        @Override
+//        public abstract String getDisplay();
+//    }
 
     /**
      * TODOC
      *
-     * @return
+     * @return TODOC
      */
-    public abstract Anchor getAnchor();
+    public abstract InfosServletDisplayAnchor getAnchor();
 
     /**
      * TODOC
      *
      * @param s
      * @param s1
-     * @return
+     * @return TODOC
      */
     public abstract InfosServletDisplay put(String s, String s1);
 

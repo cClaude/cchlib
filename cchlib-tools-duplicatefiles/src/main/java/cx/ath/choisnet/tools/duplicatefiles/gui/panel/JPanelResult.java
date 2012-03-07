@@ -66,6 +66,12 @@ public class JPanelResult extends JPanelResultWB
     @I18nString private String txtCanReadFirstLetter = "R";
     @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
+    @I18nString private String txtSortMenu  = "Sort by";
+    @I18nString private String txtMenuSortBySize = "Size";
+    @I18nString private String txtMenuSortByName = "Filename";
+    @I18nString private String txtMenuSortByPatht = "File path";
+
+
     public JPanelResult(
         final DFToolKit dFToolKit
         )
@@ -79,9 +85,7 @@ public class JPanelResult extends JPanelResultWB
             final HashMapSet<String,KeyFileState> duplicateFiles
             )
     {
-        //this.duplicateFiles = duplicateFiles;
-
-        SortMode sortMode = SortMode.FILESIZE; // FIXME
+        SortMode sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
 
         getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode  );
         updateDisplay();
@@ -89,13 +93,8 @@ public class JPanelResult extends JPanelResultWB
 
     public void clear()
     {
-        //listModelKeptIntact.clear();
-        //listModelWillBeDeleted.clear();
         getListModelDuplicatesFiles().clearKeepDelete();
         getListModelDuplicatesFiles().updateCache();
-//        if( listModelDuplicatesFiles != null ) {
-//            getListModelDuplicatesFiles().clearKeepDelete();
-//            }
     }
 
     public void updateDisplay()
@@ -164,7 +163,7 @@ public class JPanelResult extends JPanelResultWB
             KeyFileState                        kf
             )
     {
-        m.add(
+        m.addJMenuItem(
             parentMenu,
             menu,
             getActionListenerContextSubMenu(),
@@ -181,7 +180,7 @@ public class JPanelResult extends JPanelResultWB
             KeyFileState                        kf
             )
     {
-        m.add(
+        m.addJMenuItem(
             parentMenu,
             new JMenuItem( kf.getFile().getPath() ),
             getActionListenerContextSubMenu(),
@@ -199,7 +198,7 @@ public class JPanelResult extends JPanelResultWB
        final KeyFileState                       kf
        )
     {
-        m.add( parentMenu, menu );
+        m.addJMenuItem( parentMenu, menu );
 
         final String k = kf.getKey();
         File         f = kf.getFile().getParentFile();
@@ -278,26 +277,6 @@ public class JPanelResult extends JPanelResultWB
         else {
             logger.error( "updateDisplayKeptDelete() * Missing key:" + key );
             }
-
-////        Set<KeyFileState>       s  = duplicateFiles.get( key );
-//        SortedSet<KeyFileState> ss = new TreeSet<KeyFileState>();
-//
-//        if( s != null ) {
-//            ss.addAll( s );
-//
-//            for( KeyFileState sf : ss ) {
-//                if( sf.isSelectedToDelete() ) {
-//                    listModelWillBeDeleted.addElement( sf );
-//                    }
-//                else {
-//                    listModelKeptIntact.addElement( sf );
-//                    }
-//                }
-//            }
-//        else {
-//            slogger.error( "updateDisplayKeptDelete() * Missing key:" + key );
-//            }
-//        ss.clear();
     }
 
     @Override
@@ -341,12 +320,7 @@ public class JPanelResult extends JPanelResultWB
                 {
                     JPopupMenu cm = new JPopupMenu();
 
-                    String txtSortMenu  = "Sort by"; // FIXME
-                    String menuSortBySizeTxt = "Size"; // FIXME
-                    String menuSortByNameTxt = "Filename"; // FIXME
-                    String menuSortByPathTxt = "File path"; // FIXME
-
-                    JMenuItem sortMenu = new JMenuItem( txtSortMenu );
+                    JMenu sortMenu = new JMenu( txtSortMenu );
                     add( cm, sortMenu );
 
                     ActionListener sortByListener = new ActionListener()
@@ -361,9 +335,9 @@ public class JPanelResult extends JPanelResultWB
                             getListModelDuplicatesFiles().updateCache( sortMode );
                         }
                     };
-                    add( cm, menuSortBySizeTxt, sortByListener, SortMode.class, SortMode.FILESIZE );
-                    add( cm, menuSortByNameTxt, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
-                    add( cm, menuSortByPathTxt, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+                    addJMenuItem( sortMenu, txtMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
+                    addJMenuItem( sortMenu, txtMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
+                    addJMenuItem( sortMenu, txtMenuSortByPatht, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
 
                     return cm;
                 }
@@ -384,9 +358,9 @@ public class JPanelResult extends JPanelResultWB
 
                 KeyFileState kf = /*(KeyFileState)*/getValueAt( rowIndex );
 
-                add(
+                addJMenuItem(
                     cm,
-                    new JMenuItem( txtOpenFile ),
+                    txtOpenFile,
                     createOpenFileActionListener( kf.getFile() )
                     );
                 cm.addSeparator();
@@ -559,10 +533,7 @@ public class JPanelResult extends JPanelResultWB
                         }
                     else if( ACTION_COMMAND_KeepNonDuplicateInDir.equals( cmd ) ) {
                         // Keep at least on file in this dir.
-                        ////final String k       = kf.getKey();
                         final String dirPath = kf.getFile().getPath() + File.separator;
-
-                        //TODO need to be studies
 
                         //Look for all files in this dir !
                         for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {

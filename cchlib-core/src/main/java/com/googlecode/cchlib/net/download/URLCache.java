@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.zip.ZipEntry;
 import javax.swing.event.EventListenerList;
 import cx.ath.choisnet.io.SerializableHelper;
 
@@ -267,10 +266,10 @@ public class URLCache implements Serializable
     }
 
     /**
-     * Adds a {@link UnZipListener} to the
-     * {@link SimpleUnZip}'s listener list.
+     * Adds a {@link URLCacheListener} to the
+     * {@link URLCache}'s listener list.
      *
-     * @param l the {@link UnZipListener} to add
+     * @param l the {@link URLCacheListener} to add
      */
     public void addZipListener( URLCacheListener l )
     {
@@ -278,10 +277,10 @@ public class URLCache implements Serializable
     }
 
     /**
-     * Removes a {@link UnZipListener} from the
-     *  {@link SimpleUnZip}'s listener list.
+     * Removes a {@link URLCacheListener} from the
+     *  {@link URLCache}'s listener list.
      *
-     * @param l the {@link UnZipListener} to remove
+     * @param l the {@link URLCacheListener} to remove
      */
     public void removeZipListener( URLCacheListener l )
     {
@@ -289,8 +288,8 @@ public class URLCache implements Serializable
     }
 
     /**
-     * Runs each {@link UnZipListener}'s
-     * {@link UnZipListener#entryPostProcessing(ZipEntry)}
+     * Runs each {@link URLCacheListener}'s
+     * {@link URLCacheListener#errorHandler(IOException)}
      * method.
      */
     protected void fireIOException(

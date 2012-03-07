@@ -175,7 +175,7 @@ public class SimpleUnZip
 
     /**
      * Runs each {@link UnZipListener}'s
-     * {@link UnZipListener#entryPostProcessing(ZipEntry)}
+     * {@link UnZipListener#entryPostProcessing(UnZipEvent)}
      * method.
      */
     protected void fireEntryPostProcessing(
@@ -195,7 +195,7 @@ public class SimpleUnZip
 
     /**
      * Runs each {@link UnZipListener}'s
-     * {@link UnZipListener#entryAdded(ZipEntry)}
+     * {@link UnZipListener#entryAdded(UnZipEvent)}
      * method.
      */
     protected void fireEntryAdded(

@@ -10,11 +10,11 @@ import org.apache.log4j.Logger;
  * PropertiesPopulator is a simple way to store values in a properties
  * with a minimum work.
  * <br>
- * PropertiesPopulator is able to set or get {@link Fields} values
+ * PropertiesPopulator is able to set or get {@link Field} values
  * annotates with {@link Populator}.
  * <br>
  * Warn: Only primitive type are supported (and standard derived object)
- * see {@link PopulatorBuilder} if you need to support extra type.
+ * see {@link PopulatorContener} if you need to support extra type.
  */
 public class PropertiesPopulator<E>
 {

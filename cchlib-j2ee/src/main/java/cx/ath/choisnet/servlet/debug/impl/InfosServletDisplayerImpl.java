@@ -1,6 +1,7 @@
 package cx.ath.choisnet.servlet.debug.impl;
 
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
+import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplayer;
 import cx.ath.choisnet.util.ArrayHelper;
 import cx.ath.choisnet.util.enumeration.EnumerationHelper;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
 /**
- * 
+ *
  * @author Claude CHOISNET
  */
 public class InfosServletDisplayerImpl
@@ -38,15 +39,15 @@ public class InfosServletDisplayerImpl
     //protected ServletResponse       servletResponse;
 
     /**
-     * 
+     *
      * @param servlet
      * @param request
      * @param response
      * @throws java.io.IOException
      */
     public InfosServletDisplayerImpl(
-            final HttpServlet         servlet, 
-            final HttpServletRequest  request, 
+            final HttpServlet         servlet,
+            final HttpServletRequest  request,
             final HttpServletResponse response
             )
         throws java.io.IOException
@@ -55,7 +56,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      * @param servlet
      * @param request
      * @param response
@@ -63,9 +64,9 @@ public class InfosServletDisplayerImpl
      * @throws java.io.IOException
      */
     public InfosServletDisplayerImpl(
-            final HttpServlet       servlet, 
+            final HttpServlet       servlet,
             final ServletRequest    request,
-            final ServletResponse   response, 
+            final ServletResponse   response,
             final HttpSession       httpSession
             )
         throws java.io.IOException
@@ -78,10 +79,10 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      * @param servlet
      * @param pageContext
-     * @throws IOException 
+     * @throws IOException
      */
     public InfosServletDisplayerImpl(
             final HttpServlet   servlet,
@@ -90,8 +91,8 @@ public class InfosServletDisplayerImpl
         throws IOException
     {
         this(
-            servlet, 
-            pageContext.getRequest(), 
+            servlet,
+            pageContext.getRequest(),
             pageContext.getResponse(),
             pageContext.getSession()
             );
@@ -104,7 +105,7 @@ public class InfosServletDisplayerImpl
             }
         return null;
     }
-    
+
 //    private HttpServletResponse getHttpServletResponse()
 //    {
 //        if( response instanceof HttpServletResponse ) {
@@ -112,7 +113,7 @@ public class InfosServletDisplayerImpl
 //            }
 //        return null;
 //    }
-    
+
     @Override
     public void appendHTML(final Appendable out) throws IOException
     {
@@ -123,13 +124,13 @@ public class InfosServletDisplayerImpl
                 + "<title>ServletInfos Output</title>\n"
                 );
         InfosServletDisplayImpl.appendJS( out );
-        // TODO: Add css (from servlet parameters ?) 
+        // TODO: Add css (from servlet parameters ?)
         out.append(
             "</head>\n"
                 + "<body>\n<div id=\"infosservletdisplayer\" style=\"margin:0 auto;\">\n"
                 + "<h3 class=\"summary\">Summary</h3>\n"
                 );
-        
+
         out.append(
             "<table class=\"summary\">\n"
                 + "<tr><td>getServerInfo()</td><td>"
@@ -144,19 +145,19 @@ public class InfosServletDisplayerImpl
             "</td></tr>\n"
                 + "</table>\n\n"
                 );
-        
+
         out.append("<h3>ServletInfos Output</h3>\n");
 
         final List<InfosServletDisplay> displayer = new ArrayList<InfosServletDisplay>();
 
         displayer.add(getHttpServletISD());
         displayer.add(getServletRequestISD());
-        
+
         if( getHttpServletRequest() != null ) {
             displayer.add(getHttpServletRequest_getHeaderNamesISD());
             displayer.add(getHttpServletRequestCookiesISD());
             }
-        
+
         displayer.add(getRequest_getParameterNamesISD());
         displayer.add(getRequest_getAttributeNamesISD());
         displayer.add(getConfig_getInitParameterNamesISD());
@@ -177,7 +178,7 @@ public class InfosServletDisplayerImpl
         for( InfosServletDisplay display : displayer ) {
             sb.setLength( 0 );
 
-            InfosServletDisplay.Anchor anchor = display.getAnchor();
+            InfosServletDisplayAnchor anchor = display.getAnchor();
             sb.append("<tr><td><a href=\"#");
             sb.append(anchor.getId());
             sb.append("\">");
@@ -192,7 +193,7 @@ public class InfosServletDisplayerImpl
         for(InfosServletDisplay display : displayer) {
             display.appendHTML(out);
             }
-        
+
         out.append("</div>\n</body>\n</html>\n\n");
     }
 
@@ -204,11 +205,11 @@ public class InfosServletDisplayerImpl
         return new InfosServletDisplayImpl2(
                 "Object: javax.servlet.http.HttpServlet<br />"
                     + InfosServletDisplayerImpl.getObjectInfo(httpServlet),
-                "HttpServlet", 
+                "HttpServlet",
                 httpServlet
                 )
             .put(
-                "servlet.getClass().getName()", 
+                "servlet.getClass().getName()",
                 httpServlet.getClass().getName()
                 );
     }
@@ -232,7 +233,7 @@ public class InfosServletDisplayerImpl
     private InfosServletDisplay getHttpServletRequest_getHeaderNamesISD()
     {
         HttpServletRequest request = getHttpServletRequest();
-        
+
         final Map<String,String>  map   = new TreeMap<String,String>();
         final StringBuilder       value = new StringBuilder();
         String                    name;
@@ -250,12 +251,12 @@ public class InfosServletDisplayerImpl
 
             while( enum2.hasMoreElements() ) {
                 value.append( enum2.nextElement() );
-                value.append("<br />"); 
+                value.append("<br />");
             }
         }
 
         return new InfosServletDisplayImpl(
-                "Request header parameters<br/>request.getHeaderNames()", 
+                "Request header parameters<br/>request.getHeaderNames()",
                 "HttpServletRequest.getHeaderNames()",
                 map,
                 "No request header parameters."
@@ -263,14 +264,14 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getRequest_getParameterNamesISD()
     {
         final Map<String,String> map   = new TreeMap<String,String>();
         final StringBuilder      value = new StringBuilder();
         String                   name;
-        
+
         for(
                 Enumeration<String> enum0 = toEnumerationString(servletRequest.getParameterNames());
                 enum0.hasMoreElements();
@@ -300,14 +301,14 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getRequest_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
         Object value;
-        
+
         for(
                 Enumeration<String> enum0 = toEnumerationString(servletRequest.getAttributeNames());
                 enum0.hasMoreElements();
@@ -318,7 +319,7 @@ public class InfosServletDisplayerImpl
         }
 
         return new InfosServletDisplayImpl(
-                "Request attributes<br />request.getAttributeNames()", 
+                "Request attributes<br />request.getAttributeNames()",
                 "request.getAttributeNames()",
                 map,
                 "No attributes"
@@ -326,7 +327,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getHttpServletRequestCookiesISD()
     {
@@ -335,29 +336,29 @@ public class InfosServletDisplayerImpl
         final SortedMap<String,String>  map     = new TreeMap<String,String>();
         final Enumeration<Cookie>       cookies = ArrayHelper.toEnumeration( request.getCookies() );
         Cookie                          cookie;
-        
+
         while( cookies.hasMoreElements() ) {
             cookie = cookies.nextElement();
             map.put(cookie.getName(), cookie.getValue());
             }
 
         return new InfosServletDisplayImpl(
-                "Cookies information", 
-                "request.getCookies()", 
+                "Cookies information",
+                "request.getCookies()",
                 map,
                 "NO cookies !"
                 );
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getConfig_getInitParameterNamesISD()
     {
         final ServletConfig       servletConfig = httpServlet.getServletConfig();
         final Map<String,String>  map           = new TreeMap<String,String>();
         String name;
-        
+
         for(Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); ) {
             name = enum0.nextElement();
             map.put(name, servletConfig.getInitParameter(name));
@@ -366,15 +367,15 @@ public class InfosServletDisplayerImpl
         return new InfosServletDisplayImpl(
             "ServletConfig init attributes<br />(servlet name  = '"
                 + servletConfig.getServletName()
-                + "')<br/>servletConfig.getInitParameterNames()", 
-            "servletConfig.getInitParameterNames()", 
-            map, 
+                + "')<br/>servletConfig.getInitParameterNames()",
+            "servletConfig.getInitParameterNames()",
+            map,
             "No attributes"
             );
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getContextISD()
     {
@@ -403,39 +404,39 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getContext_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
-        
+
         for(
                 Enumeration<String> enum0 = toEnumerationString(servletContext.getAttributeNames());
                 enum0.hasMoreElements();
                 map.put(name, toString(servletContext.getAttribute(name)))) {
             name = enum0.nextElement();
         }
-        
+
         return new InfosServletDisplayImpl(
-                "Attributes from the ServletContext: servletContext.getAttributeNames()", 
-                "servletContext.getAttributeNames()", 
+                "Attributes from the ServletContext: servletContext.getAttributeNames()",
+                "servletContext.getAttributeNames()",
                 map,
                 "No attributes"
                 );
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getContext_getInitParameterNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
-        
+
         for(
-                Enumeration<String> enum0 = toEnumerationString(servletContext.getInitParameterNames()); 
-                enum0.hasMoreElements(); 
+                Enumeration<String> enum0 = toEnumerationString(servletContext.getInitParameterNames());
+                enum0.hasMoreElements();
                 map.put(name, servletContext.getInitParameter(name))
                 ) {
             name = enum0.nextElement();
@@ -450,7 +451,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getHttpSessionISD()
     {
@@ -463,7 +464,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getHttpSession_getAttributeNamesISD()
     {
@@ -505,7 +506,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getJVM_MemoryISD()
     {
@@ -526,7 +527,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      */
     private InfosServletDisplay getJVM_SystemPropertiesISD()
     {
@@ -559,7 +560,7 @@ public class InfosServletDisplayerImpl
                 System.getenv()
                 );
     }
-    
+
     private InfosServletDisplay getJVM_SystemObjectISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
@@ -576,7 +577,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      * @param o
      * @return
      */
@@ -591,7 +592,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      * @param o
      * @return
      */
@@ -606,7 +607,7 @@ public class InfosServletDisplayerImpl
     }
 
     /**
-     * 
+     *
      * @param enumerator
      * @return
      */
@@ -635,5 +636,5 @@ public class InfosServletDisplayerImpl
             }
         };
     }
-    
+
 }

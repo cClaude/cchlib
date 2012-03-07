@@ -20,20 +20,49 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
     public final static char REPLACEMENT_CHAR = '#';
     public final static int DEFAULT_LINE_SIZE = 128;
     private int remplacementChar;
+    private boolean useRemplacementChar;
     private int maxLinePos;
+    private boolean useMaxLinePos;
 
+    public DelNonAlphaChar(
+            final Character remplacementChar,
+            final Integer   ligneSize
+            )
+        {
+            if( remplacementChar == null ) {
+                this.remplacementChar = 0;
+                this.useRemplacementChar = false;
+                }
+            else {
+                this.remplacementChar = remplacementChar.charValue();
+                this.useRemplacementChar = true;
+                }
+            if( ligneSize == null ) {
+                this.maxLinePos = -1;
+                this.useMaxLinePos = false;
+                }
+            else {
+                this.maxLinePos = ligneSize;
+                this.useMaxLinePos = true;
+                }
+        }
+    /*
     public DelNonAlphaChar(
         final char  remplacementChar,
         final int   ligneSize
         )
     {
         this.remplacementChar = remplacementChar;
+        this.useRemplacementChar = true;
         this.maxLinePos = ligneSize;
-    }
+        this.useMaxLinePos = true;
+    }*/
 
     public DelNonAlphaChar()
     {
-        this( REPLACEMENT_CHAR, DEFAULT_LINE_SIZE );
+        this(     new Character( REPLACEMENT_CHAR ),
+                new Integer( DEFAULT_LINE_SIZE )
+                );
     }
 
     public void delNonAlphaChar(
@@ -85,12 +114,12 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
             final OutputStream  out
             ) throws IOException
     {
-        int linePos = 0;
-        int c;
+        long linePos = 0;
+        int  c;
 
         while( (c = in.read()) > -1 ) {
             // Eg. C / isalnum() Unix
-            if( Character.isLetterOrDigit( c ) && (c < 128) ) {
+            if( Character.isLetterOrDigit( c ) && (c < 128) || !useRemplacementChar ) {
                 out.write( c );
                 }
             else {
@@ -110,7 +139,7 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
                 }
             linePos++;
 
-            if( linePos >= this.maxLinePos ) {
+            if( linePos >= this.maxLinePos && this.useMaxLinePos ) {
                 out.write( '\n' );
                 linePos = 0;
                 }
@@ -148,7 +177,10 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
             return;
             }
 
-        DelNonAlphaChar instance = new DelNonAlphaChar( REPLACEMENT_CHAR, lineSize );
+        DelNonAlphaChar instance = new DelNonAlphaChar(
+                new Character( REPLACEMENT_CHAR ),
+                new Integer( lineSize )
+                );
 
         try {
             instance.delNonAlphaChar(inputFile, outputFile);

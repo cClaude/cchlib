@@ -21,6 +21,7 @@ import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
@@ -245,7 +246,7 @@ class CompareResourcesBundleFrame
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-            JFileChooserInitializer.DefaultConfigurator configurator = new JFileChooserInitializer.DefaultConfigurator()
+            DefaultConfigurator configurator = new DefaultConfigurator()
             {
                 private static final long serialVersionUID = 1L;
                 public void perfomeConfig(JFileChooser jfc)

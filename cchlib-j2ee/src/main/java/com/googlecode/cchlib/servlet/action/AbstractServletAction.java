@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.googlecode.cchlib.servlet.action;
 
 import javax.servlet.ServletContext;
@@ -16,8 +13,7 @@ import com.googlecode.cchlib.servlet.exception.ServletActionException;
 import cx.ath.choisnet.sql.SQLTools;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  */
 public abstract class AbstractServletAction implements ServletAction
 {
@@ -318,7 +314,7 @@ public abstract class AbstractServletAction implements ServletAction
     {
         if( o == null ) {
             throw new ServletActionAssertException( "NULL" );
-        }
+        	}
         if( o != null ) {
             final StringBuilder sb = new StringBuilder();
 
@@ -326,10 +322,10 @@ public abstract class AbstractServletAction implements ServletAction
 
             if( message != null ) {
                 sb.append( " : " ).append( message );
-            }
+            	}
 
             throw new ServletActionAssertException( sb.toString() );
-        }
+        	}
     }
 }
 

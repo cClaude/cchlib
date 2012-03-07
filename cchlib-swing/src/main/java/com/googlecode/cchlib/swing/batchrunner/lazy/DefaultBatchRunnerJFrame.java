@@ -245,8 +245,6 @@ public class DefaultBatchRunnerJFrame extends JFrame
 
     /**
      * Adds an EnableListener to the listener list. 
-     * The listener is registered for invocation of
-     * {@link #fireStateChanged(boolean)}. 
      *
      * @param l the listener to be added
      * @see BatchRunnerPanel#addEnableListener(EnableListener)

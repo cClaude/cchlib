@@ -40,8 +40,7 @@ public class B2Transform2App
     }
 
     /**
-     *
-     * @return
+     * @return CustomJPanelB2Transform
      */
     public CustomJPanelB2Transform getCustomJPanelB2Transform()
     {
@@ -58,13 +57,13 @@ public class B2Transform2App
     {
         CustomJPanelB2Transform panel = getCustomJPanelB2Transform();
 
-        char rchar      = panel.getReplacementChar();
-        int  lineLength = panel.getLineLength();
+        Character rCharacter    = panel.getReplacementChar();
+        Integer   lineLength    = panel.getLineLength();
 
-        logger.info( "User getReplacementChar() = " + rchar );
+        logger.info( "User getReplacementChar() = " + rCharacter );
         logger.info( "User getLineLength() = " + lineLength );
 
-        return new DelNonAlphaChar( rchar, lineLength );
+        return new DelNonAlphaChar( rCharacter, lineLength );
     }
 
     @Override//VeryLazyBatchRunnerApp

@@ -215,70 +215,6 @@ public abstract class JPopupMenuForJTable
             final int columnIndex
             );
 
-//        addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
-
-
-//        switch( columnIndex ) {
-//            case ExampleTableModel.COLUMN_NAME:
-//                break;
-//            case ExampleTableModel.COLUMN_PRICE:
-//                break;
-//            case ExampleTableModel.COLUMN_QUANTITY:
-//                contextMenu.addSeparator();
-//                ActionListener changer = new ActionListener() {
-//
-//                    public void actionPerformed( ActionEvent e )
-//                    {
-//                        JMenuItem sourceItem = (JMenuItem)e.getSource();
-//                        Object value = sourceItem
-//                                .getClientProperty( PROP_CHANGE_QUANTITY );
-//                        if( value instanceof Integer ) {
-//                            Integer changeValue = (Integer)value;
-//                            Integer currentValue = (Integer)getTableModel()
-//                                    .getValueAt( rowIndex, columnIndex );
-//                            getTableModel().setValueAt(
-//                                    new Integer( currentValue.intValue()
-//                                            + changeValue.intValue() ),
-//                                    rowIndex, columnIndex );
-//                        }
-//                    }
-//                };
-//                JMenuItem changeItem = new JMenuItem();
-//                changeItem.setText( "+1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "+10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = null;
-//                break;
-//            case ExampleTableModel.COLUMN_AMOUNT:
-//                break;
-//            default:
-//                break;
-//        }
-
     /**
      * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String, int, int)} instead
      */
@@ -290,15 +226,11 @@ public abstract class JPopupMenuForJTable
             final int           columnIndex
             )
     {
-//        add(
-//            contextMenu,
-//            buildCopyJMenuItem("Copy",rowIndex,columnIndex)
-//            );
         addCopyMenuItem( contextMenu, "Copy", rowIndex, columnIndex );
     }
-    
+
     /**
-     * Add copy to clip-board sub-menu 
+     * Add copy to clip-board sub-menu
      * @param contextMenu
      * @param textForCopy
      * @param rowIndex
@@ -312,7 +244,7 @@ public abstract class JPopupMenuForJTable
             final int           columnIndex
             )
     {
-        add(
+        addJMenuItem(
             contextMenu,
             buildCopyJMenuItem(textForCopy,rowIndex,columnIndex)
             );
@@ -324,7 +256,7 @@ public abstract class JPopupMenuForJTable
      * @param textForCopy
      * @param rowIndex
      * @param columnIndex
-     * @return
+     * @return TODOC
      */
     final
     protected JMenuItem buildCopyJMenuItem(
@@ -381,8 +313,8 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * Add paste to clip-board sub-menu 
-     * 
+     * Add paste to clip-board sub-menu
+     *
      * @param contextMenu
      * @param txtForPaste
      * @param rowIndex

@@ -7,18 +7,15 @@ import java.util.EventListener;
  */
 public interface UnZipListener extends EventListener
 {
-    /**
-     * TODOC
-     *
-     * @param zipEntry
-     */
+	/**
+	 * TODOC
+	 * @param event
+	 */
     public void entryPostProcessing( UnZipEvent event );
 
-    /**
-     * TODOC
-     *
-     * @param file
-     * @param zipEntry
-     */
+	/**
+	 * TODOC
+	 * @param event
+	 */
     public void entryAdded( UnZipEvent event );
 }

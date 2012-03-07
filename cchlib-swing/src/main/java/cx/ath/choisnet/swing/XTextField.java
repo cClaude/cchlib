@@ -97,8 +97,8 @@ public class XTextField extends JTextField
             {
                 JPopupMenu contextMenu = new JPopupMenu();
 
-                addCopyMenuItem( contextMenu );
-                addPasteMenuItem(contextMenu );
+                addCopyMenuItem( contextMenu ); // TODO localization
+                addPasteMenuItem( contextMenu );// TODO localization
 
                 return contextMenu;
             }

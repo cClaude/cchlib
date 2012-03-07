@@ -1,4 +1,4 @@
-package cx.ath.choisnet.zip.testcase;
+package cx.ath.choisnet.zip;
 
 import cx.ath.choisnet.zip.SimpleUnZip;
 import cx.ath.choisnet.zip.SimpleZip;

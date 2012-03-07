@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
@@ -184,8 +185,8 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     /**
      * Invoke for each file
      *
-     * @param inputStream    {@link InputStream} from source file
-     * @param outputStream   {@link OutputStream} on destination file
+     * @param sourceFile        Source {@link File}
+     * @param destinationFile   Destination {@link File}
      * @throws IOException if any I/O occurred (This error is shown to the user)
      * @throws BatchRunnerInterruptedException if batch should be cancel
      */
@@ -240,7 +241,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-            final JFileChooserInitializer.DefaultConfigurator configurator = new JFileChooserInitializer.DefaultConfigurator()
+            final DefaultConfigurator configurator = new DefaultConfigurator()
             {
                 private static final long serialVersionUID = 1L;
 

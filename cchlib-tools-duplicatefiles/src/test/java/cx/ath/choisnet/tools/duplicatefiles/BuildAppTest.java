@@ -124,7 +124,7 @@ public class BuildAppTest extends JFrame
             contentPane.add(duplicateFilesCountLabel, gbc_duplicateFilesCountLabel);
         }
         {
-            JButton btnBuildFiles = new JButton("Build files");
+            final JButton btnBuildFiles = new JButton("Build files");
             btnBuildFiles.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     new Thread( new Runnable() {
@@ -132,6 +132,7 @@ public class BuildAppTest extends JFrame
                         public void run()
                         {
                             try {
+                            	btnBuildFiles.setEnabled( false );
                                 test_BuidTst(
                                     diffFilesCount.getValue(),
                                     duplicateFilesCount.getValue()
@@ -140,6 +141,9 @@ public class BuildAppTest extends JFrame
                             catch( IOException e ) {
                                 DialogHelper.showMessageExceptionDialog( "IOException", e );
                                 }
+                            finally {
+                            	btnBuildFiles.setEnabled( true );
+                            	}
                         }
                     }).start();
                 }

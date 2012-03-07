@@ -1,6 +1,5 @@
 package cx.ath.choisnet.zip.impl;
 
-import cx.ath.choisnet.zip.SimpleZipEntry;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +12,7 @@ import java.util.zip.ZipEntry;
  */
 @Deprecated
 public class SimpleZipEntryImpl
-    implements SimpleZipEntry
+    implements cx.ath.choisnet.zip.SimpleZipEntry
 {
     private File file;
     private ZipEntry zipEntry;

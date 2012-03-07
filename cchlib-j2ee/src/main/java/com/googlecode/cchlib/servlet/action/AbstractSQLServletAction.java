@@ -8,13 +8,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.servlet.ActionServlet;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
-//import cx.ath.choisnet.sql.SimpleQuery;
-//import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use SQL {@link Connection}
- *
- * @author Claude CHOISNET
  */
 public abstract class AbstractSQLServletAction
     extends AbstractServletAction
@@ -23,8 +19,8 @@ public abstract class AbstractSQLServletAction
     private Statement statement = null;
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      * @throws ServletActionException
      * @throws NamingException
      * @throws SQLException
@@ -60,8 +56,8 @@ public abstract class AbstractSQLServletAction
     /**
      * Returns the statement
      * @return the statement
-     * @throws NamingException
-     * @throws SQLException
+     * @throws NamingException if any
+     * @throws SQLException if any
      */
     public Statement getStatement()
         throws SQLException, NamingException
@@ -112,7 +108,7 @@ public abstract class AbstractSQLServletAction
      *         this method is called on a closed Statement or the
      *         given SQL statement produces anything other than
      *         a single ResultSet object
-     * @throws NamingException
+     * @throws NamingException if any
      * @see Statement#executeUpdate(String)
      */
     public ResultSet executeQuery( final String sql )
@@ -155,7 +151,7 @@ public abstract class AbstractSQLServletAction
      *         that return nothing
      * @throws SQLException if a database access error occurs or this
      *         method is called on a closed Statement
-     * @throws NamingException
+     * @throws NamingException  if any
      * @see Statement#execute(String)
      */
     public int executeUpdate( final String sql )

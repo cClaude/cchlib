@@ -14,7 +14,7 @@ public interface VeryLazyBatchRunner
 {
     /**
      * Returns a non existing {@link File} based on giving sourceFile
-     * @param sourceFile {@link File} to use to build new {@link File}
+     * @param outputFile {@link File} to use to build new {@link File}
      * @return a non existing {@link File} based on giving sourceFile
      */
     public File buildNotUsedOuputFile(File outputFile);

@@ -102,11 +102,11 @@ public class MappableHelper
     }
 
     /**
-     * TODOC
+     * Returns {@link Mappable} object as XML
      *
-     * @param clazz
-     * @param aMappableObject
-     * @return
+     * @param clazz TODOC
+     * @param aMappableObject TODOC
+     * @return {@link Mappable} object as XML
      */
     public static String toXML( Class<?> clazz, Mappable aMappableObject )
     {
@@ -123,10 +123,10 @@ public class MappableHelper
     }
 
     /**
-     * TODOC
+     * Returns {@link Mappable} object as XML
      *
-     * @param aMappableObject
-     * @return
+     * @param aMappableObject TODOC
+     * @return {@link Mappable} object as XML
      */
     public static String toXML( Mappable aMappableObject )
     {

@@ -11,8 +11,6 @@ import cx.ath.choisnet.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use {@link SimpleQuery} and {@link SimpleUpdate}
- *
- * @author Claude CHOISNET
  */
 public abstract class AbstractSimpleQueryServletAction
     extends AbstractServletAction
@@ -21,8 +19,8 @@ public abstract class AbstractSimpleQueryServletAction
     private SimpleUpdate simpleUpdate = null;
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      * @throws ServletActionException
      * @throws NamingException
      * @throws SQLException
@@ -95,13 +93,13 @@ public abstract class AbstractSimpleQueryServletAction
             }
         return simpleUpdate;
     }
-
+    
     /**
-     *
-     * @param sql
-     * @return
-     * @throws SQLException
-     * @throws NamingException
+     * Execute an SQL query
+     * @param sql SQL query to execute
+     * @return count of modified rows
+     * @throws SQLException if any
+     * @throws NamingException if any
      * @see SimpleUpdate#doUpdate(String)
      */
     public int doUpdate( final String sql )
@@ -113,11 +111,11 @@ public abstract class AbstractSimpleQueryServletAction
     }
 
     /**
-     *
-     * @param sql
-     * @return
-     * @throws SQLException
-     * @throws NamingException
+     * Execute a SQL query and return corresponding ResultSet.
+     * @param sql query SQL Query to send to database
+     * @return {@link ResultSet} from SQL query statement
+     * @throws SQLException if any
+     * @throws NamingException if any
      * @see SimpleQuery#executeQuery(String)
      */
     public ResultSet executeQuery( final String sql )

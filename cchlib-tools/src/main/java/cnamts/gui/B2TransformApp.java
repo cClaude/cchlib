@@ -37,7 +37,10 @@ public class B2TransformApp
     @Override//VeryLazyBatchRunnerApp
     public DelNonAlphaChar buildTask()
     {
-         return new DelNonAlphaChar( DelNonAlphaChar.REPLACEMENT_CHAR, 128 );
+         return new DelNonAlphaChar(
+             new Character( DelNonAlphaChar.REPLACEMENT_CHAR ),
+             new Integer( 128 )
+             );
     }
 
     @Override//VeryLazyBatchRunnerApp

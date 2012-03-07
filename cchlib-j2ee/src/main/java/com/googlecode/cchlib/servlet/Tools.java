@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.googlecode.cchlib.servlet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +5,7 @@ import com.googlecode.cchlib.servlet.exception.RequestParameterNotFoundException
 import com.googlecode.cchlib.servlet.exception.RequestParameterNumberFormatException;
 
 /**
- * @author Claude
- *
+ * TODOC
  */
 public final class Tools
 {
@@ -121,10 +117,10 @@ public final class Tools
 
 
     /**
-     *
+     * TODOC
      * @param request
      * @param name
-     * @return
+     * @return TODOC
      * @throws NumberFormatException
      * @throws RequestParameterNotFoundException
      * @throws RequestParameterNumberFormatException
@@ -156,6 +152,13 @@ public final class Tools
             }
     }
 
+    /**
+     * TODOC
+     * @param request
+     * @param name
+     * @param defaultValue
+     * @return TODOC
+     */
     public final static int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name,
@@ -171,10 +174,10 @@ public final class Tools
     }
 
     /**
-     *
-     * @param values
-     * @return
-     * @throws NumberFormatException
+     * Create a int Array from a String array
+     * @param values {@link String} array that must contain only number
+     * @return a int Array
+     * @throws NumberFormatException if any String is not a number
      */
     public static final int[] toInt(
             final String[] values

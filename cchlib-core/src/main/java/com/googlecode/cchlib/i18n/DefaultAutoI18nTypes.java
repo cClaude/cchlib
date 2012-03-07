@@ -93,7 +93,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * TODOC:
-     * @return
+     * @return TODOC
      */
     public AbstractType<JLabel> getJLabel()
     {
@@ -122,7 +122,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * TODOC:
-     * @return
+     * @return TODOC
      */
     public AbstractType<AbstractButton> getAbstractButton()
     {
@@ -151,7 +151,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * TODOC:
-     * @return
+     * @return TODOC
      */
     public AbstractType<JCheckBox> getJCheckBox()
     {
@@ -180,7 +180,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * TODOC:
-     * @return
+     * @return TODOC
      */
     public AbstractType<JTabbedPane> getJTabbedPane()
     {

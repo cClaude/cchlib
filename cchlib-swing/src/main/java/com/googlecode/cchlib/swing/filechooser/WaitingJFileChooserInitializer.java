@@ -81,12 +81,12 @@ public class WaitingJFileChooserInitializer
     }
 
     /**
-     *
-     * @return
+     * Returns default {@link JFileChooserInitializerCustomize} object
+     * @return default {@link JFileChooserInitializerCustomize} object
      */
     public static JFileChooserInitializerCustomize getDefaultConfigurator()
     {
-        return new JFileChooserInitializer.DefaultConfigurator(
+        return new DefaultConfigurator(
             //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER
             )
             {
@@ -141,8 +141,8 @@ public class WaitingJFileChooserInitializer
                 SwingUtilities.invokeAndWait( doRun );
                 }
             catch( InvocationTargetException e ) {
-                logger.error( 
-                        "Run InvocationTargetException - target exception", 
+                logger.error(
+                        "Run InvocationTargetException - target exception",
                         e.getTargetException()
                         );
                 }

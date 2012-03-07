@@ -52,10 +52,10 @@ public abstract class JPopupMenuForJTextField
      * Sets the value in the cell at rowIndex and
      * columnIndex to aValue.
      *
-     * @param aValue      the new value
+     * @param aValue the new value
      */
     final
-    protected void setValue( String aValue )
+    protected void setValue( final String aValue )
     {
         this.jTextField.setText( aValue );
     }
@@ -105,25 +105,39 @@ public abstract class JPopupMenuForJTextField
     protected abstract JPopupMenu createContextMenu();
 
     /**
+     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String)} instead
+     */
+    @Deprecated
+    public void addCopyMenuItem( final JPopupMenu contextMenu )
+    {
+        addCopyMenuItem( contextMenu, "Copy" );
+    }
+
+    /**
      * TODOC
      *
      * @param contextMenu
-     *
+     * @param textForCopy
+     * @return TODOC
      */
     final
-    public void addCopyMenuItem( final JPopupMenu contextMenu )
+    public JMenuItem addCopyMenuItem(
+        final JPopupMenu contextMenu,
+        final String     textForCopy
+        )
     {
-        add(
-            contextMenu,
-            buildCopyJMenuItem( "Copy" )
-            );
+        JMenuItem menu = buildCopyJMenuItem( textForCopy );
+
+        addJMenuItem( contextMenu, menu );
+
+        return menu;
     }
 
     /**
      * TODOC
      *
      * @param textForCopy
-     * @return
+     * @return TODOC
      */
     final
     protected JMenuItem buildCopyJMenuItem( final String textForCopy )
@@ -156,15 +170,28 @@ public abstract class JPopupMenuForJTextField
     }
 
     /**
+     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String)} instead
+     */
+    @Deprecated
+    protected void addPasteMenuItem( final JPopupMenu contextMenu )
+    {
+        addPasteMenuItem( contextMenu, "Paste" );
+    }
+
+    /**
      * TODOC
      *
      * @param contextMenu
+     * @return TODOC
      */
     final
-    protected void addPasteMenuItem( final JPopupMenu contextMenu )
+    protected JMenuItem addPasteMenuItem(
+        final JPopupMenu contextMenu,
+        final String     textForPaste
+        )
     {
         JMenuItem pasteMenu = new JMenuItem();
-        pasteMenu.setText( "Paste" );
+        pasteMenu.setText( textForPaste );
 
         if( isClipboardContainingText( this ) ) {
             pasteMenu.addActionListener(
@@ -184,6 +211,7 @@ public abstract class JPopupMenuForJTextField
             }
 
         contextMenu.add( pasteMenu );
-    }
 
+        return pasteMenu;
+    }
 }

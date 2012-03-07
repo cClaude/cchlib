@@ -87,9 +87,9 @@ public abstract class JPopupMenuForJList<E>
                 if( contextMenu != null
                         && contextMenu.getComponentCount() > 0 ) {
                     contextMenu.show( jList, p.x, p.y );
+                    }
                 }
             }
-        }
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class JPopupMenuForJList<E>
         final int         rowIndex
         )
     {
-        add(
+        addJMenuItem(
             contextMenu,
             copyMenu,
             copyActionListener(rowIndex)

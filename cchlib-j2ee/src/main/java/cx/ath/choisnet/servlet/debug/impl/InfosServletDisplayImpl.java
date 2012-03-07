@@ -2,6 +2,8 @@ package cx.ath.choisnet.servlet.debug.impl;
 
 import cx.ath.choisnet.lang.reflect.Mappable;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
+import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class InfosServletDisplayImpl
     implements InfosServletDisplay
 {
     private String                      title;
-    private InfosServletDisplay.Anchor  anchor;
+    private InfosServletDisplayAnchor   anchor;
     private Map<String,String>          map;
     private String                      messageIfMapEmpty;
 
@@ -29,7 +31,7 @@ public class InfosServletDisplayImpl
      */
     public InfosServletDisplayImpl(
             final String                      title,
-            final InfosServletDisplay.Anchor  anchor,
+            final InfosServletDisplayAnchor   anchor,
             final Map<String,String>          aMap,
             final String                      messageIfMapEmpty
             )
@@ -57,13 +59,8 @@ public class InfosServletDisplayImpl
     {
         this(
                 title,
-                new InfosServletDisplay.Anchor() {
-                    @Override
-                    @Deprecated
-                    public String getHTMLName()
-                    {
-                        return getId();
-                    }
+                new InfosServletDisplayAnchor()
+                {
                     @Override
                     public String getDisplay()
                     {
@@ -121,7 +118,7 @@ public class InfosServletDisplayImpl
     }
 
     @Override
-    public InfosServletDisplay.Anchor getAnchor()
+    public InfosServletDisplayAnchor getAnchor()
     {
         return anchor;
     }

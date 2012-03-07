@@ -17,27 +17,27 @@ public class TstCaseHelper
     {//All static
     }
 
-    /**
-     * use {@link AssertHelper#getTmpDirFile()} instead
-     */
+//    /**
+//     * use {@link AssertHelper#getTmpDirFile()} instead
+//     */
     @Deprecated
     public final static File getTmpDirFile()
     {
         return new File( System.getProperty("java.io.tmpdir" ) );
     }
 
-    /**
-     * use {@link AssertHelper#getUserHomeDirFile()} instead
-     */
+//    /**
+//     * use {@link AssertHelper#getUserHomeDirFile()} instead
+//     */
     @Deprecated
     public final static File getUserHomeDirFile()
     {
         return new File( System.getProperty("user.home") );
     }
 
-    /**
-     * use {@link AssertHelper#getSystemRootFile()} instead
-     */
+//    /**
+//     * use {@link AssertHelper#getSystemRootFile()} instead
+//     */
     @Deprecated
     public final static File getSystemRootFile()
     {

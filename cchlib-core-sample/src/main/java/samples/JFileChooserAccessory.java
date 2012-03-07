@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -377,7 +378,7 @@ public class JFileChooserAccessory extends JFrame
 
     private JFileChooserInitializerCustomize getJFileChooserInitializerConfigurator()
     {
-        return new JFileChooserInitializer.DefaultConfigurator()
+        return new DefaultConfigurator()
             {
                 private static final long serialVersionUID = 1L;
                 public void perfomeConfig(JFileChooser jfc)

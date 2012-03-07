@@ -1,7 +1,6 @@
 package cx.ath.choisnet.zip.impl;
 
 import cx.ath.choisnet.util.Wrappable;
-import cx.ath.choisnet.zip.SimpleZipEntry;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
@@ -11,7 +10,7 @@ import java.util.zip.ZipEntry;
  */
 @Deprecated
 public class SimpleZipEntryFactoryImpl
-    implements Wrappable<File,SimpleZipEntry>
+    implements Wrappable<File,cx.ath.choisnet.zip.SimpleZipEntry>
 {
     private String refFolder;
     private int    refFolderLen;
@@ -46,7 +45,7 @@ public class SimpleZipEntryFactoryImpl
     }
 
     @Override
-    public SimpleZipEntry wrappe(File file)
+    public cx.ath.choisnet.zip.SimpleZipEntry wrappe(File file)
     {
         try {
             return private_wrappe( file );
@@ -56,7 +55,7 @@ public class SimpleZipEntryFactoryImpl
         }
     }
 
-    private SimpleZipEntry private_wrappe(File file) throws IOException
+    private cx.ath.choisnet.zip.SimpleZipEntry private_wrappe(File file) throws IOException
     {
         String name = file.getCanonicalPath().replace('\\', '/');
 

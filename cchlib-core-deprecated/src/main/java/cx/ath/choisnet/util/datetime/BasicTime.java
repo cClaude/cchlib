@@ -401,15 +401,6 @@ public class BasicTime
         return this;
     }
 
-    /**
-     * TODOC
-     *
-     * @param basicTime1
-     * @param basicTime2
-     * @return
-     * @throws BasicDateTimeNegativeValueException
-     * @throws BasicTimeException
-     */
     public static BasicTime subtract(BasicTime basicTime1, BasicTime basicTime2)
         throws BasicDateTimeNegativeValueException, BasicTimeException
     {

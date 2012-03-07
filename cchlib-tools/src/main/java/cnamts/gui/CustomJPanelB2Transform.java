@@ -7,6 +7,9 @@ import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
@@ -78,6 +81,25 @@ public class CustomJPanelB2Transform
             gbc_lineLengthJLabel.gridx = 0;
             gbc_lineLengthJLabel.gridy = 1;
             add(lineLengthJLabel, gbc_lineLengthJLabel);
+
+            final JCheckBox lineLengthJCheckBox = new JCheckBox("Effectuer l'insertion de saut de ligne");
+            lineLengthJCheckBox.setSelected(true);
+            lineLengthJCheckBox.setEnabled(true);
+            lineLengthJCheckBox.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    lineLengthJTextField.setEnabled(
+                        lineLengthJCheckBox.isSelected()
+                        );
+                }});
+            GridBagConstraints gbc_lineLengthJCheckBox = new GridBagConstraints();
+            gbc_lineLengthJCheckBox.fill = GridBagConstraints.BOTH;
+            gbc_lineLengthJCheckBox.gridwidth = 2;
+            gbc_lineLengthJCheckBox.insets = new Insets(0, 0, 5, 5);
+            gbc_lineLengthJCheckBox.gridx = 2;
+            gbc_lineLengthJCheckBox.gridy = 1;
+            add(lineLengthJCheckBox, gbc_lineLengthJCheckBox);
         }
         {
             charReplacementJSpinner = createReplacementCharJSpinner();
@@ -96,9 +118,17 @@ public class CustomJPanelB2Transform
             gbc_charReplacementJLabel.gridy = 2;
             add(charReplacementJLabel, gbc_charReplacementJLabel);
 
-            JCheckBox charReplacementJCheckBox = new JCheckBox("Effectuer le remplacement des valeurs non affichables");
+            final JCheckBox charReplacementJCheckBox = new JCheckBox("Effectuer le remplacement des valeurs non affichables");
             charReplacementJCheckBox.setSelected(true);
-            charReplacementJCheckBox.setEnabled(false); // FIXME
+            charReplacementJCheckBox.setEnabled(true);
+            charReplacementJCheckBox.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    charReplacementJSpinner.setEnabled(
+                        charReplacementJCheckBox.isSelected()
+                        );
+                }});
             GridBagConstraints gbc_charReplacementJCheckBox = new GridBagConstraints();
             gbc_charReplacementJCheckBox.gridwidth = 2;
             gbc_charReplacementJCheckBox.gridx = 2;
@@ -118,17 +148,27 @@ public class CustomJPanelB2Transform
         this.charReplacementJSpinner.setEnabled( enabled );
     }
 
-    public char getReplacementChar()
+    public Character getReplacementChar()
     {
-        Object  value = charReplacementJSpinner.getValue();
-        String  str   = String.class.cast( value );
+        if( charReplacementJSpinner.isEnabled() ) {
+            Object  value = charReplacementJSpinner.getValue();
+            String  str   = String.class.cast( value );
 
-        return str.charAt( 0 );
+            return new Character( str.charAt( 0 ) );
+            }
+        else {
+            return null;
+            }
     }
 
-    public int getLineLength()
+    public Integer getLineLength()
     {
-        return this.lineLengthJTextField.getValue();
+        if( lineLengthJTextField.isEnabled() ) {
+            return this.lineLengthJTextField.getValue();
+            }
+        else {
+            return null;
+            }
     }
 
     public String getFileExtension()

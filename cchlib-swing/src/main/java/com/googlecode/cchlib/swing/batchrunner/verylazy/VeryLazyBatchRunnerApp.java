@@ -36,7 +36,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
      * Create a VeryLazyBatchRunnerApp, using giving ResourceBundle
      * and giving custom panel.
      *
-     * @param customJPanelFactory Custom {@link JPanel} to add on UI,
+     * @param customJPanelFactory Custom JPanel to add on UI,
      *        could be null for no custom panel.
      * @param resourceBundle Custom {@link ResourceBundle} to use for
      *        localization, could be null to use internal {@link ResourceBundle}.
