@@ -117,10 +117,17 @@ public class JPanelResultListModel
             final HashMapSet<String,KeyFileState> duplicateFiles,
             final SortMode                        sortMode
             )
-        {
-            this.duplicateFiles = duplicateFiles;
-            this.sortMode = sortMode;
-        }
+    {
+        this.duplicateFiles = duplicateFiles;
+        this.sortMode = sortMode;
+        updateCache();
+    }
+
+    public void updateCache( SortMode sortMode )
+    {
+        this.sortMode = sortMode;
+        updateCache();
+    }
 
     @Override
     public int getSize()
@@ -234,5 +241,4 @@ public class JPanelResultListModel
 
         //logger.info( "clearSelected() done" );
     }
-
 }

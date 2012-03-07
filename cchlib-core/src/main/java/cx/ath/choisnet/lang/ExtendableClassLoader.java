@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarEntry;
@@ -17,10 +16,6 @@ import java.util.jar.JarFile;
 
 /**
  * TODOC
- *
- * <p><b>This class is suspect, no time for now
- * to check it, but decompile process give
- * a strange result</b></p>
  *
  * <p style="border:groove;">
  * <b>Warning:</b>
@@ -41,33 +36,46 @@ public class ExtendableClassLoader extends ClassLoader
     final private Map<File,JarFile>       jars  = new HashMap<File,JarFile>();
     final private Map<String,Class<?>>    cache = new HashMap<String,Class<?>>();
 
+    /**
+     * TODOC
+     */
     public ExtendableClassLoader()
     {
-        init();
+        super();
     }
 
-    public ExtendableClassLoader( final ClassLoader parent )
+    /**
+     * TODOC
+     *
+     * @param parent
+     */
+    public ExtendableClassLoader(
+        final ClassLoader parent
+        )
     {
-        super(parent);
-
-        init();
+        super( parent );
     }
 
-    private void init()
-    {
-//        paths = new LinkedList();
-//        jars  = new HashMap<File,JarFile>();
-//        cache = new HashMap<String,Class<?>>();
-    }
-
+    /**
+     * TODOC
+     *
+     * @param path
+     * @throws IOException
+     */
     public void addClassPath( final String path )
-        throws java.io.IOException
+        throws IOException
     {
-        addClassPath(new File(path));
+        addClassPath( new File( path ) );
     }
 
+    /**
+     * TODOC
+     *
+     * @param path
+     * @throws IOException
+     */
     public void addClassPath( final File path )
-        throws java.io.IOException
+        throws IOException
     {
         if( path.isFile() ) {
             synchronized( jars ) {
@@ -81,11 +89,19 @@ public class ExtendableClassLoader extends ClassLoader
             }
     }
 
+    /**
+     * TODOC
+     * @param path
+     */
     public void removeClassPath( final String path )
     {
         removeClassPath( new File( path ) );
     }
 
+    /**
+     * TODOC
+     * @param path
+     */
     public void removeClassPath( final File path )
     {
         JarFile found;
@@ -101,6 +117,7 @@ public class ExtendableClassLoader extends ClassLoader
             }
     }
 
+    /*
     private byte[] getClassFromAddedClassPaths( final String className )
     {
         byte result[];
@@ -203,42 +220,68 @@ label0:
             }
         }
         return result;
+    }*/
+
+    /**
+     * TODOC
+     * @param className
+     * @return TODOC
+     */
+    private byte[] getClassFromAddedClassPaths(
+        final String className
+        )
+    {
+        byte[] result = null;
+        String fileName;
+
+        try {
+            fileName = className.replace('.', '/') + ".class";
+
+            for( File path : this.paths ) {
+                File f = new File(path, fileName);
+
+                if( f.exists() ) {
+                    result = toBytes( new FileInputStream( f ) );
+                    break;
+                    }
+                }
+
+            for( Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
+                JarFile  jarFile  = entry.getValue();
+                JarEntry jarEntry = jarFile.getJarEntry( fileName );
+
+                if( jarEntry != null ) {
+                    result = toBytes(jarFile.getInputStream(jarEntry));
+                    break;
+                    }
+                }
+            }
+        catch( Exception ignore ) {
+            }
+
+        return result;
     }
 
     @Override
     public URL findResource( final String name )
     {
-        Iterator<File> i1$ = paths.iterator();
-
-        do {
-            if( !i1$.hasNext() ) {
-                break;
-                }
-
-            File path = i1$.next();
-            File f = new File(path, name);
+        for( File path : this.paths) {
+            File f = new File( path, name );
 
             if( f.exists() ) {
                 try {
                     @SuppressWarnings("deprecation")
-                    URL u = f.toURL();
-                    return u;
+                    URL url = f.toURL();
+                    return url;
                     }
-                catch(MalformedURLException ignore) {
+                catch( MalformedURLException ignore ) {
                     }
                 }
-            } while(true);
+            }
 
-        Iterator<Map.Entry<File,JarFile>> i2$ = jars.entrySet().iterator();
-
-        do {
-            if( !i2$.hasNext() ) {
-                break;
-                }
-
-            Map.Entry<File,JarFile> entry       = i2$.next();
-            JarFile                 jarFile     = entry.getValue();
-            JarEntry                jarEntry    = jarFile.getJarEntry(name);
+        for( Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
+            JarFile     jarFile  = entry.getValue();
+            JarEntry    jarEntry = jarFile.getJarEntry(name);
 
             if( jarEntry != null ) {
                 try {
@@ -250,26 +293,27 @@ label0:
                 catch(MalformedURLException ignore) {
                     }
                 }
-            } while(true);
+            };
 
         return null;
     }
 
     /**
-     *
+     * TOODC
      * @param inputStream
-     * @return
+     * @return TODOC
      * @throws IOException
      */
-    protected static final byte[] toBytes( final InputStream inputStream )
-        throws IOException
+    protected static final byte[] toBytes(
+        final InputStream inputStream
+        ) throws IOException
     {
         final ByteArrayBuilder  result = new ByteArrayBuilder( inputStream.available() );
         final byte[]            buffer = new byte[ 4096 ];
         int                     len;
 
         while( (len = inputStream.read(buffer)) != -1 ) {
-            result.append(buffer, 0, len);
+            result.append( buffer, 0, len );
             }
 
         return result.array();

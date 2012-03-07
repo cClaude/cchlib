@@ -40,7 +40,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns current JList
      * @return current JList
      */
-    public JList<E> getJList()
+    protected JList<E> getJList()
     {
         return jList;
     }
@@ -49,7 +49,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns ListModel for current JList
      * @return ListModel for current JList
      */
-    public ListModel<E> getListModel()
+    protected ListModel<E> getListModel()
     {
         return jList.getModel();
     }
@@ -57,26 +57,13 @@ public abstract class JPopupMenuForJList<E>
     /**
      * Get value from Model
      *
-     * @param rowIndex rowIndex according to view
+     * @param rowIndex Row index according to view
      * @return value from Model
      */
-    final
-    public E getValueAt( final int rowIndex )
+    protected E getValueAt( final int rowIndex )
     {
         return getListModel().getElementAt( rowIndex );
     }
-
-//    /**
-//     * Get value from Model
-//     *
-//     * @param rowIndex rowIndex according to view
-//     * @return value from Model
-//     */
-//    final
-//    public void setValueAt( final int rowIndex, Object value )
-//    {
-//        return getListModel().setElementAt( rowIndex );
-//    }
 
     @Override
     protected void addMouseListener( final MouseListener l )
@@ -106,80 +93,47 @@ public abstract class JPopupMenuForJList<E>
     }
 
     /**
-     * TODO: Doc !
-     *
-     *
-    final
-    public void setMenu()
-    {
-        jList.addMouseListener(
-            new MouseAdapter()
-            {
-                private void maybeShowPopup( MouseEvent e )
-                {
-                    if( e.isPopupTrigger() && jList.isEnabled() ) {
-                        // get the list item on which the user right-clicked
-                        Point   p   = new Point( e.getX(), e.getY() );
-                        int     row = jList.locationToIndex( p );
-
-                        if( row >= 0 ) {
-                            // create popup menu...
-                            JPopupMenu contextMenu = createContextMenu( row );
-
-                            // ... and show it
-                            if( contextMenu != null
-                                    && contextMenu.getComponentCount() > 0 ) {
-                                contextMenu.show( jList, p.x, p.y );
-                            }
-                        }
-                    }
-            }
-
-            public void mousePressed( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-
-            public void mouseReleased( MouseEvent e )
-            {
-                maybeShowPopup( e );
-            }
-        } );
-    }*/
-
-    /**
      * <P>
      * You must overwrite this method !
      * </P>
+     * <p>
      * Create a JPopupMenu for this row, this method
      * is call when user try to access to context menu
      * for the 'rowIndex' entry in JList.
+     * </P>
+     * Typically you would add something like :
+     * <pre>
+     * protected abstract JPopupMenu createContextMenu(
+     *     final int rowIndex
+     *     )
+     * {
+     *     JPopupMenu contextMenu =  new JPopupMenu();
      *
-     * @param rowIndex current rowIndex.
+     *     addCopyMenuItem(contextMenu, rowIndex);
+     *     addPasteMenuItem(contextMenu, rowIndex);
+     * }
+     * </pre>
+     * @param rowIndex Row index according to view
      * @return JPopupMenu for this row
+     * @see #addCopyMenuItem(JPopupMenu, JMenuItem, int)
      */
     protected abstract JPopupMenu createContextMenu(
             final int rowIndex
             );
-//    {
-//        return new JPopupMenu();
-//
-//        //addCopyMenuItem(contextMenu, rowIndex);
-//        //addPasteMenuItem(contextMenu, rowIndex);
-//    }
 
     /**
-     * TODO: Doc !
+     * Add copy menu using default copy {@link ActionListener}.
      *
-     * @param contextMenu
-     * @param rowIndex
+     * @param contextMenu Parent {@link JPopupMenu}
+     * @param copyMenu    {@link JMenuItem} for copy action
+     * @param rowIndex Row index according to view
+     * @see #copyActionListener(int)
      */
-    final
     protected void addCopyMenuItem(
-            JPopupMenu  contextMenu,
-            JMenuItem   copyMenu,
-            int         rowIndex
-            )
+        final JPopupMenu  contextMenu,
+        final JMenuItem   copyMenu,
+        final int         rowIndex
+        )
     {
         add(
             contextMenu,
@@ -187,35 +141,48 @@ public abstract class JPopupMenuForJList<E>
             copyActionListener(rowIndex)
             );
     }
+
     /**
-     * TODOC
+     * Add copy menu using default copy {@link ActionListener}.
      *
-     * @param contextMenu
-     * @param rowIndex
+     * @param contextMenu  Parent {@link JPopupMenu}
+     * @param copyTextMenu Text for {@link JMenuItem} of copy action
+     * @param rowIndex Row index according to view
+     * @see #copyActionListener(int)
      */
-    final
-    protected void addDefaultCopyMenuItem(
-            JPopupMenu  contextMenu,
-            int         rowIndex
-            )
+    protected void addCopyMenuItem(
+        final JPopupMenu  contextMenu,
+        final String      copyTextMenu,
+        final int         rowIndex
+        )
     {
         addCopyMenuItem(
-                contextMenu,
-                new JMenuItem( "Copy" ),
-                rowIndex
-                );
+            contextMenu,
+            new JMenuItem( copyTextMenu ),
+            rowIndex
+            );
+    }
+
+    @Deprecated
+    protected void addDefaultCopyMenuItem(
+        final JPopupMenu contextMenu,
+        final int        rowIndex
+        )
+    {
+        addCopyMenuItem( contextMenu,"Copy", rowIndex );
     }
 
     /**
      * Returns an ActionListener for 'copy' from
      * current row to clip-board
      *
-     * @param rowIndex
+     * @param rowIndex Row index according to view
      * @return an ActionListener for 'copy' from
      *         current row to clip-board
      */
-    final
-    public ActionListener copyActionListener( final int rowIndex )
+    protected ActionListener copyActionListener(
+        final int rowIndex
+        )
     {
         return new ActionListener()
         {

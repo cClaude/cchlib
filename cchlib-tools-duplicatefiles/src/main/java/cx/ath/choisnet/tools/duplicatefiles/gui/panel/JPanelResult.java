@@ -192,12 +192,12 @@ public class JPanelResult extends JPanelResultWB
     }
 
     private void addContextSubMenuActionCommandRec(
-            JPopupMenuForJList<KeyFileState>      m,
-            JPopupMenu                          parentMenu,
-            JMenu                               menu,
-            String                              actionCommand,
-            KeyFileState                        kf
-            )
+       final JPopupMenuForJList<KeyFileState>   m,
+       final JPopupMenu                         parentMenu,
+       final JMenu                              menu,
+       final String                             actionCommand,
+       final KeyFileState                       kf
+       )
     {
         m.add( parentMenu, menu );
 
@@ -341,7 +341,30 @@ public class JPanelResult extends JPanelResultWB
                 {
                     JPopupMenu cm = new JPopupMenu();
 
-                    // TODO Auto-generated method stub
+                    String txtSortMenu  = "Sort by"; // FIXME
+                    String menuSortBySizeTxt = "Size"; // FIXME
+                    String menuSortByNameTxt = "Filename"; // FIXME
+                    String menuSortByPathTxt = "File path"; // FIXME
+
+                    JMenuItem sortMenu = new JMenuItem( txtSortMenu );
+                    add( cm, sortMenu );
+
+                    ActionListener sortByListener = new ActionListener()
+                    {
+                        @Override
+                        public void actionPerformed( ActionEvent event )
+                        {
+                            JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+                            SortMode sortMode = SortMode.class.cast(
+                                    menu.getClientProperty( SortMode.class )
+                                    );
+                            getListModelDuplicatesFiles().updateCache( sortMode );
+                        }
+                    };
+                    add( cm, menuSortBySizeTxt, sortByListener, SortMode.class, SortMode.FILESIZE );
+                    add( cm, menuSortByNameTxt, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
+                    add( cm, menuSortByPathTxt, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+
                     return cm;
                 }
             }.setMenu();

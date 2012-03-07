@@ -18,7 +18,6 @@ import javax.swing.JPopupMenu;
 /**
  * Handle context menu.
  *
- *
  * @author Claude CHOISNET
  * <p>
  * Code inspired from
@@ -30,14 +29,75 @@ public abstract class AbstractJPopupMenuBuilder
     /**
      * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
+     * @param contextMenu       Parent {@link JPopupMenu}
+     * @param menuItem          New menu to add
+     * @param listener          {@link ActionListener} for new menu
+     * @param actionCommand     {@link ActionCommand} to set on new menu
+     * @param clientPropertyKey
+     * @param clientPropertyValue
+     * @return menuItem added
+     *
+     * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
+     */
+    final
+    public JMenuItem add(
+        final JPopupMenu      contextMenu,
+        final JMenuItem       menuItem,
+        final ActionListener  listener,
+        final String          actionCommand,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
+    {
+        menuItem.setActionCommand(actionCommand);
+        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
+        menuItem.addActionListener( listener );
+        contextMenu.add( menuItem );
+        
+        return menuItem;
+    }
+
+    /**
+     * Add a {@link JMenuItem} on a {@link JMenu}
+     *
+     * @param contextSubMenu
+     * @param menuItem
+     * @param listener
+     * @param actionCommand
+     * @param clientPropertyKey
+     * @param clientPropertyValue
+     *
+     * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
+     */
+    final
+    public void add(
+        final JMenu           contextSubMenu,
+        final JMenuItem       menuItem,
+        final ActionListener  listener,
+        final String          actionCommand,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
+    {
+        menuItem.setActionCommand(actionCommand);
+        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
+        menuItem.addActionListener( listener );
+        contextSubMenu.add( menuItem );
+    }
+
+    /**
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
+     *
      * @param contextMenu
      * @param menuItem
      */
     final
     public void add(
-            final JPopupMenu    contextMenu,
-            final JMenuItem     menuItem
-            )
+        final JPopupMenu    contextMenu,
+        final JMenuItem     menuItem
+        )
     {
         contextMenu.add( menuItem );
     }
@@ -50,9 +110,9 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JMenu     contextSubMenu,
-            final JMenuItem menuItem
-            )
+        final JMenu     contextSubMenu,
+        final JMenuItem menuItem
+        )
     {
         contextSubMenu.add( menuItem );
     }
@@ -66,13 +126,30 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JPopupMenu        contextMenu,
-            final JMenuItem         menuItem,
-            final ActionListener    listener
-            )
+        final JPopupMenu        contextMenu,
+        final JMenuItem         menuItem,
+        final ActionListener    listener
+        )
     {
         menuItem.addActionListener( listener );
         contextMenu.add( menuItem );
+    }
+
+    /**
+     * Add a {@link JMenuItem} on a {@link JPopupMenu}
+     *
+     * @param contextMenu
+     * @param menuItemTxt   Text for {@link JMenuItem}
+     * @param listener      {@link ActionListener} for this menu
+     */
+    final
+    public void add(
+        final JPopupMenu      contextMenu,
+        final String          menuItemTxt,
+        final ActionListener  listener
+        )
+    {
+        add( contextMenu, new JMenuItem( menuItemTxt ), listener );
     }
 
     /**
@@ -84,10 +161,10 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JMenu             contextSubMenu,
-            final JMenuItem         menuItem,
-            final ActionListener    listener
-            )
+        final JMenu             contextSubMenu,
+        final JMenuItem         menuItem,
+        final ActionListener    listener
+        )
     {
         menuItem.addActionListener( listener );
         contextSubMenu.add( menuItem );
@@ -105,11 +182,11 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JPopupMenu        contextMenu,
-            final JMenuItem         menuItem,
-            final ActionListener    listener,
-            final String            actionCommand
-            )
+        final JPopupMenu        contextMenu,
+        final JMenuItem         menuItem,
+        final ActionListener    listener,
+        final String            actionCommand
+        )
     {
         menuItem.setActionCommand(actionCommand);
         menuItem.addActionListener( listener );
@@ -128,13 +205,13 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JMenu             contextSubMenu,
-            final JMenuItem         menuItem,
-            final ActionListener    listener,
-            final String            actionCommand
-            )
+        final JMenu             contextSubMenu,
+        final JMenuItem         menuItem,
+        final ActionListener    listener,
+        final String            actionCommand
+        )
     {
-        menuItem.setActionCommand(actionCommand);
+        menuItem.setActionCommand( actionCommand );
         menuItem.addActionListener( listener );
         contextSubMenu.add( menuItem );
     }
@@ -153,12 +230,12 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JMenu           contextSubMenu,
-            final JMenuItem       menuItem,
-            final ActionListener  listener,
-            final Object          clientPropertyKey,
-            final Object          clientPropertyValue
-            )
+        final JMenu           contextSubMenu,
+        final JMenuItem       menuItem,
+        final ActionListener  listener,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
     {
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
         menuItem.addActionListener( listener );
@@ -166,10 +243,10 @@ public abstract class AbstractJPopupMenuBuilder
     }
 
     /**
-     * Add a {@link JMenuItem} on a {@link JPopupMenu}
+     * Add a {@link JMenuItem} on a {@link JMenu}
      *
-     * @param contextMenu
-     * @param menuItem
+     * @param contextSubMenu
+     * @param menuItemTxt   Text for {@link JMenuItem}
      * @param listener
      * @param clientPropertyKey
      * @param clientPropertyValue
@@ -179,16 +256,19 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JPopupMenu      contextMenu,
-            final JMenuItem       menuItem,
-            final ActionListener  listener,
-            final Object          clientPropertyKey,
-            final Object          clientPropertyValue
-            )
+        final JMenu           contextSubMenu,
+        final String          menuItemTxt,
+        final ActionListener  listener,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
     {
-        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
-        menuItem.addActionListener( listener );
-        contextMenu.add( menuItem );
+        add( contextSubMenu,
+             new JMenuItem( menuItemTxt ),
+             listener,
+             clientPropertyKey,
+             clientPropertyValue
+             );
     }
 
     /**
@@ -197,7 +277,6 @@ public abstract class AbstractJPopupMenuBuilder
      * @param contextMenu
      * @param menuItem
      * @param listener
-     * @param actionCommand ActionCommand to set
      * @param clientPropertyKey
      * @param clientPropertyValue
      *
@@ -206,15 +285,13 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JPopupMenu      contextMenu,
-            final JMenuItem       menuItem,
-            final ActionListener  listener,
-            final String          actionCommand,
-            final Object          clientPropertyKey,
-            final Object          clientPropertyValue
-            )
+        final JPopupMenu      contextMenu,
+        final JMenuItem       menuItem,
+        final ActionListener  listener,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
     {
-        menuItem.setActionCommand(actionCommand);
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
         menuItem.addActionListener( listener );
         contextMenu.add( menuItem );
@@ -224,7 +301,36 @@ public abstract class AbstractJPopupMenuBuilder
      * Add a {@link JMenuItem} on a {@link JMenu}
      *
      * @param contextSubMenu
-     * @param menuItem
+     * @param menuItemTxt Text for JMenuItem
+     * @param listener
+     * @param clientPropertyKey
+     * @param clientPropertyValue
+     *
+     * @see JMenuItem#putClientProperty(Object, Object)
+     * @see JMenuItem#getClientProperty(Object)
+     */
+    final
+    public void add(
+        final JPopupMenu      contextSubMenu,
+        final String          menuItemTxt,
+        final ActionListener  listener,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
+    {
+        add( contextSubMenu,
+             new JMenuItem( menuItemTxt ),
+             listener,
+             clientPropertyKey,
+             clientPropertyValue
+             );
+    }
+
+    /**
+     * Add a {@link JMenuItem} on a {@link JMenu}
+     *
+     * @param contextSubMenu
+     * @param menuItemTxt Text for JMenuItem
      * @param listener
      * @param actionCommand
      * @param clientPropertyKey
@@ -235,20 +341,22 @@ public abstract class AbstractJPopupMenuBuilder
      */
     final
     public void add(
-            final JMenu           contextSubMenu,
-            final JMenuItem       menuItem,
-            final ActionListener  listener,
-            final String          actionCommand,
-            final Object          clientPropertyKey,
-            final Object          clientPropertyValue
-            )
+        final JMenu           contextSubMenu,
+        final String          menuItemTxt,
+        final ActionListener  listener,
+        final String          actionCommand,
+        final Object          clientPropertyKey,
+        final Object          clientPropertyValue
+        )
     {
-        menuItem.setActionCommand(actionCommand);
-        menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
-        menuItem.addActionListener( listener );
-        contextSubMenu.add( menuItem );
+        add( contextSubMenu,
+             new JMenuItem( menuItemTxt ),
+             listener,
+             actionCommand,
+             clientPropertyKey,
+             clientPropertyValue
+             );
     }
-
 
     /**
      * TODOC
@@ -288,7 +396,9 @@ public abstract class AbstractJPopupMenuBuilder
      * @return true if clip-board contains text.
      */
     final
-    public static boolean isClipboardContainingText( final Object requestor )
+    public static boolean isClipboardContainingText(
+        final Object requestor
+        )
     {
         Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getContents( requestor );
@@ -307,7 +417,9 @@ public abstract class AbstractJPopupMenuBuilder
      * is unavailable while it is accessed by another application.
      */
     final
-    public static void setClipboardContents( final String s )
+    public static void setClipboardContents(
+        final String s
+        )
         throws IllegalStateException
     {
         StringSelection selection = new StringSelection( s );
