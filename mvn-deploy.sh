@@ -20,5 +20,6 @@ echo "TODO mvn deploy --errors"
 echo "in each needed sub projets"
 echo "(Not done by this batch)"
 echo "mvn deploy --errors --projects cchlib-core,cchlib-j2ee,cchlib-swing"
+echo "no tests: -Dmaven.test.skip=true"
 echo "------------------------------------------"
 

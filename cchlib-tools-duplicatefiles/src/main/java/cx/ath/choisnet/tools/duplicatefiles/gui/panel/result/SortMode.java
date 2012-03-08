@@ -7,5 +7,6 @@ public enum SortMode
 {
     FIRST_FILENAME,
     FIRST_FILEPATH,
+    FIRST_FILEDEPTH,
     FILESIZE,
 }

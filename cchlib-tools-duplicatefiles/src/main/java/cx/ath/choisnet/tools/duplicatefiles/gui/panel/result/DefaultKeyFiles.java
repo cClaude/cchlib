@@ -13,7 +13,7 @@ final class DefaultKeyFiles extends AbstractKeyFiles
 {
     private static final long serialVersionUID = 3L;
     private Set<KeyFileState>   files;
-    private File                firstFileCache;
+    private KeyFileState        firstFileCache;
 
     /**
      *
@@ -35,7 +35,7 @@ final class DefaultKeyFiles extends AbstractKeyFiles
         // Get first File.
         //this.firstFileCache = this.files.get( 0 ).getFile();
         //
-        this.firstFileCache = this.files.iterator().next().getFile();
+        this.firstFileCache = this.files.iterator().next();
         //this.firstFileDisplayCache = f.getName();
         //this.firstFileSizeCache = this.firstFileCache.length();
     }
@@ -43,12 +43,18 @@ final class DefaultKeyFiles extends AbstractKeyFiles
     @Override
     public File getFirstFile()
     {
-        return this.firstFileCache;
+        return this.firstFileCache.getFile();
     }
 
     @Override
     public Collection<KeyFileState> getFiles()
     {
         return files;
+    }
+
+    @Override
+    public int getDepth()
+    {
+        return this.firstFileCache.getDepth();
     }
 }

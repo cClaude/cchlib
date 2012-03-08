@@ -30,6 +30,12 @@ public interface KeyFiles
     public abstract long length();
 
     /**
+     * Returns depth of file
+     * @return depth of file
+     */
+    public int getDepth();
+
+    /**
      * @return the key
      */
     public abstract String getKey();

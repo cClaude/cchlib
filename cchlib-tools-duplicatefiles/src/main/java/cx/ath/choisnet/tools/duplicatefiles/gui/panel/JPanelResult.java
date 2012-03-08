@@ -69,8 +69,8 @@ public class JPanelResult extends JPanelResultWB
     @I18nString private String txtSortMenu  = "Sort by";
     @I18nString private String txtMenuSortBySize = "Size";
     @I18nString private String txtMenuSortByName = "Filename";
-    @I18nString private String txtMenuSortByPatht = "File path";
-
+    @I18nString private String txtMenuSortByPath = "File path";
+    @I18nString private String txtMenuSortByDepth = "File depth";
 
     public JPanelResult(
         final DFToolKit dFToolKit
@@ -337,7 +337,8 @@ public class JPanelResult extends JPanelResultWB
                     };
                     addJMenuItem( sortMenu, txtMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
                     addJMenuItem( sortMenu, txtMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
-                    addJMenuItem( sortMenu, txtMenuSortByPatht, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+                    addJMenuItem( sortMenu, txtMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+                    addJMenuItem( sortMenu, txtMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
 
                     return cm;
                 }

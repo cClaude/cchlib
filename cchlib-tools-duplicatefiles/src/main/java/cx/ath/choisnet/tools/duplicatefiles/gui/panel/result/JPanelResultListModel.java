@@ -33,6 +33,7 @@ public class JPanelResultListModel
     private Comparator<? super KeyFiles> filenameComparator;
     private Comparator<? super KeyFiles> pathComparator;
     private Comparator<? super KeyFiles> sizeComparator;
+    private Comparator<? super KeyFiles> depthComparator;
 
     public JPanelResultListModel()
     {
@@ -62,7 +63,13 @@ public class JPanelResultListModel
                             );
                 }
             };
-
+        depthComparator = new Comparator<KeyFiles>() {
+            @Override
+            public int compare( KeyFiles o1, KeyFiles o2 )
+            {
+                return o1.getDepth() - o2.getDepth();
+            }
+        };
         updateCache(
             new HashMapSet<String,KeyFileState>(),
             SortMode.FILESIZE
@@ -99,9 +106,17 @@ public class JPanelResultListModel
                 cmp = this.pathComparator;
                 break;
 
-            default : //case FILESIZE :
+            case FILESIZE :
                 cmp = this.sizeComparator;
                 break;
+
+            case FIRST_FILEDEPTH :
+                cmp = this.depthComparator;
+                break;
+
+            default :
+                throw new UnsupportedOperationException( "SortMode = " + sortMode );
+                //break;
             }
         Collections.sort( duplicatesFileCacheList, cmp );
 

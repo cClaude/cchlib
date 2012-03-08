@@ -15,6 +15,7 @@ final public class KeyFileState
     private File    file;
     private String  path;
     private boolean selectedToDelete;
+    private Integer depth;
 
     /**
      * File object
@@ -51,6 +52,24 @@ final public class KeyFileState
         return file;
     }
 
+    /**
+     * Returns depth of file
+     * @return depth of file
+     */
+    public int getDepth()
+    {
+        if( depth != null ) {
+            int  d = 0;
+            File f = file.getParentFile();
+
+            while( f != null ) {
+                f = f.getParentFile();
+                d++;
+                }
+            depth = Integer.valueOf( d );
+            }
+        return depth.intValue();
+    }
 
     public boolean isInDirectory( String dirPath )
     {
