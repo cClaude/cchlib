@@ -58,7 +58,7 @@ final public class KeyFileState
      */
     public int getDepth()
     {
-        if( depth != null ) {
+        if( depth == null ) {
             int  d = 0;
             File f = file.getParentFile();
 

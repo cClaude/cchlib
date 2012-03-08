@@ -1,6 +1,10 @@
 cchlib-tools-duplicatefiles
 
 ---------------------------------------------------------------------
+4.1.7
+  Add context menu on left file list. Sort and select display file
+  Many improvement on UI refresh
+---------------------------------------------------------------------
 4.1.6
   Add support of some Java 1.7 features.
   Generated target code now is Java7

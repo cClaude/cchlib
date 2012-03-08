@@ -6,10 +6,15 @@
 # #########################################################
 #
 MVN="${MAVEN_HOME}/bin/mvn"
+
 LOGSDIR="./logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
-LOGS_COMPIL="${LOGSDIR}/.mvn.logs.compilation.WARNING"
-LOGS_JAVADOC="${LOGSDIR}/.mvn.logs.javadoc.WARNING"
+
+LOGS_COMPIL="${LOGSDIR}/.mvn.logs.compilation"
+LOGS_COMPIL_WARNING="${LOGSDIR}/.mvn.logs.compilation.WARNING"
+
+LOGS_JAVADOC="${LOGSDIR}/.mvn.logs.javadoc"
+LOGS_JAVADOC_WARNING="${LOGSDIR}/.mvn.logs.javadoc.WARNING"
 
 if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
@@ -36,15 +41,15 @@ echo "------------------------------------------"
 MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
 echo "${MVN} ${MVNPARAM}"
 ###
-${MVN} ${MVNPARAM} | tee "${LOGS_TMP}"
+${MVN} ${MVNPARAM} | tee "${LOGS_COMPIL}"
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
   exit 1
 fi
 
-cat "${LOGS_TMP}" | grep -F "[WARNING]
-[ERROR]" >"${LOGS_COMPIL}"
+cat "${LOGS_COMPIL}" | grep -F "[WARNING]
+[ERROR]" >"${LOGS_COMPIL_WARNING}"
 
 #
 # Package projets
@@ -69,7 +74,7 @@ echo "------------------------------------------"
 MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
 echo ${MVN} ${MVNPARAM}
 ###
-${MVN} ${MVNPARAM} | tee "${LOGS_TMP}"
+${MVN} ${MVNPARAM} | tee "${LOGS_JAVADOC}"
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
@@ -80,11 +85,11 @@ echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
 echo "------------------------------------------"
 
-cat "${LOGS_TMP}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -F "[WARNING]
-[ERROR]" >"${LOGS_JAVADOC}"
+cat "${LOGS_JAVADOC}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -F "[WARNING]
+[ERROR]" >"${LOGS_TMP}"
 
-cat "${LOGS_JAVADOC}" | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC}.returntag"
-cat "${LOGS_JAVADOC}" | grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC}.others"
+cat "${LOGS_TMP}" | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"
+cat "${LOGS_TMP}" | grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.others"
 
 #
 # javadoc:jar
@@ -197,7 +202,7 @@ do
   fi
 done
 # No javadoc for these projects
-rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+# rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
 echo "------------------------------------------"
 DDIR="./releases/cchlib-j2ee"
@@ -214,7 +219,7 @@ do
   fi
 done
 # No javadoc for these projects
-rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+# rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
 
 echo "------------------------------------------"
@@ -232,7 +237,15 @@ do
   fi
 done
 # No javadoc for these projects
-rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+# rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+
+echo "------------------------------------------"
+# clean dirs
+for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS}
+do
+  DDIR="./releases/${project}"
+  rm -r ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
+done
 
 echo "------------------------------------------"
 exit 0

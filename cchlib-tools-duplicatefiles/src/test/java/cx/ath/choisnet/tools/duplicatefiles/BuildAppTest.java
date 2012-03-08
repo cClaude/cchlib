@@ -132,7 +132,7 @@ public class BuildAppTest extends JFrame
                         public void run()
                         {
                             try {
-                            	btnBuildFiles.setEnabled( false );
+                                btnBuildFiles.setEnabled( false );
                                 test_BuidTst(
                                     diffFilesCount.getValue(),
                                     duplicateFilesCount.getValue()
@@ -142,8 +142,8 @@ public class BuildAppTest extends JFrame
                                 DialogHelper.showMessageExceptionDialog( "IOException", e );
                                 }
                             finally {
-                            	btnBuildFiles.setEnabled( true );
-                            	}
+                                btnBuildFiles.setEnabled( true );
+                                }
                         }
                     }).start();
                 }
@@ -181,7 +181,7 @@ public class BuildAppTest extends JFrame
             for( int i = 0; i<strings.length; i++ ) {
                 strings[ i ] = Integer.toHexString( i );
 
-                File file = new File( refDir, "file-" + i );
+                File file = new File( refDir, "REF-file-" + i );
                 IOHelper.toFile( file, strings[ i ] );
                 }
 

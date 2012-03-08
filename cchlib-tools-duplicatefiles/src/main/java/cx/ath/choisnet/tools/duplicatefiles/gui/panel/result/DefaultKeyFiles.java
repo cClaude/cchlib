@@ -2,7 +2,6 @@ package cx.ath.choisnet.tools.duplicatefiles.gui.panel.result;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Set;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 
 /**
@@ -12,32 +11,38 @@ import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 final class DefaultKeyFiles extends AbstractKeyFiles
 {
     private static final long serialVersionUID = 3L;
-    private Set<KeyFileState>   files;
-    private KeyFileState        firstFileCache;
+    private Collection<KeyFileState> files;
+    private KeyFileState             firstFileCache;
+
+//    /**
+//    *
+//    * @param key    Key for theses files (hash code, MD5, ...)
+//    * @param files Set with at least 2 entries
+//    */
+//   public DefaultKeyFiles(
+//       final String             key,
+//       final Set<KeyFileState>  files
+//       )
+//   {
+//       this( key, files, files.iterator().next() );
+//   }
 
     /**
      *
      * @param key    Key for theses files (hash code, MD5, ...)
      * @param files Set with at least 2 entries
+     * @param firstFileCache Set first file for display
      */
     public DefaultKeyFiles(
-        final String             key,
-        final Set<KeyFileState>  files
+        final String                    key,
+        final Collection<KeyFileState>  files,
+        final KeyFileState              firstFileCache
         )
     {
         super( key );
 
         this.files = files;
-
-        //Collections.sort( this.files );
-
-        //FIXME: have a better choice than first one !
-        // Get first File.
-        //this.firstFileCache = this.files.get( 0 ).getFile();
-        //
-        this.firstFileCache = this.files.iterator().next();
-        //this.firstFileDisplayCache = f.getName();
-        //this.firstFileSizeCache = this.firstFileCache.length();
+        this.firstFileCache = firstFileCache;
     }
 
     @Override

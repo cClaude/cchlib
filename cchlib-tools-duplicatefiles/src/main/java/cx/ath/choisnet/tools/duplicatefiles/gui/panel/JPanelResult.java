@@ -11,6 +11,9 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -25,6 +28,7 @@ import cx.ath.choisnet.swing.list.JPopupMenuForJList;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.JPanelResultWB;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.SelectFirstMode;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.SortMode;
 import cx.ath.choisnet.util.HashMapSet;
 
@@ -66,11 +70,15 @@ public class JPanelResult extends JPanelResultWB
     @I18nString private String txtCanReadFirstLetter = "R";
     @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
-    @I18nString private String txtSortMenu  = "Sort by";
+    @I18nString private String txtMenuSortList  = "Sort by";
     @I18nString private String txtMenuSortBySize = "Size";
     @I18nString private String txtMenuSortByName = "Filename";
     @I18nString private String txtMenuSortByPath = "File path";
     @I18nString private String txtMenuSortByDepth = "File depth";
+    @I18nString private String txtMenuSortFirstFile = "Select first file";
+    @I18nString private String txtMenuFirstFileRandom = "Quick";
+    @I18nString private String txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
+    @I18nString private String txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
 
     public JPanelResult(
         final DFToolKit dFToolKit
@@ -86,8 +94,9 @@ public class JPanelResult extends JPanelResultWB
             )
     {
         SortMode sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
+        SelectFirstMode selectFirstMode = SelectFirstMode.QUICK; // FIXME get default mode from prefs
 
-        getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode  );
+        getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode, selectFirstMode );
         updateDisplay();
     }
 
@@ -320,27 +329,86 @@ public class JPanelResult extends JPanelResultWB
                 {
                     JPopupMenu cm = new JPopupMenu();
 
-                    JMenu sortMenu = new JMenu( txtSortMenu );
-                    add( cm, sortMenu );
-
-                    ActionListener sortByListener = new ActionListener()
                     {
-                        @Override
-                        public void actionPerformed( ActionEvent event )
-                        {
-                            JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-                            SortMode sortMode = SortMode.class.cast(
-                                    menu.getClientProperty( SortMode.class )
-                                    );
-                            getListModelDuplicatesFiles().updateCache( sortMode );
-                        }
-                    };
-                    addJMenuItem( sortMenu, txtMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
-                    addJMenuItem( sortMenu, txtMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
-                    addJMenuItem( sortMenu, txtMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
-                    addJMenuItem( sortMenu, txtMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
+                        JMenu sortListMenu = addJMenu( cm, txtMenuSortList );
 
+                        ActionListener sortByListener = new ActionListener()
+                        {
+                            @Override
+                            public void actionPerformed( ActionEvent event )
+                            {
+                                JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+                                SortMode sortMode = SortMode.class.cast(
+                                        menu.getClientProperty( SortMode.class )
+                                        );
+                                getListModelDuplicatesFiles().updateCache( sortMode );
+                            }
+                        };
+                        SortMode    sortMode = getListModelDuplicatesFiles().getSortMode();
+                        ButtonGroup gb       = new ButtonGroup();
+
+//                        JCheckBoxMenuItem jcbmiMenuSortBySize = new JCheckBoxMenuItem( txtMenuSortBySize );
+//                        gb.add( jcbmiMenuSortBySize );
+//                        addJMenuItem( sortListMenu, jcbmiMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortBySize, gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
+
+//                        JCheckBoxMenuItem jcbmiMenuSortByName = new JCheckBoxMenuItem( txtMenuSortByName );
+//                        gb.add( jcbmiMenuSortByName );
+//                        addJMenuItem( sortListMenu, jcbmiMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName, gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
+
+//                        JCheckBoxMenuItem jcbmiMenuSortByPath = new JCheckBoxMenuItem( txtMenuSortByPath );
+//                        gb.add( jcbmiMenuSortByPath );
+//                        addJMenuItem( sortListMenu, jcbmiMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
+
+//                        JCheckBoxMenuItem jcbmiMenuSortByDepth = new JCheckBoxMenuItem( txtMenuSortByDepth );
+//                        gb.add( jcbmiMenuSortByDepth );
+//                        addJMenuItem( sortListMenu, jcbmiMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
+                    }
+                    {
+                        JMenu sortFirstFileMenu = addJMenu( cm, txtMenuSortFirstFile );
+
+                        ActionListener sortByListener = new ActionListener()
+                        {
+                            @Override
+                            public void actionPerformed( ActionEvent event )
+                            {
+                                JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+                                SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
+                                        menu.getClientProperty( SelectFirstMode.class )
+                                        );
+                                getListModelDuplicatesFiles().updateCache( selectFirstMode );
+                            }
+                        };
+                        SelectFirstMode sortMode = getListModelDuplicatesFiles().getSelectFirstMode();
+                        ButtonGroup gb           = new ButtonGroup();
+//                        addJMenuItem( sortMenu, txtMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
+//                        addJMenuItem( sortMenu, txtMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
+//                        addJMenuItem( sortMenu, txtMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
+//                        addJMenuItem( sortMenu, txtMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
+                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileRandom, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.QUICK, sortMode );
+                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthAscendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_ASCENDING_ORDER, sortMode );
+                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthDescendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_DESCENDING_ORDER, sortMode );
+                    }
                     return cm;
+                }
+
+                private <E> void addJCheckBoxMenuItem(
+                    JMenu          sortMenu,
+                    String         txt,
+                    ButtonGroup    gb,
+                    ActionListener listener,
+                    Class<E>       clientPropertyKey,
+                    E              clientPropertyValue,
+                    E              currentValue
+                    )
+                {
+                    JCheckBoxMenuItem jcbmiMenuSortBySize = new JCheckBoxMenuItem( txt );
+                    jcbmiMenuSortBySize.setSelected( currentValue.equals( clientPropertyValue ) );
+                    gb.add( jcbmiMenuSortBySize );
+                    addJMenuItem( sortMenu, jcbmiMenuSortBySize, listener, clientPropertyKey, clientPropertyValue );
                 }
             }.setMenu();
    }
@@ -634,7 +702,6 @@ public class JPanelResult extends JPanelResultWB
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
                     if( keepOne ) {
                         String            k = f.getKey();
-//                        Set<KeyFileState> s = duplicateFiles.get( k );
                         Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
                         int               c = 0;
 

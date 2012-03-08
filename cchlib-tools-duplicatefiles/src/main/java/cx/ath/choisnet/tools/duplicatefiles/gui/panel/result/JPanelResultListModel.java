@@ -1,5 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui.panel.result;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -26,14 +27,18 @@ public class JPanelResultListModel
     private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( JPanelResultListModel.class );
     private HashMapSet<String,KeyFileState> duplicateFiles;
-    private SortMode sortMode;
 
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
+    private SortMode sortMode;
     private Comparator<? super KeyFiles> filenameComparator;
     private Comparator<? super KeyFiles> pathComparator;
     private Comparator<? super KeyFiles> sizeComparator;
     private Comparator<? super KeyFiles> depthComparator;
+
+    private SelectFirstMode selectFirstMode;
+    private Comparator<? super KeyFileState> fileDepthAscendingComparator;
+    private Comparator<? super KeyFileState> fileDepthDescendingComparator;
 
     public JPanelResultListModel()
     {
@@ -64,15 +69,31 @@ public class JPanelResultListModel
                 }
             };
         depthComparator = new Comparator<KeyFiles>() {
-            @Override
-            public int compare( KeyFiles o1, KeyFiles o2 )
-            {
-                return o1.getDepth() - o2.getDepth();
-            }
-        };
+                @Override
+                public int compare( KeyFiles o1, KeyFiles o2 )
+                {
+                    return o1.getDepth() - o2.getDepth();
+                }
+            };
+        fileDepthAscendingComparator = new Comparator<KeyFileState>() {
+                @Override
+                public int compare(KeyFileState o1, KeyFileState o2)
+                {
+                    return o1.getDepth() - o2.getDepth();
+                }
+            };
+        fileDepthDescendingComparator = new Comparator<KeyFileState>() {
+                @Override
+                public int compare(KeyFileState o1, KeyFileState o2)
+                {
+                    return o1.getDepth() - o2.getDepth();
+                }
+            };
+
         updateCache(
             new HashMapSet<String,KeyFileState>(),
-            SortMode.FILESIZE
+            SortMode.FILESIZE,
+            SelectFirstMode.QUICK
             );
     }
 
@@ -90,8 +111,43 @@ public class JPanelResultListModel
         duplicatesFileCacheList.clear();
 
         for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
+            Collection<KeyFileState> files = e.getValue();
+            final KeyFileState       firstFile;
+
+            switch( this.selectFirstMode ) {
+                case QUICK :
+                    firstFile = files.iterator().next();
+                    break;
+
+                case FILEDEPTH_ASCENDING_ORDER :
+                    {
+                    List<KeyFileState> l = new ArrayList<KeyFileState>( files );
+                    Collections.sort( l, fileDepthAscendingComparator );
+
+                    files = l;
+                    firstFile = l.get( 0 );
+                    }
+                    break;
+
+                case FILEDEPTH_DESCENDING_ORDER :
+                    {
+                    List<KeyFileState> l = new ArrayList<KeyFileState>( files );
+                    Collections.sort( l, fileDepthDescendingComparator );
+
+                    files = l;
+                    firstFile = l.get( 0 );
+                    }
+                    break;
+
+                default :
+                    throw new UnsupportedOperationException(
+                        "SelectFirstMode: " + this.selectFirstMode
+                        );
+                    //break;
+                }
+
             duplicatesFileCacheList.add(
-                new DefaultKeyFiles( e.getKey(), e.getValue() )
+                new DefaultKeyFiles( e.getKey(), files, firstFile )
                 );
             }
 
@@ -130,17 +186,43 @@ public class JPanelResultListModel
      */
     public void updateCache(
             final HashMapSet<String,KeyFileState> duplicateFiles,
-            final SortMode                        sortMode
+            final SortMode                        sortMode,
+            final SelectFirstMode                 selectFirstMode
             )
     {
         this.duplicateFiles = duplicateFiles;
         this.sortMode = sortMode;
+        this.selectFirstMode = selectFirstMode;
         updateCache();
     }
 
+    public SortMode getSortMode()
+    {
+        return this.sortMode;
+    }
+
+    public SelectFirstMode getSelectFirstMode()
+    {
+        return this.selectFirstMode;
+    }
+
+    /**
+     * TODOC
+     * @param sortMode
+     */
     public void updateCache( SortMode sortMode )
     {
         this.sortMode = sortMode;
+        updateCache();
+    }
+
+    /**
+     * TODOC
+     * @param selectFirstMode
+     */
+    public void updateCache( SelectFirstMode selectFirstMode )
+    {
+        this.selectFirstMode = selectFirstMode;
         updateCache();
     }
 
@@ -256,4 +338,5 @@ public class JPanelResultListModel
 
         //logger.info( "clearSelected() done" );
     }
+
 }
