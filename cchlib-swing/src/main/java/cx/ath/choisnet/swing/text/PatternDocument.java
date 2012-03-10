@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.text;
 
 import java.awt.Color;

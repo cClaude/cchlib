@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.list;
+package com.googlecode.cchlib.swing.list;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
-import cx.ath.choisnet.swing.menu.AbstractJPopupMenuBuilder;
+import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
  * JPopupMenuForJTable is a context menu builder

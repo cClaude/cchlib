@@ -40,9 +40,12 @@ fi
 echo "------------------------------------------"
 MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
 echo "${MVN} ${MVNPARAM}"
-###
-${MVN} ${MVNPARAM} | tee "${LOGS_COMPIL}"
-if [ ! "$?" -eq "0" ];
+${MVN} ${MVNPARAM} >"${LOGS_COMPIL}"
+MVN_EXIT="$?"
+
+cat "${LOGS_COMPIL}"
+echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
+if [ ! "${MVN_EXIT}" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
   exit 1
@@ -74,7 +77,11 @@ echo "------------------------------------------"
 MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
 echo ${MVN} ${MVNPARAM}
 ###
-${MVN} ${MVNPARAM} | tee "${LOGS_JAVADOC}"
+${MVN} ${MVNPARAM} >"${LOGS_JAVADOC}"
+MVN_EXIT="$?"
+
+cat "${LOGS_JAVADOC}"
+echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${MVN} ${MVNPARAM}"
@@ -110,22 +117,25 @@ cat "${LOGS_TMP}" | grep -v ": warning - @return tag has no arguments." >"${LOGS
 #    is an interactive goal which fixes the Javadoc documentation
 #    and tags for the Java files.
 #
-PROJECTS="cchlib-core
+PROJECTS="cchlib-apps
+cchlib-core
+cchlib-core-deprecated
+cchlib-j2ee
+cchlib-jdbf
+cchlib-sys
+cchlib-tools
+cchlib-swing
+cchlib-swing-deprecated"
+
+PROJECTS_WITH_DOC="cchlib-core
+cchlib-core-deprecated
 cchlib-j2ee
 cchlib-jdbf
 cchlib-sys
 cchlib-swing
-cchlib-apps
-cchlib-tools"
+cchlib-swing-deprecated"
 
-PROJECTS_WITH_DOC="cchlib-core
-cchlib-j2ee
-cchlib-jdbf
-cchlib-sys
-cchlib-swing"
-
-PROJECTS_SUB_CCHLIB_CORE="cchlib-core-deprecated
-cchlib-core-sample"
+PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample"
 
 PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 

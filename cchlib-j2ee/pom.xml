@@ -3,13 +3,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!--
   <parent>
-    <groupId>com.googlecode.cchlib</groupId>
-    <artifactId>cchlib</artifactId>
-    <version>4.1.4-SNAPSHOT</version>
+   <artifactId>cchlib</artifactId>
+   <groupId>com.googlecode.cchlib</groupId>
+   <version>4.1.7-SNAPSHOT</version>
   </parent>
-  -->
+  
   <artifactId>cchlib-j2ee</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-j2ee</name>
@@ -20,6 +19,8 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.source.version>1.6</java.source.version>
+    <project.javadoc.source.version>1.6</project.javadoc.source.version>
   </properties>
 
   <!-- Project description -->
@@ -102,9 +103,5 @@
       </plugin>
     </plugins>
   </build>
-  <parent>
-   <artifactId>cchlib</artifactId>
-   <groupId>com.googlecode.cchlib</groupId>
-   <version>4.1.7-SNAPSHOT</version>
-  </parent>
+
 </project>

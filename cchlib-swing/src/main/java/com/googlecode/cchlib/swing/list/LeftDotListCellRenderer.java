@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.list;
+package com.googlecode.cchlib.swing.list;
 
 import java.awt.Component;
 import java.awt.Container;

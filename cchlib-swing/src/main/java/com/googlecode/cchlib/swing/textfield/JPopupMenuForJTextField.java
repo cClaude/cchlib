@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing.menu;
+package com.googlecode.cchlib.swing.textfield;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
  * JPopupMenuForJTextField is a context menu builder

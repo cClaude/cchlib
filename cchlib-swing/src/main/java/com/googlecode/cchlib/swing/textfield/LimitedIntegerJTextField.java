@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing;
+package com.googlecode.cchlib.swing.textfield;
 
 import java.awt.Toolkit;
 import javax.swing.JTextField;

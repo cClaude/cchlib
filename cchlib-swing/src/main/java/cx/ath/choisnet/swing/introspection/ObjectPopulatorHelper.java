@@ -10,8 +10,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
-import cx.ath.choisnet.swing.LimitedIntegerJTextField;
 
 /**
  *

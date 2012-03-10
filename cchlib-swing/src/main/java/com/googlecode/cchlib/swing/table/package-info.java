@@ -1,6 +1,6 @@
 /**
  * Provide extensions for class {@link javax.swing.JTable}
  */
-package cx.ath.choisnet.swing.table;
+package com.googlecode.cchlib.swing.table;
 
 

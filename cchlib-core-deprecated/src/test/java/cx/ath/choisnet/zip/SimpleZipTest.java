@@ -1,10 +1,5 @@
 package cx.ath.choisnet.zip;
 
-import cx.ath.choisnet.zip.SimpleUnZip;
-import cx.ath.choisnet.zip.SimpleZip;
-import cx.ath.choisnet.zip.SimpleZipEntry;
-import cx.ath.choisnet.zip.ZipEventListener;
-import cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -54,7 +49,7 @@ public class SimpleZipTest extends TestCase
                 });
         instance.addFolder(
                 ZIP_SOURCE_DIR_FILE,
-                new SimpleZipEntryFactoryImpl( ZIP_SOURCE_DIR_FILE )
+                new cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl( ZIP_SOURCE_DIR_FILE )
                 {// Just to debug !
                     @Override
                     public SimpleZipEntry wrappe(File file)

@@ -1,9 +1,8 @@
-package cx.ath.choisnet.swing;
+package com.googlecode.cchlib.swing.textfield;
 
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
-import cx.ath.choisnet.swing.menu.JPopupMenuForJTextField;
 
 /**
  * e<B>X</B>tended <B>TextField</B> is a JTextField with extra features...

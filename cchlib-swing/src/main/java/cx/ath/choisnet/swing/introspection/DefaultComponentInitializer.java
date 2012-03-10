@@ -11,9 +11,9 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
-import cx.ath.choisnet.swing.LimitedIntegerJTextField;
 
 /**
  * @author Claude

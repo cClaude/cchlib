@@ -1,4 +1,4 @@
-package cx.ath.choisnet.swing;
+package com.googlecode.cchlib.swing.textfield;
 
 import java.awt.Toolkit;
 import javax.swing.JTextField;
@@ -8,11 +8,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
- * @author oma
- * @author cc
- * @deprecated use {@link LimitedJTextField} instead
+ * TODOC
  */
-public class LimitedTextField extends JTextField
+public class LimitedJTextField extends JTextField
 {
     /**
     * Text limiter used to limit the number of characters of text fields
@@ -20,9 +18,6 @@ public class LimitedTextField extends JTextField
     *
     * AbstractDocument doc = (AbstractDocument) myTextComponent.getDocument();
     * doc.setDocumentFilter(new TextLimiter(maxLength));
-    *
-    * @author oma
-    * @author cc
     *
     */
     private class TextLimiter extends DocumentFilter
@@ -32,43 +27,60 @@ public class LimitedTextField extends JTextField
             // empty
         }
 
-        public void insertString(DocumentFilter.FilterBypass fb, int offset, String str, AttributeSet attr)
+        @Override
+        public void insertString(
+                DocumentFilter.FilterBypass fb,
+                int                         offset,
+                String                      str,
+                AttributeSet                attr
+                )
             throws BadLocationException
         {
-            replace(fb, offset, 0, str, attr);
+            replace( fb, offset, 0, str, attr );
         }
 
-        public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
+        @Override
+        public void replace(
+                DocumentFilter.FilterBypass fb,
+                int                         offset,
+                int                         length,
+                String                      str,
+                AttributeSet                attrs
+                )
             throws BadLocationException
         {
             int newLength = fb.getDocument().getLength() - length + str.length();
 
-            if (newLength <= maxLength) {
+            if( newLength <= maxLength ) {
                 fb.replace(offset, length, str, attrs);
-            } else {
+                }
+            else {
                 Toolkit.getDefaultToolkit().beep();
-            }
+                }
         }
     }
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     /** @serial */
     private int maxLength;
 
     /**
-     * TextField that can be limited in size (max number of characters typed in = 100)
+     * TextField that can be limited in size
+     * (max number of characters typed in = 100)
      */
-    public LimitedTextField()
+    public LimitedJTextField()
     {
         this( 100 );
     }
 
     /**
      * TextField that can be limited in size (max number of characters typed in)
+     *
      * @param maxLength maxLength for current JTextField
      * @throws IllegalArgumentException if maxValue is negative
      */
-    public LimitedTextField( int maxLength ) throws IllegalArgumentException
+    public LimitedJTextField( final int maxLength )
+        throws IllegalArgumentException
     {
         super();
 
@@ -79,7 +91,6 @@ public class LimitedTextField extends JTextField
     }
 
     /**
-     * Get the max length
      * @return the maxLength
      */
     public int getMaxLength()
@@ -88,7 +99,8 @@ public class LimitedTextField extends JTextField
     }
 
     /**
-     * Set the max length
+     * Set max length for this LimitedJTextField
+     *
      * @param maxLength the maxLength to set
      * @throws IllegalArgumentException if maxValue is negative
      */
@@ -98,14 +110,22 @@ public class LimitedTextField extends JTextField
 
         if( maxLength < 0 ) { // maxLength should be greater than 0
             throw new IllegalArgumentException( "maxLength should be greater than 0" );
-        	}
+            }
+
+        // Check current size !
+        final String str = getText();
+
+        if( str.length() > this.maxLength ) {
+            super.setText( str.substring( 0, this.maxLength ) );
+            }
     }
 
+    @Override
     public void setText( String str )
     {
         if( str.length() > this.maxLength ) {
             throw new IllegalArgumentException( "giving String is too long, should be not bigger than: " + this.maxLength );
-        }
+            }
 
         super.setText( str );
     }

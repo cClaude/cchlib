@@ -1,4 +1,4 @@
 /**
  * Provide extensions for class {@link javax.swing.JMenu}
  */
-package cx.ath.choisnet.swing.menu;
+package com.googlecode.cchlib.swing.menu;
