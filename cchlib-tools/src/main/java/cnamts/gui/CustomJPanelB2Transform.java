@@ -15,8 +15,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
 
 import com.googlecode.cchlib.swing.batchrunner.EnableListener;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
-import cx.ath.choisnet.swing.LimitedIntegerJTextField;
 
 /**
  *

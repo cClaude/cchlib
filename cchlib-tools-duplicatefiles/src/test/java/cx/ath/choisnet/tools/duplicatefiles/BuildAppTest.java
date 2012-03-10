@@ -14,13 +14,13 @@ import org.apache.log4j.lf5.LF5Appender;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;
-import cx.ath.choisnet.swing.LimitedIntegerJTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

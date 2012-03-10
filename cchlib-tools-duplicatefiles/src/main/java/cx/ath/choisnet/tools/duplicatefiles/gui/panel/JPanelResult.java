@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
@@ -24,7 +23,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.I18nString;
-import cx.ath.choisnet.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFiles;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.JPanelResultWB;

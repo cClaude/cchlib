@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.config;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -20,12 +21,15 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.FileTypeCheckBox;
 
 /**
  *
  *
  */
-public class JPanelConfigFilter
+//
+public
+class JPanelConfigFilter
     extends JPanel//ConfigFilterWB
         implements Iterable<FileTypeCheckBox>
 {
@@ -148,7 +152,7 @@ public class JPanelConfigFilter
             }
     }
 
-    public XComboBoxPattern getXComboBoxPatternRegExp()
+    protected XComboBoxPattern getXComboBoxPatternRegExp()
     {
         return xComboBoxPatternRegExp;
     }
@@ -166,10 +170,21 @@ public class JPanelConfigFilter
         return fileTypeCheckBoxMap.get( key );
     }
 
+    public void addPatternRegExp( final String regExp )
+    {
+        getXComboBoxPatternRegExp().addItem( regExp );
+    }
+
+    public Pattern getSelectedPattern()
+    {
+        return getXComboBoxPatternRegExp().getSelectedPattern();
+    }
+
     @Override
     public Iterator<FileTypeCheckBox> iterator()
     {
         return fileTypeCheckBoxMap.values().iterator();
     }
+
 
 }

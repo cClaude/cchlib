@@ -11,16 +11,19 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
-import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 /**
  *
  * @author Claude CHOISNET
- * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
+ *
  */
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
+    //
+    // http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
+    //
     private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
     private AbstractTableModel  abstractTableModel;

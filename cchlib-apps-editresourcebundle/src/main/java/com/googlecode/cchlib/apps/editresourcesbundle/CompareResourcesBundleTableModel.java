@@ -17,7 +17,7 @@ import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
-import cx.ath.choisnet.swing.table.LeftDotTableCellRenderer;
+import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
 /**
  * {@link TableModel} for {@link CompareResourcesBundleFrame}

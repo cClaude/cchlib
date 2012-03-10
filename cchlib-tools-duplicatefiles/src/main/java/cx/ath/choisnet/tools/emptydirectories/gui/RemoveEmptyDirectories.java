@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
-import cx.ath.choisnet.swing.list.LeftDotListCellRenderer;
+import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
 
 /**
  *

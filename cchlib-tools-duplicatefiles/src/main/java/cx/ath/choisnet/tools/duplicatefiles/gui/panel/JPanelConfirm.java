@@ -21,7 +21,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
-import cx.ath.choisnet.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.util.HashMapSet;
 import java.awt.GridBagLayout;

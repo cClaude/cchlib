@@ -18,7 +18,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.I18nString;
-import cx.ath.choisnet.swing.XTextField;
+import com.googlecode.cchlib.swing.textfield.XTextField;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
 import javax.swing.JLabel;
 

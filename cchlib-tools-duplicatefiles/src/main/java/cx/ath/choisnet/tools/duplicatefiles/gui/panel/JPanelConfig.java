@@ -18,6 +18,8 @@ import com.googlecode.cchlib.i18n.I18nString;
 import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.config.JPanelConfigFilter;
+import cx.ath.choisnet.tools.duplicatefiles.gui.panel.config.JPanelConfigWB;
 
 /**
  *
@@ -94,14 +96,6 @@ public class JPanelConfig
         return this.actionListener;
     }
 
-    public void initFixComponents()
-    {
-        jCheckBoxFFIgnoreHidden.setSelected( true );
-        jCheckBoxFDIgnoreHidden.setSelected( true );
-        jCheckBoxIgnoreReadOnlyFiles.setSelected( true );
-        jCheckBoxIgnoreEmptyFiles.setSelected( true );
-    }
-
     /**
      * Must be call to have a
      * @param autoI18n
@@ -119,10 +113,10 @@ public class JPanelConfig
                 "filetype",
                 getActionListener()
                 );
-        jPanelIncFilesFilter.getXComboBoxPatternRegExp().addItem(
+        jPanelIncFilesFilter.addPatternRegExp(
                 "(.*?)\\.(jpg|jpeg|png|gif)" // TODO: remove this sample
                 );
-        jPanelIncFilesFilter.getXComboBoxPatternRegExp().addItem(
+        jPanelIncFilesFilter.addPatternRegExp(
                 "(.*?)\\.(reg)" // TODO: remove this sample
                 );
 
@@ -325,7 +319,7 @@ public class JPanelConfig
 
             if( useRegExp ) {
                 try {
-                    pattern = jPanelIncFilesFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    pattern = jPanelIncFilesFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
                     logger.error( ignore );
@@ -372,7 +366,7 @@ public class JPanelConfig
 
             if( useRegExp ) {
                 try {
-                    pattern = jPanelExcFilesFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    pattern = jPanelExcFilesFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
                     logger.error( ignore );
@@ -427,14 +421,14 @@ public class JPanelConfig
         if( useIncDirsFilters ) {
             //TODO need to be studies, not really useful like this !
             for( FileTypeCheckBox ft : jPanelIncDirsFilter ) {
-                addNameIf(namesList,ft);
-                  }
+                addNameIf( namesList, ft );
+                }
 
             final boolean useRegExp = jPanelIncDirsFilter.getJCheckBoxRegExp().isSelected();
 
             if( useRegExp ) {
                 try {
-                    pattern = jPanelIncDirsFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    pattern = jPanelIncDirsFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
                     logger.error( ignore );
@@ -482,7 +476,7 @@ public class JPanelConfig
 
             if( useRegExp ) {
                 try {
-                    pattern = jPanelExcDirsFilter.getXComboBoxPatternRegExp().getSelectedPattern();
+                    pattern = jPanelExcDirsFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ){
                     logger.error( ignore );

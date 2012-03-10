@@ -180,7 +180,7 @@ final public class DuplicateFilesFrame
         this.state = STATE_SELECT_DIRS;
 
         getJPanel0Select().initFixComponents();
-        getJPanel1Config().initFixComponents();
+        //getJPanel1Config().initFixComponents();
         getJPanel2Searching().initFixComponents( getDFToolKit() );
         // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
 
@@ -198,7 +198,7 @@ final public class DuplicateFilesFrame
                         LookAndFeel newLAF = LookAndFeel.class.cast( e.getNewValue() );
 
                         if( ! newLAF.equals( oldLAF ) ) {
-                             getJPanel1Config().initFixComponents();
+                             //getJPanel1Config().initFixComponents();
                              //
                              // Add extra customization here
                              //
