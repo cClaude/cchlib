@@ -37,7 +37,7 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
-import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
+import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;
 import cx.ath.choisnet.tools.emptydirectories.gui.RemoveEmptyDirectories;
 import cx.ath.choisnet.util.HashMapSet;
@@ -185,7 +185,8 @@ final public class DuplicateFilesFrame
         // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
 
         // initDynComponents
-        LookAndFeelHelpers.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
+        //MenuHelper.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
+        new LookAndFeelMenu( this ).buildMenu( getJMenuLookAndFeel() );
 
         UIManager.addPropertyChangeListener(
             new PropertyChangeListener()

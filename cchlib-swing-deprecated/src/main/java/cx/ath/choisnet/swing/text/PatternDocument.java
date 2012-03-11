@@ -8,16 +8,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 /**
- * PatternDocument is simple {@link javax.swing.text.Document}
- * container for text that need to be edit {@link java.util.regex.Pattern}.
- * <p>
- * This document is base on a {@link JTextField} and
- * change background color of this component if current
- * text is not a valid {@link java.util.regex.Pattern}.
- * </p>
- *
- * @author Claude CHOISNET
+ * @deprecated use {@link com.googlecode.cchlib.swing.text.PatternDocument}
+ * instead
  */
+@Deprecated
 public class PatternDocument extends PlainDocument
 {
     private static final long serialVersionUID = 1L;
@@ -118,10 +112,10 @@ public class PatternDocument extends PlainDocument
         try {
             Pattern.compile( jtf.getText() );
             jtf.setBackground( defaultColor );
-        }
+            }
         catch(Exception e) {
             jtf.setBackground( errorColor );
-        }
+            }
     }
 
 }

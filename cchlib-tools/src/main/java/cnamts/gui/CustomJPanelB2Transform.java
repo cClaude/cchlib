@@ -65,7 +65,7 @@ public class CustomJPanelB2Transform
             add(extentionJLabel, gbc_extentionJLabel);
         }
         {
-            lineLengthJTextField = createLineLengthLimitedIntegerJTextField("128", 5);
+            lineLengthJTextField = createLineLengthLimitedIntegerJTextField();
             GridBagConstraints gbc_lineLengthJTextField = new GridBagConstraints();
             gbc_lineLengthJTextField.insets = new Insets(0, 0, 5, 5);
             gbc_lineLengthJTextField.fill = GridBagConstraints.HORIZONTAL;
@@ -178,14 +178,12 @@ public class CustomJPanelB2Transform
 
     /**
      * @wbp.factory
-     * @wbp.factory.parameter.source text "128"
-     * @wbp.factory.parameter.source columns 5
      */
-    public static LimitedIntegerJTextField createLineLengthLimitedIntegerJTextField(String text, int columns)
+    public static LimitedIntegerJTextField createLineLengthLimitedIntegerJTextField()
     {
         LimitedIntegerJTextField textField = new LimitedIntegerJTextField();
-        textField.setText(text);
-        textField.setColumns(columns);
+        textField.setText( "128" );
+        textField.setColumns( 5 );
         return textField;
     }
 

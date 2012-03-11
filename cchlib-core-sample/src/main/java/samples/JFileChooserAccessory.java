@@ -12,7 +12,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
 import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
@@ -25,7 +24,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.ImagePreviewAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
-import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
+import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -34,7 +33,7 @@ import java.awt.Insets;
 /**
  * Show how to use {@link TabbedAccessory}, {@link ImagePreviewAccessory},
  * {@link LastSelectedFilesAccessory}, {@link FindAccessory},
- * {@link LookAndFeelHelpers}
+ * {@link LookAndFeelMenu}
  */
 public class JFileChooserAccessory extends JFrame
 {
@@ -154,7 +153,8 @@ public class JFileChooserAccessory extends JFrame
                           );
         setIconImage( iconImage );
 
-        LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+        //MenuHelper.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+        new LookAndFeelMenu( this ).buildMenu( jMenuLookAndFeel );
 
         jFileChooserInitializer = getJFileChooserInitializer();
     }

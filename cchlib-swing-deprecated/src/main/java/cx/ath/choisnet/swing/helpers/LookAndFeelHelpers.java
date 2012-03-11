@@ -17,11 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-/**
- * Provide some tools for LookAndFeel
- *
- * @author Claude CHOISNET
- */
+@Deprecated
 public class LookAndFeelHelpers
 {
     private LookAndFeelHelpers()
@@ -37,7 +33,9 @@ public class LookAndFeelHelpers
      * @throws IllegalAccessException if the class or initializer isn't accessible
      * @throws UnsupportedLookAndFeelException if lnf.isSupportedLookAndFeel() is false
      * @throws ClassCastException if className does not identify a class that extends LookAndFeel
+     * @deprecated use {@link com.googlecode.cchlib.swing.lookandfeel.LookAndFeelHelper#setLookAndFeel(JFrame, String)} instead
      */
+
     public static void setLookAndFeel( JFrame frame, String lnfName )
         throws ClassNotFoundException,
                InstantiationException,
@@ -58,6 +56,7 @@ public class LookAndFeelHelpers
      *
      * @param frame    Root frame
      * @param lnfName  LookAndFeel name to set
+     * @deprecated use {@link com.googlecode.cchlib.swing.lookandfeel.LookAndFeelHelper#setLookAndFeelNoException(JFrame, String)} instead
      */
     public static void setLookAndFeelNoException(
         final JFrame frame,

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JTextField;
-import cx.ath.choisnet.swing.text.PatternDocument;
+import com.googlecode.cchlib.swing.text.PatternDocument;
 
 /**
  * JComboBox for Regular Expressions

@@ -30,7 +30,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccesso
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
-import cx.ath.choisnet.swing.helpers.LookAndFeelHelpers;
+import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 
 /**
  *
@@ -111,7 +111,7 @@ class CompareResourcesBundleFrame
         //setIconImage( getImage( "icon.png" ) );
 
         // initDynComponents
-        LookAndFeelHelpers.buildLookAndFeelMenu( this, jMenuLookAndFeel );
+        new LookAndFeelMenu( this ).buildMenu( jMenuLookAndFeel );
 
         updateDisplay();
 

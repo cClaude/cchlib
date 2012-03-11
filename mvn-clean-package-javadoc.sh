@@ -121,6 +121,7 @@ PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
 cchlib-j2ee
+cchlib-j2ee-deprecated
 cchlib-jdbf
 cchlib-sys
 cchlib-tools

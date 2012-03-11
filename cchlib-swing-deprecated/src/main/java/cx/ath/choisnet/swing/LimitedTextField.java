@@ -8,9 +8,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
- * @author oma
- * @author cc
- * @deprecated use {@link LimitedJTextField} instead
+ * @deprecated use {@link com.googlecode.cchlib.swing.textfield.LimitedJTextField} 
+ * instead
  */
 public class LimitedTextField extends JTextField
 {
