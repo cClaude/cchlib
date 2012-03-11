@@ -95,8 +95,8 @@ public class XComboBoxPattern extends XComboBox<String>
      * @since 4.1.6
      */
     public XComboBoxPattern(
-            final Color    				errorColor,
-            final Collection<String>	regExps
+            final Color                    errorColor,
+            final Collection<String>    regExps
             )
     {
         this( errorColor );

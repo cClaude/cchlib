@@ -13,6 +13,12 @@
   <description>Tools based on cchlib</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 
+  <!-- Global properties -->
+  <properties>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>

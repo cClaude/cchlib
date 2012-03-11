@@ -19,14 +19,14 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
-    private JList<E> jList;
+    private JList/*<E>*/ jList;
 
     /**
      * Create JPopupMenuForJList
      *
      * @param jList to use.
      */
-    public JPopupMenuForJList( final JList<E> jList )
+    public JPopupMenuForJList( final JList/*<E>*/ jList )
     {
         this.jList = jList;
     }
@@ -35,7 +35,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns current JList
      * @return current JList
      */
-    protected JList<E> getJList()
+    protected JList/*<E>*/ getJList()
     {
         return jList;
     }
@@ -44,7 +44,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns ListModel for current JList
      * @return ListModel for current JList
      */
-    protected ListModel<E> getListModel()
+    protected ListModel/*<E>*/ getListModel()
     {
         return jList.getModel();
     }
@@ -55,7 +55,7 @@ public abstract class JPopupMenuForJList<E>
      * @param rowIndex Row index according to view
      * @return value from Model
      */
-    protected E getValueAt( final int rowIndex )
+    protected Object getValueAt( final int rowIndex )
     {
         return getListModel().getElementAt( rowIndex );
     }
@@ -184,7 +184,7 @@ public abstract class JPopupMenuForJList<E>
             @Override
             public void actionPerformed( ActionEvent e )
             {
-                E value = getListModel().getElementAt( rowIndex );
+                Object value = getListModel().getElementAt( rowIndex );
 
                 setClipboardContents(
                         value == null ? "" : value.toString()

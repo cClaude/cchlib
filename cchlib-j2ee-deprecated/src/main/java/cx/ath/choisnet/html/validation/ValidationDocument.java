@@ -30,10 +30,11 @@ public class ValidationDocument extends HTMLDocument
 
         try {
             addBody((new StringBuilder()).append("=> ").append( BasicTime.subtract(endTime, beginTime)).append("<br />\n").toString());
-        }
-        catch(BasicDateTimeNegativeValueException | BasicTimeException e) {
-
-        }
+            }
+        catch(BasicDateTimeNegativeValueException ignore ) {
+            }
+        catch(BasicTimeException ignore ) {
+            }
     }
 
     public void write(PrintWriter out, Locale locale)

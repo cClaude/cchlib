@@ -2,8 +2,8 @@ cchlib-swing
 
 ---------------------------------------------------------------------
 4.1.7
-  Initial version - Need at least Java 7
-
+  Java 1.7 required
+  Initial version (move all Java 1.7 in this jar)
 ---------------------------------------------------------------------
 Known problems:
   - Maven migration is not completed.

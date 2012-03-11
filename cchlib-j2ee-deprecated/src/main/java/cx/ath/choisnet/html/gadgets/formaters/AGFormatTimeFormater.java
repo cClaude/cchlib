@@ -37,10 +37,10 @@ public class AGFormatTimeFormater
 
                 if(timeToSelect.equals(ctime)) {
                     selectedItem = index;
-                }
+                    }
 
                 index++;
-            }
+                }
 
             optionValue = new String[index];
             optionDatas = new String[index];
@@ -48,11 +48,14 @@ public class AGFormatTimeFormater
             for(int i = 0; i < index; i++) {
                 optionValue[i] = value.get(i);
                 optionDatas[i] = datas.get(i);
+                }
             }
-        }
-        catch(BasicDateTimeNegativeValueException | BasicTimeException e) {
+        catch(BasicDateTimeNegativeValueException e ){
             throw new RuntimeException(e);
-        }
+            }
+        catch(BasicTimeException e ){
+            throw new RuntimeException(e);
+            }
     }
 
     public int getOptionSelected()
