@@ -8,6 +8,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
@@ -15,6 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
@@ -26,6 +28,7 @@ import cx.ath.choisnet.tools.duplicatefiles.gui.panel.config.JPanelConfigWB;
  */
 public class JPanelConfig
     extends JPanelConfigWB
+        implements LookAndFeelListener
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( JPanelConfig.class );
@@ -72,6 +75,24 @@ public class JPanelConfig
 
         this.dfToolKit = dfToolKit;
         //this.rootFrame = dfToolKit.getMainWindow();
+    }
+
+    @Override//LookAndFeelListener
+    public void setLookAndFeel( String lookAndFeelName )
+    {
+        //FIXME to test
+        if( jPanelIncFilesFilter != null ) {
+            SwingUtilities.updateComponentTreeUI( jPanelIncFilesFilter );
+            }
+        if( jPanelExcFilesFilter != null ) {
+            SwingUtilities.updateComponentTreeUI( jPanelExcFilesFilter );
+            }
+        if( jPanelIncDirsFilter != null ) {
+            SwingUtilities.updateComponentTreeUI( jPanelIncDirsFilter );
+            }
+        if( jPanelExcDirsFilter != null ) {
+            SwingUtilities.updateComponentTreeUI( jPanelExcDirsFilter );
+            }
     }
 
     @Override

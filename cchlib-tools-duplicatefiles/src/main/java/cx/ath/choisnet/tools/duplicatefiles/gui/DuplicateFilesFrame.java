@@ -186,7 +186,10 @@ final public class DuplicateFilesFrame
 
         // initDynComponents
         //MenuHelper.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
-        new LookAndFeelMenu( this ).buildMenu( getJMenuLookAndFeel() );
+        LookAndFeelMenu lafMenu = new LookAndFeelMenu( this );
+        //FIXME to test
+        lafMenu.addChangeLookAndFeelListener( getJPanel1Config() );
+        lafMenu.buildMenu( getJMenuLookAndFeel() );
 
         UIManager.addPropertyChangeListener(
             new PropertyChangeListener()
