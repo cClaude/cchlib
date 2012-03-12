@@ -73,7 +73,7 @@ class FindByNameJPanel extends JPanel implements FindFilterFactory
         JComboBox<String> comboBox = new JComboBox<String>(criteria);
 
         comboBox.setFont(new Font("Helvetica",Font.PLAIN,10));
-        comboBox.setPreferredSize(combo.getPreferredSize());
+        comboBox.setPreferredSize(comboBox.getPreferredSize());
 
         return comboBox;
     }

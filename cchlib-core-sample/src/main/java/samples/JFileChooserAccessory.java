@@ -2,8 +2,6 @@ package samples;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -39,28 +37,15 @@ import java.awt.event.ActionEvent;
  */
 public class JFileChooserAccessory extends JFrame
 {
-    private static final long serialVersionUID = 1L;
-    /** @serial */
+    private static final long serialVersionUID = 2L;
+
     private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
       = new LastSelectedFilesAccessoryDefaultConfigurator();
-    /** @serial */
+
     private JFileChooserInitializer jFileChooserInitializer;
-    /** @serial */
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
-    /** @serial */
-    private JButton jButton_StdJFileChooser;
-    private JButton jButton_BookmarksFiles;
-    private JButton jButton_BookmarksFolders;
-    private JButton jButton_Picture;
-    private JButton jButton_Tabbed;
-    private JButton jButton_LastSelectedFiles;
-    private JButton jButton_JFileChooserInitializer;
-    private JButton jButton_WaitingJFileChooserInitializer;
-    /** @serial */
+
     private JMenu jMenuLookAndFeel;
-    /** @serial */
-    private JMenuBar jMenuBarFrame;
-    /** @serial */
     private JTextField jTextField_LastSelected;
 
     public JFileChooserAccessory()
@@ -72,16 +57,18 @@ public class JFileChooserAccessory extends JFrame
             gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
             gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
             getContentPane().setLayout(gridBagLayout);
+        }
+        {
             GridBagConstraints gbc_jButton_StdJFileChooser = new GridBagConstraints();
             gbc_jButton_StdJFileChooser.fill = GridBagConstraints.BOTH;
             gbc_jButton_StdJFileChooser.insets = new Insets(0, 0, 5, 5);
             gbc_jButton_StdJFileChooser.gridx = 0;
             gbc_jButton_StdJFileChooser.gridy = 0;
 
-            jButton_StdJFileChooser = new JButton("Classic JFileChooser");
-            jButton_StdJFileChooser.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_StdJFileChooserMouseMousePressed(event);
+            JButton jButton_StdJFileChooser = new JButton("Classic JFileChooser");
+            jButton_StdJFileChooser.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooser();
                 }
             });
             getContentPane().add(jButton_StdJFileChooser, gbc_jButton_StdJFileChooser);
@@ -92,10 +79,11 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_BookmarksFiles.insets = new Insets(0, 0, 5, 5);
             gbc_jButton_BookmarksFiles.gridx = 1;
             gbc_jButton_BookmarksFiles.gridy = 0;
-            jButton_BookmarksFiles = new JButton("Bookmarks (Files)");
-            jButton_BookmarksFiles.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_BookmarksFilesMouseMousePressed();
+
+            JButton jButton_BookmarksFiles = new JButton("Bookmarks (Files)");
+            jButton_BookmarksFiles.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithBookmarksForFiles();
                 }
             });
             getContentPane().add(jButton_BookmarksFiles, gbc_jButton_BookmarksFiles);
@@ -106,10 +94,11 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_JFileChooserInitializer.insets = new Insets(0, 0, 5, 5);
             gbc_jButton_JFileChooserInitializer.gridx = 0;
             gbc_jButton_JFileChooserInitializer.gridy = 1;
-            jButton_JFileChooserInitializer = new JButton("JFileChooserInitializer");
-            jButton_JFileChooserInitializer.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_JFileChooserInitializerMouseMousePressed(event);
+
+            JButton jButton_JFileChooserInitializer = new JButton("JFileChooserInitializer");
+            jButton_JFileChooserInitializer.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserUsingJFileChooserInitializer();
                 }
             });
             getContentPane().add(jButton_JFileChooserInitializer, gbc_jButton_JFileChooserInitializer);
@@ -121,10 +110,10 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_BookmarksFolders.gridx = 2;
             gbc_jButton_BookmarksFolders.gridy = 0;
 
-            jButton_BookmarksFolders = new JButton("Bookmarks (Folders)");
+            JButton jButton_BookmarksFolders = new JButton("Bookmarks (Folders)");
             jButton_BookmarksFolders.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    jButton_BookmarksFoldersMouseMousePressed();
+                    openJFileChooserWithBookmarksForDirectories();
                 }
             });
             getContentPane().add(jButton_BookmarksFolders, gbc_jButton_BookmarksFolders);
@@ -134,13 +123,12 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_Picture.fill = GridBagConstraints.BOTH;
             gbc_jButton_Picture.insets = new Insets(0, 0, 5, 5);
             gbc_jButton_Picture.gridx = 1;
-            gbc_jButton_Picture.gridy = 1;
+            gbc_jButton_Picture.gridy = 3;
 
-            jButton_Picture = new JButton();
-            jButton_Picture.setText("Preview pictures");
-            jButton_Picture.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_PictureMouseMousePressed(event);
+            JButton jButton_Picture = new JButton("Preview pictures");
+            jButton_Picture.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithPicture();
                 }
             });
             getContentPane().add(jButton_Picture, gbc_jButton_Picture);
@@ -152,10 +140,10 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_WaitingJFileChooserInitializer.gridx = 0;
             gbc_jButton_WaitingJFileChooserInitializer.gridy = 2;
 
-            jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
-            jButton_WaitingJFileChooserInitializer.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_WaitingJFileChooserInitializerMouseMousePressed(event);
+            JButton jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
+            jButton_WaitingJFileChooserInitializer.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserUsingWaitingJFileChooserInitializer();
                 }
             });
             getContentPane().add(jButton_WaitingJFileChooserInitializer, gbc_jButton_WaitingJFileChooserInitializer);
@@ -165,36 +153,63 @@ public class JFileChooserAccessory extends JFrame
             gbc_jButton_LastSelectedFiles.fill = GridBagConstraints.BOTH;
             gbc_jButton_LastSelectedFiles.insets = new Insets(0, 0, 5, 5);
             gbc_jButton_LastSelectedFiles.gridx = 1;
-            gbc_jButton_LastSelectedFiles.gridy = 2;
+            gbc_jButton_LastSelectedFiles.gridy = 1;
 
-            jButton_LastSelectedFiles = new JButton();
-            jButton_LastSelectedFiles.setText("Last selected files");
-            jButton_LastSelectedFiles.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_LastSelectedFilesMouseMousePressed(event);
+            JButton jButton_LastSelectedFiles = new JButton("Last selected files");
+            jButton_LastSelectedFiles.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithLastSelectedFilesList();
                 }
             });
             getContentPane().add(jButton_LastSelectedFiles, gbc_jButton_LastSelectedFiles);
         }
         {
-            GridBagConstraints gbc_jButton_Tabbed = new GridBagConstraints();
-            gbc_jButton_Tabbed.fill = GridBagConstraints.BOTH;
-            gbc_jButton_Tabbed.insets = new Insets(0, 0, 5, 5);
-            gbc_jButton_Tabbed.gridx = 1;
-            gbc_jButton_Tabbed.gridy = 3;
+             GridBagConstraints gbc_jButton_LastSelectedFolders = new GridBagConstraints();
+            gbc_jButton_LastSelectedFolders.fill = GridBagConstraints.BOTH;
+            gbc_jButton_LastSelectedFolders.insets = new Insets(0, 0, 5, 0);
+            gbc_jButton_LastSelectedFolders.gridx = 2;
+            gbc_jButton_LastSelectedFolders.gridy = 1;
 
-            jButton_Tabbed = new JButton();
-            jButton_Tabbed.setText("Multi Accessories");
-            jButton_Tabbed.addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent event) {
-                    jButton_TabbedMouseMousePressed(event);
+            JButton jButton_LastSelectedFolders = new JButton("Last selected folders");
+            jButton_LastSelectedFolders.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithLastSelectedDirectoriesList();
                 }
             });
-            getContentPane().add(jButton_Tabbed, gbc_jButton_Tabbed);
+            getContentPane().add(jButton_LastSelectedFolders, gbc_jButton_LastSelectedFolders);
+        }
+        {
+            GridBagConstraints gbc_jButton_TabbedFiles = new GridBagConstraints();
+            gbc_jButton_TabbedFiles.fill = GridBagConstraints.BOTH;
+            gbc_jButton_TabbedFiles.insets = new Insets(0, 0, 5, 5);
+            gbc_jButton_TabbedFiles.gridx = 1;
+            gbc_jButton_TabbedFiles.gridy = 2;
+
+            JButton jButton_TabbedFiles = new JButton("Multi Accessories (Files)");
+            jButton_TabbedFiles.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithMultiAccessoryForFiles();
+                }
+            });
+            getContentPane().add(jButton_TabbedFiles, gbc_jButton_TabbedFiles);
+        }
+        {
+            GridBagConstraints gbc_jButton_TabbedFolders = new GridBagConstraints();
+            gbc_jButton_TabbedFolders.fill = GridBagConstraints.BOTH;
+            gbc_jButton_TabbedFolders.insets = new Insets(0, 0, 5, 0);
+            gbc_jButton_TabbedFolders.gridx = 2;
+            gbc_jButton_TabbedFolders.gridy = 2;
+
+            JButton jButton_TabbedFolders = new JButton("Multi Accessories (folders)");
+            jButton_TabbedFolders.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    openJFileChooserWithMultiAccessoryForDirectories();
+                }
+            });
+            getContentPane().add(jButton_TabbedFolders, gbc_jButton_TabbedFolders);
         }
         {
             GridBagConstraints gbc_jTextField_LastSelected = new GridBagConstraints();
-            gbc_jTextField_LastSelected.insets = new Insets(0, 0, 0, 5);
             gbc_jTextField_LastSelected.gridwidth = 3;
             gbc_jTextField_LastSelected.fill = GridBagConstraints.BOTH;
             gbc_jTextField_LastSelected.gridx = 0;
@@ -204,13 +219,14 @@ public class JFileChooserAccessory extends JFrame
             getContentPane().add(jTextField_LastSelected, gbc_jTextField_LastSelected);
         }
         {
-            jMenuBarFrame = new JMenuBar();
+            JMenuBar jMenuBarFrame = new JMenuBar();
             jMenuLookAndFeel = new JMenu("Look And Feel");
             jMenuBarFrame.add( jMenuLookAndFeel );
             setJMenuBar(jMenuBarFrame);
         }
         setSize(600, 200);
     }
+
 
     protected void initFixComponents()
     {
@@ -222,7 +238,7 @@ public class JFileChooserAccessory extends JFrame
         //MenuHelper.buildLookAndFeelMenu( this, jMenuLookAndFeel );
         new LookAndFeelMenu( this ).buildMenu( jMenuLookAndFeel );
 
-        jFileChooserInitializer = getJFileChooserInitializer();
+        jFileChooserInitializer = createJFileChooserInitializer();
     }
 
     public static void main( String[] args )
@@ -248,13 +264,13 @@ public class JFileChooserAccessory extends JFrame
         } );
     }
 
-    private void jButton_StdJFileChooserMouseMousePressed(MouseEvent event)
+    private void openJFileChooser()
     {
         JFileChooser jfc = new JFileChooser();
         showOpenDialog( jfc );
     }
 
-    private void jButton_BookmarksFilesMouseMousePressed()
+    private void openJFileChooserWithBookmarksForFiles()
     {
         JFileChooser jfc = new JFileChooser();
         jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
@@ -267,7 +283,7 @@ public class JFileChooserAccessory extends JFrame
         showOpenDialog( jfc );
     }
 
-    private void jButton_BookmarksFoldersMouseMousePressed()
+    private void openJFileChooserWithBookmarksForDirectories()
     {
         JFileChooser jfc = new JFileChooser();
         jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
@@ -280,7 +296,7 @@ public class JFileChooserAccessory extends JFrame
         showOpenDialog( jfc );
     }
 
-    private void jButton_PictureMouseMousePressed(MouseEvent event)
+    private void openJFileChooserWithPicture()
     {
         JFileChooser jfc = new JFileChooser();
         jfc.setAccessory(
@@ -289,9 +305,10 @@ public class JFileChooserAccessory extends JFrame
         showOpenDialog( jfc );
     }
 
-    private void jButton_TabbedMouseMousePressed(MouseEvent event)
+    private void openJFileChooserWithMultiAccessoryForFiles()
     {
         JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
         jfc.setAccessory(
                 new TabbedAccessory()
                     .addTabbedAccessory(
@@ -313,23 +330,59 @@ public class JFileChooserAccessory extends JFrame
         showOpenDialog( jfc );
     }
 
-    private void jButton_LastSelectedFilesMouseMousePressed(MouseEvent event)
+    protected void openJFileChooserWithMultiAccessoryForDirectories()
     {
         JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+        jfc.setAccessory(
+                new TabbedAccessory()
+                    .addTabbedAccessory(
+                        new BookmarksAccessory(
+                                jfc,
+                                new DefaultBookmarksAccessoryConfigurator()
+                                )
+                        )
+                     .addTabbedAccessory(
+                         new ImagePreviewAccessory(jfc)
+                         )
+                     .addTabbedAccessory(
+                         new LastSelectedFilesAccessory( jfc, lSFAConf )
+                         )
+                     .addTabbedAccessory(
+                         new FindAccessory( jfc )
+                         )
+                );
+        showOpenDialog( jfc );
+    }
+
+    private void openJFileChooserWithLastSelectedFilesList()
+    {
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
         jfc.setAccessory(
                 new LastSelectedFilesAccessory( jfc, lSFAConf )
                 );
         showOpenDialog( jfc );
     }
 
-    private void jButton_JFileChooserInitializerMouseMousePressed(MouseEvent event)
+    protected void openJFileChooserWithLastSelectedDirectoriesList()
+    {
+        JFileChooser jfc = new JFileChooser();
+        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+        jfc.setAccessory(
+                new LastSelectedFilesAccessory( jfc, lSFAConf )
+                );
+        showOpenDialog( jfc );
+    }
+
+    private void openJFileChooserUsingJFileChooserInitializer()
     {
         showOpenDialog(
                 jFileChooserInitializer.getJFileChooser()
                 );
     }
 
-    private void jButton_WaitingJFileChooserInitializerMouseMousePressed(MouseEvent event)
+    private void openJFileChooserUsingWaitingJFileChooserInitializer()
     {
         Runnable r = new Runnable()
         {
@@ -337,7 +390,7 @@ public class JFileChooserAccessory extends JFrame
             public void run()
             {
                 if( waitingJFileChooserInitializer == null ) {
-                    JFileChooserInitializerCustomize     config    = getJFileChooserInitializerConfigurator();
+                    JFileChooserInitializerCustomize     config    = createJFileChooserInitializerConfigurator();
                     Frame         frame    = JFileChooserAccessory.this;
                     String         waitTitle    = "waitTitle";
                     String         waitMessage    = "waitMessage";
@@ -355,9 +408,11 @@ public class JFileChooserAccessory extends JFrame
 
     private void showOpenDialog(JFileChooser jfc)
     {
+        setLastSelected( "<<Waiting user>>" );
+
         int returnVal = jfc.showOpenDialog(this);
 
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
+        if( returnVal == JFileChooser.APPROVE_OPTION ) {
             File f = jfc.getSelectedFile();
 
             System.out.printf( "You chose to open this file: %s\n", f);
@@ -365,7 +420,7 @@ public class JFileChooserAccessory extends JFrame
             }
         else {
             setLastSelected( "<<No selection>>" );
-        }
+            }
     }
 
     private void setLastSelected(String txt)
@@ -373,7 +428,7 @@ public class JFileChooserAccessory extends JFrame
         jTextField_LastSelected.setText(txt);
     }
 
-    private JFileChooserInitializerCustomize getJFileChooserInitializerConfigurator()
+    private JFileChooserInitializerCustomize createJFileChooserInitializerConfigurator()
     {
         return new DefaultConfigurator()
             {
@@ -416,10 +471,10 @@ public class JFileChooserAccessory extends JFrame
             );
         }
 
-    private JFileChooserInitializer getJFileChooserInitializer()
+    private JFileChooserInitializer createJFileChooserInitializer()
     {
         return new JFileChooserInitializer(
-            getJFileChooserInitializerConfigurator()
+            createJFileChooserInitializerConfigurator()
             );
     }
 }
