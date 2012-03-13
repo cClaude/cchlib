@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.textfield.XTextField;
 import cx.ath.choisnet.util.iterator.iterable.BiIterator;
@@ -111,7 +112,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jButtonAddDir, gbc_jButtonAddDir);
         }
         {
-            Icon image = null; // TODO FIXME
+            Icon image = ResourcesLoader.getImageIcon( "logo.png" );
             JLabel jLabelDeco = new JLabel( image );
             GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
             gbc_jLabelDeco.insets = new Insets(0, 0, 5, 5);
