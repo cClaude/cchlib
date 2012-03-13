@@ -15,11 +15,16 @@ import javax.swing.JPanel;
 class ColumnPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private final HexEditor hexEditor;
+    private HexEditorData hexEditor;
+    private HexEditorLayout layout;
 
-    public ColumnPanel(HexEditor hexEditor)
+    public ColumnPanel(
+        HexEditorLayout layout,
+        HexEditorData       hexEditor
+        )
     {
         this.hexEditor = hexEditor;
+        this.layout = layout;
         this.setLayout(new BorderLayout(1,1));
     }
 
@@ -33,12 +38,12 @@ class ColumnPanel extends JPanel
     public Dimension getMinimumSize()
     {
         Dimension d=new Dimension();
-        FontMetrics fn=getFontMetrics(this.hexEditor.getCustomFont());
+        FontMetrics fn=getFontMetrics(this.layout.getCustomFont());
         int h=fn.getHeight();
         int nl=1;
         d.setSize(
-            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.hexEditor.getBorderWidth()*2)+1,
-            h*nl+(this.hexEditor.getBorderWidth()*2)+1
+            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.layout.getBorderWidth()*2)+1,
+            h*nl+(this.layout.getBorderWidth()*2)+1
             );
         return d;
     }
@@ -50,14 +55,15 @@ class ColumnPanel extends JPanel
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
-        g.setFont(this.hexEditor.getCustomFont());
+        g.setFont(this.layout.getCustomFont());
 
-        for(int n=0;n<16;n++)
-        {
-            if(n==(this.hexEditor.getCursorPos()%16)) this.hexEditor.cuadro(g,n*3,0,2);
+        for( int n=0; n<16; n++ ) {
+            if( n==(this.hexEditor.getCursorPos()%16) ) {
+                this.layout.drawTable(g,n*3,0,2);
+                }
             String s="00"+Integer.toHexString(n);
             s=s.substring(s.length()-2);
-            this.hexEditor.printString(g,s,n*3,0);
-        }
+            this.layout.printString(g,s,n*3,0);
+            }
     }
 }

@@ -5,14 +5,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: laullon
- * Date: 09-abr-2003
- * Time: 12:47:18
+ *
  */
 public class JHexEditorASCII
     extends JComponent
-        implements MouseListener,KeyListener
+        implements MouseListener,
+                   KeyListener
 {
     private static final long serialVersionUID = 1L;
     private JHexEditor he;
@@ -45,7 +43,7 @@ public class JHexEditorASCII
         Dimension d=new Dimension();
         FontMetrics fn=getFontMetrics(getCustomFont());
         int h=fn.getHeight();
-        int nl=he.getLineas();
+        int nl=he.getLines();
         d.setSize(
             (fn.stringWidth(" ")+1)*(16)+(he.getBorderWidth()*2)+1,
             h*nl+(he.getBorderWidth()*2)+1
@@ -67,7 +65,7 @@ public class JHexEditorASCII
 
         //datos ascii
         int ini=he.getInicio()*16;
-        int fin=ini+(he.getLineas()*16);
+        int fin=ini+(he.getLines()*16);
         if(fin>he.getBuffer().getLength()) {
             fin=he.getBuffer().getLength();
             }
@@ -79,7 +77,7 @@ public class JHexEditorASCII
             if(n==he.getCursorPos())
             {
                 g.setColor(Color.blue);
-                if(hasFocus()) he.fondo(g,x,y,1); else he.cuadro(g,x,y,1);
+                if(hasFocus()) he.fondo(g,x,y,1); else he.drawTable(g,x,y,1);
                 if(hasFocus()) g.setColor(Color.white); else g.setColor(Color.black);
             } else
             {

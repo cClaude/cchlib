@@ -15,10 +15,15 @@ import javax.swing.JPanel;
 class RowPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private final HexEditor hexEditor;
+    private HexEditorLayout layout;
+    private HexEditorData hexEditor;
 
-    public RowPanel(HexEditor hexEditor)
+    public RowPanel(
+        HexEditorLayout layout,
+        HexEditorData hexEditor
+        )
     {
+        this.layout = layout;
         this.hexEditor = hexEditor;
         this.setLayout(new BorderLayout(1,1));
     }
@@ -31,12 +36,12 @@ class RowPanel extends JPanel
     public Dimension getMinimumSize()
     {
         Dimension d=new Dimension();
-        FontMetrics fn=getFontMetrics(this.hexEditor.getCustomFont());
+        FontMetrics fn=getFontMetrics(this.layout.getCustomFont());
         int h=fn.getHeight();
-        int nl=this.hexEditor.getLineas();
+        int nl=this.hexEditor.getLines();
         d.setSize(
-            (fn.stringWidth(" ")+1)*(8)+(this.hexEditor.getBorderWidth()*2)+1,
-            h*nl+(this.hexEditor.getBorderWidth()*2)+1
+            (fn.stringWidth(" ")+1)*(8)+(this.layout.getBorderWidth()*2)+1,
+            h*nl+(this.layout.getBorderWidth()*2)+1
             );
         return d;
     }
@@ -47,17 +52,19 @@ class RowPanel extends JPanel
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
-        g.setFont(this.hexEditor.getCustomFont());
+        g.setFont(this.layout.getCustomFont());
 
         int ini=this.hexEditor.getInicio();
-        final int fin=ini + this.hexEditor.getLineas();
+        final int fin=ini + this.hexEditor.getLines();
         int y=0;
 
         for(int n=ini;n<fin;n++) {
-            if(n==(this.hexEditor.getCursorPos()/16)) this.hexEditor.cuadro(g,0,y,8);
+            if(n==(this.hexEditor.getCursorPos()/16)) {
+                this.layout.drawTable(g,0,y,8);
+                }
             String s="0000000000000"+Integer.toHexString(n);
             s=s.substring(s.length()-8);
-            this.hexEditor.printString(g,s,0,y++);
+            this.layout.printString(g,s,0,y++);
         }
     }
 }

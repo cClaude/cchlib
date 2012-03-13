@@ -13,8 +13,11 @@ import java.io.FileNotFoundException;
  */
 public class JHexEditor
     extends JPanel
-        implements FocusListener,AdjustmentListener,MouseWheelListener,
-                   HexEditor
+        implements FocusListener,
+                   AdjustmentListener,
+                   MouseWheelListener,
+                   HexEditorData,
+                   HexEditorLayout
 {
     private static final long serialVersionUID = 2L;
     private static Font customFont=new Font("Monospaced",0,12);
@@ -23,8 +26,9 @@ public class JHexEditor
     private int border=2;
     //private boolean DEBUG=false;
     private JScrollBar sb;
-    private int inicio=0;
-    private int lineas=10;
+//
+    private int inicio=0; // Initiation
+    private int linesCount=10;
     private RowPanel rows;
     private ArrayReadWriteAccess arrayAccess;
 
@@ -51,7 +55,7 @@ public class JHexEditor
         gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        ColumnPanel columns = new ColumnPanel(this);
+        ColumnPanel columns = new ColumnPanel(this, this);
         GridBagConstraints gbc_columns = new GridBagConstraints();
         gbc_columns.fill = GridBagConstraints.HORIZONTAL;
         gbc_columns.insets = new Insets(0, 0, 5, 5);
@@ -59,7 +63,7 @@ public class JHexEditor
         gbc_columns.gridy = 0;
         add(columns, gbc_columns);
 
-        rows = new RowPanel(this);
+        rows = new RowPanel(this,this);
         GridBagConstraints gbc_rows = new GridBagConstraints();
         gbc_rows.fill = GridBagConstraints.VERTICAL;
         gbc_rows.insets = new Insets(0, 0, 0, 5);
@@ -96,13 +100,16 @@ public class JHexEditor
     {
         FontMetrics fn=getFontMetrics(getCustomFont());
         Rectangle rec=this.getBounds();
-        lineas=(rec.height/fn.getHeight())-1;
+        linesCount=(rec.height/fn.getHeight())-1;
         int n=(arrayAccess.getLength()/16)-1;
-        if(lineas>n) { lineas=n; inicio=0; }
+        if( linesCount>n ) {
+            linesCount=n;
+            inicio=0;
+            }
 
         sb.setValues(
                 getInicio(),
-                +getLineas(),
+                +getLines(),
                 0,
                 arrayAccess.getLength()/16
                 );
@@ -114,12 +121,16 @@ public class JHexEditor
     {
         int n=(cursor/16);
 
-        System.out.print("- "+inicio+"<"+n+"<"+(lineas+inicio)+"("+lineas+")");
+//        System.out.print("- "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
 
-        if(n<inicio) inicio=n;
-        else if(n>=inicio+lineas) inicio=n-(lineas-1);
+        if(n<inicio) {
+            inicio=n;
+            }
+        else if(n>=inicio+linesCount) {
+            inicio=n-(linesCount-1);
+            }
 
-        System.out.println(" - "+inicio+"<"+n+"<"+(lineas+inicio)+"("+lineas+")");
+//        System.out.println(" - "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
 
         repaint();
     }
@@ -131,9 +142,9 @@ public class JHexEditor
     }
 
     @Override//HexEditor
-    public int getLineas()
+    public int getLines()
     {
-        return lineas;
+        return linesCount;
     }
 
 //    @Override//HexEditor
@@ -179,7 +190,7 @@ public class JHexEditor
     }
 
     @Override//HexEditor
-    public void cuadro(Graphics g,int x,int y,int s)
+    public void drawTable(Graphics g,int x,int y,int s)
     {
         FontMetrics fn=getFontMetrics(getCustomFont());
         g.drawRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
@@ -222,8 +233,12 @@ public class JHexEditor
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         inicio+=(e.getUnitsToScroll());
-        if((inicio+lineas)>=arrayAccess.getLength()/16) inicio=(arrayAccess.getLength()/16)-lineas;
-        if(inicio<0) inicio=0;
+        if((inicio+linesCount)>=arrayAccess.getLength()/16) {
+            inicio=(arrayAccess.getLength()/16)-linesCount;
+            }
+        if(inicio<0) {
+            inicio=0;
+            }
         repaint();
     }
 
@@ -232,11 +247,15 @@ public class JHexEditor
         switch(e.getKeyCode())
         {
             case 33:    // rep
-                if(cursor>=(16*lineas)) cursor-=(16*lineas);
+                if(cursor>=(16*linesCount)) {
+                    cursor-=(16*linesCount);
+                    }
                 actualizaCursor();
                 break;
             case 34:    // fin
-                if(cursor<(arrayAccess.getLength()-(16*lineas))) cursor+=(16*lineas);
+                if( cursor<(arrayAccess.getLength()-(16*linesCount))) {
+                    cursor+=(16*linesCount);
+                    }
                 actualizaCursor();
                 break;
             case 35:    // fin

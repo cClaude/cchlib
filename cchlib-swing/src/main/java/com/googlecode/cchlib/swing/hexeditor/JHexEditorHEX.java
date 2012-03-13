@@ -32,26 +32,26 @@ public class JHexEditorHEX
     @Override
     public Dimension getPreferredSize()
     {
-        debug("getPreferredSize()");
+        //debug("getPreferredSize()");
         return getMinimumSize();
     }
 
     @Override
     public Dimension getMaximumSize()
     {
-        debug("getMaximumSize()");
+        //debug("getMaximumSize()");
         return getMinimumSize();
     }
 
     @Override
     public Dimension getMinimumSize()
     {
-        debug("getMinimumSize()");
+        //debug("getMinimumSize()");
 
         Dimension d=new Dimension();
         FontMetrics fn=getFontMetrics(getCustomFont());
         int h=fn.getHeight();
-        int nl=he.getLineas();
+        int nl=he.getLines();
         d.setSize(
             ((fn.stringWidth(" ")+1)*+((16*3)-1))+(he.getBorderWidth()*2)+1,
             h*nl+(he.getBorderWidth()*2)+1
@@ -62,8 +62,8 @@ public class JHexEditorHEX
     @Override
     public void paint(Graphics g)
     {
-        debug("paint("+g+")");
-        debug("cursor="+he.getCursorPos()+" buff.length="+he.getBuffer().getLength());
+        //debug("paint("+g+")");
+        //debug("cursor="+he.getCursorPos()+" buff.length="+he.getBuffer().getLength());
         Dimension d=getMinimumSize();
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
@@ -72,7 +72,7 @@ public class JHexEditorHEX
         g.setFont(getCustomFont());
 
         int ini=he.getInicio()*16;
-        int fin=ini+(he.getLineas()*16);
+        int fin=ini+(he.getLines()*16);
         if(fin>he.getBuffer().getLength()) {
             fin=he.getBuffer().getLength();
             }
@@ -80,27 +80,29 @@ public class JHexEditorHEX
         //datos hex
         int x=0;
         int y=0;
-        for(int n=ini;n<fin;n++)
-        {
-            if(n==he.getCursorPos())
-            {
-                if(hasFocus())
-                {
+        for(int n=ini;n<fin;n++) {
+            if(n==he.getCursorPos()) {
+                if(hasFocus()) {
                     g.setColor(Color.black);
                     he.fondo(g,(x*3),y,2);
                     g.setColor(Color.blue);
                     he.fondo(g,(x*3)+cursor,y,1);
-                } else
-                {
+                    }
+                else {
                     g.setColor(Color.blue);
-                    he.cuadro(g,(x*3),y,2);
-                }
+                    he.drawTable(g,(x*3),y,2);
+                    }
 
-                if(hasFocus()) g.setColor(Color.white); else g.setColor(Color.black);
-            } else
-            {
+                if(hasFocus()) {
+                    g.setColor(Color.white);
+                    }
+                else {
+                    g.setColor(Color.black);
+                    }
+                }
+            else {
                 g.setColor(Color.black);
-            }
+                }
 
             String s=("0"+Integer.toHexString(he.getBuffer().getByte( n ) ));
             s=s.substring(s.length()-2);
@@ -113,10 +115,10 @@ public class JHexEditorHEX
         }
     }
 
-    private void debug(String s)
-    {
-        //if(he.DEBUG) System.out.println("JHexEditorHEX ==> "+s);
-    }
+//    private void debug(String s)
+//    {
+//        //if(he.DEBUG) System.out.println("JHexEditorHEX ==> "+s);
+//    }
 
     // calcular la posicion del raton
     public int calcularPosicionRaton(int x,int y)
@@ -124,14 +126,14 @@ public class JHexEditorHEX
         FontMetrics fn=getFontMetrics(getCustomFont());
         x=x/((fn.stringWidth(" ")+1)*3);
         y=y/fn.getHeight();
-        debug("x="+x+" ,y="+y);
+        //debug("x="+x+" ,y="+y);
         return x+((y+he.getInicio())*16);
     }
 
     @Override// mouselistener
     public void mouseClicked(MouseEvent e)
     {
-        debug("mouseClicked("+e+")");
+        //debug("mouseClicked("+e+")");
         he.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
         this.requestFocus();
         he.repaint();
@@ -160,7 +162,7 @@ public class JHexEditorHEX
     @Override//KeyListener
     public void keyTyped(KeyEvent e)
     {
-        debug("keyTyped("+e+")");
+        //debug("keyTyped("+e+")");
 
         char c=e.getKeyChar();
         if(((c>='0')&&(c<='9'))||((c>='A')&&(c<='F'))||((c>='a')&&(c<='f')))
@@ -179,7 +181,9 @@ public class JHexEditorHEX
                 (byte)Integer.parseInt(new String(str),16)
                 );
 
-            if(cursor!=1) cursor=1;
+            if(cursor!=1) {
+                cursor=1;
+                }
             else if(he.getCursorPos()!=(he.getBuffer().getLength()-1)) {
                 he.incCursorPos();
                 cursor=0;
@@ -191,14 +195,14 @@ public class JHexEditorHEX
     @Override//KeyListener
     public void keyPressed(KeyEvent e)
     {
-        debug("keyPressed("+e+")");
+        //debug("keyPressed("+e+")");
         he.keyPressed(e);
     }
 
     @Override//KeyListener
     public void keyReleased(KeyEvent e)
     {
-        debug("keyReleased("+e+")");
+        //debug("keyReleased("+e+")");
     }
 
     @Override
