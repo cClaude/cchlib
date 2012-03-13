@@ -1,12 +1,20 @@
 package com.googlecode.cchlib.swing.hexeditor;
 
-import javax.swing.*;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 
-
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -15,38 +23,21 @@ public class JHexEditor
     extends JPanel
         implements FocusListener,
                    AdjustmentListener,
-                   MouseWheelListener,
-                   HexEditorData,
-                   HexEditorLayout
+                   MouseWheelListener
 {
+    private static final Logger logger = Logger.getLogger( JHexEditor.class );
     private static final long serialVersionUID = 2L;
-    private static Font customFont=new Font("Monospaced",0,12);
-    //private byte[] buff;
-    private int cursor;
-    private int border=2;
-    //private boolean DEBUG=false;
     private JScrollBar sb;
-//
-    private int inicio=0; // Initiation
-    private int linesCount=10;
     private RowPanel rows;
-    private ArrayReadWriteAccess arrayAccess;
-
-    public JHexEditor(byte[] buff)
-    {
-        this( new DefaultArrayReadWriteAccess( buff ) );
-    }
-
-    public JHexEditor( File file ) throws FileNotFoundException
-    {
-        this( new ArrayReadWriteAccessFile( file ) );
-    }
+    private final HexEditorModel model;
 
     public JHexEditor(
-        final ArrayReadWriteAccess arrayAccess
+        final HexEditorModel model
         )
     {
-        this.arrayAccess = arrayAccess;
+        this.model = model;
+        this.model.setRootComponent( this );
+        addMouseWheelListener( this );
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -55,7 +46,7 @@ public class JHexEditor
         gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        ColumnPanel columns = new ColumnPanel(this, this);
+        ColumnPanel columns = new ColumnPanel( getModel() );
         GridBagConstraints gbc_columns = new GridBagConstraints();
         gbc_columns.fill = GridBagConstraints.HORIZONTAL;
         gbc_columns.insets = new Insets(0, 0, 5, 5);
@@ -63,7 +54,7 @@ public class JHexEditor
         gbc_columns.gridy = 0;
         add(columns, gbc_columns);
 
-        rows = new RowPanel(this,this);
+        rows = new RowPanel( getModel() );
         GridBagConstraints gbc_rows = new GridBagConstraints();
         gbc_rows.fill = GridBagConstraints.VERTICAL;
         gbc_rows.insets = new Insets(0, 0, 0, 5);
@@ -71,7 +62,7 @@ public class JHexEditor
         gbc_rows.gridy = 1;
         add(rows, gbc_rows);
 
-        JHexEditorASCII hexEditorASCII = new JHexEditorASCII(this);
+        JHexEditorASCII hexEditorASCII = new JHexEditorASCII( getModel(),this);
         GridBagConstraints gbc_hexEditorASCII = new GridBagConstraints();
         gbc_hexEditorASCII.fill = GridBagConstraints.BOTH;
         gbc_hexEditorASCII.insets = new Insets(0, 0, 0, 5);
@@ -79,7 +70,7 @@ public class JHexEditor
         gbc_hexEditorASCII.gridy = 1;
         add(hexEditorASCII, gbc_hexEditorASCII);
 
-        JHexEditorHEX hewEditorHEX = new JHexEditorHEX(this);
+        JHexEditorHEX hewEditorHEX = new JHexEditorHEX( getModel(),this);
         GridBagConstraints gbc_hewEditorHEX = new GridBagConstraints();
         gbc_hewEditorHEX.fill = GridBagConstraints.BOTH;
         gbc_hewEditorHEX.insets = new Insets(0, 0, 0, 5);
@@ -88,125 +79,54 @@ public class JHexEditor
         add(hewEditorHEX, gbc_hewEditorHEX);
 
         sb = new JScrollBar(JScrollBar.VERTICAL);
+        sb.addAdjustmentListener(this);
+        sb.setMinimum( 0 );
+        try {
+            sb.setMaximum(
+                    getModel().getBuffer().getLength() / getModel().getDisplayLinesCount()
+                    );
+            }
+        catch( ArithmeticException e ) {
+            e.printStackTrace(); // TODO: remove this !
+            sb.setMaximum( 0 );
+            }
         GridBagConstraints gbc_sb = new GridBagConstraints();
         gbc_sb.fill = GridBagConstraints.VERTICAL;
         gbc_sb.gridx = 3;
         gbc_sb.gridy = 1;
         add(sb, gbc_sb);
+
+    }
+
+    public HexEditorModel getModel()
+    {
+        return model;
     }
 
     @Override
     public void paint(Graphics g)
     {
-        FontMetrics fn=getFontMetrics(getCustomFont());
-        Rectangle rec=this.getBounds();
-        linesCount=(rec.height/fn.getHeight())-1;
-        int n=(arrayAccess.getLength()/16)-1;
-        if( linesCount>n ) {
-            linesCount=n;
-            inicio=0;
-            }
+        Rectangle rec = this.getBounds();
+        getModel().adjustingScrollBarValues( rec );
+        //FontMetrics fn=getFontMetrics(getCustomFont());
+//        FontMetrics fn  = getModel().getFontMetrics();
+//
+//        displayLinesCount=(rec.height/fn.getHeight())-1;
+//        int n=(arrayAccess.getLength()/16)-1;
+//
+//        if( displayLinesCount>n ) {
+//            displayLinesCount=n;
+//            inicio=0;
+//            }
 
         sb.setValues(
-                getInicio(),
-                +getLines(),
+                getModel().getIntroduction(),
+                getModel().getDisplayLinesCount(),
                 0,
-                arrayAccess.getLength()/16
+                getModel().getBuffer().getLength()/16
                 );
         sb.setValueIsAdjusting(true);
         super.paint(g);
-    }
-
-    protected void actualizaCursor()
-    {
-        int n=(cursor/16);
-
-//        System.out.print("- "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
-
-        if(n<inicio) {
-            inicio=n;
-            }
-        else if(n>=inicio+linesCount) {
-            inicio=n-(linesCount-1);
-            }
-
-//        System.out.println(" - "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
-
-        repaint();
-    }
-
-    @Override//HexEditor
-    public int getInicio()
-    {
-        return inicio;
-    }
-
-    @Override//HexEditor
-    public int getLines()
-    {
-        return linesCount;
-    }
-
-//    @Override//HexEditor
-//    public byte[] getBuffer()
-//    {
-//        return this.buff;
-//    }
-
-    @Override//HexEditor
-    public ArrayReadWriteAccess getBuffer()
-    {
-        return this.arrayAccess;
-    }
-
-    @Override//HexEditor
-    public int getBorderWidth()
-    {
-        return this.border;
-    }
-
-    @Override//HexEditor
-    public int getCursorPos()
-    {
-        return this.cursor;
-    }
-
-    @Override//HexEditor
-    public void setCursorPos( int index )
-    {
-        this.cursor = index;
-    }
-
-    @Override//HexEditor
-    public void incCursorPos()
-    {
-        this.cursor++;
-    }
-
-    protected void fondo(Graphics g,int x,int y,int s)
-    {
-        FontMetrics fn=getFontMetrics(getCustomFont());
-        g.fillRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
-    }
-
-    @Override//HexEditor
-    public void drawTable(Graphics g,int x,int y,int s)
-    {
-        FontMetrics fn=getFontMetrics(getCustomFont());
-        g.drawRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
-    }
-
-    @Override//HexEditor
-    public void printString(Graphics g,String s,int x,int y)
-    {
-        FontMetrics fn=getFontMetrics(getCustomFont());
-        g.drawString(s,((fn.stringWidth(" ")+1)*x)+border,((fn.getHeight()*(y+1))-fn.getMaxDescent())+border);
-    }
-
-    @Override//HexEditor
-    public Font getCustomFont()
-    {
-        return customFont;
     }
 
     @Override
@@ -224,64 +144,30 @@ public class JHexEditor
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e)
     {
-        inicio=e.getValue();
-        if(inicio<0) inicio=0;
+//        inicio=e.getValue();
+//
+//        if(inicio<0) {
+//            inicio=0;
+//            }
+//        repaint();
+        getModel().adjustmentValueChanged( e );
         repaint();
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        inicio+=(e.getUnitsToScroll());
-        if((inicio+linesCount)>=arrayAccess.getLength()/16) {
-            inicio=(arrayAccess.getLength()/16)-linesCount;
-            }
-        if(inicio<0) {
-            inicio=0;
-            }
+        logger.info( "mouseWheelMoved" );
+//        inicio+=(e.getUnitsToScroll());
+//        if((inicio+displayLinesCount)>=arrayAccess.getLength()/16) {
+//            inicio=(arrayAccess.getLength()/16)-displayLinesCount;
+//            }
+//        if(inicio<0) {
+//            inicio=0;
+//            }
+//        repaint();
+        getModel().mouseWheelMoved( e );
         repaint();
     }
 
-    public void keyPressed(KeyEvent e)
-    {
-        switch(e.getKeyCode())
-        {
-            case 33:    // rep
-                if(cursor>=(16*linesCount)) {
-                    cursor-=(16*linesCount);
-                    }
-                actualizaCursor();
-                break;
-            case 34:    // fin
-                if( cursor<(arrayAccess.getLength()-(16*linesCount))) {
-                    cursor+=(16*linesCount);
-                    }
-                actualizaCursor();
-                break;
-            case 35:    // fin
-                cursor=arrayAccess.getLength()-1;
-                actualizaCursor();
-                break;
-            case 36:    // ini
-                cursor=0;
-                actualizaCursor();
-                break;
-            case 37:    // <--
-                if(cursor!=0) cursor--;
-                actualizaCursor();
-                break;
-            case 38:    // <--
-                if(cursor>15) cursor-=16;
-                actualizaCursor();
-                break;
-            case 39:    // -->
-                if(cursor!=(arrayAccess.getLength()-1)) cursor++;
-                actualizaCursor();
-                break;
-            case 40:    // -->
-                if(cursor<(arrayAccess.getLength()-16)) cursor+=16;
-                actualizaCursor();
-                break;
-        }
-    }
 }

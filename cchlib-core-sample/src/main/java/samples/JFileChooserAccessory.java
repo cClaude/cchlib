@@ -10,16 +10,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.FindAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.ImagePreviewAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessory;
+import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
@@ -39,7 +40,7 @@ public class JFileChooserAccessory extends JFrame
 {
     private static final long serialVersionUID = 2L;
 
-    private LastSelectedFilesAccessoryDefaultConfigurator lSFAConf
+    private LastSelectedFilesAccessoryConfigurator lSFAConf
       = new LastSelectedFilesAccessoryDefaultConfigurator();
 
     private JFileChooserInitializer jFileChooserInitializer;
@@ -430,30 +431,34 @@ public class JFileChooserAccessory extends JFrame
 
     private JFileChooserInitializerCustomize createJFileChooserInitializerConfigurator()
     {
-        return new DefaultConfigurator()
-            {
-                private static final long serialVersionUID = 1L;
-                public void perfomeConfig(JFileChooser jfc)
-                {
-                    super.perfomeConfig( jfc );
-
-                    jfc.setAccessory(
-                        new TabbedAccessory()
-                            .addTabbedAccessory(
-                                new BookmarksAccessory(
-                                    jfc,
-                                    new DefaultBookmarksAccessoryConfigurator()
-                                    )
-                                )
-                             .addTabbedAccessory(
-                                 new LastSelectedFilesAccessory(
-                                     jfc,
-                                     lSFAConf
-                                     )
-                                 )
-                        );
-                }
-            }
+        return new LasyJFCCustomizer()
+//            {
+//                private static final long serialVersionUID = 1L;
+//                public void perfomeConfig(JFileChooser jfc)
+//                {
+//                    super.perfomeConfig( jfc );
+//
+//                    HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
+//                    TabbedAccessory tabAcc = new TabbedAccessory()
+//                    .addTabbedAccessory(
+//                        new BookmarksAccessory(
+//                            jfc,
+//                            new DefaultBookmarksAccessoryConfigurator()
+//                            )
+//                        )
+//                     .addTabbedAccessory(
+//                         new LastSelectedFilesAccessory(
+//                             jfc,
+//                             lSFAConf
+//                             )
+//                         )
+//                     .addTabbedAccessory( hexAcc );
+//
+//                    tabAcc.setPreferredSize( hexAcc.getMinimumSize() );
+//
+//                    jfc.setAccessory( tabAcc );
+//                }
+//            }
             .setFileFilter(
                 new FileNameExtensionFilter(
                     "Properties",

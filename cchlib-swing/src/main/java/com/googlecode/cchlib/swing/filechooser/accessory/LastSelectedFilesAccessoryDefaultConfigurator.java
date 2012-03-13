@@ -8,12 +8,12 @@ import java.util.Queue;
 
 /**
  * Provide a basic implementation for 
- * {@link LastSelectedFilesAccessory.Configurator}
+ * {@link LastSelectedFilesAccessoryConfigurator}
  *
  * @author Claude CHOISNET
  */
 public class LastSelectedFilesAccessoryDefaultConfigurator
-    implements LastSelectedFilesAccessory.Configurator
+    implements LastSelectedFilesAccessoryConfigurator
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -24,7 +24,7 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
     private boolean autoApproveSelection;
 
     /**
-     * Create a {@link LastSelectedFilesAccessory.Configurator}
+     * Create a {@link LastSelectedFilesAccessoryConfigurator}
      * initialized with an empty list of files limited to 10 values.
      * <br/>
      * Double-click auto approve selection.
@@ -41,7 +41,7 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
     }
 
     /**
-     * Create a {@link LastSelectedFilesAccessory.Configurator}
+     * Create a {@link LastSelectedFilesAccessoryConfigurator}
      * initialized with your list of files limited to 
      * maxSelectedFileListSize values.
      * <br/>

@@ -5,47 +5,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-
+/**
+ * TODOC
+ *
+ */
 public class ArrayReadWriteAccessFile
-    implements ArrayReadWriteAccess
+    extends ArrayReadAccessFile
+        implements ArrayReadWriteAccess
 {
-    //private File file;
-    private RandomAccessFile raf;
-
+    /**
+     * TODOC
+     * @param f
+     * @throws FileNotFoundException
+     */
     public ArrayReadWriteAccessFile( File f ) throws FileNotFoundException
     {
-        //this.file = f;
-        this.raf = new RandomAccessFile( f, "rw" );
-    }
-
-    @Override
-    public int getLength()
-    {
-        try {
-            return (int)raf.length();
-            }
-        catch (IOException e) {
-            throw new RuntimeException( e );
-            }
-    }
-
-    @Override
-    public byte getByte(int index)
-    {
-        try {
-            this.raf.seek( index );
-
-            return this.raf.readByte();
-            }
-        catch (IOException e) {
-            throw new RuntimeException( e );
-            }
-    }
-
-    @Override
-    public char getChar(int index)
-    {
-        return (char)getByte( index );
+        super( new RandomAccessFile( f, "rw" ) );
     }
 
     @Override

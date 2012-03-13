@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.filechooser.DefaultConfigurator;
+import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
@@ -241,7 +241,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-            final DefaultConfigurator configurator = new DefaultConfigurator()
+            final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
 

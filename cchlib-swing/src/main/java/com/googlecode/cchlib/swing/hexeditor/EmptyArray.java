@@ -3,34 +3,29 @@ package com.googlecode.cchlib.swing.hexeditor;
 /**
  * TODOC
  */
-public final class DefaultArrayReadWriteAccess
-    implements ArrayReadWriteAccess
+public class EmptyArray implements ArrayReadWriteAccess
 {
-    private final byte[] buffer;
-
     /**
      * TODOC
-     * @param buffer
      */
-    public DefaultArrayReadWriteAccess(byte[] buffer)
+    public EmptyArray()
     {
-        this.buffer = buffer;
     }
 
     @Override
     public int getLength()
     {
-        return this.buffer.length;
+        return 0;
     }
 
     @Override
     public byte getByte(int index)
     {
-        return this.buffer[ index ];
+        return -1;
     }
 
     @Override
-    public char getChar(int index)
+    public char getChar( int index )
     {
         return (char)getByte( index );
     }
@@ -38,6 +33,6 @@ public final class DefaultArrayReadWriteAccess
     @Override
     public void setByte(int index, byte b)
     {
-        this.buffer[ index ] = b;
     }
+
 }

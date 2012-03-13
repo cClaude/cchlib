@@ -5,7 +5,7 @@ import java.util.Collection;
 
 /**
  * Provide a basic implementation for
- * {@link BookmarksAccessory.Configurator}
+ * {@link BookmarksAccessory.LastSelectedFilesAccessoryConfigurator}
  */
 public abstract class AbstractBookmarksAccessoryConfigurator
     implements BookmarksAccessoryConfigurator

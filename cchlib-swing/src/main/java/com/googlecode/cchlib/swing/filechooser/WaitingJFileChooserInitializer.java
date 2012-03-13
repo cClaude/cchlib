@@ -9,9 +9,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerEvent;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerListener;
-import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
-import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 /**
  * On windows JFileChooser initialization is to slow!
@@ -82,33 +79,17 @@ public class WaitingJFileChooserInitializer
 
     /**
      * Returns default {@link JFileChooserInitializerCustomize} object
+     * <p>
+     * Default implementation return a {@link LasyConfigurator}
+     * </p>
      * @return default {@link JFileChooserInitializerCustomize} object
+     * @deprecated use {@link LasyJFCCustomizer} instead
      */
     public static JFileChooserInitializerCustomize getDefaultConfigurator()
     {
-        return new DefaultConfigurator(
-            //JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER
-            )
-            {
-                private static final long serialVersionUID = 1L;
-
-                public void perfomeConfig( JFileChooser jfc )
-                {
-                    super.perfomeConfig( jfc );
-
-                    jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-                    jfc.setMultiSelectionEnabled( true );
-                    jfc.setAccessory( new TabbedAccessory()
-                        .addTabbedAccessory( new BookmarksAccessory(
-                            jfc,
-                            new DefaultBookmarksAccessoryConfigurator()
-                            )
-                        )
-                    );
-                }
-            };
+        return new LasyJFCCustomizer();
     }
-
+    
     /**
      * {@inheritDoc}
      * <br/>

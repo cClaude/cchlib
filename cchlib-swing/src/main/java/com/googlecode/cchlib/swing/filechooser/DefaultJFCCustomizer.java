@@ -11,9 +11,10 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.Attrib;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.DirectoryType;
 
 /**
- * Default implementation for Configure
+ * Default implementation for {@link JFileChooserInitializerCustomize}
  */
-public class DefaultConfigurator implements JFileChooserInitializerCustomize
+public class DefaultJFCCustomizer
+    implements JFileChooserInitializerCustomize
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -30,7 +31,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
     /**
     *
     */
-    public DefaultConfigurator()
+    public DefaultJFCCustomizer()
     {
         this( null );
     }
@@ -38,7 +39,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
     /**
      * @param attribSet
      */
-    public DefaultConfigurator( EnumSet<Attrib> attribSet )
+    public DefaultJFCCustomizer( EnumSet<Attrib> attribSet )
     {
         if( attribSet == null ) {
             attribSet = EnumSet.noneOf( Attrib.class );
@@ -52,7 +53,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
      * @param rest  Others attributes
      * @since 4.1.6
      */
-    public DefaultConfigurator( Attrib first, Attrib...rest )
+    public DefaultJFCCustomizer( Attrib first, Attrib...rest )
     {
         this.attributes = EnumSet.of( first, rest );;
     }
@@ -94,7 +95,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
      * @param currentDirectory the currentDirectory to set
      * @return return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultConfigurator setCurrentDirectory( File currentDirectory )
+    public DefaultJFCCustomizer setCurrentDirectory( File currentDirectory )
     {
         this.currentDirectory = currentDirectory;
         return this;
@@ -115,7 +116,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
      * @param fileFilter the fileFilter to set
      * @return return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultConfigurator setFileFilter( FileFilter fileFilter )
+    public DefaultJFCCustomizer setFileFilter( FileFilter fileFilter )
     {
         this.fileFilter = fileFilter;
         return this;
@@ -125,7 +126,7 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
      * @param accessory the accessory to set
      * @return return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultConfigurator setAccessory( JComponent accessory )
+    public DefaultJFCCustomizer setAccessory( JComponent accessory )
     {
         this.accessory = accessory;
         return this;
@@ -135,11 +136,13 @@ public class DefaultConfigurator implements JFileChooserInitializerCustomize
      * @param directoryType define directory to set, ignored
      * if {@link #setCurrentDirectory(File)} defined a none
      * null File.
+     * @return return the caller. This allows for easy chaining of invocations.
      */
-    public void setDirectory(
+    public DefaultJFCCustomizer setDirectory(
             DirectoryType directoryType
             )
     {
         this.directoryType = directoryType;
+        return this;
     }
 }

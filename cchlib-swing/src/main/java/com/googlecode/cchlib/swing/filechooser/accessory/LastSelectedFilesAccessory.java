@@ -14,8 +14,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.Serializable;
-import java.util.Collection;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -54,13 +52,13 @@ public class LastSelectedFilesAccessory
     /** @serial */
     private JFileChooser    jFileChooser;
     /** @serial */
-    private Configurator    configurator;
+    private LastSelectedFilesAccessoryConfigurator    configurator;
     /** @serial */
     private ResourcesUtils resourcesUtils;
 
     public LastSelectedFilesAccessory(
             JFileChooser    jFileChooser,
-            Configurator    config
+            LastSelectedFilesAccessoryConfigurator    config
             )
     {
         this.jFileChooser = jFileChooser;
@@ -257,40 +255,6 @@ public class LastSelectedFilesAccessory
     {
         this.jFileChooser.removeActionListener( this );
         this.jFileChooser.removePropertyChangeListener( this );
-    }
-
-    /**
-     * Configuration interface for accessory
-     * {@link LastSelectedFilesAccessory}
-     *
-     * @author Claude CHOISNET
-     */
-    public interface Configurator extends Serializable
-    {
-        /**
-         * @return collection of last selected File objects
-         */
-        public Collection<File> getLastSelectedFiles();
-
-        /**
-         * @param file File to add to last selected files Collection
-         * @return true if File has been added
-         */
-        public boolean addLastSelectedFile(File file);
-
-        /**
-         * @param file File to remove to last selected files Collection
-         * @return true if File has been removed
-         */
-        public boolean removeLastSelectedFile(File file);
-
-        /**
-         * @return If true, when double-click a last selected
-         *         files, simulate approve button click.
-         *         If false just select double-click last selected
-         *         file.
-         */
-        public boolean getAutoApproveSelection();
     }
 
 }

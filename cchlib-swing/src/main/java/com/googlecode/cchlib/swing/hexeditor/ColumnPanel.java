@@ -15,16 +15,17 @@ import javax.swing.JPanel;
 class ColumnPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private HexEditorData hexEditor;
-    private HexEditorLayout layout;
+    private HexEditorModel model;
 
+    /**
+     *
+     * @param hexEditorModel
+     */
     public ColumnPanel(
-        HexEditorLayout layout,
-        HexEditorData       hexEditor
+        HexEditorModel hexEditorModel
         )
     {
-        this.hexEditor = hexEditor;
-        this.layout = layout;
+        this.model = hexEditorModel;
         this.setLayout(new BorderLayout(1,1));
     }
 
@@ -38,12 +39,13 @@ class ColumnPanel extends JPanel
     public Dimension getMinimumSize()
     {
         Dimension d=new Dimension();
-        FontMetrics fn=getFontMetrics(this.layout.getCustomFont());
+        //FontMetrics fn=getFontMetrics(this.model.getCustomFont());
+        FontMetrics fn = model.getFontMetrics();
         int h=fn.getHeight();
         int nl=1;
         d.setSize(
-            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.layout.getBorderWidth()*2)+1,
-            h*nl+(this.layout.getBorderWidth()*2)+1
+            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.model.getBorderWidth()*2)+1,
+            h*nl+(this.model.getBorderWidth()*2)+1
             );
         return d;
     }
@@ -55,15 +57,15 @@ class ColumnPanel extends JPanel
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
-        g.setFont(this.layout.getCustomFont());
+        g.setFont( this.model.getFont() );
 
         for( int n=0; n<16; n++ ) {
-            if( n==(this.hexEditor.getCursorPos()%16) ) {
-                this.layout.drawTable(g,n*3,0,2);
+            if( n==(this.model.getCursorPos()%16) ) {
+                this.model.drawTable(g,n*3,0,2);
                 }
             String s="00"+Integer.toHexString(n);
             s=s.substring(s.length()-2);
-            this.layout.printString(g,s,n*3,0);
+            this.model.printString(g,s,n*3,0);
             }
     }
 }

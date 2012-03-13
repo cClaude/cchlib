@@ -108,7 +108,7 @@ public class JFileChooserInitializer
             )
     {
         this(
-                new DefaultConfigurator( attribSet )
+                new DefaultJFCCustomizer( attribSet )
                     .setCurrentDirectory( currentDirectory )
                     .setFileFilter( fileFilter )
                 );
@@ -120,7 +120,9 @@ public class JFileChooserInitializer
      *
      * @param configurator
      */
-    public JFileChooserInitializer(JFileChooserInitializerCustomize configurator)
+    public JFileChooserInitializer(
+        JFileChooserInitializerCustomize configurator
+        )
     {
         this.configurator = configurator;
 

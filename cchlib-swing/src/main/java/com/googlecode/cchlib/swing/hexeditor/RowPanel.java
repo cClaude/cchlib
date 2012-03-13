@@ -15,16 +15,13 @@ import javax.swing.JPanel;
 class RowPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private HexEditorLayout layout;
-    private HexEditorData hexEditor;
+    private HexEditorModel model;
 
     public RowPanel(
-        HexEditorLayout layout,
-        HexEditorData hexEditor
+        HexEditorModel hexEditorModel
         )
     {
-        this.layout = layout;
-        this.hexEditor = hexEditor;
+        this.model = hexEditorModel;
         this.setLayout(new BorderLayout(1,1));
     }
 
@@ -36,12 +33,13 @@ class RowPanel extends JPanel
     public Dimension getMinimumSize()
     {
         Dimension d=new Dimension();
-        FontMetrics fn=getFontMetrics(this.layout.getCustomFont());
+        //FontMetrics fn=getFontMetrics(this.model.getCustomFont());
+        FontMetrics fn = model.getFontMetrics();
         int h=fn.getHeight();
-        int nl=this.hexEditor.getLines();
+        int nl=this.model.getDisplayLinesCount();
         d.setSize(
-            (fn.stringWidth(" ")+1)*(8)+(this.layout.getBorderWidth()*2)+1,
-            h*nl+(this.layout.getBorderWidth()*2)+1
+            (fn.stringWidth(" ")+1)*(8)+(this.model.getBorderWidth()*2)+1,
+            h*nl+(this.model.getBorderWidth()*2)+1
             );
         return d;
     }
@@ -52,19 +50,19 @@ class RowPanel extends JPanel
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
-        g.setFont(this.layout.getCustomFont());
+        g.setFont( this.model.getFont() );
 
-        int ini=this.hexEditor.getInicio();
-        final int fin=ini + this.hexEditor.getLines();
+        int ini=this.model.getIntroduction();
+        final int fin=ini + this.model.getDisplayLinesCount();
         int y=0;
 
         for(int n=ini;n<fin;n++) {
-            if(n==(this.hexEditor.getCursorPos()/16)) {
-                this.layout.drawTable(g,0,y,8);
+            if(n==(this.model.getCursorPos()/16)) {
+                this.model.drawTable(g,0,y,8);
                 }
             String s="0000000000000"+Integer.toHexString(n);
             s=s.substring(s.length()-8);
-            this.layout.printString(g,s,0,y++);
+            this.model.printString(g,s,0,y++);
         }
     }
 }
