@@ -7,8 +7,6 @@ import java.util.Collection;
 /**
  * Configuration interface for accessory
  * {@link LastSelectedFilesAccessory}
- *
- * @author Claude CHOISNET
  */
 public interface LastSelectedFilesAccessoryConfigurator extends Serializable
 {

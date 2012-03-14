@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
@@ -8,21 +7,20 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Annotation to specify how a Field should be localized
- * 
+ *
  * @see AutoI18n
- * @author Claude CHOISNET
  */
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-public @interface I18n 
+public @interface I18n
 {
     /**
      * Must have two methods, with theses signatures:<br/>
      * public void set'methodSuffixName'(String)
      * <br/>
      * public String get'methodSuffixName'()
-     * 
+     *
      * @return method name, if not define ("")
      *         use default process.
      */

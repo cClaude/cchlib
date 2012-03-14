@@ -1,6 +1,3 @@
-/*
-**
-*/
 package alpha.cx.ath.choisnet.utils.tree;
 
 import java.util.Iterator;
@@ -9,15 +6,14 @@ import java.util.Iterator;
  * Node implementation for {@link NamedTree}.
  * <p>
  * Implementation of N-ary tree in binary tree, see
- * {@link NamedTree} for more details on 
- * implementation 
+ * {@link NamedTree} for more details on
+ * implementation
  * </p>
  *
- * @author Claude CHOISNET
  * @param <T> content type
  * @see NamedTree
  */
-public interface NamedTreeNode<T> 
+public interface NamedTreeNode<T>
     extends BinaryTreeNode<T>,
             Iterable<NamedTreeNode<T>>
 {
@@ -44,13 +40,13 @@ public interface NamedTreeNode<T>
      * @return true if this node as no child.
      */
     public boolean isLeaf();
-    
+
     /**
      * Return an unmodifiable iterator of child
      * nodes for this node.
      */
     @Override
     public Iterator<NamedTreeNode<T>> iterator();
-    
+
     //public void addChild(NamedTreeNode<T> node);
 }

@@ -3,8 +3,7 @@ package cx.ath.choisnet.sql.mysql;
 import cx.ath.choisnet.util.ExternalAppException;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  */
 public class MySQLAdminException extends ExternalAppException
 {

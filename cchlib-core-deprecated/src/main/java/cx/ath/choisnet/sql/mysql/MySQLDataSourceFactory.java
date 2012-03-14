@@ -2,13 +2,12 @@ package cx.ath.choisnet.sql.mysql;
 
 import java.io.PrintWriter;
 import javax.sql.DataSource;
-import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.sql.DataSourceFactory;
 
 /**
- * 
+ * @deprecated no replacement
  */
-@ToDo
+@Deprecated
 public class MySQLDataSourceFactory
 {
     private MySQLDataSourceFactory()

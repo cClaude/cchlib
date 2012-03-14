@@ -6,14 +6,11 @@ import java.util.NoSuchElementException;
 
 /**
  *
- * @author Claude CHOISNET
- * @param <T> 
- *
  */
 @Deprecated
 public class EnumerationIterator<T>
     implements Enumeration<T>,
-               Iterator<T>, 
+               Iterator<T>,
                Iterable<T>
 {
     private Iterator<T> iterator;

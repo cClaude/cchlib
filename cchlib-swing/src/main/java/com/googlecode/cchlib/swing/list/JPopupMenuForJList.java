@@ -15,7 +15,6 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * JPopupMenuForJTable is a context menu builder
  * for {@link JList}.
  *
- * @author Claude CHOISNET
  * <p>
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html

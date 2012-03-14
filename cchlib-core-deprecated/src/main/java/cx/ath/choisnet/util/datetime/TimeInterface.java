@@ -3,7 +3,6 @@ package cx.ath.choisnet.util.datetime;
 /**
  * TODOC
  *
- * @author Claude CHOISNET
  */
 public interface TimeInterface
     extends DateTimeInterface, Comparable<TimeInterface>

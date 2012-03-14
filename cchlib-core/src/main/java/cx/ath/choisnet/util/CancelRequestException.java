@@ -1,13 +1,8 @@
-/**
- * 
- */
 package cx.ath.choisnet.util;
 
 /**
  * Exception use to identify a process stopped by
  * a cancel request.
- * 
- * @author Claude CHOISNET
  */
 public class CancelRequestException extends Exception
 {

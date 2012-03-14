@@ -1,14 +1,10 @@
-/**
- * 
- */
 package cx.ath.choisnet.util;
 
 /**
  * @see MultiProperties
- * @author Claude CHOISNET
  */
-public class RootPropertiesDoesNotContainsKey 
-    extends MultiPropertiesException 
+public class RootPropertiesDoesNotContainsKey
+    extends MultiPropertiesException
 {
     private static final long serialVersionUID = 1L;
 

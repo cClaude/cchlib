@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.servlet;
 
 import java.io.IOException;
@@ -11,7 +8,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * Abstract class that extend {@link HttpServletResponseWrapper} and
  * implement {@link ChainingHttpServletResponse}.
  *
- * @author Claude CHOISNET
  */
 public abstract class ChainingHttpServletResponseWrapper
     extends HttpServletResponseWrapper

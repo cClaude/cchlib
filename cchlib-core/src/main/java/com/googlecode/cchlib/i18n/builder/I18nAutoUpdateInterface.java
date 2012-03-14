@@ -1,12 +1,10 @@
 package com.googlecode.cchlib.i18n.builder;
-//package cx.ath.choisnet.i18n.builder;
 
 import java.util.Locale;
 import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * @see I18nPropertyResourceBundleAutoUpdate
- * @author Claude CHOISNET
  */
 public interface I18nAutoUpdateInterface
     extends I18nInterface

@@ -18,7 +18,6 @@ import cx.ath.choisnet.util.FormattedProperties;
 
 /**
  *
- * @author Claude CHOISNET
  */
 class LoadDialog
     extends LoadDialogWB

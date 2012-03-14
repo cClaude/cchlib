@@ -7,7 +7,6 @@ import java.util.SortedMap;
 /**
  * TODOC
  *
- * @author Claude CHOISNET
  * @param <K> Type of key
  * @param <V> Type of value
  */
@@ -20,7 +19,7 @@ public class SortedMapIterator<K,V>
 
     /**
      * TODOC
-     * 
+     *
      * @param sortedMap
      */
     public SortedMapIterator(
@@ -29,17 +28,17 @@ public class SortedMapIterator<K,V>
     {
         initialSortedMap = sortedMap;
         prevKey = null;
-        iter = new ComputableIterator<K>() 
+        iter = new ComputableIterator<K>()
             {
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
                 public K computeNext() throws NoSuchElementException
                 {
                     K key = currentSortedMap.lastKey();
-                
+
                     if(key == null) {
                         throw new NoSuchElementException();
-                    } 
+                    }
                     else {
                         currentSortedMap = currentSortedMap.headMap(key);
                         return key;
@@ -51,7 +50,7 @@ public class SortedMapIterator<K,V>
     /**
      * Returns true if the iteration has more elements.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     public boolean hasNext()
@@ -59,8 +58,8 @@ public class SortedMapIterator<K,V>
         return iter.hasNext();
     }
 
-    /** 
-     * Returns the next element in the iteration. 
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -94,10 +93,10 @@ public class SortedMapIterator<K,V>
 
     /**
      * Removes from the underlying Map the last element
-     * returned by the iterator. 
-     * 
+     * returned by the iterator.
+     *
      * @throws UnsupportedOperationException if the remove
-     *         operation is not supported by current Iterator. 
+     *         operation is not supported by current Iterator.
      * @throws IllegalStateException if the next method has
      *         not yet been called, or the remove method has
      *         already been called after the last call to the
@@ -107,14 +106,14 @@ public class SortedMapIterator<K,V>
     {
         if(prevKey == null) {
             throw new IllegalStateException();
-        } 
+        }
         else {
             initialSortedMap.remove(prevKey);
         }
     }
 
 //    /**
-//     * Returns an iterator over a set of elements of type T. 
+//     * Returns an iterator over a set of elements of type T.
 //     * @return this Iterator
 //     */
 //    public Iterator<V> iterator()

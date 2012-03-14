@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -27,7 +23,6 @@ import java.util.Arrays;
  * - UInteger: 8 bits
  * - String: depends of encoding
  * </pre>
- * @author Claude CHOISNET
  * @see BytesAccessComparator
  */
 public abstract class BytesAccess implements Cloneable

@@ -20,9 +20,9 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     private ArrayList<AutoI18nTypes.Type> types;
 
     /**
-     * TODC
+     * TODOC
      *
-     * @param <T>
+     * @param <T> TODOC
      */
     public abstract class AbstractType<T> implements AutoI18nTypes.Type
     {

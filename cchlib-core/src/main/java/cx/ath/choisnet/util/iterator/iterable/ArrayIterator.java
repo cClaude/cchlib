@@ -8,8 +8,7 @@ import java.util.Iterator;
  * <br/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
- * @author Claude CHOISNET
- * @param <T>
+ * @param <T> content type
  * @see cx.ath.choisnet.util.iterator.SingletonIterator
  */
 public class ArrayIterator<T>

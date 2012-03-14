@@ -2,8 +2,6 @@ package cx.ath.choisnet.util.datetime;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 public class BasicDateTimeNegativeValueException extends BasicDateTimeException
 {

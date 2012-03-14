@@ -1,16 +1,12 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.utils.tree;
 
 /**
  * Read/write description for {@link BinaryTree} nodes.
- * 
- * @author Claude CHOISNET
+ *
  * @param <T> content type
  */
-public interface RWBinaryTreeNode<T> 
-    extends BinaryTreeNode<T> 
+public interface RWBinaryTreeNode<T>
+    extends BinaryTreeNode<T>
 {
     /**
      * Set new data for this node

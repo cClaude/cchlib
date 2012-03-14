@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 /**
- * @author Claude CHOISNET
+ *
  */
 public abstract class LoadDialogWB extends JDialog
 {

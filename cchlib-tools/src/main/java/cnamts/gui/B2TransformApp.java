@@ -7,7 +7,6 @@ import com.googlecode.cchlib.swing.DialogHelper;
 
 /**
  *
- * @author Claude
  */
 public class B2TransformApp
     extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>

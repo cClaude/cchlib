@@ -6,8 +6,7 @@ import java.util.Set;
 import cx.ath.choisnet.ToDo;
 
 /**
- *
- * @author Claude
+ * TODOC
  *
  * @param <KS>
  * @param <KR>
@@ -148,7 +147,7 @@ public class MapKeyWrapper<KS,KR,V>
 
     /**
      *
-     * @author Claude
+     *
      *
      * @param <EK0>
      * @param <EK1>

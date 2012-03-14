@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author Claude CHOISNET
  */
 @Deprecated
 public class DuplicateLayer implements java.io.Serializable
@@ -93,12 +92,12 @@ public class DuplicateLayer implements java.io.Serializable
     public boolean isDeletable(File file)
     {
         for(File f:filesToKeep) {
-            
+
             if(f.equals(file)) {
                 return false;
             }
         }
-        
+
         String path = file.getPath();
 
         for(Pattern p:filesToKeepRegExp) {
@@ -109,8 +108,8 @@ public class DuplicateLayer implements java.io.Serializable
         return true;
     }
 
-    public Collection<File> select( 
-            FileFilter      selectFileFilter, 
+    public Collection<File> select(
+            FileFilter      selectFileFilter,
             EnumSet<Params> params
             )
     {
@@ -134,11 +133,11 @@ public class DuplicateLayer implements java.io.Serializable
                 }
 
                 File f = i1$.next();
-                
+
                 if(selectFileFilter.accept(f) && isDeletable(f)) {
                     currentSelectList.add(f);
                 }
-                
+
             } while(true);
 
             int size = currentSelectList.size();
@@ -159,8 +158,8 @@ public class DuplicateLayer implements java.io.Serializable
         Collection<File> result = new ArrayList<File>();
 
         for(Collection<File> files:getDuplicateFilesList() ) {
-            result.addAll( 
-                    collectionFileFilter.apply( files ) 
+            result.addAll(
+                    collectionFileFilter.apply( files )
                     );
         }
         return result;

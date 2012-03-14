@@ -5,10 +5,9 @@ import java.util.Map;
 
 /**
  * TODOC
- * 
- * @author Claude CHOISNET
+ *
  */
-public interface SystemEnvironmentVar 
+public interface SystemEnvironmentVar
 {
     /**
      * Returns a unmodifiable Map of all environments String.
@@ -23,7 +22,7 @@ public interface SystemEnvironmentVar
     public void setVar(String name, String value);
     public Object getVarObject(Object key);
     public void setVarObject(Object key, Object value);
-    
+
     /**
      * Delete environment variable (Optional)
      *

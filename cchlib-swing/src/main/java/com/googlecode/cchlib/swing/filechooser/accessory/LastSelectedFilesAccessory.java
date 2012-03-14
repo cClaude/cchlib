@@ -30,7 +30,6 @@ import javax.swing.JScrollPane;
  * <p>
  * To unregister this component use {@link #unregisterForce()}
  * </p>
- * @author Claude CHOISNET
  */
 public class LastSelectedFilesAccessory
     extends JPanel

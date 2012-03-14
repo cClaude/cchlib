@@ -34,7 +34,6 @@ import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 
 /**
  *
- * @author Claude CHOISNET
  */
 // not public
 class CompareResourcesBundleFrame

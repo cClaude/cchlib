@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.annotation.Documented;
@@ -12,9 +9,6 @@ import java.lang.annotation.ElementType;
 
 /**
  * Introspection Values for integer
- * 
- * @author Claude CHOISNET
- *
  */
 @Documented
 @Inherited

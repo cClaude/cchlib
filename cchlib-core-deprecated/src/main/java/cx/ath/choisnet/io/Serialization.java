@@ -8,9 +8,6 @@ import java.io.ObjectOutputStream;
 
 /**
  * Use {@link SerializableHelper} instead
- * 
- * @author Claude CHOISNET
- *
  */
 @Deprecated
 public class Serialization
@@ -21,9 +18,9 @@ public class Serialization
 
     }
 
-    /** 
+    /**
      * use {@link SerializableHelper#clone(java.io.Serializable, Class)}
-     * 
+     *
      * @param <T>
      * @param anObject
      * @param clazz

@@ -5,10 +5,10 @@ import java.util.NoSuchElementException;
 
 /**
  * {@link EmptyEnumeration} is an {@link Enumeration} with no element.
- * @param <E> 
+ * @param <E>  content type
  */
 public class EmptyEnumeration<E>
-    implements Enumeration<E> 
+    implements Enumeration<E>
 {
     /**
      * Create a {@link EmptyEnumeration}
@@ -18,8 +18,8 @@ public class EmptyEnumeration<E>
     }
 
     /**
-     * Tests if this enumeration contains more elements. 
-     * 
+     * Tests if this enumeration contains more elements.
+     *
      * @return always false
      */
     @Override
@@ -31,7 +31,7 @@ public class EmptyEnumeration<E>
     /**
      * Always generate NoSuchElementException according
      * to Enumeration specifications.
-     * 
+     *
      * @throws NoSuchElementException
      */
     @Override

@@ -4,9 +4,6 @@ import org.w3c.dom.Document;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
- * @version $Id: $
  */
 public interface XMLParser
 {

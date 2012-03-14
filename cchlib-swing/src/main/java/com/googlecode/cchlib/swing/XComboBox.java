@@ -33,7 +33,6 @@ import javax.swing.event.ListDataEvent;
  * to provide your own rules to delete oldest items.
  * </P>
  *
- * @author Claude CHOISNET
  * @since 4.1.6
  */
 public class XComboBox<E> extends JComboBox<E>

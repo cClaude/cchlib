@@ -15,7 +15,6 @@ import cx.ath.choisnet.ToDo;
  * check its stability, it could be subject to significant
  * change.
  * </p>
- * @author Claude CHOISNET
  */
 @ToDo
 // TODO: make a TestCase !

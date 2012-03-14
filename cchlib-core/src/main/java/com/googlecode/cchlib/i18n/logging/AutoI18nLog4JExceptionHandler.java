@@ -11,8 +11,6 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using Log4J to trace
  * Localization exceptions.
- *
- * @author Claude CHOISNET
  */
 public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler

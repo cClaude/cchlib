@@ -5,9 +5,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Abstract class for create Iterator
- *
- * @author Claude CHOISNET
- * @param <T>
  */
 public abstract class ComputableIterator<T>
     implements Iterator<T>

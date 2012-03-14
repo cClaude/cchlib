@@ -5,8 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public class StreamCopyThread extends Thread

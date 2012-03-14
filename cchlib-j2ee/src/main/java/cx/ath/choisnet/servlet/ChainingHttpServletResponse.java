@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
  * Add possibility to HttpServletResponse to commit HttpServletResponse
  * after filter chaining
  *
- * @author Claude CHOISNET
  */
 public interface ChainingHttpServletResponse extends HttpServletResponse
 {

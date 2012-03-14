@@ -15,8 +15,6 @@ import javax.swing.text.PlainDocument;
  * change background color of this component if current
  * text is not a valid {@link java.util.regex.Pattern}.
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class PatternDocument extends PlainDocument
 {

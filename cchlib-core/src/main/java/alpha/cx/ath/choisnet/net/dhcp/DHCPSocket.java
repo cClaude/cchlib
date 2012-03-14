@@ -10,7 +10,6 @@ import cx.ath.choisnet.ToDo;
 
 /**
  *
- * @author Claude CHOISNET
  *
  */
 @ToDo

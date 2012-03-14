@@ -3,8 +3,6 @@ package cx.ath.choisnet.xml;
 /**
  * TODOC
  *
- * @author Claude CHOISNET
- * @version $Id: $
  */
 public class XMLParserException extends Exception
 {

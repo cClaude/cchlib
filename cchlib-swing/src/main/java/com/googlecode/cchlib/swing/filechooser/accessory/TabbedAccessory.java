@@ -13,8 +13,6 @@ import javax.swing.event.ChangeListener;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public class TabbedAccessory
     extends JTabbedPane

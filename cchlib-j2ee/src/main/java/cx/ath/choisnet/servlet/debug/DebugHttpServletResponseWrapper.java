@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
  * a Servlet. This class implements the Wrapper or Decorator pattern.
  * Methods default to calling through to the wrapped response object.
  *
- * @author Claude CHOISNET
  * @see javax.servlet.http.HttpServletResponseWrapper
  */
 public class DebugHttpServletResponseWrapper

@@ -8,9 +8,6 @@ import java.util.List;
 
 /**
  *
- * @author Claude CHOISNET
- * @param <T> 
- *
  */
 @Deprecated
 public class ArrayCollection<T> extends AbstractCollection<T>

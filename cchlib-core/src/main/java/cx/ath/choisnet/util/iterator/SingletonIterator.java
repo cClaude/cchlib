@@ -10,8 +10,7 @@ import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
  * <BR/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
- * @author Claude CHOISNET
- * @param <T>
+ * @param <T> content type
  */
 public class SingletonIterator<T>
     implements Iterator<T>, Iterable<T>, IterableIterator<T>//, java.io.Serializable
@@ -24,7 +23,7 @@ public class SingletonIterator<T>
 
     /**
      * Singleton entry
-     * 
+     *
      * @param item unique item of this Iterator
      */
     public SingletonIterator(T item)
@@ -32,7 +31,7 @@ public class SingletonIterator<T>
         this.item = item;
         this.hasNext = true;
     }
-    
+
     /**
      * Returns true if the iteration has more elements.
      * @return true if the iteration has more elements.
@@ -42,8 +41,8 @@ public class SingletonIterator<T>
         return hasNext;
     }
 
-    /** 
-     * Returns the next element in the iteration. 
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -61,7 +60,7 @@ public class SingletonIterator<T>
 
     /**
      * Unsupported Operation
-     * 
+     *
      * @throws UnsupportedOperationException
      * @throws IllegalStateException
      */
@@ -78,7 +77,7 @@ public class SingletonIterator<T>
     }
 
     /**
-     * Returns an iterator over a set of elements of type T. 
+     * Returns an iterator over a set of elements of type T.
      * @return this Iterator
      */
     public Iterator<T> iterator()

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class MyImpl implements MyInterface, Serializable, MyInterfaceSerializable
 {

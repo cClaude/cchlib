@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author Claude CHOISNET
  *
  */
 public class DHCPSimpleClient extends Thread

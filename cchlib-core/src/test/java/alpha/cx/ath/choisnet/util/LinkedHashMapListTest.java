@@ -4,15 +4,14 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 /**
- * 
- * @author Claude CHOISNET
+ *
  */
 public class LinkedHashMapListTest extends TestCase
 {
 //    private final static String[] _POPULATE = {
-//        
+//
 //    };
-    
+
     public void test_StringString()
     {
         LinkedHashMapList<String,String> hms  = new LinkedHashMapList<String,String>();
@@ -27,7 +26,7 @@ public class LinkedHashMapListTest extends TestCase
         assertEquals(keySize,hms.keySize());
         assertEquals(keySize,hms.valuesSize());
         assertEquals(keySize,sizeOfHashMapSet(hms));
-        
+
         // Add same keys-values, SIZE *= 2
         for(int i=0;i<keySize;i++) {
             hms.add(
@@ -38,7 +37,7 @@ public class LinkedHashMapListTest extends TestCase
         assertEquals(keySize,hms.keySize());
         assertEquals(keySize * 2,hms.valuesSize());
         assertEquals(keySize*2,sizeOfHashMapSet(hms));
-        
+
         // Add same keys, but with different values
         for(int i=0;i<keySize;i++) {
             hms.add(
@@ -50,13 +49,13 @@ public class LinkedHashMapListTest extends TestCase
         assertEquals(keySize*3,hms.valuesSize());
         assertEquals(keySize*3,sizeOfHashMapSet(hms));
     }
-    
+
 
     private int sizeOfHashMapSet(LinkedHashMapList<?,?> hms)
     {
         int         size = 0;
         Iterator<?> iter = hms.iterator();
-       
+
         while(iter.hasNext()) {
             iter.next();
             size++;
@@ -64,5 +63,5 @@ public class LinkedHashMapListTest extends TestCase
         return size;
     }
 
-    
+
 }

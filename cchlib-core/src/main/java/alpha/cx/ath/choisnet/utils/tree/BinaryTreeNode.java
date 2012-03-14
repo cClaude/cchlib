@@ -1,14 +1,10 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.utils.tree;
 
 import java.io.Serializable;
 
 /**
  * Minimum description for {@link BinaryTree} nodes.
- * 
- * @author Claude CHOISNET
+ *
  * @param <T> content type
  */
 public interface BinaryTreeNode<T> extends Serializable

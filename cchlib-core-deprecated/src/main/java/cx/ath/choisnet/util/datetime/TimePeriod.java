@@ -5,8 +5,6 @@ import java.io.ObjectOutputStream;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 public class TimePeriod
     implements java.io.Serializable, Cloneable, Comparable<TimePeriod>

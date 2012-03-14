@@ -7,9 +7,6 @@ import org.xml.sax.SAXParseException;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
- * @version $Id: $
  */
 public class SAXErrorHandlerImpl implements ErrorHandler
 {

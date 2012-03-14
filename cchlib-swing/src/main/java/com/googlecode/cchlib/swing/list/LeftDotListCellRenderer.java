@@ -10,8 +10,6 @@ import javax.swing.JViewport;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public class LeftDotListCellRenderer extends DefaultListCellRenderer
 {
@@ -22,9 +20,9 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
     /**
      * Create a LeftDotListCellRenderer using JList or JScrollPane
      * to compute width of JLis
-     * 
+     *
      * @param jList	JList to customize.
-     * @param useParentJScrollPane if true, look for parent JScrollPane 
+     * @param useParentJScrollPane if true, look for parent JScrollPane
      * that view port is the giving jList to use to compute text size. If
      * false or if JScrollPane is not found use JList to compute that size.
      */
@@ -58,7 +56,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
     /**
      * Create a LeftDotListCellRenderer using giving JScrollPane to
      * compute size of JList
-     * 
+     *
      * @param jScrollPane JScrollPane to use to compute text size.
      */
     public LeftDotListCellRenderer( final JScrollPane jScrollPane )
@@ -78,7 +76,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         //spy();
-        
+
         final int			availableWidth = this.container.getWidth();
         final String 		text 		= getText();
         final FontMetrics 	fm 			= getFontMetrics( getFont() );
@@ -105,7 +103,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
         // Add full text on ToolTip
         setToolTipText( text );
-        
+
         return this;
     }
 

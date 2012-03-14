@@ -10,7 +10,6 @@ import cx.ath.choisnet.util.Wrappable;
  * or an other Collection<T>, each object is transformed
  * before returning using giving wrapper.
  *
- * @author Claude CHOISNET
  * @param <T> Source type
  * @param <O> Result type
  */
@@ -24,7 +23,7 @@ public class IteratorWrapper<T,O>
      * Build a Iterator<O> based on an other Iterator<T>,
      * each object is transformed before returning using
      * giving wrapper.
-     * 
+     *
      * @param iterator Initial Iterator
      * @param wrapper  Wrapper to use to transform current
      *                 T Object to O Object.
@@ -42,13 +41,13 @@ public class IteratorWrapper<T,O>
      * Build a Iterator<O> based on an other Collection<T>,
      * each object is transformed before returning using
      * giving wrapper.
-     * 
+     *
      * @param c        Collection of object T
      * @param wrapper  Wrapper to use to transform current
      *                 T Object to O Object.
      */
     public IteratorWrapper(
-            Collection<T>   c, 
+            Collection<T>   c,
             Wrappable<T,O>  wrapper
             )
     {
@@ -58,7 +57,7 @@ public class IteratorWrapper<T,O>
     /**
      * Returns true if the iteration has more elements.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     @Override
@@ -67,8 +66,8 @@ public class IteratorWrapper<T,O>
         return iterator.hasNext();
     }
 
-    /** 
-     * Returns the next element in the iteration. 
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -80,10 +79,10 @@ public class IteratorWrapper<T,O>
 
     /**
      * Removes from the underlying collection the last element
-     * returned by the iterator. 
-     * 
+     * returned by the iterator.
+     *
      * @throws UnsupportedOperationException if the remove
-     *         operation is not supported by current Iterator. 
+     *         operation is not supported by current Iterator.
      * @throws IllegalStateException if the next method has
      *         not yet been called, or the remove method has
      *         already been called after the last call to the
@@ -96,7 +95,7 @@ public class IteratorWrapper<T,O>
     }
 
 //    /**
-//     * Returns an iterator over a set of elements of type O. 
+//     * Returns an iterator over a set of elements of type O.
 //     * @return this Iterator
 //     */
 //    @Override

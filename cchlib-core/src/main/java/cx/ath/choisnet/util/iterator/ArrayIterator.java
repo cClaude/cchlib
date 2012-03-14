@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  * Wrap an Iterator from an existing Array, or
  * from giving elements.
  *
- * @author Claude CHOISNET
- * @param <T>
+ * @param <T> content type
  * @see SingletonIterator
  * @see cx.ath.choisnet.util.iterator.iterable.ArrayIterator
  */
@@ -37,10 +36,10 @@ public class ArrayIterator<T>
 
         if(array == null) {
             this.len = 0;
-        }
+        	}
         else {
             this.len = this.array.length;
-        }
+        	}
     }
 
     /**
@@ -177,7 +176,7 @@ public class ArrayIterator<T>
      * But since Java does not allow to build an array from
      * Genetics, this solution is cleaner.
      *
-     * @param <T>
+     * @param <T> content type
      * @param entries
      * @return an ArrayIterator
      */

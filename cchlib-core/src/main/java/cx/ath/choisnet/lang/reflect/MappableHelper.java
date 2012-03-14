@@ -15,8 +15,6 @@ import cx.ath.choisnet.ToDo;
  * change.
  * </p>
  * Code review in progress.
- *
- * @author Claude CHOISNET
  */
 @ToDo
 public class MappableHelper

@@ -1,16 +1,15 @@
 /**
- * 
+ *
  */
 package alpha.cx.ath.choisnet.net;
 
 /**
- * 
- * @author Claude CHOISNET
+ *
  */
-public class PingerHostException extends PingerException 
+public class PingerHostException extends PingerException
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private String host;
@@ -18,7 +17,7 @@ public class PingerHostException extends PingerException
     public PingerHostException( String message, Throwable cause, String host )
     {
         super( message, cause );
-        
+
         this.host = host;
     }
 

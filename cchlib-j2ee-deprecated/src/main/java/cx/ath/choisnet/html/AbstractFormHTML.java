@@ -3,8 +3,6 @@ package cx.ath.choisnet.html;
 import javax.servlet.ServletRequest;
 
 /**
- * 
- * @author Claude
  *
  */
 public interface AbstractFormHTML

@@ -6,8 +6,6 @@ import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 /**
  * {@link AutoI18nEventHandler}
  * to trace Localization events.
- *
- * @author Claude CHOISNET
  */
 public abstract class AbstractAutoI18nLoggingEventHandler
     implements AutoI18nEventHandler

@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
@@ -23,9 +19,8 @@ import java.lang.reflect.Method;
  * </pre>
  * </p>
  *
- * @author Claude CHOISNET
  *
- * @param <O>
+ * @param <O> TODOC
  * @see IVInt
  * @see IVLong
  */

@@ -1,13 +1,10 @@
-/**
- *
- */
 package alpha.cx.ath.choisnet.net.testcase;
 
 import org.apache.log4j.Logger;
 import junit.framework.TestCase;
 
 /**
- * @author Claude CHOISNET
+ *
  */
 public class PingerTest extends TestCase
 {
@@ -15,8 +12,8 @@ public class PingerTest extends TestCase
 /*
     private static String localhostIp = "127.0.0.1";
     private static String localhost = "localhost";
-*/    
-    public void test_fake() 
+*/
+    public void test_fake()
     {
         slogger.info( "PingerTest disabled" );
     }
@@ -59,7 +56,7 @@ public class PingerTest extends TestCase
     {
         slogger.info( "try ping on [" + host + "]" );
         boolean result;
-        
+
         try {
             result = Pinger.ping( host, Pinger.DEFAULT_TIMEOUT );
 
@@ -85,7 +82,7 @@ public class PingerTest extends TestCase
     {
         tst_ping( localhost );
     }*/
-    
+
 //    public void test_ping_externHost()
 //        throws UnknownHostException, IOException
 //    {

@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -10,8 +9,6 @@ import com.googlecode.cchlib.i18n.builder.I18nAutoUpdateInterface;
 /**
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nInterface}
- *
- * @author Claude CHOISNET
  */
 public class I18nSimpleResourceBundle
     extends I18nResourceBundle

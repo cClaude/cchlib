@@ -10,8 +10,6 @@ import junit.framework.TestCase;
 
 /**
  * TestCase
- * 
- * @author Claude CHOISNET
  *
  */
 public class ArrayIteratorTest extends TestCase
@@ -32,15 +30,15 @@ public class ArrayIteratorTest extends TestCase
     {
         ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT);
         int                    count = 0;
-        
+
         while( iter.hasNext() ) {
             iter.next();
             count++;
         }
-        
+
         assertEquals("Not same size !", ARRAY_INT.length, count);
     }
-    
+
     public void test2()
     {
         final int offset = 2;
@@ -48,21 +46,21 @@ public class ArrayIteratorTest extends TestCase
         ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
         Integer                firstValue = null;
-        
+
         while( iter.hasNext() ) {
             int v = iter.next();
-            
+
             if( firstValue == null ) {
                 firstValue = v;
             }
-            
+
             count++;
         }
-        
+
         assertEquals("bad size !", len, count);
         assertEquals("bad first value !", ARRAY_INT[offset], firstValue);
     }
-    
+
     public void test3()
     {
         final int offset = 2;
@@ -74,17 +72,17 @@ public class ArrayIteratorTest extends TestCase
             iter.next();
             count++;
         }
-        
+
         assertEquals("bad size !", len, count);
     }
-    
+
     public void testBadLen()
     {
         final int offset = 2;
         final int len    = ARRAY_INT.length - offset + 1;
         ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
-        
+
         try {
             while( iter.hasNext() ) {
                 iter.next();
@@ -95,10 +93,10 @@ public class ArrayIteratorTest extends TestCase
         catch( NoSuchElementException ok ) {
             //ok
         }
-        
+
         assertEquals("bad size !", ARRAY_INT.length - offset, count);
     }
-    
+
     public void test_BuildFromItems()
     {
         test_BuildFromItems(Integer.class,ARRAY_INT);
@@ -116,7 +114,7 @@ public class ArrayIteratorTest extends TestCase
         iter = new ArrayIterator<T>(clazz, items[0], items[1], items[2]);
         test_BuildFromItems( clazz, iter, 3 );
     }
-    
+
     public <T> void test_BuildFromItems( Class<T> clazz, Iterator<T> iter, int xCount)
     {
         int count = 0;
@@ -128,18 +126,18 @@ public class ArrayIteratorTest extends TestCase
 
             assertTrue("Type look bad!", clazz.isAssignableFrom( item.getClass() ) );
         }
-        
+
         assertEquals( "Bad size !", xCount, count);
     }
 
     private static List<String> buildList(int v)
     {
         List<String> lst = new ArrayList<String>(v);
-        
+
         for( int i = 0;i<v;i++) {
             lst.add( Integer.toString( i ) );
         }
-        
+
         return lst;
     }
 }

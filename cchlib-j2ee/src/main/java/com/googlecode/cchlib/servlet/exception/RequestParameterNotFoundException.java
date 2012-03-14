@@ -1,13 +1,8 @@
-/**
- *
- */
 package com.googlecode.cchlib.servlet.exception;
 
 
-
 /**
  *
- * @author Claude CHOISNET
  */
 public class RequestParameterNotFoundException extends ServletActionException
 {

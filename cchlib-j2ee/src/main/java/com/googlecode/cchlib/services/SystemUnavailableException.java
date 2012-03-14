@@ -1,11 +1,8 @@
-/**
- *
- */
 package com.googlecode.cchlib.services;
 
 /**
  *
- * @author Claude CHOISNET
+ *
  */
 public class SystemUnavailableException extends Exception
 {

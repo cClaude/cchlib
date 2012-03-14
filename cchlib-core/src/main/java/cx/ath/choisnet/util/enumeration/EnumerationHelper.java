@@ -11,7 +11,6 @@ import cx.ath.choisnet.util.iterator.IteratorHelper;
 /**
  * Providing other view for Enumerations
  *
- * @author Claude CHOISNET
  * @see IteratorHelper
  * @see ArrayHelper#toEnumeration(Object[])
  * @see ArrayHelper#toEnumeration(Object[], int, int)
@@ -24,15 +23,15 @@ public class EnumerationHelper
 
     /**
      * Create an empty Enumeration
-     * 
+     *
      * @param <T> type content
-     * @return an empty Enumeration 
+     * @return an empty Enumeration
      */
     public static <T> Enumeration<T> empty()
     {
         return new EmptyEnumeration<T>();
-/*        
-        return new Enumeration<T>() 
+/*
+        return new Enumeration<T>()
         {
             public boolean hasMoreElements()
             {
@@ -47,20 +46,20 @@ public class EnumerationHelper
 */
     }
 
-    
+
     /**
      * Create an Enumeration using (and consuming) an other Enumeration,
      * and changing type.
      * @param <T> source type content
      * @param <O> result type
-     * @param enumeration 
+     * @param enumeration
      * @return an Enumeration view for this enumeration
      */
     public static <T extends Wrappable<T,O>,O> Enumeration<O> toEnumeration(
             final Enumeration<T> enumeration
             )
     {
-        return new Enumeration<O>() 
+        return new Enumeration<O>()
         {
             public boolean hasMoreElements()
             {
@@ -81,8 +80,8 @@ public class EnumerationHelper
      * and changing type using wrapper.
      * @param <T> source type content
      * @param <O> result type
-     * @param enumeration 
-     * @param wrapper 
+     * @param enumeration
+     * @param wrapper
      * @return an Enumeration view for this enumeration
      */
     public static <T,O> Enumeration<O> toEnumeration(
@@ -90,7 +89,7 @@ public class EnumerationHelper
             final Wrappable<T,O> wrapper
             )
     {
-        return new Enumeration<O>() 
+        return new Enumeration<O>()
         {
             public boolean hasMoreElements()
             {
@@ -103,7 +102,7 @@ public class EnumerationHelper
             }
         };
     }
-    
+
 //    /**
 //     * @Deprecated use wrapper !
 //     * @param <T>
@@ -146,7 +145,7 @@ public class EnumerationHelper
 //            return EnumerationHelper.toEnumeration();
 //            }
 //        else {
-//            return new Enumeration<O>() 
+//            return new Enumeration<O>()
 //            {
 //                public boolean hasMoreElements()
 //                {
@@ -161,7 +160,7 @@ public class EnumerationHelper
 //            };
 //        }
 //    }
-    
+
     /**
      * Wrap an enumeration to respond has an Iterator
      * @param enumeration enumeration to wrap
@@ -170,9 +169,9 @@ public class EnumerationHelper
      * @deprecated use EnumerationIterator
      * @see EnumerationIterator
      */
-    public static <T> Iterator<T> toIterator( 
-            final Enumeration<T> enumeration 
-            ) 
+    public static <T> Iterator<T> toIterator(
+            final Enumeration<T> enumeration
+            )
     {
         return new EnumerationIterator<T>(enumeration);
 /*
@@ -194,6 +193,6 @@ public class EnumerationHelper
                 throw new UnsupportedOperationException();
             }
         };
-*/        
+*/
     }
 }

@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 
 /**
  *
- * @author Claude CHOISNET
  *
  */
 public class DHCPOptionEntry

@@ -17,16 +17,12 @@ import org.xml.sax.SAXException;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public class XMLParserDOMImpl
     implements XMLParser
 {
     /**
      * Help to setup configuration for {@link DocumentBuilderFactory}
-     *
-     * @author Claude CHOISNET
      */
     public enum Attributs {
         /**
@@ -91,7 +87,7 @@ public class XMLParserDOMImpl
 
     /**
      * TODOC
-     * 
+     *
      * @param file
      * @param errorHandler
      * @param attributes

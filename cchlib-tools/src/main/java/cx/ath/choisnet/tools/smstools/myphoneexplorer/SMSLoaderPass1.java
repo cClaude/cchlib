@@ -11,7 +11,7 @@ import cx.ath.choisnet.tools.smstools.myphoneexplorer.thunderbird.MboxFile;
 /**
  *
  */
-public class SMSLoaderPass1 
+public class SMSLoaderPass1
 {
     private final static Logger slogger = Logger.getLogger(SMSLoaderPass1.class);
 
@@ -22,16 +22,14 @@ public class SMSLoaderPass1
 
     /**
      * @param args
-     * @throws IOException 
-     * @throws ParseException 
-     * @throws InconsistantSMSException 
+     * @throws IOException
+     * @throws ParseException
+     * @throws InconsistantSMSException
      */
     public static void main( String[] args ) throws IOException, ParseException, InconsistantSMSException
     {
         slogger.info( "starting" );
 
-        //C:\Documents and Settings\Claude\Application Data\Thunderbird\Profiles\00ivs85t.Claude\ImapMail\imap.sfr.fr\INBOX.sbd\OUTBOX.sbd
-        
         String[] csvInFiles = {
             "Export SMS 05 01 2011 14 22[INBOX-Elisabeth].csv",
             "Export SMS 05 01 2011 14 29[ARCH-Elisabeth].csv",
@@ -54,14 +52,14 @@ public class SMSLoaderPass1
             loader.addFile( f );
         }
         Charset cs = Charset.forName( "ISO-8859-1" );
-        
+
         for( String fn : mailInFiles ) {
             File f = new File( fn );
 
             slogger.info( "reading: " + f );
-            
+
             MboxFile mbf = new MboxFile( f, cs );
-            
+
             int msgCount = mbf.getMessageCount();
 
             slogger.info( "Messages: " + msgCount );

@@ -5,15 +5,15 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * <p>
- * An implementation of FileFilter that filters using 
- * a specified set of extensions. The extension for a 
- * file is the portion of the file name after the last ".". 
- * Files whose name does not contain a "." have no file 
- * name extension. File name extension comparisons are 
+ * An implementation of FileFilter that filters using
+ * a specified set of extensions. The extension for a
+ * file is the portion of the file name after the last ".".
+ * Files whose name does not contain a "." have no file
+ * name extension. File name extension comparisons are
  * case insensitive.
  * </p>
  * <p>
- * The following example creates a FileNameExtensionFilter 
+ * The following example creates a FileNameExtensionFilter
  * that will show jpg files:
  * </p>
  * <code>
@@ -21,21 +21,19 @@ import javax.swing.filechooser.FileFilter;
  * JFileChooser fileChooser = ...;
  * fileChooser.addChoosableFileFilter(filter);
  * </code>
- * 
+ *
  * Same has {@link javax.swing.filechooser.FileNameExtensionFilter}
  * witch is only available since Java 1.6
-
- * @author Claude CHOISNET
  */
 public class FileNameExtensionFilter extends FileFilter
 {
     private String   description;
     private String[] extensions;
-    
+
     /**
      * Creates a FileNameExtensionFilter with the
      * specified description and file name extension.
-     * 
+     *
      * @param description
      * @param extension
      */
@@ -45,11 +43,11 @@ public class FileNameExtensionFilter extends FileFilter
         this.extensions     = new String[1];
         this.extensions[0]  = extension.toLowerCase();
     }
-    
+
     /**
      * Creates a FileNameExtensionFilter with the
      * specified description and file name extensions.
-     * 
+     *
      * @param description
      * @param extensions
      * (need Java 1.5)
@@ -58,12 +56,12 @@ public class FileNameExtensionFilter extends FileFilter
     {
         this.description = description;
         this.extensions  = new String[extensions.length];
-        
+
         for(int i=0;i<extensions.length;i++) {
             this.extensions[i] = extensions[i].toLowerCase();
         }
     }
-    
+
     @Override
     public boolean accept( File file )
     {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package alpha.com.googlecode.cchlib.io.impl.win32;
 
 /**
@@ -8,8 +5,6 @@ package alpha.com.googlecode.cchlib.io.impl.win32;
  * for NTFS (Alpha)
  * <br/>
  * This class is a contender for default NTFS ADS description.
- *
- * @author Claude CHOISNET
  */
 public class MSAlternateDataStreamDescriptionEntry
 {
@@ -17,7 +12,7 @@ public class MSAlternateDataStreamDescriptionEntry
     private String fileName;
     private int    mtfRecord;
     private String description;
-    
+
     public MSAlternateDataStreamDescriptionEntry(
             String systemFile,
             String fileName,
@@ -30,7 +25,7 @@ public class MSAlternateDataStreamDescriptionEntry
         this.mtfRecord   = mtfRecord;
         this.description = description;
     }
-    
+
     /**
      * @return the System File
      */
@@ -38,7 +33,7 @@ public class MSAlternateDataStreamDescriptionEntry
     {
         return systemFile;
     }
-    
+
     /**
      * @return the FileName
      */
@@ -46,7 +41,7 @@ public class MSAlternateDataStreamDescriptionEntry
     {
         return fileName;
     }
-    
+
     /**
      * @return the MTF Record
      */
@@ -54,7 +49,7 @@ public class MSAlternateDataStreamDescriptionEntry
     {
         return mtfRecord;
     }
-    
+
     /**
      * @return the description
      */

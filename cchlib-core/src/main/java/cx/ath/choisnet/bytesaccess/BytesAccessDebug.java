@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -14,8 +10,6 @@ import java.io.InputStream;
  * Perform extra check for BytesAcces. This class is design to
  * be use <b>only</b> during development process.
  * </P>
- *
- * @author Claude CHOISNET
  * @see BytesAccess
  */
 public abstract class BytesAccessDebug extends BytesAccess

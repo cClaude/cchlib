@@ -10,7 +10,6 @@ import cx.ath.choisnet.lang.introspection.method.IVInt;
 
 /**
  * @see IntrospectionTest
- * @author Claude CHOISNET
  */
 class TstObject implements Serializable
 {
@@ -55,7 +54,7 @@ class TstObject implements Serializable
     {
         this.testBoolean = testBoolean;
     }
-    
+
     public int getTestIntegerJComboBox()
     {
         return testIntegerJComboBox;
@@ -114,7 +113,7 @@ class TstObject implements Serializable
     {
         this.testIntegerJSpinner = testIntegerJSpinner;
     }
-    
+
     // Don't need @IVIgnore, does not start by get/set/is
     public void randomize()
     {//randomize
@@ -132,14 +131,14 @@ class TstObject implements Serializable
     {
        return rand.nextInt( max - min + 1 ) + min;
     }
-    
+
     @IVIgnore
    private String getRandomFMT()
     {
         byte[] bytes = new byte[4];
-        
+
         rand.nextBytes( bytes );
-        
+
         return  String.format( "%1$02X-%2$02X-%3$02X-%4$02X", bytes[0], bytes[1], bytes[2], bytes[3]);
     }
 

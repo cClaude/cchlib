@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.util.testcase;
 
 import java.util.Iterator;
@@ -8,15 +5,14 @@ import cx.ath.choisnet.util.HashMapSet;
 import junit.framework.TestCase;
 
 /**
- * 
- * @author Claude CHOISNET
+ *
  */
 public class HashMapSetTest extends TestCase
 {
 //    public final static String[] POPULATE = {
-//        
+//
 //    };
-    
+
     public void test_StringString()
     {
         HashMapSet<String,String> hms  = new HashMapSet<String,String>();
@@ -31,7 +27,7 @@ public class HashMapSetTest extends TestCase
         assertEquals(size,hms.size());
         assertEquals(size,hms.valuesSize());
         assertEquals(size,sizeOfHashMapSet(hms));
-        
+
         // Add same keys-values, no changes !
         for(int i=0;i<size;i++) {
             hms.add(
@@ -41,7 +37,7 @@ public class HashMapSetTest extends TestCase
         }
         assertEquals(size,hms.size());
         assertEquals(size,hms.valuesSize());
-        
+
         // Add same keys, but with different values
         for(int i=0;i<size;i++) {
             hms.add(
@@ -53,13 +49,13 @@ public class HashMapSetTest extends TestCase
         assertEquals(size*2,hms.valuesSize());
         assertEquals(size*2,sizeOfHashMapSet(hms));
     }
-    
+
 
     private int sizeOfHashMapSet( HashMapSet<?,?> hms )
     {
         int         size = 0;
         Iterator<?> iter = hms.iterator();
-        
+
         while(iter.hasNext()) {
             iter.next();
             size++;
@@ -67,5 +63,5 @@ public class HashMapSetTest extends TestCase
         return size;
     }
 
-    
+
 }

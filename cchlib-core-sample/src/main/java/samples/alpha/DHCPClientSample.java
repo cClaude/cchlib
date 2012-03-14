@@ -6,8 +6,6 @@ import alpha.cx.ath.choisnet.net.dhcp.DHCPSocket;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 public class DHCPClientSample
 {
@@ -22,9 +20,9 @@ public class DHCPClientSample
             System.out.println("Usage: dhcpclient <ethernet_addresss>\n\tie. dhcpclient 12:34:56:76:89:AB");
             System.exit(1);
         }
-        
+
         String hwaddr = args[0];
-        
+
         try {
             DHCPSocket mySocket = new DHCPSocket(68);
 
@@ -58,7 +56,7 @@ public class DHCPClientSample
         dhcpParameters.setOption((byte)53, (byte)1);
         dhcpParameters.setOption((byte)60, "usine");
         dhcpParameters.setOption((byte)61, "usine");
-        
+
         return dhcpParameters;
     }
 }

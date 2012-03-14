@@ -9,8 +9,7 @@ import java.util.Iterator;
  * <br/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
- * @author Claude CHOISNET
- * @param <T> 
+ * @param <T> content type
  * @see cx.ath.choisnet.util.iterator.BiIterator
  */
 public class BiIterator<T>
@@ -24,7 +23,7 @@ public class BiIterator<T>
      * Build a new Iterator that consume first
      * Iterator and second Iterator for it's
      * results (Order is preserve).
-     * 
+     *
      * @param firstIterable  first Iterable object
      * @param secondIterable second Iterable object
      * @throws NullPointerException if firstIterable
@@ -42,7 +41,7 @@ public class BiIterator<T>
     }
 
     /**
-     * Returns an iterator over a set of elements of type T. 
+     * Returns an iterator over a set of elements of type T.
      * @return this Iterator
      */
     @Override

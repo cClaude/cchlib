@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
  * This object is not Serializable, you must use
  * this debugging your application only!
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class AutoI18nPrintStreamLoggingEventHandler
     extends AbstractAutoI18nLoggingEventHandler

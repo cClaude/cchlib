@@ -2,7 +2,6 @@ package cx.ath.choisnet.io;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public interface MyInterface
 {

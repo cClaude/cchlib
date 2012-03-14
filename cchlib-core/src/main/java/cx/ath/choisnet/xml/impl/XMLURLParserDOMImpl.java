@@ -9,8 +9,6 @@ import java.util.EnumSet;
 
 /**
  * DOM parser implementation that allow to retrieve XML based URL for XML
- *
- * @author Claude CHOISNET
  */
 public class XMLURLParserDOMImpl extends XMLParserDOMImpl
     implements XMLURLParser

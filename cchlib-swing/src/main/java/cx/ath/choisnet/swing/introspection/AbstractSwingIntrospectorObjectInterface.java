@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.util.Map;
@@ -12,22 +9,21 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 /**
  * This class provide a default implementation for {@link SwingIntrospectorObjectInterface}
  * </BR>
- * 
- * @author Claude
- * @param <FRAME> 
- * @param <OBJECT> 
- * @param <OBJECT_ENTRY> 
+ *
+ * @param <FRAME>
+ * @param <OBJECT>
+ * @param <OBJECT_ENTRY>
  *
  */
 public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY extends IntrospectionItem<OBJECT>>
     implements SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
 {
     private static Logger slogger = Logger.getLogger(AbstractSwingIntrospectorObjectInterface.class);
-    
+
     private Class<FRAME> frameClass;
     private Introspection<OBJECT,OBJECT_ENTRY> introspection;
     private ComponentInitializer componentInitializer;
-    
+
     public AbstractSwingIntrospectorObjectInterface(
             Class<FRAME>                        frameClass,
             Introspection<OBJECT,OBJECT_ENTRY>  introspection,
@@ -49,7 +45,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
                 introspection,
                 new DefaultComponentInitializer<OBJECT,OBJECT_ENTRY>(introspection)
                 );
-    }    
+    }
 
     /**
      * @return class object used by frame
@@ -61,9 +57,9 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     }
 
 //    /**
-//     * @param componentToInit 
-//     * @param beanname 
-//     * @throws SwingIntrospectorException 
+//     * @param componentToInit
+//     * @param beanname
+//     * @throws SwingIntrospectorException
 //     * @See {@link ComponentInitializer}
 //     * @See {@link ComponentInitializer#initComponent(Object, cx.ath.choisnet.lang.introspection.method.IntrospectionItem, String)}
 //     */
@@ -72,15 +68,15 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
 //    public void initComponent(
 //            Object  componentToInit,
 //            String  beanname
-//            ) 
+//            )
 //    throws SwingIntrospectorException
 //    {
 //        OBJECT_ENTRY iItem = introspection.getItem( beanname );
 //
 //        //componentInitializer.initComponent( componentToInit, iItem, beanname );
-//        
+//
 //    }
-    
+
     /**
      * Get a FramePopulator for giving values
      * @param frame
@@ -88,21 +84,21 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return FramePopulator for these instances
      */
     @Override
-    public FramePopulator<FRAME,OBJECT> getFramePopulator( 
-            final FRAME   frame, 
-            final OBJECT  object 
+    public FramePopulator<FRAME,OBJECT> getFramePopulator(
+            final FRAME   frame,
+            final OBJECT  object
             )
     {
         // TODO: ?? store frame and object on instance
         // if they have not change, don't build a new object ???
         final FrameFieldPopulator<FRAME,OBJECT> ffp = getFrameFieldPopulator( frame, object );
-        
+
         return new FramePopulator<FRAME,OBJECT>()
         {
             @Override
-            public void populateFrame( 
+            public void populateFrame(
                     SwingIntrospectorRootItem<FRAME>    rootItem,
-                    String                              beanname         
+                    String                              beanname
                     ) throws SwingIntrospectorException,
                              IntrospectionInvokeException
             {
@@ -110,20 +106,20 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
 
                 if( iItem != null ) {
                     ffp.populateFields( rootItem, iItem );
-                } 
+                }
                 else {
                     // TODO some exception !!
                     slogger.fatal( "*** Not InspectionItem for: " + beanname );
                 }
             }
-            
+
         };
-    }    
-    
+    }
+
     /**
      * This method is use by {@link #getFramePopulator(Object, Object)}
      * provide by this implementation to populate Frame fields.
-     * 
+     *
      * @param frame  - Frame to populate
      * @param object - Object where data will be read
      * @return a valid FrameFieldPopulator for giving FRAME/OBJECT
@@ -139,7 +135,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
 //    public ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> getObjectPopulator( FRAME frame, OBJECT object );
 
     /**
-     * 
+     *
      * @return a map with keys reflex beans names
      */
     @Override
@@ -155,9 +151,9 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     {
         return introspection;
     }
-    
+
     /**
-     * @param beanname 
+     * @param beanname
      * @return the OBJECT_ENTRY
      */
     protected OBJECT_ENTRY getObjectEntry(String beanname)
@@ -170,4 +166,4 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     {
         return componentInitializer;
     }
-}  
+}

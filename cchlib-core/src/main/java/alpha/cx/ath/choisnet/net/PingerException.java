@@ -1,16 +1,12 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.net;
 
 /**
- * 
- * @author Claude CHOISNET
+ *
  */
-public abstract class PingerException extends Exception 
+public abstract class PingerException extends Exception
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +14,7 @@ public abstract class PingerException extends Exception
     {
         super( message, cause );
     }
-    
+
     /**
      * Returns host name trying to ping
      * @return host name trying to ping

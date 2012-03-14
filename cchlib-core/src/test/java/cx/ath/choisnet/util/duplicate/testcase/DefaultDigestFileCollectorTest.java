@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.util.duplicate.testcase;
 
 import java.io.File;
@@ -20,21 +17,20 @@ import junit.framework.TestCase;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class DefaultDigestFileCollectorTest
-    extends TestCase 
+    extends TestCase
 {
     private static final transient Logger slogger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 150;
 
-    public void test_Base() 
+    public void test_Base()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
                 IOException
     {
         DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
-        
+
         instance.addDigestEventListener( getDigestEventListener() );
 
         File            root  = FileHelper.getUserHomeDirFile();
@@ -43,7 +39,7 @@ public class DefaultDigestFileCollectorTest
                 new java.io.FileFilter()
                 {
 //                    int count = 0;
-                    
+
                     @Override
                     public boolean accept( File f )
                     {
@@ -58,22 +54,22 @@ public class DefaultDigestFileCollectorTest
                     }
                 }
                 );
-        
+
         slogger.info("adding... : "+root);
-        
+
         try {
             instance.add( files );
         }
         catch( CancelRequestException e ) {
             slogger.info("CancelRequestException",e);
         }
-        
+
         int dsc = instance.getDuplicateSetsCount();
         int dfc = instance.getDuplicateFilesCount();
-        
+
         slogger.info("getDuplicateSetsCount: "+dsc);
         slogger.info("getDuplicateFilesCount: "+dfc);
-        
+
         slogger.info("compute duplicate count");
         instance.computeDuplicateCount();
 
@@ -85,16 +81,16 @@ public class DefaultDigestFileCollectorTest
 
         slogger.info("remove non duplicate");
         instance.removeNonDuplicate();
-        
+
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
-        
+
         Map<String, Set<File>> map = instance.getFiles();
 
         for(Map.Entry<String,Set<File>> entry:map.entrySet()) {
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
-            
+
             slogger.info( k + " : " + s.size() );
             for(File f:s) {
                 slogger.info( f );
@@ -103,7 +99,7 @@ public class DefaultDigestFileCollectorTest
 
         slogger.info( "done." );
     }
-    
+
     private DigestEventListener getDigestEventListener()
     {
         return new DigestEventListener()

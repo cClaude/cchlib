@@ -5,8 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public class ExternalAppException extends IOException

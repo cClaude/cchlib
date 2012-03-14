@@ -5,8 +5,7 @@ import java.io.ObjectOutputStream;
 import java.nio.channels.ReadableByteChannel;
 
 /**
- * @author Claude CHOISNET
- * @deprecated use {@link cx.ath.choisnet.lang.ByteArrayBuilder} instead 
+ * @deprecated use {@link cx.ath.choisnet.lang.ByteArrayBuilder} instead
  */
 @Deprecated
 public class ByteBuffer
@@ -86,7 +85,7 @@ public class ByteBuffer
         if(minimumCapacity > capacity()) {
             int newLength;
 
-            for(newLength = buffer.length; newLength < minimumCapacity; ) { 
+            for(newLength = buffer.length; newLength < minimumCapacity; ) {
                 newLength = newLength + 1 << 1;
             }
             byte[] newBuffer = new byte[newLength];

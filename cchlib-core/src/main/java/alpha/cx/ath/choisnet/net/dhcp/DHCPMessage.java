@@ -9,7 +9,6 @@ import cx.ath.choisnet.ToDo;
 /**
  *
  *
- * @author Claude CHOISNET
  */
 @ToDo
 public class DHCPMessage

@@ -9,7 +9,6 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelF
 
 /**
  *
- * @author Claude
  */
 public class B2Transform2App
     extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>

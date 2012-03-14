@@ -7,7 +7,6 @@ import java.util.Set;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public
 interface CustomProperties

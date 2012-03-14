@@ -18,8 +18,6 @@ import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 
 /**
  * JSlider than showing current value in title Border
- * 
- * @author Claude CHOISNET
  */
 public class CustomJSlider
     extends JSlider

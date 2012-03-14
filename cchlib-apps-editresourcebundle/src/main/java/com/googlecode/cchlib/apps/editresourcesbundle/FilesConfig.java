@@ -13,7 +13,6 @@ import cx.ath.choisnet.util.FormattedProperties.Store;
 
 /**
  *
- * @author Claude CHOISNET
  */
 class FilesConfig implements Serializable
 {

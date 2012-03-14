@@ -10,8 +10,6 @@ import java.util.GregorianCalendar;
 /**
  * Simple implementation of Date, this date
  * is base on year, month and day numbers.
- * 
- * @author Claude CHOISNET
  */
 public class BasicDate
     implements java.io.Serializable, Cloneable, DateInterface
@@ -42,8 +40,8 @@ public class BasicDate
 
     /**
      * Create a BasicDate from a other BasicDate.
-     * 
-     * @param date BasicDate to clone. 
+     *
+     * @param date BasicDate to clone.
      */
     public BasicDate(BasicDate date)
     {
@@ -57,8 +55,8 @@ public class BasicDate
 
     /**
      * Create a BasicDate from a {@link java.util.Date}.
-     * 
-     * @param javaDate Date 
+     *
+     * @param javaDate Date
      */
     public BasicDate(java.util.Date javaDate)
     {
@@ -67,11 +65,11 @@ public class BasicDate
 //        day = -1;
         set(javaDate);
     }
-    
+
     /**
      * Create a BasicDate from a {@link java.sql.Date}.
-     * 
-     * @param sqlDate Date 
+     *
+     * @param sqlDate Date
      */
     public BasicDate(java.sql.Date sqlDate)
     {
@@ -86,9 +84,9 @@ public class BasicDate
     }
 
     /**
-     * @param date 
-     * @param fmt 
-     * @throws ParseException 
+     * @param date
+     * @param fmt
+     * @throws ParseException
      */
     public BasicDate(String date, SimpleDateFormat fmt)
         throws ParseException
@@ -97,11 +95,11 @@ public class BasicDate
     }
 
     /**
-     * @param year 
-     * @param month 
-     * @param day 
-     * @throws BasicDateException 
-     * 
+     * @param year
+     * @param month
+     * @param day
+     * @throws BasicDateException
+     *
      */
     public BasicDate(int year, int month, int day)
         throws BasicDateException
@@ -197,8 +195,8 @@ public class BasicDate
     }
 
     /**
-     * @param javaDate 
-     * 
+     * @param javaDate
+     *
      */
     public void set(java.util.Date javaDate)
     {
@@ -206,7 +204,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     *
      */
     protected void setWithFmtString(String fmtTime)
     {
@@ -306,7 +304,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     *
      */
     public boolean isBefore(DateInterface anOtherDate)
         throws ClassCastException
@@ -315,7 +313,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     *
      */
     public boolean isAfter(DateInterface anOtherDate)
         throws ClassCastException
@@ -324,7 +322,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     *
      */
     public String toString()
     {
@@ -334,7 +332,7 @@ public class BasicDate
             .append(toStringDay())
             .toString();
     }
-    
+
     /**
      * @return year as a String of 4 digits
      */
@@ -350,7 +348,7 @@ public class BasicDate
     public String toStringMonth()
     {
         StringBuilder sb = new StringBuilder();
-        
+
         if( month <= 9 ) {
             sb.append( '0' );
         }
@@ -363,7 +361,7 @@ public class BasicDate
     public String toStringDay()
     {
         StringBuilder sb = new StringBuilder();
-        
+
         if( day <= 9 ) {
             sb.append( '0' );
         }
@@ -429,7 +427,7 @@ public class BasicDate
             throw new RuntimeException("incMonth() INTERNAL ERROR");
             }
     }
-    
+
     /**
      * Increment day
      */
@@ -442,9 +440,9 @@ public class BasicDate
         month = c.get( Calendar.MONTH );
         day   = c.get( Calendar.DAY_OF_MONTH );
     }
-    
+
     /**
-     * @param endOfPeriod 
+     * @param endOfPeriod
      * @return number of day between two BasicDate
      */
     public int countOfDay(BasicDate endOfPeriod)
@@ -459,7 +457,7 @@ public class BasicDate
     }
 
     /**
-     * 
+     *
      */
     protected void check() throws BasicDateException
     {
@@ -528,7 +526,7 @@ public class BasicDate
 //        month = stream.readInt();
 //        day   = stream.readInt();
 //    }
-    
+
     private Calendar getCalendar()
     {
         if( transient_calendar == null ) {
@@ -536,7 +534,7 @@ public class BasicDate
         }
         return transient_calendar;
     }
-    
+
     private DateFormat getIsoDateFormat()
     {
         if( transient_ISO_DATE_FMT == null ) {

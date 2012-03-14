@@ -9,9 +9,6 @@ import cx.ath.choisnet.util.iterator.SingletonIterator;
 
 /**
  *
- * @author Claude CHOISNET
- * @param <T> 
- *
  */
 @Deprecated
 public class FlattenIterator<T> extends ComputableIterator<T>

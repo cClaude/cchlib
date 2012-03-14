@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.builder;
-//package cx.ath.choisnet.i18n.builder;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,8 +25,6 @@ import com.googlecode.cchlib.i18n.I18nInterface;
  * Result is write into your classes directory.
  * You can set a new File for output using {@link #setOutputFile(File)}
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class I18nPropertyResourceBundleAutoUpdate
     extends AbstractI18nPropertiesResourceAutoUpdate

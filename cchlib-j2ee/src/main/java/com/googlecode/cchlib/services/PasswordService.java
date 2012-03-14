@@ -8,8 +8,6 @@ import cx.ath.choisnet.util.base64.Base64Encoder;
 /**
  * Encode password to hash code and then encode encode hash code
  * to base 64.
- *
- * @author Claude CHOISNET
  */
 public final class PasswordService
 {

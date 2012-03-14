@@ -12,8 +12,6 @@ import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
  * This object is not Serializable, you must use
  * this debugging your application only!
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class AutoI18nLog4JEventHandler
     implements AutoI18nEventHandler

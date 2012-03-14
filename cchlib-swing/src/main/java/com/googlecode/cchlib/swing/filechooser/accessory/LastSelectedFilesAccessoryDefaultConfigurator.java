@@ -7,10 +7,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Provide a basic implementation for 
+ * Provide a basic implementation for
  * {@link LastSelectedFilesAccessoryConfigurator}
- *
- * @author Claude CHOISNET
  */
 public class LastSelectedFilesAccessoryDefaultConfigurator
     implements LastSelectedFilesAccessoryConfigurator
@@ -31,7 +29,7 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
      * <br/>
      * This constructor is provide to have a quick solution
      * when writing your program, but if you want that
-     * the "last selected files list" persist between 
+     * the "last selected files list" persist between
      * different launchings of your application, you should
      * consider to use a stored list.
      */
@@ -42,7 +40,7 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
 
     /**
      * Create a {@link LastSelectedFilesAccessoryConfigurator}
-     * initialized with your list of files limited to 
+     * initialized with your list of files limited to
      * maxSelectedFileListSize values.
      * <br/>
      * if list contain more than maxSelectedFileListSize
@@ -67,11 +65,11 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
         }
         this.maxSelectedFilesSize = maxSelectedFileListSize;
         this.autoApproveSelection = autoApproveSelection;
-        
+
         purgeQueue(
                 this.lastSelectedFiles,
                 this.maxSelectedFilesSize
-                );        
+                );
     }
 
     private static <T> void addToQueue( Queue<T> q, T o, int maxSize )

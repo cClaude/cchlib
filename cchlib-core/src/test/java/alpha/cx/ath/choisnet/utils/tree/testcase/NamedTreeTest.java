@@ -1,6 +1,3 @@
-/**
- *
- */
 package alpha.cx.ath.choisnet.utils.tree.testcase;
 
 import java.util.Iterator;
@@ -16,7 +13,6 @@ import junit.framework.TestCase;
 
 /**
  * Test cases for SimpleTree
- * @author Claude CHOISNET
  */
 public class NamedTreeTest extends TestCase
 {
@@ -43,7 +39,7 @@ public class NamedTreeTest extends TestCase
     public void test_add() throws BadRootNameException
     {
         NamedTree<Integer> tree = new NamedTree<Integer>();
-        
+
         tree.put( 1, "root", "pane1" );
         tree.put( 0, "root" );
         tree.put( 2, "root.pane2".split( "\\." ) );
@@ -55,10 +51,10 @@ public class NamedTreeTest extends TestCase
         // Replace value (so size should not change)
         tree.put( 40, "root", "pane1", "panel1-1" );
         assertEquals("Size should not change",size,tree.size());
-        
+
         slogger.info( "tree.walk()" );
         count = 0;
-        tree.walk( 
+        tree.walk(
             new Visitor<NamedTreeNode<Integer>>()
             {
                 @Override
@@ -74,7 +70,7 @@ public class NamedTreeTest extends TestCase
         slogger.info( "createInOrderIterator()" );
         count = 0;
         Iterator<BinaryTreeNode<Integer>> iter = BinaryTree.createInOrderIterator( tree.getRoot() );
-        
+
         while( iter.hasNext() ) {
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
@@ -85,28 +81,28 @@ public class NamedTreeTest extends TestCase
         slogger.info( "createPostOrderIterator()" );
         count = 0;
         iter = BinaryTree.createPostOrderIterator( tree.getRoot() );
-        
+
         while( iter.hasNext() ) {
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
             count++;
         }
         assertEquals("bad count",size,count);
-        
+
         slogger.info( "createPreOrderIterator()" );
         count = 0;
         iter = BinaryTree.createPreOrderIterator( tree.getRoot() );
-        
+
         while( iter.hasNext() ) {
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
             count++;
         }
         assertEquals("bad count",size,count);
-        
+
         slogger.info( "walkDepthFirst()" );
         count = 0;
-        tree.walkDepthFirst( 
+        tree.walkDepthFirst(
                 new Visitor<NamedTreeNode<Integer>>()
                 {
                     @Override

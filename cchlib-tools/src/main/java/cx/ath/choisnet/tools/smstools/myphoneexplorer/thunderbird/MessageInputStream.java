@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class MessageInputStream extends InputStream
 {

@@ -27,7 +27,6 @@ import javax.servlet.jsp.PageContext;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class InfosServletDisplayerImpl
     implements InfosServletDisplayer

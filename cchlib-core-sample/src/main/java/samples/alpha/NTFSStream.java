@@ -1,6 +1,3 @@
-/**
- *
- */
 package samples.alpha;
 
 import java.io.File;
@@ -16,8 +13,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- *
- * @author Claude CHOISNET
  *
  */
 public class NTFSStream
@@ -98,12 +93,12 @@ public class NTFSStream
                 ntfsStream.getBegin(testStream)
                 );
 
-        System.out.printf( "1> Content of %s is [%s]\n", 
-                testStream, 
+        System.out.printf( "1> Content of %s is [%s]\n",
+                testStream,
                 fastStreamCopy1(testStream)
                 );
         System.out.printf( "2> Content of %s is [%s]\n",
-                testStream, 
+                testStream,
                 fastStreamCopy2(testStream)
                 );
     }

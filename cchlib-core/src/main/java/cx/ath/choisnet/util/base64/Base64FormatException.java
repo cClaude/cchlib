@@ -1,8 +1,7 @@
 package cx.ath.choisnet.util.base64;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public class Base64FormatException extends java.io.IOException

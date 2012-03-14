@@ -12,7 +12,6 @@ import cx.ath.choisnet.util.FormattedProperties;
 /**
  * Use OutputStream
  *
- * @author Claude CHOISNET
  */
 public
 class FormattedCustomProperties

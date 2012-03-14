@@ -16,8 +16,6 @@ import javax.swing.filechooser.FileFilter;
  * <br>
  * This class try to use Tread for creating JFileChooser
  * in background,
-
- * @author Claude CHOISNET
  */
 public class JFileChooserInitializer
     implements Serializable

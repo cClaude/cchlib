@@ -7,8 +7,6 @@ import org.junit.Test;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 public class SQLToolsTest
 {

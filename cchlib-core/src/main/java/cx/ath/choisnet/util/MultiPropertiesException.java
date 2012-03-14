@@ -1,14 +1,10 @@
-/**
- * 
- */
 package cx.ath.choisnet.util;
 
 /**
  * @see MultiProperties
- * @author Claude CHOISNET
  */
-public abstract class MultiPropertiesException 
-    extends Exception 
+public abstract class MultiPropertiesException
+    extends Exception
 {
     private static final long serialVersionUID = 1L;
 

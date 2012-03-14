@@ -12,8 +12,7 @@ import cx.ath.choisnet.util.iterator.Iterators;
 
 /**
  * Basic binary tree implementation.
- * 
- * @author Claude CHOISNET
+ *
  * @param <T> content type
  */
 public abstract class BinaryTree<T>
@@ -44,7 +43,7 @@ public abstract class BinaryTree<T>
 
     /**
      * Returns the numbers of nodes in the binary tree.
-     * 
+     *
      * @param root root node for the binary tree.
      * @return the numbers of nodes in the binary tree.
      */
@@ -54,10 +53,10 @@ public abstract class BinaryTree<T>
         // root points, and return the answer.
         if( root == null ) {
             return 0; // The tree is empty. It contains no nodes.
-        } 
+        }
         else {
             int count = 1; // Start by counting the root
-            count += countNodes( root.getLeftNode() ); 
+            count += countNodes( root.getLeftNode() );
             count += countNodes( root.getRightNode() );
             return count;
         }
@@ -69,15 +68,15 @@ public abstract class BinaryTree<T>
      * in the tree to which root points.
      * </p>
      * The item in the root will be first element of
-     * iterator, followed by the items in the left 
+     * iterator, followed by the items in the left
      * subtree and then the items in the right subtree.
-     * 
+     *
      * @param <T> content type
      * @param root root node for the binary tree.
      * @return iterator over all the items in the tree.
      */
-    public static <T> Iterator<BinaryTreeNode<T>> createPreOrderIterator( 
-            BinaryTreeNode<T> root 
+    public static <T> Iterator<BinaryTreeNode<T>> createPreOrderIterator(
+            BinaryTreeNode<T> root
             )
     {
         if( root == null ) {
@@ -132,13 +131,13 @@ public abstract class BinaryTree<T>
      * elements of iterator, followed by the items in
      * the right subtree and then the item in the
      * root node
-     * 
+     *
      * @param <T> content type
      * @param root root node for the binary tree.
      * @return iterator over all the items in the tree.
      */
-    public static <T> Iterator<BinaryTreeNode<T>> createPostOrderIterator( 
-            BinaryTreeNode<T> root 
+    public static <T> Iterator<BinaryTreeNode<T>> createPostOrderIterator(
+            BinaryTreeNode<T> root
             )
     {
         if( root == null ) {
@@ -152,7 +151,7 @@ public abstract class BinaryTree<T>
         return Iterators.unmodifiableIterator( nodes.iterator() );
     }
 
-    private static <T> void postOrderCollector( 
+    private static <T> void postOrderCollector(
             Collection<BinaryTreeNode<T>> c,
             BinaryTreeNode<T>             root
             )
@@ -172,27 +171,27 @@ public abstract class BinaryTree<T>
      * The items in the left subtree will be first
      * elements of iterator, followed by the item in the
      * root node and then the items in the right subtree
-     * 
+     *
      * @param <T> content type
      * @param root root node for the binary tree.
      * @return iterator over all the items in the tree.
      */
-    public static <T> Iterator<BinaryTreeNode<T>> createInOrderIterator( 
-            BinaryTreeNode<T> root 
+    public static <T> Iterator<BinaryTreeNode<T>> createInOrderIterator(
+            BinaryTreeNode<T> root
             )
     {
         if( root == null ) {
             return new EmptyIterator<BinaryTreeNode<T>>();
         }
         final ArrayList<BinaryTreeNode<T>> nodes = new ArrayList<BinaryTreeNode<T>>();
-        
+
         //Recursive version. TODO: optimization, do a none recursive version
         inOrderCollector( nodes, root );
-        
+
         return Iterators.unmodifiableIterator( nodes.iterator() );
     }
 
-    private static <T> void inOrderCollector( 
+    private static <T> void inOrderCollector(
             Collection<BinaryTreeNode<T>> c,
             BinaryTreeNode<T>             root
             )

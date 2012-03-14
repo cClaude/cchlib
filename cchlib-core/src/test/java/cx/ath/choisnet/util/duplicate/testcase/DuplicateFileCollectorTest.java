@@ -15,15 +15,15 @@ import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
 import junit.framework.TestCase;
 
 /**
- * @author Claude CHOISNET
+ *
  */
 public class DuplicateFileCollectorTest
-    extends TestCase 
+    extends TestCase
 {
     private static final transient Logger slogger = Logger.getLogger( DuplicateFileCollectorTest.class );
     protected static final int MAX_FILES_COUNT = 50;
 
-    public void test_Base() 
+    public void test_Base()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
                 IOException
@@ -47,7 +47,7 @@ public class DuplicateFileCollectorTest
                 }
                 );
 
-        instance.addDigestEventListener( 
+        instance.addDigestEventListener(
                 new DigestEventListener()
                 {
                     long currentFileLength = 0;

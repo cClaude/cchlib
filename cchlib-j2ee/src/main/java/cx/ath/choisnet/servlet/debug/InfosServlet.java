@@ -21,8 +21,6 @@ import javax.servlet.jsp.PageContext;
  * <pre>
  * </pre>
  *
- * @author Claude CHOISNET
- *
  */
 public class InfosServlet extends HttpServlet
 {

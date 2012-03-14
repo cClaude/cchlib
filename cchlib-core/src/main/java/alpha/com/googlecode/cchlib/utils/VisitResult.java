@@ -1,12 +1,7 @@
-/**
- * 
- */
 package alpha.com.googlecode.cchlib.utils;
 
 /**
- * The result type of a {@link Visitor}. 
- * 
- * @author Claude CHOISNET
+ * The result type of a {@link Visitor}.
  */
 public enum VisitResult
 {

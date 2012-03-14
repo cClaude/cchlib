@@ -6,11 +6,9 @@ import cx.ath.choisnet.ToDo;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 @ToDo
-@Deprecated // Don't remember usage 
+@Deprecated // Don't remember usage
 public interface ProxySelectorInterface
 {
     public abstract Proxy select(URL url);

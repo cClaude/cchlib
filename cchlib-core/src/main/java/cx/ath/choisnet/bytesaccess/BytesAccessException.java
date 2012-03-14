@@ -1,14 +1,11 @@
-/**
- * 
- */
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.IOException;
 
 /**
- * @author Claude CHOISNET
+ * TODOC
  */
-public class BytesAccessException extends IOException 
+public class BytesAccessException extends IOException
 {
     private static final long serialVersionUID = 1L;
 

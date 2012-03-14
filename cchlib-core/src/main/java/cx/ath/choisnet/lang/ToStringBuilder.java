@@ -13,7 +13,7 @@ import java.util.Collection;
  * but a dynamic way, this class is design to be use
  * for debugging only.
  *
- * @param <T>
+ * @param <T> TODOC
  */
 public class ToStringBuilder<T>
 {
@@ -105,7 +105,7 @@ public class ToStringBuilder<T>
 
     /**
      * TODOC
-     * @param <T>
+     * @param <T> TODOC
      * @param o
      * @param clazz
      * @return toString view for this object.

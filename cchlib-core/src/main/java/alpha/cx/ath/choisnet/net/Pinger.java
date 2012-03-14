@@ -1,6 +1,3 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.net;
 
 import java.io.BufferedOutputStream;
@@ -19,13 +16,12 @@ import cx.ath.choisnet.ToDo;
  * <p>
  * Under development. [DO NOT USE]
  * </p>
- * 
- * @author Claude CHOISNET
+ *
  */
 //To request a Windows System you much install "Simple TCP/IP Services Service DLL" to
-//on the requested computer 
+//on the requested computer
 @ToDo
-public class Pinger extends Thread 
+public class Pinger extends Thread
 {
     /**
      * Under development. [DO NOT USE]
@@ -49,7 +45,7 @@ public class Pinger extends Thread
      * Default time out for requests (ms)
      */
     public static final int DEFAULT_TIMEOUT = 1500;
-    
+
     private boolean pingResultReady = false;
     private boolean pingResultOk = false;
 
@@ -60,7 +56,7 @@ public class Pinger extends Thread
     {
         this( host, DEFAULT_TIMEOUT );
     }
-    
+
     public Pinger( String host, int timeout )
     {
         this.host    = host;
@@ -68,7 +64,7 @@ public class Pinger extends Thread
     }
 
     /**
-     * 
+     *
      */
     public void run()
     {
@@ -76,7 +72,7 @@ public class Pinger extends Thread
 
         try {
             pingResultOk = ping( host, timeout );
-            } 
+            }
         catch( IOException e ) {
             e.printStackTrace();
         }
@@ -85,16 +81,16 @@ public class Pinger extends Thread
     }
 
     /**
-     * 
+     *
      * @return
      */
     public boolean isPingResultReady()
     {
         return this.pingResultReady;
     }
-    
+
     /**
-     * 
+     *
      * @return
      */
     public boolean isPingResultOk()
@@ -103,7 +99,7 @@ public class Pinger extends Thread
     }
 
     /**
-     * 
+     *
      * @param host
      * @param timeout
      * @return
@@ -117,41 +113,41 @@ public class Pinger extends Thread
     }
 
     /**
-     * 
-     * @param inetAddress 
-     * @param timeout the time, in milliseconds, before the call aborts 
+     *
+     * @param inetAddress
+     * @param timeout the time, in milliseconds, before the call aborts
      * @return a boolean indicating if the address is reachable.
-     * @throws IOException 
+     * @throws IOException
      */
     public static boolean ping(InetAddress inetAddress, int timeout)
         throws IOException
     {
         return inetAddress.isReachable( timeout );
     }
-    
+
     /**
-     * 
+     *
      * @param host
      * @return
-     * @throws PingerException 
+     * @throws PingerException
      */
     public static boolean helloPing(String host)
         throws PingerException
     {
         return helloPing( host, DEFAULT_PORT );
     }
-    
+
     /**
-     * 
+     *
      * @param host
      * @param port
      * @return
-     * @throws PingerException 
+     * @throws PingerException
      */
     public static boolean helloPing(String host, int port) throws PingerException
     {
         InetAddress inetAddress;
-        
+
         try {
             inetAddress = InetAddress.getByName( host );
         }
@@ -162,7 +158,7 @@ public class Pinger extends Thread
                     host
                     );
         }
-        
+
         try {
             String str = sendUDPRequest(inetAddress, port, "Hello\n\r".getBytes() );
 
@@ -185,7 +181,7 @@ public class Pinger extends Thread
     }
 
 //    /**
-//     * 
+//     *
 //     * @param host
 //     * @param port
 //     * @param bytes
@@ -198,9 +194,9 @@ public class Pinger extends Thread
 //    {
 //        return sendRequest( InetAddress.getByName( host ), port, bytes );
 //    }
-    
+
     /**
-     * 
+     *
      * @param inetAddress
      * @param port
      * @param bytes
@@ -209,7 +205,7 @@ public class Pinger extends Thread
      */
     public static String sendTCPRequest(
             final InetAddress   inetAddress,
-            final int           port, 
+            final int           port,
             final byte[]        sendData
             )
         throws java.io.IOException
@@ -254,7 +250,7 @@ public class Pinger extends Thread
     }
 
     /**
-     * 
+     *
      * @param inetAddress
      * @param port
      * @param bytes
@@ -263,7 +259,7 @@ public class Pinger extends Thread
      */
     public static String sendUDPRequest(
             final InetAddress   inetAddress,
-            final int           port, 
+            final int           port,
             final byte[]        sendData
             )
         throws java.io.IOException
@@ -293,10 +289,10 @@ public class Pinger extends Thread
             System.out.println("Data recieved : " + new String( receivePacket.getData()) );
             System.out.println("From : " + receivePacket.getAddress() + ":" + receivePacket.getPort() );
 
-/*            
+/*
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             socket.receive( receivePacket );
-            
+
             String modifiedSentence = new String(receivePacket.getData());
             System.out.println("FROM SERVER:" + modifiedSentence);
 //            clientSocket.close();
@@ -324,7 +320,7 @@ public class Pinger extends Thread
             catch( IOException ignore) {
                 // Ignore
                 }
-*/                
+*/
             }
         finally {
             if( socket != null ) {
@@ -334,13 +330,13 @@ public class Pinger extends Thread
 
         return result.toString();
     }
-    
+
 //    public static void main(String[] args) throws UnknownHostException, IOException
 //    {
 //        Pinger.helloPing( "127.0.0.1" );
 //
 //        Pinger.helloPing( "google.com" );
-//        
+//
 //        Pinger.ping( "localhost", Pinger.DEFAULT_TIMEOUT );
 //        Pinger.ping( "google.com", Pinger.DEFAULT_TIMEOUT );
 //

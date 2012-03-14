@@ -1,11 +1,9 @@
 package cx.ath.choisnet.html;
 
 /**
- * 
- * @author Claude
  *
  */
-public class HTMLGadgetNotFoundException 
+public class HTMLGadgetNotFoundException
     extends HTMLFormException
 {
     private static final long serialVersionUID = 1L;

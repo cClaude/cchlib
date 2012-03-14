@@ -2,7 +2,6 @@ package cx.ath.choisnet.swing.introspection;
 
 /**
  *
- * @author Claude
  */
 public interface ComponentInitializer
 {

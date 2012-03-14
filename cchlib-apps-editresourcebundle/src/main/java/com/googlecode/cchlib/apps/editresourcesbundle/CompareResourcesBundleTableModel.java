@@ -22,7 +22,6 @@ import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 /**
  * {@link TableModel} for {@link CompareResourcesBundleFrame}
  *
- * @author Claude CHOISNET
  */
 class CompareResourcesBundleTableModel
     extends AbstractTableModel

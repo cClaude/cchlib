@@ -12,18 +12,16 @@ import cx.ath.choisnet.io.DirectoryIterator;
 import junit.framework.TestCase;
 
 /**
- * 
- * @author Claude CHOISNET
  *
  */
-public class DirectoryIteratorTest extends TestCase 
+public class DirectoryIteratorTest extends TestCase
 {
     final private static Logger slogger = Logger.getLogger(DirectoryIteratorTest.class);
 
     public static final File TEMP_DIR_FILE    = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
     public static final File NOT_EXIST_FILE   =  new File( "thisFileShoundNotExists" );
-    
+
     public void testNotExist()
     {
         Iterator<File> iter = new DirectoryIterator( NOT_EXIST_FILE );
@@ -35,14 +33,14 @@ public class DirectoryIteratorTest extends TestCase
                     .append( " should not exist, so file: " )
                     .append( iter.next() )
                     .append( "' should not exist..." );
-            
+
             slogger.error( msg );
             fail(msg.toString());
         }
 
         if( iter.hasNext() ) {
             String msg = "*** error: this Iterator should be empty";
-            
+
             slogger.error( (new StringBuilder())
                     .append( "*** error: " )
                     .append( iter.next() )
@@ -51,8 +49,8 @@ public class DirectoryIteratorTest extends TestCase
             fail( msg );
         }
     }
-    
-    public void testDirectoryIterator() 
+
+    public void testDirectoryIterator()
     {
         int  fCount = 0;
         long begin  = System.currentTimeMillis();
@@ -65,7 +63,7 @@ public class DirectoryIteratorTest extends TestCase
         slogger.info( "Root    : "  + rootFile );
         slogger.info( "ms      : "  + (end-begin) );
         slogger.info( "---------------------" );
-        
+
         begin  = System.currentTimeMillis();
         for( File dirFile : dirsIterator ) {
             fCount++;
@@ -73,22 +71,22 @@ public class DirectoryIteratorTest extends TestCase
             assertTrue( "Is not a directory : " + dirFile, dirFile.isDirectory() );
         }
         end = System.currentTimeMillis();
-        
+
         slogger.info( "---------------------" );
         slogger.info( "Count   : "  + fCount );
         slogger.info( "ms      : "  + (end-begin) );
         slogger.info( "---------------------" );
     }
-    
+
     public void testDirStruct() throws IOException
     {
         File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
 
         IOHelper.deleteTree(dirRootFile);
-        
+
         boolean res = dirRootFile.exists();
         assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
-        
+
         res = dirRootFile.mkdirs();
         assertTrue( "Can't mkdirs(): " + dirRootFile, res);
 
@@ -107,9 +105,9 @@ public class DirectoryIteratorTest extends TestCase
         };
 
         List<File> allFiles = new ArrayList<File>();
-        
+
         allFiles.add(dirRootFile);
-        
+
         for( File d : dirs ) {
             res = d.mkdirs();
             assertTrue( "Can't mkdirs(): " + d, res);
@@ -118,20 +116,20 @@ public class DirectoryIteratorTest extends TestCase
         for( File f : files ) {
             IOHelper.toFile(f,f.getPath());
         }
-        
+
         List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
         List<File> foundInFileIterator    = new ArrayList<File>();
-        
+
         DirectoryIterator di = new DirectoryIterator( dirRootFile );
-        
+
         for( File f : di ) {
             assertTrue( "Is not a directory : " + f, f.isDirectory() );
             foundInFileIterator.add( f );
-            
+
             boolean oldFound = notFoundInFileIterator.remove( f );
             assertTrue( "File should not be here: " + f, oldFound);
         }
-        
+
         slogger.info( "allFiles # " + allFiles.size() );
         slogger.info( "foundInFileIterator # " + foundInFileIterator.size() );
         slogger.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
@@ -139,10 +137,10 @@ public class DirectoryIteratorTest extends TestCase
         for( File f : notFoundInFileIterator ) {
             slogger.info( "  > not found by Iterator: " + f );
         }
-        
+
         assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
         assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
-        
+
         //
         // Test FileFilter !
         //
@@ -155,7 +153,7 @@ public class DirectoryIteratorTest extends TestCase
                 return f.getName().endsWith( "2" );
             }
         };
-        DirectoryIterator diFF = new DirectoryIterator( 
+        DirectoryIterator diFF = new DirectoryIterator(
                             dirRootFile,
                             dirFF
                             );
@@ -165,10 +163,10 @@ public class DirectoryIteratorTest extends TestCase
             diFFcount++;
         }
         assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
-        
+
         // cleanup !
         IOHelper.deleteTree(dirRootFile);
-        
+
         res = dirRootFile.exists();
         assertFalse( "Can't delete(): " + dirRootFile, res);
     }

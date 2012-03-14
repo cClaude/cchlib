@@ -9,7 +9,6 @@ import cx.ath.choisnet.lang.ByteArrayBuilder;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class Message
     implements Serializable
@@ -18,13 +17,13 @@ public class Message
 
     private static final byte EOL_0D = 0x0D;
     private static final byte EOL_0A = 0x0A;
-    
+
     private String              fromLine;
     private ArrayList<String>   headerList = new ArrayList<String>();
     private String              body;
-    
+
     /**
-     * 
+     *
      * @param mis
      * @throws IOException
      */
@@ -39,7 +38,7 @@ public class Message
 
         // "\r\n"
         while( (len = mis.read( buffer, 0, buffer.length )) > 0) {
-            
+
             for( int i = 0; i<len; i++ ) {
                 byte c = buffer[ i ];
 
@@ -58,7 +57,7 @@ public class Message
                         if( prev0D ) {
                             // EOL found !
                             //***prevEOF = true;
-                            
+
                             if( fromLine == null ) {
                                 // Add From_ line
                                 fromLine = bab.toString();
@@ -107,7 +106,7 @@ public class Message
     {
         return this.fromLine;
     }
-    
+
     /**
      * Returns list of String with header strings
      * @return list of String with header strings
@@ -129,8 +128,8 @@ public class Message
     {
         return body;
     }
-/**    
-    From 
+/**
+    From
     X-grid-version: 0000
     Date: Fri, 22 Jan 2010 20:13:08 +0100 (CET)
     From: 0623494949@sfr.fr

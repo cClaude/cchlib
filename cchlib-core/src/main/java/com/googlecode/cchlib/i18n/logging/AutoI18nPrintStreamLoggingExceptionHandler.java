@@ -8,14 +8,12 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler}
- * using {@link System#err} or any custom {@link PrintStream} 
+ * using {@link System#err} or any custom {@link PrintStream}
  * to trace Localization exceptions.
  * <p>
  * This object is not Serializable, you must use
  * this debugging your application only!
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class AutoI18nPrintStreamLoggingExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler

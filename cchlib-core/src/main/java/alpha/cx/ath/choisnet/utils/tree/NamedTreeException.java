@@ -1,14 +1,9 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.utils.tree;
 
 /**
  * Root exception for {@link NamedTree}
- * 
- * @author Claude CHOISNET
  */
-public class NamedTreeException extends Exception 
+public class NamedTreeException extends Exception
 {
     private static final long serialVersionUID = 1L;
 

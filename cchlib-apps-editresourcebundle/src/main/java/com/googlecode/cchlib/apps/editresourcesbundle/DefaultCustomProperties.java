@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 /**
  * Use standard Properties
  *
- * @author Claude CHOISNET
  */
 public
 class DefaultCustomProperties

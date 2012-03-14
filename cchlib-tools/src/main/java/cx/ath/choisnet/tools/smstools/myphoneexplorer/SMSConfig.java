@@ -5,16 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 
- * @author Claude CHOISNET
+ *
  */
-public class SMSConfig 
+public class SMSConfig
 {
     private static String[] badDatesString = {
         "2010-07-13.21-45-16", // 13/07/2010 21:45:16
     };
     private static Date[] badDates;
-    
+
     static {
         badDates = new Date[ badDatesString.length ];
 

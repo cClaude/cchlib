@@ -18,8 +18,6 @@ import java.util.logging.Logger;
  * Provide a basic implementation for
  * {@link com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory.LastSelectedFilesAccessoryConfigurator}
  * based on {@link Properties}
- *
- * @author Claude CHOISNET
  */
 public class DefaultBookmarksAccessoryConfigurator
     extends AbstractBookmarksAccessoryConfigurator

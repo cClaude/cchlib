@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.logging;
-//package cx.ath.choisnet.i18n.logging;
 
 import java.lang.reflect.InvocationTargetException;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
@@ -7,8 +6,6 @@ import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 /**
  * {@link AutoI18nExceptionHandler} using logging
  * to trace Localization exceptions.
- *
- * @author Claude CHOISNET
  */
 public abstract class AbstractAutoI18nLoggingExceptionHandler
     implements AutoI18nExceptionHandler

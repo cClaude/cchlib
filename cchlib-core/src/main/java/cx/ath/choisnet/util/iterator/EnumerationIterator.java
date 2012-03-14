@@ -6,19 +6,18 @@ import java.util.NoSuchElementException;
 
 /**
  * Create an Iterator using (and consuming) an Enumeration
- * 
- * @author Claude CHOISNET
+ *
  * @param <T> type content
  */
-public class EnumerationIterator<T> 
+public class EnumerationIterator<T>
     implements Iterator<T>
 {
     private Enumeration<T> enumeration;
-    
+
     /**
      * Create an Iterator using (and consuming) an Enumeration
-     * 
-     * @param enumeration Enumeration to use 
+     *
+     * @param enumeration Enumeration to use
      */
     public EnumerationIterator(
             Enumeration<T> enumeration
@@ -30,7 +29,7 @@ public class EnumerationIterator<T>
     /**
      * Returns true if the iteration has more elements.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     @Override
@@ -38,9 +37,9 @@ public class EnumerationIterator<T>
     {
         return enumeration.hasMoreElements();
     }
-    
-    /** 
-     * Returns the next element in the iteration. 
+
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -49,10 +48,10 @@ public class EnumerationIterator<T>
     {
         return enumeration.nextElement();
     }
-    
+
     /**
      * Unsupported Operation
-     * 
+     *
      * @throws UnsupportedOperationException
      */
     @Override

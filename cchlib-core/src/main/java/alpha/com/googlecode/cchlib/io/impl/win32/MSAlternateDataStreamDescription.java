@@ -9,14 +9,12 @@ import java.util.ArrayList;
  * for NTFS (Alpha)
  * <br/>
  * This class describe default NTFS ADS.
- *
- * @author Claude CHOISNET
  */
-public class MSAlternateDataStreamDescription 
+public class MSAlternateDataStreamDescription
 {
-    private static final List<MSAlternateDataStreamDescriptionEntry> list 
+    private static final List<MSAlternateDataStreamDescriptionEntry> list
               = new ArrayList<MSAlternateDataStreamDescriptionEntry>();
-    
+
     static {
         list.add( new MSAlternateDataStreamDescriptionEntry(
                 "Master file table",
@@ -91,11 +89,11 @@ public class MSAlternateDataStreamDescription
                 "Used for various optional extensions such as quotas, reparse point data, and object identifiers."
                 ));
     }
-    
+
     private MSAlternateDataStreamDescription(){}
-    
+
     public static List<MSAlternateDataStreamDescriptionEntry> getEntries()
     {
         return Collections.unmodifiableList( list );
     }
-}    
+}

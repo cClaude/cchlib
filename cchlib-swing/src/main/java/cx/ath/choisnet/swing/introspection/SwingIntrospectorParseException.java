@@ -1,14 +1,10 @@
-/**
- * 
- */
 package cx.ath.choisnet.swing.introspection;
 
 /**
- * @author Claude
  *
  */
-public class SwingIntrospectorParseException 
-    extends SwingIntrospectorException 
+public class SwingIntrospectorParseException
+    extends SwingIntrospectorException
 {
     private static final long serialVersionUID = 1L;
 

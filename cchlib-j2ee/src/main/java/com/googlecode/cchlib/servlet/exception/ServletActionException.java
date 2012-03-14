@@ -1,12 +1,9 @@
-/**
- *
- */
 package com.googlecode.cchlib.servlet.exception;
 
 import javax.servlet.ServletException;
 
 /**
- * @author Claude CHOISNET
+ *
  */
 public class ServletActionException extends ServletException
 {

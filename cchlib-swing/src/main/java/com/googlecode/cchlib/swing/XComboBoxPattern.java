@@ -12,7 +12,6 @@ import com.googlecode.cchlib.swing.text.PatternDocument;
 /**
  * JComboBox for Regular Expressions
  *
- * @author Claude CHOISNET
  * @see PatternDocument
  * @see Pattern
  * @since 4.1.6

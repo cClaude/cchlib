@@ -13,7 +13,6 @@ import java.util.TreeMap;
 
 /**
  *
- * @author Claude CHOISNET
  *
  */
 public class DHCPOptions

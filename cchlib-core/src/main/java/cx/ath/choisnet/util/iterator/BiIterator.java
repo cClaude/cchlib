@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  * Iterator and second Iterator for it's
  * results (Order is preserve).
  *
- * @author Claude CHOISNET
- * @param <T> 
+ * @param <T> content type
  * @see cx.ath.choisnet.util.iterator.iterable.BiIterator
  */
 public class BiIterator<T>
@@ -22,7 +21,7 @@ public class BiIterator<T>
      * Build a new Iterator that consume first
      * Iterator and second Iterator for it's
      * results (Order is preserve).
-     * 
+     *
      * @param firstIterator  first iterator
      * @param secondIterator second iterator
      * @throws NullPointerException if firstIterator
@@ -46,7 +45,7 @@ public class BiIterator<T>
     /**
      * Returns true if the iteration has more elements.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     @Override
@@ -60,8 +59,8 @@ public class BiIterator<T>
         }
     }
 
-    /** 
-     * Returns the next element in the iteration. 
+    /**
+     * Returns the next element in the iteration.
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -78,10 +77,10 @@ public class BiIterator<T>
 
     /**
      * Removes from the underlying collection the last element
-     * returned by the iterator. 
-     * 
+     * returned by the iterator.
+     *
      * @throws UnsupportedOperationException if the remove
-     *         operation is not supported by current Iterator. 
+     *         operation is not supported by current Iterator.
      * @throws IllegalStateException if the next method has
      *         not yet been called, or the remove method has
      *         already been called after the last call to the
@@ -99,7 +98,7 @@ public class BiIterator<T>
     }
 
 //    /**
-//     * Returns an iterator over a set of elements of type T. 
+//     * Returns an iterator over a set of elements of type T.
 //     * @return this Iterator
 //     */
 //    @Override

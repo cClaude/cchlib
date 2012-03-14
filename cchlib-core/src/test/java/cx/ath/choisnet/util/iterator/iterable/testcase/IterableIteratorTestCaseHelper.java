@@ -12,8 +12,6 @@ import junit.framework.TestCase;
 /**
  * TestCase
  *
- * @author Claude CHOISNET
- *
  */
 public abstract class IterableIteratorTestCaseHelper extends TestCase
 {

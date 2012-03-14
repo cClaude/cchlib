@@ -6,8 +6,6 @@ import javax.swing.JCheckBox;
 
 /**
  *
- * @author Claude
- *
  */
 public class FileTypeCheckBox implements Serializable
 {

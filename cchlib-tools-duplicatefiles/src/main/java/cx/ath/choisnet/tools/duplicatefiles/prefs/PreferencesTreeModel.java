@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.tools.duplicatefiles.prefs;
 
@@ -8,7 +8,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 /**
- * @author Claude
  *
  */
 public class PreferencesTreeModel extends DefaultTreeModel
@@ -16,7 +15,7 @@ public class PreferencesTreeModel extends DefaultTreeModel
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      * @param arg0
      */
     public PreferencesTreeModel( TreeNode arg0 )

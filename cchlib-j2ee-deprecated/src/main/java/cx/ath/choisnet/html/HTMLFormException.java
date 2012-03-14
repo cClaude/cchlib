@@ -1,8 +1,7 @@
 package cx.ath.choisnet.html;
 
 /**
- * 
- * @author Claude
+ *
  */
 public class HTMLFormException extends HTMLDocumentException
 {

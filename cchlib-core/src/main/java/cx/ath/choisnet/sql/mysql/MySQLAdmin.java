@@ -23,8 +23,6 @@ import java.io.OutputStream;
  * check its stability, it could be subject to significant
  * change.
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class MySQLAdmin
 {
@@ -34,7 +32,7 @@ public class MySQLAdmin
     private String mySQLDumpParams;
 
     /**
-     *
+     * TODOC
      * @param mySQLExe
      * @param mySQLParams
      * @param mySQLDumpExe
@@ -54,7 +52,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param outputStream
      * @throws MySQLAdminException
      */
@@ -75,7 +73,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param outputFile
      * @throws MySQLAdminException
      */
@@ -103,7 +101,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param servletOuput
      * @param outputFile
      * @throws MySQLAdminException
@@ -144,7 +142,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param servletOuput
      * @param fileOutputStream
      * @throws MySQLAdminException
@@ -168,7 +166,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param inputfile
      * @throws MySQLAdminException
      * @throws FileNotFoundException
@@ -185,7 +183,7 @@ public class MySQLAdmin
     }
 
     /**
-     *
+     * TODOC
      * @param sqlStream
      * @throws MySQLAdminException
      */

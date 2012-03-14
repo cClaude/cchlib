@@ -36,7 +36,6 @@ import javax.swing.JLabel;
  * TreeFile = [TreeFile.Node (where TreeFile.Node.File.getParent() == null)]*
  * </pre>
  *
- * @author Claude CHOISNET
  */
 public class JPanelSelectFoldersOrFiles extends JPanel
 {

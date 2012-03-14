@@ -9,8 +9,6 @@ import java.util.Map;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public class InfosServletDisplayImpl2 extends InfosServletDisplayImpl
 {

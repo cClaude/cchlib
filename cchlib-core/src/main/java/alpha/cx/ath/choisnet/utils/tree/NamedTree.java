@@ -42,9 +42,8 @@ import alpha.com.googlecode.cchlib.utils.Walkable;
  *   5-R->6-R->7   8-R->9   10-R->11-R->12-R->13
  * </pre>
  *
- * @author Claude CHOISNET
- * @param <T>
-  */
+ * @param <T> content type
+ */
 public class NamedTree<T>
     extends BinaryTree<T>
         implements Walkable<NamedTreeNode<T>>
@@ -57,7 +56,7 @@ public class NamedTree<T>
 
     /**
      *
-     * @param <T>
+     * @param <T> content type
      */
     private static class DefaultNamedTreeNode<T>
         extends DefaultBinaryTreeNode<T>

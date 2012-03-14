@@ -40,7 +40,6 @@ import cx.ath.choisnet.swing.introspection.SwingIntrospectorIllegalAccessExcepti
 
 /**
  * @see IntrospectionTest
- * @author Claude CHOISNET
  */
 //VS 4E -- DO NOT REMOVE THIS LINE!
 class TstFrame

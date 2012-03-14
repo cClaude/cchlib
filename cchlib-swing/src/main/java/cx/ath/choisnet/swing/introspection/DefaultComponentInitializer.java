@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import javax.swing.ComboBoxModel;
@@ -16,10 +13,9 @@ import cx.ath.choisnet.lang.introspection.method.Introspection;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
 /**
- * @author Claude
+ *
  * @param <OBJECT>
  * @param <OBJECT_ENTRY>
- *
  */
 public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends IntrospectionItem<OBJECT>>
     implements ComponentInitializer

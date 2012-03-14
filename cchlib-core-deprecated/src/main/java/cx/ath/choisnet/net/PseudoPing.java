@@ -7,10 +7,7 @@ import java.net.Socket;
 
 /**
  * Trying to offer a ping like operation for Java (Alpha)
- *
- * @author Claude CHOISNET
  */
-
 @Deprecated
 public class PseudoPing
 {

@@ -6,9 +6,6 @@ import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
 
 /**
  * TestCase
- *
- * @author Claude CHOISNET
- *
  */
 public class BiIteratorTest extends IterableIteratorTestCaseHelper // (TestCase)
 {

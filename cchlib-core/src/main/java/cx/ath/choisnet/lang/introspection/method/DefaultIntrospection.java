@@ -1,37 +1,34 @@
-/**
- * 
- */
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 
 /**
- * @author Claude
- * @param <O> 
+ * TODOC
  *
+ * @param <O> TODOC
  */
-public class DefaultIntrospection<O> 
-    extends Introspection<O, DefaultIntrospectionItem<O>> 
+public class DefaultIntrospection<O>
+    extends Introspection<O, DefaultIntrospectionItem<O>>
 {
     /**
-     * 
+     *
      * @param inpectClass
      * @param attribSet
      */
     public DefaultIntrospection(
             Class<O>                        inpectClass,
-            EnumSet<Introspection.Attrib>   attribSet 
+            EnumSet<Introspection.Attrib>   attribSet
             )
     {
-        super( 
-           inpectClass, 
+        super(
+           inpectClass,
            new IntrospectionItemFactory<IntrospectionItem<O>>()
            {
                 @Override
-                public IntrospectionItem<O> buildIntrospectionItem( 
+                public IntrospectionItem<O> buildIntrospectionItem(
                         Method getter,
-                        Method setter 
+                        Method setter
                         )
                 {
                     return new DefaultIntrospectionItem<O>( getter, setter );

@@ -15,8 +15,6 @@ import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable

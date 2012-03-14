@@ -7,10 +7,8 @@ import java.util.Set;
 
 /**
  * TODOC
- * 
- * @author Claude CHOISNET
  */
-public interface DigestFileCollector  
+public interface DigestFileCollector
     extends Serializable
 {
     /**
@@ -21,27 +19,27 @@ public interface DigestFileCollector
      * @return Map
      */
     public Map<String,Set<File>> getFiles();
-    
+
     /**
      * Remove duplicate files in collection, and
      * returns number of file removed in Collection.
      * <br/>
      * More formally, remove all entry with a Set<File>
      * size > 1
-     * 
+     *
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
     public int removeDuplicate()
         throws UnsupportedOperationException;
-    
+
     /**
      * Remove non duplicate files in collection, and
      * returns number of file removed in Collection.
      * <br/>
      * More formally, remove all entry with a Set<File>
      * size < 2
-     * 
+     *
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
@@ -53,7 +51,7 @@ public interface DigestFileCollector
      * be empty after this call returns.
      */
     public void clear();
-    
+
     /**
      * Return count of Set that contain more than
      * on file
@@ -66,22 +64,22 @@ public interface DigestFileCollector
     /**
      * Return count of File in a Set that contain
      * more than on file.
-     * 
+     *
      * @return count of File in a Set that contain
      * more than on file
      */
     public int getDuplicateFilesCount();
-    
+
     /**
      * Add a DigestEventListener to this DigestFileCollector
-     * 
+     *
      * @param listener the listener to add
      */
     public void addDigestEventListener(DigestEventListener listener);
 
     /**
      * Remove a DigestEventListener to this DigestFileCollector
-     * 
+     *
      * @param listener the listener to remove
      */
     public void removeDigestEventListener(DigestEventListener listener);

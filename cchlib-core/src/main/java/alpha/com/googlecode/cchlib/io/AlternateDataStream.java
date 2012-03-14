@@ -5,16 +5,14 @@ import java.io.FileOutputStream;
 
 /**
  * Provide some tool to access to AlternateDataStream (Alpha)
- *
- * @author Claude CHOISNET
  */
-public class AlternateDataStream 
+public class AlternateDataStream
 {
     private File    file;
     private String  filename;
     private String  streamname;
     private Boolean isSupported;
-    
+
     public AlternateDataStream(
             File   parent,
             String filename,
@@ -54,7 +52,7 @@ public class AlternateDataStream
     {
         return this.file.getParentFile();
     }
-    
+
     protected File getStreamSupportFile()
     {
         return new File(
@@ -62,23 +60,23 @@ public class AlternateDataStream
                 this.filename
                 );
     }
-    
+
     public boolean isSupported()
     {
         if( this.isSupported == null ) {
             File parent = this.file;
-            
+
             while( parent.getParentFile() != null ) {
                 parent = parent.getParentFile();
             }
-            
+
             AlternateDataStream ads = new AlternateDataStream(
                     parent,
                     "~ThisFileShouldNotExist." + getClass().getName() + ".tmp",
                     "Test"
                     );
             boolean isSupported;
-            
+
             try {
                 FileOutputStream fos = new FileOutputStream(ads.getStreamFile());
                 fos.write( 1 );
@@ -88,12 +86,12 @@ public class AlternateDataStream
             catch( java.io.IOException e ) {
                 isSupported = false;
             }
-           
+
             ads.getStreamSupportFile().delete();
-            
+
             this.isSupported = isSupported;
         }
-        
+
         return this.isSupported;
     }
 }

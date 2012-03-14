@@ -11,7 +11,6 @@ import cx.ath.choisnet.util.Selectable;
  * matches according to {@link Selectable} are
  * in iterator result.
  *
- * @author Claude CHOISNET
  * @param <T> type iterator entries.
  */
 public class IteratorFilter<T>
@@ -25,12 +24,12 @@ public class IteratorFilter<T>
     /**
      * Create an IteratorFilter based on an iterator
      * and on a filter.
-     * 
+     *
      * @param iterator
      * @param filter
      */
     public IteratorFilter(
-            Iterator<T>     iterator, 
+            Iterator<T>     iterator,
             Selectable<T>   filter
             )
     {
@@ -54,10 +53,10 @@ public class IteratorFilter<T>
 
 //    /**
 //     * Removes from the underlying collection the last element
-//     * returned by the iterator. 
-//     * 
+//     * returned by the iterator.
+//     *
 //     * @throws UnsupportedOperationException if the remove
-//     *         operation is not supported by parent Iterator. 
+//     *         operation is not supported by parent Iterator.
 //     * @throws IllegalStateException if the next method has
 //     *         not yet been called, or the remove method has
 //     *         already been called after the last call to the
@@ -70,7 +69,7 @@ public class IteratorFilter<T>
 //    }
 
 //    /**
-//     * Returns an iterator over a set of elements of type T. 
+//     * Returns an iterator over a set of elements of type T.
 //     * @return this Iterator
 //     */
 //    @Override
@@ -81,7 +80,7 @@ public class IteratorFilter<T>
 
     /**
      * TODOC
-     * 
+     *
      * @param fileFilter
      * @return a wrapper for File use that use FileFilter
      */

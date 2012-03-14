@@ -1,22 +1,18 @@
-/**
- * 
- */
 package alpha.cx.ath.choisnet.utils.tree;
 
 /**
  * Basic binary tree node implementation.
- * 
- * @author Claude CHOISNET
+ *
  * @param <T> content type
  */
-public class DefaultBinaryTreeNode<T> 
-    implements RWBinaryTreeNode<T> 
+public class DefaultBinaryTreeNode<T>
+    implements RWBinaryTreeNode<T>
 {
     private static final long serialVersionUID = 1L;
     private T data;
     private BinaryTreeNode<T> left;
     private BinaryTreeNode<T> right;
-    
+
     /**
      * Create an empty node
      */

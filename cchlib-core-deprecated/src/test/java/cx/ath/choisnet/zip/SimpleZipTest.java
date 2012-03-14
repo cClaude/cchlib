@@ -6,13 +6,15 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
-import junit.framework.TestCase;
 
 /**
  * @deprecated
  */
-public class SimpleZipTest extends TestCase
+public class SimpleZipTest
 {
     final private static Logger slogger = Logger.getLogger(SimpleZipTest.class);
 
@@ -23,6 +25,8 @@ public class SimpleZipTest extends TestCase
     public final static String UNZIP_ZIP_FILENAME  = "../lib/log4j-1.2.15.jar";
     public final static File   UNZIP_DEST_DIR_FILE = new File( TEMP_DIR_FILE, "log4j-1.2.15.jar" );
 
+    @Test
+    @Ignore
     public void testSimpleZip()
         throws java.io.IOException
     {
@@ -64,10 +68,12 @@ public class SimpleZipTest extends TestCase
 
         boolean del = ZIP_DESTINATION_ZIP.delete();
 
-        assertTrue( "Can't delete: " + ZIP_DESTINATION_ZIP, del);
+        Assert.assertTrue( "Can't delete: " + ZIP_DESTINATION_ZIP, del);
         // TODO: can't delete file ?
     }
 
+    @Test
+    @Ignore
     public void testUnzip()
         throws java.io.IOException
     {
@@ -99,7 +105,7 @@ public class SimpleZipTest extends TestCase
 
         slogger.info( "Unzip file count:" + count );
 
-        assertTrue( "No file to unzip: ", count > 0 );
+        Assert.assertTrue( "No file to unzip: ", count > 0 );
 
         IOHelper.deleteTree( UNZIP_DEST_DIR_FILE );
     }

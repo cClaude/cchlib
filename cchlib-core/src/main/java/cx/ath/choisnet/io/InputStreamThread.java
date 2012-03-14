@@ -7,8 +7,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * 
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public class InputStreamThread extends Thread implements Closeable

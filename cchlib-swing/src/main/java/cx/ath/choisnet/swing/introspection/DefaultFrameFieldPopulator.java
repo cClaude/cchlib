@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import javax.swing.JCheckBox;
@@ -14,10 +11,9 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
 /**
- * @author Claude
+ *
  * @param <FRAME>
  * @param <OBJECT>
- *
  */
 public class DefaultFrameFieldPopulator<FRAME, OBJECT>
     implements FrameFieldPopulator<FRAME, OBJECT>

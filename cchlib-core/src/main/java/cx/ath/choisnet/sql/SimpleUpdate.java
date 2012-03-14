@@ -13,7 +13,6 @@ import javax.sql.DataSource;
  * if you need to reuse {@link Connection}
  * </p>
  *
- * @author Claude CHOISNET
  * @see SimpleQuery
  * @see ConnectionQuery
  */

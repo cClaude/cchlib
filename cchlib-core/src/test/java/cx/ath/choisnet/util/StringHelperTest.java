@@ -9,7 +9,6 @@ import cx.ath.choisnet.test.Assert;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public class StringHelperTest
 {
@@ -71,7 +70,7 @@ public class StringHelperTest
             final String[]  expResult   = {"b","",":and:f","",""};
 
             testSplit_String_char( str, token, expResult );
-        }    
+        }
     }
 
     private static void testSplit_String_char( final String str, final char token, String[] expResult )

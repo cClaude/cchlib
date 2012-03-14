@@ -26,7 +26,6 @@ import java.util.Set;
  * (childProperties).
  * <p>
  *
- * @author Claude CHOISNET
  */
 public class MultiProperties implements Serializable
 {

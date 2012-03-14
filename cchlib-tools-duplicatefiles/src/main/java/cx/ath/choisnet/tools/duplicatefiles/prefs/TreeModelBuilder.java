@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.tools.duplicatefiles.prefs;
 
@@ -15,7 +15,6 @@ import alpha.cx.ath.choisnet.utils.tree.NamedTree;
 import alpha.cx.ath.choisnet.utils.tree.NamedTreeNode;
 
 /**
- * @author Claude
  *
  */
 public class TreeModelBuilder implements Serializable
@@ -26,7 +25,7 @@ public class TreeModelBuilder implements Serializable
     //private DefaultMutableTreeNode currentMutableTreeNode;
     private NamedTree<JPanel> tree = new NamedTree<JPanel>();
     /**
-     * 
+     *
      */
     public TreeModelBuilder()
     {
@@ -37,9 +36,9 @@ public class TreeModelBuilder implements Serializable
     public TreeModelBuilder addNode(String path, JPanel panel) throws BadRootNameException
     {
         String[] pathParts = path.split( "\\." );
-        
+
         tree.put( panel, pathParts );
-        
+
         return this;
     }
     private class Builder implements Visitor<NamedTreeNode<JPanel>>
@@ -57,16 +56,16 @@ public class TreeModelBuilder implements Serializable
     public TreeModel createTreeModel()
     {
         Builder b = new Builder();
-        
+
         tree.walkDepthFirst( b );
-        
+
         return new DefaultTreeModel( b.node );
     }
 
-    
-    
+
+
     /**
-     * 
+     *
      * @param node
      * @param jpanel
      * /
@@ -77,17 +76,17 @@ public class TreeModelBuilder implements Serializable
         }
         else {
             currentMutableTreeNode = node;
-            
+
             if( treeModel == null ) {
                 treeModel = new DefaultTreeModel( node );
             }
         }
-        
+
         //return this;
     }*/
 
 //    /**
-//     * 
+//     *
 //     * @param name
 //     * @param jpanel
 //     * @return

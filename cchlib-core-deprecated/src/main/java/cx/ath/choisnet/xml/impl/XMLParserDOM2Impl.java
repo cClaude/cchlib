@@ -16,8 +16,6 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Claude CHOISNET
- *
  */
 @Deprecated
 public class XMLParserDOM2Impl
@@ -25,7 +23,6 @@ public class XMLParserDOM2Impl
 {
     /**
      *
-     * @author Claude CHOISNET
      */
     @Deprecated
     public enum Attributs {

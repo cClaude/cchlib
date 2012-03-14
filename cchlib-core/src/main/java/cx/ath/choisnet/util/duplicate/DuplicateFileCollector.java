@@ -25,8 +25,6 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  * <br/>
  * To use more than one this this object, call
  * {@link #clear()}
- *
- * @author Claude CHOISNET
  */
 public class DuplicateFileCollector
     extends DefaultDigestFileCollector

@@ -1,19 +1,12 @@
-/**
- * 
- */
 package cx.ath.choisnet.util.testcase;
 
-/*
-import java.io.OutputStream;
-import cx.ath.choisnet.util.ExternalApp;
-*/
 import junit.framework.TestCase;
 import cx.ath.choisnet.util.ExternalAppException;
 
 /**
- * @author Claude CHOISNET
+ *
  */
-public class ExternalAppTest extends TestCase 
+public class ExternalAppTest extends TestCase
 {
     public void test1() throws ExternalAppException
     {

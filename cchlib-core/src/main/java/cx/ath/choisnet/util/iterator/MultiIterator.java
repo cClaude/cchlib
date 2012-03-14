@@ -16,8 +16,7 @@ import java.util.NoSuchElementException;
  * <BR/>
  * Note: This Iterator extends also {@link Iterable} interface
  *
- * @author Claude CHOISNET
- * @param <T>
+ * @param <T> content type
  * @see CascadingIterator
  */
 public class MultiIterator<T> extends ComputableIterator<T>

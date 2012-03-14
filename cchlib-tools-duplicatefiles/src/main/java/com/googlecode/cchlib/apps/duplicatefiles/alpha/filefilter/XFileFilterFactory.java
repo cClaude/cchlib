@@ -1,12 +1,8 @@
-/**
- *
- */
 package com.googlecode.cchlib.apps.duplicatefiles.alpha.filefilter;
 
 import java.io.FileFilter;
 
 /**
- * @author Claude
  *
  */
 public class XFileFilterFactory {

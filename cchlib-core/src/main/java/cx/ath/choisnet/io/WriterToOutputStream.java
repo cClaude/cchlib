@@ -8,8 +8,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public class WriterToOutputStream extends OutputStream
@@ -20,7 +19,7 @@ public class WriterToOutputStream extends OutputStream
     private CharBuffer charBuffer;
 
     /**
-     * 
+     * TODOC
      * @param writer
      */
     public WriterToOutputStream(Writer writer)
@@ -29,7 +28,7 @@ public class WriterToOutputStream extends OutputStream
     }
 
     /**
-     * 
+     * TODOC
      * @param writer
      * @param charset
      */

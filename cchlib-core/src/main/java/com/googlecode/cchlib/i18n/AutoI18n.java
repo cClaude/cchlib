@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.awt.Window;
 import java.io.Serializable;
@@ -63,7 +62,6 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
  * </ul>
  * </p>
  *
- * @author Claude CHOISNET
  */
 public class AutoI18n implements Serializable
 {
@@ -109,8 +107,6 @@ public class AutoI18n implements Serializable
      * access, and private fields, but excludes inherited
      * fields.
      * </p>
-     *
-     * @author Claude CHOISNET
      */
     public enum Attribute
     {
@@ -233,7 +229,7 @@ public class AutoI18n implements Serializable
      *      2.5. If field value is an instance of javax.swing.JCheckBox
      *           use {@link javax.swing.JCheckBox#setText(String)}
      * </pre>
-     * @param <T>
+     * @param <T> TODOC
      * @param objectToI18n Object to I18n
      * @param clazz        Class to use for I18n
      * @see AutoI18nBasicInterface
@@ -605,8 +601,6 @@ public class AutoI18n implements Serializable
     /**
      * Private class use to identify current field
      * and to resolve value.
-     *
-     * @author Claude CHOISNET
      */
     public class Key
     {

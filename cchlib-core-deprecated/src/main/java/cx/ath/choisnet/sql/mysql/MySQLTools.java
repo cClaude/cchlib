@@ -6,15 +6,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * </p>
- *
  * @deprecated use {@link cx.ath.choisnet.sql.SQLTools} instead.
  */
 public class MySQLTools

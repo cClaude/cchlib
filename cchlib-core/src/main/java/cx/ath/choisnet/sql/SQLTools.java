@@ -5,8 +5,6 @@ import cx.ath.choisnet.util.StringHelper;
 
 /**
  * Conversions tools for create SQL requests.
- *
- * @author Claude CHOISNET
  */
 public class SQLTools
 {

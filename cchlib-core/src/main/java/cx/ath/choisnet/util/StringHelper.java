@@ -3,8 +3,7 @@ package cx.ath.choisnet.util;
 import java.util.ArrayList;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  */
 public class StringHelper
 {

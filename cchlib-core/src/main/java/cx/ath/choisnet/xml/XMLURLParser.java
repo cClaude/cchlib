@@ -5,7 +5,6 @@ import java.net.URL;
 /**
  * Interface that allow to retrieve based XML URL for XML
  *
- * @author Claude CHOISNET
  * @see XMLFileParser
  */
 public interface XMLURLParser extends XMLParser

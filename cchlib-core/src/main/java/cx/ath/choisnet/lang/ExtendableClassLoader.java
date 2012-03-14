@@ -26,7 +26,6 @@ import java.util.jar.JarFile;
  * change.
  * </p>
  *
- * @author Claude CHOISNET
  *
  */
 @ToDo

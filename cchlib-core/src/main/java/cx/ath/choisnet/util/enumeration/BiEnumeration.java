@@ -6,10 +6,8 @@ import java.util.Enumeration;
  * Build a new Enumeration that consume first
  * Enumeration and second Enumeration for it's
  * results (Order is preserve)
- *  
- * @author Claude CHOISNET
- * @param <T> 
  *
+ * @param <T> content type
  */
 public abstract class BiEnumeration<T>
     implements Enumeration<T>

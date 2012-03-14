@@ -6,8 +6,6 @@ import javax.swing.Icon;
 
 /**
  * TODOC
- *
- * @author Claude CHOISNET
  */
 public interface TabbedAccessoryInterface
     extends Serializable

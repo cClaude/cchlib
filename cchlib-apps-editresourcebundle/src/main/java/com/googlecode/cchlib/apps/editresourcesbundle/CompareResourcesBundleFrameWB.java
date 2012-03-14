@@ -16,7 +16,6 @@ import java.util.Locale;
 
 /**
  *
- * @author Claude CHOISNET
  */
 public abstract class CompareResourcesBundleFrameWB extends JFrame
 {

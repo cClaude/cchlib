@@ -12,7 +12,6 @@ import cx.ath.choisnet.util.iterator.CascadingIterator;
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
- * @author Claude CHOISNET
  * @since 03a.34
  */
 public abstract class AbstractMapCollection<K,V>

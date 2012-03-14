@@ -9,8 +9,6 @@ import java.io.Writer;
 
 /**
  * Format String and char to HTML
- *
- * @author Claude CHOISNET
  */
 public final class HTMLWriter extends Writer
     implements Appendable, Flushable, Closeable
@@ -20,7 +18,7 @@ public final class HTMLWriter extends Writer
     private int tabLength = 4;
 
     /**
-     *
+     * TODOC
      * @param writer destination Writer
      * @throws NullPointerException if writer is null
      */
@@ -34,7 +32,7 @@ public final class HTMLWriter extends Writer
     }
 
     /**
-     *
+     * TODOC
      * @param writer destination Writer
      * @param tabLength number of HTML space character to write for
      *        each tab [0x09] character
@@ -115,10 +113,10 @@ public final class HTMLWriter extends Writer
      * This is typically to be use to write into a &lt;textarea&gt;
      * @param throwable exception to get the stack trace.
      * @see Throwable#printStackTrace(PrintWriter)
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void write(final Throwable throwable)
-        throws java.io.IOException
+        throws IOException
     {
         final StringWriter sw = new StringWriter();
 
