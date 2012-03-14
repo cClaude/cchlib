@@ -3,7 +3,7 @@ package cx.ath.choisnet.bytesaccess;
 import java.io.IOException;
 
 /**
- * TODOC
+ * {@link IOException} create by {@link BytesAccess}
  */
 public class BytesAccessException extends IOException
 {

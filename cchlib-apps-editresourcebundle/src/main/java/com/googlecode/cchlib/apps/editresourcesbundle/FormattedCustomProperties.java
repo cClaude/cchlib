@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
+
+
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
@@ -14,15 +17,13 @@ import cx.ath.choisnet.util.FormattedProperties;
  *
  */
 public
-class FormattedCustomProperties
-    implements CustomProperties
+class FormattedCustomProperties extends AbstractCustomProperties
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FormattedCustomProperties.class );
     private FileObject          fileObject;
     private FormattedProperties properties;
     private HashMap<String,Integer> linesNumbers;
-    private boolean _hasChanged;
 
     public FormattedCustomProperties(
             final FileObject            fileObject,
@@ -34,8 +35,6 @@ class FormattedCustomProperties
         this.linesNumbers   = new HashMap<String,Integer>();
 
         refreshLinesNumber();
-
-           setEdited( false );
     }
 
     @Override
@@ -64,7 +63,7 @@ class FormattedCustomProperties
             os.close();
             logger.info( "Save : " + fileObject );
 
-               setEdited( false );
+            setEdited( false );
             return true;
             }
     }
@@ -112,23 +111,11 @@ class FormattedCustomProperties
         this.linesNumbers.clear();
         int lineNumber = 1;
 
-        for(FormattedProperties.Line line:properties.getLines()) {
+        for( FormattedProperties.Line line:properties.getLines() ) {
             if( ! line.isComment() ) {
                 this.linesNumbers.put( line.getKey(), lineNumber );
                 }
             lineNumber++;
             }
-    }
-
-    private void setEdited( boolean isEdited )
-    {
-        // TODO: add a listener her !
-        this._hasChanged = isEdited;
-    }
-
-    @Override
-    public boolean isEdited()
-    {
-        return this._hasChanged;
     }
 }

@@ -14,13 +14,12 @@ import org.apache.log4j.Logger;
  */
 public
 class DefaultCustomProperties
-    implements CustomProperties
+    extends AbstractCustomProperties
 {
     private static final long serialVersionUID = 1L;
     private static final Logger slogger = Logger.getLogger( DefaultCustomProperties.class );
     private Properties properties;
     private FileObject fileObject;
-    private boolean hasChanged;
 
     public DefaultCustomProperties(
             FileObject  fileObject,
@@ -29,7 +28,6 @@ class DefaultCustomProperties
     {
         this.properties = properties;
         this.fileObject = fileObject;
-        this.hasChanged = false;
     }
 
     @Override
@@ -83,7 +81,7 @@ class DefaultCustomProperties
     @Override
     public void setProperty( String key, String value )
     {
-        this.hasChanged = true;
+        setEdited( true );
         properties.setProperty( key, value );
     }
 
@@ -97,11 +95,5 @@ class DefaultCustomProperties
     public int getLineNumber( String key )
     {
         return 0;
-    }
-
-    @Override
-    public boolean isEdited()
-    {
-        return this.hasChanged;
     }
 }

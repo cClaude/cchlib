@@ -68,6 +68,7 @@ class CompareResourcesBundleFrame
     @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
     @I18nString private String msgStringSavePrefsExceptionTitle = "Error while saving preferences";
     @I18nString private String msgStringDefaultLocale = "default system";
+    @I18nString private String txtNoFile = "<<NoFile>>";
 
     /**
      * For I18n only
@@ -245,7 +246,7 @@ class CompareResourcesBundleFrame
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-        	DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
+            DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
                 public void perfomeConfig(JFileChooser jfc)
@@ -321,7 +322,7 @@ class CompareResourcesBundleFrame
                       this,
                       String.format(
                               fileSaveNowQuestionMsg,
-                              fileObject.getDisplayName()
+                              fileObject.getDisplayName( txtNoFile )
                               ),
                       saveFileTypeMsg,
                       JOptionPane.YES_NO_OPTION
@@ -337,7 +338,7 @@ class CompareResourcesBundleFrame
                 if( res ) {
                     JOptionPane.showMessageDialog(
                             this,
-                            String.format( fileSavedMsg, fileObject.getDisplayName() ) ,
+                            String.format( fileSavedMsg, fileObject.getDisplayName( txtNoFile ) ) ,
                             saveFileTypeMsg,
                             JOptionPane.INFORMATION_MESSAGE
                             );
@@ -347,7 +348,7 @@ class CompareResourcesBundleFrame
                 logger.error( e );
                 DialogHelper.showMessageExceptionDialog(
                     this,
-                    String.format( fileSaveIOException, fileObject.getDisplayName() ),
+                    String.format( fileSaveIOException, fileObject.getDisplayName( txtNoFile ) ),
                     e
                     );
                 }
@@ -444,7 +445,7 @@ class CompareResourcesBundleFrame
 
         preferences.setWindowDimension( getSize() );
 
-        // TODO: Add here extra preferences values
+        // Add here extra preferences values
 
         savePreferences();
     }

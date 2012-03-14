@@ -10,6 +10,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
@@ -32,38 +34,27 @@ class CompareResourcesBundleTableModel
     public class Colunms implements Serializable
     {
         private static final long serialVersionUID = 1L;
-        /** @serial */
         int colunmCount;
-        /** @serial */
         int colunmKey;
-        /** @serial */
         int colunmLeftLine;
-        /** @serial */
         int colunmLeftValue;
-        /** @serial */
         int colunmRightLine;
-        /** @serial */
         int colunmRightValue;
     }
-    /** @serial */
     private Colunms colunms = new Colunms();
 
-    /** @serial */
+    @I18nString private String txtNoFile = "<<NoFile>>";
     @I18nString
     private String[] columnNames = {
             "Key",
             "#",
-            "(%s)",
+            "(%s%s)",
             "#",
-            "(%s)"
+            "(%s%s)"
             };
-    /** @serial */
     private final ArrayList<String> keyList = new ArrayList<String>();
-    /** @serial */
     private CustomProperties leftCProperties;
-    /** @serial */
     private CustomProperties rightCProperties;
-    /** @serial */
     private AutoI18n autoI18n;
 
     /**
@@ -87,6 +78,18 @@ class CompareResourcesBundleTableModel
         if(leftCProperties == null || rightCProperties == null) {
             throw new IllegalArgumentException();
             }
+
+        final ChangeListener cpChangeLstener = new ChangeListener()
+        {
+            @Override
+            public void stateChanged(ChangeEvent e)
+            {
+                //logger.info( "fireTableStructureChanged()" );
+                fireTableStructureChanged();
+            }
+        };
+        leftCProperties.addChangeListener(cpChangeLstener);
+        rightCProperties.addChangeListener(cpChangeLstener);
 
         boolean showLineNumberIfPossible = filesConfig.isShowLineNumbers();
 
@@ -141,19 +144,45 @@ class CompareResourcesBundleTableModel
     {
         if( column == colunms.colunmKey ) {
             return this.columnNames[0];
-        }
+            }
         else if( column == colunms.colunmLeftLine ) {
             return this.columnNames[1];
-        }
+            }
         else if( column == colunms.colunmLeftValue ) {
-            return String.format( this.columnNames[2],leftCProperties.getFileObject().getDisplayName());
-        }
+            String prefix;
+
+            if( leftCProperties.isEdited() ) {
+                prefix = "*";
+                }
+            else {
+                prefix = "";
+                }
+
+            return String.format(
+                this.columnNames[2],
+                prefix,
+                leftCProperties.getFileObject().getDisplayName( txtNoFile )
+                );
+            }
         else if( column == colunms.colunmRightLine ) {
             return this.columnNames[3];
-        }
+            }
         else if( column == colunms.colunmRightValue ) {
-            return String.format( this.columnNames[4],rightCProperties.getFileObject().getDisplayName());
-        }
+            String prefix;
+
+            if( rightCProperties.isEdited() ) {
+                prefix = "*";
+                }
+            else {
+                prefix = "";
+                }
+
+            return String.format(
+                this.columnNames[4],
+                prefix,
+                rightCProperties.getFileObject().getDisplayName( txtNoFile )
+                );
+            }
 
         return null;
     }

@@ -11,8 +11,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**
- * TODOC
- *
+ * {@link Wrappable} object to transform {@link File} into {@link SimpleZipEntry}
  */
 public class DefaultSimpleZipWrapper
     implements Wrappable<File,SimpleZipEntry>
@@ -21,10 +20,16 @@ public class DefaultSimpleZipWrapper
     private int    refFolderLen;
 
     /**
-     * TODOC
+     * Create a DefaultSimpleZipWrapper based on directory {@link File} object
      *
-     * @param refFolderFile
-     * @throws IOException
+     * @param refFolderFile Directory {@link File}
+     * @throws IOException If an I/O error occurs, which is
+     *         possible because the construction of the canonical
+     *         pathname may require filesystem queries
+     * @throws SecurityException If a required system property value
+     *         cannot be accessed, or if a security manager exists
+     *         and its java.lang.SecurityManager.checkRead method
+     *         denies read access to the file
      */
     public DefaultSimpleZipWrapper(
             final File refFolderFile
@@ -38,16 +43,23 @@ public class DefaultSimpleZipWrapper
     }
 
     /**
+     * Create a DefaultSimpleZipWrapper based on directory file name
      *
-     * @param refFolder
-     * @throws IOException
+     * @param refFolderName Directory file name
+     * @throws IOException If an I/O error occurs, which is
+     *         possible because the construction of the canonical
+     *         pathname may require filesystem queries
+     * @throws SecurityException If a required system property value
+     *         cannot be accessed, or if a security manager exists
+     *         and its java.lang.SecurityManager.checkRead method
+     *         denies read access to the file
      */
     public DefaultSimpleZipWrapper(
-            final String refFolder
+            final String refFolderName
             )
         throws IOException
     {
-        this(new File(refFolder));
+        this(new File( refFolderName ));
     }
 
     @Override

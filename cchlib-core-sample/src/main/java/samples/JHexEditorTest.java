@@ -88,7 +88,6 @@ public class JHexEditorTest extends WindowAdapter
                             model.setArrayAccess( arrayAccess );
                             }
                         catch( FileNotFoundException e ) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                             }
                         }
@@ -107,11 +106,9 @@ public class JHexEditorTest extends WindowAdapter
                         try {
                             ArrayReadAccess arrayAccess = new ArrayReadAccessFile( f );
 
-                            //model.setArrayReadWriteAccess( arrayAccess );
                             model.setArrayAccess( arrayAccess );
                             }
                         catch( FileNotFoundException e ) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                             }
                         }

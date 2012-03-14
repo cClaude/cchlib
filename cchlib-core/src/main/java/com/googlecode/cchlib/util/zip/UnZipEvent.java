@@ -5,7 +5,7 @@ import java.util.EventObject;
 import java.util.zip.ZipEntry;
 
 /**
- * TODOC
+ * UnZip event
  */
 public class UnZipEvent extends EventObject
 {
@@ -13,6 +13,11 @@ public class UnZipEvent extends EventObject
     private File file;
     private ZipEntry zipEntry;
 
+    /**
+     * Create UnZipEvent
+     * @param source {@link ZipEntry} for this event
+     * @param file	 {@link File} for this event
+     */
     public UnZipEvent( ZipEntry source, File file )
     {
         super( source );
@@ -22,8 +27,7 @@ public class UnZipEvent extends EventObject
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * @return {@link File} for this event
      */
     public File getFile()
     {
@@ -31,8 +35,7 @@ public class UnZipEvent extends EventObject
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * @return {@link ZipEntry} for this event
      */
     public ZipEntry getZipEntry()
     {

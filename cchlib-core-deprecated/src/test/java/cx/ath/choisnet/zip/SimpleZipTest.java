@@ -69,7 +69,6 @@ public class SimpleZipTest
         boolean del = ZIP_DESTINATION_ZIP.delete();
 
         Assert.assertTrue( "Can't delete: " + ZIP_DESTINATION_ZIP, del);
-        // TODO: can't delete file ?
     }
 
     @Test

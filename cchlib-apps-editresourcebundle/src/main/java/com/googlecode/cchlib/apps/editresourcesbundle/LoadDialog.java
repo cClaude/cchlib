@@ -100,7 +100,7 @@ class LoadDialog
         initCheckBox(
                 jCheckBox_ini,
                 ACTION_FT_ini,
-                false // TODO add in config
+                false // TODO later (*.ini files)
                 );
 
         // Properties tab
@@ -152,10 +152,10 @@ class LoadDialog
     }
 
     private void initCheckBox(
-            JCheckBox   jCheckBox,
-            String      actionCommand,
-            boolean     value
-            )
+        final JCheckBox   jCheckBox,
+        final String      actionCommand,
+        final boolean     value
+        )
     {
         jCheckBox.setActionCommand(actionCommand);
         jCheckBox.addActionListener( getActionListener() );
@@ -226,7 +226,7 @@ class LoadDialog
     }
 
     //@Override
-    private void jButton_LeftMouseMousePressed(/*MouseEvent event*/)
+    private void jButton_LeftMouseMousePressed()
     {
         FileObject fo = getLoadFile(
                         filesConfig.getLeftFileObject(),
@@ -240,7 +240,7 @@ class LoadDialog
     }
 
     //@Override
-    protected void jButton_RightMouseMousePressed(/*MouseEvent event*/)
+    protected void jButton_RightMouseMousePressed()
     {
         FileObject fo = getLoadFile(
                         filesConfig.getRightFileObject(),
@@ -254,14 +254,14 @@ class LoadDialog
     }
 
     //@Override
-    protected void jButton_CancelMouseMousePressed(/*MouseEvent event*/)
+    protected void jButton_CancelMouseMousePressed()
     {
         this.filesConfig.clear();
         dispose();
     }
 
     //@Override
-    protected void jButton_OkMouseMousePressed(/*MouseEvent event*/)
+    protected void jButton_OkMouseMousePressed()
     {
         if( !filesConfig.isFilesExists() ) {
             Toolkit.getDefaultToolkit().beep();
@@ -331,7 +331,7 @@ class LoadDialog
                         }
                     else if( ACTION_FT_ini.equals( c )) {
                         udpateTabFileTypeDisplay();
-                        //TODO:  !
+                        //TODO: later (*.ini files)
                         }
                     else if( ACTION_Change_isUseLeftHasDefault.equals( c )) {
                         filesConfig.setUseLeftHasDefault(

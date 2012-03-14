@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.swing.event.ChangeListener;
+
 /**
  *
  */
@@ -79,5 +81,17 @@ interface CustomProperties
      * @return false if content has not been edited.
      */
     public boolean isEdited();
+
+    /**
+     * TODOC
+     * @param l
+     */
+    public void addChangeListener(ChangeListener listener );
+
+    /**
+     * TODOC
+     * @param l
+     */
+    public void removeChangeListener(ChangeListener listener );
 
 }

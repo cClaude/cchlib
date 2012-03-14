@@ -185,7 +185,7 @@ public class MultiLineEditorDialog
     @Override
     public void dispose()
     {
-        // TODO something better !!! (store every time windows is closed)
+        // TODO something better !!! (size is store every time windows is closed)
         frame.getPreferences().setMultiLineEditorDimension( getSize() );
         super.dispose();
     }

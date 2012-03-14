@@ -23,8 +23,8 @@ import javax.swing.JCheckBoxMenuItem;
 /**
  *
  */
-public class HTMLPreviewDialog 
-    extends JDialog 
+public class HTMLPreviewDialog
+    extends JDialog
         implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
@@ -173,7 +173,7 @@ public class HTMLPreviewDialog
     @Override
     public void dispose()
     {
-        // TODO something better !!! (store every time windows is closed)
+        // TODO something better !!! (size is store every time windows is closed)
         frame.getPreferences().setHTMLPreviewDimension( getSize() );
         super.dispose();
     }

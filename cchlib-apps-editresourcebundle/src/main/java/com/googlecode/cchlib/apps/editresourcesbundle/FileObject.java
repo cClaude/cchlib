@@ -5,13 +5,9 @@ import java.io.Serializable;
 
 class FileObject implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    /** @serial */
+    private static final long serialVersionUID = 2L;
     private File file;
-    /** @serial */
     private boolean readOnly;
-    /** @serial */
-    private String noFile = "<<NoFile>>"; // TODO i18n
 
     public FileObject()
     {
@@ -44,14 +40,14 @@ class FileObject implements Serializable
         return readOnly;
     }
 
-    public String getDisplayName()
+    public String getDisplayName( final String txtNoFile )
     {
         if( file == null ) {
-            return noFile;
-        }
+            return txtNoFile;
+            }
         else {
             return file.getName();
-        }
+            }
     }
 
     /* (non-Javadoc)
@@ -78,7 +74,6 @@ class FileObject implements Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + ((file == null) ? 0 : file.hashCode());
-        result = prime * result + ((noFile == null) ? 0 : noFile.hashCode());
         result = prime * result + (readOnly ? 1231 : 1237);
         return result;
     }
@@ -104,13 +99,6 @@ class FileObject implements Serializable
                 return false;
             }
         } else if( !file.equals( other.file ) ) {
-            return false;
-        }
-        if( noFile == null ) {
-            if( other.noFile != null ) {
-                return false;
-            }
-        } else if( !noFile.equals( other.noFile ) ) {
             return false;
         }
         if( readOnly != other.readOnly ) {

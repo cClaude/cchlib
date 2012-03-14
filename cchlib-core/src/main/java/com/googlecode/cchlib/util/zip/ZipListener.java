@@ -4,7 +4,7 @@ import java.util.EventListener;
 import java.util.zip.ZipEntry;
 
 /**
- * Event for {@link SimpleZip}
+ * {@link EventListener} for {@link SimpleZip}
  */
 public interface ZipListener
     extends EventListener

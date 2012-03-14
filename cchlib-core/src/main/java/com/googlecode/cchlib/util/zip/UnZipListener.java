@@ -3,19 +3,19 @@ package com.googlecode.cchlib.util.zip;
 import java.util.EventListener;
 
 /**
- * TODOC
+ * {@link EventListener} for {@link SimpleUnZip}
  */
 public interface UnZipListener extends EventListener
 {
 	/**
-	 * TODOC
-	 * @param event
+     * Invoke before compressing zipEntry
+     * @param zipEntry that will be compress
 	 */
     public void entryPostProcessing( UnZipEvent event );
 
 	/**
-	 * TODOC
-	 * @param event
+     * Invoke after having compress zipEntry
+     * @param zipEntry that has been compress
 	 */
     public void entryAdded( UnZipEvent event );
 }

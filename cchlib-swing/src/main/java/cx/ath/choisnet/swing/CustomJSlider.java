@@ -2,13 +2,11 @@ package cx.ath.choisnet.swing;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.text.MessageFormat;
 import javax.swing.BorderFactory;
 import javax.swing.BoundedRangeModel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -23,11 +21,12 @@ public class CustomJSlider
     extends JSlider
         implements AutoI18nBasicInterface
 {
+    private static transient final Logger logger = Logger.getLogger( CustomJSlider.class );
     private static final long serialVersionUID = 1L;
-    private transient static Logger slogger = Logger.getLogger(CustomJSlider.class);
     // Custom title
     /** @serial */
     private String customTitle = "customTitle {0,number,###}";
+    private TitledBorder titledBorder;
 
     /**
      *
@@ -109,7 +108,7 @@ public class CustomJSlider
 //                new Font("Tahoma", Font.PLAIN, 11),
 //                Color.black
 //                );
-        TitledBorder tb = BorderFactory.createTitledBorder(
+        TitledBorder titledBorder = BorderFactory.createTitledBorder(
                 BorderFactory.createEmptyBorder(0, 0, 0, 0),
                 builCustomTitle(),
                 TitledBorder.LEADING,
@@ -118,14 +117,14 @@ public class CustomJSlider
                 Color.black
                 );
 
-        super.setBorder( tb );
+        setTitledBorder( titledBorder );
 //            String title = "Horizontal Position: ";
 //            tb.setTitle( customTitle + Integer.toString( jSlider_MoleVertPos$root.getValue() ) );
 
         CustomJSliderListener customJSliderListener = new CustomJSliderListener();
 
-        super.addMouseMotionListener(customJSliderListener);
-        super.addMouseListener(customJSliderListener);
+        //super.addMouseMotionListener(customJSliderListener);
+        //super.addMouseListener(customJSliderListener);
         super.addChangeListener(customJSliderListener);
     }
 
@@ -143,36 +142,22 @@ public class CustomJSlider
         //return getCustomTitle() + Integer.toString( super.getValue() )
     }
 
-    public void refreshCustomTitle()
+    private void refreshCustomTitle()
     {
-        Border b = super.getBorder();
-
-        if( b instanceof TitledBorder ) {
-            TitledBorder tb = TitledBorder.class.cast( b );
-
-            tb.setTitle( builCustomTitle() );
-//            //tb.
-//            // TODO: true refresh now !
-//            //super.paintBorder( g );
-//            //tb.paintBorder( c, g, x, y, width, height );
-//            Graphics g =  super.getGraphics();
-//
-//            if( g != null ) {
-//
-////                super.paintBorder( g );
-//
-//
-//                //                Graphics copy = g.create();
-////                super.paintBorder( copy );
-////                copy.dispose();
-//
-////                Insets insets = tb.getBorderInsets( this );
-////                tb.paintBorder( this, g, insets.left, insets.top, insets.right, insets.bottom );
-//            }
-//            else {
-//                slogger.warn( "* Graphics = " + g );
-//            }
-        }
+        logger.info( "refreshCustomTitle()" );
+        new Thread( new Runnable() {
+            @Override
+            public void run() {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        titledBorder.setTitle( builCustomTitle() );
+                    }
+                });
+            }
+        });
     }
 
     public String getCustomTitle()
@@ -196,15 +181,15 @@ public class CustomJSlider
     {
         if( b == null ) {
             return;
-        }
+            }
 
         if( !(b instanceof TitledBorder) ) {
-            slogger.warn( "* Border = " + b.getClass() + " - " + b );
+            logger.warn( "* Border = " + b.getClass() + " - " + b );
             //throw new IllegalArgumentException( "Can handle only TitledBorder" );
-        }
+            }
         else {
             setTitledBorder( TitledBorder.class.cast( b ) );
-        }
+            }
     }
 
     public TitledBorder getTitledBorder()
@@ -212,20 +197,21 @@ public class CustomJSlider
         return TitledBorder.class.cast( super.getBorder() );
     }
 
-    public void setTitledBorder( TitledBorder tb )
+    public void setTitledBorder( final TitledBorder tb )
     {
         if( tb == null ) {
             return;
-        }
+            }
 
         super.setBorder( tb );
+        this.titledBorder = tb;
         refreshCustomTitle();
     }
 
     class CustomJSliderListener
-        implements  ChangeListener,
-                    MouseMotionListener,
-                    MouseListener
+        implements  ChangeListener//,
+                    //MouseMotionListener,
+                    //MouseListener
     {
 //        private JLabel lblPop = new JLabel("",SwingConstants.CENTER);
 //        public void setPop(MouseEvent me)
@@ -241,23 +227,23 @@ public class CustomJSlider
         {
             refreshCustomTitle();
         }
-        @Override
-        public void mouseClicked(MouseEvent event){}
-        @Override
-        public void mouseEntered(MouseEvent event){}
-        @Override
-        public void mouseExited(MouseEvent event){}
-        @Override
-        public void mousePressed(MouseEvent event){}
-        @Override
-        public void mouseReleased(MouseEvent event){}
-        @Override
-        public void mouseDragged(MouseEvent event)
-        {
-            refreshCustomTitle();
-        }
-        @Override
-        public void mouseMoved(MouseEvent event){}
+//        @Override
+//        public void mouseClicked(MouseEvent event){}
+//        @Override
+//        public void mouseEntered(MouseEvent event){}
+//        @Override
+//        public void mouseExited(MouseEvent event){}
+//        @Override
+//        public void mousePressed(MouseEvent event){}
+//        @Override
+//        public void mouseReleased(MouseEvent event){}
+//        @Override
+//        public void mouseDragged(MouseEvent event)
+//        {
+//            refreshCustomTitle();
+//        }
+//        @Override
+//        public void mouseMoved(MouseEvent event){}
     }
 
     @Override
