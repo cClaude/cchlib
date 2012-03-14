@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 public class PopulatorException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
-    private Field causeField;
+    private Field causeField;// NOT SERIALISABLE !
     private Class<?> causeType;
 
     public PopulatorException(

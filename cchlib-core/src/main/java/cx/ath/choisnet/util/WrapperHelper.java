@@ -4,9 +4,9 @@ import java.util.Enumeration;
 
 /**
  * TODOC
- * 
- * @param <T> 
- * @param <O> 
+ *
+ * @param <T>
+ * @param <O>
  */
 public class WrapperHelper<T,O>
 {
@@ -32,7 +32,7 @@ public class WrapperHelper<T,O>
 /*
     // TO DO: TestCase needed !
     x
-    @Deprecated // Move to a new class ! (new package?)
+    @ Deprecated // Move to a new class ! (new package?)
     public static final <E,O> Collection<O> wrappeCollection(
             final Collection<E>   collection,
             final Wrappable<E,O>  wrapper
@@ -57,12 +57,12 @@ public class WrapperHelper<T,O>
             }
             @Override
             public boolean contains( Object o )
-            {                
+            {
                 Iterator<O> iter = iterator();
-                
+
                 while( iter.hasNext() ) {
                     O e = iter.next();
-                    
+
                     if(o==null ? e==null : o.equals(e)) {
                         return true;
                     }
@@ -78,7 +78,7 @@ public class WrapperHelper<T,O>
                         return false;
                     }
                 }
-                
+
                 return true;
             }
             @Override
@@ -117,11 +117,11 @@ public class WrapperHelper<T,O>
             {
                 final Object[] objs   = collection.toArray();
                 final Object[] result = new Object[objs.length];
-                
+
                 for(int i=0;i<objs.length;i++) {
                     result[i] = wrapper.wrappe( (E)objs[i] );
                 }
-                
+
                 return result;
             }
             @Override
@@ -130,9 +130,9 @@ public class WrapperHelper<T,O>
                 if( a == null) {
                     throw new NullPointerException();
                 }
-                
+
                 X[] array;
-                
+
                 if( a.length >= size()) {
                     array = a;
 
@@ -149,13 +149,13 @@ public class WrapperHelper<T,O>
                     X[] unckeckarray = (X[])arr;
                     array = unckeckarray;
                 }
-                
+
                 Iterator<O> iter = iterator();
                 int         i    = 0;
-                
+
                 while(iter.hasNext()) {
                     O next = iter.next();
-                    
+
                     try {
                         @SuppressWarnings("unchecked")
                         X uncheck = (X)next;
@@ -172,10 +172,10 @@ public class WrapperHelper<T,O>
             }
         };
     }
-*/    
+*/
     /**
      * Wrap an Enumeration.
-     * 
+     *
      * @param <E> Type off the giving Enumeration
      * @param <O> Type off the returning Enumeration
      * @param enumeration Enumeration to wrap

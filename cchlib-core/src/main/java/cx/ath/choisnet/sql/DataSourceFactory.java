@@ -285,9 +285,9 @@ public class DataSourceFactory
     }
 
 //    /**
-//     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,PrintWriter)
+//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,PrintWriter)
 //     */
-//    @Deprecated
+//    @D eprecated
 //    public static DataSource buildMySQLDataSource(
 //            String url,
 //            String username,
@@ -304,9 +304,9 @@ public class DataSourceFactory
 //    }
 
 //    /**
-//     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,String,PrintWriter)
+//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,String,PrintWriter)
 //     */
-//    @Deprecated
+//    @D eprecated
 //    public static DataSource buildMySQLDataSource(
 //            String dbHostName,
 //            String dbName,
@@ -325,9 +325,9 @@ public class DataSourceFactory
 //    }
 
 //    /**
-//     * @see MySQLDataSourceFactory#buildMySQLDataSource(String,int,String,String,String,PrintWriter)
+//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,int,String,String,String,PrintWriter)
 //     */
-//    @Deprecated
+//    @D eprecated
 //    public static DataSource buildMySQLDataSource(
 //            String      dbHostName,
 //            int         dbPort,

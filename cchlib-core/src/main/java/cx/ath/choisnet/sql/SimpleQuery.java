@@ -146,7 +146,7 @@ public class SimpleQuery
 //        return str;
 //    }
 
-//    @Deprecated
+//    @ Deprecated
 //    public static String[] translateQueryToStringArray(
 //            String  dataSourceName,
 //            String  query

@@ -104,7 +104,7 @@ public class EnumerationHelper
     }
 
 //    /**
-//     * @Deprecated use wrapper !
+//     * @ Deprecated use wrapper !
 //     * @param <T>
 //     * @param enumeration
 //     * @return
@@ -129,7 +129,7 @@ public class EnumerationHelper
 //    }
 
 //    /**
-//     * @Deprecated use wrapper !
+//     * @ Deprecated use wrapper !
 //     * @param <T>
 //     * @param <O>
 //     * @param enumeration

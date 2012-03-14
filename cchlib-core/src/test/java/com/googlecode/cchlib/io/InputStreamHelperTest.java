@@ -1,9 +1,12 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.io.IOHelper;
+
+import cx.ath.choisnet.io.IO;
 
 public class InputStreamHelperTest
 {
@@ -17,12 +20,11 @@ public class InputStreamHelperTest
     }
 
     @Test
-    @Deprecated
     public void test_isEquals() throws IOException
     {
         InputStream is1 = IO.getPNGFile();
         InputStream is2 = IO.getPNGFile();
-        boolean     r   = InputStreamHelper.isEquals( is1, is2 );
+        boolean     r   = IOHelper.isEquals( is1, is2 );
 
         Assert.assertNotNull( r );
 

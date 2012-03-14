@@ -11,17 +11,17 @@ public class UnZipEvent extends EventObject
 {
     private static final long serialVersionUID = 1L;
     private File file;
-    private ZipEntry zipEntry;
+    private ZipEntry zipEntry; // NOT SERIALISABLE !
 
     /**
      * Create UnZipEvent
      * @param source {@link ZipEntry} for this event
-     * @param file	 {@link File} for this event
+     * @param file     {@link File} for this event
      */
     public UnZipEvent( ZipEntry source, File file )
     {
         super( source );
-        
+
         this.zipEntry = source;
         this.file     = file;
     }
