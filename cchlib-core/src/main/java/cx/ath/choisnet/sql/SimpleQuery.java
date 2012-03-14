@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import cx.ath.choisnet.ToDo;
 
 /**
  * Execute SQL statement using {@link DataSource}
@@ -18,11 +17,9 @@ import cx.ath.choisnet.ToDo;
  * to cache SimpleQuery object.
  * </p>
  *
- * @author Claude CHOISNET
  * @see SimpleUpdate
  * @see ConnectionQuery
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class SimpleQuery
     extends SimpleDataSource
         implements Flushable
@@ -208,7 +205,7 @@ public class SimpleQuery
             stmt = null;
             }
 
-        if(conn != null) {
+        if( conn != null ) {
             try { conn.close(); } catch(SQLException ignore) {}
             conn = null;
             }

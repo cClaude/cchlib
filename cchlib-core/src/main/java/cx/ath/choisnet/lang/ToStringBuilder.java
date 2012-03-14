@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.lang;
 
 import java.lang.reflect.InvocationTargetException;
@@ -12,24 +9,24 @@ import java.util.Collection;
  * ToStringBuilder is an help class to create
  * {@link Object#toString()} method.
  * <br/>
- * This is not a efficient way to create toString method, but
- * a dynamic way, it design to use it for debugging.
- * 
- * @author Claude CHOISNET
- * @param <T> 
+ * This is not a efficient way to create toString method,
+ * but a dynamic way, this class is design to be use
+ * for debugging only.
+ *
+ * @param <T>
  */
-public class ToStringBuilder<T> 
+public class ToStringBuilder<T>
 {
     private final static String[] ignore = {
-        "clone", 
-        "toString", 
+        "clone",
+        "toString",
         "hashCode"
     };
     private Collection<Method> methods = new ArrayList<Method>();
     private Class<T> clazz;
 
     /**
-     * 
+     * TODOC
      * @param clazz Class (or interface) to use to
      *        build toString()
      */
@@ -40,28 +37,28 @@ public class ToStringBuilder<T>
         // Only methods define by this class (or interface) !
         Method[] ms = clazz.getDeclaredMethods();
 
-        for(Method m:ms) {
+        for( Method m : ms ) {
             // No parameters
             if( m.getParameterTypes().length == 0 ) {
                 // No void !
                 Class<?> r = m.getReturnType();
-                
+
                 if( r.equals( Void.class ) ) {
                     continue;
-                }
+                    }
                 if( r.equals( Void.TYPE ) ) {
                     continue;
-                }
+                    }
                 String n = m.getName();
 
                 for(String s:ignore) {
                     if( n.equals( s )) {
                         continue;
+                        }
                     }
-                }
                 methods.add( m );
-            }
-         }
+                }
+             }
     }
 
     /**
@@ -77,13 +74,13 @@ public class ToStringBuilder<T>
        sb.append( clazz.getSimpleName() );
        sb.append( " [" );
 
-       for(Method m:methods) {
+       for( Method m : methods ) {
            if( first ) {
                first = false;
-           }
+               }
            else {
                sb.append( ", " );
-           }
+               }
 
            sb.append( m.getName() );
            sb.append( "()=" );
@@ -100,14 +97,14 @@ public class ToStringBuilder<T>
            catch( InvocationTargetException e ) {
                sb.append( e );
                }
-       }
+           }
        sb.append( ']' );
 
        return sb.toString();
     }
 
     /**
-     * 
+     * TODOC
      * @param <T>
      * @param o
      * @param clazz
@@ -117,11 +114,4 @@ public class ToStringBuilder<T>
     {
         return new ToStringBuilder<T>(clazz).toString(o);
     }
-
-//    public final static void main(String[] a) 
-//    {
-//        //ToString<ByteArrayBuilder> ts = new ToString<ByteArrayBuilder>(ByteArrayBuilder.class);
-//        //ToStringBuilder<String> ts = new ToStringBuilder<String>(String.class);
-//        System.out.println(ToStringBuilder.toString( "test", String.class ));
-//    }
 }

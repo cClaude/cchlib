@@ -140,10 +140,10 @@ public abstract class BytesAccessDebug extends BytesAccess
     {
         if( ! isMaskLinear( mask0 ) ) {
             throw new RuntimeException( "setInteger() mask0 look bad (like 0x0011011) " + mask0 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
-        }
+            }
         if( ! isMaskLinear( mask1 ) ) {
             throw new RuntimeException( "setInteger() mask1 look bad (like 0x0011011) " + mask1 + " for (" + offset + ':' + mask0 + '/' + rightRot + ':' + mask1 + '/' + leftRot + ')' );
-        }
+            }
         // TODO: Verify mask0 is right align + Verify mask1 is left align + check value according to mask !
 
         super.setUInteger( offset, mask0, rightRot, mask1, leftRot, value );

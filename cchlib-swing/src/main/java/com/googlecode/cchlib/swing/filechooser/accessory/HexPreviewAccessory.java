@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+
+import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.swing.hexeditor.ArrayReadAccessFile;
 import com.googlecode.cchlib.swing.hexeditor.EmptyArray;
 import com.googlecode.cchlib.swing.hexeditor.DefaultHexEditorModel;
@@ -21,23 +24,18 @@ public class HexPreviewAccessory
         implements  PropertyChangeListener,
                     TabbedAccessoryInterface
 {
+    private static final Logger logger = Logger.getLogger( HexPreviewAccessory.class );
     private static final long serialVersionUID = 1L;
-    //private JHexEditor hexEditor = null;
-    //private File file = null;
-    //private int width;
     private final static EmptyArray emptyArray = new EmptyArray();
 
     /**
-     * TODOC
-     * @param fc
-     * @param new HexEditorModel()
+     * Create a new HexPreviewAccessory
+     * @param fc {@link JFileChooser} for this accessory
      */
     public HexPreviewAccessory( JFileChooser fc )
     {
         super( new DefaultHexEditorModel() );
 
-        //this.width = 200;
-        //setPreferredSize(new Dimension(width, 100));
         setPreferredSize(getMinimumSize() );
         fc.addPropertyChangeListener(this);
     }
@@ -47,61 +45,42 @@ public class HexPreviewAccessory
     {
         boolean update = false;
         String prop = event.getPropertyName();
+        File file;
 
         if( JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals( prop ) ) {
             //If the directory changed,
             //remove previous editor.
-            DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
-
-            model.setArrayAccess( emptyArray );
-            //file   = null;
+            file = null;
             update = true;
             }
         else if( JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals( prop ) ) {
             //If a file became selected,
             //find out which one.
-            File file = (File)event.getNewValue();
-            DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
-
-            if( file != null && file.isFile() ) {
-                try {
-                    model.setArrayAccess( new ArrayReadAccessFile( file ) );
-                    }
-                catch( FileNotFoundException e ) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    }
-                }
-            else {
-                model.setArrayAccess( emptyArray );
-                }
+            file = (File)event.getNewValue();
             update = true;
+            }
+        else {
+            file = null;
             }
 
         //Update the preview accordingly.
         if( update ) {
-//            if( this.hexEditor != null ) {
-//                super.remove( hexEditor );
-//                }
-//            if( file != null ) {
-//                try {
-//                    HexEditorModel model = new DefaultHexEditorModel();
-//                    this.hexEditor = new JHexEditor( model );
-//                    }
-//                catch( FileNotFoundException e1 ) {
-//                    // TODO Auto-generated catch block
-//                    e1.printStackTrace();
-//                }
-//                }
-//            else {
-//                this.hexEditor = null;
-//                }
-
             if( isShowing() ) {
-//                loadImage();
-//                repaint();
+                DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
+
+                if( file != null && file.isFile() ) {
+                    try {
+                        model.setArrayAccess( new ArrayReadAccessFile( file ) );
+                        }
+                    catch( FileNotFoundException e ) {
+                        logger.error( "FileNotFound", e );
+                        }
+                    }
+                else {
+                    model.setArrayAccess( emptyArray );
+                    }
+                }
             }
-        }
     }
 
     @Override // TabbedAccessoryInterface
@@ -135,5 +114,4 @@ public class HexPreviewAccessory
     {
         // empty
     }
-
 }

@@ -2,20 +2,16 @@ package cx.ath.choisnet.io;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import com.googlecode.cchlib.io.SerializableFilenameFilter;
 
 /**
  * FileFilterHelper provide more efficient filter.
  * Theses FilenameFilter are provide for compatibility only
- * @author Claude CHOISNET
+ *
  * @see FileFilterHelper
  */
 public class FilenameFilterHelper
 {
-    private static abstract class PrivateFilenameFilter implements FilenameFilter, java.io.Serializable
-    {
-        private static final long serialVersionUID = 1L;
-    }
-
     private FilenameFilterHelper()
     { // ALL Static!
     }
@@ -27,7 +23,7 @@ public class FilenameFilterHelper
      */
     public static FilenameFilter directoryFileFilter()
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -45,7 +41,7 @@ public class FilenameFilterHelper
      */
     public static FilenameFilter trueFileFilter()
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -64,7 +60,7 @@ public class FilenameFilterHelper
      */
     public static FilenameFilter not(final FilenameFilter aFileFilter)
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -87,7 +83,7 @@ public class FilenameFilterHelper
                 final FilenameFilter secondFileFilter
                 )
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -113,7 +109,7 @@ public class FilenameFilterHelper
             final FilenameFilter...fileFilters
             )
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -141,7 +137,7 @@ public class FilenameFilterHelper
             final FilenameFilter secondFileFilter
             )
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -167,7 +163,7 @@ public class FilenameFilterHelper
             final FilenameFilter...fileFilters
             )
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -195,7 +191,7 @@ public class FilenameFilterHelper
             final FilenameFilter secondFileFilter
             )
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -216,7 +212,7 @@ public class FilenameFilterHelper
      */
     public static FilenameFilter fileLengthFileFilter(final long length)
     {
-        return new PrivateFilenameFilter() {
+        return new SerializableFilenameFilter() {
             private static final long serialVersionUID = 1L;
 
             @Override

@@ -56,7 +56,9 @@ public class WaitingJFileChooserInitializer
                     JFileChooserInitializerEvent event
                     )
             {
-                logger.info( "jFileChooserIsReady: " + event.isJFileChooserReady() );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "jFileChooserIsReady: " + event.isJFileChooserReady() );
+                    }
 
                 synchronized( lock ) {
                     if( dialog != null ) {
@@ -89,7 +91,7 @@ public class WaitingJFileChooserInitializer
     {
         return new LasyJFCCustomizer();
     }
-    
+
     /**
      * {@inheritDoc}
      * <br/>

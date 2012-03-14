@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 
 /**
  * Create a simple {@link DataSource} based on a standard driver class object.
- *
- * @author Claude CHOISNET
  */
 @ToDo
 public class DataSourceFactory

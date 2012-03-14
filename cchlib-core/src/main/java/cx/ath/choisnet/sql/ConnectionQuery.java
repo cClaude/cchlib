@@ -10,7 +10,6 @@ import java.sql.Statement;
 /**
  * Execute SQL statement using {@link Connection}
  *
- * @author Claude CHOISNET
  * @since 4.1.3
  */
 public class ConnectionQuery implements Closeable

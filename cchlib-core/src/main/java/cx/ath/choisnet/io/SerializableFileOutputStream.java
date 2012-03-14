@@ -1,64 +1,82 @@
 package cx.ath.choisnet.io;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * TODOC
  */
-public class SerializableFileOutputStream extends OutputStream
-    implements java.io.Serializable
+public class SerializableFileOutputStream 
+    extends OutputStream
+        implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
     private File file;
     private transient OutputStream output;
 
+    /**
+     * TODOC
+     * @param file
+     * @throws FileNotFoundException
+     */
     public SerializableFileOutputStream(File file)
-        throws java.io.FileNotFoundException
+        throws FileNotFoundException
     {
         this(file, false);
     }
 
-    public SerializableFileOutputStream(File file, boolean append)
-        throws java.io.FileNotFoundException
+    /**
+     * TODOC
+     * @param file
+     * @param append
+     * @throws FileNotFoundException
+     */
+    public SerializableFileOutputStream( File file, boolean append )
+        throws FileNotFoundException
     {
         this.file = file;
 
-        open(append);
+        open( append );
     }
 
+    /**
+     * TODOC
+     * @param append
+     * @throws FileNotFoundException
+     */
     private void open(boolean append)
-        throws java.io.FileNotFoundException
+        throws FileNotFoundException
     {
         output = new FileOutputStream(file, append);
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         output.close();
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
         output.flush();
     }
 
-    public void write(int b)
-        throws java.io.IOException
+    @Override
+    public void write( int b ) throws IOException
     {
         output.write(b);
     }
 
     private void writeObject(ObjectOutputStream stream)
-        throws java.io.IOException
+        throws IOException
     {
         output.flush();
         output.close();
@@ -67,7 +85,7 @@ public class SerializableFileOutputStream extends OutputStream
     }
 
     private void readObject(ObjectInputStream stream)
-        throws java.io.IOException, ClassNotFoundException
+        throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
         open(true);

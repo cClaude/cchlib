@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
  * elements of Iterator (event if not match with {@link FileFilter})
  * </p>
  * 
- * @author Claude CHOISNET
  * @see FileIterator
  */
 public class DirectoryIterator
@@ -61,11 +60,11 @@ public class DirectoryIterator
         }
         else {
             this.directoryFileFilter = directoryFilter;
-        }
+            }
         
         if( rootFolderFile.isDirectory() ) {
             foldersList.add(rootFolderFile);
-        }
+            }
     }
 
     /* (non-Javadoc)
@@ -100,9 +99,9 @@ public class DirectoryIterator
             for( File f : folderContentFiles ) {
                 if(f.isDirectory()) {
                     foldersList.add(f);
+                    }
                 }
             }
-        }
     }
 
     /**

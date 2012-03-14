@@ -1,7 +1,5 @@
 package cx.ath.choisnet.net;
 
-//import cx.ath.choisnet.io.InputStreamHelper;
-//import cx.ath.choisnet.io.ReaderHelper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;

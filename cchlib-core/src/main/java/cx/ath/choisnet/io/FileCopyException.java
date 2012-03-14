@@ -1,14 +1,10 @@
 package cx.ath.choisnet.io;
 
 import java.io.IOException;
-import cx.ath.choisnet.ToDo;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * Exception invoke when an I/O error occur during copy
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class FileCopyException extends IOException
 {
     private static final long serialVersionUID = 1L;

@@ -5,9 +5,6 @@ import java.io.IOException;
 
 /**
  * An always empty {@link InputStream}
- *
- * @author Claude CHOISNET
- *
  */
 public class EmptyInputStream extends InputStream
 {

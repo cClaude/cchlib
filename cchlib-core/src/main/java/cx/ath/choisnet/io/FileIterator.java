@@ -17,7 +17,6 @@ import java.util.NoSuchElementException;
  * If rootFolderFile is <b>not</b> a element return by this Iterator.
  * </p>
  *
- * @author Claude CHOISNET
  * @see FileFilterHelper
  * @see DirectoryIterator
  */

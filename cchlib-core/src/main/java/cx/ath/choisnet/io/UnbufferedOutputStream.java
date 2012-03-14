@@ -1,10 +1,10 @@
 package cx.ath.choisnet.io;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
 public final class UnbufferedOutputStream
@@ -14,24 +14,39 @@ public final class UnbufferedOutputStream
     private final int maxBufferSize;
     private int bufferSize;
 
-    public UnbufferedOutputStream(OutputStream outputStream, int maxBufferSize)
+    /**
+     * TODOC
+     * @param outputStream
+     * @param maxBufferSize
+     */
+    public UnbufferedOutputStream(
+        final OutputStream  outputStream, 
+        final int           maxBufferSize
+        )
     {
         this.outputStream   = outputStream;
         this.maxBufferSize  = maxBufferSize;
         this.bufferSize     = 0;
     }
 
-    public UnbufferedOutputStream(java.io.OutputStream outputStream)
+    /**
+     * TODOC
+     * @param outputStream
+     */
+    public UnbufferedOutputStream( 
+        final OutputStream outputStream
+        )
     {
-        this(outputStream, 0);
+        this( outputStream, 0 );
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         outputStream.close();
     }
 
+    @Override
     public void flush()
         throws java.io.IOException
     {
@@ -40,8 +55,8 @@ public final class UnbufferedOutputStream
         bufferSize = 0;
     }
 
-    public void write(int b)
-        throws java.io.IOException
+    @Override
+    public void write(int b) throws IOException
     {
         outputStream.write(b);
 
@@ -50,8 +65,9 @@ public final class UnbufferedOutputStream
         }
     }
 
+    @Override
     public void write(byte[] cbuf, int off, int len)
-        throws java.io.IOException
+        throws IOException
     {
         for(int i = off; i < len; i++) {
             byte b = cbuf[i];
@@ -60,6 +76,7 @@ public final class UnbufferedOutputStream
         }
     }
 
+    @Override
     public void write(byte[] cbuf)
         throws java.io.IOException
     {

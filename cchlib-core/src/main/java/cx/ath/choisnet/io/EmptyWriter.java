@@ -2,14 +2,10 @@ package cx.ath.choisnet.io;
 
 import java.io.IOException;
 import java.io.Writer;
-import cx.ath.choisnet.ToDo;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * A {@link Writer} that write nothing
  */
-@ToDo(action=ToDo.Action.DOCUMENTATION)
 public class EmptyWriter extends Writer
 {
     private boolean open;

@@ -109,19 +109,11 @@ public class XTextField extends JTextField
         }.setMenu();
     }
 
-    /**
-     * TODO default localization
-     * @return TODO
-     */
     public String getTextForCopy()
     {
         return "Copy";
     }
 
-    /**
-     * TODO default localization
-     * @return TODO
-     */
     public String getTextForPaste()
     {
         return "Paste";

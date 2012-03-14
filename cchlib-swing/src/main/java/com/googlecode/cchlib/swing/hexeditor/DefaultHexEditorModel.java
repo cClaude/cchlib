@@ -10,6 +10,8 @@ import java.awt.event.MouseWheelEvent;
 
 import javax.swing.JComponent;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * TODOC
@@ -17,6 +19,7 @@ import javax.swing.JComponent;
  */
 public class DefaultHexEditorModel implements HexEditorModel
 {
+    private final static Logger logger = Logger.getLogger( DefaultHexEditorModel.class );
     private final static Font customFont=new Font("Monospaced",0,12);
     private final static int BORDER_DEFAULT = 2;
     private final static int border = BORDER_DEFAULT;
@@ -53,6 +56,8 @@ public class DefaultHexEditorModel implements HexEditorModel
         final ArrayReadAccess arrayAccess
         )
     {
+        logger.trace( "setArrayAccess: " + arrayAccess );
+
         if( arrayAccess instanceof ArrayReadWriteAccess ) {
             this.arrayAccessRW = (ArrayReadWriteAccess) arrayAccess;
             }

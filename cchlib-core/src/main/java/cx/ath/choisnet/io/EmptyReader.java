@@ -5,8 +5,6 @@ import java.io.Reader;
 
 /**
  * An always empty {@link Reader}
- *
- * @author Claude CHOISNET
  */
 public class EmptyReader extends Reader
 {

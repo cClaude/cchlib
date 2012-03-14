@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import com.googlecode.cchlib.io.PatternFileFilter;
 import junit.framework.TestCase;
-import cx.ath.choisnet.io.PatternFileFilter;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 

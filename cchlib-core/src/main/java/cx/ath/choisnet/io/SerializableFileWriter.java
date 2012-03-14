@@ -1,19 +1,22 @@
 package cx.ath.choisnet.io;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  *
  */
-public class SerializableFileWriter  extends Writer
-        implements java.io.Serializable
+public class SerializableFileWriter 
+    extends Writer
+        implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -22,18 +25,35 @@ public class SerializableFileWriter  extends Writer
     private String encoding;
     private transient Writer output;
 
+    /**
+     * TODOC
+     * @param file
+     * @param encoding
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException
+     * @throws java.io.IOException
+     */
     public SerializableFileWriter(File file, String encoding)
-        throws  java.io.FileNotFoundException,
-                java.io.UnsupportedEncodingException,
+        throws  FileNotFoundException,
+                UnsupportedEncodingException,
                 java.io.IOException
     {
         this(file, encoding, false);
     }
 
+    /**
+     * TODOC
+     * @param file
+     * @param encoding
+     * @param append
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
     public SerializableFileWriter(File file, String encoding, boolean append)
-        throws  java.io.FileNotFoundException,
-                java.io.UnsupportedEncodingException,
-                java.io.IOException
+        throws FileNotFoundException,
+               UnsupportedEncodingException,
+               IOException
     {
         serOutput = new SerializableFileOutputStream(file, append);
 
@@ -47,36 +67,36 @@ public class SerializableFileWriter  extends Writer
         output = new OutputStreamWriter(serOutput,encoding);
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         output.close();
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
         output.flush();
     }
 
+    @Override
     public void write(char array[], int offset, int len)
-        throws java.io.IOException
+        throws IOException
     {
         output.write(array, offset, len);
     }
 
     private void writeObject(ObjectOutputStream stream)
-        throws java.io.IOException
+        throws IOException
     {
         output.flush();
-
         output.close();
 
         stream.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream stream)
-        throws java.io.IOException, ClassNotFoundException
+        throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
         open();

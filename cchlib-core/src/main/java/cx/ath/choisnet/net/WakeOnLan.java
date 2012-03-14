@@ -1,11 +1,15 @@
 package cx.ath.choisnet.net;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import cx.ath.choisnet.ToDo;
 
 /**
+ * TODOC
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling
@@ -15,8 +19,6 @@ import cx.ath.choisnet.ToDo;
  * change.
  * </p>
  *
- * @author Claude CHOISNET
- *
  */
 @ToDo
 public class WakeOnLan
@@ -24,49 +26,76 @@ public class WakeOnLan
     public static final int PORT = 7;
     private final int port;
 
+    /**
+     * TODOC
+     */
     public WakeOnLan()
     {
-        this(PORT);
+        this( PORT );
     }
 
-    public WakeOnLan(int port)
+    /**
+     * TODOC
+     * @param port
+     */
+    public WakeOnLan( int port )
     {
         this.port = port;
     }
 
-    public void notify(String macAddress)
-        throws  java.net.UnknownHostException,
-                java.net.SocketException,
+    /**
+     * TODOC
+     * @param macAddress
+     * @throws UnknownHostException
+     * @throws SocketException
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
+    public void notify( final String macAddress )
+        throws  UnknownHostException,
+                SocketException,
                 IllegalArgumentException,
-                java.io.IOException
+                IOException
     {
-        notify(null, macAddress);
+        notify( null, macAddress );
     }
 
-    public void notify(String broadcastAddress, String macAddress)
-        throws  java.net.UnknownHostException,
-                java.net.SocketException,
+    /**
+     * TODOC
+     * @param broadcastAddress
+     * @param macAddress
+     * @throws UnknownHostException
+     * @throws SocketException
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
+    public void notify(
+        String       broadcastAddress, 
+        final String macAddress
+        )
+        throws  UnknownHostException,
+                SocketException,
                 IllegalArgumentException,
-                java.io.IOException
+                IOException
     {
-        if(broadcastAddress != null) {
+        if( broadcastAddress != null ) {
             broadcastAddress = broadcastAddress.trim();
-        }
+            }
 
-        if(broadcastAddress == null || broadcastAddress.length() == 0) {
+        if( broadcastAddress == null || broadcastAddress.length() == 0 ) {
             broadcastAddress = "255.255.255.255";
-        }
+            }
 
         byte[] macBytes = WakeOnLan.getMacAddressBytes(macAddress);
         byte[] bytes = new byte[6 + 16 * macBytes.length];
 
-        for(int i = 0; i < 6; i++) {
+        for( int i = 0; i < 6; i++ ) {
             bytes[i] = -1;
-        }
+            }
 
-        for(int i = 6; i < bytes.length; i += macBytes.length) {
+        for( int i = 6; i < bytes.length; i += macBytes.length ) {
             System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
-        }
+            }
 
         InetAddress     address = InetAddress.getByName(broadcastAddress);
         DatagramPacket packet   = new DatagramPacket(bytes, bytes.length, address, port);
@@ -76,36 +105,34 @@ public class WakeOnLan
         socket.close();
     }
 
+    /**
+     * TODOC
+     * @param macAddress
+     * @return TODOC
+     * @throws IllegalArgumentException
+     */
     protected static byte[] getMacAddressBytes(String macAddress)
-        throws java.lang.IllegalArgumentException
+        throws IllegalArgumentException
     {
         byte[]      bytes   = new byte[6];
         String[]    hex     = macAddress.split("(\\:|\\-)");
 
-        if(hex.length != 6) {
+        if( hex.length != 6 ) {
             throw new IllegalArgumentException(
-                    (new StringBuilder())
-                        .append("Invalid MAC address '")
-                        .append(macAddress)
-                        .append("'.")
-                        .toString()
-                        );
-        }
+                    "Invalid MAC address '" + macAddress + "'."
+                    );
+            }
 
         try {
-            for(int i = 0; i < 6; i++) {
+            for( int i = 0; i < 6; i++ ) {
                 bytes[i] = (byte)Integer.parseInt(hex[i], 16);
+                }
             }
-        }
-        catch(java.lang.NumberFormatException e) {
+        catch( NumberFormatException e ) {
             throw new IllegalArgumentException(
-                    (new StringBuilder())
-                        .append("Invalid hex digit in MAC address '")
-                        .append(macAddress)
-                        .append("'.")
-                        .toString()
-                        );
-        }
+                    "Invalid hex digit in MAC address '" + macAddress + "'."
+                    );
+            }
 
         return bytes;
     }

@@ -7,8 +7,6 @@ import java.sql.SQLException;
  * Convert {@link SQLException} to  {@link IOException} to
  * be able create method close()
  * matching with {@link java.io.Closeable#close()}
- *
- * @author Claude CHOISNET
  */
 public class SQLCloseException extends IOException
 {

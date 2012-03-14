@@ -1,5 +1,6 @@
 package cx.ath.choisnet.lang;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,9 +13,8 @@ import java.util.Arrays;
 /**
  * <p>
  * Provide similar feature than {@link StringBuilder}
+ * for byte array's
  * </p>
- *
- * @author Claude CHOISNET
  */
 public class ByteArrayBuilder
     implements  Comparable<ByteArrayBuilder>,
@@ -23,8 +23,8 @@ public class ByteArrayBuilder
 {
     private static final long serialVersionUID = 2L;
     private static final int DEFAULT_SIZE = 2048;
-    private transient byte[]    buffer;
-    private transient int       lastPos;
+    private transient byte[] buffer;
+    private transient int    lastPos;
 
     /**
      * Create a ByteArrayBuilder with a default capacity of 2048 bytes
@@ -56,14 +56,14 @@ public class ByteArrayBuilder
     {
         lastPos = 0;
 
-        if(bytes == null) {
+        if( bytes == null ) {
             buffer = new byte[DEFAULT_SIZE];
-        }
+            }
         else {
             buffer = new byte[DEFAULT_SIZE + bytes.length];
 
             append(bytes, 0, bytes.length);
-        }
+            }
     }
 
     /**
@@ -86,20 +86,20 @@ public class ByteArrayBuilder
     {
         if(newLength < 0) {
             throw new IndexOutOfBoundsException();
-        }
+            }
 
         if(newLength < lastPos) {
             lastPos = newLength;
-        }
+            }
         else {
             ensureCapacity(newLength);
 
             for(int i = lastPos; i < newLength; i++) {
                 buffer[i] = 0;
-            }
+                }
 
             lastPos = newLength;
-        }
+            }
     }
 
     /**
@@ -130,14 +130,14 @@ public class ByteArrayBuilder
 
             for(newLength = buffer.length; newLength < minimumCapacity; ) {
                 newLength = newLength + 1 << 1;
-            }
+                }
 
             byte[] newBuffer = new byte[newLength];
 
             System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
 
             buffer = newBuffer;
-        }
+            }
     }
 
     /**
@@ -178,11 +178,11 @@ public class ByteArrayBuilder
     {
         try {
             buffer[lastPos] = b;
-        }
+            }
         catch(ArrayIndexOutOfBoundsException e) {
             ensureCapacity(capacity() + 1);
             buffer[lastPos] = b;
-        }
+            }
 
         lastPos++;
 
@@ -199,7 +199,7 @@ public class ByteArrayBuilder
      * @throws java.io.IOException
      */
     public ByteArrayBuilder append(InputStream is)
-        throws java.io.IOException
+        throws IOException
     {
         return append(is, DEFAULT_SIZE);
     }
@@ -212,13 +212,16 @@ public class ByteArrayBuilder
      * @param is InputStream to add
      * @param bufferSize intermediate buffer size
      * @return caller for initialization chaining
-     * @throws java.io.IOException
+     * @throws IOException If the first byte cannot be read
+     *         for any reason other than the end of the file,
+     *         if the input stream has been closed, or if some
+     *         other I/O error occurs.
      */
     public ByteArrayBuilder append(
-            InputStream is,
-            int         bufferSize
+            final InputStream is,
+            final int         bufferSize
             )
-        throws java.io.IOException
+        throws IOException
     {
         return append(is, new byte[bufferSize]);
     }
@@ -228,22 +231,25 @@ public class ByteArrayBuilder
      * <br/>
      * (InputStream is not close by this method)
      *
-     * @param is InputStream to add
-     * @param intermediateBuffer intermediate buffer for
-     *        InputStream reading.
+     * @param is {@link InputStream} to add
+     * @param b  Buffer for {@link InputStream} reading.
      * @return caller for initialization chaining
-     * @throws java.io.IOException
+     * @throws IOException If the first byte cannot be read
+     *         for any reason other than the end of the file,
+     *         if the input stream has been closed, or if some
+     *         other I/O error occurs.
+     * @throws NullPointerException if b is null.
      */
     public ByteArrayBuilder append(
-            InputStream is,
-            byte[]      intermediateBuffer
+            final InputStream is,
+            final byte[]      b
             )
-        throws java.io.IOException
+        throws IOException
     {
         int len;
 
-        while( (len = is.read( intermediateBuffer )) != -1 ) {
-            append( intermediateBuffer, 0, len);
+        while( (len = is.read( b )) != -1 ) {
+            append( b, 0, len);
             }
 
         return this;
@@ -259,7 +265,7 @@ public class ByteArrayBuilder
      * @see java.nio.channels.FileChannel
      */
     public ByteArrayBuilder append( ReadableByteChannel channel )
-        throws java.io.IOException
+        throws IOException
     {
         return append(channel, DEFAULT_SIZE);
     }
@@ -273,7 +279,7 @@ public class ByteArrayBuilder
      * @throws java.io.IOException
      */
     public ByteArrayBuilder append(ReadableByteChannel channel, int bufferSize)
-        throws java.io.IOException
+        throws IOException
     {
         byte[] byteBuffer = new byte[bufferSize];
 
@@ -285,7 +291,7 @@ public class ByteArrayBuilder
 
             append(byteBuffer, 0, len);
             bbuffer.clear();
-        }
+            }
 
         return this;
     }
@@ -326,15 +332,15 @@ public class ByteArrayBuilder
      */
     public boolean startsWith(byte[] prefix)
     {
-        if(prefix.length > lastPos) {
+        if( prefix.length > lastPos ) {
             return false;
-        }
+            }
 
         for(int i = 0; i < prefix.length; i++) {
             if(buffer[i] != prefix[i]) {
                 return false;
+                }
             }
-        }
 
         return true;
     }
@@ -366,17 +372,17 @@ public class ByteArrayBuilder
      */
     public boolean endsWith(byte[] suffix)
     {
-        if(suffix.length > lastPos) {
+        if( suffix.length > lastPos ) {
             return false;
-        }
+            }
 
         int j = lastPos - suffix.length;
 
-        for(int i = 0; i < suffix.length; i++) {
-            if(buffer[j++] != suffix[i]) {
+        for( int i = 0; i < suffix.length; i++ ) {
+            if( buffer[j++] != suffix[i] ) {
                 return false;
+                }
             }
-        }
 
         return true;
     }
@@ -395,13 +401,13 @@ public class ByteArrayBuilder
                         ? aByteArrayBuilder.lastPos
                         : lastPos;
 
-        for(int i = 0; i < length; i++) {
+        for( int i = 0; i < length; i++ ) {
             int cmp = buffer[i] - aByteArrayBuilder.buffer[i];
 
             if(cmp != 0) {
                 return cmp;
+                }
             }
-        }
 
         return lastPos - aByteArrayBuilder.lastPos;
     }
@@ -411,7 +417,7 @@ public class ByteArrayBuilder
     {
         if( o instanceof ByteArrayBuilder ) {
             return compareTo( ByteArrayBuilder.class.cast( o )) == 0;
-        }
+            }
         return false;
     }
 
@@ -450,7 +456,7 @@ public class ByteArrayBuilder
 
     @Override
     public ByteArrayBuilder clone()
-        throws java.lang.CloneNotSupportedException
+        throws CloneNotSupportedException
     {
         ByteArrayBuilder newByteBuffer = (ByteArrayBuilder)super.clone();
 
@@ -551,7 +557,7 @@ public class ByteArrayBuilder
 
         for(int i = 0; i < max; i++) {
             buffer[i] = stream.readByte();
-        }
+            }
 
         lastPos = max;
     }

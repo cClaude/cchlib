@@ -1,8 +1,7 @@
 package cx.ath.choisnet.sql;
 
 /**
- *
- * @author Claude CHOISNET
+ * TODOC
  */
 public class SimpleDataSourceException 
     extends Exception

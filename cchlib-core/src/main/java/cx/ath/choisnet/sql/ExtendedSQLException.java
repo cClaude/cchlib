@@ -4,8 +4,7 @@ import java.sql.SQLException;
 
 /**
  * Encapsulation SQLException and add original SQL query
- *
- * @author Claude
+ * 
  * @since 4.1.3
  */
 public class ExtendedSQLException extends SQLException

@@ -32,7 +32,7 @@ public class XTextField extends JTextField
     public XTextField( final String text )
     {
         super( text );
-        
+
         init();
     }
 
@@ -48,7 +48,7 @@ public class XTextField extends JTextField
     public XTextField( final int columns )
     {
         super( columns );
-        
+
         init();
     }
 
@@ -65,7 +65,7 @@ public class XTextField extends JTextField
     public XTextField( final String text, int columns )
     {
         super( text, columns );
-        
+
         init();
     }
 
@@ -87,7 +87,7 @@ public class XTextField extends JTextField
     public XTextField( final Document doc, String text, int columns )
     {
         super( doc, text, columns );
-        
+
         init();
     }
 
@@ -110,7 +110,7 @@ public class XTextField extends JTextField
 
     /**
      * TODO default localization
-     * @return TODO
+     * @return return default text for copy (no localization)
      */
     public String getTextForCopy()
     {
@@ -119,7 +119,7 @@ public class XTextField extends JTextField
 
     /**
      * TODO default localization
-     * @return TODO
+     * @return return default text for paste (no localization)
      */
     public String getTextForPaste()
     {

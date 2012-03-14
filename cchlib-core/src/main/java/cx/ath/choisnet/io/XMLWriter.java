@@ -2,14 +2,13 @@ package cx.ath.choisnet.io;
 
 import java.io.Closeable;
 import java.io.Flushable;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * TODOC
  */
 public final class XMLWriter extends Writer
     implements Appendable, Flushable, Closeable
@@ -17,25 +16,33 @@ public final class XMLWriter extends Writer
     private final Writer writer;
     private final StringBuilder sbuffer = new StringBuilder();
 
+    /**
+     * TODOC
+     * @param writer
+     */
     public XMLWriter(Writer writer)
     {
         this.writer = writer;
     }
 
-    public void close()
-        throws java.io.IOException
+    @Override
+    public void close() throws IOException
     {
         writer.close();
     }
 
-    public void flush()
-        throws java.io.IOException
+    @Override
+    public void flush() throws IOException
     {
         writer.flush();
     }
 
+    /**
+     * TODOC
+     */
+    @Override
     public void write(char cbuf[], int off, int len)
-        throws java.io.IOException
+        throws IOException
     {
         synchronized(super.lock) {
             sbuffer.setLength(0);
@@ -62,28 +69,50 @@ public final class XMLWriter extends Writer
 
     }
 
+    /**
+     * TODOC
+     * @param throwable
+     * @throws IOException
+     */
     public void write(Throwable throwable)
-        throws java.io.IOException
+        throws IOException
     {
         StringWriter sw = new StringWriter();
         throwable.printStackTrace(new PrintWriter(sw));
         write(sw.toString());
     }
 
+    /**
+     * TODOC
+     * @param str
+     * @throws IOException
+     */
     public void rawWrite(String str)
-        throws java.io.IOException
+        throws IOException
     {
         writer.write(str);
     }
 
+    /**
+     * TODOC
+     * @param cbuf
+     * @throws IOException
+     */
     public void rawWrite(char[] cbuf)
-        throws java.io.IOException
+        throws IOException
     {
         writer.write(cbuf);
     }
 
+    /**
+     * TODOC
+     * @param cbuf
+     * @param off
+     * @param len
+     * @throws IOException
+     */
     public void rawWrite(char[] cbuf, int off, int len)
-        throws java.io.IOException
+        throws IOException
     {
         writer.write(cbuf, off, len);
     }

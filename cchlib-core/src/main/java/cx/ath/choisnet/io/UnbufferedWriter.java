@@ -3,9 +3,7 @@ package cx.ath.choisnet.io;
 import java.io.Writer;
 
 /**
- *
- * @author Claude CHOISNET
- *
+ * TODOC
  */
 public final class UnbufferedWriter extends Writer
 {

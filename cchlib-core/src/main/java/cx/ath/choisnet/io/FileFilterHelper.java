@@ -2,6 +2,7 @@ package cx.ath.choisnet.io;
 
 import java.io.File;
 import java.io.FileFilter;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
 ** Build commons {@link FileFilter} that are {@link java.io.Serializable}
