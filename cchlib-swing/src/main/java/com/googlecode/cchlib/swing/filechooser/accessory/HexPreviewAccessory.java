@@ -45,40 +45,39 @@ public class HexPreviewAccessory
     {
         boolean update = false;
         String prop = event.getPropertyName();
-        File file;
 
         if( JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals( prop ) ) {
             //If the directory changed,
             //remove previous editor.
-            file = null;
+            DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
+
+            model.setArrayAccess( emptyArray );
             update = true;
             }
         else if( JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals( prop ) ) {
             //If a file became selected,
             //find out which one.
-            file = (File)event.getNewValue();
+            File file = (File)event.getNewValue();
+            DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
+
+            if( file != null && file.isFile() ) {
+                try {
+                    model.setArrayAccess( new ArrayReadAccessFile( file ) );
+                    }
+                catch( FileNotFoundException e ) {
+                    logger.error( "FileNotFound", e );
+                    }
+                }
+            else {
+                model.setArrayAccess( emptyArray );
+                }
             update = true;
-            }
-        else {
-            file = null;
             }
 
         //Update the preview accordingly.
         if( update ) {
             if( isShowing() ) {
-                DefaultHexEditorModel model = (DefaultHexEditorModel)getModel();
-
-                if( file != null && file.isFile() ) {
-                    try {
-                        model.setArrayAccess( new ArrayReadAccessFile( file ) );
-                        }
-                    catch( FileNotFoundException e ) {
-                        logger.error( "FileNotFound", e );
-                        }
-                    }
-                else {
-                    model.setArrayAccess( emptyArray );
-                    }
+                // nothing in this case
                 }
             }
     }
