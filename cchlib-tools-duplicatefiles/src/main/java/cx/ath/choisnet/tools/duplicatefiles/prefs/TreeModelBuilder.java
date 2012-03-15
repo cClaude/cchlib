@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
-import alpha.com.googlecode.cchlib.utils.VisitResult;
-import alpha.com.googlecode.cchlib.utils.Visitor;
-import alpha.cx.ath.choisnet.utils.tree.BadRootNameException;
-import alpha.cx.ath.choisnet.utils.tree.NamedTree;
-import alpha.cx.ath.choisnet.utils.tree.NamedTreeNode;
+import com.googlecode.cchlib.util.VisitResult;
+import com.googlecode.cchlib.util.Visitor;
+import com.googlecode.cchlib.util.tree.BadRootNameException;
+import com.googlecode.cchlib.util.tree.NamedTree;
+import com.googlecode.cchlib.util.tree.NamedTreeNode;
 
 /**
  *

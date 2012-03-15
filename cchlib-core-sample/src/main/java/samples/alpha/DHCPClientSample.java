@@ -1,8 +1,8 @@
 package samples.alpha;
 
-import alpha.cx.ath.choisnet.net.dhcp.DHCPParameters;
-import alpha.cx.ath.choisnet.net.dhcp.DHCPSimpleClient;
-import alpha.cx.ath.choisnet.net.dhcp.DHCPSocket;
+import com.googlecode.cchlib.net.dhcp.DHCPParameters;
+import com.googlecode.cchlib.net.dhcp.DHCPSimpleClient;
+import com.googlecode.cchlib.net.dhcp.DHCPSocket;
 
 /**
  *
