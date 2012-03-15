@@ -41,11 +41,8 @@ public class JPanelSearching extends JPanel//SearchingWB
 {
     private static final long serialVersionUID = 1L;
     private static final Logger slogger = Logger.getLogger( JPanelSearching.class );
-    // TODO:Must be restore by parent !
-    private transient DFToolKit dFToolKit;
-
+    private transient DFToolKit dFToolKit; // Serialization !
     private DuplicateFileCollector  duplicateFC;
-    /* @serial */
     private DefaultTableModel   tableModelErrorList;
     private int                 pass1CountFile;
     private long                pass1BytesCount;

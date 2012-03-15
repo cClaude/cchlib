@@ -168,6 +168,7 @@
     <module>cchlib-apps-regexpbuilder</module>
     <module>cchlib-apps-editresourcebundle</module>
     <module>cchlib-core-deprecated</module>
+    <module>cchlib-swing-beta</module>
     <module>cchlib-swing-deprecated</module>
     <module>cchlib-core-sample</module>
     <module>cchlib-j2ee-deprecated</module>

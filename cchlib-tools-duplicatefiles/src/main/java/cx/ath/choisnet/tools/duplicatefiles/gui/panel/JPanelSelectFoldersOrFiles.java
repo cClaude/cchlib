@@ -49,13 +49,9 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private JButton jButtonAddDir;
     private JButton jButtonRemEntry;
 
-    // TODO:Must be restore by parent !
-    private transient DFToolKit dFToolKit;
-    /* @serial */
+    private transient DFToolKit dFToolKit; // Serialization !!
     private AbstractTableModel tableModelSelectedFoldersOrFiles;
-    /* @serial */
     private List<File> includeFileList  = new ArrayList<File>();
-    /* @serial */
     private List<File> ingoreFileList   = new ArrayList<File>();
 
     @I18nString private String[] columnsHeaders = {
@@ -363,12 +359,12 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 slogger.info( "add: " + f );
 //                slogger.info( "size: " + filesList.size() );
                 return true;
-            }
+                }
             else {
                 // TODO: Explain reason in a dialog
                 slogger.warn( "Value already exist: " + f );
+                }
             }
-        }
 
         dFToolKit.beep();
         return false;

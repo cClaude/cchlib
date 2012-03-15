@@ -8,7 +8,7 @@ import java.net.URL;
 
 /**
  * Tools for {@link java.awt.Desktop}
- * 
+ *
  * @since 4.1.6
  */
 public class DesktopHelper
@@ -75,7 +75,7 @@ public class DesktopHelper
 
     /**
      * TODOC
-     * 
+     *
      * @param url
      * @throws PlateformeDesktopNotSupportedException
      */
@@ -86,7 +86,7 @@ public class DesktopHelper
             browseNative( url );
             }
         else {
-            // TODO: Try to run using "start <url>" under windows.
+            // N2H: Try to run using "start <url>" under windows.
             throw new PlateformeDesktopNotSupportedException(
                     "Error on browse action (fatal):" + url
                     );
