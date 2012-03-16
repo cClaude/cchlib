@@ -1,11 +1,11 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
  * Abstract class for create Iterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.ComputableIterator} instead
+ * @since 4.1.7
  */
 public abstract class ComputableIterator<T>
     implements Iterator<T>
@@ -59,16 +59,16 @@ public abstract class ComputableIterator<T>
     {
         if(nextObject == null) {
             nextObject = computeNext();
-        }
+        	}
 
         T returnObject = nextObject;
 
         try {
             nextObject = computeNext();
-        }
+        	}
         catch(NoSuchElementException e) {
             nextObject = null;
-        }
+        	}
 
         return returnObject;
     }
@@ -91,19 +91,10 @@ public abstract class ComputableIterator<T>
     {
         if(nextObject == null) {
             throw new IllegalStateException();
-        }
+        	}
         else {
             throw new UnsupportedOperationException();
-        }
+        	}
     }
 
-//    /**
-//     * Returns an iterator over a set of elements of type T.
-//     * @return this Iterator
-//     */
-//    @Override
-//    public Iterator<T> iterator()
-//    {
-//        return this;
-//    }
 }

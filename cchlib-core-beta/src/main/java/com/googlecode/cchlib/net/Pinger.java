@@ -37,12 +37,12 @@ public class Pinger extends Thread
          */
         InetAddress_isReachable,
         }
-    
+
     /**
      * Default port number for {@link #helloPing(String)} : value = {@value}
      */
     public static final int DEFAULT_PORT = 7;
-    
+
     /**
      * Default time out for requests (ms)
      */
@@ -201,7 +201,7 @@ public class Pinger extends Thread
      * TODOC
      * @param inetAddress
      * @param port
-     * @param bytes
+     * @param sendData
      * @return TODOC
      * @throws java.io.IOException
      */
@@ -255,7 +255,7 @@ public class Pinger extends Thread
      * TODOC
      * @param inetAddress
      * @param port
-     * @param bytes
+     * @param sendData
      * @return TODOC
      * @throws java.io.IOException
      */

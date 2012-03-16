@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator.iterable;
+package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.Iterator;
 
@@ -11,10 +11,10 @@ import java.util.Iterator;
  *
  * @param <T> content type
  * @see cx.ath.choisnet.util.iterator.BiIterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.iterable.BiIterator} instead
+ * @since 4.1.7
  */
 public class BiIterator<T>
-    extends cx.ath.choisnet.util.iterator.BiIterator<T>
+    extends com.googlecode.cchlib.util.iterator.BiIterator<T>
         implements Iterable<T>,IterableIterator<T>
 {
     private Iterable<T> firstIterable;

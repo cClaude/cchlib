@@ -2,7 +2,7 @@ package com.googlecode.cchlib.jdbf;
 
 import java.util.Date;
 import java.util.Iterator;
-import cx.ath.choisnet.util.iterator.ArrayIterator;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
  * Default implementation of {@link DBFRecord}

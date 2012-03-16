@@ -1,7 +1,8 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
 
 /**
  * Limit case, iteration on a singleton
@@ -9,17 +10,14 @@ import java.util.NoSuchElementException;
  * Note: This Iterator extends also {@link Iterable} interface
  *
  * @param <T> content type
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.SingletonIterator} instead
+ * @since 4.1.7
  */
 public class SingletonIterator<T>
-    implements Iterator<T>,
-               Iterable<T>,
-               cx.ath.choisnet.util.iterator.iterable.IterableIterator<T>//, java.io.Serializable
+    implements Iterator<T>, 
+               Iterable<T>, 
+               IterableIterator<T>
 {
-    //private static final long serialVersionUID = 1L;
-    /** @serial */
     private boolean hasNext;
-    /** @serial */
     private T item;
 
     /**
@@ -49,14 +47,14 @@ public class SingletonIterator<T>
      */
     public T next() throws NoSuchElementException
     {
-        if(hasNext) {
+        if( hasNext ) {
             hasNext = false;
 
             return item;
-        }
+        	}
         else {
             throw new NoSuchElementException();
-        }
+        	}
     }
 
     /**
@@ -71,10 +69,10 @@ public class SingletonIterator<T>
     {
         if( hasNext ) {
             throw new IllegalStateException();
-        }
+        	}
         else {
             throw new UnsupportedOperationException();
-        }
+        	}
     }
 
     /**
@@ -85,10 +83,4 @@ public class SingletonIterator<T>
     {
         return new SingletonIterator<T>( item );
     }
-
-//    @Override
-//    public int size()
-//    {
-//        return 0;
-//    }
 }

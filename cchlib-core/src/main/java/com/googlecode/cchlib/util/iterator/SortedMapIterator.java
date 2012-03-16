@@ -1,32 +1,35 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
 /**
+ * TODOC
+ *
  * @param <K> Type of key
  * @param <V> Type of value
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.SortedMapIterator} instead
+ * @since 4.1.7
  */
 public class SortedMapIterator<K,V>
-    implements Iterator<V>//, Iterable<V>
+    implements Iterator<V>
 {
     private SortedMap<K,V>  initialSortedMap;
     private Iterator<K>     iter;
     private K               prevKey;
 
     /**
-     * @param sortedMap
+     * Create a SortedMapIterator
+     *
+     * @param sortedMap {@link SortedMap} to use
      */
     public SortedMapIterator(
-            final SortedMap<K,V> sortedMap
-            )
+        final SortedMap<K,V> sortedMap
+        )
     {
         initialSortedMap = sortedMap;
         prevKey = null;
-        iter = new ComputableIterator<K>()
-            {
+        iter = new ComputableIterator<K>() {
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
                 public K computeNext() throws NoSuchElementException
@@ -35,11 +38,11 @@ public class SortedMapIterator<K,V>
 
                     if(key == null) {
                         throw new NoSuchElementException();
-                    }
+                        }
                     else {
                         currentSortedMap = currentSortedMap.headMap(key);
                         return key;
-                    }
+                        }
                 }
             };
     }
@@ -66,11 +69,11 @@ public class SortedMapIterator<K,V>
             prevKey = iter.next();
 
             return initialSortedMap.get(prevKey);
-        }
-        catch(NoSuchElementException e) {
+            }
+        catch( NoSuchElementException e ) {
             prevKey = null;
             throw e;
-        }
+            }
     }
 
     /**
@@ -82,10 +85,10 @@ public class SortedMapIterator<K,V>
     {
         if(prevKey == null) {
             throw new NoSuchElementException();
-        }
+            }
         else {
             return prevKey;
-        }
+            }
     }
 
     /**
@@ -103,18 +106,9 @@ public class SortedMapIterator<K,V>
     {
         if(prevKey == null) {
             throw new IllegalStateException();
-        }
+            }
         else {
             initialSortedMap.remove(prevKey);
-        }
+            }
     }
-
-//    /**
-//     * Returns an iterator over a set of elements of type T.
-//     * @return this Iterator
-//     */
-//    public Iterator<V> iterator()
-//    {
-//        return this;
-//    }
 }

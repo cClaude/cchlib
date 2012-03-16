@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator.iterable;
+package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.Iterator;
 
@@ -11,11 +11,9 @@ import java.util.Iterator;
  * in the flow.
  *
  * @param <T> content type
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.iterable.IterableIterator} instead
+ * @since 4.1.7
  */
 public interface IterableIterator<T>
-    extends Iterable<T>,
-            Iterator<T>, 
-            com.googlecode.cchlib.util.iterator.iterable.IterableIterator<T>
+    extends Iterable<T>, Iterator<T>
 {
 }

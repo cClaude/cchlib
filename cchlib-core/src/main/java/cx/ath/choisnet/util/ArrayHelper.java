@@ -4,8 +4,10 @@ import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
+
 import cx.ath.choisnet.util.enumeration.EnumerationHelper;
-import cx.ath.choisnet.util.iterator.ArrayIterator;
 
 /**
  * Providing tools for Arrays, mainly other views for Arrays

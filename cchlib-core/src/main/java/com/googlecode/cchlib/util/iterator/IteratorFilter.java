@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,7 +12,7 @@ import cx.ath.choisnet.util.Selectable;
  * in iterator result.
  *
  * @param <T> type iterator entries.
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.IteratorFilter} instead
+ * @since 4.1.7
  */
 public class IteratorFilter<T>
     extends ComputableIterator<T>
@@ -52,33 +52,6 @@ public class IteratorFilter<T>
         throw new NoSuchElementException();
     }
 
-//    /**
-//     * Removes from the underlying collection the last element
-//     * returned by the iterator.
-//     *
-//     * @throws UnsupportedOperationException if the remove
-//     *         operation is not supported by parent Iterator.
-//     * @throws IllegalStateException if the next method has
-//     *         not yet been called, or the remove method has
-//     *         already been called after the last call to the
-//     *         next method.
-//     */
-//    @Override
-//    public void remove()
-//    {
-//        this.iterator.remove();
-//    }
-
-//    /**
-//     * Returns an iterator over a set of elements of type T.
-//     * @return this Iterator
-//     */
-//    @Override
-//    public Iterator<T> iterator()
-//    {
-//        return this;
-//    }
-
     /**
      * TODOC
      *
@@ -94,19 +67,4 @@ public class IteratorFilter<T>
             }
         };
     }
-
-//    public static <T> String toString( Iterator<T> iterator, String separator)
-//    {
-//        StringBuilder sb = new StringBuilder();
-//
-//        if(iterator.hasNext()) {
-//            sb.append(iterator.next().toString());
-//        }
-//
-//        for(; iterator.hasNext(); sb.append(iterator.next().toString())) {
-//            sb.append(separator);
-//        }
-//
-//        return sb.toString();
-//    }
 }

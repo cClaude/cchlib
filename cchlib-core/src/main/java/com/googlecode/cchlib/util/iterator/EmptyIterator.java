@@ -1,7 +1,9 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
 
 /**
  * Just a empty Iterator, could be use to deal
@@ -9,12 +11,12 @@ import java.util.NoSuchElementException;
  *
  * <BR/>
  * Note: This Iterator extends also {@link Iterable} interface
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.EmptyIterator} instead
+ * @since 4.1.7
  */
 public class EmptyIterator<T>
     implements Iterator<T>,
                Iterable<T>,
-               cx.ath.choisnet.util.iterator.iterable.IterableIterator<T>,
+               IterableIterator<T>,
                java.io.Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -70,10 +72,4 @@ public class EmptyIterator<T>
     {
         return this;
     }
-
-//    @Override
-//    public int size()
-//    {
-//        return 0;
-//    }
 }

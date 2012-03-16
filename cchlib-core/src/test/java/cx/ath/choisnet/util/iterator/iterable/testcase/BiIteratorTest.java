@@ -1,12 +1,13 @@
 package cx.ath.choisnet.util.iterator.iterable.testcase;
 
 import java.util.Collection;
-import cx.ath.choisnet.util.iterator.iterable.BiIterator;
-import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
+//import cx.ath.choisnet.util.iterator.iterable.BiIterator;
+//import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
 
 /**
  * TestCase
  */
+@Deprecated
 public class BiIteratorTest extends IterableIteratorTestCaseHelper // (TestCase)
 {
 //    final private static Logger slogger = Logger.getLogger(BiIteratorTest.class);
@@ -95,11 +96,11 @@ public class BiIteratorTest extends IterableIteratorTestCaseHelper // (TestCase)
 //        test( getCollection1(), getCollection2() );
 //    }
   @Override
-  protected <T> IterableIterator<T> buildIterableIterator(
+  protected <T> cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> buildIterableIterator(
       final Collection<T> c1,
       final Collection<T> c2
       )
   {
-    return new BiIterator<T>( c1, c2 );
+    return new cx.ath.choisnet.util.iterator.iterable.BiIterator<T>( c1, c2 );
   }
 }

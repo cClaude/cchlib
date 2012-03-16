@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
  *
  * @param <T> content type
  * @see CascadingIterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.MultiIterator} instead
+ * @since 4.1.7
  */
 public class MultiIterator<T> extends ComputableIterator<T>
 {
@@ -26,7 +26,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     private Iterator<? extends T>                           currentIterator;
 
     /**
-     *
+     * TODOC
      * @param iteratorOfIterator
      */
     public MultiIterator(Iterator<? extends Iterator<? extends T>> iteratorOfIterator)
@@ -36,7 +36,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param collectionOfIterator
      */
     public MultiIterator(Collection<? extends Iterator<? extends T>> collectionOfIterator)
@@ -45,7 +45,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param iter0
      * @param iter1
      */
@@ -63,7 +63,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param iter
      * @param element
      */
@@ -79,7 +79,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param element
      * @param iter
      */
@@ -95,7 +95,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param arrayOfIterator
      */
     //Java 1.7 @SafeVarargs
@@ -107,7 +107,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     }
 
     /**
-     *
+     * TODOC
      * @param arrayOfIterator
      * @param offset
      * @param len
@@ -128,42 +128,19 @@ public class MultiIterator<T> extends ComputableIterator<T>
     {
         if(currentIterator == null) {
             currentIterator = metaIterator.next();
-        }
+        	}
 
         do {
             if(currentIterator.hasNext()) {
                 return currentIterator.next();
-            }
+            	}
 
             if(metaIterator.hasNext()) {
                 currentIterator = metaIterator.next();
-            }
+            	}
             else {
                 throw new NoSuchElementException();
-            }
-
-        } while(true);
+            	}
+        	} while(true);
     }
-
-//    /**
-//     * Removes from the underlying collection the last element
-//     * returned by the iterator.
-//     *
-//     * @throws UnsupportedOperationException if the remove
-//     *         operation is not supported by current Iterator.
-//     * @throws IllegalStateException if the next method has
-//     *         not yet been called, or the remove method has
-//     *         already been called after the last call to the
-//     *         next method.
-//     */
-//    @Override
-//    public void remove()
-//    {
-//        if(currentIterator != null) {
-//            currentIterator.remove();
-//        }
-//        else {
-//            throw new IllegalStateException();
-//        }
-//    }
 }

@@ -20,7 +20,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.textfield.XTextField;
-import cx.ath.choisnet.util.iterator.iterable.BiIterator;
+import com.googlecode.cchlib.util.iterator.iterable.BiIterator;
+
 import javax.swing.JLabel;
 
 /**

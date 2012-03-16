@@ -13,9 +13,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.Iterator;
-import cx.ath.choisnet.util.iterator.ArrayIterator;
-import cx.ath.choisnet.util.iterator.IteratorFilter;
+//import cx.ath.choisnet.util.iterator.ArrayIterator;
+//import cx.ath.choisnet.util.iterator.IteratorFilter;
 import com.googlecode.cchlib.io.FileDeleteException;
+import com.googlecode.cchlib.util.iterator.IteratorFilter;
+import com.googlecode.cchlib.util.iterator.iterable.ArrayIterator;
 
 /**
  * Provide some extra tools for {@link File} operations

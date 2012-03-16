@@ -83,14 +83,14 @@ interface CustomProperties
     public boolean isEdited();
 
     /**
-     * TODOC
-     * @param l
+     * Adds a {@link ChangeListener}
+     * @param listener the {@link ChangeListener} to add
      */
     public void addChangeListener(ChangeListener listener );
 
     /**
-     * TODOC
-     * @param l
+     * Removes a {@link ChangeListener}
+     * @param listener the {@link ChangeListener} to remove
      */
     public void removeChangeListener(ChangeListener listener );
 

@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.introspection;
 
 import java.io.Serializable;
@@ -11,10 +7,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-import cx.ath.choisnet.util.iterator.BiIterator;
+
+import com.googlecode.cchlib.util.iterator.BiIterator;
 
 /**
- * @author CC
+ * TODOC
+ * 
  * @param <FRAME>
  */
 public class SwingIntrospectorRootItem<FRAME>
@@ -26,11 +24,18 @@ public class SwingIntrospectorRootItem<FRAME>
     /** @serial */
     private /*List*/ArrayList<SwingIntrospectorItem<FRAME>> items = new ArrayList<SwingIntrospectorItem<FRAME>>();
 
+    /** 
+     * TODOC
+     */
     public SwingIntrospectorRootItem()
     {
         // empty
     }
 
+    /**
+     * TODOC
+     * @param item
+     */
     public void add( SwingIntrospectorItem<FRAME> item )
     {
         if( item.isRoot() ) {
@@ -38,31 +43,43 @@ public class SwingIntrospectorRootItem<FRAME>
 
             if( item.getIndex() >= 0 ) {
                 alreadyExist = this.rootItems.put( item.getIndex(), item );
-            }
+            	}
             else {
                 alreadyExist = this.rootItems.put( 0, item );
-            }
+            	}
 
             if( alreadyExist != null ) {
                 // TODO: something better !
                 throw new RuntimeException( "rootItem already exist: (" + item + " - " + alreadyExist );
-            }
-        }
+            	}
+        	}
         else {
             this.items.add( item );
-        }
+        	}
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public Map<Integer,SwingIntrospectorItem<FRAME>> getRootItemsMap()
     {
         return Collections.unmodifiableMap( rootItems );
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public Collection<SwingIntrospectorItem<FRAME>> getRootItemsCollection()
     {
         return Collections.unmodifiableCollection( rootItems.values() );
     }
 
+    /**
+     * TODOC
+     * @return TODOC
+     */
     public Collection<SwingIntrospectorItem<FRAME>> getItemsCollection()
     {
         return Collections.unmodifiableList( items );

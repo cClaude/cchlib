@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator.iterable;
+package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.Iterator;
 
@@ -10,11 +10,10 @@ import java.util.Iterator;
  *
  * @param <T> content type
  * @see cx.ath.choisnet.util.iterator.SingletonIterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.iterable.ArrayIterator} instead
+ * @since 4.1.7
  */
-@Deprecated
 public class ArrayIterator<T>
-    extends cx.ath.choisnet.util.iterator.ArrayIterator<T>
+    extends com.googlecode.cchlib.util.iterator.ArrayIterator<T>
         implements Iterable<T>,IterableIterator<T>
 {
     private int offset;
@@ -83,10 +82,4 @@ public class ArrayIterator<T>
     {
         return new ArrayIterator<T>( super.array, offset, super.len );
     }
-
-//    @Override
-//    public int size()
-//    {
-//        return super.len;
-//    }
 }

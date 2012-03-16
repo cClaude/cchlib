@@ -16,10 +16,12 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.util.iterator.IteratorFilter;
+
 import cx.ath.choisnet.tools.emptydirectories.FilePath;
 import cx.ath.choisnet.util.Selectable;
 import cx.ath.choisnet.util.Wrappable;
-import cx.ath.choisnet.util.iterator.IteratorFilter;
 import cx.ath.choisnet.util.iterator.IteratorWrapper;
 
 /**

@@ -205,7 +205,7 @@ public class ByteArrayBuilder
     }
 
     /**
-     * Apprend content of an {@link InputStream}
+     * Append content of an {@link InputStream}
      * <br/>
      * (InputStream is not close by this method)
      *
@@ -260,8 +260,8 @@ public class ByteArrayBuilder
      *
      * @param channel channel to append to buffer
      * @return caller for initialization chaining
-     * @throws java.io.IOException
-     * @see java.io.FileInpustStream#getChannel
+     * @throws IOException if any I/O occurs
+     * @see java.io.FileInputStream#getChannel()
      * @see java.nio.channels.FileChannel
      */
     public ByteArrayBuilder append( ReadableByteChannel channel )
@@ -276,7 +276,7 @@ public class ByteArrayBuilder
      * @param channel channel to append to buffer
      * @param bufferSize temporary buffer size.
      * @return caller for initialization chaining
-     * @throws java.io.IOException
+     * @throws IOException if any I/O occurs
      */
     public ByteArrayBuilder append(ReadableByteChannel channel, int bufferSize)
         throws IOException
@@ -473,8 +473,8 @@ public class ByteArrayBuilder
      * Replaces each sub byte array of this ByteArrayBuilder that matches the
      * given pattern with the given replacement.
      *
-     * @param pattern Pattern to remplace
-     * @param replace Remplace value for pattern
+     * @param pattern Pattern to replace
+     * @param replace Replace value for pattern
      * @return a new ByteArrayBuilder
      */
     public ByteArrayBuilder replaceAll(

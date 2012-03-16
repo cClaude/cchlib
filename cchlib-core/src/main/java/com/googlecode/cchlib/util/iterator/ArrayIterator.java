@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;
@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @param <T> content type
  * @see SingletonIterator
  * @see com.googlecode.cchlib.util.iterator.iterable.ArrayIterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.ArrayIterator} instead
+ * @since 4.1.7
  */
 public class ArrayIterator<T>
     implements Iterator<T>
@@ -37,10 +37,10 @@ public class ArrayIterator<T>
 
         if(array == null) {
             this.len = 0;
-            }
+        	}
         else {
             this.len = this.array.length;
-            }
+        	}
     }
 
     /**
@@ -148,24 +148,6 @@ public class ArrayIterator<T>
     {
         throw new UnsupportedOperationException();
     }
-
-    /*
-     * Returns internal array, should not be modify !
-     * @return internal array
-    protected T[] toArray()
-    {
-        return array;
-    }
-     */
-
-    /*
-     * Returns expected length for iterator
-     * @return expected length for iterator
-    protected int size()
-    {
-        return len;
-    }
-     */
 
     /**
      * Build a new ArrayIterator. This factory, whose parameter

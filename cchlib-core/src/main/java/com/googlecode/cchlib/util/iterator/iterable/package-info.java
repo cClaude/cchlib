@@ -2,7 +2,7 @@
  * Provide some extra Iterator, most based
  * on other Iterator. These Iterator are also {@link Iterable}.
  * <br/>
- * An {@link cx.ath.choisnet.util.iterator.iterable.IterableIterator}
+ * An {@link com.googlecode.cchlib.util.iterator.iterable.IterableIterator}
  * is an Iterator that could be restart/reset using
  * {@link Iterable#iterator()}
  * method.
@@ -11,10 +11,11 @@
  * Collections in memory and to generate result
  * in the flow.
  *
- * @see cx.ath.choisnet.util.enumeration
- * @see cx.ath.choisnet.util.iterator
- * @see cx.ath.choisnet.util.iterator.iterable.IterableIterator
+ * @see com.googlecode.cchlib.util.enumeration
+ * @see com.googlecode.cchlib.util.iterator
+ * @see com.googlecode.cchlib.util.iterator.iterable.IterableIterator
+ * @since 4.1.7
  */
-package cx.ath.choisnet.util.iterator.iterable;
+package com.googlecode.cchlib.util.iterator.iterable;
 
 

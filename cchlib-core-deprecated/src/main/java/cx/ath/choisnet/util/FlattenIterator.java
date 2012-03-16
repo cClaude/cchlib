@@ -3,9 +3,13 @@ package cx.ath.choisnet.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import cx.ath.choisnet.util.iterator.ArrayIterator;
-import cx.ath.choisnet.util.iterator.ComputableIterator;
-import cx.ath.choisnet.util.iterator.SingletonIterator;
+
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
+import com.googlecode.cchlib.util.iterator.ComputableIterator;
+//import cx.ath.choisnet.util.iterator.ArrayIterator;
+//import cx.ath.choisnet.util.iterator.ComputableIterator;
+//import cx.ath.choisnet.util.iterator.SingletonIterator;
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *

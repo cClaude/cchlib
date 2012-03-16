@@ -7,8 +7,11 @@ import java.util.NoSuchElementException;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
+
 import cx.ath.choisnet.tools.emptydirectories.FilePath;
-import cx.ath.choisnet.util.iterator.SingletonIterator;
+//import cx.ath.choisnet.util.iterator.SingletonIterator;
 
 /**
  *

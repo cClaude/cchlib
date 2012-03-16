@@ -33,7 +33,6 @@ public class DefaultHexEditorModel implements HexEditorModel
 
     /**
      * TODOC
-     * @param mainComponent
      */
     public DefaultHexEditorModel()
     {

@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -9,11 +9,11 @@ import java.util.NoSuchElementException;
  * results (Order is preserve).
  *
  * @param <T> content type
- * @see cx.ath.choisnet.util.iterator.iterable.BiIterator
- * @deprecated use {@link com.googlecode.cchlib.util.iterator.BiIterator} instead
+ * @see com.googlecode.cchlib.util.iterator.iterable.BiIterator
+ * @since 4.1.7
  */
 public class BiIterator<T>
-    implements Iterator<T>//, Iterable<T>
+    implements Iterator<T>
 {
     private Iterator<T> firstIter;
     private Iterator<T> secondIter;
@@ -35,10 +35,10 @@ public class BiIterator<T>
     {
         if( firstIterator == null ) {
             throw new NullPointerException();
-        }
+        	}
         if( secondIterator == null ) {
             throw new NullPointerException();
-        }
+        	}
         this.firstIter = firstIterator;
         this.secondIter = secondIterator;
     }
@@ -54,10 +54,10 @@ public class BiIterator<T>
     {
         if(firstIter.hasNext()) {
             return true;
-        }
+        	}
         else {
             return secondIter.hasNext();
-        }
+        	}
     }
 
     /**
@@ -73,7 +73,7 @@ public class BiIterator<T>
             }
         else {
             return secondIter.next();
-        }
+        	}
     }
 
     /**
@@ -95,16 +95,6 @@ public class BiIterator<T>
             }
         else {
             secondIter.remove();
-        }
+        	}
     }
-
-//    /**
-//     * Returns an iterator over a set of elements of type T.
-//     * @return this Iterator
-//     */
-//    @Override
-//    public Iterator<T> iterator()
-//    {
-//        return this;
-//    }
 }

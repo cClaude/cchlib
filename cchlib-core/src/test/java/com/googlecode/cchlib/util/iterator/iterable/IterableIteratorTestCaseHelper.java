@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator.iterable.testcase;
+package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
-//import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
-import junit.framework.TestCase;
+import org.junit.Assert;
+
 
 /**
  * TestCase
  */
-@Deprecated
-public abstract class IterableIteratorTestCaseHelper extends TestCase
+//public
+abstract class IterableIteratorTestCaseHelper
 {
     final private static Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
 
@@ -42,18 +42,6 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
         return Collections.emptyList();
     }
 
-//    /**
-//     * Build a non empty Collection
-//     * @return a non empty Collection
-//     */
-//    protected abstract <T> Collection<T> buildCollection1();
-//
-//    /**
-//     * Build a non empty Collection
-//     * @return a non empty Collection
-//     */
-//    protected abstract <T> Collection<T> buildCollection2();
-
     /**
      * Default implementation for {@link #buildCollection1()}
      * @return a Collection of Integer
@@ -81,22 +69,19 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      * @param iterableIterator
      * @param size
      */
-    public static <T> void test(
-		cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> iterableIterator, 
-		final int size
-		)
+    public static <T> void test(IterableIterator<T> iterableIterator, final int size)
     {
         int count = test( iterableIterator );
 
-        assertEquals("Not same size !", size, count);
+        Assert.assertEquals("Not same size !", size, count);
 
         count = test( iterableIterator );
 
-        assertEquals("Iterator already read (no more element)", 0, count);
+        Assert.assertEquals("Iterator already read (no more element)", 0, count);
 
         count = test( iterableIterator.iterator() );
 
-        assertEquals("Not same size !", size, count);
+        Assert.assertEquals("Not same size !", size, count);
     }
 
     private static <T> int test(Iterator<T> iter)
@@ -118,32 +103,33 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      * @param c2
      * @return
      */
-    protected abstract <T> cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> buildIterableIterator(
+    protected abstract <T> IterableIterator<T> buildIterableIterator(
         final Collection<T> c1,
-      final Collection<T> c2
-      );
+        final Collection<T> c2
+        );
 
     final public void test_crash1()
     {
         try {
-          buildIterableIterator( null, buildEmptyCollection() );
+            buildIterableIterator( null, buildEmptyCollection() );
 
-            super.fail( "Should crash");
-        }
+            Assert.fail( "Should crash");
+            }
         catch( NullPointerException e ) {
             slogger.info( "Crash ok" );
-        }
+            }
     }
+
     final public void test_crash2()
     {
         try {
-          buildIterableIterator( buildEmptyCollection(), null );
+            buildIterableIterator( buildEmptyCollection(), null );
 
-            super.fail( "Should crash");
-        }
+            Assert.fail( "Should crash");
+            }
         catch( NullPointerException e ) {
             slogger.info( "Crash ok" );
-        }
+            }
     }
 
     final public void test1()
@@ -158,12 +144,4 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
 
         test( buildIterableIterator( c1, c2 ), c1.size() + c2.size() );
     }
-
-//    final public void test3()
-//    {
-//        Collection<Integer> c1 = buildCollection1(Integer.class);
-//        Collection<Integer> c2 = buildCollection2(Integer.class);
-//
-//        test( buildIterableIterator( c1, c2 ), c1.size() + c2.size() );
-//    }
 }

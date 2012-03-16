@@ -15,8 +15,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
-import cx.ath.choisnet.util.iterator.ArrayIterator;
-import cx.ath.choisnet.util.iterator.IteratorFilter;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
+import com.googlecode.cchlib.util.iterator.IteratorFilter;
 
 /**
  * Provide some extra tools for I/O operations

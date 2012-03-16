@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import cx.ath.choisnet.util.iterator.EmptyIterator;
+
+import com.googlecode.cchlib.util.iterator.EmptyIterator;
+
 import cx.ath.choisnet.util.iterator.Iterators;
 // http://www.faqs.org/docs/javap/c11/s4.html
 // http://algo.developpez.com/faq/?page=arbres
@@ -53,13 +55,13 @@ public abstract class BinaryTree<T>
         // root points, and return the answer.
         if( root == null ) {
             return 0; // The tree is empty. It contains no nodes.
-        }
+        	}
         else {
             int count = 1; // Start by counting the root
             count += countNodes( root.getLeftNode() );
             count += countNodes( root.getRightNode() );
             return count;
-        }
+        	}
     }
 
     /**
@@ -81,7 +83,7 @@ public abstract class BinaryTree<T>
     {
         if( root == null ) {
             return new EmptyIterator<BinaryTreeNode<T>>();
-        }
+        	}
         //Not recursive version.
         final ArrayList<BinaryTreeNode<T>> nodes = new ArrayList<BinaryTreeNode<T>>();
 
@@ -102,18 +104,20 @@ public abstract class BinaryTree<T>
                     BinaryTreeNode<T> n = r.getLeftNode();
                     if( n != null ) {
                         nodes.add( n );
-                    }
+                    	}
+                    
                     n = r.getRightNode();
+                    
                     if( n != null ) {
                         nodes.add( n );
-                    }
+                    	}
 
                     return r;
-                }
+                	}
                 catch( IndexOutOfBoundsException e ) {
                     throw new NoSuchElementException();
-                }
-            }
+                	}
+            	}
             @Override
             public void remove()
             {
@@ -142,7 +146,7 @@ public abstract class BinaryTree<T>
     {
         if( root == null ) {
             return new EmptyIterator<BinaryTreeNode<T>>();
-        }
+        	}
         final ArrayList<BinaryTreeNode<T>> nodes = new ArrayList<BinaryTreeNode<T>>();
 
         //Recursive version. TODO: optimization, do a none recursive version
@@ -160,7 +164,7 @@ public abstract class BinaryTree<T>
             postOrderCollector( c, root.getLeftNode() );
             postOrderCollector( c, root.getRightNode() );
             c.add( root );
-        }
+        	}
     }
 
     /**
@@ -182,7 +186,7 @@ public abstract class BinaryTree<T>
     {
         if( root == null ) {
             return new EmptyIterator<BinaryTreeNode<T>>();
-        }
+        	}
         final ArrayList<BinaryTreeNode<T>> nodes = new ArrayList<BinaryTreeNode<T>>();
 
         //Recursive version. TODO: optimization, do a none recursive version
@@ -200,6 +204,6 @@ public abstract class BinaryTree<T>
             inOrderCollector( c, root.getLeftNode() );
             c.add( root );
             inOrderCollector( c, root.getRightNode() );
-        }
+        	}
     }
 }
