@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.CardLayout;
+import javax.swing.JComboBox;
 
 /**
  * Main frame layout.

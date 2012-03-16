@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Properties;
+import javax.swing.LookAndFeel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
@@ -262,6 +263,27 @@ public class Preferences implements Serializable
         File prefs = getPreferencesFile();
         PropertiesHelper.saveProperties(prefs, properties, "" );
         logger.info( "Preferences saved in " + prefs );
+    }
+
+    public void setMessageDigestBufferSize( int value )
+    {
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
+
+    }
+
+    public void setLookAndFeel( LookAndFeel itemAt )
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }
