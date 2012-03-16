@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.testcase;
+package cx.ath.choisnet.util;
 
 import junit.framework.TestCase;
 import cx.ath.choisnet.util.ExternalAppException;

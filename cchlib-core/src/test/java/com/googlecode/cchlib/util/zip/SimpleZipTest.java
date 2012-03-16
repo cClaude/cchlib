@@ -22,8 +22,8 @@ public class SimpleZipTest
     public static final File ZIP_SOURCE_DIR_FILE = new File( new File("."), "src" );
     public static final File ZIP_DESTINATION_ZIP = new File( TEMP_DIR_FILE, "mysrc.zip" );
 
-    public final static String UNZIP_ZIP_FILENAME  = "../lib/log4j-1.2.15.jar";
-    public final static File   UNZIP_DEST_DIR_FILE = new File( TEMP_DIR_FILE, "log4j-1.2.15.jar" );
+    public final static String UNZIP_ZIP_FILENAME  = "../metadata/lib/registry.jar";
+    public final static File   UNZIP_DEST_DIR_FILE = new File( TEMP_DIR_FILE, "registry.jar" );
 
     @Test
     public void test_SimpleZip() throws IOException
