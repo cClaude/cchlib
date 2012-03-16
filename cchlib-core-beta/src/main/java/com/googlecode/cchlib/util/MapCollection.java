@@ -148,14 +148,14 @@ public interface MapCollection<K,V>
     public int valuesSize();
 
     /**
-     * Returns true if this MapCollection is empty
-     * @return true if this MapCollection is empty
+     * Returns true if this {@link MapCollection} is empty
+     * @return true if this {@link MapCollection} is empty
      */
     public boolean isEmpty();
 
     /**
-     *
-     * @return
+     * Returns {@link Set} for this {@link MapCollection} 
+     * @return {@link Set} for this {@link MapCollection}
      */
     public Set<Map.Entry<K,Collection<V>>> entrySet();
     //,*/ get, isEmpty, keySet, put, putAll, remove, size, values

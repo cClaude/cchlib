@@ -211,7 +211,14 @@ class JHexEditorHEX
     }
 
     @Override
+    @Deprecated
     public boolean isFocusTraversable()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isFocusable()
     {
         return true;
     }

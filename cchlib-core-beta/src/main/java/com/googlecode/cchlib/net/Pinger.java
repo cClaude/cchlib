@@ -36,11 +36,13 @@ public class Pinger extends Thread
          * Use {@link InetAddress#isReachable()}
          */
         InetAddress_isReachable,
-    }
+        }
+    
     /**
      * Default port number for {@link #helloPing(String)} : value = {@value}
      */
     public static final int DEFAULT_PORT = 7;
+    
     /**
      * Default time out for requests (ms)
      */
@@ -75,14 +77,14 @@ public class Pinger extends Thread
             }
         catch( IOException e ) {
             e.printStackTrace();
-        }
+            }
 
         this.pingResultReady = true;
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public boolean isPingResultReady()
     {
@@ -90,8 +92,8 @@ public class Pinger extends Thread
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public boolean isPingResultOk()
     {
@@ -99,10 +101,10 @@ public class Pinger extends Thread
     }
 
     /**
-     *
+     * TODOC
      * @param host
      * @param timeout
-     * @return
+     * @return TODOC
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -113,7 +115,7 @@ public class Pinger extends Thread
     }
 
     /**
-     *
+     * TODOC
      * @param inetAddress
      * @param timeout the time, in milliseconds, before the call aborts
      * @return a boolean indicating if the address is reachable.
@@ -126,9 +128,9 @@ public class Pinger extends Thread
     }
 
     /**
-     *
+     * TODOC
      * @param host
-     * @return
+     * @return TODOC
      * @throws PingerException
      */
     public static boolean helloPing(String host)
@@ -138,10 +140,10 @@ public class Pinger extends Thread
     }
 
     /**
-     *
+     * TODOC
      * @param host
      * @param port
-     * @return
+     * @return TODOC
      * @throws PingerException
      */
     public static boolean helloPing(String host, int port) throws PingerException
@@ -196,11 +198,11 @@ public class Pinger extends Thread
 //    }
 
     /**
-     *
+     * TODOC
      * @param inetAddress
      * @param port
      * @param bytes
-     * @return
+     * @return TODOC
      * @throws java.io.IOException
      */
     public static String sendTCPRequest(
@@ -250,11 +252,11 @@ public class Pinger extends Thread
     }
 
     /**
-     *
+     * TODOC
      * @param inetAddress
      * @param port
      * @param bytes
-     * @return
+     * @return TODOC
      * @throws java.io.IOException
      */
     public static String sendUDPRequest(
