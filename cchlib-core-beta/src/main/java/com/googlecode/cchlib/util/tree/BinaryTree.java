@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import com.googlecode.cchlib.util.iterator.EmptyIterator;
+import com.googlecode.cchlib.util.iterator.Iterators;
 
-import cx.ath.choisnet.util.iterator.Iterators;
 // http://www.faqs.org/docs/javap/c11/s4.html
 // http://algo.developpez.com/faq/?page=arbres
 

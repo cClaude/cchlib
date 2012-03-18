@@ -1,8 +1,8 @@
 package cx.ath.choisnet.zip;
 
 import cx.ath.choisnet.io.FileIterator;
-import cx.ath.choisnet.util.Wrappable;
-import cx.ath.choisnet.util.iterator.IteratorWrapper;
+//import cx.ath.choisnet.util.Wrappable;
+//import cx.ath.choisnet.util.iterator.IteratorWrapper;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -164,13 +164,13 @@ public class SimpleZip
      * @throws java.io.IOException
      */
     public void addFolder(
-            File                            folderFile,
-            Wrappable<File,SimpleZipEntry>  wrapper
+            File                                                folderFile,
+            cx.ath.choisnet.util.Wrappable<File,SimpleZipEntry> wrapper
             )
         throws java.io.IOException
     {
         addAll(
-                new IteratorWrapper<File, SimpleZipEntry>(
+                new cx.ath.choisnet.util.iterator.IteratorWrapper<File, SimpleZipEntry>(
                         new FileIterator(folderFile),
                         wrapper
                         )

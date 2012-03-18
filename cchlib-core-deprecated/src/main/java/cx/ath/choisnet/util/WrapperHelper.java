@@ -3,10 +3,7 @@ package cx.ath.choisnet.util;
 import java.util.Enumeration;
 
 /**
- * TODOC
- *
- * @param <T>
- * @param <O>
+ * @deprecated use {@link com.googlecode.cchlib.util.WrapperHelper} instead
  */
 public class WrapperHelper<T,O>
 {

@@ -3,16 +3,10 @@ package cx.ath.choisnet.util;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import cx.ath.choisnet.ToDo;
 
 /**
- * TODOC
- *
- * @param <KS>
- * @param <KR>
- * @param <V>
+ * @deprecated use {@link com.googlecode.cchlib.util.MapKeyWrapper} instead
  */
-@ToDo
 public class MapKeyWrapper<KS,KR,V>
     implements Map<KR,V>
 {
@@ -146,12 +140,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     *
-     *
-     *
-     * @param <EK0>
-     * @param <EK1>
-     * @param <EV>
+     * @deprecated
      */
     private class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>

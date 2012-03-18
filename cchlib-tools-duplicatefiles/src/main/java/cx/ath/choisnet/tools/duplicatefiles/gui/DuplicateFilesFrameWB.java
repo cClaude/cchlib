@@ -22,11 +22,9 @@ import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelResult;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching;
 import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSelectFoldersOrFiles;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.CardLayout;
-import javax.swing.JComboBox;
 
 /**
  * Main frame layout.
@@ -40,37 +38,39 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
     public static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
-    public static final String ACTIONCMD_SET_LOCALE = "ACTIONCMD_SET_LOCALE";
+    //public static final String ACTIONCMD_SET_LOCALE = "ACTIONCMD_SET_LOCALE";
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
     public static final String ACTIONCMD_EXIT = "ACTIONCMD_EXIT";
-    public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
+    //public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
+    public static final String ACTIONCMD_PREFS = "ACTIONCMD_PREFS";
 
     private JPanel contentPane;
     private ButtonGroup buttonGroupConfigMode = new ButtonGroup();
     private ButtonGroup buttonGroupLanguage = new ButtonGroup();
-    private JMenu                       jMenuFile;
-    private JMenuItem                   jMenuItemExit;
-    private JMenu                       jMenuConfig;
-    private JMenu                       jMenuConfigMode;
-    private JRadioButtonMenuItem        jMenuItemModeBeginner;
-    private JRadioButtonMenuItem        jMenuItemModeAdvance;
-    private JRadioButtonMenuItem        jMenuItemModeExpert;
-    private JMenu                       jMenuItemLanguage;
-    private JRadioButtonMenuItem        jMenuItemLanguageDefaultSystem;
-    private JMenuItem                   jMenuItem_SavePrefs;
-    private JMenu                       jMenuTools;
-    private JMenuItem                   jMenuItemDeleteEmptyDirectories;
-    private JMenu                       jMenuLookAndFeel;
-    private JPanel                      jPanelMain;
     private CardLayout                  jPanelMainCardLayout;
-    private JPanelSelectFoldersOrFiles  jPanel0Select;
-    private JPanelConfig                jPanel1Config;
-    private JPanelSearching             jPanel2Searching;
-    private JPanelResult                jPanel3Result;
-    private JPanelConfirm               jPanel4Confirm;
+    private JButton                     jButtonCancel;
     private JButton                     jButtonNextStep;
     private JButton                     jButtonRestart;
-    private JButton                     jButtonCancel;
+    private JMenu                       jMenuConfig;
+    private JMenu                       jMenuConfigMode;
+    private JMenu                       jMenuFile;
+    //private JMenu                       jMenuItemLanguage;
+    private JMenu                       jMenuLookAndFeel;
+    private JMenu                       jMenuTools;
+    private JMenuItem                   jMenuItemDeleteEmptyDirectories;
+    private JMenuItem                   jMenuItemExit;
+    //private JMenuItem                   jMenuItem_SavePrefs;
+    private JMenuItem                   jMenuItem_Preferences;
+    private JPanel                      jPanelMain;
+    private JPanelConfig                jPanel1Config;
+    private JPanelConfirm               jPanel4Confirm;
+    private JPanelResult                jPanel3Result;
+    private JPanelSearching             jPanel2Searching;
+    private JPanelSelectFoldersOrFiles  jPanel0Select;
+    //private JRadioButtonMenuItem        jMenuItemLanguageDefaultSystem;
+    private JRadioButtonMenuItem        jMenuItemModeAdvance;
+    private JRadioButtonMenuItem        jMenuItemModeBeginner;
+    private JRadioButtonMenuItem        jMenuItemModeExpert;
 
     /**
      * Create the frame.
@@ -126,14 +126,19 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         jMenuItemModeExpert.addActionListener( getActionListener() );
         jMenuConfigMode.add( jMenuItemModeExpert );
 
-        JMenu jMenuItemLanguage = createJMenuLanguage();
-        jMenuConfig.add(jMenuItemLanguage);
+//        JMenu jMenuItemLanguage = createJMenuLanguage();
+//        jMenuConfig.add(jMenuItemLanguage);
 
-        jMenuItem_SavePrefs = new JMenuItem("Save preferences");
-        jMenuItem_SavePrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
-        jMenuItem_SavePrefs.addActionListener( getActionListener() );
         jMenuConfig.addSeparator();
-        jMenuConfig.add(jMenuItem_SavePrefs);
+
+        jMenuItem_Preferences = new JMenuItem("Preferences");
+        jMenuItem_Preferences.setActionCommand( ACTIONCMD_PREFS );
+        jMenuItem_Preferences.addActionListener( getActionListener() );
+        jMenuConfig.add(jMenuItem_Preferences);
+//      jMenuItem_SavePrefs = new JMenuItem("Save preferences");
+//      jMenuItem_SavePrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
+//      jMenuItem_SavePrefs.addActionListener( getActionListener() );
+//      jMenuConfig.add(jMenuItem_SavePrefs);
 
         jMenuTools = new JMenu("Tools");
         jMenuBarMain.add(jMenuTools);
@@ -189,27 +194,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
             jPanel4Confirm = createJPanel4Confirm();
             jPanelMain.add( jPanel4Confirm, Integer.toString( panelNumber++ ) );
         }
-/*
-        jPanel0Select = createJPanel0Select();
-        //jTabbedPaneMain.addTab("Select", null, jPanel0Select, null);
-        jTabbedPaneMain.addTab(null, null, jPanel0Select, null);
 
-        jPanel1Config = createJPanel1Config();
-        //jTabbedPaneMain.addTab("Search config", null, jPanel1Config, null);
-        jTabbedPaneMain.addTab(null, null, jPanel1Config, null);
-
-        jPanel2Searching = createJPanel2Searching();
-        //jTabbedPaneMain.addTab("Search config", null, jPanel2Searching, null);
-        jTabbedPaneMain.addTab(null, null, jPanel2Searching, null);
-
-        jPanel3Result = createJPanel3Result();
-        //jTabbedPaneMain.addTab("Duplicates", null, jPanel3Result, null);
-        jTabbedPaneMain.addTab(null, null, jPanel3Result, null);
-
-        jPanel4Confirm = createJPanel4Confirm();
-        //jTabbedPaneMain.addTab("Confirm", null, jPanel4Confirm, null);
-        jTabbedPaneMain.addTab(null, null, jPanel4Confirm, null);
-*/
         jButtonRestart = new JButton("Restart");
         jButtonRestart.setActionCommand( ACTIONCMD_RESTART );
         jButtonRestart.addActionListener( getActionListener() );
@@ -295,12 +280,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         return jButtonRestart;
     }
 
-//    @Deprecated
-//    protected JPanel getJTabbedPaneMain()
-//    {
-//        return jPanelMain;
-//    }
-
     protected void selectedPanel( final int state )
     {
         jPanelMainCardLayout.show(
@@ -313,34 +292,23 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     public abstract DFToolKit getDFToolKit();
     protected abstract void exitApplication();
 
-    private JMenu createJMenuLanguage()
-    {
-        jMenuItemLanguage = new JMenu("Language");
-
-        jMenuItemLanguageDefaultSystem = new JRadioButtonMenuItem( "Default system" );
-        buttonGroupLanguage.add( jMenuItemLanguageDefaultSystem );
-        //jMenuItemLanguageDefaultSystem.setSelected(true); // TOxDO: prefs
-        jMenuItemLanguageDefaultSystem.setActionCommand( ACTIONCMD_SET_LOCALE );
-        jMenuItemLanguageDefaultSystem.putClientProperty( Locale.class, null );
-        jMenuItemLanguageDefaultSystem.addActionListener( getActionListener() );
-        jMenuItemLanguage.add( jMenuItemLanguageDefaultSystem );
-
-        JMenuItem jMenuItemLanguageEnglish = new JRadioButtonMenuItem( Locale.ENGLISH.getDisplayLanguage() );
-        buttonGroupLanguage.add( jMenuItemLanguageEnglish );
-        jMenuItemLanguageEnglish.setActionCommand( ACTIONCMD_SET_LOCALE );
-        jMenuItemLanguageEnglish.putClientProperty( Locale.class, Locale.ENGLISH );
-        jMenuItemLanguageEnglish.addActionListener( getActionListener() );
-        jMenuItemLanguage.add( jMenuItemLanguageEnglish );
-
-        JMenuItem jMenuItemLanguageFrench = new JRadioButtonMenuItem( Locale.FRENCH.getDisplayLanguage() );
-        buttonGroupLanguage.add( jMenuItemLanguageFrench );
-        jMenuItemLanguageFrench.setActionCommand( ACTIONCMD_SET_LOCALE );
-        jMenuItemLanguageFrench.putClientProperty( Locale.class, Locale.FRENCH );
-        jMenuItemLanguageFrench.addActionListener( getActionListener() );
-        jMenuItemLanguage.add( jMenuItemLanguageFrench );
-
-        return jMenuItemLanguage;
-    }
+//    private JMenu createJMenuLanguage()
+//    {
+//        jMenuItemLanguage = new JMenu("Language");
+//
+//        LocaleList localeList = new LocaleList();
+//
+//        for( ListInfo<Locale> li : localeList ) {
+//            JMenuItem jmi = new JRadioButtonMenuItem( li.toString() );
+//            buttonGroupLanguage.add( jmi );
+//            jmi.setActionCommand( ACTIONCMD_SET_LOCALE );
+//            jmi.putClientProperty( Locale.class, li.getContent() );
+//            jmi.addActionListener( getActionListener() );
+//            jMenuItemLanguage.add( jmi );
+//            }
+//
+//        return jMenuItemLanguage;
+//    }
 
     /**
      * @wbp.factory

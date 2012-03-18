@@ -16,7 +16,6 @@ import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -26,6 +25,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
@@ -56,13 +56,10 @@ final public class DuplicateFilesFrame
     private DFToolKit dfToolKit;
     private ActionListener mainActionListener;
 
-    /* @serial */
     private JFileChooserInitializer jFileChooserInitializer;
-    /* @serial */
     private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
-    /* @serial */
+
     private int                 state;
-    /* @serial */
     private int                 subState;
     private final static int    STATE_SELECT_DIRS      = 0;
     private final static int    STATE_SEARCH_CONFIG    = 1;
@@ -72,9 +69,7 @@ final public class DuplicateFilesFrame
     private final static int    SUBSTATE_CONFIRM_INIT  = 0;
     private final static int    SUBSTATE_CONFIRM_DONE  = 1;
 
-    /* @serial */
     private AutoI18n autoI18n;
-    /* @serial */
     private final Preferences preferences;
 
     private Icon iconContinue;
@@ -90,10 +85,10 @@ final public class DuplicateFilesFrame
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private String txtOpenDesktopExceptionTitle = "Can not open file";
-    @I18nString private String msgStringSavePrefsExceptionTitle = "Can not open save configuration";
-    @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
-    @I18nString private String msgStringDefaultLocale = "default system";
-    @I18nString private String msgStringAlertLocaleTitle = "Change language";
+    //@I18nString private String msgStringSavePrefsExceptionTitle =
+    //@I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
+    //@I18nString private String msgStringDefaultLocale;
+    //@I18nString private String msgStringAlertLocaleTitle = "Change language";
 
     public DuplicateFilesFrame(
         final Preferences preferences
@@ -588,19 +583,19 @@ final public class DuplicateFilesFrame
                                 }
                             break;
 
-                        case ACTIONCMD_SET_LOCALE :
-                            {
-                            AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
-                            logger.debug( "source: " + sourceLocale );
-
-                            Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
-                            logger.debug( "locale: " + locale );
-
-                            getDFToolKit().getPreferences().setLocale( locale );
-
-                            setGuiLocale( locale );
-                            }
-                            break;
+//                        case ACTIONCMD_SET_LOCALE :
+//                            {
+//                            AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
+//                            logger.debug( "source: " + sourceLocale );
+//
+//                            Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
+//                            logger.debug( "locale: " + locale );
+//
+//                            getDFToolKit().getPreferences().setLocale( locale );
+//
+//                            setGuiLocale( locale );
+//                            }
+//                            break;
 
                         case ACTIONCMD_SET_MODE :
                             {
@@ -620,12 +615,12 @@ final public class DuplicateFilesFrame
                             }
                             break;
 
-                        case ACTIONCMD_SAVE_PREFS :
+                        case ACTIONCMD_PREFS :
                             Tools.run( new Runnable() {
                                 @Override
                                 public void run()
                                 {
-                                    saveCurrentPreferences();
+                                    openPreferences();
                                 }} );
                             break;
 
@@ -648,49 +643,49 @@ final public class DuplicateFilesFrame
         System.exit( 0 );
     }
 
-    private void saveCurrentPreferences()
+    private void openPreferences()
     {
-        preferences.setLookAndFeelClassName(
-                UIManager.getLookAndFeel().getClass().getName()
+        logger.info( "openPreferences() : " + preferences );
+
+        PreferencesDialogWB dialog = new PreferencesDialogWB(
+                preferences,
+                getSize()
                 );
-        preferences.setLocale( Locale.getDefault() );
-        preferences.setWindowDimension( getSize() );
+        dialog.setVisible( true );
 
-        // TODO: Add here extra preferences values
-
-        savePreferences();
+        logger.info( "openPreferences done : " + preferences );
     }
 
-    private void setGuiLocale( final Locale locale )
-    {
-        preferences.setLocale( locale );
+//    private void setGuiLocale( final Locale locale )
+//    {
+//        preferences.setLocale( locale );
+//
+//        //savePreferences();
+//
+//        JOptionPane.showMessageDialog(
+//            this,
+//            String.format(
+//                    msgStringAlertLocale,
+//                    locale == null ? msgStringDefaultLocale : locale.getDisplayLanguage()
+//                    ),
+//            msgStringAlertLocaleTitle,
+//            JOptionPane.INFORMATION_MESSAGE
+//            );
+//    }
 
-        savePreferences();
-
-        JOptionPane.showMessageDialog(
-            this,
-            String.format(
-                    msgStringAlertLocale,
-                    locale == null ? msgStringDefaultLocale : locale.getDisplayLanguage()
-                    ),
-            msgStringAlertLocaleTitle,
-            JOptionPane.INFORMATION_MESSAGE
-            );
-    }
-
-    protected void savePreferences()
-    {
-        try {
-            this.preferences.save();
-            }
-        catch( IOException e ) {
-            DialogHelper.showMessageExceptionDialog(
-                    this,
-                    msgStringSavePrefsExceptionTitle,
-                    e
-                    );
-            }
-    }
+//    protected void savePreferences()
+//    {
+//        try {
+//            this.preferences.save();
+//            }
+//        catch( IOException e ) {
+//            DialogHelper.showMessageExceptionDialog(
+//                    this,
+//                    msgStringSavePrefsExceptionTitle,
+//                    e
+//                    );
+//            }
+//    }
 
 
     @Override

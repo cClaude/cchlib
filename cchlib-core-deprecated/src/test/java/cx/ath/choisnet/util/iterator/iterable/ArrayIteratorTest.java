@@ -1,16 +1,13 @@
-package cx.ath.choisnet.util.iterator.iterable.testcase;
+package cx.ath.choisnet.util.iterator.iterable;
 
 import java.util.Collection;
-//import cx.ath.choisnet.util.iterator.iterable.ArrayIterator;
-//import cx.ath.choisnet.util.iterator.iterable.BiIterator;
-//import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
 
 /**
  * TestCase
- *
+ * @deprecated
  */
 @Deprecated
-public class ArrayIteratorTest extends IterableIteratorTestCaseHelper
+public class ArrayIteratorTest extends cx.ath.choisnet.util.iterator.iterable.IterableIteratorTestCaseHelper
 {
   @Override
   protected <T> cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> buildIterableIterator(

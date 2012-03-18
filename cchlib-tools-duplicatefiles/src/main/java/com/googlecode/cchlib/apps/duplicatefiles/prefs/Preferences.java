@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Properties;
-import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
@@ -23,11 +25,12 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
 public class Preferences implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+    //private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
     private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
+    @Populator private String lookAndFeelName;
     @Populator private String lookAndFeelClassName;
     @Populator private String localeLanguage;
     @Populator private int deleteSleepDisplay = 100;
@@ -41,7 +44,7 @@ public class Preferences implements Serializable
 
     private Preferences()
     {
-        this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
+        //this.lookAndFeelName = DEFAULT_LOOK_AND_FEEL;
         this.localeLanguage = null;
         this.preferencesFile = createPropertiesFile();
         this.configMode = ConfigMode.BEGINNER;
@@ -157,20 +160,73 @@ public class Preferences implements Serializable
     /**
      * @return the lookAndFeelClassName
      */
-    final
-    public String getLookAndFeelClassName()
+    private String getLookAndFeelClassNameFromName()
     {
-        return lookAndFeelClassName;
+        if( lookAndFeelName == null ) {
+            return null; // not set
+            }
+
+        for( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if( lookAndFeelName.equals(info.getName() ) ) {
+                return info.getClassName();
+                }
+            }
+
+        return null;
     }
 
-    /**
-     * @param lookAndFeelClassName the lookAndFeelClassName to set
-     */
-    final
-    public void setLookAndFeelClassName( String lookAndFeelClassName )
+    public void applyLookAndFeel()
     {
-        this.lookAndFeelClassName = lookAndFeelClassName;
+        String cn = lookAndFeelClassName;
+
+        if( cn != null ) {
+            try {
+                UIManager.setLookAndFeel( cn );
+                }
+            catch( ClassNotFoundException
+                    | InstantiationException
+                    | IllegalAccessException
+                    | UnsupportedLookAndFeelException e ) {
+                logger.warn( "Cant set LookAndFeel: " + cn, e );
+                }
+            }
+
+        cn = getLookAndFeelClassNameFromName();
+
+        if( cn != null ) {
+            try {
+                UIManager.setLookAndFeel( cn );
+                }
+            catch( ClassNotFoundException
+                    | InstantiationException
+                    | IllegalAccessException
+                    | UnsupportedLookAndFeelException e ) {
+                logger.error( "Cant set LookAndFeel: " + cn, e );
+                }
+            }
     }
+
+    public void setLookAndFeelInfo( LookAndFeelInfo lafi )
+    {
+        this.lookAndFeelClassName = lafi.getClassName();
+        // Store name has well, if class not found
+        this.lookAndFeelName = lafi.getName();
+
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "setLookAndFeelInfo: " + lafi );
+            logger.trace( "lookAndFeelClassName: " + this.lookAndFeelClassName );
+            logger.trace( "lookAndFeelName: " + this.lookAndFeelName );
+            }
+
+    }
+/*
+    @Deprecated
+    public void setLookAndFeel( LookAndFeel laf )
+    {
+        this.lookAndFeelClassName = laf.getClass().getName();
+        // Store name has well, if class not found
+        this.lookAndFeelName = laf.getName();
+    }*/
 
     final
     public Locale getLocale()
@@ -250,6 +306,11 @@ public class Preferences implements Serializable
         return this.messageDigestBufferSize;
     }
 
+    public void setMessageDigestBufferSize( int value )
+    {
+        this.messageDigestBufferSize = value;
+    }
+
     /**
      * Save Preferences to disk
      * @throws IOException if any
@@ -265,25 +326,24 @@ public class Preferences implements Serializable
         logger.info( "Preferences saved in " + prefs );
     }
 
-    public void setMessageDigestBufferSize( int value )
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
     {
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
-
+        return "Preferences [pp=" + pp + ", preferencesFile=" + preferencesFile
+                + ", lookAndFeelName=" + lookAndFeelName
+                + ", lookAndFeelClassName=" + lookAndFeelClassName
+                + ", localeLanguage=" + localeLanguage
+                + ", deleteSleepDisplay=" + deleteSleepDisplay
+                + ", deleteSleepDisplayMaxEntries=" + deleteSleepDisplayMaxEntries
+                + ", configMode=" + configMode
+                + ", configModeName=" + configModeName
+                + ", getMessageDigestBufferSize()=" + getMessageDigestBufferSize()
+                + ", getWindowDimension()=" + getWindowDimension()
+                + ", lastDirectory=" + lastDirectory + "]";
     }
 
-    public void setLookAndFeel( LookAndFeel itemAt )
-    {
-        // TODO Auto-generated method stub
-        
-    }
 
 }

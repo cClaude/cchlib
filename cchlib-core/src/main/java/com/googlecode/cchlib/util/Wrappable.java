@@ -1,8 +1,8 @@
-package cx.ath.choisnet.util;
+package com.googlecode.cchlib.util;
 
-import cx.ath.choisnet.util.enumeration.EnumerationHelper;
-import cx.ath.choisnet.util.iterator.IteratorHelper;
-import cx.ath.choisnet.util.iterator.IteratorWrapper;
+//import cx.ath.choisnet.util.enumeration.EnumerationHelper;
+//import cx.ath.choisnet.util.iterator.IteratorHelper;
+//import cx.ath.choisnet.util.iterator.IteratorWrapper;
 
 /**
  * TODOC

@@ -1,8 +1,6 @@
 package com.googlecode.cchlib.util.zip;
 
 import cx.ath.choisnet.io.FileIterator;
-import cx.ath.choisnet.util.Wrappable;
-import cx.ath.choisnet.util.iterator.IteratorWrapper;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -12,6 +10,8 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.event.EventListenerList;
+import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
 /**
  * {@link SimpleZip} is a fronted of {@link ZipOutputStream}

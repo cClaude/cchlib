@@ -7,11 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import cx.ath.choisnet.ToDo;
-import cx.ath.choisnet.util.iterator.IteratorWrapper;
 
 /**
- * TODOC
- *
+ * @deprecated use {@link com.googlecode.cchlib.util.SetWrapper} instead
  */
 @ToDo
 public class SetWrapper<S,R> implements Set<R>, Serializable
@@ -95,7 +93,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     @Override
     public Iterator<R> iterator()
     {
-        return new IteratorWrapper<S,R>( set.iterator(), wrapper );
+        return new cx.ath.choisnet.util.iterator.IteratorWrapper<S,R>( set.iterator(), wrapper );
     }
 
     @Override

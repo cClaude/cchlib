@@ -7,5 +7,10 @@ public enum ConfigMode
 {
         BEGINNER,
         ADVANCED,
-        EXPERT
+        EXPERT;
+
+        public String toString()
+        {
+            return this.name();
+        }
 }

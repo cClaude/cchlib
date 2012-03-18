@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -24,15 +23,8 @@ public class DuplicateFilesApp
         final Preferences   preferences = Preferences.createPreferences();
         final String        title       = "Duplicate Files Manager";
 
-        try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName()
-                    );
-            }
-        catch( Exception e ) {
-            logger.warn( e );
-            }
-
+        preferences.applyLookAndFeel();
+        
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()

@@ -1,9 +1,9 @@
 package cx.ath.choisnet.servlet;
 
-import cx.ath.choisnet.util.Wrappable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import com.googlecode.cchlib.util.Wrappable;
 
 public class ParameterValueWrapper
 {

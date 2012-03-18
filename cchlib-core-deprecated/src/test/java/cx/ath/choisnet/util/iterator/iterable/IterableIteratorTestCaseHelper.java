@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator.iterable.testcase;
+package cx.ath.choisnet.util.iterator.iterable;
 
 import java.util.ArrayList;
 import java.util.Collection;

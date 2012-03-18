@@ -3,8 +3,8 @@ package cx.ath.choisnet.util.enumeration;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.util.Wrappable;
 import cx.ath.choisnet.util.ArrayHelper;
-import cx.ath.choisnet.util.Wrappable;
 import cx.ath.choisnet.util.iterator.EnumerationIterator;
 import cx.ath.choisnet.util.iterator.IteratorHelper;
 

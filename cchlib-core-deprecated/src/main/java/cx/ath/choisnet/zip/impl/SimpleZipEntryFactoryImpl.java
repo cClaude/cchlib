@@ -1,6 +1,6 @@
 package cx.ath.choisnet.zip.impl;
 
-import cx.ath.choisnet.util.Wrappable;
+//import cx.ath.choisnet.util.Wrappable;
 import java.io.File;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
@@ -10,7 +10,7 @@ import java.util.zip.ZipEntry;
  */
 @Deprecated
 public class SimpleZipEntryFactoryImpl
-    implements Wrappable<File,cx.ath.choisnet.zip.SimpleZipEntry>
+    implements cx.ath.choisnet.util.Wrappable<File,cx.ath.choisnet.zip.SimpleZipEntry>
 {
     private String refFolder;
     private int    refFolderLen;

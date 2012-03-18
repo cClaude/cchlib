@@ -1,15 +1,15 @@
-package cx.ath.choisnet.util.iterator.testcase;
+package cx.ath.choisnet.util.iterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
-//import cx.ath.choisnet.util.iterator.ArrayIterator;
 import junit.framework.TestCase;
 
 /**
  * TestCase
+ * @deprecated
  */
 @Deprecated
 public class ArrayIteratorTest extends TestCase

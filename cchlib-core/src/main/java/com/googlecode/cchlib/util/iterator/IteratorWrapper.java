@@ -1,9 +1,9 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import cx.ath.choisnet.util.Wrappable;
+import com.googlecode.cchlib.util.Wrappable;
 
 /**
  * Build a Iterator<O> based on an other Iterator<T>
@@ -14,7 +14,7 @@ import cx.ath.choisnet.util.Wrappable;
  * @param <O> Result type
  */
 public class IteratorWrapper<T,O>
-    implements Iterator<O>//, Iterable<O>//,IterableIterator<O>
+    implements Iterator<O>
 {
     private Iterator<T>    iterator;
     private Wrappable<T,O> wrapper;
