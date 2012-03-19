@@ -1,10 +1,10 @@
 /**
  * Provide some extra Iterator, most based
- * on other Iterator. These Iterator are also {@link Iterable}.
+ * on other Iterator. These Iterator are also {@link java.lang.Iterable}.
  * <br/>
  * An {@link cx.ath.choisnet.util.iterator.iterable.IterableIterator}
  * is an Iterator that could be restart/reset using
- * {@link Iterable#iterator()}
+ * {@link java.lang.Iterable#iterator()}
  * method.
  * <br/>
  * Theses Iterators are design to avoid copy of

@@ -6,8 +6,9 @@ import java.util.Collection;
  * A CollectionFilter is a object able to create an {@link Collection} from a other one.
  * 
  * @param <T> type of collection.
+ * @deprecated use {@link com.googlecode.cchlib.util.iterator.CollectionFilter} instead
  */
-public interface CollectionFilter<T>
+public interface CollectionFilter<T> extends com.googlecode.cchlib.util.iterator.CollectionFilter<T>
 {
     /**
      * Apply filter on an original {@link Collection} to create a

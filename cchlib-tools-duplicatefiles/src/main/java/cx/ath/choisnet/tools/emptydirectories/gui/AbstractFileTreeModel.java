@@ -19,8 +19,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
+import com.googlecode.cchlib.util.iterator.Selectable;
 import cx.ath.choisnet.tools.emptydirectories.FilePath;
-import cx.ath.choisnet.util.Selectable;
 
 /**
  *

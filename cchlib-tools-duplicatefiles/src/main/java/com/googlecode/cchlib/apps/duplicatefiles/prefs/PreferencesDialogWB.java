@@ -189,7 +189,7 @@ public class PreferencesDialogWB extends JDialog
         gbc_localeLabel.gridy = 4;
         contentPane.add(localeLabel, gbc_localeLabel);
 
-        localCB = createLocaleJComboBox( prefs, txtStringDefaultLocale );
+        localCB = createLocaleJComboBox( prefs );
         GridBagConstraints gbc_localCB = new GridBagConstraints();
         gbc_localCB.insets = new Insets(0, 0, 5, 5);
         gbc_localCB.fill = GridBagConstraints.HORIZONTAL;
@@ -279,7 +279,6 @@ public class PreferencesDialogWB extends JDialog
     }
 
     /**
-     * @param configMode
      * @wbp.factory
      */
     public static JComboBox<ConfigMode> createUserLevelJComboBox( Preferences prefs )
@@ -297,12 +296,10 @@ public class PreferencesDialogWB extends JDialog
     }
 
     /**
-     * @param locale
      * @wbp.factory
      */
-    public static JComboBox<ListInfo<Locale>> createLocaleJComboBox(
-            final Preferences   prefs,
-            final String        txtStringDefaultLocale
+    public JComboBox<ListInfo<Locale>> createLocaleJComboBox(
+            final Preferences   prefs
             )
     {
         JComboBox<ListInfo<Locale>> comboBox = new JComboBox<ListInfo<Locale>>();

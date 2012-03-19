@@ -85,7 +85,7 @@ public class JFileChooserInitializer
     }
 
     /**
-     * Build a {@link JFileChooser} using {@link DefaultConfigurator}
+     * Build a {@link JFileChooser} using {@link DefaultJFCCustomizer}
      */
     public JFileChooserInitializer()
     {
@@ -93,7 +93,7 @@ public class JFileChooserInitializer
     }
 
     /**
-     * Build a {@link JFileChooser} using {@link DefaultConfigurator}
+     * Build a {@link JFileChooser} using {@link DefaultJFCCustomizer}
      *
      * @param currentDirectory
      * @param fileFilter

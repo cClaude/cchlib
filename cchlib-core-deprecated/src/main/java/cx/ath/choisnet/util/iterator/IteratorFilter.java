@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import cx.ath.choisnet.util.Selectable;
 
 /**
  * Apply a filter on an Iterator, only object
- * matches according to {@link Selectable} are
+ * matches according to {@link cx.ath.choisnet.util.Selectable} are
  * in iterator result.
  *
  * @param <T> type iterator entries.
@@ -19,8 +18,8 @@ public class IteratorFilter<T>
         implements Iterator<T>
         //Note: ComputableIterator can't be Iterable<T>
 {
-    private Iterator<T>   iterator;
-    private Selectable<T> filter;
+    private Iterator<T> iterator;
+    private cx.ath.choisnet.util.Selectable<T> filter;
 
     /**
      * Create an IteratorFilter based on an iterator
@@ -30,8 +29,8 @@ public class IteratorFilter<T>
      * @param filter
      */
     public IteratorFilter(
-            Iterator<T>     iterator,
-            Selectable<T>   filter
+            Iterator<T> iterator,
+            cx.ath.choisnet.util.Selectable<T> filter
             )
     {
         this.iterator = iterator;
@@ -85,9 +84,9 @@ public class IteratorFilter<T>
      * @param fileFilter
      * @return a wrapper for File use that use FileFilter
      */
-    public static Selectable<File> wrappe(final FileFilter fileFilter)
+    public static cx.ath.choisnet.util.Selectable<File> wrappe(final FileFilter fileFilter)
     {
-        return new Selectable<File>() {
+        return new cx.ath.choisnet.util.Selectable<File>() {
             public boolean isSelected(File file)
             {
                 return fileFilter.accept(file);

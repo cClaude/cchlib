@@ -1,7 +1,5 @@
-package cx.ath.choisnet.util.impl;
+package com.googlecode.cchlib.util.iterator;
 
-import cx.ath.choisnet.util.CollectionFilter;
-import cx.ath.choisnet.util.Selectable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,7 +7,7 @@ import java.util.Iterator;
 /**
  * Implementation of {@link CollectionFilter} base on a {@link Selectable} object.
  */
-public class CollectionFilterImpl<T> implements CollectionFilter<T>
+public class DefaultCollectionFilter<T> implements CollectionFilter<T>
 {
     private Selectable<T> selector;
 
@@ -18,7 +16,7 @@ public class CollectionFilterImpl<T> implements CollectionFilter<T>
      *
      * @param selector {@link Selectable} to use to filter entries.
      */
-    public CollectionFilterImpl( final Selectable<T> selector )
+    public DefaultCollectionFilter( final Selectable<T> selector )
     {
         this.selector = selector;
     }
@@ -43,7 +41,7 @@ public class CollectionFilterImpl<T> implements CollectionFilter<T>
             if( selector.isSelected(o) ) {
                 list.add( o );
                 }
-        } while(true);
+            } while(true);
 
         return list;
     }

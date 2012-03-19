@@ -33,7 +33,7 @@ public class Pinger extends Thread
          */
         AllInSequence,
         /**
-         * Use {@link InetAddress#isReachable()}
+         * Use {@link InetAddress#isReachable(int)}
          */
         InetAddress_isReachable,
         }

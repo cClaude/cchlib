@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Note: This Iterator extends also {@link Iterable} interface
  *
  * @param <T> content type
- * @see cx.ath.choisnet.util.iterator.SingletonIterator
+ * @see com.googlecode.cchlib.util.iterator.SingletonIterator
  * @since 4.1.7
  */
 public class ArrayIterator<T>

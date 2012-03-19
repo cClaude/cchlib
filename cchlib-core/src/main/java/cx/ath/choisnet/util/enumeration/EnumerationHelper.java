@@ -4,8 +4,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.iterator.EnumerationIterator;
 import cx.ath.choisnet.util.ArrayHelper;
-import cx.ath.choisnet.util.iterator.EnumerationIterator;
 import cx.ath.choisnet.util.iterator.IteratorHelper;
 
 /**
@@ -30,20 +30,6 @@ public class EnumerationHelper
     public static <T> Enumeration<T> empty()
     {
         return new EmptyEnumeration<T>();
-/*
-        return new Enumeration<T>()
-        {
-            public boolean hasMoreElements()
-            {
-                return false;
-            }
-            public T nextElement()
-                throws java.util.NoSuchElementException
-            {
-                throw new NoSuchElementException();
-            }
-        };
-*/
     }
 
 
@@ -103,64 +89,6 @@ public class EnumerationHelper
         };
     }
 
-//    /**
-//     * @ Deprecated use wrapper !
-//     * @param <T>
-//     * @param enumeration
-//     * @return
-//     */
-//    public static <T> Enumeration<String> toEnumerationString(
-//            final Enumeration<T> enumeration
-//            )
-//    {
-//        return new Enumeration<String>()
-//        {
-//            public boolean hasMoreElements()
-//            {
-//                return enumeration.hasMoreElements();
-//            }
-//
-//            public String nextElement()
-//                throws java.util.NoSuchElementException
-//            {
-//                return enumeration.nextElement().toString();
-//            }
-//        };
-//    }
-
-//    /**
-//     * @ Deprecated use wrapper !
-//     * @param <T>
-//     * @param <O>
-//     * @param enumeration
-//     * @param clazz
-//     * @return
-//     */
-//    public static <T,O> Enumeration<O> toEnumeration(
-//            final Enumeration<T> enumeration,
-//            final Class<O>       clazz
-//            )
-//    {
-//        if(enumeration == null) {
-//            return EnumerationHelper.toEnumeration();
-//            }
-//        else {
-//            return new Enumeration<O>()
-//            {
-//                public boolean hasMoreElements()
-//                {
-//                    return enumeration.hasMoreElements();
-//                }
-//
-//                public O nextElement()
-//                    throws java.util.NoSuchElementException
-//                {
-//                    return clazz.cast( enumeration.nextElement() );
-//                }
-//            };
-//        }
-//    }
-
     /**
      * Wrap an enumeration to respond has an Iterator
      * @param enumeration enumeration to wrap
@@ -174,25 +102,5 @@ public class EnumerationHelper
             )
     {
         return new EnumerationIterator<T>(enumeration);
-/*
-        return new Iterator<T>()
-        {
-            @Override
-            public boolean hasNext()
-            {
-                return enumeration.hasMoreElements();
-            }
-            @Override
-            public T next()
-            {
-                return enumeration.nextElement();
-            }
-            @Override
-            public void remove()
-            {
-                throw new UnsupportedOperationException();
-            }
-        };
-*/
     }
 }

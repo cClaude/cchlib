@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import cx.ath.choisnet.util.Selectable;
 
 /**
  * Apply a filter on an Iterator, only object

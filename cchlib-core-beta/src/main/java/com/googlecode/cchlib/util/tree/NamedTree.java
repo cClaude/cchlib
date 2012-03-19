@@ -224,7 +224,7 @@ public class NamedTree<T>
      * @throws BadRootNameException if root name of
      *         new node is not equal to root node
      *         name of current tree
-     * @throw NullPointerException if pathName is null,
+     * @throws NullPointerException if pathName is null,
      *        or any String in path, except for root name
      *        (since SimpleTree root node name could be null)
      */

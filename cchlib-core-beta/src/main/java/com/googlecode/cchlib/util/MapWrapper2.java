@@ -7,12 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
-/**
- * TODOC
- *
- * @param <S>
- * @param <R>
- */
+// already exist
 public class MapWrapper2<S,R> implements Collection<R>,Serializable
 {
     static final long serialVersionUID = 1L;
@@ -20,13 +15,6 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     private Wrappable<S,R> wrapper;
     private Wrappable<R,S> unwrapper;
 
-    /**
-     * TODOC
-     *
-     * @param set
-     * @param wrapper
-     * @param unwrapper
-     */
     public MapWrapper2(
         final Collection<S>  collection,
         final Wrappable<S,R> wrapper,

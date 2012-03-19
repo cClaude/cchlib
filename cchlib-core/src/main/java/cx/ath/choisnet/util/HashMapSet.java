@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import cx.ath.choisnet.util.iterator.CascadingIterator;
+import com.googlecode.cchlib.util.iterator.CascadingIterator;
 
 /**
  * HashMapSet provide an easy and efficient way

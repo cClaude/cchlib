@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.iterator;
+package com.googlecode.cchlib.util.iterator;
 
 import java.util.Enumeration;
 import java.util.Iterator;

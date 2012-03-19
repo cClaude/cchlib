@@ -92,7 +92,7 @@ echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
 echo "------------------------------------------"
 
-cat "${LOGS_JAVADOC}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -F "[WARNING]
+cat "${LOGS_JAVADOC}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -v -F "@wbp.factory is an unknown tag." | grep -F "[WARNING]
 [ERROR]" >"${LOGS_TMP}"
 
 cat "${LOGS_TMP}" | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"

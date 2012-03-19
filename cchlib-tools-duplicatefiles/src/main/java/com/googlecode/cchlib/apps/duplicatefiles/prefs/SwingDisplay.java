@@ -1,15 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
 /**
- *
- *
+ * Object contender for UI
  * @param <T>
  */
 public interface SwingDisplay<T>
 {
     /**
-    *
-    * @return
-    */
-   public T getContent();
+     * @return Content object
+     */
+    public T getContent();
 }

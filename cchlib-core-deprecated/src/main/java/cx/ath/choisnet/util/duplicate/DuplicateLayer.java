@@ -1,6 +1,6 @@
 package cx.ath.choisnet.util.duplicate;
 
-import cx.ath.choisnet.util.CollectionFilter;
+//import cx.ath.choisnet.util.CollectionFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.googlecode.cchlib.util.iterator.CollectionFilter;
 
 /**
  *
