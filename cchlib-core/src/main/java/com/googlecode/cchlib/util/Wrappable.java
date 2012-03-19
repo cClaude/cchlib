@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.util;
 
-//import cx.ath.choisnet.util.enumeration.EnumerationHelper;
-//import cx.ath.choisnet.util.iterator.IteratorHelper;
-//import cx.ath.choisnet.util.iterator.IteratorWrapper;
-
 /**
  * TODOC
  *
@@ -13,6 +9,12 @@ package com.googlecode.cchlib.util;
  * @see EnumerationHelper#toEnumeration(java.util.Enumeration)
  * @see IteratorHelper
  * @see IteratorWrapper
+ * @see CollectionWrapper
+ * @see MapKeyWrapper
+ * @see MapWrapper
+ * @see SetWrapper
+ * @see WrapperHelper
+ * @since 4.1.7
  */
 public interface Wrappable<S,R>
 {

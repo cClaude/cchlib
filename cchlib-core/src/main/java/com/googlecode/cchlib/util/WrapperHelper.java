@@ -7,6 +7,7 @@ import java.util.Enumeration;
  *
  * @param <T>
  * @param <O>
+ * @since 4.1.7
  */
 public class WrapperHelper<T,O>
 {

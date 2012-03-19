@@ -5,40 +5,39 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Give a view of a {@link Map} using real-time computed keys
+ * Give a view of a {@link Map} using real-time computed values
  * <p><u>Simple example:</u></p>
  * <p>
- * You have a <code>Map&lt;String,HashCode&gt;</code>
- * but you need to access to map values using
- * a key build on File object.<br/>
- * <code>MapKeyWrapper&ltString,File,HashCode&gt;</code> is what you need.
+ * You have a <code>Map&lt;HashCode,String&gt;</code>
+ * but you need a File instead of a String has value.<br/>
+ * <code>MapWrapper&ltHashCode,String,File&gt;</code> is what you need.
  * </p>
  * <p>
- * MapKeyWrapper will no create a copy of original {@link Map} but a view on it.
+ * HashCode will no create a copy of original {@link Map} but a view on it.
  * </p>
- * @param <KS> Original (source) key type
- * @param <KR> Mapped (result) key type
- * @param <V> content type (same for both maps)
+ * @param <K> Key (same for both maps)
+ * @param <VS> Original (source) values type
+ * @param <VR> Mapped (result) values type
  * @since 4.1.7
  */
-public class MapKeyWrapper<KS,KR,V>
-    implements Map<KR,V>
+public class MapWrapper<K,VS,VR>
+    implements Map<K,VR>
 {
-    private Map<KS,V> map;
-    private Wrappable<KS,KR> wrapper;
-    private Wrappable<KR,KS> unwrapper;
+    private Map<K,VS> map;
+    private Wrappable<VS,VR> wrapper;
+    private Wrappable<VR,VS> unwrapper;
 
     /**
      * Create a MapWrapper from a map
      *
      * @param map       {@link Map} with original keys/values
-     * @param wrapper   A wrapper able to compute mapped keys from original keys
-     * @param unwrapper A wrapper able to compute original keys from mapped keys
+     * @param wrapper   A wrapper able to compute mapped values from original values
+     * @param unwrapper A wrapper able to compute original values from mapped values
      */
-    public MapKeyWrapper(
-            final Map<KS,V> map,
-            final Wrappable<KS,KR> wrapper,
-            final Wrappable<KR,KS> unwrapper
+    public MapWrapper(
+            final Map<K,VS>        map,
+            final Wrappable<VS,VR> wrapper,
+            final Wrappable<VR,VS> unwrapper
             )
     {
         this.map = map;
@@ -56,35 +55,32 @@ public class MapKeyWrapper<KS,KR,V>
     public boolean containsKey( Object key )
         throws UnsupportedOperationException
     {
-        @SuppressWarnings("unchecked")
-        KR k = (KR)key;
-        return map.containsKey( unwrapper.wrappe( k ) );
+        return map.containsKey( key );
     }
 
     @Override
     public boolean containsValue( Object value )
         throws UnsupportedOperationException
     {
-        return map.containsValue( value );
+        @SuppressWarnings("unchecked")
+        VR v = (VR)value;
+        return map.containsValue( unwrapper.wrappe( v ) );
     }
 
     @Override
-    public Set<Map.Entry<KR,V>> entrySet()
+    public Set<Map.Entry<K,VR>> entrySet()
     {
-        return new SetWrapper<Map.Entry<KS,V>,Map.Entry<KR,V>>(
+        return new SetWrapper<Map.Entry<K,VS>,Map.Entry<K,VR>>(
                 map.entrySet(),
-                new EntryWrapper<KS,KR,V>( wrapper ),
-                new EntryWrapper<KR,KS,V>( unwrapper )
+                new EntryWrapper<K,VS,VR>( wrapper ),
+                new EntryWrapper<K,VR,VS>( unwrapper )
             );
     }
 
     @Override
-    public V get( Object key )
+    public VR get( Object key )
     {
-        @SuppressWarnings("unchecked")
-        KR k = (KR)key;
-
-        return map.get( unwrapper.wrappe( k ) );
+        return wrapper.wrappe(  map.get( key ) );
     }
 
     @Override
@@ -94,34 +90,34 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     @Override
-    public Set<KR> keySet()
+    public Set<K> keySet()
     {
-        return new SetWrapper<KS,KR>( map.keySet(), wrapper, unwrapper );
+        return map.keySet();
     }
 
     @Override
-    public V put( KR key, V value )
+    public VR put( K key, VR value )
         throws UnsupportedOperationException
     {
-        return map.put( unwrapper.wrappe( key ), value );
+        VS prev = map.put( key, unwrapper.wrappe( value ) );
+
+        return wrapper.wrappe( prev );
     }
 
     @Override
-    public void putAll( Map<? extends KR, ? extends V> m )
+    public void putAll( Map<? extends K, ? extends VR> m )
         throws UnsupportedOperationException
     {
-        for( Map.Entry<? extends KR, ? extends V> e : m.entrySet() ) {
+        for( Map.Entry<? extends K, ? extends VR> e : m.entrySet() ) {
             put( e.getKey(), e.getValue() );
             }
     }
 
     @Override
-    public V remove( Object key )
+    public VR remove( Object key )
         throws UnsupportedOperationException
     {
-        @SuppressWarnings("unchecked")
-        KR k = (KR)key;
-        return map.remove( unwrapper.wrappe( k ) );
+        return wrapper.wrappe( map.remove( key ) );
     }
 
     @Override
@@ -131,49 +127,51 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     @Override
-    public Collection<V> values()
+    public Collection<VR> values()
     {
-        return map.values();
+        return new CollectionWrapper<VS,VR>( map.values(), wrapper, unwrapper );
     }
 
-    private class EntryWrapper<EK0,EK1,EV>
-        implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
+    public class EntryWrapper<KEY,V0,V1>
+        implements Wrappable<Entry<KEY,V0>,Entry<KEY,V1>>
     {
-        private final Wrappable<EK0,EK1> ewrapper;
+        private Wrappable<V0,V1> ewrapper;
 
-        public EntryWrapper( final Wrappable<EK0,EK1> ewrapper )
+        public EntryWrapper( Wrappable<V0,V1> ewrapper )
         {
             this.ewrapper = ewrapper;
         }
+
         @Override
-        public Map.Entry<EK1,EV> wrappe( final Map.Entry<EK0,EV> o )
+        public Map.Entry<KEY,V1> wrappe( Map.Entry<KEY,V0> o )
+                throws WrappeException
         {
             return new WrappedEntry( o );
         }
 
-        private final class WrappedEntry implements Map.Entry<EK1, EV>
+        private final class WrappedEntry implements Map.Entry<KEY,V1>
         {
-            private final Entry<EK0, EV> o;
+            private final Map.Entry<KEY,V0> o;
 
-            private WrappedEntry( Entry<EK0, EV> o )
+            private WrappedEntry( Map.Entry<KEY,V0> o )
             {
                 this.o = o;
             }
 
             @Override
-            public EK1 getKey()
+            public KEY getKey()
             {
-                return ewrapper.wrappe( o.getKey() );
+                return o.getKey();
             }
 
             @Override
-            public EV getValue()
+            public V1 getValue()
             {
-                return o.getValue();
+                return ewrapper.wrappe( o.getValue() );
             }
 
             @Override
-            public EV setValue( EV value )
+            public V1 setValue( V1 value )
             {
                 throw new UnsupportedOperationException();
             }
