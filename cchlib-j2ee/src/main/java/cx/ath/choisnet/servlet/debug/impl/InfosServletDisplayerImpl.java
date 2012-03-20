@@ -4,7 +4,6 @@ import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplayer;
 import cx.ath.choisnet.util.ArrayHelper;
-import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
+import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
 
 /**
  *
@@ -476,7 +476,7 @@ public class InfosServletDisplayerImpl
         if(httpSession == null) {
             title.append("NOT FOUND");
 
-            enum0     = EnumerationHelper.empty();
+            enum0     = new EmptyEnumeration<String>();
             noDataMsg = "There are no HttpSession !";
         }
         else {
