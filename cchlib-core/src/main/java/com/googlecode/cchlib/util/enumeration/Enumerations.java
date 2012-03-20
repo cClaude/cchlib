@@ -1,23 +1,21 @@
-package cx.ath.choisnet.util.enumeration;
+package com.googlecode.cchlib.util.enumeration;
 
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.iterator.EnumerationIterator;
 import cx.ath.choisnet.util.ArrayHelper;
-import cx.ath.choisnet.util.iterator.IteratorHelper;
 
 /**
  * Providing other view for Enumerations
  *
- * @see IteratorHelper
+ * @see com.googlecode.cchlib.util.iterator.Iterators
  * @see ArrayHelper#toEnumeration(Object[])
  * @see ArrayHelper#toEnumeration(Object[], int, int)
+ * @since 4.1.7
  */
-public class EnumerationHelper
+public class Enumerations
 {
-    private EnumerationHelper()
+    private Enumerations()
     { // All static
     }
 
@@ -47,10 +45,12 @@ public class EnumerationHelper
     {
         return new Enumeration<O>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return enumeration.hasMoreElements();
             }
+            @Override
             public O nextElement()
                 throws NoSuchElementException
             {
@@ -89,18 +89,18 @@ public class EnumerationHelper
         };
     }
 
-    /**
+    /* *
      * Wrap an enumeration to respond has an Iterator
      * @param enumeration enumeration to wrap
      * @param <T> type off enumeration and off iterator
      * @return an Iterator
      * @deprecated use EnumerationIterator
      * @see EnumerationIterator
-     */
     public static <T> Iterator<T> toIterator(
             final Enumeration<T> enumeration
             )
     {
         return new EnumerationIterator<T>(enumeration);
     }
+    */
 }

@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.enumeration;
+package com.googlecode.cchlib.util.enumeration;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 /**
  * {@link EmptyEnumeration} is an {@link Enumeration} with no element.
  * @param <E>  content type
+ * @since 4.1.7
  */
 public class EmptyEnumeration<E>
     implements Enumeration<E>

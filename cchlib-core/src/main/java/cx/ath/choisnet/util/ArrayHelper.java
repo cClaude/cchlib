@@ -4,10 +4,9 @@ import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
+import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
-import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 
 /**
  * Providing tools for Arrays, mainly other views for Arrays
@@ -109,11 +108,11 @@ public final class ArrayHelper
             )
     {
         if( array == null ) {
-            return EnumerationHelper.empty();
+            return new EmptyEnumeration<T>();
             }
         else {
             return toEnumeration(array, 0, array.length);
-        }
+            }
     }
 
     /**

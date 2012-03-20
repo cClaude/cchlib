@@ -34,14 +34,14 @@ public class MappableBuilder
         };
 
     /**
-     * TODOC
+     * Add all primitives types in map.
      */
     public static final MappableItem[] MAPPABLE_ITEM_SHOW_ALL = {
             MappableItem.ALL_PRIMITIVE_TYPE
             };
 
     /**
-     * TODOC
+     * Add all classes types in map.
      */
     public static final Class<?>[] CLASSES_SHOW_ALL = {
         Object.class
@@ -98,7 +98,12 @@ public class MappableBuilder
      * Create a default MappableBuilderFactory based
      * on {@link DefaultMappableBuilderFactory}
      * <p>
-     * TODOC: describe default initialization
+     * Equivalent to invoke:
+     * <pre>
+     *   new DefaultMappableBuilderFactory()
+     *      .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
+     *      .add( CLASSES_STANDARDS_TYPES );
+     * </pre>
      * </p>
      */
     public static MappableBuilderFactory createMappableBuilderFactory()
@@ -386,17 +391,13 @@ public class MappableBuilder
 
     private final Method[] getDeclaredMethods(Class<?> clazz)
     {
-        if(!mappableItemSet.contains(MappableItem.DO_PARENT_CLASSES)) {
+        if( !mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
             return clazz.getDeclaredMethods();
             }
 
         Set<Method> methodsSet = new HashSet<Method>();
-        Method arr0$[] = clazz.getDeclaredMethods();
-        int len0$ = arr0$.length;
-
-        for(int i$ = 0; i$ < len0$; i$++) {
-            Method m = arr0$[i$];
-            methodsSet.add(m);
+        for( Method m : clazz.getDeclaredMethods() ) {
+            methodsSet.add( m );
             }
 
         for(Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
@@ -497,12 +498,12 @@ public class MappableBuilder
 
                 if(first) {
                     first = false;
-                }
+                    }
                 else {
                     sb.append(',');
-                }
+                    }
                 sb.append( toString(mappableItemSet, o) );
-            }
+                }
 
             return (new StringBuilder())
                 .append('[')
@@ -541,10 +542,10 @@ public class MappableBuilder
             for(; enum0.hasMoreElements(); sb.append( toString(mappableItemSet, enum0.nextElement()))) {
                 if(first) {
                     first = false;
-                }
+                    }
                 else {
                     sb.append(',');
-                }
+                    }
             }
 
             return (new StringBuilder())

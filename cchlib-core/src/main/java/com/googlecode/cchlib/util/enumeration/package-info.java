@@ -7,5 +7,6 @@
  * in the flow.
  *
  * @see com.googlecode.cchlib.util.iterator
+ * @since 4.1.7
  */
 package com.googlecode.cchlib.util.enumeration;

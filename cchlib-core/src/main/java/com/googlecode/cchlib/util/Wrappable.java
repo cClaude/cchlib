@@ -1,14 +1,15 @@
 package com.googlecode.cchlib.util;
 
 /**
- * TODOC
+ * A {@link Wrappable} object is a object able to
+ * mute from a type to a other one.
  *
  * @param <S> source type
  * @param <R> result type
- * @see cx.ath.choisnet.util.enumeration.EnumerationHelper#toEnumeration(java.util.Enumeration, Wrappable)
- * @see cx.ath.choisnet.util.enumeration.EnumerationHelper#toEnumeration(java.util.Enumeration)
- * @see cx.ath.choisnet.util.iterator.IteratorHelper
- * @see cx.ath.choisnet.util.iterator.IteratorWrapper
+ * @see com.googlecode.cchlib.util.enumeration.Enumerations#toEnumeration(java.util.Enumeration)
+ * @see com.googlecode.cchlib.util.enumeration.Enumerations#toEnumeration(java.util.Enumeration, Wrappable)
+ * @see com.googlecode.cchlib.util.iterator.IteratorWrapper
+ * @see com.googlecode.cchlib.util.iterator.Iterators
  * @see CollectionWrapper
  * @see MapKeyWrapper
  * @see MapWrapper

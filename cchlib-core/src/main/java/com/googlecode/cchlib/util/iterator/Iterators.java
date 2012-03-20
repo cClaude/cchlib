@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.iterator;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 
 /**
@@ -104,4 +105,30 @@ public class Iterators
             }
         };
     }
+
+    /**
+     * Create an Enumeration using (and consuming) an Iterator
+     *
+     * @param <T> type content
+     * @param iterator
+     * @return an Enumeration view for this iterator
+     */
+    public static <T> Enumeration<T> toEnumeration(
+            final Iterator<T> iterator
+            )
+    {
+        return new Enumeration<T>()
+        {
+            public boolean hasMoreElements()
+            {
+                return iterator.hasNext();
+            }
+            public T nextElement()
+                throws java.util.NoSuchElementException
+            {
+                return iterator.next();
+            }
+        };
+    }
+
 }
