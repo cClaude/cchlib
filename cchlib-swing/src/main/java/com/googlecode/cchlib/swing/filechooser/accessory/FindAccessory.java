@@ -37,15 +37,17 @@ public class FindAccessory
     private static final long serialVersionUID = 1L;
 
     /**
+     * TODOC
      * @param parent
      * @param max
      */
     public FindAccessory(JFileChooser parent, int max)
     {
-        super(parent, max);
+        super( parent, max );
     }
 
     /**
+     * TODOC
      * @param parent
      */
     public FindAccessory(JFileChooser parent)
@@ -56,8 +58,7 @@ public class FindAccessory
     @Override // TabbedAccessoryInterface
     public String getTabName()
     {
-        // TODO Localization
-        return null; //"Find";
+        return null; //"Find"; // TODO Localization
     }
 
     @Override // TabbedAccessoryInterface

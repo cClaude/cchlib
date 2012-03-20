@@ -26,14 +26,15 @@ public class BookmarksAccessory
         implements TabbedAccessoryInterface
 {
     private static final long serialVersionUID = 1L;
+    private static ResourcesUtils resourcesUtils = new ResourcesUtils( BookmarksAccessory.class );
+    private BookmarksAccessoryConfigurator configurator;
+
     private JList<File>             jList_Bookmarks;
     private DefaultListModel<File>  listModel_Bookmarks;
-    private JButton         jButton_AddBookmarks;
-    private JButton         jButton_RemoveBookmarks;
-    private JButton         jButton_Refresh;
-    //private JFileChooser    jFileChooser;
-    private BookmarksAccessoryConfigurator configurator;
-    private static ResourcesUtils resourcesUtils = new ResourcesUtils( BookmarksAccessory.class );
+
+    private JButton                 jButton_AddBookmarks;
+    private JButton                 jButton_RemoveBookmarks;
+    private JButton                 jButton_Refresh;
 
     /**
      * TODOC
@@ -45,9 +46,7 @@ public class BookmarksAccessory
             final BookmarksAccessoryConfigurator config
             )
     {
-        //this.jFileChooser = jFileChooser;
         this.configurator = config;
-        //this.resourcesUtils = new ResourcesUtils( getClass() );
         this.listModel_Bookmarks  = new DefaultListModel<File>();
 
         for( File f:config.getBookmarks() ) {
@@ -82,7 +81,6 @@ public class BookmarksAccessory
                             File    file    = listModel_Bookmarks.get( index );
 
                             jFileChooser.setCurrentDirectory( file );
-                            //jFileChooser.setSelectedFile( file );
                         }
                     }
                 });
@@ -181,8 +179,7 @@ public class BookmarksAccessory
     @Override // TabbedAccessoryInterface
     public String getTabName()
     {
-        // TODO Localization
-        return null; //"Bookmark";
+        return null; //"Bookmark"; // TODO Localization
     }
 
     @Override // TabbedAccessoryInterface

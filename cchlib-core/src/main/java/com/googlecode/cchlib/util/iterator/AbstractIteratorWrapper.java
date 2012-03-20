@@ -4,10 +4,11 @@ import java.util.Iterator;
 import com.googlecode.cchlib.util.Wrappable;
 
 /**
- * TODOC
- *
- * @param <O>
- * @param <D>
+ * Wrapper for an {@link Iterator}, you just need to implement
+ * D wrappe(O obj) method to transform you O object into D object
+
+ * @param <O> Original type
+ * @param <D> Destination type
  */
 public abstract class AbstractIteratorWrapper<O,D>
     implements Wrappable<O,D>, Iterator<D>
@@ -15,8 +16,8 @@ public abstract class AbstractIteratorWrapper<O,D>
     private IteratorWrapper<O, D> iteratorWrapper;
 
     /**
-     * TODOC
-     * @param sourceIterator
+     * Build a wrapper using and consuming giving {@link Iterator}
+     * @param sourceIterator The {@link Iterator} to wrap
      */
     public AbstractIteratorWrapper( Iterator<O> sourceIterator )
     {

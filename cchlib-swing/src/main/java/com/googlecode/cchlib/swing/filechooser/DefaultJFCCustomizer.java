@@ -108,7 +108,7 @@ public class DefaultJFCCustomizer
     }
 
     /**
-     * TODOC
+     * Set a {@link FileFilter} on returning {@link javax.swing.JFileChooser}
      * <p>
      * You must provide a {@link java.io.Serializable} {@link FileFilter} for
      * full support of Swing
