@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Iterator;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.iterator.EnumerationIterator;
 import com.ice.jni.registry.NoSuchKeyException;
 import com.ice.jni.registry.RegDWordValue;
 import com.ice.jni.registry.RegStringValue;
@@ -13,7 +14,6 @@ import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryException;
 import com.ice.jni.registry.RegistryKey;
 import com.ice.jni.registry.RegistryValue;
-import cx.ath.choisnet.util.enumeration.EnumerationHelper;
 
 /**
  * @deprecated No replacement
@@ -200,7 +200,7 @@ public class RegWin32
             @SuppressWarnings("unchecked")
             Enumeration<String> enu = registryKey.keyElements();
 
-            return EnumerationHelper.toIterator( enu );
+            return new EnumerationIterator<String>( enu );
         }
         catch( RegistryException e ) {
             throw new EnvArcRegWin32EnvArcException(e);
@@ -227,7 +227,7 @@ public class RegWin32
             @SuppressWarnings("unchecked")
             Enumeration<String> enu = registryKey.valueElements();
 
-            return EnumerationHelper.toIterator( enu );
+            return new EnumerationIterator<String>( enu );
              }
         catch( RegistryException e ) {
             throw new EnvArcRegWin32EnvArcException(e);
