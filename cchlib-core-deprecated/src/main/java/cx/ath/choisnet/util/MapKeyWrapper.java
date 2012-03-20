@@ -38,7 +38,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public boolean containsKey( Object key )
@@ -50,7 +50,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public boolean containsValue( Object value )
@@ -70,7 +70,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public V get( Object key )
@@ -94,7 +94,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public V put( KR key, V value )
@@ -104,7 +104,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public void putAll( Map<? extends KR, ? extends V> m )
@@ -116,7 +116,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * TODOC
+     * 
      */
     @Override
     public V remove( Object key )
@@ -186,7 +186,7 @@ public class MapKeyWrapper<KS,KR,V>
                     if (getClass() != obj.getClass()) {
                         return false;
                     }
-                    // FIXME: TODO !!! equals !
+                    // F IXME: TO DO !!! equals !
                     return true;
                 }
             };

@@ -6,12 +6,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import cx.ath.choisnet.ToDo;
 
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.SetWrapper} instead
  */
-@ToDo
 public class SetWrapper<S,R> implements Set<R>, Serializable
 {
     static final long serialVersionUID = 1L;
@@ -20,11 +18,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     private Wrappable<R,S> unwrapper;
 
     /**
-     * TODOC
      *
-     * @param set
-     * @param wrapper
-     * @param unwrapper
      */
     public SetWrapper(
         final Set<S>         set,

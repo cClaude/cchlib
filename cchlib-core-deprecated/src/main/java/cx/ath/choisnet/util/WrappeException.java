@@ -1,7 +1,7 @@
 package cx.ath.choisnet.util;
 
 /**
- * TODOC
+ * 
  *
  * 'cause' must be always valid
  * @deprecated use {@link com.googlecode.cchlib.util.WrappeException} instead

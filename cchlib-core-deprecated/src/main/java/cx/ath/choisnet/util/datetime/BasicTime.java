@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * TODOC
  *
  * <br>
  * This class is not thread save.
@@ -130,7 +129,7 @@ public class BasicTime
         }
 
    /**
-     * TODOC
+     * 
      *
      * @param time
      * @param formatter
@@ -179,7 +178,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      *
      * @param secondsFromMidnight
      * @throws BasicDateTimeNegativeValueException if value is negative
@@ -205,7 +204,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     protected void setWithFmtString( String fmtTime )
     {
@@ -215,7 +214,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     protected void set( final Date javaDate )
     {
@@ -223,7 +222,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public int getHours()
     {
@@ -231,7 +230,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public int getMinutes()
     {
@@ -239,7 +238,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public int getSeconds()
     {
@@ -247,7 +246,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public String toString()
     {
@@ -255,7 +254,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public String toString( final Format formatter )
     {
@@ -263,7 +262,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public String toStringHours()
     {
@@ -279,7 +278,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public String toStringMinutes()
     {
@@ -287,7 +286,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public String toStringSeconds()
     {
@@ -295,7 +294,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public long longValue()
     {
@@ -303,7 +302,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public Date getJavaDate()
     {
@@ -361,7 +360,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public boolean isBefore(TimeInterface anotherTime)
     {
@@ -369,7 +368,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      */
     public boolean isAfter(TimeInterface anotherTime)
         throws ClassCastException
@@ -378,7 +377,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      * @throws BasicTimeException
      */
     public TimeInterface add(TimeInterface anotherTime)
@@ -390,7 +389,7 @@ public class BasicTime
     }
 
     /**
-     * TODOC
+     * 
      * @throws BasicTimeException
      */
     public TimeInterface sub(TimeInterface anotherTime)

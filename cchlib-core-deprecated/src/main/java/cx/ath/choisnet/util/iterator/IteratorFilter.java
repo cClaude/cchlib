@@ -79,7 +79,7 @@ public class IteratorFilter<T>
 //    }
 
     /**
-     * TODOC
+     * 
      *
      * @param fileFilter
      * @return a wrapper for File use that use FileFilter
