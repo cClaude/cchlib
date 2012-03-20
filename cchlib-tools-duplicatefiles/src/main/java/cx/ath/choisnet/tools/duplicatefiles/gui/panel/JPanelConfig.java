@@ -2,9 +2,11 @@ package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.PathMatcher;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
@@ -36,6 +38,9 @@ public class JPanelConfig
     private ActionListener actionListener;
     private ConfigMode mode;
 //    private Window rootFrame;
+
+    private PathMatcher tryToUseThis; // TODO - http://docs.oracle.com/javase/tutorial/essential/io/find.html
+private Scanner s;
 
     //@I18n( methodSuffixName="I18nTileIncFilesFilter")
     private JPanelConfigFilter jPanelIncFilesFilter;
