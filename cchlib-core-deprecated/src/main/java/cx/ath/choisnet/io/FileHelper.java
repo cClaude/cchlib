@@ -155,7 +155,7 @@ public final class FileHelper
      *
      * @param files
      * @param fileFilter
-     * @return return a file Iterator
+     * @return a file Iterator
      */
     public static Iterator<File> toIterator(
             File[]     files,

@@ -1,8 +1,5 @@
 package cx.ath.choisnet.zip;
 
-import cx.ath.choisnet.io.FileIterator;
-//import cx.ath.choisnet.util.Wrappable;
-//import cx.ath.choisnet.util.iterator.IteratorWrapper;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -11,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import com.googlecode.cchlib.io.FileIterator;
 
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleUnZip} instead
