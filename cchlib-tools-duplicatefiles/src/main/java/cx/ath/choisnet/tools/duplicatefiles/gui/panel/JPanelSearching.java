@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.i18n.I18nString;
-import cx.ath.choisnet.io.FileIterator;
+import com.googlecode.cchlib.io.FileIterator;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilder;
 import cx.ath.choisnet.tools.duplicatefiles.FileFilterBuilders;
 import cx.ath.choisnet.tools.duplicatefiles.KeyFileState;

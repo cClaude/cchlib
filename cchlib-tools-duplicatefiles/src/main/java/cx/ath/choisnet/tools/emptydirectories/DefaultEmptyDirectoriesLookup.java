@@ -6,7 +6,7 @@ import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
-import cx.ath.choisnet.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileFilterHelper;
 import cx.ath.choisnet.util.CancelRequestException;
 
 /**

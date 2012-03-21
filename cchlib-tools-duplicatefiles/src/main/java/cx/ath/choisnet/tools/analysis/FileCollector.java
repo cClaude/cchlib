@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import cx.ath.choisnet.io.DirectoryIterator;
-import cx.ath.choisnet.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  * An {@link Iterator} that give all {@link File}

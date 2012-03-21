@@ -3,8 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.alpha.filefilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
-
-import cx.ath.choisnet.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  *
