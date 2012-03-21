@@ -26,7 +26,7 @@ public abstract class AbstractServletAction implements ServletAction
     /**
      * Action to do
      *
-     * @return return value is handle like {@link ServletAction#doAction(HttpServletRequest, HttpServletResponse, ServletContext)}
+     * @return value is handle like {@link ServletAction#doAction(HttpServletRequest, HttpServletResponse, ServletContext)}
      * @see ServletAction#doAction(HttpServletRequest, HttpServletResponse, ServletContext)
      * @see #getRequest()
      * @see #getResponse()
