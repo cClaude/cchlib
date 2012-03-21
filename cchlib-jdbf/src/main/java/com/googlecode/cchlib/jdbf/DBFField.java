@@ -76,7 +76,7 @@ public class DBFField
      * supposed to be positioned properly.
      *
      * @param in DataInputStream
-     * @return Returns the created DBFField object.
+     * @return the created DBFField object.
      * @throws IOException If any stream reading problems occurs.
      */
     protected static DBFField createField( DataInput in)
