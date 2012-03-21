@@ -93,7 +93,7 @@ public class DefaultJFCCustomizer
 
     /**
      * @param currentDirectory the currentDirectory to set
-     * @return return the caller. This allows for easy chaining of invocations.
+     * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setCurrentDirectory( File currentDirectory )
     {
@@ -114,7 +114,7 @@ public class DefaultJFCCustomizer
      * full support of Swing
      * </p>
      * @param fileFilter the fileFilter to set
-     * @return return the caller. This allows for easy chaining of invocations.
+     * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setFileFilter( FileFilter fileFilter )
     {
@@ -124,7 +124,7 @@ public class DefaultJFCCustomizer
 
     /**
      * @param accessory the accessory to set
-     * @return return the caller. This allows for easy chaining of invocations.
+     * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setAccessory( JComponent accessory )
     {
@@ -136,7 +136,7 @@ public class DefaultJFCCustomizer
      * @param directoryType define directory to set, ignored
      * if {@link #setCurrentDirectory(File)} defined a none
      * null File.
-     * @return return the caller. This allows for easy chaining of invocations.
+     * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setDirectory(
             DirectoryType directoryType

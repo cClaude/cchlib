@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.swing.introspection;
 
@@ -17,12 +17,12 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
  *
  * @author CC
  */
-public class ObjectPopulatorHelper 
+public class ObjectPopulatorHelper
 {
     private ObjectPopulatorHelper()
     {//All static
     }
-    
+
     /**
      * <p>
      * Transform field object into it's content using
@@ -52,7 +52,7 @@ public class ObjectPopulatorHelper
      * <tr>
      * <td>{@link JSpinner}</td>
      * <td>Get value using {@link JSpinner#getValue()}</td>
-     * <td>returns the current value of the model, 
+     * <td>returns the current value of the model,
      * typically this value is displayed by the editor.
      * </td>
      * </tr>
@@ -78,18 +78,18 @@ public class ObjectPopulatorHelper
      * <td>{@link Integer}</td>
      * </tr>
      * </table>
-     * 
+     *
      * @param <OBJECT>
      * @param fieldObject - this is typical result from {@link SwingIntrospectorItem#getFieldObject(Object)}
-     * @param iItem 
+     * @param iItem
      *
-     * @return return value representing by this field
+     * @return return  representing by this field
      *         (only some swing components are supported)
      * @throws SwingIntrospectorUnsupportedClassException if don't know how
      *         to handle type.
-     * @throws SwingIntrospectorParseException 
+     * @throws SwingIntrospectorParseException
      */
-    public static <OBJECT> Object getFieldValue( 
+    public static <OBJECT> Object getFieldValue(
             final Object                fieldObject,
             IntrospectionItem<OBJECT>   iItem
             )
@@ -108,7 +108,7 @@ public class ObjectPopulatorHelper
         else if( fieldObject instanceof JFormattedTextField ) {
             JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
             //TODO: did not work !!!!!!
-            
+
             try {
                 f.commitEdit();
             	}
@@ -126,12 +126,12 @@ public class ObjectPopulatorHelper
             // Value is a relative value !
             int    index = f.getSelectedIndex();
             Object min   = iItem.getMinValue();
-            
+
             if( min instanceof Integer ) {
-                // Value should be modify if (min != 0) 
+                // Value should be modify if (min != 0)
                 index += Integer.class.cast( min );
             }
-            
+
             value = new Integer( index );
         }
 //        else if( fieldObject instanceof javax.swing.JLabel ) {

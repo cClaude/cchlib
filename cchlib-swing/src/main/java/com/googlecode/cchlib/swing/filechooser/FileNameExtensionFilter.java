@@ -90,7 +90,7 @@ public class FileNameExtensionFilter extends FileFilter
     }
 
     /**
-     *  @return Returns the set of file name extensions
+     *  @return the set of file name extensions
      *  files are tested against.
      */
     public String[] getExtensions()

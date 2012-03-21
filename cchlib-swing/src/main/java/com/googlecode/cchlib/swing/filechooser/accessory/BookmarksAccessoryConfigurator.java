@@ -17,13 +17,13 @@ public interface BookmarksAccessoryConfigurator extends Serializable
 
     /**
      * @param file File to add to bookmarks Collection
-     * @return return true if file have been had.
+     * @return true if file have been had.
      */
     public boolean addBookmarkFile(File file);
 
     /**
      * @param file File to remove to bookmark Collection
-     * @return return true if file have been removed.
+     * @return true if file have been removed.
      */
     public boolean removeBookmark(File file);
   }

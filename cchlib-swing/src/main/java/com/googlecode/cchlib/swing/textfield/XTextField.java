@@ -110,7 +110,7 @@ public class XTextField extends JTextField
 
     /**
      * TODO default localization
-     * @return return default text for copy (no localization)
+     * @return default text for copy (no localization)
      */
     public String getTextForCopy()
     {
@@ -119,7 +119,7 @@ public class XTextField extends JTextField
 
     /**
      * TODO default localization
-     * @return return default text for paste (no localization)
+     * @return default text for paste (no localization)
      */
     public String getTextForPaste()
     {
