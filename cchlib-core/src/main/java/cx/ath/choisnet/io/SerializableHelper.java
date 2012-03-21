@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.io;
 
 import java.io.ByteArrayInputStream;

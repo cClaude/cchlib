@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util.zip;
 
-import cx.ath.choisnet.io.FileIterator;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -10,6 +9,7 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.event.EventListenerList;
+import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 

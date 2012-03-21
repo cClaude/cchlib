@@ -1078,7 +1078,7 @@ public class FormattedProperties
             return null;
         }
         /**
-         * @return return null if Line is a Comment,
+         * @return null if Line is a Comment,
          *         return the key property if Line otherwise
          */
         public String getKey()

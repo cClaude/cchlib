@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io.testcase;
+package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.IOHelper;
-import cx.ath.choisnet.io.DirectoryIterator;
 import junit.framework.TestCase;
 
 /**

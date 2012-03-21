@@ -3,8 +3,8 @@ package cx.ath.choisnet.test;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Iterator;
-import cx.ath.choisnet.io.FileFilterHelper;
-import cx.ath.choisnet.io.FileIterator;
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileIterator;
 
 /**
  * Provide some tools to build test cases

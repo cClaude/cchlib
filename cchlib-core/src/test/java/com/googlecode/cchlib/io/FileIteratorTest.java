@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io.testcase;
+package com.googlecode.cchlib.io;
 
 import java.util.List;
 import java.io.File;
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.IOHelper;
-import cx.ath.choisnet.io.FileIterator;
 import junit.framework.TestCase;
 
 /**

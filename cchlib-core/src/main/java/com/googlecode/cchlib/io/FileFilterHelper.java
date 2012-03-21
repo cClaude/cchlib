@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -6,6 +6,7 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
 ** Build commons {@link FileFilter} that are {@link java.io.Serializable}
+** @since 4.1.7
 */
 public class FileFilterHelper
 {
@@ -15,15 +16,15 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a filter that keep only directories
+     * Returns a filter that select only directories
      * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see File#isDirectory()
      */
-    public static FileFilter directoryFileFilter()
+    public static SerializableFileFilter directoryFileFilter()
     {
         return new SerializableFileFilter()
         {
-            private static final long serialVersionUID = 2L;
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -33,14 +34,15 @@ public class FileFilterHelper
     }
 
     /**
-     * Returns a filter that keep only file
+     * Returns a filter that select only files
      * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see File#isFile()
      */
-    public static FileFilter fileFileFilter()
+    public static SerializableFileFilter fileFileFilter()
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -54,11 +56,11 @@ public class FileFilterHelper
      * accept(File) method that always return true
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter trueFileFilter()
+    public static SerializableFileFilter trueFileFilter()
     {
         return new SerializableFileFilter()
         {
-            private static final long serialVersionUID = 2L;
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -72,11 +74,11 @@ public class FileFilterHelper
      * accept(File) method that always return false
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter falseFileFilter()
+    public static SerializableFileFilter falseFileFilter()
     {
         return new SerializableFileFilter()
         {
-            private static final long serialVersionUID = 2L;
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept( File file )
             {
@@ -86,14 +88,15 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param aFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter not(final FileFilter aFileFilter)
+    public static SerializableFileFilter not(final FileFilter aFileFilter)
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -103,18 +106,19 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter and(
+    public static SerializableFileFilter and(
                 final FileFilter firstFileFilter,
                 final FileFilter secondFileFilter
                 )
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -129,16 +133,17 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter and(
+    public static SerializableFileFilter and(
             final FileFilter...fileFilters
             )
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -153,18 +158,18 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter or(
+    public static SerializableFileFilter or(
             final FileFilter firstFileFilter,
             final FileFilter secondFileFilter
             )
     {
         return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept( File pathname )
             {
@@ -179,16 +184,17 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter or(
+    public static SerializableFileFilter or(
             final FileFilter...fileFilters
             )
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept( final File pathname )
             {
@@ -203,18 +209,19 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter xor(
+    public static SerializableFileFilter xor(
             final FileFilter firstFileFilter,
             final FileFilter secondFileFilter
             )
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept( File file )
             {
@@ -224,14 +231,15 @@ public class FileFilterHelper
     }
 
     /**
-     *
+     * TODOC
      * @param length
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
-    public static FileFilter fileLengthFileFilter( final long length )
+    public static SerializableFileFilter fileLengthFileFilter( final long length )
     {
-        return new SerializableFileFilter() {
-            private static final long serialVersionUID = 2L;
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
             @Override
             public boolean accept(File file)
             {
@@ -241,28 +249,28 @@ public class FileFilterHelper
     }
 
     /**
-    *
-    * @return a {@link java.io.Serializable} {@link FileFilter}
-    */
-   public static FileFilter zeroLengthFileFilter()
-   {
-       return fileLengthFileFilter( 0L );
-   }
+     * TODOC
+     * @return a {@link java.io.Serializable} {@link FileFilter}
+     */
+    public static SerializableFileFilter zeroLengthFileFilter()
+    {
+        return fileLengthFileFilter( 0L );
+    }
 
-   /**
-   *
-   * @return a {@link java.io.Serializable} {@link FileFilter}
-   * @since 4.1.6
-   */
-  public static FileFilter noneZeroLengthFileFilter()
-  {
-      return new SerializableFileFilter() {
-          private static final long serialVersionUID = 1L;
-          @Override
-          public boolean accept(File file)
-          {
-              return file.length() != 0;
-          }
-      };
-  }
+    /**
+     * TODOC
+     * @return a {@link java.io.Serializable} {@link FileFilter}
+     */
+    public static SerializableFileFilter noneZeroLengthFileFilter()
+    {
+        return new SerializableFileFilter()
+        {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public boolean accept(File file)
+            {
+                return file.length() != 0;
+            }
+        };
+    }
 }

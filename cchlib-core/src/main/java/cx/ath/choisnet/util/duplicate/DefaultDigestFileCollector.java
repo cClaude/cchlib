@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;

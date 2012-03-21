@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -10,14 +10,14 @@ import java.util.NoSuchElementException;
  * An {@link Iterator} that give all {@link File} directory
  * under a giving file directory.
  * <p>
- * If rootFolderFile is not a directory (is a File, does not 
+ * If rootFolderFile is not a directory (is a File, does not
  * exist, can't access,...); then Iterator will return no elements.
  * </p>
  * <p>
  * If rootFolderFile is a directory, it will always the first
  * elements of Iterator (event if not match with {@link FileFilter})
  * </p>
- * 
+ *
  * @see FileIterator
  */
 public class DirectoryIterator
@@ -30,7 +30,7 @@ public class DirectoryIterator
     /**
      * Create a DirectoryIterator starting from rootFolderFile,
      * with no {@link FileFilter}.
-     * 
+     *
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
      */
@@ -42,14 +42,14 @@ public class DirectoryIterator
     /**
      * Create a DirectoryIterator starting from rootFolderFile,
      * with giving {@link FileFilter}.
-     * 
+     *
      * @param rootFolderFile    Root File directory for this Iterator
      * @param directoryFilter   File filter to select directories than should
-     *                          be explored and in result (could be null) . 
+     *                          be explored and in result (could be null) .
      * @throws NullPointerException if rootFolderFile is null
      */
     public DirectoryIterator(
-            File        rootFolderFile, 
+            File        rootFolderFile,
             FileFilter  directoryFilter
             )
     {
@@ -57,11 +57,11 @@ public class DirectoryIterator
 
         if( directoryFilter == null ) {
             this.directoryFileFilter = FileFilterHelper.trueFileFilter();
-        }
+            }
         else {
             this.directoryFileFilter = directoryFilter;
             }
-        
+
         if( rootFolderFile.isDirectory() ) {
             foldersList.add(rootFolderFile);
             }
@@ -78,7 +78,7 @@ public class DirectoryIterator
 
     /**
      * Add giving folderFile in internal queue.
-     * 
+     *
      * @param folderFile A valid File directory
      */
     protected void addFolder(File folderFile)
@@ -107,7 +107,7 @@ public class DirectoryIterator
     /**
      * Returns true if the iteration has more directories.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     @Override
@@ -116,8 +116,8 @@ public class DirectoryIterator
         return foldersList.size() > 0;
     }
 
-    /** 
-     * Returns the next File directory in the iteration. 
+    /**
+     * Returns the next File directory in the iteration.
      * @return the next File directory in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -134,7 +134,7 @@ public class DirectoryIterator
 
     /**
      * Unsupported Operation
-     * 
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -144,7 +144,7 @@ public class DirectoryIterator
     }
 
     /**
-     * Returns an iterator over a set of Files. 
+     * Returns an iterator over a set of Files.
      * @return this Iterator
      */
     @Override

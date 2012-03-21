@@ -7,9 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.io.FileHelper;
-import cx.ath.choisnet.io.FileIterator;
+import com.googlecode.cchlib.io.FileIterator;
 import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DefaultDigestFileCollector;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
