@@ -3,7 +3,7 @@ package com.googlecode.cchlib.io;
 import java.io.File;
 
 /**
- *
+ * Miscellaneous tools to create commons {@link File} objects
  * @since 4.1.6
  */
 public class FileHelper
@@ -53,6 +53,7 @@ public class FileHelper
             relativePath
             );
     }
+
     /**
      * Returns File object for root system directory
      * @return File object for root system directory

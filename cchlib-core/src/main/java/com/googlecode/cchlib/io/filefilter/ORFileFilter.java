@@ -1,26 +1,39 @@
-package com.googlecode.cchlib.io;
+package com.googlecode.cchlib.io.filefilter;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * TODOC
+ *
+ * @since 4.1.7
  */
-public class AndFileFilter implements SerializableFileFilter
+public final class ORFileFilter implements SerializableFileFilter
 {
-    private static final long serialVersionUID = 2L;
-    private List<SerializableFileFilter> filters
-          = new ArrayList<SerializableFileFilter>();
+    private static final long serialVersionUID = 1L;
+    private List<FileFilter> filters = new ArrayList<FileFilter>();
 
     /**
      * TODOC
      */
-    public AndFileFilter()
+    public ORFileFilter()
     {
         // empty
+    }
+
+    /**
+     * TODOC
+     * @param fileFilters
+     */
+    public ORFileFilter( final FileFilter...fileFilters )
+    {
+        for( FileFilter ff : fileFilters ) {
+            this.add( ff );
+            }
     }
 
     /**
@@ -28,7 +41,7 @@ public class AndFileFilter implements SerializableFileFilter
      * @param filter a {@link SerializableFileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public AndFileFilter add( SerializableFileFilter filter )
+    public ORFileFilter add( final FileFilter filter )
     {
         this.filters.add( filter );
         return this;
@@ -40,21 +53,22 @@ public class AndFileFilter implements SerializableFileFilter
      * {@link SerializableFileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public AndFileFilter addAll( Collection<SerializableFileFilter> filtersCollection )
+    public ORFileFilter addAll(
+        final Collection<SerializableFileFilter> filtersCollection
+        )
     {
         this.filters.addAll( filtersCollection );
         return this;
     }
 
     @Override
-    public boolean accept( File file )
+    public boolean accept( final File file )
     {
       for( FileFilter ff : filters ) {
-            if( !ff.accept( file ) ) {
-                return false;
+            if( ff.accept( file ) ) {
+                return true;
                 }
             }
-        return true;
+        return false;
     }
-
 }
