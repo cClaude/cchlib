@@ -8,8 +8,11 @@ import java.util.List;
 import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * TODOC
+ * Handle a collection of {@link FileFilter} to generate
+ * this {@link FileFilter}.
+ * <p>
  *
+ * </p>
  * @since 4.1.7
  * @see SerializableFileFilter
  */
@@ -19,7 +22,7 @@ public class ANDFileFilter implements SerializableFileFilter
     private List<FileFilter> filters = new ArrayList<FileFilter>();
 
     /**
-     * TODOC
+     * Create an ANDFileFilter
      */
     public ANDFileFilter()
     {
@@ -27,8 +30,9 @@ public class ANDFileFilter implements SerializableFileFilter
     }
 
     /**
-     * TODOC
-     * @param fileFilters
+     * Create an ANDFileFilter
+     *
+     * @param fileFilters Array of {@link FileFilter} to include in matching
      */
     public ANDFileFilter( FileFilter...fileFilters )
     {
@@ -38,7 +42,7 @@ public class ANDFileFilter implements SerializableFileFilter
     }
 
     /**
-     * TODOC
+     * Add a {@link FileFilter}
      * @param filter a {@link SerializableFileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
      */
@@ -49,13 +53,13 @@ public class ANDFileFilter implements SerializableFileFilter
     }
 
     /**
-     * TODOC
+     * Add a @{@link Collection} of {@link FileFilter}
      * @param filtersCollection a @{@link Collection} of
-     * {@link SerializableFileFilter} to include in matching
+     * {@link FileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
      */
     public ANDFileFilter addAll(
-        final Collection<SerializableFileFilter> filtersCollection
+        final Collection<FileFilter> filtersCollection
         )
     {
         this.filters.addAll( filtersCollection );

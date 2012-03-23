@@ -82,7 +82,9 @@ public class FileFilterHelper
      * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see NOTFileFilter
      */
-    public static SerializableFileFilter not(final FileFilter aFileFilter)
+    public static SerializableFileFilter not(
+        final FileFilter aFileFilter
+        )
     {
         return new NOTFileFilter( aFileFilter );
     }
