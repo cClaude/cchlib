@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -21,35 +20,35 @@ public interface AutoI18nExceptionHandler
     public void handleInvocationTargetException( InvocationTargetException e );
 
     /**
-     * Invoke when an {@link IllegalAccessException} occur
+     * Invoke when an {@link IllegalAccessException} occurred
      *
      * @param e The exception to handle
      */
     public void handleIllegalAccessException( IllegalAccessException e );
 
     /**
-     * Invoke when an {@link IllegalArgumentException} occur
+     * Invoke when an {@link IllegalArgumentException} occurred
      *
      * @param e The exception to handle
      */
     public void handleIllegalArgumentException( IllegalArgumentException e );
 
     /**
-     * Invoke when an {@link NoSuchMethodException} occur
+     * Invoke when an {@link NoSuchMethodException} occurred
      *
      * @param e The exception to handle
      */
     public void handleNoSuchMethodException( NoSuchMethodException e );
 
     /**
-     * Invoke when an {@link SecurityException} occur
+     * Invoke when an {@link SecurityException} occurred
      *
      * @param e The exception to handle
      */
     public void handleSecurityException( SecurityException e );
 
     /**
-     * Invoke when an {@link MissingResourceException} occur
+     * Invoke when an {@link MissingResourceException} occurred
      *
      * @param e         The exception to handle
      * @param field     The {@link Field} concern by the exception
@@ -59,7 +58,7 @@ public interface AutoI18nExceptionHandler
     public void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
 
     /**
-     * Invoke when an {@link MissingResourceException} occur
+     * Invoke when an {@link MissingResourceException} occurred
      *
      * @param e     The exception to handle
      * @param field The {@link Field} concern by the exception
@@ -75,5 +74,4 @@ public interface AutoI18nExceptionHandler
      * @param key   The key ({@link AutoI18n.Key}) to use for translation
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
-
 }

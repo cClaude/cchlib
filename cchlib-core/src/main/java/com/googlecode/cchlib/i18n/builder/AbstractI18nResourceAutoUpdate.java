@@ -96,25 +96,25 @@ public abstract class AbstractI18nResourceAutoUpdate
                         if( o instanceof String ) {
                             needProperty(key, String.class.cast( o ) );
                             return; // done
-                        }
+                            }
                         else if( o instanceof String[] ) {
                             String[] values = String[].class.cast( o );
                             String   prefix = getKey( f ) + '.';
 
                             for(int i=0;i<values.length;i++) {
                                 needProperty(prefix+i,values[i]);
-                            }
+                                }
 
                             return; // done
+                            }
                         }
-                    }
                     catch( IllegalArgumentException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
-                    }
+                        }
                     catch( IllegalAccessException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
+                        }
                     }
-                }
 
                 // AutoI18nBasicInterface interface
                 Class<?> fclass = f.getType();

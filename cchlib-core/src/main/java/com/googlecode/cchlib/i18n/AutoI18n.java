@@ -117,6 +117,7 @@ public class AutoI18n implements Serializable
          * ({@link AutoI18n#performeI18n(Object, Class)}.
          */
         ONLY_PUBLIC,
+
         /**
          * Also get inspect Fields from super class.
          * <br/>
@@ -126,6 +127,7 @@ public class AutoI18n implements Serializable
          * {@link JWindow}, {@link Window}
          */
         DO_DEEP_SCAN,
+
         /**
          * Internal use, see {@link AutoI18n#DISABLE_PROPERTIES}<br/>
          * Disable internalization process.
@@ -254,19 +256,19 @@ public class AutoI18n implements Serializable
         setObjectToI18n(objectToI18n,clazz);
         Class<?> currentClass = objectToI18nClass;
 
-        while(currentClass != null) {
+        while( currentClass != null ) {
             boolean stop = false;
 
             for(Class<?> c:ignoredClasses) {
                 if( currentClass.equals( c )) {
                     stop = true;
                     break;
+                    }
                 }
-            }
 
             if( stop ) {
                 break;
-            }
+                }
 
             //
             //
@@ -275,35 +277,35 @@ public class AutoI18n implements Serializable
 
             if( config.contains( Attribute.ONLY_PUBLIC ) ) {
                 fields = currentClass.getFields();
-            }
+                }
             else {
                 fields = currentClass.getDeclaredFields();
-            }
+                }
 
             for( Field f : fields ) {
                 if( f.isSynthetic() ) {
                     continue; // ignore member that was introduced by the compiler.
-                }
+                    }
                 Class<?> ftype = f.getType();
 
                 if( ftype.isAnnotation() ) {
                     if( eventHandler!=null ) {
                         eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.ANNOTATION);
-                    }
+                        }
                     continue; // ignore annotations
-                }
+                    }
                 if( ftype.isPrimitive() ) {
                     if( eventHandler!=null ) {
                         eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.PRIMITIVE );
-                    }
+                        }
                     continue; // ignore primitive (numbers)
-                }
+                    }
                 if( ftype.isAssignableFrom( Number.class )) {
                     if( eventHandler!=null ) {
                         eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NUMBER );
-                    }
+                        }
                     continue; // ignore numbers
-                }
+                    }
                 //TODO: ignore some Fields types like EnumSet
 
                 I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
@@ -311,19 +313,19 @@ public class AutoI18n implements Serializable
                 if( ignoreIt != null ) {
                     if( eventHandler!=null ) {
                         eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.ANNOTATION_I18nIgnore_DEFINE );
-                    }
+                        }
                     continue;
-                }
+                    }
 
                 setValue( f );
-            }
+                }
             if( config.contains( Attribute.DO_DEEP_SCAN )) {
                 currentClass = currentClass.getSuperclass();
-            }
+                }
             else {
                 break;
+                }
             }
-        }
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
     }
 
@@ -394,18 +396,18 @@ public class AutoI18n implements Serializable
         catch( MissingResourceException e ) {
             if( methods == null ) {
                 this.exceptionHandler.handleMissingResourceException( e, f, key );
-            }
+                }
             else {
                 this.exceptionHandler.handleMissingResourceException( e, f, key, methods );
+                }
             }
-        }
         catch( IllegalArgumentException e ) {
             this.exceptionHandler.handleIllegalArgumentException( e );
-        }
+            }
         catch( IllegalAccessException e ) {
             this.exceptionHandler.handleIllegalAccessException( e );
+            }
         }
-    }
 
     // Warning !
     // Warning !
@@ -445,23 +447,23 @@ public class AutoI18n implements Serializable
 
                 if( eventHandler!=null ) {
                     eventHandler.localizedField( f );
+                    }
                 }
-            }
             else {
                 if( eventHandler!=null ) {
                     eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NOT_A_I18nString );
+                    }
                 }
-            }
             return;//done
-        }
+            }
         else { // Not a String
             if( f.getAnnotation( I18nString.class ) != null ) {
                 // But annotation
 //                if( eventHandler!=null ) {
 //                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
 //                }
+                }
             }
-        }
         Class<?> fclass = f.getType();
 
         if( AutoI18nBasicInterface.class.isAssignableFrom( fclass ) ) {
@@ -473,9 +475,9 @@ public class AutoI18n implements Serializable
                     );
             if( eventHandler!=null ) {
                 eventHandler.localizedField( f );
-            }
+                }
             return; //done;
-        }
+            }
 
         Key key = new Key( k );
 
@@ -490,18 +492,18 @@ public class AutoI18n implements Serializable
 
                     if( eventHandler!=null ) {
                         eventHandler.localizedField( f );
-                    }
+                        }
                     return;//done
+                    }
                 }
             }
-        }
         catch( MissingResourceException e ) {
             this.exceptionHandler.handleMissingResourceException( e, f, key );
-       }
+            }
 
         if( eventHandler!=null ) {
             eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NOT_HANDLED );
-        }
+            }
     }
 
     /**
@@ -521,57 +523,51 @@ public class AutoI18n implements Serializable
                 methods[0] = this.objectToI18nClass.getMethod( "set"+ suffixName, String.class );
 
                 //TODO: check return type == VOID
-            }
+                }
             catch( SecurityException e ) {
                 this.exceptionHandler.handleSecurityException(e);
-            }
+                }
             catch( NoSuchMethodException e ) {
                 this.exceptionHandler.handleNoSuchMethodException(e);
-            }
+                }
             try {
                 methods[1] = this.objectToI18nClass.getMethod( "get"+ suffixName );
 
                 //TODO: check return type == String
-            }
+                }
             catch( SecurityException e ) {
                 this.exceptionHandler.handleSecurityException(e);
-            }
+                }
             catch( NoSuchMethodException e ) {
                 this.exceptionHandler.handleNoSuchMethodException(e);
-            }
+                }
 
             return methods;
         }
         return null;
     }
 
-    //private void setValueFromAnnotation( Field f, String key, I18n anno )
     private void setValueFromAnnotation( Field f, String key, Method[] methods )
-        throws java.util.MissingResourceException
+        throws MissingResourceException
     {
-        //String methodName = anno.methodName();
         String keyValue = this.i18n.getString( key );
 
         try {
-            //Method m = this.objectToI18nClass.getMethod( methodName, String.class );
             methods[0].invoke( this.objectToI18n, keyValue );
 
             if( eventHandler!=null ) {
                 eventHandler.localizedField( f );
+                }
             }
-        }
-//        catch( SecurityException e ) {
-//            this.exceptionHandler.handleSecurityException(e);
-//        }
         catch( IllegalArgumentException e ) {
             this.exceptionHandler.handleIllegalArgumentException(e);
-        }
+            }
         catch( IllegalAccessException e ) {
             this.exceptionHandler.handleIllegalAccessException(e);
-        }
+            }
         catch( InvocationTargetException e ) {
             this.exceptionHandler.handleInvocationTargetException(e);
-        }
+            }
      }
 
     /**

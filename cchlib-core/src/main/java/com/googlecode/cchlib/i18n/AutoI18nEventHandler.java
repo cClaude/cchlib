@@ -17,12 +17,13 @@ public interface AutoI18nEventHandler
         ANNOTATION_I18nIgnore_DEFINE,
         NOT_HANDLED,
         NOT_A_I18nString
-    }
+        };
+
     /**
      * Call when a Field is ignored
      *
      * @param f ignored Field
-     * @param cause
+     * @param cause Cause
      */
     public void ignoredField(Field f,Cause cause);
 
@@ -31,5 +32,5 @@ public interface AutoI18nEventHandler
      *
      * @param f localized Field
      */
-    public void localizedField(Field f);
+    public void localizedField( Field f );
 }

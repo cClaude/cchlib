@@ -28,5 +28,4 @@ public interface AutoI18nCustomInterface
      * @param i18n {@link I18nInterface} to set
      */
     public void setI18n( I18nInterface i18n );
-
 }
