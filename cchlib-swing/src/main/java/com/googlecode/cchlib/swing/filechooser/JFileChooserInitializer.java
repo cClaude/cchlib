@@ -39,6 +39,7 @@ public class JFileChooserInitializer
      *  @since 4.1.6
      */
     private int attemptMax = 0;
+    
     /** @serial
      * @since 4.1.6
      */
@@ -119,7 +120,7 @@ public class JFileChooserInitializer
      * @param configurator
      */
     public JFileChooserInitializer(
-        JFileChooserInitializerCustomize configurator
+        final JFileChooserInitializerCustomize configurator
         )
     {
         this.configurator = configurator;

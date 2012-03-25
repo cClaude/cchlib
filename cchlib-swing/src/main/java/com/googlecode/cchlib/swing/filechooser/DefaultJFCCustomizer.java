@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+import org.apache.log4j.Logger;
 
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.Attrib;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.DirectoryType;
@@ -17,6 +18,7 @@ public class DefaultJFCCustomizer
     implements JFileChooserInitializerCustomize
 {
     private static final long serialVersionUID = 1L;
+    private final static Logger logger = Logger.getLogger( DefaultJFCCustomizer.class );
     /** @serial */
     private File currentDirectory;
     /** @serial */
@@ -27,6 +29,8 @@ public class DefaultJFCCustomizer
     private JComponent accessory;
     /** @serial */
     private DirectoryType directoryType;
+    private Integer mode;
+    private Boolean isMultiSelectionEnabled;
 
     /**
     *
@@ -61,6 +65,10 @@ public class DefaultJFCCustomizer
     @Override
     public void perfomeConfig( final JFileChooser jfc )
     {
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "perfomeConfig" );
+            }
+        
         if( attributes.contains( Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
             // workaround:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
@@ -88,6 +96,22 @@ public class DefaultJFCCustomizer
 
         if( accessory != null ) {
             jfc.setAccessory( accessory );
+            }
+
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "setFileSelectionMode: " + mode );
+            }
+        if( mode != null ) {
+            jfc.setFileSelectionMode( mode.intValue() );
+            }
+        
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "setMultiSelectionEnabled: " + isMultiSelectionEnabled );
+            }
+        if( isMultiSelectionEnabled != null ) {
+            jfc.setMultiSelectionEnabled(
+                isMultiSelectionEnabled.booleanValue()
+                );
             }
     }
 
@@ -139,10 +163,46 @@ public class DefaultJFCCustomizer
      * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setDirectory(
-            DirectoryType directoryType
+            final DirectoryType directoryType
             )
     {
         this.directoryType = directoryType;
+        return this;
+    }
+
+
+    /**
+     * Sets the JFileChooser to allow the user to just select files,
+     * just select directories, or select both files and directories.
+     * The default is JFilesChooser.FILES_ONLY.
+     *
+     * @param mode the type of files to be displayed:<br/>
+     * JFileChooser.FILES_ONLY<br/>
+     * JFileChooser.DIRECTORIES_ONLY<br/>
+     * JFileChooser.FILES_AND_DIRECTORIES
+     * @return the caller. This allows for easy chaining of invocations.
+     * @since 4.1.7
+     * @see JFileChooser#setFileSelectionMode(int)
+     */
+    public JFileChooserInitializerCustomize setFileSelectionMode(
+        final int mode
+        )
+    {
+        this.mode = Integer.valueOf( mode );
+        return this;
+    }
+
+    /**
+     * Sets the file chooser to allow multiple file selections.
+     *
+     * @param b  true if multiple files may be selected
+     * @return the caller. This allows for easy chaining of invocations.
+     * @since 4.1.7
+     * @see JFileChooser#setMultiSelectionEnabled(boolean)
+     */
+    public JFileChooserInitializerCustomize setMultiSelectionEnabled( boolean b )
+    {
+        this.isMultiSelectionEnabled = Boolean.valueOf( b );
         return this;
     }
 }

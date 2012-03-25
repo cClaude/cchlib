@@ -264,7 +264,8 @@ public class RemoveEmptyDirectories
         if( waitingJFileChooserInitializer == null ) {
             JFileChooserInitializerCustomize configurator
                 //= WaitingJFileChooserInitializer.getDefaultConfigurator();
-                = new LasyJFCCustomizer();
+                = new LasyJFCCustomizer()
+                    .setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
 
             waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
@@ -272,13 +273,22 @@ public class RemoveEmptyDirectories
                     jFileChooserInitializerTitle,
                     jFileChooserInitializerMessage
                     );
+
             }
         return waitingJFileChooserInitializer;
     }
 
     private JFileChooser getJFileChooser()
     {
-        return getWaitingJFileChooserInitializer().getJFileChooser();
+        //return getWaitingJFileChooserInitializer().getJFileChooser();
+        JFileChooser jfc = getWaitingJFileChooserInitializer().getJFileChooser();
+
+        logger.info( "FileSelectionMode = " + jfc.getFileSelectionMode() );
+        logger.info( "JFileChooser.FILES_ONLY:" + JFileChooser.FILES_ONLY );
+        logger.info( "JFileChooser.DIRECTORIES_ONLY:" + JFileChooser.DIRECTORIES_ONLY );
+        logger.info( "JFileChooser.FILES_AND_DIRECTORIES:" + JFileChooser.FILES_AND_DIRECTORIES );
+         
+        return jfc;
     }
 
     @Override

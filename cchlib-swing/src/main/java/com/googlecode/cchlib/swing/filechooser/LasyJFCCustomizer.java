@@ -14,14 +14,12 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 /**
  * TODOC
- *
+ * @since 1.4.7
  */
 public class LasyJFCCustomizer extends DefaultJFCCustomizer
 {
     private static final long serialVersionUID = 2L;
     private LastSelectedFilesAccessoryConfigurator lSFAConf;
-    private int fileSelectionMode;
-    private boolean isMultiSelectionEnabled;
 
     /**
      * TODOC
@@ -55,8 +53,9 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
         )
     {
         this.lSFAConf = configurator;
-        this.fileSelectionMode = fileSelectionMode;
-        this.isMultiSelectionEnabled = isMultiSelectionEnabled;
+        
+        setFileSelectionMode( fileSelectionMode );
+        setMultiSelectionEnabled( isMultiSelectionEnabled );
     }
 
     /**
@@ -66,8 +65,8 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     {
         super.perfomeConfig( jfc );
 
-        jfc.setFileSelectionMode( getFileSelectionMode() );
-        jfc.setMultiSelectionEnabled( true );
+        //jfc.setFileSelectionMode( getFileSelectionMode() );
+        //jfc.setMultiSelectionEnabled( true );
 
         HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
         TabbedAccessory     tabAcc = new TabbedAccessory()
@@ -107,23 +106,23 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
         return this.lSFAConf;
     }
 
-    /**
-     * Returns value to set using {@link JFileChooser#setFileSelectionMode(int)}
-     * @return value to set using {@link JFileChooser#setFileSelectionMode(int)}
-     */
-    public int getFileSelectionMode()
-    {
-        return fileSelectionMode;
-    }
+//    /**
+//     * Returns value to set using {@link JFileChooser#setFileSelectionMode(int)}
+//     * @return value to set using {@link JFileChooser#setFileSelectionMode(int)}
+//     */
+//    public int getFileSelectionMode()
+//    {
+//        return fileSelectionMode;
+//    }
 
-    /**
-     * Returns value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
-     * @return value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
-     */
-    public boolean isMultiSelectionEnabled()
-    {
-        return isMultiSelectionEnabled;
-    }
+//    /**
+//     * Returns value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
+//     * @return value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
+//     */
+//    public boolean isMultiSelectionEnabled()
+//    {
+//        return isMultiSelectionEnabled;
+//    }
 
 }
 
