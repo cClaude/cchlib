@@ -293,12 +293,11 @@ public class JPanelResultListModel
         final Set<KeyFileState> s
         )
     {
-        this.key = key;
-
         if( logger.isTraceEnabled() ) {
             logger.trace( "setKeepDelete: " + s );
             }
-//      Set<KeyFileState>       s  = duplicateFiles.get( key );
+        this.key = key;
+
       SortedSet<KeyFileState> ss = new TreeSet<KeyFileState>();
 
       ss.addAll( s );
@@ -334,7 +333,10 @@ public class JPanelResultListModel
         //
         Set<KeyFileState> kfs = duplicateFiles.get( this.key );
 
-        setKeepDelete( this.key, kfs );
+        if( kfs != null ) {
+            setKeepDelete( this.key, kfs );
+            }
+        // else no values
 
         //logger.info( "clearSelected() done" );
     }

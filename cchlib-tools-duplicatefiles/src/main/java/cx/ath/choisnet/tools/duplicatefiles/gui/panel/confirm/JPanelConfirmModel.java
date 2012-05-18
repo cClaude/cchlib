@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.confirm;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -19,14 +19,15 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     private int size;
     private ArrayList<KeyFileState> cache = new ArrayList<>();
     private Boolean[] isDeleted;
-    //private ArrayList<Long> cacheFileLength = new ArrayList<>();
+    // need to cache files lengths, to display length even when
+    // a file will be deleted.
+    private ArrayList<Long> cacheFileLength = new ArrayList<>();
 
     public JPanelConfirmModel(
         final HashMapSet<String,KeyFileState> dupFiles
         )
     {
         this.dupFiles = dupFiles;
-        //this.size       = getSize();
 
         buildCache();
     }
@@ -38,7 +39,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
         for( KeyFileState f:dupFiles ) {
             if( f.isSelectedToDelete() ) {
                 this.cache.add( f );
-                //this.cacheFileLength.add( f.getFile().length() );
+                this.cacheFileLength.add( f.getFile().length() );
                 index++;
                 }
             }
@@ -66,8 +67,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
      */
     public long getFileLength( int index )
     {
-        //return this.cacheFileLength.get( index );
-        return get( index ).getFile().length();
+        return this.cacheFileLength.get( index );
     }
 
     /**
@@ -85,5 +85,4 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     {
         this.isDeleted[ index ] = deleted;
     }
-
 }

@@ -1,4 +1,4 @@
-package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
+package cx.ath.choisnet.tools.duplicatefiles.gui.panel.confirm;
 
 import java.awt.Component;
 import java.util.Iterator;

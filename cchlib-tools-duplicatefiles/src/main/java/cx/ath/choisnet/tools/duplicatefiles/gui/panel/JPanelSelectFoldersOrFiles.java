@@ -17,6 +17,8 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.dnd.FileDrop;
+import com.googlecode.cchlib.apps.duplicatefiles.dnd.FileDropListener;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.textfield.XTextField;
@@ -41,7 +43,7 @@ import javax.swing.JLabel;
 public class JPanelSelectFoldersOrFiles extends JPanel
 {
     private static final long serialVersionUID = 4L;
-    private Logger slogger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
+    private static transient Logger logger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
 
     private JTable jTableSelectedFoldersOrFiles;
     private XTextField jTextFieldCurrentDir;
@@ -178,6 +180,20 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jTableSelectedFoldersOrFiles = new JTable();
             scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
         }
+
+        FileDropListener dropListener = new FileDropListener()
+        {
+            @Override
+            public void filesDropped( List<File> files )
+            {
+                for( File f:files ) {
+                    logger.info( "add drop file:" + f );
+                    addEntry( f, false );
+                    }
+            }
+        };
+
+        new FileDrop( this, dropListener );
     }
 
     /**
@@ -269,7 +285,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     File[] files = jfc.getSelectedFiles();
 
                     for(File f:files) {
-                        slogger.info( "selected dir:" + f );
+                        logger.info( "selected dir:" + f );
                         addEntry( f, false );
                         }
                     }
@@ -294,7 +310,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     File[] files = jfc.getSelectedFiles();
 
                     for(File f:files) {
-                        slogger.info( "selected file:" + f );
+                        logger.info( "selected file:" + f );
                         addEntry( f, false );
                         }
                     }
@@ -357,13 +373,13 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     }
 //                filesList.add( new FileOrFolder( f, ignore ) );
                 tableModelSelectedFoldersOrFiles.fireTableDataChanged();
-                slogger.info( "add: " + f );
+                logger.info( "add: " + f );
 //                slogger.info( "size: " + filesList.size() );
                 return true;
                 }
             else {
                 // TODO: Explain reason in a dialog
-                slogger.warn( "Value already exist: " + f );
+                logger.warn( "Value already exist: " + f );
                 }
             }
 
