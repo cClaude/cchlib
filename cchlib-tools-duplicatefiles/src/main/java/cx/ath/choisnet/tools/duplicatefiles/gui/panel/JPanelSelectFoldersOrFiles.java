@@ -17,8 +17,8 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.dnd.FileDrop;
-import com.googlecode.cchlib.apps.duplicatefiles.dnd.FileDropListener;
+import com.googlecode.cchlib.apps.duplicatefiles.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.apps.duplicatefiles.dnd.SimpleFileDropListener;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.textfield.XTextField;
@@ -181,7 +181,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
         }
 
-        FileDropListener dropListener = new FileDropListener()
+        SimpleFileDropListener dropListener = new SimpleFileDropListener()
         {
             @Override
             public void filesDropped( List<File> files )
@@ -193,7 +193,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
         };
 
-        new FileDrop( this, dropListener );
+        new SimpleFileDrop( this, dropListener ).addDropTargetListener();
     }
 
     /**

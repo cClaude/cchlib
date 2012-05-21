@@ -15,7 +15,7 @@ import java.util.List;
  *      ...
  * </pre></code>
  */
-public interface FileDropListener
+public interface FileDropListenerOLD
 {
     /**
      * This method is called when files have been successfully dropped.

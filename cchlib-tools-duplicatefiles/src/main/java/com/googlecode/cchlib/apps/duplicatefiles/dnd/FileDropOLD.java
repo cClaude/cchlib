@@ -73,9 +73,9 @@ import org.apache.log4j.Logger;
  * @author Robert Harder
  * @author rharder@users.sf.net
  */
-public class FileDrop
+public class FileDropOLD
 {
-    private static transient Logger logger = Logger.getLogger( FileDrop.class );
+    private static transient Logger logger = Logger.getLogger( FileDropOLD.class );
     private transient Border             normalBorder;
     private transient DropTargetListener dropListener;
 
@@ -95,10 +95,10 @@ public class FileDrop
      * @param recursive Recursively set children as drop targets.
      * @param fileDropListener Listens for <tt>filesDropped</tt>.
      */
-    public FileDrop(
+    public FileDropOLD(
             final Component         dropTarget,
             final boolean           recursive,
-            final FileDropListener  fileDropListener
+            final FileDropListenerOLD  fileDropListener
             )
     {
         this(   dropTarget,
@@ -113,9 +113,9 @@ public class FileDrop
      * @param dropTarget       Component on which files will be dropped.
      * @param fileDropListener Listens for <tt>filesDropped</tt>.
      */
-    public FileDrop(
+    public FileDropOLD(
             final Component         dropTarget,
-            final FileDropListener  fileDropListener
+            final FileDropListenerOLD  fileDropListener
             )
     {
         this(   dropTarget,
@@ -133,11 +133,11 @@ public class FileDrop
      * @param recursive Recursively set children as drop targets.
      * @param fileDropListener Listens for <tt>filesDropped</tt>.
      */
-    public FileDrop(
+    public FileDropOLD(
             final Component dropTarget,
             final Border dragBorder,
             final boolean recursive,
-            final FileDropListener fileDropListener
+            final FileDropListenerOLD fileDropListener
             )
     {
         if( supportsDnD() ) { // Make a drop listener
