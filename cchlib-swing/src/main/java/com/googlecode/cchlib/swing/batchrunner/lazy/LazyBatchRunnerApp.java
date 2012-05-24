@@ -7,10 +7,10 @@ import java.awt.Window;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.EnableListener;
 
@@ -25,6 +25,7 @@ public abstract class LazyBatchRunnerApp
     implements  LazyBatchRunner,
                 LazyBatchRunnerLocaleResources
 {
+    private final static Logger logger = Logger.getLogger( LazyBatchRunnerApp.class );
     private DefaultBatchRunnerJFrame frame;
     protected final ResourceBundle resourceBundle;
     private final LazyBatchRunnerCustomJPanelFactory customJPanelFactory;
@@ -150,11 +151,9 @@ public abstract class LazyBatchRunnerApp
                     frame.setVisible(true);
                     }
                 catch( Exception e ) {
-                    e.printStackTrace();
-                    DialogHelper.showMessageExceptionDialog(
-                            getTextFrameTitle(),
-                            e
-                            );
+                    final String message = getTextFrameTitle();
+                    logger.error( message, e );
+                    DialogHelper.showMessageExceptionDialog( message, e );
                     }
             }
         });

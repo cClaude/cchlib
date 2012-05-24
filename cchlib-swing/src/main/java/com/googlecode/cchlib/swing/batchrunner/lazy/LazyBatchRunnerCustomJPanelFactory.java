@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import javax.swing.JPanel;
-
 import com.googlecode.cchlib.swing.batchrunner.EnableListener;
 
 /**

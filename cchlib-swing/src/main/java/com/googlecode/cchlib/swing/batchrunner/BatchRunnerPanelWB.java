@@ -6,16 +6,22 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.TooManyListenersException;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JProgressBar;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.batchrunner.lazy.DefaultBatchRunnerJFrame;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 
 /**
  * Build JPanel for task runner display
@@ -27,6 +33,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.DefaultBatchRunnerJFrame;
 public abstract class BatchRunnerPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( BatchRunnerPanelWB.class );
     public static final String ACTIONCMD_SELECT_SOURCE_FILES = "ACTIONCMD_SELECT_SOURCE_FILES";
     public static final String ACTIONCMD_SELECT_DESTINATION_FOLDER = "ACTIONCMD_SELECT_DESTINATION_FOLDER";
     public static final String ACTIONCMD_DO_ACTION = "ACTIONCMD_DO_ACTION";
@@ -86,8 +93,23 @@ public abstract class BatchRunnerPanelWB extends JPanel
             // $hide>>$ BUG WindowBuilder ???
             JList<File> list = new JList<>();
             listModel = new DefaultListModel<File>();
-            list.setModel( listModel);
+            list.setModel( listModel );
             scrollPane.setViewportView(list);
+
+            try {
+                new SimpleFileDrop( list, new SimpleFileDropListener() {
+                        @Override
+                        public void filesDropped( List<File> files )
+                        {
+                            for( File f : files ) {
+                                listModel.addElement( f );
+                                }
+                        }
+                    } ).addDropTargetListener();
+                }
+            catch( HeadlessException | TooManyListenersException e ) {
+                logger.error( "No Drag and Drop support", e );
+                }
             // $hide<<$
         }
         {
