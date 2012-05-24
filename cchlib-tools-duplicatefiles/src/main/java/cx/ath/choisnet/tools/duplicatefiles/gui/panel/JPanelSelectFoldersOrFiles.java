@@ -2,12 +2,14 @@ package cx.ath.choisnet.tools.duplicatefiles.gui.panel;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TooManyListenersException;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -17,10 +19,10 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.apps.duplicatefiles.dnd.SimpleFileDropListener;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import com.googlecode.cchlib.swing.textfield.XTextField;
 import com.googlecode.cchlib.util.iterator.iterable.BiIterator;
 
@@ -70,8 +72,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     /**
      * Create the panel.
+     * @throws TooManyListenersException
+     * @throws HeadlessException
      */
     public JPanelSelectFoldersOrFiles( DFToolKit dFToolKit )
+        throws HeadlessException, TooManyListenersException
     {
         this.dFToolKit = dFToolKit;
 

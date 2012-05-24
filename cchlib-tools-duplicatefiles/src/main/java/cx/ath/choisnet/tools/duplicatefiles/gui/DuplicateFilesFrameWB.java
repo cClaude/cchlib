@@ -11,6 +11,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenuItem;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
@@ -25,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.CardLayout;
+import java.util.TooManyListenersException;
 
 /**
  * Main frame layout.
@@ -75,8 +77,11 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     /**
      * Create the frame.
      * @param dfToolKit
+     * @throws TooManyListenersException
+     * @throws HeadlessException
      */
     public DuplicateFilesFrameWB()
+        throws HeadlessException, TooManyListenersException
     {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -311,9 +316,12 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 //    }
 
     /**
+     * @throws TooManyListenersException
+     * @throws HeadlessException
      * @wbp.factory
      */
     public JPanelSelectFoldersOrFiles createJPanel0Select()
+        throws HeadlessException, TooManyListenersException
     {
         return new JPanelSelectFoldersOrFiles( getDFToolKit() );
     }

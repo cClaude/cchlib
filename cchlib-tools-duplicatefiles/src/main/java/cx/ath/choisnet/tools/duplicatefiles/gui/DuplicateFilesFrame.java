@@ -1,5 +1,6 @@
 package cx.ath.choisnet.tools.duplicatefiles.gui;
 
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.TooManyListenersException;
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
@@ -93,6 +95,7 @@ final public class DuplicateFilesFrame
     public DuplicateFilesFrame(
         final Preferences preferences
         )
+        throws HeadlessException, TooManyListenersException
     {
         super();
 
