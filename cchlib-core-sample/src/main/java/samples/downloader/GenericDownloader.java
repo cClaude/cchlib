@@ -23,7 +23,6 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
 public abstract class GenericDownloader
 {
     private final URLCache cache;
-    //private final File  tempDirectoryFile;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
     private final Proxy proxy;
@@ -58,7 +57,6 @@ public abstract class GenericDownloader
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            //final File              tempDirectoryFile,
             final File              destinationDirectoryFile,
             final int               downloadMaxThread,
             final Proxy             proxy,

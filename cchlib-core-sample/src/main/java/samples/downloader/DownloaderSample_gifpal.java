@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class DownloaderSample_gifpal
+    implements GenericDownloaderAppInterface
 {
     private final static Logger logger = Logger.getLogger( DownloaderSample_gifpal.class );
 
@@ -48,7 +49,7 @@ public class DownloaderSample_gifpal
         };
 
     // number of pages to explore
-    private final static int MAX_PAGES = 5;
+    private final static int MAX_PAGES = 2;
 
     /**
      * param1 = image_id
@@ -164,5 +165,29 @@ public class DownloaderSample_gifpal
         mylogger.info( "destinationFolderFile = " + destinationFolderFile );
         instance.downloadAll();
         mylogger.info( "done" );
+    }
+
+    @Override
+    public String getSiteName()
+    {
+        return "gifpal.com";
+    }
+
+    @Override
+    public int getNumberOfPicturesByPage()
+    {
+        return 10; // FIXME
+    }
+
+    @Override
+    public int getDefaultPageCount()
+    {
+        return 5;
+    }
+
+    @Override
+    public int getMaxPageCount()
+    {
+        return Integer.MAX_VALUE;
     }
 }

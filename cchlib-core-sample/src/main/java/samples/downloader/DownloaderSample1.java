@@ -17,6 +17,7 @@ import java.util.Set;
  *
  */
 public class DownloaderSample1
+    implements GenericDownloaderAppInterface
 {
     //
     private final static Proxy PROXY = Proxy.NO_PROXY;
@@ -141,4 +142,27 @@ public class DownloaderSample1
         instance.downloadAll();
         logger.info( "done" );
     }
-}
+
+    @Override
+    public String getSiteName()
+    {
+        return "bloggif.com";
+    }
+
+    @Override
+    public int getNumberOfPicturesByPage()
+    {
+        return 10; // FIXME
+    }
+
+    @Override
+    public int getDefaultPageCount()
+    {
+        return 5;
+    }
+
+    @Override
+    public int getMaxPageCount()
+    {
+        return Integer.MAX_VALUE;
+    }}

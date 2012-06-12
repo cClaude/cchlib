@@ -15,6 +15,7 @@ import java.util.Iterator;
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
 public class DownloaderSample2 //extends GenericDownloader
+    implements GenericDownloaderAppInterface
 {
     private final static int    DOWNLOAD_THREAD = 20;
     //private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
@@ -134,4 +135,27 @@ public class DownloaderSample2 //extends GenericDownloader
         logger.info( "done" );
     }
 
+    @Override
+    public String getSiteName()
+    {
+        return "epins.fr";
+    }
+
+    @Override
+    public int getNumberOfPicturesByPage()
+    {
+        return 10; // FIXME
+    }
+
+    @Override
+    public int getDefaultPageCount()
+    {
+        return 5;
+    }
+
+    @Override
+    public int getMaxPageCount()
+    {
+        return Integer.MAX_VALUE;
+    }
 }
