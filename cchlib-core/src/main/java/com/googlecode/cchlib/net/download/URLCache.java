@@ -1,13 +1,20 @@
 package com.googlecode.cchlib.net.download;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.Writer;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import javax.swing.event.EventListenerList;
-import cx.ath.choisnet.io.SerializableHelper;
 
 /**
  * TODOC
@@ -20,6 +27,7 @@ public class URLCache implements Serializable
     protected EventListenerList listenerList = new EventListenerList();
     private static final long serialVersionUID = 2L;
     private CacheContent cache;
+    private final File cacheRootDirFile;
     private File cacheFile;
     private boolean autostore;
     private int autostoreThreshold = 50;
@@ -28,35 +36,46 @@ public class URLCache implements Serializable
     /**
      * Create a new URLCache
      */
-    public URLCache()
+    public URLCache(  final File cacheRootDirFile )
     {
-        this.cache = new CacheContent();
-        this.autostore = false;
+        this.cacheRootDirFile = cacheRootDirFile;
+        this.cache            = new CacheContent();
+        this.autostore        = false;
     }
+
+//    /**
+//     * Create a new URLCache using giving cacheFile
+//     *
+//     * @param cacheFile {@link File} to use has cache
+//     * @throws IllegalStateException if cache file exist but can not be read
+//     */
+//    public URLCache( final File cacheRootDirFile, final File cacheFile )
+//    {
+//        this.cacheRootDirFile = cacheRootDirFile;
+//
+//        setCacheFile( cacheFile );
+//
+//        try {
+//            load();
+//            }
+//        catch( FileNotFoundException e ) {
+//            this.cache = new CacheContent();
+//            }
+//        catch( Exception e ) {
+//            throw new IllegalStateException( e );
+//            }
+//
+//        this.autostore = true;
+//    }
 
     /**
-     * Create a new URLCache using giving cacheFile
-     *
-     * @param cacheFile {@link File} to use has cache
-     * @throws IllegalStateException if cache file exist but can not be read
+     * Returns temporary directory {@link File} for this cache.
+     * @return temporary directory {@link File} for this cache.
      */
-    public URLCache( final File cacheFile )
+    public File getTempDirectoryFile()
     {
-        setCacheFile( cacheFile );
-
-        try {
-            load();
-            }
-        catch( FileNotFoundException e ) {
-            this.cache = new CacheContent();
-            }
-        catch( Exception e ) {
-            throw new IllegalStateException( e );
-            }
-
-        this.autostore = true;
+        return this.cacheRootDirFile;
     }
-
     /**
      * Check if an {@link URL} is in cache
      *
@@ -67,12 +86,12 @@ public class URLCache implements Serializable
      */
     public boolean isInCache( final URL url )
     {
-        URLCacheEntry entry = get( url );
+        URLDataCacheEntry entry = get( url );
 
         if( entry != null ) {
             // TODO: allow to define a relative filename
             // (add set/get cacheHomeDirectory File)
-            File f = new File( entry.getFilename() );
+            File f = new File( cacheRootDirFile, entry.getRelativeFilename() );
 
             return f.isFile();
             }
@@ -82,13 +101,14 @@ public class URLCache implements Serializable
     /**
      * Add a new ({@link URL},filename) couple in cache
      *
-     * @param url       {@link URL} for this filename
-     * @param filename  Local filename
+     * @param url             {@link URL} for this filename
+     * @param contentHashCode URL content Hash code, or null
+     * @param filename        Local filename
      */
     synchronized
-    public void add( final URL url, final String filename )
+    public void add( final URL url, final String contentHashCode, final String filename )
     {
-        cache.put( url, new DefaultURLCacheEntry( url, filename ) );
+        cache.put( url, new DefaultURLCacheEntry( contentHashCode, filename ) );
 
         this.modificationCount++;
         autoStore();
@@ -101,7 +121,7 @@ public class URLCache implements Serializable
      * @return {@link URLCacheEntry} for giving url if in cache, null otherwise
      */
     synchronized
-    public URLCacheEntry get( final URL url )
+    public URLDataCacheEntry get( final URL url )
     {
         return cache.get( url );
     }
@@ -123,12 +143,12 @@ public class URLCache implements Serializable
      * @return filename for giving {@link URL},
      *         or null if URL is not in cache
      */
-    public String getFilename( final URL url )
+    public String getRelativeFilename( final URL url )
     {
-        URLCacheEntry entry = get( url );
+        URLDataCacheEntry entry = get( url );
 
         if( entry != null ) {
-            return entry.getFilename();
+            return entry.getRelativeFilename();
             }
         else {
             return null;
@@ -212,7 +232,29 @@ public class URLCache implements Serializable
     synchronized
     public void load() throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        this.cache = SerializableHelper.loadObject( cacheFile, cache.getClass() );
+        //this.cache = SerializableHelper.loadObject( getCacheFile(), cache.getClass() );
+
+        //CacheContent cache2 = new CacheContent();
+        BufferedReader r = new BufferedReader( new FileReader( getCacheFile() ) );
+
+        for(;;) {
+            String hashCode = r.readLine(); // ignored FIXME
+            if( hashCode == null ) {
+                break; // EOF
+                }
+            else if( hashCode.isEmpty() ) {
+                hashCode = null;
+                }
+            URL    url      = new URL( r.readLine() );
+            Date   date     = new Date( Long.parseLong( r.readLine() ) );
+            String filename = r.readLine();
+
+            cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
+            }
+        r.close();
+
+        //Logger.getLogger( this.getClass() ).info( "cache " + cache.size() );
+        //Logger.getLogger( this.getClass() ).info( "cache2 " + cache2.size() );
     }
 
     /**
@@ -223,7 +265,26 @@ public class URLCache implements Serializable
     synchronized
     public void store() throws IOException
     {
-        SerializableHelper.toFile( cache, cacheFile );
+        //SerializableHelper.toFile( cache, getCacheFile() );
+
+        // store using simple text file.
+        Writer w = new BufferedWriter( new FileWriter( getCacheFile() ) );
+
+        for( URLFullCacheEntry entry : cache ) {
+            final String contentHashCode = entry.getContentHashCode();
+
+            if( contentHashCode != null ) {
+                w.append( contentHashCode.trim() ).append( '\n' );
+                }
+            else {
+                w.append( '\n' );
+                }
+            w.append( entry.getURL().toExternalForm() ).append( '\n' );
+            w.append( Long.toString( entry.getDate().getTime() ) ).append( '\n' );
+            w.append( entry.getRelativeFilename() ).append( '\n' );
+            }
+        w.flush();
+        w.close();
 
         this.modificationCount = 0;
     }
@@ -242,12 +303,12 @@ public class URLCache implements Serializable
             }
     }
 
-    // Workaround for generic warning...
-    private class CacheContent implements Serializable
+    // Workaround for generic warning when restore object using standard serialization
+    private class CacheContent implements Serializable, Iterable<URLFullCacheEntry>
     {
         private static final long serialVersionUID = 3L;
-        private HashMap<URL,URLCacheEntry> cc = new HashMap<URL,URLCacheEntry>();
-        public void put( URL key, URLCacheEntry value )
+        private HashMap<URL,URLDataCacheEntry> cc = new HashMap<URL,URLDataCacheEntry>();
+        public void put( URL key, URLDataCacheEntry value )
         {
             cc.put( key, value );
         }
@@ -259,9 +320,59 @@ public class URLCache implements Serializable
         {
             cc.clear();
         }
-        public URLCacheEntry get( URL url )
+        public URLDataCacheEntry get( URL url )
         {
             return cc.get( url );
+        }
+        @Override
+        public Iterator<URLFullCacheEntry> iterator()
+        {
+            return new Iterator<URLFullCacheEntry>()
+            {
+                final Iterator<Map.Entry<URL,URLDataCacheEntry>> parent = cc.entrySet().iterator();
+
+                @Override
+                public boolean hasNext()
+                {
+                    return parent.hasNext();
+                }
+                @Override
+                public URLFullCacheEntry next()
+                {
+                    final Map.Entry<URL,URLDataCacheEntry> entry = parent.next();
+                    final URL               url   =  entry.getKey();
+                    final URLDataCacheEntry value = entry.getValue();
+
+                    return new URLFullCacheEntry()
+                    {
+                        @Override
+                        public URL getURL()
+                        {
+                            return url;
+                        }
+                        @Override
+                        public Date getDate()
+                        {
+                            return value.getDate();
+                        }
+                        @Override
+                        public String getRelativeFilename()
+                        {
+                            return value.getRelativeFilename();
+                        }
+                        @Override
+                        public String getContentHashCode()
+                        {
+                            return value.getContentHashCode();
+                        }
+                    };
+                }
+                @Override
+                public void remove()
+                {
+                    throw new UnsupportedOperationException();
+                }
+            };
         }
     }
 
@@ -304,5 +415,4 @@ public class URLCache implements Serializable
                 }
             }
     }
-
 }
