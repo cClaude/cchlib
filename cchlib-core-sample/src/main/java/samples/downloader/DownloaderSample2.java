@@ -64,7 +64,7 @@ public class DownloaderSample2 //extends GenericDownloader
 
         GenericDownloader instance
             = new GenericDownloader(
-                destinationFolderFile,
+                //destinationFolderFile,
                 destinationFolderFile,
                 DOWNLOAD_THREAD,
                 PROXY,

@@ -48,7 +48,7 @@ public class DownloaderSample_gifpal
         };
 
     // number of pages to explore
-    private final static int MAX_PAGES = 50;
+    private final static int MAX_PAGES = 5;
 
     /**
      * param1 = image_id
@@ -91,7 +91,7 @@ public class DownloaderSample_gifpal
 
         GenericDownloader instance
             = new GenericDownloader(
-                destinationFolderFile,
+                //destinationFolderFile,
                 destinationFolderFile,
                 DOWNLOAD_THREAD,
                 PROXY,

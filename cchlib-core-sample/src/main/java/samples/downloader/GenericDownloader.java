@@ -22,9 +22,8 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  */
 public abstract class GenericDownloader
 {
-    private final URLCache cache = new URLCache();
-
-    private final File  tempDirectoryFile;
+    private final URLCache cache;
+    //private final File  tempDirectoryFile;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
     private final Proxy proxy;
@@ -59,7 +58,7 @@ public abstract class GenericDownloader
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            final File              tempDirectoryFile,
+            //final File              tempDirectoryFile,
             final File              destinationDirectoryFile,
             final int               downloadMaxThread,
             final Proxy             proxy,
@@ -67,20 +66,20 @@ public abstract class GenericDownloader
             )
         throws /*NoSuchAlgorithmException,*/ IOException, ClassNotFoundException
     {
-        this.tempDirectoryFile          = tempDirectoryFile;
+        //this.tempDirectoryFile          = tempDirectoryFile;
         this.destinationDirectoryFile   = destinationDirectoryFile;
         this.downloadMaxThread          = downloadMaxThread;
         this.proxy                      = proxy;
         this.logger                     = logger;
 
+        this.cache = new URLCache( destinationDirectoryFile );
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
-        this.cache.setAutoStorage(true);
+        this.cache.setAutoStorage( true );
 
         try  {
             this.cache.load();
             }
         catch( FileNotFoundException ignore ) {
-            //println( "* warn: cache file not found - " + this.cache.getCacheFile() );
             this.logger.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
         catch( Exception ignore ) {
@@ -140,7 +139,8 @@ public abstract class GenericDownloader
             {
                 logger.info( "Start downloading: " + url );
 
-                return File.createTempFile( "pic", null, tempDirectoryFile );
+                //return File.createTempFile( "pic", null, tempDirectoryFile );
+                return File.createTempFile( "pic", null, cache.getTempDirectoryFile() );
             }
             @Override
             public void downloadFail( URL url, Throwable cause )
@@ -196,7 +196,7 @@ public abstract class GenericDownloader
 
                     if( isRename ) {
                         logger.info( "new file > " + ffile );
-                        cache.add( url, ffile.getName() );
+                        cache.add( url, hashCodeString, ffile.getName() );
                         }
                     else {
                         logger.info( "*** already exists ? " + ffile );
