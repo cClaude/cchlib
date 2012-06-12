@@ -45,7 +45,7 @@ public class DownloaderSample1
         instance.downloadAll();
         instance.println( "done" );
 */
-        final GenericDownloader.Logger logger = new GenericDownloader.Logger()
+        final GenericDownloader.AbstractLogger logger = new GenericDownloader.AbstractLogger()
         {
             @Override
             public void warn( String msg )

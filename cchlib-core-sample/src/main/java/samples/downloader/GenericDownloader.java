@@ -28,14 +28,26 @@ public abstract class GenericDownloader
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
     private final Proxy proxy;
-    private final Logger logger;
+    private final AbstractLogger logger;
 
-    public interface Logger
+    /**
+     *
+     */
+    public interface AbstractLogger
     {
         public void warn( String msg );
         public void info( String msg );
         public void error( URL url, Throwable cause );
     }
+
+    /**
+     * Returns an {@link Iterable} object of {@link URL}s to download,
+     * must be implement by parent class.
+     * @return an {@link Iterable} object of {@link URL}s to download
+     * @throws IOException
+     */
+    protected abstract Iterable<URL> collectURLs() throws IOException;
+
 
     /**
      *
@@ -47,11 +59,11 @@ public abstract class GenericDownloader
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            final File      tempDirectoryFile,
-            final File      destinationDirectoryFile,
-            final int       downloadMaxThread,
-            final Proxy     proxy,
-            final Logger    logger
+            final File              tempDirectoryFile,
+            final File              destinationDirectoryFile,
+            final int               downloadMaxThread,
+            final Proxy             proxy,
+            final AbstractLogger    logger
             )
         throws /*NoSuchAlgorithmException,*/ IOException, ClassNotFoundException
     {
@@ -63,7 +75,7 @@ public abstract class GenericDownloader
 
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
         this.cache.setAutoStorage(true);
-        
+
         try  {
             this.cache.load();
             }
@@ -75,9 +87,6 @@ public abstract class GenericDownloader
             this.logger.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
     }
-
-    //protected abstract void println( String msg );
-    protected abstract Iterable<URL> collectURLs() throws IOException;
 
     /**
      *
@@ -95,7 +104,6 @@ public abstract class GenericDownloader
             @Override
             public void downloadStart( final URL url )
             {
-                //println( "Start downloading: " + url );
                 logger.info( "Start downloading: " + url );
             }
             @Override
@@ -106,10 +114,6 @@ public abstract class GenericDownloader
             @Override
             public void downloadFail( final URL url, final Throwable cause )
             {
-                // Improve: retry ? add count ?
-                // Runnable command = new DownloadToString( this, url );
-                // downloadExecutor.execute( command );
-                //println( "*ERROR:" + url + " - " + cause );
                 logger.error( url, cause );
             }
         };
@@ -134,7 +138,6 @@ public abstract class GenericDownloader
             @Override
             public File downloadStart( URL url ) throws IOException
             {
-                //println( "Start downloading: " + url );
                 logger.info( "Start downloading: " + url );
 
                 return File.createTempFile( "pic", null, tempDirectoryFile );
@@ -142,10 +145,6 @@ public abstract class GenericDownloader
             @Override
             public void downloadFail( URL url, Throwable cause )
             {
-                // Improve: retry ? add count ?
-                // Runnable command = new DownloadToFile( this, url );
-                // downloadExecutor.execute( command );
-                //println( "***ERROR:" + url + " - " + cause );
                 logger.error( url, cause );
 
 //                if( cause instanceof FileNotFoundException ) {
@@ -196,12 +195,10 @@ public abstract class GenericDownloader
                     boolean isRename = file.renameTo( ffile );
 
                     if( isRename ) {
-                        //println( "new file > " + ffile );
                         logger.info( "new file > " + ffile );
                         cache.add( url, ffile.getName() );
                         }
                     else {
-                        //println( "*** already exists ? " + ffile );
                         logger.info( "*** already exists ? " + ffile );
                         }
                     }
@@ -223,7 +220,6 @@ public abstract class GenericDownloader
         for( URL u: urls ) {
             if( cache.isInCache( u ) ) {
                 // skip this entry !
-                //println( "Already loaded: " + u );
                 logger.info( "Already loaded: " + u );
                 }
             else {

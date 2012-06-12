@@ -48,7 +48,7 @@ public class DownloaderSample_gifpal
         };
 
     // number of pages to explore
-    private final static int MAX_PAGES = 200;
+    private final static int MAX_PAGES = 50;
 
     /**
      * param1 = image_id
@@ -66,7 +66,7 @@ public class DownloaderSample_gifpal
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.gifpal.com" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
-        final GenericDownloader.Logger mylogger = new GenericDownloader.Logger()
+        final GenericDownloader.AbstractLogger mylogger = new GenericDownloader.AbstractLogger()
         {
             @Override
             public void warn( String msg )
@@ -119,9 +119,6 @@ public class DownloaderSample_gifpal
 
                 final String[] regexps = {
                     "\\{\"image\"\\:\"",
-                    //"{\"image\"\\:\""
-                    //"<img class=\"img_progress ...\" src=\"",
-                    //"<img class=\"img_progress ....\" src=\""
                     };
 
                 Set<URL> imagesURLCollection = new HashSet<URL>();
@@ -135,7 +132,6 @@ public class DownloaderSample_gifpal
                         int     end = s.indexOf( '"' );
                         String  src = s.substring( 0, end );
 
-                        //imagesURLCollection.add( new URL( serverRootURLString + src ) );
                         imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
                         }
                     }

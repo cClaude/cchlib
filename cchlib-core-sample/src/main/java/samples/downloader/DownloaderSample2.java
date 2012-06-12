@@ -43,7 +43,7 @@ public class DownloaderSample2 //extends GenericDownloader
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), CACHE_FOLDER_NAME ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
-        final GenericDownloader.Logger logger = new GenericDownloader.Logger()
+        final GenericDownloader.AbstractLogger logger = new GenericDownloader.AbstractLogger()
         {
             @Override
             public void warn( String msg )
