@@ -86,10 +86,10 @@ public abstract class GenericDownloader
     }
 
     /**
-     *
-     * @param urls
-     * @return list of urls
-     * @throws IOException
+     * Return a list of String with content of all URLS download content.
+     * @param urls {@link Iterable} object of {@link URL}s to parses
+     * @return  a list of String with content of all URLS download content.
+     * @throws IOException if any
      */
     protected List<String> loads( final Iterable<URL> urls ) throws IOException
     {

@@ -2,14 +2,17 @@ package samples.downloader;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import samples.downloader.GenericDownloader.AbstractLogger;
 
 /**
  *
@@ -19,8 +22,8 @@ import java.util.Set;
 public class DownloaderSample1
     implements GenericDownloaderAppInterface
 {
-    //
-    private final static Proxy PROXY = Proxy.NO_PROXY;
+    //private final static Proxy PROXY = Proxy.NO_PROXY;
+    private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
     // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
     // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
     // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("proxy.orange.fr", 8080));
@@ -30,6 +33,7 @@ public class DownloaderSample1
 
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
+    private List<URL> _htmlURLList = null;
 
     /**
      * Start Sample here !
@@ -39,14 +43,10 @@ public class DownloaderSample1
     {
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.bloggif.com" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
-/*
-        DownloaderSample1 instance0 = new DownloaderSample1( destinationFolderFile );
 
-        instance.println( "destinationFolderFile = " + destinationFolderFile );
-        instance.downloadAll();
-        instance.println( "done" );
-*/
-        final GenericDownloader.AbstractLogger logger = new GenericDownloader.AbstractLogger()
+        final DownloaderSample1 downloadConfig = new DownloaderSample1();
+
+        final GenericDownloader.AbstractLogger mylogger = new GenericDownloader.AbstractLogger()
         {
             @Override
             public void warn( String msg )
@@ -65,20 +65,55 @@ public class DownloaderSample1
             }
         };
 
+        final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+        {
+            @Override
+            public int getDownloadThreadCount()
+            {
+                return DOWNLOAD_THREAD;
+            }
+            @Override
+            public Proxy getProxy()
+            {
+                return PROXY;
+            }
+
+            @Override
+            public AbstractLogger getAbstractLogger()
+            {
+                return mylogger;
+            }
+        };
+
         GenericDownloader instance
             = new GenericDownloader(
                 //destinationFolderFile,
                 destinationFolderFile,
                 DOWNLOAD_THREAD,
                 PROXY,
-                logger
+                mylogger
                 )
         {
-            private List<URL> _htmlURLList = null;
 
             @Override
             protected Iterable<URL> collectURLs() throws IOException
             {
+                String allContent;
+                {
+                    List<String>    contentList = loads( downloadConfig.getURLDownloadAndParseCollection() );
+                    StringBuilder   sb          = new StringBuilder();
+
+                    for( String s: contentList ) {
+                        sb.append( s );
+                        }
+
+                    allContent = sb.toString();
+                    contentList.clear();
+                    sb.setLength( 0 );
+                }
+
+                  return downloadConfig.getURLToDownloadCollection( gdauir, allContent );
+/*
                 String allContent;
                 {
                     List<String>    contentList = loads( collectURLPrepare() );
@@ -117,30 +152,13 @@ public class DownloaderSample1
                 logger.info( "> URL founds = " + imagesURLCollection.size() );
 
                 return imagesURLCollection;
+*/
             }
-
-            /**
-            *
-            * @return
-            * @throws MalformedURLException
-            */
-           Iterable<URL> collectURLPrepare() throws MalformedURLException
-           {
-               if( _htmlURLList == null ) {
-                   _htmlURLList = new ArrayList<URL>();
-
-                   for( int i=1; i<23; i++ ) {
-                       _htmlURLList.add( new URL( htmlURLBase + i ) );
-                       }
-                   }
-
-               return _htmlURLList;
-           }
         };
 
-        logger.info( "destinationFolderFile = " + destinationFolderFile );
+        mylogger.info( "destinationFolderFile = " + destinationFolderFile );
         instance.downloadAll();
-        logger.info( "done" );
+        mylogger.info( "done" );
     }
 
     @Override
@@ -148,7 +166,6 @@ public class DownloaderSample1
     {
         return "bloggif.com";
     }
-
     @Override
     public int getNumberOfPicturesByPage()
     {
@@ -165,4 +182,59 @@ public class DownloaderSample1
     public int getMaxPageCount()
     {
         return Integer.MAX_VALUE;
-    }}
+    }
+
+    @Override
+    public String getCacheRelativeDirectoryCacheName()
+    {
+        return "output/www.bloggif.com";
+    }
+
+    @Override
+    public Collection<URL> getURLDownloadAndParseCollection()
+            throws MalformedURLException
+    {
+        if( _htmlURLList == null ) {
+            _htmlURLList = new ArrayList<URL>();
+
+            for( int i=1; i<23; i++ ) {
+                _htmlURLList.add( new URL( htmlURLBase + i ) );
+                }
+            }
+
+        return _htmlURLList;
+    }
+
+    @Override
+    public Collection<URL> getURLToDownloadCollection(
+            GenericDownloaderAppUIResults   gdauir,
+            String                          content2Parse
+            )
+            throws MalformedURLException
+    {
+        final String[] regexps = {
+                "<img class=\"img_progress ...\" src=\"",
+                "<img class=\"img_progress ....\" src=\""
+                };
+
+            Set<URL> imagesURLCollection = new HashSet<URL>();
+
+        for( String regexp : regexps ) {
+            String[] strs = content2Parse.toString().split( regexp );
+            gdauir.getAbstractLogger().info( "> img founds = " + (strs.length - 1));
+
+            for( int i=1; i<strs.length; i++ ) {
+                String  s   = strs[ i ];
+                int     end = s.indexOf( '"' );
+                String  src = s.substring( 0, end );
+
+                //imagesURLCollection.add( new URL( serverRootURLString + src ) );
+                imagesURLCollection.add( new URL( src ) );
+                }
+            }
+
+        gdauir.getAbstractLogger().info( "> URL founds = " + imagesURLCollection.size() );
+
+        return imagesURLCollection;
+    }
+}

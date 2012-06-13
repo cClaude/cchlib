@@ -8,10 +8,12 @@ import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import samples.downloader.GenericDownloader.AbstractLogger;
 
 /**
  *
@@ -49,7 +51,7 @@ public class DownloaderSample_gifpal
         };
 
     // number of pages to explore
-    private final static int MAX_PAGES = 2;
+    private final static int MAX_PAGES = 3;
 
     /**
      * param1 = image_id
@@ -57,6 +59,9 @@ public class DownloaderSample_gifpal
      * http://www.gifpal.com/uimages/WVrkTTeOoI.gif
      */
     private final static String IMG_URL_BASE_FMT   = SERVER_ROOT_URL_STR + "/uimages/%s.gif";
+
+    private static final String CACHE_FOLDER_NAME = "output/www.gifpal.com";
+    private List<URL> _htmlURLList = null;
 
     /**
      * Start Sample here !
@@ -66,6 +71,8 @@ public class DownloaderSample_gifpal
     {
         File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.gifpal.com" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
+
+        final DownloaderSample_gifpal downloadConfig = new DownloaderSample_gifpal();
 
         final GenericDownloader.AbstractLogger mylogger = new GenericDownloader.AbstractLogger()
         {
@@ -90,6 +97,26 @@ public class DownloaderSample_gifpal
             }
         };
 
+        final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+        {
+            @Override
+            public int getDownloadThreadCount()
+            {
+                return DOWNLOAD_THREAD;
+            }
+            @Override
+            public Proxy getProxy()
+            {
+                return PROXY;
+            }
+
+            @Override
+            public AbstractLogger getAbstractLogger()
+            {
+                return mylogger;
+            }
+        };
+
         GenericDownloader instance
             = new GenericDownloader(
                 //destinationFolderFile,
@@ -99,67 +126,49 @@ public class DownloaderSample_gifpal
                 mylogger
                 )
         {
-            private List<URL> _htmlURLList = null;
 
             @Override
             protected Iterable<URL> collectURLs() throws IOException
             {
-                String allContent;
-                {
-                    List<String>    contentList = loads( collectURLPrepare() );
-                    StringBuilder   sb          = new StringBuilder();
+              String allContent;
+              {
+                  List<String>    contentList = loads( downloadConfig.getURLDownloadAndParseCollection() );
+                  StringBuilder   sb          = new StringBuilder();
 
-                    for( String s: contentList ) {
-                        sb.append( s );
-                        }
+                  for( String s: contentList ) {
+                      sb.append( s );
+                      }
 
-                    allContent = sb.toString();
-                    contentList.clear();
-                    sb.setLength( 0 );
-                }
+                  allContent = sb.toString();
+                  contentList.clear();
+                  sb.setLength( 0 );
+              }
 
-                final String[] regexps = {
-                    "\\{\"image\"\\:\"",
-                    };
+                return downloadConfig.getURLToDownloadCollection( gdauir, allContent );
 
-                Set<URL> imagesURLCollection = new HashSet<URL>();
-
-                for( String regexp : regexps ) {
-                    String[] strs = allContent.toString().split( regexp );
-                    mylogger.info( "> img founds = " + (strs.length - 1));
-
-                    for( int i=1; i<strs.length; i++ ) {
-                        String  s   = strs[ i ];
-                        int     end = s.indexOf( '"' );
-                        String  src = s.substring( 0, end );
-
-                        imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
-                        }
-                    }
-
-                mylogger.info( "> URL founds = " + imagesURLCollection.size() );
-
-                return imagesURLCollection;
+//                final String[] regexps = {
+//                        "\\{\"image\"\\:\"",
+//                        };
+//
+//                Set<URL> imagesURLCollection = new HashSet<URL>();
+//
+//                for( String regexp : regexps ) {
+//                    String[] strs = allContent.toString().split( regexp );
+//                    mylogger.info( "> img founds = " + (strs.length - 1));
+//
+//                    for( int i=1; i<strs.length; i++ ) {
+//                        String  s   = strs[ i ];
+//                        int     end = s.indexOf( '"' );
+//                        String  src = s.substring( 0, end );
+//
+//                        imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
+//                        }
+//                    }
+//
+//                mylogger.info( "> URL founds = " + imagesURLCollection.size() );
+//
+//                return imagesURLCollection;
             }
-
-            /**
-            * Returns a list of URL of json values to parse
-            * @return a list of URL of json values to parse
-            * @throws MalformedURLException
-            */
-           Iterable<URL> collectURLPrepare() throws MalformedURLException
-           {
-               if( _htmlURLList == null ) {
-                   _htmlURLList = new ArrayList<URL>();
-                   //_htmlURLList.add( new URL( "http://www.google.com/" ) );
-
-                   for( int i=1; i<MAX_PAGES; i++ ) {
-                       _htmlURLList.add( new URL( String.format( HTML_URL_BASE_FMT, FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
-                       }
-                   }
-
-               return _htmlURLList;
-           }
         };
 
         mylogger.info( "destinationFolderFile = " + destinationFolderFile );
@@ -189,5 +198,56 @@ public class DownloaderSample_gifpal
     public int getMaxPageCount()
     {
         return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public String getCacheRelativeDirectoryCacheName()
+    {
+        return CACHE_FOLDER_NAME;
+    }
+
+    @Override
+    public Collection<URL> getURLDownloadAndParseCollection() throws MalformedURLException
+    {
+        if( _htmlURLList == null ) {
+            _htmlURLList = new ArrayList<URL>();
+            //_htmlURLList.add( new URL( "http://www.google.com/" ) );
+
+            for( int i=1; i<MAX_PAGES; i++ ) {
+                _htmlURLList.add( new URL( String.format( HTML_URL_BASE_FMT, FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
+                }
+            }
+
+        return _htmlURLList;
+    }
+
+    @Override
+    public Collection<URL> getURLToDownloadCollection(
+        final GenericDownloaderAppUIResults gdauir,
+        final String                        allContent
+        ) throws MalformedURLException
+    {
+        final String[] regexps = {
+            "\\{\"image\"\\:\"",
+            };
+
+        Set<URL> imagesURLCollection = new HashSet<URL>();
+
+        for( String regexp : regexps ) {
+            String[] strs = allContent.toString().split( regexp );
+            gdauir.getAbstractLogger().info( "> img founds = " + (strs.length - 1));
+
+            for( int i=1; i<strs.length; i++ ) {
+                String  s   = strs[ i ];
+                int     end = s.indexOf( '"' );
+                String  src = s.substring( 0, end );
+
+                imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
+                }
+            }
+
+        gdauir.getAbstractLogger().info( "> URL founds = " + imagesURLCollection.size() );
+
+        return imagesURLCollection;
     }
 }
