@@ -48,18 +48,15 @@ public class DownloadToFile extends AbstractDownload
 
     private void download()
     {
-        try {
-            final File file = event.downloadStart( getURL() );
+        File file = null;
 
-            try {
-                download( file );
-                }
-            catch( IOException e ) {
-                event.downloadFail( getURL(), file, e );
-                }
+        try {
+            file = event.downloadStart( getURL() );
+
+            download( file );
             }
         catch( IOException e ) {
-            event.downloadFail( getURL(), e );
+            event.downloadFail( getURL(), file, e );
             }
     }
 

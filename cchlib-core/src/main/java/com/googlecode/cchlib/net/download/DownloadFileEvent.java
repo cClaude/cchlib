@@ -34,16 +34,16 @@ public interface DownloadFileEvent extends DownloadEvent
      * This method is invoked if download fail
      *
      * @param url   {@link URL} of download
-     * @param file  {@link File} that should receive URL content (could be delete).
+     * @param file  {@link File} that should receive URL content (could be delete if not null).
      * @param cause Abort cause
      */
     public void downloadFail( URL url, File file, Throwable cause );
 
-    /**
-     * This method is invoked if download fail (when invoking {@link #downloadStart(URL)})
-     *
-     * @param url   {@link URL} of download
-     * @param cause Abort cause
-     */
-    public void downloadFail( URL url, Throwable cause );
+//    /**
+//     * This method is invoked if download fail (when invoking {@link #downloadStart(URL)})
+//     *
+//     * @param url   {@link URL} of download
+//     * @param cause Abort cause
+//     */
+//    public void downloadFail( URL url, Throwable cause );
 }
