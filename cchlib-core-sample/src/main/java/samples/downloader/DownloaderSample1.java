@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import samples.downloader.GenericDownloader.AbstractLogger;
 
 /**
  *
@@ -46,7 +45,7 @@ public class DownloaderSample1
 
         final DownloaderSample1 downloadConfig = new DownloaderSample1();
 
-        final GenericDownloader.AbstractLogger mylogger = new GenericDownloader.AbstractLogger()
+        final LoggerListener mylogger = new LoggerListener()
         {
             @Override
             public void warn( String msg )
@@ -59,9 +58,20 @@ public class DownloaderSample1
                 System.out.println( msg );
             }
             @Override
-            public void error( URL url, Throwable cause )
+            public void error( URL url, File file, Throwable cause )
             {
-                System.err.println( "*ERROR:" + url + " - " + cause.getMessage() );
+                System.err.println( "URL: " + url + " File: " + file + " - " + cause.getMessage() );
+            }
+            @Override
+            public void downloadStateInit( DownloadStateEvent event )
+            {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void downloadStateChange( DownloadStateEvent event )
+            {
+                // TODO Auto-generated method stub
+
             }
         };
 
@@ -79,7 +89,7 @@ public class DownloaderSample1
             }
 
             @Override
-            public AbstractLogger getAbstractLogger()
+            public LoggerListener getAbstractLogger()
             {
                 return mylogger;
             }
@@ -96,7 +106,7 @@ public class DownloaderSample1
         {
 
             @Override
-            protected Iterable<URL> collectURLs() throws IOException
+            protected Collection<URL> collectURLs() throws IOException
             {
                 String allContent;
                 {

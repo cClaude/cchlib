@@ -7,6 +7,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -26,17 +27,7 @@ public abstract class GenericDownloader
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
     private final Proxy proxy;
-    private final AbstractLogger logger;
-
-    /**
-     *
-     */
-    public interface AbstractLogger
-    {
-        public void warn( String msg );
-        public void info( String msg );
-        public void error( URL url, Throwable cause );
-    }
+    private final LoggerListener loggerListener;
 
     /**
      * Returns an {@link Iterable} object of {@link URL}s to download,
@@ -44,7 +35,7 @@ public abstract class GenericDownloader
      * @return an {@link Iterable} object of {@link URL}s to download
      * @throws IOException
      */
-    protected abstract Iterable<URL> collectURLs() throws IOException;
+    protected abstract Collection<URL> collectURLs() throws IOException;
 
 
     /**
@@ -60,15 +51,14 @@ public abstract class GenericDownloader
             final File              destinationDirectoryFile,
             final int               downloadMaxThread,
             final Proxy             proxy,
-            final AbstractLogger    logger
+            final LoggerListener    logger
             )
-        throws /*NoSuchAlgorithmException,*/ IOException, ClassNotFoundException
+        throws IOException, ClassNotFoundException
     {
-        //this.tempDirectoryFile          = tempDirectoryFile;
         this.destinationDirectoryFile   = destinationDirectoryFile;
         this.downloadMaxThread          = downloadMaxThread;
         this.proxy                      = proxy;
-        this.logger                     = logger;
+        this.loggerListener             = logger;
 
         this.cache = new URLCache( destinationDirectoryFile );
         this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
@@ -78,10 +68,10 @@ public abstract class GenericDownloader
             this.cache.load();
             }
         catch( FileNotFoundException ignore ) {
-            this.logger.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
+            this.loggerListener.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
         catch( Exception ignore ) {
-            this.logger.warn( "* warn: can't load cache file : " + ignore.getMessage() );
+            this.loggerListener.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
     }
 
@@ -91,17 +81,25 @@ public abstract class GenericDownloader
      * @return  a list of String with content of all URLS download content.
      * @throws IOException if any
      */
-    protected List<String> loads( final Iterable<URL> urls ) throws IOException
+    protected List<String> loads( final Collection<URL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
+
+        loggerListener.downloadStateInit( new DownloadStateEvent() {
+            @Override
+            public int getDownloadListSize()
+            {
+                return urls.size();
+            }
+        });
 
         DownloadStringEvent eventHandler = new DownloadStringEvent()
         {
             @Override
             public void downloadStart( final URL url )
             {
-                logger.info( "Start downloading: " + url );
+                loggerListener.info( "downloading: " + url );
             }
             @Override
             public void downloadDone( final URL url, final String content )
@@ -111,7 +109,7 @@ public abstract class GenericDownloader
             @Override
             public void downloadFail( final URL url, final Throwable cause )
             {
-                logger.error( url, cause );
+                loggerListener.error( url, null, cause ); // No file, just put download into string !
             }
         };
 
@@ -127,43 +125,37 @@ public abstract class GenericDownloader
      */
     void downloadAll() throws IOException
     {
-        final Iterable<URL>     urls                = collectURLs();
+        final Collection<URL>   urls                = collectURLs();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
 
         DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
+            Integer size = urls.size();
+
             @Override
             public File downloadStart( URL url ) throws IOException
             {
-                logger.info( "Start downloading: " + url );
+                loggerListener.info( "Start downloading: " + url );
 
-                //return File.createTempFile( "pic", null, tempDirectoryFile );
                 return File.createTempFile( "pic", null, cache.getTempDirectoryFile() );
             }
+/*
             @Override
             public void downloadFail( URL url, Throwable cause )
             {
-                logger.error( url, cause );
-
-//                if( cause instanceof FileNotFoundException ) {
-//                    // No stack trace
-//                    }
-//                else if( cause instanceof ConnectException ) {
-//                    // No stack trace
-//                    }
-//                else if( cause instanceof IOException ) {
-//                    // No stack trace
-//                    }
-//                else {
-//                    cause.printStackTrace();
-//                    }
+                loggerListener.error( url, cause );
             }
+*/
             @Override
             public void downloadFail( URL url, File file, Throwable cause )
             {
-                downloadFail( url, cause );
+                loggerListener.error( url, file, cause );
 
-                file.delete();
+                if( file != null ) {
+                    file.delete();
+                    }
+
+                updateDisplay();
             }
             @Override
             public void downloadDone( URL url, File file )
@@ -193,11 +185,11 @@ public abstract class GenericDownloader
                     boolean isRename = file.renameTo( ffile );
 
                     if( isRename ) {
-                        logger.info( "new file > " + ffile );
+                        loggerListener.info( "new file > " + ffile );
                         cache.add( url, hashCodeString, ffile.getName() );
                         }
                     else {
-                        logger.info( "*** already exists ? " + ffile );
+                        loggerListener.info( "*** already exists ? " + ffile );
                         }
                     }
                 catch( FileNotFoundException e ) {
@@ -211,14 +203,30 @@ public abstract class GenericDownloader
                 catch( NoSuchAlgorithmException e ) {
                     // Should not occur
                     e.printStackTrace();
-                }
+                    }
+
+                updateDisplay();
+            }
+            private void updateDisplay()
+            {
+                synchronized( size ) {
+                    size = size - 1;
+                    }
+
+                loggerListener.downloadStateChange( new DownloadStateEvent() {
+                    @Override
+                    public int getDownloadListSize()
+                    {
+                        return size;
+                    }
+                });
             }
         };
 
         for( URL u: urls ) {
             if( cache.isInCache( u ) ) {
                 // skip this entry !
-                logger.info( "Already loaded: " + u );
+                loggerListener.info( "Already loaded: " + u );
                 }
             else {
                 downloadExecutor.addDownload( eventHandler, proxy, u );

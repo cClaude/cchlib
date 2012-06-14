@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class DownloaderAppCore
                 )
         {
             @Override
-            protected Iterable<URL> collectURLs() throws IOException
+            protected Collection<URL> collectURLs() throws IOException
             {
                 // Build a big string with all downloads URL (text or HTML is expected)
                 String allContent;

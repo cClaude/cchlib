@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
-import samples.downloader.GenericDownloader.AbstractLogger;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -30,7 +30,13 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JProgressBar;
+import java.awt.FlowLayout;
 
 public class GenericDownloaderUIApp extends JFrame
 {
@@ -45,18 +51,33 @@ public class GenericDownloaderUIApp extends JFrame
     private JButton stopJButton;
     private JComboBox<ProxyEntry> proxyJComboBox;
     private JComboBox<String> siteJComboBox;
+    private JLabel downloadThreadNumberJLabel;
     private JLabel proxyJLabel;
+    private JMenu mnFile;
+    private JMenuBar menuBar;
+    private JMenuItem mntmQuit;
     private JPanel cardsPanel;
     private JPanel contentPane;
+    private JPanel panel;
+    private JProgressBar displayJProgressBar;
+    private JScrollPane cardsPanel_JScrollPane;
+    private JSpinner downloadThreadNumberJSpinner;
     private JTextArea displayJTextArea;
+    private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private StringBuilder _printDisplayStringBuilder = new StringBuilder();
 
-    private final static int    DOWNLOAD_THREAD = 10;
+    private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
+    private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
 
     private class ProxyEntry
     {
         private Proxy proxy;
         private String displayString;
+
+        public ProxyEntry( String hostname, int port )
+        {
+            this( new Proxy( Proxy.Type.HTTP, new InetSocketAddress( hostname, port ) ) );
+        }
 
         public ProxyEntry( final Proxy proxy )
         {
@@ -81,7 +102,7 @@ public class GenericDownloaderUIApp extends JFrame
         }
     }
 
-    private final AbstractLogger loggerWrapper = new AbstractLogger()
+    private final LoggerListener loggerWrapper = new LoggerListener()
     {
         @Override
         public void warn( String msg )
@@ -96,15 +117,32 @@ public class GenericDownloaderUIApp extends JFrame
             logger.info( msg );
         }
         @Override
-        public void error( URL url, Throwable cause )
+        public void error( URL url, File file, Throwable cause )
         {
             printDisplay( "*** ERROR: ", url.toExternalForm() );
-            logger .error( "Error while download: " + url, cause );
+
+            logger .error( "Error while download: " + url + " to file: " + file, cause );
+        }
+        @Override
+        public void downloadStateInit( DownloadStateEvent event )
+        {
+            displayJProgressBar.setMinimum( 0 );
+            displayJProgressBar.setMaximum( event.getDownloadListSize() );
+            displayJProgressBar.setValue( 0 );
+            displayJProgressBar.setEnabled( true );
+            displayJProgressBar.setIndeterminate( false );
+            displayJProgressBar.setStringPainted( true );
+
+            logger.info( "init :" + event.getDownloadListSize() );
+        }
+        @Override
+        public void downloadStateChange( DownloadStateEvent event )
+        {
+            displayJProgressBar.setValue( event.getDownloadListSize() );
+
+            logger.info( "update :" + event.getDownloadListSize() );
         }
     };
-    private JSpinner downloadThreadNumberJSpinner;
-    private JLabel downloadThreadNumberJLabel;
-    private JScrollPane cardsPanel_JScrollPane;
 
     /**
      * Launch the application.
@@ -163,7 +201,7 @@ public class GenericDownloaderUIApp extends JFrame
         proxyComboBoxModel = new DefaultComboBoxModel<ProxyEntry>();
 
         proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
-        proxyComboBoxModel.addElement( new ProxyEntry( new Proxy( Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128) ) ) );
+        proxyComboBoxModel.addElement( new ProxyEntry( "55.37.80.2", 3128 ) );
     }
 
     /**
@@ -175,30 +213,39 @@ public class GenericDownloaderUIApp extends JFrame
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setBounds( 100, 100, 600, 300 );
+        {
+            menuBar = new JMenuBar();
+            setJMenuBar(menuBar);
+            {
+                mnFile = new JMenu("File");
+                menuBar.add(mnFile);
+                {
+                    mntmQuit = new JMenuItem("Quit");
+                    mnFile.add(mntmQuit);
+                }
+            }
+        }
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( contentPane );
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 50, 0, 0, 0, 0};
+        gbl_contentPane.rowHeights = new int[]{0, 50, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 2.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
         {
             cardsPanel_JScrollPane = new JScrollPane();
             GridBagConstraints gbc_cardsPanel_JScrollPane = new GridBagConstraints();
             gbc_cardsPanel_JScrollPane.fill = GridBagConstraints.BOTH;
             gbc_cardsPanel_JScrollPane.gridwidth = 4;
-            gbc_cardsPanel_JScrollPane.insets = new Insets(0, 0, 5, 5);
+            gbc_cardsPanel_JScrollPane.insets = new Insets(0, 0, 5, 0);
             gbc_cardsPanel_JScrollPane.gridx = 0;
             gbc_cardsPanel_JScrollPane.gridy = 1;
             contentPane.add(cardsPanel_JScrollPane, gbc_cardsPanel_JScrollPane);
             cardsPanel = new JPanel();
             cardsPanel_JScrollPane.setViewportView(cardsPanel);
             cardsPanel.setLayout(new CardLayout(0, 0));
-        }
-
-        {
 
             for( int i = 0; i < downloaderUIPanels.length; i++ ) {
                 cardsPanel.add( downloaderUIPanels[ i ], downloaderUIPanels[ i ].getSiteName() );
@@ -255,7 +302,8 @@ public class GenericDownloaderUIApp extends JFrame
             contentPane.add(downloadThreadNumberJLabel, gbc_downloadThreadNumberJLabel);
         }
         {
-            downloadThreadNumberJSpinner = new JSpinner();
+            downloadThreadNumberSpinnerModel = new SpinnerNumberModel( DOWNLOAD_THREAD_NUMBER_DEFAULT, 1, DOWNLOAD_THREAD_NUMBER_MAX, 1 );
+            downloadThreadNumberJSpinner = new JSpinner( downloadThreadNumberSpinnerModel );
             downloadThreadNumberJLabel.setLabelFor(downloadThreadNumberJSpinner);
             GridBagConstraints gbc_downloadThreadNumberJSpinner = new GridBagConstraints();
             gbc_downloadThreadNumberJSpinner.fill = GridBagConstraints.HORIZONTAL;
@@ -280,45 +328,61 @@ public class GenericDownloaderUIApp extends JFrame
             }
         }
         {
+            displayJProgressBar = new JProgressBar();
+            GridBagConstraints gbc_displayJProgressBar = new GridBagConstraints();
+            gbc_displayJProgressBar.fill = GridBagConstraints.HORIZONTAL;
+            gbc_displayJProgressBar.gridwidth = 4;
+            gbc_displayJProgressBar.insets = new Insets(0, 0, 5, 0);
+            gbc_displayJProgressBar.gridx = 0;
+            gbc_displayJProgressBar.gridy = 4;
+            contentPane.add(displayJProgressBar, gbc_displayJProgressBar);
+        }
+        {
+            panel = new JPanel();
+            GridBagConstraints gbc_panel = new GridBagConstraints();
+            gbc_panel.gridwidth = 2;
+            gbc_panel.insets = new Insets(0, 0, 0, 5);
+            gbc_panel.fill = GridBagConstraints.BOTH;
+            gbc_panel.gridx = 0;
+            gbc_panel.gridy = 5;
+            contentPane.add(panel, gbc_panel);
+            panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
             startJButton = new JButton("Start");
+            panel.add(startJButton);
             startJButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event)
                 {
                     if( startJButton.isEnabled() ) {
-                        startJButton.setEnabled( false );
-                        stopJButton.setEnabled( true );
-                        siteJComboBox.setEnabled( false );
-
-                        int index = siteJComboBox.getSelectedIndex();
-
-                        startDownload( downloadEntriesTypeList.get( index ) );
+                        startDownload();
                         }
                 }
             });
-            GridBagConstraints gbc_startJButton = new GridBagConstraints();
-            gbc_startJButton.fill = GridBagConstraints.HORIZONTAL;
-            gbc_startJButton.insets = new Insets(0, 0, 0, 5);
-            gbc_startJButton.gridx = 0;
-            gbc_startJButton.gridy = 4;
-            contentPane.add(startJButton, gbc_startJButton);
-        }
-        {
-            stopJButton = new JButton("Stop");
-            GridBagConstraints gbc_stopJButton = new GridBagConstraints();
-            gbc_stopJButton.fill = GridBagConstraints.HORIZONTAL;
-            gbc_stopJButton.gridx = 3;
-            gbc_stopJButton.gridy = 4;
-            contentPane.add(stopJButton, gbc_stopJButton);
+            {
+                stopJButton = new JButton("Stop");
+                stopJButton.setEnabled(false);
+                panel.add(stopJButton);
+            }
         }
     }
 
-    private void startDownload( final GenericDownloaderAppInterface gdai )
+    private void startDownload()
     {
+        // UI disable/enable
+        startJButton.setEnabled( false );
+        stopJButton.setEnabled( true );
+        siteJComboBox.setEnabled( false );
+
         displayJTextArea.setText( "" );
+        displayJProgressBar.setIndeterminate( true );
+        displayJProgressBar.setEnabled( true );
 
+        // UI get values
+        final GenericDownloaderAppInterface gdai = downloadEntriesTypeList.get( siteJComboBox.getSelectedIndex() );
         final Proxy proxy = proxyComboBoxModel.getElementAt( proxyJComboBox.getSelectedIndex() ).getProxy();
+        final int downloadThreadNumber = this.downloadThreadNumberSpinnerModel.getNumber().intValue();
 
-        printDisplay( "Proxy: ", proxy.toString() );
+        logger.info( "proxy: " + proxy.toString() );
+        logger.info( "downloadThreadNumber: " + downloadThreadNumber );
 
         new Thread( new Runnable() {
             @Override
@@ -331,7 +395,7 @@ public class GenericDownloaderUIApp extends JFrame
                     @Override
                     public int getDownloadThreadCount()
                     {
-                        return DOWNLOAD_THREAD; // FIXME add gadget
+                        return downloadThreadNumber;
                     }
                     @Override
                     public Proxy getProxy()
@@ -339,7 +403,7 @@ public class GenericDownloaderUIApp extends JFrame
                         return proxy;
                     }
                     @Override
-                    public AbstractLogger getAbstractLogger()
+                    public LoggerListener getAbstractLogger()
                     {
                         return loggerWrapper;
                     }
@@ -364,6 +428,9 @@ public class GenericDownloaderUIApp extends JFrame
                 startJButton.setEnabled( true );
                 stopJButton.setEnabled( false );
                 siteJComboBox.setEnabled( true );
+
+                displayJProgressBar.setIndeterminate( false );
+                displayJProgressBar.setEnabled( false );
             }
         }).start();
     }

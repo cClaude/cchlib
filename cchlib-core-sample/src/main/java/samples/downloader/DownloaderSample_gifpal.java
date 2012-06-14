@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import samples.downloader.GenericDownloader.AbstractLogger;
 
 /**
  *
@@ -74,7 +73,7 @@ public class DownloaderSample_gifpal
 
         final DownloaderSample_gifpal downloadConfig = new DownloaderSample_gifpal();
 
-        final GenericDownloader.AbstractLogger mylogger = new GenericDownloader.AbstractLogger()
+        final LoggerListener mylogger = new LoggerListener()
         {
             @Override
             public void warn( String msg )
@@ -89,11 +88,21 @@ public class DownloaderSample_gifpal
                 logger.info( msg );
             }
             @Override
-            public void error( URL url, Throwable cause )
+            public void error( URL url, File file, Throwable cause )
             {
                 //String msg = "*ERROR: " + url + " - " + cause.getMessage() );
                 //System.err.println( "*ERROR: " + url + " - " + cause.getMessage() );
-                logger.error( url, cause );
+                logger.error( "URL: " + url + " File: " + file, cause );
+            }
+            @Override
+            public void downloadStateInit( DownloadStateEvent event )
+            {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void downloadStateChange( DownloadStateEvent event )
+            {
+                // TODO Auto-generated method stub
             }
         };
 
@@ -111,7 +120,7 @@ public class DownloaderSample_gifpal
             }
 
             @Override
-            public AbstractLogger getAbstractLogger()
+            public LoggerListener getAbstractLogger()
             {
                 return mylogger;
             }
@@ -128,7 +137,7 @@ public class DownloaderSample_gifpal
         {
 
             @Override
-            protected Iterable<URL> collectURLs() throws IOException
+            protected Collection<URL> collectURLs() throws IOException
             {
               String allContent;
               {

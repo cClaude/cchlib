@@ -11,5 +11,5 @@ public interface GenericDownloaderAppUIResults
 
     public Proxy getProxy();
 
-    public GenericDownloader.AbstractLogger getAbstractLogger();
+    public LoggerListener getAbstractLogger();
 }
