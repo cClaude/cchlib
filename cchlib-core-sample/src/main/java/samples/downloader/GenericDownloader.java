@@ -9,11 +9,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
+import com.googlecode.cchlib.net.download.DownloadEvent;
 import com.googlecode.cchlib.net.download.DownloadExecutor;
 import com.googlecode.cchlib.net.download.DownloadFileEvent;
-import com.googlecode.cchlib.net.download.DownloadStringEvent;
+import com.googlecode.cchlib.net.download.DownloadIOException;
+import com.googlecode.cchlib.net.download.DownloadResult;
+import com.googlecode.cchlib.net.download.DownloadResultType;
 import com.googlecode.cchlib.net.download.URLCache;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
@@ -23,6 +27,7 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  */
 public abstract class GenericDownloader
 {
+    private final Logger logger = Logger.getLogger( GenericDownloader.class );
     private final URLCache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
@@ -94,26 +99,35 @@ public abstract class GenericDownloader
             }
         });
 
-        DownloadStringEvent eventHandler = new DownloadStringEvent()
+        final DownloadEvent eventStringHandler = new DownloadEvent()
         {
+            @Override
+            public DownloadResultType getDownloadResultType()
+            {
+                return DownloadResultType.STRING;
+            }
             @Override
             public void downloadStart( final URL url )
             {
-                loggerListener.info( "downloading: " + url );
+                loggerListener.info( "downloading as a String: " + url );
             }
             @Override
-            public void downloadDone( final URL url, final String content )
+            public void downloadDone( URL url, DownloadResult downloadResult )
             {
-                result.add( content );
+                if( logger.isDebugEnabled() ) {
+                    logger.debug( url.toExternalForm() + " -> " + downloadResult.getString().length() );
+                    }
+
+                result.add( downloadResult.getString() );
             }
             @Override
-            public void downloadFail( final URL url, final Throwable cause )
+            public void downloadFail( DownloadIOException e )
             {
-                loggerListener.error( url, null, cause ); // No file, just put download into string !
+                loggerListener.error( e.getUrl(), e.getFile(), e.getCause() ); // No file, just put download into string !
             }
         };
 
-        downloadExecutor.add( eventHandler, proxy, urls );
+        downloadExecutor.add( eventStringHandler, proxy, urls );
         downloadExecutor.waitClose();
 
         return result;
@@ -128,28 +142,45 @@ public abstract class GenericDownloader
         final Collection<URL>   urls                = collectURLs();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
 
-        DownloadFileEvent eventHandler = new DownloadFileEvent()
+        final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
             Integer size = urls.size();
 
+            private void updateDisplay()
+            {
+                synchronized( size ) {
+                    size = size - 1;
+                    }
+
+                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
+                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
+                logger.info( "size = " + size );
+                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
+
+                loggerListener.downloadStateChange( new DownloadStateEvent() {
+                    @Override
+                    public int getDownloadListSize()
+                    {
+                        return size;
+                    }
+                });
+            }
             @Override
-            public File downloadStart( URL url ) throws IOException
+            public DownloadResultType getDownloadResultType()
+            {
+                return DownloadResultType.FILE;
+            }
+            @Override
+            public void downloadStart( URL url )
             {
                 loggerListener.info( "Start downloading: " + url );
+            }
+            @Override
+            public void downloadFail( DownloadIOException e )
+            {
+                final File file = e.getFile();
 
-                return File.createTempFile( "pic", null, cache.getTempDirectoryFile() );
-            }
-/*
-            @Override
-            public void downloadFail( URL url, Throwable cause )
-            {
-                loggerListener.error( url, cause );
-            }
-*/
-            @Override
-            public void downloadFail( URL url, File file, Throwable cause )
-            {
-                loggerListener.error( url, file, cause );
+                loggerListener.error( e.getUrl(), file, e.getCause() );
 
                 if( file != null ) {
                     file.delete();
@@ -158,10 +189,12 @@ public abstract class GenericDownloader
                 updateDisplay();
             }
             @Override
-            public void downloadDone( URL url, File file )
+            public void downloadDone( URL url, DownloadResult result )
             {
+                final File file = result.getFile();
+
                 try {
-                    // Compute MD5 hash ode
+                    // Compute MD5 hash code
                     MessageDigestFile   mdf         = new MessageDigestFile();
                     byte[]              digestKey   = mdf.compute( file );
 
@@ -204,22 +237,20 @@ public abstract class GenericDownloader
                     // Should not occur
                     e.printStackTrace();
                     }
+                finally {
+                    if( file != null && file.isFile() ) {
+                        // FIXME
+                        // Delete ? rename ??
+                        logger.info( "delete file ? : " + file );
+                        }
+                    }
 
                 updateDisplay();
             }
-            private void updateDisplay()
+            @Override
+            public File getDownloadTmpFile() throws IOException
             {
-                synchronized( size ) {
-                    size = size - 1;
-                    }
-
-                loggerListener.downloadStateChange( new DownloadStateEvent() {
-                    @Override
-                    public int getDownloadListSize()
-                    {
-                        return size;
-                    }
-                });
+                return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
             }
         };
 

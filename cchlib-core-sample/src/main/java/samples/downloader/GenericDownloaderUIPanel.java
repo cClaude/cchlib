@@ -9,6 +9,8 @@ import java.awt.Insets;
 import javax.swing.JSpinner;
 import com.googlecode.cchlib.i18n.I18nString;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class GenericDownloaderUIPanel
     extends JPanel
@@ -17,8 +19,8 @@ public class GenericDownloaderUIPanel
     private JLabel pageScanCountJLabel;
     @I18nString private String numberOfPicturesByPageTxt = "%d picture(s) by page";
     private JSpinner pageScanCountJSpinner;
-    //private String siteName;
     private GenericDownloaderAppInterface config;
+    private SpinnerNumberModel pageScanCountSpinnerModel;
 
     /**
      * Create the panel.
@@ -58,14 +60,20 @@ public class GenericDownloaderUIPanel
             add(pageScanCountJLabel, gbc_pageScanCountJLabel);
         }
         {
-            SpinnerNumberModel pageScanCountSpinnerModel
+            pageScanCountSpinnerModel
                 = new SpinnerNumberModel(
-                        config.getDefaultPageCount(),
+                        config.getPageCount(),
                         1,
                         config.getMaxPageCount(),
                         1
                         );
             pageScanCountJSpinner = new JSpinner( pageScanCountSpinnerModel );
+            pageScanCountJSpinner.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent event)
+                {
+                    config.setPageCount( pageScanCountSpinnerModel.getNumber().intValue() );
+                }
+            });
 
             GridBagConstraints gbc_pageScanCountJSpinner = new GridBagConstraints();
             gbc_pageScanCountJSpinner.fill = GridBagConstraints.HORIZONTAL;
@@ -91,4 +99,10 @@ public class GenericDownloaderUIPanel
         return this.config;
     }
 
+    public void setReadOnly( boolean isReadOnly )
+    {
+        final boolean enabled = ! isReadOnly;
+
+        pageScanCountJSpinner.setEnabled( enabled  );
+    }
 }

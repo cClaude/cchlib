@@ -134,9 +134,14 @@ public class DownloaderSample2 //extends GenericDownloader
     }
 
     @Override
-    public int getDefaultPageCount()
+    public int getPageCount()
     {
-        return 5;
+        return 1; // not use
+    }
+
+    @Override
+    public void setPageCount( int pageCount )
+    {
     }
 
     @Override

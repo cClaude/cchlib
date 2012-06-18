@@ -381,12 +381,15 @@ public class GenericDownloaderUIApp extends JFrame
         displayJProgressBar.setEnabled( true );
 
         // UI get values
-        final GenericDownloaderAppInterface gdai = downloadEntriesTypeList.get( siteJComboBox.getSelectedIndex() );
+        final GenericDownloaderAppInterface gdai  = downloadEntriesTypeList.get( siteJComboBox.getSelectedIndex() );
+        final GenericDownloaderUIPanel      panel = downloaderUIPanels[ siteJComboBox.getSelectedIndex() ];
         final Proxy proxy = proxyComboBoxModel.getElementAt( proxyJComboBox.getSelectedIndex() ).getProxy();
         final int downloadThreadNumber = this.downloadThreadNumberSpinnerModel.getNumber().intValue();
 
         logger.info( "proxy: " + proxy.toString() );
         logger.info( "downloadThreadNumber: " + downloadThreadNumber );
+        logger.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
+        logger.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
 
         new Thread( new Runnable() {
             @Override
@@ -416,15 +419,7 @@ public class GenericDownloaderUIApp extends JFrame
                 try {
                     instance.startDownload( gdai, gdauir );
                     }
-                catch( NoSuchAlgorithmException e ) {
-                    printDisplay( "*** FATAL: ", e.getMessage() );
-                    logger.fatal( "fatal", e );
-                    }
-                catch( ClassNotFoundException e ) {
-                    printDisplay( "*** FATAL: ", e.getMessage() );
-                    logger.fatal( "fatal", e );
-                    }
-                catch( IOException e ) {
+                catch( Exception e ) {
                     printDisplay( "*** FATAL: ", e.getMessage() );
                     logger.fatal( "fatal", e );
                     }
@@ -439,10 +434,25 @@ public class GenericDownloaderUIApp extends JFrame
         }).start();
     }
 
+
+    private static final int MAX_DISPLAY_TEXT_LENGTH = 16 * 1024;
     private void printDisplay( String...messages )
     {
         _printDisplayStringBuilder.setLength( 0 );
-        _printDisplayStringBuilder.append( displayJTextArea.getText() );
+
+        int size = displayJTextArea.getText().length();
+
+        if( size > MAX_DISPLAY_TEXT_LENGTH ) {
+            int beginIndex = size - MAX_DISPLAY_TEXT_LENGTH;
+
+            beginIndex = displayJTextArea.getText().indexOf( '\n', beginIndex );
+
+            _printDisplayStringBuilder.append( displayJTextArea.getText().substring( beginIndex ) );
+            }
+        else {
+            _printDisplayStringBuilder.append( displayJTextArea.getText() );
+            }
+
         _printDisplayStringBuilder.append( '\n' );
 
         for( String str : messages ) {

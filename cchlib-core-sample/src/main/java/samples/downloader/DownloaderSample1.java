@@ -30,6 +30,11 @@ public class DownloaderSample1
     // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("122.194.5.154", 80));
     private final static int    DOWNLOAD_THREAD = 10;
 
+    /** number of pages to explore */
+    private final static int DEFAULT_MAX_PAGES = 25;
+    /** number of pages to explore */
+    private int pageCount = DEFAULT_MAX_PAGES;
+
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
     private List<URL> _htmlURLList = null;
@@ -183,11 +188,16 @@ public class DownloaderSample1
     }
 
     @Override
-    public int getDefaultPageCount()
+    public int getPageCount()
     {
-        return 5;
+        return pageCount;
     }
 
+    @Override
+    public void setPageCount( int pageCount )
+    {
+        this.pageCount = pageCount;
+    }
     @Override
     public int getMaxPageCount()
     {
@@ -207,7 +217,7 @@ public class DownloaderSample1
         if( _htmlURLList == null ) {
             _htmlURLList = new ArrayList<URL>();
 
-            for( int i=1; i<23; i++ ) {
+            for( int i=1; i<getPageCount(); i++ ) {
                 _htmlURLList.add( new URL( htmlURLBase + i ) );
                 }
             }
@@ -247,4 +257,5 @@ public class DownloaderSample1
 
         return imagesURLCollection;
     }
+
 }

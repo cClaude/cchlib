@@ -25,10 +25,10 @@ public class DownloaderSample_gifpal
     private final static Logger logger = Logger.getLogger( DownloaderSample_gifpal.class );
 
     //private final static Proxy PROXY = Proxy.NO_PROXY;
-    private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
-    private final static int    DOWNLOAD_THREAD = 10;
+    private final static Proxy  __PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
+    private final static int    __DOWNLOAD_THREAD = 10;
 
-    private final static String SERVER_ROOT_URL_STR = "http://www.gifpal.com";
+    private final static String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
 
     /**
      * param1 = sort
@@ -39,28 +39,31 @@ public class DownloaderSample_gifpal
      * http://www.gifpal.com/gallery-contents-json.php?sort=top-week&page=2
      * http://www.gifpal.com/gallery-contents-json.php?sort=top&page=2
      */
-    private final static String HTML_URL_BASE_FMT   = SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
+    private final static String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
 
     // sort parameter values
-    private final static String[] FMT_PARAM_SORT_VALUES = {
+    private final static String[] __FMT_PARAM_SORT_VALUES = {
         "id",
         "top",
         "top-today",
         "top-week",
         };
 
-    // number of pages to explore
-    private final static int MAX_PAGES = 3;
+    /** number of pages to explore */
+    private final static int DEFAULT_MAX_PAGES = 3;
+    /** number of pages to explore */
+    private int pageCount = DEFAULT_MAX_PAGES;
 
     /**
      * param1 = image_id
      *
      * http://www.gifpal.com/uimages/WVrkTTeOoI.gif
      */
-    private final static String IMG_URL_BASE_FMT   = SERVER_ROOT_URL_STR + "/uimages/%s.gif";
+    private final static String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
 
     private static final String CACHE_FOLDER_NAME = "output/www.gifpal.com";
     private List<URL> _htmlURLList = null;
+
 
     /**
      * Start Sample here !
@@ -111,12 +114,12 @@ public class DownloaderSample_gifpal
             @Override
             public int getDownloadThreadCount()
             {
-                return DOWNLOAD_THREAD;
+                return __DOWNLOAD_THREAD;
             }
             @Override
             public Proxy getProxy()
             {
-                return PROXY;
+                return __PROXY;
             }
 
             @Override
@@ -128,10 +131,9 @@ public class DownloaderSample_gifpal
 
         GenericDownloader instance
             = new GenericDownloader(
-                //destinationFolderFile,
                 destinationFolderFile,
-                DOWNLOAD_THREAD,
-                PROXY,
+                __DOWNLOAD_THREAD,
+                __PROXY,
                 mylogger
                 )
         {
@@ -197,10 +199,22 @@ public class DownloaderSample_gifpal
         return 16;
     }
 
+//    @Override
+//    public int getDefaultPageCount()
+//    {
+//        return 5;
+//    }
+
     @Override
-    public int getDefaultPageCount()
+    public int getPageCount()
     {
-        return 5;
+        return pageCount;
+    }
+
+    @Override
+    public void setPageCount( int pageCount )
+    {
+        this.pageCount = pageCount;
     }
 
     @Override
@@ -222,8 +236,8 @@ public class DownloaderSample_gifpal
             _htmlURLList = new ArrayList<URL>();
             //_htmlURLList.add( new URL( "http://www.google.com/" ) );
 
-            for( int i=1; i<MAX_PAGES; i++ ) {
-                _htmlURLList.add( new URL( String.format( HTML_URL_BASE_FMT, FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
+            for( int i=1; i< getPageCount(); i++ ) {
+                _htmlURLList.add( new URL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
                 }
             }
 
@@ -259,4 +273,5 @@ public class DownloaderSample_gifpal
 
         return imagesURLCollection;
     }
+
 }

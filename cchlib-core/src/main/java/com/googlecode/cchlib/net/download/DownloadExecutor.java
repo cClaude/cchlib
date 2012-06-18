@@ -86,7 +86,7 @@ public class DownloadExecutor
      * @see DownloadToString
      */
     public void add(
-            final DownloadStringEvent   eventHandler,
+            final DownloadEvent         eventHandler,
             final Proxy                 proxy,
             final Collection<URL>       URLCollection
             )
@@ -110,6 +110,88 @@ public class DownloadExecutor
      * @see DownloadToString
      */
     public void add(
+            final DownloadEvent         eventHandler,
+            final Proxy                 proxy,
+            final Iterable<URL>         URLs
+            )
+        throws RejectedExecutionException
+    {
+        for( URL u: URLs ) {
+            addDownload( eventHandler, proxy, u );
+            }
+    }
+
+    /**
+     * Add a download for giving {@link URL}
+     * <p>
+     * Read general description for more details
+     * </p>
+     *
+     * @param eventHandler  Event handler for this download
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param url           {@link URL} to download
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToFile
+     */
+    public void addDownload(
+            final DownloadEvent     eventHandler,
+            final Proxy             proxy,
+            final URL               url
+            )
+        throws RejectedExecutionException
+    {
+        Runnable command;
+
+        switch( eventHandler.getDownloadResultType() ) {
+            case STRING:
+                command = new DownloadToString( eventHandler, proxy, url );
+                break;
+
+            default:
+                command = new DownloadToFile( eventHandler, proxy, url );
+                break;
+            }
+
+        pool.execute( command );
+    }
+
+    /**
+     * Add downloads based on a {@link Collection} of {@link URL}
+     * <p>
+     * Read general description for more details
+     * </p>
+     *
+     * @param eventHandler  Event handler for these downloads
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param URLCollection {@link Collection} of {@link URL} to download.
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToString
+     * /
+    public void add(
+            final DownloadStringEvent   eventHandler,
+            final Proxy                 proxy,
+            final Collection<URL>       URLCollection
+            )
+        throws RejectedExecutionException
+    {
+        for( URL u: URLCollection ) {
+            addDownload( eventHandler, proxy, u );
+            }
+    }
+
+    /**
+     * Add downloads based on an {@link Iterable} object of {@link URL}
+     * <p>
+     * Read general description for more details
+     * </p>
+     *
+     * @param eventHandler  Event handler for these downloads
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param URLs          {@link Iterable} of {@link URL} to download.
+     * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @see DownloadToString
+     * /
+    public void add(
             final DownloadStringEvent   eventHandler,
             final Proxy                 proxy,
             final Iterable<URL>         URLs
@@ -132,7 +214,7 @@ public class DownloadExecutor
      * @param url           {@link URL} to download
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
-     */
+     * /
     public void addDownload(
             final DownloadStringEvent eventHandler,
             final Proxy               proxy,
@@ -155,7 +237,7 @@ public class DownloadExecutor
      * @param URLCollection {@link Collection} of {@link URL} to download.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
-     */
+     * /
     public void addDownload(
             final DownloadFileEvent eventHandler,
             final Proxy             proxy,
@@ -179,7 +261,7 @@ public class DownloadExecutor
      * @param url           {@link URL} to download
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
-     */
+     * /
     public void addDownload(
             final DownloadFileEvent eventHandler,
             final Proxy             proxy,
@@ -189,7 +271,7 @@ public class DownloadExecutor
     {
         Runnable command = new DownloadToFile( eventHandler, proxy, url );
         pool.execute( command );
-    }
+    }*/
 
     /**
      * Blocks until all tasks have completed execution
@@ -209,4 +291,21 @@ public class DownloadExecutor
         pool.shutdown();
     }
 
+    /**
+     * Returns the approximate number of threads that are actively executing tasks.
+     * @return the number of threads
+     */
+    public int getPollActiveCount()
+    {
+        return pool.getActiveCount();
+    }
+
+    /**
+     * Returns the approximate number of tasks in queue.
+     * @return the number of task to do.
+     */
+    public int getPoolQueueSize()
+    {
+        return pool.getQueue().size();
+    }
 }

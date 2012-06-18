@@ -13,64 +13,34 @@ import com.googlecode.cchlib.io.IOHelper;
  */
 public class DownloadToFile extends AbstractDownload
 {
-    private final DownloadFileEvent event;
-
-//    /**
-//     * Create a download task for {@link File}
-//     *
-//     * @param event Event to use for notifications
-//     * @param url   {@link URL} for download
-//     */
-//    public DownloadToFile( final DownloadFileEvent event, final URL url )
-//    {
-//        this( event, null,  url );
-//    }
-
     /**
-     * Create a download task for {@link File}
-     *
-     * @param event Event to use for notifications
-     * @param proxy {@link Proxy} to use for download (could be null)
-     * @param url   {@link URL} for download
+     * @throws UnsupportedDownloadEventTypeException
      */
-    public DownloadToFile( final DownloadFileEvent event, final Proxy proxy, final URL url )
+    public DownloadToFile( final DownloadEvent event, final Proxy proxy, final URL url )
     {
-        super( proxy, url );
+        super( event, proxy, url );
 
-        this.event  = event;
+        if( ! event.getDownloadResultType().equals( DownloadResultType.FILE ) ) {
+            throw new UnsupportedDownloadEventTypeException();
+            }
+
+        if( ! (event instanceof DownloadFileEvent) ) {
+            throw new UnsupportedDownloadEventTypeException();
+            }
     }
 
-    @Override
-    public void run()
+    protected DownloadResult download( InputStream inputStream )
+            throws DownloadIOException, IOException
     {
-        download();
-    }
-
-    private void download()
-    {
-        File file = null;
+        final File file = DownloadFileEvent.class.cast( getDownloadEvent() ).getDownloadTmpFile();
 
         try {
-            file = event.downloadStart( getURL() );
-
-            download( file );
+            IOHelper.copy( inputStream, file );
             }
         catch( IOException e ) {
-            event.downloadFail( getURL(), file, e );
-            }
-    }
-
-    private void download( final File file ) throws IOException
-    {
-        InputStream is = super.getInputStream();
-
-        try {
-            IOHelper.copy( is, file );
-            }
-        finally {
-            is.close();
+            throw new DownloadIOException( getURL(), file, e );
             }
 
-        this.event.downloadDone( getURL(), file );
+        return new DefaultDownloadResult( file );
     }
 }

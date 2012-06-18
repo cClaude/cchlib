@@ -21,11 +21,24 @@ public interface GenericDownloaderAppInterface
      */
     public int getNumberOfPicturesByPage();
 
+//    /**
+//     * Returns default number of page to download (for UI)
+//     * @return default number of page to download
+//     */
+//    public int getDefaultPageCount();
+
     /**
-     * Returns default number of page to download (for UI)
-     * @return default number of page to download
+     * Returns number of page to download (for UI). Value must be greater than 0 and
+     * less or equal than value return by {@link #getMaxPageCount()}.
+     * @return number of page to download
      */
-    public int getDefaultPageCount();
+    public int getPageCount();
+
+    /**
+     * Set number of page to download
+     * @see #getPageCount()
+     */
+    public void setPageCount( int pageCount );
 
     /**
      * Returns max number of page to download (for UI)
