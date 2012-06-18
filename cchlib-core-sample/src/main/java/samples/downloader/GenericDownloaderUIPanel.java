@@ -10,25 +10,24 @@ import javax.swing.JSpinner;
 import com.googlecode.cchlib.i18n.I18nString;
 import javax.swing.SwingConstants;
 
-public class GenericDownloaderUIPanel extends JPanel
+public class GenericDownloaderUIPanel
+    extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private JLabel pageScanCountJLabel;
     @I18nString private String numberOfPicturesByPageTxt = "%d picture(s) by page";
     private JSpinner pageScanCountJSpinner;
-    private String siteName;
+    //private String siteName;
+    private GenericDownloaderAppInterface config;
 
     /**
      * Create the panel.
      */
     public GenericDownloaderUIPanel(
-        final String    siteName,
-        final int       defaultPageCount,
-        final int       maxPageCount,
-        final int       numberOfPicturesByPage
+        final GenericDownloaderAppInterface config
         )
     {
-        this.siteName = siteName;
+        this.config = config;
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
@@ -38,7 +37,7 @@ public class GenericDownloaderUIPanel extends JPanel
         setLayout(gridBagLayout);
 
         {
-            JLabel sitenameJLabel = new JLabel( siteName );
+            JLabel sitenameJLabel = new JLabel( config.getSiteName() );
             sitenameJLabel.setHorizontalAlignment(SwingConstants.CENTER);
             GridBagConstraints gbc_sitenameJLabel = new GridBagConstraints();
             gbc_sitenameJLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -59,7 +58,13 @@ public class GenericDownloaderUIPanel extends JPanel
             add(pageScanCountJLabel, gbc_pageScanCountJLabel);
         }
         {
-            SpinnerNumberModel pageScanCountSpinnerModel = new SpinnerNumberModel( defaultPageCount, 1, maxPageCount, 1 );
+            SpinnerNumberModel pageScanCountSpinnerModel
+                = new SpinnerNumberModel(
+                        config.getDefaultPageCount(),
+                        1,
+                        config.getMaxPageCount(),
+                        1
+                        );
             pageScanCountJSpinner = new JSpinner( pageScanCountSpinnerModel );
 
             GridBagConstraints gbc_pageScanCountJSpinner = new GridBagConstraints();
@@ -71,7 +76,7 @@ public class GenericDownloaderUIPanel extends JPanel
         }
         {
             JLabel numberOfPicturesByPageLabel = new JLabel();
-            numberOfPicturesByPageLabel.setText( String.format( numberOfPicturesByPageTxt, numberOfPicturesByPage ) );
+            numberOfPicturesByPageLabel.setText( String.format( numberOfPicturesByPageTxt, config.getNumberOfPicturesByPage() ) );
             GridBagConstraints gbc_numberOfPicturesByPageLabel = new GridBagConstraints();
             gbc_numberOfPicturesByPageLabel.insets = new Insets(0, 0, 5, 0);
             gbc_numberOfPicturesByPageLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -81,9 +86,9 @@ public class GenericDownloaderUIPanel extends JPanel
         }
     }
 
-    public String getSiteName()
+    public GenericDownloaderAppInterface getGenericDownloaderAppInterface()
     {
-        return this.siteName;
+        return this.config;
     }
 
 }

@@ -194,7 +194,7 @@ public class DownloaderSample_gifpal
     @Override
     public int getNumberOfPicturesByPage()
     {
-        return 10; // FIXME
+        return 16;
     }
 
     @Override

@@ -190,12 +190,7 @@ public class GenericDownloaderUIApp extends JFrame
         for( int i = 0; i < downloaderUIPanels.length; i++ ) {
             GenericDownloaderAppInterface entry = downloadEntriesTypeList.get( i );
 
-            downloaderUIPanels[ i ] = new GenericDownloaderUIPanel(
-                    entry.getSiteName(),
-                    entry.getDefaultPageCount(),
-                    entry.getMaxPageCount(),
-                    entry.getNumberOfPicturesByPage()
-                    );
+            downloaderUIPanels[ i ] = new GenericDownloaderUIPanel( entry );
             }
 
         proxyComboBoxModel = new DefaultComboBoxModel<ProxyEntry>();
@@ -248,7 +243,7 @@ public class GenericDownloaderUIApp extends JFrame
             cardsPanel.setLayout(new CardLayout(0, 0));
 
             for( int i = 0; i < downloaderUIPanels.length; i++ ) {
-                cardsPanel.add( downloaderUIPanels[ i ], downloaderUIPanels[ i ].getSiteName() );
+                cardsPanel.add( downloaderUIPanels[ i ], downloaderUIPanels[ i ].getGenericDownloaderAppInterface().getSiteName() );
                 }
         }
         {
@@ -257,11 +252,20 @@ public class GenericDownloaderUIApp extends JFrame
                 public void itemStateChanged(ItemEvent event)
                 {
                     CardLayout cl = (CardLayout)(cardsPanel.getLayout());
-                    cl.show(cardsPanel, (String)event.getItem());
+                    String panelName = String.class.cast( event.getItem() );
+                    cl.show(cardsPanel, panelName );
+
+                    for( int i = 0; i < downloaderUIPanels.length; i++ ) {
+                        final GenericDownloaderAppInterface c = downloaderUIPanels[ i ].getGenericDownloaderAppInterface();
+                        if( c.getSiteName().equals( panelName ) ) {
+                            //xxxxx
+                            break;
+                            }
+                        }
                 }
             });
             for( GenericDownloaderUIPanel p : downloaderUIPanels ) {
-                siteJComboBox.addItem( p.getSiteName() );
+                siteJComboBox.addItem( p.getGenericDownloaderAppInterface().getSiteName() );
                 }
 
             GridBagConstraints gbc_siteJComboBox = new GridBagConstraints();
