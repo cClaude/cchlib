@@ -13,11 +13,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 import java.io.File;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -38,6 +36,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
 
+/**
+ * Application starting class
+ */
 public class GenericDownloaderUIApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
@@ -196,6 +197,7 @@ public class GenericDownloaderUIApp extends JFrame
         proxyComboBoxModel = new DefaultComboBoxModel<ProxyEntry>();
 
         proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
+        // FIXME: Provide a better way to store this !
         proxyComboBoxModel.addElement( new ProxyEntry( "55.37.80.2", 3128 ) );
     }
 

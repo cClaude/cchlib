@@ -6,6 +6,7 @@ import java.net.URL;
 
 /**
  * Exception generate when a error occur during download process
+ * @since 4.1.7
  */
 public class DownloadIOException extends Exception
 {

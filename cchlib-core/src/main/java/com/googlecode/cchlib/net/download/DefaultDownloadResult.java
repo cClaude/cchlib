@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  *
- *
+ * @since 4.1.7
  */
 public final class DefaultDownloadResult implements DownloadResult
 {

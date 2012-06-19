@@ -42,30 +42,4 @@ public class DownloadToString extends AbstractDownload
 
         return new DefaultDownloadResult( buffer.toString() );
     }
-
-
-    /*
-    @Override
-    public void run()
-    {
-        CharArrayWriter buffer = new CharArrayWriter();
-
-        this.event.downloadStart( getURL() );
-
-        try {
-            Reader r = new InputStreamReader( super.getInputStream() );
-
-            try {
-                IOHelper.copy( r, buffer );
-                }
-            finally {
-                r.close();
-                }
-
-            this.event.downloadDone( getURL(), buffer.toString() );
-            }
-        catch( IOException e ) {
-            this.event.downloadFail( getURL(), e );
-            }
-    }*/
 }

@@ -10,7 +10,7 @@ import java.net.URL;
  * Abstract Downloader
  * @since 4.1.5
  */
-//public
+//NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
     private DownloadEvent event;

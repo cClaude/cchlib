@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  *
+ * @since 4.1.7
  */
 // Not public
 final class DefaultURLCacheEntry implements URLDataCacheEntry //URLCacheEntry

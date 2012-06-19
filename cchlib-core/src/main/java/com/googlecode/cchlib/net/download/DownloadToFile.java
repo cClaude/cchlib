@@ -14,6 +14,10 @@ import com.googlecode.cchlib.io.IOHelper;
 public class DownloadToFile extends AbstractDownload
 {
     /**
+     *
+     * @param event
+     * @param proxy
+     * @param url
      * @throws UnsupportedDownloadEventTypeException
      */
     public DownloadToFile( final DownloadEvent event, final Proxy proxy, final URL url )
@@ -29,7 +33,8 @@ public class DownloadToFile extends AbstractDownload
             }
     }
 
-    protected DownloadResult download( InputStream inputStream )
+    @Override
+    protected DownloadResult download( final InputStream inputStream )
             throws DownloadIOException, IOException
     {
         final File file = DownloadFileEvent.class.cast( getDownloadEvent() ).getDownloadTmpFile();
