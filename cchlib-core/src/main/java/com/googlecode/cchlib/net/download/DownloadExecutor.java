@@ -86,13 +86,13 @@ public class DownloadExecutor
      * @see DownloadToString
      */
     public void add(
-            final DownloadEvent         eventHandler,
-            final Proxy                 proxy,
-            final Collection<URL>       URLCollection
+            final DownloadEvent                     eventHandler,
+            final Proxy                             proxy,
+            final Collection<? extends DownloadURL> downloadURLs
             )
         throws RejectedExecutionException
     {
-        for( URL u: URLCollection ) {
+        for( DownloadURL u: downloadURLs ) {
             addDownload( eventHandler, proxy, u );
             }
     }
@@ -112,11 +112,11 @@ public class DownloadExecutor
     public void add(
             final DownloadEvent         eventHandler,
             final Proxy                 proxy,
-            final Iterable<URL>         URLs
+            final Iterable<DownloadURL> downloadURLs
             )
         throws RejectedExecutionException
     {
-        for( URL u: URLs ) {
+        for( DownloadURL u: downloadURLs ) {
             addDownload( eventHandler, proxy, u );
             }
     }
@@ -136,19 +136,19 @@ public class DownloadExecutor
     public void addDownload(
             final DownloadEvent     eventHandler,
             final Proxy             proxy,
-            final URL               url
+            final DownloadURL       downloadURL
             )
         throws RejectedExecutionException
     {
         Runnable command;
 
-        switch( eventHandler.getDownloadResultType() ) {
+        switch( downloadURL.getType() ) {
             case STRING:
-                command = new DownloadToString( eventHandler, proxy, url );
+                command = new DownloadToString( eventHandler, proxy, downloadURL );
                 break;
 
             default:
-                command = new DownloadToFile( eventHandler, proxy, url );
+                command = new DownloadToFile( eventHandler, proxy, downloadURL );
                 break;
             }
 

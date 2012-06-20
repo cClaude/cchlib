@@ -15,20 +15,39 @@ abstract class AbstractDownload implements RunnableDownload
 {
     private DownloadEvent event;
     private final Proxy proxy;
-    private final URL   url;
+    //private final URL   url;
+    private DownloadURL downloadURL;
 
-    /**
+    /*
      * Create a download task using a proxy
      * @param event
      *
      * @param proxy {@link Proxy} to use for download (could be null)
      * @param url   {@link URL} for download
-     */
+     *
     public AbstractDownload( DownloadEvent event, final Proxy proxy, final URL url )
     {
         this.event  = event;
         this.proxy  = proxy;
         this.url    = url;
+    }*/
+
+    /**
+     * Create a download task using a proxy
+     *
+     * @param event
+     * @param proxy     {@link Proxy} to use for download (could be null)
+     * @param downloadURL
+     */
+    public AbstractDownload(
+            final DownloadEvent event,
+            final Proxy         proxy,
+            final DownloadURL   downloadURL
+            )
+    {
+        this.event          = event;
+        this.proxy          = proxy;
+        this.downloadURL    = downloadURL;
     }
 
     /**
@@ -40,10 +59,10 @@ abstract class AbstractDownload implements RunnableDownload
     protected InputStream getInputStream() throws IOException
     {
         if( proxy == null ) {
-            return url.openStream();
+            return downloadURL.getURL().openStream();
             }
         else {
-            HttpURLConnection uc = HttpURLConnection.class.cast( url.openConnection( proxy ) );
+            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
             uc.connect();
 
             return uc.getInputStream();
@@ -54,15 +73,15 @@ abstract class AbstractDownload implements RunnableDownload
     final // FIXME: remove this
     public void run()
     {
-        event.downloadStart( getURL() );
+        event.downloadStart( downloadURL );
 
         try {
             InputStream is = getInputStream();
 
             try {
-                DownloadResult result_string_or_file = download( is );
+                /*DownloadResult result_string_or_file =*/ download( is );
 
-                event.downloadDone( getURL(), result_string_or_file );
+                event.downloadDone( downloadURL /* getURL(), result_string_or_file*/ );
                 }
             finally {
                 is.close();
@@ -77,26 +96,35 @@ abstract class AbstractDownload implements RunnableDownload
     }
 
     /**
-     * TODOC
      *
-     * @param inputStream
-     * @return
+     */
+    @Override
+    public final URL getURL()
+    {
+        return this.downloadURL.getURL();
+    }
+
+   /**
+     * Must update {@link #getDownloadURL()} content to set result
+     *
+     * @param inputStream {@link InputStream} based on URL.
      * @throws DownloadIOException
      */
-    abstract protected DownloadResult download( InputStream inputStream )
+    abstract protected void download( InputStream inputStream )
             throws IOException, DownloadIOException;
 
     /**
      *
      * @return
      */
-    final // FIXME: remove this
-    protected DownloadEvent getDownloadEvent() { return event; };
+    protected final DownloadEvent getDownloadEvent() { return event; };
 
-    @Override
-    final // FIXME: remove this
-    public URL getURL()
+    /**
+     *
+     * @return
+     */
+    public final DownloadURL getDownloadURL()
     {
-        return url;
+        return this.downloadURL;
     }
 }

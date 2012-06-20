@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
  *
@@ -21,6 +23,7 @@ import java.util.Set;
 public class DownloaderSample1
     implements GenericDownloaderAppInterface
 {
+    private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
     //private final static Proxy PROXY = Proxy.NO_PROXY;
     private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
     // private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
@@ -37,7 +40,7 @@ public class DownloaderSample1
 
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
-    private List<URL> _htmlURLList = null;
+    private List<StringDownloadURL> _htmlURLList = null;
 
     /**
      * Start Sample here !
@@ -50,36 +53,7 @@ public class DownloaderSample1
 
         final DownloaderSample1 downloadConfig = new DownloaderSample1();
 
-        final LoggerListener mylogger = new LoggerListener()
-        {
-            @Override
-            public void warn( String msg )
-            {
-                System.out.println( msg );
-            }
-            @Override
-            public void info( String msg )
-            {
-                System.out.println( msg );
-            }
-            @Override
-            public void error( URL url, File file, Throwable cause )
-            {
-                System.err.println( "URL: " + url + " File: " + file + " - " + cause.getMessage() );
-            }
-            @Override
-            public void downloadStateInit( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void downloadStateChange( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-
-            }
-        };
-
+        final LoggerListener mylogger = new MyLoggerListener( logger );
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
         {
             @Override
@@ -211,14 +185,14 @@ public class DownloaderSample1
     }
 
     @Override
-    public Collection<URL> getURLDownloadAndParseCollection()
+    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
         if( _htmlURLList == null ) {
-            _htmlURLList = new ArrayList<URL>();
+            _htmlURLList = new ArrayList<StringDownloadURL>();
 
             for( int i=1; i<getPageCount(); i++ ) {
-                _htmlURLList.add( new URL( htmlURLBase + i ) );
+                _htmlURLList.add( new StringDownloadURL( htmlURLBase + i ) );
                 }
             }
 

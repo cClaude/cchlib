@@ -3,6 +3,7 @@ package samples.downloader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
  *
@@ -57,7 +58,7 @@ public interface GenericDownloaderAppInterface
      * @return a list of URL of json values to parse
      * @throws MalformedURLException
      */
-    public Collection<URL> getURLDownloadAndParseCollection()
+    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
         throws MalformedURLException;
 
     /**

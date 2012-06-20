@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.DownloadIOException;
+import com.googlecode.cchlib.net.download.DownloadURL;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -142,6 +144,37 @@ public class GenericDownloaderUIApp extends JFrame
             displayJProgressBar.setValue( event.getDownloadListSize() );
 
             logger.info( "update :" + event.getDownloadListSize() );
+        }
+        @Override
+        public void downloadFail( DownloadIOException e )
+        {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void downloadStart( DownloadURL url )
+        {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void downloadDone( DownloadURL url )
+        {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void downloadCantRename( DownloadURL dURL, File tmpFile,
+                File expectedCacheFile )
+        {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void downloadStored( DownloadURL dURL )
+        {
+            // TODO Auto-generated method stub
+
         }
     };
 

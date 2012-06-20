@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
  *
@@ -62,7 +63,7 @@ public class DownloaderSample_gifpal
     private final static String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
 
     private static final String CACHE_FOLDER_NAME = "output/www.gifpal.com";
-    private List<URL> _htmlURLList = null;
+    private List<StringDownloadURL> _htmlURLList = null;
 
 
     /**
@@ -76,38 +77,7 @@ public class DownloaderSample_gifpal
 
         final DownloaderSample_gifpal downloadConfig = new DownloaderSample_gifpal();
 
-        final LoggerListener mylogger = new LoggerListener()
-        {
-            @Override
-            public void warn( String msg )
-            {
-                //System.out.println( msg );
-                logger.warn( msg );
-            }
-            @Override
-            public void info( String msg )
-            {
-                //System.out.println( msg );
-                logger.info( msg );
-            }
-            @Override
-            public void error( URL url, File file, Throwable cause )
-            {
-                //String msg = "*ERROR: " + url + " - " + cause.getMessage() );
-                //System.err.println( "*ERROR: " + url + " - " + cause.getMessage() );
-                logger.error( "URL: " + url + " File: " + file, cause );
-            }
-            @Override
-            public void downloadStateInit( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void downloadStateChange( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-            }
-        };
+        final LoggerListener mylogger = new MyLoggerListener( logger );
 
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
         {
@@ -230,14 +200,15 @@ public class DownloaderSample_gifpal
     }
 
     @Override
-    public Collection<URL> getURLDownloadAndParseCollection() throws MalformedURLException
+    public Collection<StringDownloadURL> getURLDownloadAndParseCollection() throws MalformedURLException
     {
         if( _htmlURLList == null ) {
-            _htmlURLList = new ArrayList<URL>();
+            _htmlURLList = new ArrayList<StringDownloadURL>();
             //_htmlURLList.add( new URL( "http://www.google.com/" ) );
 
             for( int i=1; i< getPageCount(); i++ ) {
-                _htmlURLList.add( new URL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
+                //_htmlURLList.add( new URL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
+                _htmlURLList.add( new StringDownloadURL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
                 }
             }
 

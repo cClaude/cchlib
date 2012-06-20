@@ -17,17 +17,21 @@ public class DownloadToString extends AbstractDownload
 {
     /**
      * Create a download task for {@link String}
-     *
-     * @param event Event to use for notifications
-     * @param url   {@link URL} for download
+     * @param eventHandler  Event to use for notifications
+     * @param proxy
+     * @param downloadURL
      */
-    public DownloadToString( final DownloadEvent event, final Proxy proxy, final URL url )
+    public DownloadToString(
+            final DownloadEvent eventHandler,
+            final Proxy         proxy,
+            final DownloadURL   downloadURL
+            )
     {
-        super( event, proxy, url );
+        super( eventHandler, proxy, downloadURL );
     }
 
     @Override
-    protected DownloadResult download( InputStream inputStream )
+    protected void download( InputStream inputStream )
             throws IOException, DownloadIOException
     {
         CharArrayWriter buffer = new CharArrayWriter();
@@ -40,6 +44,6 @@ public class DownloadToString extends AbstractDownload
             r.close();
             }
 
-        return new DefaultDownloadResult( buffer.toString() );
+        getDownloadURL().setResultAsString( buffer.toString() );
     }
 }

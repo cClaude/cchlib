@@ -11,6 +11,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
  *
@@ -20,6 +22,7 @@ import java.util.Iterator;
 public class DownloaderSample2 //extends GenericDownloader
     implements GenericDownloaderAppInterface
 {
+    private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
     private final static int    DOWNLOAD_THREAD = 20;
     //private final static Proxy PROXY = Proxy.NO_PROXY;
     private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
@@ -50,36 +53,7 @@ public class DownloaderSample2 //extends GenericDownloader
         destinationFolderFile.mkdirs();
 
         final DownloaderSample2 downloadConfig = new DownloaderSample2();
-
-        final LoggerListener mylogger = new LoggerListener()
-        {
-            @Override
-            public void warn( String msg )
-            {
-                System.out.println( msg );
-            }
-            @Override
-            public void info( String msg )
-            {
-                System.out.println( msg );
-            }
-            @Override
-            public void error( URL url, File file, Throwable cause )
-            {
-                System.err.println( "URL: " + url + " File: " + file + " - " + cause.getMessage() );
-            }
-            @Override
-            public void downloadStateInit( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void downloadStateChange( DownloadStateEvent event )
-            {
-                // TODO Auto-generated method stub
-            }
-        };
-
+        final LoggerListener mylogger = new MyLoggerListener( logger );
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
         {
             @Override
@@ -157,7 +131,7 @@ public class DownloaderSample2 //extends GenericDownloader
     }
 
     @Override
-    public Collection<URL> getURLDownloadAndParseCollection()
+    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
         return Collections.emptyList();

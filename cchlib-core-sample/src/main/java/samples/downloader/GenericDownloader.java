@@ -16,8 +16,9 @@ import com.googlecode.cchlib.net.download.DownloadEvent;
 import com.googlecode.cchlib.net.download.DownloadExecutor;
 import com.googlecode.cchlib.net.download.DownloadFileEvent;
 import com.googlecode.cchlib.net.download.DownloadIOException;
-import com.googlecode.cchlib.net.download.DownloadResult;
-import com.googlecode.cchlib.net.download.DownloadResultType;
+import com.googlecode.cchlib.net.download.DownloadURL;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
+import com.googlecode.cchlib.net.download.StringDownloadURL;
 import com.googlecode.cchlib.net.download.URLCache;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
@@ -86,7 +87,7 @@ public abstract class GenericDownloader
      * @return  a list of String with content of all URLS download content.
      * @throws IOException if any
      */
-    protected List<String> loads( final Collection<URL> urls ) throws IOException
+    protected List<String> loads( final Collection<StringDownloadURL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
@@ -101,29 +102,36 @@ public abstract class GenericDownloader
 
         final DownloadEvent eventStringHandler = new DownloadEvent()
         {
+//            @Override
+//            public DownloadResultType getDownloadResultType()
+//            {
+//                return DownloadResultType.STRING;
+//            }
             @Override
-            public DownloadResultType getDownloadResultType()
+            public void downloadStart( final DownloadURL dURL )
             {
-                return DownloadResultType.STRING;
+//XX//                loggerListener.info( "downloading as a String: " + url );
+                loggerListener.downloadStart( dURL );
             }
             @Override
-            public void downloadStart( final URL url )
-            {
-                loggerListener.info( "downloading as a String: " + url );
-            }
-            @Override
-            public void downloadDone( URL url, DownloadResult downloadResult )
+            public void downloadDone( DownloadURL dURL )
             {
                 if( logger.isDebugEnabled() ) {
-                    logger.debug( url.toExternalForm() + " -> " + downloadResult.getString().length() );
+                    logger.debug( dURL /* + " -> " + downloadResult.getString().length()*/ );
                     }
 
-                result.add( downloadResult.getString() );
+//                result.add( downloadResult.getString() );
+//                loggerListener.downloadDone( url, downloadResult );
+
+                result.add( dURL.getResultAsString() );
+
+                loggerListener.downloadDone( dURL );
             }
             @Override
             public void downloadFail( DownloadIOException e )
             {
-                loggerListener.error( e.getUrl(), e.getFile(), e.getCause() ); // No file, just put download into string !
+//XX//                loggerListener.error( e.getUrl(), e.getFile(), e.getCause() ); // No file, just put download into string !
+                loggerListener.downloadFail( e );
             }
         };
 
@@ -165,22 +173,24 @@ public abstract class GenericDownloader
                     }
                 });
             }
+//            @Override
+//            public DownloadResultType getDownloadResultType()
+//            {
+//                return DownloadResultType.FILE;
+//            }
             @Override
-            public DownloadResultType getDownloadResultType()
+            public void downloadStart( DownloadURL dURL )
             {
-                return DownloadResultType.FILE;
-            }
-            @Override
-            public void downloadStart( URL url )
-            {
-                loggerListener.info( "Start downloading: " + url );
+//XX//                loggerListener.info( "Start downloading: " + url );
+                loggerListener.downloadStart( dURL );
             }
             @Override
             public void downloadFail( DownloadIOException e )
             {
                 final File file = e.getFile();
 
-                loggerListener.error( e.getUrl(), file, e.getCause() );
+//XX//                loggerListener.error( e.getUrl(), file, e.getCause() );
+                loggerListener.downloadFail( e );
 
                 if( file != null ) {
                     file.delete();
@@ -189,9 +199,9 @@ public abstract class GenericDownloader
                 updateDisplay();
             }
             @Override
-            public void downloadDone( URL url, DownloadResult result )
+            public void downloadDone( DownloadURL dURL /* URL url, DownloadResult result*/ )
             {
-                final File file = result.getFile();
+                final File file = dURL.getResultAsFile();
 
                 try {
                     // Compute MD5 hash code
@@ -218,11 +228,14 @@ public abstract class GenericDownloader
                     boolean isRename = file.renameTo( ffile );
 
                     if( isRename ) {
-                        loggerListener.info( "new file > " + ffile );
-                        cache.add( url, hashCodeString, ffile.getName() );
+//XX//                        loggerListener.info( "new file > " + ffile );
+                        dURL.setResultAsFile( ffile );
+                        loggerListener.downloadStored( dURL );
+                        cache.add( dURL.getURL(), hashCodeString, ffile.getName() );
                         }
                     else {
-                        loggerListener.info( "*** already exists ? " + ffile );
+//XX//                  loggerListener.info( "*** already exists ? " + ffile );
+                        loggerListener.downloadCantRename( dURL, file, ffile );
                         }
                     }
                 catch( FileNotFoundException e ) {
@@ -246,6 +259,7 @@ public abstract class GenericDownloader
                     }
 
                 updateDisplay();
+
             }
             @Override
             public File getDownloadTmpFile() throws IOException
@@ -257,10 +271,12 @@ public abstract class GenericDownloader
         for( URL u: urls ) {
             if( cache.isInCache( u ) ) {
                 // skip this entry !
-                loggerListener.info( "Already loaded: " + u );
+                loggerListener.info( "Already in cache (Skip): " + u );
                 }
             else {
-                downloadExecutor.addDownload( eventHandler, proxy, u );
+                DownloadURL du = new FileDownloadURL( u );
+
+                downloadExecutor.addDownload( eventHandler, proxy, du  );
                 }
             }
 
