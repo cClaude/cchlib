@@ -2,6 +2,7 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,52 +22,49 @@ import javax.swing.event.EventListenerList;
  *
  * @since 4.1.5
  */
-public class URLCache implements Serializable
+public class URLCache implements Serializable, Closeable
 {
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private static final long serialVersionUID = 2L;
     private CacheContent cache;
     private final File cacheRootDirFile;
-    private File cacheFile;
+    private File __cacheFile;
     private boolean autostore;
     private int autostoreThreshold = 50;
     private int modificationCount = 0;
 
     /**
      * Create a new URLCache
+     *
+     * @param cacheRootDirFile Root {@link File} directory.
+     * @throws NullPointerException if cacheRootDirFile is null
      */
     public URLCache(  final File cacheRootDirFile )
     {
         this.cacheRootDirFile = cacheRootDirFile;
         this.cache            = new CacheContent();
         this.autostore        = false;
+
+        if( cacheRootDirFile == null ) {
+            throw new NullPointerException( "cacheRootDirFile is null" );
+            }
     }
 
-//    /**
-//     * Create a new URLCache using giving cacheFile
-//     *
-//     * @param cacheFile {@link File} to use has cache
-//     * @throws IllegalStateException if cache file exist but can not be read
-//     */
-//    public URLCache( final File cacheRootDirFile, final File cacheFile )
-//    {
-//        this.cacheRootDirFile = cacheRootDirFile;
-//
-//        setCacheFile( cacheFile );
-//
-//        try {
-//            load();
-//            }
-//        catch( FileNotFoundException e ) {
-//            this.cache = new CacheContent();
-//            }
-//        catch( Exception e ) {
-//            throw new IllegalStateException( e );
-//            }
-//
-//        this.autostore = true;
-//    }
+    /**
+     * Create a new URLCache
+     *
+     * @param cacheRootDirFile Root {@link File} directory.
+     * @param cacheFilename    Cache index filename
+     * @throws NullPointerException if cacheFilename is null
+     * @throws NullPointerException if cacheRootDirFile is null
+     */
+    public URLCache(  final File cacheRootDirFile, final String cacheFilename )
+    {
+        this( cacheRootDirFile );
+
+        setCacheFilename( cacheFilename );
+    }
 
     /**
      * Returns temporary directory {@link File} for this cache.
@@ -76,8 +74,23 @@ public class URLCache implements Serializable
     {
         return this.cacheRootDirFile;
     }
+
     /**
-     * Check if an {@link URL} is in cache
+     * Check if an {@link URL} is in cache, but don't care about
+     * data.
+     *
+     * @param url {@link URL} to check
+     * @return true if {@link URL} is in cache,
+     *   false otherwise
+     */
+    public boolean isInCacheIndex( final URL url )
+    {
+        return get( url ) != null;
+    }
+
+    /**
+     * Check if an {@link URL} is in cache and if file is
+     * already in cache directory.
      *
      * @param url {@link URL} to check
      * @return true if {@link URL} is in cache and if
@@ -170,19 +183,41 @@ public class URLCache implements Serializable
     /**
      * Set cacheFile for this cache
      * @param cacheFile {@link File} to set
+     * @throws NullPointerException if cacheFile is null
      */
     public void setCacheFile( final File cacheFile )
     {
-        this.cacheFile = cacheFile;
+        if( cacheFile == null ) {
+            throw new NullPointerException( "cacheFile is null" );
+            }
+
+        this.__cacheFile = cacheFile;
     }
 
+    /**
+     * Set cacheFile for this cache
+     * @param cacheFilename Cache filename to set
+     * @throws NullPointerException if cacheFilename is null
+     */
+    public void setCacheFilename( String cacheFilename )
+    {
+        if( cacheFilename == null ) {
+            throw new NullPointerException( "cacheFilename is null" );
+            }
+
+        setCacheFile( new File( cacheRootDirFile, cacheFilename ) ) ;
+    }
     /**
      * Returns cache {@link File}
      * @return cacheFile for this cache
      */
     public File getCacheFile()
     {
-        return this.cacheFile;
+        if( this.__cacheFile == null ) {
+            this.__cacheFile = new File( this.cacheRootDirFile, ".cache-index" );
+            }
+
+        return this.__cacheFile;
     }
 
     /**
@@ -291,7 +326,7 @@ public class URLCache implements Serializable
 
     private void autoStore()
     {
-        if( this.autostore && this.cacheFile != null ) {
+        if( this.autostore ) {
             if( this.modificationCount > this.autostoreThreshold ) {
                 try {
                     store();
@@ -415,4 +450,50 @@ public class URLCache implements Serializable
                 }
             }
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "URLCache [cacheRootDirFile=" );
+        builder.append( cacheRootDirFile );
+        builder.append( ", cacheFile=" );
+        builder.append( getCacheFile() );
+        builder.append( ", autostore=" );
+        builder.append( autostore );
+        builder.append( ", autostoreThreshold=" );
+        builder.append( autostoreThreshold );
+        builder.append( ", modificationCount=" );
+        builder.append( modificationCount );
+        builder.append( ", cache size=" );
+        builder.append( cache.size() );
+
+//        builder.append( ", cache content URLs=[\n" );
+//        for( URLFullCacheEntry u : cache ) {
+//            builder.append( u.getURL() );
+//            builder.append( "\n" );
+//            }
+//        builder.append( "]" );
+
+        builder.append( "]" );
+
+        return builder.toString();
+    }
+
+    @Override
+    public void close() throws IOException
+    {
+        if( this.getCacheFile() != null ) {
+            store();
+            }
+    }
+
+    @Override
+    protected void finalize() throws Throwable
+    {
+        close();
+
+        super.finalize();
+    }
+
 }
