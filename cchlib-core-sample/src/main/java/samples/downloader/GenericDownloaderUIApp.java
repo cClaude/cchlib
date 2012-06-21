@@ -18,10 +18,9 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
+//import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
-import com.googlecode.cchlib.net.download.DownloadURL;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -37,6 +36,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
+import javax.swing.JTable;
 
 /**
  * Application starting class
@@ -45,7 +45,11 @@ public class GenericDownloaderUIApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( GenericDownloaderUIApp.class );
+
     protected static final String APP_NAME = "Downloader";
+
+    private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
+    private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -65,118 +69,12 @@ public class GenericDownloaderUIApp extends JFrame
     private JProgressBar displayJProgressBar;
     private JScrollPane cardsPanel_JScrollPane;
     private JSpinner downloadThreadNumberJSpinner;
-    private JTextArea displayJTextArea;
+    //private JTextArea displayJTextArea;
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
-    private StringBuilder _printDisplayStringBuilder = new StringBuilder();
+    //private StringBuilder _printDisplayStringBuilder = new StringBuilder();
+    private JTable displayJTable;
 
-    private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
-    private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
 
-    private class ProxyEntry
-    {
-        private Proxy proxy;
-        private String displayString;
-
-        public ProxyEntry( String hostname, int port )
-        {
-            this( new Proxy( Proxy.Type.HTTP, new InetSocketAddress( hostname, port ) ) );
-        }
-
-        public ProxyEntry( final Proxy proxy )
-        {
-            this( proxy, proxy.toString() );
-        }
-
-        public ProxyEntry( Proxy proxy, String displayString )
-        {
-            this.proxy = proxy;
-            this.displayString = displayString;
-        }
-
-        @Override
-        public String toString()
-        {
-            return displayString;
-        }
-
-        public Proxy getProxy()
-        {
-            return proxy;
-        }
-    }
-
-    private final LoggerListener loggerWrapper = new LoggerListener()
-    {
-        @Override
-        public void warn( String msg )
-        {
-            printDisplay( "*** WARN: ", msg );
-            logger.warn( msg );
-        }
-        @Override
-        public void info( String msg )
-        {
-            printDisplay( msg );
-            logger.info( msg );
-        }
-        @Override
-        public void error( URL url, File file, Throwable cause )
-        {
-            printDisplay( "*** ERROR: ", url.toExternalForm() );
-
-            logger .error( "Error while download: " + url + " to file: " + file, cause );
-        }
-        @Override
-        public void downloadStateInit( DownloadStateEvent event )
-        {
-            displayJProgressBar.setMinimum( 0 );
-            displayJProgressBar.setMaximum( event.getDownloadListSize() );
-            displayJProgressBar.setValue( 0 );
-            displayJProgressBar.setEnabled( true );
-            displayJProgressBar.setIndeterminate( false );
-            displayJProgressBar.setStringPainted( true );
-
-            logger.info( "init :" + event.getDownloadListSize() );
-        }
-        @Override
-        public void downloadStateChange( DownloadStateEvent event )
-        {
-            displayJProgressBar.setValue( event.getDownloadListSize() );
-
-            logger.info( "update :" + event.getDownloadListSize() );
-        }
-        @Override
-        public void downloadFail( DownloadIOException e )
-        {
-            // TODO Auto-generated method stub
-
-        }
-        @Override
-        public void downloadStart( DownloadURL url )
-        {
-            // TODO Auto-generated method stub
-
-        }
-        @Override
-        public void downloadDone( DownloadURL url )
-        {
-            // TODO Auto-generated method stub
-
-        }
-        @Override
-        public void downloadCantRename( DownloadURL dURL, File tmpFile,
-                File expectedCacheFile )
-        {
-            // TODO Auto-generated method stub
-
-        }
-        @Override
-        public void downloadStored( DownloadURL dURL )
-        {
-            // TODO Auto-generated method stub
-
-        }
-    };
 
     /**
      * Launch the application.
@@ -261,8 +159,8 @@ public class GenericDownloaderUIApp extends JFrame
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
         gbl_contentPane.rowHeights = new int[]{0, 50, 0, 0, 0, 0, 0};
-        gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 2.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 1.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
         {
             cardsPanel_JScrollPane = new JScrollPane();
@@ -352,18 +250,17 @@ public class GenericDownloaderUIApp extends JFrame
             contentPane.add(downloadThreadNumberJSpinner, gbc_downloadThreadNumberJSpinner);
         }
         {
-            JScrollPane displayJTextArea_JScrollPane = new JScrollPane();
-            GridBagConstraints gbc_displayJTextArea_JScrollPane = new GridBagConstraints();
-            gbc_displayJTextArea_JScrollPane.fill = GridBagConstraints.BOTH;
-            gbc_displayJTextArea_JScrollPane.gridwidth = 4;
-            gbc_displayJTextArea_JScrollPane.insets = new Insets(0, 0, 5, 0);
-            gbc_displayJTextArea_JScrollPane.gridx = 0;
-            gbc_displayJTextArea_JScrollPane.gridy = 3;
-            contentPane.add(displayJTextArea_JScrollPane, gbc_displayJTextArea_JScrollPane);
+            JScrollPane displayJScrollPane = new JScrollPane();
+            GridBagConstraints gbc_displayJScrollPane = new GridBagConstraints();
+            gbc_displayJScrollPane.fill = GridBagConstraints.BOTH;
+            gbc_displayJScrollPane.gridwidth = 4;
+            gbc_displayJScrollPane.insets = new Insets(0, 0, 5, 0);
+            gbc_displayJScrollPane.gridx = 0;
+            gbc_displayJScrollPane.gridy = 3;
+            contentPane.add(displayJScrollPane, gbc_displayJScrollPane);
             {
-                displayJTextArea = new JTextArea();
-                displayJTextArea.setEditable(false);
-                displayJTextArea_JScrollPane.setViewportView(displayJTextArea);
+                displayJTable = new JTable( displayTableModel );
+                displayJScrollPane.setViewportView( displayJTable );
             }
         }
         {
@@ -411,7 +308,7 @@ public class GenericDownloaderUIApp extends JFrame
         stopJButton.setEnabled( true );
         siteJComboBox.setEnabled( false );
 
-        displayJTextArea.setText( "" );
+        //displayJTextArea.setText( "" );
         displayJProgressBar.setIndeterminate( true );
         displayJProgressBar.setEnabled( true );
 
@@ -447,7 +344,8 @@ public class GenericDownloaderUIApp extends JFrame
                     @Override
                     public LoggerListener getAbstractLogger()
                     {
-                        return loggerWrapper;
+                        //return loggerWrapper;
+                        return displayTableModel;
                     }
                 };
 
@@ -455,7 +353,7 @@ public class GenericDownloaderUIApp extends JFrame
                     instance.startDownload( gdai, gdauir );
                     }
                 catch( Exception e ) {
-                    printDisplay( "*** FATAL: ", e.getMessage() );
+                    //printDisplay( "*** FATAL: ", e.getMessage() );
                     logger.fatal( "fatal", e );
                     }
 
@@ -469,7 +367,7 @@ public class GenericDownloaderUIApp extends JFrame
         }).start();
     }
 
-
+/*
     private static final int MAX_DISPLAY_TEXT_LENGTH = 16 * 1024;
     private void printDisplay( String...messages )
     {
@@ -497,5 +395,132 @@ public class GenericDownloaderUIApp extends JFrame
         displayJTextArea.setText( _printDisplayStringBuilder.toString() );
         _printDisplayStringBuilder.setLength( 0 );
     }
+*/
+
+
+    private class ProxyEntry
+    {
+        private Proxy proxy;
+        private String displayString;
+
+        public ProxyEntry( String hostname, int port )
+        {
+            this( new Proxy( Proxy.Type.HTTP, new InetSocketAddress( hostname, port ) ) );
+        }
+
+        public ProxyEntry( final Proxy proxy )
+        {
+            this( proxy, proxy.toString() );
+        }
+
+        public ProxyEntry( Proxy proxy, String displayString )
+        {
+            this.proxy = proxy;
+            this.displayString = displayString;
+        }
+
+        @Override
+        public String toString()
+        {
+            return displayString;
+        }
+
+        public Proxy getProxy()
+        {
+            return proxy;
+        }
+    }
+
+    private final DisplayTableModel displayTableModel = new DisplayTableModel()
+    {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void warn( String msg )
+        {
+            //printDisplay( "*** WARN: ", msg );
+            logger.warn( msg );
+        }
+        @Override
+        public void info( String msg )
+        {
+            //printDisplay( msg );
+            logger.info( msg );
+        }
+        @Override
+        public void error( URL url, File file, Throwable cause )
+        {
+            //printDisplay( "*** ERROR: ", url.toExternalForm() );
+
+            logger .error( "Error while download: " + url + " to file: " + file, cause );
+        }
+        @Override
+        public void downloadStateInit( DownloadStateEvent event )
+        {
+            displayJProgressBar.setMinimum( 0 );
+            displayJProgressBar.setMaximum( event.getDownloadListSize() );
+            displayJProgressBar.setValue( 0 );
+            displayJProgressBar.setEnabled( true );
+            displayJProgressBar.setIndeterminate( false );
+            displayJProgressBar.setStringPainted( true );
+
+            logger.info( "init :" + event.getDownloadListSize() );
+        }
+        @Override
+        public void downloadStateChange( DownloadStateEvent event )
+        {
+            displayJProgressBar.setValue( event.getDownloadListSize() );
+
+            logger.info( "update :" + event.getDownloadListSize() );
+        }
+        @Override
+        public void downloadFail( DownloadIOException e )
+        {
+            logger.error( "DownloadFail", e );
+        }
+    };
 
 }
+
+/*
+private final LoggerListener loggerWrapper = new LoggerListener()
+{
+    @Override
+    public void warn( String msg )
+    {
+        //printDisplay( "*** WARN: ", msg );
+        logger.warn( msg );
+    }
+    @Override
+    public void info( String msg )
+    {
+        //printDisplay( msg );
+        logger.info( msg );
+    }
+    @Override
+    public void error( URL url, File file, Throwable cause )
+    {
+        //printDisplay( "*** ERROR: ", url.toExternalForm() );
+
+        logger .error( "Error while download: " + url + " to file: " + file, cause );
+    }
+    @Override
+    public void downloadStateInit( DownloadStateEvent event )
+    {
+        displayJProgressBar.setMinimum( 0 );
+        displayJProgressBar.setMaximum( event.getDownloadListSize() );
+        displayJProgressBar.setValue( 0 );
+        displayJProgressBar.setEnabled( true );
+        displayJProgressBar.setIndeterminate( false );
+        displayJProgressBar.setStringPainted( true );
+
+        logger.info( "init :" + event.getDownloadListSize() );
+    }
+    @Override
+    public void downloadStateChange( DownloadStateEvent event )
+    {
+        displayJProgressBar.setValue( event.getDownloadListSize() );
+
+        logger.info( "update :" + event.getDownloadListSize() );
+    }
+};*/

@@ -2,24 +2,42 @@ package samples.downloader;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import com.googlecode.cchlib.net.download.DownloadIOException;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadURL;
 
 /**
  *
  */
-public class DisplayTableModel
+public abstract class DisplayTableModel
     extends AbstractTableModel
         implements LoggerListener
 {
     private static final long serialVersionUID = 1L;
+    private static final transient Logger logger = Logger.getLogger( DisplayTableModel.class );
+    private ArrayList<DisplayTableModelEntry> list = new ArrayList<>();
 
     /**
      *
      */
     public DisplayTableModel()
     {
+        //empty !
+    }
+
+    private int findEntryIndex( final URL url )
+    {
+        int index = 0;
+
+        for( DisplayTableModelEntry entry : list ) {
+            if( entry.getURL().equals( url ) ) {
+                return index;
+                }
+            index++;
+            }
+
+        return -1;
     }
 
     /* (non-Javadoc)
@@ -28,8 +46,14 @@ public class DisplayTableModel
     @Override//AbstractTableModel
     public int getColumnCount()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return DisplayTableModelEntry.ENTRY_COLUMN_COUNT;
+    }
+
+    @Override//AbstractTableModel
+    public String getColumnName( final int columnIndex )
+    {
+        System.err.println( "columnIndex: " + DisplayTableModelEntry.getColumnName( columnIndex ) );
+        return DisplayTableModelEntry.getColumnName( columnIndex );
     }
 
     /* (non-Javadoc)
@@ -38,8 +62,7 @@ public class DisplayTableModel
     @Override//AbstractTableModel
     public int getRowCount()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return list.size();
     }
 
     /* (non-Javadoc)
@@ -48,78 +71,105 @@ public class DisplayTableModel
     @Override//AbstractTableModel
     public Object getValueAt( int rowIndex, int columnIndex )
     {
-        // TODO Auto-generated method stub
-        return null;
+        return list.get( rowIndex ).getColumn( columnIndex );
+    }
+
+//    @Override
+//    public void downloadFail( DownloadIOException e )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+
+//    @Override
+//    public void warn( String msg )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void info( String msg )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void error( URL url, File file, Throwable cause )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+
+//    @Override
+//    public void downloadStateInit( DownloadStateEvent event )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void downloadStateChange( DownloadStateEvent event )
+//    {
+//        // TODO Auto-generated method stub
+//
+//    }
+
+    @Override
+    public void downloadStart( final DownloadURL dURL )
+    {
+        this.list.add( new DisplayTableModelEntry( dURL ) );
+
+        super.fireTableDataChanged();
     }
 
     @Override
-    public void downloadFail( DownloadIOException e )
+    public void downloadDone( final DownloadURL dURL )
     {
-        // TODO Auto-generated method stub
+        final int index = findEntryIndex( dURL.getURL() );
 
+        if( index == -1 ) {
+            logger .fatal( "URL not in list: " + dURL );
+            }
+        else {
+            list.get( index ).update( DisplayTableModelEntryState.DONE, dURL );
+
+            super.fireTableRowsUpdated( index, index );
+            }
     }
 
     @Override
-    public void warn( String msg )
+    public void downloadCantRename(
+            final DownloadURL   dURL,
+            final File          tmpFile,
+            final File          expectedCacheFile
+            )
     {
-        // TODO Auto-generated method stub
+        final int index = findEntryIndex( dURL.getURL() );
 
+        if( index == -1 ) {
+            logger .fatal( "URL not in list: " + dURL );
+            }
+        else {
+            list.get( index ).update( DisplayTableModelEntryState.CANT_RENAME, dURL );
+
+            super.fireTableRowsUpdated( index, index );
+            }
     }
 
     @Override
-    public void info( String msg )
+    public void downloadStored( final DownloadURL dURL )
     {
-        // TODO Auto-generated method stub
+        final int index = findEntryIndex( dURL.getURL() );
 
-    }
+        if( index == -1 ) {
+            logger .fatal( "URL not in list: " + dURL );
+            }
+        else {
+            list.get( index ).update( DisplayTableModelEntryState.STORED, dURL );
 
-    @Override
-    public void error( URL url, File file, Throwable cause )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadStateInit( DownloadStateEvent event )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadStateChange( DownloadStateEvent event )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadStart( DownloadURL url )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadDone( DownloadURL url )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadCantRename( DownloadURL dURL, File tmpFile,
-            File expectedCacheFile )
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void downloadStored( DownloadURL dURL )
-    {
-        // TODO Auto-generated method stub
-
+            super.fireTableRowsUpdated( index, index );
+            }
     }
 }

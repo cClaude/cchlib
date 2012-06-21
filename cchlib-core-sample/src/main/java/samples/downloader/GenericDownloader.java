@@ -67,7 +67,7 @@ public abstract class GenericDownloader
         this.loggerListener             = logger;
 
         this.cache = new URLCache( destinationDirectoryFile );
-        this.cache.setCacheFile( ( new File( destinationDirectoryFile, ".cache" ) ) );
+        this.cache.setCacheFilename( ".cache" );
         this.cache.setAutoStorage( true );
 
         try  {
@@ -268,29 +268,41 @@ public abstract class GenericDownloader
             }
         };
 
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "Cache content: " + cache );
+            }
+
+        final int statsAskedDownload = urls.size();
+        int statsLauchedDownload = 0;
+
         for( URL u: urls ) {
-            if( cache.isInCache( u ) ) {
+            if( cache.isInCacheIndex( u ) ) {
+            //if( cache.isInCache( u ) ) {
                 // skip this entry !
                 loggerListener.info( "Already in cache (Skip): " + u );
                 }
             else {
                 DownloadURL du = new FileDownloadURL( u );
 
-                downloadExecutor.addDownload( eventHandler, proxy, du  );
+                downloadExecutor.addDownload( eventHandler, proxy, du );
+                statsLauchedDownload++;
                 }
             }
 
         downloadExecutor.waitClose();
-        storeCache();
-    }
 
-    private void storeCache()
-    {
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "statsAskedDownload = " + statsAskedDownload );
+            logger.debug( "statsLauchedDownload = " + statsLauchedDownload );
+            }
+
         try {
             this.cache.store();
             }
-        catch( IOException logOnly ) {
-            logOnly.printStackTrace();
+        catch( IOException ioe ) {
+            logger.error( "Error while storing cache index", ioe );
+
+            throw ioe;
             }
     }
 }
