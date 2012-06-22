@@ -140,7 +140,7 @@ public class GenericDownloaderUIApp extends JFrame
         init();
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setBounds( 100, 100, 600, 300 );
+        setSize( 600, 500 );
         {
             menuBar = new JMenuBar();
             setJMenuBar(menuBar);
@@ -160,7 +160,7 @@ public class GenericDownloaderUIApp extends JFrame
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
         gbl_contentPane.rowHeights = new int[]{0, 50, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 1.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
         {
             cardsPanel_JScrollPane = new JScrollPane();
@@ -307,10 +307,15 @@ public class GenericDownloaderUIApp extends JFrame
         startJButton.setEnabled( false );
         stopJButton.setEnabled( true );
         siteJComboBox.setEnabled( false );
+        proxyJComboBox.setEnabled( false );
+        downloadThreadNumberJSpinner.setEnabled( false );
+        siteJComboBox.setEnabled( false );
 
         //displayJTextArea.setText( "" );
         displayJProgressBar.setIndeterminate( true );
         displayJProgressBar.setEnabled( true );
+
+        displayTableModel.clear();
 
         // UI get values
         final GenericDownloaderAppInterface gdai  = downloadEntriesTypeList.get( siteJComboBox.getSelectedIndex() );
@@ -359,6 +364,9 @@ public class GenericDownloaderUIApp extends JFrame
 
                 startJButton.setEnabled( true );
                 stopJButton.setEnabled( false );
+                siteJComboBox.setEnabled( true );
+                proxyJComboBox.setEnabled( true );
+                downloadThreadNumberJSpinner.setEnabled( true );
                 siteJComboBox.setEnabled( true );
 
                 displayJProgressBar.setIndeterminate( false );

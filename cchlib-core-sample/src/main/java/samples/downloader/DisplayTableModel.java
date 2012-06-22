@@ -26,6 +26,13 @@ public abstract class DisplayTableModel
         //empty !
     }
 
+    public void clear()
+    {
+        list.clear();
+
+        super.fireTableDataChanged();
+    }
+
     private int findEntryIndex( final URL url )
     {
         int index = 0;
@@ -73,48 +80,6 @@ public abstract class DisplayTableModel
     {
         return list.get( rowIndex ).getColumn( columnIndex );
     }
-
-//    @Override
-//    public void downloadFail( DownloadIOException e )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
-
-//    @Override
-//    public void warn( String msg )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void info( String msg )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void error( URL url, File file, Throwable cause )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
-
-//    @Override
-//    public void downloadStateInit( DownloadStateEvent event )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void downloadStateChange( DownloadStateEvent event )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
 
     @Override
     public void downloadStart( final DownloadURL dURL )
@@ -172,4 +137,5 @@ public abstract class DisplayTableModel
             super.fireTableRowsUpdated( index, index );
             }
     }
+
 }

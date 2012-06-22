@@ -3,7 +3,7 @@ package samples.downloader;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
-import com.googlecode.cchlib.net.download.DownloadResultType;
+import com.googlecode.cchlib.net.download.DownloadURLResultType;
 import com.googlecode.cchlib.net.download.DownloadURL;
 
 /**
@@ -105,7 +105,7 @@ class DisplayTableModelEntry implements Serializable
     {
         setState( state );
 
-        if( dURL.getType() == DownloadResultType.FILE ) {
+        if( dURL.getType() == DownloadURLResultType.FILE ) {
             setFile( dURL.getResultAsFile() );
             }
     }

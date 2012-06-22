@@ -233,6 +233,7 @@ public abstract class GenericDownloader
                     }
                 finally {
                     if( file != null && file.isFile() ) {
+                        // Occur when file is load twice, using same URL or not.
                         // FIXME
                         // Delete ? rename ??
                         logger.info( "downloadDone: file not deleted ! ? : " + file );
@@ -242,7 +243,7 @@ public abstract class GenericDownloader
                 updateDisplay();
             }
             @Override
-            public File getDownloadTmpFile() throws IOException
+            public File createDownloadTmpFile() throws IOException
             {
                 return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
             }
