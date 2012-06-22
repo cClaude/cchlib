@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.event.EventListenerList;
+import org.apache.log4j.Logger;
 
 /**
  * TODOC
@@ -24,6 +25,8 @@ import javax.swing.event.EventListenerList;
  */
 public class URLCache implements Serializable, Closeable
 {
+    private static final transient Logger logger = Logger.getLogger( URLCache.class );
+
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private static final long serialVersionUID = 2L;
@@ -80,8 +83,7 @@ public class URLCache implements Serializable, Closeable
      * data.
      *
      * @param url {@link URL} to check
-     * @return true if {@link URL} is in cache,
-     *   false otherwise
+     * @return true if {@link URL} is in cache, false otherwise
      */
     public boolean isInCacheIndex( final URL url )
     {
@@ -258,50 +260,51 @@ public class URLCache implements Serializable, Closeable
     }
 
     /**
-     * TODOC
+     * Load cache file
      *
      * @throws FileNotFoundException if cache does not exist
      * @throws IOException if any I/O error occur
-     * @throws ClassNotFoundException
+     * @see #getCacheFile()
      */
     synchronized
-    public void load() throws FileNotFoundException, IOException, ClassNotFoundException
+    public void load() throws FileNotFoundException, IOException
     {
-        //this.cache = SerializableHelper.loadObject( getCacheFile(), cache.getClass() );
+        BufferedReader r = null;
 
-        //CacheContent cache2 = new CacheContent();
-        BufferedReader r = new BufferedReader( new FileReader( getCacheFile() ) );
+        try {
+            r = new BufferedReader( new FileReader( getCacheFile() ) );
 
-        for(;;) {
-            String hashCode = r.readLine(); // ignored FIXME
-            if( hashCode == null ) {
-                break; // EOF
+            for(;;) {
+                String hashCode = r.readLine();
+                if( hashCode == null ) {
+                    break; // EOF
+                    }
+                else if( hashCode.isEmpty() ) {
+                    hashCode = null; // No hash code
+                    }
+                URL    url      = new URL( r.readLine() );
+                Date   date     = new Date( Long.parseLong( r.readLine() ) );
+                String filename = r.readLine();
+
+                cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
                 }
-            else if( hashCode.isEmpty() ) {
-                hashCode = null;
-                }
-            URL    url      = new URL( r.readLine() );
-            Date   date     = new Date( Long.parseLong( r.readLine() ) );
-            String filename = r.readLine();
-
-            cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
             }
-        r.close();
-
-        //Logger.getLogger( this.getClass() ).info( "cache " + cache.size() );
-        //Logger.getLogger( this.getClass() ).info( "cache2 " + cache2.size() );
+        finally {
+            if( r != null ) {
+                r.close();
+                }
+            }
     }
 
     /**
-     * TODOC
+     * Save cache file
      *
      * @throws IOException if any I/O error occur
+     * @see #getCacheFile()
      */
     synchronized
     public void store() throws IOException
     {
-        //SerializableHelper.toFile( cache, getCacheFile() );
-
         // store using simple text file.
         Writer w = new BufferedWriter( new FileWriter( getCacheFile() ) );
 
@@ -321,7 +324,12 @@ public class URLCache implements Serializable, Closeable
         w.flush();
         w.close();
 
+        // Cache stored successfully
         this.modificationCount = 0;
+
+        if( logger.isTraceEnabled() ) {
+            logger .trace( "Cache stored successfully " );
+            }
     }
 
     private void autoStore()
@@ -495,5 +503,4 @@ public class URLCache implements Serializable, Closeable
 
         super.finalize();
     }
-
 }

@@ -4,16 +4,17 @@ import java.io.File;
 import java.net.URL;
 
 /**
- *
+ * Define a downloadable URL that should be store in a {@link File}
  * @since 4.1.7
  */
 public final class FileDownloadURL extends AbstractDownloadURL
 {
+    private static final long serialVersionUID = 1L;
     private File file;
 
     /**
-     *
-     * @param url
+     * Define the {@link URL} for this {@link DownloadURL}
+     * @param url The {@link URL}
      */
     public FileDownloadURL( final URL url )
     {
@@ -21,14 +22,22 @@ public final class FileDownloadURL extends AbstractDownloadURL
     }
 
     @Override
-    public DownloadResultType getType() { return DownloadResultType.FILE; }
+    final public DownloadURLResultType getType() { return DownloadURLResultType.FILE; }
 
+    /**
+     * Not supported
+     * @throws UnsupportedOperationException
+     */
     @Override
     public String getResultAsString()
     {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Not supported
+     * @throws UnsupportedOperationException
+     */
     @Override
     public void setResultAsString( String string )
     {

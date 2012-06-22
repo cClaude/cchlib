@@ -9,15 +9,20 @@ import java.net.URL;
 public interface DownloadURL
 {
     /**
-     *
+     * @return {@link URL} for external the resource.
      */
     public URL getURL();
 
     /**
-     * TODOC
-     * @return
+     * According to this state, download process should return
+     * a {@link String} or a {@link File}
+     * @see #getResultAsFile()
+     * @see #setResultAsFile(File)
+     * @see #getResultAsString()
+     * @see #setResultAsString(String)
+     * @return {@link DownloadURLResultType} for download result.
      */
-    public DownloadResultType getType();
+    public DownloadURLResultType getType();
 
     /**
      * TODOC

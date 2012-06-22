@@ -2,7 +2,6 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * Exception generate when a error occur during download process
@@ -11,36 +10,49 @@ import java.net.URL;
 public class DownloadIOException extends Exception
 {
     private static final long serialVersionUID = 1L;
-    private URL url;
+    private DownloadURL downloadURL;
     private File file;
 
-    public DownloadIOException( URL url, Throwable cause )
+    /**
+     * TODOC
+     *
+     * @param downloadURL
+     * @param cause
+     */
+    public DownloadIOException( DownloadURL downloadURL, Throwable cause )
     {
-        super( url.toExternalForm(), cause );
+        super( downloadURL.getURL().toExternalForm(), cause );
 
-        this.url = url;
+        this.downloadURL = downloadURL;
     }
 
-    public DownloadIOException( URL url, File file, IOException cause )
+    /**
+     * TODOC
+     *
+     * @param url
+     * @param file
+     * @param cause
+     */
+    public DownloadIOException( DownloadURL downloadURL, File file, IOException cause )
     {
-        this( url, cause );
+        this( downloadURL, cause );
 
         this.file = file;
     }
 
     /**
-     * @return the url
+     * @return the {@link DownloadURL} that cause this exception
      */
-    public URL getUrl()
+    public DownloadURL getDownloadURL()
     {
-        return url;
+        return this.downloadURL;
     }
 
     /**
-     * @return the temporary file or null
+     * @return the temporary file if exist or null
      */
     public File getFile()
     {
-        return file;
+        return this.file;
     }
 }

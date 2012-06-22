@@ -5,16 +5,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- *
+ * Define a downloadable URL that should be store in a {@link String}
  * @since 4.1.7
  */
 public final class StringDownloadURL extends AbstractDownloadURL
 {
+    private static final long serialVersionUID = 1L;
     private String str;
 
     /**
-     *
-     * @param url
+     * Define the {@link URL} for this {@link DownloadURL}
+     * @param url The {@link URL}
      */
     public StringDownloadURL( final URL url )
     {
@@ -22,17 +23,17 @@ public final class StringDownloadURL extends AbstractDownloadURL
     }
 
     /**
-     *
-     * @param url
-     * @throws MalformedURLException
+     * Define the {@link URL} for this {@link DownloadURL}
+     * @param spec the {@link String} to parse as a URL.
+     * @throws MalformedURLException If the string specifies an unknown protocol.
      */
-    public StringDownloadURL( final String url ) throws MalformedURLException
+    public StringDownloadURL( final String spec ) throws MalformedURLException
     {
-        super( new URL( url ) );
+        super( new URL( spec ) );
     }
 
     @Override
-    public DownloadResultType getType() { return DownloadResultType.STRING; }
+    final public DownloadURLResultType getType() { return DownloadURLResultType.STRING; }
 
     @Override
     public String getResultAsString()
@@ -46,12 +47,20 @@ public final class StringDownloadURL extends AbstractDownloadURL
         this.str = str;
     }
 
+    /**
+     * Not supported
+     * @throws UnsupportedOperationException
+     */
     @Override
     public File getResultAsFile()
     {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Not supported
+     * @throws UnsupportedOperationException
+     */
     @Override
     public void setResultAsFile( File file )
     {

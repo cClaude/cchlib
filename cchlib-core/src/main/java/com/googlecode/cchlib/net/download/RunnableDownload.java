@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.net.download;
 
-import java.net.URL;
-
 /**
- * {@link Runnable} that support an {@link URL} getter.
+ * {@link Runnable} that support an {@link DownloadURL} getter.
+ *
+ * @since 4.1.7
  */
 public interface RunnableDownload extends Runnable
 {
     /**
-     * Returns {@link URL} of this download task
-     * @return {@link URL} of this download task
+     * Returns {@link DownloadURL} of this download task
+     * @return {@link DownloadURL} of this download task
      */
-    public URL getURL();
+    public DownloadURL getDownloadURL();
 }

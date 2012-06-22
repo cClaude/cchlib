@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
-import java.net.URL;
 
 /**
- * Abstract Downloader
+ * Abstract Downloader for {@link DownloadURL}
+ *
  * @since 4.1.5
  */
 //NOT public
@@ -15,29 +15,15 @@ abstract class AbstractDownload implements RunnableDownload
 {
     private DownloadEvent event;
     private final Proxy proxy;
-    //private final URL   url;
     private DownloadURL downloadURL;
-
-    /*
-     * Create a download task using a proxy
-     * @param event
-     *
-     * @param proxy {@link Proxy} to use for download (could be null)
-     * @param url   {@link URL} for download
-     *
-    public AbstractDownload( DownloadEvent event, final Proxy proxy, final URL url )
-    {
-        this.event  = event;
-        this.proxy  = proxy;
-        this.url    = url;
-    }*/
 
     /**
      * Create a download task using a proxy
      *
-     * @param event
-     * @param proxy     {@link Proxy} to use for download (could be null)
-     * @param downloadURL
+     * @param event         A valid {@link DownloadEvent}.
+     * @param proxy         {@link Proxy} to use for download (could be null)
+     * @param downloadURL   A valid {@link DownloadURL}.
+     * @throws NullPointerException if one of event or downloadURL parameters is null.
      */
     public AbstractDownload(
             final DownloadEvent event,
@@ -48,6 +34,13 @@ abstract class AbstractDownload implements RunnableDownload
         this.event          = event;
         this.proxy          = proxy;
         this.downloadURL    = downloadURL;
+
+        if( event == null ) {
+            throw new NullPointerException( "Not valid DownloadEvent" );
+            }
+        if( downloadURL == null ) {
+            throw new NullPointerException( "Not DownloadURL DownloadEvent" );
+            }
     }
 
     /**
@@ -55,8 +48,7 @@ abstract class AbstractDownload implements RunnableDownload
      * @return {@link InputStream} for internal URL
      * @throws IOException if any
      */
-    final // FIXME: remove this
-    protected InputStream getInputStream() throws IOException
+    final protected InputStream getInputStream() throws IOException
     {
         if( proxy == null ) {
             return downloadURL.getURL().openStream();
@@ -70,8 +62,7 @@ abstract class AbstractDownload implements RunnableDownload
     }
 
     @Override
-    final // FIXME: remove this
-    public void run()
+    final public void run()
     {
         event.downloadStart( downloadURL );
 
@@ -79,9 +70,9 @@ abstract class AbstractDownload implements RunnableDownload
             InputStream is = getInputStream();
 
             try {
-                /*DownloadResult result_string_or_file =*/ download( is );
+                download( is );
 
-                event.downloadDone( downloadURL /* getURL(), result_string_or_file*/ );
+                event.downloadDone( downloadURL );
                 }
             finally {
                 is.close();
@@ -91,17 +82,14 @@ abstract class AbstractDownload implements RunnableDownload
             event.downloadFail( e );
             }
         catch( Exception e ) {
-            event.downloadFail( new DownloadIOException( getURL(), e ) );
+            event.downloadFail( new DownloadIOException( getDownloadURL(), e ) );
             }
     }
 
-    /**
-     *
-     */
     @Override
-    public final URL getURL()
+    final public DownloadURL getDownloadURL()
     {
-        return this.downloadURL.getURL();
+        return this.downloadURL;
     }
 
    /**
@@ -115,16 +103,7 @@ abstract class AbstractDownload implements RunnableDownload
 
     /**
      *
-     * @return
+     * @return {@link DownloadEvent} for this
      */
     protected final DownloadEvent getDownloadEvent() { return event; };
-
-    /**
-     *
-     * @return
-     */
-    public final DownloadURL getDownloadURL()
-    {
-        return this.downloadURL;
-    }
 }

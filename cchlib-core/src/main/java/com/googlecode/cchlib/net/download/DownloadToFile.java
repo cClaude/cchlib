@@ -25,13 +25,13 @@ public class DownloadToFile extends AbstractDownload
     protected void download( final InputStream inputStream )
             throws DownloadIOException, IOException
     {
-        final File file = DownloadFileEvent.class.cast( super.getDownloadEvent() ).getDownloadTmpFile();
+        final File file = DownloadFileEvent.class.cast( getDownloadEvent() ).createDownloadTmpFile();
 
         try {
             IOHelper.copy( inputStream, file );
             }
         catch( IOException e ) {
-            throw new DownloadIOException( getURL(), file, e );
+            throw new DownloadIOException( getDownloadURL(), file, e );
             }
 
         getDownloadURL().setResultAsFile( file );

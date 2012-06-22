@@ -15,11 +15,13 @@ interface URLDataCacheEntry
      * @return an hash code for this entry
      */
     public String getContentHashCode();
+
     /**
      * Returns the {@link Date} for this entry
      * @return the {@link Date} for this entry
      */
     public Date getDate();
+
     /**
      * Returns the relative filename from cache root of this entry
      * @return the relative filename of this entry
