@@ -232,4 +232,34 @@ public class DownloaderSample1
         return imagesURLCollection;
     }
 
+    @Override
+    public boolean isExtraStringValue()
+    {
+        return false;
+    }
+    @Override
+    public String getExtraStringLabel()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public String getExtraStringLabels( int i )
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public Collection<String> getExtraStringValues()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public int getExtraStringSelectedIndex()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public void setExtraStringSelectedIndex( int index )
+    {
+        throw new UnsupportedOperationException();
+    }
 }

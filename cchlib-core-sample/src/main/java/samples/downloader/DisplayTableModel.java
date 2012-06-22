@@ -26,6 +26,9 @@ public abstract class DisplayTableModel
         //empty !
     }
 
+    /**
+     * Removes all of the elements from this model. The model will be empty after this call returns.
+     */
     public void clear()
     {
         list.clear();

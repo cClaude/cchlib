@@ -72,4 +72,44 @@ public interface GenericDownloaderAppInterface
         GenericDownloaderAppUIResults   gdauir,
         String                          content2Parse
         ) throws MalformedURLException;
+
+    /**
+     *
+     * @return
+     */
+    public boolean isExtraStringValue();
+
+    /**
+     *
+     * @return
+     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
+     */
+    public String getExtraStringLabel();
+
+    /**
+     *
+     * @return
+     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
+     */
+    public Collection<String> getExtraStringValues();
+
+    /**
+     * @param index
+     * @return
+     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
+     */
+    public String getExtraStringLabels( final int index );
+
+    /**
+     * @return index
+     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
+     */
+    public int getExtraStringSelectedIndex();
+
+    /**
+     * @param index
+     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
+     */
+    public void setExtraStringSelectedIndex( int index );
+
 }

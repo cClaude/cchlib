@@ -11,6 +11,9 @@ import com.googlecode.cchlib.i18n.I18nString;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class GenericDownloaderUIPanel
     extends JPanel
@@ -21,6 +24,9 @@ public class GenericDownloaderUIPanel
     private JSpinner pageScanCountJSpinner;
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
+    private JComboBox<String> stringsJComboBox;
+    private JLabel stringsJLabel;
+    private JLabel stringsJLabels;
 
     /**
      * Create the panel.
@@ -34,7 +40,7 @@ public class GenericDownloaderUIPanel
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
         gridBagLayout.rowHeights = new int[]{0, 14, 0, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
@@ -44,13 +50,14 @@ public class GenericDownloaderUIPanel
             GridBagConstraints gbc_sitenameJLabel = new GridBagConstraints();
             gbc_sitenameJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_sitenameJLabel.gridwidth = 3;
-            gbc_sitenameJLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_sitenameJLabel.insets = new Insets(0, 0, 5, 0);
             gbc_sitenameJLabel.gridx = 0;
             gbc_sitenameJLabel.gridy = 0;
             add(sitenameJLabel, gbc_sitenameJLabel);
         }
         {
-            pageScanCountJLabel = new JLabel( "Pages to scan" );
+            pageScanCountJLabel = new JLabel( "Pages to scan :" );
+            pageScanCountJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             GridBagConstraints gbc_pageScanCountJLabel = new GridBagConstraints();
             gbc_pageScanCountJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_pageScanCountJLabel.insets = new Insets(0, 0, 5, 5);
@@ -92,6 +99,54 @@ public class GenericDownloaderUIPanel
             gbc_numberOfPicturesByPageLabel.gridy = 1;
             add(numberOfPicturesByPageLabel, gbc_numberOfPicturesByPageLabel);
         }
+
+        // $hide>>$
+        if( config.isExtraStringValue() )
+        // $hide<<$
+        {
+            {
+                stringsJLabel = new JLabel( config.getExtraStringLabel() );
+                stringsJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+                GridBagConstraints gbc_stringsJLabel = new GridBagConstraints();
+                gbc_stringsJLabel.fill = GridBagConstraints.HORIZONTAL;
+                gbc_stringsJLabel.insets = new Insets(0, 0, 0, 5);
+                gbc_stringsJLabel.gridx = 0;
+                gbc_stringsJLabel.gridy = 2;
+                add(stringsJLabel, gbc_stringsJLabel);
+            }
+            {
+                stringsJLabels = new JLabel( config.getExtraStringLabels( 0 ) );
+                GridBagConstraints gbc_stringsJLabels = new GridBagConstraints();
+                gbc_stringsJLabels.fill = GridBagConstraints.HORIZONTAL;
+                gbc_stringsJLabels.gridx = 2;
+                gbc_stringsJLabels.gridy = 2;
+                add(stringsJLabels, gbc_stringsJLabels);
+            }
+            {
+                stringsJComboBox = new JComboBox<>();
+                stringsJComboBox.addItemListener(new ItemListener() {
+                    public void itemStateChanged( ItemEvent event )
+                    {
+                        final int index = stringsJComboBox.getSelectedIndex();
+
+                        stringsJLabels.setText( config.getExtraStringLabels( index ) );
+                        config.setExtraStringSelectedIndex( index );
+                     }
+                });
+
+                for( String s : config.getExtraStringValues() ) {
+                    stringsJComboBox.addItem( s );
+                    }
+
+
+                GridBagConstraints gbc_stringsJComboBox = new GridBagConstraints();
+                gbc_stringsJComboBox.insets = new Insets(0, 0, 0, 5);
+                gbc_stringsJComboBox.fill = GridBagConstraints.HORIZONTAL;
+                gbc_stringsJComboBox.gridx = 1;
+                gbc_stringsJComboBox.gridy = 2;
+                add(stringsJComboBox, gbc_stringsJComboBox);
+            }
+        } // if( config.isExtraStringValue() )
     }
 
     public GenericDownloaderAppInterface getGenericDownloaderAppInterface()

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,11 +44,19 @@ public class DownloaderSample_gifpal
     private final static String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
 
     // sort parameter values
+    /*
     private final static String[] __FMT_PARAM_SORT_VALUES = {
         "id",
         "top",
         "top-today",
         "top-week",
+        };
+    */
+    private final static String[][] __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE = {
+        {"All items", "id", "All items !" },
+        {"top items", "top", "xx top" },
+        {"top of the day", "top-today", "xx top-today" },
+        {"top of the week", "top-week", "xx top-week" },
         };
 
     /** number of pages to explore */
@@ -65,6 +74,8 @@ public class DownloaderSample_gifpal
     private static final String CACHE_FOLDER_NAME = "output/www.gifpal.com";
     private List<StringDownloadURL> _htmlURLList = null;
 
+    private Collection<String> extraStringValuesCollection = null;
+    private int extraStringSelectedIndex;
 
     /**
      * Start Sample here !
@@ -208,7 +219,14 @@ public class DownloaderSample_gifpal
 
             for( int i=1; i< getPageCount(); i++ ) {
                 //_htmlURLList.add( new URL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
-                _htmlURLList.add( new StringDownloadURL( String.format( __HTML_URL_BASE_FMT, __FMT_PARAM_SORT_VALUES[ 0 ], i ) ) );
+                _htmlURLList.add( new StringDownloadURL(
+                    String.format(
+                        __HTML_URL_BASE_FMT,
+                        //__FMT_PARAM_SORT_VALUES[ getExtraStringSelectedIndex() ],
+                        __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE[ getExtraStringSelectedIndex() ][ 2 ],
+                        i )
+                        )
+                    );
                 }
             }
 
@@ -243,6 +261,55 @@ public class DownloaderSample_gifpal
         gdauir.getAbstractLogger().info( "> URL founds = " + imagesURLCollection.size() );
 
         return imagesURLCollection;
+    }
+
+    @Override
+    public boolean isExtraStringValue()
+    {
+        return true;
+    }
+
+    @Override
+    public String getExtraStringLabel()
+    {
+        return "XXXXX";
+    }
+
+    @Override
+    public Collection<String> getExtraStringValues()
+    {
+        if( extraStringValuesCollection == null ) {
+            extraStringValuesCollection = new ArrayList<>( __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE.length );
+
+            for( int i = 0; i<__FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE.length; i++ ) {
+                extraStringValuesCollection.add( __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE[ i ][ 0 ] );
+                }
+            }
+
+        return Collections.unmodifiableCollection( extraStringValuesCollection );
+    }
+
+    @Override
+    public int getExtraStringSelectedIndex()
+    {
+        return extraStringSelectedIndex;
+    }
+
+    @Override
+    public void setExtraStringSelectedIndex( final int index )
+    {
+        extraStringSelectedIndex = index;
+    }
+
+    @Override
+    public String getExtraStringLabels( int index )
+    {
+//        final String[] comments = __FMT_PARAM_SORT_VALUES /*{
+//            "xxx"
+//            } FIXME */;
+//        return comments[ index ];
+        return __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE[ index ][ 2 ];
+
     }
 
 }

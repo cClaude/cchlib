@@ -19,7 +19,7 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
-public class DownloaderSample2 //extends GenericDownloader
+public class DownloaderSample2
     implements GenericDownloaderAppInterface
 {
     private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
@@ -202,4 +202,36 @@ public class DownloaderSample2 //extends GenericDownloader
             }
         };
     }
+
+    @Override
+    public boolean isExtraStringValue()
+    {
+        return false;
+    }
+    @Override
+    public String getExtraStringLabel()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public String getExtraStringLabels( int i )
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public Collection<String> getExtraStringValues()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public int getExtraStringSelectedIndex()
+    {
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public void setExtraStringSelectedIndex( int index )
+    {
+        throw new UnsupportedOperationException();
+    }
+
 }
