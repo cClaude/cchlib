@@ -102,26 +102,17 @@ public abstract class GenericDownloader
 
         final DownloadEvent eventStringHandler = new DownloadEvent()
         {
-//            @Override
-//            public DownloadResultType getDownloadResultType()
-//            {
-//                return DownloadResultType.STRING;
-//            }
             @Override
             public void downloadStart( final DownloadURL dURL )
             {
-//XX//                loggerListener.info( "downloading as a String: " + url );
                 loggerListener.downloadStart( dURL );
             }
             @Override
             public void downloadDone( DownloadURL dURL )
             {
                 if( logger.isDebugEnabled() ) {
-                    logger.debug( dURL /* + " -> " + downloadResult.getString().length()*/ );
+                    logger.debug( "downloadDone: dURL= " + dURL );
                     }
-
-//                result.add( downloadResult.getString() );
-//                loggerListener.downloadDone( url, downloadResult );
 
                 result.add( dURL.getResultAsString() );
 
@@ -130,7 +121,6 @@ public abstract class GenericDownloader
             @Override
             public void downloadFail( DownloadIOException e )
             {
-//XX//                loggerListener.error( e.getUrl(), e.getFile(), e.getCause() ); // No file, just put download into string !
                 loggerListener.downloadFail( e );
             }
         };
@@ -160,10 +150,10 @@ public abstract class GenericDownloader
                     size = size - 1;
                     }
 
-                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
-                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
-                logger.info( "size = " + size );
-                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
+//                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
+//                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
+//                logger.info( "size = " + size );
+//                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
 
                 loggerListener.downloadStateChange( new DownloadStateEvent() {
                     @Override
@@ -173,15 +163,9 @@ public abstract class GenericDownloader
                     }
                 });
             }
-//            @Override
-//            public DownloadResultType getDownloadResultType()
-//            {
-//                return DownloadResultType.FILE;
-//            }
             @Override
             public void downloadStart( DownloadURL dURL )
             {
-//XX//                loggerListener.info( "Start downloading: " + url );
                 loggerListener.downloadStart( dURL );
             }
             @Override
@@ -189,7 +173,6 @@ public abstract class GenericDownloader
             {
                 final File file = e.getFile();
 
-//XX//                loggerListener.error( e.getUrl(), file, e.getCause() );
                 loggerListener.downloadFail( e );
 
                 if( file != null ) {
@@ -199,7 +182,7 @@ public abstract class GenericDownloader
                 updateDisplay();
             }
             @Override
-            public void downloadDone( DownloadURL dURL /* URL url, DownloadResult result*/ )
+            public void downloadDone( DownloadURL dURL )
             {
                 final File file = dURL.getResultAsFile();
 
@@ -228,38 +211,35 @@ public abstract class GenericDownloader
                     boolean isRename = file.renameTo( ffile );
 
                     if( isRename ) {
-//XX//                        loggerListener.info( "new file > " + ffile );
                         dURL.setResultAsFile( ffile );
                         loggerListener.downloadStored( dURL );
                         cache.add( dURL.getURL(), hashCodeString, ffile.getName() );
                         }
                     else {
-//XX//                  loggerListener.info( "*** already exists ? " + ffile );
                         loggerListener.downloadCantRename( dURL, file, ffile );
                         }
                     }
                 catch( FileNotFoundException e ) {
                     // Should not occur
-                    e.printStackTrace();
+                    logger.error( "downloadDone (Should not occur):", e );
                     }
                 catch( IOException e ) {
                     // Should not occur
-                    e.printStackTrace();
+                    logger.error( "downloadDone (Should not occur):", e );
                     }
                 catch( NoSuchAlgorithmException e ) {
                     // Should not occur
-                    e.printStackTrace();
+                    logger.error( "downloadDone (Should not occur):", e );
                     }
                 finally {
                     if( file != null && file.isFile() ) {
                         // FIXME
                         // Delete ? rename ??
-                        logger.info( "delete file ? : " + file );
+                        logger.info( "downloadDone: file not deleted ! ? : " + file );
                         }
                     }
 
                 updateDisplay();
-
             }
             @Override
             public File getDownloadTmpFile() throws IOException

@@ -438,21 +438,17 @@ public class GenericDownloaderUIApp extends JFrame
         @Override
         public void warn( String msg )
         {
-            //printDisplay( "*** WARN: ", msg );
-            logger.warn( msg );
+            logger.warn(  "*** WARN: " + msg );
         }
         @Override
         public void info( String msg )
         {
-            //printDisplay( msg );
-            logger.info( msg );
+            logger.info(  "*** INFO: " + msg );
         }
         @Override
         public void error( URL url, File file, Throwable cause )
         {
-            //printDisplay( "*** ERROR: ", url.toExternalForm() );
-
-            logger .error( "Error while download: " + url + " to file: " + file, cause );
+            logger .error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
         }
         @Override
         public void downloadStateInit( DownloadStateEvent event )
@@ -471,7 +467,7 @@ public class GenericDownloaderUIApp extends JFrame
         {
             displayJProgressBar.setValue( event.getDownloadListSize() );
 
-            logger.info( "update :" + event.getDownloadListSize() );
+            logger.info( "downloadStateChange :" + event.getDownloadListSize() );
         }
         @Override
         public void downloadFail( DownloadIOException e )
