@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -41,22 +42,16 @@ public class DownloaderAppCore
             @Override
             protected Collection<URL> collectURLs() throws IOException
             {
-                // Build a big string with all downloads URL (text or HTML is expected)
-                String allContent;
-                {
-                    List<String>    contentList = loads( gdai.getURLDownloadAndParseCollection() );
-                    StringBuilder   sb          = new StringBuilder();
+                Collection<URL> urls        = new HashSet<URL>();
+                List<String>    contentList = loads( gdai.getURLDownloadAndParseCollection() );
 
-                    for( String s: contentList ) {
-                        sb.append( s );
-                        }
+                for( String  pageContent : contentList ) {
+                    urls.addAll(
+                        gdai.getURLToDownloadCollection( gdauir, pageContent )
+                        );
+                    }
 
-                    allContent = sb.toString();
-                    contentList.clear();
-                    sb.setLength( 0 );
-                }
-
-                return gdai.getURLToDownloadCollection( gdauir, allContent );
+                return urls;
             }
         };
 
