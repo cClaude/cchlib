@@ -20,7 +20,8 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
 public class DownloaderSample2
-    implements GenericDownloaderAppInterface
+    extends AbstractDownloadInterface2
+        implements GenericDownloaderAppInterface
 {
     private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
     private final static int    DOWNLOAD_THREAD = 20;
@@ -95,6 +96,11 @@ public class DownloaderSample2
         mylogger.info( "done" );
     }
 
+    protected DownloaderSample2()
+    {
+        super( 10 ); // FIXME
+    }
+
     @Override
     public String getSiteName()
     {
@@ -105,17 +111,6 @@ public class DownloaderSample2
     public int getNumberOfPicturesByPage()
     {
         return 10; // FIXME
-    }
-
-    @Override
-    public int getPageCount()
-    {
-        return 1; // not use
-    }
-
-    @Override
-    public void setPageCount( int pageCount )
-    {
     }
 
     @Override
@@ -204,6 +199,20 @@ public class DownloaderSample2
     }
 
     @Override
+    public StringDownloadURL getStringDownloadURL( int pageNumber )
+            throws MalformedURLException
+    {
+        throw new UnsupportedOperationException();// NOT USE
+    }
+
+    @Override
+    public URL getURL( String src, int regexpIndex )
+            throws MalformedURLException
+    {
+        throw new UnsupportedOperationException();// NOT USE
+    }
+
+    /* @Override
     public boolean isExtraStringValue()
     {
         return false;
@@ -232,6 +241,6 @@ public class DownloaderSample2
     public void setExtraStringSelectedIndex( int index )
     {
         throw new UnsupportedOperationException();
-    }
+    }*/
 
 }

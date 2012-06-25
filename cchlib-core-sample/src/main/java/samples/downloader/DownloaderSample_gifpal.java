@@ -223,7 +223,7 @@ public class DownloaderSample_gifpal
                     String.format(
                         __HTML_URL_BASE_FMT,
                         //__FMT_PARAM_SORT_VALUES[ getExtraStringSelectedIndex() ],
-                        __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE[ getExtraStringSelectedIndex() ][ 2 ],
+                        __FMT_PARAM_SORT_STRVALUE_COMMENT_VALUE[ getExtraStringSelectedIndex() ][ 1 ],
                         i )
                         )
                     );
@@ -272,7 +272,7 @@ public class DownloaderSample_gifpal
     @Override
     public String getExtraStringLabel()
     {
-        return "XXXXX";
+        return "Filter";
     }
 
     @Override

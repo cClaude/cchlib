@@ -69,12 +69,8 @@ public class GenericDownloaderUIApp extends JFrame
     private JProgressBar displayJProgressBar;
     private JScrollPane cardsPanel_JScrollPane;
     private JSpinner downloadThreadNumberJSpinner;
-    //private JTextArea displayJTextArea;
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
-    //private StringBuilder _printDisplayStringBuilder = new StringBuilder();
     private JTable displayJTable;
-
-
 
     /**
      * Launch the application.
@@ -116,6 +112,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloadEntriesTypeList.add( new DownloaderSample_gifpal() );
         downloadEntriesTypeList.add( new DownloaderSample1() );
         downloadEntriesTypeList.add( new DownloaderSample2() );
+        downloadEntriesTypeList.add( new DownloadInterface_senorg() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
 
@@ -314,6 +311,8 @@ public class GenericDownloaderUIApp extends JFrame
         //displayJTextArea.setText( "" );
         displayJProgressBar.setIndeterminate( true );
         displayJProgressBar.setEnabled( true );
+        displayJProgressBar.setString( "Analyse URLs" );
+        displayJProgressBar.setStringPainted( true );
 
         displayTableModel.clear();
 
@@ -374,37 +373,6 @@ public class GenericDownloaderUIApp extends JFrame
             }
         }).start();
     }
-
-/*
-    private static final int MAX_DISPLAY_TEXT_LENGTH = 16 * 1024;
-    private void printDisplay( String...messages )
-    {
-        _printDisplayStringBuilder.setLength( 0 );
-
-        int size = displayJTextArea.getText().length();
-
-        if( size > MAX_DISPLAY_TEXT_LENGTH ) {
-            int beginIndex = size - MAX_DISPLAY_TEXT_LENGTH;
-
-            beginIndex = displayJTextArea.getText().indexOf( '\n', beginIndex );
-
-            _printDisplayStringBuilder.append( displayJTextArea.getText().substring( beginIndex ) );
-            }
-        else {
-            _printDisplayStringBuilder.append( displayJTextArea.getText() );
-            }
-
-        _printDisplayStringBuilder.append( '\n' );
-
-        for( String str : messages ) {
-            _printDisplayStringBuilder.append( str );
-            }
-
-        displayJTextArea.setText( _printDisplayStringBuilder.toString() );
-        _printDisplayStringBuilder.setLength( 0 );
-    }
-*/
-
 
     private class ProxyEntry
     {
@@ -486,45 +454,3 @@ public class GenericDownloaderUIApp extends JFrame
 
 }
 
-/*
-private final LoggerListener loggerWrapper = new LoggerListener()
-{
-    @Override
-    public void warn( String msg )
-    {
-        //printDisplay( "*** WARN: ", msg );
-        logger.warn( msg );
-    }
-    @Override
-    public void info( String msg )
-    {
-        //printDisplay( msg );
-        logger.info( msg );
-    }
-    @Override
-    public void error( URL url, File file, Throwable cause )
-    {
-        //printDisplay( "*** ERROR: ", url.toExternalForm() );
-
-        logger .error( "Error while download: " + url + " to file: " + file, cause );
-    }
-    @Override
-    public void downloadStateInit( DownloadStateEvent event )
-    {
-        displayJProgressBar.setMinimum( 0 );
-        displayJProgressBar.setMaximum( event.getDownloadListSize() );
-        displayJProgressBar.setValue( 0 );
-        displayJProgressBar.setEnabled( true );
-        displayJProgressBar.setIndeterminate( false );
-        displayJProgressBar.setStringPainted( true );
-
-        logger.info( "init :" + event.getDownloadListSize() );
-    }
-    @Override
-    public void downloadStateChange( DownloadStateEvent event )
-    {
-        displayJProgressBar.setValue( event.getDownloadListSize() );
-
-        logger.info( "update :" + event.getDownloadListSize() );
-    }
-};*/
