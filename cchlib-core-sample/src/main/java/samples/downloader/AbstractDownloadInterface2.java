@@ -8,9 +8,19 @@ import java.util.Collection;
 public abstract class AbstractDownloadInterface2
     extends AbstractDownloadInterface
 {
-    protected AbstractDownloadInterface2( int pageCount )
+    /**
+     * 
+     * @param siteName
+     * @param numberOfPicturesByPage
+     * @param pageCount
+     */
+    protected AbstractDownloadInterface2(
+            final String    siteName,
+            final int       numberOfPicturesByPage,
+            final int       pageCount
+            )
     {
-        super( pageCount );
+        super( siteName, numberOfPicturesByPage, pageCount );
     }
 
     @Override// GenericDownloaderAppInterface

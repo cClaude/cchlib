@@ -98,25 +98,7 @@ public class DownloaderSample2
 
     protected DownloaderSample2()
     {
-        super( 10 ); // FIXME
-    }
-
-    @Override
-    public String getSiteName()
-    {
-        return "epins.fr";
-    }
-
-    @Override
-    public int getNumberOfPicturesByPage()
-    {
-        return 10; // FIXME
-    }
-
-    @Override
-    public int getMaxPageCount()
-    {
-        return Integer.MAX_VALUE;
+        super( "epins.fr", 10 /* FIXME */, 10 /* FIXME */ );
     }
 
     @Override

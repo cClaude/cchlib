@@ -18,15 +18,31 @@ public abstract class AbstractDownloadInterface
 {
     private int pageCount = 1; // Min value
     private int extraStringSelectedIndex;
+    private final String siteName;
+    private final int numberOfPicturesByPage;
 
     /**
-     *
+     * @param siteName
+     * @param numberOfPicturesByPage
      * @param pageCount
      */
-    protected AbstractDownloadInterface( final int pageCount )
+    protected AbstractDownloadInterface(
+        final String    siteName,
+        final int       numberOfPicturesByPage,
+        final int       pageCount
+        )
     {
+        this.siteName = siteName;
+        this.numberOfPicturesByPage = numberOfPicturesByPage;
+
         setPageCount( pageCount );
     }
+
+    @Override
+    final public String getSiteName() { return this.siteName; }
+
+    @Override
+    final public int getNumberOfPicturesByPage() { return this.numberOfPicturesByPage; }
 
     @Override// GenericDownloaderAppInterface
     final// FIXME: remove this
@@ -43,6 +59,7 @@ public abstract class AbstractDownloadInterface
     }
 
     @Override// GenericDownloaderAppInterface
+    final// FIXME: remove this
     public int getMaxPageCount()
     {
         return Integer.MAX_VALUE; //Default value !

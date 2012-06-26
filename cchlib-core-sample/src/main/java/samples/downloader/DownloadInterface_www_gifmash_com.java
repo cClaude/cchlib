@@ -8,36 +8,27 @@ import java.util.Iterator;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
- * http://senorgif.memebase.com/page/5/ 1600
+ * http://www.gifmash.com/
+ *
+ * TODO:
+ * http://picasion.com/gallery/24151868/
  */
-public class DownloadInterface_senorg extends AbstractDownloadInterface
+public class DownloadInterface_www_gifmash_com extends AbstractDownloadInterface
 {
     private final static String[][] URLS_DB = {
-        { "pages type 1", "http://senorgif.memebase.com/page/%d/" },
-        { "pages type 2", "http://senorgif.memebase.com/vote/" },
+        { "pics from blog", "http://www.gifmash.com/blog/page/%d" },
+        //{ "pages type 2", "http://senorgif.memebase.com/vote/" },
         };
 
-    protected DownloadInterface_senorg()
+    protected DownloadInterface_www_gifmash_com()
     {
-        super( "senorgif", 5, 15 );
+        super( "http://www.gifmash.com/", 10, 100 );
     }
-
-//    @Override
-//    public String getSiteName()
-//    {
-//        return "senorgif";
-//    }
-//
-//    @Override
-//    public int getNumberOfPicturesByPage()
-//    {
-//        return 5;
-//    }
 
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "output/senorgif";
+        return "output/www.gifmash.com";
     }
 
     @Override
@@ -57,13 +48,7 @@ public class DownloadInterface_senorg extends AbstractDownloadInterface
             final String                        content2Parse
             ) throws MalformedURLException
     {
-        // <img class="event-item-lol-image" src="https://chzgifs.files.wordpress.com/2012/06/funny-gifs-tense-situation.gif" alt="" +
-        // <img class='event-item-lol-image' src='http://chzgifs.files.wordpress.com/2012/06/funny-gifs-tense-situation.gif'
-//        final String[] regexpsc = {
-//            "\\<img class=\"event-item-lol-image\" src=\"",
-//            "\\<img class='event-item-lol-image' src='"
-//            };
-//
+        // <img class="event-item-lol-image" src="https://chzgifs.files.wordpress.com/2012/06/bald-eagle-in-slow-motion.gif" a
         RegExgSplitter[] regexps = {
             new DefaultRegExgSplitter( "\\<img class=\"event-item-lol-image\" src=\"", '"' ),
             new DefaultRegExgSplitter( "\\<img class='event-item-lol-image' src='", '\'' ),

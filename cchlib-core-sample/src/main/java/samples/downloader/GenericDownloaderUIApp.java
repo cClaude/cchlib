@@ -23,6 +23,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.ItemListener;
@@ -96,10 +98,9 @@ public class GenericDownloaderUIApp extends JFrame
                             GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
                             );
                     frame.setTitle( APP_NAME );
-                    frame.setVisible( true );
                     }
                 catch( Exception e ) {
-                    e.printStackTrace();
+                    logger.fatal( "main() exception", e ); // FIXME
                     }
             }
         } );
@@ -113,6 +114,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloadEntriesTypeList.add( new DownloaderSample1() );
         downloadEntriesTypeList.add( new DownloaderSample2() );
         downloadEntriesTypeList.add( new DownloadInterface_senorg() );
+        downloadEntriesTypeList.add( new DownloadInterface_www_gifmash_com() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
 
@@ -127,6 +129,56 @@ public class GenericDownloaderUIApp extends JFrame
         proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
         // FIXME: Provide a better way to store this !
         proxyComboBoxModel.addElement( new ProxyEntry( "55.37.80.2", 3128 ) );
+
+
+
+        //
+        // Init closing
+        //
+        //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible( true );
+        this.addWindowListener(
+            new WindowListener() {
+            public void windowClosed(final WindowEvent event) {
+                logger.info("Window close event occur");
+                GenericDownloaderUIApp.this.windowClosed();
+            }
+            public void windowActivated(final WindowEvent event) {
+                logger.info("Window Activated");
+            }
+            public void windowClosing(final WindowEvent event) {
+                //Called in response to a user request for the listened-to window
+                //to be closed. To actually close the window,
+                //the listener should invoke the window's dispose
+                //or setVisible(false) method
+                logger.info("Window Closing");
+                GenericDownloaderUIApp.this.windowClosing();
+            }
+            public void windowDeactivated(final WindowEvent event) {
+                logger.info("Window Deactivated");
+            }
+            public void windowDeiconified(final WindowEvent event) {
+                logger.info("Window Deiconified");
+            }
+            public void windowIconified(final WindowEvent event) {
+                logger.info("Window Iconified");
+            }
+            public void windowOpened(final WindowEvent event) {
+                logger.info("Window Opened");
+            }
+            });
+    }
+
+    protected void windowClosing()
+    {
+        //FIXME: if( could_be_close )
+        super.dispose();
+    }
+
+    protected void windowClosed()
+    {
+        System.exit( 0 ); // FIXME: Kill all
     }
 
     /**
@@ -136,7 +188,7 @@ public class GenericDownloaderUIApp extends JFrame
     {
         init();
 
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        //setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 600, 500 );
         {
             menuBar = new JMenuBar();
