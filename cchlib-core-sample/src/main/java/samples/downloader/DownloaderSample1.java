@@ -9,6 +9,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class DownloaderSample1
     public static void main( String...args )
         throws IOException, NoSuchAlgorithmException, ClassNotFoundException
     {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output/www.bloggif.com" ).getCanonicalFile();
+        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
         final DownloaderSample1 downloadConfig = new DownloaderSample1();
@@ -76,8 +77,9 @@ public class DownloaderSample1
 
         GenericDownloader instance
             = new GenericDownloader(
-                //destinationFolderFile,
                 destinationFolderFile,
+                downloadConfig.getCacheRelativeDirectoryCacheName(),
+
                 DOWNLOAD_THREAD,
                 PROXY,
                 mylogger
@@ -102,46 +104,6 @@ public class DownloaderSample1
                 }
 
                   return downloadConfig.getURLToDownloadCollection( gdauir, allContent );
-/*
-                String allContent;
-                {
-                    List<String>    contentList = loads( collectURLPrepare() );
-                    StringBuilder   sb          = new StringBuilder();
-
-                    for( String s: contentList ) {
-                        sb.append( s );
-                        }
-
-                    allContent = sb.toString();
-                    contentList.clear();
-                    sb.setLength( 0 );
-                }
-
-                final String[] regexps = {
-                    "<img class=\"img_progress ...\" src=\"",
-                    "<img class=\"img_progress ....\" src=\""
-                    };
-
-                Set<URL> imagesURLCollection = new HashSet<URL>();
-
-                for( String regexp : regexps ) {
-                    String[] strs = allContent.toString().split( regexp );
-                    logger.info( "> img founds = " + (strs.length - 1));
-
-                    for( int i=1; i<strs.length; i++ ) {
-                        String  s   = strs[ i ];
-                        int     end = s.indexOf( '"' );
-                        String  src = s.substring( 0, end );
-
-                        //imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                        imagesURLCollection.add( new URL( src ) );
-                        }
-                    }
-
-                logger.info( "> URL founds = " + imagesURLCollection.size() );
-
-                return imagesURLCollection;
-*/
             }
         };
 
@@ -153,7 +115,7 @@ public class DownloaderSample1
     @Override
     public String getSiteName()
     {
-        return "bloggif.com";
+        return "www.bloggif.com";
     }
     @Override
     public int getNumberOfPicturesByPage()
@@ -181,7 +143,7 @@ public class DownloaderSample1
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "output/www.bloggif.com";
+        return "www.bloggif.com";
     }
 
     @Override
@@ -233,33 +195,8 @@ public class DownloaderSample1
     }
 
     @Override
-    public boolean isExtraStringValue()
+    public Collection<ComboBoxConfig> getComboBoxConfigCollection()
     {
-        return false;
-    }
-    @Override
-    public String getExtraStringLabel()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public String getExtraStringLabels( int i )
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public Collection<String> getExtraStringValues()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public int getExtraStringSelectedIndex()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public void setExtraStringSelectedIndex( int index )
-    {
-        throw new UnsupportedOperationException();
+        return Collections.emptyList();
     }
 }

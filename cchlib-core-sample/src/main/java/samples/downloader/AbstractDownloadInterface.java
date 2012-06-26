@@ -4,9 +4,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -16,8 +18,8 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
 public abstract class AbstractDownloadInterface
     implements GenericDownloaderAppInterface
 {
-    private int pageCount = 1; // Min value
-    private int extraStringSelectedIndex;
+    private final static transient Logger logger = Logger.getLogger( AbstractDownloadInterface.class );
+    private int pageCount;
     private final String siteName;
     private final int numberOfPicturesByPage;
 
@@ -55,6 +57,7 @@ public abstract class AbstractDownloadInterface
     final// FIXME: remove this
     public void setPageCount( final int pageCount )
     {
+        // TODO  >= 1; // Min value ???
         this.pageCount = pageCount;
     }
 
@@ -75,7 +78,6 @@ public abstract class AbstractDownloadInterface
             throws MalformedURLException;
 
     @Override// GenericDownloaderAppInterface
-    //final// FIXME: remove this
     public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
@@ -97,7 +99,7 @@ public abstract class AbstractDownloadInterface
      * @throws MalformedURLException
      */
     abstract
-    public URL getURL( String src, int regexpIndex )
+    public URL getURLToDownload( String src, int regexpIndex )
         throws MalformedURLException;
 
     public interface RegExgSplitter
@@ -120,35 +122,51 @@ public abstract class AbstractDownloadInterface
     }
 
     /**
-     * TODOC
+     * Default implementation of {@link GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)},
+     * that use {@link AbstractDownloadInterface#getURLToDownload(String, int)}
      *
      * @param gdauir
      * @param allContent
      * @param regexps
      * @return
-     * @throws MalformedURLException
+     * @see GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)}
+     * @see AbstractDownloadInterface#getURLToDownload(String, int)
      */
     final//FIXME remove this
     public Collection<URL> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
-        final String                        allContent,
-        //final String[]                      regexps
+        final String                        content2Parse,
         final RegExgSplitter[]              regexps
-        ) throws MalformedURLException
+        )
     {
         final Set<URL> imagesURLCollection = new HashSet<URL>();
 
         for( RegExgSplitter regexp : regexps ) {
-            String[] strs = allContent.toString().split( regexp.getBeginRegExp() );
+            final String[] strs = content2Parse.toString().split( regexp.getBeginRegExp() );
             gdauir.getAbstractLogger().info( "> img founds = " + (strs.length - 1));
 
             for( int i=1; i<strs.length; i++ ) {
-                String  s   = strs[ i ];
-                int     end = s.indexOf( regexp.getLastChar() /*'"'*/ );
-                String  src = s.substring( 0, end );
+                final String    strPart = strs[ i ];
+                final int       end = strPart.indexOf( regexp.getLastChar() /*'"'*/ );
+                final String    src = strPart.substring( 0, end );
 
                 //imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
-                imagesURLCollection.add( getURL( src, i ) );
+                try {
+                    imagesURLCollection.add( getURLToDownload( src, i ) );
+                    }
+                catch( MalformedURLException e ) {
+                    // TODO Auto-generated catch block
+                    logger.warn( "MalformedURLException src = [" + src + "]" );
+                    logger.warn( "MalformedURLException", e );
+                    logger.warn( "MalformedURLException strPart:\n------->>\n"
+                            + strPart
+                            + "\n<<-------"
+                            );
+                    logger.warn( "MalformedURLException content2Parse:\n------->>\n"
+                            + content2Parse
+                            + "\n<<-------"
+                            );
+                    }
                 }
             }
 
@@ -158,16 +176,8 @@ public abstract class AbstractDownloadInterface
     }
 
     @Override// GenericDownloaderAppInterface
-    final//FIXME remove this
-    public int getExtraStringSelectedIndex()
+    public Collection<GenericDownloaderAppInterface.ComboBoxConfig> getComboBoxConfigCollection()
     {
-        return extraStringSelectedIndex;
-    }
-
-    @Override// GenericDownloaderAppInterface
-    final//FIXME remove this
-    public void setExtraStringSelectedIndex( final int index )
-    {
-        this.extraStringSelectedIndex = index;
+        return Collections.emptyList();
     }
 }

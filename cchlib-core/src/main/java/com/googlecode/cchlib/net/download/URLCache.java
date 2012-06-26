@@ -32,7 +32,7 @@ public class URLCache implements Serializable, Closeable
     private static final long serialVersionUID = 2L;
     private CacheContent cache;
     private final File cacheRootDirFile;
-    private File __cacheFile;
+    private File __cacheFile__;
     private boolean autostore;
     private int autostoreThreshold = 50;
     private int modificationCount = 0;
@@ -42,8 +42,9 @@ public class URLCache implements Serializable, Closeable
      *
      * @param cacheRootDirFile Root {@link File} directory.
      * @throws NullPointerException if cacheRootDirFile is null
+     * @throws IOException if cacheRootDirFile is not a valid directory
      */
-    public URLCache(  final File cacheRootDirFile )
+    public URLCache(  final File cacheRootDirFile ) throws IOException
     {
         this.cacheRootDirFile = cacheRootDirFile;
         this.cache            = new CacheContent();
@@ -51,6 +52,15 @@ public class URLCache implements Serializable, Closeable
 
         if( cacheRootDirFile == null ) {
             throw new NullPointerException( "cacheRootDirFile is null" );
+            }
+
+        if( !cacheRootDirFile.isDirectory() ) {
+            // Build directory folder if needed.
+            cacheRootDirFile.mkdirs();
+
+            if( !cacheRootDirFile.isDirectory() ) {
+                throw new IOException( "Can't create directory: " + cacheRootDirFile );
+                }
             }
     }
 
@@ -61,12 +71,31 @@ public class URLCache implements Serializable, Closeable
      * @param cacheFilename    Cache index filename
      * @throws NullPointerException if cacheFilename is null
      * @throws NullPointerException if cacheRootDirFile is null
+     * @throws IOException if cacheRootDirFile is not a valid directory
      */
     public URLCache(  final File cacheRootDirFile, final String cacheFilename )
+        throws IOException
     {
         this( cacheRootDirFile );
 
         setCacheFilename( cacheFilename );
+    }
+
+    /**
+     * Create a new URLCache
+     *
+     * @param cacheRootDirFile Root {@link File} directory.
+     * @param cacheFile        Cache index {@link File}
+     * @throws NullPointerException if cacheFilename is null
+     * @throws NullPointerException if cacheRootDirFile is null
+     * @throws IOException if cacheRootDirFile is not a valid directory
+     */
+    public URLCache( final File cacheRootDirFile, final File cacheFile )
+            throws IOException
+    {
+        this( cacheRootDirFile );
+
+        setCacheFile( cacheFile );
     }
 
     /**
@@ -193,7 +222,7 @@ public class URLCache implements Serializable, Closeable
             throw new NullPointerException( "cacheFile is null" );
             }
 
-        this.__cacheFile = cacheFile;
+        this.__cacheFile__ = cacheFile;
     }
 
     /**
@@ -215,11 +244,11 @@ public class URLCache implements Serializable, Closeable
      */
     public File getCacheFile()
     {
-        if( this.__cacheFile == null ) {
-            this.__cacheFile = new File( this.cacheRootDirFile, ".cache-index" );
+        if( this.__cacheFile__ == null ) {
+            this.__cacheFile__ = new File( this.cacheRootDirFile, ".cache-index" );
             }
 
-        return this.__cacheFile;
+        return this.__cacheFile__;
     }
 
     /**
@@ -305,8 +334,27 @@ public class URLCache implements Serializable, Closeable
     synchronized
     public void store() throws IOException
     {
+        final File cacheFile = getCacheFile();
+
+        if( logger.isTraceEnabled() ) {
+            logger .trace( "Try to store: " + cacheFile );
+            }
+
+        if( cacheFile.isFile() ) {
+            File    newFilename = new File( cacheFile.getParentFile(), cacheFile.getName() + "~" );
+            boolean b           = cacheFile.renameTo( newFilename );
+
+            if( logger.isTraceEnabled() ) {
+                logger .trace( "Rename cache file from [" + cacheFile + "] to [" + newFilename + "] : result=" + b );
+                }
+
+            if( ! b ) {
+                logger.warn( "Can't rename cache file to: " + newFilename );
+                }
+            }
+
         // store using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( getCacheFile() ) );
+        Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
 
         for( URLFullCacheEntry entry : cache ) {
             final String contentHashCode = entry.getContentHashCode();

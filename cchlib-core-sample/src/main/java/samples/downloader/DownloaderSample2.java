@@ -20,7 +20,7 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
 public class DownloaderSample2
-    extends AbstractDownloadInterface2
+    extends AbstractDownloadInterface
         implements GenericDownloaderAppInterface
 {
     private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
@@ -42,7 +42,7 @@ public class DownloaderSample2
     private final static int    MAX = 1100000;
     //private final static int    MAX = 110;
 
-    private final static String CACHE_FOLDER_NAME = "output/epins.fr";
+    //private final static String CACHE_FOLDER_NAME = "output/";
 
     /**
      * Start Sample here !
@@ -50,7 +50,7 @@ public class DownloaderSample2
     public static void main( String...args )
         throws IOException, NoSuchAlgorithmException, ClassNotFoundException
     {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), CACHE_FOLDER_NAME ).getCanonicalFile();
+        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
         final DownloaderSample2 downloadConfig = new DownloaderSample2();
@@ -77,8 +77,8 @@ public class DownloaderSample2
 
         GenericDownloader instance
             = new GenericDownloader(
-                //destinationFolderFile,
                 destinationFolderFile,
+                downloadConfig.getCacheRelativeDirectoryCacheName(),
                 DOWNLOAD_THREAD,
                 PROXY,
                 mylogger
@@ -98,13 +98,17 @@ public class DownloaderSample2
 
     protected DownloaderSample2()
     {
-        super( "epins.fr", 10 /* FIXME */, 10 /* FIXME */ );
+        super(
+            "epins.fr",
+            10 /* FIXME */,
+            10 /* FIXME */
+            );
     }
 
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return CACHE_FOLDER_NAME;
+        return "epins.fr";
     }
 
     @Override
@@ -188,41 +192,9 @@ public class DownloaderSample2
     }
 
     @Override
-    public URL getURL( String src, int regexpIndex )
+    public URL getURLToDownload( String src, int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE
     }
-
-    /* @Override
-    public boolean isExtraStringValue()
-    {
-        return false;
-    }
-    @Override
-    public String getExtraStringLabel()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public String getExtraStringLabels( int i )
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public Collection<String> getExtraStringValues()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public int getExtraStringSelectedIndex()
-    {
-        throw new UnsupportedOperationException();
-    }
-    @Override
-    public void setExtraStringSelectedIndex( int index )
-    {
-        throw new UnsupportedOperationException();
-    }*/
-
 }

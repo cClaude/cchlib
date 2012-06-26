@@ -22,12 +22,6 @@ public interface GenericDownloaderAppInterface
      */
     public int getNumberOfPicturesByPage();
 
-//    /**
-//     * Returns default number of page to download (for UI)
-//     * @return default number of page to download
-//     */
-//    public int getDefaultPageCount();
-
     /**
      * Returns number of page to download (for UI). Value must be greater than 0 and
      * less or equal than value return by {@link #getMaxPageCount()}.
@@ -77,39 +71,89 @@ public interface GenericDownloaderAppInterface
      *
      * @return
      */
-    public boolean isExtraStringValue();
+    //public boolean isExtraStringValue();
 
     /**
      *
      * @return
      * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
      */
-    public String getExtraStringLabel();
+    //public String getExtraStringLabel();
 
     /**
      *
      * @return
      * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
      */
-    public Collection<String> getExtraStringValues();
+    //public Collection<String> getExtraStringValues();
 
     /**
      * @param index
      * @return
      * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
      */
-    public String getExtraStringLabels( final int index );
+    //public String getExtraStringLabels( final int index );
 
     /**
      * @return index
      * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
      */
-    public int getExtraStringSelectedIndex();
+    //public int getExtraStringSelectedIndex();
 
     /**
      * @param index
      * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
      */
-    public void setExtraStringSelectedIndex( int index );
+    //public void setExtraStringSelectedIndex( int index );
+
+    /**
+     *
+     * @return
+     */
+    public Collection<ComboBoxConfig> getComboBoxConfigCollection();
+
+    /**
+     *
+     *
+     */
+    public interface ComboBoxConfig
+    {
+        /**
+         *
+         * @return
+         */
+        public String getLabelString(); // before was: getExtraStringLabel
+
+        /**
+         *
+         * @param i
+         * @return
+         */
+        public String getLabelString( int index ); // before was: getExtraStringLabels
+
+        /**
+         *
+         * @return
+         */
+        public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
+
+        /**
+         *
+         * @return
+         */
+        public int getSelectedIndex();
+
+        /**
+         *
+         * @param selectedIndex
+         */
+        public void setSelectedIndex( int selectedIndex );
+
+        /**
+         *
+         * @return
+         */
+        public String getComboBoxSelectedValue();
+    }
 
 }

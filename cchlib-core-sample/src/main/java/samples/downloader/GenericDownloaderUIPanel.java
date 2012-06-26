@@ -101,11 +101,12 @@ public class GenericDownloaderUIPanel
         }
 
         // $hide>>$
-        if( config.isExtraStringValue() )
+        //if( config.isExtraStringValue() )
+        for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
             {
-                stringsJLabel = new JLabel( config.getExtraStringLabel() );
+                stringsJLabel = new JLabel( entry.getLabelString() );
                 stringsJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 GridBagConstraints gbc_stringsJLabel = new GridBagConstraints();
                 gbc_stringsJLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -115,7 +116,7 @@ public class GenericDownloaderUIPanel
                 add(stringsJLabel, gbc_stringsJLabel);
             }
             {
-                stringsJLabels = new JLabel( config.getExtraStringLabels( 0 ) );
+                stringsJLabels = new JLabel( entry.getLabelString( 0 ) );
                 GridBagConstraints gbc_stringsJLabels = new GridBagConstraints();
                 gbc_stringsJLabels.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJLabels.gridx = 2;
@@ -129,15 +130,14 @@ public class GenericDownloaderUIPanel
                     {
                         final int index = stringsJComboBox.getSelectedIndex();
 
-                        stringsJLabels.setText( config.getExtraStringLabels( index ) );
-                        config.setExtraStringSelectedIndex( index );
+                        stringsJLabels.setText( entry.getLabelString( index ) );
+                        entry.setSelectedIndex( index );
                      }
                 });
 
-                for( String s : config.getExtraStringValues() ) {
+                for( String s : entry.getComboBoxValues() ) {
                     stringsJComboBox.addItem( s );
                     }
-
 
                 GridBagConstraints gbc_stringsJComboBox = new GridBagConstraints();
                 gbc_stringsJComboBox.insets = new Insets(0, 0, 0, 5);
@@ -146,7 +146,7 @@ public class GenericDownloaderUIPanel
                 gbc_stringsJComboBox.gridy = 2;
                 add(stringsJComboBox, gbc_stringsJComboBox);
             }
-        } // if( config.isExtraStringValue() )
+        } // for(...)
     }
 
     public GenericDownloaderAppInterface getGenericDownloaderAppInterface()

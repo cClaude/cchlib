@@ -27,13 +27,14 @@ public class DownloaderAppCore
         final File destinationFolderFile =
             new File(
                 new File(".").getAbsoluteFile(),
-                gdai.getCacheRelativeDirectoryCacheName()
+                "output" // gdai.getCacheRelativeDirectoryCacheName()
                 ).getCanonicalFile();
         destinationFolderFile.mkdirs();
 
         GenericDownloader instance
             = new GenericDownloader(
                 destinationFolderFile,
+                gdai.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),
                 gdauir.getProxy(),
                 gdauir.getAbstractLogger()

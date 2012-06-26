@@ -54,20 +54,23 @@ public abstract class GenericDownloader
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            final File              destinationDirectoryFile,
+            final File              rootCacheDirectoryFile,
+            final String            cacheDirectoryName,
             final int               downloadMaxThread,
             final Proxy             proxy,
             final LoggerListener    logger
             )
         throws IOException, ClassNotFoundException
     {
-        this.destinationDirectoryFile   = destinationDirectoryFile;
+        this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, cacheDirectoryName );
         this.downloadMaxThread          = downloadMaxThread;
         this.proxy                      = proxy;
         this.loggerListener             = logger;
 
-        this.cache = new URLCache( destinationDirectoryFile );
-        this.cache.setCacheFilename( ".cache" );
+        final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
+
+        this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
+        //this.cache.setCacheFilename( ".cache" );
         this.cache.setAutoStorage( true );
 
         try  {
@@ -245,7 +248,16 @@ public abstract class GenericDownloader
             @Override
             public File createDownloadTmpFile() throws IOException
             {
-                return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
+                try {
+                    return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
+                    }
+                catch( IOException e ) {
+                    logger.error(
+                        "createTempFile Error: cache.getTempDirectoryFile() = " + cache.getTempDirectoryFile(),
+                        e
+                        );
+                    throw e;
+                    }
             }
         };
 
