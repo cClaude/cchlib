@@ -2,6 +2,7 @@ package samples.downloader;
 
 import java.net.CookieHandler;
 import java.net.Proxy;
+import java.util.Map;
 
 /**
  *
@@ -30,4 +31,6 @@ public interface GenericDownloaderAppUIResults
      * @return
      */
     public LoggerListener getAbstractLogger();
+
+    public Map<String, String> getRequestPropertyMap();
 }

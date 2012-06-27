@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.Map;
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -14,11 +15,13 @@ import com.googlecode.cchlib.io.IOHelper;
 public class DownloadToFile extends AbstractDownload
 {
     public DownloadToFile(
-            DownloadEvent eventHandler,
-            Proxy proxy,
-            DownloadURL downloadURL )
+            final DownloadURL           downloadURL,
+            final DownloadEvent         eventHandler,
+            final Map<String,String>    requestPropertyMap,
+            final Proxy                 proxy
+            )
     {
-        super( eventHandler, proxy, downloadURL );
+        super( downloadURL, eventHandler, requestPropertyMap, proxy);
     }
 
     @Override

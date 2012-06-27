@@ -12,6 +12,7 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
@@ -78,6 +79,11 @@ public class DownloaderSample2
             {
                 return null;
             }
+            @Override
+            public Map<String, String> getRequestPropertyMap()
+            {
+                return null;
+            }
         };
 
         GenericDownloader instance
@@ -85,6 +91,7 @@ public class DownloaderSample2
                 destinationFolderFile,
                 downloadConfig.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),//DOWNLOAD_THREAD,
+                gdauir.getRequestPropertyMap(),
                 gdauir.getProxy(),//PROXY,
                 gdauir.getCookieHandler(),
                 mylogger

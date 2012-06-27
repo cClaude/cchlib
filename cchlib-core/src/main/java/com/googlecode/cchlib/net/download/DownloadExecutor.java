@@ -2,8 +2,10 @@ package com.googlecode.cchlib.net.download;
 
 import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
@@ -79,21 +81,24 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param eventHandler  Event handler for these downloads
-     * @param proxy         {@link Proxy} to use for download (could be null)
-     * @param URLCollection {@link Collection} of {@link URL} to download.
+     * @param downloadURLs          {@link Collection} of {@link URL} to download.
+     * @param event                 A valid {@link DownloadEvent}.
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
     public void add(
+            final Collection<? extends DownloadURL> downloadURLs,
             final DownloadEvent                     eventHandler,
-            final Proxy                             proxy,
-            final Collection<? extends DownloadURL> downloadURLs
+            final Map<String,String>                requestPropertyMap,
+            final Proxy                             proxy
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( eventHandler, proxy, u );
+            addDownload( u, eventHandler, requestPropertyMap, proxy );
             }
     }
 
@@ -103,22 +108,25 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param eventHandler  Event handler for these downloads
-     * @param proxy         {@link Proxy} to use for download (could be null)
-     * @param URLs          {@link Iterable} of {@link URL} to download.
+     * @param downloadURLs  {@link Iterable} of {@link URL} to download.
+     * @param event                 A valid {@link DownloadEvent}.
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
     public void add(
+            final Iterable<DownloadURL> downloadURLs,
             final DownloadEvent         eventHandler,
-            final Proxy                 proxy,
-            final Iterable<DownloadURL> downloadURLs
+            final Map<String,String>    requestPropertyMap,
+            final Proxy                 proxy
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( eventHandler, proxy, u );
-            }
+            addDownload( u, eventHandler, requestPropertyMap, proxy );
+           }
     }
 
     /**
@@ -127,16 +135,19 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param eventHandler  Event handler for this download
-     * @param proxy         {@link Proxy} to use for download (could be null)
-     * @param url           {@link URL} to download
+     * @param downloadURL           A valid {@link DownloadURL}.
+     * @param event                 A valid {@link DownloadEvent}.
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
      */
     public void addDownload(
-            final DownloadEvent     eventHandler,
-            final Proxy             proxy,
-            final DownloadURL       downloadURL
+            final DownloadURL           downloadURL,
+            final DownloadEvent         eventHandler,
+            final Map<String,String>    requestPropertyMap,
+            final Proxy                 proxy
             )
         throws RejectedExecutionException
     {
@@ -144,11 +155,11 @@ public class DownloadExecutor
 
         switch( downloadURL.getType() ) {
             case STRING:
-                command = new DownloadToString( eventHandler, proxy, downloadURL );
+                command = new DownloadToString( downloadURL, eventHandler, requestPropertyMap, proxy );
                 break;
 
             default:
-                command = new DownloadToFile( eventHandler, proxy, downloadURL );
+                command = new DownloadToFile( downloadURL, eventHandler, requestPropertyMap, proxy );
                 break;
             }
 

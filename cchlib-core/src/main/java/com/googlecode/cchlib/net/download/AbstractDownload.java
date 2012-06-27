@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,27 +17,32 @@ import org.apache.log4j.Logger;
 abstract class AbstractDownload implements RunnableDownload
 {
     private final static transient Logger logger = Logger.getLogger( AbstractDownload.class );
-    private DownloadEvent event;
-    private final Proxy proxy;
-    private DownloadURL downloadURL;
+    private final DownloadURL        downloadURL;
+    private final DownloadEvent      event;
+    private final Proxy              proxy;
+    private final Map<String,String> requestPropertyMap;
 
     /**
      * Create a download task using a proxy
      *
-     * @param event         A valid {@link DownloadEvent}.
-     * @param proxy         {@link Proxy} to use for download (could be null)
-     * @param downloadURL   A valid {@link DownloadURL}.
+     * @param downloadURL           A valid {@link DownloadURL}.
+     * @param event                 A valid {@link DownloadEvent}.
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws NullPointerException if one of event or downloadURL parameters is null.
      */
     public AbstractDownload(
-            final DownloadEvent event,
-            final Proxy         proxy,
-            final DownloadURL   downloadURL
+            final DownloadURL           downloadURL,
+            final DownloadEvent         event,
+            final Map<String,String>    requestPropertyMap,
+            final Proxy                 proxy
             )
     {
-        this.event          = event;
-        this.proxy          = proxy;
-        this.downloadURL    = downloadURL;
+        this.event              = event;
+        this.proxy              = proxy;
+        this.requestPropertyMap = requestPropertyMap;
+        this.downloadURL        = downloadURL;
 
         if( event == null ) {
             throw new NullPointerException( "Not valid DownloadEvent" );
@@ -93,9 +100,23 @@ abstract class AbstractDownload implements RunnableDownload
             //InputStream is = getInputStream();
             URLConnection uc = getURLConnection();
 
+            for( Map.Entry<String,String> prop : requestPropertyMap.entrySet() ) {
+                uc.addRequestProperty( prop.getKey(), prop.getValue() );
+                }
+
             if( logger.isTraceEnabled() ) {
                 logger.trace( "URLConnection: " + uc );
+                logger.trace( "URLConnection.getHeaderFields() " );
+
+                for( Map.Entry<String,List<String>> entry : uc.getHeaderFields().entrySet() ) {
+                    logger.trace( "Header name:" + entry.getKey() );
+
+                    for( String v : entry.getValue() ) {
+                        logger.trace( "Header value:" + v );
+                        }
+                    }
                 }
+
 
             uc.connect();
             InputStream is = uc.getInputStream();

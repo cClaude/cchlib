@@ -36,6 +36,7 @@ public class DownloaderAppCore
                 destinationFolderFile,
                 gdai.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),
+                gdauir.getRequestPropertyMap(),
                 gdauir.getProxy(),
                 gdauir.getCookieHandler(),
                 gdauir.getAbstractLogger()

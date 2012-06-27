@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
@@ -46,6 +47,15 @@ public abstract class AbstractDownloadInterface
      */
     @Override
     public CookieHandler getCookieHandler()
+    {
+        return null;
+    }
+
+    /**
+     * @return always null (default implementation)
+     */
+    @Override
+    public Map<String, String> getRequestPropertyMap()
     {
         return null;
     }

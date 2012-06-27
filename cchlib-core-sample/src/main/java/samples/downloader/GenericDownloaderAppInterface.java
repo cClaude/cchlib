@@ -4,6 +4,7 @@ import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Map;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -77,46 +78,13 @@ public interface GenericDownloaderAppInterface
      *
      * @return
      */
-    //public boolean isExtraStringValue();
-
-    /**
-     *
-     * @return
-     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
-     */
-    //public String getExtraStringLabel();
-
-    /**
-     *
-     * @return
-     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
-     */
-    //public Collection<String> getExtraStringValues();
-
-    /**
-     * @param index
-     * @return
-     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
-     */
-    //public String getExtraStringLabels( final int index );
-
-    /**
-     * @return index
-     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
-     */
-    //public int getExtraStringSelectedIndex();
-
-    /**
-     * @param index
-     * @throws UnsupportedOperationException if {@link #isExtraStringValue()} return false;
-     */
-    //public void setExtraStringSelectedIndex( int index );
-
-    /**
-     *
-     * @return
-     */
     public Collection<ComboBoxConfig> getComboBoxConfigCollection();
+
+    /**
+     *
+     * @return
+     */
+    public Map<String, String> getRequestPropertyMap();
 
     /**
      *

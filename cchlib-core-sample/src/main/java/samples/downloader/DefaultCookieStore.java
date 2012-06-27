@@ -32,14 +32,14 @@ public final class DefaultCookieStore implements CookieStore
 
         if( values == null ) {
             values = new ArrayList<>();
-            cookies.put( uri, values  );
+            cookies.put( uri, values );
             }
 
         values.add( cookie );
     }
 
     @Override
-    public List<HttpCookie> get( URI uri )
+    public List<HttpCookie> get( final URI uri )
     {
         final List<HttpCookie> l = cookies.get( uri );
 

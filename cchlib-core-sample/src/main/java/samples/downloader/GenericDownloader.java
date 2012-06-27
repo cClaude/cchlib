@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -35,6 +36,7 @@ public abstract class GenericDownloader
     private final int   downloadMaxThread;
     private final Proxy proxy;
     private final LoggerListener loggerListener;
+    private Map<String,String> requestPropertyMap;
 
     /**
      * Returns an {@link Iterable} object of {@link URL}s to download,
@@ -60,8 +62,8 @@ public abstract class GenericDownloader
             final File                              rootCacheDirectoryFile,
             final String                            cacheDirectoryName,
             final int                               downloadMaxThread,
+            final Map<String,String>                requestPropertyMap,
             final Proxy                             proxy,
-            //final Map<URI,Map<String,List<String>>> cookieHandlerMap,
             final CookieHandler                     cookieHandler,
             final LoggerListener                    logger
             )
@@ -69,6 +71,7 @@ public abstract class GenericDownloader
     {
         this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, cacheDirectoryName );
         this.downloadMaxThread          = downloadMaxThread;
+        this.requestPropertyMap         = requestPropertyMap;
         this.proxy                      = proxy;
         this.loggerListener             = logger;
 
@@ -145,7 +148,7 @@ public abstract class GenericDownloader
             }
         };
 
-        downloadExecutor.add( eventStringHandler, proxy, urls );
+        downloadExecutor.add( urls, eventStringHandler, requestPropertyMap, proxy );
         downloadExecutor.waitClose();
 
         return result;
@@ -294,7 +297,7 @@ public abstract class GenericDownloader
             else {
                 DownloadURL du = new FileDownloadURL( u );
 
-                downloadExecutor.addDownload( eventHandler, proxy, du );
+                downloadExecutor.addDownload( du, eventHandler, requestPropertyMap, proxy );
                 statsLauchedDownload++;
                 }
             }

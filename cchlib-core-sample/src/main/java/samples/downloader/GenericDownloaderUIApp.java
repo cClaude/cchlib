@@ -18,6 +18,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
@@ -402,6 +403,11 @@ public class GenericDownloaderUIApp extends JFrame
                     public CookieHandler getCookieHandler()
                     {
                         return gdai.getCookieHandler();
+                    }
+                    @Override
+                    public Map<String,String> getRequestPropertyMap()
+                    {
+                        return gdai.getRequestPropertyMap();
                     }
                     @Override
                     public LoggerListener getAbstractLogger()

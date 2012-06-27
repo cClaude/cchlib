@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -187,12 +189,20 @@ Cookie: GI=k5b_LjgBAAA.9pAeNNUJa47XABsoKl8KNDJNsIDHeRGFMTT51avGYgI._rCoWTIiNZ3KT
     public URL getURLToDownload( final String src, final int regexpIndex )
             throws MalformedURLException
     {
-        //URL u = new URL( src );
-
-        //u.openConnection().setRequestProperty( key, value );
-
-
         return new URL( src );
+    }
+
+    @Override
+    public Map<String,String> getRequestPropertyMap()
+    {
+        final Map<String,String> map = new HashMap<>();
+
+        map.put(
+            "Cookie",
+            "GI=m-OtLzgBAAA.9pAeNNUJa47XABsoKl8KNDJNsIDHeRGFMTT51avGYgI.0HMo5Gxs2DwA68nWHpWxTA; blogger_TID=bb9268269e1ef000"
+            );
+
+        return map ;
     }
 
 }

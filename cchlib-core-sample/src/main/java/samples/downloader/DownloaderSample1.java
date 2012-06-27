@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
@@ -78,6 +79,11 @@ public class DownloaderSample1
             {
                 return null;
             }
+            @Override
+            public Map<String, String> getRequestPropertyMap()
+            {
+                return null;
+            }
         };
 
         GenericDownloader instance
@@ -85,6 +91,7 @@ public class DownloaderSample1
                 destinationFolderFile,
                 downloadConfig.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(), //DOWNLOAD_THREAD,
+                gdauir.getRequestPropertyMap(),
                 gdauir.getProxy(), //PROXY,
                 gdauir.getCookieHandler(),
                 mylogger
@@ -207,5 +214,10 @@ public class DownloaderSample1
     public Collection<ComboBoxConfig> getComboBoxConfigCollection()
     {
         return Collections.emptyList();
+    }
+    @Override
+    public Map<String,String> getRequestPropertyMap()
+    {
+        return null;
     }
 }
