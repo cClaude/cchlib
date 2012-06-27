@@ -70,6 +70,13 @@ public final class StringDownloadURL extends AbstractDownloadURL
     @Override
     public String toString()
     {
-        return "StringDownloadURL [getURL()=" + getURL() /**/+ ", str=" + str/**/ + "]";
+        //return "StringDownloadURL [getURL()=" + getURL() /**/+ ", str=" + str/**/ + "]";
+        final StringBuilder sb = new StringBuilder();
+        
+        sb.append( "StringDownloadURL [getURL()=" ).append( getURL() );
+        //sb.append( ", str=" ).append( str );
+        sb.append( "]" );
+        
+        return sb.toString();
     }
 }
