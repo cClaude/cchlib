@@ -16,14 +16,17 @@ public class DefaultComboBoxConfig
     private List<String> labelStringList   = new ArrayList<>();
 
     /**
-     *
+     * 
+     * @param labelString
+     * @param comboBoxValues
+     * @param labelStrings
      */
     public DefaultComboBoxConfig(
-            final String   labelString,
-            final String[] comboBoxValues,
-            final String[] labelStrings
+        final String   labelString,
+        final String[] comboBoxValues,
+        final String[] labelStrings
        )
-   {
+    {
        this.labelString = labelString;
 
        if( comboBoxValues.length != labelStrings.length ) {
@@ -34,7 +37,33 @@ public class DefaultComboBoxConfig
            this.comboBoxValueList.add( comboBoxValues[ i ] );
            this.labelStringList.add( labelStrings[ i ] );
            }
-   }
+    }
+
+    /**
+     * 
+     * @param labelString
+     * @param minValue
+     * @param maxValue
+     * @param comments
+     */
+    public DefaultComboBoxConfig( 
+        final String    labelString,
+        final int       minValue, 
+        final int       maxValue, 
+        final String    comments
+        )
+    {
+        this.labelString = labelString;
+
+        if( minValue >= maxValue ) {
+            throw new RuntimeException( "minValue need to be less than maxValue" );
+            }
+
+        for( int i = 0; i < (maxValue - minValue); i++ ) {
+            this.comboBoxValueList.add( Integer.toString( i + minValue ) );
+            this.labelStringList.add( comments );
+            }
+    }
 
     @Override
     public int getSelectedIndex()

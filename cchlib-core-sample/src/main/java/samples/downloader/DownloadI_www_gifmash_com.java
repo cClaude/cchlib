@@ -10,6 +10,7 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *
  * TODO:
  * http://picasion.com/gallery/24151868/
+ * 4gifs.com
  */
 public class DownloadI_www_gifmash_com extends AbstractExtentedDownloadInterface
 {

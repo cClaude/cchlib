@@ -24,9 +24,6 @@ public class GenericDownloaderUIPanel
     private JSpinner pageScanCountJSpinner;
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
-    private JComboBox<String> stringsJComboBox;
-    private JLabel stringsJLabel;
-    private JLabel stringsJLabels;
 
     /**
      * Create the panel.
@@ -100,31 +97,33 @@ public class GenericDownloaderUIPanel
             add(numberOfPicturesByPageLabel, gbc_numberOfPicturesByPageLabel);
         }
 
+        int lineNumber = 0;
         // $hide>>$
         //if( config.isExtraStringValue() )
         for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
             {
-                stringsJLabel = new JLabel( entry.getLabelString() );
+                JLabel stringsJLabel = new JLabel( entry.getLabelString() );
                 stringsJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 GridBagConstraints gbc_stringsJLabel = new GridBagConstraints();
                 gbc_stringsJLabel.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJLabel.insets = new Insets(0, 0, 0, 5);
                 gbc_stringsJLabel.gridx = 0;
-                gbc_stringsJLabel.gridy = 2;
+                gbc_stringsJLabel.gridy = 2 + lineNumber;
                 add(stringsJLabel, gbc_stringsJLabel);
             }
+            final JLabel stringsJLabels;
             {
                 stringsJLabels = new JLabel( entry.getLabelString( 0 ) );
                 GridBagConstraints gbc_stringsJLabels = new GridBagConstraints();
                 gbc_stringsJLabels.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJLabels.gridx = 2;
-                gbc_stringsJLabels.gridy = 2;
+                gbc_stringsJLabels.gridy = 2 + lineNumber;
                 add(stringsJLabels, gbc_stringsJLabels);
             }
             {
-                stringsJComboBox = new JComboBox<>();
+                final JComboBox<String> stringsJComboBox = new JComboBox<>();
                 stringsJComboBox.addItemListener(new ItemListener() {
                     public void itemStateChanged( ItemEvent event )
                     {
@@ -143,8 +142,10 @@ public class GenericDownloaderUIPanel
                 gbc_stringsJComboBox.insets = new Insets(0, 0, 0, 5);
                 gbc_stringsJComboBox.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJComboBox.gridx = 1;
-                gbc_stringsJComboBox.gridy = 2;
+                gbc_stringsJComboBox.gridy = 2 + lineNumber;
                 add(stringsJComboBox, gbc_stringsJComboBox);
+
+                lineNumber++;
             }
         } // for(...)
     }

@@ -70,6 +70,6 @@ public final class StringDownloadURL extends AbstractDownloadURL
     @Override
     public String toString()
     {
-        return "StringDownloadURL [getURL()=" + getURL() + ", str=" + str + "]";
+        return "StringDownloadURL [getURL()=" + getURL() /**/+ ", str=" + str/**/ + "]";
     }
 }

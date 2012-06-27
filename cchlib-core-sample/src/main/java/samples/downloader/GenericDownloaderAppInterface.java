@@ -1,5 +1,6 @@
 package samples.downloader;
 
+import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
@@ -15,6 +16,11 @@ public interface GenericDownloaderAppInterface
      * @return the site name
      */
     public String getSiteName();
+
+    /**
+     * @return a {@link CookieHandler} if site need it, null otherwise
+     */
+    public CookieHandler getCookieHandler();
 
     /**
      * Returns average pictures by page (for UI)
@@ -155,5 +161,8 @@ public interface GenericDownloaderAppInterface
          */
         public String getComboBoxSelectedValue();
     }
+
+
+
 
 }

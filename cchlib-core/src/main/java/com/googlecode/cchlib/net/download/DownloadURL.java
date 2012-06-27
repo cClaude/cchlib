@@ -9,9 +9,17 @@ import java.net.URL;
 public interface DownloadURL
 {
     /**
-     * @return {@link URL} for external the resource.
+     * @return the internal {@link URL}.
      */
     public URL getURL();
+
+//    /**
+//     * Opens a connection to this URL and returns an InputStream for reading
+//     * from that connection.
+//     * @return InputStream ready for reading from internal {@link URL}
+//     * @throws IOException if any
+//     */
+//    public InputStream getInputStream() throws IOException;
 
     /**
      * According to this state, download process should return

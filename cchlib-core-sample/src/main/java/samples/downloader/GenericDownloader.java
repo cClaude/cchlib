@@ -3,6 +3,7 @@ package samples.downloader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.CookieHandler;
 import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -46,19 +47,23 @@ public abstract class GenericDownloader
 
     /**
      *
-     * @param tempDirectoryFile
-     * @param destinationDirectoryFile
+     * @param rootCacheDirectoryFile
+     * @param cacheDirectoryName
      * @param downloadMaxThread
      * @param proxy
+     * @param cookieHandler
+     * @param logger
      * @throws IOException
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            final File              rootCacheDirectoryFile,
-            final String            cacheDirectoryName,
-            final int               downloadMaxThread,
-            final Proxy             proxy,
-            final LoggerListener    logger
+            final File                              rootCacheDirectoryFile,
+            final String                            cacheDirectoryName,
+            final int                               downloadMaxThread,
+            final Proxy                             proxy,
+            //final Map<URI,Map<String,List<String>>> cookieHandlerMap,
+            final CookieHandler                     cookieHandler,
+            final LoggerListener                    logger
             )
         throws IOException, ClassNotFoundException
     {
@@ -70,8 +75,20 @@ public abstract class GenericDownloader
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
         this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
-        //this.cache.setCacheFilename( ".cache" );
         this.cache.setAutoStorage( true );
+
+        //if( cookieHandlerMap != null ) {
+        if( cookieHandler != null ) {
+//            final CookieHandler cookieHandler = CookieManager.getDefault();
+//
+//            for( Map.Entry<URI,Map<String, List<String>>> entry : cookieHandlerMap.entrySet() ) {
+//                final URI                       uri             = entry.getKey();
+//                final Map<String, List<String>> responseHeaders = entry.getValue();
+//
+//                cookieHandler.put( uri, responseHeaders );
+//                }
+            CookieHandler.setDefault( cookieHandler );
+            }
 
         try  {
             this.cache.load();

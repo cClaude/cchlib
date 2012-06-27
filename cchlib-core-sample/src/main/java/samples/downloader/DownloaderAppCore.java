@@ -37,6 +37,7 @@ public class DownloaderAppCore
                 gdai.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),
                 gdauir.getProxy(),
+                gdauir.getCookieHandler(),
                 gdauir.getAbstractLogger()
                 )
         {

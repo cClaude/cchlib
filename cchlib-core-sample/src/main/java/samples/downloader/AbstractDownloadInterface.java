@@ -1,5 +1,6 @@
 package samples.downloader;
 
+import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +39,15 @@ public abstract class AbstractDownloadInterface
         this.numberOfPicturesByPage = numberOfPicturesByPage;
 
         setPageCount( pageCount );
+    }
+
+    /**
+     * @return always null (default implementation)
+     */
+    @Override
+    public CookieHandler getCookieHandler()
+    {
+        return null;
     }
 
     @Override

@@ -13,12 +13,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 import java.io.File;
+import java.net.CookieHandler;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JButton;
-//import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import java.awt.event.ActionListener;
@@ -115,6 +115,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloadEntriesTypeList.add( new DownloaderSample2() );
         downloadEntriesTypeList.add( new DownloadI_senorg() );
         downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
 
@@ -398,11 +399,17 @@ public class GenericDownloaderUIApp extends JFrame
                         return proxy;
                     }
                     @Override
+                    public CookieHandler getCookieHandler()
+                    {
+                        return gdai.getCookieHandler();
+                    }
+                    @Override
                     public LoggerListener getAbstractLogger()
                     {
                         //return loggerWrapper;
                         return displayTableModel;
                     }
+
                 };
 
                 try {

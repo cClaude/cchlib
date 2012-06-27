@@ -28,4 +28,5 @@ public abstract class AbstractDownloadURL implements DownloadURL, Serializable
     {
         return url;
     }
+
 }

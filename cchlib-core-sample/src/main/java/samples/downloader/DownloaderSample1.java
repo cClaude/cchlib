@@ -2,6 +2,7 @@ package samples.downloader;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.CookieHandler;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -67,11 +68,15 @@ public class DownloaderSample1
             {
                 return PROXY;
             }
-
             @Override
             public LoggerListener getAbstractLogger()
             {
                 return mylogger;
+            }
+            @Override
+            public CookieHandler getCookieHandler()
+            {
+                return null;
             }
         };
 
@@ -79,13 +84,12 @@ public class DownloaderSample1
             = new GenericDownloader(
                 destinationFolderFile,
                 downloadConfig.getCacheRelativeDirectoryCacheName(),
-
-                DOWNLOAD_THREAD,
-                PROXY,
+                gdauir.getDownloadThreadCount(), //DOWNLOAD_THREAD,
+                gdauir.getProxy(), //PROXY,
+                gdauir.getCookieHandler(),
                 mylogger
                 )
         {
-
             @Override
             protected Collection<URL> collectURLs() throws IOException
             {
@@ -144,6 +148,11 @@ public class DownloaderSample1
     public String getCacheRelativeDirectoryCacheName()
     {
         return "www.bloggif.com";
+    }
+    @Override
+    public CookieHandler getCookieHandler()
+    {
+        return null;
     }
 
     @Override

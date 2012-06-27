@@ -2,8 +2,9 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.Proxy;
+import java.net.URLConnection;
+import org.apache.log4j.Logger;
 
 /**
  * Abstract Downloader for {@link DownloadURL}
@@ -13,6 +14,7 @@ import java.net.Proxy;
 //NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
+    private final static transient Logger logger = Logger.getLogger( AbstractDownload.class );
     private DownloadEvent event;
     private final Proxy proxy;
     private DownloadURL downloadURL;
@@ -43,22 +45,43 @@ abstract class AbstractDownload implements RunnableDownload
             }
     }
 
+//    /**
+//     * Returns {@link InputStream} for internal URL
+//     * @return {@link InputStream} for internal URL
+//     * @throws IOException if any
+//     */
+//    final protected InputStream getInputStream() throws IOException
+//    {
+//        if( proxy == null ) {
+//            return downloadURL.getURL().openStream();
+//            }
+//        else {
+//            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
+//            uc.connect();
+//
+//            return uc.getInputStream();
+//        }
+//    }
+
     /**
-     * Returns {@link InputStream} for internal URL
-     * @return {@link InputStream} for internal URL
+     * Returns {@link URLConnection} for {@link DownloadURL}
+     * @return {@link URLConnection} for {@link DownloadURL}
      * @throws IOException if any
      */
-    final protected InputStream getInputStream() throws IOException
+    final protected URLConnection getURLConnection() throws IOException
     {
         if( proxy == null ) {
-            return downloadURL.getURL().openStream();
+            //return downloadURL.getURL().openStream();
+            return downloadURL.getURL().openConnection();
             }
         else {
-            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
-            uc.connect();
-
-            return uc.getInputStream();
-        }
+            return downloadURL.getURL().openConnection( proxy );
+//            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
+//            uc.connect();
+//
+//
+//            return uc.getInputStream();
+            }
     }
 
     @Override
@@ -67,7 +90,15 @@ abstract class AbstractDownload implements RunnableDownload
         event.downloadStart( downloadURL );
 
         try {
-            InputStream is = getInputStream();
+            //InputStream is = getInputStream();
+            URLConnection uc = getURLConnection();
+
+            if( logger.isTraceEnabled() ) {
+                logger.trace( "URLConnection: " + uc );
+                }
+
+            uc.connect();
+            InputStream is = uc.getInputStream();
 
             try {
                 download( is );
