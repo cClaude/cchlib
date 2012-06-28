@@ -2,20 +2,17 @@ package samples.downloader;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.CookieHandler;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -44,6 +41,7 @@ public class DownloaderSample1
     private final static String serverRootURLString = "http://www.bloggif.com";
     private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
     private List<StringDownloadURL> _htmlURLList = null;
+    private Proxy proxy;
 
     /**
      * Start Sample here !
@@ -55,6 +53,7 @@ public class DownloaderSample1
         destinationFolderFile.mkdirs();
 
         final DownloaderSample1 downloadConfig = new DownloaderSample1();
+        downloadConfig.setProxy( PROXY );
 
         final LoggerListener mylogger = new MyLoggerListener( logger );
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
@@ -65,24 +64,9 @@ public class DownloaderSample1
                 return DOWNLOAD_THREAD;
             }
             @Override
-            public Proxy getProxy()
-            {
-                return PROXY;
-            }
-            @Override
             public LoggerListener getAbstractLogger()
             {
                 return mylogger;
-            }
-            @Override
-            public CookieHandler getCookieHandler()
-            {
-                return null;
-            }
-            @Override
-            public Map<String, String> getRequestPropertyMap()
-            {
-                return null;
             }
         };
 
@@ -91,14 +75,14 @@ public class DownloaderSample1
                 destinationFolderFile,
                 downloadConfig.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(), //DOWNLOAD_THREAD,
-                gdauir.getRequestPropertyMap(),
-                gdauir.getProxy(), //PROXY,
-                gdauir.getCookieHandler(),
+//                gdauir.getRequestPropertyMap(),
+//                gdauir.getProxy(), //PROXY,
+//                gdauir.getCookieHandler(),
                 mylogger
                 )
         {
             @Override
-            protected Collection<URL> collectURLs() throws IOException
+            protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
             {
                 String allContent;
                 {
@@ -156,11 +140,11 @@ public class DownloaderSample1
     {
         return "www.bloggif.com";
     }
-    @Override
-    public CookieHandler getCookieHandler()
-    {
-        return null;
-    }
+//    @Override
+//    public CookieHandler getCookieHandler()
+//    {
+//        return null;
+//    }
 
     @Override
     public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
@@ -170,7 +154,7 @@ public class DownloaderSample1
             _htmlURLList = new ArrayList<StringDownloadURL>();
 
             for( int i=1; i<getPageCount(); i++ ) {
-                _htmlURLList.add( new StringDownloadURL( htmlURLBase + i ) );
+                _htmlURLList.add( new StringDownloadURL( htmlURLBase + i, null, getProxy() ) );
                 }
             }
 
@@ -178,7 +162,7 @@ public class DownloaderSample1
     }
 
     @Override
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
             String                          content2Parse
             )
@@ -189,7 +173,7 @@ public class DownloaderSample1
                 "<img class=\"img_progress ....\" src=\""
                 };
 
-            Set<URL> imagesURLCollection = new HashSet<URL>();
+        final Collection<FileDownloadURL> imagesURLCollection = new HashSet<FileDownloadURL>();
 
         for( String regexp : regexps ) {
             String[] strs = content2Parse.toString().split( regexp );
@@ -201,7 +185,7 @@ public class DownloaderSample1
                 String  src = s.substring( 0, end );
 
                 //imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                imagesURLCollection.add( new URL( src ) );
+                imagesURLCollection.add( new FileDownloadURL( src, null, getProxy() ) );
                 }
             }
 
@@ -215,9 +199,21 @@ public class DownloaderSample1
     {
         return Collections.emptyList();
     }
+//    @Override
+//    public Map<String,String> getRequestPropertyMap()
+//    {
+//        return null;
+//    }
+
     @Override
-    public Map<String,String> getRequestPropertyMap()
+    public Proxy getProxy()
     {
-        return null;
+        return proxy;
+    }
+
+    @Override
+    public void setProxy( final Proxy proxy )
+    {
+        this.proxy = proxy;
     }
 }

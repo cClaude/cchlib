@@ -238,6 +238,7 @@ public class URLCache implements Serializable, Closeable
 
         setCacheFile( new File( cacheRootDirFile, cacheFilename ) ) ;
     }
+
     /**
      * Returns cache {@link File}
      * @return cacheFile for this cache
@@ -249,6 +250,13 @@ public class URLCache implements Serializable, Closeable
             }
 
         return this.__cacheFile__;
+    }
+
+    public File getBackupCacheFile()
+    {
+        final File cacheFile = getCacheFile();
+
+        return new File( cacheFile .getParentFile(), cacheFile.getName() + "~" );
     }
 
     /**
@@ -341,8 +349,12 @@ public class URLCache implements Serializable, Closeable
             }
 
         if( cacheFile.isFile() ) {
-            File    newFilename = new File( cacheFile.getParentFile(), cacheFile.getName() + "~" );
-            boolean b           = cacheFile.renameTo( newFilename );
+            final File newFilename = this.getBackupCacheFile();
+
+            // Delete previous version.
+            newFilename.delete();
+
+            boolean b = cacheFile.renameTo( newFilename );
 
             if( logger.isTraceEnabled() ) {
                 logger .trace( "Rename cache file from [" + cacheFile + "] to [" + newFilename + "] : result=" + b );

@@ -2,11 +2,11 @@ package samples.downloader;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 
 /**
  *
@@ -36,19 +36,19 @@ public class DownloaderAppCore
                 destinationFolderFile,
                 gdai.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),
-                gdauir.getRequestPropertyMap(),
-                gdauir.getProxy(),
-                gdauir.getCookieHandler(),
+//                gdauir.getRequestPropertyMap(),
+//                gdauir.getProxy(),
+//                gdauir.getCookieHandler(),
                 gdauir.getAbstractLogger()
                 )
         {
             @Override
-            protected Collection<URL> collectURLs() throws IOException
+            protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
             {
-                Collection<URL> urls        = new HashSet<URL>();
-                List<String>    contentList = loads( gdai.getURLDownloadAndParseCollection() );
+                final Collection<FileDownloadURL>   urls        = new HashSet<FileDownloadURL>();
+                final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
 
-                for( String  pageContent : contentList ) {
+                for( String pageContent : contentList ) {
                     urls.addAll(
                         gdai.getURLToDownloadCollection( gdauir, pageContent )
                         );

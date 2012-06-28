@@ -2,18 +2,16 @@ package samples.downloader;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.CookieHandler;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
-import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -56,6 +54,7 @@ public class DownloaderSample2
         destinationFolderFile.mkdirs();
 
         final DownloaderSample2 downloadConfig = new DownloaderSample2();
+        downloadConfig.setProxy( PROXY );
         final LoggerListener mylogger = new MyLoggerListener( logger );
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
         {
@@ -64,26 +63,26 @@ public class DownloaderSample2
             {
                 return DOWNLOAD_THREAD;
             }
-            @Override
-            public Proxy getProxy()
-            {
-                return PROXY;
-            }
+//            @Override
+//            public Proxy getProxy()
+//            {
+//                return PROXY;
+//            }
             @Override
             public LoggerListener getAbstractLogger()
             {
                 return mylogger;
             }
-            @Override
-            public CookieHandler getCookieHandler()
-            {
-                return null;
-            }
-            @Override
-            public Map<String, String> getRequestPropertyMap()
-            {
-                return null;
-            }
+//            @Override
+//            public CookieHandler getCookieHandler()
+//            {
+//                return null;
+//            }
+//            @Override
+//            public Map<String, String> getRequestPropertyMap()
+//            {
+//                return null;
+//            }
         };
 
         GenericDownloader instance
@@ -91,14 +90,15 @@ public class DownloaderSample2
                 destinationFolderFile,
                 downloadConfig.getCacheRelativeDirectoryCacheName(),
                 gdauir.getDownloadThreadCount(),//DOWNLOAD_THREAD,
-                gdauir.getRequestPropertyMap(),
-                gdauir.getProxy(),//PROXY,
-                gdauir.getCookieHandler(),
+//                gdauir.getRequestPropertyMap(),
+//                gdauir.getProxy(),//PROXY,
+//                gdauir.getCookieHandler(),
                 mylogger
                 )
         {
             @Override
-            protected Collection<URL> collectURLs() throws IOException
+            protected Collection<FileDownloadURL> collectDownloadURLs()
+                    throws IOException
             {
                 return downloadConfig.getURLToDownloadCollection( gdauir, null );
             }
@@ -132,18 +132,18 @@ public class DownloaderSample2
     }
 
     @Override
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
             String                          content2Parse
             )
             throws MalformedURLException
     {
-        return new AbstractCollection<URL>()
+        return new AbstractCollection<FileDownloadURL>()
         {
             @Override
-            public Iterator<URL> iterator()
+            public Iterator<FileDownloadURL> iterator()
             {
-                return new Iterator<URL>()
+                return new Iterator<FileDownloadURL>()
                 {
                     private StringBuilder buildURL_sb1 = new StringBuilder();
                     //private StringBuilder buildURL_sb2 = new StringBuilder();
@@ -155,10 +155,10 @@ public class DownloaderSample2
                         return i<MAX;
                     }
                     @Override
-                    public URL next()
+                    public FileDownloadURL next()
                     {
                         try {
-                            return buildURL( i++ );
+                            return buildDownloadURL( i++ );
                             }
                         catch( MalformedURLException e ) {
                             throw new RuntimeException( e );
@@ -169,7 +169,7 @@ public class DownloaderSample2
                     {
                         throw new UnsupportedOperationException();
                     }
-                    private URL buildURL( final int i ) throws MalformedURLException
+                    private FileDownloadURL buildDownloadURL( final int i ) throws MalformedURLException
                     {
 
                         buildURL_sb1.setLength( 0 );
@@ -185,7 +185,7 @@ public class DownloaderSample2
                         //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
                         buildURL_sb1.append( htmlURLFmt2 );
 
-                        return new URL( buildURL_sb1.toString() );
+                        return new FileDownloadURL( buildURL_sb1.toString(), null, getProxy() );
                     }
                 };
             }
@@ -205,7 +205,7 @@ public class DownloaderSample2
     }
 
     @Override
-    public URL getURLToDownload( String src, int regexpIndex )
+    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE

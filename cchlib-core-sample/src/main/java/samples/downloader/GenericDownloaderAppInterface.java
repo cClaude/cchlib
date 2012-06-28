@@ -1,10 +1,9 @@
 package samples.downloader;
 
-import java.net.CookieHandler;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.Proxy;
 import java.util.Collection;
-import java.util.Map;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -13,15 +12,59 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
 public interface GenericDownloaderAppInterface
 {
     /**
+    *
+    *
+    */
+   public interface ComboBoxConfig
+   {
+       /**
+        *
+        * @return
+        */
+       public String getLabelString(); // before was: getExtraStringLabel
+
+       /**
+        *
+        * @param i
+        * @return
+        */
+       public String getLabelString( int index ); // before was: getExtraStringLabels
+
+       /**
+        *
+        * @return
+        */
+       public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
+
+       /**
+        *
+        * @return
+        */
+       public int getSelectedIndex();
+
+       /**
+        *
+        * @param selectedIndex
+        */
+       public void setSelectedIndex( int selectedIndex );
+
+       /**
+        *
+        * @return
+        */
+       public String getComboBoxSelectedValue();
+   }
+
+    /**
      * Returns the site name (for UI)
      * @return the site name
      */
     public String getSiteName();
 
-    /**
-     * @return a {@link CookieHandler} if site need it, null otherwise
-     */
-    public CookieHandler getCookieHandler();
+//    /**
+//     * @return a {@link CookieHandler} if site need it, null otherwise
+//     */
+//    public CookieHandler getCookieHandler();
 
     /**
      * Returns average pictures by page (for UI)
@@ -69,7 +112,7 @@ public interface GenericDownloaderAppInterface
      * @return
      * @throws MalformedURLException
      */
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
         GenericDownloaderAppUIResults   gdauir,
         String                          content2Parse
         ) throws MalformedURLException;
@@ -80,57 +123,22 @@ public interface GenericDownloaderAppInterface
      */
     public Collection<ComboBoxConfig> getComboBoxConfigCollection();
 
+//    /**
+//     *
+//     * @return
+//     */
+//    public Map<String, String> getRequestPropertyMap();
+
     /**
      *
      * @return
      */
-    public Map<String, String> getRequestPropertyMap();
+    public Proxy getProxy();
 
     /**
      *
-     *
+     * @param proxy
      */
-    public interface ComboBoxConfig
-    {
-        /**
-         *
-         * @return
-         */
-        public String getLabelString(); // before was: getExtraStringLabel
-
-        /**
-         *
-         * @param i
-         * @return
-         */
-        public String getLabelString( int index ); // before was: getExtraStringLabels
-
-        /**
-         *
-         * @return
-         */
-        public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
-
-        /**
-         *
-         * @return
-         */
-        public int getSelectedIndex();
-
-        /**
-         *
-         * @param selectedIndex
-         */
-        public void setSelectedIndex( int selectedIndex );
-
-        /**
-         *
-         * @return
-         */
-        public String getComboBoxSelectedValue();
-    }
-
-
-
+    public void setProxy( Proxy proxy );
 
 }

@@ -1,8 +1,8 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collection;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -11,7 +11,7 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *
  */
 public class DownloadI_gifpal
-    extends AbstractExtentedDownloadInterface//AbstractDownloadInterface
+    extends AbstractDownloadInterface
         implements GenericDownloaderAppInterface
 {
     //private final static Logger logger = Logger.getLogger( DownloadI_gifpal.class );
@@ -75,12 +75,14 @@ public class DownloadI_gifpal
                 __HTML_URL_BASE_FMT,
                 comboBoxConfig.getComboBoxSelectedValue(),
                 pageNumber
-                )
+                ),
+            null,
+            getProxy()
             );
     }
 
     @Override
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults gdauir, String content2Parse )
             throws MalformedURLException
     {
@@ -90,9 +92,9 @@ public class DownloadI_gifpal
     }
 
     @Override
-    public URL getURLToDownload( String src, int regexpIndex )
+    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new URL( String.format( IMG_URL_BASE_FMT, src ) );
+        return new FileDownloadURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );
     }
 }

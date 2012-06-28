@@ -91,14 +91,14 @@ public class DownloadExecutor
      */
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
-            final DownloadEvent                     eventHandler,
-            final Map<String,String>                requestPropertyMap,
-            final Proxy                             proxy
+            final DownloadEvent                     eventHandler//,
+//            final Map<String,String>                requestPropertyMap,
+//            final Proxy                             proxy
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( u, eventHandler, requestPropertyMap, proxy );
+            addDownload( u, eventHandler/*, requestPropertyMap, proxy*/ );
             }
     }
 
@@ -118,14 +118,14 @@ public class DownloadExecutor
      */
     public void add(
             final Iterable<DownloadURL> downloadURLs,
-            final DownloadEvent         eventHandler,
-            final Map<String,String>    requestPropertyMap,
-            final Proxy                 proxy
+            final DownloadEvent         eventHandler//,
+//            final Map<String,String>    requestPropertyMap,
+//            final Proxy                 proxy
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( u, eventHandler, requestPropertyMap, proxy );
+            addDownload( u, eventHandler/*, requestPropertyMap, proxy*/ );
            }
     }
 
@@ -145,9 +145,9 @@ public class DownloadExecutor
      */
     public void addDownload(
             final DownloadURL           downloadURL,
-            final DownloadEvent         eventHandler,
-            final Map<String,String>    requestPropertyMap,
-            final Proxy                 proxy
+            final DownloadEvent         eventHandler//,
+//            final Map<String,String>    requestPropertyMap,
+//            final Proxy                 proxy
             )
         throws RejectedExecutionException
     {
@@ -155,11 +155,11 @@ public class DownloadExecutor
 
         switch( downloadURL.getType() ) {
             case STRING:
-                command = new DownloadToString( downloadURL, eventHandler, requestPropertyMap, proxy );
+                command = new DownloadToString( downloadURL, eventHandler/*, requestPropertyMap, proxy*/ );
                 break;
 
             default:
-                command = new DownloadToFile( downloadURL, eventHandler, requestPropertyMap, proxy );
+                command = new DownloadToFile( downloadURL, eventHandler/*, requestPropertyMap, proxy*/ );
                 break;
             }
 

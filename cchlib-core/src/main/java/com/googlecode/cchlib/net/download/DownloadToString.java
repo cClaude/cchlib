@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.Proxy;
 import java.net.URL;
-import java.util.Map;
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -24,12 +22,12 @@ public class DownloadToString extends AbstractDownload
      */
     public DownloadToString(
             final DownloadURL           downloadURL,
-            final DownloadEvent         eventHandler,
-            final Map<String,String>    requestPropertyMap,
-            final Proxy                 proxy
+            final DownloadEvent         eventHandler
+//            final Map<String,String>    requestPropertyMap,
+//            final Proxy                 proxy
             )
     {
-        super( downloadURL, eventHandler, requestPropertyMap, proxy);
+        super( downloadURL, eventHandler/*, requestPropertyMap, proxy*/);
     }
 
     @Override

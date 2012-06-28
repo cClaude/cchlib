@@ -13,12 +13,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 import java.io.File;
-import java.net.CookieHandler;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
@@ -311,6 +309,7 @@ public class GenericDownloaderUIApp extends JFrame
             contentPane.add(displayJScrollPane, gbc_displayJScrollPane);
             {
                 displayJTable = new JTable( displayTableModel );
+                displayTableModel.setJTable( displayJTable );
                 displayJScrollPane.setViewportView( displayJTable );
             }
         }
@@ -381,6 +380,9 @@ public class GenericDownloaderUIApp extends JFrame
         logger.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
         logger.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
 
+        gdai.setProxy( proxy );
+        // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel
+
         new Thread( new Runnable() {
             @Override
             public void run()
@@ -395,24 +397,8 @@ public class GenericDownloaderUIApp extends JFrame
                         return downloadThreadNumber;
                     }
                     @Override
-                    public Proxy getProxy()
-                    {
-                        return proxy;
-                    }
-                    @Override
-                    public CookieHandler getCookieHandler()
-                    {
-                        return gdai.getCookieHandler();
-                    }
-                    @Override
-                    public Map<String,String> getRequestPropertyMap()
-                    {
-                        return gdai.getRequestPropertyMap();
-                    }
-                    @Override
                     public LoggerListener getAbstractLogger()
                     {
-                        //return loggerWrapper;
                         return displayTableModel;
                     }
 

@@ -1,8 +1,13 @@
 package samples.downloader;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadURL;
@@ -16,7 +21,9 @@ public abstract class DisplayTableModel
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger logger = Logger.getLogger( DisplayTableModel.class );
-    private ArrayList<DisplayTableModelEntry> list = new ArrayList<>();
+    // Note use ConcurrentHashMap to avoid java.util.ConcurrentModificationException
+    private ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
+    private JTable jTable;
 
     /**
      *
@@ -24,6 +31,11 @@ public abstract class DisplayTableModel
     public DisplayTableModel()
     {
         //empty !
+    }
+
+    public void setJTable( final JTable jTable )
+    {
+        this.jTable = jTable;
     }
 
     /**
@@ -38,16 +50,13 @@ public abstract class DisplayTableModel
 
     private int findEntryIndex( final URL url )
     {
-        int index = 0;
-
-        for( DisplayTableModelEntry entry : list ) {
-            if( entry.getURL().equals( url ) ) {
-                return index;
+        for( Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
+            if( entry.getValue().getURL().equals( url ) ) {
+                return entry.getKey();
                 }
-            index++;
             }
 
-        return -1;
+        throw new NoSuchElementException();
     }
 
     /* (non-Javadoc)
@@ -87,9 +96,20 @@ public abstract class DisplayTableModel
     @Override
     public void downloadStart( final DownloadURL dURL )
     {
-        this.list.add( new DisplayTableModelEntry( dURL ) );
+        final int index = this.list.size();
+
+        this.list.put( index, new DisplayTableModelEntry( dURL ) );
 
         super.fireTableDataChanged();
+
+        SwingUtilities.invokeLater( new Runnable() {
+            @Override
+            public void run()
+            {
+                jTable.getSelectionModel().setSelectionInterval(index, index);
+                jTable.scrollRectToVisible(new Rectangle(jTable.getCellRect(index, 0, true)));
+            }
+        });
     }
 
     @Override

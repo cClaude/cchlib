@@ -1,16 +1,15 @@
 package samples.downloader;
 
-import java.net.CookieHandler;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
@@ -21,9 +20,11 @@ public abstract class AbstractDownloadInterface
     implements GenericDownloaderAppInterface
 {
     private final static transient Logger logger = Logger.getLogger( AbstractDownloadInterface.class );
-    private int pageCount;
-    private final String siteName;
-    private final int numberOfPicturesByPage;
+    private String  siteName;
+    private int     numberOfPicturesByPage;
+    private int     pageCount;
+    private Proxy   proxy;
+    private List<GenericDownloaderAppInterface.ComboBoxConfig> comboBoxConfigList;
 
     /**
      * @param siteName
@@ -42,23 +43,23 @@ public abstract class AbstractDownloadInterface
         setPageCount( pageCount );
     }
 
-    /**
-     * @return always null (default implementation)
-     */
-    @Override
-    public CookieHandler getCookieHandler()
-    {
-        return null;
-    }
+//    /**
+//     * @return always null (default implementation)
+//     */
+//    @Override
+//    public CookieHandler getCookieHandler()
+//    {
+//        return null;
+//    }
 
-    /**
-     * @return always null (default implementation)
-     */
-    @Override
-    public Map<String, String> getRequestPropertyMap()
-    {
-        return null;
-    }
+//    /**
+//     * @return always null (default implementation)
+//     */
+//    @Override
+//    public Map<String, String> getRequestPropertyMap()
+//    {
+//        return null;
+//    }
 
     @Override
     final public String getSiteName() { return this.siteName; }
@@ -86,6 +87,20 @@ public abstract class AbstractDownloadInterface
     public int getMaxPageCount()
     {
         return Integer.MAX_VALUE; //Default value !
+    }
+
+    @Override// GenericDownloaderAppInterface
+    final// FIXME: remove this
+    public Proxy getProxy()
+    {
+        return this.proxy;
+    }
+
+    @Override// GenericDownloaderAppInterface
+    final// FIXME: remove this
+    public void setProxy( final Proxy proxy )
+    {
+        this.proxy = proxy;
     }
 
     /**
@@ -119,7 +134,7 @@ public abstract class AbstractDownloadInterface
      * @throws MalformedURLException
      */
     abstract
-    public URL getURLToDownload( String src, int regexpIndex )
+    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException;
 
     public interface RegExgSplitter
@@ -153,13 +168,13 @@ public abstract class AbstractDownloadInterface
      * @see AbstractDownloadInterface#getURLToDownload(String, int)
      */
     final//FIXME remove this
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
         final String                        content2Parse,
         final RegExgSplitter[]              regexps
         )
     {
-        final Set<URL> imagesURLCollection = new HashSet<URL>();
+        final Set<FileDownloadURL> imagesURLCollection = new HashSet<FileDownloadURL>();
 
         for( RegExgSplitter regexp : regexps ) {
             final String[] strs = content2Parse.toString().split( regexp.getBeginRegExp() );
@@ -172,7 +187,7 @@ public abstract class AbstractDownloadInterface
 
                 //imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
                 try {
-                    imagesURLCollection.add( getURLToDownload( src, i ) );
+                    imagesURLCollection.add( getDownloadURLFrom( src, i ) );
                     }
                 catch( MalformedURLException e ) {
                     // TODO Auto-generated catch block
@@ -195,9 +210,31 @@ public abstract class AbstractDownloadInterface
         return imagesURLCollection;
     }
 
+    /**
+     *
+     * @param entry
+     */
+    final//FIXME remove this
+    protected void addComboBoxConfig( final GenericDownloaderAppInterface.ComboBoxConfig entry )
+    {
+        if( this.comboBoxConfigList == null ) {
+            this.comboBoxConfigList = new ArrayList<>();
+            };
+
+        this.comboBoxConfigList.add( entry );
+    }
+
+    /**
+     * @see DefaultComboBoxConfig
+     */
     @Override// GenericDownloaderAppInterface
+    final//FIXME remove this
     public Collection<GenericDownloaderAppInterface.ComboBoxConfig> getComboBoxConfigCollection()
     {
-        return Collections.emptyList();
+        if( this.comboBoxConfigList == null ) {
+            return Collections.emptyList();
+            }
+
+        return this.comboBoxConfigList;
     }
 }

@@ -1,7 +1,11 @@
 package com.googlecode.cchlib.net.download;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.Map;
 
 /**
  * Define a downloadable URL that should be store in a {@link File}
@@ -14,11 +18,35 @@ public final class FileDownloadURL extends AbstractDownloadURL
 
     /**
      * Define the {@link URL} for this {@link DownloadURL}
-     * @param url The {@link URL}
+     * @param url                   The {@link URL}
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
      */
-    public FileDownloadURL( final URL url )
+    public FileDownloadURL(
+        final URL                   url,
+        final Map<String, String>   requestPropertyMap,
+        final Proxy                 proxy
+        )
     {
-        super( url );
+        super( url, requestPropertyMap, proxy );
+    }
+
+    /**
+     * Define the {@link URL} for this {@link DownloadURL}
+     * @param spec                  The {@link URL}
+     * @param requestPropertyMap    A {@link Map} of request properties to put
+     *                              on {@link URLConnection} (could be null)
+     * @param proxy                 {@link Proxy} to use for download (could be null)
+     * @throws MalformedURLException If the spec specifies an unknown protocol
+     */
+    public FileDownloadURL(
+        final String                spec,
+        final Map<String, String>   requestPropertyMap,
+        final Proxy                 proxy
+        ) throws MalformedURLException
+    {
+        super( new URL( spec ), requestPropertyMap, proxy );
     }
 
     @Override

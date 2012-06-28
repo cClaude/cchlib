@@ -1,15 +1,15 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collection;
+import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
 /**
  * http://senorgif.memebase.com/page/5/ 1600
  */
 public class DownloadI_senorg
-    extends AbstractExtentedDownloadInterface
+    extends AbstractDownloadInterface
 {
     private ComboBoxConfig mainComboBoxConfig;
 
@@ -41,12 +41,14 @@ public class DownloadI_senorg
             String.format(
                 mainComboBoxConfig.getComboBoxSelectedValue(),
                 pageNumber
-                )
+                ),
+            null, 
+            getProxy()
             );
     }
 
     @Override
-    public Collection<URL> getURLToDownloadCollection(
+    public Collection<FileDownloadURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
             final String                        content2Parse
             ) throws MalformedURLException
@@ -59,9 +61,9 @@ public class DownloadI_senorg
     }
 
     @Override
-    public URL getURLToDownload( final String src, final int regexpIndex )
+    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new URL( src );
+        return new FileDownloadURL( src, null, getProxy() );
     }
 }

@@ -3,9 +3,7 @@ package com.googlecode.cchlib.net.download;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Proxy;
 import java.net.URL;
-import java.util.Map;
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -16,12 +14,12 @@ public class DownloadToFile extends AbstractDownload
 {
     public DownloadToFile(
             final DownloadURL           downloadURL,
-            final DownloadEvent         eventHandler,
-            final Map<String,String>    requestPropertyMap,
-            final Proxy                 proxy
+            final DownloadEvent         eventHandler//,
+//            final Map<String,String>    requestPropertyMap,
+//            final Proxy                 proxy
             )
     {
-        super( downloadURL, eventHandler, requestPropertyMap, proxy);
+        super( downloadURL, eventHandler/*, requestPropertyMap, proxy*/);
     }
 
     @Override

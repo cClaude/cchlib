@@ -3,14 +3,11 @@ package samples.downloader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.Proxy;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -34,18 +31,17 @@ public abstract class GenericDownloader
     private final URLCache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
-    private final Proxy proxy;
+    //private final Proxy proxy;
     private final LoggerListener loggerListener;
-    private Map<String,String> requestPropertyMap;
+    //private Map<String,String> requestPropertyMap;
 
     /**
-     * Returns an {@link Iterable} object of {@link URL}s to download,
+     * Returns an {@link Iterable} object of {@link FileDownloadURL}s to download,
      * must be implement by parent class.
-     * @return an {@link Iterable} object of {@link URL}s to download
+     * @return an {@link Iterable} object of {@link FileDownloadURL}s to download
      * @throws IOException
      */
-    protected abstract Collection<URL> collectURLs() throws IOException;
-
+    protected abstract Collection<FileDownloadURL> collectDownloadURLs() throws IOException;
 
     /**
      *
@@ -62,24 +58,24 @@ public abstract class GenericDownloader
             final File                              rootCacheDirectoryFile,
             final String                            cacheDirectoryName,
             final int                               downloadMaxThread,
-            final Map<String,String>                requestPropertyMap,
-            final Proxy                             proxy,
-            final CookieHandler                     cookieHandler,
+//            final Map<String,String>                requestPropertyMap,
+//            final Proxy                             proxy,
+//            final CookieHandler                     cookieHandler,
             final LoggerListener                    logger
             )
         throws IOException, ClassNotFoundException
     {
         this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, cacheDirectoryName );
         this.downloadMaxThread          = downloadMaxThread;
-        this.requestPropertyMap         = requestPropertyMap;
-        this.proxy                      = proxy;
+//        this.requestPropertyMap         = requestPropertyMap;
+//        this.proxy                      = proxy;
         this.loggerListener             = logger;
 
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
         this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
         this.cache.setAutoStorage( true );
-
+/*
         //if( cookieHandlerMap != null ) {
         if( cookieHandler != null ) {
 //            final CookieHandler cookieHandler = CookieManager.getDefault();
@@ -92,7 +88,7 @@ public abstract class GenericDownloader
 //                }
             CookieHandler.setDefault( cookieHandler );
             }
-
+*/
         try  {
             this.cache.load();
             }
@@ -148,7 +144,7 @@ public abstract class GenericDownloader
             }
         };
 
-        downloadExecutor.add( urls, eventStringHandler, requestPropertyMap, proxy );
+        downloadExecutor.add( urls, eventStringHandler/*, requestPropertyMap, proxy*/ );
         downloadExecutor.waitClose();
 
         return result;
@@ -160,8 +156,8 @@ public abstract class GenericDownloader
      */
     void downloadAll() throws IOException
     {
-        final Collection<URL>   urls                = collectURLs();
-        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
+        final Collection<FileDownloadURL>   urls                = collectDownloadURLs();
+        final DownloadExecutor              downloadExecutor    = new DownloadExecutor( downloadMaxThread );
 
         final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
@@ -288,16 +284,15 @@ public abstract class GenericDownloader
         final int statsAskedDownload = urls.size();
         int statsLauchedDownload = 0;
 
-        for( URL u: urls ) {
-            if( cache.isInCacheIndex( u ) ) {
+        for( FileDownloadURL du: urls ) {
+            if( cache.isInCacheIndex( du.getURL() ) ) {
             //if( cache.isInCache( u ) ) {
                 // skip this entry !
-                loggerListener.info( "Already in cache (Skip): " + u );
+                loggerListener.info( "Already in cache (Skip): " + du.getURL() );
                 }
             else {
-                DownloadURL du = new FileDownloadURL( u );
-
-                downloadExecutor.addDownload( du, eventHandler, requestPropertyMap, proxy );
+                //DownloadURL du = new FileDownloadURL( u, requestPropertyMap, proxy );
+                downloadExecutor.addDownload( du, eventHandler );
                 statsLauchedDownload++;
                 }
             }
@@ -318,4 +313,7 @@ public abstract class GenericDownloader
             throw ioe;
             }
     }
+
+
+
 }
