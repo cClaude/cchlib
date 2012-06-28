@@ -15,10 +15,14 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  * http://www.gifgirl.org/search?updated-max=2012-06-18T16:07:00-05:00&max-results=4&start=4&by-date=false
  * http://www.gifgirl.org/search?updated-max=2012-05-29T23:59:00-05:00&max-results=4&start=44&by-date=false
  */
-public class DownloadI_www_gifgirl_org extends AbstractDownloadInterface
+public class DownloadI_www_gifgirl_org
+    extends AbstractDownloadInterface
 {
     private final static String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
+    private static final String SITE_NAME = "www.gifgirl.org";
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 50; // FIXME
+    private static final int DEFAULT_MAX_PAGES = 50; // FIXME
         // int:year
         // int:month
         // int:day
@@ -35,9 +39,10 @@ public class DownloadI_www_gifgirl_org extends AbstractDownloadInterface
      */
     public DownloadI_www_gifgirl_org()
     {
-        super( "www.gifgirl.org",
-                50, // numberOfPicturesByPage
-                50  // pageCount
+        super(
+                SITE_NAME,
+                NUMBER_OF_PICTURES_BY_PAGE,
+                DEFAULT_MAX_PAGES
                 );
 
         configMaxResults = new DefaultComboBoxConfig(

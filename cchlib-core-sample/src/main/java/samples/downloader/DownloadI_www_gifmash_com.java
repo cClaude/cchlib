@@ -14,14 +14,18 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  */
 public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
 {
+    private static final String SITE_NAME = "www.gifmash.com";
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
+    private static final int DEFAULT_MAX_PAGES = 100;
     private ComboBoxConfig mainComboBoxConfig;
 
     protected DownloadI_www_gifmash_com()
     {
         super(
-            "http://www.gifmash.com/", 10,
-            100
-            );
+                SITE_NAME,
+                NUMBER_OF_PICTURES_BY_PAGE,
+                DEFAULT_MAX_PAGES
+                );
 
         String[] comboBoxValues = { "http://www.gifmash.com/blog/page/%d" };
         String[] labelStrings   = { "pics from blog" };

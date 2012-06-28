@@ -10,7 +10,7 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *
  *
  */
-public class DownloadI_gifpal
+public class DownloadI_www_gifpal_com
     extends AbstractDownloadInterface
         implements GenericDownloaderAppInterface
 {
@@ -28,6 +28,8 @@ public class DownloadI_gifpal
      */
     private final static String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
 
+    private static final String SITE_NAME = "www.gifpal.com";
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 16;
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES = 3;
 
@@ -40,15 +42,16 @@ public class DownloadI_gifpal
 
     private static final String CACHE_FOLDER_NAME = "www.gifpal.com";
 
+
     private DefaultComboBoxConfig comboBoxConfig;
 
-    public DownloadI_gifpal()
+    public DownloadI_www_gifpal_com()
     {
         super(
-            "www.gifpal.com",
-            16,                 //numberOfPicturesByPage
-            DEFAULT_MAX_PAGES   // defaultPageCount
-            );
+                SITE_NAME,
+                NUMBER_OF_PICTURES_BY_PAGE,
+                DEFAULT_MAX_PAGES
+                );
 
         String[]    comboBoxValues  = { "id"        , "top"         , "top-today"       , "top of the week"};
         String[]    labelStrings    = { "All items" , "top items"   , "top of the day"  , "top-week"};

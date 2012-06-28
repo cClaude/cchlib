@@ -8,14 +8,22 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
 /**
  * http://senorgif.memebase.com/page/5/ 1600
  */
-public class DownloadI_senorg
+public class DownloadI_senorgif
     extends AbstractDownloadInterface
 {
+    private static final String SITE_NAME = "senorgif";
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 5;
+    private static final int DEFAULT_MAX_PAGES = 15;
+
     private ComboBoxConfig mainComboBoxConfig;
 
-    protected DownloadI_senorg()
+    protected DownloadI_senorgif()
     {
-        super( "senorgif", 5, 15 );
+        super(
+                SITE_NAME,
+                NUMBER_OF_PICTURES_BY_PAGE,
+                DEFAULT_MAX_PAGES
+                );
 
         String[] comboBoxValues = { "http://senorgif.memebase.com/page/%d/" , "http://senorgif.memebase.com/vote/" };
         String[] labelStrings   = { "pages type 1"                          , "pages type 2"};
@@ -42,7 +50,7 @@ public class DownloadI_senorg
                 mainComboBoxConfig.getComboBoxSelectedValue(),
                 pageNumber
                 ),
-            null, 
+            null,
             getProxy()
             );
     }

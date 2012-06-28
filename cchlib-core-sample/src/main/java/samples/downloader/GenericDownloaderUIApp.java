@@ -109,12 +109,13 @@ public class GenericDownloaderUIApp extends JFrame
     {
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
-        downloadEntriesTypeList.add( new DownloadI_gifpal() );
-        downloadEntriesTypeList.add( new DownloaderSample1() );
-        downloadEntriesTypeList.add( new DownloaderSample2() );
-        downloadEntriesTypeList.add( new DownloadI_senorg() );
-        downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
+        downloadEntriesTypeList.add( new DownloadI_senorgif() );
+        downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
         downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
+
+        downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
 
@@ -170,10 +171,14 @@ public class GenericDownloaderUIApp extends JFrame
             });
     }
 
-    protected void windowClosing()
+    protected boolean windowClosing()
     {
         //FIXME: if( could_be_close )
+        //try to cancel launched tasks
+        //wait for a while (running tasks)
+        //save cache
         super.dispose();
+        return true;
     }
 
     protected void windowClosed()
@@ -387,8 +392,7 @@ public class GenericDownloaderUIApp extends JFrame
             @Override
             public void run()
             {
-                DownloaderAppCore instance = new DownloaderAppCore();
-
+                //DownloaderAppCore instance = new DownloaderAppCore();
                 GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
                 {
                     @Override
@@ -405,7 +409,12 @@ public class GenericDownloaderUIApp extends JFrame
                 };
 
                 try {
-                    instance.startDownload( gdai, gdauir );
+                    GenericDownloader genericDownloader = new GenericDownloader(gdai, gdauir);
+
+                    ///instance.startDownload( gdai, gdauir );
+                    genericDownloader.downloadAll();
+                    genericDownloader = null;
+                    gdauir.getAbstractLogger().info( "done" );
                     }
                 catch( Exception e ) {
                     //printDisplay( "*** FATAL: ", e.getMessage() );

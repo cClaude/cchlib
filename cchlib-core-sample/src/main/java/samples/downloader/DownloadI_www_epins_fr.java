@@ -1,16 +1,11 @@
 package samples.downloader;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.security.NoSuchAlgorithmException;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
 
@@ -19,16 +14,10 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
  *
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
-public class DownloaderSample2
+public class DownloadI_www_epins_fr
     extends AbstractDownloadInterface
-        implements GenericDownloaderAppInterface
 {
-    private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
-    private final static int    DOWNLOAD_THREAD = 20;
-    //private final static Proxy PROXY = Proxy.NO_PROXY;
-    private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("55.37.80.2", 3128));
-    //private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("195.168.109.60", 8080));
-    //private final static Proxy  PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("122.194.5.154", 80));
+    //private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
 
     /* http://www.epins.fr/pins/98699.png */
     /* http://www.epins.fr/pins/104639.png */
@@ -42,80 +31,17 @@ public class DownloaderSample2
     private final static int    MAX = 1100000;
     //private final static int    MAX = 110;
 
-    //private final static String CACHE_FOLDER_NAME = "output/";
+    private static final String SITE_NAME = "www.epins.fr";
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 10; // FIXME
+    private static final int DEFAULT_MAX_PAGES = 10; // FIXME
 
-    /**
-     * Start Sample here !
-     */
-    public static void main( String...args )
-        throws IOException, NoSuchAlgorithmException, ClassNotFoundException
-    {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
-        destinationFolderFile.mkdirs();
-
-        final DownloaderSample2 downloadConfig = new DownloaderSample2();
-        downloadConfig.setProxy( PROXY );
-        final LoggerListener mylogger = new MyLoggerListener( logger );
-        final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
-        {
-            @Override
-            public int getDownloadThreadCount()
-            {
-                return DOWNLOAD_THREAD;
-            }
-//            @Override
-//            public Proxy getProxy()
-//            {
-//                return PROXY;
-//            }
-            @Override
-            public LoggerListener getAbstractLogger()
-            {
-                return mylogger;
-            }
-//            @Override
-//            public CookieHandler getCookieHandler()
-//            {
-//                return null;
-//            }
-//            @Override
-//            public Map<String, String> getRequestPropertyMap()
-//            {
-//                return null;
-//            }
-        };
-
-        GenericDownloader instance
-            = new GenericDownloader(
-                destinationFolderFile,
-                downloadConfig.getCacheRelativeDirectoryCacheName(),
-                gdauir.getDownloadThreadCount(),//DOWNLOAD_THREAD,
-//                gdauir.getRequestPropertyMap(),
-//                gdauir.getProxy(),//PROXY,
-//                gdauir.getCookieHandler(),
-                mylogger
-                )
-        {
-            @Override
-            protected Collection<FileDownloadURL> collectDownloadURLs()
-                    throws IOException
-            {
-                return downloadConfig.getURLToDownloadCollection( gdauir, null );
-            }
-        };
-
-        mylogger.info( "destinationFolderFile = " + destinationFolderFile );
-        instance.downloadAll();
-        mylogger.info( "done" );
-    }
-
-    protected DownloaderSample2()
+    protected DownloadI_www_epins_fr()
     {
         super(
-            "epins.fr",
-            10 /* FIXME */,
-            10 /* FIXME */
-            );
+                SITE_NAME,
+                NUMBER_OF_PICTURES_BY_PAGE,
+                DEFAULT_MAX_PAGES
+                );
     }
 
     @Override

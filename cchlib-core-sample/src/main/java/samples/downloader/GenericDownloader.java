@@ -7,6 +7,7 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
@@ -25,51 +26,46 @@ import cx.ath.choisnet.util.checksum.MessageDigestFile;
  *
  *
  */
-public abstract class GenericDownloader
+public /*abstract*/ class GenericDownloader
 {
     private final Logger logger = Logger.getLogger( GenericDownloader.class );
     private final URLCache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
-    //private final Proxy proxy;
     private final LoggerListener loggerListener;
-    //private Map<String,String> requestPropertyMap;
-
-    /**
-     * Returns an {@link Iterable} object of {@link FileDownloadURL}s to download,
-     * must be implement by parent class.
-     * @return an {@link Iterable} object of {@link FileDownloadURL}s to download
-     * @throws IOException
-     */
-    protected abstract Collection<FileDownloadURL> collectDownloadURLs() throws IOException;
+    private final GenericDownloaderAppInterface gdai;
+    private final GenericDownloaderAppUIResults gdauir;
 
     /**
      *
-     * @param rootCacheDirectoryFile
-     * @param cacheDirectoryName
-     * @param downloadMaxThread
-     * @param proxy
-     * @param cookieHandler
-     * @param logger
+     * @param gdai
+     * @param gdauir
      * @throws IOException
      * @throws ClassNotFoundException
      */
     public GenericDownloader(
-            final File                              rootCacheDirectoryFile,
-            final String                            cacheDirectoryName,
-            final int                               downloadMaxThread,
-//            final Map<String,String>                requestPropertyMap,
-//            final Proxy                             proxy,
-//            final CookieHandler                     cookieHandler,
-            final LoggerListener                    logger
+            final GenericDownloaderAppInterface gdai,
+            final GenericDownloaderAppUIResults gdauir
             )
         throws IOException, ClassNotFoundException
     {
-        this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, cacheDirectoryName );
-        this.downloadMaxThread          = downloadMaxThread;
-//        this.requestPropertyMap         = requestPropertyMap;
-//        this.proxy                      = proxy;
-        this.loggerListener             = logger;
+        this.gdai   = gdai;
+        this.gdauir = gdauir;
+
+        final File rootCacheDirectoryFile =
+                new File(
+                    new File(".").getAbsoluteFile(),
+                    "output" // FIXME add parameter !
+                    ).getCanonicalFile();
+
+        rootCacheDirectoryFile.mkdirs();
+        // TODO: verify if directory exist ?
+
+        this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, gdai.getCacheRelativeDirectoryCacheName() );
+        this.downloadMaxThread          = gdauir.getDownloadThreadCount();
+        this.loggerListener             = gdauir.getAbstractLogger();
+
+        gdauir.getAbstractLogger().info( "destinationDirectoryFile = " + destinationDirectoryFile );
 
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
@@ -98,6 +94,27 @@ public abstract class GenericDownloader
         catch( Exception ignore ) {
             this.loggerListener.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
+    }
+
+    /**
+     * Returns an {@link Iterable} object of {@link FileDownloadURL}s to download,
+     * must be implement by parent class.
+     * @return an {@link Iterable} object of {@link FileDownloadURL}s to download
+     * @throws IOException
+     */
+    final
+    protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
+    {
+        final Collection<FileDownloadURL>   urls        = new HashSet<FileDownloadURL>();
+        final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
+
+        for( String pageContent : contentList ) {
+            urls.addAll(
+                gdai.getURLToDownloadCollection( gdauir, pageContent )
+                );
+            }
+
+        return urls;
     }
 
     /**
@@ -312,6 +329,59 @@ public abstract class GenericDownloader
 
             throw ioe;
             }
+    }
+
+/*
+    /**
+     * Start Sample here !
+     * /
+    public void startDownload(
+            final GenericDownloaderAppInterface gdai,
+            final GenericDownloaderAppUIResults gdauir
+            )
+        throws IOException, NoSuchAlgorithmException, ClassNotFoundException
+    {
+        final File destinationFolderFile =
+            new File(
+                new File(".").getAbsoluteFile(),
+                "output" // gdai.getCacheRelativeDirectoryCacheName()
+                ).getCanonicalFile();
+        destinationFolderFile.mkdirs();
+
+        genericDownloader = new GenericDownloader(
+                destinationFolderFile,
+                gdai.getCacheRelativeDirectoryCacheName(),
+                gdauir.getDownloadThreadCount(),
+                gdauir.getAbstractLogger()
+                )
+        {
+            @Override
+            protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
+            {
+                final Collection<FileDownloadURL>   urls        = new HashSet<FileDownloadURL>();
+                final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
+
+                for( String pageContent : contentList ) {
+                    urls.addAll(
+                        gdai.getURLToDownloadCollection( gdauir, pageContent )
+                        );
+                    }
+
+                return urls;
+            }
+        };
+
+        gdauir.getAbstractLogger().info( "destinationFolderFile = " + destinationFolderFile );
+        genericDownloader.downloadAll();
+        genericDownloader = null;
+        gdauir.getAbstractLogger().info( "done" );
+    }
+
+    */
+    public void stop()
+    {
+        // TODO Auto-generated method stub
+
     }
 
 
