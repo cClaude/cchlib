@@ -91,14 +91,12 @@ public class DownloadExecutor
      */
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
-            final DownloadEvent                     eventHandler//,
-//            final Map<String,String>                requestPropertyMap,
-//            final Proxy                             proxy
+            final DownloadEvent                     eventHandler
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( u, eventHandler/*, requestPropertyMap, proxy*/ );
+            addDownload( u, eventHandler );
             }
     }
 
@@ -118,14 +116,12 @@ public class DownloadExecutor
      */
     public void add(
             final Iterable<DownloadURL> downloadURLs,
-            final DownloadEvent         eventHandler//,
-//            final Map<String,String>    requestPropertyMap,
-//            final Proxy                 proxy
+            final DownloadEvent         eventHandler
             )
         throws RejectedExecutionException
     {
         for( DownloadURL u: downloadURLs ) {
-            addDownload( u, eventHandler/*, requestPropertyMap, proxy*/ );
+            addDownload( u, eventHandler );
            }
     }
 
@@ -144,10 +140,8 @@ public class DownloadExecutor
      * @see DownloadToFile
      */
     public void addDownload(
-            final DownloadURL           downloadURL,
-            final DownloadEvent         eventHandler//,
-//            final Map<String,String>    requestPropertyMap,
-//            final Proxy                 proxy
+            final DownloadURL   downloadURL,
+            final DownloadEvent eventHandler
             )
         throws RejectedExecutionException
     {

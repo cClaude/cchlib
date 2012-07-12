@@ -72,6 +72,7 @@ public class GenericDownloaderUIApp extends JFrame
     private JSpinner downloadThreadNumberJSpinner;
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private JTable displayJTable;
+    private GenericDownloader genericDownloader;
 
     /**
      * Launch the application.
@@ -350,10 +351,30 @@ public class GenericDownloaderUIApp extends JFrame
             });
             {
                 stopJButton = new JButton("Stop");
+                stopJButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if( stopJButton.isEnabled() ) {
+                            stopDownload();
+                        }
+                    }
+                });
                 stopJButton.setEnabled(false);
                 panel.add(stopJButton);
             }
         }
+    }
+
+    protected void stopDownload()
+    {
+        new Thread( new Runnable() {
+            @Override
+            public void run()
+            {
+                if( genericDownloader != null ) {
+                    genericDownloader.stopDownload();
+                    }
+            }
+        }).start();
     }
 
     private void startDownload()
@@ -365,6 +386,11 @@ public class GenericDownloaderUIApp extends JFrame
         proxyJComboBox.setEnabled( false );
         downloadThreadNumberJSpinner.setEnabled( false );
         siteJComboBox.setEnabled( false );
+
+        if( genericDownloader != null ) {
+            logger.error( "Already running !" );
+            return;
+            }
 
         //displayJTextArea.setText( "" );
         displayJProgressBar.setIndeterminate( true );
@@ -409,10 +435,11 @@ public class GenericDownloaderUIApp extends JFrame
                 };
 
                 try {
-                    GenericDownloader genericDownloader = new GenericDownloader(gdai, gdauir);
+                    //GenericDownloader
+                    genericDownloader = new GenericDownloader(gdai, gdauir);
 
                     ///instance.startDownload( gdai, gdauir );
-                    genericDownloader.downloadAll();
+                    genericDownloader.startDownload();
                     genericDownloader = null;
                     gdauir.getAbstractLogger().info( "done" );
                     }

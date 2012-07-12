@@ -171,7 +171,7 @@ public /*abstract*/ class GenericDownloader
      *
      * @throws IOException
      */
-    void downloadAll() throws IOException
+    void startDownload() throws IOException
     {
         final Collection<FileDownloadURL>   urls                = collectDownloadURLs();
         final DownloadExecutor              downloadExecutor    = new DownloadExecutor( downloadMaxThread );
@@ -331,54 +331,7 @@ public /*abstract*/ class GenericDownloader
             }
     }
 
-/*
-    /**
-     * Start Sample here !
-     * /
-    public void startDownload(
-            final GenericDownloaderAppInterface gdai,
-            final GenericDownloaderAppUIResults gdauir
-            )
-        throws IOException, NoSuchAlgorithmException, ClassNotFoundException
-    {
-        final File destinationFolderFile =
-            new File(
-                new File(".").getAbsoluteFile(),
-                "output" // gdai.getCacheRelativeDirectoryCacheName()
-                ).getCanonicalFile();
-        destinationFolderFile.mkdirs();
-
-        genericDownloader = new GenericDownloader(
-                destinationFolderFile,
-                gdai.getCacheRelativeDirectoryCacheName(),
-                gdauir.getDownloadThreadCount(),
-                gdauir.getAbstractLogger()
-                )
-        {
-            @Override
-            protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
-            {
-                final Collection<FileDownloadURL>   urls        = new HashSet<FileDownloadURL>();
-                final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
-
-                for( String pageContent : contentList ) {
-                    urls.addAll(
-                        gdai.getURLToDownloadCollection( gdauir, pageContent )
-                        );
-                    }
-
-                return urls;
-            }
-        };
-
-        gdauir.getAbstractLogger().info( "destinationFolderFile = " + destinationFolderFile );
-        genericDownloader.downloadAll();
-        genericDownloader = null;
-        gdauir.getAbstractLogger().info( "done" );
-    }
-
-    */
-    public void stop()
+    public void stopDownload()
     {
         // TODO Auto-generated method stub
 
