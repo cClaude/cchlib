@@ -110,12 +110,14 @@ public class GenericDownloaderUIApp extends JFrame
     {
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
+        downloadEntriesTypeList.add( new DownloadI_milfgalore_tumblr_com() );
+        
         downloadEntriesTypeList.add( new DownloadI_senorgif() );
         downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
         downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
         downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
         downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
-
+        
         downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
