@@ -110,14 +110,16 @@ public class GenericDownloaderUIApp extends JFrame
     {
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
-        downloadEntriesTypeList.add( new DownloadI_milfgalore_tumblr_com() );
-        
+        downloadEntriesTypeList.add( new DownloadI_tumblr_com() );
+        downloadEntriesTypeList.add( new DownloadI_tumblr_com( "milfgalore" ) );
+//        downloadEntriesTypeList.add( new DownloadI_milfgalore_tumblr_com() );
+
         downloadEntriesTypeList.add( new DownloadI_senorgif() );
         downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
         downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
         downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
         downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
-        
+
         downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
 
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
@@ -215,7 +217,7 @@ public class GenericDownloaderUIApp extends JFrame
         setContentPane( contentPane );
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 50, 0, 0, 0, 0, 0};
+        gbl_contentPane.rowHeights = new int[]{0, 80, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 1.0, 1.0, Double.MIN_VALUE};
         gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 2.0, 0.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
