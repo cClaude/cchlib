@@ -102,7 +102,7 @@ public class DownloadI_www_bloggif_com
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "www.bloggif.com";
+        return "com.bloggif.www";
     }
 
     @Override

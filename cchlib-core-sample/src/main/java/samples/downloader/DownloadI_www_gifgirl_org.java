@@ -81,7 +81,7 @@ public class DownloadI_www_gifgirl_org
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "www.gifgirl.org";
+        return "org.gifgirl.www";
     }
 //
 //    @Override

@@ -39,7 +39,7 @@ public class DownloadI_senorgif
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "senorgif";
+        return "com.memebase.senorgif";
     }
 
     @Override

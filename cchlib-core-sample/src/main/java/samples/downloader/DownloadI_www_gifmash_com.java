@@ -38,7 +38,7 @@ public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "www.gifmash.com";
+        return "com.gifmash.www";
     }
 
     @Override

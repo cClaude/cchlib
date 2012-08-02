@@ -79,7 +79,21 @@ public class DownloadI_tumblr_com
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return String.format( SITE_NAME_FMT, getCurrentHostName() );
+        final String[]      fullHostName = String.format( SITE_NAME_FMT, getCurrentHostName() ).split( "\\." );
+        final StringBuilder sb           = new StringBuilder();
+        int                 i            = fullHostName.length - 1;
+
+        while( i >= 0 ) {
+            sb.append( fullHostName[ i ] );
+            --i;
+
+            if( i < 0 ) {
+                break;
+                }
+            sb.append( '.' );
+            }
+
+        return sb.toString();
     }
 
     private String getCurrentHostName()

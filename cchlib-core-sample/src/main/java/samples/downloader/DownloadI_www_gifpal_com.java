@@ -40,7 +40,7 @@ public class DownloadI_www_gifpal_com
      */
     private final static String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
 
-    private static final String CACHE_FOLDER_NAME = "www.gifpal.com";
+    private static final String CACHE_FOLDER_NAME = "com.gifpal.www";
 
 
     private DefaultComboBoxConfig comboBoxConfig;

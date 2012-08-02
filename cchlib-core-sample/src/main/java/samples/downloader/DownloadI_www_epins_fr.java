@@ -47,7 +47,7 @@ public class DownloadI_www_epins_fr
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        return "epins.fr";
+        return "fr.epins";
     }
 
     @Override

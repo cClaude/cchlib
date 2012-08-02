@@ -56,7 +56,8 @@ public abstract class DisplayTableModel
                 }
             }
 
-        throw new NoSuchElementException( url.toExternalForm() );
+        return -1; // not found
+        //throw new NoSuchElementException( url.toExternalForm() );
     }
 
     /* (non-Javadoc)
