@@ -319,6 +319,7 @@ public class URLCache implements Serializable, Closeable
     synchronized
     public void load() throws FileNotFoundException, IOException
     {
+    	/*
         BufferedReader r = null;
 
         try {
@@ -344,8 +345,47 @@ public class URLCache implements Serializable, Closeable
                 r.close();
                 }
             }
+            */
+    	
+    	try {
+        	load( getCacheFile(), cache );
+    		}
+    	catch( IOException retry ) {
+    		logger.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
+    		
+        	load( getBackupCacheFile(), cache );
+    		}
     }
 
+    private static void load( final File cacheFile, final CacheContent cache )
+    	throws FileNotFoundException, IOException
+    {
+        BufferedReader r = null;
+
+        try {
+            r = new BufferedReader( new FileReader( cacheFile ) );
+
+            for(;;) {
+                String hashCode = r.readLine();
+                if( hashCode == null ) {
+                    break; // EOF
+                    }
+                else if( hashCode.isEmpty() ) {
+                    hashCode = null; // No hash code
+                    }
+                URL    url      = new URL( r.readLine() );
+                Date   date     = new Date( Long.parseLong( r.readLine() ) );
+                String filename = r.readLine();
+
+                cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
+                }
+            }
+        finally {
+            if( r != null ) {
+                r.close();
+                }
+            }
+    }
     /**
      * Save cache file
      *
@@ -355,30 +395,57 @@ public class URLCache implements Serializable, Closeable
     synchronized
     public void store() throws IOException
     {
-        final File cacheFile = getCacheFile();
+        final File cacheFile 	= getCacheFile();
+        final File backupFile	= getBackupCacheFile();
 
         if( logger.isTraceEnabled() ) {
             logger .trace( "Try to store: " + cacheFile );
             }
 
         if( cacheFile.isFile() ) {
-            final File newFilename = this.getBackupCacheFile();
 
-            // Delete previous version.
-            newFilename.delete();
+            // Delete previous version of backup file.
+            backupFile.delete();
 
-            boolean b = cacheFile.renameTo( newFilename );
+            // Rename previous version of cache file to backup file.
+            boolean b = cacheFile.renameTo( backupFile );
 
             if( logger.isTraceEnabled() ) {
-                logger .trace( "Rename cache file from [" + cacheFile + "] to [" + newFilename + "] : result=" + b );
+                logger .trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
                 }
 
             if( ! b ) {
-                logger.warn( "Can't rename cache file to: " + newFilename );
+                logger.warn( "Can't rename cache file to: " + backupFile );
                 }
             }
 
-        // store using simple text file.
+        // store cache
+        store( cacheFile, cache );
+        
+        // Cache stored successfully
+        this.modificationCount = 0;
+
+        if( cacheFile.length() < backupFile.length() ) {
+        	// Loose data in cache !
+        	logger.warn( "Loose data append previous file" );
+        
+        	CacheContent tmpCache = new CacheContent();
+        	
+			load( backupFile, tmpCache );
+			load( cacheFile, tmpCache );
+			
+            store( cacheFile, tmpCache );
+        	}
+        
+        if( logger.isTraceEnabled() ) {
+            logger .trace( "Cache stored successfully " );
+            }
+    }
+
+    private static void store( File cacheFile, CacheContent cache ) 
+    	throws IOException
+    {
+        // store cache using simple text file.
         Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
 
         for( URLFullCacheEntry entry : cache ) {
@@ -396,15 +463,8 @@ public class URLCache implements Serializable, Closeable
             }
         w.flush();
         w.close();
-
-        // Cache stored successfully
-        this.modificationCount = 0;
-
-        if( logger.isTraceEnabled() ) {
-            logger .trace( "Cache stored successfully " );
-            }
     }
-
+    
     private void autoStore()
     {
         if( this.autostore ) {
