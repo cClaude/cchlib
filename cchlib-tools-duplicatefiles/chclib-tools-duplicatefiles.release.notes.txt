@@ -47,6 +47,11 @@ To improve:
   - Bypass compressed files and recycle bin option
 ---------------------------------------------------------------------
 To add:
+ - dans la fenetre de suppression des fichiers
+   * Selection multiple
+   * Menu delete all other
+ - Update duplicate (if removed using other application)
+ - When canceling go to duplicates
  - Preferences (create a folder under userhome .duplicatefiles)
    - Save files filters, user level, looknfeel, regexp, ...
  - Change default for scan (include hidden folders and hidden files)

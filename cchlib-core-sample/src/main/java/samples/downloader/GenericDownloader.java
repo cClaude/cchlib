@@ -266,10 +266,13 @@ public /*abstract*/ class GenericDownloader
             
             private void alreadyDownloaded( File file, DownloadURL dURL )
             {
-                File ffile = new File( file.getParentFile(), file.getName() + ".alreadydownloaded" );
+                //File ffile = new File( file.getParentFile(), file.getName() + ".alreadydownloaded" );
+                //file.renameTo( ffile );
                 
-                file.renameTo( ffile );
-                // TODO: something ?
+            	// Remove this file !
+                file.delete();
+                
+                logger.info( "Already downloaded (deleted): " + file );
             }
             
             private void newFileDownloaded(File file, DownloadURL dURL, String hashCodeString ) 
