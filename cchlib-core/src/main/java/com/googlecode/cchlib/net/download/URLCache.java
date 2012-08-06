@@ -170,6 +170,19 @@ public class URLCache implements Serializable, Closeable
         return cache.get( url );
     }
 
+    synchronized
+    public URL findURL( final String hashCodeString )
+    {
+        // TODO: build direct access ???
+        for( URLFullCacheEntry entry : cache ) {
+            if( hashCodeString.equals( entry.getContentHashCode() ) ) {
+                return entry.getURL();
+                }
+            }
+        
+        return null;
+    }
+
     /**
      * Returns cache size
      * @return cache size

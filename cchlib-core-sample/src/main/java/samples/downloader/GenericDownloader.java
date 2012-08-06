@@ -161,7 +161,7 @@ public /*abstract*/ class GenericDownloader
             }
         };
 
-        downloadExecutor.add( urls, eventStringHandler/*, requestPropertyMap, proxy*/ );
+        downloadExecutor.add( urls, eventStringHandler );
         downloadExecutor.waitClose();
 
         return result;
@@ -229,30 +229,15 @@ public /*abstract*/ class GenericDownloader
 
                     String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
 
-                    // Identify file content to generate extension
-                    FileDataTypeDescription type        = FileDataTypes.findDataTypeDescription( file );
-                    String                  extension   = null;
-
-                    if( type != null ) {
-                        extension = type.getExtension();
+                    URL u = cache.findURL( hashCodeString );
+                    
+                    if( u != null ) {
+                        // Already downloaded
+                        alreadyDownloaded( file, dURL );
                         }
                     else {
-                        extension = ".xxx";
-                        }
-
-                    // Create new file name
-                    File ffile = new File( destinationDirectoryFile, hashCodeString + extension );
-
-                    // Rename file
-                    boolean isRename = file.renameTo( ffile );
-
-                    if( isRename ) {
-                        dURL.setResultAsFile( ffile );
-                        loggerListener.downloadStored( dURL );
-                        cache.add( dURL.getURL(), hashCodeString, ffile.getName() );
-                        }
-                    else {
-                        loggerListener.downloadCantRename( dURL, file, ffile );
+                        // New file
+                        newFileDownloaded( file, dURL, hashCodeString );
                         }
                     }
                 catch( FileNotFoundException e ) {
@@ -278,6 +263,59 @@ public /*abstract*/ class GenericDownloader
 
                 updateDisplay();
             }
+            
+            private void alreadyDownloaded( File file, DownloadURL dURL )
+            {
+                File ffile = new File( file.getParentFile(), file.getName() + ".alreadydownloaded" );
+                
+                file.renameTo( ffile );
+                // TODO: something ?
+            }
+            
+            private void newFileDownloaded(File file, DownloadURL dURL, String hashCodeString ) 
+                        throws FileNotFoundException, IOException
+            {
+                // Identify file content to generate extension
+                FileDataTypeDescription type        = FileDataTypes.findDataTypeDescription( file );
+                String                  extension   = null;
+
+                if( type != null ) {
+                    extension = type.getExtension();
+                    }
+                else {
+                    extension = ".xxx";
+                    }
+
+                // Create new file name
+                File ffile = new File( destinationDirectoryFile, hashCodeString + extension );
+
+                // Rename file
+                boolean isRename = file.renameTo( ffile );
+
+                if( isRename ) {
+                    dURL.setResultAsFile( ffile );
+                    loggerListener.downloadStored( dURL );
+                    cache.add( dURL.getURL(), hashCodeString, ffile.getName() );
+                    }
+                else {
+                    File file2;
+
+                    if( ffile.exists() ) {
+                        file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashCodeString + extension + ".exists" );
+                        }
+                    else {
+                        file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashCodeString + extension + "tmp" );
+                        }
+
+                    if( file.renameTo( file2 ) ) {
+                        loggerListener.downloadCantRename( dURL, file, file2 );
+                        }
+                    else {
+                        loggerListener.downloadCantRename( dURL, file, ffile );
+                        }
+                    }
+            }
+
             @Override
             public File createDownloadTmpFile() throws IOException
             {

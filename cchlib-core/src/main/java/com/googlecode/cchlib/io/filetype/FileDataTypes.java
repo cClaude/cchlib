@@ -11,6 +11,25 @@ import java.io.IOException;
  */
 public class FileDataTypes
 {
+    private static class FDT_jpeg implements FileDataTypeDescription
+    {
+        @Override
+        public String getExtension()
+        {
+            return ".jpeg";
+        }
+        @Override
+        public String getShortExtension()
+        {
+            return ".jpg";
+        }
+        @Override
+        public Type getType()
+        {
+            return Type.JPEG;
+        }
+    }
+
     /**
      * Supported type
      */
@@ -43,25 +62,11 @@ public class FileDataTypes
 
         if( len > 0 ) {
             if( b[ 6 ] == 0x4A && b[ 7 ] == 0x46 && b[ 8 ] == 0x49 && b[ 9 ] == 0x46 ) {
-                return new FileDataTypeDescription()
-                {
-                    @Override
-                    public String getExtension()
-                    {
-                        return ".jpeg";
-                    }
-                    @Override
-                    public String getShortExtension()
-                    {
-                        return ".jpg";
-                    }
-                    @Override
-                    public Type getType()
-                    {
-                        return Type.JPEG;
-                    }
-                };
-            }
+                return new FileDataTypes.FDT_jpeg();
+                }
+            if( b[ 0 ] == 0xD8 && b[ 1 ] == 0xFF && b[ 2 ] == 0xE1 && b[ 3 ] == 0x1C ) {
+                return new FileDataTypes.FDT_jpeg();
+                }
             if( b[ 1 ] == 0x50 && b[ 2 ] == 0x4E && b[ 3] == 0x47 ) {
                 return new FileDataTypeDescription()
                 {

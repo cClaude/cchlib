@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.net.URL;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -55,6 +54,8 @@ public abstract class DisplayTableModel
                 return entry.getKey();
                 }
             }
+
+        logger.error( "NoSuchElement: " + url.toExternalForm() );
 
         return -1; // not found
         //throw new NoSuchElementException( url.toExternalForm() );

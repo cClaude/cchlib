@@ -53,6 +53,11 @@ public class DownloadI_tumblr_com
                 "vacationfun",
                 "pssshclothes",
                 "shavednudistamateurs",
+                "beach-ball",
+                "clothes-free",
+                "topless-beach-girls",
+                "ultra555",
+                "milfsgilfs",
                 };
         this.comboBoxConfig = new DefaultComboBoxConfig(
             "Name",
