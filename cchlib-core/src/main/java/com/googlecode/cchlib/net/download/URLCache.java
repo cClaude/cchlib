@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
@@ -365,11 +366,40 @@ public class URLCache implements Closeable
                 else if( hashCode.isEmpty() ) {
                     hashCode = null; // No hash code
                     }
-                URL    url      = new URL( r.readLine() );
-                Date   date     = new Date( Long.parseLong( r.readLine() ) );
+                
+                URL    url;
+				String line = r.readLine();
+                
+				try {
+					url = new URL( line );
+					}
+				catch ( MalformedURLException e ) {
+                	logger.error( "Bad URL format (ignore) in URLCache file : " + cacheFile
+                			+ " value = [" + line + "]", 
+                			e 
+                			);
+                	url = null;
+					}
+                
+				Date   date;
+				line = r.readLine();
+                try {
+					date = new Date( Long.parseLong( line ) );
+                	}
+                catch( NumberFormatException e ) {
+                	logger.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
+                			+ " value = [" + line + "]", 
+                			e
+                			);
+                	
+                	date = new Date( 0 );
+                	}
                 String filename = r.readLine();
 
-                cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
+                if( url != null ) {
+                	// Skip entry with no URL !
+                    cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
+                	}
                 }
             }
         finally {

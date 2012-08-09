@@ -72,7 +72,8 @@ public class DownloadI_www_gifgirl_org
 
             map.put(
                 "Cookie",
-                "GI=m-OtLzgBAAA.9pAeNNUJa47XABsoKl8KNDJNsIDHeRGFMTT51avGYgI.0HMo5Gxs2DwA68nWHpWxTA; blogger_TID=bb9268269e1ef000"
+                //"GI=m-OtLzgBAAA.9pAeNNUJa47XABsoKl8KNDJNsIDHeRGFMTT51avGYgI.0HMo5Gxs2DwA68nWHpWxTA; blogger_TID=bb9268269e1ef000"
+                "GI=EH0gDDkBAAA.9pAeNNUJa47XABsoKl8KNDJNsIDHeRGFMTT51avGYgI.tJK5GHdsGZK0e7x9wrrEoA; blogger_TID=ed4d2014181868e6; __utma=223059213.706779654.1344499689.1344499689.1344499689.1; __utmb=223059213.1.10.1344499689; __utmc=223059213; __utmz=223059213.1344499689.1.1.utmcsr=blogger.com|utmccn=(referral)|utmcmd=referral|utmcct=/blogin.g"
                 );
             this.requestPropertyMap = Collections.unmodifiableMap( map );
         }
