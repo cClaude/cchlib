@@ -57,6 +57,7 @@ public class DownloadI_tumblr_com
                 "clothes-free",
                 "topless-beach-girls",
                 "ultra555",
+                "selfpic",
                 //"milfsgilfs",
                 };
         this.comboBoxConfig = new DefaultComboBoxConfig(
