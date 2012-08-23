@@ -44,8 +44,8 @@ public class JPanelConfirm extends JPanel
 
     private Icon iconOk;
     private Icon iconKo;
+    private Icon iconKoButDelete;
     private AbstractTableModel tableModel;
-    //private List<KeyFileState> tableDts_toDelete;
     private JPanelConfirmModel tableDts_toDelete;
 
     @I18nString private String[] columnsHeaders = {
@@ -59,10 +59,11 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtMsgDone = "Done";
     @I18nString private String txtCopy = "Copy";
     @I18nString private String msgStr_doDeleteExceptiontitle = "Error while deleting files";
+    @I18nString private String txtIconKo = "File already exist";
+    @I18nString private String txtIconKoButDelete = "File does not exist";
 
     public JPanelConfirm( DFToolKit dfToolKit )
     {
-        //this.tableDts_toDelete  = new ArrayList<KeyFileState>();
         this.dfToolKit          = dfToolKit;
 
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -116,6 +117,7 @@ public class JPanelConfirm extends JPanel
 
         iconOk = ResourcesLoader.getImageIcon( "ok.12x12.png" );
         iconKo = ResourcesLoader.getImageIcon( "ko.12x12.png" );
+        iconKoButDelete = ResourcesLoader.getImageIcon( "ko_but_ok.12x12.png" );
     }
 
 //    /**
@@ -135,20 +137,7 @@ public class JPanelConfirm extends JPanel
 
         tableDts_toDelete = new JPanelConfirmModel( dupFiles );
 
-//        for( KeyFileState f:dupFiles ) {
-//            if( f.isSelectedToDelete() ) {
-//                tableDts_toDelete.add( f );
-//                }
-//            }
-
         logger.info( "populate: Selected count: " + tableDts_toDelete.size() );
-
-//        final int size = tableDts_toDelete.size();
-//
-//        for( int i=0; i<size; i++ ) {
-//            KeyFileState f = tableDts_toDelete.get( i );
-//            tableDts_length[i] = f.getFile().length();
-//            }
 
         DefaultTableCellRenderer render = new DefaultTableCellRenderer()
         {
@@ -176,13 +165,18 @@ public class JPanelConfirm extends JPanel
                             setIcon( iconOk );
                             }
                         else {
-                            setIcon( iconKo );
+                        	if( f.getFile().exists() ) {
+                            	setIcon( iconKo );
+                            	setToolTipText( txtIconKo );
+                        		}
+                        	else {
+                        		setIcon( iconKoButDelete );
+                            	setToolTipText( txtIconKoButDelete );
+                        		}
                             }
-                        }
+                        } 
                     }
-                //setText("case " + row + ", " + column);
-                //;
-//                return this;
+
                 return super.getTableCellRendererComponent(
                         table,
                         value,

@@ -126,11 +126,6 @@ public class JPanelResult extends JPanelResultWB
         int index = getJListDuplicatesFiles().getSelectedIndex();
 
         updateDisplayKeptDelete( index );
-//        if( index >= 0 ) {
-//            KeyFiles kf = listModelDuplicatesFiles.getElementAt( index );
-//
-//            updateDisplayKeptDelete( kf.getKey() );
-//            }
     }
 
     @Override

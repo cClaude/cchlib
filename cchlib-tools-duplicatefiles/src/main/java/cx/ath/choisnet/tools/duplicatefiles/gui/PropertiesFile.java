@@ -48,19 +48,10 @@ public class PropertiesFile extends Properties
 
     private void init() throws IOException
     {
-//        Path 			path 	= this.file.toPath();
-//        OpenOption[]	options = {
-//                StandardOpenOption.WRITE,
-//                StandardOpenOption.READ
-//                };
-//        FileChannel fc = FileChannel.open( path, options );
-//        this.fileLock  = fc.lock();
-
-        ////
         try {
+            RandomAccessFile raf = new RandomAccessFile( this.file, "rw" );
             // Get a file channel for the file
-            FileChannel channel = new RandomAccessFile( this.file, "rw" )
-                .getChannel();
+            FileChannel channel = raf.getChannel();
 
             // Use the file channel to create a lock on the file.
             // This method blocks until it can retrieve the lock.
@@ -74,41 +65,16 @@ public class PropertiesFile extends Properties
             catch( OverlappingFileLockException e ) {
                 // File is already locked in this thread or virtual machine
                 }
-/*
-            Path 			path	= Paths.
-            OpenOption[] 	options	= {
-            		
-            		};
-			InputStream is = Files.newInputStream( path, options );
-*/
+
             // Release the lock
             this.fileLock.release();
 
             // Close the file
-            channel.close();
+            // Not needed: channel.close();
+            raf.close();
             }
         catch( Exception e ) {
             }
-        ///
-
-        ////
-//        FileInputStream in = new FileInputStream(file);
-//
-//        try {
-//            java.nio.channels.FileLock lock = in.getChannel().lock();
-//            try {
-//                Charset charset = Charset.defaultCharset();
-//				Reader reader = new InputStreamReader(in, charset );
-//                ///...
-//            	}
-//            finally {
-//                lock.release();
-//            	}
-//        	}
-//        finally {
-//            in.close();
-//        	}
-        //////
     }
 
 

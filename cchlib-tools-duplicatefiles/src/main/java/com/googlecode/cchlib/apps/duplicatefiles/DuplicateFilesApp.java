@@ -30,14 +30,17 @@ public class DuplicateFilesApp
             public void run()
             {
                 try {
-                    DuplicateFilesFrame frame = new DuplicateFilesFrame(preferences);
+                    DefaultDFToolKit    defaultDFToolKit    = new DefaultDFToolKit( preferences );
+                    DuplicateFilesFrame frame               = new DuplicateFilesFrame(defaultDFToolKit );
+                    defaultDFToolKit.setMainWindow( frame );
+                    
                     //frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                     frame.setTitle( title );
                     frame.getContentPane().setPreferredSize( frame.getSize() );
                     frame.pack();
                     frame.setLocationRelativeTo( null );
                     frame.setVisible( true );
-                    frame.getJFileChooserInitializer();
+                    frame.getDFToolKit().getJFileChooserInitializer( frame );
                     }
                 catch( Throwable e ) {
                     logger.fatal( "Can't load application", e );

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import javax.swing.UIManager;
@@ -41,6 +43,7 @@ public class Preferences implements Serializable
     @Populator private int windowWidth;
     @Populator private int windowHeight;
     @Populator private String lastDirectory;
+    private List<String> incFilesFilterPatternRegExpList;
 
     private Preferences()
     {
@@ -343,6 +346,18 @@ public class Preferences implements Serializable
                 + ", getMessageDigestBufferSize()=" + getMessageDigestBufferSize()
                 + ", getWindowDimension()=" + getWindowDimension()
                 + ", lastDirectory=" + lastDirectory + "]";
+    }
+
+    public List<String> getIncFilesFilterPatternRegExpList()
+    {
+        if( incFilesFilterPatternRegExpList == null ) {
+            incFilesFilterPatternRegExpList = new ArrayList<String>();
+            
+            // TODO: Store this into prefs !
+            incFilesFilterPatternRegExpList.add( "(.*?)\\.(jpg|jpeg|png|gif)" );
+            incFilesFilterPatternRegExpList.add( "(.*?)\\.(reg)" );
+            }
+        return incFilesFilterPatternRegExpList;
     }
 
 

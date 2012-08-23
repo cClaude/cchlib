@@ -21,7 +21,10 @@ public class DuplicateFilesI18nPrep
         Locale locale = Locale.ENGLISH;
 
         // Build frame
-        DuplicateFilesFrame duplicateFilesFrame     = new DuplicateFilesFrame( preferences );
+        DefaultDFToolKit    defaultDFToolKit    = new DefaultDFToolKit( preferences );
+        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame(defaultDFToolKit );
+        defaultDFToolKit.setMainWindow( duplicateFilesFrame );
+  
         PrintStream         usageStatPrintStream    = System.err;
         PrintStream         notUsePrintStream       = System.out;
 

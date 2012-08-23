@@ -35,6 +35,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 {
     private static final long serialVersionUID = 1L;
     //private static final Logger logger = Logger.getLogger( DuplicateFilesFrameWB.class );
+    private DFToolKit dfToolKit;
 
     public static final String ACTIONCMD_DELETE_EMPTY_DIRECTORIES = "ACTIONCMD_DELETE_EMPTY_DIRECTORIES";
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
@@ -80,9 +81,11 @@ public abstract class DuplicateFilesFrameWB extends JFrame
      * @throws TooManyListenersException
      * @throws HeadlessException
      */
-    public DuplicateFilesFrameWB()
+    public DuplicateFilesFrameWB( final DFToolKit dfToolKit )
         throws HeadlessException, TooManyListenersException
     {
+        this.dfToolKit = dfToolKit;
+        
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -270,7 +273,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         return jPanel2Searching;
     }
 
-    protected JPanelResult getJPanel3Result()
+    public JPanelResult getJPanel3Result()
     {
         return jPanel3Result;
     }
@@ -294,9 +297,16 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     }
 
     public abstract ActionListener getActionListener();
-    public abstract DFToolKit getDFToolKit();
     protected abstract void exitApplication();
 
+    public DFToolKit getDFToolKit()
+    {
+        if( this.dfToolKit == null ) {
+            throw new NullPointerException( "DFToolKit not initialized" );
+            }
+
+        return this.dfToolKit;
+    }
 //    private JMenu createJMenuLanguage()
 //    {
 //        jMenuItemLanguage = new JMenu("Language");

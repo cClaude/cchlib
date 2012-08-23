@@ -16,6 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
@@ -83,9 +84,8 @@ private Scanner s;
     }
 
     @Override//LookAndFeelListener
-    public void setLookAndFeel( String lookAndFeelName )
+    public void setLookAndFeel( final String lookAndFeelName )
     {
-        //FIXME to test
         if( jPanelIncFilesFilter != null ) {
             SwingUtilities.updateComponentTreeUI( jPanelIncFilesFilter );
             }
@@ -130,8 +130,9 @@ private Scanner s;
     {
         autoI18n.performeI18n(this,this.getClass());
 
-        Properties  prop = ResourcesLoader.getProperties( "JPanelConfig.properties" );
-
+        Properties  prop  = ResourcesLoader.getProperties( "JPanelConfig.properties" );
+        Preferences prefs = dfToolKit.getPreferences();
+        
         jPanelIncFilesFilter = new JPanelConfigFilter(
                 jPanelIncFilesFilterTitle,
                 jPanelIncFilesFilterRegExp,
@@ -139,12 +140,10 @@ private Scanner s;
                 "filetype",
                 getActionListener()
                 );
-        jPanelIncFilesFilter.addPatternRegExp(
-                "(.*?)\\.(jpg|jpeg|png|gif)" // TODO: remove this sample
-                );
-        jPanelIncFilesFilter.addPatternRegExp(
-                "(.*?)\\.(reg)" // TODO: remove this sample
-                );
+        
+        for( String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
+            jPanelIncFilesFilter.addPatternRegExp( exp );
+            }
 
         jPanelExcFilesFilter = new JPanelConfigFilter(
                 jPanelExcFilesFilterTitle,

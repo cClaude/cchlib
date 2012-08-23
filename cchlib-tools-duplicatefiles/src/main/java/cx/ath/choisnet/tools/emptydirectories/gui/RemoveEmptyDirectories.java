@@ -13,6 +13,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.DefaultDFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
@@ -33,13 +36,23 @@ public class RemoveEmptyDirectories
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage    = "Analyze disk structure";
+    private DFToolKit dfToolKit;
 
     /**
      *
      */
-    public RemoveEmptyDirectories()
+    public RemoveEmptyDirectories( final DFToolKit dfToolKit )
     {
         super();
+        
+        this.dfToolKit = dfToolKit;
+        
+        setIconImage( getDFToolKit().getImage( "icon.png" ) );
+    }
+
+    protected DFToolKit getDFToolKit()
+    {
+        return dfToolKit;
     }
 
     private void init()
@@ -57,16 +70,8 @@ public class RemoveEmptyDirectories
         jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
         jTreeDir.setEditable( true );
 
-        super.getBtnAddRootDirectory().setEnabled( true );
-        super.getBtnRemoveRootDirectory().setEnabled( false );
-
-        super.getBtnStartScan().setEnabled( true );
-        super.getBtnCancel().setEnabled( false );
-
-        super.getBtnStartDelete().setEnabled( false );
-        super.getBtnSelectAll().setEnabled( false );
-        super.getBtnUnselectAll().setEnabled( false );
-
+        enable_findTaskDone();
+        
         final LeftDotListCellRenderer leftListCellRenderer
         = new LeftDotListCellRenderer( super.getJListRootDirectories(), true );
         super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
@@ -80,11 +85,11 @@ public class RemoveEmptyDirectories
                     final int count = getJListRootDirectories().getSelectedValuesList().size();
 
                     if( count > 0 ) {
-                        getBtnRemoveRootDirectory().setEnabled( true );
+                        setButtonRemoveRootDirectoryEnabled( true );
                         }
                     else {
                         // No selection
-                        getBtnRemoveRootDirectory().setEnabled( false );
+                        setButtonRemoveRootDirectoryEnabled( false );
                         }
                 }
             });
@@ -101,14 +106,8 @@ public class RemoveEmptyDirectories
                 // during build.
                 expandAllRows();
 
-                getBtnStartScan().setEnabled( true );
-                getBtnCancel().setEnabled( false );
-                getBtnStartDelete().setEnabled( true ); // FIXME: enable only when at least 1 file selected
-                getBtnSelectAll().setEnabled( true );
-                getBtnUnselectAll().setEnabled( true );
-                getJListRootDirectories().setEnabled( true );
-                getBtnAddRootDirectory().setEnabled( true );
-
+                enable_findTaskDone();
+                
                 JProgressBar pBar = getProgressBar();
                 pBar.setIndeterminate( false );
 
@@ -138,15 +137,17 @@ public class RemoveEmptyDirectories
         pBar.setString( "Computing..." );
         pBar.setIndeterminate( true );
 
-        super.getBtnAddRootDirectory().setEnabled( false );
-        super.getBtnStartScan().setEnabled( false );
-        super.getBtnCancel().setEnabled( true );
-        super.getBtnStartDelete().setEnabled( false );
-        super.getBtnSelectAll().setEnabled( false );
-        super.getBtnUnselectAll().setEnabled( false );
-        super.getJListRootDirectories().setEnabled( false );
-        super.getJListRootDirectories().clearSelection();
-
+//        super.getBtnAddRootDirectory().setEnabled( false );
+//        super.getBtnStartScan().setEnabled( false );
+//        super.getBtnCancel().setEnabled( true );
+//        super.getBtnStartDelete().setEnabled( false );
+//        super.getBtnSelectAll().setEnabled( false );
+//        super.getBtnUnselectAll().setEnabled( false );
+//        super.getJListRootDirectories().setEnabled( false );
+//        super.getJListRootDirectories().clearSelection();
+        
+        /*super.*/enable_findBegin();
+        
         Runnable doRun = new Runnable()
         {
             @Override
@@ -181,14 +182,8 @@ public class RemoveEmptyDirectories
     {
         logger.info( "delete thread started" );
 
-        getBtnAddRootDirectory().setEnabled( false );
-        getBtnRemoveRootDirectory().setEnabled( false );
-        getBtnStartScan().setEnabled( false );
-        getBtnCancel().setEnabled( true );
-        getBtnSelectAll().setEnabled( false );
-        getBtnUnselectAll().setEnabled( false );
-        getBtnStartDelete().setEnabled( false );
-
+        /*super.*/enable_startDelete();
+        
         getJTreeEmptyDirectories().setEditable( false );
 
         final JProgressBar pBar = getProgressBar();
@@ -226,11 +221,14 @@ public class RemoveEmptyDirectories
      */
     public static void main( String[] args )
     {
+        final Preferences   preferences = Preferences.createPreferences();
+        final DFToolKit     dfToolKit   = new DefaultDFToolKit( preferences );
+        
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()
             {
-                RemoveEmptyDirectories frame = RemoveEmptyDirectories.start();
+                RemoveEmptyDirectories frame = RemoveEmptyDirectories.start(dfToolKit);
                 frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             }
         } );
@@ -242,9 +240,9 @@ public class RemoveEmptyDirectories
      * A WindowHandler should be add on frame.
      * @return Main Window
      */
-    public static RemoveEmptyDirectories start()
+    public static RemoveEmptyDirectories start( final DFToolKit dfToolKit )
     {
-        RemoveEmptyDirectories frame = new RemoveEmptyDirectories();
+        RemoveEmptyDirectories frame = new RemoveEmptyDirectories( dfToolKit );
         //Done!frame.setDefaultCloseOperation( RemoveEmptyDirectories.EXIT_ON_CLOSE );
         frame.setTitle( "RemoveEmptyDirectories" );
         //Done?frame.getContentPane().setPreferredSize( frame.getSize() );
@@ -296,7 +294,7 @@ public class RemoveEmptyDirectories
     {
         logger.info( "btnAddRootDirectory_mouseClicked" );
 
-        if( super.getBtnAddRootDirectory().isEnabled() ) {
+        if( super.isButtonAddRootDirectoryEnabled() ) {
             Runnable r = new Runnable()
             {
                 @Override
@@ -314,7 +312,7 @@ public class RemoveEmptyDirectories
     {
         logger.info( "addRootDirectory()" );
 
-        if( super.getBtnAddRootDirectory().isEnabled() ) {
+        if( super.isButtonAddRootDirectoryEnabled() ) {
             JFileChooser jfc = getJFileChooser();
 
             logger.info( "getJFileChooser() done" );
@@ -326,8 +324,8 @@ public class RemoveEmptyDirectories
                 DefaultListModel<File>     model = super.getJListRootDirectoriesModel();
                 File[]                     files = jfc.getSelectedFiles();
 
-                logger.info( "model:" + model );
-                logger.info( "model.getClass():" + model.getClass() );
+                //logger.info( "model:" + model );
+                //logger.info( "model.getClass():" + model.getClass() );
 
                 for( File f:files ) {
                     //model.
@@ -340,11 +338,26 @@ public class RemoveEmptyDirectories
     }
 
     @Override
+    protected void addRootDirectory( final List<File> files )
+    {
+        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
+
+        for( File f:files ) {
+            if( f.isDirectory() ) {
+                model.addElement( f );
+                logger.info( "add drop dir:" + f );
+                }
+            else {
+                logger.warn( "Ignore drop : " + f );
+                }
+            }
+    }
+    @Override
     protected void btnRemoveRootDirectory_mouseClicked( MouseEvent e )
     {
         logger.info( "btnRemoveRootDirectory_mouseClicked" );
 
-        if( super.getBtnRemoveRootDirectory().isEnabled() ) {
+        if( super.isButtonRemoveRootDirectoryEnabled() ) {
             JList<File>             rootList        = super.getJListRootDirectories();
             List<File>              selectedList    = rootList.getSelectedValuesList();
             DefaultListModel<File>  model           = super.getJListRootDirectoriesModel();
@@ -360,7 +373,7 @@ public class RemoveEmptyDirectories
     @Override
     protected void btnStartScan_mouseClicked( MouseEvent event )
     {
-        if( super.getBtnStartScan().isEnabled() ) {
+        if( super.isButtonStartScanEnabled() ) {
             logger.info( "btnStartScan_mouseClicked" );
 
             findBegin(); // Launch a thread
@@ -417,4 +430,5 @@ public class RemoveEmptyDirectories
             // NOTE: do not use of SwingUtilities.invokeLater( r );
         }
     }
+
 }

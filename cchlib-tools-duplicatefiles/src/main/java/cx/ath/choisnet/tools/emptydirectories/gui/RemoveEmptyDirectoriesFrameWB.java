@@ -1,6 +1,6 @@
 package cx.ath.choisnet.tools.emptydirectories.gui;
 
-import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,12 +13,16 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.List;
+import java.util.TooManyListenersException;
 import javax.swing.JTree;
 import javax.swing.JProgressBar;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JSeparator;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import java.awt.event.MouseAdapter;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
@@ -41,64 +45,71 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     private JList<File> jListRootDirectories;
     private JScrollPane scrollPaneJList;
     private JScrollPane scrollPane_1;
+    private SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
-    /**
-     * Launch the application.
-     */
-    public static void main( String[] args )
-    {
-        EventQueue.invokeLater( new Runnable() {
-            public void run()
-            {
-                try {
-                    RemoveEmptyDirectoriesFrameWB frame = new RemoveEmptyDirectoriesFrameWB()
-                    {
-                        private static final long serialVersionUID = 1L;
-                        @Override
-                        protected void btnAddRootDirectory_mouseClicked( MouseEvent e )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnRemoveRootDirectory_mouseClicked( MouseEvent e )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnStartScan_mouseClicked( MouseEvent event )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnCancel_mouseClicked( MouseEvent event )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnSelectAll_mouseClicked( MouseEvent event )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnUnselectAll_mouseClicked( MouseEvent event )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                        @Override
-                        protected void btnStartDelete_mouseClicked( MouseEvent event )
-                        {
-                            throw new UnsupportedOperationException();
-                        }
-                    };
-                    frame.setVisible( true );
-                    }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                    logger.fatal( "Fatal error while creating frame", e );
-                    }
-            }
-        } );
-    }
+//    /**
+//     * Launch the application (debug only).
+//     */
+//    public static void main( String[] args )
+//    {
+//        EventQueue.invokeLater( new Runnable() {
+//            public void run()
+//            {
+//                try {
+//                    RemoveEmptyDirectoriesFrameWB frame = new RemoveEmptyDirectoriesFrameWB()
+//                    {
+//                        private static final long serialVersionUID = 1L;
+//                        @Override
+//                        protected void btnAddRootDirectory_mouseClicked( MouseEvent e )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnRemoveRootDirectory_mouseClicked( MouseEvent e )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnStartScan_mouseClicked( MouseEvent event )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnCancel_mouseClicked( MouseEvent event )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnSelectAll_mouseClicked( MouseEvent event )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnUnselectAll_mouseClicked( MouseEvent event )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void btnStartDelete_mouseClicked( MouseEvent event )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                        @Override
+//                        protected void addRootDirectory( List<File> files )
+//                        {
+//                            throw new UnsupportedOperationException();
+//                        }
+//                    };
+//                    frame.setVisible( true );
+//                    }
+//                catch( Exception e ) {
+//                    e.printStackTrace();
+//                    logger.fatal( "Fatal error while creating frame", e );
+//                    }
+//            }
+//        } );
+//    }
+    protected abstract void addRootDirectory( List<File> files );
     protected abstract void btnAddRootDirectory_mouseClicked( MouseEvent e );
     protected abstract void btnRemoveRootDirectory_mouseClicked( MouseEvent e );
     protected abstract void btnStartScan_mouseClicked(MouseEvent event);
@@ -141,7 +152,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
                 btnAddRootDirectory_mouseClicked( e );
             }
         });
-
+        
         scrollPaneJList = new JScrollPane();
         GridBagConstraints gbc_scrollPaneJList = new GridBagConstraints();
         gbc_scrollPaneJList.fill = GridBagConstraints.BOTH;
@@ -150,6 +161,26 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_scrollPaneJList.gridx = 0;
         gbc_scrollPaneJList.gridy = 0;
         contentPane.add(scrollPaneJList, gbc_scrollPaneJList);
+
+//        try {
+                this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, new SimpleFileDropListener()
+                {   
+                    @Override
+                    public void filesDropped( final List<File> files )
+                    {
+                        new Thread( new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                addRootDirectory( files );
+                            }} ).start();
+                    }
+                });
+//                this.scrollPaneJListSimpleFileDrop.addDropTargetListener();
+//            }
+//        catch( HeadlessException /*| TooManyListenersException e */ ) {
+//            logger.error( "Can not create Drop Listener", e );
+//            }
 
         jListRootDirectories = createJList();
         scrollPaneJList.setViewportView(jListRootDirectories);
@@ -227,8 +258,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_scrollPane_1.gridy = 5;
         contentPane.add(scrollPane_1, gbc_scrollPane_1);
 
-        jTreeEmptyDirectories = createJTree(new SoftBevelBorder( BevelBorder.LOWERED, null, null,
-                        null, null ));
+        jTreeEmptyDirectories = createJTree(new SoftBevelBorder( BevelBorder.LOWERED, null, null, null, null ));
         scrollPane_1.setViewportView(jTreeEmptyDirectories);
 
         btnSelectAll = new JButton( "Select All" );
@@ -314,15 +344,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         return model;
     }
 
-    protected JButton getBtnStartScan() {
-        return btnStartScan;
-    }
-    protected JButton getBtnRemoveRootDirectory() {
-        return btnRemoveRootDirectory;
-    }
-    protected JButton getBtnAddRootDirectory() {
-        return btnAddRootDirectory;
-    }
+
     protected JButton getBtnSelectAll() {
         return btnSelectAll;
     }
@@ -344,5 +366,79 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     protected JButton getBtnCancel() {
         return btnCancel;
     }
+    
+    protected boolean isButtonAddRootDirectoryEnabled()
+    {
+        return btnAddRootDirectory.isEnabled();
+    }
+    
+    protected boolean isButtonStartScanEnabled()
+    {
+        return btnStartScan.isEnabled();
+    }   
+    
+    protected boolean isButtonRemoveRootDirectoryEnabled()
+    {
+        return btnRemoveRootDirectory.isEnabled();
+    }    
 
+    protected void setButtonRemoveRootDirectoryEnabled( boolean b )
+    {
+        btnRemoveRootDirectory.setEnabled( b );
+    }    
+    
+    public void enable_startDelete()
+    {
+        scrollPaneJListSimpleFileDrop.remove();
+        btnAddRootDirectory.setEnabled( false );
+        btnRemoveRootDirectory.setEnabled( false );
+
+        btnStartScan.setEnabled( false );
+        btnCancel.setEnabled( true );
+
+        btnSelectAll.setEnabled( false );
+        btnUnselectAll.setEnabled( false );
+
+        btnStartDelete.setEnabled( false );
+    }
+    
+    protected void enable_findBegin()
+    {
+        scrollPaneJListSimpleFileDrop.remove();
+
+        btnAddRootDirectory.setEnabled( false );
+        btnRemoveRootDirectory.setEnabled( false );
+
+        btnStartScan.setEnabled( false );
+        btnCancel.setEnabled( true );
+
+        btnSelectAll.setEnabled( false );
+        btnUnselectAll.setEnabled( false );
+
+        btnStartDelete.setEnabled( false );
+
+        jListRootDirectories.setEnabled( false );
+        jListRootDirectories.clearSelection();
+    }
+    
+    protected void enable_findTaskDone()
+    {
+        try {
+            scrollPaneJListSimpleFileDrop.addDropTargetListener();
+            }
+        catch( HeadlessException | TooManyListenersException e ) {
+            logger.error( "Can not create Drop Listener", e );
+            }
+        
+        btnAddRootDirectory.setEnabled( true );
+        btnRemoveRootDirectory.setEnabled( false );
+
+        btnStartScan.setEnabled( true );
+        btnCancel.setEnabled( false );
+        
+        btnStartDelete.setEnabled( true ); // FIXME: enable only when at least 1 file selected
+        btnSelectAll.setEnabled( true );
+        btnUnselectAll.setEnabled( true ); // FIXME: only if something selected
+        jListRootDirectories.setEnabled( true );
+    }
 }
