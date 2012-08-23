@@ -13,8 +13,9 @@ import java.util.Map;
  */
 public final class FileDownloadURL extends AbstractDownloadURL
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private File file;
+    private String hashString;
 
     /**
      * Define the {@link URL} for this {@link DownloadURL}
@@ -88,5 +89,17 @@ public final class FileDownloadURL extends AbstractDownloadURL
     public String toString()
     {
         return "FileDownloadURL [getURL()=" + getURL() + ", file=" + file + "]";
+    }
+
+    @Override
+    public String getContentHashCode()
+    {
+        return hashString;
+    }
+
+    @Override
+    public void setContentHashCode( String hashString )
+    {
+        this.hashString = hashString;
     }
 }

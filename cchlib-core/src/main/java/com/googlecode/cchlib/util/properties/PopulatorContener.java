@@ -1,24 +1,21 @@
 package com.googlecode.cchlib.util.properties;
 
 /**
- * TODOC
+ * NOT YET IMPLEMENTED : TODO
  *
  */
-public interface PopulatorContener<E>
+public interface PopulatorContener
 {
-	/**
-	 * TODOC
-	 * @param stringInitialization
-	 */
-    public void init( String stringInitialization );
     /**
      * TODOC
      * @param content
+     * @return 
      */
-    public void set( E content );
+    public String getConvertToString();
+    
     /**
      * TODOC
      * @return TODOC
      */
-    public E get();
+    public void setConvertToString( String str );
 }

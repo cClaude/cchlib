@@ -2,7 +2,9 @@ package cx.ath.choisnet.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
 
@@ -52,13 +54,13 @@ public class AssertHelper
 //    }
 
     /**
-     * Returns File iterator from given directory (fileDirectory
+     * Returns a {@link File} {@link Iterator} from given directory (fileDirectory
      * will be not include in iterator result)
      * @param fileDirectory file directory to explore
      * @param fileFilter    file filter for result files
      *                      (does not filter directories,
      *                      could be null).
-     * @return File iterator from given directory
+     * @return {@link File} {@link Iterator} from given directory
      */
     public final static Iterator<File> getFilesFrom(
             File        fileDirectory,
@@ -85,4 +87,29 @@ public class AssertHelper
                 privateFileFilter
                 );
     }
+    /**
+     * Returns a {@link File} {@link List} from given directory (fileDirectory
+     * will be not include in iterator result)
+     * @param fileDirectory file directory to explore
+     * @param fileFilter    file filter for result files
+     *                      (does not filter directories,
+     *                      could be null).
+     * @return {@link File} {@link List} from given directory
+     * @since 4.1.7
+     */
+    public final static List<File> getFilesListFrom(
+        final File        fileDirectory,
+        final FileFilter  fileFilter
+        )
+    {
+        final List<File>        list = new ArrayList<File>();
+        final Iterator<File>    iter = getFilesFrom( fileDirectory, fileFilter );
+        
+        while( iter.hasNext() ) {
+            list.add( iter.next() );
+            }
+        
+        return list;
+    }
+            
 }

@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -16,50 +19,63 @@ public class PropertiesPopulatorTest
     @Test
     public void test_PropertiesPopulator() throws PopulatorException
     {
-        PropertiesPopulator<BeanTst> pp = new PropertiesPopulator<BeanTst>( BeanTst.class );
-
-        BeanTst bean = new BeanTst( "String", 1, 1.5F );
-
+        final PropertiesPopulator<SimpleBean> pp 
+            = new PropertiesPopulator<SimpleBean>( SimpleBean.class );
+        final SimpleBean bean 
+            = new SimpleBean( 
+                    "MyTestString", 
+                    1, 
+                    1.5F, 
+                    new boolean[]{true,false} 
+                    );
         {
             Properties properties = new Properties();
             pp.populateProperties(bean, properties);
 
-            BeanTst copy = new BeanTst();
+            logProperties( properties );
+            
+            SimpleBean copy = new SimpleBean();
             pp.populateBean(properties, copy);
 
+            logger.info( "expected : [" + bean + "]" );
+            logger.info( "actual   : [" + copy + "]" );
+            Assert.assertEquals("Must be equal", bean.aString, copy.aString);
             Assert.assertEquals("Must be equal", bean, copy);
         }
 
         {
-            final String prefix = "prefix.";
+            final String prefix = "with_a_prefix.";
             Properties properties = new Properties();
             pp.populateProperties( bean, properties, prefix );
+            
+            logProperties( properties );
 
-            BeanTst copy = new BeanTst();
+            SimpleBean copy = new SimpleBean();
             pp.populateBean( properties, prefix, copy );
 
+            logger.info( "expected : [" + bean + "]" );
+            logger.info( "actual   : [" + copy + "]" );
             Assert.assertEquals("Must be equal", bean, copy);
         }
     }
 
     @Test
-    public void test_PropertiesPopulator2() throws PopulatorException
+    public void test_PopulatorContener() throws PopulatorException
     {
-        PropertiesPopulator<BeanTst2> pp = new PropertiesPopulator<BeanTst2>( BeanTst2.class );
+        PropertiesPopulator<BeanTstWithPopulatorContener> pp 
+            = new PropertiesPopulator<BeanTstWithPopulatorContener>( 
+                    BeanTstWithPopulatorContener.class 
+                    );
 
-        BeanTst2 bean = new BeanTst2( "String", 1, 1.5F, "Hello" );
+        final BeanTstWithPopulatorContener bean = new BeanTstWithPopulatorContener( "My Hello String" );
 
         Properties properties = new Properties();
         pp.populateProperties(bean, properties);
 
-        BeanTst2 copy = new BeanTst2();
+        BeanTstWithPopulatorContener copy = new BeanTstWithPopulatorContener();
         pp.populateBean( properties, copy );
 
-        for( String s : properties.stringPropertyNames() ) {
-            String v = properties.getProperty( s );
-
-            logger.info( "P(" + s + "," + v + ")" );
-            }
+        logProperties( properties );
 
 //        logger.info( "bean.strangeClassContener=" + bean.strangeClassContener );
 //        logger.info( "bean.strangeClassContener.get()=" + bean.strangeClassContener.get() );
@@ -69,25 +85,71 @@ public class PropertiesPopulatorTest
 //        logger.info( "copy.strangeClassContener.get()=" + copy.strangeClassContener.get() );
 //        logger.info( "copy.strangeClassContener.get().content=" + copy.strangeClassContener.get().realContent );
 
+        logger.info( "expected : [" + bean + "]" );
+        logger.info( "actual   : [" + copy + "]" );
         Assert.assertEquals("Must be equal", bean, copy);
+    }
+    
+    @Test
+    public void test_loadsave() throws IOException
+    {
+        final File file = File.createTempFile( 
+                this.getClass().getName(), 
+                ".properties" 
+                );
+        final SimpleBean bean = new SimpleBean( 
+            "This is my test String", 
+            1024, 
+            2.65F, 
+            new boolean[]{true,false,true} 
+            );
+        PropertiesPopulator.saveProperties( file, bean, SimpleBean.class );
+        
+        final SimpleBean copy = PropertiesPopulator.loadProperties( file, new SimpleBean(), SimpleBean.class );
+
+        logger.info( "File = [" + file + "]" );
+        logger.info( "expected : [" + bean + "]" );
+        logger.info( "actual   : [" + copy + "]" );
+        
+        Assert.assertEquals("Must be equal", bean, copy);
+        file.delete();
+    }
+    
+    
+    private final static void logProperties( final Properties properties )
+    {
+        final StringBuilder sb = new StringBuilder();
+        
+        sb.append( "Properties" );
+        for( String s : properties.stringPropertyNames() ) {
+            sb.append( "\n\t(" + s + "," + properties.getProperty( s ) + ")" );
+            }
+        logger.info( sb.toString() );
     }
 }
 
-class BeanTst
+class SimpleBean
 {
     @Populator protected String aString;
     @Populator private int aInt;
     @Populator private float aFloat;
-
-    public BeanTst()
+    @Populator public boolean[] someBooleans;
+    
+    public SimpleBean()
     {
     }
 
-    public BeanTst(String aString, int aInt, float aFloat)
+    public SimpleBean(
+        final String    aString, 
+        final int       aInt, 
+        final float     aFloat,
+        final boolean[] booleans
+        )
     {
-        this.aString = aString;
-        this.aInt = aInt;
-        this.aFloat = aFloat;
+        this.aString        = aString;
+        this.aInt           = aInt;
+        this.aFloat         = aFloat;
+        this.someBooleans   = booleans;
     }
 
     public final String getaString() {
@@ -115,128 +177,146 @@ class BeanTst
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Float.floatToIntBits(aFloat);
+        result = prime * result + Float.floatToIntBits( aFloat );
         result = prime * result + aInt;
         result = prime * result + ((aString == null) ? 0 : aString.hashCode());
+        result = prime * result + Arrays.hashCode( someBooleans );
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BeanTst other = (BeanTst) obj;
-        if (Float.floatToIntBits(aFloat) != Float.floatToIntBits(other.aFloat))
-            return false;
-        if (aInt != other.aInt)
-            return false;
-        if (aString == null) {
-            if (other.aString != null)
-                return false;
-        } else if (!aString.equals(other.aString))
+    public boolean equals( Object obj )
+    {
+        if( this == obj ) return true;
+        if( obj == null ) return false;
+        if( getClass() != obj.getClass() ) return false;
+        SimpleBean other = (SimpleBean)obj;
+        if( Float.floatToIntBits( aFloat ) != Float
+                .floatToIntBits( other.aFloat ) ) return false;
+        if( aInt != other.aInt ) return false;
+        if( aString == null ) {
+            if( other.aString != null ) return false;
+        } else if( !aString.equals( other.aString ) ) return false;
+        if( !Arrays.equals( someBooleans, other.someBooleans ) ) return false;
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "BeanTst [aString=" + aString + ", aInt=" + aInt + ", aFloat="
+                + aFloat + ", booleans=" + Arrays.toString( someBooleans ) + "]";
+    }
+}
+
+class BeanTstWithPopulatorContener
+{
+    @Populator 
+    MyStrangeClass myStrangeClass;
+
+    public BeanTstWithPopulatorContener()
+    {
+        myStrangeClass = new MyStrangeClass( "DeFaUlTvAlUe");
+    }
+
+    public BeanTstWithPopulatorContener( final String str )
+    {
+        myStrangeClass = new MyStrangeClass( str );
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "BeanTstWithPopulatorContener [myStrangeClass=" );
+        builder.append( myStrangeClass );
+        builder.append( "]" );
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((myStrangeClass == null) ? 0 : myStrangeClass.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals( Object obj )
+    {
+        if( this == obj ) return true;
+        if( obj == null ) return false;
+        if( getClass() != obj.getClass() ) return false;
+        BeanTstWithPopulatorContener other = (BeanTstWithPopulatorContener)obj;
+        if( myStrangeClass == null ) {
+            if( other.myStrangeClass != null ) return false;
+        } else if( !myStrangeClass.equals( other.myStrangeClass ) )
             return false;
         return true;
     }
 }
 
-class BeanTst2 //extends BeanTst
+class MyStrangeClass implements PopulatorContener
 {
-    @Populator AbstractPopulatorContener<StrangeClass> strangeClassContener
-        = new AbstractPopulatorContener<StrangeClass>()
-            {
-                @Override
-                public void init(String stringInitialization)
-                {
-                    set( new StrangeClass( stringInitialization ) );
-                }
-                @Override
-                public String toString( StrangeClass content )
-                {
-                    return content.realContent.toString();
-                }
-            };
+    private String privateRealContent;
 
-    public BeanTst2()
+    public MyStrangeClass( final String something )
     {
-        strangeClassContener.set( null );
-    }
-
-    public BeanTst2(String aString, int aInt, float aFloat, String initString )
-    {
-        //super(aString, aInt, aFloat);
-
-        strangeClassContener.set( new StrangeClass( initString ) );
+        this.privateRealContent = something;
     }
 
     @Override
-    public int hashCode() {
+    public String getConvertToString()
+    {
+        return this.privateRealContent;
+    }
+
+    @Override
+    public void setConvertToString( String s )
+    {
+        this.privateRealContent = s;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "MyStrangeClass [privateRealContent=" );
+        builder.append( privateRealContent );
+        builder.append( "]" );
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
         final int prime = 31;
         int result = 1;
         result = prime
                 * result
-                + ((strangeClassContener == null) ? 0 : strangeClassContener
+                + ((privateRealContent == null) ? 0 : privateRealContent
                         .hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BeanTst2 other = (BeanTst2) obj;
-        if (strangeClassContener == null) {
-            if (other.strangeClassContener != null)
-                return false;
-        } else if (!strangeClassContener.equals(other.strangeClassContener))
-            return false;
-        return true;
-    }
-}
-
-class StrangeClass
-{
-    Object realContent;
-
-    public StrangeClass(String contentString)
+    public boolean equals( Object obj )
     {
-        realContent = contentString;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((realContent == null) ? 0 : realContent.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        StrangeClass other = (StrangeClass) obj;
-        if (realContent == null) {
-            if (other.realContent != null)
-                return false;
-        } else if (!realContent.equals(other.realContent))
+        if( this == obj ) return true;
+        if( obj == null ) return false;
+        if( getClass() != obj.getClass() ) return false;
+        MyStrangeClass other = (MyStrangeClass)obj;
+        if( privateRealContent == null ) {
+            if( other.privateRealContent != null ) return false;
+        } else if( !privateRealContent.equals( other.privateRealContent ) )
             return false;
         return true;
     }
-
 }

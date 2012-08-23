@@ -61,4 +61,14 @@ public interface DownloadURL
      * @throws UnsupportedOperationException if not supported
      */
     public void setResultAsFile( File file );
+
+    /**
+     * TODOC
+     */
+    public String getContentHashCode();
+
+    /**
+     * TODOC
+     */
+    public void setContentHashCode( String hashString );
 }

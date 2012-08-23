@@ -27,13 +27,17 @@ import java.util.concurrent.TimeUnit;
 public class DownloadExecutor
 {
     private final ThreadPoolExecutor pool;
+    private final MD5FilterInputStreamBuilder downloadFilterBuilder;
 
     /**
      * Create DownloadExecutor
      *
      * @param downloadMaxThread Max number of parallel threads
      */
-    public DownloadExecutor( final int downloadMaxThread )
+    public DownloadExecutor( 
+        final int                           downloadMaxThread,
+        final MD5FilterInputStreamBuilder   downloadFilterBuilder
+        )
     {
         final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<Runnable>();
 
@@ -45,6 +49,8 @@ public class DownloadExecutor
                 queue
                 );
         pool.setCorePoolSize( downloadMaxThread );
+        
+        this.downloadFilterBuilder = downloadFilterBuilder;
     }
 
     /**
@@ -140,8 +146,8 @@ public class DownloadExecutor
      * @see DownloadToFile
      */
     public void addDownload(
-            final DownloadURL   downloadURL,
-            final DownloadEvent eventHandler
+            final DownloadURL       downloadURL,
+            final DownloadEvent     eventHandler
             )
         throws RejectedExecutionException
     {
@@ -149,11 +155,11 @@ public class DownloadExecutor
 
         switch( downloadURL.getType() ) {
             case STRING:
-                command = new DownloadToString( downloadURL, eventHandler/*, requestPropertyMap, proxy*/ );
+                command = new DownloadToString( downloadURL, eventHandler );
                 break;
 
             default:
-                command = new DownloadToFile( downloadURL, eventHandler/*, requestPropertyMap, proxy*/ );
+                command = new DownloadToFile( downloadURL, eventHandler, downloadFilterBuilder );
                 break;
             }
 

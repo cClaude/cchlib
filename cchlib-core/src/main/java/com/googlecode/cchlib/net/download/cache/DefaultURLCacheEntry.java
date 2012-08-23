@@ -1,31 +1,44 @@
-package com.googlecode.cchlib.net.download;
+package com.googlecode.cchlib.net.download.cache;
 
 import java.util.Date;
+
 
 /**
  *
  * @since 4.1.7
  */
 // Not public
-final class DefaultURLCacheEntry implements URLDataCacheEntry //URLCacheEntry
+final class DefaultURLCacheEntry implements URLDataCacheEntry 
 {
-    //private static final long serialVersionUID = 1L;
     private String  hashCode;
-    //private URL     url;
     private Date    date;
     private String  filename;
 
-    public DefaultURLCacheEntry( final String hashCode/*, final URL url*/, final String filename )
+    /**
+     * 
+     * @param date
+     * @param hashCode
+     * @param filename
+     */
+    public DefaultURLCacheEntry( 
+        final Date   date, 
+        final String hashCode,
+        final String filename
+        )
     {
-        this( hashCode, /*url,*/ null, filename );
-    }
-
-    public DefaultURLCacheEntry( final String hashCode/*, final URL url*/, final Date date, final String filename )
-    {
+        this.date     = date == null ? new Date() : date;
         this.hashCode = hashCode;
-        //this.url = url;
-        this.date = date == null ? new Date() : date;
-        this.filename = filename;
+        if( filename == null ) {
+            this.filename = null;
+            }
+        else {
+            if( filename.isEmpty() ) {
+                this.filename = null;
+                }
+            else {
+                this.filename = filename;
+                }
+            }
     }
 
     @Override
@@ -102,6 +115,4 @@ final class DefaultURLCacheEntry implements URLDataCacheEntry //URLCacheEntry
         return "DefaultURLCacheEntry [hashCode=" + hashCode + ", date=" + date
                 + ", filename=" + filename + "]";
     }
-
-
 }

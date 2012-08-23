@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.net.download;
+package com.googlecode.cchlib.net.download.cache;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ import java.util.Date;
  * Cache values store in {@link HashMap} for one URL entry
  *
  * @see URLFullCacheEntry
+ * @since 4.1.7
  */
 // NOT public
 interface URLDataCacheEntry

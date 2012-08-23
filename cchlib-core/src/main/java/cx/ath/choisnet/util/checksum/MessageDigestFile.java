@@ -1,12 +1,11 @@
-/**
- *
- */
 package cx.ath.choisnet.util.checksum;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -18,7 +17,7 @@ import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
- * This class is not thread safe
+ * <P>This class is not thread safe</P>
  */
 public class MessageDigestFile
     implements Serializable
@@ -63,7 +62,7 @@ public class MessageDigestFile
      * @see MessageDigest#getInstance(String)
      */
     public MessageDigestFile(
-            String algorithm
+            final String algorithm
             )
         throws NoSuchAlgorithmException
     {
@@ -95,30 +94,6 @@ public class MessageDigestFile
             bufferSize
             );
     }
-
-//    /**
-//     * Create a MessageDigestFile object that
-//     * use the specified digest algorithm.
-//     *
-//     * @param algorithm the name of the algorithm requested.
-//     * @param provider the provider.
-//     * @param bufferSize buffer size
-//     * @throws NoSuchAlgorithmException if no Provider supports a
-//     *         MessageDigestSpi implementation for the specified
-//     *         algorithm.*
-//     * @see MessageDigest#getInstance(String, Provider)
-//     */
-//    public MessageDigestFile(
-//            String      algorithm,
-//            Provider    provider,
-//            int         bufferSize
-//            ) throws NoSuchAlgorithmException
-//    {
-//        this(
-//            MessageDigest.getInstance( algorithm, provider ),
-//            bufferSize
-//            );
-//    }
 
     /**
      * Create a MessageDigestFile object that
@@ -253,14 +228,16 @@ public class MessageDigestFile
      * @see #computeDigestKey(String)
      * @see #digest()
      */
-    public final static String computeDigestKeyString(byte[] digestKey)
+    public final static String computeDigestKeyString(
+        final byte[] digestKey
+        )
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        for(byte b :digestKey) {
+        for( byte b :digestKey ) {
             sb.append( HEX[(b & 0x00f0)>>4 ] );
             sb.append( HEX[(b & 0x000f) ] );
-        }
+            }
 
         return sb.toString();
     }
@@ -275,7 +252,7 @@ public class MessageDigestFile
      * @see #computeDigestKeyString(byte[])
      */
     public static byte[] computeDigestKey(
-            String digestHexKey
+            final String digestHexKey
             )
         throws NumberFormatException
     {
@@ -284,17 +261,17 @@ public class MessageDigestFile
 
         if(len * 2 != slen ) {
             throw new NumberFormatException("key error * bad length()");
-        }
+            }
 
-        byte[] mdBytes = new byte[len];
+        final byte[] mdBytes = new byte[ len ];
 
-        for(int i = 0; i < len; i++) {
+        for( int i = 0; i < len; i++ ) {
             // TODO: some optimizations here !
             int     pos   = i << 1;
             String  digit = digestHexKey.substring(pos, pos + 2);
 
             mdBytes[i] = Integer.valueOf(digit, 16).byteValue();
-        }
+            }
 
         return mdBytes;
     }
@@ -309,7 +286,7 @@ public class MessageDigestFile
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public byte[] compute(File file)
+    public byte[] compute( final File file )
         throws FileNotFoundException,
                IOException
     {
@@ -318,33 +295,32 @@ public class MessageDigestFile
         FileInputStream fis      = new FileInputStream(file);
         FileChannel     fchannel = fis.getChannel();
 
-        for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                fchannel.read(bb) != -1 || bb.position() > 0;
-                bb.compact()
-                ) {
-            bb.flip();
-            update(bb);
-        }
-
         try {
-            fchannel.close();
-        }
-        catch(Exception ignore) {
+            for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                    fchannel.read(bb) != -1 || bb.position() > 0;
+                    bb.compact()
+                    ) {
+                bb.flip();
+                update( bb );
+                }
             }
+        finally {
+            try {
+                fchannel.close();
+                }
+            catch(Exception ignore) {
+                }
 
-        try {
-            fis.close();
-        }
-        catch(Exception ignore) {
+            try {
+                fis.close();
+                }
+            catch(Exception ignore) {
+                }
             }
 
         return digestDelegator();
     }
-/*
-        for(DigestEventListener l:listeners) {
-            l.ioError( e, f );
-        }
- */
+
     /**
      * Compute MD value for giving file
      * (use nio {@link FileChannel})
@@ -367,34 +343,42 @@ public class MessageDigestFile
 
         FileInputStream fis      = new FileInputStream(file);
         FileChannel     fchannel = fis.getChannel();
+        boolean         cancel   = false;
+        
+        try {
+            for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                    fchannel.read(bb) != -1 || bb.position() > 0;
+                    bb.compact()
+                    ) {
+                bb.flip();
+                update(bb);
 
-        for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                fchannel.read(bb) != -1 || bb.position() > 0;
-                bb.compact()
-                ) {
-            bb.flip();
-            update(bb);
+                for( DigestEventListener l:listeners ) {
+                    l.computeDigest( file, bb.position() );
 
-            for(DigestEventListener l:listeners) {
-                l.computeDigest( file, bb.position() );
-
-                if( l.isCancel() ) {
+                    if( l.isCancel() ) {
+                        // User ask to cancel current task
+                        cancel = true;
+                        break;
+                        }
+                    }
+                
+                if( cancel ) {
                     // User ask to cancel current task
-                    throw new CancelRequestException();
+                    break;
+                    }
                 }
             }
-        }
-
-        try {
-            fchannel.close();
-        }
-        catch(Exception ignore) {
+        finally {
+            // Not need 
+            try { fchannel.close(); } catch(Exception ignore) {}
+            // Need !
+            try { fis.close(); } catch(Exception ignore) { }
             }
 
-        try {
-            fis.close();
-        }
-        catch(Exception ignore) {
+        if( cancel ) {
+            // User ask to cancel current task
+            throw new CancelRequestException();
             }
 
         return digestDelegator();
@@ -418,14 +402,17 @@ public class MessageDigestFile
         FileInputStream fis  = new FileInputStream(file);
         int             l;
 
-        while( (l = fis.read( buffer )) != -1 ) {
-            update(buffer,0,l);
-            }
-
         try {
-            fis.close();
-        }
-        catch(Exception ignore) {
+            while( (l = fis.read( buffer )) != -1 ) {
+                update(buffer,0,l);
+                }
+            }
+        finally {
+            try {
+                fis.close();
+                }
+            catch(Exception ignore) {
+                }
             }
 
         return digestDelegator();
@@ -442,7 +429,7 @@ public class MessageDigestFile
     {
         if( this.lastDigest == null ) {
             throw new IllegalStateException();
-        }
+            }
         return lastDigest;
     }
 
@@ -458,13 +445,13 @@ public class MessageDigestFile
     {
         if( lastDigest == null ) {
             throw new IllegalStateException();
-        }
+            }
         return computeDigestKeyString( lastDigest );
     }
     // END File specific
 
     //Serializable
-    private void writeObject(java.io.ObjectOutputStream out)
+    private void writeObject( final ObjectOutputStream out )
         throws IOException
     {
         out.defaultWriteObject();
@@ -472,17 +459,20 @@ public class MessageDigestFile
     }
 
     //Serializable
-    private void readObject(java.io.ObjectInputStream in)
+    private void readObject( final ObjectInputStream in )
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
         String algorithm = in.readUTF();
 
         try {
-            this.md = MessageDigest.getInstance(algorithm);
-        }
+            this.md = MessageDigest.getInstance( algorithm );
+            }
         catch( NoSuchAlgorithmException e ) {
-            throw new RuntimeException(e);
-        }
+            ClassNotFoundException cnfe = new ClassNotFoundException( algorithm );
+            
+            cnfe.initCause( e );
+            throw cnfe;
+            }
     }
 }

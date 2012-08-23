@@ -74,6 +74,17 @@ public final class StringDownloadURL extends AbstractDownloadURL
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getContentHashCode()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setContentHashCode( String hashString )
+    {
+        throw new UnsupportedOperationException();
+    }
     /**
      * Not supported
      * @throws UnsupportedOperationException

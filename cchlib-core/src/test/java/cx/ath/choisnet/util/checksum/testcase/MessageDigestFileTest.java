@@ -113,7 +113,7 @@ public class MessageDigestFileTest extends TestCase
 
             assertEquals(mdfKeyStr,r2);
             assertEquals(mdfHexStr,r2);
-        }
+            }
 
         assertEquals(
                 "Must be equals",

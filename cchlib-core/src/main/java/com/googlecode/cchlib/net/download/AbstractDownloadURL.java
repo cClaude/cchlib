@@ -15,7 +15,8 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.7
  */
-public abstract class AbstractDownloadURL implements DownloadURL, Serializable
+public abstract class AbstractDownloadURL
+    implements DownloadURL, Serializable
 {
     private static final long serialVersionUID = 1L;
     private final static transient Logger logger = Logger.getLogger( AbstractDownloadURL.class );

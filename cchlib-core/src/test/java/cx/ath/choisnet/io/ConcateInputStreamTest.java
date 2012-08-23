@@ -97,6 +97,7 @@ public class ConcateInputStreamTest
             }
 
         Assert.assertEquals( "Bad size !", res.length, count );
+        cis.close();
     }
 
 }

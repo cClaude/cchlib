@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
 /**
  * Field annotation for {@link PropertiesPopulator}
  *
- * @see PropertiesHelper
+ * @see PropertiesPopulator
  */
 @Documented
 @Inherited

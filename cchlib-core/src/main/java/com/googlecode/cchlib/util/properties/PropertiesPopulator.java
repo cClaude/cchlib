@@ -1,7 +1,12 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -26,7 +31,7 @@ public class PropertiesPopulator<E>
      *
      * @param clazz {@link Class} to use to create this {@link PropertiesPopulator}.
      */
-    public PropertiesPopulator( Class<? extends E> clazz )
+    public PropertiesPopulator( final Class<? extends E> clazz )
     {
         this.keyFieldSet     = new HashSet<Field>();
         Field[] fields  = clazz.getDeclaredFields();
@@ -58,7 +63,9 @@ public class PropertiesPopulator<E>
 
     /**
      * Store fields annotate with {@link Populator} from bean
-     * to properties
+     * to properties.<br/>
+     * Null entries are not stored in properties, but null entries
+     * from arrays are stored.
      *
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
@@ -70,15 +77,15 @@ public class PropertiesPopulator<E>
         final String     propertiesPrefix
         )
     {
-        StringBuilder prefix;
-        int           prefixLength;
+        final StringBuilder prefix;
+        final int           prefixLength;
 
         if( propertiesPrefix == null || propertiesPrefix.isEmpty() ) {
-            prefix = null;
+            prefix       = new StringBuilder();
             prefixLength = 0;
             }
         else {
-            prefix = new StringBuilder( propertiesPrefix );
+            prefix       = new StringBuilder( propertiesPrefix );
             prefixLength = prefix.length();
             }
 
@@ -88,13 +95,54 @@ public class PropertiesPopulator<E>
                 final Object o = f.get( bean );
 
                 if( o != null ) {
-                    if( prefixLength == 0 ) {
-                        properties.put( f.getName(), o.toString() );
+                    if( f.getType().isArray() ) {
+                        // Handle Arrays
+                        final int length = Array.getLength( o );
+
+                        for( int i = 0; i < length; i ++ ) {
+                            Object arrayElement = Array.get( o, i );
+
+                            prefix.setLength( prefixLength );
+                            prefix.append( f.getName() );
+                            prefix.append( '.' );
+                            prefix.append( i );
+                            
+                            if( arrayElement == null ) {
+                                properties.put( prefix.toString(), "" );
+                                }
+                            else {
+                                properties.put( prefix.toString(), arrayElement.toString() );
+                                }
+                            }
                         }
+                    else if( PopulatorContener.class.isAssignableFrom( f.getType() ) ) {
+                        String strValue = PopulatorContener.class.cast( o ).getConvertToString();
+
+                        if( prefixLength == 0 ) {
+                            properties.put( f.getName(), strValue );
+                            }
+                        else {
+                            prefix.setLength( prefixLength );
+                            prefix.append( f.getName() );
+                            properties.put( prefix.toString(), strValue );
+                            }
+                    }
                     else {
-                        prefix.setLength( prefixLength );
-                        prefix.append( f.getName() );
-                        properties.put( prefix.toString(), o.toString() );
+                        // Handle non arrays
+                        if( prefixLength == 0 ) {
+                            properties.put( f.getName(), o.toString() );
+                            }
+                        else {
+                            prefix.setLength( prefixLength );
+                            prefix.append( f.getName() );
+                            properties.put( prefix.toString(), o.toString() );
+                            }
+                        }
+                    }
+                else {
+                    // Ignore null entries
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "Ignore null value from field " + f );
                         }
                     }
                 }
@@ -143,103 +191,272 @@ public class PropertiesPopulator<E>
         final E          bean
         ) throws PopulatorException
     {
-        StringBuilder prefix;
-        int           prefixLength;
+        new PopulateBean(properties, propertiesPrefix, bean).populate();
+    }
 
-        if( propertiesPrefix == null || propertiesPrefix.isEmpty() ) {
-            prefix = null;
-            prefixLength = 0;
-            }
-        else {
-            prefix = new StringBuilder( propertiesPrefix );
-            prefixLength = prefix.length();
-            }
+    /**
+     * Populate bean from Properties
+     */
+    class PopulateBean
+    {
+        private Properties      properties;
+        private E bean;
+        private StringBuilder   prefix;
+        private final int       prefixLength;
 
-        for( Field f : this.keyFieldSet ) {
-            final String strValue;
-
-            if( prefixLength == 0 ) {
-                strValue = properties.getProperty( f.getName() );
+        /**
+         * 
+         */
+        public PopulateBean(        
+            final Properties properties,
+            final String     propertiesPrefix,
+            final E          bean
+            )
+        {
+            this.properties = properties;
+            this.bean       = bean;     
+            
+            if( propertiesPrefix == null || propertiesPrefix.isEmpty() ) {
+                prefix = null;
+                prefixLength = 0;
                 }
             else {
-                prefix.setLength( prefixLength );
-                prefix.append( f.getName() );
-                strValue = properties.getProperty( prefix.toString() );
-                }
+                prefix = new StringBuilder( propertiesPrefix );
+                prefixLength = prefix.length();
+                }    
+         }
 
-            f.setAccessible( true );
-            try {
-
-                //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
-                //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
+        public void populate()
+        {
+            for( Field f : keyFieldSet ) {
                 final Class<?> type = f.getType();
-
-                if( String.class.isAssignableFrom( type ) ) {
-                    f.set( bean, strValue );
-                    }
-                else if( boolean.class.isAssignableFrom( type ) ) {
-                    f.setBoolean( bean, Boolean.valueOf( strValue ).booleanValue() );
-                    }
-                else if( Boolean.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Boolean.valueOf( strValue ) );
-                    }
-                else if( int.class.isAssignableFrom( type ) ) {
-                    f.setInt( bean, Integer.valueOf( strValue ).intValue() );
-                    }
-                else if( Integer.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Integer.valueOf( strValue ) );
-                    }
-                else if( short.class.isAssignableFrom( type ) ) {
-                    f.setShort( bean, Short.valueOf( strValue ).shortValue() );
-                    }
-                else if( Short.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Short.valueOf( strValue ) );
-                    }
-                else if( byte.class.isAssignableFrom( type ) ) {
-                    f.setByte( bean, Byte.valueOf( strValue ).byteValue() );
-                    }
-                else if( Byte.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Byte.valueOf( strValue ) );
-                    }
-                else if( long.class.isAssignableFrom( type ) ) {
-                    f.setLong( bean, Long.valueOf( strValue ).longValue() );
-                    }
-                else if( Long.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Long.valueOf( strValue ) );
-                    }
-                else if( float.class.isAssignableFrom( type ) ) {
-                    f.setFloat( bean, Float.valueOf( strValue ).floatValue() );
-                    }
-                else if( Float.class.isAssignableFrom( type ) ) {
-                    f.set( bean, Float.valueOf( strValue ) );
-                    }
-                else if( PopulatorContener.class.isAssignableFrom( type ) ) {
-                    logger.warn( "NOT YET IMPLEMENTED:" + f );
-
-                    Object o = f.get( bean );
-                    PopulatorContener<?> contener = PopulatorContener.class.cast( o );
-
-                    contener.init( strValue );
+                
+                //logger.info( "Populate field: " + f + " - " + type );
+                
+                if( type.isArray() ) {
+                    handleArray( f, type, prefix, prefixLength );
                     }
                 else {
-                    //logger .error( "Bad type for field:" + f + " * class=" + f.getType() );
-                    throw new PopulatorException( "Bad type for field", f, f.getType() );
+                    final String strValue;
+
+                    if( prefixLength == 0 ) {
+                        strValue = properties.getProperty( f.getName() );
+                        }
+                    else {
+                        prefix.setLength( prefixLength );
+                        prefix.append( f.getName() );
+                        strValue = properties.getProperty( prefix.toString() );
+                        }
+
+                    //logger.info( "VALUE field: " + f + " is " + strValue );
+                    
+                    f.setAccessible( true );
+                    
+                    try {
+                        //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
+                        //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
+
+                        if( PopulatorContener.class.isAssignableFrom( type ) ) {
+                            Object o = f.get( bean );
+                            
+                            if( o == null ) {
+                                throw new PopulatorException( "Can't handle null for PopulatorContener field", f, f.getType() );
+                                }
+                            PopulatorContener contener = PopulatorContener.class.cast( o );
+
+                            contener.setConvertToString( strValue );
+                            }
+                        else {
+                            try {
+                                Object o = convertStringToObject( strValue, type );
+                                f.set( bean, o );
+                                }
+                            catch( ConvertCantNotHandleTypeException e ) {
+                                throw new PopulatorException( "Bad type for field", f, f.getType() );
+                                }
+                            }
+                        }
+                    catch( NumberFormatException e ) {
+                        logger.warn( "Cannot set field:" + f );
+                        }
+                    catch( IllegalArgumentException e ) {
+                        // ignore !
+                        logger .warn( "Cannot set field:" + f, e );
+                        }
+                    catch( IllegalAccessException e ) {
+                        // ignore !
+                        logger.error( "Cannot set field:" + f, e );
+                        }
+                    finally {
+                        f.setAccessible( false );
+                        }
                     }
                 }
-            catch( NumberFormatException e ) {
-                logger.warn( "Cannot set field:" + f );
+        }
+
+        /*
+         * Handle arrays
+         * 
+         * @param f
+         * @param type
+         */
+        private void handleArray(
+            final Field         f, 
+            final Class<?>      arrayType,
+            StringBuilder       prefix,
+            final int           prefixLength
+            )
+        {
+            final Class<?>      type   = arrayType.getComponentType();
+            final List<String>  values = new ArrayList<String>();
+
+            if( prefix == null ) {
+                prefix = new StringBuilder();
+                }
+            
+            // Put arrays values in a list of strings
+            for(int i=0;;i++ ) {
+                prefix.setLength( prefixLength );
+                prefix.append( f.getName() );
+                prefix.append( '.' );
+                prefix.append( i );
+                
+                final String strValue = properties.getProperty( prefix.toString() );
+
+                if( strValue == null ) {
+                    break;
+                    }
+                else {
+                    values.add( strValue );
+                    }
+                }
+            
+            // Compute array size
+            final int length = values.size();
+
+            try {
+                f.setAccessible( true );
+                
+                Object o = f.get( bean );
+
+                if( o == null || length != Array.getLength( o ) ) {
+                    o = Array.newInstance( type, length );
+                    f.set( bean, o );
+                    }
+                
+                for( int i = 0; i < length; i ++ ) {
+                    //Array.set( o, i, convert( f, values.get( i ), type ) );
+                    try {
+                        Array.set( o, i, convertStringToObject( values.get( i ), type ) );
+                        }
+                    catch( ConvertCantNotHandleTypeException e ) {
+                        throw new PopulatorException( "Bad type for field", f, f.getType() );
+                        }
+                    }
                 }
             catch( IllegalArgumentException e ) {
                 // ignore !
-                logger .warn( "Cannot set field:" + f, e );
+                logger.warn( "Cannot set field:" + f );
                 }
             catch( IllegalAccessException e ) {
                 // ignore !
-                logger.error( "Cannot set field:" + f, e );
+                logger.warn( "Cannot set field:" + f );
                 }
             finally {
                 f.setAccessible( false );
                 }
+        }
+
+    }//class PopulateBean
+    
+    
+    private static Object convertStringToObject(
+        final String    strValue, 
+        final Class<?>  type
+        ) throws ConvertCantNotHandleTypeException
+    {
+        if( String.class.isAssignableFrom( type ) ) {
+            return strValue;
+            }
+        else if( boolean.class.isAssignableFrom( type ) ) {
+            return Boolean.valueOf( strValue );
+            }
+        else if( Boolean.class.isAssignableFrom( type ) ) {
+            return Boolean.valueOf( strValue );
+            }
+        else if( int.class.isAssignableFrom( type ) ) {
+            return Integer.valueOf( strValue );
+            }
+        else if( Integer.class.isAssignableFrom( type ) ) {
+            return Integer.valueOf( strValue );
+            }
+        else if( short.class.isAssignableFrom( type ) ) {
+            return Short.valueOf( strValue );
+            }
+        else if( Short.class.isAssignableFrom( type ) ) {
+            return Short.valueOf( strValue );
+            }
+        else if( byte.class.isAssignableFrom( type ) ) {
+            return Byte.valueOf( strValue );
+            }
+        else if( Byte.class.isAssignableFrom( type ) ) {
+            return Byte.valueOf( strValue );
+            }
+        else if( long.class.isAssignableFrom( type ) ) {
+            return Long.valueOf( strValue );
+            }
+        else if( Long.class.isAssignableFrom( type ) ) {
+            return Long.valueOf( strValue );
+            }
+        else if( float.class.isAssignableFrom( type ) ) {
+            return Float.valueOf( strValue );
+            }
+        else if( Float.class.isAssignableFrom( type ) ) {
+            return Float.valueOf( strValue );
+            }
+        else {
+            throw new ConvertCantNotHandleTypeException();
             }
     }
-}
+    
+    /**
+     * Initialize a bean from a properties file.
+     * 
+     * @param propertiesFile    File to load
+     * @param bean              Bean initialize
+     * @param clazz             Class of bean
+     * @return giving bean for initialization chaining.
+     * @throws IOException if any I/O occur
+     * @since 4.1.7
+     */
+    public static <E> E loadProperties(
+        final File      propertiesFile, 
+        final E         bean,
+        final Class<E>  clazz
+        ) throws IOException
+    {
+        final Properties properties = PropertiesHelper.loadProperties( propertiesFile );
+        new PropertiesPopulator<E>( clazz ).populateBean( properties, bean );
+        return bean;
+    }
+    
+    /**
+     * Save a bean to a properties file.
+     * 
+     * @param propertiesFile File to create
+     * @param bean           Bean to save
+     * @param clazz          Class of bean
+     * @throws IOException if any I/O occur
+     * @since 4.1.7
+     */
+    public static <E> void saveProperties(
+        final File      propertiesFile, 
+        final E         bean,
+        final Class<E>  clazz
+        ) throws IOException
+    {
+        final Properties properties = new Properties();
+        new PropertiesPopulator<E>( clazz ).populateProperties( bean, properties );
+        PropertiesHelper.saveProperties( propertiesFile, properties );
+    }
+}//class PropertiesPopulator

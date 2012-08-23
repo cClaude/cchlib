@@ -1,30 +1,20 @@
-package com.googlecode.cchlib.net.download;
+package com.googlecode.cchlib.net.download.cache;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
-import java.io.Writer;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.swing.event.EventListenerList;
 import org.apache.log4j.Logger;
+
 
 /**
  * TODOC
  *
- * @since 4.1.5
+ * @since 4.1.7
  */
 public class URLCache implements Closeable
 {
@@ -32,13 +22,19 @@ public class URLCache implements Closeable
 
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
-    private final CacheContent _cache;
+    /** Cache all access should be synchronized on this object */
+    private final CacheContent _cache_;
     private final File cacheRootDirFile;
+    /** 
+     * Cache file, use {@link #getCacheFile()} and {@link #setCacheFile(File)}
+     * to access
+     */
     private File __cacheFile__;
     private boolean autostore;
     private int autostoreThreshold = 50;
     private int modificationCount = 0;
-
+    private URLCachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV1();
+    
     /**
      * Create a new URLCache using a default cache {@link File} stored
      * in cacheRootDirFile
@@ -50,7 +46,7 @@ public class URLCache implements Closeable
     public URLCache( final File cacheRootDirFile ) throws IOException
     {
         this.cacheRootDirFile = cacheRootDirFile;
-        this._cache           = new CacheContent();
+        this._cache_          = new CacheContent();
         this.autostore        = false;
 
         if( cacheRootDirFile == null ) {
@@ -149,17 +145,23 @@ public class URLCache implements Closeable
      * Add a new ({@link URL},filename) couple in cache
      *
      * @param url             {@link URL} for this filename
+     * @param date 
      * @param contentHashCode URL content Hash code, or null
      * @param filename        Local filename
      */
-    public void add( final URL url, final String contentHashCode, final String filename )
+    public void add( 
+        final URL    url, 
+        final Date   date,
+        final String contentHashCode, 
+        final String filename
+        )
     {
-    	synchronized( _cache ) {
-    		_cache.put( url, new DefaultURLCacheEntry( contentHashCode, filename ) );
+        synchronized( _cache_ ) {
+            _cache_.put( url, new DefaultURLCacheEntry( date, contentHashCode, filename ) );
 
             this.modificationCount++;
-    		}
-    	
+            }
+
         autoStore();
     }
 
@@ -171,8 +173,8 @@ public class URLCache implements Closeable
      */
     public URLDataCacheEntry get( final URL url )
     {
-    	synchronized( _cache ) {
-            return _cache.get( url );
+    	synchronized( _cache_ ) {
+            return _cache_.get( url );
     		}
     }
 
@@ -181,30 +183,22 @@ public class URLCache implements Closeable
      * @param hashCodeString
      * @return
      */
-    public URL findURL( final String hashCodeString )
+    public URL findURL( final String hashCode )
     {
-    	synchronized( _cache ) {
-            // TODO: build direct access ???
-            for( Entry<URL,URLDataCacheEntry> entry : _cache ) {
-                if( hashCodeString.equals( entry.getValue().getContentHashCode() ) ) {
-                    return entry.getKey();
-                    }
-                }
-            
-            return null;
-    		}
+        synchronized( _cache_ ) {
+            return _cache_.get( hashCode );
+            }
     }
 
     /**
      * Returns cache size
      * @return cache size
      */
-    //synchronized
     public int size()
     {
-    	synchronized( _cache ) {
-            return _cache.size();
-    		}
+        synchronized( _cache_ ) {
+            return _cache_.size();
+            }
     }
 
     /**
@@ -257,7 +251,7 @@ public class URLCache implements Closeable
      * @param cacheFilename Cache filename to set
      * @throws NullPointerException if cacheFilename is null
      */
-    protected void setCacheFilename( String cacheFilename )
+    protected void setCacheFilename( final String cacheFilename )
     {
         if( cacheFilename == null ) {
             throw new NullPointerException( "cacheFilename is null" );
@@ -333,81 +327,31 @@ public class URLCache implements Closeable
      *
      * @throws FileNotFoundException if cache does not exist
      * @throws IOException if any I/O error occur
+     * @throws PersistenceFileBadVersion 
      * @see #getCacheFile()
      */
-    //synchronized
     public void load() throws FileNotFoundException, IOException
     {
-    	synchronized( _cache ) {
-        	try {
-            	load( getCacheFile(), _cache );
+        synchronized( _cache_ ) {
+            try {
+        	    persistenceManager.load( getCacheFile(), _cache_ );
         		}
+            catch( PersistenceFileBadVersion retry ) {
+                new SimpleTextPersistenceManagerV0().load( getCacheFile(), _cache_ );
+                }
         	catch( IOException retry ) {
         		logger.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
-        		
-            	load( getBackupCacheFile(), _cache );
+
+        		try {
+                    persistenceManager.load( getBackupCacheFile(), _cache_ );
+                    }
+                catch( PersistenceFileBadVersion e ) {
+                    new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), _cache_ );
+                    }
         		}
     		}
     }
 
-    private static void load( final File cacheFile, final CacheContent cache )
-    	throws FileNotFoundException, IOException
-    {
-        BufferedReader r = null;
-
-        try {
-            r = new BufferedReader( new FileReader( cacheFile ) );
-
-            for(;;) {
-                String hashCode = r.readLine();
-                if( hashCode == null ) {
-                    break; // EOF
-                    }
-                else if( hashCode.isEmpty() ) {
-                    hashCode = null; // No hash code
-                    }
-                
-                URL    url;
-				String line = r.readLine();
-                
-				try {
-					url = new URL( line );
-					}
-				catch ( MalformedURLException e ) {
-                	logger.error( "Bad URL format (ignore) in URLCache file : " + cacheFile
-                			+ " value = [" + line + "]", 
-                			e 
-                			);
-                	url = null;
-					}
-                
-				Date   date;
-				line = r.readLine();
-                try {
-					date = new Date( Long.parseLong( line ) );
-                	}
-                catch( NumberFormatException e ) {
-                	logger.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
-                			+ " value = [" + line + "]", 
-                			e
-                			);
-                	
-                	date = new Date( 0 );
-                	}
-                String filename = r.readLine();
-
-                if( url != null ) {
-                	// Skip entry with no URL !
-                    cache.put( url, new DefaultURLCacheEntry( hashCode, date, filename ) );
-                	}
-                }
-            }
-        finally {
-            if( r != null ) {
-                r.close();
-                }
-            }
-    }
     /**
      * Save cache file
      *
@@ -442,9 +386,10 @@ public class URLCache implements Closeable
             }
 
         // store cache
-    	synchronized( _cache ) {
-    		storeSimpleTxt( cacheFile, _cache );
-    		}
+        synchronized( _cache_ ) {
+            //storeSimpleTxt( cacheFile, _cache );
+            persistenceManager.store( cacheFile, _cache_ );
+            }
         
         // Cache stored successfully
         this.modificationCount = 0;
@@ -455,21 +400,28 @@ public class URLCache implements Closeable
         
         	CacheContent tmpCache = new CacheContent();
         	
-			load( backupFile, tmpCache );
+        	try {
+                persistenceManager.load( backupFile, tmpCache );
+                }
+            catch( PersistenceFileBadVersion e ) {
+                // unexpected cache content
+                throw new IOException( "Unexpected cache file", e );
+                }
 			
-	    	synchronized( _cache ) {
+	    	synchronized( _cache_ ) {
 				// Add in tmpCache current values 
-	            for( Entry<URL,URLDataCacheEntry> entry : _cache ) {
+	            for( Entry<URL,URLDataCacheEntry> entry : _cache_ ) {
 	            	tmpCache.put( entry.getKey(), entry.getValue() );
 	            	}
 	            
 	            // Update cache using tmpCache
 	            for( Entry<URL,URLDataCacheEntry> entry : tmpCache ) {
-	            	_cache.put( entry.getKey(), entry.getValue() );
+	            	_cache_.put( entry.getKey(), entry.getValue() );
 	            	}
 	            
 	            tmpCache.clear();
-	            storeSimpleTxt( cacheFile, _cache );
+	            //storeSimpleTxt( cacheFile, _cache );
+	            persistenceManager.store( cacheFile, _cache_ );
 	    		}
         	}
         
@@ -478,29 +430,6 @@ public class URLCache implements Closeable
             }
     }
 
-    private static void storeSimpleTxt( File cacheFile, CacheContent cache ) 
-    	throws IOException
-    {
-        // store cache using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
-
-        for( Entry<URL,URLDataCacheEntry> entry : cache ) {
-            final String contentHashCode = entry.getValue().getContentHashCode();
-
-            if( contentHashCode != null ) {
-                w.append( contentHashCode.trim() ).append( '\n' );
-                }
-            else {
-                w.append( '\n' );
-                }
-            w.append( entry.getKey().toExternalForm() ).append( '\n' );
-            w.append( Long.toString( entry.getValue().getDate().getTime() ) ).append( '\n' );
-            w.append( entry.getValue().getRelativeFilename() ).append( '\n' );
-            }
-        w.flush();
-        w.close();
-    }
-    
     private void autoStore()
     {
         if( this.autostore ) {
@@ -516,95 +445,6 @@ public class URLCache implements Closeable
     }
     
     
-    // Workaround for generic warning when restore object using standard serialization
-    private final class CacheContent implements Serializable, Iterable<Map.Entry<URL,URLDataCacheEntry>>
-    {
-        private static final long serialVersionUID = 3L;
-        private HashMap<URL,URLDataCacheEntry> cc = new HashMap<URL,URLDataCacheEntry>();
-        public void put( URL key, URLDataCacheEntry value )
-        {
-            cc.put( key, value );
-        }
-//        public void put( final URLFullCacheEntry entry )
-//        {
-//            put( entry.getURL(), entry );
-//        }
-        public int size()
-        {
-            return cc.size();
-        }
-        public void clear()
-        {
-            cc.clear();
-        }
-        public URLDataCacheEntry get( URL url )
-        {
-            return cc.get( url );
-        }
-        @Override
-        public Iterator<Entry<URL,URLDataCacheEntry>> iterator()
-        {
-            return cc.entrySet().iterator();
-        }
-//        public Iterable<URLFullCacheEntry> getURLFullCacheEntries()
-//        {
-//        	return new Iterable<URLFullCacheEntry>()
-//        	{
-//                @Override
-//                public Iterator<URLFullCacheEntry> iterator()
-//                {
-//                    return new Iterator<URLFullCacheEntry>()
-//                    {
-//                        final Iterator<Map.Entry<URL,URLDataCacheEntry>> parent = cc.entrySet().iterator();
-//
-//                        @Override
-//                        public boolean hasNext()
-//                        {
-//                            return parent.hasNext();
-//                        }
-//                        @Override
-//                        public URLFullCacheEntry next()
-//                        {
-//                            final Map.Entry<URL,URLDataCacheEntry> entry = parent.next();
-//                            final URL               url   =  entry.getKey();
-//                            final URLDataCacheEntry value = entry.getValue();
-//
-//                            return new URLFullCacheEntry()
-//                            {
-//                                @Override
-//                                public URL getURL()
-//                                {
-//                                    return url;
-//                                }
-//                                @Override
-//                                public Date getDate()
-//                                {
-//                                    return value.getDate();
-//                                }
-//                                @Override
-//                                public String getRelativeFilename()
-//                                {
-//                                    return value.getRelativeFilename();
-//                                }
-//                                @Override
-//                                public String getContentHashCode()
-//                                {
-//                                    return value.getContentHashCode();
-//                                }
-//                            };
-//                        }
-//                        @Override
-//                        public void remove()
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                    };
-//                }
-//        		
-//        	};
-//        }
-    }
-
     /**
      * Adds a {@link URLCacheListener} to the
      * {@link URLCache}'s listener list.
@@ -640,7 +480,7 @@ public class URLCache implements Closeable
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if( listeners[i] == URLCacheListener.class ) {
-                ((URLCacheListener)listeners[i + 1]).errorHandler( ioe );
+                ((URLCacheListener)listeners[i + 1]).ioExceptionHandler( ioe );
                 }
             }
     }
@@ -660,7 +500,7 @@ public class URLCache implements Closeable
         builder.append( ", modificationCount=" );
         builder.append( modificationCount );
         builder.append( ", cache size=" );
-        builder.append( _cache.size() );
+        builder.append( _cache_.size() );
 
 //        builder.append( ", cache content URLs=[\n" );
 //        for( URLFullCacheEntry u : cache ) {

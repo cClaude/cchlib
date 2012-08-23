@@ -2,10 +2,10 @@ package com.googlecode.cchlib.util.properties;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Writer;
+import java.io.OutputStream;
 import java.util.Properties;
 
 /**
@@ -19,10 +19,11 @@ public class PropertiesHelper
     }
 
     /**
-     * TODOC
+     * Create a {@link Properties} from a file.
      *
-     * @param propertiesFile
-     * @throws IOException if any
+     * @param propertiesFile File to load.
+     * @throws IOException if any I/O occur
+     * @see Properties#load(InputStream)
     */
     public static Properties loadProperties(
         final File propertiesFile
@@ -42,12 +43,12 @@ public class PropertiesHelper
        }
 
     /**
-     * TODOC
+     * Store properties content into a file.
      *
-     * @param propertiesFile
-     * @param properties
-     * @param comment
-     * @throws IOException if any
+     * @param propertiesFile    File to use
+     * @param properties        Properties to store.
+     * @param comment           Extra comments for header (could be null)
+     * @throws IOException if any I/O occur
      */
     public static void saveProperties(
         final File          propertiesFile,
@@ -55,28 +56,29 @@ public class PropertiesHelper
         final String        comment
         ) throws IOException
     {
-        Writer writer = new FileWriter( propertiesFile );
+        OutputStream os = new FileOutputStream( propertiesFile );
 
         try {
-            properties.store( writer, comment );
+            properties.store( os, comment == null ? "" : comment );
             }
         finally {
-            writer.close();
+            os.close();
             }
     }
 
     /**
-     * TODOC
+     * Store properties content into a file.
      *
-     * @param propertiesFile
-     * @param properties
+     * @param propertiesFile    File to use
+     * @param properties        Properties to store.
      * @throws IOException if any I/O occur
+     * @see #saveProperties(File, Properties, String)
      */
     public static void saveProperties(
         final File          propertiesFile,
         final Properties    properties
         ) throws IOException
     {
-        saveProperties( propertiesFile, properties, "" );
+        saveProperties( propertiesFile, properties, null );
     }
 }
