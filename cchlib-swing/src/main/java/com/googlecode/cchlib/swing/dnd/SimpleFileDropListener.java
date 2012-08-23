@@ -16,6 +16,7 @@ import java.util.List;
  *   }
  * </pre></code>
  * @see SimpleFileDrop
+ * @since 1.4.7
  */
 public interface SimpleFileDropListener
 {

@@ -96,75 +96,66 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
         {
             if (f == null) {
                 return false;
-            }
+                }
             if (f.isDirectory()) {
                 return false;
-            }
+                }
             if ((content == null) || (content.length() == 0)) {
                 return true;
-            }
+                }
 
-            boolean result = false;
-            BufferedInputStream in = null;
-            try
-            {
+            boolean             result  = false;
+            BufferedInputStream in      = null;
+            LocatorStream       locator = null;
+            
+            try {
                 long fileLength = f.length();
                 in = new BufferedInputStream(new FileInputStream(f));
                 byte[] contentBytes = null;
-                if (ignoreCase) {
+                if( ignoreCase ) {
                     contentBytes = content.toLowerCase().getBytes();
-                }
+                    }
                 else {
                     contentBytes = content.getBytes();
-                }
-                LocatorStream locator = new LocatorStream(contentBytes);
+                    }
+                
+                locator = new LocatorStream(contentBytes);
                 long counter = 0;
                 int callbackCounter = 20; // Only call back every 20 bytes
                 int c = -1;
-                while((c = in.read()) != -1)
-                {
+                
+                while((c = in.read()) != -1) {
                     counter++;
                     int matchChar = c;
                     if (ignoreCase) {
                         matchChar = (int)Character.toLowerCase((char)c);
-                    }
+                        }
                     locator.write(matchChar);
 
                     // This search could be time consuming, especially since
                     // this algorithm is not exactly the most efficient.
                     // Report progress to search monitor and abort
                     // if method returns false.
-                    if (callback != null)
-                    {
-                        if (--callbackCounter <= 0)
-                        {
-                            if (!callback.reportProgress(this,
-                                                f,counter,fileLength)) {
+                    if (callback != null) {
+                        if (--callbackCounter <= 0) {
+                            if (!callback.reportProgress(this, f,counter,fileLength)) {
                                 return false;
-                            }
+                                }
                             callbackCounter = 20;
+                            }
                         }
                     }
                 }
-            }
-            catch (LocatedException e)
-            {
+            catch( LocatedException e ) {
                 result = true;
-            }
-            catch (Throwable e)
-            {
-            }
+                }
+            catch (Throwable e) {
+                }
             finally {
-                try
-                {
-                    if (in != null) {
-                        in.close();
-                    }
+                try { if (locator != null) { locator.close(); } } catch (IOException e){}
+                try { if (in != null) { in.close(); } } catch (IOException e){}
                 }
-                catch (IOException e)
-                {
-                }
-            }
+            
             return result;
         }
 

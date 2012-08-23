@@ -43,7 +43,7 @@ import org.apache.log4j.Logger;
  *      JPanel myPanel = new JPanel();
  *      ...
  *      new SimpleFileDrop( myPanel, new SimpleFileDropListener()
- *      {   public void filesDropped( java.io.File[] files )
+ *      {   public void filesDropped( List&lt;File&gt; files )
  *          {
  *              // handle file drop
  *              ...
@@ -61,6 +61,7 @@ import org.apache.log4j.Logger;
  * @author Robert Harder rharder@users.sf.net
  * @author 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
  * @author Claude CHOISNET
+ * @since 1.4.7
  */
 public class SimpleFileDrop
 {
@@ -154,7 +155,9 @@ public class SimpleFileDrop
             throw new IllegalStateException( "DropTargetListener already added" );
             }
 
-        logger.info( "Prepare DropTargetListener" );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "Prepare DropTargetListener" );
+            }
 
         dropListener = new DropTargetListener()
         {
@@ -162,7 +165,9 @@ public class SimpleFileDrop
             @Override
             public void dragEnter( DropTargetDragEvent evt )
             {
-                logger.info( "dragEnter event." );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "dragEnter event." );
+                    }
 
                 // Is this an acceptable drag event?
                 if( isDragOk( evt ) ) {
@@ -172,19 +177,26 @@ public class SimpleFileDrop
                         JComponent jc = (JComponent)dropTargetComponent;
 
                         normalBorder = jc.getBorder();
-                        logger.debug( "normal border saved." );
+                        //logger.debug( "normal border saved." );
 
                         jc.setBorder( dragTargetComponentBorder );
-                        logger.debug( "drag border set." );
+                        
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "drag border set." );
+                            }
                         }
 
                     // Acknowledge that it's okay to enter
                     evt.acceptDrag( DnDConstants.ACTION_COPY );
-                    logger.info( "event accepted." );
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "event accepted." );
+                        }
                     }
                 else { // Reject the drag event
                     evt.rejectDrag();
-                    logger.info( "event rejected." );
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "event rejected." );
+                        }
                     }
             }
 
@@ -198,7 +210,9 @@ public class SimpleFileDrop
             @Override
             public void drop( DropTargetDropEvent evt )
             {
-                logger.info( "drop event." );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "drop event." );
+                    }
 
                 try { // Get whatever was dropped
                     Transferable tr = evt.getTransferable();
@@ -206,7 +220,10 @@ public class SimpleFileDrop
                     // Is it a file list?
                     if( tr.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) ) {
                         evt.acceptDrop( DnDConstants.ACTION_COPY );
-                        logger.info( "file list accepted." );
+                        
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "file list accepted." );
+                            }
 
                         // Get a useful list
                         @SuppressWarnings("unchecked")
@@ -219,7 +236,9 @@ public class SimpleFileDrop
 
                         // Mark that drop is completed.
                         evt.getDropTargetContext().dropComplete( true );
-                        logger.info( "drop complete." );
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "drop complete." );
+                            }
                         }
                     else { // this section will check for a reader flavor.
                         // Thanks, Nathan!
@@ -231,7 +250,10 @@ public class SimpleFileDrop
                         for( int zz = 0; zz < flavors.length; zz++ ) {
                             if( flavors[ zz ].isRepresentationClassReader() ) {
                                 evt.acceptDrop( DnDConstants.ACTION_COPY );
-                                logger.info( "reader accepted." );
+                                
+                                if( logger.isTraceEnabled() ) {
+                                    logger.trace( "reader accepted." );
+                                    }
 
                                 Reader reader = flavors[ zz ].getReaderForText( tr );
                                 BufferedReader br = new BufferedReader( reader );
@@ -248,7 +270,10 @@ public class SimpleFileDrop
 
                                 // Mark that drop is completed.
                                 evt.getDropTargetContext().dropComplete( true );
-                                logger.info( "drop complete." );
+                                
+                                if( logger.isTraceEnabled() ) {
+                                    logger.trace( "drop complete." );
+                                    }
                                 handled = true;
                                 break;
                                 }
@@ -275,7 +300,10 @@ public class SimpleFileDrop
                     if( dropTargetComponent instanceof JComponent ) {
                         JComponent jc = (JComponent)dropTargetComponent;
                         jc.setBorder( normalBorder );
-                        logger.debug( "normal border restored." );
+                        
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "normal border restored." );
+                            }
                         }
                     }
             }
@@ -288,23 +316,34 @@ public class SimpleFileDrop
                 if( dropTargetComponent instanceof JComponent ) {
                     JComponent jc = (JComponent)dropTargetComponent;
                     jc.setBorder( normalBorder );
-                    logger.info( "FileDrop: normal border restored." );
+                    
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "FileDrop: normal border restored." );
+                        }
                     }
             }
 
             @Override
             public void dropActionChanged( DropTargetDragEvent evt )
             {
-                logger.info( "FileDrop: dropActionChanged event." );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "FileDrop: dropActionChanged event." );
+                    }
 
                 // Is this an acceptable drag event?
                 if( isDragOk( evt ) ) {
                     evt.acceptDrag( DnDConstants.ACTION_COPY );
-                    logger.info( "FileDrop: event accepted." );
+                    
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "FileDrop: event accepted." );
+                        }
                     }
                 else {
                     evt.rejectDrag();
-                    logger.info( "FileDrop: event rejected." );
+                    
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "FileDrop: event rejected." );
+                        }
                     }
             }
         };
@@ -350,16 +389,22 @@ public class SimpleFileDrop
             @Override
             public void hierarchyChanged( HierarchyEvent evt )
             {
-                logger.info( "FileDrop: Hierarchy changed." );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "FileDrop: Hierarchy changed." );
+                    }
 
                 Component parent = c.getParent();
                 if( parent == null ) {
                     c.setDropTarget( null );
-                    logger.info( "Drop target cleared from component." );
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "Drop target cleared from component." );
+                        }
                     }
                 else {
                     new DropTarget( c, dropListener );
-                    logger.info( "Drop target added to component." );
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "Drop target added to component." );
+                        }
                     }
             }
         } );
