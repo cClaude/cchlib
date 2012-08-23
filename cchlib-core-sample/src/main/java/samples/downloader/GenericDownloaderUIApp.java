@@ -110,9 +110,9 @@ public class GenericDownloaderUIApp extends JFrame
     {
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
-        downloadEntriesTypeList.add( new DownloadI_tumblr_com() );
-//        downloadEntriesTypeList.add( new DownloadI_tumblr_com( "milfgalore" ) );
-//        downloadEntriesTypeList.add( new DownloadI_milfgalore_tumblr_com() );
+        downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntriesInOnce() );
+        downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntries() );
+        //downloadEntriesTypeList.add( DownloadI_tumblr_com.createForHost( "milfgalore" ) );
 
         downloadEntriesTypeList.add( new DownloadI_senorgif() );
         downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );

@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -18,9 +19,9 @@ import com.googlecode.cchlib.net.download.DownloadFileEvent;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadURL;
 import com.googlecode.cchlib.net.download.FileDownloadURL;
+import com.googlecode.cchlib.net.download.MD5FilterInputStreamBuilder;
 import com.googlecode.cchlib.net.download.StringDownloadURL;
-import com.googlecode.cchlib.net.download.URLCache;
-import cx.ath.choisnet.util.checksum.MessageDigestFile;
+import com.googlecode.cchlib.net.download.cache.URLCache;
 
 /**
  *
@@ -52,6 +53,8 @@ public /*abstract*/ class GenericDownloader
         this.gdai   = gdai;
         this.gdauir = gdauir;
 
+logger.setLevel( Level.INFO ); // FIXME: remove this
+
         final File rootCacheDirectoryFile =
                 new File(
                     new File(".").getAbsoluteFile(),
@@ -71,20 +74,7 @@ public /*abstract*/ class GenericDownloader
 
         this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
         this.cache.setAutoStorage( true );
-/*
-        //if( cookieHandlerMap != null ) {
-        if( cookieHandler != null ) {
-//            final CookieHandler cookieHandler = CookieManager.getDefault();
-//
-//            for( Map.Entry<URI,Map<String, List<String>>> entry : cookieHandlerMap.entrySet() ) {
-//                final URI                       uri             = entry.getKey();
-//                final Map<String, List<String>> responseHeaders = entry.getValue();
-//
-//                cookieHandler.put( uri, responseHeaders );
-//                }
-            CookieHandler.setDefault( cookieHandler );
-            }
-*/
+
         try  {
             this.cache.load();
             }
@@ -126,7 +116,7 @@ public /*abstract*/ class GenericDownloader
     protected List<String> loads( final Collection<StringDownloadURL> urls ) throws IOException
     {
         final List<String>      result              = new ArrayList<String>();
-        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread );
+        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
 
         loggerListener.downloadStateInit( new DownloadStateEvent() {
             @Override
@@ -174,7 +164,10 @@ public /*abstract*/ class GenericDownloader
     void startDownload() throws IOException
     {
         final Collection<FileDownloadURL>   urls                = collectDownloadURLs();
-        final DownloadExecutor              downloadExecutor    = new DownloadExecutor( downloadMaxThread );
+        final DownloadExecutor              downloadExecutor    = new DownloadExecutor( 
+                downloadMaxThread, 
+                new MD5FilterInputStreamBuilder() 
+                );
 
         final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
@@ -220,16 +213,18 @@ public /*abstract*/ class GenericDownloader
             @Override
             public void downloadDone( DownloadURL dURL )
             {
-                final File file = dURL.getResultAsFile();
-
-                try {
-                    // Compute MD5 hash code
-                    MessageDigestFile   mdf         = new MessageDigestFile();
-                    byte[]              digestKey   = mdf.compute( file );
-
-                    String hashCodeString   = MessageDigestFile.computeDigestKeyString( digestKey );
-
-                    URL u = cache.findURL( hashCodeString );
+                final File      file        = dURL.getResultAsFile();
+                final String    hashString  = dURL.getContentHashCode();
+                
+//                try {
+//                    // Compute MD5 hash code
+//                    MessageDigestFile   mdf         = new MessageDigestFile();
+//                    byte[]              digestKey   = mdf.compute( file );
+//
+//                    String hashCodeString = MessageDigestFile.computeDigestKeyString( digestKey );
+//
+//                    Assert.assertEquals( hashString, hashCodeString );
+                    URL u = cache.findURL( hashString );
                     
                     if( u != null ) {
                         // Already downloaded
@@ -237,50 +232,57 @@ public /*abstract*/ class GenericDownloader
                         }
                     else {
                         // New file
-                        newFileDownloaded( file, dURL, hashCodeString );
+                        newFileDownloaded( file, dURL, hashString );
                         }
-                    }
-                catch( FileNotFoundException e ) {
-                    // Should not occur
-                    logger.error( "downloadDone (Should not occur):", e );
-                    }
-                catch( IOException e ) {
-                    // Should not occur
-                    logger.error( "downloadDone (Should not occur):", e );
-                    }
-                catch( NoSuchAlgorithmException e ) {
-                    // Should not occur
-                    logger.error( "downloadDone (Should not occur):", e );
-                    }
-                finally {
-                    if( file != null && file.isFile() ) {
-                        // Occur when file is load twice, using same URL or not.
-                        // FIXME
-                        // Delete ? rename ??
-                        logger.info( "downloadDone: file not deleted ! ? : " + file );
-                        }
-                    }
+//                    }
+//                catch( FileNotFoundException e ) {
+//                    // Should not occur
+//                    logger.error( "downloadDone (Should not occur):", e );
+//                    }
+//                catch( IOException e ) {
+//                    // Should not occur
+//                    logger.error( "downloadDone (Should not occur):", e );
+//                    }
+//                catch( NoSuchAlgorithmException e ) {
+//                    // Should not occur
+//                    logger.error( "downloadDone (Should not occur):", e );
+//                    }
+//                finally {
+//                    if( file != null && file.isFile() ) {
+//                        // Occur when file is load twice, using same URL or not.
+//                        // FIXME
+//                        // Delete ? rename ??
+//                        logger.info( "downloadDone: file not deleted ! ? : " + file );
+//                        }
+//                    }
 
                 updateDisplay();
             }
             
             private void alreadyDownloaded( File file, DownloadURL dURL )
             {
-                //File ffile = new File( file.getParentFile(), file.getName() + ".alreadydownloaded" );
-                //file.renameTo( ffile );
-                
             	// Remove this file !
                 file.delete();
                 
-                logger.info( "Already downloaded (deleted): " + file );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "Already downloaded (deleted): " + file );
+                    }
             }
             
             private void newFileDownloaded(File file, DownloadURL dURL, String hashCodeString ) 
-                        throws FileNotFoundException, IOException
+                        //throws FileNotFoundException, IOException
             {
                 // Identify file content to generate extension
-                FileDataTypeDescription type        = FileDataTypes.findDataTypeDescription( file );
-                String                  extension   = null;
+                FileDataTypeDescription type;
+                String                  extension;
+                
+                try {
+                    type = FileDataTypes.findDataTypeDescription( file );
+                    }
+                catch( IOException e ) {
+                    type = null;
+                    }
+                
 
                 if( type != null ) {
                     extension = type.getExtension();
@@ -298,7 +300,8 @@ public /*abstract*/ class GenericDownloader
                 if( isRename ) {
                     dURL.setResultAsFile( ffile );
                     loggerListener.downloadStored( dURL );
-                    cache.add( dURL.getURL(), hashCodeString, ffile.getName() );
+                    Date date = new Date(); // TODO get date of end of download ?
+                    cache.add( dURL.getURL(), date, hashCodeString, ffile.getName() );
                     }
                 else {
                     File file2;
@@ -375,7 +378,26 @@ public /*abstract*/ class GenericDownloader
     public void stopDownload()
     {
         // TODO Auto-generated method stub
-
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
+        logger.info( "stopDownload() not implemented !" );
     }
 
 

@@ -118,7 +118,7 @@ public abstract class AbstractDownloadInterface
     {
         final List<StringDownloadURL> sdURLList = new ArrayList<StringDownloadURL>();
 
-        for( int i=1; i< getPageCount(); i++ ) {
+        for( int i=1; i<= getPageCount(); i++ ) {
             sdURLList.add( getStringDownloadURL( i ) );
             }
 
@@ -214,7 +214,6 @@ public abstract class AbstractDownloadInterface
      *
      * @param entry
      */
-    final//FIXME remove this
     protected void addComboBoxConfig( final GenericDownloaderAppInterface.ComboBoxConfig entry )
     {
         if( this.comboBoxConfigList == null ) {
@@ -228,7 +227,6 @@ public abstract class AbstractDownloadInterface
      * @see DefaultComboBoxConfig
      */
     @Override// GenericDownloaderAppInterface
-    final//FIXME remove this
     public Collection<GenericDownloaderAppInterface.ComboBoxConfig> getComboBoxConfigCollection()
     {
         if( this.comboBoxConfigList == null ) {
