@@ -12,20 +12,20 @@ import com.googlecode.cchlib.net.download.StringDownloadURL;
 public interface GenericDownloaderAppInterface
 {
     /**
-    *
-    *
-    */
-   public interface ComboBoxConfig
-   {
-       /**
+     *
+     *
+     */
+    public interface ComboBoxConfig
+    {
+        /**
         *
         * @return
         */
-       public String getLabelString(); // before was: getExtraStringLabel
+        public String getLabelString(); // before was: getExtraStringLabel
 
        /**
         *
-        * @param i
+        * @param index
         * @return
         */
        public String getLabelString( int index ); // before was: getExtraStringLabels
@@ -53,7 +53,7 @@ public interface GenericDownloaderAppInterface
         * @return
         */
        public String getComboBoxSelectedValue();
-   }
+    }
 
     /**
      * Returns the site name (for UI)

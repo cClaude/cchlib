@@ -29,7 +29,8 @@ public class NTFSStream
         cbuf = new char[1024];
     }
 
-    public void read(Reader reader) throws IOException
+    public void read( final Reader reader )
+        throws IOException
     {
 //        cb.clear();
 //        reader.read( cb );
@@ -42,7 +43,8 @@ public class NTFSStream
         }
     }
 
-    public String getBegin(Reader reader) throws IOException
+    public String getBegin( final Reader reader )
+        throws IOException
     {
         read( reader );
 
@@ -105,119 +107,112 @@ public class NTFSStream
 
     private static String fastStreamCopy1( File filename )
     {
-        String s = "";
-        FileChannel fc = null;
+        FileChannel fc  = null;
+        String      s   = "";
+        
         try {
-            fc = new FileInputStream( filename ).getChannel();
+            FileInputStream fis = new FileInputStream( filename );
+            
+            try {
+                fc = fis.getChannel();
 
-            // int length = (int)fc.size();
+                try {
+                    // int length = (int)fc.size();
 
-            MappedByteBuffer byteBuffer = fc.map(
-                    FileChannel.MapMode.READ_ONLY, 0, fc.size() );
-            // CharBuffer charBuffer =
-            // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
+                    MappedByteBuffer byteBuffer = fc.map(
+                            FileChannel.MapMode.READ_ONLY, 0, fc.size() );
+                    // CharBuffer charBuffer =
+                    // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
 
-            // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-            // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
-            // CharBuffer charBuffer = byteBuffer.asCharBuffer();
+                    // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
+                    // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
+                    // CharBuffer charBuffer = byteBuffer.asCharBuffer();
 
-            // CharBuffer charBuffer =
-            // ByteBuffer.allocateDirect(length).asCharBuffer();
-            /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
-             * new StringBuffer(size); for (int count=0; count<size; count++)
-             * sb.append(charBuffer.get()); s = sb.toString(); }
-             *
-             * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
-             * (int count=0; count<length; count++) {
-             * sb.append(byteBuffer.get()); } s = sb.toString(); } */
-            int size = byteBuffer.capacity();
-            if( size > 0 ) {
-                // Retrieve all bytes in the buffer
-                byteBuffer.clear();
-                byte[] bytes = new byte[size];
-                byteBuffer.get( bytes, 0, bytes.length );
-                s = new String( bytes );
+                    // CharBuffer charBuffer =
+                    // ByteBuffer.allocateDirect(length).asCharBuffer();
+                    /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
+                     * new StringBuffer(size); for (int count=0; count<size; count++)
+                     * sb.append(charBuffer.get()); s = sb.toString(); }
+                     *
+                     * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
+                     * (int count=0; count<length; count++) {
+                     * sb.append(byteBuffer.get()); } s = sb.toString(); } */
+                    int size = byteBuffer.capacity();
+                    if( size > 0 ) {
+                        // Retrieve all bytes in the buffer
+                        byteBuffer.clear();
+                        byte[] bytes = new byte[size];
+                        byteBuffer.get( bytes, 0, bytes.length );
+                        s = new String( bytes );
+                        }
+                    }
+                finally {
+                    fc.close();
+                    fc = null;
+                    }
+                }
+            finally {
+                fis.close();
+                }
             }
-
-            fc.close();
-        }
         catch( FileNotFoundException fnfx ) {
             System.err.printf( "File not found: %s\n", fnfx );
-        }
+            }
         catch( IOException iox ) {
             System.err.printf( "I/O problems: %s\n", iox );
-        }
-        finally {
-            if( fc != null ) {
-                try {
-                    fc.close();
-                }
-                catch( IOException ignore ) {
-                    // ignore
-                }
             }
-        }
+
         return s;
     }
 
     private static String fastStreamCopy2( File filename ) throws IOException
     {
         String      s;
-        FileChannel fc = null;
 
+        FileInputStream fis_ = new FileInputStream( filename );
         try {
-            fc = new FileInputStream( filename ).getChannel();
+            FileChannel fc = fis_.getChannel();
+            
+            try {
+                // int length = (int)fc.size();
 
-            // int length = (int)fc.size();
+                MappedByteBuffer byteBuffer = fc.map(
+                        FileChannel.MapMode.READ_ONLY, 0, fc.size() );
+                // CharBuffer charBuffer =
+                // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
 
-            MappedByteBuffer byteBuffer = fc.map(
-                    FileChannel.MapMode.READ_ONLY, 0, fc.size() );
-            // CharBuffer charBuffer =
-            // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
+                // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
+                // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
+                // CharBuffer charBuffer = byteBuffer.asCharBuffer();
 
-            // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-            // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
-            // CharBuffer charBuffer = byteBuffer.asCharBuffer();
-
-            // CharBuffer charBuffer =
-            // ByteBuffer.allocateDirect(length).asCharBuffer();
-            /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
-             * new StringBuffer(size); for (int count=0; count<size; count++)
-             * sb.append(charBuffer.get()); s = sb.toString(); }
-             *
-             * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
-             * (int count=0; count<length; count++) {
-             * sb.append(byteBuffer.get()); } s = sb.toString(); } */
-            int size = byteBuffer.capacity();
-            if( size > 0 ) {
-                // Retrieve all bytes in the buffer
-                byteBuffer.clear();
-                byte[] bytes = new byte[size];
-                byteBuffer.get( bytes, 0, bytes.length );
-                s = new String( bytes );
+                // CharBuffer charBuffer =
+                // ByteBuffer.allocateDirect(length).asCharBuffer();
+                /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
+                 * new StringBuffer(size); for (int count=0; count<size; count++)
+                 * sb.append(charBuffer.get()); s = sb.toString(); }
+                 *
+                 * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
+                 * (int count=0; count<length; count++) {
+                 * sb.append(byteBuffer.get()); } s = sb.toString(); } */
+                int size = byteBuffer.capacity();
+                if( size > 0 ) {
+                    // Retrieve all bytes in the buffer
+                    byteBuffer.clear();
+                    byte[] bytes = new byte[size];
+                    byteBuffer.get( bytes, 0, bytes.length );
+                    s = new String( bytes );
+                    }
+                else {
+                    s = "";
+                    }
+                }
+            finally {
+                fc.close();
+                }
             }
-            else {
-                s = "";
-            }
-
-            fc.close();
-        }
-//        catch( FileNotFoundException fnfx ) {
-//            System.err.println( "File not found: " + fnfx );
-//        }
-//        catch( IOException iox ) {
-//            System.err.println( "I/O problems: " + iox );
-//        }
         finally {
-            if( fc != null ) {
-                try {
-                    fc.close();
-                }
-                catch( IOException ignore ) {
-                    // ignore
-                }
+            fis_.close();
             }
-        }
 
         return s;
     }

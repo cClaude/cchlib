@@ -3,6 +3,7 @@ package cx.ath.choisnet.io;
 import java.io.File;
 import java.io.FilenameFilter;
 import com.googlecode.cchlib.io.SerializableFilenameFilter;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  * FileFilterHelper provide more efficient filter.

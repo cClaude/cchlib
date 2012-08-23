@@ -1,20 +1,19 @@
 package com.googlecode.cchlib.util.properties;
 
 /**
- * NOT YET IMPLEMENTED : TODO
- *
+ * TODOC
  */
 public interface PopulatorContener
 {
     /**
      * TODOC
-     * @param content
-     * @return 
+     * @return
      */
     public String getConvertToString();
-    
+
     /**
      * TODOC
+     * @param str
      * @return TODOC
      */
     public void setConvertToString( String str );

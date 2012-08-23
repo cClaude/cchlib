@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
+ * TODOC
  */
-public interface DownloadFilter 
+public interface DownloadFilter
 {
     /**
-     * 
-     * @param inputStream
+     * TODOC
+     * @param is
      * @return
      */
     public InputStream getFilterInputStream( InputStream is );
@@ -20,9 +20,9 @@ public interface DownloadFilter
      * @throws IOException if any I/O occur
      */
     public void compute() throws IOException;
-    
+
     /**
-     * 
+     * TODOC
      * @return
      * @throws IllegalStateException if {@link #compute()} not yet call
      *         after a call of {@link #getFilterInputStream(InputStream)}

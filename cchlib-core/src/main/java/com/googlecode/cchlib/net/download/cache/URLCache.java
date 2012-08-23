@@ -25,7 +25,7 @@ public class URLCache implements Closeable
     /** Cache all access should be synchronized on this object */
     private final CacheContent _cache_;
     private final File cacheRootDirFile;
-    /** 
+    /**
      * Cache file, use {@link #getCacheFile()} and {@link #setCacheFile(File)}
      * to access
      */
@@ -34,7 +34,7 @@ public class URLCache implements Closeable
     private int autostoreThreshold = 50;
     private int modificationCount = 0;
     private URLCachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV1();
-    
+
     /**
      * Create a new URLCache using a default cache {@link File} stored
      * in cacheRootDirFile
@@ -145,14 +145,14 @@ public class URLCache implements Closeable
      * Add a new ({@link URL},filename) couple in cache
      *
      * @param url             {@link URL} for this filename
-     * @param date 
+     * @param date
      * @param contentHashCode URL content Hash code, or null
      * @param filename        Local filename
      */
-    public void add( 
-        final URL    url, 
+    public void add(
+        final URL    url,
         final Date   date,
-        final String contentHashCode, 
+        final String contentHashCode,
         final String filename
         )
     {
@@ -169,7 +169,7 @@ public class URLCache implements Closeable
      * Retrieve {@link URL} in cache
      *
      * @param url {@link URL} to retrieve
-     * @return {@link URLCacheEntry} for giving url if in cache, null otherwise
+     * @return {@link URLDataCacheEntry} for giving url if in cache, null otherwise
      */
     public URLDataCacheEntry get( final URL url )
     {
@@ -179,8 +179,8 @@ public class URLCache implements Closeable
     }
 
     /**
-     * 
-     * @param hashCodeString
+     *
+     * @param hashCode
      * @return
      */
     public URL findURL( final String hashCode )
@@ -327,7 +327,7 @@ public class URLCache implements Closeable
      *
      * @throws FileNotFoundException if cache does not exist
      * @throws IOException if any I/O error occur
-     * @throws PersistenceFileBadVersion 
+     * @throws PersistenceFileBadVersion
      * @see #getCacheFile()
      */
     public void load() throws FileNotFoundException, IOException
@@ -390,16 +390,16 @@ public class URLCache implements Closeable
             //storeSimpleTxt( cacheFile, _cache );
             persistenceManager.store( cacheFile, _cache_ );
             }
-        
+
         // Cache stored successfully
         this.modificationCount = 0;
 
         if( cacheFile.length() < backupFile.length() ) {
         	// Loose data in cache !
         	logger.warn( "Loose data append previous file" );
-        
+
         	CacheContent tmpCache = new CacheContent();
-        	
+
         	try {
                 persistenceManager.load( backupFile, tmpCache );
                 }
@@ -407,24 +407,24 @@ public class URLCache implements Closeable
                 // unexpected cache content
                 throw new IOException( "Unexpected cache file", e );
                 }
-			
+
 	    	synchronized( _cache_ ) {
-				// Add in tmpCache current values 
+				// Add in tmpCache current values
 	            for( Entry<URL,URLDataCacheEntry> entry : _cache_ ) {
 	            	tmpCache.put( entry.getKey(), entry.getValue() );
 	            	}
-	            
+
 	            // Update cache using tmpCache
 	            for( Entry<URL,URLDataCacheEntry> entry : tmpCache ) {
 	            	_cache_.put( entry.getKey(), entry.getValue() );
 	            	}
-	            
+
 	            tmpCache.clear();
 	            //storeSimpleTxt( cacheFile, _cache );
 	            persistenceManager.store( cacheFile, _cache_ );
 	    		}
         	}
-        
+
         if( logger.isTraceEnabled() ) {
             logger .trace( "Cache stored successfully " );
             }
@@ -443,8 +443,8 @@ public class URLCache implements Closeable
                 }
             }
     }
-    
-    
+
+
     /**
      * Adds a {@link URLCacheListener} to the
      * {@link URLCache}'s listener list.
@@ -469,7 +469,7 @@ public class URLCache implements Closeable
 
     /**
      * Runs each {@link URLCacheListener}'s
-     * {@link URLCacheListener#errorHandler(IOException)}
+     * {@link URLCacheListener#ioExceptionHandler(IOException)}
      * method.
      */
     protected void fireIOException(

@@ -16,22 +16,19 @@ public class DownloadToString extends AbstractDownload
 {
     /**
      * Create a download task for {@link String}
+     * @param downloadURL   DownloadURL to find this string.
      * @param eventHandler  Event to use for notifications
-     * @param proxy
-     * @param downloadURL
      */
     public DownloadToString(
-            final DownloadURL           downloadURL,
-            final DownloadEvent         eventHandler
-//            final Map<String,String>    requestPropertyMap,
-//            final Proxy                 proxy
+            final DownloadURL   downloadURL,
+            final DownloadEvent eventHandler
             )
     {
-        super( downloadURL, eventHandler/*, requestPropertyMap, proxy*/);
+        super( downloadURL, eventHandler );
     }
 
     @Override
-    protected void download( InputStream inputStream )
+    protected void download( final InputStream inputStream )
             throws IOException, DownloadIOException
     {
         CharArrayWriter buffer = new CharArrayWriter();

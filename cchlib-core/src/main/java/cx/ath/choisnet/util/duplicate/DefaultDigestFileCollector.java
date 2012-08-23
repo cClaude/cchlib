@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileIterator;
 import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
@@ -86,7 +88,7 @@ public class DefaultDigestFileCollector
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(
      *          rootDirectory,
-     *          {@link cx.ath.choisnet.io.FileFilterHelper#fileFileFilter()}
+     *          {@link FileFilterHelper#fileFileFilter()}
      *          );
      * </pre>
      *

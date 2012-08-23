@@ -29,7 +29,7 @@ public class DownloadIOException extends Exception
     /**
      * TODOC
      *
-     * @param url
+     * @param downloadURL
      * @param file
      * @param cause
      */

@@ -158,28 +158,28 @@ public class FileDataTypes
 //
 //        return null;
 //    }
-    
+
     /**
-     * 
-     * @param is
+     * TODOC
+     * @param file
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public static ExtendedFileDataTypeDescription findExtendedFileDataTypeDescription(
             final File file
             ) throws IOException
     {
         final FileDataTypeDescription desc = findDataTypeDescription( file );
-        
+
         if( desc == null ) {
             return null;
             }
-        
+
         final ImageIOFileData image;
-        
+
         {
             InputStream is = new BufferedInputStream( new FileInputStream( file ) );
-            
+
             try {
                 image = new ImageIOFileData( is );
                 }
@@ -187,7 +187,7 @@ public class FileDataTypes
                 is.close();
                 }
         }
-        
+
         return new DefaultExtendedFileDataTypeDescription( desc, image );
     }
 }

@@ -25,17 +25,23 @@ public class FileFindReplace
 
     public boolean contain( final File file ) throws FileNotFoundException
     {
-        Scanner scan = new Scanner( file ).useDelimiter( p );
+        Scanner scan = new Scanner( file );
+        scan.useDelimiter( p );
 
         int foundCount = -1;
 
-        while( scan.hasNext() ) {
-            foundCount++;
-            scan.next();
+        try {
+            while( scan.hasNext() ) {
+                foundCount++;
+                scan.next();
 
-            if( foundCount > 1 ) {
-                return true;
+                if( foundCount > 1 ) {
+                    return true;
+                    }
                 }
+            }
+        finally {
+            scan.close();
             }
 
         return false;
@@ -43,13 +49,19 @@ public class FileFindReplace
 
     public int containCount( final File file ) throws FileNotFoundException
     {
-        Scanner scan = new Scanner( file ).useDelimiter( p );
+        Scanner scan = new Scanner( file );
+        scan.useDelimiter( p );
 
         int foundCount = -1;
 
-        while( scan.hasNext() ) {
-            foundCount++;
-            scan.next();
+        try {
+            while( scan.hasNext() ) {
+                foundCount++;
+                scan.next();
+                }
+            }
+        finally {
+            scan.close();
             }
 
         if( foundCount == -1 ) {
@@ -62,23 +74,29 @@ public class FileFindReplace
     public int replaceAll( final File file, final File newFile, final String newValue )
         throws IOException
     {
-        final Scanner scan = new Scanner( file ).useDelimiter( p );
-        final Writer  w    = new BufferedWriter( new FileWriter( newFile ) );
+        final Scanner scan = new Scanner( file );
+        scan.useDelimiter( p );
 
         int foundCount = -1;
-
+        
         try {
+            final Writer w = new BufferedWriter( new FileWriter( newFile ) );
 
-            while( scan.hasNext() ) {
-                if( foundCount >= 0 ) {
-                    w.write( newValue );
+            try {
+                while( scan.hasNext() ) {
+                    if( foundCount >= 0 ) {
+                        w.write( newValue );
+                        }
+                    foundCount++;
+                    w.write( scan.next() );
                     }
-                foundCount++;
-                w.write( scan.next() );
+                }
+            finally {
+                w.close();
                 }
             }
         finally {
-            w.close();
+            scan.close();
             }
 
         if( foundCount == -1 ) {
@@ -98,8 +116,8 @@ public class FileFindReplace
         File cd   = new File( "." ).getCanonicalFile();
         File file = new File( cd, filename );
         File out  = File.createTempFile( "test", ".xml" );
-        //File file = File.createTempFile( "empty", ".xml" );
-
+        out.deleteOnExit();
+        
         System.out.println( "file = " + file );
         System.out.println( "patternRegExp = " + patternRegExp );
 

@@ -117,9 +117,9 @@ public class SimpleFileDrop
     /**
      * Full constructor with a specified border.
      *
-     * @param c Component on which files will be dropped.
+     * @param dropTarget Component on which files will be dropped.
      * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
-     * @param recursive Recursively set children as drop targets.
+     * @param recursive  Recursively set children as drop targets.
      * @param fileDropListener Listens for <tt>filesDropped</tt>.
      */
     public SimpleFileDrop(
@@ -180,7 +180,7 @@ public class SimpleFileDrop
                         //logger.debug( "normal border saved." );
 
                         jc.setBorder( dragTargetComponentBorder );
-                        
+
                         if( logger.isTraceEnabled() ) {
                             logger.trace( "drag border set." );
                             }
@@ -220,7 +220,7 @@ public class SimpleFileDrop
                     // Is it a file list?
                     if( tr.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) ) {
                         evt.acceptDrop( DnDConstants.ACTION_COPY );
-                        
+
                         if( logger.isTraceEnabled() ) {
                             logger.trace( "file list accepted." );
                             }
@@ -250,7 +250,7 @@ public class SimpleFileDrop
                         for( int zz = 0; zz < flavors.length; zz++ ) {
                             if( flavors[ zz ].isRepresentationClassReader() ) {
                                 evt.acceptDrop( DnDConstants.ACTION_COPY );
-                                
+
                                 if( logger.isTraceEnabled() ) {
                                     logger.trace( "reader accepted." );
                                     }
@@ -270,7 +270,7 @@ public class SimpleFileDrop
 
                                 // Mark that drop is completed.
                                 evt.getDropTargetContext().dropComplete( true );
-                                
+
                                 if( logger.isTraceEnabled() ) {
                                     logger.trace( "drop complete." );
                                     }
@@ -300,7 +300,7 @@ public class SimpleFileDrop
                     if( dropTargetComponent instanceof JComponent ) {
                         JComponent jc = (JComponent)dropTargetComponent;
                         jc.setBorder( normalBorder );
-                        
+
                         if( logger.isTraceEnabled() ) {
                             logger.trace( "normal border restored." );
                             }
@@ -316,7 +316,7 @@ public class SimpleFileDrop
                 if( dropTargetComponent instanceof JComponent ) {
                     JComponent jc = (JComponent)dropTargetComponent;
                     jc.setBorder( normalBorder );
-                    
+
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "FileDrop: normal border restored." );
                         }
@@ -333,14 +333,14 @@ public class SimpleFileDrop
                 // Is this an acceptable drag event?
                 if( isDragOk( evt ) ) {
                     evt.acceptDrag( DnDConstants.ACTION_COPY );
-                    
+
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "FileDrop: event accepted." );
                         }
                     }
                 else {
                     evt.rejectDrag();
-                    
+
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "FileDrop: event rejected." );
                         }

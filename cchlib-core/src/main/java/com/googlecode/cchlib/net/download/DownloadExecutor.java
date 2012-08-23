@@ -1,11 +1,8 @@
 package com.googlecode.cchlib.net.download;
 
-import java.net.Proxy;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
@@ -20,9 +17,8 @@ import java.util.concurrent.TimeUnit;
  * </p>
  * @since 4.1.5
  * @see DownloadToFile
- * @see DownloadFileEvent
  * @see DownloadToString
- * @see DownloadStringEvent
+ * @see DownloadEvent
  */
 public class DownloadExecutor
 {
@@ -34,7 +30,7 @@ public class DownloadExecutor
      *
      * @param downloadMaxThread Max number of parallel threads
      */
-    public DownloadExecutor( 
+    public DownloadExecutor(
         final int                           downloadMaxThread,
         final MD5FilterInputStreamBuilder   downloadFilterBuilder
         )
@@ -49,7 +45,7 @@ public class DownloadExecutor
                 queue
                 );
         pool.setCorePoolSize( downloadMaxThread );
-        
+
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
 
@@ -87,11 +83,8 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param downloadURLs          {@link Collection} of {@link URL} to download.
-     * @param event                 A valid {@link DownloadEvent}.
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
+     * @param downloadURLs     	{@link Collection} of {@link URL} to download.
+     * @param DownloadEvent 	A valid {@link DownloadEvent}.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
@@ -113,10 +106,7 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURLs  {@link Iterable} of {@link URL} to download.
-     * @param event                 A valid {@link DownloadEvent}.
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
+     * @param eventHandler   A valid {@link DownloadEvent}.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */
@@ -138,10 +128,7 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURL           A valid {@link DownloadURL}.
-     * @param event                 A valid {@link DownloadEvent}.
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
+     * @param eventHandler          A valid {@link DownloadEvent}.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToFile
      */

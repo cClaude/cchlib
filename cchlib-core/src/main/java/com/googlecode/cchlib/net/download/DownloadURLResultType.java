@@ -10,6 +10,6 @@ public enum DownloadURLResultType
     /** {@link DownloadURL} is a {@link String} */
     STRING,
 
-    /** {@link DownloadURL} is a {@link File} */
+    /** {@link DownloadURL} is a {@link java.io.File} */
     FILE,
 }

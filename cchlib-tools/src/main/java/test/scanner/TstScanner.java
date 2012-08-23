@@ -23,6 +23,7 @@ public class TstScanner
         String more  = "*.html";
         Path        path = fs.getPath( first, more );
         scan = new Scanner( path );
+        scan.close();
     }
 
     static void usage()
@@ -59,15 +60,17 @@ public class TstScanner
         System.out.println( "contentMatch ? " + contentMatch );
         //System.out.println( "content ? " + content );
 
-        Scanner scan = new Scanner( file ).useDelimiter( pattern );
+        Scanner scanner = new Scanner( file );
+        scanner.useDelimiter( pattern );
         int foundCount = -1;
 
-        while( scan.hasNext() ) {
+        while( scanner.hasNext() ) {
             foundCount++;
-            String x = scan.next();
+            String x = scanner.next();
             System.out.println( "x " + x );
             }
 
         System.out.println( "pattern found ? " + foundCount );
+        scanner.close();
     }
 }
