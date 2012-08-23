@@ -38,6 +38,7 @@ public class ValidationServlet extends HttpServlet
             htmlWriter.write((new StringBuilder()).append("HTMLDocumentException: ").append(e.getMessage()).append("\n").toString());
             htmlWriter.write(e);
             htmlWriter.flush();
+            htmlWriter.close();
         }
         catch(Exception e) {
             HTMLWriter htmlWriter = new HTMLWriter(out);
@@ -45,6 +46,7 @@ public class ValidationServlet extends HttpServlet
             htmlWriter.write((new StringBuilder()).append("Exception: ").append(e.getMessage()).append("\n").toString());
             htmlWriter.write(e);
             htmlWriter.flush();
+            htmlWriter.close();
         }
     }
 }
