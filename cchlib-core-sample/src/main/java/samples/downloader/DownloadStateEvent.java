@@ -7,7 +7,7 @@ public interface DownloadStateEvent
 {
     /**
      *
-     * @return
+     * @return TODOC
      */
     public int getDownloadListSize();
 

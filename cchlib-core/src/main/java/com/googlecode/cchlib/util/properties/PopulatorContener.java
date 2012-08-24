@@ -6,15 +6,14 @@ package com.googlecode.cchlib.util.properties;
 public interface PopulatorContener
 {
     /**
-     * TODOC
-     * @return
+     * Returns a string able to rebuild current object state.
+     * @return String able to rebuild object state
      */
     public String getConvertToString();
 
     /**
-     * TODOC
-     * @param str
-     * @return TODOC
+     * Initialize object state using 'str' parameter.
+     * @param str a string able to rebuild current object state.
      */
     public void setConvertToString( String str );
 }

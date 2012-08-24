@@ -77,7 +77,7 @@ public class FilenameFilterHelper
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a FilenameFilter
-     * @see FileFilterHelper#and(java.io.FileFilter, java.io.FileFilter)
+     * @see FileFilterHelper#and(java.io.FileFilter...)
      */
     public static FilenameFilter and(
                 final FilenameFilter firstFileFilter,
@@ -131,7 +131,7 @@ public class FilenameFilterHelper
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a FilenameFilter
-     * @see FileFilterHelper#or(java.io.FileFilter, java.io.FileFilter)
+     * @see FileFilterHelper#or(java.io.FileFilter...)
      */
     public static FilenameFilter or(
             final FilenameFilter firstFileFilter,

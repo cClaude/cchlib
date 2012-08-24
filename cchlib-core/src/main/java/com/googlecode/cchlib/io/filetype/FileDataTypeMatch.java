@@ -11,7 +11,7 @@ public interface FileDataTypeMatch
      * @return {@link FileDataTypeDescription} for this match
      */
     public FileDataTypeDescription getFileDataTypeDescription();
-    
+
     /**
      * Check if value is acceptable for this match at this offset
      * @param offset    offset to check
@@ -22,9 +22,9 @@ public interface FileDataTypeMatch
     public boolean isValid( int offset, int value ) throws StreamOverrunException;
 
     /**
-     * 
+     * Returns return true if 'offset' is the last offset (or after last offset)
      * @param offset
-     * @return
+     * @return return true if 'offset' is the last offset
      */
     public boolean isLastOffset( int offset );
 }

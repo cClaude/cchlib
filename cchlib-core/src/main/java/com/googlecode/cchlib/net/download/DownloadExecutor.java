@@ -83,8 +83,8 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param downloadURLs     	{@link Collection} of {@link URL} to download.
-     * @param DownloadEvent 	A valid {@link DownloadEvent}.
+     * @param downloadURLs      {@link Collection} of {@link URL} to download.
+     * @param eventHandler      A valid {@link DownloadEvent}.
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @see DownloadToString
      */

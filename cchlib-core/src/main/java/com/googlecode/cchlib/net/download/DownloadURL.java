@@ -36,7 +36,7 @@ public interface DownloadURL
 
     /**
      * TODOC
-     * @return
+     * @return TODOC
      * @throws UnsupportedOperationException if not supported
      */
     public String getResultAsString();
@@ -50,7 +50,7 @@ public interface DownloadURL
 
     /**
      * TODOC
-     * @return
+     * @return TODOC
      * @throws UnsupportedOperationException if not supported
      */
     public File getResultAsFile();

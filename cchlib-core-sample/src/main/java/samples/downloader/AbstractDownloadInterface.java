@@ -43,24 +43,6 @@ public abstract class AbstractDownloadInterface
         setPageCount( pageCount );
     }
 
-//    /**
-//     * @return always null (default implementation)
-//     */
-//    @Override
-//    public CookieHandler getCookieHandler()
-//    {
-//        return null;
-//    }
-
-//    /**
-//     * @return always null (default implementation)
-//     */
-//    @Override
-//    public Map<String, String> getRequestPropertyMap()
-//    {
-//        return null;
-//    }
-
     @Override
     final public String getSiteName() { return this.siteName; }
 
@@ -105,8 +87,8 @@ public abstract class AbstractDownloadInterface
 
     /**
      * TODOC !
-     * @param i
-     * @return
+     * @param pageNumber
+     * @return TODOC
      * @throws MalformedURLException
      */
     abstract public StringDownloadURL getStringDownloadURL( final int pageNumber )
@@ -130,7 +112,7 @@ public abstract class AbstractDownloadInterface
      *
      * @param src
      * @param regexpIndex
-     * @return
+     * @return TODOC
      * @throws MalformedURLException
      */
     abstract
@@ -158,14 +140,14 @@ public abstract class AbstractDownloadInterface
 
     /**
      * Default implementation of {@link GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)},
-     * that use {@link AbstractDownloadInterface#getURLToDownload(String, int)}
+     * that use {@link AbstractDownloadInterface#getDownloadURLFrom(String, int)}
      *
      * @param gdauir
-     * @param allContent
+     * @param content2Parse
      * @param regexps
-     * @return
-     * @see GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)}
-     * @see AbstractDownloadInterface#getURLToDownload(String, int)
+     * @return TODOC
+     * @see GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)
+     * @see AbstractDownloadInterface#getDownloadURLFrom(String, int)
      */
     final//FIXME remove this
     public Collection<FileDownloadURL> getURLToDownloadCollection(

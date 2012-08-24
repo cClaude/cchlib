@@ -1,32 +1,19 @@
 package samples.downloader;
 
 /**
- *
+ * TODOC
  */
 public interface GenericDownloaderAppUIResults
 {
     /**
      *
-     * @return
+     * @return TODOC
      */
     public int getDownloadThreadCount();
 
-//    /**
-//     *
-//     * @return
-//     */
-//    public Proxy getProxy();
-
-//    /**
-//     * @return a {@link CookieHandler} if site need it, null otherwise
-//     */
-//    //public Map<URI,Map<String,List<String>>> getCookieHandlerMap();
-//    public CookieHandler getCookieHandler();
     /**
      *
-     * @return
+     * @return TODOC
      */
     public LoggerListener getAbstractLogger();
-
-//    public Map<String, String> getRequestPropertyMap();
 }

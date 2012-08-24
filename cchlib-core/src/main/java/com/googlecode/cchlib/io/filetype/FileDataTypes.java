@@ -162,7 +162,7 @@ public class FileDataTypes
     /**
      * TODOC
      * @param file
-     * @return
+     * @return TODOC
      * @throws IOException
      */
     public static ExtendedFileDataTypeDescription findExtendedFileDataTypeDescription(

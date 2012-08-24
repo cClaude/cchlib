@@ -11,7 +11,7 @@ public interface DownloadFilter
     /**
      * TODOC
      * @param is
-     * @return
+     * @return TODOC
      */
     public InputStream getFilterInputStream( InputStream is );
 
@@ -23,7 +23,7 @@ public interface DownloadFilter
 
     /**
      * TODOC
-     * @return
+     * @return TODOC
      * @throws IllegalStateException if {@link #compute()} not yet call
      *         after a call of {@link #getFilterInputStream(InputStream)}
      */

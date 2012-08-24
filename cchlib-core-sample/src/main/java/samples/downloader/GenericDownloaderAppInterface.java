@@ -19,26 +19,26 @@ public interface GenericDownloaderAppInterface
     {
         /**
         *
-        * @return
+        * @return TODOC
         */
         public String getLabelString(); // before was: getExtraStringLabel
 
        /**
         *
         * @param index
-        * @return
+        * @return TODOC
         */
        public String getLabelString( int index ); // before was: getExtraStringLabels
 
        /**
         *
-        * @return
+        * @return TODOC
         */
        public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
 
        /**
         *
-        * @return
+        * @return TODOC
         */
        public int getSelectedIndex();
 
@@ -50,7 +50,7 @@ public interface GenericDownloaderAppInterface
 
        /**
         *
-        * @return
+        * @return TODOC
         */
        public String getComboBoxSelectedValue();
     }
@@ -60,11 +60,6 @@ public interface GenericDownloaderAppInterface
      * @return the site name
      */
     public String getSiteName();
-
-//    /**
-//     * @return a {@link CookieHandler} if site need it, null otherwise
-//     */
-//    public CookieHandler getCookieHandler();
 
     /**
      * Returns average pictures by page (for UI)
@@ -109,7 +104,7 @@ public interface GenericDownloaderAppInterface
      *
      * @param gdauir
      * @param content2Parse
-     * @return
+     * @return TODOC
      * @throws MalformedURLException
      */
     public Collection<FileDownloadURL> getURLToDownloadCollection(
@@ -119,19 +114,13 @@ public interface GenericDownloaderAppInterface
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Collection<ComboBoxConfig> getComboBoxConfigCollection();
 
-//    /**
-//     *
-//     * @return
-//     */
-//    public Map<String, String> getRequestPropertyMap();
-
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Proxy getProxy();
 

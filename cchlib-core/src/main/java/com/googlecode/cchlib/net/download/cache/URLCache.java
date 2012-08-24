@@ -179,9 +179,9 @@ public class URLCache implements Closeable
     }
 
     /**
-     *
+     * Returns {@link URL} for this hashcode if exist, null otherwise
      * @param hashCode
-     * @return
+     * @return {@link URL} for this hashcode if exist, null otherwise
      */
     public URL findURL( final String hashCode )
     {
