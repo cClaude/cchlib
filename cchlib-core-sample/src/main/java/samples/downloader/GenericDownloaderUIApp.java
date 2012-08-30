@@ -13,10 +13,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 import java.io.File;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DownloadIOException;
@@ -51,6 +51,7 @@ public class GenericDownloaderUIApp extends JFrame
 
     private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
     private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
+    private static final String ACTION_QUIT = "ACTION_QUIT";
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -72,7 +73,11 @@ public class GenericDownloaderUIApp extends JFrame
     private JSpinner downloadThreadNumberJSpinner;
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private JTable displayJTable;
-    private GenericDownloader genericDownloader;
+    private GenericDownloader genericDownloader_useLock;
+    /** lock for genericDownloader access */
+    private Object genericDownloaderLock = new Object();
+    private ActionListener actionListener;
+    private WindowListener windowListener;
 
     /**
      * Launch the application.
@@ -133,10 +138,10 @@ public class GenericDownloaderUIApp extends JFrame
         proxyComboBoxModel = new DefaultComboBoxModel<ProxyEntry>();
 
         proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
-        // FIXME: Provide a better way to store this !
-        proxyComboBoxModel.addElement( new ProxyEntry( "55.37.80.2", 3128 ) );
 
-
+        for( ProxyEntry entry : createProxyList() ) {
+            proxyComboBoxModel.addElement( entry );
+            }
 
         //
         // Init closing
@@ -144,40 +149,84 @@ public class GenericDownloaderUIApp extends JFrame
         //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setVisible( true );
-        this.addWindowListener(
-            new WindowListener() {
-            public void windowClosed(final WindowEvent event) {
-                logger.info("Window close event occur");
-                GenericDownloaderUIApp.this.windowClosed();
+        this.addWindowListener( getWindowListener() );
+    }
+    
+    private ActionListener getActionListener()
+    {
+        if( actionListener == null ) {
+            actionListener = new ActionListener() 
+            {
+                public void actionPerformed( final ActionEvent event ) 
+                {
+                    final String cmd = event.getActionCommand();
+                    
+                    if( ACTION_QUIT.equals( cmd ) ) {
+                        // TODO !
+                        // Simulate call to windows close !
+                        }
+                }
+            };
             }
-            public void windowActivated(final WindowEvent event) {
-                logger.info("Window Activated");
-            }
-            public void windowClosing(final WindowEvent event) {
-                //Called in response to a user request for the listened-to window
-                //to be closed. To actually close the window,
-                //the listener should invoke the window's dispose
-                //or setVisible(false) method
-                logger.info("Window Closing");
-                GenericDownloaderUIApp.this.windowClosing();
-            }
-            public void windowDeactivated(final WindowEvent event) {
-                logger.info("Window Deactivated");
-            }
-            public void windowDeiconified(final WindowEvent event) {
-                logger.info("Window Deiconified");
-            }
-            public void windowIconified(final WindowEvent event) {
-                logger.info("Window Iconified");
-            }
-            public void windowOpened(final WindowEvent event) {
-                logger.info("Window Opened");
-            }
-            });
+
+        return actionListener;
+    }
+
+    private WindowListener getWindowListener()
+    {
+        if( windowListener == null ) {
+            windowListener = new WindowListener() 
+            {
+                public void windowClosed(final WindowEvent event) 
+                {
+                    logger.info("Window close event occur");
+                    GenericDownloaderUIApp.this.windowClosed();
+                }
+                public void windowActivated(final WindowEvent event) 
+                {
+                    //logger.info("Window Activated");
+                }
+                public void windowClosing(final WindowEvent event) 
+                {
+                    //Called in response to a user request for the listened-to window
+                    //to be closed. To actually close the window,
+                    //the listener should invoke the window's dispose
+                    //or setVisible(false) method
+                    logger.info("Window Closing");
+                    GenericDownloaderUIApp.this.windowClosing();
+                }
+                public void windowDeactivated(final WindowEvent event)
+                {
+                    //logger.info("Window Deactivated");
+                }
+                public void windowDeiconified(final WindowEvent event)
+                {
+                    //logger.info("Window Deiconified");
+                }
+                public void windowIconified(final WindowEvent event) 
+                {
+                    //logger.info("Window Iconified");
+                }
+                public void windowOpened(final WindowEvent event)
+                {
+                    logger.info("Window Opened");
+                }
+            };
+        }
+        return windowListener;
     }
 
     protected boolean windowClosing()
     {
+        synchronized( genericDownloaderLock ) {
+            if( genericDownloader_useLock != null ) {
+                logger.error( "windowClosing() - Already running !" );
+                
+                //FIXME ASK USER !
+                return false;
+                }
+            }
+        //genericDownloader_useLock
         //FIXME: if( could_be_close )
         //try to cancel launched tasks
         //wait for a while (running tasks)
@@ -188,6 +237,7 @@ public class GenericDownloaderUIApp extends JFrame
 
     protected void windowClosed()
     {
+        //genericDownloader_useLock
         System.exit( 0 ); // FIXME: Kill all
     }
 
@@ -208,6 +258,8 @@ public class GenericDownloaderUIApp extends JFrame
                 menuBar.add(mnFile);
                 {
                     mntmQuit = new JMenuItem("Quit");
+                    mntmQuit.setActionCommand( ACTION_QUIT );
+                    mntmQuit.addActionListener( getActionListener() );
                     mnFile.add(mntmQuit);
                 }
             }
@@ -368,14 +420,17 @@ public class GenericDownloaderUIApp extends JFrame
         }
     }
 
+
     protected void stopDownload()
     {
         new Thread( new Runnable() {
             @Override
             public void run()
             {
-                if( genericDownloader != null ) {
-                    genericDownloader.stopDownload();
+                synchronized( genericDownloaderLock ) {
+                    if( genericDownloader_useLock != null ) {
+                        genericDownloader_useLock.onClickStopDownload();
+                        }
                     }
             }
         }).start();
@@ -391,9 +446,11 @@ public class GenericDownloaderUIApp extends JFrame
         downloadThreadNumberJSpinner.setEnabled( false );
         siteJComboBox.setEnabled( false );
 
-        if( genericDownloader != null ) {
-            logger.error( "Already running !" );
-            return;
+        synchronized( genericDownloaderLock ) {
+            if( genericDownloader_useLock != null ) {
+                logger.error( "Already running !" );
+                return;
+                }
             }
 
         //displayJTextArea.setText( "" );
@@ -435,16 +492,19 @@ public class GenericDownloaderUIApp extends JFrame
                     {
                         return displayTableModel;
                     }
-
                 };
 
                 try {
                     //GenericDownloader
-                    genericDownloader = new GenericDownloader(gdai, gdauir);
+                    synchronized( genericDownloaderLock ) {
+                        genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
+                        }
 
-                    ///instance.startDownload( gdai, gdauir );
-                    genericDownloader.startDownload();
-                    genericDownloader = null;
+                    genericDownloader_useLock.onClickStartDownload();
+
+                    synchronized( genericDownloaderLock ) {
+                        genericDownloader_useLock = null;
+                        }
                     gdauir.getAbstractLogger().info( "done" );
                     }
                 catch( Exception e ) {
@@ -465,39 +525,15 @@ public class GenericDownloaderUIApp extends JFrame
         }).start();
     }
 
-    private class ProxyEntry
+    private static List<ProxyEntry> createProxyList()
     {
-        private Proxy proxy;
-        private String displayString;
+        List<ProxyEntry> l = new ArrayList<ProxyEntry>();
+        
+        //l.add(  new ProxyEntry( "xxx.yyy.zzz.2", 3128 ) );
 
-        public ProxyEntry( String hostname, int port )
-        {
-            this( new Proxy( Proxy.Type.HTTP, new InetSocketAddress( hostname, port ) ) );
-        }
-
-        public ProxyEntry( final Proxy proxy )
-        {
-            this( proxy, proxy.toString() );
-        }
-
-        public ProxyEntry( Proxy proxy, String displayString )
-        {
-            this.proxy = proxy;
-            this.displayString = displayString;
-        }
-
-        @Override
-        public String toString()
-        {
-            return displayString;
-        }
-
-        public Proxy getProxy()
-        {
-            return proxy;
-        }
+        return l;
     }
-
+    
     private final DisplayTableModel displayTableModel = new DisplayTableModel()
     {
         private static final long serialVersionUID = 1L;

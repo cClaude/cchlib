@@ -135,13 +135,13 @@ public class DownloadI_www_gifgirl_org
 ////        try {
 ////            final Map<URI,Map<String, List<String>>> map = new HashMap<>();
 ////
-////            URI                         uri     = new URI( "FIXME" );
+////            URI                         uri     = new URI( "FIX ME" );
 ////            Map<String,List<String>>    data    = new HashMap<>();
 ////
 ////            final String    key         = "Cookie";
 ////            List<String>    valueList   = new ArrayList<>();
 ////
-////            String cookieStr = "FIXME";
+////            String cookieStr = "FIX ME";
 ////            valueList.add( cookieStr );
 ////
 ////            data.put( key, valueList );

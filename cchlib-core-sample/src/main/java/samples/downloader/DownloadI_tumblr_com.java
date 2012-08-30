@@ -306,7 +306,7 @@ class Config_DownloadI_tumblr_com
     
     private static File getConfigFile()
     {
-        return FileHelper.getUserHomeDirFile( DownloadI_tumblr_com.class.getName() );
+        return FileHelper.getUserHomeDirFile( DownloadI_tumblr_com.class.getName() + ".properties" );
     }
     
     public String[] getBlogNames()

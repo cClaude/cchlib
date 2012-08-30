@@ -27,9 +27,10 @@ import com.googlecode.cchlib.net.download.cache.URLCache;
  *
  *
  */
-public /*abstract*/ class GenericDownloader
+public class GenericDownloader
 {
     private final Logger logger = Logger.getLogger( GenericDownloader.class );
+    private Object lock = new Object();
     private final URLCache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
@@ -161,7 +162,7 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      *
      * @throws IOException
      */
-    void startDownload() throws IOException
+    public void onClickStartDownload() throws IOException
     {
         final Collection<FileDownloadURL>   urls                = collectDownloadURLs();
         final DownloadExecutor              downloadExecutor    = new DownloadExecutor( 
@@ -171,18 +172,18 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
 
         final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
-            Integer size = urls.size();
+            int size = 0; //urls.size();
 
             private void updateDisplay()
             {
-                synchronized( size ) {
-                    size = size - 1;
+                synchronized( lock  ) {
+                    size++;
                     }
 
-//                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
-//                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
-//                logger.info( "size = " + size );
-//                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
+                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
+                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
+                logger.info( "size = " + size );
+                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
 
                 loggerListener.downloadStateChange( new DownloadStateEvent() {
                     @Override
@@ -375,7 +376,7 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
             }
     }
 
-    public void stopDownload()
+    public void onClickStopDownload()
     {
         // TODO Auto-generated method stub
         logger.info( "stopDownload() not implemented !" );
