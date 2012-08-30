@@ -167,6 +167,7 @@
     <!-- Applications -->
     <module>cchlib-apps-regexpbuilder</module>
     <module>cchlib-apps-editresourcebundle</module>
+    <module>cchlib-app-duplicatefilesmanager</module>
     <module>cchlib-core-deprecated</module>
     <module>cchlib-core-beta</module>
     <module>cchlib-swing-deprecated</module>
