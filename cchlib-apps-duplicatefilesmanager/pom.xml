@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
+    <version>4.1.7-SNAPSHOT</version>
+  </parent>
+  <artifactId>cchlib-apps-duplicatefilesmanager</artifactId>
+  <packaging>jar</packaging>
+  <name>DuplicateFilesManager</name>
+
+  <!-- Global properties -->
+  <properties>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.1.7-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+     <groupId>com.googlecode.cchlib</groupId>
+     <artifactId>cchlib-swing</artifactId>
+     <version>4.1.7-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core-beta</artifactId>
+      <version>4.1.7-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.name}-${project.version}-r${buildNumber}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesApp</mainClass>
+              <packageName>com.googlecode.cchlib.apps.duplicatefiles</packageName>
+              <addClasspath>true</addClasspath>
+            </manifest>
+            <manifestEntries>
+              <SplashScreen-Image>com/googlecode/cchlib/apps/duplicatefiles/splash.png</SplashScreen-Image>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+              <!-- Use this to in/exclude only specific dependencies
+                <includes>
+                  <include>commons-codec:commons-codec</include>
+                </includes -->
+              </artifactSet>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                </transformers>
+              </configuration>
+           </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>
