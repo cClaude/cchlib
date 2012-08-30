@@ -5,7 +5,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import cx.ath.choisnet.test.Assert;
+import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
  *
@@ -83,7 +83,7 @@ public class StringHelperTest
             System.out.println( "R=" + r );
             }
 
-        Assert.assertEquals(expResult, result);
+        ArrayAssert.assertEquals(expResult, result);
     }
 
     /**
@@ -150,7 +150,7 @@ public class StringHelperTest
             System.out.println( "R2=" + r );
             }
 
-        Assert.assertEquals(expResult, result);
+        ArrayAssert.assertEquals(expResult, result);
     }
 
 //    public static void main( String[] args )

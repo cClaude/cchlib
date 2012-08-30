@@ -7,9 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import cx.ath.choisnet.io.SerializableHelper;
-//import cx.ath.choisnet.lang.ByteArrayBuilder;
-import cx.ath.choisnet.test.Assert;
 import java.io.ByteArrayInputStream;
+import com.googlecode.cchlib.test.ArrayAssert;
 import junit.framework.TestCase;
 
 /**
@@ -42,16 +41,7 @@ public class ByteArrayBuilderTest extends TestCase
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
 
-        Assert.assertEquals("mitchmatch",BYTES,bab.array());
-//        byte[] bytes = bab.array();
-//
-//        for(int i = 0;i<bytes.length;i++) {
-//            assertEquals(
-//                    String.format("bad value [%d]",i),
-//                    BYTES[i],
-//                    bytes[i]
-//                          );
-//        }
+        ArrayAssert.assertEquals("mitchmatch",BYTES,bab.array());
     }
 
     public void testConstructor4()
@@ -119,16 +109,7 @@ public class ByteArrayBuilderTest extends TestCase
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
         TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
-        Assert.assertEquals("mitchmatch",BYTES,bab.array());
-//        byte[] bytes = bab.array();
-//
-//        for(int i = 0;i<bytes.length;i++) {
-//            assertEquals(
-//                    String.format( "bad value [%d]",i),
-//                    BYTES[i],
-//                    bytes[i]
-//                    );
-//        }
+        ArrayAssert.assertEquals("mitchmatch",BYTES,bab.array());
    }
 
     public void test_append_bytes()
@@ -175,15 +156,7 @@ public class ByteArrayBuilderTest extends TestCase
         TestCase.assertEquals("bad length",BYTES.length,bab.length());
         TestCase.assertEquals("bad array",BYTES.length,bab.array().length);
 
-        Assert.assertEquals("mitchmatch",BYTES,bab.array());
-//        byte[] bytes = bab.array();
-//        for( int i=0; i<bytes.length;i++) {
-//            assertEquals(
-//                    String.format( "bad value [%d]",i ),
-//                    BYTES[i],
-//                    bytes[i]
-//                    );
-//        }
+        ArrayAssert.assertEquals("mitchmatch",BYTES,bab.array());
     }
 
     public void test_AppendReadableByteChannel() throws IOException
@@ -227,20 +200,9 @@ public class ByteArrayBuilderTest extends TestCase
         throws IOException
     {
         InputStream is = new ByteArrayInputStream( BYTES );
-//        {
-//            int i = 0;
-//            @Override
-//            public int read() throws IOException
-//            {
-//                if( i< BYTES.length ) {
-//                    return BYTES[i++];
-//                }
-//                return -1;
-//            }
-//        };
         ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( is );
-        Assert.assertEquals("mitchmatch",BYTES,bab.array());
+        ArrayAssert.assertEquals("mitchmatch",BYTES,bab.array());
     }
 
     public void test_startsWith()

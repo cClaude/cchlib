@@ -20,73 +20,103 @@ if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
 fi
 
+##########################################################
 #
 # Perform a full clean first
 #
-echo "------------------------------------------"
-MVNPARAM="clean --offline"
-echo ${MVN} ${MVNPARAM}
-###
-${MVN} ${MVNPARAM}
-if [ ! "$?" -eq "0" ];
-then
-  echo "[ERROR] in ${MVN} ${MVNPARAM}"
-  exit 1
-fi
+mvnClean()
+{
+  echo "------------------------------------------"
+  MVNPARAM="clean --offline"
+  echo ${MVN} ${MVNPARAM}
+  ###
+  ${MVN} ${MVNPARAM}
+  if [ ! "$?" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVNPARAM}"
+    exit 1
+  fi
+}
+##########################################################
 
+##########################################################
 #
 # Compile all projets (skip tests)
 #
-echo "------------------------------------------"
-MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
-echo "${MVN} ${MVNPARAM}"
-${MVN} ${MVNPARAM} >"${LOGS_COMPIL}"
-MVN_EXIT="$?"
+mvnCompile()
+{
+  echo "------------------------------------------"
+  MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
+  echo "${MVN} ${MVNPARAM}"
+  ${MVN} ${MVNPARAM} >"${LOGS_COMPIL}"
+  MVN_EXIT="$?"
 
-cat "${LOGS_COMPIL}"
-echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
-if [ ! "${MVN_EXIT}" -eq "0" ];
-then
-  echo "[ERROR] in ${MVN} ${MVNPARAM}"
-  exit 1
-fi
+  cat "${LOGS_COMPIL}"
+  echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
+  if [ ! "${MVN_EXIT}" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVNPARAM}"
+    exit 1
+  fi
 
-cat "${LOGS_COMPIL}" | grep -F "[WARNING]
-[ERROR]" >"${LOGS_COMPIL_WARNING}"
+  cat "${LOGS_COMPIL}" | grep -F "[WARNING]
+  [ERROR]" >"${LOGS_COMPIL_WARNING}"
+}
+##########################################################
 
+##########################################################
 #
 # Package projets
 #
-echo "------------------------------------------"
-# install ??? TODO fix this if possible
-MVNPARAM="install package --errors --fail-fast"
-echo "${MVN} ${MVNPARAM}"
-###
-${MVN} ${MVNPARAM}
-if [ ! "$?" -eq "0" ];
-then
-  echo "[ERROR] in ${MVN} ${MVNPARAM}"
-  exit 1
-end if
-fi
+mvnPackage()
+{
+  echo "------------------------------------------"
+  # install ??? TODO fix this if possible
+  MVNPARAM="install package --errors --fail-fast"
+  echo "${MVN} ${MVNPARAM}"
+  ###
+  ${MVN} ${MVNPARAM}
+  if [ ! "$?" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVNPARAM}"
+    exit 1
+  end if
+  fi
+}
+##########################################################
 
+##########################################################
 #
 # Build javadocs
 #
-echo "------------------------------------------"
-MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
-echo ${MVN} ${MVNPARAM}
-###
-${MVN} ${MVNPARAM} >"${LOGS_JAVADOC}"
-MVN_EXIT="$?"
+mvnJavadoc()
+{
+  echo "------------------------------------------"
+  MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
+  echo ${MVN} ${MVNPARAM}
+  ###
+  ${MVN} ${MVNPARAM} >"${LOGS_JAVADOC}"
+  MVN_EXIT="$?"
 
-cat "${LOGS_JAVADOC}"
-echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
-if [ ! "$?" -eq "0" ];
-then
-  echo "[ERROR] in ${MVN} ${MVNPARAM}"
-  exit 1
-fi
+  cat "${LOGS_JAVADOC}"
+  echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
+  if [ ! "$?" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVNPARAM}"
+    exit 1
+  fi
+}
+##########################################################
+
+##########################################################
+#
+# main
+#
+##########################################################
+mvnClean
+mvnCompile
+mvnPackage
+mvnJavadoc
 
 echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
@@ -121,12 +151,12 @@ PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
 cchlib-j2ee
-cchlib-j2ee-deprecated
 cchlib-jdbf
 cchlib-sys
 cchlib-tools
 cchlib-swing
 cchlib-swing-deprecated"
+#cchlib-j2ee-deprecated
 
 PROJECTS_WITH_DOC="cchlib-core
 cchlib-core-deprecated
@@ -140,7 +170,8 @@ PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
 
 PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 
-PROJECTS_APPS="cchlib-apps-regexpbuilder
+PROJECTS_APPS="cchlib-apps-duplicatefilesmanager
+cchlib-apps-regexpbuilder
 cchlib-apps-editresourcebundle
 cchlib-tools-duplicatefiles"
 
@@ -231,7 +262,6 @@ do
 done
 # No javadoc for these projects
 # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
-
 
 echo "------------------------------------------"
 DDIR="./releases/cchlib-apps"

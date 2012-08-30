@@ -16,11 +16,13 @@ import java.io.Writer;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.test.ArrayAssert;
 import cx.ath.choisnet.io.IO; // TEST CASE ONLY
 import cx.ath.choisnet.util.base64.Base64Decoder;
 import cx.ath.choisnet.util.base64.Base64Encoder;
@@ -231,8 +233,8 @@ public class Base64Test
 
         byte[] result = out.toByteArray();
 
-        org.junit.Assert.assertArrayEquals( "Bad result", array, result );
-        cx.ath.choisnet.test.Assert.assertEquals( "Bad result", array, result );
+        Assert.assertArrayEquals( "Bad result", array, result );
+        ArrayAssert.assertEquals( "Bad result", array, result );
     }
 
     @Test
@@ -256,8 +258,8 @@ public class Base64Test
         System.out.println( "chars v1 = " + new String( chars ) );
         System.out.println( "chars V2 = " + new String( encodedChars ) );
 
-        org.junit.Assert.assertArrayEquals( "Bad encode", chars, encodedChars );
-        cx.ath.choisnet.test.Assert.assertEquals( "Bad encode", chars, encodedChars );
+        Assert.assertArrayEquals( "Bad encode", chars, encodedChars );
+        ArrayAssert.assertEquals( "Bad encode", chars, encodedChars );
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -268,8 +270,8 @@ public class Base64Test
 
         byte[] result = out.toByteArray();
 
-        org.junit.Assert.assertArrayEquals( "Bad result", array, result );
-        cx.ath.choisnet.test.Assert.assertEquals( "Bad result", array, result );
+        Assert.assertArrayEquals( "Bad result", array, result );
+        ArrayAssert.assertEquals( "Bad result", array, result );
     }
 
     @Test
@@ -409,21 +411,21 @@ public class Base64Test
         String sunEncode = sunEncode( bytes );
         String encode    = Base64Encoder.encode( bytes );
 
-        org.junit.Assert.assertEquals( "bad encoding", sunEncode, encode );
+        Assert.assertEquals( "bad encoding", sunEncode, encode );
 
         {
             byte[] sunDecode = sunDecode( sunEncode );
             byte[] decode    = Base64Decoder.decode( sunEncode.toCharArray() );
 
-            org.junit.Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
-            cx.ath.choisnet.test.Assert.assertEquals( "bad decoding", sunDecode, decode );
+            Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
+            ArrayAssert.assertEquals( "bad decoding", sunDecode, decode );
         }
         {
             byte[] sunDecode = sunDecode( encode );
             byte[] decode    = Base64Decoder.decode( encode.toCharArray() );
 
-            org.junit.Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
-            cx.ath.choisnet.test.Assert.assertEquals( "bad decoding", sunDecode, decode );
+            Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
+            ArrayAssert.assertEquals( "bad decoding", sunDecode, decode );
         }
     }
 

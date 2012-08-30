@@ -9,15 +9,17 @@ import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
+import com.googlecode.cchlib.test.ArrayAssert;
 import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.Assert;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
-public class MessageDigestFileTest extends TestCase
+public class MessageDigestFileTest
 {
+    @Test
     public void test_MessageDigestFile()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
@@ -25,27 +27,27 @@ public class MessageDigestFileTest extends TestCase
                 DigestException,
                 ClassNotFoundException
     {
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile() // MD5
                 );
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile( "MD2" )
                 );
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile( "SHA-1" )
                 );
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile( "SHA-256" )
                 );
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile( "SHA-384" )
                 );
-        test_MessageDigestFileClone(
+        doTest_MessageDigestFileClone(
                 new MessageDigestFile( "SHA-512" )
                 );
     }
 
-    public void test_MessageDigestFileClone(
+    private void doTest_MessageDigestFileClone(
             MessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
@@ -54,14 +56,14 @@ public class MessageDigestFileTest extends TestCase
             DigestException,
             ClassNotFoundException
     {
-        test_MessageDigestFile(mdf);
+        doTest_MessageDigestFile(mdf);
 
         MessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
 
-        test_MessageDigestFile(clone);
+        doTest_MessageDigestFile(clone);
     }
 
-    public void test_MessageDigestFile(
+    private void doTest_MessageDigestFile(
             MessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
@@ -76,12 +78,12 @@ public class MessageDigestFileTest extends TestCase
             File f = iter.next();
 
             byte[] mdfKey1 = mdf.computeInputStream( f );
-            test_File( mdf, f, mdfKey1);
+            doTest_File( mdf, f, mdfKey1);
 
             byte[] mdfKey2 = mdf.compute( f );
-            test_File( mdf, f, mdfKey2);
+            doTest_File( mdf, f, mdfKey2);
 
-            Assert.assertEquals("Error!",mdfKey1,mdfKey2);
+            ArrayAssert.assertEquals("Error!",mdfKey1,mdfKey2);
 
             if( i++ > 10 ) {
                 break;
@@ -89,7 +91,7 @@ public class MessageDigestFileTest extends TestCase
         }
     }
 
-    private void test_File(
+    private void doTest_File(
             MessageDigestFile   mdf,
             File                f,
             byte[]              mdfKey
@@ -98,7 +100,7 @@ public class MessageDigestFileTest extends TestCase
         String mdfKeyStr = MessageDigestFile.computeDigestKeyString( mdfKey );
         String algorithm = mdf.getAlgorithm();
 
-        Assert.assertEquals(mdfKey,mdf.digest());
+        ArrayAssert.assertEquals(mdfKey,mdf.digest());
         String mdfHexStr = mdf.digestString();
         byte[] mdfKey2      = mdf.digest();
         String mdfKey2Str   = MessageDigestFile.computeDigestKeyString(mdfKey2);
@@ -111,20 +113,20 @@ public class MessageDigestFileTest extends TestCase
             String r2        = getMD5(f);
             System.out.printf("MD>:%s\n", r2 );
 
-            assertEquals(mdfKeyStr,r2);
-            assertEquals(mdfHexStr,r2);
+            Assert.assertEquals(mdfKeyStr,r2);
+            Assert.assertEquals(mdfHexStr,r2);
             }
 
-        assertEquals(
+        Assert.assertEquals(
                 "Must be equals",
                 mdfKeyStr,
                 mdfKey2Str
                 );
-        Assert.assertEquals(mdfKey,mdfKey2);
+        ArrayAssert.assertEquals(mdfKey,mdfKey2);
 
         byte[] bytesFromStr = MessageDigestFile.computeDigestKey( mdfHexStr );
 
-        Assert.assertEquals("Error!",mdfKey,bytesFromStr);
+        ArrayAssert.assertEquals("Error!",mdfKey,bytesFromStr);
     }
 
     private static String getMD5(byte[] input)
