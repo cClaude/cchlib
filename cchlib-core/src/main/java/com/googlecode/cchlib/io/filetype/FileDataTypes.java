@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Basic file data type resolution.
+ * Basic and quick file data type resolution.
  * @since 4.1.5
  */
 public class FileDataTypes
@@ -18,12 +18,11 @@ public class FileDataTypes
     private static List<FileDataTypeMatch> fileDataTypeMatchList;
     private static final FileDataTypeDescription JPEG = new FDT_jpeg();
     private static final FileDataTypeMatch[] JPEG_MATCHERS = {
-        //new DefaultFileDataTypeMatch( JPEG, new int[]{  -1,   -1,   -1,   -1, -1, -1, 0x4A, 0x49, 0x46} ),
-        //new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE1,   -1,   -1, 0x45,        0x78,        0x69,        0x66,        0x00, 0x00, 0x49, 0x49, 0x2A, 0x00} ),
-        new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE1,   -1,   -1, 0x45/*'E'*/, 0x78/*'x'*/, 0x69/*'i'*/, 0x66/*'f'*/, 0x00, 0x00} ),
+        //new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE1,   -1,   -1, 0x45/*'E'*/, 0x78/*'x'*/, 0x69/*'i'*/, 0x66/*'f'*/, 0x00, 0x00} ),
         new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A/*'J'*/, 0x46/*'F'*/, 0x49/*'I'*/, 0x46/*'F'*/, 0x00, 0x01 } ),
         new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xDB, 0x00, 0x43, 0x00 } ),
-        new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xDB, 0x00, 0x84, 0x00 } ),
+        new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE2 } ),
+        new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE1 } ),
         };
     private static final FileDataTypeDescription GIF = new FDT_gif();
     private static final FileDataTypeMatch[] GIF_MATCHERS = {

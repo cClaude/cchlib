@@ -381,7 +381,7 @@ public class URLCache implements Closeable
                 }
 
             if( ! b ) {
-                logger.warn( "Can't rename cache file to: " + backupFile );
+                logger.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
                 }
             }
 

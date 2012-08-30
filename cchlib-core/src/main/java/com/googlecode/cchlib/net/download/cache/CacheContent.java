@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.log4j.Logger;
 
 /** 
  * Workaround for generic warning when restore object 
@@ -16,7 +17,8 @@ import java.util.Map.Entry;
 final class CacheContent 
     implements Serializable, Iterable<Map.Entry<URL,URLDataCacheEntry>>
 {
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
+    private static final Logger logger = Logger.getLogger( CacheContent.class );
     private HashMap<URL,URLDataCacheEntry> dataCache = new HashMap<URL,URLDataCacheEntry>();
     private HashMap<String,URL>            hashcache = new HashMap<String,URL>();
     public void put( URL url, URLDataCacheEntry data )
@@ -24,11 +26,24 @@ final class CacheContent
         dataCache.put( url, data );
         hashcache.put( data.getContentHashCode(), url );
         
-        junit.framework.Assert.assertEquals( dataCache.size(), hashcache.size() );
+        debug();
+    }
+    private void debug()
+    {
+        final int dataCacheSize = dataCache.size();
+        final int hashCacheSize = hashcache.size();
+        
+        if( dataCacheSize != hashCacheSize ) {
+            logger.error( "CacheContent : cache size error * data:" 
+                + dataCacheSize 
+                + " hash:"
+                + hashCacheSize
+                );
+            }
     }
     public int size()
     {
-        junit.framework.Assert.assertEquals( dataCache.size(), hashcache.size() );
+        debug();
         
         return dataCache.size();
     }

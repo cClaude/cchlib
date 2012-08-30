@@ -32,14 +32,19 @@ class SimpleTextPersistenceManagerV1
     {
         // store cache using simple text file.
         Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
-        w.append( VERSION_STR ).append( '\n' );
-
-        for( Entry<URL,URLDataCacheEntry> entry : cache ) {
-            storeEntry( w, entry );
-            }
         
-        w.flush();
-        w.close();
+        try {
+            w.append( VERSION_STR ).append( '\n' );
+
+            for( Entry<URL,URLDataCacheEntry> entry : cache ) {
+                storeEntry( w, entry );
+                }
+            
+            w.flush();
+            }
+        finally {
+            w.close();
+            }
     }
 
     private void storeEntry(
@@ -85,6 +90,7 @@ class SimpleTextPersistenceManagerV1
 
                 if( ! VERSION_STR.equals( checkVersion ) ) {
                     r.close();
+                    r = null;
                     throw new PersistenceFileBadVersion( checkVersion );
                     }
             }
