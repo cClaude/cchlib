@@ -172,8 +172,7 @@ PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 
 PROJECTS_APPS="cchlib-apps-duplicatefilesmanager
 cchlib-apps-regexpbuilder
-cchlib-apps-editresourcebundle
-cchlib-tools-duplicatefiles"
+cchlib-apps-editresourcebundle"
 
 echo "------------------------------------------"
 for project in ${PROJECTS}
