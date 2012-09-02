@@ -113,9 +113,9 @@ mvnJavadoc()
 # main
 #
 ##########################################################
-#mvnClean
-#mvnCompile
-#mvnPackage
+mvnClean
+mvnCompile
+mvnPackage
 mvnJavadoc
 
 echo "------------------------------------------"

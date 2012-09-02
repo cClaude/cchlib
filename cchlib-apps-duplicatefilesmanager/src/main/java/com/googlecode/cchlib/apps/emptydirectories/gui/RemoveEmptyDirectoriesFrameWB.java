@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import java.awt.HeadlessException;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
@@ -328,8 +327,8 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
      */
     public static JList<File> createJList()
     {
-        DefaultListModel<File>  model = new DefaultListModel<File>();
-        JList<File>             list = new JList<File>( model );
+        MyDefaultListModel<File>    model   = new MyDefaultListModel<File>();
+        JList<File>                 list    = new JList<File>( model );
 
         return list;
     }
