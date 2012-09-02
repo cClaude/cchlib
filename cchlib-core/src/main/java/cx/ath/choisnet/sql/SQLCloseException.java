@@ -30,7 +30,7 @@ public class SQLCloseException extends IOException
      * Returns the cause of this SQLCloseException as a SQLException
      * @return original SQLException
      * @see #getCause()
-     * @throw ClassCastException if the cause is not assignable 
+     * @throws ClassCastException if the cause is not assignable 
      * to the type SQLException.
      * @since 4.1.7
      */

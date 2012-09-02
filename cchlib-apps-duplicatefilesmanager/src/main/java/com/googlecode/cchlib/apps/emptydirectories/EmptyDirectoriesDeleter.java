@@ -26,7 +26,7 @@ public class EmptyDirectoriesDeleter
      * Create an EmptyDirectoriesFinder object.
      * <br/>
      * Does not start search of empty directories, you must
-     * call {@link #compute()} to start this task.
+     * call {@link #lookup()} to start this task.
      *
      * @param rootFiles
      */
@@ -56,7 +56,6 @@ public class EmptyDirectoriesDeleter
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
      *
-     * @return current object for initialization chaining
      * @throws CancelRequestException
      */
     @Override
@@ -68,7 +67,6 @@ public class EmptyDirectoriesDeleter
     /**
      * Clear previous list and compute current list of empty directories
      * @param excludeDirectoriesFile {@link FileFilter} to identify directories to exclude.
-     * @return current object for initialization chaining
      * @throws CancelRequestException
      */
     @Override
@@ -85,7 +83,6 @@ public class EmptyDirectoriesDeleter
      * @param listener A valid {@link EmptyDirectoriesListener}
      * @throws NullPointerException if listener is null.
      */
-//    @Override
     public void addListener( final EmptyDirectoriesListener listener )
     {
         this.emptyDirectoriesFinder.addListener( listener );
@@ -96,7 +93,6 @@ public class EmptyDirectoriesDeleter
      *
      * @param listener A {@link EmptyDirectoriesListener} object
      */
-//  @Override
     public void removeListener( final EmptyDirectoriesListener listener )
     {
         this.emptyDirectoriesFinder.removeListener( listener );

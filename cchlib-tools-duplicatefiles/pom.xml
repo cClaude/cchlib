@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>cchlib-tools-duplicatefiles</artifactId>
-  <name>cchlib-tools-duplicatefiles</name>
+  <name>obsolete-cchlib-tools-duplicatefiles</name>
   <packaging>jar</packaging>
   <description>Tools based on cchlib.</description>
   <url>http://choisnet.ath.cx/cchlib/</url>

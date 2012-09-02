@@ -108,6 +108,7 @@
           </links>
           <show>protected</show>
           <source>${project.javadoc.source.version}</source>
+          <target>${project.javadoc.source.version}</target>
       </configuration>
       </plugin>
     </plugins>

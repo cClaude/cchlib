@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
 import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.lang.Enumerable;
 import cx.ath.choisnet.util.CancelRequestException;
 
 /**
@@ -23,12 +24,12 @@ public class DefaultEmptyDirectoriesLookup
     private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
 
     /**
-     * Create an EmptyDirectoriesFinder object.
+     * Create an {@link DefaultEmptyDirectoriesLookup} object.
      * <br/>
      * Does not start search of empty directories, you must
-     * call {@link #compute()} to start this task.
+     * call {@link #lookup()} to start this task.
      *
-     * @param rootFiles
+     * @param rootFiles Array of root {@link File} objects
      */
     public DefaultEmptyDirectoriesLookup( File...rootFiles )
     {
@@ -39,21 +40,26 @@ public class DefaultEmptyDirectoriesLookup
             }
     }
 
-    public DefaultEmptyDirectoriesLookup( Enumeration<File> rootFilesEnumeration )
+    /**
+     * Create an {@link DefaultEmptyDirectoriesLookup} object.
+     * 
+     * @param rootFiles {@link Enumerable} of root {@link File} objects
+     */
+    public DefaultEmptyDirectoriesLookup( Enumerable<File> rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>();
 
-        while( rootFilesEnumeration.hasMoreElements() ) {
-            this.rootFilesForScan.add( rootFilesEnumeration.nextElement() );
+        Enumeration<File> enumeration = rootFiles.enumeration();
+        
+        while( enumeration.hasMoreElements() ) {
+            this.rootFilesForScan.add( enumeration.nextElement() );
             }
     }
 
     /**
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
-     *
-     * @return current object for initialization chaining
-     * @throws CancelRequestException
+     * @throws CancelRequestException if any listeners ask to cancel operation
      */
     @Override
     public void lookup() throws CancelRequestException
@@ -61,15 +67,13 @@ public class DefaultEmptyDirectoriesLookup
         lookup( FileFilterHelper.falseFileFilter() );
     }
 
-
     /**
      * Clear previous list and compute current list of empty directories
      * @param excludeDirectoriesFile {@link FileFilter} to identify directories to exclude.
-     * @return current object for initialization chaining
-     * @throws CancelRequestException
+     * @throws CancelRequestException if any listeners ask to cancel operation
      */
     @Override
-    public void lookup( FileFilter excludeDirectoriesFile )
+    public void lookup( final FileFilter excludeDirectoriesFile )
         throws CancelRequestException
     {
         for( EmptyDirectoriesListener l : this.listeners ) {
@@ -90,7 +94,7 @@ public class DefaultEmptyDirectoriesLookup
     /**
      * Launch scan for this folder.
      * @param folder Folder file to scan
-     * @throws CancelRequestException
+     * @throws CancelRequestException if any listeners ask to cancel operation
      */
     private void doScan( File folder ) throws CancelRequestException
     {

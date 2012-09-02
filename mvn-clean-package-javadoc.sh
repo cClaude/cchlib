@@ -113,20 +113,27 @@ mvnJavadoc()
 # main
 #
 ##########################################################
-mvnClean
-mvnCompile
-mvnPackage
+#mvnClean
+#mvnCompile
+#mvnPackage
 mvnJavadoc
 
 echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
 echo "------------------------------------------"
 
-cat "${LOGS_JAVADOC}" | sort | uniq | grep -v -F "[ERROR] Error fetching link:" | grep -v -F "@wbp.factory is an unknown tag." | grep -F "[WARNING]
+cat "${LOGS_JAVADOC}" | sort | uniq \
+| grep -v -F "[ERROR] Error fetching link:" \
+| grep -v -F "@wbp.factory is an unknown tag." \
+| grep -v -F "@wbp.factory.parameter.source is an unknown tag." \
+| grep -F "[WARNING]
 [ERROR]" >"${LOGS_TMP}"
 
-cat "${LOGS_TMP}" | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"
-cat "${LOGS_TMP}" | grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.others"
+cat "${LOGS_TMP}" \
+| grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"
+
+cat "${LOGS_TMP}" \
+| grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.others"
 
 #
 # javadoc:jar
@@ -151,20 +158,20 @@ PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
 cchlib-j2ee
+cchlib-j2ee-deprecated
 cchlib-jdbf
 cchlib-sys
 cchlib-tools
 cchlib-swing
 cchlib-swing-deprecated"
-#cchlib-j2ee-deprecated
 
 PROJECTS_WITH_DOC="cchlib-core
-cchlib-core-deprecated
 cchlib-j2ee
 cchlib-jdbf
 cchlib-sys
-cchlib-swing
-cchlib-swing-deprecated"
+cchlib-swing"
+#cchlib-swing-deprecated
+#cchlib-core-deprecated
 
 PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
 

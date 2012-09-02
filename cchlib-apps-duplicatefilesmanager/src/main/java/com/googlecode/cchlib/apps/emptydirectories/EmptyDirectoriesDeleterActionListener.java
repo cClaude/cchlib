@@ -4,16 +4,14 @@ import java.io.File;
 import java.util.EventListener;
 
 /**
- *
- *
+ * TODOC
  */
 public interface EmptyDirectoriesDeleterActionListener
     extends EventListener
 {
     /**
-     *
-     * @param emptyFolderFile
-     * @return
+     * TODOC
+     * @param emptyFolderFile TODOC
      */
     public void workingOn( File emptyFolderFile );
 }

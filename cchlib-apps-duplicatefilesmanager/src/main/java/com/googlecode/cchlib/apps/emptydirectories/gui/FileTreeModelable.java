@@ -52,14 +52,14 @@ public interface FileTreeModelable extends TreeModel
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Iterable<File> selectedFiles();
 
     /**
      *
      * @param emptyDirectoryFile
-     * @return
+     * @return TODOC
      */
     public boolean add( File emptyDirectoryFile );
 

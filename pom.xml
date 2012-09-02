@@ -83,6 +83,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.0.2</version>
         <configuration>
+          <verbose />
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
@@ -104,7 +105,6 @@
           <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
           <links>
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
-            <!-- link>http://download.oracle.com/javaee/6/api/</link -->
           </links>
           <show>protected</show>
           <source>${project.javadoc.source.version}</source>

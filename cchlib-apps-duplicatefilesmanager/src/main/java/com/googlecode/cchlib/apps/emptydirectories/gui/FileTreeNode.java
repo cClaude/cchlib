@@ -9,7 +9,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * TODOC
  */
 public class FileTreeNode
     extends DefaultMutableTreeNode
@@ -44,8 +44,8 @@ public class FileTreeNode
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     final // TODO: remove this line
     public File getFile()
@@ -53,29 +53,9 @@ public class FileTreeNode
         return this.file;
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    final// TODO: remove this line
-//    public boolean isSelected()
-//    {
-//        return this.selected;
-//    }
-
-//    /**
-//     *
-//     * @return
-//     */
-//    final// TODO: remove this line
-//    public void setSelected( boolean selected )
-//    {
-//        this.selected = selected;
-//    }
-
     /**
      *
-     * @return
+     * @return TODOC
      */
     final // TODO: remove this line
     public File getData_()
@@ -112,7 +92,7 @@ public class FileTreeNode
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     final // TODO: remove this line
     public int getDepthFromRoot()
@@ -132,7 +112,7 @@ public class FileTreeNode
      * Create a child node on this node.
      *
      * @param file
-     * @return
+     * @return TODOC
      */
     final // TODO: remove this line
     public FileTreeNode add( final File file )

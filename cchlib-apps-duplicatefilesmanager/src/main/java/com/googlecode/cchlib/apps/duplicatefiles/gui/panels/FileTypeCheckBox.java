@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.swing.JCheckBox;
 
 /**
- *
+ * TODOC
  */
 public class FileTypeCheckBox implements Serializable
 {
@@ -15,9 +15,9 @@ public class FileTypeCheckBox implements Serializable
     private String data;
 
     /**
-     *
-     * @param description
-     * @param data
+     * TODOC
+     * @param description TODOC
+     * @param data TODOC
      */
     public FileTypeCheckBox(
             final String description,
@@ -29,10 +29,10 @@ public class FileTypeCheckBox implements Serializable
     }
 
     /**
-     *
-     * @param description
-     * @param data
-     * @param listener
+     * TODOC
+     * @param description TODOC
+     * @param data TODOC
+     * @param listener TODOC
      */
     public FileTypeCheckBox(
             final String            description,
@@ -46,8 +46,8 @@ public class FileTypeCheckBox implements Serializable
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public JCheckBox getJCheckBox()
     {
@@ -58,8 +58,8 @@ public class FileTypeCheckBox implements Serializable
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public final String getDescription()
     {
@@ -67,8 +67,8 @@ public class FileTypeCheckBox implements Serializable
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public final String getData()
     {

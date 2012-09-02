@@ -82,9 +82,9 @@ abstract class AbstractFileTreeModel
     }
 
     /**
-     *
-     * @param f
-     * @return
+     * TODOC
+     * @param file TODOC
+     * @return TODOC
      */
     @Override //FileTreeModelable
     final
@@ -140,15 +140,15 @@ abstract class AbstractFileTreeModel
     /**
      * Add entry, and return parent node.
      *
-     * @param file Entry to add
+     * @param path Entry to add
      * @return parent node, null if already in tree
      */
     protected abstract FileTreeNode privateAdd( final FilePath path );
 
     /**
-     *
-     * @param file
-     * @return
+     * TODOC
+     * @param file TODOC
+     * @return TODOC
      */
     final
     public FileTreeNode lookupNode( final File file )
@@ -166,9 +166,9 @@ abstract class AbstractFileTreeModel
     }
 
     /**
-     * Returns the best {@link SimpleTreeNode} for this {@link FileNode}
-     * @param fileNode to lookup in tree
-     * @return the best {@link SimpleTreeNode} for this {@link FileNode}, if
+     * Returns the best {@link FileTreeNode} for this {@link FilePath}
+     * @param pathToFind path to lookup in tree
+     * @return the best {@link FileTreeNode} for this {@link FilePath}, if
      * even did not match with root tree.
      */
     protected abstract FileTreeNode bestLookupNode( final FilePath pathToFind );
@@ -199,14 +199,6 @@ abstract class AbstractFileTreeModel
             }
 
         return false;
-//        if( path != null ) {
-//            Object          value   = path.getLastPathComponent();
-//            FileTreeNode    node    = FileTreeNode.class.cast( value );
-//
-//            return node.isLeaf();
-//            }
-//
-//        return false;
     }
 
     @Override // FileTreeModelable
@@ -294,35 +286,6 @@ abstract class AbstractFileTreeModel
                 if( pairs[i] == TreeModelListener.class ) {
                     if( e == null ) {
                         e = new TreeModelEvent(this, parentPath, null, null);
-                        //e = new TreeModelEvent(this, parentPath, new int[0], new Object[0])
-//                        e = new TreeModelEvent(this, parentPath, null, null);
-//                        {
-//                            private static final long serialVersionUID = 1L;
-//                            @Override
-//                            public int[] getChildIndices()
-//                            {
-//                                AbstractFileTreeModel.logger.debug( "getChildIndices() " + parentPath );
-//                                return super.getChildIndices();
-//                            }
-//                            @Override
-//                            public Object[] getChildren()
-//                            {
-//                                AbstractFileTreeModel.logger.debug( "getChildren() " + parentPath );
-//                                return super.getChildren();
-//                            }
-//                            @Override
-//                            public Object[] getPath()
-//                            {
-//                                AbstractFileTreeModel.logger.debug( "getPath() " + parentPath );
-//                                return super.getPath();
-//                            }
-//                            @Override
-//                            public TreePath getTreePath()
-//                            {
-//                                AbstractFileTreeModel.logger.debug( "getTreePath() " + parentPath );
-//                                return super.getTreePath();
-//                            }
-//                        };
                         }
 
                     TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );

@@ -22,7 +22,7 @@ public class PropertiesXComboBoxPatternBuilder
 
     /**
      *
-     * @param properties
+     * @param propertiesFile
      * @param keyPrefix
      */
     public PropertiesXComboBoxPatternBuilder(
@@ -49,18 +49,18 @@ public class PropertiesXComboBoxPatternBuilder
 
     /**
      *
-     * @param properties
+     * @param propertiesFile
      * @param keyPrefix
      * @throws IOException
      */
     public PropertiesXComboBoxPatternBuilder(
-       final File 	file,
+       final File 	propertiesFile,
        final String keyPrefix
        ) throws IOException
     {
-        this( new PropertiesFile( file ), keyPrefix );
+        this( new PropertiesFile( propertiesFile ), keyPrefix );
 
-        file.deleteOnExit();
+        propertiesFile.deleteOnExit();
     }
 
     /**

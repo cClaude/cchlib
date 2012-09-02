@@ -17,8 +17,7 @@ public class XComboBoxPatternBuilder implements Serializable
     private ArrayList<String> 	regExpList	= new ArrayList<String>();
 
     /**
-     * @param errorColor
-     * @param regExps
+     * 
      */
     public XComboBoxPatternBuilder()
     {
@@ -28,7 +27,7 @@ public class XComboBoxPatternBuilder implements Serializable
     /**
      *
      * @param errorColor
-     * @return
+     * @return current object for chaining initialization
      */
     public XComboBoxPatternBuilder setErrorColor(
         final Color errorColor
@@ -41,7 +40,7 @@ public class XComboBoxPatternBuilder implements Serializable
     /**
      *
      * @param regExps
-     * @return
+     * @return current object for chaining initialization
      */
     public XComboBoxPatternBuilder add(
         final String...regExps
@@ -57,7 +56,7 @@ public class XComboBoxPatternBuilder implements Serializable
     /**
      *
      * @param regExpCollection
-     * @return
+     * @return current object for chaining initialization
      */
     public XComboBoxPatternBuilder add(
         final Collection<String> regExpCollection
@@ -70,7 +69,7 @@ public class XComboBoxPatternBuilder implements Serializable
     /**
      *
      * @param pattern
-     * @return
+     * @return current object for chaining initialization
      */
     public XComboBoxPatternBuilder add( final Pattern pattern )
     {
@@ -82,7 +81,7 @@ public class XComboBoxPatternBuilder implements Serializable
     /**
      *
      * @param patternCollection
-     * @return
+     * @return current object for chaining initialization
      */
     public XComboBoxPatternBuilder addPatternCollection(
         final Collection<Pattern> patternCollection
@@ -95,8 +94,9 @@ public class XComboBoxPatternBuilder implements Serializable
     }
 
     /**
-     *
-     * @return
+     * Returns a new XComboBoxPattern according to
+     * giving configuration.
+     * @return new XComboBoxPattern
      */
     public XComboBoxPattern createXComboBoxPattern()
     {

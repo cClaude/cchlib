@@ -91,8 +91,8 @@ class FileTreeModel2
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     private FileTreeNode getRootNodeForRootFile( final File fileRoot )
     {
@@ -111,8 +111,8 @@ class FileTreeModel2
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     final public FileTreeNode getRootNodeForThisFilePath( final FilePath filePath )
     {
@@ -120,8 +120,8 @@ class FileTreeModel2
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     final public FileTreeNode getRootNodeForFile( final File file )
     {
@@ -137,7 +137,7 @@ class FileTreeModel2
     /**
      * Add entry, and return parent node.
      *
-     * @param file Entry to add
+     * @param path Entry to add
      * @return parent node, null if already in tree
      */
     protected final FileTreeNode privateAdd( final FilePath path )
@@ -230,9 +230,9 @@ class FileTreeModel2
     }
 
     /**
-     * Returns the best {@link SimpleTreeNode} for this {@link FileNode}
-     * @param fileNode to lookup in tree
-     * @return the best {@link SimpleTreeNode} for this {@link FileNode}, if
+     * Returns the best {@link FileTreeNode} for this {@link FilePath}
+     * @param pathToFind to lookup in tree
+     * @return the best {@link FileTreeNode} for this {@link FilePath}, if
      * even did not match with root tree.
      */
     final
@@ -280,19 +280,6 @@ class FileTreeModel2
     private FileTreeNode lookupNodeInChild( FileTreeNode node, File f )
     {
         if( node == null ) {
-//            if( root == null ) {
-//                // no root
-//                return null;
-//                }
-//
-//            // Compare file and node data
-//            if( getRootNode().getFile().equals( f ) ) {
-//                return getRootNode();
-//                }
-//            else {
-//                // this file is not root.
-//                return null;
-//                }
         return getRootNodeForFile( f );
         }
 

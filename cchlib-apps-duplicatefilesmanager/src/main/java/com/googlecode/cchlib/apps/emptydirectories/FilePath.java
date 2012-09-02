@@ -6,16 +6,15 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- *
- *
+ * TODOC
  */
 public class FilePath implements Iterable<File>
 {
     private File[] path;
 
     /**
-     *
-     * @param file
+     * TODOC
+     * @param file TODOC
      */
     public FilePath( File file )
     {
@@ -31,9 +30,9 @@ public class FilePath implements Iterable<File>
     }
 
     /**
-     *
-     * @param index
-     * @return
+     * TODOC
+     * @param index TODOC
+     * @return TODOC
      * @throws  NoSuchElementException if index is out of bounds
      */
     public File getFilePart( final int index )
@@ -44,16 +43,16 @@ public class FilePath implements Iterable<File>
             }
         catch( ArrayIndexOutOfBoundsException e ) {
             NoSuchElementException ne = new NoSuchElementException();
-            
+
             ne.initCause( e );
-            
+
             throw ne;
             }
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public File getFile()
     {
@@ -61,8 +60,8 @@ public class FilePath implements Iterable<File>
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public File getRootFile()
     {
@@ -70,8 +69,8 @@ public class FilePath implements Iterable<File>
     }
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public int size()
     {
@@ -85,9 +84,9 @@ public class FilePath implements Iterable<File>
     }
 
     /**
-     *
-     * @param firstElementIndex
-     * @return
+     * TODOC
+     * @param firstElementIndex TODOC
+     * @return TODOC
      */
     public Iterable<File> startFrom( final int firstElementIndex )
     {
@@ -119,9 +118,6 @@ public class FilePath implements Iterable<File>
         };
     }
 
-    /**
-     *
-     */
     @Override
     public Iterator<File> iterator()
     {

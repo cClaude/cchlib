@@ -1,4 +1,4 @@
-package bricolage201202;
+package alpha.bricolage201202;
 
 import java.applet.Applet;
 import java.applet.AppletContext;

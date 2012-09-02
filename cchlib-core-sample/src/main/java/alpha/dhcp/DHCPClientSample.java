@@ -1,4 +1,4 @@
-package samples.alpha;
+package alpha.dhcp;
 
 import com.googlecode.cchlib.net.dhcp.DHCPParameters;
 import com.googlecode.cchlib.net.dhcp.DHCPSimpleClient;

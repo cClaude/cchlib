@@ -334,13 +334,13 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         return list;
     }
 
-    public DefaultListModel<File> getJListRootDirectoriesModel()
+    public MyDefaultListModel<File> getJListRootDirectoriesModel()
     {
         JList<File>     list    = getJListRootDirectories();
         ListModel<File> lmodel = list.getModel();
 
         @SuppressWarnings("unchecked")
-        DefaultListModel<File> model = DefaultListModel.class.cast( lmodel );
+        MyDefaultListModel<File> model = MyDefaultListModel.class.cast( lmodel );
         return model;
     }
 

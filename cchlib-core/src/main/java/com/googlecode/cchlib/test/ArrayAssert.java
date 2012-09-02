@@ -19,7 +19,6 @@ public class ArrayAssert
      * Asserts that two arrays are equal. If they 
      * are not, an AssertionError is thrown.
      * 
-     * @param message the identifying message for the AssertionError (null okay)
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
      */

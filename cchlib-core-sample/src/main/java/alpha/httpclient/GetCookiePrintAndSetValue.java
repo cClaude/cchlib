@@ -1,4 +1,4 @@
-package httpclient;
+package alpha.httpclient;
 
 import org.apache.commons.httpclient.Cookie;
 //import org.apache.commons.httpclient.HttpState;

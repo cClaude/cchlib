@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>cchlib-apps-editresourcebundle</artifactId>
-  <name>cchlib-apps-editresourcebundle</name>
+  <name>EditResourcesBundle</name>
   <packaging>jar</packaging>
   <description>Tools based on cchlib</description>
   <url>http://choisnet.ath.cx/cchlib/</url>

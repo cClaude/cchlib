@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import java.io.File;
-import javax.swing.DefaultListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
@@ -14,7 +13,7 @@ import cx.ath.choisnet.util.CancelRequestException;
 public class FindDeleteAdapter
 {
     private final static Logger logger = Logger.getLogger( FindDeleteAdapter.class );
-    private DefaultListModel<File> listModel;
+    private MyDefaultListModel<File> listModel;
     private FileTreeModelable treeModel;
     private FindDeleteListener listener;
     private boolean isCancel;
@@ -23,7 +22,7 @@ public class FindDeleteAdapter
      *
      */
     public FindDeleteAdapter(
-        final DefaultListModel<File>    listModel,
+        final MyDefaultListModel<File>  listModel,
         final FileTreeModelable         treeModel,
         final FindDeleteListener        listener
         )
@@ -77,7 +76,7 @@ public class FindDeleteAdapter
 
 //        final DefaultListModel<File>    jListRootModel  = super.getJListRootDirectoriesModel();
 //        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( jListRootModel.elements() );
-        final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel.elements() );
+        final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel );
         final UpdateJTreeListeners          listener    = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );

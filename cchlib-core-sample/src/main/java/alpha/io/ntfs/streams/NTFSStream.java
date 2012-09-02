@@ -1,4 +1,4 @@
-package samples.alpha;
+package alpha.io.ntfs.streams;
 
 import java.io.File;
 import java.io.FileInputStream;

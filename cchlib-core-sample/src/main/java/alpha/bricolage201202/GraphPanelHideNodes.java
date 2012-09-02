@@ -1,4 +1,4 @@
-package bricolage201202;
+package alpha.bricolage201202;
 
 import java.awt.FontMetrics;
 import java.awt.Graphics;
