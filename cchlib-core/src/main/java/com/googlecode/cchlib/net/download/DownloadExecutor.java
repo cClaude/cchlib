@@ -84,15 +84,18 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURLs      {@link Collection} of {@link URL} to download.
-     * @param eventHandler      A valid {@link DownloadEvent}.
+     * @param eventHandler  A valid {@link DownloadEvent} according
+     *        to {@link DownloadURL#getType()}
      * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToString
      */
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
             final DownloadEvent                     eventHandler
             )
-        throws RejectedExecutionException
+        throws  RejectedExecutionException, 
+                DownloadConfigurationException
     {
         for( DownloadURL u: downloadURLs ) {
             addDownload( u, eventHandler );
@@ -106,15 +109,18 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURLs  {@link Iterable} of {@link URL} to download.
-     * @param eventHandler   A valid {@link DownloadEvent}.
+     * @param eventHandler  A valid {@link DownloadEvent} according
+     *        to {@link DownloadURL#getType()}
      * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToString
      */
     public void add(
             final Iterable<DownloadURL> downloadURLs,
             final DownloadEvent         eventHandler
             )
-        throws RejectedExecutionException
+        throws  RejectedExecutionException, 
+                DownloadConfigurationException
     {
         for( DownloadURL u: downloadURLs ) {
             addDownload( u, eventHandler );
@@ -127,32 +133,60 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param downloadURL           A valid {@link DownloadURL}.
-     * @param eventHandler          A valid {@link DownloadEvent}.
+     * @param downloadURL   A valid {@link DownloadURL}.
+     * @param eventHandler  A valid {@link DownloadEvent} according
+     *        to {@link DownloadURL#getType()}
      * @throws RejectedExecutionException if task cannot be accepted for execution
+     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      */
     public void addDownload(
             final DownloadURL       downloadURL,
             final DownloadEvent     eventHandler
             )
-        throws RejectedExecutionException
+        throws  RejectedExecutionException,
+                DownloadConfigurationException
     {
         Runnable command;
 
         switch( downloadURL.getType() ) {
             case STRING:
-                command = new DownloadToString( downloadURL, eventHandler );
+                {
+                    if( downloadURL instanceof DownloadStringURL ) {
+                        DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
+
+                        command = new DownloadToString( downloadStringURL, eventHandler );
+                        }
+                    else {
+                        throw new BadDownloadURLException();
+                        }
+                }
                 break;
 
-            default:
-                command = new DownloadToFile( downloadURL, eventHandler, downloadFilterBuilder );
+            default: 
+                {
+                    if( downloadURL instanceof DownloadFileURL ) {
+                        DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
+
+                        if( eventHandler instanceof DownloadFileEvent ) {
+                            DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
+                            
+                            command = new DownloadToFile( downloadFileURL, fileEventHandler , downloadFilterBuilder );
+                            }
+                        else {
+                            throw new BadDownloadEventException();
+                            }
+                        }
+                    else {
+                        throw new BadDownloadURLException();
+                        }
+                }
                 break;
             }
 
         pool.execute( command );
     }
-
+    
     /**
      * Blocks until all tasks have completed execution
      * <p>

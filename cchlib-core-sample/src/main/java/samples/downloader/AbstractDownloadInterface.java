@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  *
@@ -91,17 +91,17 @@ public abstract class AbstractDownloadInterface
      * @return TODOC
      * @throws MalformedURLException
      */
-    abstract public StringDownloadURL getStringDownloadURL( final int pageNumber )
+    abstract public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException;
 
     @Override// GenericDownloaderAppInterface
-    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
+    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
-        final List<StringDownloadURL> sdURLList = new ArrayList<StringDownloadURL>();
+        final List<DownloadStringURL> sdURLList = new ArrayList<DownloadStringURL>();
 
         for( int i=1; i<= getPageCount(); i++ ) {
-            sdURLList.add( getStringDownloadURL( i ) );
+            sdURLList.add( getDownloadStringURL( i ) );
             }
 
         return sdURLList;
@@ -116,7 +116,7 @@ public abstract class AbstractDownloadInterface
      * @throws MalformedURLException
      */
     abstract
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException;
 
     public interface RegExgSplitter
@@ -150,13 +150,13 @@ public abstract class AbstractDownloadInterface
      * @see AbstractDownloadInterface#getDownloadURLFrom(String, int)
      */
     final//FIXME remove this
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
         final String                        content2Parse,
         final RegExgSplitter[]              regexps
         )
     {
-        final Set<FileDownloadURL> imagesURLCollection = new HashSet<FileDownloadURL>();
+        final Set<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
 
         for( RegExgSplitter regexp : regexps ) {
             final String[] strs = content2Parse.toString().split( regexp.getBeginRegExp() );

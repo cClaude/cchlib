@@ -36,37 +36,10 @@ public final class IOHelper
     }
 
     /**
-     * Copy a File to an other File
+     * Copy a file to an other file (using internal buffer)
      *
-     * @param inputFile     File to copy
-     * @param outputFile    File to receive inputFile content.
-     * @param buffer        Buffer to use for copy
-     * @throws IOException if any IO occurred
-     */
-    public static void copy(
-            final File  inputFile,
-            final File  outputFile,
-            byte[]      buffer
-            )
-        throws IOException
-    {
-        InputStream  input  = new BufferedInputStream(new FileInputStream(inputFile));
-        OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-        try {
-            copy(input, output, buffer);
-            }
-        finally {
-            try { input.close();  } catch(Exception ignore) {}
-            try { output.close(); } catch(Exception ignore) {}
-            }
-    }
-
-    /**
-     * Copy a File to an other File
-     *
-     * @param inputFile     File to copy
-     * @param outputFile    File to receive inputFile content.
+     * @param inputFile     {@link File} to copy
+     * @param outputFile    {@link File} to receive inputFile content.
      * @throws IOException if any IO occurred
      */
     public static void copy( final File inputFile, final File outputFile )
@@ -76,38 +49,103 @@ public final class IOHelper
     }
 
     /**
-     * Copy an InputStream to a File
+     * Copy a file to an other file using giving buffer
      *
-     * @param is            InputStream to copy
-     * @param outputFile    File to receive InputStream content.
-     * @throws IOException if any IO occurred
+     * @param inputFile     {@link File} to copy
+     * @param outputFile    {@link File} to receive inputFile content.
+     * @param buffer        Buffer to use for copy
+     * @throws IOException if an I/O error occurs. 
      */
-    public static void copy( final InputStream is, final File outputFile )
+    public static void copy(
+            final File  inputFile,
+            final File  outputFile,
+            byte[]      buffer
+            )
         throws IOException
     {
-        OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
+        final InputStream input = new BufferedInputStream(
+                new FileInputStream( inputFile )
+                );
 
         try {
-            copy(is, output, DEFAULT_BUFFER_SIZE);
+            copy(input, outputFile, buffer);
             }
         finally {
-            try { output.close(); } catch(Exception ignore) { }
+            try { input.close();  } catch(IOException ignore) {}
             }
     }
 
     /**
-     * Copy a String into a File
+     * Copy {@link InputStream} content to a File
      *
-     * @param file  File to create
-     * @param s     String to store into file.
-     * @throws IOException if any IO occurred
+     * @param input         {@link InputStream} to copy
+     * @param outputFile    {@link File} to receive input content.
+     * @param buffer        Buffer to use for copy
+     * @throws IOException if an I/O error occurs. 
+     * @since 4.1.7
      */
-    public static void toFile( File file, String s ) throws IOException
+    public static void copy(
+            final InputStream   input,
+            final File          outputFile,
+            byte[]              buffer
+            )
+        throws IOException
     {
-        FileWriter fos = new FileWriter( file );
+        final OutputStream output = new BufferedOutputStream(
+                new FileOutputStream( outputFile )
+                );
 
         try {
-            fos.write( s );
+            copy( input, output, buffer );
+            }
+        finally {
+            try { output.close(); } catch(IOException ignore) {}
+            }
+    }
+    
+
+    /**
+     * Copy an {@link InputStream} to a File
+     *
+     * @param input        {@link InputStream} to copy
+     * @param outputFile   {@link File} to receive InputStream content.
+     * @throws IOException if an I/O error occurs. 
+     */
+    public static void copy(
+            final InputStream   input, 
+            final File          outputFile 
+            )
+        throws IOException
+    {
+        copy( input, outputFile, new byte[ DEFAULT_BUFFER_SIZE ]);
+    }
+
+    /**
+     * @deprecated use {@link #toFile(String, File)} instead
+     */
+    public static void toFile( final File file, final String str ) throws IOException
+    {
+        toFile( str, file );
+    }
+    
+    
+    /**
+     * Copy a String into a File
+     *
+     * @param str   String to store into file.
+     * @param file  {@link File} to create
+     * @throws IOException if an I/O error occurs. 
+     */
+    public static void toFile(
+            final String str, 
+            final File   file 
+            ) 
+        throws IOException
+    {
+        final FileWriter fos = new FileWriter( file );
+
+        try {
+            fos.write( str );
             }
         finally {
             fos.close();
@@ -117,17 +155,17 @@ public final class IOHelper
     /**
      * Delete all files and folders giving folder
      *
-     * @param rootDirFile a valid File object (could be a File or a Directory)
+     * @param rootDirFile a valid {@link File} object (could be a File or a Directory)
      * @throws FileDeleteException if any error occur during delete process
      */
-    public static void deleteTree( File rootDirFile )
+    public static void deleteTree( final File rootDirFile )
         throws FileDeleteException
     {
         if( !rootDirFile.exists() ) {
             return;
             }
 
-        File[] files = rootDirFile.listFiles();
+        final File[] files = rootDirFile.listFiles();
 
         if( files != null ) {
             for(File f : files) {
@@ -145,21 +183,22 @@ public final class IOHelper
         }
 
         boolean res = rootDirFile.delete();
+        
         if( !res ) {
             throw new FileDeleteException(rootDirFile);
             }
     }
 
     /**
-     * Wrap an Iterator on a File array and apply a filter
+     * Wrap an Iterator on a {@link File} array and apply a filter
      *
      * @param files
      * @param fileFilter
      * @return a file Iterator
      */
     public static Iterator<File> toIterator(
-            File[]     files,
-            FileFilter fileFilter
+            final File[]     files,
+            final FileFilter fileFilter
             )
     {
         return new IteratorFilter<File>(
@@ -173,12 +212,12 @@ public final class IOHelper
      *
      * @param file File to read
      * @return content of File
-     * @throws IOException  if any error occur
+     * @throws IOException if an I/O error occurs. 
      */
-    public static String toString( File file )
+    public static String toString( final File file )
         throws IOException
     {
-        Reader r = new FileReader( file );
+        final Reader r = new FileReader( file );
 
         try {
             return toString( r );
@@ -194,7 +233,7 @@ public final class IOHelper
      *
      * @param input {@link InputStream} to read
      * @return content of {@link InputStream}
-     * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
      */
     public static byte[] toByteArray( final InputStream input )
         throws IOException
@@ -213,7 +252,7 @@ public final class IOHelper
      * @param input  {@link Reader} to read from
      * @param output {@link Writer} to write to
      * @param buffer Buffer to use for copy
-     * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
             final InputStream   input,
@@ -224,21 +263,20 @@ public final class IOHelper
     {
         int len;
 
-        while((len = input.read(buffer)) != -1) {
-            output.write(buffer, 0, len);
+        while( ( len = input.read( buffer ) ) != -1 ) {
+            output.write( buffer, 0, len );
             }
 
         output.flush();
     }
 
     /**
-     *
      * Copy input content to output.
      *
-     * @param input  {@link Reader} to read from
-     * @param output {@link Writer} to write to
+     * @param input  {@link InputStream} to read from
+     * @param output {@link OutputStream} to write to
      * @param bufferSize Buffer size to use for copy
-     * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
             final InputStream   input,
@@ -247,16 +285,16 @@ public final class IOHelper
             )
         throws IOException
     {
-        copy(input, output, new byte[bufferSize] );
+        copy( input, output, new byte[ bufferSize ] );
     }
 
     /**
     *
     * Copy input content to output.
     *
-    * @param input  {@link Reader} to read from
-    * @param output {@link Writer} to write to
-    * @throws IOException if any
+    * @param input  {@link InputStream} to read from
+    * @param output {@link OutputStream} to write to
+     * @throws IOException if an I/O error occurs. 
     */
     public static void copy(
             final InputStream   input,
@@ -274,7 +312,7 @@ public final class IOHelper
      * @param is1   an {@link InputStream}
      * @param is2   an other {@link InputStream}
      * @return true if content (and size) of {@link InputStream} are equals.
-     * @throws IOException if any IO error occur.
+     * @throws IOException if an I/O error occurs. 
      */
     public final static boolean isEquals( InputStream is1, InputStream is2 )
         throws IOException
@@ -299,7 +337,7 @@ public final class IOHelper
      * @param is    an {@link InputStream}
      * @param bytes an array of bytes
      * @return true if content (and size) of {@link InputStream} is equals to array content.
-     * @throws IOException if any IO error occur.
+     * @throws IOException if an I/O error occurs. 
      */
     public static boolean isEquals( final InputStream is, final byte[] bytes )
         throws IOException
@@ -325,7 +363,7 @@ public final class IOHelper
      *
      * @param input Reader to read
      * @return content of Reader
-     * @throws IOException
+     * @throws IOException if an I/O error occurs. 
      */
    public static String toString( Reader input )
        throws IOException
@@ -353,7 +391,7 @@ public final class IOHelper
     * @param input  {@link Reader} to read from
     * @param output {@link Writer} to write to
     * @param buffer Buffer to use for copy
-    * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
     */
    public static void copy(
            final Reader input,
@@ -377,7 +415,7 @@ public final class IOHelper
     * @param input  {@link Reader} to read from
     * @param output {@link Writer} to write to
     * @param bufferSize Buffer size to use for copy
-    * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
     */
    public static void copy(
            final Reader   input,
@@ -394,11 +432,11 @@ public final class IOHelper
     *
     * @param input  {@link Reader} to read from
     * @param output {@link Writer} to write to
-    * @throws IOException if any
+     * @throws IOException if an I/O error occurs. 
     */
    public static void copy( final Reader input, final Writer output )
        throws IOException
    {
-       copy(input, output, DEFAULT_BUFFER_SIZE);
+       copy( input, output, DEFAULT_BUFFER_SIZE );
    }
 }

@@ -67,10 +67,6 @@ final public class DuplicateFilesFrame
     @I18nString private String txtBack      = "Back";
     @I18nString private String txtCancel            = "Cancel";
     @I18nString private String txtClearSelection    = "Clear selection";
-    //@I18nString private String msgStringSavePrefsExceptionTitle =
-    //@I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
-    //@I18nString private String msgStringDefaultLocale;
-    //@I18nString private String msgStringAlertLocaleTitle = "Change language";
 
     public DuplicateFilesFrame(
         final DFToolKit dfToolKit
@@ -123,12 +119,12 @@ final public class DuplicateFilesFrame
             logger.info( "I18n Init: locale = " + locale );
             logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundle() );
             }
+        
+        // Apply i18n !
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
+        performeI18n( autoI18n );
 
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
-
-        // Apply i18n !
-        performeI18n( autoI18n );
 
         // Init display
         initFixComponents();
@@ -363,7 +359,7 @@ final public class DuplicateFilesFrame
             public void run()
             {
                 if( removeEmptyDirectories == null ) {
-                    removeEmptyDirectories = RemoveEmptyDirectories.start( getDFToolKit() );
+                    removeEmptyDirectories = RemoveEmptyDirectories.createRemoveEmptyDirectoriesFrame( getDFToolKit(), autoI18n );
                     }
                 else {
                     removeEmptyDirectories.setVisible( true );

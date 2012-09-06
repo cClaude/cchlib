@@ -7,8 +7,9 @@ import java.util.Locale;
 import java.util.TooManyListenersException;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectories;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame;
 
 /**
  * Create resources bundles files
@@ -23,18 +24,20 @@ public class DuplicateFilesI18nPrep
 
         // Build frame
         DefaultDFToolKit    defaultDFToolKit    = new DefaultDFToolKit( preferences );
-        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame(defaultDFToolKit );
+        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame( defaultDFToolKit );
         defaultDFToolKit.setMainWindow( duplicateFilesFrame );
-  
         PrintStream         usageStatPrintStream    = System.err;
         PrintStream         notUsePrintStream       = System.out;
 
+        I18nAutoUpdatable[] otherFrames = {
+            new RemoveEmptyDirectories( defaultDFToolKit, null ),
+            };
         I18nPrepHelper.defaultPrep(
             locale,
             usageStatPrintStream,
             notUsePrintStream,
-            duplicateFilesFrame/*,
-            otherFrames*/
+            duplicateFilesFrame,
+            otherFrames 
             );
     }
 

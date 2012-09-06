@@ -5,6 +5,7 @@ import java.io.IOException;
 
 /**
  * Events while downloading.
+ * 
  * @since 4.1.7
  */
 public interface DownloadFileEvent extends DownloadEvent

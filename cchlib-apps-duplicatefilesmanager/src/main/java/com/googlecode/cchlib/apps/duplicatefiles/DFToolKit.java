@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 import java.awt.Window;
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
@@ -29,4 +30,5 @@ public interface DFToolKit extends Serializable
     public void initComponentsJPanelConfirm();
     public String getMessagesBundle();
     public Resources getResources();
+    public List<File> getRootDirectoriesList();
 }

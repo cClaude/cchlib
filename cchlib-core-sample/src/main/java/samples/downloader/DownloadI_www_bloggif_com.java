@@ -4,9 +4,10 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-//import org.apache.log4j.Logger;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  *
@@ -106,20 +107,20 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
+    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
-        ArrayList<StringDownloadURL> list = new ArrayList<StringDownloadURL>();
+        ArrayList<DownloadStringURL> list = new ArrayList<DownloadStringURL>();
 
         for( int i=1; i<getPageCount(); i++ ) {
-            list.add( new StringDownloadURL( htmlURLBase + i, null, getProxy() ) );
+            list.add( new DefaultDownloadStringURL( htmlURLBase + i, null, getProxy() ) );
             }
 
         return list;
     }
 
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
             String                          content2Parse
             )
@@ -130,7 +131,7 @@ public class DownloadI_www_bloggif_com
                 "<img class=\"img_progress ....\" src=\""
                 };
 
-        final Collection<FileDownloadURL> imagesURLCollection = new HashSet<FileDownloadURL>();
+        final Collection<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
 
         for( String regexp : regexps ) {
             String[] strs = content2Parse.toString().split( regexp );
@@ -142,7 +143,7 @@ public class DownloadI_www_bloggif_com
                 String  src = s.substring( 0, end );
 
                 //imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                imagesURLCollection.add( new FileDownloadURL( src, null, getProxy() ) );
+                imagesURLCollection.add( new DefaultDownloadFileURL( src, null, getProxy() ) );
                 }
             }
 
@@ -152,14 +153,14 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public StringDownloadURL getStringDownloadURL( int pageNumber )
+    public DownloadStringURL getDownloadStringURL( int pageNumber )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();

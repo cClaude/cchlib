@@ -4,7 +4,9 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.swing.JFileChooser;
@@ -202,6 +204,20 @@ public final class DefaultDFToolKit
     public Resources getResources()
     {
         return ResourcesLoader.getResources();
+    }
+
+    @Override
+    public List<File> getRootDirectoriesList()
+    {
+        List<File> list = new ArrayList<>();
+        
+        if( this.mainWindow != null ) {
+            for( File f : this.mainWindow.getJPanel0Select().entriesToScans() ) {
+                list.add( f );
+                }
+            }
+
+        return list;
     }
 
 

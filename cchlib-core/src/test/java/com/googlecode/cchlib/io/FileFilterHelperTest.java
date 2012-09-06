@@ -138,7 +138,7 @@ public class FileFilterHelperTest
     	Assert.assertFalse( "Should be empty", ff2.accept( f ));
 
     	// Now file is not empty
-    	IOHelper.toFile(f, "no empty");
+    	IOHelper.toFile( "not empty", f );
     	
     	Assert.assertFalse( "Should not be empty", ff1.accept( f ) );
     	Assert.assertTrue( "Should not be empty", ff2.accept( f ));

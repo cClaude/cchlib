@@ -4,6 +4,7 @@ import java.io.InputStream;
 import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
 
 /**
+ * TODOC
  * 
  * @since 4.1.7
  */

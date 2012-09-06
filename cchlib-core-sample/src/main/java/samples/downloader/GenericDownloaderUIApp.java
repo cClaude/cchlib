@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.net.download.DownloadIOException;
+import samples.downloader.display.table.DisplayTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -162,8 +162,11 @@ public class GenericDownloaderUIApp extends JFrame
                     final String cmd = event.getActionCommand();
                     
                     if( ACTION_QUIT.equals( cmd ) ) {
-                        // TODO !
                         // Simulate call to windows close !
+                        
+                        if( windowClosing() ) {
+                            windowClosed();
+                            }
                         }
                 }
             };
@@ -351,7 +354,7 @@ public class GenericDownloaderUIApp extends JFrame
         }
         {
             downloadThreadNumberSpinnerModel = new SpinnerNumberModel( DOWNLOAD_THREAD_NUMBER_DEFAULT, 1, DOWNLOAD_THREAD_NUMBER_MAX, 1 );
-            downloadThreadNumberJSpinner = new JSpinner( downloadThreadNumberSpinnerModel );
+            downloadThreadNumberJSpinner = new JSpinner( new SpinnerNumberModel(5, 1, 50, 1) );
             downloadThreadNumberJLabel.setLabelFor(downloadThreadNumberJSpinner);
             GridBagConstraints gbc_downloadThreadNumberJSpinner = new GridBagConstraints();
             gbc_downloadThreadNumberJSpinner.fill = GridBagConstraints.HORIZONTAL;
@@ -453,10 +456,9 @@ public class GenericDownloaderUIApp extends JFrame
                 }
             }
 
-        //displayJTextArea.setText( "" );
         displayJProgressBar.setIndeterminate( true );
         displayJProgressBar.setEnabled( true );
-        displayJProgressBar.setString( "Analyse URLs" );
+        displayJProgressBar.setString( "searching URLs to download" );
         displayJProgressBar.setStringPainted( true );
 
         displayTableModel.clear();
@@ -508,7 +510,6 @@ public class GenericDownloaderUIApp extends JFrame
                     gdauir.getAbstractLogger().info( "done" );
                     }
                 catch( Exception e ) {
-                    //printDisplay( "*** FATAL: ", e.getMessage() );
                     logger.fatal( "fatal", e );
                     }
 
@@ -521,6 +522,7 @@ public class GenericDownloaderUIApp extends JFrame
 
                 displayJProgressBar.setIndeterminate( false );
                 displayJProgressBar.setEnabled( false );
+                displayJProgressBar.setString( "Ready." );
             }
         }).start();
     }
@@ -528,7 +530,7 @@ public class GenericDownloaderUIApp extends JFrame
     private static List<ProxyEntry> createProxyList()
     {
         List<ProxyEntry> l = new ArrayList<ProxyEntry>();
-        
+
         //l.add(  new ProxyEntry( "xxx.yyy.zzz.2", 3128 ) );
 
         return l;
@@ -544,38 +546,38 @@ public class GenericDownloaderUIApp extends JFrame
             logger.warn(  "*** WARN: " + msg );
         }
         @Override
-        public void info( String msg )
+        public void info( final String msg )
         {
             logger.info(  "*** INFO: " + msg );
         }
         @Override
-        public void error( URL url, File file, Throwable cause )
+        public void error( final URL url, File file, final Throwable cause )
         {
             logger .error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
         }
         @Override
         public void downloadStateInit( DownloadStateEvent event )
         {
+            //TODO
             displayJProgressBar.setMinimum( 0 );
             displayJProgressBar.setMaximum( event.getDownloadListSize() );
             displayJProgressBar.setValue( 0 );
             displayJProgressBar.setEnabled( true );
             displayJProgressBar.setIndeterminate( false );
             displayJProgressBar.setStringPainted( true );
+            //TODO
 
             logger.info( "init :" + event.getDownloadListSize() );
         }
         @Override
         public void downloadStateChange( DownloadStateEvent event )
         {
+            //TODO
             displayJProgressBar.setValue( event.getDownloadListSize() );
+            displayJProgressBar.setString( "loading " + event.getDownloadListSize() );
+            //TODO
 
             logger.info( "downloadStateChange :" + event.getDownloadListSize() );
-        }
-        @Override
-        public void downloadFail( DownloadIOException e )
-        {
-            logger.error( "DownloadFail", e );
         }
     };
 

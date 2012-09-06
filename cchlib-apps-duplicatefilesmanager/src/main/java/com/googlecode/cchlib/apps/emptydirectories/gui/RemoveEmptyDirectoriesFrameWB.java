@@ -4,7 +4,6 @@ import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
-import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JList;
 import java.awt.GridBagConstraints;
@@ -25,167 +24,92 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import java.awt.event.MouseAdapter;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import java.awt.event.ActionListener;
 
+/**
+ * Handle layout
+ */
 public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesFrameWB.class );
-    private JPanel contentPane;
-    private JButton btnStartScan;
-    private JButton btnRemoveRootDirectory;
+    protected static final String ACTION_IMPORT_DIRS = "ACTION_IMPORT_DIRS";
+    protected static final String ACTION_ADD_DIRS = "ACTION_ADD_DIRS";
     private JButton btnAddRootDirectory;
-    private JButton btnSelectAll;
-    private JButton btnUnselectAll;
-    private JButton btnStartDelete;
-    private JTree jTreeEmptyDirectories;
-    private JProgressBar progressBar;
-    private JSeparator separator;
     private JButton btnCancel;
+    private JButton btnImportDirectories;
+    private JButton btnRemoveRootDirectory;
+    private JButton btnSelectAll;
+    private JButton btnStartDelete;
+    private JButton btnStartScan;
+    private JButton btnUnselectAll;
     private JList<File> jListRootDirectories;
+    private JPanel contentPane;
+    private JProgressBar progressBar;
     private JScrollPane scrollPaneJList;
     private JScrollPane scrollPane_1;
+    private JSeparator separator;
+    private JTree jTreeEmptyDirectories;
     private SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
-//    /**
-//     * Launch the application (debug only).
-//     */
-//    public static void main( String[] args )
-//    {
-//        EventQueue.invokeLater( new Runnable() {
-//            public void run()
-//            {
-//                try {
-//                    RemoveEmptyDirectoriesFrameWB frame = new RemoveEmptyDirectoriesFrameWB()
-//                    {
-//                        private static final long serialVersionUID = 1L;
-//                        @Override
-//                        protected void btnAddRootDirectory_mouseClicked( MouseEvent e )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnRemoveRootDirectory_mouseClicked( MouseEvent e )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnStartScan_mouseClicked( MouseEvent event )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnCancel_mouseClicked( MouseEvent event )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnSelectAll_mouseClicked( MouseEvent event )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnUnselectAll_mouseClicked( MouseEvent event )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void btnStartDelete_mouseClicked( MouseEvent event )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                        @Override
-//                        protected void addRootDirectory( List<File> files )
-//                        {
-//                            throw new UnsupportedOperationException();
-//                        }
-//                    };
-//                    frame.setVisible( true );
-//                    }
-//                catch( Exception e ) {
-//                    e.printStackTrace();
-//                    logger.fatal( "Fatal error while creating frame", e );
-//                    }
-//            }
-//        } );
-//    }
     protected abstract void addRootDirectory( List<File> files );
-    protected abstract void btnAddRootDirectory_mouseClicked( MouseEvent e );
     protected abstract void btnRemoveRootDirectory_mouseClicked( MouseEvent e );
     protected abstract void btnStartScan_mouseClicked(MouseEvent event);
     protected abstract void btnCancel_mouseClicked( MouseEvent event );
     protected abstract void btnSelectAll_mouseClicked( MouseEvent event );
     protected abstract void btnUnselectAll_mouseClicked( MouseEvent event );
     protected abstract void btnStartDelete_mouseClicked( MouseEvent event );
-
+    protected abstract ActionListener getActionListener();
+    
     /**
      * Create the frame.
      */
     public RemoveEmptyDirectoriesFrameWB()
     {
-        //setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        //setBounds( 20, 20, 800, 400 );
         setSize( 800, 400 );
         contentPane = new JPanel();
-        contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        contentPane.setBorder( new CompoundBorder() );
         setContentPane( contentPane );
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 4.0, 0.0};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 4.0, 0.0};
         contentPane.setLayout(gbl_contentPane);
 
-//        jListRootDirectories = RemoveEmptyDirectoriesFrameWB.createJList();
-//        GridBagConstraints gbc_jListRootDirectories = new GridBagConstraints();
-//        gbc_jListRootDirectories.gridheight = 3;
-//        gbc_jListRootDirectories.insets = new Insets(0, 0, 5, 5);
-//        gbc_jListRootDirectories.fill = GridBagConstraints.BOTH;
-//        gbc_jListRootDirectories.gridx = 0;
-//        gbc_jListRootDirectories.gridy = 0;
-//        contentPane.add(jListRootDirectories, gbc_jListRootDirectories);
-
         btnAddRootDirectory = new JButton("Add directory to scan");
-        btnAddRootDirectory.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                btnAddRootDirectory_mouseClicked( e );
-            }
-        });
-        
+        btnAddRootDirectory.setActionCommand( ACTION_ADD_DIRS );
+        btnAddRootDirectory.addActionListener( getActionListener() );
+
         scrollPaneJList = new JScrollPane();
         GridBagConstraints gbc_scrollPaneJList = new GridBagConstraints();
         gbc_scrollPaneJList.fill = GridBagConstraints.BOTH;
-        gbc_scrollPaneJList.gridheight = 4;
+        gbc_scrollPaneJList.gridheight = 5;
         gbc_scrollPaneJList.insets = new Insets(0, 0, 5, 5);
         gbc_scrollPaneJList.gridx = 0;
         gbc_scrollPaneJList.gridy = 0;
         contentPane.add(scrollPaneJList, gbc_scrollPaneJList);
 
-//        try {
-                this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, new SimpleFileDropListener()
-                {   
+        this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, new SimpleFileDropListener()
+        {   
+            @Override
+            public void filesDropped( final List<File> files )
+            {
+                new Thread( new Runnable() {
                     @Override
-                    public void filesDropped( final List<File> files )
+                    public void run()
                     {
-                        new Thread( new Runnable() {
-                            @Override
-                            public void run()
-                            {
-                                addRootDirectory( files );
-                            }} ).start();
-                    }
-                });
-//                this.scrollPaneJListSimpleFileDrop.addDropTargetListener();
-//            }
-//        catch( HeadlessException /*| TooManyListenersException e */ ) {
-//            logger.error( "Can not create Drop Listener", e );
-//            }
-
+                        addRootDirectory( files );
+                    }} ).start();
+            }
+        });
+        
         jListRootDirectories = createJList();
         scrollPaneJList.setViewportView(jListRootDirectories);
 
         GridBagConstraints gbc_btnAddRootDirectory = new GridBagConstraints();
-        gbc_btnAddRootDirectory.anchor = GridBagConstraints.PAGE_START;
+        gbc_btnAddRootDirectory.anchor = GridBagConstraints.NORTH;
         gbc_btnAddRootDirectory.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnAddRootDirectory.insets = new Insets(0, 0, 5, 0);
         gbc_btnAddRootDirectory.gridx = 1;
@@ -199,13 +123,23 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
                 btnRemoveRootDirectory_mouseClicked( e );
             }
         });
+        
+        btnImportDirectories = new JButton("Import directories");
+        btnImportDirectories.setActionCommand( ACTION_IMPORT_DIRS );
+        btnImportDirectories.addActionListener( getActionListener() );
+        GridBagConstraints gbc_btnImportDirectories = new GridBagConstraints();
+        gbc_btnImportDirectories.fill = GridBagConstraints.HORIZONTAL;
+        gbc_btnImportDirectories.insets = new Insets(0, 0, 5, 0);
+        gbc_btnImportDirectories.gridx = 1;
+        gbc_btnImportDirectories.gridy = 1;
+        contentPane.add(btnImportDirectories, gbc_btnImportDirectories);
         btnRemoveRootDirectory.setEnabled(false);
         GridBagConstraints gbc_btnRemoveRootDirectory = new GridBagConstraints();
         gbc_btnRemoveRootDirectory.anchor = GridBagConstraints.NORTH;
         gbc_btnRemoveRootDirectory.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnRemoveRootDirectory.insets = new Insets(0, 0, 5, 0);
         gbc_btnRemoveRootDirectory.gridx = 1;
-        gbc_btnRemoveRootDirectory.gridy = 1;
+        gbc_btnRemoveRootDirectory.gridy = 2;
         contentPane.add(btnRemoveRootDirectory, gbc_btnRemoveRootDirectory);
 
         btnStartScan = new JButton("Find empty directories");
@@ -222,7 +156,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnStartScan.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnStartScan.insets = new Insets(0, 0, 5, 0);
         gbc_btnStartScan.gridx = 1;
-        gbc_btnStartScan.gridy = 3;
+        gbc_btnStartScan.gridy = 4;
         contentPane.add(btnStartScan, gbc_btnStartScan);
 
         progressBar = new JProgressBar();
@@ -230,7 +164,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_progressBar.fill = GridBagConstraints.HORIZONTAL;
         gbc_progressBar.insets = new Insets( 0, 0, 5, 5 );
         gbc_progressBar.gridx = 0;
-        gbc_progressBar.gridy = 4;
+        gbc_progressBar.gridy = 5;
         contentPane.add( progressBar, gbc_progressBar );
 
         btnCancel = new JButton( "Cancel" );
@@ -245,7 +179,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnCancel.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnCancel.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnCancel.gridx = 1;
-        gbc_btnCancel.gridy = 4;
+        gbc_btnCancel.gridy = 5;
         contentPane.add( btnCancel, gbc_btnCancel );
 
         scrollPane_1 = new JScrollPane();
@@ -254,7 +188,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_scrollPane_1.gridheight = 4;
         gbc_scrollPane_1.insets = new Insets(0, 0, 0, 5);
         gbc_scrollPane_1.gridx = 0;
-        gbc_scrollPane_1.gridy = 5;
+        gbc_scrollPane_1.gridy = 6;
         contentPane.add(scrollPane_1, gbc_scrollPane_1);
 
         jTreeEmptyDirectories = createJTree(new SoftBevelBorder( BevelBorder.LOWERED, null, null, null, null ));
@@ -271,7 +205,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnSelectAll.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnSelectAll.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnSelectAll.gridx = 1;
-        gbc_btnSelectAll.gridy = 5;
+        gbc_btnSelectAll.gridy = 6;
         contentPane.add( btnSelectAll, gbc_btnSelectAll );
 
         btnUnselectAll = new JButton( "Unselect All" );
@@ -285,7 +219,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         gbc_btnUnselectAll.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnUnselectAll.insets = new Insets( 0, 0, 5, 0 );
         gbc_btnUnselectAll.gridx = 1;
-        gbc_btnUnselectAll.gridy = 6;
+        gbc_btnUnselectAll.gridy = 7;
         contentPane.add( btnUnselectAll, gbc_btnUnselectAll );
 
         btnStartDelete = new JButton( "Delete selected" );
@@ -298,14 +232,15 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
 
         separator = new JSeparator();
         GridBagConstraints gbc_separator = new GridBagConstraints();
+        gbc_separator.fill = GridBagConstraints.HORIZONTAL;
         gbc_separator.insets = new Insets( 0, 0, 5, 0 );
         gbc_separator.gridx = 1;
-        gbc_separator.gridy = 7;
+        gbc_separator.gridy = 8;
         contentPane.add( separator, gbc_separator );
         GridBagConstraints gbc_btnStartDelete = new GridBagConstraints();
         gbc_btnStartDelete.fill = GridBagConstraints.HORIZONTAL;
         gbc_btnStartDelete.gridx = 1;
-        gbc_btnStartDelete.gridy = 8;
+        gbc_btnStartDelete.gridy = 9;
         contentPane.add( btnStartDelete, gbc_btnStartDelete );
     }
 
@@ -343,32 +278,43 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         return model;
     }
 
-
-    protected JButton getBtnSelectAll() {
+    protected JButton getBtnSelectAll()
+    {
         return btnSelectAll;
     }
-    protected JButton getBtnUnselectAll() {
+    protected JButton getBtnUnselectAll() 
+    {
         return btnUnselectAll;
     }
-    protected JTree getJTreeEmptyDirectories() {
+    protected JTree getJTreeEmptyDirectories() 
+    {
         return jTreeEmptyDirectories;
     }
-    protected JList<File> getJListRootDirectories() {
+    protected JList<File> getJListRootDirectories()
+    {
         return jListRootDirectories;
     }
-    protected JButton getBtnStartDelete() {
+    protected JButton getBtnStartDelete() 
+    {
         return btnStartDelete;
     }
-    protected JProgressBar getProgressBar() {
+    protected JProgressBar getProgressBar()
+    {
         return progressBar;
     }
-    protected JButton getBtnCancel() {
+    protected JButton getBtnCancel()
+    {
         return btnCancel;
     }
     
     protected boolean isButtonAddRootDirectoryEnabled()
     {
         return btnAddRootDirectory.isEnabled();
+    }
+    
+    protected boolean isButtonImportDirectoriesEnabled()
+    {
+        return btnImportDirectories.isEnabled();
     }
     
     protected boolean isButtonStartScanEnabled()
@@ -390,6 +336,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
     {
         scrollPaneJListSimpleFileDrop.remove();
         btnAddRootDirectory.setEnabled( false );
+        btnImportDirectories.setEnabled( false );
         btnRemoveRootDirectory.setEnabled( false );
 
         btnStartScan.setEnabled( false );
@@ -406,6 +353,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
         scrollPaneJListSimpleFileDrop.remove();
 
         btnAddRootDirectory.setEnabled( false );
+        btnImportDirectories.setEnabled( false );
         btnRemoveRootDirectory.setEnabled( false );
 
         btnStartScan.setEnabled( false );
@@ -430,6 +378,7 @@ public abstract class RemoveEmptyDirectoriesFrameWB extends JFrame
             }
         
         btnAddRootDirectory.setEnabled( true );
+        btnImportDirectories.setEnabled( true );
         btnRemoveRootDirectory.setEnabled( false );
 
         btnStartScan.setEnabled( true );

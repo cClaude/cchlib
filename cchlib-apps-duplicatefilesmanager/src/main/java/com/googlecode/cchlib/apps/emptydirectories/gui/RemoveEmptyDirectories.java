@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.List;
@@ -16,10 +18,10 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.DefaultDFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-//import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-//import com.googlecode.cchlib.apps.duplicatefiles.DefaultDFToolKit;
-//import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
+import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
@@ -31,28 +33,65 @@ import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
  */
 public class RemoveEmptyDirectories
     extends RemoveEmptyDirectoriesFrameWB
+        implements I18nPrepAutoUpdatable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectories.class );
+    private ActionListener actionListener;
+    private AutoI18n autoI18n;
+    private DFToolKit dfToolKit;
     private FileTreeModelable treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
-    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage    = "Analyze disk structure";
-    private DFToolKit dfToolKit;
+    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private String txtProgressBarComputing = "Computing...";
+    @I18nString private String txtProgressBarDeleteSelectedFiles = "Delete selected files";
+    @I18nString private String txtProgressBarScanCancel = "Scan canceled !";
+    @I18nString private String txtProgressBarSelectFileToDelete = "Select file to delete";
+    @I18nString private String txtSelectDirToScan = "Select directory to scan";
+    @I18nString private static String txtFrameTitle = "Delete Empty Directories";
 
     /**
-     *
+     * 
+     * @param dfToolKit
+     * @param autoI18n Could be null.
      */
-    public RemoveEmptyDirectories( final DFToolKit dfToolKit )
+    public RemoveEmptyDirectories( 
+        final DFToolKit dfToolKit, 
+        final AutoI18n  autoI18n 
+        )
     {
         super();
         
         this.dfToolKit = dfToolKit;
         
         setIconImage( getDFToolKit().getResources().getAppIcon() );
+        
+        // Prepare i18n !
+        if( autoI18n == null ) {
+            this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( this.dfToolKit.getValidLocale(), this ).getAutoI18n();
+            }
+        else {
+            this.autoI18n = autoI18n;
+            }
+        
+        // Apply i18n !
+        performeI18n( this.autoI18n );
     }
 
+    @Override // I18nPrepAutoUpdatable
+    public void performeI18n( final AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
+    }
+
+    @Override // I18nPrepAutoUpdatable
+    public String getMessagesBundle()
+    {
+        return getDFToolKit().getMessagesBundle();
+    }
+    
     protected DFToolKit getDFToolKit()
     {
         return dfToolKit;
@@ -60,9 +99,9 @@ public class RemoveEmptyDirectories
 
     private void init()
     {
-        JProgressBar pBar = super.getProgressBar();//getJProgressBarMain();
+        JProgressBar pBar = super.getProgressBar();
         pBar.setStringPainted( true );
-        pBar.setString( "Select directory to scan" );
+        pBar.setString( txtSelectDirToScan  );
         pBar.setIndeterminate( false );
 
         // Create a JTree and tell it to display our model
@@ -115,10 +154,10 @@ public class RemoveEmptyDirectories
                 pBar.setIndeterminate( false );
 
                 if( isCancel ) {
-                    pBar.setString( "Scan canceled !" );
+                    pBar.setString( txtProgressBarScanCancel  );
                     }
                 else {
-                    pBar.setString( "Select file to delete" );
+                    pBar.setString( txtProgressBarSelectFileToDelete  );
                     }
             }
         };
@@ -137,19 +176,10 @@ public class RemoveEmptyDirectories
         logger.info( "find thread started" );
 
         final JProgressBar pBar = getProgressBar();
-        pBar.setString( "Computing..." );
+        pBar.setString( txtProgressBarComputing  );
         pBar.setIndeterminate( true );
 
-//        super.getBtnAddRootDirectory().setEnabled( false );
-//        super.getBtnStartScan().setEnabled( false );
-//        super.getBtnCancel().setEnabled( true );
-//        super.getBtnStartDelete().setEnabled( false );
-//        super.getBtnSelectAll().setEnabled( false );
-//        super.getBtnUnselectAll().setEnabled( false );
-//        super.getJListRootDirectories().setEnabled( false );
-//        super.getJListRootDirectories().clearSelection();
-        
-        /*super.*/enable_findBegin();
+        enable_findBegin();
         
         Runnable doRun = new Runnable()
         {
@@ -185,12 +215,12 @@ public class RemoveEmptyDirectories
     {
         logger.info( "delete thread started" );
 
-        /*super.*/enable_startDelete();
+        enable_startDelete();
         
         getJTreeEmptyDirectories().setEditable( false );
 
         final JProgressBar pBar = getProgressBar();
-        pBar.setString( "Delete selected files" );
+        pBar.setString( txtProgressBarDeleteSelectedFiles );
         pBar.setIndeterminate( true );
 
         new Thread( new Runnable()
@@ -231,7 +261,7 @@ public class RemoveEmptyDirectories
             @Override
             public void run()
             {
-                RemoveEmptyDirectories frame = RemoveEmptyDirectories.start(dfToolKit);
+                RemoveEmptyDirectories frame = RemoveEmptyDirectories.createRemoveEmptyDirectoriesFrame( dfToolKit, null );
                 frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             }
         } );
@@ -243,14 +273,14 @@ public class RemoveEmptyDirectories
      * A WindowHandler should be add on frame.
      * @return Main Window
      */
-    public static RemoveEmptyDirectories start( final DFToolKit dfToolKit )
+    public static RemoveEmptyDirectories createRemoveEmptyDirectoriesFrame( 
+        final DFToolKit dfToolKit,
+        final AutoI18n  autoI18n
+        )
     {
-        RemoveEmptyDirectories frame = new RemoveEmptyDirectories( dfToolKit );
-        //Done!frame.setDefaultCloseOperation( RemoveEmptyDirectories.EXIT_ON_CLOSE );
-        frame.setTitle( "RemoveEmptyDirectories" );
-        //Done?frame.getContentPane().setPreferredSize( frame.getSize() );
-        //Done?frame.pack();
-        //Done?frame.setLocationRelativeTo( null );
+        RemoveEmptyDirectories frame = new RemoveEmptyDirectories( dfToolKit, autoI18n );
+
+        frame.setTitle( txtFrameTitle );
         frame.init();
         frame.setVisible( true );
 
@@ -281,21 +311,19 @@ public class RemoveEmptyDirectories
 
     private JFileChooser getJFileChooser()
     {
-        //return getWaitingJFileChooserInitializer().getJFileChooser();
         JFileChooser jfc = getWaitingJFileChooserInitializer().getJFileChooser();
 
-        logger.info( "FileSelectionMode = " + jfc.getFileSelectionMode() );
-        logger.info( "JFileChooser.FILES_ONLY:" + JFileChooser.FILES_ONLY );
-        logger.info( "JFileChooser.DIRECTORIES_ONLY:" + JFileChooser.DIRECTORIES_ONLY );
-        logger.info( "JFileChooser.FILES_AND_DIRECTORIES:" + JFileChooser.FILES_AND_DIRECTORIES );
+//        logger.info( "FileSelectionMode = " + jfc.getFileSelectionMode() );
+//        logger.info( "JFileChooser.FILES_ONLY:" + JFileChooser.FILES_ONLY );
+//        logger.info( "JFileChooser.DIRECTORIES_ONLY:" + JFileChooser.DIRECTORIES_ONLY );
+//        logger.info( "JFileChooser.FILES_AND_DIRECTORIES:" + JFileChooser.FILES_AND_DIRECTORIES );
          
         return jfc;
     }
 
-    @Override
-    protected void btnAddRootDirectory_mouseClicked( MouseEvent e )
+    private void btnAddRootDirectory()
     {
-        logger.info( "btnAddRootDirectory_mouseClicked" );
+        logger.info( "btnAddRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
             Runnable r = new Runnable()
@@ -307,10 +335,29 @@ public class RemoveEmptyDirectories
                 }
             };
            new Thread( r ).start();
-           logger.info( "btnAddRootDirectory_mouseClicked done" );
+           logger.info( "btnAddRootDirectory() done" );
         }
     }
 
+    private void btnImportDirectories()
+    {
+        logger.info( "btnImportDirectories()" );
+        
+        if( super.isButtonImportDirectoriesEnabled() ) {
+            Runnable r = new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    List<File> dirs = getDFToolKit().getRootDirectoriesList();
+                    addRootDirectory( dirs );
+                    logger.info( "btnImportDirectories() done" );
+                }
+            };
+            new Thread( r ).start();
+            }
+    }
+    
     private void addRootDirectory()
     {
         logger.info( "addRootDirectory()" );
@@ -432,6 +479,32 @@ public class RemoveEmptyDirectories
             new Thread( r ).start();
             // NOTE: do not use of SwingUtilities.invokeLater( r );
         }
+    }
+
+    @Override
+    protected ActionListener getActionListener()
+    {
+        if( actionListener == null ) {
+            actionListener = new ActionListener()
+            {
+                @Override
+                public void actionPerformed( final ActionEvent event )
+                {
+                    final String cmd = event.getActionCommand();
+                            
+                    if( ACTION_IMPORT_DIRS.equals( cmd ) ) {
+                        btnImportDirectories();
+                        }
+                    else if( ACTION_ADD_DIRS.equals( cmd ) ) {
+                        btnAddRootDirectory();
+                        }
+                    else {
+                        logger.warn( "Action not handled : " + cmd );
+                        }
+                }
+            };
+        }
+        return actionListener;
     }
 
 }

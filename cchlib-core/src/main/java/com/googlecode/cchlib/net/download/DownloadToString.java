@@ -10,6 +10,7 @@ import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Download {@link URL} and put result into a {@link String}
+ * 
  * @since 4.1.5
  */
 public class DownloadToString extends AbstractDownload
@@ -20,8 +21,8 @@ public class DownloadToString extends AbstractDownload
      * @param eventHandler  Event to use for notifications
      */
     public DownloadToString(
-            final DownloadURL   downloadURL,
-            final DownloadEvent eventHandler
+            final DownloadStringURL downloadURL,
+            final DownloadEvent     eventHandler
             )
     {
         super( downloadURL, eventHandler );
@@ -41,6 +42,8 @@ public class DownloadToString extends AbstractDownload
             r.close();
             }
 
-        getDownloadURL().setResultAsString( buffer.toString() );
+        final DownloadStringURL dURL = DownloadStringURL.class.cast( getDownloadURL() );
+        
+        dURL.setResultAsString( buffer.toString() );
     }
 }

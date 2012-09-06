@@ -111,10 +111,12 @@ public class DirectoryIteratorTest extends TestCase
             res = d.mkdirs();
             assertTrue( "Can't mkdirs(): " + d, res);
             allFiles.add(d);
-        }
+            }
+        
         for( File f : files ) {
-            IOHelper.toFile(f,f.getPath());
-        }
+            // Build some files and put something in it
+            IOHelper.toFile( f.getPath(), f );
+            }
 
         List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
         List<File> foundInFileIterator    = new ArrayList<File>();

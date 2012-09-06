@@ -5,11 +5,14 @@ import java.io.InputStream;
 
 /**
  * TODOC
+ * 
+ * @since 4.1.7
  */
 public interface DownloadFilter
 {
     /**
      * TODOC
+     * 
      * @param is
      * @return TODOC
      */
@@ -23,6 +26,7 @@ public interface DownloadFilter
 
     /**
      * TODOC
+     * 
      * @return TODOC
      * @throws IllegalStateException if {@link #compute()} not yet call
      *         after a call of {@link #getFilterInputStream(InputStream)}

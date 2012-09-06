@@ -2,8 +2,10 @@ package samples.downloader;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  * http://senorgif.memebase.com/page/5/ 1600
@@ -43,9 +45,9 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public StringDownloadURL getStringDownloadURL( final int pageNumber ) throws MalformedURLException
+    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException
     {
-        return new StringDownloadURL(
+        return new DefaultDownloadStringURL(
             String.format(
                 mainComboBoxConfig.getComboBoxSelectedValue(),
                 pageNumber
@@ -56,7 +58,7 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
             final String                        content2Parse
             ) throws MalformedURLException
@@ -69,9 +71,9 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new FileDownloadURL( src, null, getProxy() );
+        return new DefaultDownloadFileURL( src, null, getProxy() );
     }
 }

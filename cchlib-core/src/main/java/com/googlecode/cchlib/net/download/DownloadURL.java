@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- *
+ * TODOC
+ * 
+ * @since 4.1.7
  */
 public interface DownloadURL
 {
@@ -26,49 +28,9 @@ public interface DownloadURL
     /**
      * According to this state, download process should return
      * a {@link String} or a {@link File}
-     * @see #getResultAsFile()
-     * @see #setResultAsFile(File)
-     * @see #getResultAsString()
-     * @see #setResultAsString(String)
+     * @see DownloadFileURL
+     * @see DownloadStringURL
      * @return {@link DownloadURLResultType} for download result.
      */
     public DownloadURLResultType getType();
-
-    /**
-     * TODOC
-     * @return TODOC
-     * @throws UnsupportedOperationException if not supported
-     */
-    public String getResultAsString();
-
-    /**
-     *
-     * @param string
-     * @throws UnsupportedOperationException if not supported
-     */
-    public void setResultAsString( String string );
-
-    /**
-     * TODOC
-     * @return TODOC
-     * @throws UnsupportedOperationException if not supported
-     */
-    public File getResultAsFile();
-
-    /**
-     *
-     * @param file
-     * @throws UnsupportedOperationException if not supported
-     */
-    public void setResultAsFile( File file );
-
-    /**
-     * TODOC
-     */
-    public String getContentHashCode();
-
-    /**
-     * TODOC
-     */
-    public void setContentHashCode( String hashString );
 }

@@ -22,11 +22,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelResult;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelConfig;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelResult;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSearching;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.JPanelSelectFoldersOrFiles;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.confirm.JPanelConfirm;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -46,10 +41,8 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
     public static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
-    //public static final String ACTIONCMD_SET_LOCALE = "ACTIONCMD_SET_LOCALE";
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
     public static final String ACTIONCMD_EXIT = "ACTIONCMD_EXIT";
-    //public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
     public static final String ACTIONCMD_PREFS = "ACTIONCMD_PREFS";
 
     private JPanel contentPane;
@@ -67,7 +60,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private JMenu                       jMenuTools;
     private JMenuItem                   jMenuItemDeleteEmptyDirectories;
     private JMenuItem                   jMenuItemExit;
-    //private JMenuItem                   jMenuItem_SavePrefs;
     private JMenuItem                   jMenuItem_Preferences;
     private JPanel                      jPanelMain;
     private JPanelSelectFoldersOrFiles  jPanel0Select;
@@ -75,7 +67,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private JPanelConfirm               jPanel4Confirm;
     private JPanelResult                jPanel3Result;
     private JPanelSearching             jPanel2Searching;
-    //private JRadioButtonMenuItem        jMenuItemLanguageDefaultSystem;
     private JRadioButtonMenuItem        jMenuItemModeAdvance;
     private JRadioButtonMenuItem        jMenuItemModeBeginner;
     private JRadioButtonMenuItem        jMenuItemModeExpert;
@@ -148,10 +139,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         jMenuItem_Preferences.setActionCommand( ACTIONCMD_PREFS );
         jMenuItem_Preferences.addActionListener( getActionListener() );
         jMenuConfig.add(jMenuItem_Preferences);
-//      jMenuItem_SavePrefs = new JMenuItem("Save preferences");
-//      jMenuItem_SavePrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
-//      jMenuItem_SavePrefs.addActionListener( getActionListener() );
-//      jMenuConfig.add(jMenuItem_SavePrefs);
 
         jMenuTools = new JMenu("Tools");
         jMenuBarMain.add(jMenuTools);
@@ -189,8 +176,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
             jPanelMainCardLayout = new CardLayout(0, 0);
             jPanelMain.setLayout( jPanelMainCardLayout );
 
-//            panel = new JPanel();
-//            jTabbedPaneMain.add(panel, "name_57516025965064");
             int panelNumber = 0;
             jPanel0Select = createJPanel0Select();
             jPanelMain.add( jPanel0Select, Integer.toString( panelNumber++ ) );
@@ -263,7 +248,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         return jButtonCancel;
     }
 
-    protected JPanelSelectFoldersOrFiles getJPanel0Select()
+    public JPanelSelectFoldersOrFiles getJPanel0Select()
     {
         return jPanel0Select;
     }
@@ -312,23 +297,6 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
         return this.dfToolKit;
     }
-//    private JMenu createJMenuLanguage()
-//    {
-//        jMenuItemLanguage = new JMenu("Language");
-//
-//        LocaleList localeList = new LocaleList();
-//
-//        for( ListInfo<Locale> li : localeList ) {
-//            JMenuItem jmi = new JRadioButtonMenuItem( li.toString() );
-//            buttonGroupLanguage.add( jmi );
-//            jmi.setActionCommand( ACTIONCMD_SET_LOCALE );
-//            jmi.putClientProperty( Locale.class, li.getContent() );
-//            jmi.addActionListener( getActionListener() );
-//            jMenuItemLanguage.add( jmi );
-//            }
-//
-//        return jMenuItemLanguage;
-//    }
 
     /**
      * @throws TooManyListenersException

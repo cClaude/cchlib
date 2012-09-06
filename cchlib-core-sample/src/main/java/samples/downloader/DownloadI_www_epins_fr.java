@@ -5,9 +5,9 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-//import org.apache.log4j.Logger;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  *
@@ -51,25 +51,25 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
+    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
         return Collections.emptyList();
     }
 
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
             String                          content2Parse
             )
             throws MalformedURLException
     {
-        return new AbstractCollection<FileDownloadURL>()
+        return new AbstractCollection<DownloadFileURL>()
         {
             @Override
-            public Iterator<FileDownloadURL> iterator()
+            public Iterator<DownloadFileURL> iterator()
             {
-                return new Iterator<FileDownloadURL>()
+                return new Iterator<DownloadFileURL>()
                 {
                     private StringBuilder buildURL_sb1 = new StringBuilder();
                     //private StringBuilder buildURL_sb2 = new StringBuilder();
@@ -81,7 +81,7 @@ public class DownloadI_www_epins_fr
                         return i<MAX;
                     }
                     @Override
-                    public FileDownloadURL next()
+                    public DownloadFileURL next()
                     {
                         try {
                             return buildDownloadURL( i++ );
@@ -95,7 +95,7 @@ public class DownloadI_www_epins_fr
                     {
                         throw new UnsupportedOperationException();
                     }
-                    private FileDownloadURL buildDownloadURL( final int i ) throws MalformedURLException
+                    private DownloadFileURL buildDownloadURL( final int i ) throws MalformedURLException
                     {
 
                         buildURL_sb1.setLength( 0 );
@@ -111,7 +111,7 @@ public class DownloadI_www_epins_fr
                         //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
                         buildURL_sb1.append( htmlURLFmt2 );
 
-                        return new FileDownloadURL( buildURL_sb1.toString(), null, getProxy() );
+                        return new DefaultDownloadFileURL( buildURL_sb1.toString(), null, getProxy() );
                     }
                 };
             }
@@ -124,14 +124,14 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public StringDownloadURL getStringDownloadURL( int pageNumber )
+    public DownloadStringURL getDownloadStringURL( int pageNumber )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE

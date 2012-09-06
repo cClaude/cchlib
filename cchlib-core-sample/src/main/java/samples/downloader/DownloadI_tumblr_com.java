@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.util.properties.Populator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 import com.googlecode.cchlib.util.properties.PropertiesPopulator;
@@ -85,10 +87,10 @@ public abstract class DownloadI_tumblr_com
         }
 
         @Override
-        public StringDownloadURL getStringDownloadURL( int pageNumber )
+        public DownloadStringURL getDownloadStringURL( int pageNumber )
                 throws MalformedURLException
         {
-            return getStringDownloadURL( getCurrentHostName(), pageNumber, getProxy() );
+            return getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
         }
     }    
 
@@ -137,7 +139,7 @@ public abstract class DownloadI_tumblr_com
     }
     
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults gdauir, String content2Parse )
             throws MalformedURLException
     {
@@ -147,10 +149,10 @@ public abstract class DownloadI_tumblr_com
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new FileDownloadURL( src, null, getProxy() );
+        return new DefaultDownloadFileURL( src, null, getProxy() );
     }
     
     public final static DownloadI_tumblr_com createForHost( final String hostname )
@@ -194,26 +196,26 @@ public abstract class DownloadI_tumblr_com
             }
 
             @Override
-            public StringDownloadURL getStringDownloadURL( int pageNumber )
+            public DownloadStringURL getDownloadStringURL( int pageNumber )
                     throws MalformedURLException
             {
                 throw new UnsupportedOperationException();
             }
 
-            private StringDownloadURL getStringDownloadURL(
+            private DownloadStringURL getStringDownloadURL(
                     final String    hostname,
                     final int       pageNumber 
                     )
                     throws MalformedURLException
             {
-                return getStringDownloadURL( hostname, pageNumber, getProxy() );
+                return getDownloadStringURL( hostname, pageNumber, getProxy() );
             }
             
             @Override// GenericDownloaderAppInterface
-            public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
+            public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
                     throws MalformedURLException
             {
-                final List<StringDownloadURL>   sdURLList = new ArrayList<StringDownloadURL>();
+                final List<DownloadStringURL>   sdURLList = new ArrayList<DownloadStringURL>();
                 final int                       pageCount = getPageCount();
                 
                 for( String hostname : blogsNames ) {
@@ -229,7 +231,7 @@ public abstract class DownloadI_tumblr_com
         };
     };
     
-    private static StringDownloadURL getStringDownloadURL(
+    private static DownloadStringURL getDownloadStringURL(
             final String    hostname,
             final int       pageNumber,
             final Proxy     proxy
@@ -244,7 +246,7 @@ public abstract class DownloadI_tumblr_com
         else {
             fmt = HTML_URL_BASEx_FMT;
             }
-        return new StringDownloadURL(
+        return new DefaultDownloadStringURL(
                 String.format(
                     fmt,
                     hostname,
@@ -254,24 +256,7 @@ public abstract class DownloadI_tumblr_com
                 proxy
                 );
     }   
-//    public static void main(String[] args) throws IOException
-//    {
-//        loadConfig();
-//    }
-//    
-//    private static void buildConfig() throws IOException
-//    {
-//        Config_DownloadI_tumblr_com conf = new Config_DownloadI_tumblr_com(__BLOGS_NAMES__);
-//        conf.storeConfig();
-//    }
-//    
-//    private static void loadConfig() throws IOException
-//    {
-//        Config_DownloadI_tumblr_com conf = new Config_DownloadI_tumblr_com();
-//        String[] values = conf.getBlogNames();
-//        
-//        org.junit.Assert.assertArrayEquals( __BLOGS_NAMES__, values );
-//    }
+
 }
 
 

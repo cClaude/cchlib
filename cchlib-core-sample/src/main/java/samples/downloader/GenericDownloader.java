@@ -9,18 +9,20 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
+import com.googlecode.cchlib.net.download.DownloadConfigurationException;
 import com.googlecode.cchlib.net.download.DownloadEvent;
 import com.googlecode.cchlib.net.download.DownloadExecutor;
 import com.googlecode.cchlib.net.download.DownloadFileEvent;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadIOException;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
 import com.googlecode.cchlib.net.download.MD5FilterInputStreamBuilder;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
 import com.googlecode.cchlib.net.download.cache.URLCache;
 
 /**
@@ -92,11 +94,16 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      * must be implement by parent class.
      * @return an {@link Iterable} object of {@link FileDownloadURL}s to download
      * @throws IOException
+     * @throws DownloadConfigurationException 
+     * @throws RejectedExecutionException 
      */
     final
-    protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
+    protected Collection<DownloadFileURL> collectDownloadURLs() 
+        throws  IOException, 
+                RejectedExecutionException,
+                DownloadConfigurationException
     {
-        final Collection<FileDownloadURL>   urls        = new HashSet<FileDownloadURL>();
+        final Collection<DownloadFileURL>   urls        = new HashSet<DownloadFileURL>();
         final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
 
         for( String pageContent : contentList ) {
@@ -113,8 +120,10 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      * @param urls {@link Iterable} object of {@link URL}s to parses
      * @return  a list of String with content of all URLS download content.
      * @throws IOException if any
+     * @throws DownloadConfigurationException 
+     * @throws RejectedExecutionException 
      */
-    protected List<String> loads( final Collection<StringDownloadURL> urls ) throws IOException
+    protected List<String> loads( final Collection<DownloadStringURL> urls ) throws IOException, RejectedExecutionException, DownloadConfigurationException
     {
         final List<String>      result              = new ArrayList<String>();
         final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
@@ -141,7 +150,8 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
                     logger.debug( "downloadDone: dURL= " + dURL );
                     }
 
-                result.add( dURL.getResultAsString() );
+                final DownloadStringURL dsURL = DownloadStringURL.class.cast( dURL );
+                result.add( dsURL.getResultAsString() );
 
                 loggerListener.downloadDone( dURL );
             }
@@ -161,10 +171,12 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
     /**
      *
      * @throws IOException
+     * @throws DownloadConfigurationException 
+     * @throws RejectedExecutionException 
      */
-    public void onClickStartDownload() throws IOException
+    public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException
     {
-        final Collection<FileDownloadURL>   urls                = collectDownloadURLs();
+        final Collection<DownloadFileURL>   urls                = collectDownloadURLs();
         final DownloadExecutor              downloadExecutor    = new DownloadExecutor( 
                 downloadMaxThread, 
                 new MD5FilterInputStreamBuilder() 
@@ -214,8 +226,9 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
             @Override
             public void downloadDone( DownloadURL dURL )
             {
-                final File      file        = dURL.getResultAsFile();
-                final String    hashString  = dURL.getContentHashCode();
+                final DownloadFileURL   dfURL       = DownloadFileURL.class.cast( dURL );
+                final File              file        = dfURL.getResultAsFile();
+                final String            hashString  = dfURL.getContentHashCode();
                 
 //                try {
 //                    // Compute MD5 hash code
@@ -299,7 +312,8 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
                 boolean isRename = file.renameTo( ffile );
 
                 if( isRename ) {
-                    dURL.setResultAsFile( ffile );
+                    final DownloadFileURL dfURL = DownloadFileURL.class.cast( dURL );
+                    dfURL.setResultAsFile( ffile );
                     loggerListener.downloadStored( dURL );
                     Date date = new Date(); // TODO get date of end of download ?
                     cache.add( dURL.getURL(), date, hashCodeString, ffile.getName() );
@@ -346,7 +360,7 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
         final int statsAskedDownload = urls.size();
         int statsLauchedDownload = 0;
 
-        for( FileDownloadURL du: urls ) {
+        for( DownloadFileURL du: urls ) {
             if( cache.isInCacheIndex( du.getURL() ) ) {
             //if( cache.isInCache( u ) ) {
                 // skip this entry !

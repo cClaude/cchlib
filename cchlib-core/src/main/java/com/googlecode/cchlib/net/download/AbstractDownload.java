@@ -2,6 +2,7 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.apache.log4j.Logger;
 
 /**
  * Abstract Downloader for {@link DownloadURL}
@@ -11,11 +12,11 @@ import java.io.InputStream;
 //NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
-    //private final static transient org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( AbstractDownload.class );
-    private final DownloadURL        downloadURL;
-    private final DownloadEvent      event;
-//    private final Proxy              proxy;
-//    private final Map<String,String> requestPropertyMap;
+    private final static transient Logger logger = Logger.getLogger( AbstractDownload.class );
+    // Use getDownloadURL() to access to this object
+    private final DownloadURL downloadURL;
+    // Use getDownloadEvent() to access to this object
+    private final DownloadEvent event;
 
     /**
      * Create a download task using a proxy
@@ -25,16 +26,12 @@ abstract class AbstractDownload implements RunnableDownload
      * @throws NullPointerException if one of event or downloadURL parameters is null.
      */
     public AbstractDownload(
-            final DownloadURL           downloadURL,
-            final DownloadEvent         event
-//            final Map<String,String>    requestPropertyMap,
-//            final Proxy                 proxy
+            final DownloadURL   downloadURL,
+            final DownloadEvent event
             )
     {
-        this.event              = event;
-//        this.proxy              = proxy;
-//        this.requestPropertyMap = requestPropertyMap;
-        this.downloadURL        = downloadURL;
+        this.event          = event;
+        this.downloadURL    = downloadURL;
 
         if( event == null ) {
             throw new NullPointerException( "Not valid DownloadEvent" );
@@ -44,91 +41,33 @@ abstract class AbstractDownload implements RunnableDownload
             }
     }
 
-//    /**
-//     * Returns {@link InputStream} for internal URL
-//     * @return {@link InputStream} for internal URL
-//     * @throws IOException if any
-//     */
-//    final protected InputStream getInputStream() throws IOException
-//    {
-//        if( proxy == null ) {
-//            return downloadURL.getURL().openStream();
-//            }
-//        else {
-//            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
-//            uc.connect();
-//
-//            return uc.getInputStream();
-//        }
-//    }
-
-    /* *
-     * Returns {@link URLConnection} for {@link DownloadURL}
-     * @return {@link URLConnection} for {@link DownloadURL}
-     * @throws IOException if any
-     * /
-    final protected URLConnection getURLConnection() throws IOException
-    {
-        if( proxy == null ) {
-            //return downloadURL.getURL().openStream();
-            return downloadURL.getURL().openConnection();
-            }
-        else {
-            return downloadURL.getURL().openConnection( proxy );
-//            HttpURLConnection uc = HttpURLConnection.class.cast( downloadURL.getURL().openConnection( proxy ) );
-//            uc.connect();
-//
-//
-//            return uc.getInputStream();
-            }
-    }
-*/
     @Override
     final public void run()
     {
-        event.downloadStart( downloadURL );
-
         try {
-/*
-            //InputStream is = getInputStream();
-            URLConnection uc = getURLConnection();
-
-            for( Map.Entry<String,String> prop : requestPropertyMap.entrySet() ) {
-                uc.addRequestProperty( prop.getKey(), prop.getValue() );
-                }
-
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "URLConnection: " + uc );
-                logger.trace( "URLConnection.getHeaderFields() " );
-
-                for( Map.Entry<String,List<String>> entry : uc.getHeaderFields().entrySet() ) {
-                    logger.trace( "Header name:" + entry.getKey() );
-
-                    for( String v : entry.getValue() ) {
-                        logger.trace( "Header value:" + v );
-                        }
-                    }
-                }
-
-            uc.connect();
-            InputStream is = uc.getInputStream();
-*/
-            InputStream is = downloadURL.getInputStream();
+            getDownloadEvent().downloadStart( getDownloadURL() );
 
             try {
-                download( is );
+                final InputStream is = getDownloadURL().getInputStream();
 
-                event.downloadDone( downloadURL );
+                try {
+                    download( is );
+
+                    getDownloadEvent().downloadDone( getDownloadURL() );
+                    }
+                finally {
+                    is.close();
+                    }
                 }
-            finally {
-                is.close();
+            catch( DownloadIOException e ) {
+                getDownloadEvent().downloadFail( e );
                 }
-            }
-        catch( DownloadIOException e ) {
-            event.downloadFail( e );
+            catch( Exception e ) {
+                getDownloadEvent().downloadFail( new DownloadIOException( getDownloadURL(), e ) );
+                }
             }
         catch( Exception e ) {
-            event.downloadFail( new DownloadIOException( getDownloadURL(), e ) );
+            logger.fatal( "Unhandled exception", e );
             }
     }
 
@@ -148,8 +87,11 @@ abstract class AbstractDownload implements RunnableDownload
             throws IOException, DownloadIOException;
 
     /**
-     *
-     * @return {@link DownloadEvent} for this
+     * Returns {@link DownloadEvent} for this {@link AbstractDownload}
+     * @return {@link DownloadEvent} for this {@link AbstractDownload}
      */
-    protected final DownloadEvent getDownloadEvent() { return event; };
+    final protected DownloadEvent getDownloadEvent() 
+    {
+        return event; 
+    }
 }

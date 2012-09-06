@@ -1,9 +1,9 @@
-package samples.downloader;
+package samples.downloader.display.table;
 
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
-import com.googlecode.cchlib.net.download.DownloadURLResultType;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
 
 /**
@@ -11,8 +11,13 @@ import com.googlecode.cchlib.net.download.DownloadURL;
 */
 //NOT public
 enum DisplayTableModelEntryState {
-  INIT, SKIP, DONE, CANT_RENAME, STORED,
-};
+    INIT, 
+    SKIP,
+    DONE, 
+    CANT_RENAME,
+    STORED,
+    ERROR,
+    };
 
 /**
  *
@@ -30,25 +35,15 @@ class DisplayTableModelEntry implements Serializable
     {
         this.url   = dURL.getURL();
 
-        update( DisplayTableModelEntryState.INIT, dURL );
+        updateContent( DisplayTableModelEntryState.INIT, dURL );
     }
 
     public Object getColumn( final int columnIndex )
     {
         switch( columnIndex ) {
-            case 0 : return url;
-            case 1 : return state;
+            case 0 : return url.toExternalForm();
+            case 1 : return state.toString();
             case 2 : return file;
-            default: return null;
-        }
-    }
-
-    public static String getColumnName( final int columnIndex )
-    {
-        switch( columnIndex ) {
-            case 0 : return "URL";
-            case 1 : return "State";
-            case 2 : return "File";
             default: return null;
         }
     }
@@ -98,15 +93,17 @@ class DisplayTableModelEntry implements Serializable
      * @param state
      * @param dURL
      */
-    public void update(
+    public void updateContent(
             final DisplayTableModelEntryState   state,
             final DownloadURL                   dURL
             )
     {
         setState( state );
 
-        if( dURL.getType() == DownloadURLResultType.FILE ) {
-            setFile( dURL.getResultAsFile() );
+        if( dURL instanceof DownloadFileURL ) {
+            final DownloadFileURL dfURL = DownloadFileURL.class.cast( dURL );
+            
+            setFile( dfURL.getResultAsFile() );
             }
     }
 }

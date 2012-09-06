@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.net.download;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
@@ -9,11 +8,14 @@ import java.util.Map;
 
 /**
  * Define a downloadable URL that should be store in a {@link String}
+ * 
  * @since 4.1.7
  */
-public final class StringDownloadURL extends AbstractDownloadURL
+public final class DefaultDownloadStringURL
+    extends AbstractDownloadURL
+        implements DownloadStringURL
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private String str;
 
     /**
@@ -23,7 +25,7 @@ public final class StringDownloadURL extends AbstractDownloadURL
      *                              on {@link URLConnection} (could be null)
      * @param proxy                 {@link Proxy} to use for download (could be null)
      */
-    public StringDownloadURL(
+    public DefaultDownloadStringURL(
         final URL                   url,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -40,7 +42,7 @@ public final class StringDownloadURL extends AbstractDownloadURL
      * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws MalformedURLException If the spec specifies an unknown protocol
      */
-    public StringDownloadURL(
+    public DefaultDownloadStringURL(
         final String                spec,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -64,36 +66,36 @@ public final class StringDownloadURL extends AbstractDownloadURL
         this.str = str;
     }
 
-    /**
-     * Not supported
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    public File getResultAsFile()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getContentHashCode()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setContentHashCode( String hashString )
-    {
-        throw new UnsupportedOperationException();
-    }
-    /**
-     * Not supported
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    public void setResultAsFile( File file )
-    {
-        throw new UnsupportedOperationException();
-    }
+//    /**
+//     * Not supported
+//     * @throws UnsupportedOperationException
+//     */
+//    @Override
+//    public File getResultAsFile()
+//    {
+//        throw new UnsupportedOperationException();
+//    }
+//
+//    @Override
+//    public String getContentHashCode()
+//    {
+//        throw new UnsupportedOperationException();
+//    }
+//
+//    @Override
+//    public void setContentHashCode( String hashString )
+//    {
+//        throw new UnsupportedOperationException();
+//    }
+//    /**
+//     * Not supported
+//     * @throws UnsupportedOperationException
+//     */
+//    @Override
+//    public void setResultAsFile( File file )
+//    {
+//        throw new UnsupportedOperationException();
+//    }
 
     @Override
     public String toString()

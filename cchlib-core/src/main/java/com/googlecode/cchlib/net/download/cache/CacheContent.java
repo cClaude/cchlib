@@ -21,10 +21,21 @@ final class CacheContent
     private static final Logger logger = Logger.getLogger( CacheContent.class );
     private HashMap<URL,URLDataCacheEntry> dataCache = new HashMap<URL,URLDataCacheEntry>();
     private HashMap<String,URL>            hashcache = new HashMap<String,URL>();
-    public void put( URL url, URLDataCacheEntry data )
+
+    /**
+     * 
+     * @param url
+     * @param data
+     */
+    public void put( final URL url, final URLDataCacheEntry data )
     {
-        dataCache.put( url, data );
-        hashcache.put( data.getContentHashCode(), url );
+        final String hash = data.getContentHashCode();
+        
+        if( ! hashcache.containsKey( hash ) ) {
+            hashcache.put( hash, url );
+            dataCache.remove( url );
+            dataCache.put( url, data );
+            }
         
         debug();
     }
@@ -43,8 +54,6 @@ final class CacheContent
     }
     public int size()
     {
-        debug();
-        
         return dataCache.size();
     }
     public void clear()

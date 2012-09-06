@@ -2,8 +2,10 @@ package samples.downloader;
 
 import java.net.MalformedURLException;
 import java.util.Collection;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  *
@@ -70,10 +72,10 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public StringDownloadURL getStringDownloadURL( final int pageNumber )
+    public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException
     {
-        return new StringDownloadURL(
+        return new DefaultDownloadStringURL(
             String.format(
                 __HTML_URL_BASE_FMT,
                 comboBoxConfig.getComboBoxSelectedValue(),
@@ -85,7 +87,7 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults gdauir, String content2Parse )
             throws MalformedURLException
     {
@@ -95,9 +97,9 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new FileDownloadURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );
+        return new DefaultDownloadFileURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );
     }
 }

@@ -3,8 +3,8 @@ package samples.downloader;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.util.Collection;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  *
@@ -97,7 +97,7 @@ public interface GenericDownloaderAppInterface
      * @return a list of URL of json values to parse
      * @throws MalformedURLException
      */
-    public Collection<StringDownloadURL> getURLDownloadAndParseCollection()
+    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
         throws MalformedURLException;
 
     /**
@@ -107,7 +107,7 @@ public interface GenericDownloaderAppInterface
      * @return TODOC
      * @throws MalformedURLException
      */
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
         GenericDownloaderAppUIResults   gdauir,
         String                          content2Parse
         ) throws MalformedURLException;

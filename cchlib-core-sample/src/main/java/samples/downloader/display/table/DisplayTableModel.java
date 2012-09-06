@@ -1,4 +1,4 @@
-package samples.downloader;
+package samples.downloader.display.table;
 
 import java.awt.Rectangle;
 import java.io.File;
@@ -9,6 +9,8 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
+import samples.downloader.LoggerListener;
+import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadURL;
 
 /**
@@ -32,6 +34,7 @@ public abstract class DisplayTableModel
         //empty !
     }
 
+    final
     public void setJTable( final JTable jTable )
     {
         this.jTable = jTable;
@@ -40,7 +43,8 @@ public abstract class DisplayTableModel
     /**
      * Removes all of the elements from this model. The model will be empty after this call returns.
      */
-    public void clear()
+    final
+    public synchronized void clear()
     {
         list.clear();
 
@@ -58,45 +62,44 @@ public abstract class DisplayTableModel
         logger.error( "NoSuchElement: " + url.toExternalForm() );
 
         return -1; // not found
-        //throw new NoSuchElementException( url.toExternalForm() );
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
-    @Override//AbstractTableModel
+    @Override // AbstractTableModel
+    final
     public int getColumnCount()
     {
         return DisplayTableModelEntry.ENTRY_COLUMN_COUNT;
     }
 
-    @Override//AbstractTableModel
+    @Override // AbstractTableModel
+    final
     public String getColumnName( final int columnIndex )
     {
-        System.err.println( "columnIndex: " + DisplayTableModelEntry.getColumnName( columnIndex ) );
-        return DisplayTableModelEntry.getColumnName( columnIndex );
+        switch( columnIndex ) {
+            case 0 : return "URL";
+            case 1 : return "State";
+            case 2 : return "File";
+            default: return null;
+        }
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    @Override//AbstractTableModel
-    public int getRowCount()
+    @Override // AbstractTableModel
+    final
+    public synchronized int getRowCount()
     {
         return list.size();
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    @Override//AbstractTableModel
-    public Object getValueAt( int rowIndex, int columnIndex )
+    @Override // AbstractTableModel
+    final
+    public synchronized Object getValueAt( int rowIndex, int columnIndex )
     {
         return list.get( rowIndex ).getColumn( columnIndex );
     }
 
-    @Override
-    public void downloadStart( final DownloadURL dURL )
+    @Override // LoggerListener
+    final
+    public synchronized void downloadStart( final DownloadURL dURL )
     {
         final int index = this.list.size();
 
@@ -114,8 +117,9 @@ public abstract class DisplayTableModel
         });
     }
 
-    @Override
-    public void downloadDone( final DownloadURL dURL )
+    @Override // LoggerListener
+    final
+    public synchronized void downloadDone( final DownloadURL dURL )
     {
         final int index = findEntryIndex( dURL.getURL() );
 
@@ -123,14 +127,15 @@ public abstract class DisplayTableModel
             logger .fatal( "URL not in list: " + dURL );
             }
         else {
-            list.get( index ).update( DisplayTableModelEntryState.DONE, dURL );
+            list.get( index ).updateContent( DisplayTableModelEntryState.DONE, dURL );
 
             super.fireTableRowsUpdated( index, index );
             }
     }
 
-    @Override
-    public void downloadCantRename(
+    @Override // LoggerListener
+    final
+    public synchronized void downloadCantRename(
             final DownloadURL   dURL,
             final File          tmpFile,
             final File          expectedCacheFile
@@ -142,14 +147,15 @@ public abstract class DisplayTableModel
             logger .fatal( "URL not in list: " + dURL );
             }
         else {
-            list.get( index ).update( DisplayTableModelEntryState.CANT_RENAME, dURL );
+            list.get( index ).updateContent( DisplayTableModelEntryState.CANT_RENAME, dURL );
 
             super.fireTableRowsUpdated( index, index );
             }
     }
 
-    @Override
-    public void downloadStored( final DownloadURL dURL )
+    @Override // LoggerListener
+    final
+    public synchronized void downloadStored( final DownloadURL dURL )
     {
         final int index = findEntryIndex( dURL.getURL() );
 
@@ -157,10 +163,27 @@ public abstract class DisplayTableModel
             logger .fatal( "URL not in list: " + dURL );
             }
         else {
-            list.get( index ).update( DisplayTableModelEntryState.STORED, dURL );
+            list.get( index ).updateContent( DisplayTableModelEntryState.STORED, dURL );
 
             super.fireTableRowsUpdated( index, index );
             }
+    }
+    
+    @Override // LoggerListener
+    final
+    public synchronized void downloadFail( final DownloadIOException dioe )
+    {
+        final DownloadURL dURL  = dioe.getDownloadURL();
+        final int         index = findEntryIndex( dURL.getURL() );
+
+        if( index == -1 ) {
+            logger .fatal( "URL not in list: " + dURL );
+            }
+        else {
+            list.get( index ).updateContent( DisplayTableModelEntryState.ERROR, dURL );
+            }
+        
+        logger.warn( "DownloadFail", dioe );
     }
 
 }

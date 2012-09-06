@@ -8,15 +8,51 @@ import com.googlecode.cchlib.net.download.DownloadURL;
 /**
  *
  */
-interface LoggerListener extends DownloadEvent//EventListener
+public interface LoggerListener extends DownloadEvent
 {
+    /**
+     * 
+     * @param msg
+     */
     public void warn( String msg );
+
+    /**
+     * 
+     * @param msg
+     */
     public void info( String msg );
+
+    /**
+     * 
+     * @param url
+     * @param file
+     * @param cause
+     */
     public void error( URL url, File file, Throwable cause );
-    //public void error( URL url, Throwable cause );
+
+    /**
+     * 
+     * @param event
+     */
     public void downloadStateInit( DownloadStateEvent event );
+    
+    /**
+     * 
+     * @param event
+     */
     public void downloadStateChange( DownloadStateEvent event );
-    //public void downloadStoreAs( URL url, File cacheFile );
+
+    /**
+     * 
+     * @param dURL
+     * @param tmpFile
+     * @param expectedCacheFile
+     */
     public void downloadCantRename( DownloadURL dURL, File tmpFile, File expectedCacheFile );
+    
+    /**
+     * 
+     * @param dURL
+     */
     public void downloadStored( DownloadURL dURL );
 }

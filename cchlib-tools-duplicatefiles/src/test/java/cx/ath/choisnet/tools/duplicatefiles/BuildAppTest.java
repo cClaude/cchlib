@@ -158,8 +158,7 @@ public class BuildAppTest extends JFrame
 
     }
 
-    //@Test
-    public void test_BuidTst(
+    private void test_BuidTst(
         final int diffFilesCount,
         final int duplicateFilesCount
         ) throws IOException
@@ -182,7 +181,7 @@ public class BuildAppTest extends JFrame
                 strings[ i ] = Integer.toHexString( i );
 
                 File file = new File( refDir, "REF-file-" + i );
-                IOHelper.toFile( file, strings[ i ] );
+                IOHelper.toFile( strings[ i ], file );
                 }
 
             logger.info( "BuildAppTest ref done" );
@@ -202,7 +201,7 @@ public class BuildAppTest extends JFrame
             for( int i = 0; i<strings.length; i++ ) {
                 File file = new File( tstFolder, "file-" + i );
 
-                IOHelper.toFile( file, strings[ i ] );
+                IOHelper.toFile( strings[ i ], file );
                 }
 
             logger.info( "BuildAppTest pass " + d + " done" );
@@ -210,9 +209,5 @@ public class BuildAppTest extends JFrame
 
         logger.info( "BuildAppTest done" );
     }
-/*
-    public static void main(String[] args) throws IOException
-    {
-        new BuildAppTest().test_BuidTst();
-    }*/
+
 }

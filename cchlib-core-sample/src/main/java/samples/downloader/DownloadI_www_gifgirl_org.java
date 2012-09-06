@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import com.googlecode.cchlib.net.download.FileDownloadURL;
-import com.googlecode.cchlib.net.download.StringDownloadURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.DownloadStringURL;
 
 /**
  * http://www.gifgirl.org/search?updated-max=2012-06-12T17:20:00-05:00&max-results=40&start=12&by-date=false
@@ -157,7 +159,7 @@ public class DownloadI_www_gifgirl_org
 
 
     @Override
-    public StringDownloadURL getStringDownloadURL( final int pageNumber )
+    public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException
     {
         int      amount = 1 - pageNumber; // = - ( pageNumber - 1 )
@@ -172,7 +174,7 @@ public class DownloadI_www_gifgirl_org
         int     maxResults  = Integer.parseInt( configMaxResults.getComboBoxSelectedValue() );
         String  sort        = Boolean.FALSE.toString();
 
-        return new StringDownloadURL(
+        return new DefaultDownloadStringURL(
                 String.format( URL_PATTERN, year , month, day, maxResults, start, sort ),
                 requestPropertyMap,
                 getProxy()
@@ -180,7 +182,7 @@ public class DownloadI_www_gifgirl_org
     }
 
     @Override
-    public Collection<FileDownloadURL> getURLToDownloadCollection(
+    public Collection<DownloadFileURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
             final String                        content2Parse
             )
@@ -199,9 +201,9 @@ public class DownloadI_www_gifgirl_org
     }
 
     @Override
-    public FileDownloadURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
             throws MalformedURLException
     {
-        return new FileDownloadURL( src, requestPropertyMap, getProxy() );
+        return new DefaultDownloadFileURL( src, requestPropertyMap, getProxy() );
     }
 }

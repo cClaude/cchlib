@@ -9,11 +9,14 @@ import java.util.Map;
 
 /**
  * Define a downloadable URL that should be store in a {@link File}
+ * 
  * @since 4.1.7
  */
-public final class FileDownloadURL extends AbstractDownloadURL
+public final class DefaultDownloadFileURL 
+    extends AbstractDownloadURL
+        implements DownloadFileURL
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
     private File file;
     private String hashString;
 
@@ -24,7 +27,7 @@ public final class FileDownloadURL extends AbstractDownloadURL
      *                              on {@link URLConnection} (could be null)
      * @param proxy                 {@link Proxy} to use for download (could be null)
      */
-    public FileDownloadURL(
+    public DefaultDownloadFileURL(
         final URL                   url,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -41,7 +44,7 @@ public final class FileDownloadURL extends AbstractDownloadURL
      * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws MalformedURLException If the spec specifies an unknown protocol
      */
-    public FileDownloadURL(
+    public DefaultDownloadFileURL(
         final String                spec,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -51,26 +54,9 @@ public final class FileDownloadURL extends AbstractDownloadURL
     }
 
     @Override
-    final public DownloadURLResultType getType() { return DownloadURLResultType.FILE; }
-
-    /**
-     * Not supported
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    public String getResultAsString()
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Not supported
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    public void setResultAsString( String string )
-    {
-        throw new UnsupportedOperationException();
+    final public DownloadURLResultType getType() 
+    { 
+        return DownloadURLResultType.FILE; 
     }
 
     @Override

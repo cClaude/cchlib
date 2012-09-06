@@ -9,19 +9,28 @@ import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
 
 /**
  * Download {@link URL} and put result into a {@link File}
+ * 
  * @since 4.1.5
  */
 public class DownloadToFile extends AbstractDownload
 {
+    //private final static transient Logger logger = Logger.getLogger( DownloadToFile.class );
     private MD5FilterInputStreamBuilder downloadFilterBuilder;
 
+    /**
+     * Create a new DownloadToFile
+     * 
+     * @param downloadURL
+     * @param fileEventHandler
+     * @param downloadFilterBuilder
+     */
     public DownloadToFile(
-        final DownloadURL                   downloadURL,
-        final DownloadEvent                 eventHandler,
+        final DownloadFileURL               downloadURL,
+        final DownloadFileEvent             fileEventHandler,
         final MD5FilterInputStreamBuilder   downloadFilterBuilder
         )
     {
-        super( downloadURL, eventHandler );
+        super( downloadURL, fileEventHandler );
         
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
@@ -57,8 +66,13 @@ public class DownloadToFile extends AbstractDownload
         catch( IOException e ) {
             throw new DownloadIOException( getDownloadURL(), file, e );
             }
+        finally {
+            filter.close(); // Needed ???
+            }
 
-        getDownloadURL().setResultAsFile( file );
-        getDownloadURL().setContentHashCode( md5HashString );
+        final DownloadFileURL dURL = DownloadFileURL.class.cast( getDownloadURL() );
+        
+        dURL.setResultAsFile( file );
+        dURL.setContentHashCode( md5HashString );
     }
 }
