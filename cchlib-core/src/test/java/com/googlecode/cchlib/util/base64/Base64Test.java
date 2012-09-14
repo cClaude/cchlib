@@ -19,9 +19,6 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO; // TEST CASE ONLY
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
-import com.googlecode.cchlib.util.base64.Base64Decoder;
-import com.googlecode.cchlib.util.base64.Base64Encoder;
-import com.googlecode.cchlib.util.base64.Base64FormatException;
 
 /**
  * Test {@link Base64Encoder} and {@link Base64Decoder}

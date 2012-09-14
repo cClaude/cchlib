@@ -24,9 +24,6 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 import cx.ath.choisnet.io.IO; // TEST CASE ONLY
-import cx.ath.choisnet.util.base64.Base64Decoder;
-import cx.ath.choisnet.util.base64.Base64Encoder;
-import cx.ath.choisnet.util.base64.Base64FormatException;
 
 /**
  * Test {@link Base64Encoder} and {@link Base64Decoder}
