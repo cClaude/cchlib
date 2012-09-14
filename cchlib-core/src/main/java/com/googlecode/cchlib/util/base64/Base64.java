@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.base64;
+package com.googlecode.cchlib.util.base64;
 
 /**
  *
@@ -45,4 +45,24 @@ abstract class Base64
             }
     }
 
+    /**
+     * Compute valid internal buffer size.
+     * 
+     * @param bufferSize expected buffer size
+     * @return needed buffer size according to bufferSize
+     */
+    protected static int computeBufferSize( final int bufferSize )
+    {
+        int newBufferSize = bufferSize;
+
+        if( newBufferSize < 0 ) {
+            newBufferSize = DEFAULT_BUFFER_SIZE;
+            }
+        
+        if( (newBufferSize % 4) != 0 ) {
+            newBufferSize = ((newBufferSize / 4) + 1)*4;
+            }
+
+        return newBufferSize;
+    }
 }

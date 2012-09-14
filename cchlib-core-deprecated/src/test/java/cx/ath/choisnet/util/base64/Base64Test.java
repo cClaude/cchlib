@@ -1,4 +1,4 @@
-package cx.ath.choisnet.util.base64.testcase;
+package cx.ath.choisnet.util.base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,6 +31,7 @@ import cx.ath.choisnet.util.base64.Base64FormatException;
 /**
  * Test {@link Base64Encoder} and {@link Base64Decoder}
  */
+@Deprecated
 public class Base64Test
 {
     final private static Logger slogger = Logger.getLogger(Base64Test.class);
@@ -164,7 +165,7 @@ public class Base64Test
     }
 
     @Test
-    @SuppressWarnings("deprecation")
+    @Deprecated
     public void testDecodeInputStreamOutputStream()
         throws Base64FormatException, IOException
     {
@@ -382,7 +383,7 @@ public class Base64Test
         in64.close();
     }
 
-    @SuppressWarnings("deprecation")
+    @Deprecated
     private void D_decodeToOutputStream( InputStream inBinary, OutputStream outBinary )
         throws Base64FormatException, IOException
     {

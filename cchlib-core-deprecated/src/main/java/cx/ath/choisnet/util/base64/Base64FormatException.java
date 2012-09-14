@@ -1,9 +1,6 @@
 package cx.ath.choisnet.util.base64;
 
-/**
- * TODOC
- *
- */
+@Deprecated
 public class Base64FormatException extends java.io.IOException
 {
     private static final long serialVersionUID = 1L;

@@ -10,9 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
- * Decode Base64 text
- *
- * @see Base64Encoder
+ * @deprecated use {@link com.googlecode.cchlib.util.base64.Base64Decoder} instead
  */
 public class Base64Decoder extends Base64
 {

@@ -1,6 +1,5 @@
-package cx.ath.choisnet.util.base64;
+package com.googlecode.cchlib.util.base64;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -31,7 +30,7 @@ public class Base64Encoder extends Base64
      */
     public Base64Encoder( final int bufferSize )
     {
-        this.buffer = new byte[ bufferSize ];
+        this.buffer = new byte[ computeBufferSize( bufferSize ) ];
     }
 
     /**
@@ -42,40 +41,22 @@ public class Base64Encoder extends Base64
      * @throws IOException if any
      * @throws UnsupportedEncodingException if any
      */
-    public synchronized void encode( final InputStream in, final Writer out )
+    public synchronized void encode( 
+        final InputStream in,
+        final Writer      out 
+        )
         throws IOException, UnsupportedEncodingException
     {
-        //byte[] buffer   = new byte[this.bufferSize ];
-        Writer writer = new BufferedWriter( out );
-
-//        for(;;) {
-//            int len;
-//
-//            for( len = 0; len<buffer.length; len++ ) {
-//                int c = in.read();
-//
-//                if( c < 0 ) {
-//                    break; // EOF
-//                    }
-//                buffer[ len ] = (byte)c;
-//                }
-//
-//            if( len == 0 ) {
-//                writer.flush();
-//                return;
-//                }
-//
-//            char[] enc = encodeToChar( buffer, 0, len );
-//            writer.write( enc );
-//            }
         int len;
 
+        //FIXME: bad result if buffer is not big enough !
+        
         while( (len = in.read( buffer )) > 0 ) {
             char[] enc = encodeToChar( buffer, 0, len );
-            writer.write( enc );
+            out.write( enc );
             }
 
-        writer.flush();
+        out.flush();
     }
 
     /**
@@ -99,7 +80,10 @@ public class Base64Encoder extends Base64
      * @return Base 64 encoded string.
      * @throws UnsupportedEncodingException if any
      */
-    public static String encode( final String str, final String charsetName )
+    public static String encode( 
+        final String str, 
+        final String charsetName 
+        )
         throws UnsupportedEncodingException
     {
         return encode( str.getBytes( charsetName ) );
@@ -161,14 +145,14 @@ public class Base64Encoder extends Base64
         while( i>=0 ) {
             if( chars[ i ] != 0 ) {
                 break;
-            }
+                }
             i--;
-        }
+            }
         i++;
 
         if( i == chars.length ) {
             return chars;
-        }
+            }
 
         return Arrays.copyOf( chars, i );
     }
@@ -212,12 +196,12 @@ public class Base64Encoder extends Base64
                     }
                 }
             return ac;
-        }
-        catch(Exception e) {
+            }
+        catch( Exception e ) {
             UnsupportedEncodingException uee = new UnsupportedEncodingException("Base64Encode");
 
             uee.initCause( e );
             throw uee;
-        }
+            }
     }
 }

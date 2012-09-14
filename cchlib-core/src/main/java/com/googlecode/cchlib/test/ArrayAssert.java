@@ -219,16 +219,7 @@ public class ArrayAssert
                 continue;
                 }
             
-            Assert.assertEquals(
-                String.format(
-                        "%s - Not same value offet %d",
-                        //FIXME message cant be null
-                        message,
-                        i
-                        ),
-                expected[i],
-                actual[i]
-               );
+            failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
         }
     }
 
@@ -317,17 +308,30 @@ public class ArrayAssert
             if( expected[ i ] == actual[ i ] ) {
                 continue;
                 }
-
-            Assert.assertEquals(
-                String.format(
-                        "%s - Not same value offet %d",
-                        //FIXME message cant be null
-                        message,
-                        i
-                        ),
-                expected[i],
-                actual[i]
-               );
+            failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
         }
+    }
+    
+    private static void failBadValueAtOffset(
+        final String    message,
+        final int       offset,
+        final Object    expectedValueAtOffset,
+        final Object    actualValueAtOffset
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+        
+        if( message != null ) {
+            sb.append( message );
+            sb.append( " - " );
+            }
+        sb.append( "Not same value at offet: " );
+        sb.append( offset );
+        sb.append( " expected=" );
+        sb.append( expectedValueAtOffset );
+        sb.append( " actual=" );
+        sb.append( actualValueAtOffset );
+        
+        Assert.fail( sb.toString() );
     }
 }

@@ -3,7 +3,7 @@ package com.googlecode.cchlib.services;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import cx.ath.choisnet.util.base64.Base64Encoder;
+import com.googlecode.cchlib.util.base64.Base64Encoder;
 
 /**
  * Encode password to hash code and then encode encode hash code

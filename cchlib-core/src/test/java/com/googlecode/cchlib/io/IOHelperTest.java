@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Assert;
 import org.junit.Test;
-import cx.ath.choisnet.io.IO;
 
 public class IOHelperTest
 {

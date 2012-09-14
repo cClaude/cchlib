@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 
-import cx.ath.choisnet.io.IO;
-
 public class InputStreamHelperTest
 {
     @Test
