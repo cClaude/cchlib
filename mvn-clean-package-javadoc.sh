@@ -157,19 +157,23 @@ cat "${LOGS_TMP}" \
 PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
+cchlib-i18n
 cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
-cchlib-sys
-cchlib-tools
+cchlib-sql
 cchlib-swing
-cchlib-swing-deprecated"
+cchlib-swing-deprecated
+cchlib-sys
+cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
+cchlib-i18n
 cchlib-j2ee
 cchlib-jdbf
-cchlib-sys
-cchlib-swing"
+cchlib-sql
+cchlib-swing
+cchlib-sys"
 #cchlib-swing-deprecated
 #cchlib-core-deprecated
 
