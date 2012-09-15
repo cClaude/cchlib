@@ -6,8 +6,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.servlet.ActionServlet;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
-import cx.ath.choisnet.sql.SimpleQuery;
-import cx.ath.choisnet.sql.SimpleUpdate;
+import com.googlecode.cchlib.sql.SimpleQuery;
+import com.googlecode.cchlib.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use {@link SimpleQuery} and {@link SimpleUpdate}

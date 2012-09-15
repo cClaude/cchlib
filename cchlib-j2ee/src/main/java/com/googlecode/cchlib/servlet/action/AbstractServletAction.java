@@ -10,7 +10,7 @@ import com.googlecode.cchlib.servlet.exception.RequestParameterNotFoundException
 import com.googlecode.cchlib.servlet.exception.RequestParameterNumberFormatException;
 import com.googlecode.cchlib.servlet.exception.ServletActionAssertException;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
-import cx.ath.choisnet.sql.SQLTools;
+import com.googlecode.cchlib.sql.SQLTools;
 
 /**
  * TODOC
