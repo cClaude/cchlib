@@ -12,7 +12,7 @@
   <artifactId>cchlib-sys</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-sys</name>
-  <version>4.1.7-SNAPSHOT</version>
+  <!-- NOT NEED IF SAME VERSION version>4.1.7-SNAPSHOT</version -->
   <description>Provide system related features. </description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 

@@ -168,14 +168,14 @@ cchlib-sys
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
+cchlib-core-deprecated
 cchlib-i18n
 cchlib-j2ee
 cchlib-jdbf
 cchlib-sql
 cchlib-swing
+cchlib-swing-deprecated
 cchlib-sys"
-#cchlib-swing-deprecated
-#cchlib-core-deprecated
 
 PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
 
