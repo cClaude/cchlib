@@ -27,9 +27,8 @@ import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
-//import cx.ath.choisnet.tools.emptydirectories.gui.RemoveEmptyDirectories;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import cx.ath.choisnet.util.HashMapSet;
-import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  *

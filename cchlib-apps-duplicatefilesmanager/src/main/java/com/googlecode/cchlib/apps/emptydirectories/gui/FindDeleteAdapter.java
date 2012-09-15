@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import cx.ath.choisnet.util.CancelRequestException;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  *

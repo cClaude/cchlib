@@ -8,7 +8,7 @@ import java.util.TreeSet;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
-import cx.ath.choisnet.util.CancelRequestException;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * Find empty directories

@@ -28,10 +28,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import cx.ath.choisnet.util.HashMapSet;
-import cx.ath.choisnet.util.checksum.MessageDigestFile;
-import cx.ath.choisnet.util.duplicate.DigestEventListener;
-import cx.ath.choisnet.util.duplicate.DuplicateFileCollector;
 
 /**
  *

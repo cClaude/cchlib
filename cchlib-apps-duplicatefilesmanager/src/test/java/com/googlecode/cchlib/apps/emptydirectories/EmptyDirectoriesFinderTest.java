@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import cx.ath.choisnet.util.CancelRequestException;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 public class EmptyDirectoriesFinderTest
 {

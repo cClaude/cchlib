@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.io.FileFilter;
-import cx.ath.choisnet.util.CancelRequestException;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * Find empty directories
