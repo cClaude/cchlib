@@ -30,7 +30,7 @@ public class Base64Encoder extends Base64
      */
     public Base64Encoder( final int bufferSize )
     {
-        this.buffer = new byte[ computeBufferSize( bufferSize ) ];
+        this.buffer = new byte[ computeEncoderBufferSize( bufferSize ) ];
     }
 
     /**

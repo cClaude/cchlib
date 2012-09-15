@@ -3,6 +3,7 @@ package com.googlecode.cchlib.util.base64;
 /**
  *
  */
+// NOT public
 abstract class Base64
 {
     protected static final int DEFAULT_BUFFER_SIZE = 8192;
@@ -46,12 +47,42 @@ abstract class Base64
     }
 
     /**
+     * Compute valid internal buffer size for decoder.
+     * 
+     * @param expectedBufferSize expected buffer size
+     * @return needed buffer size according to bufferSize
+     */
+    protected static int computeDecoderBufferSize( 
+        final int expectedBufferSize
+        )
+    {
+        return computeBufferSize( expectedBufferSize, 4 );
+    }
+    
+    /**
+     * Compute valid internal buffer size for encoder.
+     * 
+     * @param expectedBufferSize expected buffer size
+     * @return needed buffer size according to bufferSize
+     */
+    protected static int computeEncoderBufferSize( 
+        final int expectedBufferSize
+        )
+    {
+        return computeBufferSize( expectedBufferSize, 12 );
+    }
+    
+    /**
      * Compute valid internal buffer size.
      * 
      * @param bufferSize expected buffer size
+     * @param modulo     alignement need for operation
      * @return needed buffer size according to bufferSize
      */
-    protected static int computeBufferSize( final int bufferSize )
+    private static int computeBufferSize( 
+        final int bufferSize,
+        final int modulo
+        )
     {
         int newBufferSize = bufferSize;
 
@@ -59,8 +90,8 @@ abstract class Base64
             newBufferSize = DEFAULT_BUFFER_SIZE;
             }
         
-        if( (newBufferSize % 4) != 0 ) {
-            newBufferSize = ((newBufferSize / 4) + 1)*4;
+        if( (newBufferSize % modulo) != 0 ) {
+            newBufferSize = ((newBufferSize / modulo) + 1)*modulo;
             }
 
         return newBufferSize;

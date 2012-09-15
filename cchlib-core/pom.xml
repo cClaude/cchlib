@@ -42,6 +42,12 @@
   </distributionManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>net.iharder</groupId>
+      <artifactId>base64</artifactId>
+      <scope>test</scope>
+      <version>2.3.8</version>
+    </dependency>
   </dependencies>
 
   <build>

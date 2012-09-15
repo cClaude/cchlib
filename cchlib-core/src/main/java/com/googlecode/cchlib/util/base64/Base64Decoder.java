@@ -31,7 +31,7 @@ public class Base64Decoder extends Base64
      */
     public Base64Decoder( final int bufferSize )
     {
-        this.buffer = new char[ computeBufferSize( bufferSize ) ];
+        this.buffer = new char[ computeDecoderBufferSize( bufferSize ) ];
     }
 
 //    /**

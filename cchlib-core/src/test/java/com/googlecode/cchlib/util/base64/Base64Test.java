@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -276,21 +277,43 @@ public class Base64Test
     }
 
     @Test
-    //@Ignore // TODO DID NOT WORK if BUFFER_SIZE = 5
-    public void testEncode() throws Base64FormatException, IOException
+    public void testEncodeDecodeBinary() throws Base64FormatException, IOException
     {
+        int prev = 0;
+        
+        for( int i = 0; i < 2048; i++ ) {
+            int bufferSize = Base64.computeEncoderBufferSize( i );
+            
+            if( bufferSize > prev ) {
+                testEncodeDecodeBinary( bufferSize );
+                }
+            }
+    }
+
+    private static void testEncodeDecodeBinary( 
+        final int encoderBufferSize 
+        )
+        throws Base64FormatException, IOException
+    {
+        logger.info( 
+            "Current Base64Encoder bufferSize : " 
+                + encoderBufferSize
+                );
+        
         final byte[] arraySource = new byte[ 256 ];
 
         for( int i=0; i<arraySource.length; i++ ) { 
             arraySource[ i ] = (byte)i; 
             }
 
-        final Base64Encoder encoder = new Base64Encoder(  ); // TODO: plusieurs fois avec plusieurs tailles de buffer
+        final Base64Encoder encoder = new Base64Encoder( encoderBufferSize );
 
-        final char[] charsResultRef = sunEncodeToChars( arraySource );
+        // Build result REF
+        final String        strResultRef = iharderEncodeToString( arraySource );
         
-        final InputStream is = new ByteArrayInputStream( arraySource );
-        final char[]      charsResult1;
+        // Build result 1 using an InputStream
+        final InputStream   is = new ByteArrayInputStream( arraySource );
+        final String        strResult1;
         
         try {
             CharArrayWriter writer = new CharArrayWriter();
@@ -302,43 +325,59 @@ public class Base64Test
                 writer.close();
                 }
 
-            charsResult1 = writer.toCharArray();
-            //chars = encodeInputStreamToCharArray( in );
+            strResult1 = writer.toString();
             }
         finally {
             is.close();
             }
 
-        //FIXME int fixme;
-        char[] charsResult2 = Base64Encoder.encodeToChar( arraySource );
+        // Build result 2 using an array of bytes
+        final String strResult2;
+        {
+            char[] charsResult2 = Base64Encoder.encodeToChar( arraySource );
+            
+            strResult2 = new String( charsResult2 );
+        }
 
-        logger.info( "chars ref len = " + charsResultRef.length );
-        logger.info( "chars v1  len = " + charsResult1.length );
-        logger.info( "chars V2  len = " + charsResult2.length );
+        logger.info( "ref len = " + strResultRef.length() );
+        logger.info( "v1  len = " + strResult1.length()   );
+        logger.info( "V2  len = " + strResult2.length()   );
 
-        logger.info( "chars ref = " + new String( charsResultRef ) );
-        logger.info( "chars v1  = " + new String( charsResult1 ) );
-        logger.info( "chars V2  = " + new String( charsResult2 ) );
+        logger.info( "ref = " + strResultRef );
+        logger.info( "v1  = " + strResult1   );
+        logger.info( "V2  = " + strResult2   );
 
-        //ArrayAssert.assertEquals( "error encode1", charsResultRef, charsResult1 );
-        Assert.assertArrayEquals( "error encode1", charsResultRef, charsResult1 );
+        Assert.assertEquals( "error encode1", strResultRef, strResult1 );
+        Assert.assertEquals( "error encode2", strResultRef, strResult2 );
 
-        //ArrayAssert.assertEquals( "error encode2", charsResultRef, charsResult2 );
-        Assert.assertArrayEquals( "error encode2", charsResultRef, charsResult2 );
+        // Restore original value
+        final byte[] decodedResult;
+        {
+            final ByteArrayOutputStream out     = new ByteArrayOutputStream();
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                final StringReader          in      = new StringReader( strResult1 );
+                final Base64Decoder         decoder = new Base64Decoder( TEST_BUFFER_SIZE );
+                
+                try {
+                    decoder.decode( in, out );
+                    out.flush();
+                    }
+                finally {
+                    in.close();
+                    }
+                }
+            finally {
+                out.close();
+                }
+            
+            decodedResult = out.toByteArray();
+        }
 
-        decodeToOutputStream( charsResult1, out );
-
-        out.flush();
-        out.close();
-
-        byte[] result = out.toByteArray();
-
-        ArrayAssert.assertEquals( "Bad result", arraySource, result );
-        Assert.assertArrayEquals( "Bad result", arraySource, result );
+        ArrayAssert.assertEquals( "Bad final result", arraySource, decodedResult );
+        Assert.assertArrayEquals( "Bad final result", arraySource, decodedResult );
     }
-
+    
     @Test
     public void testFile() throws Base64FormatException, IOException
     {
@@ -369,7 +408,8 @@ public class Base64Test
 
         // DECODE using SUN Version
         {
-            byte[]  sunDecode   = sunDecode( encodedPNGFileInB64CharArray );
+            //byte[]  sunDecode   = sunDecode( encodedPNGFileInB64CharArray );
+            byte[]  sunDecode   = iharderDecode( encodedPNGFileInB64CharArray );
             boolean same        = IOHelper.isEquals( IO.getPNGFile(), sunDecode );
 
             logger.info( "decode with sun - R=" + same );
@@ -429,20 +469,25 @@ public class Base64Test
     private static void testAndCompare2SunBASE64( final byte[] bytes )
         throws IOException
     {
-        String sunEncode = sunEncodeToString( bytes );
+        //String sunEncode = sunEncodeToString( bytes );
+        String sunEncode = iharderEncodeToString( bytes );
         String encode    = Base64Encoder.encode( bytes );
-
+        
         Assert.assertEquals( "bad encoding", sunEncode, encode );
 
         {
-            byte[] sunDecode = sunDecode( sunEncode );
+            //byte[] sunDecode = sunDecode( sunEncode );
+            byte[] sunDecode = iharderDecode( sunEncode );
+            
             byte[] decode    = Base64Decoder.decode( sunEncode.toCharArray() );
 
             Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
             ArrayAssert.assertEquals( "bad decoding", sunDecode, decode );
         }
         {
-            byte[] sunDecode = sunDecode( encode );
+            //byte[] sunDecode = sunDecode( encode );
+            byte[] sunDecode = iharderDecode( encode );
+            
             byte[] decode    = Base64Decoder.decode( encode.toCharArray() );
 
             Assert.assertArrayEquals( "bad decoding", sunDecode, decode );
@@ -450,53 +495,73 @@ public class Base64Test
         }
     }
 
-    private static String sunEncodeToString( final byte[] bytes ) throws IOException
+//    private static String sunEncodeToString( final byte[] bytes ) throws IOException
+//    {
+//        @SuppressWarnings("restriction")
+//        String sunEncode = (new sun.misc.BASE64Encoder()).encode( bytes );
+//
+//        // Remove EOL characters
+//        final StringBuilder sb = new StringBuilder();
+//
+//        for( char c : sunEncode.toCharArray() ) {
+//            if( c > ' ' ) {
+//                sb.append( c );
+//                }
+//            }
+//
+//        return sb.toString();
+//    }
+
+//    //private static char[] sunEncodeToChars( final byte[] bytes ) throws IOException
+//    private static char[] iharderEncodeToChars( final byte[] bytes ) throws IOException
+//    {
+//        //String str    = sunEncodeToString( bytes );
+//        String str   = iharderEncodeToString( bytes );
+//        char[] chars = new char[ str.length() ];
+//
+//        for( int i = 0 ; i < str.length(); i++ ) {
+//            chars[ i ] = str.charAt( i );
+//            }
+//
+//        return chars;
+//    }
+
+//    @SuppressWarnings("restriction")
+//    private static byte[] sunDecode( final char[] b64encoded ) throws IOException
+//    {
+//        final Reader    r  = new CharArrayReader( b64encoded );
+//        InputStream     is = new InputStream() {
+//                @Override
+//                public int read() throws IOException
+//                {
+//                    return r.read();
+//                }
+//            };
+//
+//        return (new sun.misc.BASE64Decoder()).decodeBuffer( is );
+//    }
+
+//    @SuppressWarnings("restriction")
+//    private static byte[] sunDecode( final String b64encoded ) throws IOException
+//    {
+//        return (new sun.misc.BASE64Decoder()).decodeBuffer( b64encoded );
+//    }
+
+    private static String iharderEncodeToString( final byte[] bytes )
     {
-        @SuppressWarnings("restriction")
-        String sunEncode = (new sun.misc.BASE64Encoder()).encode( bytes );
-
-        // Remove EOL characters
-        final StringBuilder sb = new StringBuilder();
-
-        for( char c : sunEncode.toCharArray() ) {
-            if( c > ' ' ) {
-                sb.append( c );
-                }
-            }
-
-        return sb.toString();
+        return net.iharder.Base64.encodeBytes( bytes );
     }
-
-    private static char[] sunEncodeToChars( final byte[] bytes ) throws IOException
+    
+    private static byte[] iharderDecode( final String b64encoded )
+        throws IOException
     {
-        String str    = sunEncodeToString( bytes );
-        char[] result = new char[ str.length() ];
-
-        for( int i = 0 ; i < str.length(); i++ ) {
-            result[ i ] = str.charAt( i );
-            }
-
-        return result;
+        return net.iharder.Base64.decode( b64encoded );
     }
-
-    @SuppressWarnings("restriction")
-    private static byte[] sunDecode( final char[] b64encoded ) throws IOException
+    
+    private static byte[] iharderDecode( final char[] b64encoded )
+        throws IOException
     {
-        final Reader    r  = new CharArrayReader( b64encoded );
-        InputStream     is = new InputStream() {
-                @Override
-                public int read() throws IOException
-                {
-                    return r.read();
-                }
-            };
-
-        return (new sun.misc.BASE64Decoder()).decodeBuffer( is );
+        return iharderDecode( new String( b64encoded ) );
     }
-
-    @SuppressWarnings("restriction")
-    private static byte[] sunDecode( final String b64encoded ) throws IOException
-    {
-        return (new sun.misc.BASE64Decoder()).decodeBuffer( b64encoded );
-    }
+    
 }

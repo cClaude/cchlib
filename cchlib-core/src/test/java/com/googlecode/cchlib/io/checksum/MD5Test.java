@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-//import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,8 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.util.checksum.MessageDigestFile;
+//import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  * 
