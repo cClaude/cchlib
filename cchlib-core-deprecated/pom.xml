@@ -28,11 +28,12 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    <!-- dependency>
-     <groupId>com.googlecode.cchlib</groupId>
-     <artifactId>cchlib-swing</artifactId>
-     <version>4.1.7-SNAPSHOT</version>
-    </dependency -->
+    <dependency>
+      <groupId>net.iharder</groupId>
+      <artifactId>base64</artifactId>
+      <scope>test</scope>
+      <version>2.3.8</version>
+    </dependency>
   </dependencies>
 
   <build>
