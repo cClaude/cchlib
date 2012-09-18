@@ -44,7 +44,7 @@ import javax.swing.JTable;
  */
 public class GenericDownloaderUIApp extends JFrame
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( GenericDownloaderUIApp.class );
 
     protected static final String APP_NAME = "Downloader";
@@ -52,6 +52,8 @@ public class GenericDownloaderUIApp extends JFrame
     private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
     private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
     private static final String ACTION_QUIT = "ACTION_QUIT";
+    private static final String ACTION_STOP = "ACTION_STOP";
+    private static final String ACTION_START = "ACTION_START";
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -167,6 +169,19 @@ public class GenericDownloaderUIApp extends JFrame
                         if( windowClosing() ) {
                             windowClosed();
                             }
+                        }
+                    else if( ACTION_STOP.equals( cmd ) ) {
+                        if( stopJButton.isEnabled() ) {
+                            stopDownload();
+                            }
+                        }
+                    else if( ACTION_START.equals( cmd ) ) {
+                        if( startJButton.isEnabled() ) {
+                            startDownload();
+                            }
+                        }
+                    else {
+                        logger.warn( "Unknown ActionCommand " + cmd );
                         }
                 }
             };
@@ -400,23 +415,12 @@ public class GenericDownloaderUIApp extends JFrame
             panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
             startJButton = new JButton("Start");
             panel.add(startJButton);
-            startJButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event)
-                {
-                    if( startJButton.isEnabled() ) {
-                        startDownload();
-                        }
-                }
-            });
+            startJButton.setActionCommand( ACTION_START );
+            startJButton.addActionListener( getActionListener() );
             {
                 stopJButton = new JButton("Stop");
-                stopJButton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if( stopJButton.isEnabled() ) {
-                            stopDownload();
-                        }
-                    }
-                });
+                stopJButton.setActionCommand( ACTION_STOP );
+                stopJButton.addActionListener( getActionListener() );
                 stopJButton.setEnabled(false);
                 panel.add(stopJButton);
             }
@@ -449,6 +453,10 @@ public class GenericDownloaderUIApp extends JFrame
         downloadThreadNumberJSpinner.setEnabled( false );
         siteJComboBox.setEnabled( false );
 
+        for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
+            pannel.setEnabledAllComponents( false );
+            }
+        
         synchronized( genericDownloaderLock ) {
             if( genericDownloader_useLock != null ) {
                 logger.error( "Already running !" );
@@ -520,6 +528,10 @@ public class GenericDownloaderUIApp extends JFrame
                 downloadThreadNumberJSpinner.setEnabled( true );
                 siteJComboBox.setEnabled( true );
 
+                for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
+                    pannel.setEnabledAllComponents( true );
+                    }
+                
                 displayJProgressBar.setIndeterminate( false );
                 displayJProgressBar.setEnabled( false );
                 displayJProgressBar.setString( "Ready." );

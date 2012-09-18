@@ -14,6 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.JComboBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GenericDownloaderUIPanel
     extends JPanel
@@ -24,6 +26,7 @@ public class GenericDownloaderUIPanel
     private JSpinner pageScanCountJSpinner;
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
+    private List<JComboBox<String>> stringsJComboBoxList;
 
     /**
      * Create the panel.
@@ -99,7 +102,7 @@ public class GenericDownloaderUIPanel
 
         int lineNumber = 0;
         // $hide>>$
-        //if( config.isExtraStringValue() )
+        stringsJComboBoxList = new ArrayList<JComboBox<String>>();
         for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
@@ -124,6 +127,7 @@ public class GenericDownloaderUIPanel
             }
             {
                 final JComboBox<String> stringsJComboBox = new JComboBox<>();
+                stringsJComboBoxList.add( stringsJComboBox );
                 stringsJComboBox.addItemListener(new ItemListener() {
                     public void itemStateChanged( ItemEvent event )
                     {
@@ -160,5 +164,14 @@ public class GenericDownloaderUIPanel
         final boolean enabled = ! isReadOnly;
 
         pageScanCountJSpinner.setEnabled( enabled  );
+    }
+
+    public void setEnabledAllComponents( final boolean enabled )
+    {
+        pageScanCountJSpinner.setEnabled( enabled );
+        
+        for( JComboBox<String> jcb : stringsJComboBoxList ) {
+            jcb.setEnabled( enabled );
+            }
     }
 }

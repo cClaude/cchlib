@@ -117,14 +117,21 @@ public class JFileChooserInitializer
      * Build a {@link JFileChooser} using
      * {@link JFileChooserInitializerCustomize}
      *
-     * @param configurator
+     * @param configurator JFileChooserInitializerCustomize object
+     * to use to build custom initialization.
+     * @throws NullPointerException if configurator is null
      */
     public JFileChooserInitializer(
         final JFileChooserInitializerCustomize configurator
         )
+    throws NullPointerException
     {
         this.configurator = configurator;
 
+        if( this.configurator == null ) {
+            throw new NullPointerException( "Parameter configurator is null" );
+            }
+        
         init();
 
         UIManager.addPropertyChangeListener(
