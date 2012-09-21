@@ -2,116 +2,51 @@ package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.border.EmptyBorder;
 
 /**
- *  ImagePreview
+ * {@link JFileChooser} accessory able to show a preview
+ * of your pictures.
+ * 
+ * @see javax.swing.JFileChooser#setAccessory(javax.swing.JComponent)
+ * @see TabbedAccessory
  */
 public class ImagePreviewAccessory
     extends JComponent
-        implements  PropertyChangeListener,
-                    TabbedAccessoryInterface
+        implements TabbedAccessoryInterface
 {
-    private static final long serialVersionUID = 1L;
-    /** @serial */
-    private ImageIcon thumbnail = null;
-    /** @serial */
-    private File file = null;
-    /** @serial */
-    private int width;
-    /** @serial */
-    private int widthPicture;
+    private static final long serialVersionUID = 2L;
+    private static ResourcesUtils resourcesUtils = new ResourcesUtils();
+    private ImagePreviewComponent image;
 
-    public ImagePreviewAccessory(JFileChooser fc)
+    /**
+     * Create a ImagePreviewAccessory for giving JFileChooser
+     * 
+     * @param jfc JFileChooser to use
+     */
+    public ImagePreviewAccessory( final JFileChooser jfc )
     {
-        width = 200;
-        setPreferredSize(new Dimension(width, 100));
-        fc.addPropertyChangeListener(this);
-        widthPicture = width - 10;
-    }
-
-    public void loadImage()
-    {
-        if (file == null) {
-            thumbnail = null;
-            return;
-        }
-
-        //Don't use createImageIcon (which is a wrapper for getResource)
-        //because the image we're trying to load is probably not one
-        //of this program's own resources.
-        ImageIcon tmpIcon = new ImageIcon(file.getPath());
-
-        if (tmpIcon != null) {
-            if (tmpIcon.getIconWidth() > widthPicture) {
-                thumbnail = new ImageIcon(
-                        tmpIcon.getImage()
-                            .getScaledInstance(
-                                    widthPicture,
-                                    -1,
-                                    Image.SCALE_DEFAULT
-                                    )
-                            );
-            } else { //no need to miniaturize
-                thumbnail = tmpIcon;
-            }
-        }
-    }
-
-    @Override // PropertyChangeListener
-    public void propertyChange(PropertyChangeEvent e)
-    {
-        boolean update = false;
-        String prop = e.getPropertyName();
-
-        if (JFileChooser.DIRECTORY_CHANGED_PROPERTY.equals(prop)) {
-            //If the directory changed, don't show an image.
-            file = null;
-            update = true;
-        }
-        else if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY.equals(prop)) {
-            //If a file became selected, find out which one.
-            file = (File) e.getNewValue();
-            update = true;
-        }
-
-        //Update the preview accordingly.
-        if (update) {
-            thumbnail = null;
-
-            if( isShowing() ) {
-                loadImage();
-                repaint();
-            }
-        }
-    }
-
-    protected void paintComponent(Graphics g)
-    {
-        if (thumbnail == null) {
-            loadImage();
-        }
-        if (thumbnail != null) {
-            int x = getWidth()/2 - thumbnail.getIconWidth()/2;
-            int y = getHeight()/2 - thumbnail.getIconHeight()/2;
-
-            if (y < 0) {
-                y = 0;
-            }
-
-            if (x < 5) {
-                x = 5;
-            }
-            thumbnail.paintIcon(this, g, x, y);
-        }
+        final int width = 200;
+        
+        Dimension dimension = new Dimension( width, 100 );
+        setPreferredSize( dimension );
+        setLayout(new BorderLayout(0, 0));
+        
+        JPanel jPanel_image = new JPanel();
+        jPanel_image.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        add( jPanel_image );
+        jPanel_image.setLayout(new BorderLayout(0, 0));
+        
+        // Needed for Windows Builder image = new JPanel();
+        image = new ImagePreviewComponent( dimension );
+        jPanel_image.add( image );
+        
+        jfc.addPropertyChangeListener( image );
     }
 
     @Override // TabbedAccessoryInterface
@@ -123,9 +58,7 @@ public class ImagePreviewAccessory
     @Override // TabbedAccessoryInterface
     public Icon getTabIcon()
     {
-        return new ImageIcon(
-                getClass().getResource( "picture.png" )
-                );
+        return resourcesUtils.getImageIcon( ResourcesUtils.ID.IMAGE_ICON );
     }
 
     @Override // TabbedAccessoryInterface
@@ -145,5 +78,4 @@ public class ImagePreviewAccessory
     {
         // empty
     }
-
 }

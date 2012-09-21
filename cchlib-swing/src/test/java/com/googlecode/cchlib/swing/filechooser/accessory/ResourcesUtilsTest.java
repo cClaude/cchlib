@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
-import javax.swing.ImageIcon;
+import java.awt.FlowLayout;
+import java.util.Locale;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -42,11 +42,15 @@ public class ResourcesUtilsTest
     @Test
     public void myTestJButton()
     {
-        ResourcesUtils  resourcesUtils = new ResourcesUtils( getClass() );
-        JButton         jButton         = resourcesUtils.getJButton( "bookmark-add.png" );
+        ResourcesUtils  resourcesUtils = new ResourcesUtils();
         JFrame          frame = new JFrame();
-
-        frame.add( jButton );
+        frame.setLayout( new FlowLayout() );
+        
+        for( ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
+            JButton jButton = resourcesUtils.getJButton( id );
+            frame.add( jButton );
+            }
+        
         frame.setSize(200,200);
         frame.setVisible(true);
         //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -59,30 +63,53 @@ public class ResourcesUtilsTest
             e.printStackTrace();
             }
     }
-
+    
     @Test
-    public void myTestImageIcon()
+    public void testText()
     {
-        ResourcesUtils  resourcesUtils  = new ResourcesUtils( getClass() );
-        ImageIcon       icon            = resourcesUtils.getImageIcon( "fakeName" );
-        JFrame          frame           = new JFrame();
-        JCheckBox       checkbox        = new JCheckBox( "Test" );
+        testText( null );
+        testText( Locale.ENGLISH );
+        testText( Locale.US );
+        testText( Locale.FRENCH );
+        testText( Locale.FRANCE );
+    }
 
-        checkbox.setIcon( icon );
+    private void testText( final Locale locale )
+    {
+        ResourcesUtils  resourcesUtils = new ResourcesUtils( locale );
+        
+        for( ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
+            String txt = resourcesUtils.getText( id );
 
-        frame.add( checkbox );
-        frame.setSize(200,200);
-        frame.setVisible(true);
-        //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        logger.info( "myTestImageIcon() done" );
-        try {
-            Thread.sleep( 3 * 1000);
+            logger.info( "Text for: " + id + " is [" + txt + "]" );
             }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-            }
-        }
+
+        logger.info( "testText() done for " + locale );
+    }
+
+//    @Test
+//    public void myTestImageIcon()
+//    {
+//        ResourcesUtils  resourcesUtils  = new ResourcesUtils();
+//        ImageIcon       icon            = resourcesUtils.getImageIcon( "fakeName" );
+//        JFrame          frame           = new JFrame();
+//        JCheckBox       checkbox        = new JCheckBox( "Test" );
+//
+//        checkbox.setIcon( icon );
+//
+//        frame.add( checkbox );
+//        frame.setSize(200,200);
+//        frame.setVisible(true);
+//        //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        logger.info( "myTestImageIcon() done" );
+//        try {
+//            Thread.sleep( 3 * 1000);
+//            }
+//        catch( InterruptedException e ) {
+//            e.printStackTrace();
+//            }
+//        }
 
     abstract class TstFrame extends JFrame //implements ActionListener
     {
@@ -92,6 +119,6 @@ public class ResourcesUtilsTest
     public static void main( String[] args )
     {
         new ResourcesUtilsTest().myTestJButton();
-        new ResourcesUtilsTest().myTestImageIcon();
+        //new ResourcesUtilsTest().myTestImageIcon();
     }
 }

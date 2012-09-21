@@ -27,6 +27,7 @@ public class SimpleFileDropTest
         JScrollPane     scrollPane  = new JScrollPane();
         JList<File>     jlist_files = new JList<>( model_files );
 
+        frame.setTitle( this.getClass().getName() );
         frame.add( scrollPane );
         scrollPane.setViewportView( jlist_files );
         frame.setSize(200,200);

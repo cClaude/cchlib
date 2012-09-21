@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.Component;
@@ -12,7 +8,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * TODOC
+ * Accessory container based on a {@link JTabbedPane} able
+ * to support many accessory.
+ * 
+ * @see javax.swing.JFileChooser#setAccessory(javax.swing.JComponent)
  */
 public class TabbedAccessory
     extends JTabbedPane
@@ -35,7 +34,7 @@ public class TabbedAccessory
     /**
      * Build Accessory with giving Dimension
      *
-     * @param dimension
+     * @param dimension Preferred size for this accessory
      */
     public TabbedAccessory(
         final Dimension dimension
@@ -48,8 +47,9 @@ public class TabbedAccessory
     }
 
     /**
-     * TODOC
-     * @param tai
+     * Add a tab
+     * 
+     * @param tai Accessory to add
      * @return current Object for chaining initialization.
      */
     public TabbedAccessory addTabbedAccessory(

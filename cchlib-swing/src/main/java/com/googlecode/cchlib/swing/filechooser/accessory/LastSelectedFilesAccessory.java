@@ -62,7 +62,7 @@ public class LastSelectedFilesAccessory
     {
         this.jFileChooser = jFileChooser;
         this.configurator = config;
-        this.resourcesUtils = new ResourcesUtils( getClass() );
+        this.resourcesUtils = new ResourcesUtils();
 
         listModel_LastSelectedFiles = new DefaultListModel<File>();
 
@@ -161,7 +161,7 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRefreshButton()
     {
-        return resourcesUtils.getJButton( "reload.gif" );
+        return resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_UPDATE );
     }
 
     /**
@@ -169,7 +169,7 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRemoveButton()
     {
-        return resourcesUtils.getJButton( "bookmark-remove.gif" );
+        return resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_REMOVE );
     }
 
     /**
@@ -179,9 +179,9 @@ public class LastSelectedFilesAccessory
     {
         listModel_LastSelectedFiles.clear();
 
-        for(File f:configurator.getLastSelectedFiles()) {
+        for( File f : configurator.getLastSelectedFiles() ) {
             listModel_LastSelectedFiles.addElement( f );
-        }
+            }
     }
 
     @Override // ActionListener

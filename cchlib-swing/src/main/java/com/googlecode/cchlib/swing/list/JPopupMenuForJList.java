@@ -14,7 +14,70 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 /**
  * JPopupMenuForJTable is a context menu builder
  * for {@link JList}.
+ * <p>Usage</p>
+ * <pre>
+ * // create JList
+ * ...
+ * // create PopupMenu
+ * final JPopupMenuForJList&lt;File&gt; popupMenu = new JPopupMenuForJList&lt;File&gt;( jList )
+ * {
+ *     &#64;Override
+ *     protected JPopupMenu createContextMenu( int rowIndex )
+ *     {
+ *        JPopupMenu cm = new JPopupMenu();
  *
+ *        addCopyMenuItem( cm, "Copy", rowIndex );
+ *        addJMenuItem( 
+ *           cm, 
+ *           "Do Something", 
+ *           getActionListener(), 
+ *           ACTION_DO_REMOVE,    // String constant
+ *           ACTION_OBJECT,       // Object constant
+ *           new Integer( rowIndex )
+ *           );
+ *
+ *        return cm;
+ *     }
+ * };
+ * 
+ * popupMenu.setMenu();
+ * 
+ * // ...
+ * </pre>
+ * You also need to create your own {@link ActionListener}
+ * <pre>
+ * private ActionListener getActionListener()
+ * {
+ *    if( actionListener == null ) {
+ *        actionListener = new ActionListener() 
+ *        {
+ *           public void actionPerformed( ActionEvent event )
+ *           {
+ *              final String cmd = event.getActionCommand();
+ *
+ *              // ...
+ *              if( ACTION_XXX.equals( cmd ) ) {
+ *                 doXXX();
+ *                 }
+ *              else if( ACTION_DO_REMOVE.equals( cmd ) ) {
+ *
+ *                 if( event.getSource() instanceof JButton ) {
+ *                    // Remove selected entries in list
+ *                    doRemove( jList.getSelectedIndices() );
+ *                    }
+ *                 else {
+ *                    // Remove current entry (using contextual menu)
+ *                    final int index = Integer.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( ACTION_OBJECT ) );
+ *                    doRemove( new int[]{ index } );
+ *                    }
+ *                 }
+ *               // ...
+ *           }
+ *        };
+ *     }
+ *   return actionListener;
+ * }
+ * </pre>
  * <p>
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
