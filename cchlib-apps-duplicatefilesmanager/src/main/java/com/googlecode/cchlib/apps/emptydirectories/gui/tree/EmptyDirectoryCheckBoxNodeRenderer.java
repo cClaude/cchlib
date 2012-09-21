@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -13,6 +13,7 @@ import javax.swing.tree.TreeCellRenderer;
  *
  *
  */
+public
 class EmptyDirectoryCheckBoxNodeRenderer
     implements TreeCellRenderer
 {

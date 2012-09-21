@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.io.File;
 import java.util.ArrayList;

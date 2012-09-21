@@ -29,9 +29,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMo
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.JPanelResultWB;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.SelectFirstMode;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.panel.result.SortMode;
 import cx.ath.choisnet.util.HashMapSet;
 
 /**
@@ -58,6 +55,7 @@ public class JPanelResult extends JPanelResultWB
 
     @I18nString private String txtCopy = "Copy";
     @I18nString private String txtOpenFile = "Open (Handle by System)";
+    @I18nString private String txtOpenParentDirecoty = "Open parent directory (Handle by System)";
     @I18nString private String txtDeleteThisFile = "Delete this file";
     @I18nString private String txtDeleteAllExceptThisFile  = "Delete all except this file";
     @I18nString private String txtKeepThisFile = "Keep this file";
@@ -417,7 +415,6 @@ public class JPanelResult extends JPanelResultWB
             @Override
             protected JPopupMenu createContextMenu( final int rowIndex )
             {
-                //JPopupMenu cm = super.createContextMenu( rowIndex );
                 JPopupMenu cm = new JPopupMenu();
 
                 addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
@@ -429,6 +426,11 @@ public class JPanelResult extends JPanelResultWB
                     txtOpenFile,
                     createOpenFileActionListener( kf.getFile() )
                     );
+                addJMenuItem(
+                        cm,
+                        txtOpenParentDirecoty,
+                        createOpenFileActionListener( kf.getFile().getParentFile() )
+                        );
                 cm.addSeparator();
 
                 if( jList == getJListKeptIntact() ) {

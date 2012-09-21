@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.awt.Component;
 import java.awt.event.ItemEvent;
@@ -15,6 +15,7 @@ import javax.swing.tree.TreePath;
  *
  *
  */
+public
 class EmptyDirectoryCheckBoxNodeEditor
     extends AbstractCellEditor
         implements TreeCellEditor

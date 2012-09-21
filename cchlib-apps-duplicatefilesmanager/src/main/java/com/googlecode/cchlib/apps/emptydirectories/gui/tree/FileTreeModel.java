@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,17 +18,17 @@ import com.googlecode.cchlib.util.iterator.SingletonIterator;
  *
  */
 public
-class FileTreeModel2
-    extends AbstractFileTreeModel //DefaultTreeModel
+class FileTreeModel
+    extends AbstractFileTreeModel 
         implements FileTreeModelable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FileTreeModel2.class );
+    private static final Logger logger = Logger.getLogger( FileTreeModel.class );
 
     /**
      *
      */
-    public FileTreeModel2( JTree jTree )
+    public FileTreeModel( final JTree jTree )
     {
         super( jTree, true );
     }

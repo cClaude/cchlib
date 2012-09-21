@@ -175,10 +175,21 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public Locale getValidLocale()
     {
-        if( getMainWindow().getLocale() == null ) {
+        Locale locale;
+        
+        try {
+            locale = getMainWindow().getLocale();
+            }
+        catch( Exception e ) {
+            locale = null;
+            logger.warn( "Can not use main window to set Locale", e );
+            }
+        
+        if( locale == null ) {
             return Locale.getDefault();
             }
-        return getMainWindow().getLocale();
+        
+        return locale;
     }
 
     
@@ -212,8 +223,10 @@ public final class DefaultDFToolKit
         List<File> list = new ArrayList<>();
         
         if( this.mainWindow != null ) {
-            for( File f : this.mainWindow.getJPanel0Select().entriesToScans() ) {
-                list.add( f );
+            for( File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
+                if( f.isDirectory() ) {
+                    list.add( f );
+                    }
                 }
             }
 

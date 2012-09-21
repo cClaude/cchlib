@@ -30,8 +30,9 @@ import javax.swing.JLabel;
 /**
  * <pre>
  * TODO: replace JList by JTable
+ * 
  * -> add comment if a folder is a child of an other
- * one, say that it will be ignored, and ignore it !
+ *    one, say that it will be ignored, and ignore it !
  * -> store a tree of folders list to find duplicate !
  *
  * Create classes TreeFile and TreeFile.Node

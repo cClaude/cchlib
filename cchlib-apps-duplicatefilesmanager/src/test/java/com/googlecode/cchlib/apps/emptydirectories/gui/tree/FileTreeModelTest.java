@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.io.File;
 import java.util.Iterator;
@@ -10,16 +10,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-//import com.googlecode.cchlib.apps.emptydirectories.gui.FileTreeModel2;
-//import com.googlecode.cchlib.apps.emptydirectories.gui.FileTreeNode;
 
 /**
  *
  *
  */
-public class FileTreeModel2Test
+public class FileTreeModelTest
 {
-    private static final Logger logger = Logger.getLogger( FileTreeModel2Test.class );
+    private static final Logger logger = Logger.getLogger( FileTreeModelTest.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception
@@ -80,7 +78,7 @@ public class FileTreeModel2Test
     private void runTst( final Object[][] tstDatas )
     {
         JTree           jTree       = new JTree();
-        FileTreeModel2  treeModel   = new FileTreeModel2( jTree );
+        FileTreeModel   treeModel   = new FileTreeModel( jTree );
 
         for( int i = 0; i<tstDatas.length; i++ ) {
             String  fs      = tstDatas[ i ][ 0 ].toString();
@@ -110,7 +108,7 @@ public class FileTreeModel2Test
     }
 
     private void addEntry(
-            final FileTreeModel2    treeModel,
+            final FileTreeModel     treeModel,
             final String            fs,
             final int               expectedSize
             )

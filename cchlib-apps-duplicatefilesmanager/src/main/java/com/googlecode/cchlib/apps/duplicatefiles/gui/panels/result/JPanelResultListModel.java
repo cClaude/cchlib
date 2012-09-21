@@ -190,9 +190,10 @@ public class JPanelResultListModel
             final SelectFirstMode                 selectFirstMode
             )
     {
-        this.duplicateFiles = duplicateFiles;
-        this.sortMode = sortMode;
+        this.duplicateFiles  = duplicateFiles;
+        this.sortMode        = sortMode;
         this.selectFirstMode = selectFirstMode;
+        
         updateCache();
     }
 
@@ -315,6 +316,7 @@ public class JPanelResultListModel
           }
       listModelWillBeDeleted.private_fireAddedAll();
       listModelKeptIntact.private_fireAddedAll();
+      
       ss.clear();
     }
 
