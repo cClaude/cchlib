@@ -1,4 +1,4 @@
-package cx.ath.choisnet.net;
+package com.googlecode.cchlib.net;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -111,7 +111,9 @@ public class WakeOnLan
      * @return TODOC
      * @throws IllegalArgumentException
      */
-    protected static byte[] getMacAddressBytes(String macAddress)
+    protected static byte[] getMacAddressBytes(
+            final String macAddress
+            )
         throws IllegalArgumentException
     {
         byte[]      bytes   = new byte[6];

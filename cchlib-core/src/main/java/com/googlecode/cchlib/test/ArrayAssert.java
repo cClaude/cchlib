@@ -4,7 +4,10 @@ import org.junit.Assert;
 
 /**
  * Provide some extra tools to build JUnit test cases
- * with arrays
+ * with arrays.
+ * <br>
+ * Note: new versions version of JUnit already include this
+ * feature.
  * 
  * @since 4.1.7
  */
