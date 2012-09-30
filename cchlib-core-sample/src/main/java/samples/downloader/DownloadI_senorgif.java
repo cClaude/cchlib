@@ -1,6 +1,7 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
@@ -11,7 +12,7 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  * http://senorgif.memebase.com/page/5/ 1600
  */
 public class DownloadI_senorgif
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
 {
     private static final String SITE_NAME = "senorgif";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 5;
@@ -45,7 +46,7 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException
+    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadStringURL(
             String.format(
@@ -60,7 +61,7 @@ public class DownloadI_senorgif
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
-            final String                        content2Parse
+            final DownloadStringURL             content2Parse
             ) throws MalformedURLException
     {
         RegExgSplitter[] regexps = {
@@ -72,7 +73,7 @@ public class DownloadI_senorgif
 
     @Override
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );
     }

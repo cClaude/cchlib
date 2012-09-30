@@ -3,6 +3,7 @@ package samples.downloader;
 import java.io.File;
 import java.net.URL;
 import com.googlecode.cchlib.net.download.DownloadEvent;
+import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
 
 /**
@@ -10,17 +11,11 @@ import com.googlecode.cchlib.net.download.DownloadURL;
  */
 public interface LoggerListener extends DownloadEvent
 {
-    /**
-     * 
-     * @param msg
-     */
-    public void warn( String msg );
-
-    /**
-     * 
-     * @param msg
-     */
-    public void info( String msg );
+//    /**
+//     * 
+//     * @param msg
+//     */
+//    public void warn( String msg );
 
     /**
      * 
@@ -55,4 +50,11 @@ public interface LoggerListener extends DownloadEvent
      * @param dURL
      */
     public void downloadStored( DownloadURL dURL );
+
+    /**
+     * Invoke when a download file is out of constraints
+     * 
+     * @param dfURL
+     */
+    public void oufOfConstraints( DownloadFileURL dfURL );
 }

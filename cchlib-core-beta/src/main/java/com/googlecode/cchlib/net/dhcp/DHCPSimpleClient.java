@@ -1,30 +1,46 @@
 package com.googlecode.cchlib.net.dhcp;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.StringTokenizer;
 
 /**
- *
+ * TODOC
  *
  */
 public class DHCPSimpleClient extends Thread
 {
-
     private final DHCPSocket bindDHCPSocket;
     private final Random ranXid = new Random();
     private boolean running;
     private final DHCPParameters dhcpParameters;
+    private PrintStream logger;
 
-    public DHCPSimpleClient(DHCPSocket dhcpSocket, DHCPParameters dhcpParameters, String threadName)
+    /**
+     * 
+     * @param dhcpSocket
+     * @param dhcpParameters
+     * @param threadName
+     * @param psLogger
+     */
+    public DHCPSimpleClient(
+        final DHCPSocket        dhcpSocket, 
+        final DHCPParameters    dhcpParameters, 
+        final String            threadName,
+        final PrintStream       psLogger
+        )
     {
-        bindDHCPSocket = dhcpSocket;
-
+        this.bindDHCPSocket = dhcpSocket;
         this.dhcpParameters = dhcpParameters;
-
-        running = true;
+        this.logger = psLogger;
 
         super.setName(threadName);
+
+        this.running = true;
     }
 
     public void run()
@@ -40,13 +56,13 @@ public class DHCPSimpleClient extends Thread
                 DHCPParameters params      = receivedMessage.getDHCPParameters();
                 byte           messageType = params.getOptionAsByte((byte)53);
 
-                DHCPSimpleClient.trace("<< receving <<", receivedMessage);
+                this.trace("<< receving <<", receivedMessage);
 
                 switch(messageType) {
                 case 2:
                 {
                     String ip = DHCPParameters.ip4AddrToString(params.getYIAddr());
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                                 .append(getName())
                                 .append(" received a DHCPOFFER for ")
@@ -63,19 +79,19 @@ public class DHCPSimpleClient extends Thread
                     long    t2 = DHCPParameters.byteToLong(params.getOption((byte)59));
                     String  ip = DHCPParameters.ip4AddrToString(params.getYIAddr());
 
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                                 .append(getName())
                                 .append(" received an DHCPACK and a leasetime.")
                                 .toString()
                                 );
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                             .append("Binding to IP address: ")
                             .append(ip)
                             .toString()
                             );
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                                 .append("Goodnight for ")
                                 .append(t1)
@@ -90,7 +106,7 @@ public class DHCPSimpleClient extends Thread
                     t1 = 15L;
                     mySleepInSec(t1);
 
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                                 .append(getName())
                                 .append(" sending ReNew Message to server...")
@@ -102,7 +118,7 @@ public class DHCPSimpleClient extends Thread
                 }
                 case 6:
                 {
-                    System.out.println(
+                    logger.println(
                             (new StringBuilder())
                                 .append(getName())
                                 .append(" Revieded DHCPNAK... ")
@@ -115,10 +131,10 @@ public class DHCPSimpleClient extends Thread
                 }
             } while(true);
         }
-        catch(java.io.IOException e) {
-            System.err.println(e);
+        catch( IOException e) {
+            logger.println(e);
 
-            e.printStackTrace();
+            e.printStackTrace( logger );
         }
     }
 
@@ -134,15 +150,15 @@ public class DHCPSimpleClient extends Thread
     }
 
     private DHCPMessage sendDiscover()
-        throws java.io.IOException
+        throws IOException
     {
-        DHCPMessage    messageOut = new DHCPMessage(dhcpParameters.getClone());
+        DHCPMessage    messageOut = new DHCPMessage(dhcpParameters.createClone());
         DHCPParameters params     = messageOut.getDHCPParameters();
 
         params.setOp((byte)1);
         params.setXId(ranXid.nextInt());
 
-        DHCPSimpleClient.trace(">> Sending >> DHCPDISCOVER", messageOut);
+        this.trace(">> Sending >> DHCPDISCOVER", messageOut);
 
         bindDHCPSocket.send(messageOut);
 
@@ -154,7 +170,7 @@ public class DHCPSimpleClient extends Thread
                     sentinal = false;
                 }
                 else {
-                    DHCPSimpleClient.trace("<< receving ERROR << DHCPDISCOVER << ERROR1 <<", messageIn);
+                    this.trace("<< receving ERROR << DHCPDISCOVER << ERROR1 <<", messageIn);
 
                     bindDHCPSocket.send(messageOut);
                 }
@@ -168,10 +184,10 @@ public class DHCPSimpleClient extends Thread
     }
 
     private DHCPMessage sendRequest(DHCPMessage lastReceivedDHCPMessage)
-        throws java.net.UnknownHostException, java.io.IOException
+        throws UnknownHostException, IOException
     {
-        DHCPMessage    newDHCPMessage = lastReceivedDHCPMessage.getClone();
-        DHCPParameters params         = dhcpParameters.getClone();
+        DHCPMessage    newDHCPMessage = lastReceivedDHCPMessage.createClone();
+        DHCPParameters params         = dhcpParameters.createClone();
 
         params.setOptions(newDHCPMessage.getDHCPParameters());
         newDHCPMessage.setDHCPParameters(params);
@@ -180,11 +196,11 @@ public class DHCPSimpleClient extends Thread
         params.setOption((byte)53, (byte)3);
         params.setOption((byte)50, params.getYIAddr());
 
-        DHCPSimpleClient.trace(">> DHCPOFFER >>", newDHCPMessage);
+        this.trace(">> DHCPOFFER >>", newDHCPMessage);
 
         bindDHCPSocket.send(newDHCPMessage);
 
-        System.out.print(
+        logger.print(
                 (new StringBuilder())
                     .append(getName())
                     .append(" sending DHCPREQUEST for ")
@@ -198,21 +214,21 @@ public class DHCPSimpleClient extends Thread
             if(bindDHCPSocket.receive(messageIn)) {
                 if(params.getXId() == messageIn.getDHCPParameters().getXId()) {
                     sentinal = false;
-                }
+                    }
                 else {
                     bindDHCPSocket.send(newDHCPMessage);
+                    }
                 }
-            }
             else {
                 bindDHCPSocket.send(newDHCPMessage);
+                }
             }
-        }
 
         return messageIn;
     }
 
-    private DHCPMessage reNew(DHCPMessage offerMessageIn)
-        throws java.net.UnknownHostException, java.net.SocketException, java.io.IOException
+    private DHCPMessage reNew(final DHCPMessage offerMessageIn)
+        throws UnknownHostException, SocketException, IOException
     {
         DHCPParameters params   = offerMessageIn.getDHCPParameters();
         String         serverIP = DHCPParameters.ip4AddrToString(params.getSIAddr());
@@ -239,8 +255,8 @@ public class DHCPSimpleClient extends Thread
                 break;
             }
             if((long)(elpstime * soTimeout) + t1 >= t2) {
-                System.out.print(getName());
-                System.out.println(" rebinding, T1 has ran out...");
+                logger.print(getName());
+                logger.println(" rebinding, T1 has ran out...");
 
                 messageIn = reBind(offerMessageIn);
                 break;
@@ -259,7 +275,7 @@ public class DHCPSimpleClient extends Thread
     }
 
     private DHCPMessage reBind(DHCPMessage offerMessageIn)
-        throws java.net.SocketException, java.io.IOException
+        throws SocketException, IOException
     {
         DHCPParameters params = offerMessageIn.getDHCPParameters();
 
@@ -283,9 +299,9 @@ public class DHCPSimpleClient extends Thread
             }
 
             if((long)(elpstime * so_timeout) + t2 >= leaseTime)  {
-                System.out.print(getName());
-                System.out.print(" is sending DHCPRELEASE, T2 has ran out ");
-                System.out.println("shuttingdown.");
+                logger.print(getName());
+                logger.print(" is sending DHCPRELEASE, T2 has ran out ");
+                logger.println("shuttingdown.");
 
                 sendRelease(offerMessageIn);
 
@@ -311,7 +327,7 @@ public class DHCPSimpleClient extends Thread
     }
 
     private void sendRelease(DHCPMessage inOfferMessage)
-        throws java.io.IOException
+        throws IOException
     {
         DHCPParameters params = inOfferMessage.getDHCPParameters();
 
@@ -322,17 +338,20 @@ public class DHCPSimpleClient extends Thread
         running = false;
     }
 
-    public static final void trace(String messageName, DHCPMessage dhcpMessage)
+    public /*static*/ final void trace(
+        String      messageName, 
+        DHCPMessage dhcpMessage
+        )
     {
-        System.out.println(
+        logger.println(
             (new StringBuilder())
                 .append(" --- ")
                 .append(messageName)
                 .append(" : --- BEGIN ---")
                 .toString()
                 );
-        System.out.println(dhcpMessage.toString());
-        System.out.println(
+        logger.println(dhcpMessage.toString());
+        logger.println(
              (new StringBuilder())
                  .append(" --- ")
                  .append(messageName)

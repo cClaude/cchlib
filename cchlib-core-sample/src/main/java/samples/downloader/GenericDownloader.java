@@ -1,16 +1,18 @@
 package samples.downloader;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
@@ -22,8 +24,9 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
-import com.googlecode.cchlib.net.download.MD5FilterInputStreamBuilder;
 import com.googlecode.cchlib.net.download.cache.URLCache;
+import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 /**
  *
@@ -56,7 +59,7 @@ public class GenericDownloader
         this.gdai   = gdai;
         this.gdauir = gdauir;
 
-logger.setLevel( Level.INFO ); // FIXME: remove this
+//logger.setLevel( Level.INFO ); // FIXME: remove this
 
         final File rootCacheDirectoryFile =
                 new File(
@@ -71,8 +74,10 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
         this.downloadMaxThread          = gdauir.getDownloadThreadCount();
         this.loggerListener             = gdauir.getAbstractLogger();
 
-        gdauir.getAbstractLogger().info( "destinationDirectoryFile = " + destinationDirectoryFile );
-
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "destinationDirectoryFile = " + destinationDirectoryFile );
+            }
+        
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
         this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
@@ -82,10 +87,10 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
             this.cache.load();
             }
         catch( FileNotFoundException ignore ) {
-            this.loggerListener.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
+            logger.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
         catch( Exception ignore ) {
-            this.loggerListener.warn( "* warn: can't load cache file : " + ignore.getMessage() );
+            logger.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
     }
 
@@ -96,17 +101,18 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      * @throws IOException
      * @throws DownloadConfigurationException 
      * @throws RejectedExecutionException 
+     * @throws URISyntaxException 
      */
     final
     protected Collection<DownloadFileURL> collectDownloadURLs() 
         throws  IOException, 
                 RejectedExecutionException,
-                DownloadConfigurationException
+                DownloadConfigurationException, URISyntaxException
     {
         final Collection<DownloadFileURL>   urls        = new HashSet<DownloadFileURL>();
-        final List<String>                  contentList = loads( gdai.getURLDownloadAndParseCollection() );
+        final List<DownloadStringURL>       contentList = loads( gdai.getURLDownloadAndParseCollection() );
 
-        for( String pageContent : contentList ) {
+        for( DownloadStringURL pageContent : contentList ) {
             urls.addAll(
                 gdai.getURLToDownloadCollection( gdauir, pageContent )
                 );
@@ -123,11 +129,12 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      * @throws DownloadConfigurationException 
      * @throws RejectedExecutionException 
      */
-    protected List<String> loads( final Collection<DownloadStringURL> urls ) throws IOException, RejectedExecutionException, DownloadConfigurationException
+    protected List<DownloadStringURL> loads( final Collection<DownloadStringURL> urls ) throws IOException, RejectedExecutionException, DownloadConfigurationException
     {
-        final List<String>      result              = new ArrayList<String>();
-        final DownloadExecutor  downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
-
+        //final List<String>      result              = new ArrayList<String>();
+        final List<DownloadStringURL>   result              = new ArrayList<DownloadStringURL>();
+        final DownloadExecutor          downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
+        
         loggerListener.downloadStateInit( new DownloadStateEvent() {
             @Override
             public int getDownloadListSize()
@@ -150,8 +157,7 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
                     logger.debug( "downloadDone: dURL= " + dURL );
                     }
 
-                final DownloadStringURL dsURL = DownloadStringURL.class.cast( dURL );
-                result.add( dsURL.getResultAsString() );
+                result.add( DownloadStringURL.class.cast( dURL ) );
 
                 loggerListener.downloadDone( dURL );
             }
@@ -173,18 +179,20 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
      * @throws IOException
      * @throws DownloadConfigurationException 
      * @throws RejectedExecutionException 
+     * @throws URISyntaxException 
      */
-    public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException
+    public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException, URISyntaxException
     {
         final Collection<DownloadFileURL>   urls                = collectDownloadURLs();
         final DownloadExecutor              downloadExecutor    = new DownloadExecutor( 
                 downloadMaxThread, 
-                new MD5FilterInputStreamBuilder() 
+//                new MD5FilterInputStreamBuilder() 
+                new DefaultFilterInputStreamBuilder()
                 );
 
         final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
-            int size = 0; //urls.size();
+            int size = 0; 
 
             private void updateDisplay()
             {
@@ -192,10 +200,12 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
                     size++;
                     }
 
-                logger.info( "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() );
-                logger.info( "downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() );
-                logger.info( "size = " + size );
-                logger.info( "size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) );
+                logger.info( 
+                    "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() 
+                    + " * downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() 
+                    + " * size = " + size 
+                    + " * size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) 
+                    );
 
                 loggerListener.downloadStateChange( new DownloadStateEvent() {
                     @Override
@@ -227,115 +237,25 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
             public void downloadDone( DownloadURL dURL )
             {
                 final DownloadFileURL   dfURL       = DownloadFileURL.class.cast( dURL );
-                final File              file        = dfURL.getResultAsFile();
-                final String            hashString  = dfURL.getContentHashCode();
+                final String            hashString  = (String)dfURL.getProperty( 
+                        DefaultFilterInputStreamBuilder.HASH_CODE 
+                        );
+
+                URL u = cache.findURL( hashString );
                 
-//                try {
-//                    // Compute MD5 hash code
-//                    MessageDigestFile   mdf         = new MessageDigestFile();
-//                    byte[]              digestKey   = mdf.compute( file );
-//
-//                    String hashCodeString = MessageDigestFile.computeDigestKeyString( digestKey );
-//
-//                    Assert.assertEquals( hashString, hashCodeString );
-                    URL u = cache.findURL( hashString );
-                    
-                    if( u != null ) {
-                        // Already downloaded
-                        alreadyDownloaded( file, dURL );
-                        }
-                    else {
-                        // New file
-                        newFileDownloaded( file, dURL, hashString );
-                        }
-//                    }
-//                catch( FileNotFoundException e ) {
-//                    // Should not occur
-//                    logger.error( "downloadDone (Should not occur):", e );
-//                    }
-//                catch( IOException e ) {
-//                    // Should not occur
-//                    logger.error( "downloadDone (Should not occur):", e );
-//                    }
-//                catch( NoSuchAlgorithmException e ) {
-//                    // Should not occur
-//                    logger.error( "downloadDone (Should not occur):", e );
-//                    }
-//                finally {
-//                    if( file != null && file.isFile() ) {
-//                        // Occur when file is load twice, using same URL or not.
-//                        // FIXME
-//                        // Delete ? rename ??
-//                        logger.info( "downloadDone: file not deleted ! ? : " + file );
-//                        }
-//                    }
+                if( u != null ) {
+                    // Already downloaded
+                    alreadyDownloaded( dfURL );
+                    }
+                else {
+                    // New file
+                    newFileDownloaded( dfURL );
+                    }
 
                 updateDisplay();
             }
             
-            private void alreadyDownloaded( File file, DownloadURL dURL )
-            {
-            	// Remove this file !
-                file.delete();
-                
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "Already downloaded (deleted): " + file );
-                    }
-            }
-            
-            private void newFileDownloaded(File file, DownloadURL dURL, String hashCodeString ) 
-                        //throws FileNotFoundException, IOException
-            {
-                // Identify file content to generate extension
-                FileDataTypeDescription type;
-                String                  extension;
-                
-                try {
-                    type = FileDataTypes.findDataTypeDescription( file );
-                    }
-                catch( IOException e ) {
-                    type = null;
-                    }
-                
 
-                if( type != null ) {
-                    extension = type.getExtension();
-                    }
-                else {
-                    extension = ".xxx";
-                    }
-
-                // Create new file name
-                File ffile = new File( destinationDirectoryFile, hashCodeString + extension );
-
-                // Rename file
-                boolean isRename = file.renameTo( ffile );
-
-                if( isRename ) {
-                    final DownloadFileURL dfURL = DownloadFileURL.class.cast( dURL );
-                    dfURL.setResultAsFile( ffile );
-                    loggerListener.downloadStored( dURL );
-                    Date date = new Date(); // TODO get date of end of download ?
-                    cache.add( dURL.getURL(), date, hashCodeString, ffile.getName() );
-                    }
-                else {
-                    File file2;
-
-                    if( ffile.exists() ) {
-                        file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashCodeString + extension + ".exists" );
-                        }
-                    else {
-                        file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashCodeString + extension + "tmp" );
-                        }
-
-                    if( file.renameTo( file2 ) ) {
-                        loggerListener.downloadCantRename( dURL, file, file2 );
-                        }
-                    else {
-                        loggerListener.downloadCantRename( dURL, file, ffile );
-                        }
-                    }
-            }
 
             @Override
             public File createDownloadTmpFile() throws IOException
@@ -362,12 +282,12 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
 
         for( DownloadFileURL du: urls ) {
             if( cache.isInCacheIndex( du.getURL() ) ) {
-            //if( cache.isInCache( u ) ) {
                 // skip this entry !
-                loggerListener.info( "Already in cache (Skip): " + du.getURL() );
+                if( logger.isDebugEnabled() ) {
+                    logger.debug( "Already in cache (Skip): " + du.getURL() );
+                    }
                 }
             else {
-                //DownloadURL du = new FileDownloadURL( u, requestPropertyMap, proxy );
                 downloadExecutor.addDownload( du, eventHandler );
                 statsLauchedDownload++;
                 }
@@ -389,7 +309,125 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
             throw ioe;
             }
     }
+    
+    private void alreadyDownloaded( final DownloadFileURL dfURL )
+    {
+        final File file = dfURL.getResultAsFile();
 
+        // Remove this file !
+        file.delete();
+        
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "Already downloaded (deleted): " + file );
+            }
+    }
+    
+    private void newFileDownloaded( final DownloadFileURL dfURL ) 
+    {
+        final File file = dfURL.getResultAsFile();
+
+        if( ! isFileValidAccordingToConstraints( dfURL ) ) {
+            // out of constraints : remove this file
+            file.delete();
+            
+            loggerListener.oufOfConstraints( dfURL );
+            
+            return;
+            }
+        final String    hashString  = (String)dfURL.getProperty( "HashCode" );
+        
+        // Identify file content to generate extension
+        FileDataTypeDescription type;
+        String                  extension;
+        
+        try {
+            type = FileDataTypes.findDataTypeDescription( file );
+            }
+        catch( IOException e ) {
+            type = null;
+            }
+
+        if( type != null ) {
+            extension = type.getExtension();
+            }
+        else {
+            extension = ".xxx";
+            }
+
+        // Create new file name
+        File ffile = new File( 
+                destinationDirectoryFile,
+                hashString + extension 
+                );
+
+        // Rename file
+        boolean isRename = file.renameTo( ffile );
+
+        if( isRename ) {
+            // Set new name for this file.
+            dfURL.setResultAsFile( ffile );
+            
+            // Notify
+            loggerListener.downloadStored( dfURL );
+            
+            // Add to cache
+            Date date = new Date(); // TODO get date of end of download ?
+            cache.add( dfURL.getURL(), date, hashString, ffile.getName() );
+            }
+        else {
+            File file2;
+
+            if( ffile.exists() ) {
+                file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashString + extension + ".exists" );
+                }
+            else {
+                file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashString + extension + "tmp" );
+                }
+
+            if( file.renameTo( file2 ) ) {
+                // Rename to something better
+                dfURL.setResultAsFile( file2 );
+                
+                loggerListener.downloadCantRename( dfURL, file, file2 );
+                }
+            else {
+                // Can not rename at all
+                loggerListener.downloadCantRename( dfURL, file, ffile );
+                }
+            }
+    }
+    
+    // is file valid according to constrains
+    private boolean isFileValidAccordingToConstraints( 
+        final DownloadFileURL dfURL 
+        )
+    {
+        final Dimension dimension   = (Dimension)dfURL.getProperty( DefaultFilterInputStreamBuilder.DIMENSION );
+        final String    formatName  = (String)dfURL.getProperty( DefaultFilterInputStreamBuilder.FORMAT_NAME );
+        
+        if( dimension != null ) {
+            if( dimension.width < 100 || dimension.height < 100 ) {
+                return false;
+                }
+            
+            if( (dimension.getWidth() * dimension.getHeight()) < (450 * 450) ) {
+                return false;
+                }
+            }
+        
+        return true;
+    }
+    
+    private String computeHashString( final File file ) 
+        throws NoSuchAlgorithmException, IOException
+    {
+        // Compute MD5 hash code
+        MessageDigestFile   mdf         = new MessageDigestFile();
+        byte[]              digestKey   = mdf.compute( file );
+
+        return MessageDigestFile.computeDigestKeyString( digestKey );
+    }
+    
     public void onClickStopDownload()
     {
         // TODO Auto-generated method stub
@@ -414,7 +452,5 @@ logger.setLevel( Level.INFO ); // FIXME: remove this
         logger.info( "stopDownload() not implemented !" );
         logger.info( "stopDownload() not implemented !" );
     }
-
-
 
 }

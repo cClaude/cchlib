@@ -9,10 +9,11 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 /**
- *
+ * Not public * DO NOT USE
+ * 
  * @since 4.1.7
  */
-//Not public
+public
 class ImageIOFileData
 {
     private Dimension dimension;

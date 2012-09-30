@@ -247,13 +247,7 @@ public class MappableBuilder
                 continue;
             }
 
-//            System.err.println( "m:" + method );
             Object methodResult = invoke(object, method, hashMap, Object.class);
-//            Enumeration<?> enum0 = (Enumeration<?>)invoke(object, method, hashMap, Object.class);
-//
-//            if(enum0 == null) {
-//                continue;
-//            }
 
             if( returnType.isArray() ) {
                 final String methodName = method.getName();

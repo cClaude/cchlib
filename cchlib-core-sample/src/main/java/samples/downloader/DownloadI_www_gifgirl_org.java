@@ -1,6 +1,7 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,7 +19,7 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  * http://www.gifgirl.org/search?updated-max=2012-05-29T23:59:00-05:00&max-results=4&start=44&by-date=false
  */
 public class DownloadI_www_gifgirl_org
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
 {
     private final static String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
@@ -160,7 +161,7 @@ public class DownloadI_www_gifgirl_org
 
     @Override
     public DownloadStringURL getDownloadStringURL( final int pageNumber )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         int      amount = 1 - pageNumber; // = - ( pageNumber - 1 )
         Calendar today  = Calendar.getInstance();
@@ -184,7 +185,7 @@ public class DownloadI_www_gifgirl_org
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
-            final String                        content2Parse
+            final DownloadStringURL             content2Parse
             )
             throws MalformedURLException
     {
@@ -202,7 +203,7 @@ public class DownloadI_www_gifgirl_org
 
     @Override
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, requestPropertyMap, getProxy() );
     }

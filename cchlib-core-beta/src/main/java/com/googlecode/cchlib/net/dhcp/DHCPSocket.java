@@ -107,7 +107,7 @@ public class DHCPSocket extends DatagramSocket
             return DHCPParameters.newInstance(incoming.getData());
 //        }
 //        catch(SocketTimeoutException e) {
-//            System.err.println((new StringBuilder()).append("java.net.SocketTimeoutException: ").append(e).toString());
+//            Sys tem.er r.println((new StringBuilder()).append("java.net.SocketTimeoutException: ").append(e).toString());
 //        }
 //
 //        return null;

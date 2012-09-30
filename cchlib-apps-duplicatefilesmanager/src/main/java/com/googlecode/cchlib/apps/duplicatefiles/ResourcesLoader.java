@@ -4,13 +4,18 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Properties;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Version;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
@@ -136,6 +141,24 @@ public class ResourcesLoader
     public static Resources getResources()
     {
         if( resources == null ) {
+            final URI siteURI;
+            
+            try {
+                siteURI = new URI( "https://code.google.com/p/cchlib-apps/" );
+                }
+            catch( URISyntaxException e ) {
+                throw new RuntimeException( e );
+                }
+            
+            final Version version;
+            
+            try {
+                version = new Version();
+                }
+            catch( IOException | ParseException e ) {
+                throw new RuntimeException( e );
+                }
+            
             resources = new Resources()
             {
                 @Override
@@ -198,6 +221,27 @@ public class ResourcesLoader
                 {
                     return getImageIcon( "ko_but_ok.12x12.png" );
                 }
+                @Override
+                public String getAuthorName()
+                {
+                    return "Claude CHOISNET";
+                }
+                @Override
+                public String getAboutVersion()
+                {
+                    return version.getVersion();
+                }
+                @Override
+                public String getAboutVersionDate()
+                {
+                    return DateFormat.getDateInstance().format( version.getDate() );
+                }
+                @Override
+                public URI getSiteURI()
+                {
+                    return siteURI;
+                }
+
             };
             }
         return resources;

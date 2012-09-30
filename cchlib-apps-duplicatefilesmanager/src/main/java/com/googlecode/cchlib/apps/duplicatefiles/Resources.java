@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.Image;
+import java.net.URI;
 import java.util.Properties;
 import javax.swing.Icon;
 
@@ -21,5 +22,9 @@ public interface Resources
     public Icon getSmallOKIcon();
     public Icon getSmallKOIcon();
     public Icon getSmallOKButOKIcon();
+    public String getAuthorName();
+    public String getAboutVersion();
+    public URI getSiteURI();
+    public String getAboutVersionDate();
 
 }

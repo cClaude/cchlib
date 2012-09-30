@@ -1,6 +1,7 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
 public class DownloadI_www_epins_fr
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
 {
     //private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
 
@@ -60,7 +61,7 @@ public class DownloadI_www_epins_fr
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
-            String                          content2Parse
+            DownloadStringURL               content2Parse
             )
             throws MalformedURLException
     {
@@ -86,7 +87,7 @@ public class DownloadI_www_epins_fr
                         try {
                             return buildDownloadURL( i++ );
                             }
-                        catch( MalformedURLException e ) {
+                        catch( MalformedURLException | URISyntaxException e ) {
                             throw new RuntimeException( e );
                             }
                     }
@@ -95,7 +96,7 @@ public class DownloadI_www_epins_fr
                     {
                         throw new UnsupportedOperationException();
                     }
-                    private DownloadFileURL buildDownloadURL( final int i ) throws MalformedURLException
+                    private DownloadFileURL buildDownloadURL( final int i ) throws MalformedURLException, URISyntaxException
                     {
 
                         buildURL_sb1.setLength( 0 );

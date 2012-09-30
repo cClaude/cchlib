@@ -389,7 +389,7 @@ public class DHCPParameters
         return sb.toString();
     }
 
-    public DHCPParameters getClone()
+    public DHCPParameters createClone()
     {
         DHCPParameters copy = new DHCPParameters();
 
@@ -414,15 +414,10 @@ public class DHCPParameters
 
     public String toHexString()
     {
-//        StringBuilder sb = new StringBuilder();
-//
-//        sb.append( DHCPParameters.toHexString(toByteArray()) );
-//
-//        return sb.toString();
-        return DHCPParameters.toHexString(toByteArray());
+        return DHCPParameters.toHexString( toByteArray() );
     }
 
-    public static final String toString(byte[] bytes)
+    static final String toString(byte[] bytes)
     {
         String str = new String(bytes);
 

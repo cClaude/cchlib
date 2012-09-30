@@ -2,6 +2,7 @@ package samples.downloader;
 
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,10 +17,11 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  *
  *
  */
-public abstract class AbstractDownloadInterface
+public abstract class AbstractDownloaderAppInterface
     implements GenericDownloaderAppInterface
 {
-    private final static transient Logger logger = Logger.getLogger( AbstractDownloadInterface.class );
+    private static final transient Logger logger = Logger.getLogger( AbstractDownloaderAppInterface.class );
+    public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
     private String  siteName;
     private int     numberOfPicturesByPage;
     private int     pageCount;
@@ -31,7 +33,7 @@ public abstract class AbstractDownloadInterface
      * @param numberOfPicturesByPage
      * @param pageCount
      */
-    protected AbstractDownloadInterface(
+    protected AbstractDownloaderAppInterface(
         final String    siteName,
         final int       numberOfPicturesByPage,
         final int       pageCount
@@ -90,13 +92,19 @@ public abstract class AbstractDownloadInterface
      * @param pageNumber
      * @return TODOC
      * @throws MalformedURLException
+     * @throws URISyntaxException 
      */
     abstract public DownloadStringURL getDownloadStringURL( final int pageNumber )
-            throws MalformedURLException;
+            throws MalformedURLException, URISyntaxException;
 
+    /**
+     * Default implementation based on
+     * {@link #getPageCount()} and on
+     * {@link #getDownloadStringURL(int)}
+     */
     @Override// GenericDownloaderAppInterface
     public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         final List<DownloadStringURL> sdURLList = new ArrayList<DownloadStringURL>();
 
@@ -114,10 +122,11 @@ public abstract class AbstractDownloadInterface
      * @param regexpIndex
      * @return TODOC
      * @throws MalformedURLException
+     * @throws URISyntaxException 
      */
     abstract
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-        throws MalformedURLException;
+        throws MalformedURLException, URISyntaxException;
 
     public interface RegExgSplitter
     {
@@ -152,42 +161,51 @@ public abstract class AbstractDownloadInterface
     final//FIXME remove this
     public Collection<DownloadFileURL> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
-        final String                        content2Parse,
+        final DownloadStringURL             content2Parse,
         final RegExgSplitter[]              regexps
         )
     {
         final Set<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
 
         for( RegExgSplitter regexp : regexps ) {
-            final String[] strs = content2Parse.toString().split( regexp.getBeginRegExp() );
-            gdauir.getAbstractLogger().info( "> img founds = " + (strs.length - 1));
+            final String[] strs = content2Parse.getResultAsString().split( regexp.getBeginRegExp() );
+
+            if( logger.isDebugEnabled() ) {
+                logger.debug( "> img founds = " + (strs.length - 1));
+                }
 
             for( int i=1; i<strs.length; i++ ) {
                 final String    strPart = strs[ i ];
                 final int       end = strPart.indexOf( regexp.getLastChar() /*'"'*/ );
                 final String    src = strPart.substring( 0, end );
 
-                //imagesURLCollection.add( new URL( String.format( IMG_URL_BASE_FMT, src ) ) );
                 try {
-                    imagesURLCollection.add( getDownloadURLFrom( src, i ) );
+                    //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
+                    DownloadFileURL dfURL = getDownloadURLFrom( src, i );
+                    
+                    dfURL.setProperty( DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
+                    
+                    imagesURLCollection.add( dfURL );
                     }
-                catch( MalformedURLException e ) {
+                catch( MalformedURLException | URISyntaxException e ) {
                     // TODO Auto-generated catch block
-                    logger.warn( "MalformedURLException src = [" + src + "]" );
-                    logger.warn( "MalformedURLException", e );
-                    logger.warn( "MalformedURLException strPart:\n------->>\n"
+                    logger.warn( "URL Exception src = [" + src + "]" );
+                    logger.warn( "URL Exception", e );
+                    logger.warn( "URL Exception strPart:\n------->>\n"
                             + strPart
                             + "\n<<-------"
                             );
-                    logger.warn( "MalformedURLException content2Parse:\n------->>\n"
-                            + content2Parse
+                    logger.warn( "URL Exception content2Parse:\n------->>\n"
+                            + content2Parse.getResultAsString()
                             + "\n<<-------"
                             );
                     }
                 }
             }
 
-        gdauir.getAbstractLogger().info( "> URL founds = " + imagesURLCollection.size() );
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "> URL founds = " + imagesURLCollection.size() );
+            }
 
         return imagesURLCollection;
     }

@@ -159,23 +159,24 @@
   <!-- Sub projects -->
   <modules>
     <module>cchlib-core</module>
-    <module>cchlib-swing</module>
+    <module>cchlib-core-beta</module>
+    <module>cchlib-core-deprecated</module>
+    <module>cchlib-i18n</module>
     <module>cchlib-j2ee</module>
+    <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-jdbf</module>
+    <module>cchlib-net</module>
+    <module>cchlib-sql</module>
+    <module>cchlib-swing</module>
+    <module>cchlib-swing-deprecated</module>
+    <module>cchlib-sys</module>
 
     <!-- should not be include : not in maven repository -->
     <!-- Applications -->
     <module>cchlib-apps-duplicatefilesmanager</module>
     <module>cchlib-apps-editresourcebundle</module>
     <module>cchlib-apps-regexpbuilder</module>
-    <module>cchlib-core-beta</module>
-    <module>cchlib-core-deprecated</module>
-    <module>cchlib-i18n</module>
     <module>cchlib-core-sample</module>
-    <module>cchlib-sql</module>
-    <module>cchlib-j2ee-deprecated</module>
-    <module>cchlib-swing-deprecated</module>
-    <module>cchlib-sys</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools</module>
   </modules>

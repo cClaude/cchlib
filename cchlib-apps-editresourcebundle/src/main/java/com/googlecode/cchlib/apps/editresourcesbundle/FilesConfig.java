@@ -245,10 +245,6 @@ class FilesConfig implements Serializable
                 loadRightFormattedProperties(null);
             }
         }
-//        System.err.println("leftProperties:" + leftProperties);
-//        System.err.println("rightProperties:" + rightProperties);
-//        System.err.println("leftFormattedProperties:" + leftFormattedProperties);
-//        System.err.println("rightFormattedProperties" + rightFormattedProperties);
     }
 
     /**

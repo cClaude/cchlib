@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +26,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  *
  */
 public abstract class DownloadI_tumblr_com
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
     private final static Logger logger = Logger.getLogger( DownloadI_tumblr_com.class );
@@ -40,7 +42,7 @@ public abstract class DownloadI_tumblr_com
     private final static String HTML_URL_BASE1_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
     private final static String HTML_URL_BASEx_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
 
-    private static final String SITE_NAME_ALL     = "www.tumblr.com";
+    //private static final String SITE_NAME_ALL     = "www.tumblr.com";
     private static final String SITE_NAME_GENERIC = "*.tumblr.com";
     /*
      * [NAME].tumblr.com
@@ -51,8 +53,16 @@ public abstract class DownloadI_tumblr_com
     private static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES_BLOGS = 32;
-    private final static int DEFAULT_MAX_PAGES_ALL = 16;
+    //private final static int DEFAULT_MAX_PAGES_ALL = 16;
     
+    private final static  int[] TUMBLR_COM_KNOWN_SIZES = {
+            1280, 
+             500,
+             400,
+             250,
+             100
+           };
+
     private static class DownloadI_tumblr_com_ForHost extends DownloadI_tumblr_com
     {
         private DefaultComboBoxConfig   comboBoxConfig;
@@ -88,7 +98,7 @@ public abstract class DownloadI_tumblr_com
 
         @Override
         public DownloadStringURL getDownloadStringURL( int pageNumber )
-                throws MalformedURLException
+                throws MalformedURLException, URISyntaxException
         {
             return getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
         }
@@ -140,7 +150,9 @@ public abstract class DownloadI_tumblr_com
     
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults gdauir, String content2Parse )
+            GenericDownloaderAppUIResults   gdauir, 
+            DownloadStringURL               content2Parse 
+            )
             throws MalformedURLException
     {
         final RegExgSplitter[] regexps = { new DefaultRegExgSplitter( "<img src=\"", '"' ) };
@@ -149,10 +161,90 @@ public abstract class DownloadI_tumblr_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-            throws MalformedURLException
+    public DownloadFileURL getDownloadURLFrom( 
+        final String src, 
+        final int    regexpIndex 
+        ) throws MalformedURLException, URISyntaxException
     {
-        return new DefaultDownloadFileURL( src, null, getProxy() );
+        {
+            // Ignore avatars
+            URL    urlBase = new URL( src );
+            String path    = urlBase.getPath();
+
+            if( path.startsWith( "avatar_" ) ) {
+                // Don't want to download avatars !
+                return null;
+                }
+        }
+
+        // Find extension.
+        int pos = src.lastIndexOf( '.' );
+        
+        if( pos < 0 ) {
+            // <0  - No extension: Try to download any way.
+            return new DefaultDownloadFileURL( src, null, getProxy() );
+            }
+        
+        final String extension = src.substring( pos );
+        final String prefix1   = src.substring( 0, pos );
+        
+        // Find picture size
+        pos = prefix1.lastIndexOf( '_' );
+        
+        if( pos < 0 ) {
+            // Unknown format: Try to download any way.
+            return new DefaultDownloadFileURL( src, null, getProxy() );
+            }
+
+        final int size;
+        try {
+            final String sizeStr = prefix1.substring( pos + 1 );
+            
+            size = Integer.parseInt( sizeStr );
+            }
+        catch( Exception e ) {
+            logger.warn( "size of " + src, e );
+            // Can not find picture size: Try to download any way.
+            return new DefaultDownloadFileURL( src, null, getProxy() );
+            }
+        final String prefix2 = prefix1.substring( 0, pos + 1 );
+
+        final URL       defaultURL;
+        final List<URL> alternateURL = new ArrayList<URL>();
+        {
+            // Build list of URL
+            final List<String> urls = new ArrayList<String>();
+
+            for( int i = 0; i<TUMBLR_COM_KNOWN_SIZES.length; i++ ) {
+                if( size >= TUMBLR_COM_KNOWN_SIZES[ i ] ) {
+                    break;
+                    }
+                urls.add( 
+                    prefix2 + TUMBLR_COM_KNOWN_SIZES[ i ] + extension
+                    );
+                }
+            
+            urls.add( 
+                prefix2 + size + extension
+                );
+            
+            boolean first       = true;
+            String  firstURLStr = null;
+            
+            for( String urlStr : urls ) {
+                if( first ) {
+                    firstURLStr = urlStr;
+                    first       = false;
+                    }
+                else {
+                    alternateURL.add( new URL( urlStr ) );
+                    }
+                }
+            
+            defaultURL = new URL( firstURLStr );
+        }
+        
+        return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURL, src );
     }
     
     public final static DownloadI_tumblr_com createForHost( final String hostname )
@@ -167,6 +259,7 @@ public abstract class DownloadI_tumblr_com
             final Config_DownloadI_tumblr_com config = new Config_DownloadI_tumblr_com();
 
             blogsNames = config.getBlogNames();
+            logger.info( "Found " + blogsNames + " count." );
         }
         
         return new DownloadI_tumblr_com_ForHost(
@@ -178,65 +271,65 @@ public abstract class DownloadI_tumblr_com
                 );
     }
     
-    public  final static DownloadI_tumblr_com createAllEntriesInOnce()
-    {
-        final String[] blogsNames;
-        {
-            final Config_DownloadI_tumblr_com config = new Config_DownloadI_tumblr_com();
-
-            blogsNames = config.getBlogNames();
-        }
-
-        return new DownloadI_tumblr_com( SITE_NAME_ALL, DEFAULT_MAX_PAGES_ALL )
-        {
-            @Override
-            protected String getCurrentHostName()
-            {
-                return "www";
-            }
-
-            @Override
-            public DownloadStringURL getDownloadStringURL( int pageNumber )
-                    throws MalformedURLException
-            {
-                throw new UnsupportedOperationException();
-            }
-
-            private DownloadStringURL getStringDownloadURL(
-                    final String    hostname,
-                    final int       pageNumber 
-                    )
-                    throws MalformedURLException
-            {
-                return getDownloadStringURL( hostname, pageNumber, getProxy() );
-            }
-            
-            @Override// GenericDownloaderAppInterface
-            public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
-                    throws MalformedURLException
-            {
-                final List<DownloadStringURL>   sdURLList = new ArrayList<DownloadStringURL>();
-                final int                       pageCount = getPageCount();
-                
-                for( String hostname : blogsNames ) {
-                    logger.debug( "HostName = " + hostname );
-                    for( int i=1; i<=pageCount; i++ ) {
-                        logger.debug( "HostName:i = " + hostname + ":" + i );
-                        sdURLList.add( getStringDownloadURL( hostname, i ) );
-                        }
-                    }
-
-                return sdURLList;
-            }
-        };
-    };
+//    public  final static DownloadI_tumblr_com createAllEntriesInOnce()
+//    {
+//        final String[] blogsNames;
+//        {
+//            final Config_DownloadI_tumblr_com config = new Config_DownloadI_tumblr_com();
+//
+//            blogsNames = config.getBlogNames();
+//        }
+//
+//        return new DownloadI_tumblr_com( SITE_NAME_ALL, DEFAULT_MAX_PAGES_ALL )
+//        {
+//            @Override
+//            protected String getCurrentHostName()
+//            {
+//                return "www";
+//            }
+//
+//            @Override
+//            public DownloadStringURL getDownloadStringURL( int pageNumber )
+//                    throws MalformedURLException
+//            {
+//                throw new UnsupportedOperationException();
+//            }
+//
+//            private DownloadStringURL getStringDownloadURL(
+//                    final String    hostname,
+//                    final int       pageNumber 
+//                    )
+//                    throws MalformedURLException, URISyntaxException
+//            {
+//                return getDownloadStringURL( hostname, pageNumber, getProxy() );
+//            }
+//            
+//            @Override// GenericDownloaderAppInterface
+//            public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+//                    throws MalformedURLException, URISyntaxException
+//            {
+//                final List<DownloadStringURL>   sdURLList = new ArrayList<DownloadStringURL>();
+//                final int                       pageCount = getPageCount();
+//                
+//                for( String hostname : blogsNames ) {
+//                    logger.debug( "HostName = " + hostname );
+//                    for( int i=1; i<=pageCount; i++ ) {
+//                        logger.debug( "HostName:i = " + hostname + ":" + i );
+//                        sdURLList.add( getStringDownloadURL( hostname, i ) );
+//                        }
+//                    }
+//
+//                return sdURLList;
+//            }
+//        };
+//    };
     
     private static DownloadStringURL getDownloadStringURL(
             final String    hostname,
             final int       pageNumber,
             final Proxy     proxy
             )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         final String fmt;
         

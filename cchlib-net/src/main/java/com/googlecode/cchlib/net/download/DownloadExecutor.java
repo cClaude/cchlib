@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
 /**
  * Launch download tasks
@@ -23,16 +24,17 @@ import java.util.concurrent.TimeUnit;
 public class DownloadExecutor
 {
     private final ThreadPoolExecutor pool;
-    private final MD5FilterInputStreamBuilder downloadFilterBuilder;
-
+    //private final MD5FilterInputStreamBuilder downloadFilterBuilder;
+    private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
+    
     /**
      * Create DownloadExecutor
      *
      * @param downloadMaxThread Max number of parallel threads
      */
     public DownloadExecutor(
-        final int                           downloadMaxThread,
-        final MD5FilterInputStreamBuilder   downloadFilterBuilder
+        final int                               downloadMaxThread,
+        final DownloadFilterInputStreamBuilder  downloadFilterBuilder
         )
     {
         final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<Runnable>();
@@ -149,39 +151,25 @@ public class DownloadExecutor
     {
         Runnable command;
 
-        switch( downloadURL.getType() ) {
-            case STRING:
-                {
-                    if( downloadURL instanceof DownloadStringURL ) {
-                        DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
+        if( downloadURL instanceof DownloadStringURL ) {
+            DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
 
-                        command = new DownloadToString( downloadStringURL, eventHandler );
-                        }
-                    else {
-                        throw new BadDownloadURLException();
-                        }
+            command = new DownloadToString( downloadStringURL, eventHandler );
+            }
+        else if( downloadURL instanceof DownloadFileURL ) {
+            DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
+
+            if( eventHandler instanceof DownloadFileEvent ) {
+                DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
+                
+                command = new DownloadToFile( downloadFileURL, fileEventHandler , downloadFilterBuilder );
                 }
-                break;
-
-            default: 
-                {
-                    if( downloadURL instanceof DownloadFileURL ) {
-                        DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
-
-                        if( eventHandler instanceof DownloadFileEvent ) {
-                            DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
-                            
-                            command = new DownloadToFile( downloadFileURL, fileEventHandler , downloadFilterBuilder );
-                            }
-                        else {
-                            throw new BadDownloadEventException();
-                            }
-                        }
-                    else {
-                        throw new BadDownloadURLException();
-                        }
+            else {
+                throw new BadDownloadEventException();
                 }
-                break;
+            }
+        else {
+            throw new BadDownloadURLException();
             }
 
         pool.execute( command );

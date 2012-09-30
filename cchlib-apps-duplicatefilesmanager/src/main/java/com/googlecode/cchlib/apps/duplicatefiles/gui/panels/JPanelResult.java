@@ -55,7 +55,7 @@ public class JPanelResult extends JPanelResultWB
 
     @I18nString private String txtCopy = "Copy";
     @I18nString private String txtOpenFile = "Open (Handle by System)";
-    @I18nString private String txtOpenParentDirecoty = "Open parent directory (Handle by System)";
+    @I18nString private String txtOpenParentDirectory = "Open parent directory (Handle by System)";
     @I18nString private String txtDeleteThisFile = "Delete this file";
     @I18nString private String txtDeleteAllExceptThisFile  = "Delete all except this file";
     @I18nString private String txtKeepThisFile = "Keep this file";
@@ -428,7 +428,7 @@ public class JPanelResult extends JPanelResultWB
                     );
                 addJMenuItem(
                         cm,
-                        txtOpenParentDirecoty,
+                        txtOpenParentDirectory,
                         createOpenFileActionListener( kf.getFile().getParentFile() )
                         );
                 cm.addSeparator();

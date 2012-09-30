@@ -306,20 +306,23 @@ public final class IOHelper
     }
 
     /**
-     * Compare content of two {@link InputStream}. {@link InputStream} are consumed but
-     * are not closed after this call.
+     * Compare content of two {@link InputStream}.
+     * Streams are consumed but are not closed after this call.
      *
-     * @param is1   an {@link InputStream}
-     * @param is2   an other {@link InputStream}
+     * @param expected  Expected {@link InputStream}
+     * @param actual    Actual {@link InputStream}
      * @return true if content (and size) of {@link InputStream} are equals.
      * @throws IOException if an I/O error occurs. 
      */
-    public final static boolean isEquals( InputStream is1, InputStream is2 )
+    public final static boolean isEquals( 
+        final InputStream expected,
+        final InputStream actual 
+        )
         throws IOException
     {
         for(;;) {
-            int c1 = is1.read();
-            int c2 = is2.read();
+            int c1 = expected.read();
+            int c2 = actual.read();
 
             if( c1 != c2 ) {
                 return false;
@@ -331,8 +334,8 @@ public final class IOHelper
     }
 
     /**
-     * Compare content of an {@link InputStream} with an array of bytes. {@link InputStream} is consumed but
-     * are not closed after this call.
+     * Compare content of an {@link InputStream} with an array of bytes.
+     * {@link InputStream} is consumed but is not closed after this call.
      *
      * @param is    an {@link InputStream}
      * @param bytes an array of bytes
@@ -365,41 +368,40 @@ public final class IOHelper
      * @return content of Reader
      * @throws IOException if an I/O error occurs. 
      */
-   public static String toString( Reader input )
-       throws IOException
-   {
-       StringBuilder sb     = new StringBuilder();
-       char[]        buffer = new char[ DEFAULT_BUFFER_SIZE ];
+    public static String toString( final Reader input )
+        throws IOException
+    {
+        StringBuilder sb     = new StringBuilder();
+        char[]        buffer = new char[ DEFAULT_BUFFER_SIZE ];
 
-       try {
-           int len;
+        try {
+            int len;
 
-           while( (len = input.read(buffer)) != -1 ) {
-               sb.append(buffer, 0, len);
+            while( (len = input.read(buffer)) != -1 ) {
+                sb.append(buffer, 0, len);
+            }
+           }
+        finally {
+            input.close();
                }
-           }
-       finally {
-           input.close();
-           }
 
-       return sb.toString();
-   }
+        return sb.toString();
+    }
 
-   /**
-    * Copy input content to output.
-    *
-    * @param input  {@link Reader} to read from
-    * @param output {@link Writer} to write to
-    * @param buffer Buffer to use for copy
+    /**
+     * Copy input content to output.
+     *
+     * @param input  {@link Reader} to read from
+     * @param output {@link Writer} to write to
+     * @param buffer Buffer to use for copy
      * @throws IOException if an I/O error occurs. 
-    */
-   public static void copy(
-           final Reader input,
-           final Writer output,
-           final char[] buffer
-           )
-       throws IOException
-   {
+     */
+    public static void copy(
+       final Reader input,
+       final Writer output,
+       final char[] buffer
+       ) throws IOException
+    {
        int len;
 
        while((len = input.read(buffer)) != -1) {
@@ -407,36 +409,35 @@ public final class IOHelper
            }
 
        output.flush();
-   }
+    }
 
-   /**
-    * Copy input content to output.
-    *
-    * @param input  {@link Reader} to read from
-    * @param output {@link Writer} to write to
-    * @param bufferSize Buffer size to use for copy
+    /**
+     * Copy input content to output.
+     *
+     * @param input  {@link Reader} to read from
+     * @param output {@link Writer} to write to
+     * @param bufferSize Buffer size to use for copy
      * @throws IOException if an I/O error occurs. 
-    */
-   public static void copy(
-           final Reader   input,
-           final Writer   output,
-           final int      bufferSize
-           )
-       throws IOException
-   {
-       copy( input, output, new char[bufferSize] );
-   }
+     */
+    public static void copy(
+        final Reader   input,
+        final Writer   output,
+        final int      bufferSize
+        ) throws IOException
+    {
+        copy( input, output, new char[bufferSize] );
+    }
 
-   /**
-    * Copy input content to output.
-    *
-    * @param input  {@link Reader} to read from
-    * @param output {@link Writer} to write to
+    /**
+     * Copy input content to output.
+     *
+     * @param input  {@link Reader} to read from
+     * @param output {@link Writer} to write to
      * @throws IOException if an I/O error occurs. 
-    */
-   public static void copy( final Reader input, final Writer output )
+     */
+    public static void copy( final Reader input, final Writer output )
        throws IOException
-   {
-       copy( input, output, DEFAULT_BUFFER_SIZE );
-   }
+    {
+        copy( input, output, DEFAULT_BUFFER_SIZE );
+    }
 }

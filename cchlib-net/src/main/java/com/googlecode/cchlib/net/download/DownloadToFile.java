@@ -1,11 +1,12 @@
 package com.googlecode.cchlib.net.download;
 
 import java.io.File;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import com.googlecode.cchlib.io.IOHelper;
-import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
+import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
 /**
  * Download {@link URL} and put result into a {@link File}
@@ -15,7 +16,7 @@ import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
 public class DownloadToFile extends AbstractDownload
 {
     //private final static transient Logger logger = Logger.getLogger( DownloadToFile.class );
-    private MD5FilterInputStreamBuilder downloadFilterBuilder;
+    private DownloadFilterInputStreamBuilder downloadFilterBuilder;
 
     /**
      * Create a new DownloadToFile
@@ -25,9 +26,9 @@ public class DownloadToFile extends AbstractDownload
      * @param downloadFilterBuilder
      */
     public DownloadToFile(
-        final DownloadFileURL               downloadURL,
-        final DownloadFileEvent             fileEventHandler,
-        final MD5FilterInputStreamBuilder   downloadFilterBuilder
+        final DownloadFileURL                   downloadURL,
+        final DownloadFileEvent                 fileEventHandler,
+        final DownloadFilterInputStreamBuilder  downloadFilterBuilder
         )
     {
         super( downloadURL, fileEventHandler );
@@ -40,12 +41,12 @@ public class DownloadToFile extends AbstractDownload
             throws DownloadIOException, IOException
     {
         final File                  file = DownloadFileEvent.class.cast( getDownloadEvent() ).createDownloadTmpFile();
+        final DownloadFileURL       dURL = DownloadFileURL.class.cast( getDownloadURL() );
         final InputStream           is;
-        final MD5FilterInputStream  filter;
-        final String                md5HashString;
+        final FilterInputStream     filter;
         
         if( downloadFilterBuilder != null ) {
-            is = filter = downloadFilterBuilder.createMD5FilterInputStream( inputStream );
+            is = filter = downloadFilterBuilder.createFilterInputStream( inputStream );
             }
         else {
             is     = inputStream;
@@ -57,10 +58,8 @@ public class DownloadToFile extends AbstractDownload
             
             if( filter != null ) {
                 filter.close(); // Needed ???
-                md5HashString = filter.getHashString();
-                }
-            else {
-                md5HashString = null;
+                
+                downloadFilterBuilder.storeFilterResult( filter, dURL );
                 }
             }
         catch( IOException e ) {
@@ -70,9 +69,6 @@ public class DownloadToFile extends AbstractDownload
             filter.close(); // Needed ???
             }
 
-        final DownloadFileURL dURL = DownloadFileURL.class.cast( getDownloadURL() );
-        
         dURL.setResultAsFile( file );
-        dURL.setContentHashCode( md5HashString );
     }
 }

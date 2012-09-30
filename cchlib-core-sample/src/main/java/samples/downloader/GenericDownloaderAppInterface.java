@@ -2,6 +2,7 @@ package samples.downloader;
 
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
@@ -93,12 +94,13 @@ public interface GenericDownloaderAppInterface
     public String getCacheRelativeDirectoryCacheName();
 
     /**
-     * Returns a list of URL of json values to parse
-     * @return a list of URL of json values to parse
+     * Returns a list of {@link DownloadStringURL} to parse
+     * @return a list of {@link DownloadStringURL} to parse
      * @throws MalformedURLException
+     * @throws URISyntaxException 
      */
     public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
-        throws MalformedURLException;
+        throws MalformedURLException, URISyntaxException;
 
     /**
      *
@@ -106,11 +108,12 @@ public interface GenericDownloaderAppInterface
      * @param content2Parse
      * @return TODOC
      * @throws MalformedURLException
+     * @throws URISyntaxException 
      */
     public Collection<DownloadFileURL> getURLToDownloadCollection(
         GenericDownloaderAppUIResults   gdauir,
-        String                          content2Parse
-        ) throws MalformedURLException;
+        DownloadStringURL               content2Parse
+        ) throws MalformedURLException, URISyntaxException;
 
     /**
      *

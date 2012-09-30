@@ -1,5 +1,7 @@
 package alpha.dhcp;
 
+import java.net.BindException;
+import java.net.SocketException;
 import com.googlecode.cchlib.net.dhcp.DHCPParameters;
 import com.googlecode.cchlib.net.dhcp.DHCPSimpleClient;
 import com.googlecode.cchlib.net.dhcp.DHCPSocket;
@@ -24,22 +26,21 @@ public class DHCPClientSample
         String hwaddr = args[0];
 
         try {
-            DHCPSocket mySocket = new DHCPSocket(68);
-
-            DHCPParameters params = DHCPClientSample.getDefaultDHCPParameters( DHCPSimpleClient.addrToByte(hwaddr) );
-            DHCPSimpleClient aClient = new DHCPSimpleClient(mySocket, params, hwaddr);
+            DHCPSocket          mySocket = new DHCPSocket(68);
+            DHCPParameters      params   = DHCPClientSample.getDefaultDHCPParameters( DHCPSimpleClient.addrToByte(hwaddr) );
+            DHCPSimpleClient    aClient  = new DHCPSimpleClient( mySocket, params, hwaddr, System.out );
 
             aClient.start();
-        }
-        catch(java.net.BindException e) {
+            }
+        catch( BindException e ) {
             System.err.println("Socket Bind Error: ");
             System.err.print("Another process is bound to this port\n");
             System.err.print("or you do not have access to bind a process ");
             System.err.println("to this port");
-        }
-        catch(java.net.SocketException e) {
-            System.out.println((new StringBuilder()).append("SocketException: ").append(e).toString());
-        }
+            }
+        catch( SocketException e) {
+            System.err.println((new StringBuilder()).append("SocketException: ").append(e).toString());
+            }
     }
 
     private static DHCPParameters getDefaultDHCPParameters(byte hwaddr[])

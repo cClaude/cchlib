@@ -29,8 +29,9 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private DFToolKit dfToolKit;
 
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
-    public static final String ACTIONCMD_EXIT = "ACTIONCMD_EXIT";
-    public static final String ACTIONCMD_PREFS = "ACTIONCMD_PREFS";
+    public static final String ACTIONCMD_EXIT     = "ACTIONCMD_EXIT";
+    public static final String ACTIONCMD_PREFS    = "ACTIONCMD_PREFS";
+    public static final String ACTIONCMD_ABOUT    = "ACTIONCMD_ABOUT";
 
     private ButtonGroup buttonGroupConfigMode = new ButtonGroup();
     private ButtonGroup buttonGroupLanguage   = new ButtonGroup();
@@ -51,6 +52,8 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     
     @I18nString private String tip_DuplicateFiles = "Find and remove Duplicate files"; 
     @I18nString private String tip_jPanel_RemoveEmptyDirectories = "Find and delete empty directories";
+    private JMenu jMenuHelp;
+    private JMenuItem jMenuItem_About;
     
     /**
      * Create the frame.
@@ -118,11 +121,18 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         jMenuItem_Preferences.addActionListener( getActionListener() );
         jMenuConfig.add(jMenuItem_Preferences);
 
+        jMenuHelp = new JMenu("Help");
+        jMenuBarMain.add(jMenuHelp);
+
+        jMenuItem_About = new JMenuItem("About");
+        jMenuItem_About.setActionCommand( ACTIONCMD_ABOUT );
+        jMenuItem_About.addActionListener( getActionListener() );
+        jMenuHelp.add(jMenuItem_About);
+
         jMenuLookAndFeel = new JMenu("Look and Feel");
         jMenuBarMain.add( Box.createHorizontalGlue() );
         jMenuBarMain.add(jMenuLookAndFeel);
-        
-        
+
         {
         contentJTabbedPane = new JTabbedPane();
         setContentPane(contentJTabbedPane);

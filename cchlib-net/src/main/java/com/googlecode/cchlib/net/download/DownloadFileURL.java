@@ -22,15 +22,18 @@ public interface DownloadFileURL extends DownloadURL
     public abstract void setResultAsFile( File file );
     
     /**
-     * Returns hash code of file content when download is done,
-     * null otherwise
-     * @return hash code of file content
+     * Set custom property on this {@link DownloadURL}
+     * 
+     * @param name  Name of property to set
+     * @param value Property value
      */
-    public abstract String getContentHashCode();
+    public abstract void setProperty( String name, Object value );
 
     /**
-     * Set hash code of file content
-     * @param hashString hash code to set
+     * Get custom property
+     * 
+     * @param name  Name of property to retrieve
+     * @return property value or null if property does not exist
      */
-    public abstract void setContentHashCode( String hashString );
+    public abstract Object getProperty( String name );
 }

@@ -1,6 +1,7 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
@@ -13,7 +14,7 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  *
  */
 public class DownloadI_www_gifpal_com
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
     //private final static Logger logger = Logger.getLogger( DownloadI_gifpal.class );
@@ -73,7 +74,7 @@ public class DownloadI_www_gifpal_com
 
     @Override
     public DownloadStringURL getDownloadStringURL( final int pageNumber )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadStringURL(
             String.format(
@@ -88,7 +89,9 @@ public class DownloadI_www_gifpal_com
 
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults gdauir, String content2Parse )
+            GenericDownloaderAppUIResults   gdauir, 
+            DownloadStringURL               content2Parse
+            )
             throws MalformedURLException
     {
         final RegExgSplitter[] regexps = { new DefaultRegExgSplitter( "\\{\"image\"\\:\"", '"' ) };
@@ -98,7 +101,7 @@ public class DownloadI_www_gifpal_com
 
     @Override
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );
     }

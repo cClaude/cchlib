@@ -248,8 +248,13 @@ public class JPanelSearching extends JPanel//SearchingWB
             @Override
             public void ioError( IOException e, File file )
             {
-                System.err.printf( "IOException %s : %s\n", file,
-                        e.getMessage() );
+                slogger.warn( 
+                    String.format( 
+                        "IOException %s : %s\n", 
+                        file,
+                        e.getMessage() 
+                        ) 
+                    );
 
                 Vector<Object> v = new Vector<Object>();
                 v.add( file );

@@ -38,6 +38,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
+import samples.downloader.display.table.DisplayTableBuilder;
 
 /**
  * Application starting class
@@ -54,6 +55,12 @@ public class GenericDownloaderUIApp extends JFrame
     private static final String ACTION_QUIT = "ACTION_QUIT";
     private static final String ACTION_STOP = "ACTION_STOP";
     private static final String ACTION_START = "ACTION_START";
+    
+    private GenericDownloader genericDownloader_useLock;
+    /** lock for genericDownloader access */
+    private Object genericDownloaderLock = new Object();
+    private ActionListener actionListener;
+    private WindowListener windowListener;
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -75,11 +82,6 @@ public class GenericDownloaderUIApp extends JFrame
     private JSpinner downloadThreadNumberJSpinner;
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private JTable displayJTable;
-    private GenericDownloader genericDownloader_useLock;
-    /** lock for genericDownloader access */
-    private Object genericDownloaderLock = new Object();
-    private ActionListener actionListener;
-    private WindowListener windowListener;
 
     /**
      * Launch the application.
@@ -117,7 +119,7 @@ public class GenericDownloaderUIApp extends JFrame
     {
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
-        downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntriesInOnce() );
+        //downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntriesInOnce() );
         downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntries() );
         //downloadEntriesTypeList.add( DownloadI_tumblr_com.createForHost( "milfgalore" ) );
 
@@ -388,7 +390,7 @@ public class GenericDownloaderUIApp extends JFrame
             gbc_displayJScrollPane.gridy = 3;
             contentPane.add(displayJScrollPane, gbc_displayJScrollPane);
             {
-                displayJTable = new JTable( displayTableModel );
+                displayJTable = createJTable();
                 displayTableModel.setJTable( displayJTable );
                 displayJScrollPane.setViewportView( displayJTable );
             }
@@ -489,8 +491,7 @@ public class GenericDownloaderUIApp extends JFrame
             @Override
             public void run()
             {
-                //DownloaderAppCore instance = new DownloaderAppCore();
-                GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+                 GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
                 {
                     @Override
                     public int getDownloadThreadCount()
@@ -515,7 +516,7 @@ public class GenericDownloaderUIApp extends JFrame
                     synchronized( genericDownloaderLock ) {
                         genericDownloader_useLock = null;
                         }
-                    gdauir.getAbstractLogger().info( "done" );
+                    logger.info( "done" );
                     }
                 catch( Exception e ) {
                     logger.fatal( "fatal", e );
@@ -553,16 +554,6 @@ public class GenericDownloaderUIApp extends JFrame
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void warn( String msg )
-        {
-            logger.warn(  "*** WARN: " + msg );
-        }
-        @Override
-        public void info( final String msg )
-        {
-            logger.info(  "*** INFO: " + msg );
-        }
-        @Override
         public void error( final URL url, File file, final Throwable cause )
         {
             logger .error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
@@ -592,6 +583,17 @@ public class GenericDownloaderUIApp extends JFrame
             logger.info( "downloadStateChange :" + event.getDownloadListSize() );
         }
     };
-
+    
+    /**
+     * @wbp.factory
+     * @wbp.factory.parameter.source displayTableModel displayTableModel
+     */
+    //Needed for WindowsBuilder: static 
+    public JTable createJTable()
+    {
+        DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
+        
+        return builder.getJTable();
+    }
 }
 

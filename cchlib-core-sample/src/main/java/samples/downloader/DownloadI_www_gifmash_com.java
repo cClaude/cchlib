@@ -1,6 +1,7 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
@@ -14,7 +15,7 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  * http://picasion.com/gallery/24151868/
  * 4gifs.com
  */
-public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
+public class DownloadI_www_gifmash_com extends AbstractDownloaderAppInterface
 {
     private static final String SITE_NAME = "www.gifmash.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
@@ -44,7 +45,7 @@ public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException
+    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadStringURL(
             String.format(
@@ -59,7 +60,7 @@ public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
-            final String                        content2Parse
+            final DownloadStringURL             content2Parse
             ) throws MalformedURLException
     {
         // <img class="event-item-lol-image" src="https://chzgifs.files.wordpress.com/2012/06/bald-eagle-in-slow-motion.gif" a
@@ -72,7 +73,7 @@ public class DownloadI_www_gifmash_com extends AbstractDownloadInterface
 
     @Override
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );
     }

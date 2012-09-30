@@ -19,6 +19,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
+import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesStandaloneApp;
 import com.googlecode.cchlib.i18n.AutoI18n;
@@ -467,6 +468,15 @@ final public class DuplicateFilesFrame
                                 }} );
                             break;
 
+                        case ACTIONCMD_ABOUT :
+                            Tools.run( new Runnable() {
+                                @Override
+                                public void run()
+                                {
+                                    openAbout();
+                                }} );
+                            break;
+                            
                         default:
                             logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
                             break;
@@ -497,6 +507,13 @@ final public class DuplicateFilesFrame
         dialog.setVisible( true );
 
         logger.info( "openPreferences done : " + getDFToolKit().getPreferences() );
+    }
+
+    private void openAbout()
+    {
+        AboutDialog.showDialog( getDFToolKit() );
+        
+        logger.info( "openAbout done" );
     }
 
     public void initComponentsJPanelConfirm()

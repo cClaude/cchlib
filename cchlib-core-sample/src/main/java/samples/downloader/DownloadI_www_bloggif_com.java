@@ -1,9 +1,11 @@
 package samples.downloader;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
@@ -15,9 +17,9 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  *
  */
 public class DownloadI_www_bloggif_com
-    extends AbstractDownloadInterface
+    extends AbstractDownloaderAppInterface
 {
-    //private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
+    private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
 
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES = 25;
@@ -108,7 +110,7 @@ public class DownloadI_www_bloggif_com
 
     @Override
     public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         ArrayList<DownloadStringURL> list = new ArrayList<DownloadStringURL>();
 
@@ -122,9 +124,9 @@ public class DownloadI_www_bloggif_com
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
             GenericDownloaderAppUIResults   gdauir,
-            String                          content2Parse
+            DownloadStringURL               content2Parse
             )
-            throws MalformedURLException
+            throws MalformedURLException, URISyntaxException
     {
         final String[] regexps = {
                 "<img class=\"img_progress ...\" src=\"",
@@ -135,7 +137,10 @@ public class DownloadI_www_bloggif_com
 
         for( String regexp : regexps ) {
             String[] strs = content2Parse.toString().split( regexp );
-            gdauir.getAbstractLogger().info( "> img founds = " + (strs.length - 1));
+
+            if( logger.isDebugEnabled() ) {
+                logger.debug( "> img founds = " + (strs.length - 1));
+                }
 
             for( int i=1; i<strs.length; i++ ) {
                 String  s   = strs[ i ];
@@ -147,7 +152,9 @@ public class DownloadI_www_bloggif_com
                 }
             }
 
-        gdauir.getAbstractLogger().info( "> URL founds = " + imagesURLCollection.size() );
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "> URL founds = " + imagesURLCollection.size() );
+            }
 
         return imagesURLCollection;
     }

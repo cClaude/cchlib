@@ -19,7 +19,7 @@ public class ChildClass extends LegacyParentClass
         System.out.println( "toString()" + this );
 
         System.out.println( "***********" );
-        this.parentAcces.silentSetObject( this, "aLong", new Long( 1000 ) );
+        this.parentAcces.silentSetObject( this, "aLong", Long.valueOf( 1000 ) );
 
         String getAString = this.parentAcces.silentCall( this, String.class, "getAString" );
         System.out.println( "getAString=" + getAString );
