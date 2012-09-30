@@ -223,8 +223,8 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 //            if( m.getParameterTypes().length == 0 ) {
 //                for(Class<?> c: validReturnClassesForString) {
 //                    if( returnType == c ) {
-////                        System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
-////                        System.err.println( "---" + returnType );
+////                        Sys tem.o ut.println("m:" + m + " ** " + returnType.getCanonicalName() );
+////                        Sys tem.e rr.println( "---" + returnType );
 //                        methodsToInvoke.add( m );
 //                        break;
 //                    }
@@ -248,8 +248,8 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
             if( m.getParameterTypes().length == 0 ) {
                 if( returnType == ResultSet.class ) {
-//                    System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
-//                    System.err.println( "---" + returnType );
+//                    Syst em.ou t.println("m:" + m + " ** " + returnType.getCanonicalName() );
+//                    Syst em.er r.println( "---" + returnType );
                     methodsToInvoke.add( m );
                 }
             }
