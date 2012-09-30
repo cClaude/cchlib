@@ -64,12 +64,12 @@ public abstract class JPopupMenuForJTable
     final
     protected Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        final int row = getJTable().convertRowIndexToModel( rowIndex );
-        final int col = getJTable().convertColumnIndexToModel( columnIndex );
-
-        return getTableModel().getValueAt( row, col );
+        return getTableModel().getValueAt(
+                convertRowIndexToModel( rowIndex ), 
+                convertColumnIndexToModel( columnIndex )
+                );
     }
-
+    
     /**
      * Sets the value in the cell at rowIndex and
      * columnIndex to aValue.
@@ -85,10 +85,46 @@ public abstract class JPopupMenuForJTable
             final int       columnIndex
             )
     {
-        final int row = getJTable().convertRowIndexToModel( rowIndex );
-        final int col = getJTable().convertColumnIndexToModel( columnIndex );
+        final int row = convertRowIndexToModel( rowIndex );
+        final int col = convertColumnIndexToModel( columnIndex );
 
         getTableModel().setValueAt( aValue, row, col );
+    }
+    
+    /**
+     * Maps the index of the row in terms of the view to the
+     * underlying {@link TableModel}. If the contents of the
+     * model are not sorted the model and view indices are
+     * the same.
+     * 
+     * @param viewRowIndex the index of the row in the view
+     * @return the index of the corresponding row in the model
+     * @throws IndexOutOfBoundsException if sorting is enabled 
+     *         and passed an index outside the range of the 
+     *         {@link JTable} as determined by the method
+     *         getRowCount
+     * @see #convertColumnIndexToModel(int)
+     * @see JTable#convertColumnIndexToView(int)
+     * @since 4.1.7
+     */
+    protected int convertRowIndexToModel( final int viewRowIndex )
+    {
+        return getJTable().convertRowIndexToModel( viewRowIndex );
+    }
+    
+    /**
+     * Maps the index of the column in the view at viewColumnIndex 
+     * to the index of the column in the table model. Returns the
+     * index of the corresponding column in the model. If
+     * viewColumnIndex is less than zero, returns viewColumnIndex.
+     * 
+     * @param viewColumnIndex the index of the column in the view
+     * @return the index of the corresponding column in the model
+     * @since 4.1.7
+     */
+    protected int convertColumnIndexToModel( final int viewColumnIndex )
+    {
+        return getJTable().convertColumnIndexToModel( viewColumnIndex );
     }
 
     @Override
@@ -124,52 +160,6 @@ public abstract class JPopupMenuForJTable
                 }
             }
     }
-
-    /**
-     * Install context menu for specified table.
-     *
-    final
-    public void setMenu()
-    {
-        jTable.addMouseListener(
-            new MouseAdapter()
-            {
-                private void maybeShowPopup( MouseEvent e )
-                {
-                    if( e.isPopupTrigger() && jTable.isEnabled() ) {
-                        Point p = new Point( e.getX(), e.getY() );
-                        int col = jTable.columnAtPoint( p );
-                        int row = jTable.rowAtPoint( p );
-
-                        // translate table index to model index
-                        int mcol = jTable
-                            .getColumn( jTable.getColumnName( col ) )
-                            .getModelIndex();
-
-                        if( row >= 0 && row < jTable.getRowCount() ) {
-                            cancelCellEditing();
-
-                            // create popup menu...
-                            JPopupMenu contextMenu = createContextMenu( row, mcol );
-
-                            // ... and show it
-                            if( contextMenu != null
-                                    && contextMenu.getComponentCount() > 0 ) {
-                                contextMenu.show( jTable, p.x, p.y );
-                                }
-                            }
-                    }
-                }
-                public void mousePressed( MouseEvent e )
-                {
-                    maybeShowPopup( e );
-                }
-                public void mouseReleased( MouseEvent e )
-                {
-                    maybeShowPopup( e );
-                }
-            });
-    }*/
 
     /**
      * TODOC
@@ -215,19 +205,19 @@ public abstract class JPopupMenuForJTable
             final int columnIndex
             );
 
-    /**
-     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String, int, int)} instead
-     */
-    @Deprecated
-    final
-    public void addCopyMenuItem(
-            final JPopupMenu    contextMenu,
-            final int           rowIndex,
-            final int           columnIndex
-            )
-    {
-        addCopyMenuItem( contextMenu, "Copy", rowIndex, columnIndex );
-    }
+//    /**
+//     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String, int, int)} instead
+//     */
+//    @Deprecated
+//    final
+//    public void addCopyMenuItem(
+//            final JPopupMenu    contextMenu,
+//            final int           rowIndex,
+//            final int           columnIndex
+//            )
+//    {
+//        addCopyMenuItem( contextMenu, "Copy", rowIndex, columnIndex );
+//    }
 
     /**
      * Add copy to clip-board sub-menu
@@ -299,18 +289,18 @@ public abstract class JPopupMenuForJTable
         };
     }
 
-    /**
-     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String, int, int)} instead
-     */
-    final
-    protected void addPasteMenuItem(
-            final JPopupMenu    contextMenu,
-            final int           rowIndex,
-            final int           columnIndex
-            )
-    {
-        addPasteMenuItem(contextMenu,"Paste",rowIndex,columnIndex);
-    }
+//    /**
+//     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String, int, int)} instead
+//     */
+//    final
+//    protected void addPasteMenuItem(
+//            final JPopupMenu    contextMenu,
+//            final int           rowIndex,
+//            final int           columnIndex
+//            )
+//    {
+//        addPasteMenuItem(contextMenu,"Paste",rowIndex,columnIndex);
+//    }
 
     /**
      * Add paste to clip-board sub-menu

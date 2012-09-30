@@ -19,7 +19,7 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
     /**
      * Create a LeftDotListCellRenderer using JList or JScrollPane
-     * to compute width of JLis
+     * to compute width of JList
      *
      * @param jList	JList to customize.
      * @param useParentJScrollPane if true, look for parent JScrollPane
@@ -75,16 +75,10 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
     {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-        //spy();
-
         final int			availableWidth = this.container.getWidth();
         final String 		text 		= getText();
         final FontMetrics 	fm 			= getFontMetrics( getFont() );
         final int   		dotsWidth 	= fm.stringWidth( DOTS );
-
-        //System.out.println( "availableWidth = " + availableWidth );
-        //System.out.println( "dotsWidth = " + dotsWidth );
-        //System.out.println( "text width = " + fm.stringWidth( text ) );
 
         if( fm.stringWidth( text ) > availableWidth ) {
             int textWidth 	= dotsWidth;
@@ -106,73 +100,4 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
         return this;
     }
-
-    /*
-    private final java.util.Map<String,java.util.Map<String,String>> spyMap
-        = new java.util.HashMap<String,java.util.Map<String,String>>();
-
-    private void spy()
-    {
-        final String 						keyTxt = getText();
-        final java.util.Map<String,String>	oldMap = spyMap.get( keyTxt );
-        final MappableBuilderFactory 		factory
-            = new DefaultMappableBuilderFactory()
-                .add( MappableItem.ALL_PRIMITIVE_TYPE )
-                .add( MappableItem.DO_ARRAYS )
-                .add( MappableItem.DO_PARENT_CLASSES )
-                .add( MappableItem.TRY_PROTECTED_METHODS );
-        final MappableBuilder		builder 	= new MappableBuilder( factory );
-        final Map<String,String> 	mapThis		= builder.toMap( this.jList );
-
-        System.err.println( "#####" );
-        if( oldMap == null ) {
-            System.err.println( "NEW ENTRY" );
-
-            for( java.util.Map.Entry<String,String> e : mapThis.entrySet() ) {
-                String 	k 	= e.getKey();
-                String 	nv	= e.getValue();
-                spyDisplay( k, nv, "NEW", keyTxt );
-                }
-            }
-        else {
-            for( java.util.Map.Entry<String,String> e : mapThis.entrySet() ) {
-                String 	k 	= e.getKey();
-                String 	nv	= e.getValue();
-                String 	ov	= oldMap.get( k );
-                boolean hasChange;
-
-                if( nv == null ) {
-                    hasChange = !( ov == null );
-                    }
-                else {
-                    hasChange = !( nv.equals( ov ));
-                    }
-
-                if( hasChange ) {
-                    spyDisplay( k, nv, ov, keyTxt );
-                    }
-                }
-            }
-        spyMap.put( keyTxt, mapThis );
-    }
-
-    private void spyDisplay(
-        final String k,
-        final String nv,
-        final String ov,
-        final String keyTxt
-        )
-    {
-        System.err.println(
-                " ."
-                + k
-                + " = "
-                + nv
-                + " * OLD = "
-                + ov
-                + " * TXT:"
-                + keyTxt
-                );
-    }
-*/
 }

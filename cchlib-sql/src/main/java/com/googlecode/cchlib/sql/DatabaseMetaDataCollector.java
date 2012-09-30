@@ -123,7 +123,8 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
      * @return list of table name for current schema
      * @throws SQLException if a database access error occurs
      */
-    public List<String> getTableList(final String...tableTypes) throws SQLException
+    public List<String> getTableList(final String...tableTypes) 
+        throws SQLException
     {
         final List<String>  values      = new ArrayList<String>();
         final ResultSet     allTables   = databaseMetaData.getTables(null,null,null,tableTypes);
@@ -223,8 +224,8 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 //            if( m.getParameterTypes().length == 0 ) {
 //                for(Class<?> c: validReturnClassesForString) {
 //                    if( returnType == c ) {
-////                        System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
-////                        System.err.println( "---" + returnType );
+////                        Syst em.ou t.println("m:" + m + " ** " + returnType.getCanonicalName() );
+////                        Syst em.e rr.println( "---" + returnType );
 //                        methodsToInvoke.add( m );
 //                        break;
 //                    }
@@ -248,8 +249,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
             if( m.getParameterTypes().length == 0 ) {
                 if( returnType == ResultSet.class ) {
-//                    System.out.println("m:" + m + " ** " + returnType.getCanonicalName() );
-//                    System.err.println( "---" + returnType );
                     methodsToInvoke.add( m );
                 }
             }
