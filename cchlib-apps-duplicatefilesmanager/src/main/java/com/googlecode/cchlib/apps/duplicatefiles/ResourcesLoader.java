@@ -162,7 +162,12 @@ public class ResourcesLoader
             resources = new Resources()
             {
                 @Override
-                public Image getAppIcon()
+                public Icon getAppIcon()
+                {
+                    return getImageIcon( "icon.png" );
+                }
+                @Override
+                public Image getAppImage()
                 {
                     return getImage( "icon.png" );
                 }
@@ -241,7 +246,6 @@ public class ResourcesLoader
                 {
                     return siteURI;
                 }
-
             };
             }
         return resources;

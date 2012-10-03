@@ -150,11 +150,8 @@ final public class DuplicateFilesFrame
 
     private void initFixComponents()
     {
-        //setIconImage( getDFToolKit().getImage( "icon.png" ) );
-        setIconImage( getDFToolKit().getResources().getAppIcon() );
+        setIconImage( getDFToolKit().getResources().getAppImage() );
 
-        //this.iconContinue = getDFToolKit().getIcon( "continue.png" );
-        //this.iconRestart  = getDFToolKit().getIcon( "restart.png" );
         this.iconContinue = getDFToolKit().getResources().getContinueIcon();
         this.iconRestart  = getDFToolKit().getResources().getRestartIcon();
 
@@ -162,11 +159,6 @@ final public class DuplicateFilesFrame
 
         getDuplicateFilesMainPanel().initFixComponents();
         
-//        getJPanel0Select().initFixComponents();
-//        //getJPanel1Config().initFixComponents();
-//        getJPanel2Searching().initFixComponents( getDFToolKit() );
-//        // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
-
         // initDynComponents
         //MenuHelper.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
         LookAndFeelMenu lafMenu = new LookAndFeelMenu( this );
@@ -351,38 +343,6 @@ final public class DuplicateFilesFrame
         }
     }
 
-//    private void jMenuItemDeleteEmptyDirectories_ActionPerformed()
-//    {
-//        Runnable r = new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                if( removeEmptyDirectories == null ) {
-//                    removeEmptyDirectories = RemoveEmptyDirectoriesStandaloneApp.createRemoveEmptyDirectoriesFrame( getDFToolKit(), autoI18n );
-//                    }
-//                else {
-//                    removeEmptyDirectories.setVisible( true );
-//                    removeEmptyDirectories.setExtendedState( JFrame.NORMAL );
-//                    }
-//
-//                //TODO improve here ! add windows handler !
-//
-//                UIManager.addPropertyChangeListener(
-//                        new PropertyChangeListener()
-//                        {
-//                            @Override
-//                            public void propertyChange( PropertyChangeEvent e )
-//                            {
-//                                // TODO: Refresh display
-//                            }
-//                        });
-//            }
-//        };
-//
-//        new Thread( r ).start();
-//    }
-
     @Override
     public ActionListener getActionListener()
     {
@@ -414,10 +374,6 @@ final public class DuplicateFilesFrame
                         case DuplicateFilesMainPanel.ACTIONCMD_NEXT:
                             jButtonNextStep_ActionPerformed();
                             break;
-
-//                        case ACTIONCMD_DELETE_EMPTY_DIRECTORIES :
-//                            jMenuItemDeleteEmptyDirectories_ActionPerformed();
-//                            break;
 
                         case DuplicateFilesMainPanel.ACTIONCMD_CANCEL :
                             if( getDuplicateFilesMainPanel().getJButtonCancel().isEnabled() ) {
@@ -509,9 +465,9 @@ final public class DuplicateFilesFrame
         logger.info( "openPreferences done : " + getDFToolKit().getPreferences() );
     }
 
-    private void openAbout()
+    public void openAbout()
     {
-        AboutDialog.showDialog( getDFToolKit() );
+        AboutDialog.open( getDFToolKit(), this.autoI18n );
         
         logger.info( "openAbout done" );
     }

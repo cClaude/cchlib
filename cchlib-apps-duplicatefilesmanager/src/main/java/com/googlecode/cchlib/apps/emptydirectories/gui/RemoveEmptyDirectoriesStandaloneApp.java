@@ -56,7 +56,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
             setContentPane( _contentPane );
         }
 
-        setIconImage( getDFToolKit().getResources().getAppIcon() );
+        setIconImage( getDFToolKit().getResources().getAppImage() );
 
         // Apply i18n !
         performeI18n( this.autoI18n );

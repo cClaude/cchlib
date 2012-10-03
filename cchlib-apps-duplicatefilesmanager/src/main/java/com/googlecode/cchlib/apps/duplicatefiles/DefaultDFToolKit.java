@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.File;
@@ -69,6 +70,12 @@ public final class DefaultDFToolKit
             throw new NullPointerException( "mainWindow not set" );
             }
         
+        return this.mainWindow;
+    }
+    
+    @Override // DFToolKit
+    public Frame getMainFrame()
+    {
         return this.mainWindow;
     }
     
@@ -217,7 +224,7 @@ public final class DefaultDFToolKit
         return ResourcesLoader.getResources();
     }
 
-    @Override
+    @Override // DFToolKit
     public List<File> getRootDirectoriesList()
     {
         List<File> list = new ArrayList<>();
@@ -232,6 +239,4 @@ public final class DefaultDFToolKit
 
         return list;
     }
-
-
 }

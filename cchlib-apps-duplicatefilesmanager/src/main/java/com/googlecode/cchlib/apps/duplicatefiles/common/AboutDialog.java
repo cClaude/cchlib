@@ -1,31 +1,52 @@
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 
 /**
  * Display about dialog
  */
-public class AboutDialog extends JDialog 
+public class AboutDialog
+    extends JDialog
+        implements I18nPrepAutoUpdatable
 {
+    private final class Panel extends AboutPanel 
+    {
+        private static final long serialVersionUID = 1L;
+        
+        private Panel( Resources resources )
+        {
+            super( resources );
+        }
+
+        @Override
+        protected void buttonOKClicked()
+        {
+            AboutDialog.this.dispose();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( AboutDialog.class );
-    private final AboutPanel contentPanel;
+    private /*final*/ AboutPanel contentPanel;
+    private /*final*/ DFToolKit dfToolKit;
 
     /**
      * Launch the application.
      */
-    public static void showDialog( final DFToolKit dfToolKit )
+    public static void open( 
+        final DFToolKit dfToolKit, 
+        final AutoI18n  autoI18n
+        )
     {
         try {
-            AboutDialog dialog = new AboutDialog( dfToolKit.getResources() );
+            AboutDialog dialog = new AboutDialog( dfToolKit );
+            
+            dialog.performeI18n( autoI18n );
             dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
             dialog.setVisible( true );
             }
@@ -33,36 +54,35 @@ public class AboutDialog extends JDialog
             logger.error( "showDialog", e );
             }
     }
-
+     
     /**
      * Create the dialog.
-     * @param resources  
+     * 
+     * @param dfToolKit
      */
-    public AboutDialog( Resources resources )
+    public AboutDialog( 
+        final DFToolKit dfToolKit
+        )
     {
-        contentPanel = new AboutPanel(resources );
+        super( dfToolKit.getMainFrame() );
+
+        this.dfToolKit    = dfToolKit;
+        this.contentPanel = new Panel( dfToolKit.getResources() );
         
-        setBounds( 100, 100, 450, 300 );
-        getContentPane().setLayout( new BorderLayout() );
-        contentPanel.setLayout( new FlowLayout() );
-        contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        getContentPane().add( contentPanel, BorderLayout.CENTER );
-        {
-            JPanel buttonPane = new JPanel();
-            buttonPane.setLayout( new FlowLayout( FlowLayout.RIGHT ) );
-            getContentPane().add( buttonPane, BorderLayout.SOUTH );
-            {
-                JButton okButton = new JButton( "OK" );
-                okButton.setActionCommand( "OK" );
-                buttonPane.add( okButton );
-                getRootPane().setDefaultButton( okButton );
-            }
-            {
-                JButton cancelButton = new JButton( "Cancel" );
-                cancelButton.setActionCommand( "Cancel" );
-                buttonPane.add( cancelButton );
-            }
-        }
+        super.setContentPane( contentPanel );
+        super.setSize( 300, 300 );
     }
 
+    @Override // I18nPrepAutoUpdatable
+    public void performeI18n( AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
+    }
+
+    @Override // I18nPrepAutoUpdatable
+    public String getMessagesBundle()
+    {
+        return dfToolKit.getMessagesBundle();
+    }
 }
+

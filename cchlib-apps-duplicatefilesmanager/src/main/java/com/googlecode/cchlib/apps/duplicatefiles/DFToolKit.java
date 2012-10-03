@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
 import java.io.Serializable;
@@ -24,7 +25,8 @@ public interface DFToolKit extends Serializable
     //public Image getImage(String name);
     //public Icon getIcon(String name);
     public Preferences getPreferences();
-    public Window getMainWindow();
+    public Frame getMainFrame();
+    @Deprecated public Window getMainWindow();
     public void setEnabledJButtonCancel( boolean b );
     public boolean isEnabledJButtonCancel();
     public void initComponentsJPanelConfirm();

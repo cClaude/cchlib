@@ -31,13 +31,19 @@ public class Version
         final String     filename = "/version.properties";
         final Properties prop     = new Properties();
 
-        InputStream is = this.getClass().getResourceAsStream( filename );
-
-        if( is == null ) {
-            throw new FileNotFoundException( filename );
-            }
-
-        prop.load( is );
+        {
+            InputStream is = this.getClass().getResourceAsStream( filename );
+            
+            if( is == null ) {
+                throw new FileNotFoundException( filename );
+                }
+            else try {
+                prop.load( is );
+                }
+            finally {
+                is.close();
+                }
+        }
 
         this.name    = prop.getProperty( "project.name" );
         this.version = prop.getProperty( "project.version" );

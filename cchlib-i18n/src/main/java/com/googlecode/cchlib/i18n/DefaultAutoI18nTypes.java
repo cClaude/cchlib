@@ -29,18 +29,18 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
         private static final long serialVersionUID = 1L;
 
         /**
-         * TODOC
-         *
+         * Returns type for this object
          * @return type for this object
          */
         @Override
         public abstract Class<T> getType();
 
         /**
-         * TODOC
+         * Cast current object to current type.
          *
-         * @param toI18n
+         * @param toI18n Object to I18n
          * @return cast field to localize to current type
+         * @see #getType()
          */
         public T cast( Object toI18n )
         {
@@ -49,28 +49,29 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     }
 
     /**
-     * TODOC
+     * Build {@link DefaultAutoI18nTypes} with the
+     * default list of supported classes.
      */
     public DefaultAutoI18nTypes()
     {
-        types = new ArrayList<AutoI18nTypes.Type>();
+        this.types = new ArrayList<AutoI18nTypes.Type>();
 
-        Method[] methods = getClass().getMethods();
+        final Method[] methods = getClass().getMethods();
 
-        for(Method m:methods) {
+        for( Method m:methods ) {
             if( AutoI18nTypes.Type.class.isAssignableFrom( m.getReturnType() ) ) {
                 if( m.getParameterTypes().length == 0 ) {
                     try {
                         AutoI18nTypes.Type t = AutoI18nTypes.Type.class.cast( m.invoke( DefaultAutoI18nTypes.this ) );
 
                         types.add( t );
-                    }
+                        }
                     catch( Exception shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
+                        }
                     }
                 }
             }
-        }
     }
 
     @Override // AutoI18nTypes
@@ -92,8 +93,9 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     }
 
     /**
-     * TODOC:
-     * @return TODOC
+     * Handle I18h for {@link JLabel}
+     * 
+     * @return an {@link AbstractType} to handle {@link JLabel}
      */
     public AbstractType<JLabel> getJLabel()
     {
@@ -121,8 +123,9 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     }
 
     /**
-     * TODOC:
-     * @return TODOC
+     * Handle I18h for {@link AbstractButton}
+     * 
+     * @return an {@link AbstractType} to handle {@link AbstractButton}
      */
     public AbstractType<AbstractButton> getAbstractButton()
     {
@@ -138,20 +141,20 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             public void setText( Object toI18n, AutoI18n.Key k)
                 throws java.util.MissingResourceException
             {
-                cast( toI18n ).setText(k.getValue());
+                cast( toI18n ).setText( k.getValue() );
             }
             @Override
             public String[] getText( Object toI18n )
             {
-                String[] r = { cast( toI18n ).getText() };
-                return r;
+                return new String[] { cast( toI18n ).getText() };
             }
         };
     }
 
     /**
-     * TODOC:
-     * @return TODOC
+     * Handle I18h for {@link JCheckBox}
+     * 
+     * @return an {@link AbstractType} to handle {@link JCheckBox}
      */
     public AbstractType<JCheckBox> getJCheckBox()
     {
@@ -172,15 +175,15 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             @Override
             public String[] getText( Object toI18n )
             {
-                String[] r = { cast( toI18n ).getText() };
-                return r;
+                return new String[] { cast( toI18n ).getText() };
             }
         };
     }
 
     /**
-     * TODOC:
-     * @return TODOC
+     * Handle I18h for {@link JTabbedPane}
+     * 
+     * @return an {@link AbstractType} to handle {@link JTabbedPane}
      */
     public AbstractType<JTabbedPane> getJTabbedPane()
     {
@@ -213,7 +216,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
                 for(int i = 0;i<len;i++) {
                     r[i ] = o.getTitleAt( i );
-                }
+                    }
                 return r;
             }
         };

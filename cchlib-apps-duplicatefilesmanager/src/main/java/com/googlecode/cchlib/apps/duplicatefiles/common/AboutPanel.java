@@ -14,17 +14,21 @@ import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+import com.googlecode.cchlib.i18n.I18nForce;
 import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.i18n.I18nString;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
  */
-public class AboutPanel extends JPanel 
+public abstract class AboutPanel extends JPanel 
 {
     private static final long serialVersionUID = 1L;
     private static final String DESCRIPTION = "About brief (dev text)";
@@ -38,15 +42,20 @@ public class AboutPanel extends JPanel
     private JLabel jLabel_author;    // I18n
     private JLabel jLabel_copyRight; // I18n
     private JLabel jLabel_version;   // I18n
+    private JButton jButton_Ok;
+    //@I18n ( methodSuffixName = "JTextArea" ) private JTextArea jTextArea;
+    @I18nForce private JTextArea jTextArea;
 
     /** 
-     * Creates new form AboutPanel for windows builder.
+     * Creates new form AboutPanel for windows builder ONLY.
      */
+    @Deprecated // for windows builder ONLY.
     public AboutPanel() 
     {
         this( ResourcesLoader.getResources() );
     }
 
+    
     /** 
      * Creates new form AboutPanel 
      */
@@ -56,9 +65,9 @@ public class AboutPanel extends JPanel
         
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{20, 20, 20, 20, 0};
-        gridBagLayout.rowHeights = new int[]{22, 22, 22, 100, 0};
+        gridBagLayout.rowHeights = new int[]{22, 22, 22, 100, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
         
         {
@@ -96,16 +105,15 @@ public class AboutPanel extends JPanel
             add(jLabel_logo, gbc_jLabel_logo);
         }
         {
-            JLabel jLabel2 = new JLabel();
-            //jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/name.png"))); // NOI18N
-            jLabel2.setIcon( resources.getFolderIcon() ); // NOI18N FIXME
-            GridBagConstraints gbc_jLabel2 = new GridBagConstraints();
-            gbc_jLabel2.gridheight = 2;
-            gbc_jLabel2.fill = GridBagConstraints.BOTH;
-            gbc_jLabel2.insets = new Insets(0, 0, 5, 5);
-            gbc_jLabel2.gridx = 0;
-            gbc_jLabel2.gridy = 1;
-            add(jLabel2, gbc_jLabel2);
+            JLabel jLabel_AppIcon = new JLabel();
+            jLabel_AppIcon.setIcon( resources.getAddIcon() ); // NOI18N FIXME
+            GridBagConstraints gbc_jLabel_AppIcon = new GridBagConstraints();
+            gbc_jLabel_AppIcon.gridheight = 2;
+            gbc_jLabel_AppIcon.fill = GridBagConstraints.BOTH;
+            gbc_jLabel_AppIcon.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabel_AppIcon.gridx = 0;
+            gbc_jLabel_AppIcon.gridy = 1;
+            add(jLabel_AppIcon, gbc_jLabel_AppIcon);
         }
         {
             jLabel_author = new JLabel();
@@ -159,7 +167,7 @@ public class AboutPanel extends JPanel
             add(jLabel_completeDate, gbc_jLabel_completeDate);
         }
         {
-            JTextArea jTextArea = new JTextArea();
+            jTextArea = new JTextArea();
             jTextArea.setColumns(20);
             jTextArea.setEditable(false);
             jTextArea.setLineWrap(true);
@@ -171,14 +179,32 @@ public class AboutPanel extends JPanel
             jScrollPane.setViewportView( jTextArea );
 
             GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
+            gbc_jScrollPane.insets = new Insets(0, 0, 5, 0);
             gbc_jScrollPane.fill = GridBagConstraints.BOTH;
             gbc_jScrollPane.gridwidth = 4;
             gbc_jScrollPane.gridx = 0;
             gbc_jScrollPane.gridy = 3;
             add(jScrollPane, gbc_jScrollPane);
         }
+        {
+            jButton_Ok = new JButton("OK");
+            jButton_Ok.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) 
+                {
+                    buttonOKClicked();
+                }
+            });
+            GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
+            gbc_jButton_Ok.gridwidth = 4;
+            gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
+            gbc_jButton_Ok.gridx = 0;
+            gbc_jButton_Ok.gridy = 4;
+            add(jButton_Ok, gbc_jButton_Ok);
+        }
     }
     
+    protected abstract void buttonOKClicked();
+
     private void authorMouseEntered( final MouseEvent evt )
     {
         jLabel_authorName.setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR) );

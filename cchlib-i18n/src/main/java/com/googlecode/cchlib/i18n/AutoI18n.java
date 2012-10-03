@@ -90,13 +90,14 @@ public class AutoI18n implements Serializable
      * If set with "true" disable
      * auto-internalization process.
      */
-    public static final String DISABLE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.disabled";
+    public static final String DISABLE_PROPERTIES = "com.googlecode.cchlib.i18n.AutoI18n.disabled";
 
     //TODO: add properties to force locale
     //public static final String LOCALE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.locale";
 
     /** @serial */
     private AutoI18nTypes types;
+    
     /**
      * How to select Fields:
      * <p>
@@ -197,7 +198,9 @@ public class AutoI18n implements Serializable
      *
      * @param handler {@link AutoI18nExceptionHandler} to use
      */
-    public void setAutoI18nExceptionHandler( AutoI18nExceptionHandler handler )
+    public void setAutoI18nExceptionHandler( 
+        final AutoI18nExceptionHandler handler 
+        )
     {
         if( handler == null ) {
             throw new NullPointerException();
@@ -211,7 +214,7 @@ public class AutoI18n implements Serializable
      * <br/>
      * Then try to make I18N use these rules :
      * <pre>
-     *   1. Looking for @I18n, @I18nIgnore Annotation
+     *   1. Looking for @I18n, @I18nIgnore annotations
      *      1.1  If annotation I18nIgnore is define, just ignore
      *           this field
      *      1.1. If a keyName is define, use it to find value in
@@ -231,7 +234,7 @@ public class AutoI18n implements Serializable
      *      2.5. If field value is an instance of javax.swing.JCheckBox
      *           use {@link javax.swing.JCheckBox#setText(String)}
      * </pre>
-     * @param <T> TODOC
+     * @param <T> Type of object to internationalize
      * @param objectToI18n Object to I18n
      * @param clazz        Class to use for I18n
      * @see AutoI18nBasicInterface
@@ -335,7 +338,7 @@ public class AutoI18n implements Serializable
             )
     {
         this.objectToI18n = objectToI18n;
-        this.objectToI18nClass = clazz;//objectToI18n.getClass();
+        this.objectToI18nClass = clazz;
         this.objectToI18nClassNamePrefix = this.objectToI18nClass.getName() + '.';
     }
 
@@ -347,25 +350,50 @@ public class AutoI18n implements Serializable
         Method[] methods = null;
 
         try {
-            I18n anno = f.getAnnotation( I18n.class );
-
-            if( anno != null ) {
+            I18n        annoI18n        = f.getAnnotation( I18n.class );
+            I18nForce   annonI18nForce  = f.getAnnotation( I18nForce.class );
+            
+            if( annoI18n != null ) {
                 // Get methods
-                methods = getMethods(f, anno);
-                // Get key
-                key = anno.keyName();
+                methods = getCustomMethodsFromCurrentObject(f, annoI18n.method() );
+                
+                if( methods == null ) {
+                    @SuppressWarnings("deprecation")
+                    Method[] methodsSuppressWarnings = getCustomMethodsFromCurrentObject(f, annoI18n.methodSuffixName() );
+                    methods = methodsSuppressWarnings;
+                    }
 
+                // Get key
+                key = annoI18n.id();
+                
+                if( key.length() == 0 ) {
+                    @SuppressWarnings("deprecation")
+                    String keySuppressWarnings = annoI18n.keyName();
+                    key = keySuppressWarnings;
+                    }
                 if( key.length() == 0 ) {
                     key = getKey( f );
-                }
+                    }
 
                 if( methods == null ) {
                     setValueFromKey( f, key );
-                }
+                    }
                 else {
                     setValueFromAnnotation( f, key, methods );
+                    }
                 }
-            }
+            else if( annonI18nForce != null ) {
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                // FIXME
+                throw new UnsupportedOperationException( annonI18nForce.className() );
+                }
             else if( f.getType().isArray() ) {
                 if( f.getAnnotation( I18nString.class ) != null ) {
                     Class<?> ac = f.getType().getComponentType();
@@ -413,7 +441,8 @@ public class AutoI18n implements Serializable
     // Warning !
     // Warning !
     /**
-     * This method is override by AutoI18UpdateBundle
+     * This method is override by {@link AutoI18UpdateBundle}
+     * <br/>
      * Should be the only entry point to get String from resource bundle
      */
     protected void setAutoI18nCustomInterface( AutoI18nCustomInterface autoI18n )
@@ -425,17 +454,17 @@ public class AutoI18n implements Serializable
     // Warning !
     // Warning !
     /**
-     * This method is use by AutoI18UpdateBundle
+     * This method is use by {@link AutoI18UpdateBundle}
      * @return key name for this field
      */
-    protected String getKey( Field f )
+    protected String getKey( final Field f )
     {
         return this.objectToI18nClassNamePrefix + f.getName();
     }
 
     private void setValueFromKey(
-            Field   f,
-            String  k
+            final Field   f,
+            final String  k
             )
     throws  IllegalArgumentException,
             IllegalAccessException
@@ -507,22 +536,25 @@ public class AutoI18n implements Serializable
     }
 
     /**
-     *
-     * @param f
-     * @param i18n
+     * Find get/set method to retrieve or update I18n value
+     * 
+     * @param f_notuse
+     * @param suffixName
      * @return null or 2 methods (m[0]=set, m[1]=get]
      */
-    private Method[] getMethods(Field f, I18n i18n )
+    private Method[] getCustomMethodsFromCurrentObject(
+        final Field     f_notuse, 
+        final String    suffixName 
+        )
+    //private Method[] getMethods( final Field f, final I18n i18n )
     {
-        String suffixName = i18n.methodSuffixName();
+        //final String suffixName = i18n.methodSuffixName();
 
         if( suffixName.length() > 0 ) {
             Method[] methods = new Method[2];
 
             try {
                 methods[0] = this.objectToI18nClass.getMethod( "set"+ suffixName, String.class );
-
-                //TODO: check return type == VOID
                 }
             catch( SecurityException e ) {
                 this.exceptionHandler.handleSecurityException(e);
@@ -533,7 +565,7 @@ public class AutoI18n implements Serializable
             try {
                 methods[1] = this.objectToI18nClass.getMethod( "get"+ suffixName );
 
-                //TODO: check return type == String
+                checkIfReturnTypeIsString( methods[ 1 ] );
                 }
             catch( SecurityException e ) {
                 this.exceptionHandler.handleSecurityException(e);
@@ -543,8 +575,18 @@ public class AutoI18n implements Serializable
                 }
 
             return methods;
-        }
+            }
         return null;
+    }
+    
+    private static void checkIfReturnTypeIsString( final Method m )
+        throws NoSuchMethodException
+    {
+        if( ! m.getReturnType().equals( String.class ) ) {
+            throw new NoSuchMethodException( 
+                "Method " + m + " must return a String"
+                );
+            }
     }
 
     private void setValueFromAnnotation( Field f, String key, Method[] methods )
@@ -614,12 +656,12 @@ public class AutoI18n implements Serializable
             return key + '.' + index;
         }
         public String getValue()
-            throws java.util.MissingResourceException
+            throws MissingResourceException
         {
             return i18n.getString( key );
         }
         public String getValue(int index)
-            throws java.util.MissingResourceException
+            throws MissingResourceException
         {
             return i18n.getString( getKey(index) );
         }

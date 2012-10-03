@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import javax.swing.JComponent;
 import javax.swing.border.Border;
@@ -19,8 +18,8 @@ public class I18nSwingHelper
         Border b = c.getBorder();
         
         if( b instanceof TitledBorder ) {
-            return (TitledBorder)b;
-        }
+            return TitledBorder.class.cast( b );
+            }
         return null;
     }
 
@@ -33,13 +32,16 @@ public class I18nSwingHelper
      * @param c JComponent to find TitledBorder
      * @param title new title to set
      */
-    public final static void setTitledBorderTitle(JComponent c, String title)
+    public final static void setTitledBorderTitle(
+        final JComponent    c, 
+        final String        title
+        )
     {
         TitledBorder b = getTitledBorder(c);
         
         if( b != null ) {
             b.setTitle( title );
-        }
+            }
     }
     /**
      * Get title on TitledBorder of giving JComponent.
@@ -53,11 +55,11 @@ public class I18nSwingHelper
      */
     public final static String getTitledBorderTitle(JComponent c)
     {
-        TitledBorder b = getTitledBorder(c);
+        TitledBorder b = getTitledBorder( c );
         
         if( b != null ) {
             return b.getTitle();
-        }
+            }
         return null;
     }
 }

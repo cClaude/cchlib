@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.TooManyListenersException;
+import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
@@ -29,7 +30,7 @@ public class DuplicateFilesI18nPrep
         PrintStream         notUsePrintStream       = System.out;
 
         I18nAutoUpdatable[] otherFrames = {
-            //new RemoveEmptyDirectoriesStandaloneApp( defaultDFToolKit, null ),
+            new AboutDialog( defaultDFToolKit ),
             };
         I18nPrepHelper.defaultPrep(
             locale,

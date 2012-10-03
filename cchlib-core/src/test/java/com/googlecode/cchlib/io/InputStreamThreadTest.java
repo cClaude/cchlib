@@ -23,9 +23,10 @@ public class InputStreamThreadTest
     @Test
     public void testInputStreamThread() throws IOException
     {
+        InputStream sourceIS0 = IO.createPNGInputStream();
         InputStreamThread isThread = new InputStreamThread(
             getClass().getName(), 
-            IO.getPNGFile(), 
+            sourceIS0, 
             16, 
             getExceptionHandler()
             );
@@ -34,13 +35,16 @@ public class InputStreamThreadTest
         
         isThread.start();
         
-        InputStream source  = IO.getPNGFile();
-        boolean     r       = IOHelper.isEquals( source, copy );
+        InputStream sourceIS1  = IO.createPNGInputStream();
+        boolean     r          = IOHelper.isEquals( sourceIS1, copy );
 
         Assert.assertNotNull( r );
 
-        source.close();
+        sourceIS1.close();
         copy.close();
+        sourceIS0.close();
+        
+        logger.info( "Done" );
     }
 
     private InputStreamThreadExceptionHandler getExceptionHandler()

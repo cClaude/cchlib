@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
- *
+ * TODOC
  *
  */
 public interface AutoI18nEventHandler
     extends Serializable
 {
+    /** 
+     * TODOC
+     */
     enum Cause {
         ANNOTATION,
         PRIMITIVE,

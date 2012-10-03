@@ -10,7 +10,8 @@ import javax.swing.Icon;
  */
 public interface Resources 
 {
-    public Image getAppIcon();
+    public Image getAppImage();
+    public Icon getAppIcon();
     public Icon getContinueIcon();
     public Icon getRestartIcon();
     public Icon getRemoveIcon();

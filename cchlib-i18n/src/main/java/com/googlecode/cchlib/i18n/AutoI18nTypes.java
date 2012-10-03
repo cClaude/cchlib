@@ -1,15 +1,17 @@
 package com.googlecode.cchlib.i18n;
 
 import java.io.Serializable;
+import java.util.MissingResourceException;
 
 /**
- *
+ * TODOC
  *
  */
-public interface AutoI18nTypes extends Serializable, Iterable<AutoI18nTypes.Type>
+public interface AutoI18nTypes 
+    extends Serializable, Iterable<AutoI18nTypes.Type>
 {
     /**
-     *
+     * TODOC
      *
      */
     public interface Type extends Serializable
@@ -25,18 +27,18 @@ public interface AutoI18nTypes extends Serializable, Iterable<AutoI18nTypes.Type
          *
          * @param toI18n object to localize
          * @param key    key object for resolve value
-         * @throws java.util.MissingResourceException
+         * @throws MissingResourceException if resource missing
          */
         public void setText(Object toI18n, AutoI18n.Key key)
-            throws java.util.MissingResourceException;
+            throws MissingResourceException;
 
         /**
-         *
+         * Returns current text string for this object
+         * 
          * @param toI18n object to localize
          * @return not empty String
          *         array, null if not supported
          */
         public String[] getText(Object toI18n);
-        //int getTextSize() ??
     }
 }

@@ -17,18 +17,29 @@ public @interface I18n
 {
     /**
      * Must have two methods, with theses signatures:<br/>
-     * public void set'methodSuffixName'(String)
+     * public void set'method'(String)
      * <br/>
-     * public String get'methodSuffixName'()
+     * public String get'method'()
      *
      * @return method name, if not define ("")
      *         use default process.
      */
+    String method() default "";
+    
+    /**
+     * @deprecated use {@link #method()} instead
+     */
     String methodSuffixName() default "";
+    
     /**
      * Returns key name for this field
      * @return key name for this field, if
      *         not define ("") use default process.
+     */
+    String id() default "";
+    
+    /**
+     * @deprecated use {@link #id()} instead
      */
     String keyName() default "";
 }
