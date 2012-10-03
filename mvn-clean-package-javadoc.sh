@@ -161,6 +161,7 @@ cchlib-i18n
 cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
+cchlib-net
 cchlib-sql
 cchlib-swing
 cchlib-swing-deprecated
@@ -172,6 +173,7 @@ cchlib-core-deprecated
 cchlib-i18n
 cchlib-j2ee
 cchlib-jdbf
+cchlib-net
 cchlib-sql
 cchlib-swing
 cchlib-swing-deprecated
