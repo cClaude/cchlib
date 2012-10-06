@@ -8,7 +8,7 @@
 #
 EXEC="./mvn-clean-package-javadoc.sh"
 echo ${EXEC}
-${EXEC}
+#${EXEC}
 if [ ! "$?" -eq "0" ];
 then
   echo "[ERROR] in ${EXEC}"

@@ -26,7 +26,7 @@
   </scm>
 
   <!-- Distribution management -->
-  <distributionManagement>
+  <distributionManagement><!-- Maven repo -->
     <repository>
       <id>googlecode.cchlib.repo</id>
       <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
@@ -55,7 +55,7 @@
 
   <build>
     <extensions>
-      <extension>
+      <extension><!-- Maven repo -->
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav</artifactId>
         <version>1.0-beta-2</version>

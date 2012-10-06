@@ -14,6 +14,19 @@
   <description>deprecated classe from pre-version 3</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 
+  <!-- Distribution management -->
+  <distributionManagement>
+    <repository>
+      <id>googlecode.cchlib.repo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode.cchlib.snapshotrepo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
   <!-- Global properties -->
   <properties>
     <java.source.version>1.6</java.source.version>
@@ -35,6 +48,11 @@
 
   <build>
     <extensions>
+      <extension><!-- Maven repo -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
     </extensions>
     <plugins>
     </plugins>

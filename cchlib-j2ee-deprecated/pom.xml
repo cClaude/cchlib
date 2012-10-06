@@ -15,6 +15,19 @@
   <description>Provide server based features.</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
   <inceptionYear>2002</inceptionYear>
+  
+  <!-- Distribution management -->
+  <distributionManagement><!-- Maven repo -->
+    <repository>
+      <id>googlecode.cchlib.repo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode.cchlib.snapshotrepo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
 
   <!-- Global properties -->
   <properties>
@@ -55,5 +68,17 @@
     </dependency>
 
   </dependencies>
+  
+  <build>
+    <extensions>
+      <extension><!-- Maven repo -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+    <plugins>
+    </plugins>
+  </build>
 
 </project>
