@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.test;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 
 /**
@@ -8,8 +10,6 @@ import org.junit.Assert;
  * <br>
  * Note: new versions version of JUnit already include this
  * feature.
- * 
- * @since 4.1.7
  */
 final
 public class ArrayAssert
@@ -49,12 +49,16 @@ public class ArrayAssert
             )
     {
         if( expected == null && actual == null ) {
-            return;
+            return; // Both null
             }
         
         if( expected != null && expected.equals( actual ) ) {
-            return;
+            return; // Same ref.
             }
+        
+        if( Arrays.equals( actual, expected) ) {
+        	return; // Same content (quicker)
+        	}
         
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
@@ -161,12 +165,16 @@ public class ArrayAssert
             )
     {
         if( expected == null && actual == null ) {
-            return;
+            return; // Both null
             }
         
         if( expected != null && expected.equals( actual ) ) {
-            return;
+            return; // Same ref.
             }
+        
+        if( Arrays.equals( actual, expected) ) {
+        	return; // Same content (quicker)
+        	}
         
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
@@ -257,11 +265,17 @@ public class ArrayAssert
             )
     {
         if( expected == null && actual == null ) {
-            return;
+            return; // Both null
             }
+        
         if( expected != null && expected.equals( actual ) ) {
-            return;
+            return; // Same ref.
             }
+        
+        if( Arrays.equals( actual, expected) ) {
+        	return; // Same content (quicker)
+        	}
+
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
             

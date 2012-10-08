@@ -28,10 +28,10 @@ public abstract class DisplayTableModel
     private ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
     private JTable jTable;
     
-    @I18nString private final String columnNameURL    = "URL";
-    @I18nString private final String columnNameState  = "State";
-    @I18nString private final String columnNameFile   = "File";
-    @I18nString private final String columnNameParent = "Parent URL";
+    @I18nString private String columnNameURL    = "URL";
+    @I18nString private String columnNameState  = "State";
+    @I18nString private String columnNameFile   = "File";
+    @I18nString private String columnNameParent = "Parent URL";
 
     /**
      *

@@ -154,7 +154,8 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
     {
         if( args.length != 3 ) {
             System.err.println( "Usage: del_nonalpha_char <SOURCE> <DESTINATION>|stdout <SIZE>" );
-            System.exit( -1 );
+            exit( -1 );
+            return; // avoid warns
             }
 
         final File  inputFile   = new File( args[ 0 ] );
@@ -173,8 +174,8 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
             }
         catch( NumberFormatException e ) {
             System.err.println( "<SIZE> is not a valid number" );
-            System.exit( -1 );
-            return;
+            exit( -1 );
+            return; // avoid warns
             }
 
         DelNonAlphaChar instance = new DelNonAlphaChar(
@@ -187,16 +188,21 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
             }
         catch( FileNotFoundException e ) {
             System.err.println( "File not found: " + e.getMessage() );
-            System.exit( -1 );
+            exit( -1 );
             }
         catch( IOException e ) {
             System.err.println( "<SIZE> is not a valid number" );
-            System.exit( -1 );
+            exit( -1 );
             }
         catch( Exception e ) {
             System.err.println( "Unexpected error: " + e.getMessage() );
             e.printStackTrace( System.err );
-            System.exit( -1 );
+            exit( -1 );
             }
+    }
+    
+    private static void exit( int error )
+    {
+    	System.exit( error );
     }
 }

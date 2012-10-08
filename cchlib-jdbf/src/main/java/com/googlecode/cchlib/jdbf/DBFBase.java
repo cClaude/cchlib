@@ -6,7 +6,7 @@ package com.googlecode.cchlib.jdbf;
 abstract class DBFBase
 {
     protected String characterSetName = "8859_1";
-    protected final int END_OF_DATA = 0x1A;
+    protected static final int END_OF_DATA = 0x1A;
 
     /**
      * If the library is used in a non-latin environment use

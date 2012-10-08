@@ -31,8 +31,8 @@ public class BuildAppTest extends JFrame
 {
     private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( BuildAppTest.class );
-    private final int DIFF_FILES_COUNT = 50;
-    private final int DUPLICATE_FILES_COUNT = 3;
+    private static final int DIFF_FILES_COUNT = 50;
+    private static final int DUPLICATE_FILES_COUNT = 3;
     private JPanel contentPane;
     private LimitedIntegerJTextField diffFilesCount;
     private LimitedIntegerJTextField duplicateFilesCount;

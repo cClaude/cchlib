@@ -103,7 +103,7 @@ class CompareResourcesBundleFrame
                     saveFile( false ); // save right
                     }
 
-                System.exit( 0 );
+                System.exit( 0 ); // AppQuit
             }
         };
         super.addWindowListener( wl );

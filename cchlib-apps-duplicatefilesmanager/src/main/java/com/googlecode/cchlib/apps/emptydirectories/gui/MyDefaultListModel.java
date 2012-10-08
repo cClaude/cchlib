@@ -31,4 +31,16 @@ public class MyDefaultListModel<E>
         return elements();
     }
 
+
+    /**
+     * Adds the specified component to the end of this list if this element
+     * is not already present.
+     */
+    @Override
+    public void addElement( final E element )
+    {
+    	if( indexOf( element ) == -1 ) {
+        	super.addElement( element );
+    		}
+    }
 }

@@ -1,5 +1,7 @@
 package cx.ath.choisnet.test;
 
+import java.util.Arrays;
+
 /**
  * Provide some extra tools to build JUnit test cases
  * 
@@ -31,11 +33,16 @@ public class Assert
             )
     {
         if( expected == null && actual == null ) {
-            return;
+            return; // Both null
             }
+        
         if( expected != null && expected.equals( actual ) ) {
-            return;
+            return; // Same ref.
             }
+        
+        if( Arrays.equals( actual, expected) ) {
+        	return; // Same content (quicker)
+        	}
         if( expected == null && actual != null ) {
             junit.framework.Assert.fail(message + " expected=" + expected + " actual=" + actual);
             }
