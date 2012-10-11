@@ -13,7 +13,25 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public interface GenericDownloaderAppInterface
 {
     /**
+     * TODOC
      *
+     */
+    public interface Button 
+    {
+        /**
+         * 
+         * @return TODOC
+         */
+        public String getLabel();
+
+        /**
+         * TODOC
+         */
+        public void onClick();
+    }
+
+    /**
+     * TODOC
      *
      */
     public interface ComboBoxConfig
@@ -132,5 +150,11 @@ public interface GenericDownloaderAppInterface
      * @param proxy
      */
     public void setProxy( Proxy proxy );
+
+    /**
+     *
+     * @return TODOC
+     */
+    public Button getButtonConfig();
 
 }

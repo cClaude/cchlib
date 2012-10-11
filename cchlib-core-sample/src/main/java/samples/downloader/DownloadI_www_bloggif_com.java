@@ -172,4 +172,10 @@ public class DownloadI_www_bloggif_com
     {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
+    }
 }

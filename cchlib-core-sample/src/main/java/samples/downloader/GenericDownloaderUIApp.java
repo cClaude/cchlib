@@ -39,6 +39,7 @@ import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
 import samples.downloader.display.table.DisplayTableBuilder;
+import samples.downloader.gdai.GDAI_tumblr_com;
 
 /**
  * Application starting class
@@ -120,7 +121,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
 
         //downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntriesInOnce() );
-        downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntries() );
+        downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
         //downloadEntriesTypeList.add( DownloadI_tumblr_com.createForHost( "milfgalore" ) );
 
         downloadEntriesTypeList.add( new DownloadI_senorgif() );

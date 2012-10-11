@@ -77,4 +77,10 @@ public class DownloadI_senorgif
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );
     }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
+    }
 }

@@ -137,4 +137,10 @@ public class DownloadI_www_epins_fr
     {
         throw new UnsupportedOperationException();// NOT USE
     }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
+    }
 }

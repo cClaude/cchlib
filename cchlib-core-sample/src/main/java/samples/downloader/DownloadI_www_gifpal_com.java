@@ -105,4 +105,10 @@ public class DownloadI_www_gifpal_com
     {
         return new DefaultDownloadFileURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );
     }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
+    }
 }

@@ -1,7 +1,6 @@
-package samples.downloader;
+package samples.downloader.gdai;
 
-import java.io.File;
-import java.io.IOException;
+import java.awt.Frame;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
@@ -9,27 +8,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.io.FileHelper;
+import samples.downloader.AbstractDownloaderAppInterface;
+import samples.downloader.DefaultComboBoxConfig;
+import samples.downloader.GenericDownloaderAppInterface;
+import samples.downloader.GenericDownloaderAppUIResults;
+import samples.downloader.PolyURLDownloadFileURL;
+import samples.downloader.gdai.GDAI_tumblr_com_Config.Entry;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
-import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  *
  *
  *
  */
-public abstract class DownloadI_tumblr_com
+public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
-    private final static Logger logger = Logger.getLogger( DownloadI_tumblr_com.class );
+    private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
     /*
      * http://[NAME].tumblr.com
      */
@@ -43,16 +43,16 @@ public abstract class DownloadI_tumblr_com
     private final static String HTML_URL_BASEx_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
 
     //private static final String SITE_NAME_ALL     = "www.tumblr.com";
-    private static final String SITE_NAME_GENERIC = "*.tumblr.com";
     /*
      * [NAME].tumblr.com
      *
      * Use for label AND for cache directory name
      */
-    private static final String SITE_NAME_FMT = "%s.tumblr.com";
-    private static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
+    static final String SITE_NAME_FMT = "%s.tumblr.com";
+    static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
+    
     /** number of pages to explore */
-    private final static int DEFAULT_MAX_PAGES_BLOGS = 32;
+    final static int DEFAULT_MAX_PAGES_BLOGS = 32;
     //private final static int DEFAULT_MAX_PAGES_ALL = 16;
     
     private final static  int[] TUMBLR_COM_KNOWN_SIZES = {
@@ -63,48 +63,7 @@ public abstract class DownloadI_tumblr_com
              100
            };
 
-    private static class DownloadI_tumblr_com_ForHost extends DownloadI_tumblr_com
-    {
-        private DefaultComboBoxConfig   comboBoxConfig;
-        private String                  _hostname;
-        
-        public DownloadI_tumblr_com_ForHost( final String hostname )
-        {
-            super(
-                    String.format( SITE_NAME_FMT, hostname ),
-                    NUMBER_OF_PICTURES_BY_PAGE,
-                    DEFAULT_MAX_PAGES_BLOGS
-                    );
-
-            this.comboBoxConfig = null;
-            this._hostname      = hostname;
-        }        
-
-        public DownloadI_tumblr_com_ForHost( DefaultComboBoxConfig comboBoxConfig )
-        {
-            super( SITE_NAME_GENERIC, DEFAULT_MAX_PAGES_BLOGS );
-            
-            this.comboBoxConfig = comboBoxConfig;
-            super.addComboBoxConfig( comboBoxConfig );
-        }
-        
-        protected String getCurrentHostName()
-        {
-            return ( comboBoxConfig == null ) ?
-                    _hostname
-                    :
-                    comboBoxConfig.getComboBoxSelectedValue();
-        }
-
-        @Override
-        public DownloadStringURL getDownloadStringURL( int pageNumber )
-                throws MalformedURLException, URISyntaxException
-        {
-            return getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
-        }
-    }    
-
-    private DownloadI_tumblr_com( 
+    protected GDAI_tumblr_com( 
         final String displaySiteName,
         final int    maxPages
         )
@@ -116,7 +75,7 @@ public abstract class DownloadI_tumblr_com
                 );
     }
 
-    protected DownloadI_tumblr_com(
+    protected GDAI_tumblr_com(
             final String    format,
             final int       numberOfPicturesByPage,
             final int       defaultMaxPages
@@ -247,84 +206,48 @@ public abstract class DownloadI_tumblr_com
         return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURL, src );
     }
     
-    public final static DownloadI_tumblr_com createForHost( final String hostname )
+    public final static GDAI_tumblr_com createForHost( 
+        final Frame     ownerFrame,
+        final String    hostname 
+        )
     {
-        return new DownloadI_tumblr_com_ForHost( hostname );
+        return new GDAI_tumblr_com_ForHost( ownerFrame, hostname );
     }
     
-    public final static DownloadI_tumblr_com createAllEntries()
+    public final static GDAI_tumblr_com createAllEntries(
+        final Frame ownerFrame
+        )
     {
-        final String[] blogsNames;
+        final String[] blogNames;
+        final String[] blogDescriptions;
+        final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         {
-            final Config_DownloadI_tumblr_com config = new Config_DownloadI_tumblr_com();
+            Collection<Entry> entries = config.getEntriesCollection();
+            
+            blogNames        = new String[ entries.size() ];
+            blogDescriptions = new String[ entries.size() ];
 
-            blogsNames = config.getBlogNames();
-            logger.info( "Found " + blogsNames + " count." );
+            int i = 0;
+            for( Entry entry : entries ) {
+                blogNames[ i ]          = entry.getName();
+                blogDescriptions[ i++ ] = entry.getDescription();
+                }
+
+            logger.info( "Found " + entries.size() + " count." );
         }
         
-        return new DownloadI_tumblr_com_ForHost(
+        return new GDAI_tumblr_com_ForHost(
+                ownerFrame,
                 new DefaultComboBoxConfig(
                         "Name",
-                        blogsNames, // hostname
-                        blogsNames  // description
-                        )
+                        blogNames,
+                        blogDescriptions
+                        ),
+                config
                 );
     }
     
-//    public  final static DownloadI_tumblr_com createAllEntriesInOnce()
-//    {
-//        final String[] blogsNames;
-//        {
-//            final Config_DownloadI_tumblr_com config = new Config_DownloadI_tumblr_com();
-//
-//            blogsNames = config.getBlogNames();
-//        }
-//
-//        return new DownloadI_tumblr_com( SITE_NAME_ALL, DEFAULT_MAX_PAGES_ALL )
-//        {
-//            @Override
-//            protected String getCurrentHostName()
-//            {
-//                return "www";
-//            }
-//
-//            @Override
-//            public DownloadStringURL getDownloadStringURL( int pageNumber )
-//                    throws MalformedURLException
-//            {
-//                throw new UnsupportedOperationException();
-//            }
-//
-//            private DownloadStringURL getStringDownloadURL(
-//                    final String    hostname,
-//                    final int       pageNumber 
-//                    )
-//                    throws MalformedURLException, URISyntaxException
-//            {
-//                return getDownloadStringURL( hostname, pageNumber, getProxy() );
-//            }
-//            
-//            @Override// GenericDownloaderAppInterface
-//            public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
-//                    throws MalformedURLException, URISyntaxException
-//            {
-//                final List<DownloadStringURL>   sdURLList = new ArrayList<DownloadStringURL>();
-//                final int                       pageCount = getPageCount();
-//                
-//                for( String hostname : blogsNames ) {
-//                    logger.debug( "HostName = " + hostname );
-//                    for( int i=1; i<=pageCount; i++ ) {
-//                        logger.debug( "HostName:i = " + hostname + ":" + i );
-//                        sdURLList.add( getStringDownloadURL( hostname, i ) );
-//                        }
-//                    }
-//
-//                return sdURLList;
-//            }
-//        };
-//    };
-    
-    private static DownloadStringURL getDownloadStringURL(
+    static DownloadStringURL getDownloadStringURL(
             final String    hostname,
             final int       pageNumber,
             final Proxy     proxy
@@ -350,54 +273,4 @@ public abstract class DownloadI_tumblr_com
                 );
     }   
 
-}
-
-
-/**
- * 
- *
- */
-class Config_DownloadI_tumblr_com
-{
-    private final static Logger logger = Logger.getLogger( Config_DownloadI_tumblr_com.class );
-    private PropertiesPopulator<Config_DownloadI_tumblr_com> pp = new PropertiesPopulator<Config_DownloadI_tumblr_com>( this.getClass() );
-    
-    @Populator
-    private String[] blogsNames;
-    
-    public Config_DownloadI_tumblr_com()
-    {
-        try {
-            Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
-            
-            pp.populateBean( properties , this );
-            }
-        catch( IOException e ) {
-            logger.error( "Can't load config", e );
-            }
-    }
-    
-    public Config_DownloadI_tumblr_com( final String[] blogsNames )
-    {
-        this.blogsNames = blogsNames;
-    }
-    
-    private static File getConfigFile()
-    {
-        return FileHelper.getUserHomeDirFile( DownloadI_tumblr_com.class.getName() + ".properties" );
-    }
-    
-    public String[] getBlogNames()
-    {
-        return blogsNames;
-    }
-    
-    public void storeConfig() throws IOException
-    {
-        Properties properties = new Properties();
-        
-        pp.populateProperties( this, properties );
-        
-        PropertiesHelper.saveProperties( getConfigFile(), properties );
-    }
 }

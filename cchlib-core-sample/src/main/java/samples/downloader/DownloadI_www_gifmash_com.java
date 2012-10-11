@@ -15,7 +15,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  * http://picasion.com/gallery/24151868/
  * 4gifs.com
  */
-public class DownloadI_www_gifmash_com extends AbstractDownloaderAppInterface
+public class DownloadI_www_gifmash_com 
+    extends AbstractDownloaderAppInterface
 {
     private static final String SITE_NAME = "www.gifmash.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
@@ -76,5 +77,11 @@ public class DownloadI_www_gifmash_com extends AbstractDownloaderAppInterface
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );
+    }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
     }
 }

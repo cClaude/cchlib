@@ -207,4 +207,10 @@ public class DownloadI_www_gifgirl_org
     {
         return new DefaultDownloadFileURL( src, requestPropertyMap, getProxy() );
     }
+
+    @Override
+    public Button getButtonConfig()
+    {
+        return null;
+    }
 }

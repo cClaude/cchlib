@@ -27,10 +27,16 @@ public abstract class JPopupMenuForJTable
 
     /**
      * Create JPopupMenuForJTable
+     * 
      * @param jTable {@link JTable} to use.
+     * @throws NullPointerException if jTable est null
      */
     public JPopupMenuForJTable( final JTable jTable )
     {
+        if( jTable == null ) {
+            throw new NullPointerException( "jTable is null" ); 
+            }
+        
         this.jTable = jTable;
     }
 
@@ -236,7 +242,7 @@ public abstract class JPopupMenuForJTable
     {
         addJMenuItem(
             contextMenu,
-            buildCopyJMenuItem(textForCopy,rowIndex,columnIndex)
+            createCopyJMenuItem(textForCopy,rowIndex,columnIndex)
             );
     }
 
@@ -249,16 +255,18 @@ public abstract class JPopupMenuForJTable
      * @return TODOC
      */
     final
-    protected JMenuItem buildCopyJMenuItem(
+    protected JMenuItem createCopyJMenuItem(
             final String    textForCopy,
             final int       rowIndex,
             final int       columnIndex
             )
     {
-        JMenuItem m = new JMenuItem(textForCopy);
+        JMenuItem m = new JMenuItem( textForCopy );
+        
         m.addActionListener(
-                copyActionListener(rowIndex,columnIndex)
-                );
+            createCopyActionListener(rowIndex,columnIndex)
+            );
+        
         return m;
     }
 
@@ -271,7 +279,7 @@ public abstract class JPopupMenuForJTable
      * @return an ActionListener
      */
     final
-    protected ActionListener copyActionListener(
+    protected ActionListener createCopyActionListener(
             final int   rowIndex,
             final int   columnIndex
             )
@@ -288,19 +296,6 @@ public abstract class JPopupMenuForJTable
             }
         };
     }
-
-//    /**
-//     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String, int, int)} instead
-//     */
-//    final
-//    protected void addPasteMenuItem(
-//            final JPopupMenu    contextMenu,
-//            final int           rowIndex,
-//            final int           columnIndex
-//            )
-//    {
-//        addPasteMenuItem(contextMenu,"Paste",rowIndex,columnIndex);
-//    }
 
     /**
      * Add paste to clip-board sub-menu

@@ -16,6 +16,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GenericDownloaderUIPanel
     extends JPanel
@@ -39,9 +42,9 @@ public class GenericDownloaderUIPanel
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
-        gridBagLayout.rowHeights = new int[]{0, 14, 0, 0};
+        gridBagLayout.rowHeights = new int[]{0, 14, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
         {
@@ -111,7 +114,7 @@ public class GenericDownloaderUIPanel
                 stringsJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
                 GridBagConstraints gbc_stringsJLabel = new GridBagConstraints();
                 gbc_stringsJLabel.fill = GridBagConstraints.HORIZONTAL;
-                gbc_stringsJLabel.insets = new Insets(0, 0, 0, 5);
+                gbc_stringsJLabel.insets = new Insets(0, 0, 5, 5);
                 gbc_stringsJLabel.gridx = 0;
                 gbc_stringsJLabel.gridy = 2 + lineNumber;
                 add(stringsJLabel, gbc_stringsJLabel);
@@ -120,6 +123,7 @@ public class GenericDownloaderUIPanel
             {
                 stringsJLabels = new JLabel( entry.getLabelString( 0 ) );
                 GridBagConstraints gbc_stringsJLabels = new GridBagConstraints();
+                gbc_stringsJLabels.insets = new Insets(0, 0, 5, 0);
                 gbc_stringsJLabels.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJLabels.gridx = 2;
                 gbc_stringsJLabels.gridy = 2 + lineNumber;
@@ -143,7 +147,7 @@ public class GenericDownloaderUIPanel
                     }
 
                 GridBagConstraints gbc_stringsJComboBox = new GridBagConstraints();
-                gbc_stringsJComboBox.insets = new Insets(0, 0, 0, 5);
+                gbc_stringsJComboBox.insets = new Insets(0, 0, 5, 5);
                 gbc_stringsJComboBox.fill = GridBagConstraints.HORIZONTAL;
                 gbc_stringsJComboBox.gridx = 1;
                 gbc_stringsJComboBox.gridy = 2 + lineNumber;
@@ -152,6 +156,24 @@ public class GenericDownloaderUIPanel
                 lineNumber++;
             }
         } // for(...)
+        
+        // $hide>>$
+        final GenericDownloaderAppInterface.Button button = config.getButtonConfig();
+        if( button != null )
+        // $hide<<$
+        {
+            JButton jButton = new JButton( button.getLabel() );
+            jButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    button.onClick();
+                }
+            });
+            GridBagConstraints gbc_jButton = new GridBagConstraints();
+            gbc_jButton.insets = new Insets(0, 0, 0, 5);
+            gbc_jButton.gridx = 1;
+            gbc_jButton.gridy = 2 + lineNumber;
+            add(jButton, gbc_jButton);
+        }
     }
 
     public GenericDownloaderAppInterface getGenericDownloaderAppInterface()

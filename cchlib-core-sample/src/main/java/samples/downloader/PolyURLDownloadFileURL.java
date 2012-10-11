@@ -13,7 +13,7 @@ import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
  * TODOC
  *
  */
-class PolyURLDownloadFileURL extends DefaultDownloadFileURL
+public class PolyURLDownloadFileURL extends DefaultDownloadFileURL
 {
     private static final long serialVersionUID = 1L;
     private static final String INITIAL_VALUE_PROPERTY = "initialValue";
