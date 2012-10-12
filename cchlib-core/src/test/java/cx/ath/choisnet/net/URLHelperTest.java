@@ -22,7 +22,7 @@ import com.googlecode.cchlib.io.IOHelper;
  */
 public class URLHelperTest
 {
-    private final static transient Logger logger = Logger.getLogger( URLHelperTest.class );
+    private final static Logger logger = Logger.getLogger( URLHelperTest.class );
     private URL testURL;
 
     @Before

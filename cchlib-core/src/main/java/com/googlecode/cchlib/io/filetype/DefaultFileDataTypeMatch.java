@@ -82,7 +82,7 @@ class DefaultFileDataTypeMatch implements FileDataTypeMatch
                 builder.append( ',' );
                 }
             }
-        builder.append( "]" );
+        builder.append( ']' );
         
         return builder.toString();
     }

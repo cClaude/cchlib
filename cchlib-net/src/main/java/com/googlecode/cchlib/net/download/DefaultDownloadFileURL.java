@@ -106,14 +106,14 @@ public class DefaultDownloadFileURL
         builder.append( file );
         builder.append( ", properties=" );
         builder.append( properties != null ? toString( properties.entrySet() ) : null );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 
     private String toString( Collection<?> collection )
     {
         StringBuilder builder = new StringBuilder();
-        builder.append( "[" );
+        builder.append( '[' );
         boolean first = true;
         for( Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
             if( first ) {
@@ -124,7 +124,7 @@ public class DefaultDownloadFileURL
                 }
             builder.append( iterator.next() );
             }
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

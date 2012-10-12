@@ -87,9 +87,8 @@ public final class ArrayHelper
                 if( index < enumLen ) {
                     try {
                         return array[index++];
-                    }
-                    catch(java.lang.IndexOutOfBoundsException e) {
-                    }
+                    	}
+                    catch(java.lang.IndexOutOfBoundsException ignore) {}
                 }
                 throw new NoSuchElementException((new StringBuilder()).append("index = ").append(index).toString());
             }

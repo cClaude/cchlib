@@ -119,17 +119,17 @@ public class ConcateInputStream extends InputStream
         return false;
     }
 
-    @Override
-    public void mark(int i)
-    {
-        super.mark(i);
-    }
+//    @Override
+//    public void mark(int i)
+//    {
+//        super.mark(i);
+//    }
 
-    @Override
-    public void reset() throws IOException
-    {
-        super.reset();
-    }
+//    @Override
+//    public void reset() throws IOException
+//    {
+//        super.reset();
+//    }
 
     private void check() throws RuntimeException
     {

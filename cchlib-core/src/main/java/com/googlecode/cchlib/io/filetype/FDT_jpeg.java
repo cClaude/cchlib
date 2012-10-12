@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.io.filetype;
 
-import com.googlecode.cchlib.io.filetype.FileDataTypes.Type;
-
 /**
  * 
  * @since 4.1.7
@@ -19,8 +17,8 @@ class FDT_jpeg extends AbstractFileDataTypeDescription
         return ".jpg";
     }
     @Override
-    public Type getType()
+    public FileDataTypes.Type getType()
     {
-        return Type.JPEG;
+        return FileDataTypes.Type.JPEG;
     }
 }

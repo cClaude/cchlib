@@ -143,7 +143,7 @@ public class ArrayAssert
             sb.append( i );
             sb.append( "]=" );
             sb.append( a );
-            sb.append( ")" );
+            sb.append( ')' );
             
             Assert.fail( sb.toString() );
             }

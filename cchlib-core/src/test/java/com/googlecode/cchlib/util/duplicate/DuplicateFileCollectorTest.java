@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.FileIterator;
  */
 public class DuplicateFileCollectorTest
 {
-    private static final transient Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
+    private static final Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
     protected static final int MAX_FILES_COUNT = 50;
 
     @Test

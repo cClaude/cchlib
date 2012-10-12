@@ -187,7 +187,7 @@ public class ExtendableClassLoader extends ClassLoader
                 catch(MalformedURLException ignore) {
                     }
                 }
-            };
+            }
 
         return null;
     }

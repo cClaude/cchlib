@@ -509,7 +509,7 @@ public class URLCache implements Closeable
 //            }
 //        builder.append( "]" );
 
-        builder.append( "]" );
+        builder.append( ']' );
 
         return builder.toString();
     }

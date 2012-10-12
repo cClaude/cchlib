@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Serializable;
@@ -681,7 +680,7 @@ public class FormattedProperties
      *         Strings
      */
     @Override
-    public Object put(
+    synchronized public Object put(
             Object keyString,
             Object valueString
             )
@@ -772,23 +771,23 @@ public class FormattedProperties
     // ---------------------------------------------
     // ---------------------------------------------
 
-    /**
-     * @see Properties#list(PrintStream)
-     */
-    @Override
-    public void list( PrintStream out )
-    {
-        super.list( out );
-    }
+//    /**
+//     * @see Properties#list(PrintStream)
+//     */
+//    @Override
+//    public void list( PrintStream out )
+//    {
+//        super.list( out );
+//    }
 
-    /**
-     * @see Properties#list(PrintWriter)
-     */
-    @Override
-    public void list( PrintWriter out )
-    {
-        super.list( out );
-    }
+//    /**
+//     * @see Properties#list(PrintWriter)
+//     */
+//    @Override
+//    public void list( PrintWriter out )
+//    {
+//        super.list( out );
+//    }
 
     /**
      * Same has {@link #put(Object,Object)}
@@ -956,7 +955,7 @@ public class FormattedProperties
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
+    synchronized public int hashCode()
     {
         final int prime = 31;
         int result = super.hashCode();
@@ -974,7 +973,7 @@ public class FormattedProperties
      *         to this FormattedProperties
      */
     @Override
-    public boolean equals( Object obj )
+    synchronized public boolean equals( Object obj )
     {
         if( this == obj ) {
             return true;

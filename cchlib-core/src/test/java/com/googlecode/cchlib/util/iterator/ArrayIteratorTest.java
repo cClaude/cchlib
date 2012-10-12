@@ -97,7 +97,7 @@ public class ArrayIteratorTest
             }
             fail( "Should fail" );
         }
-        catch( NoSuchElementException ok ) {
+        catch( NoSuchElementException ignore ) {
             //ok
         }
 

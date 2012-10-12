@@ -234,7 +234,7 @@ class BeanTstWithPopulatorContener
         StringBuilder builder = new StringBuilder();
         builder.append( "BeanTstWithPopulatorContener [myStrangeClass=" );
         builder.append( myStrangeClass );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 
@@ -290,7 +290,7 @@ class MyStrangeClass implements PopulatorContener
         StringBuilder builder = new StringBuilder();
         builder.append( "MyStrangeClass [privateRealContent=" );
         builder.append( privateRealContent );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

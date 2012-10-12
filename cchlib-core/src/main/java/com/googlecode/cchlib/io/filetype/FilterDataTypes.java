@@ -144,9 +144,9 @@ class FilterDataTypes extends FilterInputStream
         builder.append( ", fileDataTypeMatchList=" );
         for( FileDataTypeMatch e : fileDataTypeMatchList ) {
             builder.append( e );
-            builder.append( "," );
+            builder.append( ',' );
             }
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

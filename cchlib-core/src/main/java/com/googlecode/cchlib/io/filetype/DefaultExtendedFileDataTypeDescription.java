@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.io.filetype;
 
 import java.awt.Dimension;
-import com.googlecode.cchlib.io.filetype.FileDataTypes.Type;
 
 /**
  *
@@ -44,7 +43,7 @@ final class DefaultExtendedFileDataTypeDescription
         return typeDescription.getShortExtension();
     }
     @Override
-    public Type getType()
+    public FileDataTypes.Type getType()
     {
         if( typeDescription == null ) {
             return null;
@@ -72,7 +71,7 @@ final class DefaultExtendedFileDataTypeDescription
         builder.append( dimension );
         builder.append( ", formatName=" );
         builder.append( formatName );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

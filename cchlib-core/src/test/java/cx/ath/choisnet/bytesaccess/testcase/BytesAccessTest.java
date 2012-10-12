@@ -55,7 +55,7 @@ public class BytesAccessTest extends TestCase
             ba = new TstOnlyBytesAccess( f, length * 2 );
             fail( "Should fail here !" );
         }
-        catch( BytesAccessException e ) {
+        catch( BytesAccessException ignore ) {
             // OK
         }
 
@@ -158,22 +158,19 @@ public class BytesAccessTest extends TestCase
                 int  r3 = ba.compareTo( compareTo );
                 fail("Should fail here : r3 = ba.compareTo( compareTo ): " + r3 );
             }
-            catch( IllegalArgumentException ok ) {
-
+            catch( IllegalArgumentException ignore ) {
             }
             try {
                 int r4 = ba.compareTo( compareToBytes );
                 fail("Should fail here : r4 = ba.compareTo( compareToBytes ): " + r4 );
             }
-            catch( IllegalArgumentException ok ) {
-
+            catch( IllegalArgumentException ignore ) {
             }
             try {
-                long r5 =BytesAccess.compare( ba.getBytesCopy(), compareToBytes );;
+                long r5 =BytesAccess.compare( ba.getBytesCopy(), compareToBytes );
                 fail("Should fail here : r5 = BytesAccess.compare( ba.getBytesCopy(), compareToBytes ): " + r5);
             }
-            catch( IllegalArgumentException ok ) {
-
+            catch( IllegalArgumentException ignore ) {
             }
             return;
         }

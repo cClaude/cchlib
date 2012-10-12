@@ -461,7 +461,7 @@ public abstract class BytesAccess implements Cloneable
         byte[] mask = new byte[ bytes0.length ];
 
         for( int i = 0; i< bytes0.length; i++ ) {
-            mask[ i ] = (byte)(bytes0[ i ] ^ bytes1[ i ]);;
+            mask[ i ] = (byte)(bytes0[ i ] ^ bytes1[ i ]);
         }
 
         return mask;
@@ -507,7 +507,7 @@ public abstract class BytesAccess implements Cloneable
         byte[] mask = new byte[ bytes0.length ];
 
         for( int i = 0; i< bytes0.length; i++ ) {
-            mask[ i ] = (byte)(bytes0[ i ] & bytes1[ i ]);;
+            mask[ i ] = (byte)(bytes0[ i ] & bytes1[ i ]);
         }
 
         return mask;
@@ -553,7 +553,7 @@ public abstract class BytesAccess implements Cloneable
         byte[] mask = new byte[ bytes0.length ];
 
         for( int i = 0; i< bytes0.length; i++ ) {
-            mask[ i ] = (byte)(bytes0[ i ] | bytes1[ i ]);;
+            mask[ i ] = (byte)(bytes0[ i ] | bytes1[ i ]);
         }
 
         return mask;
@@ -734,7 +734,7 @@ public abstract class BytesAccess implements Cloneable
 
         for( int i=0; i<copyLen; i++ ) {
             if( i<sBytesLen ) { bytes[ i + from ] = sBytes[ i + 2 ]; }
-            else { bytes[ i + from ] = 0; };
+            else { bytes[ i + from ] = 0; }
         }
     }
 

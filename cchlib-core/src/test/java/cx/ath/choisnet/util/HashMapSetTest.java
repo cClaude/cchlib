@@ -1,7 +1,6 @@
 package cx.ath.choisnet.util;
 
 import java.util.Iterator;
-import cx.ath.choisnet.util.HashMapSet;
 import junit.framework.TestCase;
 
 /**

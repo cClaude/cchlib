@@ -497,7 +497,7 @@ public class MD5
             if( intVal < 0x10 ) {
                 // append a zero before a one digit hex
                 // number to make it two digits.
-                buf.append("0");
+                buf.append('0');
                 }
             
             buf.append( Integer.toHexString( intVal ) );

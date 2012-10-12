@@ -2,7 +2,6 @@ package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileFilter;
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import com.googlecode.cchlib.io.filefilter.ANDFileFilter;
 import com.googlecode.cchlib.io.filefilter.DirectoryFileFilter;
 import com.googlecode.cchlib.io.filefilter.FalseFileFilter;

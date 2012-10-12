@@ -6,7 +6,6 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.io.IOHelper;
 import junit.framework.TestCase;
 
 /**

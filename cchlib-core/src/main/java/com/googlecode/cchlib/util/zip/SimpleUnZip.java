@@ -139,7 +139,7 @@ public class SimpleUnZip
     public void saveAll( final File folderFile )
         throws IOException
     {
-        while( saveNextEntry( folderFile ) != null );
+        while( saveNextEntry( folderFile ) != null ); // No code, that's ok here !
     }
 
     /**

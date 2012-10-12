@@ -77,7 +77,7 @@ public final class DefaultDownloadStringURL
 
         sb.append( "StringDownloadURL [getURL()=" ).append( getURL() );
         //sb.append( ", str=" ).append( str );
-        sb.append( "]" );
+        sb.append( ']' );
 
         return sb.toString();
     }

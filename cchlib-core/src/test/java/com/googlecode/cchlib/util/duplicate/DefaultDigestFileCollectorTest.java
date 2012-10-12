@@ -19,7 +19,7 @@ import com.googlecode.cchlib.util.CancelRequestException;
  */
 public class DefaultDigestFileCollectorTest
 {
-    private static final transient Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
+    private static final Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 150;
 
     @Test

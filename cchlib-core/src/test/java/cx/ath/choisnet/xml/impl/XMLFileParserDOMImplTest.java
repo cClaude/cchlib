@@ -20,7 +20,7 @@ import cx.ath.choisnet.xml.XMLParserException;
  */
 public class XMLFileParserDOMImplTest
 {
-    private final static transient Logger slogger = Logger.getLogger( XMLFileParserDOMImplTest.class );
+    private final static Logger slogger = Logger.getLogger( XMLFileParserDOMImplTest.class );
     private File xmlFile;
     private File dtdFile;
 

@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
-import cx.ath.choisnet.util.FormattedProperties;
-import cx.ath.choisnet.util.FormattedProperties.Store;
 
 public class FormattedPropertiesTest
 {
@@ -374,7 +372,7 @@ public class FormattedPropertiesTest
         Writer out = new FileWriter( file );
         prop.store(
                 out,
-                EnumSet.allOf( Store.class )
+                EnumSet.allOf( FormattedProperties.Store.class )
                 );
         out.close();
         compare(prop,file);

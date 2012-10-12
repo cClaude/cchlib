@@ -97,7 +97,7 @@ public class Version
         builder.append(version);
         builder.append(", date=");
         builder.append(date);
-        builder.append("]");
+        builder.append(']');
         return builder.toString();
     }
 

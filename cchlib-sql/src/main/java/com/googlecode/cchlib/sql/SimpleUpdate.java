@@ -57,23 +57,28 @@ public class SimpleUpdate
         Connection  conn = null;
         Statement   stmt = null;
 
+        // FIXME: improve exception handle on close() !
+        
         try {
             conn = createConnectionFromDataSource();
 
             if(conn != null) {
                 stmt = conn.createStatement();
                 rows = stmt.executeUpdate(query);
-             }
-        }
-        catch(java.sql.SQLException e) {
+             	}
+            else {
+            	// TODO: add exception
+            	}
+        	}
+        catch( SQLException e ) {
             throw e;
-         }
+         	}
         finally {
             if(stmt != null) {
-                try { stmt.close(); } catch(SQLException ignore) {}
+                try { stmt.close(); } catch(SQLException ignore) {}// TODO: add exception
                 }
             if(conn != null) {
-                try { conn.close(); } catch(java.sql.SQLException e) { }
+                try { conn.close(); } catch(java.sql.SQLException e) { }// TODO: add exception
                 }
         }
 

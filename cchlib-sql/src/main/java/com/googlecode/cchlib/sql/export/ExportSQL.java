@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.EnumSet;
 
+import com.googlecode.cchlib.sql.SQLCloseException;
+
 /**
  * Create a SQL script to export values from tables.
  */
@@ -313,9 +315,11 @@ public class ExportSQL  implements Closeable
     }
 
     @Override
-    public void close()
+    public void close() throws SQLCloseException
     {
-        try { if(_exporter != null) _exporter.close(); } catch(Exception e) {}
+        if( _exporter != null ) {
+        	_exporter.close();
+        	} 
     }
 
 }
