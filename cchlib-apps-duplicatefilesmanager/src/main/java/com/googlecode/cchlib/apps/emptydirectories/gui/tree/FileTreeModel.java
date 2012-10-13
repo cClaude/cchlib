@@ -76,14 +76,14 @@ class FileTreeModel
                 final StringBuilder sb = new StringBuilder();
 
                 sb.append( super.toString() );
-                sb.append( "[" );
+                sb.append( '[' );
                 Iterator<FileTreeNode> iter = iterator();
 
                 while( iter.hasNext() ) {
                     sb.append( iter.next() );
-                    sb.append( "," );
+                    sb.append( ',' );
                     }
-                sb.append( "]" );
+                sb.append( ']' );
 
                 return sb.toString();
             }

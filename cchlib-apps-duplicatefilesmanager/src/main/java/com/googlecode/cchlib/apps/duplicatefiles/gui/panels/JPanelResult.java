@@ -759,6 +759,6 @@ public class JPanelResult extends JPanelResultWB
                     dFToolKit.setEnabledJButtonCancel( true );
                     }
             }
-        }).start();
+        }, "clearSelected()" ).start();
     }
 }

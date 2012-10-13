@@ -101,7 +101,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + treeModel == null ? null : treeModel.size()
                         );
                     }
-                catch( CancelRequestException e )  {
+                catch( CancelRequestException cancelRequestException )  {
                     logger.info( "Cancel received" );
 
                     // Call done, to cleanup layout.
@@ -114,7 +114,7 @@ public class FindDeleteAdapter
         // KO Lock UI doRun.run();
         // KO Lock UI SwingUtilities.invokeAndWait( doRun );
         // KO Lock UI SwingUtilities.invokeLater( doRun );
-        new Thread( doRun ).start();
+        new Thread( doRun, "doFind()" ).start();
     }
 
     private void findEnd()

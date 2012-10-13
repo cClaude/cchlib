@@ -113,7 +113,7 @@ private Scanner s;
                         public void run()
                         {
                             updateDisplay( true );
-                        }});
+                        }}, "updateDisplay()");
                 }
             };
             }
@@ -295,7 +295,7 @@ private Scanner s;
                 jp.revalidate();
 
               //repaint a JFrame jframe in this case
-                dfToolKit.getMainWindow().repaint();
+                dfToolKit.getMainFrame().repaint();
 
                 logger.debug( "repaint MainWindow" );
                 }

@@ -105,7 +105,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
                         public void run()
                         {
                             addRootDirectory( files );
-                        }} ).start();
+                        }}, "filesDropped()" ).start();
                 }
             });
             

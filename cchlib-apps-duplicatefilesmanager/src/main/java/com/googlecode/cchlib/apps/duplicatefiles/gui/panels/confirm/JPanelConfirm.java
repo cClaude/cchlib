@@ -334,7 +334,7 @@ public class JPanelConfirm extends JPanel
                 catch( Exception e ) {
                     logger.fatal( "*** Error catched while delete files", e );
                     DialogHelper.showMessageExceptionDialog(
-                            dfToolKit.getMainWindow(),
+                            dfToolKit.getMainFrame(), //.getMainWindow(),
                             msgStr_doDeleteExceptiontitle,
                             e
                             );
@@ -342,7 +342,7 @@ public class JPanelConfirm extends JPanel
             }
         };
 
-        new Thread( r ).start();
+        new Thread( r, "doDelete()" ).start();
     }
 
     private void private_doDelete(

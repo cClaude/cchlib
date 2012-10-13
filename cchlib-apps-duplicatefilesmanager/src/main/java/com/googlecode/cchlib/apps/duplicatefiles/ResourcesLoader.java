@@ -77,7 +77,7 @@ public class ResourcesLoader
             return new ImageIcon( getResource( name ) );
             }
         catch( Exception e ) {
-            logger.error( "Can't find image: " + name );
+            logger.error( "Can't find image: " + name, e );
 
             return null;
             }

@@ -154,7 +154,7 @@ public class PropertiesXComboBoxPatternBuilder
                 {
                     runHooks();
                 }
-            }));
+            }, "SaveOnExitHook"));
         }
 
         private SaveOnExitHook() {}

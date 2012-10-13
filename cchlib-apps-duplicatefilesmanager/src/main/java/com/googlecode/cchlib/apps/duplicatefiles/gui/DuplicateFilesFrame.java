@@ -257,7 +257,7 @@ final public class DuplicateFilesFrame
                                 getJMenuLookAndFeel().setEnabled( true );
                                 getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
                             }
-                        }).start();
+                        }, "STATE_SEARCHING").start();
                     }
                 else if( state == STATE_RESULTS ) {
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
@@ -291,7 +291,7 @@ final public class DuplicateFilesFrame
                     }
             }
         };
-        Tools.invokeLater( safeRunner );
+        Tools.invokeLater( safeRunner, "updateDisplayAccordingState()" );
     }
 
     private void jButtonNextStep_ActionPerformed()
@@ -334,7 +334,7 @@ final public class DuplicateFilesFrame
                             subState = SUBSTATE_CONFIRM_DONE;
                             updateDisplayAccordingState();
                         }
-                        });
+                        }, "SUBSTATE_CONFIRM_INIT");
                     return;
                     }
                 }
@@ -421,7 +421,7 @@ final public class DuplicateFilesFrame
                                 public void run()
                                 {
                                     openPreferences();
-                                }} );
+                                }}, ACTIONCMD_PREFS );
                             break;
 
                         case ACTIONCMD_ABOUT :
@@ -430,7 +430,7 @@ final public class DuplicateFilesFrame
                                 public void run()
                                 {
                                     openAbout();
-                                }} );
+                                }}, ACTIONCMD_ABOUT );
                             break;
                             
                         default:
@@ -496,7 +496,7 @@ final public class DuplicateFilesFrame
                 logger.info( "initComponentsJPanelConfirm done" );
             }
         };
-        new Thread( r ).start();
+        new Thread( r, "initComponentsJPanelConfirm()" ).start();
     }
 
     public void setJButtonCancelEnabled( boolean b )

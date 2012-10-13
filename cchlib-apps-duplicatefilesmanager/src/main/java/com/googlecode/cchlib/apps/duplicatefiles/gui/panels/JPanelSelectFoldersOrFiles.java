@@ -133,7 +133,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectFile.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    jButtonSelectFileMouseMousePressed(e);
+                	onJButtonSelectFile();
                 }
             });
             GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
@@ -168,7 +168,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectDir.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    jButtonSelectDirMouseMousePressed( e );
+                	onJButtonSelectDir();
                 }
             });
             GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
@@ -280,7 +280,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         jTableSelectedFoldersOrFiles.setModel( tableModelSelectedFoldersOrFiles );
     }
 
-    private void jButtonSelectDirMouseMousePressed( MouseEvent event )
+    private void onJButtonSelectDir()
     {
         Runnable doJob = new Runnable()
         {
@@ -302,10 +302,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
         };
 
-        new Thread( doJob ).start();
+        new Thread( doJob, "onJButtonSelectDir()" ).start();
     }
 
-    private void jButtonSelectFileMouseMousePressed(MouseEvent event)
+    private void onJButtonSelectFile()
     {
         Runnable doJob = new Runnable()
         {
@@ -327,7 +327,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
         };
 
-        new Thread( doJob ).start();
+        new Thread( doJob, "onJButtonSelectFile()" ).start();
    }
 
     private void jButtonAddDirMouseMousePressed( MouseEvent event )

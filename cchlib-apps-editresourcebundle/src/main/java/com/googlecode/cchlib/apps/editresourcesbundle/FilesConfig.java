@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 
 import cx.ath.choisnet.util.FormattedProperties;
 import cx.ath.choisnet.util.FormattedProperties.Store;
@@ -17,6 +19,8 @@ import cx.ath.choisnet.util.FormattedProperties.Store;
 class FilesConfig implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( FilesConfig.class );
+    
     private FileObject leftFileObject;
     private FileObject rightFileObject;
 
@@ -212,6 +216,7 @@ class FilesConfig implements Serializable
             }
         }
         catch( NullPointerException isFalse ) {
+        	logger.warn( isFalse );
         }
         return false;
     }

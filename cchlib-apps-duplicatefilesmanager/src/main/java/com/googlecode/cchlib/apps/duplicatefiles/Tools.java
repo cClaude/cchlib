@@ -14,7 +14,7 @@ public class Tools
      * Make sure to be outside swing even threads and log errors
      * @param safeRunner
      */
-    public static void invokeLater( final Runnable safeRunner )
+    public static void invokeLater( final Runnable safeRunner, final String threadName  )
     {
         new Thread( new Runnable()
         {
@@ -28,14 +28,14 @@ public class Tools
                     logger.warn( "Unexpected error", e );
                     }
             }
-        }).start();
+        }, threadName ).start();
     }
 
     /**
      * Launch task in a new thread and log errors
      * @param runner
      */
-    public static void run( final Runnable runner )
+    public static void run( final Runnable runner, final String threadName )
     {
         new Thread( new Runnable()
         {
@@ -49,7 +49,7 @@ public class Tools
                     logger.warn( "Unexpected error", e );
                     }
             }
-        }).start();
+        }, threadName).start();
     }
 
 }

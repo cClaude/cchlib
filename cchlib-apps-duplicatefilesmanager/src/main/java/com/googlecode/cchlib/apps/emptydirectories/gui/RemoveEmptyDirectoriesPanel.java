@@ -220,9 +220,9 @@ public class RemoveEmptyDirectoriesPanel
             }
     }
 
-    private void btnStartDelete()
+    private void onStartDelete()
     {
-        logger.info( "btnStartDelete_mouseClicked" );
+        logger.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
             Runnable r = new Runnable()
@@ -233,7 +233,7 @@ public class RemoveEmptyDirectoriesPanel
                     startDelete();
                 }
             };
-            new Thread( r ).start();
+            new Thread( r, "onStartDelete()" ).start();
             // NOTE: do not use of SwingUtilities.invokeLater( r );
         }
     }
@@ -249,10 +249,10 @@ public class RemoveEmptyDirectoriesPanel
                     final String cmd = event.getActionCommand();
                             
                     if( ACTION_IMPORT_DIRS.equals( cmd ) ) {
-                        btnImportDirectories();
+                    	onImportDirectories();
                         }
                     else if( ACTION_ADD_DIRS.equals( cmd ) ) {
-                        btnAddRootDirectory();
+                    	onAddRootDirectory();
                         }
                     else if( ACTION_REMOVE_DIR.equals( cmd ) ) {
                         btnRemoveRootDirectory();
@@ -270,7 +270,7 @@ public class RemoveEmptyDirectoriesPanel
                         btnUnselectAll();
                         }
                     else if( ACTION_START_REMDIRS.equals( cmd ) ) {
-                        btnStartDelete();
+                    	onStartDelete();
                         }
                     else {
                         logger.warn( "Action not handled : " + cmd );
@@ -281,7 +281,7 @@ public class RemoveEmptyDirectoriesPanel
         return actionListener;
     }
     
-    private void btnAddRootDirectory()
+    private void onAddRootDirectory()
     {
         logger.info( "btnAddRootDirectory()" );
 
@@ -294,12 +294,12 @@ public class RemoveEmptyDirectoriesPanel
                     addRootDirectory();
                 }
             };
-           new Thread( r ).start();
+           new Thread( r, "onAddRootDirectory()" ).start();
            logger.info( "btnAddRootDirectory() done" );
         }
     }
 
-    private void btnImportDirectories()
+    private void onImportDirectories()
     {
         logger.info( "btnImportDirectories()" );
         
@@ -314,7 +314,7 @@ public class RemoveEmptyDirectoriesPanel
                     logger.info( "btnImportDirectories() done" );
                 }
             };
-            new Thread( r ).start();
+            new Thread( r, "onImportDirectories()" ).start();
             }
     }
     
@@ -395,7 +395,7 @@ public class RemoveEmptyDirectoriesPanel
         // KO Lock UI doRun.run();
         // KO Lock UI SwingUtilities.invokeAndWait( doRun );
         // KO Lock UI SwingUtilities.invokeLater( doRun );
-        new Thread( doRun ).start();
+        new Thread( doRun, "findBegin()" ).start();
     }
     
     protected void expandAllRows()
@@ -448,7 +448,7 @@ public class RemoveEmptyDirectoriesPanel
 
                 logger.info( "delete thread done" );
             }
-        }).start();
+        }, "startDelete()").start();
     }
 
     @Override

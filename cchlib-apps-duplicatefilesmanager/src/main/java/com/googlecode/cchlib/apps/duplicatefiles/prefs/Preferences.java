@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
@@ -111,7 +110,7 @@ public class Preferences implements Serializable
                 PropertiesHelper.loadProperties( preferencesFile )
                 );
             }
-        catch( FileNotFoundException e ) {
+        catch( FileNotFoundException fileNotFoundException ) {
             logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {
@@ -186,10 +185,7 @@ public class Preferences implements Serializable
             try {
                 UIManager.setLookAndFeel( cn );
                 }
-            catch( ClassNotFoundException
-                    | InstantiationException
-                    | IllegalAccessException
-                    | UnsupportedLookAndFeelException e ) {
+            catch( Exception e ) {
                 logger.warn( "Cant set LookAndFeel: " + cn, e );
                 }
             }
@@ -200,10 +196,7 @@ public class Preferences implements Serializable
             try {
                 UIManager.setLookAndFeel( cn );
                 }
-            catch( ClassNotFoundException
-                    | InstantiationException
-                    | IllegalAccessException
-                    | UnsupportedLookAndFeelException e ) {
+            catch( Exception e ) {
                 logger.error( "Cant set LookAndFeel: " + cn, e );
                 }
             }

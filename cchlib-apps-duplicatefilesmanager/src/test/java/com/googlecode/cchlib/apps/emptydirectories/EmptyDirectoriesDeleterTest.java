@@ -6,8 +6,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesDeleter;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 public class EmptyDirectoriesDeleterTest

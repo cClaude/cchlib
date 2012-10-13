@@ -350,7 +350,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                     }
                 }
             }
-        }).start();
+        }, "updateDisplayThread()" ).start();
     }
 
     private void updateDisplay()

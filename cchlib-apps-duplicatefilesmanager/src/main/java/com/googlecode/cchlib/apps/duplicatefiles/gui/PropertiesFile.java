@@ -12,12 +12,16 @@ import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 /**
  *
  */
-public class PropertiesFile extends Properties
+//NOT public
+class PropertiesFile extends Properties
 {
     private static final long serialVersionUID = 1L;
+	private static final Logger logger = Logger.getLogger( PropertiesFile.class );
     private File file;
     private FileLock fileLock;
 
@@ -62,8 +66,9 @@ public class PropertiesFile extends Properties
             try {
                 this.fileLock = channel.tryLock();
                 }
-            catch( OverlappingFileLockException e ) {
+            catch( OverlappingFileLockException ignore ) {
                 // File is already locked in this thread or virtual machine
+            	logger.warn( "init()", ignore );
                 }
 
             // Release the lock
@@ -74,6 +79,7 @@ public class PropertiesFile extends Properties
             raf.close();
             }
         catch( Exception e ) {
+        	logger.warn( "init()", e );
             }
     }
 

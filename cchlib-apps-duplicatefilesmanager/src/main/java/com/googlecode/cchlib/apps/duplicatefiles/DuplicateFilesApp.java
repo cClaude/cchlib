@@ -5,14 +5,13 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.swing.DialogHelper;
-//import cx.ath.choisnet.tools.duplicatefiles.gui.DuplicateFilesFrame;
 
 /**
  * Application launcher
  */
 public class DuplicateFilesApp
 {
-    private final transient static Logger logger = Logger.getLogger( DuplicateFilesApp.class );
+    private final static Logger logger = Logger.getLogger( DuplicateFilesApp.class );
 
     /**
      * Launch application
