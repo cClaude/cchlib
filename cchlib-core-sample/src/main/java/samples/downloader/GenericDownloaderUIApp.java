@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.swing.DialogHelper;
+
 import samples.downloader.display.table.DisplayTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -98,8 +101,8 @@ public class GenericDownloaderUIApp extends JFrame
                 catch( ClassNotFoundException | InstantiationException
                         | IllegalAccessException
                         | UnsupportedLookAndFeelException e ) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+
+                    logger.fatal( "Can not set LookAndFeel", e );
                     }
 
                 try {
@@ -111,10 +114,15 @@ public class GenericDownloaderUIApp extends JFrame
                     }
                 catch( Exception e ) {
                     logger.fatal( "main() exception", e ); // FIXME
+
+					final String title = "GenericDownloaderUIApp";
+					
+					DialogHelper.showMessageExceptionDialog( title , e );
                     }
             }
         } );
     }
+ 
 
     private void init()
     {

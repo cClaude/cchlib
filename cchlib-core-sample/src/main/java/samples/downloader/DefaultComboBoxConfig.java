@@ -86,7 +86,14 @@ public class DefaultComboBoxConfig
     @Override
     public String getLabelString( final int index )
     {
-        return this.labelStringList.get( index );
+    	try {
+            return this.labelStringList.get( index );
+    		}
+    	catch( IndexOutOfBoundsException e ) {
+    		// TODO: logger !!!
+    		
+            return "";
+    		}
     }
 
     @Override

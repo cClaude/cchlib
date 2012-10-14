@@ -71,10 +71,54 @@
   </repositories>
       
   <build>
-    <extensions>
-    </extensions>
+    <finalName>${project.name}-${project.version}-r${buildNumber}</finalName>
     <plugins>
-    </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>samples.downloader.GenericDownloaderUIApp</mainClass>
+              <packageName>samples.downloader</packageName>
+              <addClasspath>true</addClasspath>
+            </manifest>
+            <manifestEntries>
+            <!-- 
+              <SplashScreen-Image>com/googlecode/cchlib/apps/duplicatefiles/splash.png</SplashScreen-Image>
+             -->
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+              <!-- Use this to in/exclude only specific dependencies
+                <includes>
+                  <include>commons-codec:commons-codec</include>
+                </includes -->
+              </artifactSet>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                </transformers>
+              </configuration>
+           </execution>
+        </executions>
+      </plugin>
+   </plugins>
+   <extensions>
+    </extensions>
   </build>
 
 </project>

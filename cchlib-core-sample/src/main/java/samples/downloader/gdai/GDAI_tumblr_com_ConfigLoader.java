@@ -92,9 +92,17 @@ class GDAI_tumblr_com_ConfigLoader
             pp.populateBean( properties , this );
             }
         catch( IOException e ) {
-            logger.error( "Can't load config", e );
+            logger.warn( "Can't load config", e );
             throw e;
             }
+        finally {
+            if( blogsNames == null ) {
+            	blogsNames = new String[ 0 ];
+            	}
+            if( blogsDesc_ == null ) {
+            	blogsDesc_ = new String[ 0 ];
+            	}
+        	}
     }
     
     private void storeConfig() throws IOException
