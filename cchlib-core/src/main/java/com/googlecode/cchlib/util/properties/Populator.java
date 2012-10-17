@@ -18,4 +18,13 @@ import java.lang.annotation.ElementType;
 @Target(ElementType.FIELD)
 public @interface Populator
 {
+	/**
+	 * TODOC
+	 */
+	public String defaultValue() default "";
+
+	/**
+	 * TODOC
+	 */
+	public boolean defaultValueIsNull() default false;
 }

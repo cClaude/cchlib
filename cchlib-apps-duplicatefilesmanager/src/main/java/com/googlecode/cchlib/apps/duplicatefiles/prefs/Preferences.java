@@ -31,27 +31,32 @@ public class Preferences implements Serializable
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
     private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
-    @Populator private String lookAndFeelName;
-    @Populator private String lookAndFeelClassName;
-    @Populator private String localeLanguage;
-    @Populator private int deleteSleepDisplay = 100;
-    @Populator private int deleteSleepDisplayMaxEntries = 50;
+    @Populator(defaultValueIsNull=true) private String lookAndFeelName;
+    @Populator(defaultValueIsNull=true) private String lookAndFeelClassName;
+    @Populator(defaultValueIsNull=true) private String localeLanguage;
+    @Populator(defaultValue="100") private int deleteSleepDisplay;
+    @Populator(defaultValue="50") private int deleteSleepDisplayMaxEntries ;
     private ConfigMode configMode;
-    @Populator private String configModeName;
-    @Populator private int messageDigestBufferSize;
-    @Populator private int windowWidth;
-    @Populator private int windowHeight;
-    @Populator private String lastDirectory;
+    @Populator(defaultValue="BEGINNER") private String configModeName;
+    @Populator(defaultValue="4096") private int messageDigestBufferSize;
+    @Populator(defaultValue="640") private int windowWidth;
+    @Populator(defaultValue="440") private int windowHeight;
+    @Populator(defaultValueIsNull=true) private String lastDirectory;
+    @Populator(defaultValue="true") private boolean ignoreHiddenFiles;
+    @Populator(defaultValue="true") private boolean ignoreHiddenDirectories;
+    @Populator(defaultValue="true") private boolean ignoreReadOnlyFiles;
+    @Populator(defaultValue="true") private boolean ignoreEmptyFiles;
     private List<String> incFilesFilterPatternRegExpList;
 
+    /*
     private Preferences()
     {
         //this.lookAndFeelName = DEFAULT_LOOK_AND_FEEL;
         this.localeLanguage = null;
         this.preferencesFile = createPropertiesFile();
-        this.configMode = ConfigMode.BEGINNER;
+        //this.configMode = ConfigMode.BEGINNER;
         this.configModeName = this.configMode.name();
-    }
+    }*/
 
     /**
      * Build preferences using giving file.
@@ -87,12 +92,15 @@ public class Preferences implements Serializable
     }
 
     /**
-     * Returns default DefaultPreferences
+     * Returns default DefaultPreferences (for dev only)
      * @return default DefaultPreferences
      */
     public static Preferences createDefaultPreferences()
     {
-        return new Preferences();
+        return new Preferences(
+        		createPropertiesFile(),
+        		new Properties()
+        		);
     }
 
     /**
@@ -102,25 +110,28 @@ public class Preferences implements Serializable
     public static Preferences createPreferences()
     {
         // Try to load pref
-        File preferencesFile = createPropertiesFile();
+        final File preferencesFile = createPropertiesFile();
+        Properties properties;
 
         try {
-            return new Preferences(
-                preferencesFile,
-                PropertiesHelper.loadProperties( preferencesFile )
-                );
+            properties = PropertiesHelper.loadProperties( preferencesFile );
             }
         catch( FileNotFoundException fileNotFoundException ) {
+        	properties = new Properties();
+        	
             logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {
-            final String msg = "Cannot load preferences: " + preferencesFile;
+        	properties = new Properties();
+
+        	final String msg = "Cannot load preferences: " + preferencesFile;
             logger.warn( msg, e );
 
             DialogHelper.showMessageExceptionDialog( null, msg, e );
             }
 
-        return createDefaultPreferences();
+        return new Preferences( preferencesFile, properties );
+        //return createDefaultPreferences();
     }
 
     final
@@ -181,7 +192,7 @@ public class Preferences implements Serializable
     {
         String cn = lookAndFeelClassName;
 
-        if( cn != null ) {
+        if( cn != null /*&& !cn.isEmpty()*/ ) {
             try {
                 UIManager.setLookAndFeel( cn );
                 }
@@ -307,6 +318,38 @@ public class Preferences implements Serializable
         this.messageDigestBufferSize = value;
     }
 
+	public boolean isIgnoreHiddenFiles() {
+		return ignoreHiddenFiles;
+	}
+
+	public void setIgnoreHiddenFiles(boolean ignoreHiddenFiles) {
+		this.ignoreHiddenFiles = ignoreHiddenFiles;
+	}
+
+	public boolean isIgnoreReadOnlyFiles() {
+		return ignoreReadOnlyFiles;
+	}
+
+	public void setIgnoreReadOnlyFiles(boolean ignoreReadOnlyFiles) {
+		this.ignoreReadOnlyFiles = ignoreReadOnlyFiles;
+	}
+
+	public boolean isIgnoreHiddenDirectories() {
+		return ignoreHiddenDirectories;
+	}
+
+	public void setIgnoreHiddenDirectories(boolean ignoreReadOnlyDirectories) {
+		this.ignoreHiddenDirectories = ignoreReadOnlyDirectories;
+	}
+
+	public boolean isIgnoreEmptyFiles() {
+		return ignoreEmptyFiles;
+	}
+
+	public void setIgnoreEmptyFiles(boolean ignoreEmptyFiles) {
+		this.ignoreEmptyFiles = ignoreEmptyFiles;
+	}
+    
     /**
      * Save Preferences to disk
      * @throws IOException if any
@@ -352,6 +395,5 @@ public class Preferences implements Serializable
             }
         return incFilesFilterPatternRegExpList;
     }
-
 
 }

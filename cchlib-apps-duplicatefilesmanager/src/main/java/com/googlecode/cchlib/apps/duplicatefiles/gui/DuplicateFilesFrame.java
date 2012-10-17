@@ -460,6 +460,7 @@ final public class DuplicateFilesFrame
                 getDFToolKit().getPreferences(),
                 getSize()
                 );
+        dialog.performeI18n( autoI18n );
         dialog.setVisible( true );
 
         logger.info( "openPreferences done : " + getDFToolKit().getPreferences() );

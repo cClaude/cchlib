@@ -16,7 +16,9 @@ import java.awt.Insets;
 import java.util.Locale;
 import javax.swing.JButton;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import java.awt.event.ActionListener;
@@ -27,39 +29,46 @@ import javax.swing.JCheckBox;
 /**
  *
  */
-public class PreferencesDialogWB extends JDialog
+public class PreferencesDialogWB extends JDialog implements I18nAutoUpdatable
 {
-    private static final long serialVersionUID = 1L;
-    private JButton btnCancel;
-    private JButton btnSave;
+    private static final long serialVersionUID = 2L;
 
     //TODO I18n
+    @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
+    @I18nString private String txtStringDefaultLocale = "default system";
 
+    private JButton btnCancel;
+    private JButton btnSave;
+    
+    private JCheckBox jCheckBox_ignoreEmptyFiles;
+    private JCheckBox jCheckBox_ignoreHiddenDirectories;
+    private JCheckBox jCheckBox_ignoreHiddenFiles;
+    private JCheckBox jCheckBox_ignoreReadOnlyFiles;
+    private JCheckBox windowDimensionCheckBox;
+    
+    private JComboBox<ConfigMode> userLevelCB;
+    private JComboBox<ListInfo<Locale>> localCB;
+    private JComboBox<ListInfo<LookAndFeelInfo>> lookAndFeelCB;
+    
     private JLabel deleteSleepDisplayLabel;
     private JLabel deleteSleepDisplayMaxEntriesLabel;
+    private JLabel lblDefault;
+    private JLabel lblDefaultMs;
+    private JLabel lblDefault_1;
     private JLabel localeLabel;
     private JLabel lookAndFeelLabel;
     private JLabel messageDigestBufferSizeLabel;
     private JLabel userLevelLabel;
-    private JPanel contentPane;
-
-    private JComboBox<ConfigMode> userLevelCB;
-    private JComboBox<ListInfo<Locale>> localCB;
-    private JComboBox<ListInfo<LookAndFeelInfo>> lookAndFeelCB;
-    private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
-    private LimitedIntegerJTextField deleteSleepDisplayTF;
-    private LimitedIntegerJTextField messageDigestBufferSizeTF;
     private JLabel windowDimensionLabel;
-    private JCheckBox windowDimensionCheckBox;
-
-    @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
-    @I18nString private String txtStringDefaultLocale = "default system";
-    private JLabel lblDefault;
-    private JLabel lblDefaultMs;
-    private JLabel lblDefault_1;
+    
+    private JPanel contentPane;
+    
+    private LimitedIntegerJTextField  deleteSleepDisplayTF;
+    private LimitedIntegerJTextField  messageDigestBufferSizeTF;
+    private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
 
     /**
-     * For Windows Builder ONLY !
+     * For Windows Builder ONLY (and I18N)
      */
     public PreferencesDialogWB()
     {
@@ -81,199 +90,269 @@ public class PreferencesDialogWB extends JDialog
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( contentPane );
         GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+        gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
+        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
 
-        userLevelLabel = new JLabel("User level");
-        GridBagConstraints gbc_userLevelLabel = new GridBagConstraints();
-        gbc_userLevelLabel.anchor = GridBagConstraints.EAST;
-        gbc_userLevelLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_userLevelLabel.gridx = 0;
-        gbc_userLevelLabel.gridy = 0;
-        contentPane.add(userLevelLabel, gbc_userLevelLabel);
+        {
+            userLevelLabel = new JLabel("User level");
+            GridBagConstraints gbc_userLevelLabel = new GridBagConstraints();
+            gbc_userLevelLabel.anchor = GridBagConstraints.EAST;
+            gbc_userLevelLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_userLevelLabel.gridx = 0;
+            gbc_userLevelLabel.gridy = 0;
+            contentPane.add(userLevelLabel, gbc_userLevelLabel);
+        }
+        {
+            userLevelCB = createUserLevelJComboBox( prefs );
+            GridBagConstraints gbc_userLevelCB = new GridBagConstraints();
+            gbc_userLevelCB.insets = new Insets(0, 0, 5, 5);
+            gbc_userLevelCB.fill = GridBagConstraints.HORIZONTAL;
+            gbc_userLevelCB.gridx = 1;
+            gbc_userLevelCB.gridy = 0;
+            contentPane.add(userLevelCB, gbc_userLevelCB);
+        }
+        {
+            messageDigestBufferSizeTF = new LimitedIntegerJTextField();
+            messageDigestBufferSizeTF.setValue( prefs.getMessageDigestBufferSize() );
+            GridBagConstraints gbc_messageDigestBufferSizeTF = new GridBagConstraints();
+            gbc_messageDigestBufferSizeTF.insets = new Insets(0, 0, 5, 5);
+            gbc_messageDigestBufferSizeTF.fill = GridBagConstraints.HORIZONTAL;
+            gbc_messageDigestBufferSizeTF.gridx = 1;
+            gbc_messageDigestBufferSizeTF.gridy = 1;
+            contentPane.add(messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
+            messageDigestBufferSizeTF.setColumns(10);
+        }
+        {
+            lblDefault = new JLabel("Default: 16384 bytes");
+            GridBagConstraints gbc_lblDefault = new GridBagConstraints();
+            gbc_lblDefault.gridwidth = 2;
+            gbc_lblDefault.fill = GridBagConstraints.HORIZONTAL;
+            gbc_lblDefault.insets = new Insets(0, 0, 5, 0);
+            gbc_lblDefault.gridx = 2;
+            gbc_lblDefault.gridy = 1;
+            contentPane.add(lblDefault, gbc_lblDefault);
+        }
+        {
+            deleteSleepDisplayLabel = new JLabel("Delete delais");
+            GridBagConstraints gbc_deleteSleepDisplayLabel = new GridBagConstraints();
+            gbc_deleteSleepDisplayLabel.anchor = GridBagConstraints.EAST;
+            gbc_deleteSleepDisplayLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_deleteSleepDisplayLabel.gridx = 0;
+            gbc_deleteSleepDisplayLabel.gridy = 2;
+            contentPane.add(deleteSleepDisplayLabel, gbc_deleteSleepDisplayLabel);
+        }
+        {
+            messageDigestBufferSizeLabel = new JLabel("Hash code buffer size");
+            GridBagConstraints gbc_messageDigestBufferSizeLabel = new GridBagConstraints();
+            gbc_messageDigestBufferSizeLabel.anchor = GridBagConstraints.EAST;
+            gbc_messageDigestBufferSizeLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_messageDigestBufferSizeLabel.gridx = 0;
+            gbc_messageDigestBufferSizeLabel.gridy = 1;
+            contentPane.add(messageDigestBufferSizeLabel, gbc_messageDigestBufferSizeLabel);
+        }
+        {
+            deleteSleepDisplayTF = new LimitedIntegerJTextField();
+            deleteSleepDisplayTF.setValue( prefs.getDeleteSleepDisplay() );
+            GridBagConstraints gbc_deleteSleepDisplayTF = new GridBagConstraints();
+            gbc_deleteSleepDisplayTF.insets = new Insets(0, 0, 5, 5);
+            gbc_deleteSleepDisplayTF.fill = GridBagConstraints.HORIZONTAL;
+            gbc_deleteSleepDisplayTF.gridx = 1;
+            gbc_deleteSleepDisplayTF.gridy = 2;
+            contentPane.add(deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
+            deleteSleepDisplayTF.setColumns(10);
+        }
+        {
+            lblDefaultMs = new JLabel("Default: 100 ms");
+            GridBagConstraints gbc_lblDefaultMs = new GridBagConstraints();
+            gbc_lblDefaultMs.gridwidth = 2;
+            gbc_lblDefaultMs.fill = GridBagConstraints.HORIZONTAL;
+            gbc_lblDefaultMs.insets = new Insets(0, 0, 5, 0);
+            gbc_lblDefaultMs.gridx = 2;
+            gbc_lblDefaultMs.gridy = 2;
+            contentPane.add(lblDefaultMs, gbc_lblDefaultMs);
+        }
+        {
+            deleteSleepDisplayMaxEntriesLabel = new JLabel("Delete display max entries");
+            GridBagConstraints gbc_deleteSleepDisplayMaxEntriesLabel = new GridBagConstraints();
+            gbc_deleteSleepDisplayMaxEntriesLabel.anchor = GridBagConstraints.EAST;
+            gbc_deleteSleepDisplayMaxEntriesLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_deleteSleepDisplayMaxEntriesLabel.gridx = 0;
+            gbc_deleteSleepDisplayMaxEntriesLabel.gridy = 3;
+            contentPane.add(deleteSleepDisplayMaxEntriesLabel, gbc_deleteSleepDisplayMaxEntriesLabel);
+        }
+        {
+            deleteSleepDisplayMaxEntriesTF = new LimitedIntegerJTextField();
+            deleteSleepDisplayMaxEntriesTF.setValue( prefs.getDeleteSleepDisplayMaxEntries() );
+            GridBagConstraints gbc_deleteSleepDisplayMaxEntriesTF = new GridBagConstraints();
+            gbc_deleteSleepDisplayMaxEntriesTF.insets = new Insets(0, 0, 5, 5);
+            gbc_deleteSleepDisplayMaxEntriesTF.fill = GridBagConstraints.HORIZONTAL;
+            gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
+            gbc_deleteSleepDisplayMaxEntriesTF.gridy = 3;
+            contentPane.add(deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
+            deleteSleepDisplayMaxEntriesTF.setColumns(10);
+        }
+        {
+            lblDefault_1 = new JLabel("Default: 50");
+            GridBagConstraints gbc_lblDefault_1 = new GridBagConstraints();
+            gbc_lblDefault_1.gridwidth = 2;
+            gbc_lblDefault_1.fill = GridBagConstraints.HORIZONTAL;
+            gbc_lblDefault_1.insets = new Insets(0, 0, 5, 5);
+            gbc_lblDefault_1.gridx = 2;
+            gbc_lblDefault_1.gridy = 3;
+            contentPane.add(lblDefault_1, gbc_lblDefault_1);
+        }
+        {
+            localeLabel = new JLabel("Language");
+            GridBagConstraints gbc_localeLabel = new GridBagConstraints();
+            gbc_localeLabel.anchor = GridBagConstraints.EAST;
+            gbc_localeLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_localeLabel.gridx = 0;
+            gbc_localeLabel.gridy = 4;
+            contentPane.add(localeLabel, gbc_localeLabel);
+        }
+        {
+            localCB = createLocaleJComboBox( prefs );
+            GridBagConstraints gbc_localCB = new GridBagConstraints();
+            gbc_localCB.insets = new Insets(0, 0, 5, 5);
+            gbc_localCB.fill = GridBagConstraints.HORIZONTAL;
+            gbc_localCB.gridx = 1;
+            gbc_localCB.gridy = 4;
+            contentPane.add(localCB, gbc_localCB);
+        }
+        {
+            lookAndFeelLabel = new JLabel("Look and feel");
+            GridBagConstraints gbc_lookAndFeelLabel = new GridBagConstraints();
+            gbc_lookAndFeelLabel.anchor = GridBagConstraints.EAST;
+            gbc_lookAndFeelLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_lookAndFeelLabel.gridx = 0;
+            gbc_lookAndFeelLabel.gridy = 5;
+            contentPane.add(lookAndFeelLabel, gbc_lookAndFeelLabel);
+        }
+        {
+            lookAndFeelCB = createLookAndFeelJComboBox( prefs );
+            GridBagConstraints gbc_lookAndFeelCB = new GridBagConstraints();
+            gbc_lookAndFeelCB.gridwidth = 2;
+            gbc_lookAndFeelCB.insets = new Insets(0, 0, 5, 5);
+            gbc_lookAndFeelCB.fill = GridBagConstraints.HORIZONTAL;
+            gbc_lookAndFeelCB.gridx = 1;
+            gbc_lookAndFeelCB.gridy = 5;
+            contentPane.add(lookAndFeelCB, gbc_lookAndFeelCB);
+        }
+        {
+            windowDimensionCheckBox = new JCheckBox("Save current Windows size");
+            GridBagConstraints gbc_windowDimensionCheckBox = new GridBagConstraints();
+            gbc_windowDimensionCheckBox.gridwidth = 2;
+            gbc_windowDimensionCheckBox.fill = GridBagConstraints.HORIZONTAL;
+            gbc_windowDimensionCheckBox.insets = new Insets(0, 0, 5, 5);
+            gbc_windowDimensionCheckBox.gridx = 1;
+            gbc_windowDimensionCheckBox.gridy = 6;
+            contentPane.add(windowDimensionCheckBox, gbc_windowDimensionCheckBox);
+        }
+        {
+            windowDimensionLabel = new JLabel("Main Window dimentions");
+            GridBagConstraints gbc_windowDimensionLabel = new GridBagConstraints();
+            gbc_windowDimensionLabel.anchor = GridBagConstraints.EAST;
+            gbc_windowDimensionLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_windowDimensionLabel.gridx = 0;
+            gbc_windowDimensionLabel.gridy = 6;
+            contentPane.add(windowDimensionLabel, gbc_windowDimensionLabel);
+        }
+        {
+            jCheckBox_ignoreHiddenFiles = new JCheckBox("Ignore hidden files");
+            jCheckBox_ignoreHiddenFiles.setSelected( prefs.isIgnoreHiddenFiles() );
+            GridBagConstraints gbc_jCheckBox_ignoreHiddenFiles = new GridBagConstraints();
+            gbc_jCheckBox_ignoreHiddenFiles.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jCheckBox_ignoreHiddenFiles.insets = new Insets(0, 0, 5, 5);
+            gbc_jCheckBox_ignoreHiddenFiles.gridx = 1;
+            gbc_jCheckBox_ignoreHiddenFiles.gridy = 7;
+            contentPane.add(jCheckBox_ignoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
+        }
+        {
+            jCheckBox_ignoreReadOnlyFiles = new JCheckBox("Ignore read only files");
+            jCheckBox_ignoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() );
+            GridBagConstraints gbc_jCheckBox_ignoreReadOnlyFiles = new GridBagConstraints();
+            gbc_jCheckBox_ignoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jCheckBox_ignoreReadOnlyFiles.insets = new Insets(0, 0, 5, 5);
+            gbc_jCheckBox_ignoreReadOnlyFiles.gridx = 2;
+            gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 7;
+            contentPane.add(jCheckBox_ignoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
+        }
+        {
+            jCheckBox_ignoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
+            jCheckBox_ignoreHiddenDirectories.setSelected( prefs.isIgnoreHiddenDirectories() );
+            GridBagConstraints gbc_jCheckBox_ignoreHiddenDirectories = new GridBagConstraints();
+            gbc_jCheckBox_ignoreHiddenDirectories.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jCheckBox_ignoreHiddenDirectories.insets = new Insets(0, 0, 5, 5);
+            gbc_jCheckBox_ignoreHiddenDirectories.gridx = 1;
+            gbc_jCheckBox_ignoreHiddenDirectories.gridy = 8;
+            contentPane.add(jCheckBox_ignoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
+        }
+        {
+            jCheckBox_ignoreEmptyFiles = new JCheckBox("Ignore empty files");
+            jCheckBox_ignoreEmptyFiles.setSelected( prefs.isIgnoreEmptyFiles() );
+            GridBagConstraints gbc_jCheckBox_ignoreEmptyFiles = new GridBagConstraints();
+            gbc_jCheckBox_ignoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jCheckBox_ignoreEmptyFiles.insets = new Insets(0, 0, 5, 5);
+            gbc_jCheckBox_ignoreEmptyFiles.gridx = 2;
+            gbc_jCheckBox_ignoreEmptyFiles.gridy = 8;
+            contentPane.add(jCheckBox_ignoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
+        }
+        {
+            btnSave = new JButton("Save");
+            btnSave.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event ) {
+                    prefs.setConfigMode( getSelectedItem( userLevelCB ) );
+                    prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
+                    prefs.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntriesTF.getValue() );
+                    prefs.setMessageDigestBufferSize( messageDigestBufferSizeTF.getValue() );
+                    //prefs.setLastDirectory( file );
+                    prefs.setLocale( getSelectedItem( localCB ).getContent() );
+                    prefs.setLookAndFeelInfo( getSelectedItem( lookAndFeelCB ).getContent() );
 
-        userLevelCB = createUserLevelJComboBox( prefs );
-        GridBagConstraints gbc_userLevelCB = new GridBagConstraints();
-        gbc_userLevelCB.insets = new Insets(0, 0, 5, 5);
-        gbc_userLevelCB.fill = GridBagConstraints.HORIZONTAL;
-        gbc_userLevelCB.gridx = 1;
-        gbc_userLevelCB.gridy = 0;
-        contentPane.add(userLevelCB, gbc_userLevelCB);
+                    prefs.setIgnoreHiddenFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
+                    prefs.setIgnoreHiddenDirectories( jCheckBox_ignoreHiddenDirectories.isSelected() );
+                    prefs.setIgnoreReadOnlyFiles( jCheckBox_ignoreReadOnlyFiles.isSelected() );
+                    prefs.setIgnoreEmptyFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
+                    
+                    if( windowDimensionCheckBox.isSelected() ) {
+                        prefs.setWindowDimension( mainWindowDimension );
+                        }
+                    try {
+                        prefs.save();
+                        }
+                    catch( IOException e ) {
+                        e.printStackTrace();
 
-        lblDefault = new JLabel("Default: 16384 bytes");
-        GridBagConstraints gbc_lblDefault = new GridBagConstraints();
-        gbc_lblDefault.fill = GridBagConstraints.HORIZONTAL;
-        gbc_lblDefault.insets = new Insets(0, 0, 5, 0);
-        gbc_lblDefault.gridx = 2;
-        gbc_lblDefault.gridy = 1;
-        contentPane.add(lblDefault, gbc_lblDefault);
-
-        deleteSleepDisplayTF = new LimitedIntegerJTextField();
-        deleteSleepDisplayTF.setValue( prefs.getDeleteSleepDisplay() );
-        GridBagConstraints gbc_deleteSleepDisplayTF = new GridBagConstraints();
-        gbc_deleteSleepDisplayTF.insets = new Insets(0, 0, 5, 5);
-        gbc_deleteSleepDisplayTF.fill = GridBagConstraints.HORIZONTAL;
-        gbc_deleteSleepDisplayTF.gridx = 1;
-        gbc_deleteSleepDisplayTF.gridy = 2;
-        contentPane.add(deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
-        deleteSleepDisplayTF.setColumns(10);
-
-        deleteSleepDisplayLabel = new JLabel("Delete delais");
-        GridBagConstraints gbc_deleteSleepDisplayLabel = new GridBagConstraints();
-        gbc_deleteSleepDisplayLabel.anchor = GridBagConstraints.EAST;
-        gbc_deleteSleepDisplayLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_deleteSleepDisplayLabel.gridx = 0;
-        gbc_deleteSleepDisplayLabel.gridy = 2;
-        contentPane.add(deleteSleepDisplayLabel, gbc_deleteSleepDisplayLabel);
-
-        messageDigestBufferSizeLabel = new JLabel("Hash code buffer size");
-        GridBagConstraints gbc_messageDigestBufferSizeLabel = new GridBagConstraints();
-        gbc_messageDigestBufferSizeLabel.anchor = GridBagConstraints.EAST;
-        gbc_messageDigestBufferSizeLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_messageDigestBufferSizeLabel.gridx = 0;
-        gbc_messageDigestBufferSizeLabel.gridy = 1;
-        contentPane.add(messageDigestBufferSizeLabel, gbc_messageDigestBufferSizeLabel);
-
-        messageDigestBufferSizeTF = new LimitedIntegerJTextField();
-        messageDigestBufferSizeTF.setValue( prefs.getMessageDigestBufferSize() );
-        GridBagConstraints gbc_messageDigestBufferSizeTF = new GridBagConstraints();
-        gbc_messageDigestBufferSizeTF.insets = new Insets(0, 0, 5, 5);
-        gbc_messageDigestBufferSizeTF.fill = GridBagConstraints.HORIZONTAL;
-        gbc_messageDigestBufferSizeTF.gridx = 1;
-        gbc_messageDigestBufferSizeTF.gridy = 1;
-        contentPane.add(messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
-        messageDigestBufferSizeTF.setColumns(10);
-
-        lblDefaultMs = new JLabel("Default: 100 ms");
-        GridBagConstraints gbc_lblDefaultMs = new GridBagConstraints();
-        gbc_lblDefaultMs.fill = GridBagConstraints.HORIZONTAL;
-        gbc_lblDefaultMs.insets = new Insets(0, 0, 5, 0);
-        gbc_lblDefaultMs.gridx = 2;
-        gbc_lblDefaultMs.gridy = 2;
-        contentPane.add(lblDefaultMs, gbc_lblDefaultMs);
-
-        deleteSleepDisplayMaxEntriesLabel = new JLabel("Delete display max entries");
-        GridBagConstraints gbc_deleteSleepDisplayMaxEntriesLabel = new GridBagConstraints();
-        gbc_deleteSleepDisplayMaxEntriesLabel.anchor = GridBagConstraints.EAST;
-        gbc_deleteSleepDisplayMaxEntriesLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_deleteSleepDisplayMaxEntriesLabel.gridx = 0;
-        gbc_deleteSleepDisplayMaxEntriesLabel.gridy = 3;
-        contentPane.add(deleteSleepDisplayMaxEntriesLabel, gbc_deleteSleepDisplayMaxEntriesLabel);
-
-        deleteSleepDisplayMaxEntriesTF = new LimitedIntegerJTextField();
-        deleteSleepDisplayMaxEntriesTF.setValue( prefs.getDeleteSleepDisplayMaxEntries() );
-        GridBagConstraints gbc_deleteSleepDisplayMaxEntriesTF = new GridBagConstraints();
-        gbc_deleteSleepDisplayMaxEntriesTF.insets = new Insets(0, 0, 5, 5);
-        gbc_deleteSleepDisplayMaxEntriesTF.fill = GridBagConstraints.HORIZONTAL;
-        gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
-        gbc_deleteSleepDisplayMaxEntriesTF.gridy = 3;
-        contentPane.add(deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
-        deleteSleepDisplayMaxEntriesTF.setColumns(10);
-
-        lblDefault_1 = new JLabel("Default: 50");
-        GridBagConstraints gbc_lblDefault_1 = new GridBagConstraints();
-        gbc_lblDefault_1.fill = GridBagConstraints.HORIZONTAL;
-        gbc_lblDefault_1.insets = new Insets(0, 0, 5, 0);
-        gbc_lblDefault_1.gridx = 2;
-        gbc_lblDefault_1.gridy = 3;
-        contentPane.add(lblDefault_1, gbc_lblDefault_1);
-
-        localeLabel = new JLabel("Language");
-        GridBagConstraints gbc_localeLabel = new GridBagConstraints();
-        gbc_localeLabel.anchor = GridBagConstraints.EAST;
-        gbc_localeLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_localeLabel.gridx = 0;
-        gbc_localeLabel.gridy = 4;
-        contentPane.add(localeLabel, gbc_localeLabel);
-
-        localCB = createLocaleJComboBox( prefs );
-        GridBagConstraints gbc_localCB = new GridBagConstraints();
-        gbc_localCB.insets = new Insets(0, 0, 5, 5);
-        gbc_localCB.fill = GridBagConstraints.HORIZONTAL;
-        gbc_localCB.gridx = 1;
-        gbc_localCB.gridy = 4;
-        contentPane.add(localCB, gbc_localCB);
-
-        lookAndFeelLabel = new JLabel("Look and feel");
-        GridBagConstraints gbc_lookAndFeelLabel = new GridBagConstraints();
-        gbc_lookAndFeelLabel.anchor = GridBagConstraints.EAST;
-        gbc_lookAndFeelLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_lookAndFeelLabel.gridx = 0;
-        gbc_lookAndFeelLabel.gridy = 5;
-        contentPane.add(lookAndFeelLabel, gbc_lookAndFeelLabel);
-
-        lookAndFeelCB = createLookAndFeelJComboBox( prefs );
-        GridBagConstraints gbc_lookAndFeelCB = new GridBagConstraints();
-        gbc_lookAndFeelCB.insets = new Insets(0, 0, 5, 5);
-        gbc_lookAndFeelCB.fill = GridBagConstraints.HORIZONTAL;
-        gbc_lookAndFeelCB.gridx = 1;
-        gbc_lookAndFeelCB.gridy = 5;
-        contentPane.add(lookAndFeelCB, gbc_lookAndFeelCB);
-
-        btnCancel = new JButton("Cancel");
-        btnCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                PreferencesDialogWB.this.dispose();
-            }
-        });
-        GridBagConstraints gbc_btnCancel = new GridBagConstraints();
-        gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
-        gbc_btnCancel.gridx = 0;
-        gbc_btnCancel.gridy = 8;
-        contentPane.add(btnCancel, gbc_btnCancel);
-
-        windowDimensionLabel = new JLabel("Main Window dimentions");
-        GridBagConstraints gbc_windowDimensionLabel = new GridBagConstraints();
-        gbc_windowDimensionLabel.anchor = GridBagConstraints.EAST;
-        gbc_windowDimensionLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_windowDimensionLabel.gridx = 0;
-        gbc_windowDimensionLabel.gridy = 6;
-        contentPane.add(windowDimensionLabel, gbc_windowDimensionLabel);
-
-        windowDimensionCheckBox = new JCheckBox("Save current Windows size");
-        GridBagConstraints gbc_windowDimensionCheckBox = new GridBagConstraints();
-        gbc_windowDimensionCheckBox.fill = GridBagConstraints.HORIZONTAL;
-        gbc_windowDimensionCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_windowDimensionCheckBox.gridx = 1;
-        gbc_windowDimensionCheckBox.gridy = 6;
-        contentPane.add(windowDimensionCheckBox, gbc_windowDimensionCheckBox);
-
-        btnSave = new JButton("Save");
-        btnSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event ) {
-                prefs.setConfigMode( getSelectedItem( userLevelCB ) );
-                prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
-                prefs.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntriesTF.getValue() );
-                prefs.setMessageDigestBufferSize( messageDigestBufferSizeTF.getValue() );
-                //prefs.setLastDirectory( file );
-                prefs.setLocale( getSelectedItem( localCB ).getContent() );
-                prefs.setLookAndFeelInfo( getSelectedItem( lookAndFeelCB ).getContent() );
-
-                if( windowDimensionCheckBox.isSelected() ) {
-                    prefs.setWindowDimension( mainWindowDimension );
-                    }
-                try {
-                    prefs.save();
-                    }
-                catch( IOException e ) {
-                    e.printStackTrace();
-
-                    DialogHelper.showMessageExceptionDialog(
-                        PreferencesDialogWB.this,
-                        txtPreferencesDialogMessageExceptionDialogTitle,
-                        e
-                        );
-                    }
-                PreferencesDialogWB.this.dispose();
-            }
-        });
-        GridBagConstraints gbc_btnSave = new GridBagConstraints();
-        gbc_btnSave.gridx = 2;
-        gbc_btnSave.gridy = 8;
-        contentPane.add(btnSave, gbc_btnSave);
+                        DialogHelper.showMessageExceptionDialog(
+                            PreferencesDialogWB.this,
+                            txtPreferencesDialogMessageExceptionDialogTitle,
+                            e
+                            );
+                        }
+                    PreferencesDialogWB.this.dispose();
+                }
+            });
+            GridBagConstraints gbc_btnSave = new GridBagConstraints();
+            gbc_btnSave.gridx = 3;
+            gbc_btnSave.gridy = 10;
+            contentPane.add(btnSave, gbc_btnSave);
+        }
+        {
+            btnCancel = new JButton("Cancel");
+            btnCancel.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    PreferencesDialogWB.this.dispose();
+                }
+            });
+            GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+            gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
+            gbc_btnCancel.gridx = 0;
+            gbc_btnCancel.gridy = 10;
+            contentPane.add(btnCancel, gbc_btnCancel);
+        }
 
         setMaxWidthOf( btnCancel, btnSave );
     }
@@ -359,4 +438,9 @@ public class PreferencesDialogWB extends JDialog
     {
         return c.getItemAt( c.getSelectedIndex() );
     }
+
+	@Override
+	public void performeI18n( final AutoI18n autoI18n ) {
+		autoI18n.performeI18n( this, this.getClass() );
+	}
 }

@@ -75,7 +75,7 @@ private Scanner s;
 
     public JPanelConfig( final DFToolKit dfToolKit )
     {
-        super();
+        super( dfToolKit.getPreferences() );
 
         this.dfToolKit = dfToolKit;
         //this.rootFrame = dfToolKit.getMainWindow();

@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
@@ -24,7 +25,7 @@ import org.apache.log4j.Logger;
 public class PropertiesPopulator<E>
 {
     private final static Logger logger = Logger.getLogger( PropertiesPopulator.class );
-    private Set<Field> keyFieldSet;
+    private Map<Field,Populator> keyFieldMap;
 
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
@@ -33,17 +34,19 @@ public class PropertiesPopulator<E>
      */
     public PropertiesPopulator( final Class<? extends E> clazz )
     {
-        this.keyFieldSet     = new HashSet<Field>();
+        this.keyFieldMap     = new HashMap<Field,Populator>();
         Field[] fields  = clazz.getDeclaredFields();
 
         for( Field f : fields ) {
-            if( f.getAnnotation( Populator.class ) != null ) {
-                this.keyFieldSet.add( f );
+            Populator populator = f.getAnnotation( Populator.class );
+            
+            if( populator != null ) {
+                this.keyFieldMap.put( f, populator );
                 }
             }
 
         if( logger.isTraceEnabled() ) {
-            logger.trace( "Found " + this.keyFieldSet.size() + " fields." );
+            logger.trace( "Found " + this.keyFieldMap.size() + " fields." );
             }
     }
     /**
@@ -89,7 +92,9 @@ public class PropertiesPopulator<E>
             prefixLength = prefix.length();
             }
 
-        for( Field f : this.keyFieldSet ) {
+        for( Map.Entry<Field,Populator> entry : this.keyFieldMap.entrySet() ) {
+        	final Field f = entry.getKey();
+        	
             f.setAccessible( true );
             try {
                 final Object o = f.get( bean );
@@ -228,27 +233,37 @@ public class PropertiesPopulator<E>
 
         public void populate()
         {
-            for( Field f : keyFieldSet ) {
-                final Class<?> type = f.getType();
+            for( Map.Entry<Field,Populator> entry : keyFieldMap.entrySet() ) {
+            	final Field     f    = entry.getKey();
+                final Class<?>  type = f.getType();
                 
                 //logger.info( "Populate field: " + f + " - " + type );
                 
                 if( type.isArray() ) {
-                    handleArray( f, type, prefix, prefixLength );
+                    //handleArray( f, type, prefix, prefixLength );
+                    handleArray( entry, prefix, prefixLength );
                     }
                 else {
                     final String strValue;
+                    final String defaultValue;
+                    
+                    if( entry.getValue().defaultValueIsNull() ) {
+                    	defaultValue = null;
+                    	}
+                    else {
+                    	defaultValue = entry.getValue().defaultValue();
+                    	}
 
                     if( prefixLength == 0 ) {
-                        strValue = properties.getProperty( f.getName() );
+                        strValue = properties.getProperty( f.getName(), defaultValue );
                         }
                     else {
                         prefix.setLength( prefixLength );
                         prefix.append( f.getName() );
-                        strValue = properties.getProperty( prefix.toString() );
+                        strValue = properties.getProperty( prefix.toString(), defaultValue );
                         }
 
-                    //logger.info( "VALUE field: " + f + " is " + strValue );
+                    //logger.info( "VALUE field: " + f + " is " + strValue + " default=" + defaultValue );
                     
                     f.setAccessible( true );
                     
@@ -270,6 +285,7 @@ public class PropertiesPopulator<E>
                             try {
                                 Object o = convertStringToObject( strValue, type );
                                 f.set( bean, o );
+                                //logger.info( "_SET_ field: " + f + " to [" + o + ']' );
                                 }
                             catch( ConvertCantNotHandleTypeException e ) {
                                 throw new PopulatorException( "Bad type for field", f, f.getType() );
@@ -294,22 +310,25 @@ public class PropertiesPopulator<E>
                 }
         }
 
-        /*
+		/*
          * Handle arrays
          * 
          * @param f
          * @param type
          */
         private void handleArray(
-            final Field         f, 
-            final Class<?>      arrayType,
+            final Entry<Field,Populator> entry,
             StringBuilder       prefix,
             final int           prefixLength
             )
         {
-            final Class<?>      type   = arrayType.getComponentType();
-            final List<String>  values = new ArrayList<String>();
+        	final Field         f         = entry.getKey();
+        	final Class<?>      arrayType = f.getType();
+            final Class<?>      type      = arrayType.getComponentType();
+            final List<String>  values    = new ArrayList<String>();
 
+            // TODO: handle default values ???
+            
             if( prefix == null ) {
                 prefix = new StringBuilder();
                 }

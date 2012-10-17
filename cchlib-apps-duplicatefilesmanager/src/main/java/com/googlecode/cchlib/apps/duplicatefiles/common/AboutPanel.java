@@ -44,8 +44,11 @@ public abstract class AboutPanel extends JPanel
     private JLabel jLabel_version;   // I18n
     private JButton jButton_Ok;
     //@I18n ( methodSuffixName = "JTextArea" ) private JTextArea jTextArea;
-    @I18nForce private JTextArea jTextArea;
-
+    //TODO
+    //TODO not yet implemented  @I18nForce 
+    private JTextArea jTextArea;
+    private int fixme; // FIXME
+    
     /** 
      * Creates new form AboutPanel for windows builder ONLY.
      */

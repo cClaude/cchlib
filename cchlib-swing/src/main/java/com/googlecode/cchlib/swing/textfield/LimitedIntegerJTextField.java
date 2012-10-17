@@ -117,7 +117,7 @@ public class LimitedIntegerJTextField extends JTextField
      */
     public LimitedIntegerJTextField()
     {
-        this(Integer.MAX_VALUE,10);
+        this( Integer.MAX_VALUE, 10 );
     }
 
     /**
@@ -128,7 +128,7 @@ public class LimitedIntegerJTextField extends JTextField
      */
     public LimitedIntegerJTextField( int maxValue )
     {
-        this(Integer.MAX_VALUE,10);
+        this( maxValue, 10 );
     }
 
     /**

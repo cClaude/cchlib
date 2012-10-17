@@ -392,6 +392,7 @@ public class AutoI18n implements Serializable
                 // FIXME
                 // FIXME
                 // FIXME
+            	System.err.println( "I18nForce define for field: " + f );
                 throw new UnsupportedOperationException( annonI18nForce.className() );
                 }
             else if( f.getType().isArray() ) {

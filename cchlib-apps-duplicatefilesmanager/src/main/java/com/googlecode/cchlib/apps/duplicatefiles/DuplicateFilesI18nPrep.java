@@ -8,6 +8,7 @@ import java.util.TooManyListenersException;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
 
@@ -31,6 +32,7 @@ public class DuplicateFilesI18nPrep
 
         I18nAutoUpdatable[] otherFrames = {
             new AboutDialog( defaultDFToolKit ),
+            new PreferencesDialogWB(),
             };
         I18nPrepHelper.defaultPrep(
             locale,
@@ -40,5 +42,4 @@ public class DuplicateFilesI18nPrep
             otherFrames 
             );
     }
-
 }
