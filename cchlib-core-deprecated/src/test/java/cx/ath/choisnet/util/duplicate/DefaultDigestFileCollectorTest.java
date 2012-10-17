@@ -1,5 +1,7 @@
 package cx.ath.choisnet.util.duplicate;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,17 +9,18 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.FileIterator;
-import junit.framework.TestCase;
 
 @Deprecated
 public class DefaultDigestFileCollectorTest
-    extends TestCase
 {
     private static final transient Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 150;
+	private static final long FILE_MAX_SIZE = 5 * 1024 * 1024;
 
+	@Test
     public void test_Base()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
@@ -35,7 +38,7 @@ public class DefaultDigestFileCollectorTest
                     @Override
                     public boolean accept( File f )
                     {
-                        if( f.isFile() && f.length() > 0 ) {
+                        if( f.isFile() && f.length() > 0 && f.length() < FILE_MAX_SIZE ) {
                             return true;
                         }
                         return false;

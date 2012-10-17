@@ -11,9 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
-//import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
-//import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DefaultDigestFileCollector} instead
@@ -36,8 +34,6 @@ public class DefaultDigestFileCollector
     protected int duplicateFilesCount = 0;
 
     /**
-     * TODOC
-     *
      * @throws NoSuchAlgorithmException
      */
     public DefaultDigestFileCollector()
@@ -47,8 +43,6 @@ public class DefaultDigestFileCollector
     }
 
     /**
-     * TODOC
-     *
      * @param messageDigestFile
      */
     public DefaultDigestFileCollector(
@@ -82,8 +76,6 @@ public class DefaultDigestFileCollector
     }
 
     /**
-     * TODOC
-     *
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(
      *          rootDirectory,
