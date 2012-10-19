@@ -29,36 +29,23 @@ import com.googlecode.cchlib.i18n.I18nInterface;
 public class I18nPropertyResourceBundleAutoUpdate
     extends AbstractI18nPropertiesResourceAutoUpdate
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
     private transient static Logger slogger = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
     /** @serial */
     private File outputFile;
 
-    /**
-     * @param i18nAutoUpdateInterface
-     * @param autoI18nTypes
-     * @param exceptionHandler
-     * @param eventHandler
-     * @param autoI18nAttributes
-     * @param bundleAttributes
-     */
     public I18nPropertyResourceBundleAutoUpdate(
-            I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
-            AutoI18nTypes                                       autoI18nTypes,
-            AutoI18nExceptionHandler                            exceptionHandler,
-            AutoI18nEventHandler                                eventHandler,
-            EnumSet<AutoI18n.Attribute>                         autoI18nAttributes,
-            EnumSet<AbstractI18nResourceAutoUpdate.Attribute>   bundleAttributes
-            )
+			I18nAutoUpdateInterface i18nAutoUpdateInterface,
+			AutoI18nTypes autoI18nDefaultTypes,
+			AutoI18nTypes autoI18nForceTypes,
+			AutoI18nExceptionHandler handler,
+			AutoI18nEventHandler eventHandler,
+			EnumSet<com.googlecode.cchlib.i18n.AutoI18n.Attribute> autoI18nAttributes,
+			EnumSet<Attribute> bundleAttributes) 
     {
-        super(  i18nAutoUpdateInterface,
-                autoI18nTypes,
-                exceptionHandler,
-                eventHandler,
-                autoI18nAttributes,
-                bundleAttributes
-                );
-    }
+		super(i18nAutoUpdateInterface, autoI18nDefaultTypes, autoI18nForceTypes,
+				handler, eventHandler, autoI18nAttributes, bundleAttributes);
+	}
 
     /**
      * Support only {@link I18nAutoUpdateInterface}

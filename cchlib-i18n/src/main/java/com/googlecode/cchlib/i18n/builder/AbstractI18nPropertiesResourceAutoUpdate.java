@@ -29,7 +29,8 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
      */
     public AbstractI18nPropertiesResourceAutoUpdate(
             I18nAutoUpdateInterface                             i18nAutoUpdateInterface,
-            AutoI18nTypes                                       autoI18nTypes,
+            AutoI18nTypes                                       autoI18nDefaultTypes,
+            AutoI18nTypes                                       autoI18nForceTypes,
             AutoI18nExceptionHandler                            handler,
             AutoI18nEventHandler                                eventHandler,
             EnumSet<AutoI18n.Attribute>                         autoI18nAttributes,
@@ -38,7 +39,8 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     {
         super(
             i18nAutoUpdateInterface,
-            autoI18nTypes,
+            autoI18nDefaultTypes,
+            autoI18nForceTypes,
             handler,
             eventHandler,
             autoI18nAttributes,

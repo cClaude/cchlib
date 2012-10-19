@@ -12,6 +12,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+
+import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 
 /**
@@ -66,6 +69,8 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 public class AutoI18n implements Serializable
 {
     private static final long serialVersionUID = 1L;
+	private static final Logger logger = Logger.getLogger( AutoI18n.class );
+	
     private transient Object      objectToI18n;
     private transient Class<?>    objectToI18nClass;
     private transient String      objectToI18nClassNamePrefix;
@@ -96,7 +101,9 @@ public class AutoI18n implements Serializable
     //public static final String LOCALE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.locale";
 
     /** @serial */
-    private AutoI18nTypes types;
+    private AutoI18nTypes defaultTypes;
+    /** @serial */
+    private AutoI18nTypes forceTypes;
     
     /**
      * How to select Fields:
@@ -135,13 +142,11 @@ public class AutoI18n implements Serializable
          */
         DISABLE,
     }
-
+    
     /**
      * Create an AutoI18n object using {@link I18nInterface},
      *
      * @param i18n I18nInterface to use
-     * @param autoI18nTypes AutoI18nTypes to use (could be null
-     *        then use defaults implementation : {@link I18nSimpleResourceBundle})
      * @param exceptionHandler  AutoI18nExceptionHandler
      *                          to use handle exceptions.
      * @param eventHandler AutoI18nEventHandler to use to
@@ -151,17 +156,53 @@ public class AutoI18n implements Serializable
      */
     public AutoI18n(
             I18nInterface               i18n,
-            AutoI18nTypes               autoI18nTypes,
             AutoI18nExceptionHandler    exceptionHandler,
             AutoI18nEventHandler        eventHandler,
             EnumSet<Attribute>          attributes
             )
     {
-        if( autoI18nTypes == null ) {
-            this.types = new DefaultAutoI18nTypes();
+    	this(i18n, null, null, exceptionHandler, eventHandler, attributes);
+    }
+
+    /**
+     * Create an AutoI18n object using {@link I18nInterface},
+     *
+     * @param i18n I18nInterface to use
+     * @param autoI18nDefaultTypes AutoI18nTypes to use (could be null
+     *        then use defaults implementation : {@link I18nSimpleResourceBundle}).
+     *        This parameter is for default handle process.
+     * @param autoI18nForceTypes AutoI18nTypes to use (could be null
+     *        then use defaults implementation : {@link I18nSimpleResourceBundle}).
+     *        This parameter is force ({@link I18nForce}) handle process.
+     * @param autoI18nTypes AutoI18nTypes to use (could be null
+     *        then use defaults implementation : {@link I18nSimpleResourceBundle})
+     * @param exceptionHandler  AutoI18nExceptionHandler
+     *                          to use handle exceptions.
+     * @param eventHandler AutoI18nEventHandler to use to
+     *                     handle events. (could be null).
+     * @param attributes Customize Auto18n (could be null to
+     * use defaults).
+     */
+    protected AutoI18n(
+            I18nInterface               i18n,
+            AutoI18nTypes               autoI18nDefaultTypes,
+            AutoI18nTypes               autoI18nForceTypes,
+            AutoI18nExceptionHandler    exceptionHandler,
+            AutoI18nEventHandler        eventHandler,
+            EnumSet<Attribute>          attributes
+            )
+    {
+        if( autoI18nDefaultTypes == null ) {
+            this.defaultTypes = new DefaultAutoI18nTypes();
             }
         else {
-            this.types = autoI18nTypes;
+            this.defaultTypes = autoI18nDefaultTypes;
+            }
+        if( autoI18nForceTypes == null ) {
+            this.forceTypes = new ForceAutoI18nTypes();
+            }
+        else {
+            this.forceTypes = autoI18nForceTypes;
             }
         setI18n( i18n ); // could be override
         setAutoI18nExceptionHandler( exceptionHandler ); // could be override
@@ -347,11 +388,10 @@ public class AutoI18n implements Serializable
         // WARNING: 'key' must be always valid
         // before resolve 'value'
         String   key     = null; // 'key' is use by catch statement !
-        Method[] methods = null;
+        Method[] methods = null; // 'methods' is use by catch statement !
 
         try {
             I18n        annoI18n        = f.getAnnotation( I18n.class );
-            I18nForce   annonI18nForce  = f.getAnnotation( I18nForce.class );
             
             if( annoI18n != null ) {
                 // Get methods
@@ -381,19 +421,6 @@ public class AutoI18n implements Serializable
                 else {
                     setValueFromAnnotation( f, key, methods );
                     }
-                }
-            else if( annonI18nForce != null ) {
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-                // FIXME
-            	System.err.println( "I18nForce define for field: " + f );
-                throw new UnsupportedOperationException( annonI18nForce.className() );
                 }
             else if( f.getType().isArray() ) {
                 if( f.getAnnotation( I18nString.class ) != null ) {
@@ -489,12 +516,13 @@ public class AutoI18n implements Serializable
         else { // Not a String
             if( f.getAnnotation( I18nString.class ) != null ) {
                 // But annotation
+            	logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
 //                if( eventHandler!=null ) {
 //                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
 //                }
                 }
             }
-        Class<?> fclass = f.getType();
+        final Class<?> fclass = f.getType();
 
         if( AutoI18nBasicInterface.class.isAssignableFrom( fclass ) ) {
             f.setAccessible( true );
@@ -512,6 +540,14 @@ public class AutoI18n implements Serializable
         Key key = new Key( k );
 
         try {
+        	AutoI18nTypes types;
+        	
+			if( f.getAnnotation( I18nForce.class ) != null ) {
+        		types = this.forceTypes;
+        		}
+        	else {
+        		types = this.defaultTypes;
+        		}
             for(AutoI18nTypes.Type t:types) {
                 if( t.getType().isAssignableFrom( fclass ) ) {
                     f.setAccessible( true );
@@ -526,6 +562,7 @@ public class AutoI18n implements Serializable
                     return;//done
                     }
                 }
+            logger.warn( "Type (" + fclass + ") not handle for field: " + f );
             }
         catch( MissingResourceException e ) {
             this.exceptionHandler.handleMissingResourceException( e, f, key );
@@ -632,9 +669,17 @@ public class AutoI18n implements Serializable
     /**
      * @return the AutoI18nTypes
      */
-    protected AutoI18nTypes getAutoI18nTypes()
+    protected AutoI18nTypes getAutoI18nDefaultTypes()
     {
-        return types;
+        return defaultTypes;
+    }
+
+    /**
+     * @return the AutoI18nTypes
+     */
+    protected AutoI18nTypes getAutoI18nForceTypes()
+    {
+        return forceTypes;
     }
 
     /**

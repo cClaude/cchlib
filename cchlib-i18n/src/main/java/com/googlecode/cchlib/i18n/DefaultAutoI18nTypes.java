@@ -4,10 +4,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.MissingResourceException;
 import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
+import javax.swing.border.TitledBorder;
 
 /**
  * TODOC
@@ -42,7 +44,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
          * @return cast field to localize to current type
          * @see #getType()
          */
-        public T cast( Object toI18n )
+        final public T cast( Object toI18n )
         {
             return getType().cast( toI18n );
         }
@@ -109,7 +111,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
             @Override
             public void setText( Object toI18n, AutoI18n.Key k)
-                throws java.util.MissingResourceException
+                throws MissingResourceException
             {
                 cast( toI18n ).setText( k.getValue() );
             }
@@ -139,7 +141,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
             @Override
             public void setText( Object toI18n, AutoI18n.Key k)
-                throws java.util.MissingResourceException
+                throws MissingResourceException
             {
                 cast( toI18n ).setText( k.getValue() );
             }
@@ -168,7 +170,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
             @Override
             public void setText( Object toI18n, AutoI18n.Key k)
-                throws java.util.MissingResourceException
+                throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
             }
@@ -197,13 +199,13 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
             @Override
             public void setText( Object toI18n, AutoI18n.Key k)
-                throws java.util.MissingResourceException
+                throws MissingResourceException
             {
                 JTabbedPane  o      = cast( toI18n );
                 final int    len    = o.getTabCount();
 
                 for(int i = 0;i<len;i++) {
-                    //ONLY FIST VALUE COLLECTED HERE?
+                    //FIXME ! ONLY FIST VALUE COLLECTED HERE?
                     o.setTitleAt( i, k.getValue( i ) );
                     }
             }
@@ -221,4 +223,34 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
         };
     }
+    
+    //
+    /**
+     * Handle I18h for {@link TitledBorder}
+     * 
+     * @return an {@link AbstractType} to handle {@link TitledBorder}
+     */
+    public AbstractType<TitledBorder> getTitledBorder()
+    {
+        return new AbstractType<TitledBorder>()
+        {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Class<TitledBorder> getType() 
+			{
+				return TitledBorder.class;
+			}
+			@Override
+			public void setText( Object toI18n, AutoI18n.Key k ) throws MissingResourceException
+			{
+                cast( toI18n ).setTitle( k.getValue() );
+			}
+			@Override
+			public String[] getText(Object toI18n)
+			{
+                return new String[] { cast( toI18n ).getTitle() };
+			}
+        };
+    }
+
 }

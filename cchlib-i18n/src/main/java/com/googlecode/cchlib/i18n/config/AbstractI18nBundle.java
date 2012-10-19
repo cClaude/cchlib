@@ -51,7 +51,7 @@ public abstract class AbstractI18nBundle
                            locale,
                            getMessagesBundle()
                            ),
-                   null,
+                   //null,null,
                    getAutoI18nExceptionHandler(),
                    getAutoI18nEventHandler(),
                    getAutoI18nAttributes()
@@ -142,6 +142,7 @@ public abstract class AbstractI18nBundle
         return new I18nPropertyResourceBundleAutoUpdate(
                 i18Builder,
                 null, // default AutoI18nTypes
+                null, // force AutoI18nTypes
                 getAutoI18nExceptionHandler(),
                 getAutoI18nEventHandler(),
                 getAutoI18nAttributes(),

@@ -15,11 +15,11 @@ public class FakePanelI18n
     public FakePanelI18n()
     {
         I18nInterface a = null; // FIXME
-        AutoI18nTypes b = null; // FIXME
         AutoI18nExceptionHandler c = null; // FIXME
         AutoI18nEventHandler d = null; // FIXME
         EnumSet<AutoI18n.Attribute> e = null; // FIXME
-        autoI18n = new AutoI18n(a, b, c, d, e);
+
+		autoI18n = new AutoI18n(a, null, null, c, d, e);
     }
 
     public void doI18n( final FakePanel fp )
