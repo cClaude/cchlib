@@ -22,8 +22,11 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.border.TitledBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 /**
  *
@@ -35,19 +38,16 @@ public abstract class AboutPanel extends JPanel
     
     private boolean click;
     private Resources resources;
-    
-    @I18nString private String txtBrief = "Brief";
-    
+
     @I18nIgnore private JLabel jLabel_authorName;
     private JLabel jLabel_author;    // I18n
     private JLabel jLabel_copyRight; // I18n
     private JLabel jLabel_version;   // I18n
     private JButton jButton_Ok;
-    //@I18n ( methodSuffixName = "JTextArea" ) private JTextArea jTextArea;
-    //TODO
-    //TODO not yet implemented  @I18nForce 
-    private JTextArea jTextArea;
-    private int fixme; // FIXME
+    
+    @I18nForce private JTextArea jTextArea;
+	private TitledBorder titleBorder;
+
     
     /** 
      * Creates new form AboutPanel for windows builder ONLY.
@@ -171,14 +171,18 @@ public abstract class AboutPanel extends JPanel
         }
         {
             jTextArea = new JTextArea();
-            jTextArea.setColumns(20);
+            jTextArea.setBackground(UIManager.getColor("Button.background"));
+            jTextArea.setFont(UIManager.getFont("Label.font"));
+            jTextArea.setEnabled(false);
             jTextArea.setEditable(false);
+            jTextArea.setColumns(20);
             jTextArea.setLineWrap(true);
             jTextArea.setRows(5);
             jTextArea.setText( DESCRIPTION );
             
             JScrollPane jScrollPane = new JScrollPane();
-            jScrollPane.setBorder( BorderFactory.createTitledBorder( txtBrief  ) ); // FIXME I18N
+            titleBorder = BorderFactory.createTitledBorder( "Brief" );
+            jScrollPane.setBorder( titleBorder );
             jScrollPane.setViewportView( jTextArea );
 
             GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
@@ -199,7 +203,6 @@ public abstract class AboutPanel extends JPanel
             });
             GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.gridwidth = 4;
-            gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
             gbc_jButton_Ok.gridx = 0;
             gbc_jButton_Ok.gridy = 4;
             add(jButton_Ok, gbc_jButton_Ok);

@@ -70,7 +70,7 @@ public class AboutDialog
         this.contentPanel = new Panel( dfToolKit.getResources() );
         
         super.setContentPane( contentPanel );
-        super.setSize( 300, 300 );
+        super.setSize( 500, 350 );
     }
 
     @Override // I18nPrepAutoUpdatable
