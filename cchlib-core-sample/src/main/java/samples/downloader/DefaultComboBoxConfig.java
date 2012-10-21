@@ -1,7 +1,6 @@
 package samples.downloader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,9 +11,30 @@ public class DefaultComboBoxConfig
 {
     private String labelString;
     private int selectedIndex;
-    private List<String> comboBoxValueList = new ArrayList<>();
-    private List<String> labelStringList   = new ArrayList<>();
+    private List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
+    
+    
+    private class Item implements GenericDownloaderUIPanelEntry.Item
+    {
+		private String jComboBoxText;
+		private String selectedDescription;
+		
+		public Item( final String jComboBoxText, final String selectedDescription )
+		{
+			this.jComboBoxText = jComboBoxText;
+			this.selectedDescription = selectedDescription;
+		}
 
+		@Override
+		public String getJComboBoxText() {
+			return jComboBoxText;
+		}
+
+		@Override
+		public String getSelectedDescription() {
+			return selectedDescription;
+		}
+    }
     /**
      * 
      * @param labelString
@@ -34,8 +54,7 @@ public class DefaultComboBoxConfig
            }
 
        for( int i = 0; i < comboBoxValues.length; i++ ) {
-           this.comboBoxValueList.add( comboBoxValues[ i ] );
-           this.labelStringList.add( labelStrings[ i ] );
+           this.items.add( new Item( comboBoxValues[ i ], labelStrings[ i ] ) );
            }
     }
 
@@ -60,8 +79,9 @@ public class DefaultComboBoxConfig
             }
 
         for( int i = 0; i < (maxValue - minValue); i++ ) {
-            this.comboBoxValueList.add( Integer.toString( i + minValue ) );
-            this.labelStringList.add( comments );
+            //this.comboBoxValueList.add( Integer.toString( i + minValue ) );
+            //this.labelStringList.add( comments );
+            this.items.add( new Item( Integer.toString( i + minValue ), comments ) );
             }
     }
 
@@ -77,34 +97,47 @@ public class DefaultComboBoxConfig
         this.selectedIndex = selectedIndex;
     }
 
-    @Override
-    public String getLabelString()
-    {
-        return this.labelString;
-    }
+//    @Override
+//    public String getLabelString()
+//    {
+//        return this.labelString;
+//    }
 
-    @Override
-    public String getLabelString( final int index )
-    {
-    	try {
-            return this.labelStringList.get( index );
-    		}
-    	catch( IndexOutOfBoundsException e ) {
-    		// TODO: logger !!!
-    		
-            return "";
-    		}
-    }
+//    @Override
+//    public String getLabelString( final int index )
+//    {
+//    	try {
+//            return this.labelStringList.get( index );
+//    		}
+//    	catch( IndexOutOfBoundsException e ) {
+//    		// TODO: logger !!!
+//    		
+//            return "";
+//    		}
+//    }
 
-    @Override
-    public Iterable<String> getComboBoxValues()
-    {
-        return Collections.unmodifiableCollection( this.comboBoxValueList );
-    }
+//    @Override
+//    public Iterable<String> getComboBoxValues()
+//    {
+//        return Collections.unmodifiableCollection( this.comboBoxValueList );
+//    }
 
     @Override
     public String getComboBoxSelectedValue()
     {
-        return this.comboBoxValueList.get( selectedIndex );
+        //return this.comboBoxValueList.get( getSelectedIndex() );
+        return this.items.get( getSelectedIndex() ).getJComboBoxText();
     }
+
+	@Override
+	public String getDescription()
+	{
+		return this.labelString;
+	}
+
+	@Override
+	public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry()
+	{
+		return items;
+	}
 }

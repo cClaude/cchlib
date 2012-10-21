@@ -1,3 +1,4 @@
+// $codepro.audit.disable logExceptions
 package com.googlecode.cchlib.util.iterator;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class ArrayIteratorTest
             }
             fail( "Should fail" );
         }
-        catch( NoSuchElementException ignore ) {
+        catch( NoSuchElementException ignore ) { // $codepro.audit.disable emptyCatchClause
             //ok
         }
 

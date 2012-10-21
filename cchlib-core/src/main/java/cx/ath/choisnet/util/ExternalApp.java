@@ -77,7 +77,7 @@ public class ExternalApp
         int exitValue;
 
         try {
-            Process      process = Runtime.getRuntime().exec(command);
+            Process      process = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
             InputStream  procIn  = new BufferedInputStream(process.getInputStream());
             InputStream  procErr = new BufferedInputStream(process.getErrorStream());
             OutputStream procOut = new BufferedOutputStream(process.getOutputStream());
@@ -196,7 +196,7 @@ public class ExternalApp
         int exitValue;
 
         try {
-            Process          process       = Runtime.getRuntime().exec(command);
+            Process          process       = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
             StreamCopyThread procOutThread = new StreamCopyThread("OutputStream", input, process.getOutputStream());
             StreamCopyThread procInThread  = new StreamCopyThread("InputStream", process.getInputStream(), stdout);
             StreamCopyThread procErrThread = new StreamCopyThread("ErrorStream", process.getErrorStream(), stderr);

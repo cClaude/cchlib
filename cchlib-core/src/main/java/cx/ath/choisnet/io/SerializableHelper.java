@@ -128,7 +128,7 @@ public class SerializableHelper
 
     private final static void silentClose( Closeable c )
     {
-        try { c.close(); } catch( IOException ignore ) {}
+        try { c.close(); } catch( IOException ignore ) {} // $codepro.audit.disable emptyCatchClause
     }
 
     /**

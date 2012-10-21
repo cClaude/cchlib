@@ -150,7 +150,7 @@ public class ExtendableClassLoader extends ClassLoader
                     }
                 }
             }
-        catch( Exception ignore ) {
+        catch( Exception ignore ) { // $codepro.audit.disable emptyCatchClause
             }
 
         return result;
@@ -168,7 +168,7 @@ public class ExtendableClassLoader extends ClassLoader
                     URL url = f.toURL();
                     return url;
                     }
-                catch( MalformedURLException ignore ) {
+                catch( MalformedURLException ignore ) { // $codepro.audit.disable emptyCatchClause
                     }
                 }
             }
@@ -184,7 +184,7 @@ public class ExtendableClassLoader extends ClassLoader
 
                     return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
                     }
-                catch(MalformedURLException ignore) {
+                catch(MalformedURLException ignore) { // $codepro.audit.disable emptyCatchClause
                     }
                 }
             }
@@ -234,7 +234,7 @@ public class ExtendableClassLoader extends ClassLoader
                 try {
                     return parent.loadClass( className );
                     }
-                catch( ClassNotFoundException ignore ) {
+                catch( ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause
                     }
                 }
             }

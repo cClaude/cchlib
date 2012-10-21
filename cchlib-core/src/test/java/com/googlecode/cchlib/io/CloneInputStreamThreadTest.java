@@ -43,7 +43,7 @@ public class CloneInputStreamThreadTest
             runs[ i ]= new TestRunner( is );
             
             logger.info( "start( " + i + " )" );
-            new Thread( runs[ i ] ).start();
+            new Thread( runs[ i ], "testCloneInputStreamThread" ).start(); 
             }
         
         threadIS.start();
@@ -131,7 +131,7 @@ public class CloneInputStreamThreadTest
         {
             while( ! isReady() ) {
                 try { Thread.sleep( 500 ); }
-                catch( InterruptedException ignore ) {}
+                catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause
                 }
             
             return bytes;

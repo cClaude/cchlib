@@ -53,7 +53,7 @@ public class MD5FilterInputStreamTest
             try {
                 test( f );
                 }
-            catch( FileNotFoundException ignore ) {}
+            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause
             }   
     }
     
@@ -66,7 +66,7 @@ public class MD5FilterInputStreamTest
             InputStream          is   = new BufferedInputStream( new FileInputStream( f ) );
             MD5FilterInputStream mfis = new MD5FilterInputStream( is );
             
-            while( mfis.read( buffer ) != -1 ) {
+            while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
                 // do nothing !
                 }
             is.close();

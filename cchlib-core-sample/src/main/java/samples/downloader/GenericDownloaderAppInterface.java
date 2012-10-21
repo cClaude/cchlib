@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
+
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 
@@ -40,20 +42,20 @@ public interface GenericDownloaderAppInterface
         *
         * @return TODOC
         */
-        public String getLabelString(); // before was: getExtraStringLabel
+        //public String getLabelString(); // before was: getExtraStringLabel
 
        /**
         *
         * @param index
         * @return TODOC
         */
-       public String getLabelString( int index ); // before was: getExtraStringLabels
+       //public String getLabelString( int index ); // before was: getExtraStringLabels
 
        /**
         *
         * @return TODOC
         */
-       public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
+       //public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
 
        /**
         *
@@ -72,6 +74,9 @@ public interface GenericDownloaderAppInterface
         * @return TODOC
         */
        public String getComboBoxSelectedValue();
+
+       public String getDescription();
+       public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry();
     }
 
     /**

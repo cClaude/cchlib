@@ -12,8 +12,6 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JComboBox;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -30,6 +28,7 @@ public class GenericDownloaderUIPanel
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
     private List<JComboBox<String>> stringsJComboBoxList;
+	private List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
 
     /**
      * Create the panel.
@@ -42,9 +41,9 @@ public class GenericDownloaderUIPanel
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
-        gridBagLayout.rowHeights = new int[]{0, 14, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowHeights = new int[]{0, 14, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
         {
@@ -105,6 +104,26 @@ public class GenericDownloaderUIPanel
 
         int lineNumber = 0;
         // $hide>>$
+        for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
+        // $hide<<$
+        {
+        	GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry();
+        	GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
+        	gbc_entryJPanel.gridwidth = 3;
+        	//gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);
+        	gbc_entryJPanel.fill = GridBagConstraints.BOTH;
+        	gbc_entryJPanel.gridx = 0;
+        	gbc_entryJPanel.gridy = 2 + lineNumber;
+        	add(entryJPanel, gbc_entryJPanel);
+
+        	entryJPanel.setDescription( entry.getDescription() );
+			entryJPanel.setJComboBoxEntry( entry.getJComboBoxEntry() );
+        	entryJPanelList.add( entryJPanel );        	
+        	
+            lineNumber++;
+        } // for(...)
+        
+        /* / $hide>>$
         stringsJComboBoxList = new ArrayList<JComboBox<String>>();
         for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
@@ -155,7 +174,7 @@ public class GenericDownloaderUIPanel
 
                 lineNumber++;
             }
-        } // for(...)
+        } // for(...)*/
         
         // $hide>>$
         final GenericDownloaderAppInterface.Button button = config.getButtonConfig();
@@ -171,7 +190,7 @@ public class GenericDownloaderUIPanel
             GridBagConstraints gbc_jButton = new GridBagConstraints();
             gbc_jButton.insets = new Insets(0, 0, 0, 5);
             gbc_jButton.gridx = 1;
-            gbc_jButton.gridy = 2 + lineNumber;
+            gbc_jButton.gridy = 4;
             add(jButton, gbc_jButton);
         }
     }
@@ -197,3 +216,5 @@ public class GenericDownloaderUIPanel
             }
     }
 }
+
+

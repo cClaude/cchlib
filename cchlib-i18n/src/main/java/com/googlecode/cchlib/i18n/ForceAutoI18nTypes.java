@@ -1,10 +1,7 @@
 package com.googlecode.cchlib.i18n;
 
 import java.util.MissingResourceException;
-
 import javax.swing.JTextArea;
-
-import com.googlecode.cchlib.i18n.DefaultAutoI18nTypes.AbstractType;
 
 /**
  *

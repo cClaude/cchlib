@@ -307,13 +307,13 @@ public class MessageDigestFile
             try {
                 fchannel.close();
                 }
-            catch(Exception ignore) {
+            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
                 }
 
             try {
                 fis.close();
                 }
-            catch(Exception ignore) {
+            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
                 }
             }
 
@@ -370,9 +370,9 @@ public class MessageDigestFile
             }
         finally {
             // Not need 
-            try { fchannel.close(); } catch(Exception ignore) {}
+            try { fchannel.close(); } catch(Exception ignore) {} // $codepro.audit.disable emptyCatchClause
             // Need !
-            try { fis.close(); } catch(Exception ignore) { }
+            try { fis.close(); } catch(Exception ignore) { } // $codepro.audit.disable emptyCatchClause
             }
 
         if( cancel ) {
@@ -410,7 +410,7 @@ public class MessageDigestFile
             try {
                 fis.close();
                 }
-            catch(Exception ignore) {
+            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
                 }
             }
 
