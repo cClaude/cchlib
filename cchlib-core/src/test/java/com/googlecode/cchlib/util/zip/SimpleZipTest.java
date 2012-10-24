@@ -9,7 +9,7 @@ import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Test {@link SimpleZip} and {@link SimpleUnZip}

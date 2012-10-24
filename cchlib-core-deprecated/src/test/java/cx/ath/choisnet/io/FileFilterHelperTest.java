@@ -3,8 +3,8 @@ package cx.ath.choisnet.io;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import junit.framework.Assert;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 

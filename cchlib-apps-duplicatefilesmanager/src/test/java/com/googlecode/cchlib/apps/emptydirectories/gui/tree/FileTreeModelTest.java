@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 import java.io.File;
 import java.util.Iterator;
 import javax.swing.JTree;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;

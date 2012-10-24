@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.io.File;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;

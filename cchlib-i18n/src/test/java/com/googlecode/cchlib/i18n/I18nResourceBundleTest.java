@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 

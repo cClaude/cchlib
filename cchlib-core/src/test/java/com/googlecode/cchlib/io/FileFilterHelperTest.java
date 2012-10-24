@@ -3,8 +3,8 @@ package com.googlecode.cchlib.io;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import junit.framework.Assert;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

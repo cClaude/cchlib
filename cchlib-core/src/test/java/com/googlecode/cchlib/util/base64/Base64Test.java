@@ -212,11 +212,15 @@ public class Base64Test
             testAndCompare2SunBASE64( array2 );
         }
 
-        {
-            byte[] bytes = IOHelper.toByteArray( IO.getPNGFile() );
+        InputStream pngIS = IO.createPNGInputStream();
+        try {
+            byte[] bytes = IOHelper.toByteArray( pngIS );
 
             testAndCompare2SunBASE64( bytes );
-        }
+        	}
+        finally {
+        	pngIS.close();
+        	}
     }
 
     @Test
@@ -383,7 +387,7 @@ public class Base64Test
     {
         final Base64Encoder encoder = new Base64Encoder( TEST_BUFFER_SIZE * 1000 );
         // ENCODE InputStream
-        InputStream in      = IO.getPNGFile();
+        InputStream in      = IO.createPNGInputStream();
         char[]      encodedPNGFileInB64CharArray;
 
         try {
@@ -409,12 +413,18 @@ public class Base64Test
         // DECODE using SUN Version
         {
             //byte[]  sunDecode   = sunDecode( encodedPNGFileInB64CharArray );
-            byte[]  sunDecode   = iharderDecode( encodedPNGFileInB64CharArray );
-            boolean same        = IOHelper.isEquals( IO.getPNGFile(), sunDecode );
+            byte[]  	sunDecode   = iharderDecode( encodedPNGFileInB64CharArray );
+            InputStream pngIS 		= IO.createPNGInputStream();
+            try {
+            	boolean same        = IOHelper.isEquals( pngIS, sunDecode );
 
-            logger.info( "decode with sun - R=" + same );
+            	logger.info( "decode with sun - R=" + same );
             
-            Assert.assertTrue( "Error while decoding using SUN B64 classes", same );
+            	Assert.assertTrue( "Error while decoding using SUN B64 classes", same );
+            	}
+            finally {
+            	pngIS.close();
+            }
         }
 
         // DECODE OutputStream
@@ -426,15 +436,19 @@ public class Base64Test
         out.close();
 
         // Check results
-        in              = IO.getPNGFile();
-        InputStream is  = new ByteArrayInputStream( out.toByteArray() );
+        in = IO.createPNGInputStream();
+        try {
+        	InputStream is  = new ByteArrayInputStream( out.toByteArray() );
 
-        boolean same = IOHelper.isEquals( in, is );
+        	boolean same = IOHelper.isEquals( in, is );
 
-        Assert.assertTrue( same );
-
-        in.close();
-        is.close();
+        	Assert.assertTrue( same );
+        	
+        	is.close();
+        	}
+        finally {
+        	in.close();
+        	}
     }
 
     private static String staticTestDecodeUsingOutputStream( String str2decode )

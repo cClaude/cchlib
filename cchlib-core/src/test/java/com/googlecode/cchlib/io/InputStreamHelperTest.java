@@ -10,7 +10,7 @@ public class InputStreamHelperTest
     @Test
     public void test_getPNGFile() throws IOException
     {
-        InputStream is = IO.getPNGFile();
+        InputStream is = IO.createPNGInputStream();
 
         Assert.assertNotNull( is );
         is.close();
@@ -19,8 +19,8 @@ public class InputStreamHelperTest
     @Test
     public void test_isEquals() throws IOException
     {
-        InputStream is1 = IO.getPNGFile();
-        InputStream is2 = IO.getPNGFile();
+        InputStream is1 = IO.createPNGInputStream();
+        InputStream is2 = IO.createPNGInputStream();
         boolean     r   = IOHelper.isEquals( is1, is2 );
 
         Assert.assertNotNull( r );

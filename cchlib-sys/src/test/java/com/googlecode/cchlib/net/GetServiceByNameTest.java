@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.net;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.UnsupportedSystemException;
 
