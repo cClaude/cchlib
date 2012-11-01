@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import cx.ath.choisnet.lang.ByteArrayBuilder;
+import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 /**
  *

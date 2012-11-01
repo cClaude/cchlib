@@ -11,9 +11,7 @@ import java.io.ByteArrayInputStream;
 import com.googlecode.cchlib.test.ArrayAssert;
 import junit.framework.TestCase;
 
-/**
- *
- */
+@Deprecated
 public class ByteArrayBuilderTest extends TestCase
 {
     private final static byte[] BYTES = {'a','b','c','d','e','f'};

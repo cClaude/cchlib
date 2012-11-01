@@ -19,7 +19,9 @@ import cx.ath.choisnet.test.SerializableTestCaseHelper;
 @Deprecated
 public class MessageDigestFileTest
 {
-    @Test
+    private static final long MAX_FILE_SIZE = 1024 * 1024;
+
+	@Test
     public void test_MessageDigestFile()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
@@ -77,6 +79,10 @@ public class MessageDigestFileTest
         while( iter.hasNext() ) {
             File f = iter.next();
 
+            if( f.length() > MAX_FILE_SIZE ) {
+            	// Skip big files for test
+            	continue;
+            	}
             byte[] mdfKey1 = mdf.computeInputStream( f );
             doTest_File( mdf, f, mdfKey1);
 

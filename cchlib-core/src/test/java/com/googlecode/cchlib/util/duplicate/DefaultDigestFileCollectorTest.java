@@ -54,7 +54,7 @@ public class DefaultDigestFileCollectorTest
             instance.add( files );
             }
         catch( CancelRequestException e ) {
-            logger.info( "CancelRequestException", e );
+            logger.info( "CancelRequestException: " + e /* Not a error, e */ );
             }
 
         int dsc = instance.getDuplicateSetsCount();

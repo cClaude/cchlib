@@ -11,13 +11,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.googlecode.cchlib.lang.ByteArrayBuilder;
 import com.googlecode.cchlib.test.ArrayAssert;
-import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 public class MessageDigestFileTest
 {
+    private static final long MAX_FILE_LENGTH = 10 * 1024 * 1024;
+
     @Test
     public void test_MessageDigestFile()
         throws  NoSuchAlgorithmException,
@@ -76,6 +79,10 @@ public class MessageDigestFileTest
         while( iter.hasNext() ) {
             File f = iter.next();
 
+            if( f.length() > MAX_FILE_LENGTH ) {
+                continue; // Skip big files to speed up testing
+                }
+
             byte[] mdfKey1 = mdf.computeInputStream( f );
             doTest_File( mdf, f, mdfKey1);
 
@@ -86,8 +93,8 @@ public class MessageDigestFileTest
 
             if( i++ > 10 ) {
                 break;
+                }
             }
-        }
     }
 
     private void doTest_File(
@@ -131,17 +138,19 @@ public class MessageDigestFileTest
     private static String getMD5(byte[] input)
         throws NoSuchAlgorithmException
     {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input);
-            BigInteger number = new BigInteger(1, messageDigest);
-            String hashtext = number.toString(16);
+            MessageDigest md            = MessageDigest.getInstance("MD5");
+            byte[]        messageDigest = md.digest(input);
+            BigInteger    number        = new BigInteger(1, messageDigest);
+            String        hashtext      = number.toString(16);
+
             // Now we need to zero pad it if you actually want the full 32 chars.
             while (hashtext.length() < 32) {
                 StringBuilder sb = new StringBuilder("0");
                 sb.append( hashtext );
                 hashtext = sb.toString();
                 //hashtext = "0" + hashtext;
-            }
+                }
+
             return hashtext.toUpperCase();
     }
 

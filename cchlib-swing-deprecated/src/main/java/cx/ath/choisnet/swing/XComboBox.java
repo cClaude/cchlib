@@ -72,7 +72,7 @@ public class XComboBox<E> extends JComboBox/*<E>*/
     /**
      * Create an empty XComboBox with a default data model.
      */
-    public XComboBox( final Class<E> contentClass )
+	public XComboBox( final Class<E> contentClass )
     {
         this( new DefaultComboBoxModel/*<E>*/(), contentClass, null );
     }
@@ -155,7 +155,7 @@ public class XComboBox<E> extends JComboBox/*<E>*/
                             handleMouseWheelMoved(event);
                         }
                     });
-        }
+        	}
         if( !attrib.contains( Attribute.NO_DEFAULT_ACTION_LISTENER ) ) {
             super.addActionListener(
                     new ActionListener()
@@ -166,7 +166,7 @@ public class XComboBox<E> extends JComboBox/*<E>*/
                             defaultActionPerformed(event);
                         }
                     });
-        }
+        	}
     }
 
     /**
