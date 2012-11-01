@@ -11,10 +11,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
- * <p>
- * Provide similar feature than {@link StringBuilder}
- * for byte array's
- * </p>
+ * @deprecated use @{com.googlecode.cchlib.lang.ByteArrayBuilder} instead
  */
 public class ByteArrayBuilder
     implements  Comparable<ByteArrayBuilder>,
@@ -485,15 +482,6 @@ public class ByteArrayBuilder
         return replace( this.array(), pattern, replace );
     }
 
-    /**
-     * TODOC
-     * TODO make public (improve?)
-     *
-     * @param sbytes
-     * @param pattern
-     * @param replace
-     * @return a new ByteArrayBuilder
-     */
     private static ByteArrayBuilder replace(
         final byte[]    sbytes,
         final byte[]    pattern,

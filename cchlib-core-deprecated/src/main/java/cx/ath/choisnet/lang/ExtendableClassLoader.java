@@ -1,6 +1,5 @@
 package cx.ath.choisnet.lang;
 
-import cx.ath.choisnet.ToDo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,39 +14,19 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * TODOC
- *
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * </p>
- *
- *
+ * @deprecated use @{com.googlecode.cchlib.lang.ExtendableClassLoader} instead
  */
-@ToDo
 public class ExtendableClassLoader extends ClassLoader
-{//TODO: TestCase
+{
     final private List<File>              paths = new ArrayList<File>();
     final private Map<File,JarFile>       jars  = new HashMap<File,JarFile>();
     final private Map<String,Class<?>>    cache = new HashMap<String,Class<?>>();
 
-    /**
-     * TODOC
-     */
     public ExtendableClassLoader()
     {
         super();
     }
 
-    /**
-     * TODOC
-     *
-     * @param parent
-     */
     public ExtendableClassLoader(
         final ClassLoader parent
         )
@@ -55,24 +34,12 @@ public class ExtendableClassLoader extends ClassLoader
         super( parent );
     }
 
-    /**
-     * TODOC
-     *
-     * @param path
-     * @throws IOException
-     */
     public void addClassPath( final String path )
         throws IOException
     {
         addClassPath( new File( path ) );
     }
 
-    /**
-     * TODOC
-     *
-     * @param path
-     * @throws IOException
-     */
     public void addClassPath( final File path )
         throws IOException
     {
@@ -88,19 +55,11 @@ public class ExtendableClassLoader extends ClassLoader
             }
     }
 
-    /**
-     * TODOC
-     * @param path
-     */
     public void removeClassPath( final String path )
     {
         removeClassPath( new File( path ) );
     }
 
-    /**
-     * TODOC
-     * @param path
-     */
     public void removeClassPath( final File path )
     {
         JarFile found;
@@ -116,11 +75,6 @@ public class ExtendableClassLoader extends ClassLoader
             }
     }
 
-    /**
-     * TODOC
-     * @param className
-     * @return TODOC
-     */
     private byte[] getClassFromAddedClassPaths(
         final String className
         )
@@ -164,7 +118,6 @@ public class ExtendableClassLoader extends ClassLoader
 
             if( f.exists() ) {
                 try {
-                    @SuppressWarnings("deprecation")
                     URL url = f.toURL();
                     return url;
                     }
@@ -179,7 +132,6 @@ public class ExtendableClassLoader extends ClassLoader
 
             if( jarEntry != null ) {
                 try {
-                    @SuppressWarnings("deprecation")
                     URL jarURL = entry.getKey().toURL();
 
                     return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
@@ -192,12 +144,6 @@ public class ExtendableClassLoader extends ClassLoader
         return null;
     }
 
-    /**
-     * TOODC
-     * @param inputStream
-     * @return TODOC
-     * @throws IOException
-     */
     protected static final byte[] toBytes(
         final InputStream inputStream
         ) throws IOException

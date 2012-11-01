@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlecode.cchlib</groupId>
@@ -11,10 +11,9 @@
 
   <!-- Global properties -->
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
-    <buildNumber>${maven.build.timestamp}</buildNumber>
     <build.date>${maven.build.timestamp}</build.date>
+    <buildNumber>${maven.build.timestamp}</buildNumber>
+    <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.javadoc.source.version>1.6</project.javadoc.source.version>
     <project.javadoc.target.version>1.6</project.javadoc.target.version>
