@@ -8,18 +8,18 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.FileIterator;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 @Deprecated
 public class DuplicateFileCollectorTest
     extends TestCase
 {
     private static final transient Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
-    protected static final int MAX_FILES_COUNT = 50;
+    private static final int MAX_FILES_COUNT = 25;
+    private static final long FILE_MAX_LENGTH = 1 * 1024 * 1024;
 
     @Deprecated
     public void test_Base()
@@ -30,21 +30,27 @@ public class DuplicateFileCollectorTest
         cx.ath.choisnet.util.checksum.MessageDigestFile       messageDigestFile = new cx.ath.choisnet.util.checksum.MessageDigestFile("MD5");
         DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
         File                    root              = FileHelper.getUserHomeDirFile();
-        Iterable<File>          files = new FileIterator(
-                root,
-                new java.io.FileFilter()
-                {
-                    @Override
-                    public boolean accept( File f )
-                    {
-                        if( f.isFile() ) {
-                            //System.out.println(f);
-                            return true;
-                        }
-                        return false;
-                    }
-                }
-                );
+        Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
+//        Iterable<File>          files = new FileIterator(
+//                root,
+//                new java.io.FileFilter()
+//                {
+//                    private int fileCount = 0;
+//                    @Override
+//                    public boolean accept( File f )
+//                    {
+//                        if( f.isFile() ) {
+//                            if( f.length() < FILE_MAX_LENGTH ) {
+//                                if( fileCount++ < MAX_FILES_COUNT * 2 ) {
+//                                    //logger.info( "Working on: " + f );
+//                                    return true;
+//                                    }
+//                                }
+//                        }
+//                        return false;
+//                    }
+//                }
+//                );
 
         instance.addDigestEventListener(
                 new DigestEventListener()

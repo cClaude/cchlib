@@ -12,7 +12,6 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.test.ArrayAssert;
-import cx.ath.choisnet.lang.ByteArrayBuilder;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
@@ -21,7 +20,7 @@ public class MessageDigestFileTest
 {
     private static final long MAX_FILE_SIZE = 1024 * 1024;
 
-	@Test
+    @Test
     public void test_MessageDigestFile()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,
@@ -80,9 +79,9 @@ public class MessageDigestFileTest
             File f = iter.next();
 
             if( f.length() > MAX_FILE_SIZE ) {
-            	// Skip big files for test
-            	continue;
-            	}
+                // Skip big files for test
+                continue;
+                }
             byte[] mdfKey1 = mdf.computeInputStream( f );
             doTest_File( mdf, f, mdfKey1);
 
@@ -156,12 +155,18 @@ public class MessageDigestFileTest
         throws  NoSuchAlgorithmException,
                 IOException
     {
-        FileInputStream  fis = new FileInputStream(input);
-        ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
+        FileInputStream fis = new FileInputStream( input );
 
-        bab.append( fis );
+        try {
+            cx.ath.choisnet.lang.ByteArrayBuilder bab = new cx.ath.choisnet.lang.ByteArrayBuilder( (int)input.length() );
 
-        return getMD5(bab.array());
+            bab.append( fis );
+            return getMD5(bab.array());
+            }
+        finally {
+            fis.close();
+            }
+
     }
 
 }

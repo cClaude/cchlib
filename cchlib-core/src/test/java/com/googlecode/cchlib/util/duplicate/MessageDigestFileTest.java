@@ -154,16 +154,22 @@ public class MessageDigestFileTest
             return hashtext.toUpperCase();
     }
 
-    private static String getMD5(File input)
+    private static String getMD5( final File input )
         throws  NoSuchAlgorithmException,
                 IOException
     {
-        FileInputStream  fis = new FileInputStream(input);
-        ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
+        FileInputStream  fis = new FileInputStream( input );
+        
+        try {
+            ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
 
-        bab.append( fis );
+            bab.append( fis );
 
-        return getMD5(bab.array());
+            return getMD5(bab.array());
+        	}
+        finally {
+        	fis.close();
+        	}
     }
 
 }

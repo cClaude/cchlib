@@ -10,7 +10,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.FileIterator;
 
 /**
  *
@@ -18,7 +17,8 @@ import com.googlecode.cchlib.io.FileIterator;
 public class DuplicateFileCollectorTest
 {
     private static final Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
-    protected static final int MAX_FILES_COUNT = 50;
+    private static final int MAX_FILES_COUNT = 50;
+    private static final long FILE_MAX_LENGTH = 2 * 1024 * 1024;
 
     @Test
     public void test_Base()
@@ -29,28 +29,14 @@ public class DuplicateFileCollectorTest
         MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
         DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
         File                    root              = FileHelper.getUserHomeDirFile();
-        Iterable<File>          files = new FileIterator(
-                root,
-                new java.io.FileFilter()
-                {
-                    @Override
-                    public boolean accept( File f )
-                    {
-                        if( f.isFile() ) {
-                            //System.out.println(f);
-                            return true;
-                        }
-                        return false;
-                    }
-                }
-                );
+        Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
 
         instance.addDigestEventListener(
                 new DigestEventListener()
                 {
                     long currentFileLength = 0;
                     long cumul = 0;
-                    int countFile = 0;
+                    int fileCount = 0;
                     boolean canNotCheckCumulSinceALeastOneFileLocked = false;
 
                     @Override
@@ -63,6 +49,7 @@ public class DuplicateFileCollectorTest
                         logger.info( "ComputeD:" + file );
                         currentFileLength = file.length();
                         cumul = 0;
+                        fileCount++;
                     }
                     @Override
                     public void ioError( IOException e, File file )
@@ -80,12 +67,14 @@ public class DuplicateFileCollectorTest
                     public boolean isCancel()
                     {
                         //return false;
-                        return (countFile++) > MAX_FILES_COUNT;
+                        return fileCount > MAX_FILES_COUNT;
                     }
                 });
 
-        logger.info( "adding... : "+root );
+        logger.info( "adding... : " + root );
+        logger.info( "Pass 1" );
         instance.pass1Add( files );
+        logger.info( "Pass 2" );
         instance.pass2();
 
         int dsc = instance.getDuplicateSetsCount();
@@ -116,10 +105,12 @@ public class DuplicateFileCollectorTest
             Set<File>   s = entry.getValue();
 
             logger.info( "'"+k+" : "+ s.size() );
-            
+
             for(File f:s) {
                 logger.info( f );
                 }
             }
+        
+        logger.info( "Done." );
     }
 }

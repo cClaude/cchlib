@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * An {@link Iterator} that give all {@link File}
  * under a giving file directory.
  * <p>
- * If rootFolderFile is not a directory (is a File, does not 
+ * If rootFolderFile is not a directory (is a File, does not
  * exist, can't access,...); then Iterator will return no elements.
  * </p>
  * <p>
@@ -30,7 +30,7 @@ public class FileIterator
 
     /**
      * Create a FileIterator starting from rootFolderFile
-     * 
+     *
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
      */
@@ -42,14 +42,14 @@ public class FileIterator
     /**
      * Create a FileIterator starting from rootFolderFile,
      * with giving {@link FileFilter} to filter File result.
-     * 
+     *
      * @param rootFolderFile    Root File directory for this Iterator
      * @param fileFilter        File filter to select files (any File object)
      *                          than should be in result (could be null).
      * @throws NullPointerException if rootFolderFile is null
      */
     public FileIterator(
-            File        rootFolderFile, 
+            File        rootFolderFile,
             FileFilter  fileFilter
             )
     {
@@ -59,12 +59,12 @@ public class FileIterator
     /**
      * Create a FileIterator starting from rootFolderFile,
      * with giving {@link FileFilter}.
-     * 
+     *
      * @param rootFolderFile    Root File directory for this Iterator
      * @param fileFilter        File filter to select files (any File object)
      *                          than should be in result (could be null).
      * @param directoryFilter   File filter to select directories than should
-     *                          be explored (could be null) . 
+     *                          be explored (could be null) .
      * @throws NullPointerException if rootFolderFile is null
      * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
@@ -78,7 +78,7 @@ public class FileIterator
         if( !rootFolderFile.isDirectory() ) {
             throw new IllegalArgumentException();
             }
-        
+
         this.directoryIterator = new DirectoryIterator(
                                         rootFolderFile,
                                         directoryFilter
@@ -89,32 +89,32 @@ public class FileIterator
     /**
      * Returns true if the iteration has more files.
      * (In other words, returns true if next would return
-     * an element rather than throwing an exception.) 
+     * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
     public boolean hasNext()
     {
         if(currentDirFilesList.size() > 0) {
             return true;
-        }
+            }
         else if( directoryIterator.hasNext() ) {
             File   dir     = directoryIterator.next();
             File[] content = dir.listFiles(this.fileFilter);
 
-            if(content != null) {
+            if( content != null ) {
                 for( File f : content ) {
                     currentDirFilesList.add(f);
+                    }
                 }
-            }
             return hasNext();
-        }
+            }
         else {
             return false;
-        }
+            }
     }
 
-    /** 
-     * Returns the next File in the iteration. 
+    /**
+     * Returns the next File in the iteration.
      * @return the next File in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
@@ -130,7 +130,7 @@ public class FileIterator
 
     /**
      * Unsupported Operation
-     * 
+     *
      * @throws UnsupportedOperationException
      */
     public void remove() throws UnsupportedOperationException
@@ -139,7 +139,7 @@ public class FileIterator
     }
 
     /**
-     * Returns an iterator over a set of Files. 
+     * Returns an iterator over a set of Files.
      * @return this Iterator
      */
     public Iterator<File> iterator()
