@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 /**
  *
  */
-public class PopulatorException extends RuntimeException
+public class PopulatorException extends PropertiesPopulatorException
 {
     private static final long serialVersionUID = 1L;
     private Field causeField;// NOT SERIALISABLE !

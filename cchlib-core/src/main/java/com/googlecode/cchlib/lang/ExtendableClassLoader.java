@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -21,9 +21,12 @@ public class ExtendableClassLoader extends ClassLoader
 {//TODO: TestCase
     final private static Logger logger = Logger.getLogger( ExtendableClassLoader.class );
 
-    final private List<File>              paths = new ArrayList<File>();
-    final private Map<File,JarFile>       jars  = new HashMap<File,JarFile>();
-    final private Map<String,Class<?>>    cache = new HashMap<String,Class<?>>();
+    /** ArrayList preserve insert order */
+    final private ArrayList<File>              paths = new ArrayList<File>();
+    /** LinkedHashMap preserve insert order */
+    final private LinkedHashMap<File,JarFile>  jars  = new LinkedHashMap<File,JarFile>();
+    /** Loaded class, no order */
+    final private Map<String,Class<?>>         cache = new HashMap<String,Class<?>>();
 
     /**
      * Creates a new ExtendableClassLoader using the <tt>ClassLoader</tt> returned by
@@ -44,8 +47,7 @@ public class ExtendableClassLoader extends ClassLoader
      * Creates a new ExtendableClassLoader using the specified parent class loader for
      * delegation.
      *
-     * @param  parent
-     *         The parent class loader
+     * @param  parent The parent class loader
      *
      * @throws  SecurityException
      *          If a security manager exists and its
@@ -92,40 +94,42 @@ public class ExtendableClassLoader extends ClassLoader
             }
     }
 
-    /**
-     * Remove a path for this class loader.
-     *
-     * @param path
-     */
-    public void removeClassPath( final String path )
-    {
-        removeClassPath( new File( path ) );
-    }
+// TODO should fail if a class from this path is in memory
+//    /**
+//     * Remove a path for this class loader.
+//     *
+//     * @param path
+//     */
+//    public void removeClassPath( final String path )
+//    {
+//        removeClassPath( new File( path ) );
+//    }
+
+// TODO should fail if a class from this path is in memory
+//    /**
+//     * Remove a path for this class loader.
+//     *
+//     * @param path
+//     */
+//    public void removeClassPath( final File path )
+//    {
+//        JarFile found;
+//
+//        synchronized( jars ) {
+//            found = jars.remove(path);
+//            }
+//
+//        if( found == null ) {
+//            synchronized( paths ) {
+//                paths.remove( path );
+//                }
+//            }
+//    }
 
     /**
-     * Remove a path for this class loader.
-     *
-     * @param path
-     */
-    public void removeClassPath( final File path )
-    {
-        JarFile found;
-
-        synchronized( jars ) {
-            found = jars.remove(path);
-            }
-
-        if( found == null ) {
-            synchronized( paths ) {
-                paths.remove( path );
-                }
-            }
-    }
-
-    /**
-     * TODOC
-     * @param className
-     * @return TODOC
+     * Try to get bytes array of the class from extra class path.
+     * @param className The class name
+     * @return a byte array with the stream content
      */
     private byte[] getClassFromAddedClassPaths(
         final String className
@@ -207,24 +211,29 @@ public class ExtendableClassLoader extends ClassLoader
     }
 
     /**
-     * TODOC
+     * Put inputStream content into a array of bytes, and close the stream.
      * @param inputStream
-     * @return TODOC
-     * @throws IOException
+     * @return a byte array with the stream content
+     * @throws IOException if any
      */
     protected static final byte[] toBytes(
         final InputStream inputStream
         ) throws IOException
     {
-        final ByteArrayBuilder  result = new ByteArrayBuilder( inputStream.available() );
-        final byte[]            buffer = new byte[ 4096 ];
-        int                     len;
+        try {
+            final ByteArrayBuilder  result = new ByteArrayBuilder( inputStream.available() );
+            final byte[]            buffer = new byte[ 4096 ];
+            int                     len;
 
-        while( (len = inputStream.read(buffer)) != -1 ) {
-            result.append( buffer, 0, len );
+            while( (len = inputStream.read(buffer)) != -1 ) {
+                result.append( buffer, 0, len );
+                }
+
+            return result.array();
             }
-
-        return result.array();
+        finally {
+            inputStream.close();
+            }
     }
 
     @Override

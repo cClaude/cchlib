@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.util.properties;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
 
 /**
- * Field annotation for {@link PropertiesPopulator}
+ * Field annotation for {@link PropertiesPopulator} that handle Swing input fields
  *
  * @see PropertiesPopulator
  */
@@ -16,15 +16,10 @@ import java.lang.annotation.ElementType;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Populator
+public @interface Persistent
 {
     /**
      * Default value if field is not define
      */
     public String defaultValue() default "";
-
-    /**
-     * Default value is null, if true ignore {@link #defaultValue()} result
-     */
-    public boolean defaultValueIsNull() default false;
 }
