@@ -103,7 +103,7 @@ public class DBFReader extends DBFBase
                     try {
                         f.setName( String.class.cast( o ).trim() );
                         }
-                    catch( IllegalArgumentException e ) {
+                    catch( IllegalArgumentException e ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                         // No change for this field.
                         }
                     }
@@ -121,11 +121,11 @@ public class DBFReader extends DBFBase
         StringBuilder sb = new StringBuilder();
 
         sb.append( this.header.year )
-          .append( "/" )
+          .append( '/' )
           .append( this.header.month )
-          .append( "/" )
+          .append( '/' )
           .append( this.header.day )
-          .append( "\n" )
+          .append( '\n' )
           .append( "Total records: " )
           .append( this.header.numberOfRecords )
           .append( "\nHEader length: " )
@@ -133,7 +133,7 @@ public class DBFReader extends DBFBase
 
         for( int i=0; i<this.header.fieldArray.length; i++) {
             sb.append( this.header.fieldArray[i].getName() );
-            sb.append( "\n");
+            sb.append( '\n' );
             }
 
         return sb.toString();
@@ -288,11 +288,11 @@ public class DBFReader extends DBFBase
                                 Integer.parseInt( new String( t_byte_year) ),
                                 Integer.parseInt( new String( t_byte_month) ) - 1,
                                 Integer.parseInt( new String( t_byte_day) )
-                            );
+                            	);
 
                             recordObjects[i] = calendar.getTime();
-                        }
-                        catch ( NumberFormatException e) {
+                        	}
+                        catch( NumberFormatException e ) { // $codepro.audit.disable logExceptions
                             /* this field may be empty or may have improper value set */
                             recordObjects[i] = null;
                         }
@@ -347,15 +347,15 @@ public class DBFReader extends DBFBase
 
                     case 'M':
                         // TODO Later
-                        recordObjects[i] = new String( "null" );
+                        recordObjects[i] = "null";
                         break;
 
                     default:
-                        recordObjects[i] = new String( "null" );
+                        recordObjects[i] = "null";
                 }
             }
         }
-        catch( EOFException e) {
+        catch( EOFException e) { // $codepro.audit.disable logExceptions
             return null;
             }
         catch( IOException e) {

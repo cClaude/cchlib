@@ -130,14 +130,14 @@ import java.util.Arrays;
         final StringBuilder format = new StringBuilder( fieldLength );
 
         for( int i=0; i<sizeWholePart; i++) {
-            format.append( "#" );
+            format.append( '#' );
             }
 
         if( sizeDecimalPart > 0) {
-            format.append( "." );
+            format.append( '.' );
 
             for( int i=0; i<sizeDecimalPart; i++) {
-                format.append( "0" );
+                format.append( '0' );
                 }
             }
 

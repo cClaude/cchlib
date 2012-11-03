@@ -43,7 +43,7 @@ final class DBFEntryImpl implements DBFEntry
         try {
             return Number.class.cast( value );
             }
-        catch( ClassCastException ignore ) {
+        catch( ClassCastException ignore ) { // $codepro.audit.disable logExceptions
             String s = value.toString().trim();
 
             if( s.length() == 0 ) {
@@ -87,10 +87,10 @@ final class DBFEntryImpl implements DBFEntry
     @Override
     public String getString() throws DBFEntryException
     {
-        try {
+        if( value instanceof String ) {
             return String.class.cast( value );
             }
-        catch( ClassCastException ignore ) {
+        else {
             return value.toString();
             }
     }
@@ -98,10 +98,10 @@ final class DBFEntryImpl implements DBFEntry
     @Override
     public boolean getBoolean() throws DBFEntryException
     {
-        try {
+        if( value instanceof Boolean ) {
             return Boolean.class.cast( value );
             }
-        catch( ClassCastException ignore ) {
+        else {
             return Boolean.parseBoolean( value.toString().trim() );
             }
     }
