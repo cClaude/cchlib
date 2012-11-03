@@ -213,7 +213,7 @@ public class Pinger extends Thread
         throws java.io.IOException
     {
         Socket        socket = null;
-        StringBuilder result = new StringBuilder();;
+        StringBuilder result = new StringBuilder();
 
         try {
             socket = new Socket(inetAddress, port);
@@ -267,7 +267,7 @@ public class Pinger extends Thread
         throws java.io.IOException
     {
         DatagramSocket  socket = null;
-        StringBuilder   result = new StringBuilder();;
+        StringBuilder   result = new StringBuilder();
 
         try {
             //byte[] sendData     = new byte[1024];

@@ -219,7 +219,7 @@ public class DHCPMessage implements Cloneable
         builder.append( messageInetAddress );
         builder.append( ", dhcpParameters=" );
         builder.append( dhcpParameters );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

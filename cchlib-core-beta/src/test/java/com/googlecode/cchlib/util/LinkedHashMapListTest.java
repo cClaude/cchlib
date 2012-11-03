@@ -1,18 +1,16 @@
 package com.googlecode.cchlib.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Iterator;
-import com.googlecode.cchlib.util.LinkedHashMapList;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  *
  */
-public class LinkedHashMapListTest extends TestCase
+public class LinkedHashMapListTest 
 {
-//    private final static String[] _POPULATE = {
-//
-//    };
-
+	@Test
     public void test_StringString()
     {
         LinkedHashMapList<String,String> hms  = new LinkedHashMapList<String,String>();
@@ -51,7 +49,6 @@ public class LinkedHashMapListTest extends TestCase
         assertEquals(keySize*3,sizeOfHashMapSet(hms));
     }
 
-
     private int sizeOfHashMapSet(LinkedHashMapList<?,?> hms)
     {
         int         size = 0;
@@ -63,6 +60,5 @@ public class LinkedHashMapListTest extends TestCase
             }
         return size;
     }
-
 
 }

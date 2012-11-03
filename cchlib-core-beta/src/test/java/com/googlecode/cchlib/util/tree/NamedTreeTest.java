@@ -1,24 +1,23 @@
 package com.googlecode.cchlib.util.tree;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.util.Iterator;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import com.googlecode.cchlib.util.VisitResult;
 import com.googlecode.cchlib.util.Visitor;
-import com.googlecode.cchlib.util.tree.BadRootNameException;
-import com.googlecode.cchlib.util.tree.BinaryTree;
-import com.googlecode.cchlib.util.tree.BinaryTreeNode;
-import com.googlecode.cchlib.util.tree.NamedTree;
-import com.googlecode.cchlib.util.tree.NamedTreeNode;
-import junit.framework.TestCase;
 
 /**
  * Test cases for SimpleTree
  */
-public class NamedTreeTest extends TestCase
+public class NamedTreeTest
 {
     private final static Logger slogger = Logger.getLogger( NamedTreeTest.class );
     private int count;
 
+    @Test
     public void test_errors()
     {
         NamedTree<Integer> tree = new NamedTree<Integer>();
@@ -27,15 +26,16 @@ public class NamedTreeTest extends TestCase
             //Should crash
             tree.put( 1, (String[])null );
             fail();
-        }
+            }
         catch( NullPointerException ok ) {
             //Ok
-        }
+            }
         catch( BadRootNameException e ) {
             fail();
-        }
+            }
     }
 
+    @Test
     public void test_add() throws BadRootNameException
     {
         NamedTree<Integer> tree = new NamedTree<Integer>();
@@ -75,7 +75,7 @@ public class NamedTreeTest extends TestCase
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
             count++;
-        }
+            }
         assertEquals("bad count",size,count);
 
         slogger.info( "createPostOrderIterator()" );
@@ -86,7 +86,7 @@ public class NamedTreeTest extends TestCase
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
             count++;
-        }
+            }
         assertEquals("bad count",size,count);
 
         slogger.info( "createPreOrderIterator()" );
@@ -97,7 +97,7 @@ public class NamedTreeTest extends TestCase
             NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
             displayNode( entry );
             count++;
-        }
+            }
         assertEquals("bad count",size,count);
 
         slogger.info( "walkDepthFirst()" );

@@ -210,7 +210,7 @@ public class DHCPOptions
         for(
                 Iterator<Map.Entry<Byte,DHCPOptionEntry>> i$ = getOptionSet().iterator();
                 i$.hasNext();
-                sb.append("\n")
+                sb.append('\n')
                 ) {
             Map.Entry<Byte,DHCPOptionEntry> entry = i$.next();
 

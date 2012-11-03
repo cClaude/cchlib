@@ -369,7 +369,7 @@ public class DHCPParameters
         StringBuilder sb = new StringBuilder();
 
         sb.append( super.toString() )
-            .append("\n")
+            .append('\n')
             .append("op      =[").append(op).append("]\n")
             .append("htype   =[").append(htype).append("]\n")
             .append("hlen    =[").append(hlen).append("]\n")
