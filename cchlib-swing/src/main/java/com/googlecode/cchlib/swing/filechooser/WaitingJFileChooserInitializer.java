@@ -6,9 +6,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerEvent;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerListener;
 
 /**
  * On windows JFileChooser initialization is to slow!

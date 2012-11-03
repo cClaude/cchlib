@@ -9,10 +9,6 @@ import org.junit.Test;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
-import cx.ath.choisnet.swing.introspection.SwingIntrospector;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorException;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorIllegalAccessException;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorRootItem;
 
 /**
  *

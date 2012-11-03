@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.util.EnumSet;
@@ -9,13 +6,6 @@ import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospection;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
-import cx.ath.choisnet.swing.introspection.AbstractSwingIntrospectorObjectInterface;
-import cx.ath.choisnet.swing.introspection.FrameFieldPopulator;
-import cx.ath.choisnet.swing.introspection.ObjectPopulator;
-import cx.ath.choisnet.swing.introspection.ObjectPopulatorHelper;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorException;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorItem;
-import cx.ath.choisnet.swing.introspection.SwingIntrospectorRootItem;
 
 /**
  * @author CC

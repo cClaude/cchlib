@@ -86,7 +86,7 @@ public class DialogHelper
 
         for( int i=0; i<buttons.length; i++ ) {
             buttons[ i ] = new JButton( buttonsText[ i ] );
-            };
+            }
 
         return showMessageExceptionDialog(parentWindow, title, exception, buttons);
     }

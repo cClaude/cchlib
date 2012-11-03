@@ -27,10 +27,10 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  *        JPopupMenu cm = new JPopupMenu();
  *
  *        addCopyMenuItem( cm, "Copy", rowIndex );
- *        addJMenuItem( 
- *           cm, 
- *           "Do Something", 
- *           getActionListener(), 
+ *        addJMenuItem(
+ *           cm,
+ *           "Do Something",
+ *           getActionListener(),
  *           ACTION_DO_REMOVE,    // String constant
  *           ACTION_OBJECT,       // Object constant
  *           new Integer( rowIndex )
@@ -39,9 +39,9 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  *        return cm;
  *     }
  * };
- * 
+ *
  * popupMenu.setMenu();
- * 
+ *
  * // ...
  * </pre>
  * You also need to create your own {@link ActionListener}
@@ -49,7 +49,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * private ActionListener getActionListener()
  * {
  *    if( actionListener == null ) {
- *        actionListener = new ActionListener() 
+ *        actionListener = new ActionListener()
  *        {
  *           public void actionPerformed( ActionEvent event )
  *           {
@@ -86,6 +86,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
+    private static final long serialVersionUID = 1L;
     private JList<E> jList;
 
     /**

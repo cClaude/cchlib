@@ -23,20 +23,21 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJTable
     extends AbstractJPopupMenuBuilder
 {
+    private static final long serialVersionUID = 1L;
     private JTable jTable;
 
     /**
      * Create JPopupMenuForJTable
-     * 
+     *
      * @param jTable {@link JTable} to use.
      * @throws NullPointerException if jTable est null
      */
     public JPopupMenuForJTable( final JTable jTable )
     {
         if( jTable == null ) {
-            throw new NullPointerException( "jTable is null" ); 
+            throw new NullPointerException( "jTable is null" );
             }
-        
+
         this.jTable = jTable;
     }
 
@@ -71,11 +72,11 @@ public abstract class JPopupMenuForJTable
     protected Object getValueAt( final int rowIndex, final int columnIndex )
     {
         return getTableModel().getValueAt(
-                convertRowIndexToModel( rowIndex ), 
+                convertRowIndexToModel( rowIndex ),
                 convertColumnIndexToModel( columnIndex )
                 );
     }
-    
+
     /**
      * Sets the value in the cell at rowIndex and
      * columnIndex to aValue.
@@ -96,17 +97,17 @@ public abstract class JPopupMenuForJTable
 
         getTableModel().setValueAt( aValue, row, col );
     }
-    
+
     /**
      * Maps the index of the row in terms of the view to the
      * underlying {@link TableModel}. If the contents of the
      * model are not sorted the model and view indices are
      * the same.
-     * 
+     *
      * @param viewRowIndex the index of the row in the view
      * @return the index of the corresponding row in the model
-     * @throws IndexOutOfBoundsException if sorting is enabled 
-     *         and passed an index outside the range of the 
+     * @throws IndexOutOfBoundsException if sorting is enabled
+     *         and passed an index outside the range of the
      *         {@link JTable} as determined by the method
      *         getRowCount
      * @see #convertColumnIndexToModel(int)
@@ -117,13 +118,13 @@ public abstract class JPopupMenuForJTable
     {
         return getJTable().convertRowIndexToModel( viewRowIndex );
     }
-    
+
     /**
-     * Maps the index of the column in the view at viewColumnIndex 
+     * Maps the index of the column in the view at viewColumnIndex
      * to the index of the column in the table model. Returns the
      * index of the corresponding column in the model. If
      * viewColumnIndex is less than zero, returns viewColumnIndex.
-     * 
+     *
      * @param viewColumnIndex the index of the column in the view
      * @return the index of the corresponding column in the model
      * @since 4.1.7
@@ -262,11 +263,11 @@ public abstract class JPopupMenuForJTable
             )
     {
         JMenuItem m = new JMenuItem( textForCopy );
-        
+
         m.addActionListener(
             createCopyActionListener(rowIndex,columnIndex)
             );
-        
+
         return m;
     }
 
@@ -332,7 +333,7 @@ public abstract class JPopupMenuForJTable
             }
         else {
             pasteMenu.setEnabled( false );
-        }
+            }
 
         contextMenu.add( pasteMenu );
     }

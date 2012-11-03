@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 /**
  * {@link JFileChooser} accessory able to book mark your
  * favorite folders.
- * 
+ *
  * @see javax.swing.JFileChooser#setAccessory(javax.swing.JComponent)
  * @see TabbedAccessory
  */
@@ -38,13 +38,13 @@ public class BookmarksAccessory
     private static final String ACTION_REMOVE  = "ACTION_REMOVE";
     private static final String ACTION_REFRESH = "ACTION_REFRESH";
     private static final Object ACTION_OBJECT  = "INDEX";
-    
+
     private static ResourcesUtils resourcesUtils = new ResourcesUtils();
 
     private ActionListener actionListener;
     private BookmarksAccessoryConfigurator configurator;
     private JFileChooser jFileChooser;
-    
+
     private JList<File>             jList_Bookmarks;
     private DefaultListModel<File>  listModel_Bookmarks;
 
@@ -54,7 +54,7 @@ public class BookmarksAccessory
 
     /**
      * Create a BookmarksAccessory
-     * 
+     *
      * @param jFileChooser  {@link JFileChooser} to use
      * @param config        Initial configuration for this BookmarksAccessory
      */
@@ -68,7 +68,7 @@ public class BookmarksAccessory
         this.listModel_Bookmarks    = new DefaultListModel<File>();
 
         fillBookmarkList();
-        
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{25, 25, 25, 0};
         gridBagLayout.rowHeights = new int[]{150, 22, 0};
@@ -76,7 +76,7 @@ public class BookmarksAccessory
         gridBagLayout.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
         setPreferredSize( new Dimension(320, 240) );
-        
+
         {
             JScrollPane scrollPane_jList_Bookmarks = new JScrollPane();
             GridBagConstraints gbc_scrollPane_jList_Bookmarks = new GridBagConstraints();
@@ -101,7 +101,7 @@ public class BookmarksAccessory
                         }
                     }
                 });
-            
+
         }
         {
             // NEEDED for WindowsBuilder jButton_AddBookmarks = new JButton( ACTION_ADD );
@@ -148,45 +148,47 @@ public class BookmarksAccessory
     {
         final JPopupMenuForJList<File> popupMenu = new JPopupMenuForJList<File>( jList_Bookmarks )
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected JPopupMenu createContextMenu( int rowIndex )
             {
                 JPopupMenu cm = new JPopupMenu();
 
-                addCopyMenuItem( 
-                    cm, 
+                addCopyMenuItem(
+                    cm,
                     //new JMenuItem( resourcesUtils.getText( ResourcesUtils.TXTID_COPY ) ),
                     resourcesUtils.getText( ResourcesUtils.ID.COPY ),
-                    rowIndex 
+                    rowIndex
                     );
-                
+
                 //addJMenuItem( cm, "menuItemTxt", getActionListener(), actionCommandString, actionObjectType, actionObject );
                 //addJMenuItem( cm, "menuItemTxt", getActionListener(), actionCommandString );
-                addJMenuItem( 
-                    cm, 
-                    resourcesUtils.getText( ResourcesUtils.ID.BOOKMARK_REMOVE ), 
-                    getActionListener(), 
+                addJMenuItem(
+                    cm,
+                    resourcesUtils.getText( ResourcesUtils.ID.BOOKMARK_REMOVE ),
+                    getActionListener(),
                     ACTION_REMOVE,
                     ACTION_OBJECT,
                     new Integer( rowIndex )
                     );
-                
+
                 return cm;
             }
         };
-        
+
         popupMenu.setMenu();
     }
 
     private ActionListener getActionListener()
     {
         if( actionListener == null ) {
-            actionListener = new ActionListener() 
+            actionListener = new ActionListener()
             {
                 public void actionPerformed( ActionEvent event )
                 {
                     String cmd = event.getActionCommand();
-                    
+
                     if( ACTION_ADD.equals( cmd ) ) {
                         doAdd();
                         }
@@ -199,7 +201,7 @@ public class BookmarksAccessory
                             // Remove current entry (using contextual menu)
                             final int index = Integer.class.cast(
                                     JMenuItem.class.cast( event.getSource() )
-                                        .getClientProperty( ACTION_OBJECT ) 
+                                        .getClientProperty( ACTION_OBJECT )
                                     );
                             doRemove( new int[]{ index } );
                             }
@@ -212,11 +214,11 @@ public class BookmarksAccessory
             }
         return actionListener;
     }
-    
+
     private void fillBookmarkList()
     {
         this.listModel_Bookmarks.clear();
-        
+
         for( File f : configurator.getBookmarks() ) {
             this.listModel_Bookmarks.addElement( f );
             }
@@ -232,7 +234,7 @@ public class BookmarksAccessory
                 }
             }
     }
-        
+
     private void doRemove( final int[] indexToRemove )
     {
         for( int i = indexToRemove.length - 1; i>=0; i-- ) {
@@ -243,7 +245,7 @@ public class BookmarksAccessory
                 }
             }
     }
-    
+
     private void doRefresh()
     {
         //
@@ -251,21 +253,21 @@ public class BookmarksAccessory
         //
         File dir = jFileChooser.getCurrentDirectory();
         File tmpDir = FileHelper.getTmpDirFile();
-        
+
         if( tmpDir.equals( dir ) ) {
             tmpDir = FileHelper.getUserHomeDirFile();
             }
 
         jFileChooser.setCurrentDirectory( tmpDir );
         jFileChooser.setCurrentDirectory( dir );
-        
-        // 
+
+        //
         // Refresh config (if configurator allow this)
         //
         fillBookmarkList();
     }
-        
-    
+
+
     /**
      * @return a valid JButton for refresh/rescan current directory,
      * @wbp.factory

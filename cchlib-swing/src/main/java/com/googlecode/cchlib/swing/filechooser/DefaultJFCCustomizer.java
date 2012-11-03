@@ -59,7 +59,7 @@ public class DefaultJFCCustomizer
      */
     public DefaultJFCCustomizer( Attrib first, Attrib...rest )
     {
-        this.attributes = EnumSet.of( first, rest );;
+        this.attributes = EnumSet.of( first, rest );
     }
 
     @Override

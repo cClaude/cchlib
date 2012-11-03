@@ -61,7 +61,7 @@ public class DialogHelperTest
 
                 for( int i=0; i<buttons.length; i++ ) {
                     buttons[ i ] = new JButton( "Button " + i );
-                    };
+                    }
 
                 int selectedIndex = DialogHelper.showMessageExceptionDialog(
                     null,

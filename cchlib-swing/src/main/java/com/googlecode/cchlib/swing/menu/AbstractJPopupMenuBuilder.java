@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Serializable;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -18,8 +19,10 @@ import javax.swing.JPopupMenu;
 /**
  * Handle context menu.
  */
-public abstract class AbstractJPopupMenuBuilder
+public abstract class AbstractJPopupMenuBuilder implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *

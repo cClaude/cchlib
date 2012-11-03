@@ -17,6 +17,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJTextField
     extends AbstractJPopupMenuBuilder
 {
+    private static final long serialVersionUID = 1L;
     private JTextField jTextField;
 
     /**
