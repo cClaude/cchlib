@@ -91,25 +91,6 @@ public class ActionServlet extends HttpServlet
         //TO DO: should be customizable !!!!
         //request.setCharacterEncoding( "utf-8" );
 
-///*        try {
-//            private_service(request, response);
-//            }
-//        catch( Exception e ) {
-//            log("Error(redirect).", e);
-//            //TO DO set error on URL? or on Session!
-//            response.sendRedirect( request.getContextPath() + getFaultBackURL(request) );
-//            }
-//        catch(ThreadDeath e) { }
-//        catch(Throwable e) { }
-//    }
-//
-//    private void private_service(
-//            final HttpServletRequest  request,
-//            final HttpServletResponse response
-//            )
-//        throws IOException, ServletException
-//    {
-//*/
         String action  = request.getParameter( getActionParameterName() );
 
         log( "ACTION["  + getActionParameterName()  + "]=[" + action  + "]" );
@@ -118,7 +99,7 @@ public class ActionServlet extends HttpServlet
 
         try {
             final Class<?> c = Class.forName( action );
-            final Object   o = c.newInstance();;
+            final Object   o = c.newInstance();
 
             servletAction = ServletAction.class.cast( o );
             }
@@ -188,7 +169,7 @@ public class ActionServlet extends HttpServlet
            .append( paramName )
            .append( "' = '" )
            .append( paramValue )
-           .append( "'" );
+           .append( '\'' );
 
         log( msg.toString(), cause );
 

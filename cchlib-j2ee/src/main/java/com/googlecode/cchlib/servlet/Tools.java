@@ -168,7 +168,7 @@ public final class Tools
         try {
             return getIntAttributeOrParameter( request, name );
             }
-        catch( Exception e ) {
+        catch( Exception e ) { // $codepro.audit.disable logExceptions
             return defaultValue;
             }
     }
