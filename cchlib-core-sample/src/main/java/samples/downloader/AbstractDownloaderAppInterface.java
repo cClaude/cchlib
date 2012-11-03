@@ -148,8 +148,8 @@ public abstract class AbstractDownloaderAppInterface
         public String getBeginRegExp() { return beginRegExg; }
         public char getLastChar() { return lastChar; }
     }
-
-    /**
+    
+    /*
      * Default implementation of {@link GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)},
      * that use {@link AbstractDownloadInterface#getDownloadURLFrom(String, int)}
      *
@@ -159,6 +159,14 @@ public abstract class AbstractDownloaderAppInterface
      * @return TODOC
      * @see GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)
      * @see AbstractDownloadInterface#getDownloadURLFrom(String, int)
+     */
+    /**
+     * TODOC
+     * 
+     * @param gdauir
+     * @param content2Parse
+     * @param regexps
+     * @return a {@link Collection} of {@link DownloadFileURL}
      */
     final//FIXME remove this
     public Collection<DownloadFileURL> getURLToDownloadCollection(

@@ -95,9 +95,9 @@ public class GenericDownloader
     }
 
     /**
-     * Returns an {@link Iterable} object of {@link FileDownloadURL}s to download,
+     * Returns an {@link Iterable} object of {@link DownloadFileURL}s to download,
      * must be implement by parent class.
-     * @return an {@link Iterable} object of {@link FileDownloadURL}s to download
+     * @return an {@link Iterable} object of {@link DownloadFileURL}s to download
      * @throws IOException
      * @throws DownloadConfigurationException 
      * @throws RejectedExecutionException 

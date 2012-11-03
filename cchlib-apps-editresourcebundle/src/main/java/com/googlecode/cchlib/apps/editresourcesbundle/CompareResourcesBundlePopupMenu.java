@@ -19,7 +19,8 @@ import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
-    //
+	private static final long serialVersionUID = 1L;
+	//
     // http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
     //
     private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );

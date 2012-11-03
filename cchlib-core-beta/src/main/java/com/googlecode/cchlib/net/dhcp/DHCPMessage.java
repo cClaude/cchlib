@@ -162,8 +162,8 @@ public class DHCPMessage implements Cloneable
     }
     
     /**
-     * 
-     * @return
+     * TODOC
+     * @return TODOC
      */
     public DatagramPacket toDatagramPacket()
     {
@@ -173,9 +173,9 @@ public class DHCPMessage implements Cloneable
     }
 
     /**
-     * 
+     * TODOC
      * @param aOtherDHCPMessage
-     * @return
+     * @return TODOC
      */
     public boolean isSameThread(DHCPMessage aOtherDHCPMessage)
     {

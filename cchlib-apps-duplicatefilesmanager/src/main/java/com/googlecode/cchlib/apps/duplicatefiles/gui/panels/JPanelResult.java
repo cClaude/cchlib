@@ -319,7 +319,8 @@ public class JPanelResult extends JPanelResultWB
 
         new JPopupMenuForJList<KeyFiles>( getJListDuplicatesFiles() )
             {
-                @Override
+				private static final long serialVersionUID = 1L;
+				@Override
                 protected JPopupMenu createContextMenu( final int rowIndex )
                 {
                     JPopupMenu cm = new JPopupMenu();
@@ -412,7 +413,8 @@ public class JPanelResult extends JPanelResultWB
     {
         final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList )
         {
-            @Override
+			private static final long serialVersionUID = 1L;
+			@Override
             protected JPopupMenu createContextMenu( final int rowIndex )
             {
                 JPopupMenu cm = new JPopupMenu();

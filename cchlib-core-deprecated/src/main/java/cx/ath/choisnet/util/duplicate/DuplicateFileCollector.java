@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import com.googlecode.cchlib.util.CancelRequestException;
-//import cx.ath.choisnet.util.CancelRequestException;
 import cx.ath.choisnet.util.HashMapSet;
-//import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  * Perform 2 pass to check duplicate.
@@ -181,12 +179,6 @@ public class DuplicateFileCollector
         };
     }
 
-    /**
-     * Perform second pass.
-     *
-     * @see MessageDigestFile#compute(File)
-     * @throws IllegalStateException if {@link #pass2()} already call.
-      */
     synchronized public void pass2()
     {
         if( this.alreadyCallPass2 ) {

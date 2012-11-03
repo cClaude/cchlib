@@ -86,11 +86,14 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURLs      {@link Collection} of {@link URL} to download.
-     * @param eventHandler  A valid {@link DownloadEvent} according
-     *        to {@link DownloadURL#getType()}
+     * @param eventHandler  A valid {@link DownloadEvent} according downloadURLs type
+     * 
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
+     * @see DownloadToFile
      * @see DownloadToString
+     * @see DownloadFileURL
+     * @see DownloadStringURL
      */
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
@@ -111,11 +114,14 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURLs  {@link Iterable} of {@link URL} to download.
-     * @param eventHandler  A valid {@link DownloadEvent} according
-     *        to {@link DownloadURL#getType()}
+     * @param eventHandler  A valid {@link DownloadEvent} according to downloadURLs type
+     * 
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
+     * @see DownloadToFile
      * @see DownloadToString
+     * @see DownloadFileURL
+     * @see DownloadStringURL
      */
     public void add(
             final Iterable<DownloadURL> downloadURLs,
@@ -136,11 +142,14 @@ public class DownloadExecutor
      * </p>
      *
      * @param downloadURL   A valid {@link DownloadURL}.
-     * @param eventHandler  A valid {@link DownloadEvent} according
-     *        to {@link DownloadURL#getType()}
+     * @param eventHandler  A valid {@link DownloadEvent} according to downloadURL type
+     * 
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
+     * @see DownloadToString
+     * @see DownloadFileURL
+     * @see DownloadStringURL
      */
     public void addDownload(
             final DownloadURL       downloadURL,

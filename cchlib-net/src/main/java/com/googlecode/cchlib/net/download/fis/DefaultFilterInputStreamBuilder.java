@@ -18,10 +18,10 @@ public class DefaultFilterInputStreamBuilder
     private final static Logger logger = Logger.getLogger( DefaultFilterInputStreamBuilder.class );
 
     /** 
-     * Property name for {@link Dimension}
+     * Property name for {@link java.awt.Dimension Dimension}
      * if {@link DownloadFileURL} is a valid picture
      * <br>
-     * Property result is return in a {@link Dimension} object
+     * Property result is return in a {@link java.awt.Dimension Dimension} object
      */
     public static final String DIMENSION = "Dimension";
     

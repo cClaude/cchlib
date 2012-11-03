@@ -8,7 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
+import java.text.ParseException; // $codepro.audit.disable unnecessaryImport
 import java.util.Properties;
 
 import javax.swing.Icon;

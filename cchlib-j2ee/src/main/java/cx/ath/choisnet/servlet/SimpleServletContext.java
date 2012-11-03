@@ -10,7 +10,7 @@ public interface SimpleServletContext
 	 * TODOC
 	 * 
 	 * @param s
-	 * @return
+	 * @return TODOC
 	 * @throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException
 	 */
     public abstract String getInitParameter(String s)
@@ -21,7 +21,7 @@ public interface SimpleServletContext
      * 
      * @param s
      * @param s1
-     * @return
+     * @return TODOC
      */
     public abstract String getInitParameter(String s, String s1);
 }

@@ -4,11 +4,12 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Properties;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -19,8 +20,10 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
 /**
  * User preferences
  */
-public class Preferences
+public class Preferences implements Serializable
 {
+
+    private static final long serialVersionUID = 1L;
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
@@ -107,7 +110,7 @@ public class Preferences
                 PropertiesHelper.loadProperties( preferencesFile )
                 );
             }
-        catch( FileNotFoundException e ) {
+        catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
             logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {

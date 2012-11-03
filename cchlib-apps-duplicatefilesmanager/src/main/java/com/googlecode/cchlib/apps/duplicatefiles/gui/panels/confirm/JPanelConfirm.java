@@ -167,16 +167,16 @@ public class JPanelConfirm extends JPanel
                             setIcon( iconOk );
                             }
                         else {
-                        	if( f.getFile().exists() ) {
-                            	setIcon( iconKo );
-                            	setToolTipText( txtIconKo );
-                        		}
-                        	else {
-                        		setIcon( iconKoButDelete );
-                            	setToolTipText( txtIconKoButDelete );
-                        		}
+                            if( f.getFile().exists() ) {
+                                setIcon( iconKo );
+                                setToolTipText( txtIconKo );
+                                }
+                            else {
+                                setIcon( iconKoButDelete );
+                                setToolTipText( txtIconKoButDelete );
+                                }
                             }
-                        } 
+                        }
                     }
 
                 return super.getTableCellRendererComponent(
@@ -248,6 +248,8 @@ public class JPanelConfirm extends JPanel
 
         JPopupMenuForJTable popupMenu = new JPopupMenuForJTable(jTableFiles2Delete)
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected JPopupMenu createContextMenu(
                     int rowIndex,

@@ -116,7 +116,7 @@ public class PropertiesFile extends Properties
      * Store properties content into a file.
      *
      * @throws IOException if any I/O occur
-     * @see #saveProperties(File, Properties, String)
+     * @see #save(String)
      */
     public void save() throws IOException
     {

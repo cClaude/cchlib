@@ -5,20 +5,20 @@ import java.io.InputStream;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 
 /**
- *
+ * TODOC
  *
  */
 public interface DownloadFilterInputStreamBuilder 
 {
     /**
-     * 
+     * TODOC
      * @param is
-     * @return
+     * @return TODOC
      */
     public FilterInputStream createFilterInputStream( InputStream is );
 
     /**
-     * 
+     * TODOC
      * @param filter
      * @param dURL
      */

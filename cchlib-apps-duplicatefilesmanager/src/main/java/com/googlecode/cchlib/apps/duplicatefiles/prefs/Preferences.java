@@ -116,7 +116,7 @@ public class Preferences implements Serializable
         try {
             properties = PropertiesHelper.loadProperties( preferencesFile );
             }
-        catch( FileNotFoundException fileNotFoundException ) {
+        catch( FileNotFoundException fileNotFoundException ) { // $codepro.audit.disable logExceptions
         	properties = new Properties();
         	
             logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );

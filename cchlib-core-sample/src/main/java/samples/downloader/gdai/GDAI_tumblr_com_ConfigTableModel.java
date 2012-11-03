@@ -19,8 +19,7 @@ public class GDAI_tumblr_com_ConfigTableModel
         };
 
     /**
-     * @param config 
-     * 
+     * @param dataVector 
      */
     public GDAI_tumblr_com_ConfigTableModel(
         final Vector<Vector<?>> dataVector

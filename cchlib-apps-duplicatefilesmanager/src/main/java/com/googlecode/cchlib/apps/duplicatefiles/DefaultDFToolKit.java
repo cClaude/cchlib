@@ -33,7 +33,7 @@ public final class DefaultDFToolKit
     private final Map<Window,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentWindow,jFileChooserInitializer;
     private final Preferences preferences;
     private DuplicateFilesFrame mainWindow;
-    
+
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString String txtOpenDesktopExceptionTitle = "Can not open file";
@@ -57,28 +57,28 @@ public final class DefaultDFToolKit
         return ResourcesLoader.class.getPackage().getName()
                 + ".MessagesBundle";
     }
-    
+
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
     {
         this.mainWindow = mainWindow;
     }
-    
+    @Deprecated
     @Override // DFToolKit
     public DuplicateFilesFrame getMainWindow() throws NullPointerException
     {
         if( this.mainWindow == null ) {
             throw new NullPointerException( "mainWindow not set" );
             }
-        
+
         return this.mainWindow;
     }
-    
+
     @Override // DFToolKit
     public Frame getMainFrame()
     {
         return this.mainWindow;
     }
-    
+
     @Override // DFToolKit
     public JFileChooser getJFileChooser( final Window parentWindow )
     {
@@ -90,14 +90,14 @@ public final class DefaultDFToolKit
     {
         return getJFileChooserInitializer( getMainWindow() ).getJFileChooser();
     }
-    
+
     @Override // DFToolKit
     public JFileChooserInitializer getJFileChooserInitializer(
         final Window parentWindow
         )
     {
         JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( parentWindow );
-        
+
         if( jFileChooserInitializer == null ) {
             final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
@@ -157,7 +157,7 @@ public final class DefaultDFToolKit
         try {
             Thread.sleep( ms );
             }
-        catch( InterruptedException ignore ) {
+        catch( InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 
@@ -183,7 +183,7 @@ public final class DefaultDFToolKit
     public Locale getValidLocale()
     {
         Locale locale;
-        
+
         try {
             locale = getMainWindow().getLocale();
             }
@@ -191,15 +191,15 @@ public final class DefaultDFToolKit
             locale = null;
             logger.warn( "Can not use main window to set Locale", e );
             }
-        
+
         if( locale == null ) {
             return Locale.getDefault();
             }
-        
+
         return locale;
     }
 
-    
+
     @Override // DFToolKit
     public void setEnabledJButtonCancel( boolean b )
     {
@@ -228,7 +228,7 @@ public final class DefaultDFToolKit
     public List<File> getRootDirectoriesList()
     {
         List<File> list = new ArrayList<>();
-        
+
         if( this.mainWindow != null ) {
             for( File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
                 if( f.isDirectory() ) {

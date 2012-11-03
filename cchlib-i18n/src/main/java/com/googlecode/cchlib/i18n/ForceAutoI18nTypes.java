@@ -21,7 +21,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
     /**
      * Handle I18h for {@link JTextArea}
      * 
-     * @return an {@link AbstractType} to handle {@link JTextArea}
+     * @return an {@link DefaultAutoI18nTypes.AbstractType} to handle {@link JTextArea}
      */
     public AbstractType<JTextArea> getJTextArea()
     {

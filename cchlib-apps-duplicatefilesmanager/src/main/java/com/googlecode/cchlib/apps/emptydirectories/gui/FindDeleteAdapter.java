@@ -101,7 +101,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + treeModel == null ? null : treeModel.size()
                         );
                     }
-                catch( CancelRequestException cancelRequestException )  {
+                catch( CancelRequestException cancelRequestException )  { // $codepro.audit.disable logExceptions
                     logger.info( "Cancel received" );
 
                     // Call done, to cleanup layout.

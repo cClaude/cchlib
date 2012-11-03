@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n.builder;
-//package cx.ath.choisnet.i18n.builder;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import com.googlecode.cchlib.i18n.AutoI18nTypes;
 import com.googlecode.cchlib.i18n.I18nForce;
 import com.googlecode.cchlib.i18n.I18nString;
 
-/***
+/**
  * Abstract class of {@link AutoI18n} that allow to build initial resource
  * file for localization.
  */
@@ -46,10 +45,10 @@ public abstract class AbstractI18nResourceAutoUpdate
     private EnumSet<Attribute> attribs;
     /** @serial */
     private I18nAutoUpdateInterface i18nAutoUpdateInterface;
-    
+
     /**
      * Create an AbstractI18nResourceAutoUpdate
-     * 
+     *
      * @param i18nAutoUpdateInterface
      * @param exceptionHandler
      * @param eventHandler
@@ -64,41 +63,41 @@ public abstract class AbstractI18nResourceAutoUpdate
             EnumSet<AbstractI18nResourceAutoUpdate.Attribute>   bundleAttributes
             )
     {
-		this(
-			i18nAutoUpdateInterface, 
-			null, 
-			null,
-			exceptionHandler, 
-			eventHandler,
-			autoI18nAttributes,
-			bundleAttributes
-			);
-	}
+        this(
+            i18nAutoUpdateInterface,
+            null,
+            null,
+            exceptionHandler,
+            eventHandler,
+            autoI18nAttributes,
+            bundleAttributes
+            );
+    }
 
     /**
      * Create an AbstractI18nResourceAutoUpdate
-     *  
-     * @param i18nAutoUpdateInterface2
+     *
+     * @param i18nAutoUpdateInterface
      * @param autoI18nDefaultTypes
      * @param autoI18nForceTypes
-     * @param handler
+     * @param exceptionHandler
      * @param eventHandler
      * @param autoI18nAttributes
      * @param bundleAttributes
      */
     public AbstractI18nResourceAutoUpdate(
-			final I18nAutoUpdateInterface 		i18nAutoUpdateInterface,
-			final AutoI18nTypes 				autoI18nDefaultTypes,
-			final AutoI18nTypes 				autoI18nForceTypes,
-			final AutoI18nExceptionHandler 		exceptionHandler,
-			final AutoI18nEventHandler 			eventHandler,
-			final EnumSet<AutoI18n.Attribute> 	autoI18nAttributes,
-			final EnumSet<Attribute> 			bundleAttributes
-			)
+            final I18nAutoUpdateInterface         i18nAutoUpdateInterface,
+            final AutoI18nTypes                 autoI18nDefaultTypes,
+            final AutoI18nTypes                 autoI18nForceTypes,
+            final AutoI18nExceptionHandler         exceptionHandler,
+            final AutoI18nEventHandler             eventHandler,
+            final EnumSet<AutoI18n.Attribute>     autoI18nAttributes,
+            final EnumSet<Attribute>             bundleAttributes
+            )
     {
         super(  i18nAutoUpdateInterface,
-        		autoI18nDefaultTypes,
-        		autoI18nForceTypes,
+                autoI18nDefaultTypes,
+                autoI18nForceTypes,
                 exceptionHandler, // temp value, need to make an new handler
                 eventHandler,
                 autoI18nAttributes
@@ -160,14 +159,14 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                         needProperty(key, v );
                         return; // done
-                    }
+                        }
                     catch( IllegalArgumentException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
-                    }
+                        }
                     catch( IllegalAccessException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
+                        }
                     }
-                }
                 needProperty( getKey( f ), "<<NOT HANDLE (c1)>>");
             }
             @Override
@@ -184,42 +183,42 @@ public abstract class AbstractI18nResourceAutoUpdate
                 f.setAccessible( true );
 
                 try {
-                	AutoI18nTypes types;
-                	
-					if( f.getAnnotation( I18nForce.class ) != null ) {
-                		types = getAutoI18nForceTypes();
-                		}
-                	else {
-                		types = getAutoI18nDefaultTypes();
-                		}
-                	
+                    AutoI18nTypes types;
+
+                    if( f.getAnnotation( I18nForce.class ) != null ) {
+                        types = getAutoI18nForceTypes();
+                        }
+                    else {
+                        types = getAutoI18nDefaultTypes();
+                        }
+
                     for( AutoI18nTypes.Type t : types ) {
                         if( t.getType().isAssignableFrom( fclass ) ) {
                             String[] values = t.getText( f.get( getObjectToI18n() ) );
 
                             if( values.length == 1 ) {
                                 needProperty(key.getKey(),values[0]);
-                            }
+                                }
                             else if( values.length > 1 ) {
                                 String   prefix = getKey( f ) + '.';
 
                                 for(int i=0;i<values.length;i++) {
                                     needProperty(prefix+i,values[i]);
+                                    }
                                 }
-                            }
                             else {
                                 needProperty(key.getKey(),"<<EMPTY-ARRAY-OF-STRING>>");
-                            }
+                                }
                             return; // done
+                            }
                         }
                     }
-                }
                 catch( IllegalArgumentException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
-                }
+                    }
                 catch( IllegalAccessException shouldNotOccur ) {
                         throw new RuntimeException( shouldNotOccur );
-                }
+                    }
 
                 needProperty( getKey( f ), "<<NOT HANDLE (c2)>>");
             }
@@ -258,13 +257,13 @@ public abstract class AbstractI18nResourceAutoUpdate
 
         if(bundleAttributes == null) {
             this.attribs = EnumSet.noneOf( Attribute.class );
-        }
+            }
         else {
             this.attribs = EnumSet.copyOf( bundleAttributes );
-        }
+            }
     }
 
-	/**
+    /**
      * Set I18nAutoUpdateInterface object.
      *
      * @param i18nAutoUpdateInterface

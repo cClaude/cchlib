@@ -174,8 +174,6 @@ public class AutoI18n implements Serializable
      * @param autoI18nForceTypes AutoI18nTypes to use (could be null
      *        then use defaults implementation : {@link I18nSimpleResourceBundle}).
      *        This parameter is force ({@link I18nForce}) handle process.
-     * @param autoI18nTypes AutoI18nTypes to use (could be null
-     *        then use defaults implementation : {@link I18nSimpleResourceBundle})
      * @param exceptionHandler  AutoI18nExceptionHandler
      *                          to use handle exceptions.
      * @param eventHandler AutoI18nEventHandler to use to
@@ -469,7 +467,7 @@ public class AutoI18n implements Serializable
     // Warning !
     // Warning !
     /**
-     * This method is override by {@link AutoI18UpdateBundle}
+     * This method is override by ???
      * <br/>
      * Should be the only entry point to get String from resource bundle
      */
@@ -482,7 +480,7 @@ public class AutoI18n implements Serializable
     // Warning !
     // Warning !
     /**
-     * This method is use by {@link AutoI18UpdateBundle}
+     * This method is use by ???
      * @return key name for this field
      */
     protected String getKey( final Field f )

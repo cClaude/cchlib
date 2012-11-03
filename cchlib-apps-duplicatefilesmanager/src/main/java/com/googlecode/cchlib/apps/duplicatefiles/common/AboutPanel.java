@@ -16,7 +16,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
 import com.googlecode.cchlib.i18n.I18nForce;
 import com.googlecode.cchlib.i18n.I18nIgnore;
-import com.googlecode.cchlib.i18n.I18nString;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

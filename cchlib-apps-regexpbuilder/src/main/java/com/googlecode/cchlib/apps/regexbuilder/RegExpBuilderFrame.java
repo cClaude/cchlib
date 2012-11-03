@@ -516,7 +516,7 @@ public class RegExpBuilderFrame
                             + ex.getDescription()
                             );
         }
-        catch( IllegalArgumentException ex ) {
+        catch( IllegalArgumentException ex ) { // $codepro.audit.disable logExceptions
             // This exception indicates a bug in getRegexOptions
             textResults.setText(
                     "Undefined bit values are set in the regex options"
@@ -584,21 +584,19 @@ public class RegExpBuilderFrame
                 }
             }
         }
-        catch( IllegalStateException ex ) {
+        catch( IllegalStateException ex ) { // $codepro.audit.disable logExceptions
             // Querying the results of a Matcher object before calling find()
             // or after a call to find() returned False, throws an
             // IllegalStateException
             // This indicates a bug in our application
-            textResults
-                    .setText( "Cannot print match results if there aren't any" );
+            textResults.setText( "Cannot print match results if there aren't any" );
         }
-        catch( IndexOutOfBoundsException ex ) {
+        catch( IndexOutOfBoundsException ex ) { // $codepro.audit.disable logExceptions
             // Querying the results of groups (capturing parenthesis or
             // backreferences)
             // that do not exist throws an IndexOutOfBoundsException
             // This indicates a bug in our application
-            textResults
-                    .setText( "Cannot print match results of non-existent groups" );
+            textResults.setText( "Cannot print match results of non-existent groups" );
         }
     }
 
@@ -754,12 +752,11 @@ public class RegExpBuilderFrame
                     regexMatcher.appendReplacement( replaceResult, regexMatcher
                             .group().toUpperCase() );
                 }
-                catch( IllegalStateException ex ) {
+                catch( IllegalStateException ex ) { // $codepro.audit.disable logExceptions
                     // appendReplacement() was called without a preceding
                     // successful call to find()
                     // This exception indicates a bug in your source code
-                    textResults
-                            .setText( "appendReplacement() called without a prior successful call to find()" );
+                    textResults.setText( "appendReplacement() called without a prior successful call to find()" );
                     textReplaceResults.setText( "n/a" );
                     return;
                 }

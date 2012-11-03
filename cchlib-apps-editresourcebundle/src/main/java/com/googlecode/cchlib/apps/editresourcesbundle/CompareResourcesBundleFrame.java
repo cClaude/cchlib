@@ -376,7 +376,7 @@ class CompareResourcesBundleFrame
                     updateDisplay();
                     }
             }
-        }).start();
+        }, "jMenuItem_Open()").start();
     }
 
     @Override

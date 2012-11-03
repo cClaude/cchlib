@@ -16,7 +16,7 @@ public class PropertiesXComboBoxPatternBuilder
 {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
-    private PropertiesFile propertiesFile;
+    private PropertiesFileLock propertiesFile;
     private String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;
 
@@ -26,7 +26,7 @@ public class PropertiesXComboBoxPatternBuilder
      * @param keyPrefix
      */
     public PropertiesXComboBoxPatternBuilder(
-        final PropertiesFile 	propertiesFile,
+        final PropertiesFileLock 	propertiesFile,
         final String 			keyPrefix
         )
     {
@@ -58,7 +58,7 @@ public class PropertiesXComboBoxPatternBuilder
        final String keyPrefix
        ) throws IOException
     {
-        this( new PropertiesFile( propertiesFile ), keyPrefix );
+        this( new PropertiesFileLock( propertiesFile ), keyPrefix );
 
         propertiesFile.deleteOnExit();
     }

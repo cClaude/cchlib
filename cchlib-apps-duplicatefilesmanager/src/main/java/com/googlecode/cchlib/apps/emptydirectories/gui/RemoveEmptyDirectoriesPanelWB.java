@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import java.io.File;
 import java.util.List;
-import java.util.TooManyListenersException;
+import java.util.TooManyListenersException; // $codepro.audit.disable unnecessaryImport
 import javax.swing.JTree;
 import javax.swing.JProgressBar;
 import javax.swing.border.SoftBevelBorder;

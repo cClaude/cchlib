@@ -18,10 +18,10 @@ import org.apache.log4j.Logger;
  *
  */
 //NOT public
-class PropertiesFile extends Properties
+class PropertiesFileLock extends Properties
 {
     private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger( PropertiesFile.class );
+    private static final Logger logger = Logger.getLogger( PropertiesFileLock.class );
     private File file;
     private FileLock fileLock;
 
@@ -30,7 +30,7 @@ class PropertiesFile extends Properties
      * @param file
      * @throws IOException
      */
-    public PropertiesFile(
+    public PropertiesFileLock(
         final File file
         ) throws IOException
     {
@@ -39,9 +39,9 @@ class PropertiesFile extends Properties
         init();
     }
 
-    public PropertiesFile(
-        final File 			file,
-        final Properties 	defaults
+    public PropertiesFileLock(
+        final File             file,
+        final Properties     defaults
         ) throws IOException
     {
         super(defaults);
@@ -68,7 +68,7 @@ class PropertiesFile extends Properties
                 }
             catch( OverlappingFileLockException ignore ) {
                 // File is already locked in this thread or virtual machine
-            	logger.warn( "init()", ignore );
+                logger.warn( "init()", ignore );
                 }
 
             // Release the lock
@@ -79,7 +79,7 @@ class PropertiesFile extends Properties
             raf.close();
             }
         catch( Exception e ) {
-        	logger.warn( "init()", e );
+            logger.warn( "init()", e );
             }
     }
 
@@ -89,7 +89,7 @@ class PropertiesFile extends Properties
      * @throws IOException if an error occurred when reading
      *         from the internal file.
      * @throws IllegalArgumentException if the file contains a malformed
-     * 			Unicode escape sequence.
+     *             Unicode escape sequence.
      * @see #load(InputStream)
      */
     public void load() throws IOException
@@ -110,9 +110,9 @@ class PropertiesFile extends Properties
      *
      * @param comments a description of the property list.
      * @throws IOException if writing this property list to
-     * 			the specified output stream throws an IOException.
+     *             the specified output stream throws an IOException.
      * throws ClassCastException if this Properties object contains
-     *  		any keys or values that are not Strings.
+     *          any keys or values that are not Strings.
      */
     public void store( final String comments ) throws IOException
     {
