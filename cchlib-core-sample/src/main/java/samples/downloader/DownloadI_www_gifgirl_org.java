@@ -21,7 +21,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public class DownloadI_www_gifgirl_org
     extends AbstractDownloaderAppInterface
 {
-    private final static String URL_PATTERN
+	private static final long serialVersionUID = 1L;
+	private final static String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
     private static final String SITE_NAME = "www.gifgirl.org";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 50; // FIXME

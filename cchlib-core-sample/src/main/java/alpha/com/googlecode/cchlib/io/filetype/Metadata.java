@@ -109,7 +109,7 @@ public class Metadata
             }
 
         // children, so close current tag
-        System.out.println(">");
+        System.out.println( '>' );
         while( child != null ) {
             // print children recursively
             displayMetadata(child, level + 1);

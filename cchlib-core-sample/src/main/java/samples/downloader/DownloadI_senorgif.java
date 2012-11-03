@@ -14,7 +14,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public class DownloadI_senorgif
     extends AbstractDownloaderAppInterface
 {
-    private static final String SITE_NAME = "senorgif";
+	private static final long serialVersionUID = 1L;
+	private static final String SITE_NAME = "senorgif";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 5;
     private static final int DEFAULT_MAX_PAGES = 15;
 

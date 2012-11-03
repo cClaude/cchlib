@@ -22,7 +22,7 @@ public abstract class LegacyParentClass
         try {
             doNullPointerException();
             }
-        catch( NullPointerException ignore ) {}
+        catch( NullPointerException ignore ) {} // $codepro.audit.disable logExceptions, emptyCatchClause
     }
 
     private void doNothing()
@@ -84,7 +84,7 @@ public abstract class LegacyParentClass
         builder.append(aString);
         builder.append(", aInt=");
         builder.append(aInt);
-        builder.append("]");
+        builder.append(']');
         return builder.toString();
     }
 

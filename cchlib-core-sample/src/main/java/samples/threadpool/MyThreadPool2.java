@@ -42,7 +42,7 @@ public class MyThreadPool2
         mtp.runTask( new MyTask2( "abracadabra" ) );
 
         // Wait 2 sec and stop
-        try { Thread.sleep(2000); } catch( InterruptedException e ) { }
+        try { Thread.sleep(2000); } catch( InterruptedException e ) { } // $codepro.audit.disable emptyCatchClause
         mtp.shutDown();
     }
 

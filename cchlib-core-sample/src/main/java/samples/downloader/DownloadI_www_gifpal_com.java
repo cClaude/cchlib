@@ -17,7 +17,7 @@ public class DownloadI_www_gifpal_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
-    //private final static Logger logger = Logger.getLogger( DownloadI_gifpal.class );
+	private static final long serialVersionUID = 1L;
     private final static String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
 
     /**

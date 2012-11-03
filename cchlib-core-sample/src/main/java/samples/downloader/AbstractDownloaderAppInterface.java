@@ -1,5 +1,6 @@
 package samples.downloader;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
@@ -18,8 +19,9 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
  *
  */
 public abstract class AbstractDownloaderAppInterface
-    implements GenericDownloaderAppInterface
+    implements GenericDownloaderAppInterface, Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final transient Logger logger = Logger.getLogger( AbstractDownloaderAppInterface.class );
     public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
     private String  siteName;
@@ -92,7 +94,7 @@ public abstract class AbstractDownloaderAppInterface
      * @param pageNumber
      * @return TODOC
      * @throws MalformedURLException
-     * @throws URISyntaxException 
+     * @throws URISyntaxException
      */
     abstract public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException;
@@ -122,7 +124,7 @@ public abstract class AbstractDownloaderAppInterface
      * @param regexpIndex
      * @return TODOC
      * @throws MalformedURLException
-     * @throws URISyntaxException 
+     * @throws URISyntaxException
      */
     abstract
     public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
@@ -182,9 +184,9 @@ public abstract class AbstractDownloaderAppInterface
                 try {
                     //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
                     DownloadFileURL dfURL = getDownloadURLFrom( src, i );
-                    
+
                     dfURL.setProperty( DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
-                    
+
                     imagesURLCollection.add( dfURL );
                     }
                 catch( MalformedURLException | URISyntaxException e ) {
@@ -218,7 +220,7 @@ public abstract class AbstractDownloaderAppInterface
     {
         if( this.comboBoxConfigList == null ) {
             this.comboBoxConfigList = new ArrayList<>();
-            };
+            }
 
         this.comboBoxConfigList.add( entry );
     }

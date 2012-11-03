@@ -64,7 +64,7 @@ public class GraphPanel
             try {
                 Thread.sleep(100L);
                 }
-            catch (InterruptedException e) {
+            catch (InterruptedException e) { // $codepro.audit.disable logExceptions
                 break;
             }
         }
@@ -137,7 +137,7 @@ public class GraphPanel
                 double vy = n1.get_y() - n2.get_y();
                 double len = vx * vx + vy * vy;
 
-                if (len == 0.0D) {
+                if( Double.compare( len, 0.0D ) == 0 ) {
                     dx += Math.random();
                     dy += Math.random();
                     }

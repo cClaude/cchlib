@@ -18,9 +18,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public class DownloadI_www_epins_fr
     extends AbstractDownloaderAppInterface
 {
-    //private final static Logger logger = Logger.getLogger( DownloaderSample1.class );
-
-    /* http://www.epins.fr/pins/98699.png */
+	private static final long serialVersionUID = 1L;
+	/* http://www.epins.fr/pins/98699.png */
     /* http://www.epins.fr/pins/104639.png */
     private final static String serverRootURLString = "http://www.epins.fr";
     private final static String htmlURLFmt0         = serverRootURLString + "/pins/";

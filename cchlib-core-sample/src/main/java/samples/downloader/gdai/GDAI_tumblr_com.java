@@ -14,7 +14,6 @@ import samples.downloader.DefaultComboBoxConfig;
 import samples.downloader.GenericDownloaderAppInterface;
 import samples.downloader.GenericDownloaderAppUIResults;
 import samples.downloader.PolyURLDownloadFileURL;
-import samples.downloader.gdai.GDAI_tumblr_com_Config.Entry;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
@@ -29,7 +28,8 @@ public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
-    private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
+	private static final long serialVersionUID = 1L;
+	private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
     /*
      * http://[NAME].tumblr.com
      */
@@ -222,13 +222,13 @@ public abstract class GDAI_tumblr_com
         final String[] blogDescriptions;
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         {
-            Collection<Entry> entries = config.getEntriesCollection();
+            Collection<GDAI_tumblr_com_Config.Entry> entries = config.getEntriesCollection();
             
             blogNames        = new String[ entries.size() ];
             blogDescriptions = new String[ entries.size() ];
 
             int i = 0;
-            for( Entry entry : entries ) {
+            for( GDAI_tumblr_com_Config.Entry entry : entries ) {
                 blogNames[ i ]          = entry.getName();
                 blogDescriptions[ i++ ] = entry.getDescription();
                 }

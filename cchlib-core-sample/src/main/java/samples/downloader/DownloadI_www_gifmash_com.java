@@ -18,7 +18,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public class DownloadI_www_gifmash_com 
     extends AbstractDownloaderAppInterface
 {
-    private static final String SITE_NAME = "www.gifmash.com";
+	private static final long serialVersionUID = 1L;
+	private static final String SITE_NAME = "www.gifmash.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
     private static final int DEFAULT_MAX_PAGES = 100;
     private ComboBoxConfig mainComboBoxConfig;

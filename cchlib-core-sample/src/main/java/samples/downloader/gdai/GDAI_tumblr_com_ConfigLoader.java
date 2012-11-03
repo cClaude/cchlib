@@ -31,7 +31,7 @@ class GDAI_tumblr_com_ConfigLoader
             loadConfig();
             }
         catch( IOException e ) {
-            logger.error( "Can't load config - ignore" );
+            logger.error( "Can't load config - ignore", e );
             }
     }
 

@@ -19,7 +19,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
-    private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
+	private static final long serialVersionUID = 1L;
+	private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
 
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES = 25;

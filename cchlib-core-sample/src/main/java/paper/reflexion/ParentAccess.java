@@ -54,32 +54,32 @@ public class ParentAccess<C> implements Serializable
 
         sb.append( "Class:" )
           .append( this.clazz )
-          .append( "\n" );
+          .append( '\n' );
 
         for( Field f : hiddenFields ) {
             sb.append( "hidden field : " )
               .append( f )
-              .append( "\n" );
+              .append( '\n' );
             }
 
         for( Field f : visibleFields ) {
             sb.append( "visible field : " )
               .append( f )
-              .append( "\n" );
+              .append( '\n' );
             }
 
         for( Method m : clazz.getDeclaredMethods() ) {
             if( !visibleMethods.contains( m ) ) {
                 sb.append( "hidden method : " )
                   .append( m )
-                  .append( "\n" );
+                  .append( '\n' );
                 }
             }
 
         for( Method m : visibleMethods ) {
             sb.append( "visible method : " )
               .append( m )
-              .append( "\n" );
+              .append( '\n' );
             }
 
         return sb.toString();

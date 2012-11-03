@@ -9,7 +9,8 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 class GDAI_tumblr_com_ForHost
     extends GDAI_tumblr_com
 {
-    private static final String SITE_NAME_GENERIC = "*.tumblr.com";
+	private static final long serialVersionUID = 1L;
+	private static final String SITE_NAME_GENERIC = "*.tumblr.com";
 
     private DefaultComboBoxConfig   comboBoxConfig;
     private String                  _hostname;
