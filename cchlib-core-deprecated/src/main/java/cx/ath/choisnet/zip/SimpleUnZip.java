@@ -130,7 +130,7 @@ public class SimpleUnZip
     public void saveAll(File folderFile)
         throws java.io.IOException
     {
-        while(saveNextEntry(folderFile) != null);
+        while(saveNextEntry(folderFile) != null); // $codepro.audit.disable emptyStatement
     }
 
     /**

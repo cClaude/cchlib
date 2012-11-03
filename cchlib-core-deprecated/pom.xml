@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
@@ -20,19 +20,6 @@
     <project.javadoc.source.version>1.6</project.javadoc.source.version>
   </properties>
 
-  <!-- Distribution management -->
-  <distributionManagement><!-- Maven repo -->
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
@@ -51,11 +38,6 @@
 
   <build>
     <extensions>
-      <extension><!-- Maven repo -->
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
     </extensions>
     <plugins>
     </plugins>

@@ -1,10 +1,9 @@
 package cx.ath.choisnet.sql;
 
-import org.apache.log4j.Logger;
-import cx.ath.choisnet.sql.SQLTools;
-import junit.framework.TestCase;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import org.apache.log4j.Logger;
+import org.junit.Test;
 /**
  *
  */
@@ -127,7 +126,7 @@ public class SQLToolsTest
         slogger.info( "r      = [" + r + "]" );
         slogger.info( "expStr = [" + expStr + "]" );
 
-        TestCase.assertEquals("Bad result for: [" + s + "]",expStr,r);
+        assertEquals("Bad result for: [" + s + "]",expStr,r);
     }
 
 }

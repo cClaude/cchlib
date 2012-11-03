@@ -74,7 +74,7 @@ final class ExportSQLPrinter implements Closeable
         if( tableDesc.getWhereCondition() != null ) {
             q.append( "` WHERE " );
             q.append( tableDesc.getWhereCondition() );
-            q.append( ";" );
+            q.append( ';' );
             }
         else {
             q.append( "`;" );
