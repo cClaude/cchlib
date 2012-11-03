@@ -19,6 +19,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
+    private static final long serialVersionUID = 1L;
     private JList/*<E>*/ jList;
 
     /**

@@ -96,6 +96,8 @@ public class XTextField extends JTextField
     {
         new JPopupMenuForJTextField( XTextField.this )
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected JPopupMenu createContextMenu()
             {

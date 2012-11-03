@@ -113,7 +113,7 @@ public class PatternDocument extends PlainDocument
             Pattern.compile( jtf.getText() );
             jtf.setBackground( defaultColor );
             }
-        catch(Exception e) {
+        catch(Exception e) { // $codepro.audit.disable logExceptions
             jtf.setBackground( errorColor );
             }
     }

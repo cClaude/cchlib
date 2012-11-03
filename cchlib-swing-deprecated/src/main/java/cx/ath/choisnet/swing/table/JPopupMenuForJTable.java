@@ -20,6 +20,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJTable
     extends AbstractJPopupMenuBuilder
 {
+    private static final long serialVersionUID = 1L;
     private JTable jTable;
 
     /**
