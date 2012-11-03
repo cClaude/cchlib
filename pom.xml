@@ -23,14 +23,25 @@
     <maven>3.0.0</maven>
   </prerequisites>
 
-  <!-- Project description -->
-  <!--
+  <!-- maven on googlecode : Project description -->
   <scm>
     <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
     <url/>
   </scm>
-   -->
+
+  <!-- maven on googlecode : Distribution management -->
+  <distributionManagement>
+    <repository>
+      <id>googlecode.cchlib.repo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>googlecode.cchlib.snapshotrepo</id>
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
 
   <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical -->
   <developers>
@@ -45,19 +56,6 @@
       <timezone>+1</timezone>
     </developer>
   </developers>
-
-  <!-- Distribution management -->
-  <distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
 
   <!-- Site reporting -->
   <reporting>
@@ -75,6 +73,11 @@
   -->
   <build>
     <extensions>
+      <extension><!-- maven on googlecode -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
     </extensions>
     <plugins>
       <plugin>

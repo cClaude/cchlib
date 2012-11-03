@@ -21,26 +21,6 @@
     <project.javadoc.source.version>1.6</project.javadoc.source.version>
   </properties>
 
-  <!-- Project description -->
-  <scm>
-    <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
-    <url/>
-  </scm>
-
-  <!-- Distribution management -->
-  <distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>net.iharder</groupId>
@@ -69,11 +49,6 @@
     </resources>
 
     <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
     </extensions>
 
     <plugins>
