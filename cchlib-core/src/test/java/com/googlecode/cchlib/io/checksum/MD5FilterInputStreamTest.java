@@ -53,7 +53,7 @@ public class MD5FilterInputStreamTest
             try {
                 test( f );
                 }
-            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause
+            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }   
     }
     

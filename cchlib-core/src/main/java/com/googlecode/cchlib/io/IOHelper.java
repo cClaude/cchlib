@@ -71,7 +71,7 @@ public final class IOHelper
             copy(input, outputFile, buffer);
             }
         finally {
-            try { input.close();  } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause
+            input.close();
             }
     }
 
@@ -99,7 +99,7 @@ public final class IOHelper
             copy( input, output, buffer );
             }
         finally {
-            try { output.close(); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause
+            output.close();
             }
     }
     

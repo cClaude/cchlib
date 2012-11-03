@@ -23,7 +23,7 @@ public class TestLocalTest
         try {
             local.load();
             }
-        catch( FileNotFoundException e ) {
+        catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
             logger.warn( "No local config" );
             }
         

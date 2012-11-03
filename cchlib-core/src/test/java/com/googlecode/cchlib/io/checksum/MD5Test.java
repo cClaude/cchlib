@@ -75,7 +75,7 @@ public class MD5Test
                 
                 Assert.assertArrayEquals( digestKey, hash1 );
                 }
-            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause
+            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 

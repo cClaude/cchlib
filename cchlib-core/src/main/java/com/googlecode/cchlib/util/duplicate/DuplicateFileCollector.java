@@ -228,7 +228,7 @@ public class DuplicateFileCollector
                     catch(IOException e) {
                         notify(e,f);
                         }
-                    catch( CancelRequestException e ) {
+                    catch( CancelRequestException e ) { // $codepro.audit.disable logExceptions
                         setCancelProcess( true );
                         }
 

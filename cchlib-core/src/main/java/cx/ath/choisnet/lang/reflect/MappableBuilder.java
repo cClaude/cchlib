@@ -604,7 +604,7 @@ public class MappableBuilder
             }
 
             return resultClass.cast( result );
-        }
+            }
         catch( ClassCastException improbable ) {
             throw new RuntimeException( (new StringBuilder())
                     .append( "method.getName() - ClassCastException: " )
@@ -612,13 +612,13 @@ public class MappableBuilder
                     .toString(),
                     improbable
                     );
-        }
+            }
         catch( IllegalArgumentException e ) {
             throw e;
-        }
+            }
         catch( NullPointerException e ) {
             throw e;
-        }
+            }
         catch( ExceptionInInitializerError e ) {
             hashMap.put(
                     formatMethodName( method.getName() ),
@@ -628,10 +628,10 @@ public class MappableBuilder
                             .toString()
                             );
             return null;
-        }
-        catch( IllegalAccessException ignore ) {
+            }
+        catch( IllegalAccessException ignore ) { // $codepro.audit.disable logExceptions
             return null;
-        }
+            }
         catch( InvocationTargetException e ) {
             hashMap.put(
                     formatMethodName( method.getName() ),
@@ -640,7 +640,7 @@ public class MappableBuilder
                             .append( e.getCause() )
                             .toString()
                             );
-        }
+            }
 
         return null;
     }

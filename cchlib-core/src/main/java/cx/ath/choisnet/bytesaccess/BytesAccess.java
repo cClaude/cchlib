@@ -149,20 +149,20 @@ public abstract class BytesAccess implements Cloneable
     {
         if (this == obj) {
             return true;
-        }
+            }
         if (obj == null) {
             return false;
-        }
+            }
         if (getClass() != obj.getClass()) {
             return false;
-        }
+            }
 
         try {
             return compare( bytes, BytesAccess.class.cast( obj ).bytes ) == 0;
-        }
-        catch( IllegalArgumentException e ) {
+            }
+        catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
             return false;
-        }
+            }
     }
 
     /**

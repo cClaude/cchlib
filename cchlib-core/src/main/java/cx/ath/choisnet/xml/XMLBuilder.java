@@ -132,7 +132,7 @@ public class XMLBuilder
     {
         XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
-        try { builder.append(aNode); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause
+        try { builder.append(aNode); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
         return builder.appendableToString();
     }
@@ -150,7 +150,7 @@ public class XMLBuilder
 
         sb.append("--------------------\n");
 
-        try { builder.append(nodeList); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause
+        try { builder.append(nodeList); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
         sb.append("--------------------\n");
 

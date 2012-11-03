@@ -246,7 +246,10 @@ class SimpleBean implements Comparable<SimpleBean>
     @Override
     public boolean equals(Object obj)
     {
-        if( obj instanceof SimpleBean ) {
+        if( this == obj ) {
+            return true;
+            }
+        else if( obj instanceof SimpleBean ) {
             return this.compareTo( SimpleBean.class.cast( obj ) ) == 0;
             }
         return false;

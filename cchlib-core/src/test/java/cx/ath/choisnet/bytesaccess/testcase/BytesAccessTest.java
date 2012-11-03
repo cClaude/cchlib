@@ -39,7 +39,7 @@ public class BytesAccessTest extends TestCase
         int c;
         while( (c = is.read()) >= 0 ) {
             fos.write( c );
-        }
+            }
         is.close();
         fos.close();
         assertEquals( "File Bad length!", length, f.length() );
@@ -54,10 +54,10 @@ public class BytesAccessTest extends TestCase
         try {
             ba = new TstOnlyBytesAccess( f, length * 2 );
             fail( "Should fail here !" );
-        }
-        catch( BytesAccessException ignore ) { // $codepro.audit.disable emptyCatchClause
+            }
+        catch( BytesAccessException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
             // OK
-        }
+            }
 
         // It there any lock ?
         boolean isDelete = f.delete();
@@ -79,7 +79,7 @@ public class BytesAccessTest extends TestCase
 
             testCompareTo( ba, getConstantBytesAccess() );
             testEquals( ba, getConstantBytesAccess() );
-        }
+            }
 
         slogger.info( "testCompareTo() - step 2" );
         testCompareTo(
@@ -131,13 +131,13 @@ public class BytesAccessTest extends TestCase
         debug.append( "ba1:" );
         for( Byte b : ba.getBytesCopy()) {
             debug.append( String.format( "%1$02X ", b ) );
-        }
+            }
         slogger.info( debug );
         debug.setLength( 0 );
         debug.append( "ba2:" );
         for( Byte b : compareToBytes) {
             debug.append( String.format( "%1$02X ", b ) );
-        }
+            }
         slogger.info( debug );
 
         slogger.info( "r1: " + r1  );
@@ -157,21 +157,21 @@ public class BytesAccessTest extends TestCase
             try {
                 int  r3 = ba.compareTo( compareTo );
                 fail("Should fail here : r3 = ba.compareTo( compareTo ): " + r3 );
-            }
-            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause
-            }
+                }
+            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+                }
             try {
                 int r4 = ba.compareTo( compareToBytes );
                 fail("Should fail here : r4 = ba.compareTo( compareToBytes ): " + r4 );
-            }
-            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause
-            }
+                }
+            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+                }
             try {
                 long r5 =BytesAccess.compare( ba.getBytesCopy(), compareToBytes );
                 fail("Should fail here : r5 = BytesAccess.compare( ba.getBytesCopy(), compareToBytes ): " + r5);
-            }
-            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause
-            }
+                }
+            catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+                }
             return;
         }
 
@@ -200,12 +200,12 @@ public class BytesAccessTest extends TestCase
                     r3int | 0xFFFF0000,
                     r3
                     );
-        }
+            }
         else {
             r3int = r3;
             r5int = (int)(r5 & 0x00000000FFFFFFFFL);
             cmpCanNotStoreOffsetInInteger = false;
-        }
+            }
 
         assertEquals(
                 String.format(
@@ -234,12 +234,12 @@ public class BytesAccessTest extends TestCase
             assertTrue( "advanceCompareTo(BytesAccess), compareTo(BytesAccess) inconsistent ! null != " + r3, r3==0);
             assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[]) inconsistent ! null != " + r4, r4==0);
             assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[],byte[]) inconsistent ! null != " + r4, r4==0);
-        }
+            }
         else {
             // TODO: build a "long" from r1 (not urgent)
             // long r1long = 0;
             // To-Do-Later: Compare r1long and r5
-        }
+            }
     }
 
     public void testEquals( BytesAccess ba, BytesAccess compareTo)
@@ -326,7 +326,7 @@ public class BytesAccessTest extends TestCase
                 if( c++ < maxLen ) {
                     random.nextBytes( byte1 );
                     return 0x00FF & byte1[0];
-                }
+                    }
 
                 return -1;
             }
@@ -343,7 +343,7 @@ public class BytesAccessTest extends TestCase
             {
                 if( i < BYTES.length ) {
                     return 0x00FF & BYTES[i++];
-                }
+                    }
                 return -1;
             }
         };

@@ -460,11 +460,11 @@ public class PropertiesPopulator<E>
                             }
                         }
                     catch( NumberFormatException e ) {
-                        logger.warn( "Cannot set field:" + f );
+                        logger.warn( "Cannot set field:" + f, e );
                         }
                     catch( IllegalArgumentException e ) {
                         // ignore !
-                        logger .warn( "Cannot set field:" + f, e );
+                        logger.warn( "Cannot set field:" + f, e );
                         }
                     catch( IllegalAccessException e ) {
                         // ignore !
@@ -544,11 +544,11 @@ public class PropertiesPopulator<E>
                 }
             catch( IllegalArgumentException e ) {
                 // ignore !
-                logger.warn( "Cannot set field:" + f );
+                logger.warn( "Cannot set field:" + f, e );
                 }
             catch( IllegalAccessException e ) {
                 // ignore !
-                logger.warn( "Cannot set field:" + f );
+                logger.warn( "Cannot set field:" + f, e );
                 }
             finally {
                 f.setAccessible( false );

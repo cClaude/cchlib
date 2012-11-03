@@ -257,7 +257,7 @@ public class ExtendableClassLoader extends ClassLoader
                 try {
                     return parent.loadClass( className );
                     }
-                catch( ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause
+                catch( ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                     // Try again later
                     }
                 }
@@ -276,7 +276,7 @@ public class ExtendableClassLoader extends ClassLoader
 
             return classResult;
             }
-        catch( ClassNotFoundException ignore ) {
+        catch( ClassNotFoundException ignore ) { // $codepro.audit.disable logExceptions
             classData = getClassFromAddedClassPaths( className );
             }
 

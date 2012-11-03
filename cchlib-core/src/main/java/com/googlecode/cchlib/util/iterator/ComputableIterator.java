@@ -37,14 +37,14 @@ public abstract class ComputableIterator<T>
      @Override
     public boolean hasNext()
     {
-        if(nextObject == null) {
+        if( nextObject == null ) {
             try {
                 nextObject = computeNext();
-            }
-            catch(NoSuchElementException e) {
+                }
+            catch( NoSuchElementException e ) {
                 return false;
+                }
             }
-        }
 
         return true;
     }
@@ -59,16 +59,16 @@ public abstract class ComputableIterator<T>
     {
         if(nextObject == null) {
             nextObject = computeNext();
-        	}
+            }
 
         T returnObject = nextObject;
 
         try {
             nextObject = computeNext();
-        	}
-        catch(NoSuchElementException e) {
+            }
+        catch(NoSuchElementException e) { // $codepro.audit.disable logExceptions
             nextObject = null;
-        	}
+            }
 
         return returnObject;
     }
@@ -91,10 +91,10 @@ public abstract class ComputableIterator<T>
     {
         if(nextObject == null) {
             throw new IllegalStateException();
-        	}
+            }
         else {
             throw new UnsupportedOperationException();
-        	}
+            }
     }
 
 }

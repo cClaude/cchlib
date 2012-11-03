@@ -291,30 +291,26 @@ public class MessageDigestFile
     {
         reset();
 
-        FileInputStream fis      = new FileInputStream(file);
-        FileChannel     fchannel = fis.getChannel();
-
+        FileInputStream fis = new FileInputStream(file);
+        
         try {
-            for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                    fchannel.read(bb) != -1 || bb.position() > 0;
-                    bb.compact()
-                    ) {
-                bb.flip();
-                update( bb );
-                }
-            }
-        finally {
+        	FileChannel fchannel = fis.getChannel();
+        	
             try {
+                for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                        fchannel.read(bb) != -1 || bb.position() > 0;
+                        bb.compact()
+                        ) {
+                    bb.flip();
+                    update( bb );
+                    }
+            	}
+            finally {
                 fchannel.close();
-                }
-            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
-                }
-
-            try {
-                fis.close();
-                }
-            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
-                }
+            	}
+        	}
+        finally {
+            fis.close();
             }
 
         return digestDelegator();
@@ -370,9 +366,9 @@ public class MessageDigestFile
             }
         finally {
             // Not need 
-            try { fchannel.close(); } catch(Exception ignore) {} // $codepro.audit.disable emptyCatchClause
+            fchannel.close(); // TODO improve try finally
             // Need !
-            try { fis.close(); } catch(Exception ignore) { } // $codepro.audit.disable emptyCatchClause
+            fis.close();
             }
 
         if( cancel ) {

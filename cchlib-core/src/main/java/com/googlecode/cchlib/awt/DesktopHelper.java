@@ -48,22 +48,22 @@ public class DesktopHelper
                 }
             return false;
             }
-        catch( ClassNotFoundException e ) {
+        catch( ClassNotFoundException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
-        catch( NoSuchMethodException e ) {
+        catch( NoSuchMethodException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
-        catch( SecurityException e ) {
+        catch( SecurityException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
-        catch( IllegalAccessException e ) {
+        catch( IllegalAccessException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
-        catch( IllegalArgumentException e ) {
+        catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
-        catch( InvocationTargetException e ) {
+        catch( InvocationTargetException e ) { // $codepro.audit.disable logExceptions
             returnException = e;
             }
 

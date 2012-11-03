@@ -1,14 +1,18 @@
 package com.googlecode.cchlib.util;
 
-class MyType
+import java.io.Serializable;
+import java.util.Comparator;
+
+class MyType implements Comparable<MyType>, Serializable
 {
+    private static final long serialVersionUID = 1L;
+    private static Comparator<MyType> comparator = new MyTypeComparator();
     private int content;
 
-    MyType( int content )
+    MyType( final int content )
     {
         this.content = content;
     }
-
 
     @Override
     public String toString()
@@ -20,4 +24,20 @@ class MyType
     {
         return content;
     }
+
+    @Override
+    public int compareTo( final MyType o )
+    {
+    	return comparator.compare( this, o );
+    }
+}
+
+class MyTypeComparator implements Comparator<MyType>
+{
+	@Override
+	public int compare( final MyType o1, final MyType o2 )
+	{
+        return o1.getContent() - o2.getContent();
+	}
+	
 }

@@ -179,7 +179,7 @@ public class ByteArrayBuilder
         try {
             buffer[lastPos] = b;
             }
-        catch(ArrayIndexOutOfBoundsException e) {
+        catch(ArrayIndexOutOfBoundsException e) { // $codepro.audit.disable logExceptions
             ensureCapacity(capacity() + 1);
             buffer[lastPos] = b;
             }
@@ -415,7 +415,10 @@ public class ByteArrayBuilder
     @Override
     public boolean equals(Object o)
     {
-        if( o instanceof ByteArrayBuilder ) {
+    	if( this == o ) {
+    		return true;
+    		}
+    	else if( o instanceof ByteArrayBuilder ) {
             return compareTo( ByteArrayBuilder.class.cast( o )) == 0;
             }
         return false;

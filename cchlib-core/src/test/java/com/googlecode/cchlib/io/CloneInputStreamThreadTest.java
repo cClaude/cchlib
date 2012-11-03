@@ -121,7 +121,7 @@ public class CloneInputStreamThreadTest
             try {
                 bytes = convertInputStreamAsBytes();
                 }
-            catch( IOException e ) {
+            catch( IOException e ) { // $codepro.audit.disable logExceptions
                 ioException = e;
                 }
             isReady = true;
@@ -131,7 +131,7 @@ public class CloneInputStreamThreadTest
         {
             while( ! isReady() ) {
                 try { Thread.sleep( 500 ); }
-                catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause
+                catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
             
             return bytes;

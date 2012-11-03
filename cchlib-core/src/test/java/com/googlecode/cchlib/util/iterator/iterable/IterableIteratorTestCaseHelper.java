@@ -115,7 +115,7 @@ abstract class IterableIteratorTestCaseHelper
 
             Assert.fail( "Should crash");
             }
-        catch( NullPointerException e ) {
+        catch( NullPointerException e ) { // $codepro.audit.disable logExceptions
             slogger.info( "Crash ok" );
             }
     }
@@ -127,7 +127,7 @@ abstract class IterableIteratorTestCaseHelper
 
             Assert.fail( "Should crash");
             }
-        catch( NullPointerException e ) {
+        catch( NullPointerException e ) { // $codepro.audit.disable logExceptions
             slogger.info( "Crash ok" );
             }
     }

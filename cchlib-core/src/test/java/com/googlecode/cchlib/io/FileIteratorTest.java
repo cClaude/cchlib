@@ -37,7 +37,7 @@ public class FileIteratorTest extends TestCase
 
             fail( "Should crash here" );
             }
-        catch( IllegalArgumentException e ) {
+        catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
             slogger.info( "Ok: does not exist" );
         }
     }

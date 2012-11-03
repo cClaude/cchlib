@@ -92,7 +92,7 @@ public class ExternalApp
                 procOut.flush();
                 procOut.close();
                 }
-            catch( IOException e ) {
+            catch( IOException e ) { // $codepro.audit.disable logExceptions
                 exception = new ExternalAppException("IOException while running extern application", e);
                 }
 

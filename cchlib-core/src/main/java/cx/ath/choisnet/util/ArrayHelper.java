@@ -88,7 +88,7 @@ public final class ArrayHelper
                     try {
                         return array[index++];
                     	}
-                    catch(IndexOutOfBoundsException ignore) {} // $codepro.audit.disable logExceptions
+                    catch(IndexOutOfBoundsException ignore) {} // $codepro.audit.disable logExceptions, emptyCatchClause
                 }
                 throw new NoSuchElementException((new StringBuilder()).append("index = ").append(index).toString());
             }
