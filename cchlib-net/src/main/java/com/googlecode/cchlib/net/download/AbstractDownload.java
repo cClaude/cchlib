@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 //NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
-    private final static transient Logger logger = Logger.getLogger( AbstractDownload.class );
+    private final static Logger logger = Logger.getLogger( AbstractDownload.class );
     // Use getDownloadURL() to access to this object
     private final DownloadURL downloadURL;
     // Use getDownloadEvent() to access to this object

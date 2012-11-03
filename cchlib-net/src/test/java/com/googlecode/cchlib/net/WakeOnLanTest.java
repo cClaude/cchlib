@@ -22,7 +22,7 @@ public class WakeOnLanTest
         try {
             testLocal.load();
             }
-        catch( FileNotFoundException e ) {
+        catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
             logger.warn( "No config to load" );
             }
         config = testLocal.getConfig();

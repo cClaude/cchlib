@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public class URLCache implements Closeable
 {
-    private static final transient Logger logger = Logger.getLogger( URLCache.class );
+    private static final Logger logger = Logger.getLogger( URLCache.class );
 
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
@@ -336,7 +336,7 @@ public class URLCache implements Closeable
             try {
         	    persistenceManager.load( getCacheFile(), _cache_ );
         		}
-            catch( PersistenceFileBadVersion retry ) {
+            catch( PersistenceFileBadVersion retry ) { // $codepro.audit.disable logExceptions
                 new SimpleTextPersistenceManagerV0().load( getCacheFile(), _cache_ );
                 }
         	catch( IOException retry ) {
@@ -345,7 +345,7 @@ public class URLCache implements Closeable
         		try {
                     persistenceManager.load( getBackupCacheFile(), _cache_ );
                     }
-                catch( PersistenceFileBadVersion e ) {
+                catch( PersistenceFileBadVersion e ) { // $codepro.audit.disable logExceptions
                     new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), _cache_ );
                     }
         		}

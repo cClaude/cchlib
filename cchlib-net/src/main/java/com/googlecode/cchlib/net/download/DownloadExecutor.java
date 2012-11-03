@@ -187,7 +187,7 @@ public class DownloadExecutor
         // Wait pool finish
         do {
             // TODO: handle shutdown() use pool.awaitTermination( 1, TimeUnit.SECONDS );
-            try { Thread.sleep( 2 * 1000 ); } catch( InterruptedException ignore ) {}
+            try { Thread.sleep( 2 * 1000 ); } catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             } while( pool.getActiveCount() > 0 );
 
         pool.shutdown();
