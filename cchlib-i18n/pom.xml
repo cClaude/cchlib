@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
@@ -19,14 +19,14 @@
   </properties>
   
   <!-- Project description -->
-  <scm>
+  <!-- scm>
     <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
     <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
     <url/>
-  </scm>
+  </scm -->
 
   <!-- Distribution management -->
-  <distributionManagement><!-- Maven repo -->
+  <!-- distributionManagement>
     <repository>
       <id>googlecode.cchlib.repo</id>
       <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
@@ -36,7 +36,7 @@
       <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
-  </distributionManagement>
+  </distributionManagement -->
   
   <dependencies>
     <dependency>
@@ -55,11 +55,6 @@
 
   <build>
     <extensions>
-      <extension><!-- Maven repo -->
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
     </extensions>
     <plugins>
     </plugins>
