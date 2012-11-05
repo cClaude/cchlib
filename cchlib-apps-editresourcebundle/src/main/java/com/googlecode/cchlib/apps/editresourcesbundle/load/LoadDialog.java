@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -7,23 +7,26 @@ import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
-
+import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
+import com.googlecode.cchlib.apps.editresourcesbundle.FileObject;
+import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.Windows;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
  *
  */
-class LoadDialog
+public class LoadDialog
     extends LoadDialogWB
         implements I18nAutoUpdatable
 {
-    private static final long   serialVersionUID        = 1L;
+    private static final long serialVersionUID = 2L;
     private final static Logger slogger = Logger.getLogger( LoadDialog.class );
     private JFileChooserInitializer jFileChooserInitializer = new JFileChooserInitializer();
     private FilesConfig filesConfig;
@@ -53,6 +56,7 @@ class LoadDialog
         )
     {
         super( parentFrame );
+
         this.preferences = parentFrame.getPreferences();
         this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
         this.filesConfig = filesConfig;
@@ -63,6 +67,8 @@ class LoadDialog
         setLocationRelativeTo( parentFrame );
         getContentPane().setPreferredSize( this.getSize() );
         pack();
+
+        Windows.handleMinimumSize( this, 400, 250 );
     }
 
     @Override // I18nAutoUpdatable
@@ -164,21 +170,31 @@ class LoadDialog
 
     protected void udpateFilesDisplay()
     {
-        if( this.filesConfig.getLeftFileObject()!=null ) {
-            getJTextField_Left().setText(
-                this.filesConfig.getLeftFileObject().getFile().getPath()
-                );
+        //FIXME
+
+        if( this.filesConfig.getLeftFileObject() != null ) {
+//            getJTextField_Left().setText(
+//                    this.filesConfig.getLeftFileObject().getFile().getPath()
+//                    );
+            getJTextField( 0 ).setText(
+                    this.filesConfig.getLeftFileObject().getFile().getPath()
+                    );
             }
         else {
-            getJTextField_Left().setText("");
+//            getJTextField_Left().setText("");
+            getJTextField( 0 ).setText("");
             }
         if( this.filesConfig.getRightFileObject()!=null ) {
-            getJTextField_Right().setText(
-                this.filesConfig.getRightFileObject().getFile().getPath()
-                );
+//            getJTextField_Right().setText(
+//                    this.filesConfig.getRightFileObject().getFile().getPath()
+//                    );
+            getJTextField( 1 ).setText(
+                    this.filesConfig.getRightFileObject().getFile().getPath()
+                    );
             }
         else {
-            getJTextField_Right().setText("");
+//            getJTextField_Right().setText("");
+            getJTextField( 1 ).setText("");
             }
     }
 
@@ -309,13 +325,13 @@ class LoadDialog
                 {
                     final String c = e.getActionCommand();
 
-                    if( ACTIONCMD_SELECT_LEFT.equals( e.getActionCommand() ) ) {
+                    /*if( ACTIONCMD_SELECT_LEFT.equals( e.getActionCommand() ) ) {
                         jButton_LeftMouseMousePressed();
                         }
                     else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
                         jButton_RightMouseMousePressed();
                         }
-                    else if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
+                    else*/ if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
                         jButton_OkMouseMousePressed();
                         }
                     else if( ACTIONCMD_CANCEL_BUTTON.equals( e.getActionCommand() ) ) {
@@ -373,6 +389,12 @@ class LoadDialog
                                 jCheckBox_ShowLineNumbers.isSelected()
                                 );
                         }
+                    else if( c.startsWith( ACTIONCMD_SELECT_PREFIX ) ) {
+                        // FIXME
+                        int index = Integer.parseInt( c.substring( ACTIONCMD_SELECT_PREFIX.length() ) );
+
+                        jButtonSelectedPressed( index );
+                        }
                     else {
                         slogger.warn( "Unknown ActionCommand: " + c );
                         }
@@ -380,5 +402,19 @@ class LoadDialog
             };
             }
         return this.thisActionListener;
+    }
+
+    private void jButtonSelectedPressed( final int index )
+    {
+        // FIXME
+        if( index == 0 ) {
+            jButton_LeftMouseMousePressed();
+            }
+        else if( index == 1 ) {
+            jButton_RightMouseMousePressed();
+            }
+        else {
+            slogger.warn( "Unknown index: " + index );
+            }
     }
 }

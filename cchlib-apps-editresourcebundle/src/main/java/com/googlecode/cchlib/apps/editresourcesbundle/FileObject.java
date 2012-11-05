@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.io.File;
 import java.io.Serializable;
 
-class FileObject implements Serializable
+public class FileObject implements Serializable
 {
     private static final long serialVersionUID = 2L;
     private File file;

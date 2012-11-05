@@ -15,12 +15,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+
+import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.FileNameExtensionFilter;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -35,8 +38,7 @@ import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 /**
  *
  */
-// not public
-class CompareResourcesBundleFrame
+public class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nPrepAutoUpdatable
 {
@@ -99,11 +101,12 @@ class CompareResourcesBundleFrame
                 super.windowClosing( event );
 
                 if( tableModel != null ) {
-                    saveFile( true ); // save left
+                	// FIXME better handle of save
+                    saveFile( true );  // save left
                     saveFile( false ); // save right
                     }
 
-                System.exit( 0 ); // AppQuit
+                System.exit( 0 ); // AppQuit -- FIXME try to remove this
             }
         };
         super.addWindowListener( wl );
@@ -160,6 +163,8 @@ class CompareResourcesBundleFrame
 
         // Apply i18n !
         performeI18n(autoI18n);
+        
+        JFrames.handleMinimumSize( this, 600, 400 );
     }
 
     public static final URL getResource( final String name )

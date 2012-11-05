@@ -75,8 +75,11 @@ class CompareResourcesBundleTableModel
         leftCProperties  = filesConfig.createLeftCustomProperties();
         rightCProperties = filesConfig.createRightCustomProperties();
 
-        if(leftCProperties == null || rightCProperties == null) {
-            throw new IllegalArgumentException();
+        if( leftCProperties == null ) {
+            throw new IllegalArgumentException( "leftCProperties is null" );
+            }
+        if( rightCProperties == null ) {
+            throw new IllegalArgumentException( "rightCProperties is null" );
             }
 
         final ChangeListener cpChangeLstener = new ChangeListener()

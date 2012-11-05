@@ -3,6 +3,8 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
+
+import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;

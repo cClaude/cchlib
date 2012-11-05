@@ -11,19 +11,29 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import javax.swing.JCheckBox;
 import javax.swing.JTextField;
-
 import org.apache.log4j.Logger;
 
 /**
- * PropertiesPopulator is a simple way to store values in a properties
- * with a minimum work.
- * <br>
+ * <p>PropertiesPopulator is a simple way to store values in a properties
+ * with a minimum work.</p>
+ * <p>
  * PropertiesPopulator is able to set or get {@link Field} values
  * annotates with {@link Populator} or {@link Persistent}.
- * <br>
- * Warn: Only primitive type are supported (and standard derived object)
- * see {@link PopulatorContener} if you need to support extra type.
+ * </p>
+ * <p>
+ * <i>Warn:</i>Only primitive type are supported (and standard derived object) by
+ * {@link Populator}.<br/>
+ * See {@link PopulatorContener} if you need to support extra type.
+ * </p>
+ * <p>
+ * Swing components supported by {@link Persistent}
+ * <ul>
+ *   <li>{@link javax.swing.JTextField JTextField}</li>
+ *   <li>{@link javax.swing.JCheckBox JCheckBox}</li>
+ * </ul>
+ * </p>
  */
 public class PropertiesPopulator<E>
 {
@@ -57,7 +67,7 @@ public class PropertiesPopulator<E>
          */
         public void setValue( Field f, E bean, String strValue, Class<?> type)
             throws IllegalArgumentException,
-                   IllegalAccessException, 
+                   IllegalAccessException,
                    ConvertCantNotHandleTypeException,
                    PropertiesPopulatorException;
         /**
@@ -74,7 +84,7 @@ public class PropertiesPopulator<E>
          */
         public void setArrayEntry( Field f, Object array, int index, String strValue, Class<?> type )
             throws ArrayIndexOutOfBoundsException,
-                   IllegalArgumentException, 
+                   IllegalArgumentException,
                    ConvertCantNotHandleTypeException,
                    PropertiesPopulatorException;
     }
@@ -106,7 +116,7 @@ public class PropertiesPopulator<E>
         public void setValue( final Field f, final E bean, final String strValue, final Class<?> type )
             throws IllegalArgumentException,
                    IllegalAccessException,
-                   ConvertCantNotHandleTypeException, 
+                   ConvertCantNotHandleTypeException,
                    PropertiesPopulatorException
         {
             f.set( bean, private_convertStringToObject( strValue, type ) );
@@ -146,13 +156,16 @@ public class PropertiesPopulator<E>
             if( o instanceof JTextField ) {
                 return JTextField.class.cast( o ).getText();
                 }
+            else if( o instanceof JCheckBox ) {
+                return Boolean.toString( JCheckBox.class.cast( o ).isSelected() );
+                }
             else {
                 throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
                 }
         }
         @Override
         public void setValue( final Field f, final E bean, final String strValue, final Class<?> type )
-            throws IllegalArgumentException, 
+            throws IllegalArgumentException,
                    IllegalAccessException,
                    ConvertCantNotHandleTypeException,
                    PropertiesPopulatorException
@@ -162,13 +175,16 @@ public class PropertiesPopulator<E>
             if( o instanceof JTextField ) {
                 JTextField.class.cast( o ).setText( strValue );
                 }
+            else if( o instanceof JCheckBox ) {
+            	JCheckBox.class.cast( o ).setSelected( Boolean.parseBoolean( strValue ) );
+            	}
             else {
                 throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
                 }
         }
         @Override
         public void setArrayEntry( final Field f, final Object array, final int index, final String strValue, final Class<?> type)
-            throws ArrayIndexOutOfBoundsException, 
+            throws ArrayIndexOutOfBoundsException,
                    IllegalArgumentException,
                    ConvertCantNotHandleTypeException,
                    PropertiesPopulatorException
