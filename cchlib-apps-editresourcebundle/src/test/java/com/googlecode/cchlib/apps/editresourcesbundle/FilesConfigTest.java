@@ -1,19 +1,25 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
-import junit.framework.TestCase;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 /**
  * TestCase
  */
-public class FilesConfigTest extends TestCase
+public class FilesConfigTest //extends TestCase
 {
+    @Test
+    @Ignore
     public void test_Serializable()
         throws  FileNotFoundException,
                 IOException,
