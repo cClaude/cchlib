@@ -55,7 +55,7 @@ public class LoadDialog
         final FilesConfig                   filesConfig
         )
     {
-        super( parentFrame );
+        super( parentFrame, filesConfig.getNumberOfFiles() );
 
         this.preferences = parentFrame.getPreferences();
         this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
@@ -170,32 +170,25 @@ public class LoadDialog
 
     protected void udpateFilesDisplay()
     {
-        //FIXME
+        for( int index = 0; index < this.filesConfig.getNumberOfFiles(); index++ ) {
+            final FileObject fo = this.filesConfig.getFileObject( index );
 
-        if( this.filesConfig.getLeftFileObject() != null ) {
-//            getJTextField_Left().setText(
+            if( fo != null ) {
+              getJTextField( index ).setText( fo.getFile().getPath() );
+              }
+            else {
+                getJTextField( index ).setText("");
+                }
+            }
+//
+//        if( this.filesConfig.getLeftFileObject() != null ) {
+//            getJTextField( 0 ).setText(
 //                    this.filesConfig.getLeftFileObject().getFile().getPath()
 //                    );
-            getJTextField( 0 ).setText(
-                    this.filesConfig.getLeftFileObject().getFile().getPath()
-                    );
-            }
-        else {
-//            getJTextField_Left().setText("");
-            getJTextField( 0 ).setText("");
-            }
-        if( this.filesConfig.getRightFileObject()!=null ) {
-//            getJTextField_Right().setText(
-//                    this.filesConfig.getRightFileObject().getFile().getPath()
-//                    );
-            getJTextField( 1 ).setText(
-                    this.filesConfig.getRightFileObject().getFile().getPath()
-                    );
-            }
-        else {
-//            getJTextField_Right().setText("");
-            getJTextField( 1 ).setText("");
-            }
+//            }
+//        else {
+//            getJTextField( 0 ).setText("");
+//            }
     }
 
     protected void udpateTabFileTypeDisplay()
@@ -256,15 +249,15 @@ public class LoadDialog
     }
 
     //@Override
-    protected void jButton_RightMouseMousePressed()
+    protected void jButton_RightMouseMousePressed( final int index )
     {
         FileObject fo = getLoadFile(
-                        filesConfig.getRightFileObject(),
+                        filesConfig.getFileObject( index ),
                         false
                         );
         if( fo != null ) {
-            this.filesConfig.setRightFileObject( fo );
-            slogger.info( "Right File:" + fo);
+            this.filesConfig.setFileObject( fo, index );
+            slogger.info( "Right[" + index + "] File:" + fo );
             udpateFilesDisplay();
             }
     }
@@ -331,7 +324,8 @@ public class LoadDialog
                     else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
                         jButton_RightMouseMousePressed();
                         }
-                    else*/ if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
+                    else*/ 
+                    if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
                         jButton_OkMouseMousePressed();
                         }
                     else if( ACTIONCMD_CANCEL_BUTTON.equals( e.getActionCommand() ) ) {
@@ -410,11 +404,8 @@ public class LoadDialog
         if( index == 0 ) {
             jButton_LeftMouseMousePressed();
             }
-        else if( index == 1 ) {
-            jButton_RightMouseMousePressed();
-            }
         else {
-            slogger.warn( "Unknown index: " + index );
+            jButton_RightMouseMousePressed( index );
             }
     }
 }

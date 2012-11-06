@@ -65,7 +65,6 @@ class CompareResourcesBundlePopupMenu
             final int columnIndex
             )
     {
-        //JPopupMenu contextMenu = super.createContextMenu(rowIndex, columnIndex);
         JPopupMenu contextMenu = new JPopupMenu();
 
         addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
@@ -75,66 +74,6 @@ class CompareResourcesBundlePopupMenu
         addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
         addEditMultiLineMenuItem(contextMenu, rowIndex, columnIndex);
 
-//        switch( columnIndex ) {
-//            case ExampleTableModel.COLUMN_NAME:
-//                break;
-//            case ExampleTableModel.COLUMN_PRICE:
-//                break;
-//            case ExampleTableModel.COLUMN_QUANTITY:
-//                contextMenu.addSeparator();
-//                ActionListener changer = new ActionListener() {
-//
-//                    public void actionPerformed( ActionEvent e )
-//                    {
-//                        JMenuItem sourceItem = (JMenuItem)e.getSource();
-//                        Object value = sourceItem
-//                                .getClientProperty( PROP_CHANGE_QUANTITY );
-//                        if( value instanceof Integer ) {
-//                            Integer changeValue = (Integer)value;
-//                            Integer currentValue = (Integer)getTableModel()
-//                                    .getValueAt( rowIndex, columnIndex );
-//                            getTableModel().setValueAt(
-//                                    new Integer( currentValue.intValue()
-//                                            + changeValue.intValue() ),
-//                                    rowIndex, columnIndex );
-//                        }
-//                    }
-//                };
-//                JMenuItem changeItem = new JMenuItem();
-//                changeItem.setText( "+1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-1" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -1 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "+10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( 10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = new JMenuItem();
-//                changeItem.setText( "-10" );
-//                changeItem.putClientProperty( PROP_CHANGE_QUANTITY,
-//                        new Integer( -10 ) );
-//                changeItem.addActionListener( changer );
-//                contextMenu.add( changeItem );
-//
-//                changeItem = null;
-//                break;
-//            case ExampleTableModel.COLUMN_AMOUNT:
-//                break;
-//            default:
-//                break;
-//        }
         return contextMenu;
     }
 
@@ -150,7 +89,8 @@ class CompareResourcesBundlePopupMenu
         else if( columnIndex == colunms.colunmLeftLine ) {
             return;
             }
-        else if( columnIndex == colunms.colunmRightLine ) {
+        //else if( columnIndex == colunms.colunmRightLine ) {
+        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
@@ -193,7 +133,8 @@ class CompareResourcesBundlePopupMenu
         else if( columnIndex == colunms.colunmLeftLine ) {
             return;
             }
-        else if( columnIndex == colunms.colunmRightLine ) {
+        //else if( columnIndex == colunms.colunmRightLine ) {
+        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
@@ -301,12 +242,14 @@ class CompareResourcesBundlePopupMenu
                         }
                     break;
                     }
+                
                 c = c.getParent();
                 }
+            
             if( frame == null ) {
                 logger.fatal( "Parent frame not found" );
-            }
-        }
+            	}
+        	}
 
         return frame;
     }

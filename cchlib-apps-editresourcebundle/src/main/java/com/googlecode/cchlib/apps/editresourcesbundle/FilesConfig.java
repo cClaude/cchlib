@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Properties;
 import cx.ath.choisnet.util.FormattedProperties;
@@ -18,15 +18,9 @@ public class FilesConfig implements Serializable
     private static final long serialVersionUID = 2L;
     //private static final Logger logger = Logger.getLogger( FilesConfig.class );
 
-    private ArrayList<FileObject> fileObjectList = new ArrayList<>();
-    //private FileObject leftFileObject;
-    //private FileObject rightFileObject;
-    private transient ArrayList<Properties> propertiesList = new ArrayList<>();
-    ///private transient Properties leftProperties;
-    //private transient Properties rightProperties;
-    private transient ArrayList<FormattedProperties> formattedPropertiesList = new ArrayList<>();
-    //private transient FormattedProperties leftFormattedProperties;
-    //private transient FormattedProperties rightFormattedProperties;
+    private FileObject[] fileObjectList;
+    private transient Properties[] propertiesList;
+    private transient FormattedProperties[] formattedPropertiesList;
 
     private FileType fileType
           = FileType.FORMATTED_PROPERTIES;
@@ -36,6 +30,8 @@ public class FilesConfig implements Serializable
           = false;
     private boolean showLineNumbers
           = false;
+
+    private final int numberOfFiles = 2;
 
     public enum FileType {
         PROPERTIES,
@@ -48,11 +44,6 @@ public class FilesConfig implements Serializable
     public FilesConfig()
     {
         clear();
-
-        // FIXME !!!
-        this.setFileObject( null, 1); // set 0 and set 1 to null
-        this.setProperties( null, 1); // set 0 and set 1 to null
-        this.setFormattedProperties( null, 1); // set 0 and set 1 to null
     }
 
     /**
@@ -62,25 +53,13 @@ public class FilesConfig implements Serializable
      */
     public FilesConfig( final FilesConfig filesConfig )
     {
-        clear();
+        this();
 
-        for( FileObject entry : filesConfig.fileObjectList ) {
-            this.fileObjectList.add( entry );
+        for( int i = 0; i<numberOfFiles; i++ ) {
+            this.fileObjectList[ i ]          = filesConfig.fileObjectList[ i ];
+            this.propertiesList[ i ]          = filesConfig.propertiesList[ i ];
+            this.formattedPropertiesList[ i ] = filesConfig.formattedPropertiesList [ i ];
             }
-        for( Properties entry : filesConfig.propertiesList ) {
-            this.propertiesList.add( entry );
-            }
-        for( FormattedProperties entry : filesConfig.formattedPropertiesList ) {
-            this.formattedPropertiesList.add( entry );
-            }
-
-        //this.leftFileObject = filesConfig.leftFileObject;
-        //this.leftProperties = filesConfig.leftProperties;
-        //this.leftFormattedProperties = filesConfig.leftFormattedProperties;
-
-        //this.rightFileObject = filesConfig.rightFileObject;
-        //this.rightProperties = filesConfig.rightProperties;
-        //this.rightFormattedProperties = filesConfig.rightFormattedProperties;
 
         this.fileType = filesConfig.fileType;
         this.formattedPropertiesStore = filesConfig.formattedPropertiesStore;
@@ -88,19 +67,16 @@ public class FilesConfig implements Serializable
         this.showLineNumbers = filesConfig.showLineNumbers;
     }
 
+    public int getNumberOfFiles()
+    {
+        return numberOfFiles ;
+    }
+
     public void clear()
     {
-        this.fileObjectList.clear();
-        this.propertiesList.clear();
-        this.formattedPropertiesList.clear();
-
-        //this.leftFileObject = null;
-        //this.leftProperties = null;
-        //this.leftFormattedProperties = null;
-
-        //this.rightFileObject = null;
-        //this.rightProperties = null;
-        //this.rightFormattedProperties = null;
+        this.fileObjectList          = new FileObject[ numberOfFiles ];
+        this.propertiesList          = new Properties[ numberOfFiles ];
+        this.formattedPropertiesList = new FormattedProperties[ numberOfFiles ];
     }
 
     /**
@@ -109,7 +85,7 @@ public class FilesConfig implements Serializable
      */
     public FileObject getFileObject( final int index )
     {
-        return this.fileObjectList.get( index );
+        return this.fileObjectList[ index ];
     }
 
     /**
@@ -122,10 +98,7 @@ public class FilesConfig implements Serializable
         final int        index
         )
     {
-        while( this.fileObjectList.size() < index + 1 ) {
-            this.fileObjectList.add( null );
-            }
-        this.fileObjectList.set( index, fileObject );
+        this.fileObjectList[ index ] = fileObject;
     }
 
     /**
@@ -134,7 +107,7 @@ public class FilesConfig implements Serializable
      */
     public FormattedProperties getFormattedProperties( final int index )
     {
-        return this.formattedPropertiesList.get( index );
+        return this.formattedPropertiesList[ index ];
     }
 
     private void setFormattedProperties(
@@ -142,10 +115,7 @@ public class FilesConfig implements Serializable
         final int                 index
         )
     {
-        while( this.formattedPropertiesList.size() < index + 1 ) {
-            this.formattedPropertiesList.add( null );
-            }
-        this.formattedPropertiesList.set( index, formattedProperties );
+        this.formattedPropertiesList[ index ] = formattedProperties;
     }
 
     /**
@@ -154,7 +124,7 @@ public class FilesConfig implements Serializable
      */
     public Properties getProperties( final int index )
     {
-        return this.propertiesList.get( index );
+        return this.propertiesList[ index ];
     }
 
     private void setProperties(
@@ -162,10 +132,7 @@ public class FilesConfig implements Serializable
         final int        index
         )
     {
-        while( this.propertiesList.size() < index + 1 ) {
-            this.propertiesList.add( null );
-            }
-        this.propertiesList.set( index, properties );
+        this.propertiesList[ index ] = properties;
     }
 
     /**
@@ -174,37 +141,35 @@ public class FilesConfig implements Serializable
     public FileObject getLeftFileObject()
     {
         return getFileObject( 0 );
-        //return leftFileObject;
-    }
+     }
 
     /**
      * @param leftFileObject the leftFileObject to set
      */
     public void setLeftFileObject( FileObject leftFileObject )
     {
-        //this.leftFileObject = leftFileObject;
         setFileObject( leftFileObject, 0 );
     }
 
-    /**
-     * @return the rightFileObject
-     */
-    @Deprecated
-    public FileObject getRightFileObject()
-    {
-        return getFileObject( 1 );
-        //return rightFileObject;
-    }
-
-    /**
-     * @param rightFileObject the rightFileObject to set
-     */
-    @Deprecated
-    public void setRightFileObject( FileObject rightFileObject )
-    {
-        //this.rightFileObject = rightFileObject;
-        setFileObject( rightFileObject, 1 );
-    }
+//    /**
+//     * @return the rightFileObject
+//     */
+//    @Deprecated
+//    public FileObject getRightFileObject()
+//    {
+//        return getFileObject( 1 );
+//        //return rightFileObject;
+//    }
+//
+//    /**
+//     * @param rightFileObject the rightFileObject to set
+//     */
+//    @Deprecated
+//    public void setRightFileObject( FileObject rightFileObject )
+//    {
+//        //this.rightFileObject = rightFileObject;
+//        setFileObject( rightFileObject, 1 );
+//    }
 
     /**
      * @return the fileType
@@ -240,7 +205,6 @@ public class FilesConfig implements Serializable
      */
     public FormattedProperties getLeftFormattedProperties()
     {
-        //return leftFormattedProperties;
         return getFormattedProperties( 0 );
     }
 
@@ -249,29 +213,28 @@ public class FilesConfig implements Serializable
      */
     public Properties getLeftProperties()
     {
-        //return leftProperties;
         return getProperties( 0 );
     }
 
-    /**
-     * @return the rightFormattedProperties
-     */
-    @Deprecated
-    public FormattedProperties getRightFormattedProperties()
-    {
-        //return rightFormattedProperties;
-        return getFormattedProperties( 1 );
-    }
-
-    /**
-     * @return the rightProperties
-     */
-    @Deprecated
-    public Properties getRightProperties()
-    {
-        //return rightProperties;
-        return getProperties( 1 );
-    }
+//    /**
+//     * @return the rightFormattedProperties
+//     */
+//    @Deprecated
+//    public FormattedProperties getRightFormattedProperties()
+//    {
+//        //return rightFormattedProperties;
+//        return getFormattedProperties( 1 );
+//    }
+//
+//    /**
+//     * @return the rightProperties
+//     */
+//    @Deprecated
+//    public Properties getRightProperties()
+//    {
+//        //return rightProperties;
+//        return getProperties( 1 );
+//    }
 
     public EnumSet<Store> getFormattedPropertiesStore()
     {
@@ -308,10 +271,6 @@ public class FilesConfig implements Serializable
      */
     public boolean isFilesExists()
     {
-        if( this.fileObjectList.size() == 0 ) {
-            return false;
-            }
-
         for( FileObject entry : this.fileObjectList ) {
             if( entry == null ) {
                 return false;
@@ -322,17 +281,6 @@ public class FilesConfig implements Serializable
             }
 
         return true;
-//        try {
-//            if( this.leftFileObject.getFile().isFile() ) {
-//                if( this.rightFileObject.getFile().isFile() ) {
-//                    return true;
-//                }
-//            }
-//        }
-//        catch( NullPointerException isFalse ) {
-//            logger.warn( isFalse );
-//        }
-//        return false;
     }
 
     /**
@@ -347,23 +295,19 @@ public class FilesConfig implements Serializable
         if( fileType == FileType.PROPERTIES ) {
             loadLeftProperties();
 
-            if( isUseLeftHasDefault() ) {
-                //loadRightProperties(leftProperties);
-                loadRightProperties( this.getLeftProperties() );
-                }
-            else {
-                loadRightProperties(null);
+            Properties def = isUseLeftHasDefault() ? this.getLeftProperties() : null;
+
+            for( int i = 1; i<this.numberOfFiles; i++ ) {
+                loadProperties( def, i);
                 }
             }
         else {
             loadLeftFormattedProperties();
 
-            if( isUseLeftHasDefault() ) {
-                //loadRightFormattedProperties(leftFormattedProperties);
-                loadRightFormattedProperties( this.getLeftFormattedProperties() );
-                }
-            else {
-                loadRightFormattedProperties(null);
+            FormattedProperties def = isUseLeftHasDefault() ? this.getLeftFormattedProperties() : null;
+
+            for( int i = 1; i<this.numberOfFiles; i++ ) {
+                loadFormattedProperties( def, i);
                 }
             }
     }
@@ -375,13 +319,13 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        this.setProperties( null, index );
-
         FormattedProperties formattedProperties = new FormattedProperties(
                 defaults,
                 formattedPropertiesStore
                 );
-        this.setFormattedProperties(formattedProperties, index);
+
+        this.setProperties( null, index );
+        this.setFormattedProperties( formattedProperties, index );
 
         formattedProperties.load(
                 new FileInputStream(
@@ -397,11 +341,10 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        this.setFormattedProperties(null, index);
-
         Properties properties = new Properties( defaults );
 
         this.setProperties( properties, index );
+        this.setFormattedProperties( null, index );
 
         properties.load(
                 new FileInputStream(
@@ -418,14 +361,6 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-//        this.leftProperties = null;
-//        this.leftFormattedProperties = new FormattedProperties(formattedPropertiesStore);
-//
-//        leftFormattedProperties.load(
-//                new FileInputStream(
-//                    this.leftFileObject.getFile()
-//                    )
-//                );
         this.loadFormattedProperties( null,  0 );
     }
 
@@ -437,69 +372,14 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-//        this.leftFormattedProperties = null;
-//        this.leftProperties = new Properties();
-//
-//        leftProperties.load(
-//                new FileInputStream(
-//                    this.leftFileObject.getFile()
-//                    )
-//                );
         this.loadProperties( null, 0 );
     }
 
-    /**
-     * @param defaults
-     * @throws IOException
-     * @throws FileNotFoundException
-     */
-    @Deprecated
-    private void loadRightFormattedProperties(
-            FormattedProperties defaults
-            )
-    throws  FileNotFoundException,
-            IOException
-    {
-//        this.rightProperties = null;
-//        this.rightFormattedProperties = new FormattedProperties(
-//                defaults,
-//                formattedPropertiesStore
-//                );
-//
-//        rightFormattedProperties.load(
-//                new FileInputStream(
-//                    this.rightFileObject.getFile()
-//                    )
-//                );
-        this.loadFormattedProperties( defaults,  0 );
-    }
-
-    /**
-     * @param defaults
-     * @throws IOException
-     * @throws FileNotFoundException
-     */
-    @Deprecated
-    private void loadRightProperties(Properties defaults)
-        throws  FileNotFoundException,
-                IOException
-    {
-//        this.rightFormattedProperties = null;
-//        this.rightProperties = new Properties(defaults);
-//
-//        rightProperties.load(
-//                new FileInputStream(
-//                    this.rightFileObject.getFile()
-//                    )
-//                );
-        this.loadProperties( defaults, 1 );
-    }
-
-    private CustomProperties createCustomProperties( int index )
+    public CustomProperties createCustomProperties( int index )
     {
         final FileObject          fileObject            = this.getFileObject( index );
         final Properties          properties            = this.getProperties( index );
-        final FormattedProperties formattedProperties	= this.getFormattedProperties( index );
+        final FormattedProperties formattedProperties    = this.getFormattedProperties( index );
 
         if( properties != null ) {
             return new DefaultCustomProperties( fileObject, properties );
@@ -510,36 +390,22 @@ public class FilesConfig implements Serializable
 
         return null;
     }
-//
-//    public CustomProperties createCustomProperties( final int index )
-//    {
-//        return createCustomProperties(
-//                this.getFileObject( index ),
-//                this.getProperties( index ),
-//                this.getFormattedProperties( index )
-//                );
-//    }
 
     public CustomProperties createLeftCustomProperties()
     {
-//        return createCustomProperties(
-//                this.leftFileObject,
-//                this.leftProperties,
-//                this.leftFormattedProperties
-//                );
         return createCustomProperties( 0 );
     }
 
-    @Deprecated
-    public CustomProperties createRightCustomProperties()
-    {
-//        return createCustomProperties(
-//                this.rightFileObject,
-//                this.rightProperties,
-//                this.rightFormattedProperties
-//                );
-        return createCustomProperties( 1 );
-    }
+//    @Deprecated
+//    public CustomProperties createRightCustomProperties()
+//    {
+////        return createCustomProperties(
+////                this.rightFileObject,
+////                this.rightProperties,
+////                this.rightFormattedProperties
+////                );
+//        return createCustomProperties( 1 );
+//    }
 
     //Serializable
     private void writeObject(java.io.ObjectOutputStream out)
@@ -555,69 +421,62 @@ public class FilesConfig implements Serializable
         in.defaultReadObject();
 
         // Restore transient fields !
+        this.propertiesList          = new Properties[ numberOfFiles ];
+        this.formattedPropertiesList = new FormattedProperties[ numberOfFiles ];
         load();
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((fileObjectList == null) ? 0 : fileObjectList.hashCode());
-        result = prime * result
-                + ((fileType == null) ? 0 : fileType.hashCode());
-        result = prime
-                * result
-                + ((formattedPropertiesList == null) ? 0
-                        : formattedPropertiesList.hashCode());
-        result = prime
-                * result
-                + ((formattedPropertiesStore == null) ? 0
-                        : formattedPropertiesStore.hashCode());
-        result = prime * result
-                + ((propertiesList == null) ? 0 : propertiesList.hashCode());
-        result = prime * result + (showLineNumbers ? 1231 : 1237);
-        result = prime * result + (useLeftHasDefault ? 1231 : 1237);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(fileObjectList);
+		result = prime * result
+				+ ((fileType == null) ? 0 : fileType.hashCode());
+		result = prime * result + Arrays.hashCode(formattedPropertiesList);
+		result = prime
+				* result
+				+ ((formattedPropertiesStore == null) ? 0
+						: formattedPropertiesStore.hashCode());
+		result = prime * result + numberOfFiles;
+		result = prime * result + Arrays.hashCode(propertiesList);
+		result = prime * result + (showLineNumbers ? 1231 : 1237);
+		result = prime * result + (useLeftHasDefault ? 1231 : 1237);
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof FilesConfig))
-            return false;
-        FilesConfig other = (FilesConfig) obj;
-        if (fileObjectList == null) {
-            if (other.fileObjectList != null)
-                return false;
-        } else if (!fileObjectList.equals(other.fileObjectList))
-            return false;
-        if (fileType != other.fileType)
-            return false;
-        if (formattedPropertiesList == null) {
-            if (other.formattedPropertiesList != null)
-                return false;
-        } else if (!formattedPropertiesList
-                .equals(other.formattedPropertiesList))
-            return false;
-        if (formattedPropertiesStore == null) {
-            if (other.formattedPropertiesStore != null)
-                return false;
-        } else if (!formattedPropertiesStore
-                .equals(other.formattedPropertiesStore))
-            return false;
-        if (propertiesList == null) {
-            if (other.propertiesList != null)
-                return false;
-        } else if (!propertiesList.equals(other.propertiesList))
-            return false;
-        if (showLineNumbers != other.showLineNumbers)
-            return false;
-        if (useLeftHasDefault != other.useLeftHasDefault)
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof FilesConfig))
+			return false;
+		FilesConfig other = (FilesConfig) obj;
+		if (!Arrays.equals(fileObjectList, other.fileObjectList))
+			return false;
+		if (fileType != other.fileType)
+			return false;
+		if (!Arrays.equals(formattedPropertiesList,
+				other.formattedPropertiesList))
+			return false;
+		if (formattedPropertiesStore == null) {
+			if (other.formattedPropertiesStore != null)
+				return false;
+		} else if (!formattedPropertiesStore
+				.equals(other.formattedPropertiesStore))
+			return false;
+		if (numberOfFiles != other.numberOfFiles)
+			return false;
+		if (!Arrays.equals(propertiesList, other.propertiesList))
+			return false;
+		if (showLineNumbers != other.showLineNumbers)
+			return false;
+		if (useLeftHasDefault != other.useLeftHasDefault)
+			return false;
+		return true;
+	}
+
+
 }

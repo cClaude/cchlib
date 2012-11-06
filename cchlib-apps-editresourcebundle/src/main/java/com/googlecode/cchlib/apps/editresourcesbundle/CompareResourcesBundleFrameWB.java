@@ -19,66 +19,90 @@ import java.util.Locale;
  */
 public abstract class CompareResourcesBundleFrameWB extends JFrame
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
     public static final String ACTIONCMD_OPEN = "ACTIONCMD_OPEN";
     public static final String ACTIONCMD_QUIT = "ACTIONCMD_QUIT";
     public static final String ACTIONCMD_SAVE_ALL = "ACTIONCMD_SAVE_ALL";
-    public static final String ACTIONCMD_SAVE_RIGHT = "ACTIONCMD_SAVE_RIGHT";
+    //public static final String ACTIONCMD_SAVE_RIGHT = "ACTIONCMD_SAVE_RIGHT";
+    public static final String ACTIONCMD_SAVE_RIGHT_PREFIX = "ACTIONCMD_SAVE_RIGHT_";
     public static final String ACTIONCMD_SAVE_LEFT = "ACTIONCMD_SAVE_LEFT";
     public static final String ACTIONCMD_DEFAULT_LOCAL = "ACTIONCMD_DEFAULT_LOCAL";
     public static final String ACTIONCMD_ENGLISH = "ACTIONCMD_ENGLISH";
     public static final String ACTIONCMD_FRENCH = "ACTIONCMD_FRENCH";
 
-    private JMenuItem           jMenuItemQuit;
-    private JMenuItem           jMenuItemSaveAll;
-    private JMenuItem           jMenuItemSaveRightFile;
-    protected JMenu             jMenuLookAndFeel;
-    protected JMenuBar          jMenuBarFrame;
-    protected JMenuItem         jMenuItemSaveLeftFile;
-    protected JScrollPane       jScrollPaneProperties;
-    protected JTable            jTableProperties;
-    private JMenu               jMenuItemLanguage;
+    protected JMenuBar           jMenuBarFrame;
+    private JMenu                jMenuFile;
+    private JMenu                jMenuOptions;
+    private JMenuItem            jMenuItemSaveCurrentPrefs;
+    private JMenuItem            jMenuItemOpen;
+    private JMenuItem            jMenuItemQuit;
+    private JMenuItem            jMenuItemSaveAll;
+    private JMenu                jMenuSave;
+    private JMenuItem[]          jMenuItemSaveRightFile;
+    private JMenu                jMenuItemLanguage;
+    protected JMenu              jMenuLookAndFeel;
+    protected JMenuItem          jMenuItemSaveLeftFile;
+    private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
+
+    protected JScrollPane  jScrollPaneProperties;
+    protected JTable       jTableProperties;
 
     private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
-    private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
-    //private JRadioButtonMenuItem jRadioButtonMenuItemEnglish;
-    //private JRadioButtonMenuItem jRadioButtonMenuItemFrench;
+    private int numberOfFiles;
 
-    private JMenu jMenuFile;
-    private JMenu jMenuSave;
-    private JMenu jMenuOptions;
-    private JMenuItem jMenuItemSaveCurrentPrefs;
-    private JMenuItem jMenuItemOpen;
-
-    public CompareResourcesBundleFrameWB()
+    public CompareResourcesBundleFrameWB( final int numberOfFiles )
     {
+        this.numberOfFiles = numberOfFiles;
+
         setIconImage(Toolkit.getDefaultToolkit().getImage(CompareResourcesBundleFrameWB.class.getResource("icon.png")));
         jScrollPaneProperties = new JScrollPane();
         jTableProperties = new JTable();
         jScrollPaneProperties.setViewportView( jTableProperties );
         getContentPane().add(jScrollPaneProperties, BorderLayout.CENTER);
 
-        jMenuFile = new JMenu( "File" );
+        updateJMenuBar();
+    }
 
-        jMenuSave = new JMenu( "Save" );
+    protected ButtonGroup getButtonGroupLanguage()
+    {
+        return this.buttonGroupLanguage;
+    }
+
+    protected void updateJMenuBar()
+    {
+        if( this.jMenuItemSaveRightFile != null ) {
+            if( this.jMenuItemSaveRightFile.length == this.numberOfFiles ) {
+                return;
+                }
+            }
+
+        jMenuFile = new JMenu( "File" );
 
         jMenuItemOpen = new JMenuItem( "Open..." );
         jMenuItemOpen.setActionCommand( ACTIONCMD_OPEN );
         jMenuItemOpen.addActionListener( getActionListener() );
         jMenuFile.add( jMenuItemOpen );
 
+        jMenuSave = new JMenu( "Save" );
+
+        // Left file
         jMenuItemSaveLeftFile = new JMenuItem( "Save left" );
         jMenuItemSaveLeftFile.setActionCommand( ACTIONCMD_SAVE_LEFT );
         jMenuItemSaveLeftFile.addActionListener( getActionListener() );
+
         jMenuSave.add( jMenuItemSaveLeftFile );
 
-        jMenuItemSaveRightFile = new JMenuItem( "Save right" );
-        jMenuItemSaveRightFile.setActionCommand( ACTIONCMD_SAVE_RIGHT );
-        jMenuItemSaveRightFile.addActionListener( getActionListener() );
+        // Rigth files
+        jMenuItemSaveRightFile = new JMenuItem[ this.numberOfFiles - 1 ];
 
-        jMenuSave.add( jMenuItemSaveRightFile );
+        for( int i = 0; i<jMenuItemSaveRightFile.length; i++ ) {
+            jMenuItemSaveRightFile[ i ] = new JMenuItem( "Save right" );
+            jMenuItemSaveRightFile[ i ].setActionCommand( ACTIONCMD_SAVE_RIGHT_PREFIX + i );
+            jMenuItemSaveRightFile[ i ].addActionListener( getActionListener() );
 
+            jMenuSave.add( jMenuItemSaveRightFile[ i ] );
+            }
         jMenuFile.add( jMenuSave );
 
         jMenuItemSaveAll = new JMenuItem( "Save all" );
@@ -137,10 +161,6 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuBarFrame.add( jMenuLookAndFeel );
     }
 
-    protected ButtonGroup getButtonGroupLanguage()
-    {
-        return this.buttonGroupLanguage;
-    }
 
     protected abstract ActionListener getActionListener();
 }

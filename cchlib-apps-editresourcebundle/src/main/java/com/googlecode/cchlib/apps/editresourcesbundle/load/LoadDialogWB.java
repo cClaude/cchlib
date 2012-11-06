@@ -24,10 +24,13 @@ import javax.swing.JScrollPane;
  */
 public abstract class LoadDialogWB extends JDialog
 {
-    private static final long serialVersionUID  = 3L;
+    private static final long serialVersionUID  = 4L;
     protected static final String ACTIONCMD_SELECT_PREFIX = "ACTIONCMD_SELECT_";
     protected static final String ACTIONCMD_OK_BUTTON = "ACTIONCMD_OK_BUTTON";
     protected static final String ACTIONCMD_CANCEL_BUTTON = "ACTIONCMD_CANCEL_BUTTON";
+
+    private int numberOfFiles;
+
     private ButtonGroup buttonGroup_FileType;
     private JButton jButton_Cancel;
     private JButton jButton_Ok;
@@ -46,17 +49,18 @@ public abstract class LoadDialogWB extends JDialog
     protected JCheckBox jCheckBox_RightUseLeftHasDefaults;
     protected JCheckBox jCheckBox_ini;
     protected JCheckBox jCheckBox_ShowLineNumbers;
+    private FilesPanel selectJPanel;
+    private JScrollPane scrollPane;
 
     @I18nString private String msgStringLeft  = "Left";
     @I18nString private String msgStringFmt = "File %d";
     @I18nString private String msgButton = "Select";
 
-    private FilesPanel selectJPanel;
-    private JScrollPane scrollPane;
-
-    public LoadDialogWB( Frame parent )
+    public LoadDialogWB( Frame parent, final int numberOfFiles )
     {
         super( parent );
+
+        this.numberOfFiles = numberOfFiles < 2 ? 2 : numberOfFiles;
 
         initComponents();
     }
@@ -278,7 +282,7 @@ public abstract class LoadDialogWB extends JDialog
             jPanel_TabSelect = new JPanel();
             GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
             gbl_jPanel_TabSelect.columnWidths = new int[]{0, 0, 0};
-            gbl_jPanel_TabSelect.rowHeights = new int[]{0, 0, 0, 0, 0};
+            gbl_jPanel_TabSelect.rowHeights = new int[]{50, 0, 0, 0, 0};
             gbl_jPanel_TabSelect.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
             gbl_jPanel_TabSelect.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
             jPanel_TabSelect.setLayout(gbl_jPanel_TabSelect);
@@ -346,11 +350,10 @@ public abstract class LoadDialogWB extends JDialog
         return getSelectJPanel().getPanelFile( index ).getJTextField();
     }
 
-    private FilesPanel getSelectJPanel() 
+    private FilesPanel getSelectJPanel()
     {
-        if (selectJPanel == null) {
-        	int fixme;
-            selectJPanel = new FilesPanel( 2/* FIXME */, msgStringLeft, msgStringFmt, msgButton, getActionListener() );
+        if( selectJPanel == null ) {
+            selectJPanel = new FilesPanel( numberOfFiles, msgStringLeft, msgStringFmt, msgButton, getActionListener() );
             }
         return selectJPanel;
     }

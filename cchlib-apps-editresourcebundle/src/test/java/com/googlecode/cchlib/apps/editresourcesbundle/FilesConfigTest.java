@@ -6,9 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
 import cx.ath.choisnet.test.AssertHelper;
 import cx.ath.choisnet.test.SerializableTestCaseHelper;
@@ -16,10 +14,9 @@ import cx.ath.choisnet.test.SerializableTestCaseHelper;
 /**
  * TestCase
  */
-public class FilesConfigTest //extends TestCase
+public class FilesConfigTest 
 {
     @Test
-    @Ignore
     public void test_Serializable()
         throws  FileNotFoundException,
                 IOException,
@@ -31,14 +28,17 @@ public class FilesConfigTest //extends TestCase
                                     );
         // Hope there is at least 2 properties files
         File            lFile = files.next();
-        File            rFile = files.next();
+        //File            rFile = files.next();
         FilesConfig     fc    = new FilesConfig();
 
         FileObject leftFileObject = new FileObject(lFile,false);
         fc.setLeftFileObject( leftFileObject  );
 
-        FileObject rightFileObject = new FileObject(rFile,true);
-        fc.setRightFileObject( rightFileObject  );
+        for( int i = 1; i<fc.getNumberOfFiles(); i++ ) {
+            FileObject rightFileObject = new FileObject( files.next(), true );
+            
+            fc.setFileObject( rightFileObject, i  );
+       		}
 
         fc.load();
 

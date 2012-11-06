@@ -86,7 +86,7 @@ public class CompareResourcesBundleFrame
      */
     public CompareResourcesBundleFrame( Preferences prefs )
     {
-        super(); // initComponents();
+        super( prefs.getNumberOfFiles() ); // initComponents();
 
         this.preferences = prefs;
 
@@ -101,9 +101,10 @@ public class CompareResourcesBundleFrame
                 super.windowClosing( event );
 
                 if( tableModel != null ) {
-                	// FIXME better handle of save
-                    saveFile( true );  // save left
-                    saveFile( false ); // save right
+                    // FIXME better handle of save
+                    for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                        saveFile( i );
+                        }
                     }
 
                 System.exit( 0 ); // AppQuit -- FIXME try to remove this
@@ -162,8 +163,8 @@ public class CompareResourcesBundleFrame
         //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 
         // Apply i18n !
-        performeI18n(autoI18n);
-        
+        performeI18n( autoI18n );
+
         JFrames.handleMinimumSize( this, 600, 400 );
     }
 
@@ -223,8 +224,13 @@ public class CompareResourcesBundleFrame
 
     protected void updateDisplay()
     {
-        logger.info( "Left :" + filesConfig.getLeftFileObject());
-        logger.info( "Right:" + filesConfig.getRightFileObject());
+        if( logger.isInfoEnabled() ) {
+            logger.info( "Left :" + filesConfig.getLeftFileObject() );
+
+            for( int i = 1; i<filesConfig.getNumberOfFiles(); i++ ) {
+                logger.info( "[" + i + "]:" + filesConfig.getFileObject( i ) );
+                }
+            }
 
         if( filesConfig.getLeftFileObject() != null ) {
             jMenuItemSaveLeftFile.setEnabled(
@@ -295,25 +301,25 @@ public class CompareResourcesBundleFrame
     }
 
     protected void saveFile(
-        final boolean isLeft
+        final int index
         )
     {
         final String            saveFileTypeMsg;
         final FileObject        fileObject;
         final CustomProperties  customProperties;
 
-        if( isLeft ) {
+        if( index == 0 ) {
             saveFileTypeMsg     = saveLeftFileTypeMsg;
             fileObject          = filesConfig.getLeftFileObject();
             customProperties    = tableModel.getLeftCustomProperties();
             }
         else {
             saveFileTypeMsg     = saveRightFileTypeMsg;
-            fileObject          = filesConfig.getRightFileObject();
-            customProperties    = tableModel.getRightCustomProperties();
+            fileObject          = filesConfig.getFileObject( index );
+            customProperties    = tableModel.getCustomProperties( index );
             }
 
-        logger.info( "request to save: " + saveFileTypeMsg);
+        logger.info( "request to save: " + saveFileTypeMsg );
 
         if( fileObject.isReadOnly() ) {
             logger.info( "read only file (cancel): " + fileObject );
@@ -411,14 +417,9 @@ public class CompareResourcesBundleFrame
                 dispose();
                 }
             else if( ACTIONCMD_SAVE_ALL.equals( c ) ) {
-                saveFile( true /*isLeft*/ );
-                saveFile( false /*isLeft*/ );
-                }
-            else if( ACTIONCMD_SAVE_RIGHT.equals( c ) ) {
-                saveFile( false /*isLeft*/ );
-                }
-            else if( ACTIONCMD_SAVE_LEFT.equals( c ) ) {
-                saveFile( true /*isLeft*/ );
+                for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                    saveFile( i );
+                    }
                 }
             else if( ACTIONCMD_DEFAULT_LOCAL.equals( c ) ) {
                 setGuiLocale( null );
@@ -428,6 +429,18 @@ public class CompareResourcesBundleFrame
                 }
             else if( ACTIONCMD_FRENCH.equals( c ) ) {
                 setGuiLocale( Locale.FRENCH );
+                }
+            else if( ACTIONCMD_SAVE_LEFT.equals( c ) ) {
+                saveFile( 0 );
+                }
+            //else if( ACTIONCMD_SAVE_RIGHT.equals( c ) ) {
+            //    saveFile( false /*isLeft*/ );
+            //    }
+            else if( c.startsWith( ACTIONCMD_SAVE_RIGHT_PREFIX ) ) {
+                // FIXME
+                int index = Integer.parseInt( c.substring( ACTIONCMD_SAVE_RIGHT_PREFIX.length() ) );
+
+                saveFile( index + 1 );
                 }
         }
     }

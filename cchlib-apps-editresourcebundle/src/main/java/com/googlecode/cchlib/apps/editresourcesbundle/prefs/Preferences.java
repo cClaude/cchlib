@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -338,4 +339,9 @@ public class Preferences implements Serializable
             return new File( "." );
             }
     }
+
+	public int getNumberOfFiles()
+	{
+		return 2;
+	}
 }
