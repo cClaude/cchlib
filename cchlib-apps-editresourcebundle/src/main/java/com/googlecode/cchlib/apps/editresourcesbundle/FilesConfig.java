@@ -31,7 +31,7 @@ public class FilesConfig implements Serializable
     private boolean showLineNumbers
           = false;
 
-    private final int numberOfFiles = 2;
+    private final int numberOfFiles;
 
     public enum FileType {
         PROPERTIES,
@@ -41,8 +41,10 @@ public class FilesConfig implements Serializable
     /**
      * Build default {@link FilesConfig} (no file selected yet)
      */
-    public FilesConfig()
+    public FilesConfig( final int numberOfFiles )
     {
+        this.numberOfFiles = numberOfFiles;
+
         clear();
     }
 
@@ -53,7 +55,7 @@ public class FilesConfig implements Serializable
      */
     public FilesConfig( final FilesConfig filesConfig )
     {
-        this();
+        this( filesConfig.numberOfFiles );
 
         for( int i = 0; i<numberOfFiles; i++ ) {
             this.fileObjectList[ i ]          = filesConfig.fileObjectList[ i ];
@@ -426,57 +428,80 @@ public class FilesConfig implements Serializable
         load();
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(fileObjectList);
-		result = prime * result
-				+ ((fileType == null) ? 0 : fileType.hashCode());
-		result = prime * result + Arrays.hashCode(formattedPropertiesList);
-		result = prime
-				* result
-				+ ((formattedPropertiesStore == null) ? 0
-						: formattedPropertiesStore.hashCode());
-		result = prime * result + numberOfFiles;
-		result = prime * result + Arrays.hashCode(propertiesList);
-		result = prime * result + (showLineNumbers ? 1231 : 1237);
-		result = prime * result + (useLeftHasDefault ? 1231 : 1237);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Arrays.hashCode(fileObjectList);
+        result = prime * result
+                + ((fileType == null) ? 0 : fileType.hashCode());
+        result = prime * result + Arrays.hashCode(formattedPropertiesList);
+        result = prime
+                * result
+                + ((formattedPropertiesStore == null) ? 0
+                        : formattedPropertiesStore.hashCode());
+        result = prime * result + numberOfFiles;
+        result = prime * result + Arrays.hashCode(propertiesList);
+        result = prime * result + (showLineNumbers ? 1231 : 1237);
+        result = prime * result + (useLeftHasDefault ? 1231 : 1237);
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof FilesConfig))
-			return false;
-		FilesConfig other = (FilesConfig) obj;
-		if (!Arrays.equals(fileObjectList, other.fileObjectList))
-			return false;
-		if (fileType != other.fileType)
-			return false;
-		if (!Arrays.equals(formattedPropertiesList,
-				other.formattedPropertiesList))
-			return false;
-		if (formattedPropertiesStore == null) {
-			if (other.formattedPropertiesStore != null)
-				return false;
-		} else if (!formattedPropertiesStore
-				.equals(other.formattedPropertiesStore))
-			return false;
-		if (numberOfFiles != other.numberOfFiles)
-			return false;
-		if (!Arrays.equals(propertiesList, other.propertiesList))
-			return false;
-		if (showLineNumbers != other.showLineNumbers)
-			return false;
-		if (useLeftHasDefault != other.useLeftHasDefault)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof FilesConfig))
+            return false;
+        FilesConfig other = (FilesConfig) obj;
+        if (!Arrays.equals(fileObjectList, other.fileObjectList))
+            return false;
+        if (fileType != other.fileType)
+            return false;
+        if (!Arrays.equals(formattedPropertiesList,
+                other.formattedPropertiesList))
+            return false;
+        if (formattedPropertiesStore == null) {
+            if (other.formattedPropertiesStore != null)
+                return false;
+        } else if (!formattedPropertiesStore
+                .equals(other.formattedPropertiesStore))
+            return false;
+        if (numberOfFiles != other.numberOfFiles)
+            return false;
+        if (!Arrays.equals(propertiesList, other.propertiesList))
+            return false;
+        if (showLineNumbers != other.showLineNumbers)
+            return false;
+        if (useLeftHasDefault != other.useLeftHasDefault)
+            return false;
+        return true;
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
 
+        builder.append("FilesConfig [fileObjectList=");
+        builder.append(Arrays.toString(fileObjectList));
+        builder.append(", propertiesList=");
+        builder.append(Arrays.toString(propertiesList));
+        builder.append(", formattedPropertiesList=");
+        builder.append(Arrays.toString(formattedPropertiesList));
+        builder.append(", fileType=");
+        builder.append(fileType);
+        builder.append(", formattedPropertiesStore=");
+        builder.append(formattedPropertiesStore);
+        builder.append(", useLeftHasDefault=");
+        builder.append(useLeftHasDefault);
+        builder.append(", showLineNumbers=");
+        builder.append(showLineNumbers);
+        builder.append(", numberOfFiles=");
+        builder.append(numberOfFiles);
+        builder.append("]");
+
+        return builder.toString();
+    }
 }

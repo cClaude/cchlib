@@ -19,7 +19,7 @@ public class EditResourcesBundleAppI18nPrep
     {
         CompareResourcesBundleFrame mainFrame0              = new CompareResourcesBundleFrame( Preferences.createDefaultPreferences() );
         I18nPrepAutoUpdatable       mainFrame               = mainFrame0;
-        FilesConfig                 filesConfig             = new FilesConfig();
+        FilesConfig                 filesConfig             = new FilesConfig( 2 ); // TODO use prefs ?
         I18nAutoUpdatable           loadFrame               = new LoadDialog( mainFrame0, filesConfig );
         I18nAutoUpdatable           htmlFrame               = new HTMLPreviewDialog(mainFrame0, "<<fakeTitle>>", "**FakeContent**" );
         Locale                      defaultLocale           = Locale.ENGLISH;

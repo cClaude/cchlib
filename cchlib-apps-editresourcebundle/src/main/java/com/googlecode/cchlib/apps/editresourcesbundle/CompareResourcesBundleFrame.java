@@ -45,7 +45,7 @@ public class CompareResourcesBundleFrame
     private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
     /* @serial */
-    private FilesConfig filesConfig = new FilesConfig();
+    private FilesConfig filesConfig;
     /* @serial */
     private CompareResourcesBundleTableModel tableModel;
     /* @serial */
@@ -89,6 +89,7 @@ public class CompareResourcesBundleFrame
         super( prefs.getNumberOfFiles() ); // initComponents();
 
         this.preferences = prefs;
+        this.filesConfig = new FilesConfig( this.preferences.getNumberOfFiles() );
 
         //setSize(640, 440);
         setSize( this.preferences.getWindowDimension() );
@@ -307,6 +308,8 @@ public class CompareResourcesBundleFrame
         final String            saveFileTypeMsg;
         final FileObject        fileObject;
         final CustomProperties  customProperties;
+
+        logger.info( "request to save index: " + index + " filesConfig = " + filesConfig );
 
         if( index == 0 ) {
             saveFileTypeMsg     = saveLeftFileTypeMsg;

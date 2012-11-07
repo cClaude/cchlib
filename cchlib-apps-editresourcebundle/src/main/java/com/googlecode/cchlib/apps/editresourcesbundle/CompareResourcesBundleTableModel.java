@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.JLabel;
@@ -58,6 +59,24 @@ class CompareResourcesBundleTableModel
                     }
                 }
             return -1;
+        }
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("Colunms [colunmCount=");
+            builder.append(colunmCount);
+            builder.append(", colunmKey=");
+            builder.append(colunmKey);
+            builder.append(", colunmLeftLine=");
+            builder.append(colunmLeftLine);
+            builder.append(", colunmLeftValue=");
+            builder.append(colunmLeftValue);
+            builder.append(", colunmRightLine=");
+            builder.append(Arrays.toString(colunmRightLine));
+            builder.append(", colunmRightValue=");
+            builder.append(Arrays.toString(colunmRightValue));
+            builder.append("]");
+            return builder.toString();
         }
     }
     private Colunms colunms = new Colunms();
@@ -157,12 +176,14 @@ class CompareResourcesBundleTableModel
             colunms.colunmRightValue = new int[ rightCProperties.length ];
 
             for( int i = 0; i<rightCProperties.length; i++ ) {
-                colunms.colunmRightLine [ rightCProperties.length ] = -1;
-                colunms.colunmRightValue[ rightCProperties.length ] = 2 + i;
+                colunms.colunmRightLine [ i ] = -1;
+                colunms.colunmRightValue[ i ] = 2 + i;
                 }
             }
 
         SortedSet<String> keyBuilderSet = new TreeSet<String>();
+
+        logger.info( "colunms = " + colunms );
 
         logger.info( "leftCProperties.stringPropertyNames()=" + leftCProperties.stringPropertyNames() );
         keyBuilderSet.addAll( leftCProperties.stringPropertyNames() );

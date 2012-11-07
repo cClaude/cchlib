@@ -29,7 +29,7 @@ public class FilesConfigTest
         // Hope there is at least 2 properties files
         File            lFile = files.next();
         //File            rFile = files.next();
-        FilesConfig     fc    = new FilesConfig();
+        FilesConfig     fc    = new FilesConfig( 3 );
 
         FileObject leftFileObject = new FileObject(lFile,false);
         fc.setLeftFileObject( leftFileObject  );
