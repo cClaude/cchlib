@@ -37,18 +37,23 @@ public class AutoCompleteTextFieldTestJFrame extends JFrame
      */
     public AutoCompleteTextFieldTestJFrame()
     {
-        List<String> valuesList = getValuesList();
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
-        contentPane = new AutoCompleteTextFieldTestJPanel( valuesList );
+        //contentPane = new AutoCompleteTextFieldTestJPanel( valuesList );
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-        
-        AutoCompleteTextFieldTestJPanel testPane = new AutoCompleteTextFieldTestJPanel( valuesList );
-        
+
+        AutoCompleteTextFieldTestJPanel testPane = new AutoCompleteTextFieldTestJPanel(
+            new AutoCompleteTextFieldTestJPanel.Params() {
+                @Override
+                public List<String> getDataList()
+                {
+                    return getValuesList();
+                }
+            });
+
         contentPane.add( testPane );
     }
 

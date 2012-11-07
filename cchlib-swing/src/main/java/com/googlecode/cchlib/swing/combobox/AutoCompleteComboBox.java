@@ -1,32 +1,42 @@
-package com.googlecode.cchlib.swing.textfield;
+package com.googlecode.cchlib.swing.combobox;
 
 import java.awt.event.ItemEvent;
 import java.util.List;
-
 import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 
-class AutoCompleteComboBox extends JComboBox<String>
+import com.googlecode.cchlib.swing.AutoComplete;
+
+/**
+ * TODOC
+ *
+ */
+public class AutoCompleteComboBox extends JComboBox<String> implements AutoComplete
 {
     private static final long serialVersionUID = 1L;
     private class AutoCompleteFieldEditor extends BasicComboBoxEditor implements ComboBoxEditor
     {
         AutoCompleteFieldEditor( final List<String> list )
         {
-            editor = new AutoCompleteTextField( list, AutoCompleteComboBox.this );
+            editor = new HiddenAutoCompleteTextField( list, AutoCompleteComboBox.this );
         }
 
-        private AutoCompleteTextField getEditor()
+        private HiddenAutoCompleteTextField getEditor()
         {
-            return (AutoCompleteTextField) editor;
+            return (HiddenAutoCompleteTextField) editor;
         }
      }
 
     private AutoCompleteFieldEditor autoTextFieldEditor;
     private boolean isFired;
 
+    /**
+     * TODOC
+     *
+     * @param list
+     */
     public AutoCompleteComboBox( final List<String> list )
     {
         isFired = false;
@@ -50,36 +60,42 @@ class AutoCompleteComboBox extends JComboBox<String>
         super.setEditor( autoTextFieldEditor );
     }
 
+    @Override
     public boolean isCaseSensitive()
     {
         return autoTextFieldEditor.getEditor().isCaseSensitive();
     }
 
-    public void setCaseSensitive( boolean flag )
+    @Override
+    public void setCaseSensitive( boolean isCaseSensitive )
     {
-        autoTextFieldEditor.getEditor().setCaseSensitive( flag );
+        autoTextFieldEditor.getEditor().setCaseSensitive( isCaseSensitive );
     }
 
+    @Override
     public boolean isStrict()
     {
         return autoTextFieldEditor.getEditor().isStrict();
     }
 
-    public void setStrict( final boolean flag )
+    @Override
+    public void setStrict( final boolean isStrict )
     {
-        autoTextFieldEditor.getEditor().setStrict( flag );
+        autoTextFieldEditor.getEditor().setStrict( isStrict );
     }
 
+    @Override
     public List<String> getDataList()
     {
         return autoTextFieldEditor.getEditor().getDataList();
     }
 
-    public void setDataList( final List<String> list )
+    @Override
+    public void setDataList( final List<String> dataList )
     {
-        autoTextFieldEditor.getEditor().setDataList(list);
+        autoTextFieldEditor.getEditor().setDataList( dataList );
 
-        String[] array = list.toArray( new String[0] );
+        String[] array = dataList.toArray( new String[0] );
 
         setModel( new DefaultComboBoxModel<String>( array ) );
     }
@@ -99,10 +115,11 @@ class AutoCompleteComboBox extends JComboBox<String>
             }
     }
 
+    @Override
     protected void fireActionEvent()
     {
         if( !isFired ) {
             super.fireActionEvent();
-        	}
+            }
     }
 }
