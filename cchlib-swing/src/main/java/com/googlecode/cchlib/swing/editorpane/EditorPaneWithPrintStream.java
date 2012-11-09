@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.swing.textfield;
+package com.googlecode.cchlib.swing.editorpane;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import javax.swing.AbstractAction;
-import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 /**
  * TODOC
- *
- * @author  Hanns Holger Rutz at contact@sciss.de visit http://www.sciss.de/jcollider
  */
-public class TexfFieldWithPrintStream extends JTextArea
+public class EditorPaneWithPrintStream extends JEditorPane
 {
     private static final long serialVersionUID = 1L;
 
@@ -25,35 +25,34 @@ public class TexfFieldWithPrintStream extends JTextArea
     private AbstractAction      actionClear     = null;
 
     /**
-     *  Constructs a new text area for logging messages.
+     *  Creates a new EditorPaneWithPrintStream. The document model is set to "text/html".
      *  <p>
-     *  The area is readonly and wraps lines as they exceed the right margin.
+     *  This EditorPane is readonly.
      *  <br/>
      *  Messages can be logged in a text file.
      *  </p>
      *
-     *  @param rows     the number of rows >= 0
-     *  @param columns  the number of columns >= 0
      *  @param logFile  this is the file into which the log is written. if <code>logFile</code> is
      *                  <code>null</code>, there is no log file
      */
-    public TexfFieldWithPrintStream( int rows, int columns, final File logFile )
+    public EditorPaneWithPrintStream( final File logFile )
     {
-        super( rows, columns );
+    	super();
+        setContentType("text/html");
 
         this.logFile= logFile;
         this.ps     = new PrintStream( new RedirectedStream() );
 
         setEditable( false );
-        setLineWrap( true );
+        //setLineWrap( true );
     }
 
     /**
-     *  Constructs a new text area for logging messages.
+     * Creates a new EditorPaneWithPrintStream. The document model is set to "text/html".
      */
-    public TexfFieldWithPrintStream()
+    public EditorPaneWithPrintStream()
     {
-        this( 6, 40, null );
+        this( /*6, 40,*/ null );
     }
 
     /**
@@ -76,18 +75,11 @@ public class TexfFieldWithPrintStream extends JTextArea
         return ps;
     }
 
-    /**
-     *  This method is public because
-     *  of the superclass method. Appending
-     *  text using this method directly
-     *  will not use the internal print
-     *  stream and thus not appear in
-     *  a log file.
-     */
-    @Override
-    public void append( String str )
+    private void append( String str ) throws BadLocationException
     {
-        super.append( str );
+        Document document = getDocument();
+        document.insertString( document.getLength(), str, null );
+        setCaretPosition(document.getLength());
 
         totalLength += str.length();
         updateCaret();
@@ -112,7 +104,6 @@ public class TexfFieldWithPrintStream extends JTextArea
      *  @param  str        the new text to replace
      *                     the gadgets content or <code>null</code>to clear the gadget.
      */
-    @Override
     public void setText( String str )
     {
         super.setText( str );
@@ -128,27 +119,6 @@ public class TexfFieldWithPrintStream extends JTextArea
 
         return actionClear;
     }
-
-//    /**
-//     * surround by a JScrollPane
-//     * @return
-//     */
-//    public JScrollPane surroundByJScrollPane()
-//    {
-//        return(
-//            new JScrollPane(
-//                this,
-//                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, // aqua hin aqua her. VERTICAL_SCROLLBAR_ALWAYS
-//                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-//                )
-//            );
-//    }
-
-//    public void makeSystemOutput()
-//    {
-//        System.setOut( getLogStream() );
-//        System.setErr( getLogStream() );
-//    }
 
     // ---------------- internal classes ----------------
 
@@ -172,7 +142,16 @@ public class TexfFieldWithPrintStream extends JTextArea
         {
             final String str = new String( b, off, len );
 
-            append( str );
+            try {
+                append( str );
+                }
+            catch( BadLocationException e ) {
+                IOException ioe = new IOException( e.getMessage() );
+
+                ioe.initCause( e );
+
+                throw ioe;
+                }
 
             if( logFile != null ) {
                 if( logFileWriter == null ) {
