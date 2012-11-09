@@ -313,14 +313,14 @@ public class CompareResourcesBundleFrame
 
         if( index == 0 ) {
             saveFileTypeMsg     = saveLeftFileTypeMsg;
-            fileObject          = filesConfig.getLeftFileObject();
-            customProperties    = tableModel.getLeftCustomProperties();
+//            fileObject          = filesConfig.getLeftFileObject();
+//            customProperties    = tableModel.getLeftCustomProperties();
             }
         else {
             saveFileTypeMsg     = saveRightFileTypeMsg;
-            fileObject          = filesConfig.getFileObject( index );
-            customProperties    = tableModel.getCustomProperties( index );
             }
+        fileObject          = filesConfig.getFileObject( index );
+        customProperties    = tableModel.getCustomProperties( index );
 
         logger.info( "request to save: " + saveFileTypeMsg );
 

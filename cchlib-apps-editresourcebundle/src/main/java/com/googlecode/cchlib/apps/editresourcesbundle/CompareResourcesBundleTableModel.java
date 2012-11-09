@@ -37,24 +37,44 @@ class CompareResourcesBundleTableModel
         private static final long serialVersionUID = 2L;
         int   colunmCount;
         int   colunmKey;
-        int   colunmLeftLine;
-        int   colunmLeftValue;
-        int[] colunmRightLine;
-        int[] colunmRightValue;
+        //int   colunmLeftLine;
+        //int   colunmLeftValue;
+        //int[] colunmRightLine;
+        //int[] colunmRightValue;
+        int[] colunmLine;
+        int[] colunmValue;
 
-        int getColunmRightLineIndex( final int column )
+//        int getColunmRightLineIndex( final int column )
+//        {//column == colunms.colunmRightLine
+//            for( int i = 0; i<colunmRightLine.length; i++ ) {
+//                if( column == colunmRightLine[ i ] ) {
+//                    return i;
+//                    }
+//                }
+//            return -1;
+//        }
+//        int getColunmRightValueIndex( final int column )
+//        {//column == colunms.colunmRightValue
+//            for( int i = 0; i<colunmRightValue.length; i++ ) {
+//                if( column == colunmRightValue[ i ] ) {
+//                    return i;
+//                    }
+//                }
+//            return -1;
+//        }
+        int getColunmLineIndex( final int column )
         {//column == colunms.colunmRightLine
-            for( int i = 0; i<colunmRightLine.length; i++ ) {
-                if( column == colunmRightLine[ i ] ) {
+            for( int i = 0; i<colunmLine.length; i++ ) {
+                if( column == colunmLine[ i ] ) {
                     return i;
                     }
                 }
             return -1;
         }
-        int getColunmRightValueIndex( final int column )
+        int getColunmValueIndex( final int column )
         {//column == colunms.colunmRightValue
-            for( int i = 0; i<colunmRightValue.length; i++ ) {
-                if( column == colunmRightValue[ i ] ) {
+            for( int i = 0; i<colunmLine.length; i++ ) {
+                if( column == colunmLine[ i ] ) {
                     return i;
                     }
                 }
@@ -67,14 +87,10 @@ class CompareResourcesBundleTableModel
             builder.append(colunmCount);
             builder.append(", colunmKey=");
             builder.append(colunmKey);
-            builder.append(", colunmLeftLine=");
-            builder.append(colunmLeftLine);
-            builder.append(", colunmLeftValue=");
-            builder.append(colunmLeftValue);
-            builder.append(", colunmRightLine=");
-            builder.append(Arrays.toString(colunmRightLine));
-            builder.append(", colunmRightValue=");
-            builder.append(Arrays.toString(colunmRightValue));
+            builder.append(", colunmLine=");
+            builder.append(Arrays.toString(colunmLine));
+            builder.append(", colunmLine=");
+            builder.append(Arrays.toString(colunmLine));
             builder.append("]");
             return builder.toString();
         }
@@ -88,9 +104,10 @@ class CompareResourcesBundleTableModel
             "(%s%s)",
             };
     private final ArrayList<String> keyList = new ArrayList<String>();
-    private CustomProperties   leftCProperties;
-    private CustomProperties[] rightCProperties;
-    private AutoI18n autoI18n;
+    private CustomProperties[] customProperties;
+    private AutoI18n           autoI18n;
+//    private CustomProperties   leftCProperties;
+//    private CustomProperties[] rightCProperties;
 
     /**
      *
@@ -117,45 +134,56 @@ class CompareResourcesBundleTableModel
             }
         };
 
-        // Left file
-        leftCProperties  = filesConfig.createLeftCustomProperties();
-        if( leftCProperties == null ) {
-            throw new IllegalArgumentException( "leftCProperties is null" );
-            }
-        leftCProperties.addChangeListener( cpChangeLstener );
+        customProperties = new CustomProperties[ filesConfig.getNumberOfFiles() ];
+//        // Left file
+//        leftCProperties  = filesConfig.createLeftCustomProperties();
+//        if( leftCProperties == null ) {
+//            throw new IllegalArgumentException( "leftCProperties is null" );
+//            }
+//        leftCProperties.addChangeListener( cpChangeLstener );
+//
+//        // Right files
+//        rightCProperties = new CustomProperties[ filesConfig.getNumberOfFiles() - 1 ];
 
-        // Right files
-        rightCProperties = new CustomProperties[ filesConfig.getNumberOfFiles() - 1 ];
+        for( int i = 0; i<customProperties.length; i++ ) {
+        	customProperties[ i ] = filesConfig.createCustomProperties( i );
 
-        for( int i = 0; i<rightCProperties.length; i++ ) {
-            rightCProperties[ i ] = filesConfig.createCustomProperties( i );
-
-            if( rightCProperties[ i ] == null ) {
-                throw new IllegalArgumentException( "rightCProperties[" + i + "] is null" );
+            if( customProperties[ i ] == null ) {
+                throw new IllegalArgumentException( "customProperties[" + i + "] is null" );
                 }
 
-            rightCProperties[ i ].addChangeListener( cpChangeLstener );
+            customProperties[ i ].addChangeListener( cpChangeLstener );
             }
 
         boolean showLineNumberIfPossible = filesConfig.isShowLineNumbers();
 
         if( showLineNumberIfPossible ) {
-            if( filesConfig.getLeftFormattedProperties() != null
-                    && filesConfig.getFormattedProperties( 1 ) != null // FIXME
-                    ) {
+        	boolean cantShowLineNumber = true;
+        	
+        	for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+        		if( filesConfig.getFormattedProperties( i ) == null ) {
+        			cantShowLineNumber = false;
+        			break;
+        			}
+        		}
+        	
+            if( cantShowLineNumber ) {
                 //colunms.colunmCount      = 5;
-                colunms.colunmCount      = 4 + rightCProperties.length;
+                colunms.colunmCount      = 1 + customProperties.length;
                 colunms.colunmKey        = 0;
-                colunms.colunmLeftLine   = 1;
-                colunms.colunmLeftValue  = 2;
+                //colunms.colunmLeftLine   = 1;
+                //colunms.colunmLeftValue  = 2;
                 //colunms.colunmRightLine  = 3;
                 //colunms.colunmRightValue = 4;
-                colunms.colunmRightLine  = new int[ rightCProperties.length ];
-                colunms.colunmRightValue = new int[ rightCProperties.length ];
+                colunms.colunmLine  = new int[ customProperties.length ];
+                colunms.colunmValue = new int[ customProperties.length ];
 
-                for( int i = 0; i<rightCProperties.length; i++ ) {
-                    colunms.colunmRightLine [ rightCProperties.length ] = 3 + i;
-                    colunms.colunmRightValue[ rightCProperties.length ] = 4 + i;
+                
+                for( int i = 0; i<customProperties.length; i++ ) {
+//                    colunms.colunmRightLine [ colunmLine.length ] = 3 + i;
+//                    colunms.colunmRightValue[ colunmLine.length ] = 4 + i;
+                    colunms.colunmLine [ i ] = 1 + i;
+                    colunms.colunmValue[ i ] = 2 + i;
                     }
                 }
             else {
@@ -166,18 +194,18 @@ class CompareResourcesBundleTableModel
 
         if( !showLineNumberIfPossible ) {
             //colunms.colunmCount      = 3;
-            colunms.colunmCount      = 2 + rightCProperties.length;
+            colunms.colunmCount      = customProperties.length;
             colunms.colunmKey        = 0;
-            colunms.colunmLeftLine   = -1;
-            colunms.colunmLeftValue  = 1;
+            //colunms.colunmLeftLine   = -1;
+            //colunms.colunmLeftValue  = 1;
             //colunms.colunmRightLine  = -1;
             //colunms.colunmRightValue = 2;
-            colunms.colunmRightLine  = new int[ rightCProperties.length ];
-            colunms.colunmRightValue = new int[ rightCProperties.length ];
+            colunms.colunmLine  = new int[ customProperties.length ];
+            colunms.colunmValue = new int[ customProperties.length ];
 
-            for( int i = 0; i<rightCProperties.length; i++ ) {
-                colunms.colunmRightLine [ i ] = -1;
-                colunms.colunmRightValue[ i ] = 2 + i;
+            for( int i = 0; i<customProperties.length; i++ ) {
+                colunms.colunmLine [ i ] = -1;
+                colunms.colunmValue[ i ] = 1 + i;
                 }
             }
 
@@ -185,11 +213,11 @@ class CompareResourcesBundleTableModel
 
         logger.info( "colunms = " + colunms );
 
-        logger.info( "leftCProperties.stringPropertyNames()=" + leftCProperties.stringPropertyNames() );
-        keyBuilderSet.addAll( leftCProperties.stringPropertyNames() );
+//        logger.info( "leftCProperties.stringPropertyNames()=" + leftCProperties.stringPropertyNames() );
+//        keyBuilderSet.addAll( leftCProperties.stringPropertyNames() );
 
-        for( int index = 0; index<rightCProperties.length; index++ ) {
-            keyBuilderSet.addAll( rightCProperties[ index ].stringPropertyNames() );
+        for( int index = 0; index<customProperties.length; index++ ) {
+            keyBuilderSet.addAll( customProperties[ index ].stringPropertyNames() );
             }
 
         for( String s : keyBuilderSet ) {
@@ -214,35 +242,35 @@ class CompareResourcesBundleTableModel
         if( column == colunms.colunmKey ) {
             return this.columnKeyNames;
             }
-        else if( column == colunms.colunmLeftLine ) {
-            return this.columnOtherNames[0];
-            }
-        else if( column == colunms.colunmLeftValue ) {
-            String prefix;
-
-            if( leftCProperties.isEdited() ) {
-                prefix = "*";
-                }
-            else {
-                prefix = "";
-                }
-
-            return String.format(
-                this.columnOtherNames[1],
-                prefix,
-                leftCProperties.getFileObject().getDisplayName( txtNoFile )
-                );
-            }
+//        else if( column == colunms.colunmLeftLine ) {
+//            return this.columnOtherNames[0];
+//            }
+//        else if( column == colunms.colunmLeftValue ) {
+//            String prefix;
+//
+//            if( leftCProperties.isEdited() ) {
+//                prefix = "*";
+//                }
+//            else {
+//                prefix = "";
+//                }
+//
+//            return String.format(
+//                this.columnOtherNames[1],
+//                prefix,
+//                leftCProperties.getFileObject().getDisplayName( txtNoFile )
+//                );
+//            }
         //else if( column == colunms.colunmRightLine ) {
         //else if( (computedIndex = colunms.getColunmRightLineIndex( column ) ) != -1 ) {
-        else if( colunms.getColunmRightLineIndex( column ) != -1 ) {
+        else if( colunms.getColunmLineIndex( column ) != -1 ) {
             return this.columnOtherNames[0];
             }
         //else if( column == colunms.colunmRightValue ) {
-        else if( (computedIndex = colunms.getColunmRightValueIndex( column ) ) != -1 ) {
+        else if( (computedIndex = colunms.getColunmValueIndex( column ) ) != -1 ) {
             String prefix;
 
-            if( rightCProperties[ computedIndex ].isEdited() ) {
+            if( customProperties[ computedIndex ].isEdited() ) {
                 prefix = "*";
                 }
             else {
@@ -252,7 +280,7 @@ class CompareResourcesBundleTableModel
             return String.format(
                 this.columnOtherNames[1],
                 prefix,
-                rightCProperties[ computedIndex ].getFileObject().getDisplayName( txtNoFile )
+                customProperties[ computedIndex ].getFileObject().getDisplayName( txtNoFile )
                 );
             }
 
@@ -262,12 +290,13 @@ class CompareResourcesBundleTableModel
     @Override
     public Class<?> getColumnClass( final int columnIndex )
     {
-        if( columnIndex == colunms.colunmLeftLine ) {
-            return Integer.class;
-            }
-        //else if( columnIndex == colunms.colunmRightLine ) {
-        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
-            return Integer.class;
+//        if( columnIndex == colunms.colunmLeftLine ) {
+//            return Integer.class;
+//            }
+//        //else if( columnIndex == colunms.colunmRightLine ) {
+//        else
+    	if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
+            return Integer.class; // FIXME c'est faux
             }
 
         return String.class;
@@ -281,30 +310,30 @@ class CompareResourcesBundleTableModel
         if( columnIndex == colunms.colunmKey ) {
             return false;
             }
-        else if( columnIndex == colunms.colunmLeftLine ) {
-            return false;
-            }
-        else if( columnIndex == colunms.colunmLeftValue ) {
-            if( this.leftCProperties.getFileObject().isReadOnly() ) {
-                return false;
-                }
-             else {
-                 String key = keyList.get( rowIndex );
-                 return isStringEditable( leftCProperties.getProperty( key ) );
-                 }
-            }
+//        else if( columnIndex == colunms.colunmLeftLine ) {
+//            return false;
+//            }
+//        else if( columnIndex == colunms.colunmLeftValue ) {
+//            if( this.leftCProperties.getFileObject().isReadOnly() ) {
+//                return false;
+//                }
+//             else {
+//                 String key = keyList.get( rowIndex );
+//                 return isStringEditable( leftCProperties.getProperty( key ) );
+//                 }
+//            }
         //else if( columnIndex == colunms.colunmRightLine ) {
-        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
+        else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return false;
             }
         //else if( columnIndex == colunms.colunmRightValue ) {
-        else if( (computedIndex = colunms.getColunmRightValueIndex( columnIndex ) ) != -1 ) {
-            if( this.rightCProperties[ computedIndex ].getFileObject().isReadOnly() ) {
+        else if( (computedIndex = colunms.getColunmValueIndex( columnIndex ) ) != -1 ) {
+            if( this.customProperties[ computedIndex ].getFileObject().isReadOnly() ) {
                 return false;
                 }
             else {
                 String key = keyList.get( rowIndex );
-                return isStringEditable( rightCProperties[ computedIndex ].getProperty( key ) );
+                return isStringEditable( customProperties[ computedIndex ].getProperty( key ) );
                 }
             }
 
@@ -340,19 +369,19 @@ class CompareResourcesBundleTableModel
         if( columnIndex == colunms.colunmKey ) {
             return key;
             }
-        else if( columnIndex == colunms.colunmLeftLine ) {
-            return leftCProperties.getLineNumber( key );
-            }
-        else if( columnIndex == colunms.colunmLeftValue ) {
-            return leftCProperties.getProperty( key );
-            }
+//        else if( columnIndex == colunms.colunmLeftLine ) {
+//            return leftCProperties.getLineNumber( key );
+//            }
+//        else if( columnIndex == colunms.colunmLeftValue ) {
+//            return leftCProperties.getProperty( key );
+//            }
         //else if( columnIndex == colunms.colunmRightLine ) {
-        else if( (computedIndex = colunms.getColunmRightLineIndex( columnIndex )) != -1 ) {
-            return rightCProperties[ computedIndex ].getLineNumber( key );
+        else if( (computedIndex = colunms.getColunmLineIndex( columnIndex )) != -1 ) {
+            return customProperties[ computedIndex ].getLineNumber( key );
             }
         //else if( columnIndex == colunms.colunmRightValue ) {
-        else if( (computedIndex = colunms.getColunmRightValueIndex( columnIndex )) != -1 ) {
-            return rightCProperties[ computedIndex ].getProperty( key );
+        else if( (computedIndex = colunms.getColunmValueIndex( columnIndex )) != -1 ) {
+            return customProperties[ computedIndex ].getProperty( key );
             }
 
         return null;
@@ -364,11 +393,11 @@ class CompareResourcesBundleTableModel
         if( columnIndex == colunms.colunmKey ) {
             return;
             }
-        if( columnIndex == colunms.colunmLeftLine ) {
-            return;
-            }
+//        if( columnIndex == colunms.colunmLeftLine ) {
+//            return;
+//            }
         //if( columnIndex == colunms.colunmRightLine ) {
-        if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
+        if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
@@ -376,12 +405,13 @@ class CompareResourcesBundleTableModel
         String value         = String.class.cast( aValue );
         int    computedIndex;
 
-        if( columnIndex == colunms.colunmLeftValue ) {
-            leftCProperties.setProperty( key, value );
-            }
+//        if( columnIndex == colunms.colunmLeftValue ) {
+//            leftCProperties.setProperty( key, value );
+//            }
         //else if( columnIndex == colunms.colunmRightValue ) {
-        else if( (computedIndex = colunms.getColunmRightValueIndex( columnIndex )) != -1 ) {
-            rightCProperties[ computedIndex ].setProperty( key, value );
+//        else 
+    	if( (computedIndex = colunms.getColunmValueIndex( columnIndex )) != -1 ) {
+        	customProperties[ computedIndex ].setProperty( key, value );
             }
     }
 
@@ -426,11 +456,11 @@ class CompareResourcesBundleTableModel
                 if( column == colunms.colunmKey ) {
                     return leftDotRenderer;
                     }
-                else if( column == colunms.colunmLeftValue ) {
-                    return myJLabel;
-                    }
+//                else if( column == colunms.colunmLeftValue ) {
+//                    return myJLabel;
+//                    }
                 //else if( column == colunms.colunmRightValue ) {
-                else if( colunms.getColunmRightValueIndex( column ) != -1 ) {
+                else if( colunms.getColunmValueIndex( column ) != -1 ) {
                     return myJLabel;
                     }
                 else {
@@ -500,15 +530,16 @@ class CompareResourcesBundleTableModel
 
         return jTable;
     }
-
-    public CustomProperties getLeftCustomProperties()
-    {
-        return this.leftCProperties;
-    }
+//
+//    @Deprecated
+//    public CustomProperties getLeftCustomProperties()
+//    {
+//        return getCustomProperties( 0 );
+//    }
 
     public CustomProperties getCustomProperties( final int index )
     {
-        return this.rightCProperties[ index ];
+        return this.customProperties[ index ];
     }
 
     public void setColumnWidth( final JTable table )

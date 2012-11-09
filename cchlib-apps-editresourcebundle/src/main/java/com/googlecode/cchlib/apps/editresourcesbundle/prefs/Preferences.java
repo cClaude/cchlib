@@ -341,6 +341,6 @@ public class Preferences implements Serializable
 
     public int getNumberOfFiles()
     {
-        return 2;
+        return 3;
     }
 }

@@ -86,11 +86,11 @@ class CompareResourcesBundlePopupMenu
         if( columnIndex == colunms.colunmKey) {
             return;
             }
-        else if( columnIndex == colunms.colunmLeftLine ) {
-            return;
-            }
+//        else if( columnIndex == colunms.colunmLeftLine ) {
+//            return;
+//            }
         //else if( columnIndex == colunms.colunmRightLine ) {
-        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
+        else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
@@ -130,11 +130,11 @@ class CompareResourcesBundlePopupMenu
         if( columnIndex == colunms.colunmKey ) {
             return;
             }
-        else if( columnIndex == colunms.colunmLeftLine ) {
-            return;
-            }
+//        else if( columnIndex == colunms.colunmLeftLine ) {
+//            return;
+//            }
         //else if( columnIndex == colunms.colunmRightLine ) {
-        else if( colunms.getColunmRightLineIndex( columnIndex ) != -1 ) {
+        else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
