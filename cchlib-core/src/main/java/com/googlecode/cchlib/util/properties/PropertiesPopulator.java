@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import org.apache.log4j.Logger;
 
@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
  * <ul>
  *   <li>{@link javax.swing.JTextField JTextField}</li>
  *   <li>{@link javax.swing.JCheckBox JCheckBox}</li>
+ *   <li>{@link javax.swing.JComboBox JComboBox} (Store only selected index)</li>
  * </ul>
  * </p>
  */
@@ -159,6 +160,12 @@ public class PropertiesPopulator<E>
             else if( o instanceof JCheckBox ) {
                 return Boolean.toString( JCheckBox.class.cast( o ).isSelected() );
                 }
+            else if( o instanceof JComboBox ) {
+                JComboBox jc    = JComboBox.class.cast( o );
+                int       index = jc.getSelectedIndex(); // Store only selected index
+
+                return Integer.toString( index );
+                }
             else {
                 throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
                 }
@@ -176,8 +183,14 @@ public class PropertiesPopulator<E>
                 JTextField.class.cast( o ).setText( strValue );
                 }
             else if( o instanceof JCheckBox ) {
-            	JCheckBox.class.cast( o ).setSelected( Boolean.parseBoolean( strValue ) );
-            	}
+                JCheckBox.class.cast( o ).setSelected( Boolean.parseBoolean( strValue ) );
+                }
+            else if( o instanceof JComboBox ) {
+                final JComboBox jc    = JComboBox.class.cast( o );
+                final int       index = Integer.parseInt( strValue ); 
+                
+                jc.setSelectedIndex( index );
+                }
             else {
                 throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
                 }

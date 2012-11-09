@@ -10,8 +10,9 @@ import java.util.EnumSet;
 /**
  * DOM parser implementation that allow to retrieve XML based URL for XML
  */
-public class XMLURLParserDOMImpl extends XMLParserDOMImpl
-    implements XMLURLParser
+public class XMLURLParserDOMImpl
+    extends XMLParserDOMImpl
+        implements XMLURLParser
 {
     private URL url;
 

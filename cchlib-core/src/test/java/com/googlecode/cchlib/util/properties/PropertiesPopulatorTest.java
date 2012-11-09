@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -27,8 +32,10 @@ public class PropertiesPopulatorTest
                     "MyTestString",
                     1,
                     1.5F,
-                    new boolean[]{true,false},
-                    "MyTestString for JTextField"
+                    new boolean[]{true,false,false,false,false},
+                    "MyTestString for JTextField",
+                    false,
+                    4 // selected index in boolean array / well just testing :p
                     );
         {
             Properties properties = new Properties();
@@ -43,7 +50,8 @@ public class PropertiesPopulatorTest
             logger.info( "actual   : [" + copy + "]" );
 
             assertEquals("Must be equal", bean.aString, copy.aString);
-            assertEquals("Must be equal", bean, copy);
+            //assertEquals("Must be equal", bean, copy);
+            assertTrue("Must be equal", bean.compareTo( copy ) == 0);
         }
 
         {
@@ -59,8 +67,9 @@ public class PropertiesPopulatorTest
             logger.info( "expected : [" + bean + "]" );
             logger.info( "actual   : [" + copy + "]" );
 
-            assertEquals("Must be equal", bean, copy);
-        }
+           // assertEquals("Must be equal", bean, copy);
+            assertTrue("Must be equal", bean.compareTo( copy ) == 0);
+       }
     }
 
     @Test
@@ -107,7 +116,9 @@ public class PropertiesPopulatorTest
             1024,
             2.65F,
             new boolean[]{true,false,true},
-            "JTextField text"
+            "JTextField text",
+            true,
+            2 // selected index in boolean array / well just testing :p
             );
         PropertiesPopulator.saveProperties( file, bean, SimpleBean.class );
 
@@ -136,24 +147,28 @@ public class PropertiesPopulatorTest
 
 class SimpleBean implements Comparable<SimpleBean>
 {
-    @Populator protected String aString;
-    @Populator private int aInt;
-    @Populator private float aFloat;
-    @Populator public boolean[] someBooleans;
+    @Populator protected String    aString;
+    @Populator private   int       aInt;
+    @Populator private   float     aFloat;
+    @Populator public    boolean[] someBooleans;
 
     @Persistent private JTextField aJTextField;
+    @Persistent private JCheckBox  aJCheckBox;
+    @Persistent private JComboBox  aJComboBox;
 
     public SimpleBean()
     {
         this.aJTextField = new JTextField();
-    }
+        this.aJCheckBox  = new JCheckBox();
+        this.aJComboBox  = new JComboBox();
+        {
+            final Object[] objects = {
+            	"Aa", "Bbb", "Ccc", "Dddd", "Eeeee", 
+            	};
 
-    @Override
-    public String toString() {
-        return "SimpleBean [aString=" + aString + ", aInt=" + aInt
-                + ", aFloat=" + aFloat + ", someBooleans="
-                + Arrays.toString(someBooleans) + ", aJTextField(text)="
-                + aJTextField.getText() + "]";
+            ComboBoxModel model = new DefaultComboBoxModel( objects );
+            this.aJComboBox     = new JComboBox( model  );
+        }
     }
 
     public SimpleBean(
@@ -161,15 +176,22 @@ class SimpleBean implements Comparable<SimpleBean>
         final int       aInt,
         final float     aFloat,
         final boolean[] booleans,
-        final String    jTextFieldString
+        final String    jTextFieldString,
+        final boolean   jCheckBoxSelected,
+        final int       jComboBoxSelectedIndex
         )
     {
+    	this();
+    	
         this.aString        = aString;
         this.aInt           = aInt;
         this.aFloat         = aFloat;
         this.someBooleans   = booleans;
         this.someBooleans   = booleans;
-        this.aJTextField    = new JTextField( jTextFieldString );
+        
+        this.aJTextField.setText( jTextFieldString );
+        this.aJCheckBox.setSelected( jCheckBoxSelected );
+        this.aJComboBox.setSelectedIndex( jComboBoxSelectedIndex );
     }
     public final String getaString()
     {
@@ -195,8 +217,35 @@ class SimpleBean implements Comparable<SimpleBean>
     {
         this.aFloat = aFloat;
     }
+//    @Override
+//    public String toString() {
+//        return "SimpleBean [aString=" + aString + ", aInt=" + aInt
+//                + ", aFloat=" + aFloat + ", someBooleans="
+//                + Arrays.toString(someBooleans) + ", aJTextField(text)="
+//                + aJTextField.getText() + "]";
+//    }
     @Override
-    public int compareTo( final SimpleBean o )
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SimpleBean [aString=");
+        builder.append(aString);
+        builder.append(", aInt=");
+        builder.append(aInt);
+        builder.append(", aFloat=");
+        builder.append(aFloat);
+        builder.append(", someBooleans=");
+        builder.append(Arrays.toString(someBooleans));
+        builder.append(", aJTextField=");
+        builder.append( aJTextField.getText() );
+        builder.append(", aJCheckBox=");
+        builder.append(aJCheckBox.isSelected());
+        builder.append(", aJComboBox=");
+        builder.append(aJComboBox.getSelectedIndex());
+        builder.append("]");
+        return builder.toString();
+    }
+
+    private int myCompareTo( final SimpleBean o ) // USE THIS ONE 
     {
         int res = this.aString.compareTo( o.aString );
         if( res != 0 ) {
@@ -226,35 +275,24 @@ class SimpleBean implements Comparable<SimpleBean>
             }
 
         res = this.aJTextField.getText().compareTo( o.aJTextField.getText() );
+        if( res != 0 ) {
+            return res;
+            }
+        
+        if( ! this.aJCheckBox.isSelected() == o.aJCheckBox.isSelected() ) {
+        	return 1;
+        	}
 
+        res = this.aJComboBox.getSelectedIndex() - o.aJComboBox.getSelectedIndex();
+        
         return res;
     }
-
+    
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + Float.floatToIntBits(aFloat);
-        result = prime * result + aInt;
-        result = prime * result
-                + ((aJTextField.getText() == null) ? 0 : aJTextField.getText().hashCode());
-        result = prime * result + ((aString == null) ? 0 : aString.hashCode());
-        result = prime * result + Arrays.hashCode(someBooleans);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
+    public int compareTo( final SimpleBean o ) // USE THIS ONE 
     {
-        if( this == obj ) {
-            return true;
-            }
-        else if( obj instanceof SimpleBean ) {
-            return this.compareTo( SimpleBean.class.cast( obj ) ) == 0;
-            }
-        return false;
+    	return this.myCompareTo( o );
     }
-
 }
 
 class BeanTstWithPopulatorContener
