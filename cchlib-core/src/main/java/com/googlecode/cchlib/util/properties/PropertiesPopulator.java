@@ -187,8 +187,8 @@ public class PropertiesPopulator<E>
                 }
             else if( o instanceof JComboBox ) {
                 final JComboBox jc    = JComboBox.class.cast( o );
-                final int       index = Integer.parseInt( strValue ); 
-                
+                final int       index = Integer.parseInt( strValue );
+
                 jc.setSelectedIndex( index );
                 }
             else {
@@ -248,7 +248,19 @@ public class PropertiesPopulator<E>
         final Properties properties
         ) throws PropertiesPopulatorException
     {
-        populateProperties( bean, properties, null );
+        populateProperties( null, bean, properties );
+    }
+
+    /**
+     * @deprecated use {@link #populateProperties(String, Object, Properties)} instead
+     */
+    public void populateProperties(
+        final E          bean,
+        final Properties properties,
+        final String     propertiesPrefix
+        ) throws PropertiesPopulatorException
+    {
+        populateProperties( propertiesPrefix, bean, properties );
     }
 
     /**
@@ -257,15 +269,15 @@ public class PropertiesPopulator<E>
      * Null entries are not stored in properties, but null entries
      * from arrays are stored.
      *
+     * @param propertiesPrefix Prefix for properties names, if null or empty ignored. 
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
-     * @param propertiesPrefix TODOC
      * @throws PropertiesPopulatorException
      */
     public void populateProperties(
+        final String     propertiesPrefix,
         final E          bean,
-        final Properties properties,
-        final String     propertiesPrefix
+        final Properties properties
         ) throws PropertiesPopulatorException
     {
         final StringBuilder prefix;
@@ -373,17 +385,11 @@ public class PropertiesPopulator<E>
         final E          bean
         ) throws PropertiesPopulatorException
     {
-        populateBean( properties, null, bean );
+        populateBean( null, properties, bean );
     }
 
     /**
-     * Set fields annotate with {@link Populator} from properties
-     * on bean
-     *
-     * @param bean       Object to use to store values
-     * @param propertiesPrefix TODOC
-     * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorException
+     * @deprecated use {@link #populateBean(String, Properties, Object)} instead
      */
     public void populateBean(
         final Properties properties,
@@ -391,7 +397,25 @@ public class PropertiesPopulator<E>
         final E          bean
         ) throws PropertiesPopulatorException
     {
-        new PopulateBean(properties, propertiesPrefix, bean).populate();
+        populateBean(propertiesPrefix, properties, bean);
+    }
+
+    /**
+     * Set fields annotate with {@link Populator} from properties
+     * on bean
+     *
+     * @param propertiesPrefix Prefix for properties names, if null or empty ignored. 
+     * @param bean       Object to use to store values
+     * @param properties {@link Properties} to use to get values
+     * @throws PropertiesPopulatorException
+     */
+    public void populateBean(
+        final String     propertiesPrefix,
+        final Properties properties,
+        final E          bean
+        ) throws PropertiesPopulatorException
+    {
+        new PopulateBean(propertiesPrefix, properties, bean).populate();
     }
 
     /**
@@ -408,8 +432,8 @@ public class PropertiesPopulator<E>
          *
          */
         public PopulateBean(
-            final Properties properties,
             final String     propertiesPrefix,
+            final Properties properties,
             final E          bean
             )
         {
