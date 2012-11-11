@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n.config;
 
 import java.util.Locale;
+import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
  * TODOC
@@ -38,19 +39,38 @@ public class DefaultI18nBundleFactory
         };
     }
 
+    @Deprecated
+    public static AbstractI18nBundle createDefaultI18nBundle( 
+            final Locale                locale,
+            final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
+            )
+    {
+        return createDefaultI18nBundle( locale, new I18nPrepHelperAutoUpdatable() {
+            @Override
+            public void performeI18n( AutoI18n autoI18n )
+            {
+                i18nPrepAutoUpdatable.performeI18n( autoI18n );
+            }
+            @Override
+            public String getMessagesBundleForI18nPrepHelper()
+            {
+                return i18nPrepAutoUpdatable.getMessagesBundle();
+            }} );
+    }
+
     /**
      * Create AbstractI18nBundle for giving locale and giving
      * i18nPrepAutoUpdatable to build message bundle base name
      * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
      * 
      * @param locale                {@link Locale} to use
-     * @param i18nPrepAutoUpdatable {@link I18nPrepAutoUpdatable} to use
+     * @param i18nPrepAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
      * @return an AbstractI18nBundle
      * @see I18nPrepAutoUpdatable#getMessagesBundle()
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
-            final Locale                locale,
-            final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
+            final Locale                      locale,
+            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable 
             )
         {
             return new AbstractI18nBundle( locale )
@@ -58,7 +78,7 @@ public class DefaultI18nBundleFactory
                 @Override
                 public String getMessagesBundle()
                 {
-                    return i18nPrepAutoUpdatable.getMessagesBundle();
+                    return i18nPrepHelperAutoUpdatable.getMessagesBundleForI18nPrepHelper();
                 }
             };
         }
@@ -74,4 +94,5 @@ public class DefaultI18nBundleFactory
     {
         return clazz.getPackage().getName() + ".MessagesBundle";
     }
+
 }
