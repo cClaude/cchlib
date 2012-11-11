@@ -1,11 +1,13 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
 
 
 /**
@@ -22,12 +24,20 @@ class DefaultCustomProperties
     private FileObject fileObject;
 
     public DefaultCustomProperties(
-            FileObject  fileObject,
-            Properties  properties
-            )
+        final FileObject  fileObject,
+        final Properties  defaults
+        ) throws FileNotFoundException, IOException
     {
-        this.properties = properties;
         this.fileObject = fileObject;
+        this.properties = new Properties( defaults );
+
+        properties.load(
+              new FileInputStream(
+                  fileObject.getFile()
+                  )
+              );
+        
+        this.fileObject.setCustomProperties( this );
     }
 
     @Override
@@ -70,6 +80,11 @@ class DefaultCustomProperties
     public FileObject getFileObject()
     {
         return fileObject;
+    }
+
+    public Properties getProperties()
+    {
+        return properties;
     }
 
     @Override

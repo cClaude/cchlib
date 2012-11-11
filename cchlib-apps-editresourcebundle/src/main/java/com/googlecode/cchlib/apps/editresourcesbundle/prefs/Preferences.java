@@ -23,7 +23,7 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
 public class Preferences implements Serializable
 {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
     private final static transient Logger logger = Logger.getLogger( Preferences.class );
@@ -42,6 +42,7 @@ public class Preferences implements Serializable
     @Populator private int htmlPreviewDimension_width;
     @Populator private int htmlPreviewDimension_height;
     @Populator private String lastDirectory;
+    @Populator private int numberOfFiles;
 
     /**
      * Build default preferences (file not found)
@@ -341,6 +342,65 @@ public class Preferences implements Serializable
 
     public int getNumberOfFiles()
     {
-        return 3;
+        if( numberOfFiles < 2 ) {
+            logger.warn( "(fix) Illegal value for numberOfFiles:" + numberOfFiles );
+            numberOfFiles = 2;
+            }
+        else if( numberOfFiles > 10 ) {
+            logger.warn( "(fix) Illegal value for numberOfFiles:" + numberOfFiles );
+            numberOfFiles = 10;
+            }
+        return numberOfFiles;
     }
+
+    public void setNumberOfFiles( final int numberOfFiles )
+    {
+        if( numberOfFiles < 2 ) {
+            logger.warn( "Illegal value for numberOfFiles:" + numberOfFiles );
+            }
+        else if( numberOfFiles > 10 ) {
+            logger.warn( "Illegal value for numberOfFiles:" + numberOfFiles );
+            }
+        this.numberOfFiles = numberOfFiles;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "Preferences [preferencesFile=" );
+        builder.append( preferencesFile );
+        builder.append( ", lookAndFeelClassName=" );
+        builder.append( lookAndFeelClassName );
+        builder.append( ", localeLanguage=" );
+        builder.append( localeLanguage );
+        builder.append( ", windowWidth=" );
+        builder.append( windowWidth );
+        builder.append( ", windowHeight=" );
+        builder.append( windowHeight );
+        builder.append( ", multiLineEditorLineWrap=" );
+        builder.append( multiLineEditorLineWrap );
+        builder.append( ", multiLineEditorWordWrap=" );
+        builder.append( multiLineEditorWordWrap );
+        builder.append( ", multiLineEditorDimension_width=" );
+        builder.append( multiLineEditorDimension_width );
+        builder.append( ", multiLineEditorDimension_height=" );
+        builder.append( multiLineEditorDimension_height );
+        builder.append( ", htmlPreview_W3C_LENGTH_UNITS=" );
+        builder.append( htmlPreview_W3C_LENGTH_UNITS );
+        builder.append( ", htmlPreview_HONOR_DISPLAY_PROPERTIES=" );
+        builder.append( htmlPreview_HONOR_DISPLAY_PROPERTIES );
+        builder.append( ", htmlPreviewDimension_width=" );
+        builder.append( htmlPreviewDimension_width );
+        builder.append( ", htmlPreviewDimension_height=" );
+        builder.append( htmlPreviewDimension_height );
+        builder.append( ", lastDirectory=" );
+        builder.append( lastDirectory );
+        builder.append( ", numberOfFiles=" );
+        builder.append( numberOfFiles );
+        builder.append( "]" );
+        return builder.toString();
+    }
+    
+    
 }

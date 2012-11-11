@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

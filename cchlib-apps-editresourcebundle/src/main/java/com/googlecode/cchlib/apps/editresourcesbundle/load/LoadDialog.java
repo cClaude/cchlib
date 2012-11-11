@@ -8,8 +8,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
-import com.googlecode.cchlib.apps.editresourcesbundle.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
+import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
@@ -213,8 +213,8 @@ public class LoadDialog
     }
 
     private FileObject getLoadFile(
-            FileObject previousFile,
-            boolean    readOnly
+            FileObject          previousFile,
+            boolean             readOnly
             )
     {
         final JFileChooser fc = getJFileChooser();
@@ -228,7 +228,7 @@ public class LoadDialog
         int returnVal = fc.showOpenDialog( this );
 
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            return new FileObject(fc.getSelectedFile(), readOnly);
+            return new FileObject( fc.getSelectedFile(), readOnly );
             }
 
         return null;
@@ -242,7 +242,7 @@ public class LoadDialog
                         jCheckBox_LeftReadOnly.isSelected()
                         );
         if( fo != null ) {
-            this.filesConfig.setLeftFileObject( fo );
+            this.filesConfig.setFileObject( fo, 0 );
             slogger.info( "Left File:" + fo);
             udpateFilesDisplay();
             }
@@ -283,7 +283,7 @@ public class LoadDialog
                 filesConfig.getLeftFileObject().getFile(),
                 jCheckBox_LeftReadOnly.isSelected()
                 );
-        filesConfig.setLeftFileObject( foLeft );
+        filesConfig.setFileObject( foLeft, 0 );
 
         try {
             filesConfig.load();
@@ -400,7 +400,6 @@ public class LoadDialog
 
     private void jButtonSelectedPressed( final int index )
     {
-        // FIXME
         if( index == 0 ) {
             jButton_LeftMouseMousePressed();
             }

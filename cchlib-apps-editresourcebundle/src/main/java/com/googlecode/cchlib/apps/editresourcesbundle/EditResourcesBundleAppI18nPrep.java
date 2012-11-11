@@ -3,12 +3,11 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 
 /**
  * Create resources bundles files
@@ -18,7 +17,7 @@ public class EditResourcesBundleAppI18nPrep
     public static void main( String[] args ) throws IOException
     {
         CompareResourcesBundleFrame mainFrame0              = new CompareResourcesBundleFrame( Preferences.createDefaultPreferences() );
-        I18nPrepAutoUpdatable       mainFrame               = mainFrame0;
+        I18nPrepHelperAutoUpdatable mainFrame               = mainFrame0;
         FilesConfig                 filesConfig             = new FilesConfig( 2 ); // TODO use prefs ?
         I18nAutoUpdatable           loadFrame               = new LoadDialog( mainFrame0, filesConfig );
         I18nAutoUpdatable           htmlFrame               = new HTMLPreviewDialog(mainFrame0, "<<fakeTitle>>", "**FakeContent**" );

@@ -7,21 +7,22 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.Locale;
-import javax.swing.AbstractButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-
+import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
+import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJDialog;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
@@ -40,7 +41,7 @@ import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
  */
 public class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
-        implements I18nPrepAutoUpdatable
+        implements I18nPrepHelperAutoUpdatable //I18nPrepAutoUpdatable
 {
     private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
@@ -128,7 +129,7 @@ public class CompareResourcesBundleFrame
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
-            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundle() );
+            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
             }
         this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
 
@@ -142,24 +143,24 @@ public class CompareResourcesBundleFrame
 //        logger.info( "TEST: resourceBundle = " + resourceBundle );
 //        logger.info( "TEST: resourceBundle.getLocale() = " + resourceBundle.getLocale() );
 
-        // Init menu according to locale
-        Enumeration<AbstractButton> enumeration = getButtonGroupLanguage().getElements();
-
-        while( enumeration.hasMoreElements() ) {
-            AbstractButton  button       = enumeration.nextElement();
-            Locale          buttonLocale = Locale.class.cast( button.getClientProperty( Locale.class ) );
-
-            if( buttonLocale == null ) {
-                if( locale == null ) {
-                    button.setSelected( true );
-                    break;
-                    }
-                }
-            else if( buttonLocale.equals( locale ) ) {
-                button.setSelected( true );
-                break;
-                }
-        }
+//        // Init menu according to locale
+//        Enumeration<AbstractButton> enumeration = getButtonGroupLanguage().getElements();
+//
+//        while( enumeration.hasMoreElements() ) {
+//            AbstractButton  button       = enumeration.nextElement();
+//            Locale          buttonLocale = Locale.class.cast( button.getClientProperty( Locale.class ) );
+//
+//            if( buttonLocale == null ) {
+//                if( locale == null ) {
+//                    button.setSelected( true );
+//                    break;
+//                    }
+//                }
+//            else if( buttonLocale.equals( locale ) ) {
+//                button.setSelected( true );
+//                break;
+//                }
+//        }
 
         //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 
@@ -226,10 +227,9 @@ public class CompareResourcesBundleFrame
     protected void updateDisplay()
     {
         if( logger.isInfoEnabled() ) {
-            logger.info( "Left :" + filesConfig.getLeftFileObject() );
 
-            for( int i = 1; i<filesConfig.getNumberOfFiles(); i++ ) {
-                logger.info( "[" + i + "]:" + filesConfig.getFileObject( i ) );
+            for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                logger.info( "F[" + i + "]:" + filesConfig.getFileObject( i ) );
                 }
             }
 
@@ -410,9 +410,12 @@ public class CompareResourcesBundleFrame
         {
             final String c = event.getActionCommand();
 
-            if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
-                saveCurrentPreferences();
+            if( ACTIONCMD_PREFS.equals( c ) ) {
+                openPreferences();
                 }
+//            if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
+//                saveCurrentPreferences();
+//                }
             else if( ACTIONCMD_OPEN.equals( c ) ) {
                 jMenuItem_Open();
                 }
@@ -424,15 +427,15 @@ public class CompareResourcesBundleFrame
                     saveFile( i );
                     }
                 }
-            else if( ACTIONCMD_DEFAULT_LOCAL.equals( c ) ) {
-                setGuiLocale( null );
-                }
-            else if( ACTIONCMD_ENGLISH.equals( c ) ) {
-                setGuiLocale( Locale.ENGLISH );
-                }
-            else if( ACTIONCMD_FRENCH.equals( c ) ) {
-                setGuiLocale( Locale.FRENCH );
-                }
+//            else if( ACTIONCMD_DEFAULT_LOCAL.equals( c ) ) {
+//                setGuiLocale( null );
+//                }
+//            else if( ACTIONCMD_ENGLISH.equals( c ) ) {
+//                setGuiLocale( Locale.ENGLISH );
+//                }
+//            else if( ACTIONCMD_FRENCH.equals( c ) ) {
+//                setGuiLocale( Locale.FRENCH );
+//                }
             else if( ACTIONCMD_SAVE_LEFT.equals( c ) ) {
                 saveFile( 0 );
                 }
@@ -459,6 +462,89 @@ public class CompareResourcesBundleFrame
         autoI18n.performeI18n(this,this.getClass());
     }
 
+    public void openPreferences()
+    {
+        final Locale[] locales = {
+            null, // System,
+            Locale.ENGLISH,
+            Locale.FRENCH
+            };
+        final String[] languages = {
+            msgStringDefaultLocale,
+            locales[1].getDisplayLanguage(),
+            locales[2].getDisplayLanguage()
+            };
+        final int selectedLanguageIndex;
+        {
+            Locale pLocale  = preferences.getLocale();
+            int    selected = 0;
+            
+            if( pLocale == null ) {
+                selected = 0;
+                }
+            else {
+                for( int i = 1; i<locales.length; i++ ) {
+                    if( pLocale.equals( locales[ i ] ) ) {
+                        selected = i;
+                        break;
+                        }
+                    }
+                }
+            selectedLanguageIndex = selected;
+        }
+        
+        PreferencesJPanel.InitParams initParams = new PreferencesJPanel.InitParams()
+        {
+            @Override
+            public int getNumberOfFiles()
+            {
+                return preferences.getNumberOfFiles();
+            }
+            @Override
+            public String[] getLanguages()
+            {
+                return languages;
+            }
+            @Override
+            public int getSelectedLanguageIndex()
+            {
+                return selectedLanguageIndex;
+            }
+            @Override
+            public boolean isSaveWindowSize()
+            {
+                return false; // FIXME ??
+            }
+        };
+        PreferencesJDialog.AbstractAction action = new PreferencesJDialog.AbstractAction()
+        {
+            @Override
+            public void onSave( PreferencesJPanel.SaveParams saveParams )
+            {
+                Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
+                preferences.setLocale( locale );
+                
+                if( saveParams.isSaveWindowSize() ) {
+                    preferences.setWindowDimension( getSize() );
+                    }
+                
+                preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
+
+                if( saveParams.isSaveLookAndFeel() ) {
+                    preferences.setLookAndFeelClassName();
+                    }
+                
+                savePreferences();
+                
+                this.dispose();
+            }
+        };
+        
+        //PreferencesJDialog dialog = 
+        new PreferencesJDialog( initParams, action );
+    }
+
+    /*
     private void saveCurrentPreferences()
     {
         preferences.setLookAndFeelClassName();
@@ -470,7 +556,6 @@ public class CompareResourcesBundleFrame
 
         savePreferences();
     }
-
     private void setGuiLocale( final Locale locale )
     {
         preferences.setLocale( locale );
@@ -487,9 +572,10 @@ public class CompareResourcesBundleFrame
                 JOptionPane.INFORMATION_MESSAGE
                 );
     }
-
+*/
     private void savePreferences()
     {
+        logger.info( "Save prefs: " + preferences );
         try {
             preferences.save();
             }
@@ -502,8 +588,8 @@ public class CompareResourcesBundleFrame
             }
     }
 
-    @Override // I18nPrepAutoUpdatable
-    public String getMessagesBundle()
+    @Override // I18nPrepHelperAutoUpdatable
+    public String getMessagesBundleForI18nPrepHelper()
     {
         return DefaultI18nBundleFactory.getMessagesBundle( EditResourcesBundleApp.class );
     }

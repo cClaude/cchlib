@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  *
  */
 public
-interface CustomProperties
+interface CustomProperties 
     extends Serializable
 {
     /**

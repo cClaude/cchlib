@@ -1,15 +1,14 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Set;
-
 import org.apache.log4j.Logger;
-
-
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
@@ -26,15 +25,27 @@ class FormattedCustomProperties extends AbstractCustomProperties
     private HashMap<String,Integer> linesNumbers;
 
     public FormattedCustomProperties(
-            final FileObject            fileObject,
-            final FormattedProperties   properties
-            )
+            final FileObject                            fileObject,
+            final FormattedProperties                   defaults, 
+            final EnumSet<FormattedProperties.Store>    formattedPropertiesStore
+            ) throws FileNotFoundException, IOException
     {
         this.fileObject     = fileObject;
-        this.properties     = properties;
+        this.properties     = new FormattedProperties(
+                defaults,
+                formattedPropertiesStore
+                );
+        this.properties.load(
+                new FileInputStream(
+                    this.fileObject.getFile()
+                    )
+                );
+        
         this.linesNumbers   = new HashMap<String,Integer>();
-
+        
         refreshLinesNumber();
+        
+        this.fileObject.setCustomProperties( this );
     }
 
     @Override
@@ -74,6 +85,11 @@ class FormattedCustomProperties extends AbstractCustomProperties
         return fileObject;
     }
 
+    public FormattedProperties getFormattedProperties()
+    {
+        return properties;
+    }
+    
     @Override
     public String getProperty( String key )
     {
@@ -118,4 +134,19 @@ class FormattedCustomProperties extends AbstractCustomProperties
             lineNumber++;
             }
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "FormattedCustomProperties [fileObject=" );
+        builder.append( fileObject );
+        builder.append( ", properties=" );
+        builder.append( properties );
+        builder.append( ", linesNumbers=" );
+        builder.append( linesNumbers );
+        builder.append( ']' );
+        return builder.toString();
+    }
+
 }

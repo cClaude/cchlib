@@ -9,47 +9,46 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButtonMenuItem;
 import java.awt.Toolkit;
-import java.util.Locale;
 
 /**
  *
  */
 public abstract class CompareResourcesBundleFrameWB extends JFrame
 {
-    private static final long serialVersionUID = 2L;
-    public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
+    private static final long serialVersionUID = 3L;
+    //public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
     public static final String ACTIONCMD_OPEN = "ACTIONCMD_OPEN";
     public static final String ACTIONCMD_QUIT = "ACTIONCMD_QUIT";
     public static final String ACTIONCMD_SAVE_ALL = "ACTIONCMD_SAVE_ALL";
     //public static final String ACTIONCMD_SAVE_RIGHT = "ACTIONCMD_SAVE_RIGHT";
     public static final String ACTIONCMD_SAVE_RIGHT_PREFIX = "ACTIONCMD_SAVE_RIGHT_";
     public static final String ACTIONCMD_SAVE_LEFT = "ACTIONCMD_SAVE_LEFT";
-    public static final String ACTIONCMD_DEFAULT_LOCAL = "ACTIONCMD_DEFAULT_LOCAL";
-    public static final String ACTIONCMD_ENGLISH = "ACTIONCMD_ENGLISH";
-    public static final String ACTIONCMD_FRENCH = "ACTIONCMD_FRENCH";
+    public static final String ACTIONCMD_PREFS = "ACTIONCMD_PREFS";
+    //public static final String ACTIONCMD_DEFAULT_LOCAL = "ACTIONCMD_DEFAULT_LOCAL";
+    //public static final String ACTIONCMD_ENGLISH = "ACTIONCMD_ENGLISH";
+    //public static final String ACTIONCMD_FRENCH = "ACTIONCMD_FRENCH";
 
     protected JMenuBar           jMenuBarFrame;
     private JMenu                jMenuFile;
     private JMenu                jMenuOptions;
-    private JMenuItem            jMenuItemSaveCurrentPrefs;
+    //private JMenuItem            jMenuItemSaveCurrentPrefs;
     private JMenuItem            jMenuItemOpen;
     private JMenuItem            jMenuItemQuit;
     private JMenuItem            jMenuItemSaveAll;
     private JMenu                jMenuSave;
     private JMenuItem[]          jMenuItemSaveRightFile;
-    private JMenu                jMenuItemLanguage;
+    //private JMenu                jMenuItemLanguage;
     protected JMenu              jMenuLookAndFeel;
     protected JMenuItem          jMenuItemSaveLeftFile;
-    private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
+    //private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
 
     protected JScrollPane  jScrollPaneProperties;
     protected JTable       jTableProperties;
 
-    private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
+    //private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
     private int numberOfFiles;
+    private JMenuItem preferencesJMenuItem;
 
     public CompareResourcesBundleFrameWB( final int numberOfFiles )
     {
@@ -64,10 +63,10 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         updateJMenuBar();
     }
 
-    protected ButtonGroup getButtonGroupLanguage()
-    {
-        return this.buttonGroupLanguage;
-    }
+//    protected ButtonGroup getButtonGroupLanguage()
+//    {
+//        return this.buttonGroupLanguage;
+//    }
 
     protected void updateJMenuBar()
     {
@@ -120,7 +119,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
 
         jMenuOptions = new JMenu();
         jMenuOptions.setText("Options");
-
+/*
         jMenuItemLanguage = new JMenu("Language");
 
         jRadioButtonMenuItemDefaultLocale = new JRadioButtonMenuItem("Default Locale");
@@ -146,13 +145,19 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuItemLanguage.add( jRadioButtonMenuItemFrench );
 
         jMenuOptions.add( jMenuItemLanguage );
+*/        
+        preferencesJMenuItem = new JMenuItem("Prerences");
+        preferencesJMenuItem.setActionCommand( ACTIONCMD_PREFS );
+        preferencesJMenuItem.addActionListener( getActionListener() );
+        jMenuOptions.add(preferencesJMenuItem);
+/*        
         jMenuOptions.addSeparator();
 
         jMenuItemSaveCurrentPrefs = new JMenuItem( "Save preferences" );
         jMenuItemSaveCurrentPrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
         jMenuItemSaveCurrentPrefs.addActionListener( getActionListener() );
         jMenuOptions.add( jMenuItemSaveCurrentPrefs );
-
+*/
         jMenuBarFrame.add( jMenuOptions );
         setJMenuBar( jMenuBarFrame );
 
@@ -160,7 +165,6 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuLookAndFeel = new JMenu("Look And Feel");
         jMenuBarFrame.add( jMenuLookAndFeel );
     }
-
 
     protected abstract ActionListener getActionListener();
 }
