@@ -25,7 +25,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesSta
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import cx.ath.choisnet.util.HashMapSet;
@@ -35,7 +35,8 @@ import cx.ath.choisnet.util.HashMapSet;
  */
 final public class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
-        implements I18nPrepAutoUpdatable
+        //implements I18nPrepAutoUpdatable
+        implements I18nPrepHelperAutoUpdatable
 {
     private static final long serialVersionUID = 2L;
     static final Logger logger = Logger.getLogger( DuplicateFilesFrame.class );
@@ -116,7 +117,7 @@ final public class DuplicateFilesFrame
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
-            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundle() );
+            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
             }
         
         // Apply i18n !
@@ -131,7 +132,7 @@ final public class DuplicateFilesFrame
         logger.info( "DuplicateFilesFrame() done." );
     }
 
-    @Override // I18nPrepAutoUpdatable
+    @Override // I18nPrepHelperAutoUpdatable
     public void performeI18n(AutoI18n autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
@@ -142,12 +143,17 @@ final public class DuplicateFilesFrame
         getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n );
     }
 
-    @Override // I18nPrepAutoUpdatable
-    public String getMessagesBundle()
+//    @Override // I18nPrepAutoUpdatable
+//    public String getMessagesBundle()
+//    {
+//        return getDFToolKit().getMessagesBundle();
+//    }
+    @Override//I18nPrepHelperAutoUpdatable
+    public String getMessagesBundleForI18nPrepHelper()
     {
         return getDFToolKit().getMessagesBundle();
     }
-
+    
     private void initFixComponents()
     {
         setIconImage( getDFToolKit().getResources().getAppImage() );

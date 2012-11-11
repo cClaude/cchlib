@@ -14,7 +14,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import java.awt.event.ActionListener;
 import java.awt.CardLayout;
 import java.util.TooManyListenersException;
@@ -24,7 +24,7 @@ import java.util.TooManyListenersException;
  */
 public class DuplicateFilesMainPanel 
     extends JPanel
-        implements I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private DFToolKit dfToolKit;
@@ -241,7 +241,7 @@ public class DuplicateFilesMainPanel
         return new JPanelConfirm( getDFToolKit() );
     }
 
-    @Override // I18nPrepAutoUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
@@ -252,11 +252,11 @@ public class DuplicateFilesMainPanel
         autoI18n.performeI18n(getJPanel4Confirm(),getJPanel4Confirm().getClass());
     }
 
-    @Override // I18nPrepAutoUpdatable
-    public String getMessagesBundle()
-    {
-        return getDFToolKit().getMessagesBundle();
-    }
+//    @Override // I18nPrepAutoUpdatable
+//    public String getMessagesBundle()
+//    {
+//        return getDFToolKit().getMessagesBundle();
+//    }
 
     public void initFixComponents()
     {

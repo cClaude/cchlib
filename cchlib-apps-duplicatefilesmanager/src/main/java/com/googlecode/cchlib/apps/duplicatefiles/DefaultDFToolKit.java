@@ -16,7 +16,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+//import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -26,7 +27,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccesso
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 public final class DefaultDFToolKit
-    implements DFToolKit, I18nPrepAutoUpdatable
+    implements DFToolKit, I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( DefaultDFToolKit.class );
@@ -45,13 +46,13 @@ public final class DefaultDFToolKit
         this.preferences = preferences;
     }
 
-    @Override // I18nPrepAutoUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
 
-    @Override // I18nPrepAutoUpdatable & DFToolKit
+    @Override // DFToolKit
     public String getMessagesBundle()
     {
         return ResourcesLoader.class.getPackage().getName()

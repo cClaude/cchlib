@@ -5,14 +5,16 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+//import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 
 /**
  * Display about dialog
  */
 public class AboutDialog
     extends JDialog
-        implements I18nPrepAutoUpdatable
+        //implements I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable
 {
     private final class Panel extends AboutPanel 
     {
@@ -33,7 +35,7 @@ public class AboutDialog
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( AboutDialog.class );
     private /*final*/ AboutPanel contentPanel;
-    private /*final*/ DFToolKit dfToolKit;
+    //private /*final*/ DFToolKit dfToolKit;
 
     /**
      * Launch the application.
@@ -66,23 +68,23 @@ public class AboutDialog
     {
         super( dfToolKit.getMainFrame() );
 
-        this.dfToolKit    = dfToolKit;
+        //this.dfToolKit    = dfToolKit;
         this.contentPanel = new Panel( dfToolKit.getResources() );
         
         super.setContentPane( contentPanel );
         super.setSize( 500, 350 );
     }
 
-    @Override // I18nPrepAutoUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
     }
 
-    @Override // I18nPrepAutoUpdatable
-    public String getMessagesBundle()
-    {
-        return dfToolKit.getMessagesBundle();
-    }
+//    @Override // I18nPrepAutoUpdatable
+//    public String getMessagesBundle()
+//    {
+//        return dfToolKit.getMessagesBundle();
+//    }
 }
 

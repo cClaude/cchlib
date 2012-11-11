@@ -20,7 +20,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModel;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModelable;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
@@ -31,7 +31,7 @@ import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
  */
 public class RemoveEmptyDirectoriesPanel 
     extends RemoveEmptyDirectoriesPanelWB
-        implements I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
@@ -451,16 +451,15 @@ public class RemoveEmptyDirectoriesPanel
         }, "startDelete()").start();
     }
 
-    @Override
+    @Override//I18nAutoUpdatable
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-
-    @Override
-    public String getMessagesBundle()
-    {
-        return getDFToolKit().getMessagesBundle();
-    }
+//    @Override
+//    public String getMessagesBundle()
+//    {
+//        return getDFToolKit().getMessagesBundle();
+//    }
     
 }

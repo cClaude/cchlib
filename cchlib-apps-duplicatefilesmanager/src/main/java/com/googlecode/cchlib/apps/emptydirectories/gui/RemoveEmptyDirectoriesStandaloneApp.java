@@ -10,7 +10,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 
 /**
  *
@@ -18,7 +19,7 @@ import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
  */
 public class RemoveEmptyDirectoriesStandaloneApp
     extends JFrame
-        implements I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
@@ -41,7 +42,20 @@ public class RemoveEmptyDirectoriesStandaloneApp
 
         // Prepare i18n !
         if( autoI18n == null ) {
-            this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( this.dfToolKit.getValidLocale(), this ).getAutoI18n();
+            this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle(
+                    this.dfToolKit.getValidLocale(), 
+                    new I18nPrepHelperAutoUpdatable() {
+                        @Override
+                        public void performeI18n( AutoI18n autoI18n )
+                        {
+                            RemoveEmptyDirectoriesStandaloneApp.this.performeI18n( autoI18n );
+                        }
+                        @Override
+                        public String getMessagesBundleForI18nPrepHelper()
+                        {
+                            return getDFToolKit().getMessagesBundle();
+                        }} 
+                    ).getAutoI18n();
             }
         else {
             this.autoI18n = autoI18n;
@@ -62,18 +76,18 @@ public class RemoveEmptyDirectoriesStandaloneApp
         performeI18n( this.autoI18n );
     }
 
-    @Override // I18nPrepAutoUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
         autoI18n.performeI18n( _contentPane, _contentPane.getClass() );
     }
 
-    @Override // I18nPrepAutoUpdatable
-    public String getMessagesBundle()
-    {
-        return getDFToolKit().getMessagesBundle();
-    }
+//    @Override // I18nPrepAutoUpdatable
+//    public String getMessagesBundle()
+//    {
+//        return getDFToolKit().getMessagesBundle();
+//    }
     
     private DFToolKit getDFToolKit()
     {
