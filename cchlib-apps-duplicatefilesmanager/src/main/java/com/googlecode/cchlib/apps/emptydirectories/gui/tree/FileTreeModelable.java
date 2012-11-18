@@ -4,6 +4,7 @@ import java.io.File;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 
 /**
  *
@@ -35,20 +36,20 @@ public interface FileTreeModelable extends TreeModel
      * @param nodeValue {@link FileTreeNode} to inspect
      * @return true is the giving nodeValue is selected
      */
-    public boolean isSelected( FileTreeNode nodeValue );
+    public boolean isSelected( FileTreeNode2 nodeValue );
 
     /**
      *
      * @param v
      * @param b
      */
-    public void setSelected( FileTreeNode v, boolean b );
+    public void setSelected( FileTreeNode2 v, boolean b );
 
     /**
      *
      * @param v
      */
-    public void toggleSelected( FileTreeNode v );
+    public void toggleSelected( FileTreeNode2 v );
 
     /**
      *
@@ -61,7 +62,7 @@ public interface FileTreeModelable extends TreeModel
      * @param emptyDirectoryFile
      * @return TODOC
      */
-    public boolean add( File emptyDirectoryFile );
+    public boolean add( EmptyFolder emptyDirectoryFile );
 
     /**
      *

@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.File;
 import java.util.EventListener;
 
 /**
@@ -13,5 +12,5 @@ public interface EmptyDirectoriesDeleterActionListener
      * TODOC
      * @param emptyFolderFile TODOC
      */
-    public void workingOn( File emptyFolderFile );
+    public void workingOn( EmptyFolder emptyFolderFile );
 }

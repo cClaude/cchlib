@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.io.File;
@@ -20,7 +20,7 @@ public class EmptyDirectoriesDeleter
     private static final long serialVersionUID = 1L;
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( EmptyDirectoriesDeleter.class );
     private DefaultEmptyDirectoriesLookup emptyDirectoriesFinder;
-    private SortedSet<File> emptyFoldersSet = new TreeSet<File>();
+    private SortedSet<EmptyFolder>        emptyFoldersSet = new TreeSet<>();
 
     /**
      * Create an EmptyDirectoriesFinder object.
@@ -30,7 +30,7 @@ public class EmptyDirectoriesDeleter
      *
      * @param rootFiles
      */
-    public EmptyDirectoriesDeleter( File...rootFiles )
+    public EmptyDirectoriesDeleter( final File...rootFiles )
     {
         this.emptyDirectoriesFinder = new DefaultEmptyDirectoriesLookup( rootFiles );
         this.emptyDirectoriesFinder.addListener(
@@ -42,7 +42,8 @@ public class EmptyDirectoriesDeleter
                         return false;
                     }
                     @Override
-                    public void newEntry( File emptyDirectoryFile )
+                    public void newEntry( EmptyFolder emptyDirectoryFile )
+                    //public void newEntry( File emptyDirectoryFile )
                     {
                         emptyFoldersSet.add( emptyDirectoryFile );
                     }
@@ -70,7 +71,7 @@ public class EmptyDirectoriesDeleter
      * @throws CancelRequestException
      */
     @Override
-    public void lookup( FileFilter excludeDirectoriesFile )
+    public void lookup( final FileFilter excludeDirectoriesFile )
         throws CancelRequestException
     {
         emptyFoldersSet.clear();
@@ -99,22 +100,14 @@ public class EmptyDirectoriesDeleter
     }
 
     @Override
-    public int doAction( EmptyDirectoriesDeleterAction action )
+    public int doAction( final EmptyDirectoriesDeleterAction action )
     {
         int count = 0;
 
-//        for( File f : emptyFoldersSet ) {
-//            if( f.delete() ) {
-//                logger.debug( "deleted:" + f );
-//                count++;
-//                }
-//            }
-//
-//        emptyFoldersSet.clear();
-
-        Iterator<File> iter = emptyFoldersSet.iterator();
+        final Iterator<EmptyFolder> iter = emptyFoldersSet.iterator();
+        
         while( iter.hasNext() ) {
-            File f = iter.next();
+            EmptyFolder f = iter.next();
 
             if( action.doAction( f ) ) {
                 logger.debug( "doAction:" + f );
@@ -135,7 +128,8 @@ public class EmptyDirectoriesDeleter
                 new EmptyDirectoriesDeleterAction()
                 {
                     @Override
-                    public boolean doAction( File emptyFolderFile )
+                    //public boolean doAction( File emptyFolderFile )
+                    public boolean doAction( final EmptyFolder emptyFolderFile )
                     {
                         listener.workingOn( emptyFolderFile );
 
@@ -154,7 +148,7 @@ public class EmptyDirectoriesDeleter
                 new EmptyDirectoriesDeleterActionListener()
                 {
                     @Override
-                    public void workingOn( File emptyFolderFile )
+                    public void workingOn( EmptyFolder emptyFolderFile )
                     {
                         // Empty
                     }
@@ -163,7 +157,7 @@ public class EmptyDirectoriesDeleter
     }
 
     @Override
-    public Collection<File> getCollection()
+    public Set<EmptyFolder> getCollection()
     {
         return Collections.unmodifiableSet( emptyFoldersSet );
     }

@@ -70,7 +70,7 @@ public class EmptyDirectoriesFinderTest
             System.out.println( "find done" );
         }
         @Override
-        public void newEntry( File emptyDirectoryFile )
+        public void newEntry( EmptyFolder emptyDirectoryFile )
         {
             System.out.println( "addEntry: " + emptyDirectoryFile );
         }

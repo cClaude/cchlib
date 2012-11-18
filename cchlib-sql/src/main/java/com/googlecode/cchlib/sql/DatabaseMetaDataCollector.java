@@ -209,33 +209,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         return getTableMap( "VIEW" );
     }
 
-//    /**
-//     * Build list of methods to check that return something easy to put
-//     * in a String
-//     */
-//    private static List<Method> getMethodsToInvokeForString()
-//    {
-//        final Method[]      methods = DatabaseMetaData.class.getMethods();
-//        final List<Method>  methodsToInvoke = new ArrayList<Method>();
-//
-//        for(Method m:methods) {
-//            final Class<?> returnType = m.getReturnType();
-//
-//            if( m.getParameterTypes().length == 0 ) {
-//                for(Class<?> c: validReturnClassesForString) {
-//                    if( returnType == c ) {
-////                        Syst em.ou t.println("m:" + m + " ** " + returnType.getCanonicalName() );
-////                        Syst em.e rr.println( "---" + returnType );
-//                        methodsToInvoke.add( m );
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return methodsToInvoke;
-//    }
-
     /**
      * Build list of methods to check that return ResultSet
      */
@@ -279,16 +252,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
             }
     }
 
-//    private String invokeAndGetString(
-//            final DatabaseMetaData  databaseMetaData,
-//            final Method            m
-//            )
-//    {
-//        Object result = invoke( databaseMetaData, m );
-//
-//        return result == null ? null : result.toString();
-//    }
-
     private class MapBuilder implements Mappable
     {
         /** @Serial */
@@ -304,8 +267,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                 )
         {
             List<Method> methodsToInvoke;
-//            List<Method> methodsToInvoke = getMethodsToInvokeForString();
-//
+
             Comparator<Method> methodComparator = new Comparator<Method>()
             {
                 @Override
@@ -315,20 +277,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                 }
 
             };
-//
-//            Collections.sort( methodsToInvoke, methodComparator );
-//
-//            for(Method m:methodsToInvoke) {
-//                final String value = invokeAndGetString( databaseMetaData, m );
-//                values.put( m.getName(), value );
-//            }
 
             methodsToInvoke = getMethodsToInvokeForResultSet();
 
             Collections.sort( methodsToInvoke, methodComparator );
             values.put( "# of methods that return a ResultSet", Integer.toString( methodsToInvoke.size() ) );
 
-            for(Method m:methodsToInvoke) {
+            for( Method m:methodsToInvoke ) {
                 final Object rSet  = invoke( databaseMetaData, m );
 
                 values.put( "Method that return a ResultSet", m.toString() );
@@ -347,13 +302,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
             else if( !(resultSet instanceof ResultSet) ) {
                 if( resultSet instanceof Throwable ) {
                     values.put(
-                            String.format( "%s ResultSet=>Throwable", m.getName()),
+                            String.format( "%s ResultSet=>Throwable", m.getName() ),
                             Throwable.class.cast( resultSet ).getMessage()
                             );
                     }
                 else {
                     values.put(
-                            String.format( "%s ResultSet=>?", m.getName()),
+                            String.format( "%s ResultSet=>?", m.getName() ),
                             resultSet.getClass().getName() + " : " + resultSet.toString()
                             );
                     }
@@ -371,7 +326,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
                     for( int i = 1; i<=cCount; i++ ) {
                         String cName = metaData.getColumnName( i );
-                        cNames[ i ] = cName;
+                        cNames[ i ]  = cName;
 
 //                        values.put(
 //                            String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
@@ -406,10 +361,10 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                                         row
                                         ),
                                     rSet.getString( i ) );
-                        }
+                            }
                         row++;
+                        }
                     }
-                }
                 catch( SQLException e ) {
                     slogger.warn( "Error while reading ResultSet return by " + m, e );
 
@@ -427,7 +382,6 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         @Override
         public Map<String,String> toMap()
         {
-//            return Collections.unmodifiableMap( values );
             return values;
         }
     }

@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.File;
 import javax.swing.JCheckBox;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -21,7 +22,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
     final private DefaultTreeCellRenderer   nonLeafRenderer     = new DefaultTreeCellRenderer();
     //final private JCheckBox nodeRenderer = new JCheckBox();
     final private FileTreeModelable model;
-    private FileTreeNode currentValue;
+    private FileTreeNode2 currentValue;
 
     //final private Color selectionBorderColor;
     final private Color selectionForeground;
@@ -58,7 +59,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
 
     public Component getTreeCellRendererComponent(
             JTree   tree,
-            Object  _value,
+            Object  _value_,
             boolean selected,
             boolean expanded,
             boolean leaf,
@@ -69,13 +70,14 @@ class EmptyDirectoryCheckBoxNodeRenderer
         //FIXME: boolean     useDefaultRendering = true;
         String      name;
 
-        if( _value instanceof FileTreeNode ) {
-            FileTreeNode nodeValue = FileTreeNode.class.cast( _value );
+        if( _value_ instanceof FileTreeNode2 ) {
+            FileTreeNode2 nodeValue = FileTreeNode2.class.cast( _value_ );
+            File          nodeFile  = nodeValue.getFile().getPath().toFile();
 
-            name = nodeValue.getFile().getName();
+            name = nodeFile.getName();
 
             if( name.isEmpty() ) {
-                name = nodeValue.getFile().getPath();
+                name = nodeFile.getPath();
                 }
             if( leaf ) {
                 // Build display
@@ -107,11 +109,50 @@ class EmptyDirectoryCheckBoxNodeRenderer
                 return this.nodeLeafRenderer;
                 }
             }
+//        else if( _value_ instanceof FileTreeNode1 ) {
+//            FileTreeNode1 nodeValue = FileTreeNode1.class.cast( _value_ );
+//            File          nodeFile  = nodeValue.getFile();
+//
+//            name = nodeFile.getName();
+//
+//            if( name.isEmpty() ) {
+//                name = nodeFile.getPath();
+//                }
+//            if( leaf ) {
+//                // Build display
+//                String stringValue = tree.convertValueToText(
+//                        name,
+//                        selected,
+//                        expanded,
+//                        leaf,
+//                        row,
+//                        false
+//                        );
+//                this.nodeLeafRenderer.setText(stringValue);
+//                this.nodeLeafRenderer.setSelected(false);
+//                this.nodeLeafRenderer.setEnabled(tree.isEnabled());
+//
+//                if (selected) {
+//                    this.nodeLeafRenderer.setForeground(this.selectionForeground);
+//                    this.nodeLeafRenderer.setBackground(this.selectionBackground);
+//                    }
+//                else {
+//                    this.nodeLeafRenderer.setForeground(this.textForeground);
+//                    this.nodeLeafRenderer.setBackground(this.textBackground);
+//                    }
+//
+//                this.currentValue = nodeValue;
+//                this.nodeLeafRenderer.setSelected(this.model.isSelected( nodeValue ));
+//                this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
+//
+//                return this.nodeLeafRenderer;
+//                }
+//            }
         else {
             name = null;
             }
 
-        Object defValue = name == null ? _value : name;
+        Object defValue = name == null ? _value_ : name;
 
         // use default display
         return this.nonLeafRenderer.getTreeCellRendererComponent(
@@ -125,7 +166,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
                     );
     }
 
-    public FileTreeNode getCurrentValue()
+    public FileTreeNode2 getCurrentValue()
     {
         return this.currentValue;
     }

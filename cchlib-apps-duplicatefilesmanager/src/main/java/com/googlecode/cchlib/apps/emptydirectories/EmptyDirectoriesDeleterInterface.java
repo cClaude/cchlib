@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.File;
 import java.util.Collection;
 
 /**
@@ -13,7 +12,7 @@ public interface EmptyDirectoriesDeleterInterface
     /**
      *
      */
-    public Collection<File> getCollection();
+    public Collection<EmptyFolder> getCollection();
 
     /**
      *

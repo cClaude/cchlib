@@ -2,10 +2,17 @@ package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -101,73 +108,81 @@ public class DefaultEmptyDirectoriesLookup
         logger.debug( "doScan:" + folder );
 
         if( folder.isDirectory() ) {
-            isEmpty( folder );
+            //isEmpty( folder );
+            try {
+                couldBeEmpty( folder.toPath() );
+                }
+            catch( IOException e ) {
+                logger.error( "Can not read:", e );
+                }
             }
         // else not a folder, no scan.
     }
 
-    /**
-     * Returns true if folder has no file
-     * @param folder Folder to examine
-     * @return
-     * @throws CancelRequestException if any listeners ask to cancel operation
-     */
-    private boolean isEmpty( final File folder ) throws CancelRequestException
-    {
-        for( EmptyDirectoriesListener l : this.listeners ) {
-            if( l.isCancel() ) {
-                throw new CancelRequestException();
-                }
-            }
+//    /**
+//     * Returns true if folder has no file
+//     * @param folder Folder to examine
+//     * @return
+//     * @throws CancelRequestException if any listeners ask to cancel operation
+//     */
+//    private boolean isEmpty( final File folder ) throws CancelRequestException
+//    {
+//        for( EmptyDirectoriesListener l : this.listeners ) {
+//            if( l.isCancel() ) {
+//                throw new CancelRequestException();
+//                }
+//            }
+//
+//        if( excludeDirectoriesFile.accept( folder ) ) {
+//            return false;
+//            }
+//        
+//        File[] content = folder.listFiles();
+//
+//        if( content == null ) {
+//            return false; // Unknown this file (not a folder or protected, so not empty)
+//            }
+//
+//        if( content.length == 0 ) {
+//            add( folder );
+//
+//            return true;
+//            }
+//
+//        boolean allEmpty = true;
+//
+//        for( File f : content ) {
+//            if( f.isDirectory() ) {
+//                if( ! isEmpty( f ) ) {
+//                    allEmpty = false;
+//                    }
+//                }
+//            else {
+//                allEmpty = false;
+//                }
+//            }
+//
+//        if( allEmpty ) {
+//            add( folder );
+//
+//            return true;
+//            }
+//
+//        return false;
+//    }
 
-        if( excludeDirectoriesFile.accept( folder ) ) {
-            return false;
-            }
-
-        File[] content = folder.listFiles();
-
-        if( content == null ) {
-            return false; // Unknown this file (not a folder or protected, so not empty)
-            }
-
-        if( content.length == 0 ) {
-            add( folder );
-
-            return true;
-            }
-
-        boolean allEmpty = true;
-
-        for( File f : content ) {
-            if( f.isDirectory() ) {
-                if( ! isEmpty( f ) ) {
-                    allEmpty = false;
-                    }
-                }
-            else {
-                allEmpty = false;
-                }
-            }
-
-        if( allEmpty ) {
-            add( folder );
-
-            return true;
-            }
-
-        return false;
-    }
-
-    /**
-     * Add empty directory to current set, and notify all
-     * listeners: {@link EmptyDirectoriesListener#newEntry(File)}
-     */
-    private void add( final File emptyDirectoryFile )
-    {
-        for( EmptyDirectoriesListener l : this.listeners ) {
-             l.newEntry( emptyDirectoryFile );
-            }
-    }
+//    /**
+//     * Add empty directory to current set, and notify all
+//     * listeners: {@link EmptyDirectoriesListener#newEntry(File)}
+//     */
+//    private void add( final File emptyDirectoryFile )
+//    {
+//        final EmptyDirectoryFile edf = new EmptyDirectoryFile( emptyDirectoryFile );
+//        
+//        for( EmptyDirectoriesListener l : this.listeners ) {
+//            l.newEntry( edf );
+//            }
+//    }
 
     /**
      * Add listener to this object.
@@ -175,6 +190,7 @@ public class DefaultEmptyDirectoriesLookup
      * @param listener A valid {@link EmptyDirectoriesListener}
      * @throws NullPointerException if listener is null.
      */
+    @Override
     public void addListener( final EmptyDirectoriesListener listener )
     {
         if( listener == null ) {
@@ -189,9 +205,63 @@ public class DefaultEmptyDirectoriesLookup
      *
      * @param listener A {@link EmptyDirectoriesListener} object
      */
+    @Override
     public void removeListener( final EmptyDirectoriesListener listener )
     {
         this.listeners.remove( listener );
     }
 
+    
+    private boolean couldBeEmpty( final Path folder ) throws IOException, CancelRequestException
+    {
+        for( EmptyDirectoriesListener l : this.listeners ) {
+            if( l.isCancel() ) {
+                throw new CancelRequestException();
+                }
+            }
+        
+        if( excludeDirectoriesFile.accept( folder.toFile() ) ) {
+            return false;
+            }
+
+        try( DirectoryStream<Path> stream = Files.newDirectoryStream( folder ) ) {
+            boolean isEmpty      = true;
+            boolean couldBeEmpty = true;
+            
+            for( Path entry: stream ) {
+                isEmpty = false;
+                
+                if( ! couldBeEmpty( entry ) ) {
+                    couldBeEmpty = false;
+                    break;
+                    }
+                }
+            
+            if( isEmpty ) {
+                add( EmptyFolder.createEmptyFolder( folder ) );
+                }
+            else if( couldBeEmpty ) {
+                add( EmptyFolder.createCouldBeEmptyFolder( folder ) );
+                }
+            
+            return couldBeEmpty;
+            }
+        catch( DirectoryIteratorException e ) {
+            // I/O error encounted during the iteration, the cause is an IOException
+            logger.warn( "Can not read: " + folder, e );
+            
+            return false;
+            }
+    }
+
+    private Set<EmptyFolder> emptyFolderList = new HashSet<>();
+    private void add( final EmptyFolder createEmptyFolder )
+    {
+        this.emptyFolderList.add( createEmptyFolder );
+        
+        for( EmptyDirectoriesListener l : this.listeners ) {
+            l.newEntry( createEmptyFolder );
+            }
+    }
+    
 }

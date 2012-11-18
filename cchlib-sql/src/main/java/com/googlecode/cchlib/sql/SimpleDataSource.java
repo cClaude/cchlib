@@ -73,7 +73,7 @@ public class SimpleDataSource
      */
     public void quietClose()
     {
-        try { close(); } catch( IOException ignore ) { }
+        quietClose( this );
     }
 
     /**

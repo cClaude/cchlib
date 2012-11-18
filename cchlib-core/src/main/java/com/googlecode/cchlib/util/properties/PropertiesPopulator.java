@@ -232,7 +232,11 @@ public class PropertiesPopulator<E>
             }
 
         if( logger.isTraceEnabled() ) {
-            logger.trace( "Found " + this.keyFieldMap.size() + " fields." );
+            logger.trace( "Found " + this.keyFieldMap.size() + " fields on " + clazz );
+            
+            for( Map.Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
+                logger.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
+                }
             }
     }
     /**

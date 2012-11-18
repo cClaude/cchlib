@@ -25,4 +25,16 @@ public interface EmptyDirectoriesLookup
     public void lookup( FileFilter excludeDirectoriesFile )
         throws CancelRequestException;
 
+    /**
+     * TODOC
+     * @param listener
+     */
+    public void addListener( EmptyDirectoriesListener listener );
+
+    /**
+     * TODOC
+     * @param listener
+     */
+    public void removeListener( EmptyDirectoriesListener listener );
+
 }

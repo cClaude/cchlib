@@ -1,14 +1,17 @@
 package com.googlecode.cchlib.lang;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * <p>
@@ -473,6 +476,39 @@ public class ByteArrayBuilder
     }
 
     /**
+     * Create a new {@link InputStream} for this {@link ByteArrayBuilder}
+     * 
+     * @return a new {@link InputStream} (must be close)
+     * @throws IOException if any I/O error occurred
+     * @see #array()
+     * @since 4.1.7
+     */
+    public InputStream createInputStream() throws IOException
+    {
+        return new ByteArrayInputStream( this.array() );
+    }
+
+    /**
+     * Copy  {@link ByteArrayBuilder} content to <code>out</code>
+     * 
+     * @param out A valid {@link OutputStream}
+     * @throws IOException if any I/O error occurred
+     * @see #array()
+     * @since 4.1.7
+     */
+    public void copyTo( final OutputStream out ) throws IOException
+    {
+        ByteArrayInputStream is = new ByteArrayInputStream( this.array() );
+
+        try {
+            IOHelper.copy( is, out );
+            }
+        finally {
+            is.close();
+            }
+    }
+    
+    /**
      * Replaces each sub byte array of this ByteArrayBuilder that matches the
      * given pattern with the given replacement.
      *
@@ -576,7 +612,7 @@ public class ByteArrayBuilder
          * Search the data byte array for the first occurrence
          * of the byte array pattern.
          */
-        public static int indexOf(byte[] data, byte[] pattern)
+        public static int indexOf(final byte[] data, final byte[] pattern)
         {
             return indexOf( data, 0, pattern );
         }
@@ -585,23 +621,25 @@ public class ByteArrayBuilder
          * Search the data byte array for the first occurrence
          * of the byte array pattern.
          */
-        public static int indexOf(byte[] data, int from, byte[] pattern)
+        public static int indexOf(final byte[] data, final int from, final byte[] pattern)
         {
-            int[] failure = computeFailure(pattern);
+            int[] failure = computeFailure( pattern );
 
             int j = 0;
 
             for (int i = from/*0*/; i < data.length; i++) {
-                while (j > 0 && pattern[j] != data[i]) {
+                while( j > 0 && pattern[j] != data[i] ) {
                     j = failure[j - 1];
-                }
+                    }
+                
                 if (pattern[j] == data[i]) {
                     j++;
-                }
-                if (j == pattern.length) {
+                    }
+                
+                if( j == pattern.length ) {
                     return i - pattern.length + 1;
+                    }
                 }
-            }
             return -1;
         }
 
@@ -609,20 +647,22 @@ public class ByteArrayBuilder
          * Computes the failure function using a boot-strapping process,
          * where the pattern is matched against itself.
          */
-        private static int[] computeFailure( byte[] pattern )
+        private static int[] computeFailure( final byte[] pattern )
         {
-            int[] failure = new int[pattern.length];
-
-            int j = 0;
-            for (int i = 1; i < pattern.length; i++) {
-                while (j>0 && pattern[j] != pattern[i]) {
+            int[] failure = new int[ pattern.length ];
+            int   j       = 0;
+            
+            for( int i = 1; i < pattern.length; i++ ) {
+                while( j>0 && pattern[j] != pattern[i] ) {
                     j = failure[j - 1];
-                }
-                if (pattern[j] == pattern[i]) {
+                    }
+                
+                if( pattern[j] == pattern[i] ) {
                     j++;
-                }
+                    }
+                
                 failure[i] = j;
-            }
+                }
 
             return failure;
         }

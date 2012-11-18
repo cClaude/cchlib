@@ -50,37 +50,25 @@ public class SimpleUpdate
      * @return count of modified rows
      * @throws SQLException if any
      */
-    public int doUpdate(final String query)
+    public int doUpdate( final String query )
         throws SQLException
     {
         int         rows = -1;
-        Connection  conn = null;
-        Statement   stmt = null;
-
-        // FIXME: improve exception handle on close() !
+        Connection  conn = createConnectionFromDataSource();
         
         try {
-            conn = createConnectionFromDataSource();
-
-            if(conn != null) {
-                stmt = conn.createStatement();
-                rows = stmt.executeUpdate(query);
-             	}
-            else {
-            	// TODO: add exception
-            	}
-        	}
-        catch( SQLException e ) {
-            throw e;
-         	}
+            Statement stmt = conn.createStatement();
+           
+            try {
+                rows = stmt.executeUpdate( query );
+                }
+            finally {
+                stmt.close();
+                }
+            }
         finally {
-            if(stmt != null) {
-                try { stmt.close(); } catch(SQLException ignore) {}// TODO: add exception
-                }
-            if(conn != null) {
-                try { conn.close(); } catch(java.sql.SQLException e) { }// TODO: add exception
-                }
-        }
+            conn.close();
+            }
 
         return rows;
     }

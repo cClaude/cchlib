@@ -13,9 +13,9 @@ import org.junit.Test;
  *
  *
  */
-public class FileTreeNodeTest
+public class FileTreeNode1Test
 {
-    private static final Logger logger = Logger.getLogger( FileTreeNodeTest.class );
+    private static final Logger logger = Logger.getLogger( FileTreeNode1Test.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception
@@ -41,7 +41,7 @@ public class FileTreeNodeTest
     public void myTest()
     {
         final File          aFile   = new File( "C:/temps" );
-        final FileTreeNode  ftnRoot = new FileTreeNode( aFile.getParentFile() );
+        final FileTreeNode1 ftnRoot = new FileTreeNode1( aFile.getParentFile() );
         
         logger.info( "ftnRoot.getDepth() = " + ftnRoot.getDepth() );
         logger.info( "ftnRoot.getChildCount() = " + ftnRoot.getChildCount() );
@@ -51,7 +51,7 @@ public class FileTreeNodeTest
         Assert.assertEquals( aFile.getParentFile(), ftnRoot.getFile() );
         Assert.assertNull( ftnRoot.getParent() );
         
-        final FileTreeNode  ftn = ftnRoot.add( aFile );
+        final FileTreeNode1 ftn = ftnRoot.add( aFile );
 
         logger.info( "ftn.getDepth() = " + ftn.getDepth() );
         logger.info( "ftn.getChildCount() = " + ftn.getChildCount() );

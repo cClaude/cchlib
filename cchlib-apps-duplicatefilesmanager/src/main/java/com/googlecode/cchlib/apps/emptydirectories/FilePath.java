@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -16,7 +17,7 @@ public class FilePath implements Iterable<File>
      * TODOC
      * @param file TODOC
      */
-    public FilePath( File file )
+    public FilePath( final File file )
     {
         ArrayList<File> pathList    = new ArrayList<File>();
         File            f           = file;
@@ -27,6 +28,19 @@ public class FilePath implements Iterable<File>
             }
 
         this.path = pathList.toArray( new File[ pathList.size() ] );
+    }
+
+    public FilePath( final Path filePath )
+    {
+        this( filePath.toFile() );
+//        ArrayList<File> pathList = new ArrayList<>();
+//        Iterator<Path>  iter     = filePath.iterator();
+//        
+//        while( iter.hasNext() ) {
+//            pathList.add( iter.next().toFile() );
+//            }
+//        
+//        this.path = pathList.toArray( new File[ pathList.size() ] );
     }
 
     /**

@@ -11,21 +11,21 @@ import org.apache.log4j.Logger;
 /**
  * TODOC
  */
-public class FileTreeNode
+public class FileTreeNode1
     extends DefaultMutableTreeNode
-        implements  Iterable<FileTreeNode>
+        implements Iterable<FileTreeNode1>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FileTreeNode.class );
+    private static final Logger logger = Logger.getLogger( FileTreeNode1.class );
     private final File file;
     //private boolean selected;
-
+    
     /**
      * Create a root FileTreeNode
      *
      * @param file {@link File} object for this root FileTreeNode
      */
-    public FileTreeNode( final File file, final boolean selected )
+    public FileTreeNode1( final File file, final boolean selected )
     {
         super( file, true /*allowsChildren*/ );
 
@@ -38,7 +38,7 @@ public class FileTreeNode
      *
      * @param file {@link File} object for this root FileTreeNode
      */
-    public FileTreeNode( final File file )
+    public FileTreeNode1( final File file )
     {
         this( file, true );
     }
@@ -57,8 +57,8 @@ public class FileTreeNode
      *
      * @return TODOC
      */
-    final // TODO: remove this line
-    public File getData_()
+    //final public// TODO: remove this line
+    private File getData_()
     {
         Object userObject = super.getUserObject();
 
@@ -115,7 +115,7 @@ public class FileTreeNode
      * @return TODOC
      */
     final // TODO: remove this line
-    public FileTreeNode add( final File file )
+    public FileTreeNode1 add( final File file )
     {
         if( ! file.getParentFile().equals( getFile() ) ) {
             throw new IllegalArgumentException(
@@ -124,7 +124,7 @@ public class FileTreeNode
             }
         //logger.info( "add " + file + " on " + this.getData() );
 
-        FileTreeNode newNode = new FileTreeNode( file );
+        FileTreeNode1 newNode = new FileTreeNode1( file );
 
         super.add( newNode );
 
@@ -138,11 +138,11 @@ public class FileTreeNode
      */
     @Override
     final // TODO: remove this line
-    public Iterator<FileTreeNode> iterator()
+    public Iterator<FileTreeNode1> iterator()
     {
         final Enumeration<?> children = super.children();
 
-        return new Iterator<FileTreeNode>()
+        return new Iterator<FileTreeNode1>()
         {
             @Override
             public boolean hasNext()
@@ -150,9 +150,9 @@ public class FileTreeNode
                 return children.hasMoreElements();
             }
             @Override
-            public FileTreeNode next()
+            public FileTreeNode1 next()
             {
-                return FileTreeNode.class.cast( children.nextElement() );
+                return FileTreeNode1.class.cast( children.nextElement() );
             }
             @Override
             public void remove()

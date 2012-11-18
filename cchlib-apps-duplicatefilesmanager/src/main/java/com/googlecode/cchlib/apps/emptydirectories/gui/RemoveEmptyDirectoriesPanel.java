@@ -31,7 +31,7 @@ import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
  */
 public class RemoveEmptyDirectoriesPanel 
     extends RemoveEmptyDirectoriesPanelWB
-        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
@@ -456,10 +456,4 @@ public class RemoveEmptyDirectoriesPanel
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-//    @Override
-//    public String getMessagesBundle()
-//    {
-//        return getDFToolKit().getMessagesBundle();
-//    }
-    
 }

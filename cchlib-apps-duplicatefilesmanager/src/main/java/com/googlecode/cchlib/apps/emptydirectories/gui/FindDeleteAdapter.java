@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModelable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
@@ -129,7 +130,7 @@ public class FindDeleteAdapter
             return isCancel;
         }
         @Override
-        public void newEntry( final File emptyDirectoryFile )
+        public void newEntry( final EmptyFolder emptyDirectoryFile )
         {
             SwingUtilities.invokeLater(
                 new Runnable()

@@ -48,14 +48,10 @@ public class ArrayAssert
             final T[]       actual
             )
     {
-        if( expected == null && actual == null ) {
-            return; // Both null
-            }
-        
-        if( expected != null && expected.equals( actual ) ) {
+        if( expected == actual ) {
             return; // Same ref.
             }
-        
+                
         if( Arrays.equals( actual, expected) ) {
         	return; // Same content (quicker)
         	}
@@ -164,11 +160,7 @@ public class ArrayAssert
             final byte[] actual
             )
     {
-        if( expected == null && actual == null ) {
-            return; // Both null
-            }
-        
-        if( expected != null && expected.equals( actual ) ) {
+        if( expected == actual ) {
             return; // Same ref.
             }
         
@@ -264,11 +256,7 @@ public class ArrayAssert
             final char[] actual
             )
     {
-        if( expected == null && actual == null ) {
-            return; // Both null
-            }
-        
-        if( expected != null && expected.equals( actual ) ) {
+        if( expected == actual ) {
             return; // Same ref.
             }
         

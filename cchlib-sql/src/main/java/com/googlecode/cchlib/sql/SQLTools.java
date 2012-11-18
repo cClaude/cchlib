@@ -79,7 +79,9 @@ public class SQLTools
         try {
             private_parseFieldValue( sb, fieldValue, 0);
             }
-        catch( IOException ignore ) {}
+        catch( IOException ignore ) {
+            throw new RuntimeException( ignore );
+            }
 
         return sb.toString();
     }

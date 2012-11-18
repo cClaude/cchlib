@@ -94,81 +94,6 @@ public class SimpleQuery
         return rset;
     }
 
-//    private static List<String> translateResultSetToStringList( final ResultSet rset)
-//        throws SQLException
-//    {
-//        final List<String> list = new ArrayList<String>();
-//
-//        while( rset.next() ) {
-//            list.add( rset.getString(1) );
-//            }
-//
-//        return list;
-//    }
-
-//    private static String[] translateResultSetToStringArray( final ResultSet rset )
-//        throws SQLException
-//    {
-//        List<String>    list    = SimpleQuery.translateResultSetToStringList(rset);
-//        String[]        strings = new String[list.size()];
-//        int             i       = 0;
-//
-//        for(Iterator<String> iter = list.iterator(); iter.hasNext();) {
-//            strings[i++] = iter.next();
-//            }
-//
-//        return strings;
-//    }
-
-//    /**
-//     * TO DO: Doc!
-//     *
-//     * @param query
-//     * @return
-//     * @throws SQLException if any
-//     */
-//    public String[] translateQueryToStringArray( final String query )
-//        throws SQLException
-//    {
-//        ResultSet   rst = null;
-//        String[]    str;
-//
-//        try {
-//            rst = executeQuery(query);
-//            str = SimpleQuery.translateResultSetToStringArray(rst);
-//            }
-//        finally {
-//            if(rst != null) {
-//                try { rst.close(); } catch(Exception ignore) { }
-//                }
-//            }
-//
-//        return str;
-//    }
-
-//    @ Deprecated
-//    public static String[] translateQueryToStringArray(
-//            String  dataSourceName,
-//            String  query
-//            )
-//        throws SimpleDataSourceException, SQLException
-//    {
-//        SimpleQuery squery = null;
-//        String[]    str;
-//
-//        try {
-//            squery = new SimpleQuery(dataSourceName);
-//            str    = squery.translateQueryToStringArray(query);
-//            }
-//        finally {
-//            if(squery != null) {
-//                try { squery.close(); } catch(Exception ignore) { }
-//                }
-//            }
-//
-//        return str;
-//    }
-
     /**
      * Get a new {@link Connection} from data source
      *
@@ -197,30 +122,62 @@ public class SimpleQuery
 
     /**
      * Free all resources
+     * @throws SQLException 
      */
-    protected void closeConnection()
+    protected void closeConnection() throws SQLException
+    {
+        try {
+            privateCloseStatement();
+            }
+        finally {
+            privateCloseConnection();
+            }
+    }
+    
+    private void privateCloseStatement() throws SQLException
     {
         if( stmt != null ) {
-            try { stmt.close(); } catch(SQLException ignore) {}
-            stmt = null;
+            try { 
+                stmt.close(); 
+                } 
+            finally {
+                stmt = null;
+                }
             }
-
+    }
+    
+    private void privateCloseConnection() throws SQLException
+    {
         if( conn != null ) {
-            try { conn.close(); } catch(SQLException ignore) {}
-            conn = null;
+            try { 
+                conn.close(); 
+                } 
+            finally {
+                conn = null;
+                }
             }
     }
 
     @Override
     public void flush() throws IOException
     {
-        closeConnection();
+        try {
+            closeConnection();
+            }
+        catch( SQLException e ) {
+            throw new SQLCloseException( e );
+            }
     }
 
     @Override
     public void close() throws IOException
     {
-        closeConnection();
+        try {
+            closeConnection();
+            }
+        catch( SQLException e ) {
+            throw new SQLCloseException( e );
+            }
 
         super.close();
     }

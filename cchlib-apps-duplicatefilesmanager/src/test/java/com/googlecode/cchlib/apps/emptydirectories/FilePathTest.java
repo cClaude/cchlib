@@ -49,9 +49,11 @@ public class FilePathTest
             };
 
         for( File f : tstDatas ) {
-            FilePath filePath = new FilePath( f );
-
-            tstFilePath( filePath );
+            logger.info( "------------");
+            tstFilePath( new FilePath( f ) );
+            logger.info( "------------");
+            tstFilePath( new FilePath( f.toPath() ) );
+            logger.info( "------------");
             }
         
         logger.info( ">> FilePathTest myTest() ** DONE <<");
