@@ -7,7 +7,7 @@ import java.nio.file.Path;
 /**
  * TODOC
  */
-public class EmptyFolder implements Serializable
+public class EmptyFolder implements Serializable, Comparable<EmptyFolder>
 {
     private static final long serialVersionUID = 1L;
 
@@ -68,6 +68,15 @@ public class EmptyFolder implements Serializable
     @Override
     public boolean equals( final Object obj )
     {
+        if( obj instanceof File ) {
+            //return equalsFile( File.class.cast( obj ) );
+            throw new IllegalStateException( "Compare with File" );
+            }
+        if( obj instanceof Path ) {
+            //return equalsPath( Path.class.cast( obj ) );
+            throw new IllegalStateException( "Compare with Path" );
+            }
+        
         if( this == obj ) {
             return true;
             }
@@ -78,13 +87,6 @@ public class EmptyFolder implements Serializable
             return false;
             }
         
-        if( obj instanceof File ) {
-            return equalsFile( File.class.cast( obj ) );
-            }
-        if( obj instanceof Path ) {
-            return equalsPath( Path.class.cast( obj ) );
-            }
-
         EmptyFolder other = (EmptyFolder)obj;
 
         if( path == null ) {
@@ -119,6 +121,13 @@ public class EmptyFolder implements Serializable
     private boolean equalsFile( final File file )
     {
         return this.path.equals( file.toPath() );
+    }
+
+    @Override
+    public int compareTo( EmptyFolder o )
+    {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }

@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 
@@ -20,7 +19,8 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 public class FileTreeModelTest
 {
     private static final Logger logger = Logger.getLogger( FileTreeModelTest.class );
-
+    //private static final String CONST = "MYCONST";
+    
     @BeforeClass
     public static void setUpClass() throws Exception
     {
@@ -41,6 +41,30 @@ public class FileTreeModelTest
     {
     }
 
+//    @Test
+//    public void testMisc()
+//    {
+//        if( CONST != CONST ) {
+//            Assert.fail("CONST != CONST");
+//            }
+//        
+//        if( ! myCmp( CONST, CONST ) ) {
+//            Assert.fail(" myCmp( CONST, CONST )");
+//            }
+//        
+//        String s1 = CONST;
+//        String s2 = CONST;
+//        
+//        if( ! myCmp( s1, s2 ) ) {
+//            Assert.fail(" myCmp( s1, s2 )");
+//            }
+//    }
+    
+//    private boolean myCmp( String s1, String s2 )
+//    {
+//        return s1 == s2;
+//    }
+    
     @Test
     public void myTest1()
     {
@@ -56,12 +80,12 @@ public class FileTreeModelTest
     }
 
     @Test
-    @Ignore // FIXME
     public void myTest2()
     {
         logger.info( "begin FileTreeModelTest myTest2()" );
 
         Object[][] tstDatas = {
+            // Path, expected number of nodes in tree
             { "C:/temps"      , 2 },
             { "C:/temps/1"    , 3 },
             // Don't activate this to have a good test case { "C:/temps/1/2", 4 },
@@ -84,8 +108,8 @@ public class FileTreeModelTest
         final FileTreeModel treeModel   = new FileTreeModel( jTree );
 
         for( int i = 0; i<tstDatas.length; i++ ) {
-            final String  filepath = tstDatas[ i ][ 0 ].toString();
-            final int     size     = Integer.parseInt( tstDatas[ i ][ 1 ].toString() );
+            final String  filepath = String.class.cast(  tstDatas[ i ][ 0 ] );
+            final int     size     = Integer.class.cast( tstDatas[ i ][ 1 ] ).intValue();
 
             logger.info( ">> add: " + filepath );
             addEntry( treeModel, filepath, size );
@@ -144,7 +168,7 @@ public class FileTreeModelTest
             }
         
         Assert.assertEquals( n == null /* not in tree */, added );
-        Assert.assertTrue( added );
+        // Not alway true: assertTrue( added );
         Assert.assertEquals( expectedSize, treeModel.size() );
         logger.info( "--- DONE ---" );
     }

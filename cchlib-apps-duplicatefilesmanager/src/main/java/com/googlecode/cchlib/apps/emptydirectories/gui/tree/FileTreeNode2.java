@@ -139,6 +139,7 @@ public class FileTreeNode2
         return newNode;
     }
     
+    @Deprecated
     public FileTreeNode2 add( final File file )
     {
         return add( EmptyFolder.createCouldBeEmptyFolder( file.toPath() ) );

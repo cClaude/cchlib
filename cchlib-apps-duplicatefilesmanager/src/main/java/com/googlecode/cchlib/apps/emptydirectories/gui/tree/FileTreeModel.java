@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.FilePath;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
-
 /**
  *
  */
@@ -185,7 +184,7 @@ class FileTreeModel
 //                    );
             throw new RuntimeException( "bug2 !!! " + path );
             }
-        else if( bestParentNode.getFile().equals( path.getFile() ) ) {
+        else if( bestParentNode.getFile().getPath().equals( path.getFile().toPath() ) ) {
             // Already in tree
             return null;
             }
@@ -293,7 +292,7 @@ class FileTreeModel
         }
 
         for( FileTreeNode2 n : node ) {
-            if( n.getFile().equals( f ) ) {
+            if( n.getFile().getPath().equals( f.toPath() ) ) {
                 return n;
                 }
             }
