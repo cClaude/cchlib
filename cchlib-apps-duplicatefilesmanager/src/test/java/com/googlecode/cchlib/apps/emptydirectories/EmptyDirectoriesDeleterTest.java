@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.util.CancelRequestException;
 
+@Deprecated
 public class EmptyDirectoriesDeleterTest
 {
     @BeforeClass

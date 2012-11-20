@@ -9,6 +9,9 @@ import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
 
 /**
  *
@@ -18,11 +21,12 @@ public
 class EmptyDirectoryCheckBoxNodeRenderer
     implements TreeCellRenderer
 {
+    private final static Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxNodeRenderer.class );
     final private JCheckBox                 nodeLeafRenderer    = new JCheckBox();
     final private DefaultTreeCellRenderer   nonLeafRenderer     = new DefaultTreeCellRenderer();
     //final private JCheckBox nodeRenderer = new JCheckBox();
-    final private FileTreeModelable model;
-    private FileTreeNode2 currentValue;
+    final private FolderTreeModelable model;
+    private FolderTreeNode currentValue;
 
     //final private Color selectionBorderColor;
     final private Color selectionForeground;
@@ -35,7 +39,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
 //        return this.nodeRenderer;
 //    }
 
-    public EmptyDirectoryCheckBoxNodeRenderer( final FileTreeModelable model )
+    public EmptyDirectoryCheckBoxNodeRenderer( final FolderTreeModelable model )
     {
         this.model=model;
 
@@ -70,84 +74,59 @@ class EmptyDirectoryCheckBoxNodeRenderer
         //FIXME: boolean     useDefaultRendering = true;
         String      name;
 
-        if( _value_ instanceof FileTreeNode2 ) {
-            FileTreeNode2 nodeValue = FileTreeNode2.class.cast( _value_ );
-            File          nodeFile  = nodeValue.getFile().getPath().toFile();
+        if( _value_ instanceof FolderTreeNode ) {
+            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
+            Folder        folder    = nodeValue.getFolder();
+            File          nodeFile  = folder.getPath().toFile();
 
             name = nodeFile.getName();
 
             if( name.isEmpty() ) {
+                // Root file
                 name = nodeFile.getPath();
                 }
-            if( leaf ) {
-                // Build display
-                String stringValue = tree.convertValueToText(
-                        name,
-                        selected,
-                        expanded,
-                        leaf,
-                        row,
-                        false
-                        );
-                this.nodeLeafRenderer.setText(stringValue);
-                this.nodeLeafRenderer.setSelected(false);
-                this.nodeLeafRenderer.setEnabled(tree.isEnabled());
+            
+            if( folder instanceof EmptyFolder ) {
+                if( leaf ) {
+                    // Build display
+                    String stringValue = tree.convertValueToText(
+                            name,
+                            selected,
+                            expanded,
+                            leaf,
+                            row,
+                            false
+                            );
+                    this.nodeLeafRenderer.setText(stringValue);
+                    this.nodeLeafRenderer.setSelected(false);
+                    this.nodeLeafRenderer.setEnabled(tree.isEnabled());
 
-                if (selected) {
-                    this.nodeLeafRenderer.setForeground(this.selectionForeground);
-                    this.nodeLeafRenderer.setBackground(this.selectionBackground);
+                    if (selected) {
+                        this.nodeLeafRenderer.setForeground( this.selectionForeground );
+                        this.nodeLeafRenderer.setBackground( this.selectionBackground );
+                        }
+                    else {
+                        this.nodeLeafRenderer.setForeground( this.textForeground );
+                        this.nodeLeafRenderer.setBackground( this.textBackground );
+                        }
+
+                    this.currentValue = nodeValue;
+                    this.nodeLeafRenderer.setSelected(this.model.isSelected( nodeValue ));
+                    this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
+
+                    return this.nodeLeafRenderer;
                     }
                 else {
-                    this.nodeLeafRenderer.setForeground(this.textForeground);
-                    this.nodeLeafRenderer.setBackground(this.textBackground);
+                    logger.info( "node (not leaf) of type: " + folder );
                     }
-
-                this.currentValue = nodeValue;
-                this.nodeLeafRenderer.setSelected(this.model.isSelected( nodeValue ));
-                this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
-
-                return this.nodeLeafRenderer;
+                }
+            else { // !(folder instanceof EmptyFolder)
+                logger.info( "node (not EmptyFolder) of type: " + folder );
+                if( leaf ) {
+                    //FIXME throw new IllegalStateException( "Found leaf on a no empty folder: " + folder );
+                    }
                 }
             }
-//        else if( _value_ instanceof FileTreeNode1 ) {
-//            FileTreeNode1 nodeValue = FileTreeNode1.class.cast( _value_ );
-//            File          nodeFile  = nodeValue.getFile();
-//
-//            name = nodeFile.getName();
-//
-//            if( name.isEmpty() ) {
-//                name = nodeFile.getPath();
-//                }
-//            if( leaf ) {
-//                // Build display
-//                String stringValue = tree.convertValueToText(
-//                        name,
-//                        selected,
-//                        expanded,
-//                        leaf,
-//                        row,
-//                        false
-//                        );
-//                this.nodeLeafRenderer.setText(stringValue);
-//                this.nodeLeafRenderer.setSelected(false);
-//                this.nodeLeafRenderer.setEnabled(tree.isEnabled());
-//
-//                if (selected) {
-//                    this.nodeLeafRenderer.setForeground(this.selectionForeground);
-//                    this.nodeLeafRenderer.setBackground(this.selectionBackground);
-//                    }
-//                else {
-//                    this.nodeLeafRenderer.setForeground(this.textForeground);
-//                    this.nodeLeafRenderer.setBackground(this.textBackground);
-//                    }
-//
-//                this.currentValue = nodeValue;
-//                this.nodeLeafRenderer.setSelected(this.model.isSelected( nodeValue ));
-//                this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
-//
-//                return this.nodeLeafRenderer;
-//                }
-//            }
         else {
             name = null;
             }
@@ -166,7 +145,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
                     );
     }
 
-    public FileTreeNode2 getCurrentValue()
+    public FolderTreeNode getCurrentValue()
     {
         return this.currentValue;
     }

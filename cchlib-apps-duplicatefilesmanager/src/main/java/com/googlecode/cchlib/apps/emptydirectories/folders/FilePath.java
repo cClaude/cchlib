@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.apps.emptydirectories.folders;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,12 +12,13 @@ import java.util.NoSuchElementException;
 public class FilePath implements Iterable<File>
 {
     private File[] path;
+    private Folder folder;
 
     /**
      * TODOC
      * @param file TODOC
      */
-    public FilePath( final File file )
+    private FilePath( final File file, final Folder folder )
     {
         ArrayList<File> pathList    = new ArrayList<File>();
         File            f           = file;
@@ -27,12 +28,13 @@ public class FilePath implements Iterable<File>
             f = f.getParentFile();
             }
 
-        this.path = pathList.toArray( new File[ pathList.size() ] );
+        this.path   = pathList.toArray( new File[ pathList.size() ] );
+        this.folder = folder;
     }
 
-    public FilePath( final Path filePath )
+    protected FilePath( final Path filePath, final Folder folder )
     {
-        this( filePath.toFile() );
+        this( filePath.toFile(), folder );
 //        ArrayList<File> pathList = new ArrayList<>();
 //        Iterator<Path>  iter     = filePath.iterator();
 //        
@@ -63,11 +65,16 @@ public class FilePath implements Iterable<File>
             throw ne;
             }
     }
+    
+    public Folder getFolder()
+    {
+        return folder;
+    }
 
     /**
-     * TODOC
-     * @return TODOC
+     * @deprecated use {@link #getFolder()}.getPath().toFile() instead
      */
+    @Deprecated
     public File getFile()
     {
         return path[ 0 ];

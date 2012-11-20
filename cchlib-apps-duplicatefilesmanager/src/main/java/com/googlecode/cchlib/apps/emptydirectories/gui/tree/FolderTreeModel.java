@@ -9,24 +9,26 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.FilePath;
+import com.googlecode.cchlib.apps.emptydirectories.folders.FilePath;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
  */
-public
-class FileTreeModel
-    extends AbstractFileTreeModel 
-        implements FileTreeModelable
+public final
+class FolderTreeModel
+    extends AbstractFolderTreeModel 
+        implements FolderTreeModelable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FileTreeModel.class );
+    private static final Logger logger = Logger.getLogger( FolderTreeModel.class );
 
     /**
      *
      */
-    public FileTreeModel( final JTree jTree )
+    public FolderTreeModel( final JTree jTree )
     {
         super( jTree, true );
     }
@@ -39,17 +41,16 @@ class FileTreeModel
     /**
      *
      */
-    final
-    public Iterable<FileTreeNode2> rootNodes()
+    public Iterable<FolderTreeNode> rootNodes()
     {
         final Enumeration<?> enu = getRootNode().children(); // never null
 
-        return new Iterable<FileTreeNode2>()
+        return new Iterable<FolderTreeNode>()
         {
             @Override
-            public Iterator<FileTreeNode2> iterator()
+            public Iterator<FolderTreeNode> iterator()
             {
-                return new Iterator<FileTreeNode2>()
+                return new Iterator<FolderTreeNode>()
                 {
                     @Override
                     public boolean hasNext()
@@ -57,9 +58,9 @@ class FileTreeModel
                         return enu.hasMoreElements();
                     }
                     @Override
-                    public FileTreeNode2 next()
+                    public FolderTreeNode next()
                     {
-                        return FileTreeNode2.class.cast( enu.nextElement() );
+                        return FolderTreeNode.class.cast( enu.nextElement() );
                     }
                     @Override
                     public void remove()
@@ -75,7 +76,7 @@ class FileTreeModel
 
                 sb.append( super.toString() );
                 sb.append( '[' );
-                Iterator<FileTreeNode2> iter = iterator();
+                Iterator<FolderTreeNode> iter = iterator();
 
                 while( iter.hasNext() ) {
                     sb.append( iter.next() );
@@ -92,7 +93,7 @@ class FileTreeModel
      * TODOC
      * @return TODOC
      */
-    private FileTreeNode2 getRootNodeForRootFile( final File fileRoot )
+    private FolderTreeNode getRootNodeForRootFile( final File fileRoot )
     {
         if( fileRoot.getParentFile() != null ) {
             throw new IllegalArgumentException(
@@ -101,8 +102,8 @@ class FileTreeModel
                 );
             }
 
-        for( FileTreeNode2 n : rootNodes() ) {
-            if( FileComparator.equals( fileRoot, n.getFile() ) ) {
+        for( FolderTreeNode n : rootNodes() ) {
+            if( FileComparator.equals( fileRoot, n.getFolder() ) ) {
                 return n;
                 }
             }
@@ -115,7 +116,7 @@ class FileTreeModel
      * TODOC
      * @return TODOC
      */
-    final public FileTreeNode2 getRootNodeForThisFilePath( final FilePath filePath )
+    public FolderTreeNode getRootNodeForThisFilePath( final FilePath filePath )
     {
         return getRootNodeForRootFile( filePath.getRootFile() );
     }
@@ -124,7 +125,7 @@ class FileTreeModel
      * TODOC
      * @return TODOC
      */
-    final public FileTreeNode2 getRootNodeForFile( final File file )
+    public FolderTreeNode getRootNodeForFile( final File file )
     {
         File fileRoot = file;
 
@@ -141,28 +142,40 @@ class FileTreeModel
      * @param path Entry to add
      * @return parent node, null if already in tree
      */
-    protected final FileTreeNode2 privateAdd( final FilePath path )
+    @Override
+    protected final FolderTreeNode synchronizedAdd( final Folder folder )
     {
-        FileTreeNode2 bestParentNode;
-        FileTreeNode2 rootForFile = this.getRootNodeForThisFilePath( path );
+        final FilePath filePath = folder.getFilePath();
+        
+        FolderTreeNode bestParentNode;
+        FolderTreeNode rootForFile = this.getRootNodeForThisFilePath( filePath );
 
         if( rootForFile == null ) {
             // Tree is empty, create root entry
-            rootForFile = new FileTreeNode2( path.getRootFile() );
+            //rootForFile = new FolderTreeNode( path.getRootFile() );
+            int fixme;
+            logger.info( "*************************" );
+            logger.info( "*************************" );
+            logger.info( "*************************" );
+            logger.info( "Add root folder for: " + folder );
+            logger.info( "*************************" );
+            logger.info( "*************************" );
+            logger.info( "*************************" );
+            rootForFile = new FolderTreeNode( Folders.createFolder( filePath.getRootFile() ) );
 
             // Add this new 'root', to model
             DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
             hiddenRoot.add( rootForFile );
 
             // best parent is root node
-            bestParentNode = getRootNodeForThisFilePath( path );
+            bestParentNode = getRootNodeForThisFilePath( filePath );
 
             if( rootForFile != bestParentNode ) {
                 // TODO: remove this
                 // TODO: remove this
                 // TODO: remove this
                 throw new RuntimeException(
-                    "Bad root path found for this path=[" + path
+                    "Bad root path found for this path=[" + filePath
                         + "] - bestParentNode=[" + bestParentNode 
                         + "] + expected rootForFile=[" + rootForFile
                         + ']'
@@ -173,7 +186,7 @@ class FileTreeModel
             fireStructureChanged();
             }
         else {
-            bestParentNode = bestLookupNode( path );
+            bestParentNode = bestLookupNode( filePath );
             }
 
         // Just to create a root, if none
@@ -182,10 +195,11 @@ class FileTreeModel
 //            throw new IllegalArgumentException(
 //                    "Multi root not handle. (" + getRootNode().getFile() + " <> " + path + ")"
 //                    );
-            throw new RuntimeException( "bug2 !!! " + path );
+            throw new RuntimeException( "bug2 !!! " + filePath );
             }
-        else if( bestParentNode.getFile().getPath().equals( path.getFile().toPath() ) ) {
+        else if( FileComparator.equals( bestParentNode.getFolder(), filePath ) ) {
             // Already in tree
+            int fixme; // FIXME check if type of node should change.
             return null;
             }
         // else { Not in tree, best parent is 'node'. }
@@ -197,7 +211,7 @@ class FileTreeModel
         //logger.info( "## bestParentNode.getDepth() = " + bestParentNode.getDepthFromRoot() );
         //logger.info( "## getRootNode().getDepth() = " + getRootNode().getDepthFromRoot() );
 
-        int index = path.size() /*- 1*/ - bestParentNode.getDepthFromRoot() /*- getRootNode().getDepthFromRoot()*/;
+        int index = filePath.size() /*- 1*/ - bestParentNode.getDepthFromRoot() /*- getRootNode().getDepthFromRoot()*/;
 
         //logger.info( "## bestParentNode = " + bestParentNode );
         //logger.info( "## path.getFilePart(" + index + ") size=" + path.size() );
@@ -205,10 +219,10 @@ class FileTreeModel
 
         //if( ! bestParentNode.getFile().equals( path.getFilePart( index ) ) ) {
         //if( ! FileComparator.equals( bestParentNode.getFile(), path.getFilePart( index ) ) ) {
-        if( ! FileComparator.equals( bestParentNode, path.getFilePart( index ) ) ) {
+        if( ! FileComparator.equals( bestParentNode, filePath.getFilePart( index ) ) ) {
             final String msg = "node file ["
-                    + bestParentNode.getFile() + "] but current path is ["
-                    + path.getFilePart( index ) + "]";
+                    + bestParentNode.getFolder() + "] but current path is ["
+                    + filePath.getFilePart( index ) + "]";
 
             logger.error( msg );
 
@@ -222,10 +236,18 @@ class FileTreeModel
         //logger.info( "_ path part: " + path.getFilePart( index ) );
 
         // 'path' is not in tree, so can start (node depth + 1)
-        for( File f : path.startFrom( index ) ) {
+        for( File f : filePath.startFrom( index ) ) {
             //logger.info( ">>> add on: " + bestParentNode.getData() + " file: " + f );
 
-            FileTreeNode2 newNode = bestParentNode.add( f );
+            //FIXME: node must be not created later as an EmptyFolder.
+            int fixme;
+            FolderTreeNode newNode;
+            if( FileComparator.equals( f, folder ) ) {
+                newNode = bestParentNode.add( folder );
+                }
+            else {
+                newNode = bestParentNode.add( Folders.createFolder( f ) );
+                }
 
             // Notify here !
             TreePath parentPath = getPath( bestParentNode );
@@ -243,8 +265,8 @@ class FileTreeModel
      * @return the best {@link FileTreeNode} for this {@link FilePath}, if
      * even did not match with root tree.
      */
-    final
-    protected FileTreeNode2 bestLookupNode( final FilePath pathToFind )
+    @Override
+    protected FolderTreeNode bestLookupNode( final FilePath pathToFind )
     {
         if( getRootNode().getChildCount() == 0 ) {
             // No root, can't be found !
@@ -252,7 +274,7 @@ class FileTreeModel
             }
 
         // Find in root.
-        FileTreeNode2 bestParentNode = lookupNodeInChild( null, pathToFind.getRootFile() );
+        FolderTreeNode bestParentNode = lookupNodeInChild( null, pathToFind.getRootFile() );
 
         if( bestParentNode == null ) {
             throw new IllegalStateException(
@@ -268,7 +290,7 @@ class FileTreeModel
             //logger.debug( "bestParentNode : "  + bestParentNode.getData() );
             //logger.debug( "filePart       : "  + filePart + " (" + pathToFind.getFile() + ")");
 
-            FileTreeNode2   n   = lookupNodeInChild( bestParentNode, filePart );
+            FolderTreeNode   n   = lookupNodeInChild( bestParentNode, filePart );
 
             if( n == null ) {
                 // Not found, parent is the best choice
@@ -284,15 +306,14 @@ class FileTreeModel
         return bestParentNode;
     }
 
-    final
-    private FileTreeNode2 lookupNodeInChild( FileTreeNode2 node, File f )
+    private FolderTreeNode lookupNodeInChild( FolderTreeNode node, File f )
     {
         if( node == null ) {
         return getRootNodeForFile( f );
         }
 
-        for( FileTreeNode2 n : node ) {
-            if( n.getFile().getPath().equals( f.toPath() ) ) {
+        for( FolderTreeNode n : node ) {
+            if( n.getFolder().getPath().equals( f.toPath() ) ) {
                 return n;
                 }
             }
@@ -301,24 +322,24 @@ class FileTreeModel
         return null;
     }
 
-    final
-    public Iterator<FileTreeNode2> nodeIterator()
+    @Override
+    public Iterator<FolderTreeNode> nodeIterator()
     {
-        final ArrayList<Iterator<FileTreeNode2>> iterators = new ArrayList<Iterator<FileTreeNode2>>();
+        final ArrayList<Iterator<FolderTreeNode>> iterators = new ArrayList<Iterator<FolderTreeNode>>();
 
-        for( FileTreeNode2 rn : rootNodes() ) {
-            iterators.add( new SingletonIterator<FileTreeNode2>( rn ) );
+        for( FolderTreeNode rn : rootNodes() ) {
+            iterators.add( new SingletonIterator<FolderTreeNode>( rn ) );
             }
 
-        return new Iterator<FileTreeNode2>()
+        return new Iterator<FolderTreeNode>()
         {
             @Override
             public boolean hasNext()
             {
-                Iterator<Iterator<FileTreeNode2>> globalIterator = iterators.iterator();
+                Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
 
                 while( globalIterator.hasNext() ) {
-                    Iterator<FileTreeNode2> current = globalIterator.next();
+                    Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
                         return true;
@@ -328,16 +349,16 @@ class FileTreeModel
                 return false;
             }
             @Override
-            public FileTreeNode2 next()
+            public FolderTreeNode next()
             {
                 // Find next non empty iterator.
-                Iterator<Iterator<FileTreeNode2>> globalIterator = iterators.iterator();
+                Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
 
                 while( globalIterator.hasNext() ) {
-                    Iterator<FileTreeNode2> current = globalIterator.next();
+                    Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
-                        FileTreeNode2 n = current.next();
+                        FolderTreeNode n = current.next();
 
                         // Add children to global iterator
                         iterators.add( n.iterator() );
@@ -361,7 +382,7 @@ class FileTreeModel
     /**
      * Clear tree.
      */
-    final
+    @Override
     public void clear()
     {
         clearSelected(); //this.modifiedCheckState.clear();

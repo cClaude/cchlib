@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.util.Collection;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 
 /**
  * Find empty directories

@@ -5,8 +5,8 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
@@ -16,7 +16,7 @@ public class FindDeleteAdapter
 {
     private final static Logger logger = Logger.getLogger( FindDeleteAdapter.class );
     private MyDefaultListModel<File> listModel;
-    private FileTreeModelable treeModel;
+    private FolderTreeModelable treeModel;
     private FindDeleteListener listener;
     private boolean isCancel;
 
@@ -25,7 +25,7 @@ public class FindDeleteAdapter
      */
     public FindDeleteAdapter(
         final MyDefaultListModel<File>  listModel,
-        final FileTreeModelable         treeModel,
+        final FolderTreeModelable       treeModel,
         final FindDeleteListener        listener
         )
     {
@@ -61,34 +61,11 @@ public class FindDeleteAdapter
         logger.info( "doFind() thread started" );
 
         this.isCancel = false;
-//
-//        super.getBtnAddRootDirectory().setEnabled( false );
-//        super.getBtnStartScan().setEnabled( false );
-//        super.getBtnCancel().setEnabled( true );
-//        super.getBtnStartDelete().setEnabled( false );
-//        super.getBtnSelectAll().setEnabled( false );
-//        super.getBtnUnselectAll().setEnabled( false );
-//        super.getJListRootDirectories().setEnabled( false );
-//        super.getJListRootDirectories().clearSelection();
-//        //super.getJListRootDirectories().setSelectedIndices( new int[0] );
-//        super.getProgressBar().setIndeterminate( true );
 
-        // Create a JTree and tell it to display our model
-//        final JTree                     jTreeDir        = getJTreeEmptyDirectories();
-
-//        final DefaultListModel<File>    jListRootModel  = super.getJListRootDirectoriesModel();
-//        final EmptyDirectoriesFinder    emptyDirs       = new EmptyDirectoriesFinder( jListRootModel.elements() );
         final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel );
         final UpdateJTreeListeners          listener    = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
-
-//        treeModel = new FileTreeModel2( jTreeDir );
-//        jTreeDir.setModel( treeModel );
-
-//        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
-//        jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
-//        jTreeDir.setEditable( true );
 
         Runnable doRun = new Runnable()
         {
@@ -130,7 +107,7 @@ public class FindDeleteAdapter
             return isCancel;
         }
         @Override
-        public void newEntry( final EmptyFolder emptyDirectoryFile )
+        public void newEntry( final EmptyFolder folder )
         {
             SwingUtilities.invokeLater(
                 new Runnable()
@@ -138,11 +115,7 @@ public class FindDeleteAdapter
                     @Override
                     public void run()
                     {
-                        treeModel.add( emptyDirectoryFile );
-                        //
-//                      if( add ) {
-//                          jTreeDir.fireTreeExpanded( path )
-//                          }
+                        treeModel.add( folder );
                     }
                 });
         }
@@ -160,24 +133,12 @@ public class FindDeleteAdapter
                             treeModel.clear();
                         }
                     });
-//            JProgressBar pBar = getProgressBar();
-//            pBar.setString( "Computing..." );
-//            pBar.setIndeterminate( true );
         }
         @Override
         public void findDone()
         {
-//            JProgressBar pBar = getProgressBar();
-//            pBar.setIndeterminate( false );
-//
-//            if( isCancel ) {
-//                pBar.setString( "Scan canceled !" );
-//                }
-//            else {
-//                pBar.setString( "Select file to delete" );
-//                }
-
             listener.findTaskDone( isCancel );
+            
             logger.info( "findDone()" );
         }
     }

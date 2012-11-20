@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.util.EventListener;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 
 /**
  *
@@ -20,7 +21,6 @@ public interface EmptyDirectoriesListener
      * @param createEmptyFolder
      */
     public void newEntry( EmptyFolder createEmptyFolder );
-    //public void newEntry( File emptyDirectoryFile );
     
     /**
      *

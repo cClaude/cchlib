@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeEditor;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModel;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FileTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModel;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
@@ -39,7 +39,7 @@ public class RemoveEmptyDirectoriesPanel
     private ActionListener actionListener;
     private DFToolKit dfToolKit;
     private Window mainWindow;
-    private FileTreeModelable treeModel;
+    private FolderTreeModelable treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
     
@@ -76,7 +76,7 @@ public class RemoveEmptyDirectoriesPanel
 
         // Create a JTree and tell it to display our model
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
-        treeModel = new FileTreeModel( jTreeDir );
+        treeModel = new FolderTreeModel( jTreeDir );
         jTreeDir.setModel( treeModel );
         jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
         jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );

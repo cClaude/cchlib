@@ -3,10 +3,8 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Iterator;
-import javax.swing.JCheckBox;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import org.apache.log4j.Logger;
 
 /**
  * TODOC
@@ -16,7 +14,7 @@ public class FileTreeNode1
         implements Iterable<FileTreeNode1>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FileTreeNode1.class );
+    //private static final Logger logger = Logger.getLogger( FileTreeNode1.class );
     private final File file;
     //private boolean selected;
     
@@ -53,35 +51,35 @@ public class FileTreeNode1
         return this.file;
     }
 
-    /**
-     *
-     * @return TODOC
-     */
-    //final public// TODO: remove this line
-    private File getData_()
-    {
-        Object userObject = super.getUserObject();
-
-        if( userObject instanceof File ) {
-            return File.class.cast( userObject );
-            }
-        else if( userObject instanceof JCheckBox ) {
-            JCheckBox   jCheckBox       = JCheckBox.class.cast( userObject );
-            Object      clientProperty  = jCheckBox.getClientProperty( File.class );
-
-            return File.class.cast( clientProperty );
-            }
-        else {
-            // Unknown user object type
-            logger.fatal( "Unknown user object type: " + userObject );
-
-            if( userObject != null ) {
-                logger.fatal( "Unknown user object class: " + userObject.getClass() );
-                }
-
-            return null;
-            }
-    }
+//    /**
+//     *
+//     * @return TODOC
+//     */
+//    //final public// TODO: remove this line
+//    private File getData_()
+//    {
+//        Object userObject = super.getUserObject();
+//
+//        if( userObject instanceof File ) {
+//            return File.class.cast( userObject );
+//            }
+//        else if( userObject instanceof JCheckBox ) {
+//            JCheckBox   jCheckBox       = JCheckBox.class.cast( userObject );
+//            Object      clientProperty  = jCheckBox.getClientProperty( File.class );
+//
+//            return File.class.cast( clientProperty );
+//            }
+//        else {
+//            // Unknown user object type
+//            logger.fatal( "Unknown user object type: " + userObject );
+//
+//            if( userObject != null ) {
+//                logger.fatal( "Unknown user object class: " + userObject.getClass() );
+//                }
+//
+//            return null;
+//            }
+//    }
 
     @Override
     final // TODO: remove this line

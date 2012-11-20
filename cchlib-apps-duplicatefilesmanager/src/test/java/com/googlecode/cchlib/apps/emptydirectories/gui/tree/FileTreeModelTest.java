@@ -10,7 +10,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
 
 /**
  *
@@ -105,7 +106,7 @@ public class FileTreeModelTest
     private void runTst( final Object[][] tstDatas )
     {
         final JTree         jTree       = new JTree();
-        final FileTreeModel treeModel   = new FileTreeModel( jTree );
+        final FolderTreeModel treeModel   = new FolderTreeModel( jTree );
 
         for( int i = 0; i<tstDatas.length; i++ ) {
             final String  filepath = String.class.cast(  tstDatas[ i ][ 0 ] );
@@ -115,19 +116,19 @@ public class FileTreeModelTest
             addEntry( treeModel, filepath, size );
             }
 
-        Iterator<FileTreeNode2> iter = treeModel.nodeIterator();
+        Iterator<FolderTreeNode> iter = treeModel.nodeIterator();
 
         while( iter.hasNext() ) {
-            final FileTreeNode2 ftn = iter.next();
+            final FolderTreeNode ftn = iter.next();
 
-            logger.info( ">" + ftn.getFile() );
+            logger.info( ">" + ftn.getFolder() );
             }
 
         logger.info( "--- TREE ---" );
 //        FileTreeNode root = tree.getRootNode();
 //        displayNode( root, "" );
 
-        for( final FileTreeNode2 rn : treeModel.rootNodes() ) {
+        for( final FolderTreeNode rn : treeModel.rootNodes() ) {
             displayNode( rn, "" );
             }
 
@@ -135,7 +136,7 @@ public class FileTreeModelTest
     }
 
     private void addEntry(
-            final FileTreeModel     treeModel,
+            final FolderTreeModel     treeModel,
             final String            fs,
             final int               expectedSize
             )
@@ -150,8 +151,8 @@ public class FileTreeModelTest
                 }
             }
         
-        EmptyFolder     edf = EmptyFolder.createCouldBeEmptyFolder( f.toPath() );
-        FileTreeNode2   n   = treeModel.lookupNode( edf );
+        Folder          edf = Folders.createFolder( f.toPath() );
+        FolderTreeNode   n   = treeModel.lookupNode( edf );
 
         logger.info( ">" + expectedSize + " <-> " + treeModel.size() + " exists? " + n );
 
@@ -163,7 +164,7 @@ public class FileTreeModelTest
         logger.info( "--- TREE ---" );
 //        FileTreeNode root = tree.getRootNode();
 //        displayNode( root, "" );
-        for( FileTreeNode2 rn : treeModel.rootNodes() ) {
+        for( FolderTreeNode rn : treeModel.rootNodes() ) {
             displayNode( rn, "" );
             }
         
@@ -175,7 +176,7 @@ public class FileTreeModelTest
 
 
     private void displayNode(
-            final FileTreeNode2     node,
+            final FolderTreeNode     node,
             final String            prefix
             )
     {
@@ -184,14 +185,14 @@ public class FileTreeModelTest
             }
         else {
             logger.info( prefix + "node: " + node );
-            logger.info( prefix + "node data: " + node.getFile() );
+            logger.info( prefix + "node data: " + node.getFolder() );
 
-            Iterator<FileTreeNode2> iter = node.iterator();
+            Iterator<FolderTreeNode> iter = node.iterator();
 
             if( iter.hasNext() ) {
                 logger.info( prefix + "[[" );
 
-                for( FileTreeNode2 n : node ) {
+                for( FolderTreeNode n : node ) {
                     displayNode( n, prefix + "  " );
                     }
 

@@ -8,12 +8,14 @@ import java.util.TreeSet;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * Find empty directories
  *
  */
+@Deprecated // see FIXME
 public class EmptyDirectoriesDeleter
     implements EmptyDirectoriesDeleterInterface, Serializable
 {
@@ -32,6 +34,7 @@ public class EmptyDirectoriesDeleter
      */
     public EmptyDirectoriesDeleter( final File...rootFiles )
     {
+        // FIXME why I need this class ?
         this.emptyDirectoriesFinder = new DefaultEmptyDirectoriesLookup( rootFiles );
         this.emptyDirectoriesFinder.addListener(
                 new EmptyDirectoriesListener()
@@ -42,10 +45,9 @@ public class EmptyDirectoriesDeleter
                         return false;
                     }
                     @Override
-                    public void newEntry( EmptyFolder emptyDirectoryFile )
-                    //public void newEntry( File emptyDirectoryFile )
+                    public void newEntry( final EmptyFolder emptyFolder )
                     {
-                        emptyFoldersSet.add( emptyDirectoryFile );
+                        emptyFoldersSet.add( emptyFolder );
                     }
                     @Override public void findStarted(){}
                     @Override public void findDone() {}

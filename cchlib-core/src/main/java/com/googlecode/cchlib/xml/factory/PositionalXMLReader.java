@@ -38,23 +38,60 @@ public class PositionalXMLReader
      */
     final public static  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
 
-    public static Document readXML( final InputStream is ) throws IOException, SAXException
+    /**
+     * 
+     * @param is
+     * @return
+     * @throws XMLReaderException 
+     * @throws IOException
+     * @throws SAXException
+     * @see #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)
+     */
+    public static Document readXML( final InputStream is ) throws XMLReaderException, SAXException, IOException
+    {
+        final SAXParserFactory       saxParserFactory       = SAXParserFactory.newInstance();
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        
+        return readXML(
+            saxParserFactory,
+            documentBuilderFactory,
+            is 
+            );
+    }
+    
+    /**
+     * TODOC
+     * @param saxParserFactory
+     * @param documentBuilderFactory
+     * @param is
+     * @return TODOC
+     * @throws XMLReaderException 
+     * @throws IOException 
+     * @throws SAXException 
+     */
+    public static Document readXML(
+        final SAXParserFactory       saxParserFactory,
+        final DocumentBuilderFactory documentBuilderFactory,
+        final InputStream            is
+        ) throws XMLReaderException, SAXException, IOException
     {
         final Document  doc;
         final SAXParser parser;
 
         try {
-            final SAXParserFactory factory = SAXParserFactory.newInstance();
+            //final SAXParserFactory factory = SAXParserFactory.newInstance();
+            parser = saxParserFactory.newSAXParser();
 
-            parser = factory.newSAXParser();
+            //final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-            final DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-            final DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-
-            doc = docBuilder.newDocument();
+            doc = documentBuilder.newDocument();
+            }
+        catch( final SAXException e ) {
+            throw new XMLReaderException("Can't create SAX parser", e);
             }
         catch( final ParserConfigurationException e ) {
-            throw new RuntimeException("Can't create SAX parser / DOM builder.", e);
+            throw new XMLReaderException("Can't create DOM builder", e);
             }
 
         final Stack<Element> elementStack = new Stack<Element>();

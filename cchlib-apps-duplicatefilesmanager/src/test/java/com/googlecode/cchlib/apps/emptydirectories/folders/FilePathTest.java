@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.apps.emptydirectories.folders;
 
 import java.io.File;
 import org.junit.Assert;
@@ -8,6 +8,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.apps.emptydirectories.folders.FilePath;
 
 /**
  *
@@ -50,9 +51,8 @@ public class FilePathTest
 
         for( File f : tstDatas ) {
             logger.info( "------------");
-            tstFilePath( new FilePath( f ) );
-            logger.info( "------------");
-            tstFilePath( new FilePath( f.toPath() ) );
+            //tstFilePath( new FilePath( f.toPath() ) );
+            tstFilePath( Folders.createFolder( f ).getFilePath() );
             logger.info( "------------");
             }
         

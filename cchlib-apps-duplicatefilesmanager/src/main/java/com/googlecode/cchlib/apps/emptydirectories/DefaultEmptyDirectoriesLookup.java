@@ -2,9 +2,7 @@ package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -13,6 +11,8 @@ import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -38,7 +38,7 @@ public class DefaultEmptyDirectoriesLookup
      *
      * @param rootFiles Array of root {@link File} objects
      */
-    public DefaultEmptyDirectoriesLookup( File...rootFiles )
+    public DefaultEmptyDirectoriesLookup( final File...rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>( rootFiles.length );
 
@@ -52,7 +52,7 @@ public class DefaultEmptyDirectoriesLookup
      * 
      * @param rootFiles {@link Enumerable} of root {@link File} objects
      */
-    public DefaultEmptyDirectoriesLookup( Enumerable<File> rootFiles )
+    public DefaultEmptyDirectoriesLookup( final Enumerable<File> rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>();
 
@@ -103,14 +103,14 @@ public class DefaultEmptyDirectoriesLookup
      * @param folder Folder file to scan
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
-    private void doScan( File folder ) throws CancelRequestException
+    private void doScan( final File folderFile ) throws CancelRequestException
     {
-        logger.debug( "doScan:" + folder );
+        logger.debug( "doScan:" + folderFile );
 
-        if( folder.isDirectory() ) {
+        if( folderFile.isDirectory() ) {
             //isEmpty( folder );
             try {
-                couldBeEmpty( folder.toPath() );
+                couldBeEmpty( folderFile.toPath() );
                 }
             catch( IOException e ) {
                 logger.error( "Can not read:", e );
@@ -238,10 +238,10 @@ public class DefaultEmptyDirectoriesLookup
                 }
             
             if( isEmpty ) {
-                add( EmptyFolder.createEmptyFolder( folder ) );
+                add( Folders.createEmptyFolder( folder ) );
                 }
             else if( couldBeEmpty ) {
-                add( EmptyFolder.createCouldBeEmptyFolder( folder ) );
+                add( Folders.createCouldBeEmptyFolder( folder ) );
                 }
             
             return couldBeEmpty;
@@ -254,13 +254,12 @@ public class DefaultEmptyDirectoriesLookup
             }
     }
 
-    private Set<EmptyFolder> emptyFolderList = new HashSet<>();
-    private void add( final EmptyFolder createEmptyFolder )
+    //private Set<EmptyFolder> _emptyFolderList_ = new HashSet<>();
+    private void add( final EmptyFolder emptyFolder )
     {
-        this.emptyFolderList.add( createEmptyFolder );
-        
+        //this._emptyFolderList_.add( emptyFolder );
         for( EmptyDirectoriesListener l : this.listeners ) {
-            l.newEntry( createEmptyFolder );
+            l.newEntry( emptyFolder );
             }
     }
     

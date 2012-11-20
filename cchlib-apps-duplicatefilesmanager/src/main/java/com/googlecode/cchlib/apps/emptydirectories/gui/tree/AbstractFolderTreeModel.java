@@ -16,8 +16,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.FilePath;
+import com.googlecode.cchlib.apps.emptydirectories.folders.FilePath;
+import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
@@ -27,20 +27,21 @@ import com.googlecode.cchlib.util.iterator.Selectable;
  *
  */
 public
-abstract class AbstractFileTreeModel
+abstract class AbstractFolderTreeModel
     extends DefaultTreeModel
-        implements FileTreeModelable
+        implements FolderTreeModelable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( AbstractFileTreeModel.class );
+    private static final Logger logger = Logger.getLogger( AbstractFolderTreeModel.class );
     //private final Map<FileTreeNode1,Boolean> modifiedCheckState = new HashMap<FileTreeNode1,Boolean>();
-    private final Map<FileTreeNode2,Boolean> modifiedCheckState = new HashMap<FileTreeNode2,Boolean>();
+    private final Map<FolderTreeNode,Boolean> modifiedCheckState = new HashMap<FolderTreeNode,Boolean>();
     private final JTree jTree;
+    private final Object lock = new Object();
 
     /**
      *
      */
-    public AbstractFileTreeModel(
+    public AbstractFolderTreeModel(
             final JTree     jTree,
             final boolean   multiroot
             )
@@ -74,7 +75,7 @@ abstract class AbstractFileTreeModel
     {
         int                     count   = 0;
         //Iterator<FileTreeNode1>  iter    = this.nodeIterator();
-        Iterator<FileTreeNode2>  iter    = this.nodeIterator();
+        Iterator<FolderTreeNode>  iter    = this.nodeIterator();
 
         while( iter.hasNext() ) {
             iter.next();
@@ -91,12 +92,19 @@ abstract class AbstractFileTreeModel
      */
     @Override //FileTreeModelable
     final
-    public boolean add( final EmptyFolder file )
+    public boolean add( final Folder folder )
     {
+        final FolderTreeNode n;
+        final boolean        added;
+        
+        synchronized( lock ) {
+            n       = synchronizedAdd( folder );
+            added   = n != null;
+            };
         //logger.info( "try to add: " + file + " * size()=" + size() );
         //FileTreeNode1   n       = privateAdd( file );
-        FileTreeNode2   n       = privateAdd( file );
-        boolean         added   = n != null;
+        //FolderTreeNode   n       = privateAdd( folder );
+        
         //logger.info( "add? " + added + " - " + file + " * size()=" + size() );
 
         if( added ) {
@@ -124,44 +132,53 @@ abstract class AbstractFileTreeModel
 //                }
             }
 
-        logger.info( "try to add: " + file + " to GUI * added? =" + added );
+        logger.info( "try to add: " + folder + " to GUI * added? =" + added );
 
         return added;
     }
 
+//    /**
+//     * Add entry, and return parent node.
+//     *
+//     * @param file Entry to add
+//     * @return parent node, null if already in tree
+//     */
+//    final
+//    protected FolderTreeNode privateAdd( final Folder folder )
+//    {
+//        return privateAdd( new FilePath( folder.getPath() ) );
+//    }
+//
+//    /**
+//     * Add entry, and return parent node.
+//     *
+//     * @param path Entry to add
+//     * @return parent node, null if already in tree
+//     */
+//    protected abstract FolderTreeNode privateAdd( final FilePath path );
+    
     /**
      * Add entry, and return parent node.
      *
-     * @param file Entry to add
+     * @param folder Entry to add
      * @return parent node, null if already in tree
      */
-    final
-    protected FileTreeNode2 privateAdd( final EmptyFolder file )
-    {
-        return privateAdd( new FilePath( file.getPath() ) );
-    }
-
-    /**
-     * Add entry, and return parent node.
-     *
-     * @param path Entry to add
-     * @return parent node, null if already in tree
-     */
-    protected abstract FileTreeNode2 privateAdd( final FilePath path );
+    protected abstract FolderTreeNode synchronizedAdd( final Folder folder );
 
     /**
      * TODOC
-     * @param file TODOC
+     * @param folder TODOC
      * @return TODOC
      */
     final
-    public FileTreeNode2 lookupNode( final EmptyFolder file )
+    public FolderTreeNode lookupNode( final Folder folder )
     {
-        final FilePath      fp  = new FilePath( file.getPath() );
-        final FileTreeNode2 n   = bestLookupNode( fp );
+        //final FilePath      fp  = new FilePath( folder.getPath() );
+        final FilePath       fp = folder.getFilePath();
+        final FolderTreeNode n  = bestLookupNode( fp );
 
         if( n != null ) {
-            if( n.getFile().equals( file ) ) {
+            if( n.getFolder().equals( folder ) ) {
                 return n;
                 }
             }
@@ -175,9 +192,9 @@ abstract class AbstractFileTreeModel
      * @return the best {@link FileTreeNode} for this {@link FilePath}, if
      * even did not match with root tree.
      */
-    protected abstract FileTreeNode2 bestLookupNode( final FilePath pathToFind );
+    protected abstract FolderTreeNode bestLookupNode( final FilePath pathToFind );
 
-    public abstract Iterator<FileTreeNode2> nodeIterator();
+    public abstract Iterator<FolderTreeNode> nodeIterator();
 
     /**
      *
@@ -195,8 +212,8 @@ abstract class AbstractFileTreeModel
         if( path != null ) {
             Object value = path.getLastPathComponent();
 
-            if( value instanceof FileTreeNode2 ) {
-                FileTreeNode2 node = FileTreeNode2.class.cast( value );
+            if( value instanceof FolderTreeNode ) {
+                FolderTreeNode node = FolderTreeNode.class.cast( value );
 
                 return node.isLeaf();
                 }
@@ -207,7 +224,7 @@ abstract class AbstractFileTreeModel
 
     @Override // FileTreeModelable
     final
-    public boolean isSelected( final FileTreeNode2 nodeValue )
+    public boolean isSelected( final FolderTreeNode nodeValue )
     {
         Boolean b = modifiedCheckState.get( nodeValue );
 
@@ -221,14 +238,14 @@ abstract class AbstractFileTreeModel
 
     @Override // FileTreeModelable
     final
-    public void setSelected( final FileTreeNode2 nodeValue, boolean b )
+    public void setSelected( final FolderTreeNode nodeValue, boolean b )
     {
         modifiedCheckState.put( nodeValue, new Boolean( b ) );
     }
 
     @Override // FileTreeModelable
     final
-    public void toggleSelected( final FileTreeNode2 nodeValue )
+    public void toggleSelected( final FolderTreeNode nodeValue )
     {
         boolean state = isSelected( nodeValue );
 
@@ -240,10 +257,10 @@ abstract class AbstractFileTreeModel
     public void setSelectAllLeaf( boolean b )
     {
         if( b ) {
-            Iterator<FileTreeNode2> iter = nodeIterator();
+            Iterator<FolderTreeNode> iter = nodeIterator();
 
             while( iter.hasNext() ) {
-                FileTreeNode2 n = iter.next();
+                FolderTreeNode n = iter.next();
 
                 if( n.isLeaf() ) {
                     modifiedCheckState.put( n, true );
@@ -327,30 +344,30 @@ abstract class AbstractFileTreeModel
     public Iterable<File> selectedFiles()
     {
         // Inner class to filter only selected entry
-        Selectable<Entry<FileTreeNode2,Boolean>> selectable
-            = new Selectable<Entry<FileTreeNode2,Boolean>>()
+        Selectable<Entry<FolderTreeNode,Boolean>> selectable
+            = new Selectable<Entry<FolderTreeNode,Boolean>>()
             {
                 @Override
-                public boolean isSelected(Entry<FileTreeNode2,Boolean> entry )
+                public boolean isSelected(Entry<FolderTreeNode,Boolean> entry )
                 {
                     return entry.getValue();
                 }
             };
 
         // Inner class to transform entry to file
-        final Wrappable<Entry<FileTreeNode2,Boolean>,File> wrapper
-            = new Wrappable<Entry<FileTreeNode2,Boolean>,File>()
+        final Wrappable<Entry<FolderTreeNode,Boolean>,File> wrapper
+            = new Wrappable<Entry<FolderTreeNode,Boolean>,File>()
             {
                 @Override
-                public File wrappe( Entry<FileTreeNode2,Boolean> entry )
+                public File wrappe( Entry<FolderTreeNode,Boolean> entry )
                 {
-                    return entry.getKey().getFile().getPath().toFile();
+                    return entry.getKey().getFolder().getPath().toFile();
                 }
             };
 
        // Main iterator
-       final IteratorFilter<Entry<FileTreeNode2,Boolean>> iterator
-            = new IteratorFilter<Entry<FileTreeNode2,Boolean>>(
+       final IteratorFilter<Entry<FolderTreeNode,Boolean>> iterator
+            = new IteratorFilter<Entry<FolderTreeNode,Boolean>>(
                 modifiedCheckState.entrySet().iterator(),
                 selectable
                 );
@@ -360,7 +377,7 @@ abstract class AbstractFileTreeModel
             @Override
             public Iterator<File> iterator()
             {
-                return new IteratorWrapper<Entry<FileTreeNode2,Boolean>,File>( iterator, wrapper );
+                return new IteratorWrapper<Entry<FolderTreeNode,Boolean>,File>( iterator, wrapper );
             }
         };
     }

@@ -23,13 +23,13 @@ class EmptyDirectoryCheckBoxNodeEditor
     private static final long serialVersionUID = 1L;
 
     final EmptyDirectoryCheckBoxNodeRenderer renderer;
-    final FileTreeModelable model;
+    final FolderTreeModelable model;
 
     /**
      *
      * @param model
      */
-    public EmptyDirectoryCheckBoxNodeEditor( final FileTreeModelable model )
+    public EmptyDirectoryCheckBoxNodeEditor( final FolderTreeModelable model )
     {
         this.model      = model;
         this.renderer   = new EmptyDirectoryCheckBoxNodeRenderer(model);
@@ -41,7 +41,7 @@ class EmptyDirectoryCheckBoxNodeEditor
                 Object cb = itemEvent.getItem();
 
                 if (cb instanceof JCheckBox && itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                    FileTreeNode2 v = EmptyDirectoryCheckBoxNodeEditor.this.renderer.getCurrentValue();
+                    FolderTreeNode v = EmptyDirectoryCheckBoxNodeEditor.this.renderer.getCurrentValue();
                     EmptyDirectoryCheckBoxNodeEditor.this.model.toggleSelected(v);
                     }
                 // !!! the following 3 lines are important because... ?
