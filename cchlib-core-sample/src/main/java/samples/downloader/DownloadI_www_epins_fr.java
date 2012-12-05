@@ -6,6 +6,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import samples.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
@@ -141,5 +143,12 @@ public class DownloadI_www_epins_fr
     public Button getButtonConfig()
     {
         return null;
+    }
+    
+    @Override
+    public void setSelectedItems( final List<Item> selectedItems )
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

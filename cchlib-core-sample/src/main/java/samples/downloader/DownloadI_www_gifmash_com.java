@@ -3,6 +3,8 @@ package samples.downloader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
+import samples.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
@@ -84,5 +86,12 @@ public class DownloadI_www_gifmash_com
     public Button getButtonConfig()
     {
         return null;
+    }
+    
+    @Override
+    public void setSelectedItems( final List<Item> selectedItems )
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

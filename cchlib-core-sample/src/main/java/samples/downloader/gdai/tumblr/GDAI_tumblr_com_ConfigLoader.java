@@ -1,4 +1,4 @@
-package samples.downloader.gdai;
+package samples.downloader.gdai.tumblr;
 
 import java.io.File;
 import java.io.IOException;

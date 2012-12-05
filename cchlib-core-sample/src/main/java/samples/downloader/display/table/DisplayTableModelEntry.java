@@ -12,12 +12,12 @@ import com.googlecode.cchlib.net.download.DownloadURL;
 */
 //NOT public
 enum DisplayTableModelEntryState {
-    INIT, 
+    INIT,
     SKIP,
-    DONE, 
+    DONE,
     CANT_RENAME,
     STORED,
-    DOWNLOAD_ERROR, 
+    DOWNLOAD_ERROR,
     OUT_OF_CONSTRAINTS,
     };
 
@@ -84,15 +84,15 @@ class DisplayTableModelEntry implements Serializable
     public URL getParentURL()
     {
         if( this.dURL instanceof DownloadFileURL ) {
-            Object value = DownloadFileURL.class.cast( dURL ).getProperty( 
+            Object value = DownloadFileURL.class.cast( dURL ).getProperty(
                 AbstractDownloaderAppInterface.DownloadFileURL_PARENT_URL_PROPERTY
                 );
-            
+
             if( value instanceof URL ) {
                 return URL.class.cast( value );
                 }
             }
-        
+
         return null;
     }
 

@@ -18,7 +18,7 @@ import cx.ath.choisnet.ToDo;
  * </p>
  */
 @ToDo
-// TODO: make a TestCase !
+// TODO: make a Test case !
 public class XMLBuilder
 {
     private static final String DEFAULT_TABULATION = "  ";

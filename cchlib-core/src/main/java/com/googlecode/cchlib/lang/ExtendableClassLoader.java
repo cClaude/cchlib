@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * A custom {@link ClassLoader} able to add extra directory or jar
  */
 public class ExtendableClassLoader extends ClassLoader
-{//TODO: TestCase
+{//TODO: Test case
     final private static Logger logger = Logger.getLogger( ExtendableClassLoader.class );
 
     /** ArrayList preserve insert order */

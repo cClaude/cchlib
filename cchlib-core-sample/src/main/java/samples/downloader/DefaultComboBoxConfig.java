@@ -2,7 +2,6 @@ package samples.downloader;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.googlecode.cchlib.Const;
 
 /**
  *
@@ -13,31 +12,42 @@ public class DefaultComboBoxConfig
     private String labelString;
     private int selectedIndex;
     private List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
-    
-    
+
     private class Item implements GenericDownloaderUIPanelEntry.Item
     {
-		private String jComboBoxText;
-		private String selectedDescription;
-		
-		public Item( final String jComboBoxText, final String selectedDescription )
-		{
-			this.jComboBoxText = jComboBoxText;
-			this.selectedDescription = selectedDescription;
-		}
+        private String jComboBoxText;
+        private String selectedDescription;
 
-		@Override
-		public String getJComboBoxText() {
-			return jComboBoxText;
-		}
+        public Item( final String jComboBoxText, final String selectedDescription )
+        {
+            this.jComboBoxText = jComboBoxText;
+            this.selectedDescription = selectedDescription;
+        }
 
-		@Override
-		public String getSelectedDescription() {
-			return selectedDescription;
-		}
+        @Override
+        public String getJComboBoxText() {
+            return jComboBoxText;
+        }
+
+        @Override
+        public String getSelectedDescription() {
+            return selectedDescription;
+        }
+
+        @Override
+        public String toString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.append( "Item [jComboBoxText=" );
+            builder.append( jComboBoxText );
+            builder.append( ", selectedDescription=" );
+            builder.append( selectedDescription );
+            builder.append( "]" );
+            return builder.toString();
+        }
     }
     /**
-     * 
+     *
      * @param labelString
      * @param comboBoxValues
      * @param labelStrings
@@ -60,16 +70,16 @@ public class DefaultComboBoxConfig
     }
 
     /**
-     * 
+     *
      * @param labelString
      * @param minValue
      * @param maxValue
      * @param comments
      */
-    public DefaultComboBoxConfig( 
+    public DefaultComboBoxConfig(
         final String    labelString,
-        final int       minValue, 
-        final int       maxValue, 
+        final int       minValue,
+        final int       maxValue,
         final String    comments
         )
     {
@@ -80,8 +90,6 @@ public class DefaultComboBoxConfig
             }
 
         for( int i = 0; i < (maxValue - minValue); i++ ) {
-            //this.comboBoxValueList.add( Integer.toString( i + minValue ) );
-            //this.labelStringList.add( comments );
             this.items.add( new Item( Integer.toString( i + minValue ), comments ) );
             }
     }
@@ -98,47 +106,39 @@ public class DefaultComboBoxConfig
         this.selectedIndex = selectedIndex;
     }
 
-//    @Override
-//    public String getLabelString()
-//    {
-//        return this.labelString;
-//    }
-
-//    @Override
-//    public String getLabelString( final int index )
-//    {
-//    	try {
-//            return this.labelStringList.get( index );
-//    		}
-//    	catch( IndexOutOfBoundsException e ) {
-//    		// TO DO: logger !!!
-//    		
-//            return Const.EMPTY_STRING;
-//    		}
-//    }
-
-//    @Override
-//    public Iterable<String> getComboBoxValues()
-//    {
-//        return Collections.unmodifiableCollection( this.comboBoxValueList );
-//    }
-
     @Override
     public String getComboBoxSelectedValue()
     {
-        //return this.comboBoxValueList.get( getSelectedIndex() );
         return this.items.get( getSelectedIndex() ).getJComboBoxText();
     }
 
-	@Override
-	public String getDescription()
-	{
-		return this.labelString;
-	}
+    @Override
+    public String getDescription()
+    {
+        return this.labelString;
+    }
 
-	@Override
-	public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry()
-	{
-		return items;
-	}
+    @Override
+    public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry()
+    {
+        return items;
+    }
+
+    @Override
+    public String toString()
+    {
+        final int maxLen = 10;
+        StringBuilder builder = new StringBuilder();
+        builder.append( "DefaultComboBoxConfig [getSelectedIndex()=" );
+        builder.append( getSelectedIndex() );
+        builder.append( ", getComboBoxSelectedValue()=" );
+        builder.append( getComboBoxSelectedValue() );
+        builder.append( ", getDescription()=" );
+        builder.append( getDescription() );
+        builder.append( ", items=" );
+        builder.append( items != null ? items.subList( 0,
+                Math.min( items.size(), maxLen ) ) : null );
+        builder.append( "]" );
+        return builder.toString();
+    }
 }

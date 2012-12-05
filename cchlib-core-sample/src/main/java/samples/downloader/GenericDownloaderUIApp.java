@@ -42,7 +42,7 @@ import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
 import samples.downloader.display.table.DisplayTableBuilder;
-import samples.downloader.gdai.GDAI_tumblr_com;
+import samples.downloader.gdai.tumblr.GDAI_tumblr_com;
 
 /**
  * Application starting class
@@ -492,6 +492,7 @@ public class GenericDownloaderUIApp extends JFrame
         logger.info( "downloadThreadNumber: " + downloadThreadNumber );
         logger.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
         logger.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
+        logger.info( "GenericDownloaderAppInterface: " + gdai );
 
         gdai.setProxy( proxy );
         // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel

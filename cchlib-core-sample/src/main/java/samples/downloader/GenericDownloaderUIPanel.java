@@ -26,8 +26,7 @@ public class GenericDownloaderUIPanel
     private JSpinner pageScanCountJSpinner;
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
-    //private List<JComboBox<String>> stringsJComboBoxList_;
-	private List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
+    private List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
 
     /**
      * Create the panel.
@@ -106,22 +105,29 @@ public class GenericDownloaderUIPanel
         for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
-        	GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry();
-        	GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
-        	gbc_entryJPanel.gridwidth = 3;
-        	//gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);
-        	gbc_entryJPanel.fill = GridBagConstraints.BOTH;
-        	gbc_entryJPanel.gridx = 0;
-        	gbc_entryJPanel.gridy = 2 + lineNumber;
-        	add(entryJPanel, gbc_entryJPanel);
+            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( new ActionListener() {
+                @Override
+                public void actionPerformed( ActionEvent e )
+                {
+                    config.setSelectedItems( getSelectedItems() );
+                }
+                
+            });
+            GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
+            gbc_entryJPanel.gridwidth = 3;
+            //gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);
+            gbc_entryJPanel.fill = GridBagConstraints.BOTH;
+            gbc_entryJPanel.gridx = 0;
+            gbc_entryJPanel.gridy = 2 + lineNumber;
+            add(entryJPanel, gbc_entryJPanel);
 
-        	entryJPanel.setDescription( entry.getDescription() );
-			entryJPanel.setJComboBoxEntry( entry.getJComboBoxEntry() );
-        	entryJPanelList.add( entryJPanel );        	
-        	
+            entryJPanel.setDescription( entry.getDescription() );
+            entryJPanel.setJComboBoxEntry( entry.getJComboBoxEntry() );
+            entryJPanelList.add( entryJPanel );
+
             lineNumber++;
         } // for(...)
-        
+
         /* / $hide>>$
         stringsJComboBoxList = new ArrayList<JComboBox<String>>();
         for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
@@ -174,7 +180,7 @@ public class GenericDownloaderUIPanel
                 lineNumber++;
             }
         } // for(...)*/
-        
+
         // $hide>>$
         final GenericDownloaderAppInterface.Button button = config.getButtonConfig();
         if( button != null )
@@ -209,15 +215,26 @@ public class GenericDownloaderUIPanel
     public void setEnabledAllComponents( final boolean enabled )
     {
         pageScanCountJSpinner.setEnabled( enabled );
-        
+
 //        for( JComboBox<String> jcb : stringsJComboBoxList ) {
 //            jcb.setEnabled( enabled );
 //            }
-        
+
         for( GenericDownloaderUIPanelEntry entry : entryJPanelList ) {
             entry.setEnabledAllComponents( enabled );
             }
     }
-}
 
+    private List<GenericDownloaderUIPanelEntry.Item> getSelectedItems()
+    {
+        final List<GenericDownloaderUIPanelEntry.Item> selectedItems = new ArrayList<>();
+
+        for( GenericDownloaderUIPanelEntry p : this.entryJPanelList ) {
+            selectedItems.add( p.getSelectedItem() );
+            }
+
+        return selectedItems;
+    }
+
+}
 

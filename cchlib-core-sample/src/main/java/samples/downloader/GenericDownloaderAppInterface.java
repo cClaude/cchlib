@@ -5,6 +5,7 @@ import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import samples.downloader.GenericDownloaderUIPanelEntry.Item;
 
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
@@ -38,25 +39,6 @@ public interface GenericDownloaderAppInterface
      */
     public interface ComboBoxConfig
     {
-        /**
-        *
-        * @return TODOC
-        */
-        //public String getLabelString(); // before was: getExtraStringLabel
-
-       /**
-        *
-        * @param index
-        * @return TODOC
-        */
-       //public String getLabelString( int index ); // before was: getExtraStringLabels
-
-       /**
-        *
-        * @return TODOC
-        */
-       //public Iterable<String> getComboBoxValues(); // before was: getExtraStringValues
-
        /**
         *
         * @return TODOC
@@ -74,8 +56,17 @@ public interface GenericDownloaderAppInterface
         * @return TODOC
         */
        public String getComboBoxSelectedValue();
-
+       
+       /**
+       *
+       * @return TODOC
+       */
        public String getDescription();
+       
+       /**
+       *
+       * @return TODOC
+       */
        public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry();
     }
 
@@ -162,4 +153,5 @@ public interface GenericDownloaderAppInterface
      */
     public Button getButtonConfig();
 
+    public void setSelectedItems( List<Item> selectedItems );
 }

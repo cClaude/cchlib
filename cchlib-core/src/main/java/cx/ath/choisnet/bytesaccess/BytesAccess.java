@@ -99,20 +99,22 @@ public abstract class BytesAccess implements Cloneable
     {
         this( length );
 
-        InputStream is = new FileInputStream( file );
-        int         len;
-        
+        final InputStream is = new FileInputStream( file );
+        int               len;
+
         try {
-            len = is.read( bytes );           
+            len = is.read( bytes );
+            }
+        catch( IOException e ) {
+            len = -1;
             }
         finally {
             is.close();
-            len = -1;
             }
 
         if( len != bytes.length ) {
             throw new BytesAccessException( "Can't read " + length + " bytes, only found " + len );
-        }
+            }
     }
 
    /**

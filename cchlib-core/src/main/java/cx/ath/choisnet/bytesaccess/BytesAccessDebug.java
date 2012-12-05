@@ -165,7 +165,7 @@ public abstract class BytesAccessDebug extends BytesAccess
      *         and if mask is not empty !
      */
     protected boolean isMaskLinear( final byte mask )
-    {// TODO: TestCase !
+    {// TODO: Test case !
         if( mask == 0 ) {
             return false;
             }

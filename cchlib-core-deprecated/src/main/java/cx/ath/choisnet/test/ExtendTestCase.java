@@ -5,7 +5,7 @@ package cx.ath.choisnet.test;
  */
 @Deprecated
 final
-public class ExtendTestCase //extends TestCase <- remove avoid JUnit tests crash under eclipse
+public class ExtendTestCase // <- remove avoid JUnit tests crash under eclipse
 {
 //    /**
 //     * Compare byte arrays
@@ -23,7 +23,7 @@ public class ExtendTestCase //extends TestCase <- remove avoid JUnit tests crash
             byte[] actual
             )
     {
-//        TestCase.assertEquals(
+//        Test Case.assertEquals(
 //                String.format(
 //                        "%s - Not same size",
 //                        message
@@ -33,7 +33,7 @@ public class ExtendTestCase //extends TestCase <- remove avoid JUnit tests crash
 //                );
 //
 //        for(int i=0; i<expected.length;i++) {
-//            TestCase.assertEquals(
+//            Test Case.assertEquals(
 //                String.format(
 //                        "%s - Not same value offet %d",
 //                        message,

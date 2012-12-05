@@ -1,18 +1,21 @@
 package cx.ath.choisnet.util.iterator;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * TestCase
  * @deprecated
  */
 @Deprecated
-public class ArrayIteratorTest extends TestCase
+public class ArrayIteratorTest
 {
     final private static Logger slogger = Logger.getLogger(ArrayIteratorTest.class);
 
@@ -26,6 +29,7 @@ public class ArrayIteratorTest extends TestCase
         buildList(4)
     };
 
+    @Test
     public void test1()
     {
         Iterator<Integer> iter  = new cx.ath.choisnet.util.iterator.ArrayIterator<Integer>(ARRAY_INT);
@@ -39,6 +43,7 @@ public class ArrayIteratorTest extends TestCase
         assertEquals("Not same size !", ARRAY_INT.length, count);
     }
 
+    @Test
     public void test2()
     {
         final int offset = 2;
@@ -61,6 +66,7 @@ public class ArrayIteratorTest extends TestCase
         assertEquals("bad first value !", ARRAY_INT[offset], firstValue);
     }
 
+    @Test
     public void test3()
     {
         final int offset = 2;
@@ -76,6 +82,7 @@ public class ArrayIteratorTest extends TestCase
         assertEquals("bad size !", len, count);
     }
 
+    @Test
     public void testBadLen()
     {
         final int offset = 2;
@@ -97,6 +104,7 @@ public class ArrayIteratorTest extends TestCase
         assertEquals("bad size !", ARRAY_INT.length - offset, count);
     }
 
+    @Test
     public void test_BuildFromItems()
     {
         test_BuildFromItems(Integer.class,ARRAY_INT);
@@ -106,7 +114,7 @@ public class ArrayIteratorTest extends TestCase
         test_BuildFromItems( Integer.class, iter, 3 );
     }
 
-    public <T> void test_BuildFromItems( Class<T> clazz, T[] items)
+    private static <T> void test_BuildFromItems( Class<T> clazz, T[] items)
     {
         Iterator<T> iter = new cx.ath.choisnet.util.iterator.ArrayIterator<T>(clazz, items[0], items[1]);
         test_BuildFromItems( clazz, iter, 2 );
@@ -115,7 +123,7 @@ public class ArrayIteratorTest extends TestCase
         test_BuildFromItems( clazz, iter, 3 );
     }
 
-    public <T> void test_BuildFromItems( Class<T> clazz, Iterator<T> iter, int xCount)
+    private static <T> void test_BuildFromItems( Class<T> clazz, Iterator<T> iter, int xCount)
     {
         int count = 0;
 

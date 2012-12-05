@@ -6,11 +6,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
-//import cx.ath.choisnet.util.iterator.iterable.IterableIterator;
 import junit.framework.TestCase;
 
 /**
- * TestCase
+ * Test case
  */
 @Deprecated
 public abstract class IterableIteratorTestCaseHelper extends TestCase
@@ -82,9 +81,9 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      * @param size
      */
     public static <T> void test(
-		cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> iterableIterator, 
-		final int size
-		)
+        cx.ath.choisnet.util.iterator.iterable.IterableIterator<T> iterableIterator,
+        final int size
+        )
     {
         int count = test( iterableIterator );
 

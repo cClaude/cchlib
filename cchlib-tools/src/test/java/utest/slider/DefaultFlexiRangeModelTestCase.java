@@ -1,14 +1,17 @@
 package utest.slider;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 import org.jvnet.flamingo.slider.DefaultFlexiRangeModel;
 import org.jvnet.flamingo.slider.FlexiRangeModel;
-//import org.jvnet.flamingo.slider.ui.FlexiSliderUI;
 
-import junit.framework.TestCase;
-
-public class DefaultFlexiRangeModelTestCase extends TestCase {
-
-    public void testGetValue1() {
+public class DefaultFlexiRangeModelTestCase
+{
+    @Test
+    public void testGetValue1()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -20,7 +23,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertNull(model.getValue());
     }
 
-    public void testGetValue2() {
+    @Test
+    public void testGetValue2()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -35,7 +40,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue3() {
+    @Test
+    public void testGetValue3()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -50,7 +57,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue4() {
+    @Test
+    public void testGetValue4()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -65,7 +74,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue5() {
+    @Test
+    public void testGetValue5()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -80,7 +91,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue6() {
+    @Test
+    public void testGetValue6()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -95,7 +108,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue7() {
+    @Test
+    public void testGetValue7()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -110,7 +125,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testGetValue8() {
+    @Test
+    public void testGetValue8()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -125,7 +142,9 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         assertEquals(value, model.getValue());
     }
 
-    public void testSetValue1() {
+    @Test
+    public void testSetValue1()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -136,10 +155,12 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
         model.setRanges(range0, range1, range2, range3, range4, range5);
 
         @SuppressWarnings("unused")
-		FlexiRangeModel.Value value = new FlexiRangeModel.Value(range0, 0.0);
+        FlexiRangeModel.Value value = new FlexiRangeModel.Value(range0, 0.0);
     }
 
-    public void testSetValue2() {
+    @Test
+    public void testSetValue2()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -153,13 +174,16 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
             // should fail since range0 is discrete
             FlexiRangeModel.Value value = new FlexiRangeModel.Value(range0, 0.5);
             model.setValue(value);
-        } catch (IllegalArgumentException iae) {
+            }
+        catch (IllegalArgumentException iae) {
             return;
-        }
+            }
         assertTrue(false);
     }
 
-    public void testSetValue3() {
+    @Test
+    public void testSetValue3()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -174,13 +198,16 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
             FlexiRangeModel.Value value = new FlexiRangeModel.Value(range2,
                     -0.2);
             model.setValue(value);
-        } catch (IllegalArgumentException iae) {
+            } 
+        catch (IllegalArgumentException iae) {
             return;
-        }
+            }
         assertTrue(false);
     }
 
-    public void testSetValue4() {
+    @Test
+    public void testSetValue4()
+    {
         FlexiRangeModel model = new DefaultFlexiRangeModel();
         FlexiRangeModel.Range range0 = new FlexiRangeModel.Range(true, 0.0);
         FlexiRangeModel.Range range1 = new FlexiRangeModel.Range(true, 0.0);
@@ -194,9 +221,10 @@ public class DefaultFlexiRangeModelTestCase extends TestCase {
             // should fail since range fraction is larger than 1.5
             FlexiRangeModel.Value value = new FlexiRangeModel.Value(range2, 1.5);
             model.setValue(value);
-        } catch (IllegalArgumentException iae) {
+            } 
+        catch (IllegalArgumentException iae) {
             return;
-        }
+            }
         assertTrue(false);
     }
 }

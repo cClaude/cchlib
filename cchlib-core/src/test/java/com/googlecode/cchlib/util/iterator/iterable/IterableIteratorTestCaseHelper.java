@@ -10,7 +10,7 @@ import org.junit.Assert;
 
 
 /**
- * TestCase
+ * Test case
  */
 //public
 abstract class IterableIteratorTestCaseHelper

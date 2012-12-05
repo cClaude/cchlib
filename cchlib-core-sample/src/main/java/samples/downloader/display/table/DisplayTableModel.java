@@ -27,7 +27,7 @@ public abstract class DisplayTableModel
     // Note: use ConcurrentHashMap to avoid java.util.ConcurrentModificationException
     private ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
     private JTable jTable;
-    
+
     @I18nString private String columnNameURL    = "URL";
     @I18nString private String columnNameState  = "State";
     @I18nString private String columnNameFile   = "File";
@@ -107,7 +107,7 @@ public abstract class DisplayTableModel
 
     /**
      * Returns row content.
-     * 
+     *
      * @param rowIndex index row in model view
      * @return row content.
      */
@@ -115,7 +115,7 @@ public abstract class DisplayTableModel
     {
         return list.get( rowIndex );
     }
-    
+
     @Override // LoggerListener
     final
     public synchronized void downloadStart( final DownloadURL dURL )
@@ -136,7 +136,7 @@ public abstract class DisplayTableModel
         });
     }
 
-    final private synchronized void updateDisplay( 
+    final private synchronized void updateDisplay(
         final DownloadURL                 dURL,
         final DisplayTableModelEntryState state
         )
@@ -159,10 +159,10 @@ public abstract class DisplayTableModel
     {
         updateDisplay( dURL, DisplayTableModelEntryState.DONE );
     }
-    
+
     @Override
-    public synchronized void oufOfConstraints( 
-            final DownloadFileURL dfURL 
+    public synchronized void oufOfConstraints(
+            final DownloadFileURL dfURL
             )
     {
         updateDisplay( dfURL, DisplayTableModelEntryState.OUT_OF_CONSTRAINTS );
@@ -185,17 +185,17 @@ public abstract class DisplayTableModel
     {
         updateDisplay( dURL, DisplayTableModelEntryState.STORED );
     }
-    
+
     @Override // LoggerListener
     final
     public synchronized void downloadFail(
-            final DownloadIOException dioe 
+            final DownloadIOException dioe
             )
     {
         final DownloadURL dURL  = dioe.getDownloadURL();
 
         updateDisplay( dURL, DisplayTableModelEntryState.DOWNLOAD_ERROR );
-        
+
         logger.warn( "DownloadFail", dioe );
     }
 

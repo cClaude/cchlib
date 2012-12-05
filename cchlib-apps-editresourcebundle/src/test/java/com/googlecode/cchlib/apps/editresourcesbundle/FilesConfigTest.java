@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-//import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -19,7 +18,7 @@ import cx.ath.choisnet.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.util.FormattedProperties.Store;
 
 /**
- * TestCase
+ * Test cases
  */
 public class FilesConfigTest
 {
@@ -31,7 +30,7 @@ public class FilesConfigTest
     {
         test_Serializable( FilesConfig.FileType.FORMATTED_PROPERTIES );
     }
-    
+
     @Test
     public void test_Serializable2()
         throws  FileNotFoundException,
@@ -76,7 +75,7 @@ public class FilesConfigTest
 //        assertEquals("Must be equals",fc,fcClone);
         assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcClone )==0);
     }
-    
+
     private final FilesConfigComparator fcc = new FilesConfigComparator();
     class FilesConfigComparator implements Comparator<FilesConfig>
     {
@@ -88,9 +87,9 @@ public class FilesConfigTest
                 if( o1.isReadOnly() != o2.isReadOnly() ) {
                     return 1;
                     }
-                
+
                 // o1.getCustomProperties();
-                
+
                 return o1.getFile().compareTo( o2.getFile() );
             }
         };
@@ -103,17 +102,17 @@ public class FilesConfigTest
                 //o1.getFileObject()
                 Set<String> l1 = o1.stringPropertyNames();
                 Set<String> l2 = o2.stringPropertyNames();
-                
+
                 if( ! l1.containsAll( l2 ) ) {
                     return 1;
                     }
                 else if( ! l2.containsAll( l1 ) ) {
                     return -1;
                     }
-                
+
                 for( String key : l1 ) {
                     int res = o1.getProperty( key ).compareTo( o2.getProperty( key ) );
-                    
+
                     if( res != 0 ) {
                         return res;
                         }
@@ -121,7 +120,7 @@ public class FilesConfigTest
 
                 for( String key : l1 ) {
                     int res = o1.getLineNumber( key ) - o2.getLineNumber( key );
-                    
+
                     if( res != 0 ) {
                         return res;
                         }
@@ -130,7 +129,7 @@ public class FilesConfigTest
                 return 0;
             }
         };
-        
+
         @Override
         public int compare( FilesConfig o1, FilesConfig o2 )
         {
@@ -138,12 +137,12 @@ public class FilesConfigTest
             if( res != 0 ) {
                 return res;
                 }
-            
+
             res = o1.getFileType().ordinal() - o2.getFileType().ordinal();
             if( res != 0 ) {
                 return res;
                 }
-            
+
             EnumSet<Store> s1 = o1.getFormattedPropertiesStore();
             EnumSet<Store> s2 = o2.getFormattedPropertiesStore();
 
@@ -153,7 +152,7 @@ public class FilesConfigTest
             else if( ! s2.containsAll( s1 ) ) {
                 return -1;
                 }
-            
+
             for( int i = 0; i<o1.getNumberOfFiles(); i++ ) {
                 res = foComparator.compare( o1.getFileObject( i ), o2.getFileObject( i ) );
                 if( res != 0 ) {
@@ -167,7 +166,7 @@ public class FilesConfigTest
                     return res;
                     }
                 }
-                
+
             return 0;
         }
     }

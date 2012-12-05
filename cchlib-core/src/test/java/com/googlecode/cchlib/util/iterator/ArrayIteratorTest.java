@@ -14,9 +14,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * TestCase
+ * Test case
  */
-public class ArrayIteratorTest 
+public class ArrayIteratorTest
 {
     final private static Logger slogger = Logger.getLogger(ArrayIteratorTest.class);
 

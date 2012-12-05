@@ -1,4 +1,4 @@
-package samples.downloader.gdai;
+package samples.downloader.gdai.tumblr;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;

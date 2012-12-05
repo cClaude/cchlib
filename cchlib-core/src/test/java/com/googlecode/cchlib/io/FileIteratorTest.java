@@ -1,17 +1,22 @@
 package com.googlecode.cchlib.io;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.log4j.Logger;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  *
  */
-public class FileIteratorTest extends TestCase
+public class FileIteratorTest
 {
     final private static Logger slogger = Logger.getLogger(FileIteratorTest.class);
 
@@ -25,11 +30,13 @@ public class FileIteratorTest extends TestCase
 //    public static final int ITER_GETCOUNT = 19;
 //    public static final int ITER_XX = 20;
 
+    @Before
     public void setUp() throws java.io.IOException
     {
         currentFile = new File( "." ).getCanonicalFile();
     }
 
+    @Test
     public void testNotExist()
     {
         try {
@@ -70,6 +77,7 @@ public class FileIteratorTest extends TestCase
         }
     }
     */
+    @Test
     public void testFileIteratorCounter()
     {
         File rootFile = TEMP_DIR_FILE;
@@ -110,6 +118,7 @@ public class FileIteratorTest extends TestCase
         slogger.info( "---------------------" );
     }
 
+    @Test
     public void testFileIteratorFileFilter()
     {
         File rootFile = currentFile;
@@ -161,6 +170,7 @@ public class FileIteratorTest extends TestCase
 
     }
 
+    @Test
     public void testDirStruct() throws IOException
     {
         File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
@@ -197,7 +207,7 @@ public class FileIteratorTest extends TestCase
             assertTrue( "Can't mkdirs(): " + d, res);
             allFiles.add(d);
             }
-        
+
         for( File f : files ) {
             IOHelper.toFile( f.getPath(), f );
             allFiles.add( f );

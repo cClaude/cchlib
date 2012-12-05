@@ -12,7 +12,7 @@ import com.google.common.annotations.Beta;
 @Beta
 public class WriterCopyThread
     extends Thread
-{// TODO TestCase
+{// TODO Test case
     private final Reader source;
     private final Writer destination;
     private boolean running;

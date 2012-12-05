@@ -1,12 +1,13 @@
 package cx.ath.choisnet.system.testcase;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @deprecated No replacement
  */
-public class EnvArcTest extends TestCase
+public class EnvArcTest
 {
+    @Test
     public void testFake()
     {
 

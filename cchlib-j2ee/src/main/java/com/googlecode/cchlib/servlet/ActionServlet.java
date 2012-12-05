@@ -5,7 +5,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.servlet.action.ServletAction;
 
 /**

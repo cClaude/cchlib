@@ -3,18 +3,10 @@ package com.googlecode.cchlib.jdbf;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
 
-public class JavaDBFTest extends TestCase
+public class JavaDBFTest
 {
-
-    public JavaDBFTest( String s )
-    {
-        super( s);
-    }
-
     private void print( String s )
     {
         System.out.print( s);
@@ -37,6 +29,7 @@ public class JavaDBFTest extends TestCase
         return new File( getTempDirFile(), filename );
     }
 
+    @Test
     public void test1() throws Exception
     {
         print( "Creating an empty DBFWriter object... ");
@@ -44,6 +37,7 @@ public class JavaDBFTest extends TestCase
         println( "OK: " + writer );
     }
 
+    @Test
     public void test2() throws Exception
     {
         print( "Creating an empty DBFField object... ");
@@ -51,6 +45,7 @@ public class JavaDBFTest extends TestCase
         println( "OK: " + field );
     }
 
+    @Test
     public void test3() throws Exception
     {
         print( "Writing a sample DBF file ... ");
@@ -68,6 +63,7 @@ public class JavaDBFTest extends TestCase
         println( "OK.");
     }
 
+    @Test
     public void test4() throws Exception
     {
         print( "Reading the written file ..." );
@@ -79,6 +75,7 @@ public class JavaDBFTest extends TestCase
         println( " OK.");
     }
 
+    @Test
     public void checkDataType_N() throws Exception
     {
         //FileOutputStream fos = new FileOutputStream( "/tmp/121212.dbf");
@@ -114,6 +111,7 @@ public class JavaDBFTest extends TestCase
         fis.close();
     }
 
+    @Test
     public void checkRAFwriting() throws Exception
     {
         print( "Writing in RAF mode ... ");
@@ -172,19 +170,5 @@ public class JavaDBFTest extends TestCase
 
         writer.write();
         println( "done.");
-
-    }
-
-    public static Test suite()
-    {
-        TestSuite s = new TestSuite();
-        s.addTest( new JavaDBFTest( "test1"));
-        s.addTest( new JavaDBFTest( "test2"));
-        s.addTest( new JavaDBFTest( "test3"));
-        s.addTest( new JavaDBFTest( "test4"));
-        s.addTest( new JavaDBFTest( "checkDataType_N"));
-        s.addTest( new JavaDBFTest( "checkRAFwriting"));
-
-        return s;
     }
 }

@@ -1,12 +1,13 @@
 package cx.ath.choisnet.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  *
  */
-public class ExternalAppTest extends TestCase
+public class ExternalAppTest
 {
+    @Test
     public void test1() throws ExternalAppException
     {
         /*

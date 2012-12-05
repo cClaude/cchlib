@@ -4,7 +4,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 /**
- * TestCase
+ * Test case
  */
 public class ArrayIteratorTest extends IterableIteratorTestCaseHelper
 {

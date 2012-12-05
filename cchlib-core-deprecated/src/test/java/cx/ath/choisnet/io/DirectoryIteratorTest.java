@@ -1,5 +1,9 @@
 package cx.ath.choisnet.io;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -7,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
-import junit.framework.TestCase;
 
 /**
  *
  */
 @Deprecated
-public class DirectoryIteratorTest extends TestCase
+public class DirectoryIteratorTest
 {
     final private static Logger slogger = Logger.getLogger(DirectoryIteratorTest.class);
 
@@ -22,6 +26,7 @@ public class DirectoryIteratorTest extends TestCase
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
     public static final File NOT_EXIST_FILE   =  new File( "thisFileShoundNotExists" );
 
+    @Test
     public void testNotExist()
     {
         Iterator<File> iter = new DirectoryIterator( NOT_EXIST_FILE );
@@ -50,6 +55,7 @@ public class DirectoryIteratorTest extends TestCase
         }
     }
 
+    @Test
     public void testDirectoryIterator()
     {
         int  fCount = 0;
@@ -78,6 +84,7 @@ public class DirectoryIteratorTest extends TestCase
         slogger.info( "---------------------" );
     }
 
+    @Test
     public void testDirStruct() throws IOException
     {
         File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());

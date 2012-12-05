@@ -1,18 +1,19 @@
 package com.googlecode.cchlib.net;
 
 import org.apache.log4j.Logger;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  *
  */
-public class PingerTest extends TestCase
+public class PingerTest
 {
     private final static transient Logger slogger = Logger.getLogger( PingerTest.class );
 /*
     private static String localhostIp = "127.0.0.1";
     private static String localhost = "localhost";
 */
+    @Test
     public void test_fake()
     {
         slogger.info( "PingerTest disabled" );

@@ -1,20 +1,20 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.bytesaccess.testcase;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import cx.ath.choisnet.bytesaccess.BytesAccess;
 import cx.ath.choisnet.bytesaccess.BytesAccessException;
-import junit.framework.TestCase;
 
-public class BytesAccessTest extends TestCase
+public class BytesAccessTest
 {
     private static Logger slogger = Logger.getLogger(BytesAccessTest.class);
     private static Object nullObject = null;
@@ -27,21 +27,32 @@ public class BytesAccessTest extends TestCase
             (byte)0xAA, (byte)~0xAA,
     };
 
+    @Test
     public void testFileConstructor() throws IOException
     {
         // Create a File
         File f = File.createTempFile( '~' + getClass().getName(), ".tmp" );
 
         // Fill it
-        final int length = 50;
-        InputStream      is  = getRandomInputStream( length );
-        FileOutputStream fos = new FileOutputStream( f );
-        int c;
-        while( (c = is.read()) >= 0 ) {
-            fos.write( c );
+        final int         length = 50;
+        final InputStream is     = getRandomInputStream( length );
+        try {
+            final FileOutputStream fos = new FileOutputStream( f );
+            
+            try {
+                int c;
+                
+                while( (c = is.read()) >= 0 ) {
+                    fos.write( c );
+                    }
+                }
+            finally {
+                fos.close();
+                }
             }
-        is.close();
-        fos.close();
+        finally {
+            is.close();
+            }
         assertEquals( "File Bad length!", length, f.length() );
 
         //
@@ -65,6 +76,7 @@ public class BytesAccessTest extends TestCase
         assertTrue( "Can't delete file [" + f + ']', isDelete );
     }
 
+    @Test
     public void testCompareTo() throws NullPointerException, BytesAccessException, IOException
     {
         int           bytesLength = 100;
@@ -93,7 +105,7 @@ public class BytesAccessTest extends TestCase
                 );
     }
 
-    public BytesAccess[] buildBytesAccessArray(
+    private static BytesAccess[] buildBytesAccessArray(
             int bytesLength
              )
         throws  NullPointerException,
@@ -119,7 +131,7 @@ public class BytesAccessTest extends TestCase
         return tests;
     }
 
-    public void testCompareTo( final BytesAccess ba, final BytesAccess compareTo )
+    private static  void testCompareTo( final BytesAccess ba, final BytesAccess compareTo )
     {
         byte[] compareToBytes = compareTo.getBytesCopy();
 
@@ -242,7 +254,7 @@ public class BytesAccessTest extends TestCase
             }
     }
 
-    public void testEquals( BytesAccess ba, BytesAccess compareTo)
+    private static void testEquals( BytesAccess ba, BytesAccess compareTo)
     {
         boolean res = ba.equals( "fake" );
 
@@ -252,7 +264,7 @@ public class BytesAccessTest extends TestCase
         ba.equals( nullObject );
     }
 
-    public void _test_todo_Or( BytesAccess ba, BytesAccess orBytesAccess )
+    private static void _test_todo_Or( BytesAccess ba, BytesAccess orBytesAccess )
     {//TODO test case
         byte[] orSomeBytes = orBytesAccess.getBytesCopy();
 
@@ -264,7 +276,7 @@ public class BytesAccessTest extends TestCase
         assertEquals( "or r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
-    public void _test_todo_And( BytesAccess ba, BytesAccess andBytesAccess )
+    private static void _test_todo_And( BytesAccess ba, BytesAccess andBytesAccess )
     {//TODO test case
         byte[] andSomeBytes = andBytesAccess.getBytesCopy();
 
@@ -276,7 +288,7 @@ public class BytesAccessTest extends TestCase
         assertEquals( "and r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
-    public void _test_todo_Xor( BytesAccess ba, BytesAccess xorBytesAccess )
+    private static void _test_todo_Xor( BytesAccess ba, BytesAccess xorBytesAccess )
     {//TODO test case
         byte[] xorSomeBytes = xorBytesAccess.getBytesCopy();
 
@@ -288,14 +300,14 @@ public class BytesAccessTest extends TestCase
         assertEquals( "xor r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
-    public void _test_todo_Basic( BytesAccess ba )
+    private static void _test_todo_Basic( BytesAccess ba )
     {//TODO test case
         ba.getBytesCopy();
         ba.length(); // == ba.getBytesCopy().length
                      // == source length
     }
 
-    public void _test_todo_UInteger( BytesAccess ba )
+    private static void _test_todo_UInteger( BytesAccess ba )
     {//TODO test case
         byte mask = 0;
         byte mask_0 = 0;
@@ -314,7 +326,7 @@ public class BytesAccessTest extends TestCase
         //TODO: use a debug anonymous class! ba.setBytes( offset2set, bytes2set );
     }
 
-    public static InputStream getRandomInputStream(final int maxLen)
+    private static InputStream getRandomInputStream(final int maxLen)
     {
         final byte[] byte1 = new byte[1];
         return new InputStream()
@@ -333,7 +345,7 @@ public class BytesAccessTest extends TestCase
         };
     }
 
-    public static InputStream getConstantInputStream()
+    private static InputStream getConstantInputStream()
     {
         return new InputStream()
         {
@@ -348,7 +360,8 @@ public class BytesAccessTest extends TestCase
             }
         };
     }
-    public static BytesAccess getConstantBytesAccess()
+    
+    private static BytesAccess getConstantBytesAccess()
         throws NullPointerException,
                BytesAccessException,
                IOException

@@ -1,17 +1,19 @@
 package cx.ath.choisnet.util;
 
+import static org.junit.Assert.assertEquals;
 import java.util.Iterator;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  *
  */
-public class HashMapSetTest extends TestCase
+public class HashMapSetTest
 {
 //    public final static String[] POPULATE = {
 //
 //    };
 
+    @Test
     public void test_StringString()
     {
         HashMapSet<String,String> hms  = new HashMapSet<String,String>();
@@ -48,7 +50,6 @@ public class HashMapSetTest extends TestCase
         assertEquals(size*2,hms.valuesSize());
         assertEquals(size*2,sizeOfHashMapSet(hms));
     }
-
 
     private int sizeOfHashMapSet( HashMapSet<?,?> hms )
     {

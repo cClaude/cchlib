@@ -16,7 +16,7 @@ import com.googlecode.cchlib.util.iterator.SingletonIterator;
  */
 public final
 class FolderTreeModel
-    extends AbstractFolderTreeModel 
+    extends AbstractFolderTreeModel
         implements FolderTreeModelable
 {
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ class FolderTreeModel
     public FolderTreeModel( final JTree jTree )
     {
         super( jTree, true );
-        
+
         this.folderTreeBuilder = new FolderTreeBuilder();
     }
 
@@ -98,7 +98,7 @@ class FolderTreeModel
 //        if( fileRoot.getParentFile() != null ) {
 //            throw new IllegalArgumentException(
 //                "File is not a root file: "
-//                    + fileRoot 
+//                    + fileRoot
 //                );
 //            }
 //
@@ -110,7 +110,7 @@ class FolderTreeModel
 //
 //        return null;
 //    }
-    
+
 
 //    /**
 //     * TODOC
@@ -138,36 +138,36 @@ class FolderTreeModel
 
     /**
      * Add entry, and return parent node.
-     * @param emptyFolder 
+     * @param emptyFolder
      *
      * @param path Entry to add
-     * @return 
+     * @return
      * @return parent node, null if already in tree
      */
     @Override
     protected final FolderTreeNode synchronizedAdd( final EmptyFolder emptyFolder )
     {
         int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
-        
+
         logger.debug( "#### synchronizedAdd = " + emptyFolder );
 
         this.folderTreeBuilder.add( emptyFolder );
-        
+
         logger.debug( "#### rootCount = " + rootCount + " - " + this.folderTreeBuilder.getRootNodesMap().size() );
-        
+
         if( this.folderTreeBuilder.getRootNodesMap().size() > rootCount ) {
             Collection<FolderTreeNode> values = this.folderTreeBuilder.getRootNodesMap().values();
             Iterator<FolderTreeNode>   iter   = values.iterator();
             FolderTreeNode             last   = null;
-            
+
             while( iter.hasNext() ) {
                 last = iter.next();
                 }
-            
+
             if( logger.isDebugEnabled() ) {
                 logger.debug( "Add a new root node :" +  last );
                 }
-            
+
             return last;
             }
         return null;
@@ -257,8 +257,8 @@ class FolderTreeModel
 
                     if( current.hasNext() ) {
                         return true;
-                    	}
-                	}
+                        }
+                    }
 
                 return false;
             }
@@ -301,9 +301,9 @@ class FolderTreeModel
     {
         clearSelected(); //this.modifiedCheckState.clear();
         getRootNode().removeAllChildren();
-        
+
         this.folderTreeBuilder.clear();
-        
+
         // Force reload !
         getJTree().setModel( this );
 

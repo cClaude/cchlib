@@ -1,5 +1,6 @@
 package cx.ath.choisnet.util.duplicate;
 
+import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,21 +8,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
-import junit.framework.TestCase;
 
 /**
  *
  */
 @Deprecated
 public class DuplicateFileCollectorTest
-    extends TestCase
 {
     private static final transient Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 25;
     private static final long FILE_MAX_LENGTH = 1 * 1024 * 1024;
 
     @Deprecated
+    @Test
     public void test_Base()
         throws  NoSuchAlgorithmException,
                 FileNotFoundException,

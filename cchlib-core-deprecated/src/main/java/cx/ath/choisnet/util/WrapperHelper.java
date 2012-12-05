@@ -27,7 +27,7 @@ public class WrapperHelper<T,O>
         };
     }
 /*
-    // TO DO: TestCase needed !
+    // TO DO: Test case needed !
     x
     @ Deprecated // Move to a new class ! (new package?)
     public static final <E,O> Collection<O> wrappeCollection(
@@ -157,13 +157,13 @@ public class WrapperHelper<T,O>
                         @SuppressWarnings("unchecked")
                         X uncheck = (X)next;
                         array[ i ] = uncheck;
-                    	}
+                        }
                     catch( NullPointerException e ) {
                         // TO DO ! NEED BESTER TESTS !
                         x
                         throw new ArrayStoreException();
-                    	}
-                	}
+                        }
+                    }
 
                 return array;
             }
