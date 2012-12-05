@@ -115,7 +115,10 @@ final class DBFEntryImpl implements DBFEntry
     @Override
     public Date getDate() throws DBFEntryException
     {
-        return Date.class.cast( value );
+        if( value instanceof Date ) {
+            return Date.class.cast( value );
+            }
         // TODO improve, try to do a date with value
+        throw new DBFEntryException( "value is: " + value );
     }
 }

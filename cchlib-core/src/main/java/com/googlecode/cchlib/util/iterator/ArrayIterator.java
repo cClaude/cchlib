@@ -37,10 +37,10 @@ public class ArrayIterator<T>
 
         if(array == null) {
             this.len = 0;
-        	}
+            }
         else {
             this.len = this.array.length;
-        	}
+            }
     }
 
     /**
@@ -68,7 +68,7 @@ public class ArrayIterator<T>
      */
     private ArrayIterator( Class<T> clazz, int capacity)
     {
-        //TODO: perhaps something better later?
+        //perhaps something better later?
         @SuppressWarnings("unchecked")
         T[] array = (T[])Array.newInstance(clazz,capacity);
         this.array = array;

@@ -13,7 +13,7 @@ import java.util.Properties;
  *
  * @since 1.4.7
  */
-public class Version
+public final class Version
 {
     private String name;
     private String version;
@@ -32,16 +32,18 @@ public class Version
         final Properties prop     = new Properties();
 
         {
-            InputStream is = this.getClass().getResourceAsStream( filename );
+            InputStream is = Version.class.getResourceAsStream( filename );
             
             if( is == null ) {
                 throw new FileNotFoundException( filename );
                 }
-            else try {
-                prop.load( is );
-                }
-            finally {
-                is.close();
+            else {
+                try {
+                    prop.load( is );
+                    }
+                finally {
+                    is.close();
+                    }
                 }
         }
 
@@ -84,7 +86,7 @@ public class Version
      */
     public final Date getDate()
     {
-        return date;
+        return new Date( date.getTime() );
     }
 
     @Override
@@ -92,11 +94,11 @@ public class Version
     {
         StringBuilder builder = new StringBuilder();
         builder.append("Version [name=");
-        builder.append(name);
+        builder.append( name );
         builder.append(", version=");
-        builder.append(version);
+        builder.append( version );
         builder.append(", date=");
-        builder.append(date);
+        builder.append( date );
         builder.append(']');
         return builder.toString();
     }

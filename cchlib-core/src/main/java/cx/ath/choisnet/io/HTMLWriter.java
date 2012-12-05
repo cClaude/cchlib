@@ -1,7 +1,5 @@
 package cx.ath.choisnet.io;
 
-import java.io.Closeable;
-import java.io.Flushable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -11,7 +9,7 @@ import java.io.Writer;
  * Format String and char to HTML
  */
 public final class HTMLWriter extends Writer
-    implements Appendable, Flushable, Closeable
+    //implements Appendable, Flushable, Closeable
 {
     private final Writer        writer;
     private final StringBuilder sbuffer = new StringBuilder();
@@ -147,6 +145,7 @@ public final class HTMLWriter extends Writer
     public String toString( char[] cbuf, int off, int len )
     {// TODO: improve encoding ! Add Attribute set on this class
      // to offer some choices
+     // org.apache.commons.lang.StringEscapeUtils#escapeHtml ?
         String str;
 
         synchronized(sbuffer) {
@@ -166,7 +165,7 @@ public final class HTMLWriter extends Writer
                     case 9: // TAB
                         for(int i1=0;i1<tabLength;i1++) {
                             sbuffer.append("&nbsp;");
-                        }
+                            }
                         break;
                     case 62:
                         sbuffer.append("&gt;");

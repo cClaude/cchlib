@@ -98,7 +98,7 @@ public class AutoI18n implements Serializable
     public static final String DISABLE_PROPERTIES = "com.googlecode.cchlib.i18n.AutoI18n.disabled";
 
     //TODO: add properties to force locale
-    //public static final String LOCALE_PROPERTIES = "cx.ath.choisnet.i18n.AutoI18n.locale";
+    //public static final String LOCALE_PROPERTIES = "com.googlecode.cchlib.i18n.AutoI18n.locale";
 
     /** @serial */
     private AutoI18nTypes defaultTypes;

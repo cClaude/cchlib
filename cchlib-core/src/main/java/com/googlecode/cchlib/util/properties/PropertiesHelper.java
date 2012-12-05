@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import com.googlecode.cchlib.Const;
 
 /**
  * Extra tools for {@link Properties}.
@@ -59,7 +60,7 @@ public class PropertiesHelper
         OutputStream os = new FileOutputStream( propertiesFile );
 
         try {
-            properties.store( os, comment == null ? "" : comment );
+            properties.store( os, comment == null ? Const.EMPTY_STRING : comment );
             }
         finally {
             os.close();

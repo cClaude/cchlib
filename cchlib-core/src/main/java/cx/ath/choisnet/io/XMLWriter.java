@@ -1,7 +1,5 @@
 package cx.ath.choisnet.io;
 
-import java.io.Closeable;
-import java.io.Flushable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -11,7 +9,7 @@ import java.io.Writer;
  * TODOC
  */
 public final class XMLWriter extends Writer
-    implements Appendable, Flushable, Closeable
+    //implements Appendable, Flushable, Closeable
 {
     private final Writer writer;
     private final StringBuilder sbuffer = new StringBuilder();

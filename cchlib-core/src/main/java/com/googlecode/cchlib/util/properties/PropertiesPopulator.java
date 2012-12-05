@@ -14,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Const;
 
 /**
  * <p>PropertiesPopulator is a simple way to store values in a properties
@@ -317,7 +318,7 @@ public class PropertiesPopulator<E>
                             prefix.append( i );
 
                             if( arrayElement == null ) {
-                                properties.put( prefix.toString(), "" );
+                                properties.put( prefix.toString(), Const.EMPTY_STRING );
                                 }
                             else {
                                 // FIXME for Persistent !!!

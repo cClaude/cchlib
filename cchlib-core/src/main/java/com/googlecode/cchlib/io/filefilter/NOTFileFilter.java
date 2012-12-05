@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.io.filefilter;
 
+import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
-import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * TODOC

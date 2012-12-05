@@ -97,4 +97,9 @@ public class GenericDownloaderUIPanelEntry extends JPanel
 			}
 		updateLabel( 0 );
 	}
+
+    public void setEnabledAllComponents( boolean enabled )
+    {
+        jComboBox.setEnabled( enabled );
+    }
 }

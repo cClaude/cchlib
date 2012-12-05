@@ -58,9 +58,9 @@ public final class ParallelWriter extends Writer
         if(lastException != null) {
             throw lastException;
             }
-        else {
-            return;
-            }
+        //else {
+            //return;
+            //}
     }
 
     @Override
@@ -80,9 +80,9 @@ public final class ParallelWriter extends Writer
         if(lastException != null) {
             throw lastException;
             }
-        else {
-            return;
-            }
+        //else {
+            //return;
+            //}
     }
 
     @Override

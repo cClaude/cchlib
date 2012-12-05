@@ -26,7 +26,7 @@ public class Iterators
      * @return an unmodifiable  view of the specified iterator
      *
      */
-    public final static <T> Iterator<T> unmodifiableIterator(
+    public static <T> Iterator<T> unmodifiableIterator(
             final Iterator<T> iterator
             )
     {
@@ -71,7 +71,7 @@ public class Iterators
      * @return an unmodifiable  view of the specified iterator
      *
      */
-    public final static <T> Iterator<T> unmodifiableIterator(
+    public static <T> Iterator<T> unmodifiableIterator(
             final T             firstElement,
             final Iterator<T>   iterator
             )

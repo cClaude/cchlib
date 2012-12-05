@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+import com.googlecode.cchlib.Const;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -150,7 +151,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
     protected void addEntry()
     {
         // Add row
-        tableModel.addRow( new String[] {"","" } );
+        tableModel.addRow( new String[] { Const.EMPTY_STRING, Const.EMPTY_STRING } );
         
         // Display row
         table.scrollRectToVisible(

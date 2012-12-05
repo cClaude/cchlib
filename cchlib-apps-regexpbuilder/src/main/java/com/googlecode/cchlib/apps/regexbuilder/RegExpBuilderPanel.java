@@ -8,7 +8,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -19,13 +18,13 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.ComponentOrientation;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
-public abstract class RegExpBuilderWB extends JFrame
+public abstract class RegExpBuilderPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    //private JPanel contentPane;
     private JTextArea javaRegExp;
     private JTextArea textRegExp;
     private JTextArea textReplaceResults;
@@ -56,7 +55,7 @@ public abstract class RegExpBuilderWB extends JFrame
     /**
      * Create the frame.
      */
-    public RegExpBuilderWB()
+    public RegExpBuilderPanel()
     {
 /*
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,14 +68,6 @@ public abstract class RegExpBuilderWB extends JFrame
         enableEvents( AWTEvent.WINDOW_EVENT_MASK );
 
         try {
-            setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("icon.gif")));
-            //setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("com/googlecode/cchlib/apps/regexbuilder/icon.gif")));
-            }
-        catch( Exception e ) {
-            e.printStackTrace();
-            }
-
-        try {
             initComponents();
             }
         catch( Exception e ) {
@@ -87,19 +78,13 @@ public abstract class RegExpBuilderWB extends JFrame
     private void initComponents()
     {
         BorderLayout    borderLayout1         = new BorderLayout();
-        contentPane = (JPanel)this.getContentPane();
-        contentPane.setLayout( borderLayout1 );
+        this.setLayout( borderLayout1 );
         this.setFont( new java.awt.Font( "Dialog", 0, 12 ) );
         this.setSize( new Dimension(720, 520) );
-        this.setTitle( "Regular Expressions Tester" );
-        JPanel          jPanelTopCmd               = new JPanel();
-        jPanelTopCmd.setAlignmentY( (float)0.5 );
-        JSplitPane      jSplitPaneFrame           = new JSplitPane();
-        jSplitPaneFrame.setOrientation( JSplitPane.VERTICAL_SPLIT );
+        JSplitPane      jSplitPaneFrame0           = new JSplitPane();
+        jSplitPaneFrame0.setOrientation( JSplitPane.VERTICAL_SPLIT );
         JSplitPane      jSplitPane2           = new JSplitPane();
-        jSplitPaneFrame.setBottomComponent( jSplitPane2 );
-        jSplitPaneFrame.setLeftComponent( jPanelTopCmd );
-        jSplitPaneFrame.setRightComponent( null );
+        jSplitPaneFrame0.setBottomComponent( jSplitPane2 );
         HyperlinkListener hyperlinkListener = new HyperlinkListener()
         {
             @Override
@@ -108,7 +93,7 @@ public abstract class RegExpBuilderWB extends JFrame
                 // TODO Auto-generated method stub
             }
         };
-        contentPane.setPreferredSize( new Dimension( 438, 142 ) );
+        setPreferredSize( new Dimension(747, 632) );
         JPanel       jPanel4               = new JPanel();
         BorderLayout borderLayout4         = new BorderLayout();
         jPanel4.setLayout( borderLayout4 );
@@ -217,110 +202,8 @@ public abstract class RegExpBuilderWB extends JFrame
         JButton btnAdvancedReplace = new JButton();
         btnAdvancedReplace.setText( "Advanced Replace" );
         btnAdvancedReplace.addActionListener( new REBF_btnAdvancedReplace_actionAdapter( this ) );
-        contentPane.add( jSplitPaneFrame, BorderLayout.CENTER );
-        jSplitPaneFrame.add( jSplitPane2, JSplitPane.RIGHT );
-        jSplitPaneFrame.add( jPanelTopCmd, JSplitPane.LEFT );
-        GridBagLayout gbl_jPanelTopCmd = new GridBagLayout();
-        gbl_jPanelTopCmd.columnWidths = new int[]{0, 0, 0, 0};
-        gbl_jPanelTopCmd.rowHeights = new int[]{0, 50, 0, 50, 0, 0, 0};
-        gbl_jPanelTopCmd.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-        gbl_jPanelTopCmd.rowWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-        jPanelTopCmd.setLayout(gbl_jPanelTopCmd);
-        JLabel          jLabel1             = new JLabel();
-        GridBagConstraints gbc_jLabel1 = new GridBagConstraints();
-        gbc_jLabel1.insets = new Insets(0, 0, 5, 5);
-        gbc_jLabel1.fill = GridBagConstraints.BOTH;
-        gbc_jLabel1.gridx = 0;
-        gbc_jLabel1.gridy = 0;
-        jPanelTopCmd.add(jLabel1, gbc_jLabel1);
-        jLabel1.setAlignmentX( (float)0.0 );
-        jLabel1.setMinimumSize( new Dimension( 97, 15 ) );
-        jLabel1.setText( "Regular Expression:" );
-        JEditorPane     jEditorPane_Info    = new JEditorPane();
-        jEditorPane_Info.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        jEditorPane_Info.setOpaque(false);
-        GridBagConstraints gbc_jEditorPane_Info = new GridBagConstraints();
-        gbc_jEditorPane_Info.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jEditorPane_Info.anchor = GridBagConstraints.EAST;
-        gbc_jEditorPane_Info.gridwidth = 2;
-        gbc_jEditorPane_Info.insets = new Insets(0, 0, 5, 0);
-        gbc_jEditorPane_Info.gridx = 1;
-        gbc_jEditorPane_Info.gridy = 0;
-        jPanelTopCmd.add(jEditorPane_Info, gbc_jEditorPane_Info);
-        jEditorPane_Info.addHyperlinkListener( hyperlinkListener  );
-        jEditorPane_Info.setEditable(false);
-        jEditorPane_Info.setContentType("text/html");
-        jEditorPane_Info.setText( "<html>Visit <a href=\"http://www.regular-expressions.info\">http://www.regular-expressions.info</a> for a complete regex tutorial</html>" );
-
-        JLabel label2 = new JLabel();
-        label2.setText("Regular Expression for Java source code:");
-        label2.setMinimumSize(new Dimension(97, 15));
-        label2.setAlignmentX(0.0f);
-        GridBagConstraints gbc_label2 = new GridBagConstraints();
-        gbc_label2.fill = GridBagConstraints.HORIZONTAL;
-        gbc_label2.anchor = GridBagConstraints.WEST;
-        gbc_label2.gridwidth = 2;
-        gbc_label2.insets = new Insets(0, 0, 5, 5);
-        gbc_label2.gridx = 0;
-        gbc_label2.gridy = 2;
-        jPanelTopCmd.add(label2, gbc_label2);
-
-        javaRegExp = new JTextArea();
-        label2.setLabelFor(javaRegExp);
-        javaRegExp.setText("Java text Area");
-        GridBagConstraints gbc_javaRegExp = new GridBagConstraints();
-        gbc_javaRegExp.gridwidth = 3;
-        gbc_javaRegExp.insets = new Insets(0, 0, 5, 0);
-        gbc_javaRegExp.fill = GridBagConstraints.BOTH;
-        gbc_javaRegExp.gridx = 0;
-        gbc_javaRegExp.gridy = 3;
-        jPanelTopCmd.add(javaRegExp, gbc_javaRegExp);
-        checkCanonEquivalence = new JCheckBox();
-        GridBagConstraints gbc_checkCanonEquivalence = new GridBagConstraints();
-        gbc_checkCanonEquivalence.fill = GridBagConstraints.BOTH;
-        gbc_checkCanonEquivalence.insets = new Insets(0, 0, 5, 5);
-        gbc_checkCanonEquivalence.gridx = 1;
-        gbc_checkCanonEquivalence.gridy = 4;
-        jPanelTopCmd.add(checkCanonEquivalence, gbc_checkCanonEquivalence);
-        checkCanonEquivalence
-                .setText( "Ignore differences in Unicode encoding" );
-        textRegExp           = new JTextArea();
-        jLabel1.setLabelFor( textRegExp );
-        textRegExp.setFont( new java.awt.Font( "Monospaced", 0, 12 ) );
-        textRegExp.setBorder( BorderFactory.createLoweredBevelBorder() );
-        textRegExp.setText( "t[a-z]+" );
-        textRegExp.setLineWrap( true );
-        GridBagConstraints gbc_textRegExp = new GridBagConstraints();
-        gbc_textRegExp.insets = new Insets(0, 0, 5, 0);
-        gbc_textRegExp.gridwidth = 3;
-        gbc_textRegExp.fill = GridBagConstraints.BOTH;
-        gbc_textRegExp.gridx = 0;
-        gbc_textRegExp.gridy = 1;
-        jPanelTopCmd.add( textRegExp, gbc_textRegExp );
-        checkDotAll           = new JCheckBox();
-        GridBagConstraints gbc_checkDotAll = new GridBagConstraints();
-        gbc_checkDotAll.fill = GridBagConstraints.BOTH;
-        gbc_checkDotAll.insets = new Insets(0, 0, 5, 5);
-        gbc_checkDotAll.gridx = 0;
-        gbc_checkDotAll.gridy = 4;
-        jPanelTopCmd.add(checkDotAll, gbc_checkDotAll);
-        checkDotAll.setText( "Dot matches newlines" );
-        checkMultiLine        = new JCheckBox();
-        GridBagConstraints gbc_checkMultiLine = new GridBagConstraints();
-        gbc_checkMultiLine.fill = GridBagConstraints.BOTH;
-        gbc_checkMultiLine.insets = new Insets(0, 0, 0, 5);
-        gbc_checkMultiLine.gridx = 1;
-        gbc_checkMultiLine.gridy = 5;
-        jPanelTopCmd.add(checkMultiLine, gbc_checkMultiLine);
-        checkMultiLine.setText( "^ and $ match at embedded newlines" );
-        checkCaseInsensitive  = new JCheckBox();
-        GridBagConstraints gbc_checkCaseInsensitive = new GridBagConstraints();
-        gbc_checkCaseInsensitive.fill = GridBagConstraints.BOTH;
-        gbc_checkCaseInsensitive.insets = new Insets(0, 0, 0, 5);
-        gbc_checkCaseInsensitive.gridx = 0;
-        gbc_checkCaseInsensitive.gridy = 5;
-        jPanelTopCmd.add(checkCaseInsensitive, gbc_checkCaseInsensitive);
-        checkCaseInsensitive.setText( "Case insensitive" );
+        add( jSplitPaneFrame0, BorderLayout.CENTER );
+        jSplitPaneFrame0.add( jSplitPane2, JSplitPane.RIGHT );
         jSplitPane2.add( jPanel4, JSplitPane.LEFT );
         jPanel4.add( jPanel5, BorderLayout.SOUTH );
         jPanel5.add( btnMatch, null );
@@ -337,7 +220,7 @@ public abstract class RegExpBuilderWB extends JFrame
         jPanel6.add( textSubject, BorderLayout.CENTER );
         jPanel4.add( jPanel8, BorderLayout.CENTER );
         jPanel8.add( jPanel6, null );
-        jSplitPaneFrame.setDividerLocation( 150 );
+        jSplitPaneFrame0.setDividerLocation( 150 );
         jSplitPane2.setDividerLocation( 200 );
         jPanel8.add( jPanel7, null );
         jPanel7.add( jLabel5, BorderLayout.NORTH );
@@ -349,6 +232,122 @@ public abstract class RegExpBuilderWB extends JFrame
         jPanel9.add( jPanel11, null );
         jPanel11.add( jLabel7, BorderLayout.NORTH );
         jPanel11.add( textReplaceResults, BorderLayout.CENTER );
+        
+        {
+        JPanel panel = new JPanel();
+        //FIXMEadd(panel, BorderLayout.WEST);
+        jSplitPaneFrame0.setTopComponent( panel );
+        panel.setLayout(new BorderLayout(0, 0));
+        
+        {
+            JScrollPane scrollPane = new JScrollPane();
+            panel.add(scrollPane);
+            {
+                JPanel          jPanelTopCmd               = new JPanel();
+                scrollPane.setViewportView(jPanelTopCmd);
+                jPanelTopCmd.setAlignmentY( (float)0.5 );
+                GridBagLayout gbl_jPanelTopCmd = new GridBagLayout();
+                gbl_jPanelTopCmd.columnWidths = new int[]{0, 0, 0, 0};
+                gbl_jPanelTopCmd.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+                gbl_jPanelTopCmd.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+                gbl_jPanelTopCmd.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+                jPanelTopCmd.setLayout(gbl_jPanelTopCmd);
+                JLabel          jLabel1             = new JLabel();
+                GridBagConstraints gbc_jLabel1 = new GridBagConstraints();
+                gbc_jLabel1.insets = new Insets(0, 0, 5, 5);
+                gbc_jLabel1.fill = GridBagConstraints.BOTH;
+                gbc_jLabel1.gridx = 0;
+                gbc_jLabel1.gridy = 0;
+                jPanelTopCmd.add(jLabel1, gbc_jLabel1);
+                jLabel1.setAlignmentX( (float)0.0 );
+                jLabel1.setMinimumSize( new Dimension( 97, 15 ) );
+                jLabel1.setText( "Regular Expression:" );
+                JEditorPane     jEditorPane_Info    = new JEditorPane();
+                jEditorPane_Info.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+                jEditorPane_Info.setOpaque(false);
+                GridBagConstraints gbc_jEditorPane_Info = new GridBagConstraints();
+                gbc_jEditorPane_Info.fill = GridBagConstraints.BOTH;
+                gbc_jEditorPane_Info.gridwidth = 2;
+                gbc_jEditorPane_Info.insets = new Insets(0, 0, 5, 0);
+                gbc_jEditorPane_Info.gridx = 1;
+                gbc_jEditorPane_Info.gridy = 0;
+                jPanelTopCmd.add(jEditorPane_Info, gbc_jEditorPane_Info);
+                jEditorPane_Info.addHyperlinkListener( hyperlinkListener  );
+                jEditorPane_Info.setEditable(false);
+                jEditorPane_Info.setContentType("text/html");
+                jEditorPane_Info.setText( "<html>Visit <a href=\"http://www.regular-expressions.info\">http://www.regular-expressions.info</a> for a complete regex tutorial</html>" );
+                JLabel label2 = new JLabel();
+                label2.setText("Regular Expression for Java source code:");
+                label2.setMinimumSize(new Dimension(97, 15));
+                label2.setAlignmentX(0.0f);
+                GridBagConstraints gbc_label2 = new GridBagConstraints();
+                gbc_label2.fill = GridBagConstraints.BOTH;
+                gbc_label2.gridwidth = 2;
+                gbc_label2.insets = new Insets(0, 0, 5, 5);
+                gbc_label2.gridx = 0;
+                gbc_label2.gridy = 2;
+                jPanelTopCmd.add(label2, gbc_label2);
+                javaRegExp = new JTextArea();
+                label2.setLabelFor(javaRegExp);
+                javaRegExp.setText("Java text Area");
+                GridBagConstraints gbc_javaRegExp = new GridBagConstraints();
+                gbc_javaRegExp.gridwidth = 3;
+                gbc_javaRegExp.insets = new Insets(0, 0, 5, 0);
+                gbc_javaRegExp.fill = GridBagConstraints.BOTH;
+                gbc_javaRegExp.gridx = 0;
+                gbc_javaRegExp.gridy = 3;
+                jPanelTopCmd.add(javaRegExp, gbc_javaRegExp);
+                checkCanonEquivalence = new JCheckBox();
+                GridBagConstraints gbc_checkCanonEquivalence = new GridBagConstraints();
+                gbc_checkCanonEquivalence.fill = GridBagConstraints.BOTH;
+                gbc_checkCanonEquivalence.insets = new Insets(0, 0, 5, 5);
+                gbc_checkCanonEquivalence.gridx = 1;
+                gbc_checkCanonEquivalence.gridy = 4;
+                jPanelTopCmd.add(checkCanonEquivalence, gbc_checkCanonEquivalence);
+                checkCanonEquivalence
+                        .setText( "Ignore differences in Unicode encoding" );
+                textRegExp           = new JTextArea();
+                jLabel1.setLabelFor( textRegExp );
+                textRegExp.setFont( new java.awt.Font( "Monospaced", 0, 12 ) );
+                textRegExp.setBorder( BorderFactory.createLoweredBevelBorder() );
+                textRegExp.setText( "t[a-z]+" );
+                textRegExp.setLineWrap( true );
+                GridBagConstraints gbc_textRegExp = new GridBagConstraints();
+                gbc_textRegExp.insets = new Insets(0, 0, 5, 0);
+                gbc_textRegExp.gridwidth = 3;
+                gbc_textRegExp.fill = GridBagConstraints.BOTH;
+                gbc_textRegExp.gridx = 0;
+                gbc_textRegExp.gridy = 1;
+                jPanelTopCmd.add( textRegExp, gbc_textRegExp );
+                checkDotAll           = new JCheckBox();
+                GridBagConstraints gbc_checkDotAll = new GridBagConstraints();
+                gbc_checkDotAll.fill = GridBagConstraints.BOTH;
+                gbc_checkDotAll.insets = new Insets(0, 0, 5, 5);
+                gbc_checkDotAll.gridx = 0;
+                gbc_checkDotAll.gridy = 4;
+                jPanelTopCmd.add(checkDotAll, gbc_checkDotAll);
+                checkDotAll.setText( "Dot matches newlines" );
+                checkMultiLine        = new JCheckBox();
+                GridBagConstraints gbc_checkMultiLine = new GridBagConstraints();
+                gbc_checkMultiLine.fill = GridBagConstraints.BOTH;
+                gbc_checkMultiLine.insets = new Insets(0, 0, 0, 5);
+                gbc_checkMultiLine.gridx = 1;
+                gbc_checkMultiLine.gridy = 5;
+                jPanelTopCmd.add(checkMultiLine, gbc_checkMultiLine);
+                checkMultiLine.setText( "^ and $ match at embedded newlines" );
+                checkCaseInsensitive  = new JCheckBox();
+                GridBagConstraints gbc_checkCaseInsensitive = new GridBagConstraints();
+                gbc_checkCaseInsensitive.fill = GridBagConstraints.BOTH;
+                gbc_checkCaseInsensitive.insets = new Insets(0, 0, 0, 5);
+                gbc_checkCaseInsensitive.gridx = 0;
+                gbc_checkCaseInsensitive.gridy = 5;
+                jPanelTopCmd.add(checkCaseInsensitive, gbc_checkCaseInsensitive);
+                checkCaseInsensitive.setText( "Case insensitive" );
+            }
+        }
+        }
+        
+                
     }
 
     public abstract void btnMatch_actionPerformed( ActionEvent event );

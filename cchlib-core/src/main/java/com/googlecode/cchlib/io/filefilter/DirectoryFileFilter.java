@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import java.io.File;
 import com.googlecode.cchlib.io.SerializableFileFilter;
+import java.io.File;
 
 /**
  * Create a {@link java.io.FileFilter} that select only directories

@@ -9,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -255,7 +256,7 @@ public abstract class JPopupMenuForJList<E>
                 E value = getListModel().getElementAt( rowIndex );
 
                 setClipboardContents(
-                        value == null ? "" : value.toString()
+                        value == null ? Const.EMPTY_STRING : value.toString()
                         );
             }
         };

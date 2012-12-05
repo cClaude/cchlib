@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 import cx.ath.choisnet.io.IO; // TEST CASE ONLY
@@ -128,7 +129,7 @@ public class Base64Test
     public void testEmpty()
         throws Base64FormatException, IOException
     {
-        String emptyEncodedStr = Base64Encoder.encode( "" );
+        String emptyEncodedStr = Base64Encoder.encode( Const.EMPTY_STRING );
         slogger.info( "encode empty String res = [" + emptyEncodedStr + ']' );
 
         Assert.assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);
@@ -236,7 +237,7 @@ public class Base64Test
     }
 
     @Test
-    @Ignore // TODO DID NOT WORK if BUFFER_SIZE = 5
+    @Ignore // TO DO DID NOT WORK if BUFFER_SIZE = 5
     public void testEncode() throws Base64FormatException, IOException
     {
         byte[] array = new byte[ 256 ];
@@ -247,7 +248,7 @@ public class Base64Test
         char[]      chars   = encodeInputStreamToCharArray( in );
         in.close();
 
-        //FIXME int fixme;
+        //FIX ME int fixme;
         char[] encodedChars = Base64Encoder.encodeToChar( array );
 
         System.out.println( "chars v1 len = " + chars.length );

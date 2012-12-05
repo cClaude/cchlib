@@ -11,7 +11,6 @@ import com.googlecode.cchlib.i18n.I18nString;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.JComboBox;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -27,7 +26,7 @@ public class GenericDownloaderUIPanel
     private JSpinner pageScanCountJSpinner;
     private GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
-    private List<JComboBox<String>> stringsJComboBoxList;
+    //private List<JComboBox<String>> stringsJComboBoxList_;
 	private List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
 
     /**
@@ -211,8 +210,12 @@ public class GenericDownloaderUIPanel
     {
         pageScanCountJSpinner.setEnabled( enabled );
         
-        for( JComboBox<String> jcb : stringsJComboBoxList ) {
-            jcb.setEnabled( enabled );
+//        for( JComboBox<String> jcb : stringsJComboBoxList ) {
+//            jcb.setEnabled( enabled );
+//            }
+        
+        for( GenericDownloaderUIPanelEntry entry : entryJPanelList ) {
+            entry.setEnabledAllComponents( enabled );
             }
     }
 }

@@ -6,6 +6,7 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.googlecode.cchlib.Const;
 
 /**
  *
@@ -282,7 +283,7 @@ public class BasicTime
      */
     public String toStringMinutes()
     {
-        return (new StringBuilder()).append(minutes <= 9 ? "0" : "").append(minutes).toString();
+        return (new StringBuilder()).append(minutes <= 9 ? "0" : Const.EMPTY_STRING).append(minutes).toString();
     }
 
     /**
@@ -290,7 +291,7 @@ public class BasicTime
      */
     public String toStringSeconds()
     {
-        return (new StringBuilder()).append(seconds <= 9 ? "0" : "").append(seconds).toString();
+        return (new StringBuilder()).append(seconds <= 9 ? "0" : Const.EMPTY_STRING).append(seconds).toString();
     }
 
     /**

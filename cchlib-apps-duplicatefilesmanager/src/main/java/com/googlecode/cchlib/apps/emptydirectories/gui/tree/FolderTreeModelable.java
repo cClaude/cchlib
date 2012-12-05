@@ -4,7 +4,7 @@ import java.io.File;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 
 /**
  *
@@ -62,7 +62,7 @@ public interface FolderTreeModelable extends TreeModel
      * @param folder
      * @return TODOC
      */
-    public boolean add( Folder folder );
+    public void add( EmptyFolder emptyFolder );
 
     /**
      *

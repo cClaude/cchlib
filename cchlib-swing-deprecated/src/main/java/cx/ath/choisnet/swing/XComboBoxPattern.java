@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.swing.text.PatternDocument;
 
 /**
@@ -234,7 +235,7 @@ public class XComboBoxPattern extends XComboBox<String>
                 editor.setText( anObject.toString() );
                 }
             else {
-                editor.setText( "" );
+                editor.setText( Const.EMPTY_STRING );
                 }
             }
     }

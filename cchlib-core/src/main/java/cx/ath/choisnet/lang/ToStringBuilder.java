@@ -110,7 +110,7 @@ public class ToStringBuilder<T>
      * @param clazz
      * @return toString view for this object.
      */
-    public final static <T> String toString(T o, Class<T> clazz)
+    public static <T> String toString(T o, Class<T> clazz)
     {
         return new ToStringBuilder<T>(clazz).toString(o);
     }

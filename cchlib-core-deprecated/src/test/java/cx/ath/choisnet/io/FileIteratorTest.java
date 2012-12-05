@@ -190,7 +190,7 @@ public class FileIteratorTest extends TestCase
 
         List<File> allFiles = new ArrayList<File>();
 
-        // TODO: check if it should be in iterator or not !
+        // TO DO: check if it should be in iterator or not !
         // allFiles.add(dirRootFile);
 
         for( File d : dirs ) {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.Const;
 /**
  *
  */
@@ -85,7 +86,7 @@ public class SQLToolsTest
     @Test
     public void test_parseFieldValue9()
     {
-        test_parseFieldValue( "", "" );
+        test_parseFieldValue( Const.EMPTY_STRING, Const.EMPTY_STRING );
     }
 
     @Test

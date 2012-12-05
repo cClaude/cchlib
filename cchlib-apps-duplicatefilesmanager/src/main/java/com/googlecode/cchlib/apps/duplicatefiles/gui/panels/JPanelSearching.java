@@ -238,6 +238,8 @@ public class JPanelSearching extends JPanel//SearchingWB
 
         // Listener for pass 2
         duplicateFC.addDigestEventListener( new DigestEventListener() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void computeDigest( File file )
             {
@@ -248,12 +250,12 @@ public class JPanelSearching extends JPanel//SearchingWB
             @Override
             public void ioError( IOException e, File file )
             {
-                slogger.warn( 
-                    String.format( 
-                        "IOException %s : %s\n", 
+                slogger.warn(
+                    String.format(
+                        "IOException %s : %s\n",
                         file,
-                        e.getMessage() 
-                        ) 
+                        e.getMessage()
+                        )
                     );
 
                 Vector<Object> v = new Vector<Object>();

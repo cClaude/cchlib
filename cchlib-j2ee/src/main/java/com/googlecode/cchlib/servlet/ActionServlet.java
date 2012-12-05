@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.servlet.action.ServletAction;
 
 /**
@@ -56,7 +57,7 @@ public class ActionServlet extends HttpServlet
         this.actionParamName = private_getInitParameter( "ACTION", DEFAULT_ACTION_PARAMETER_NAME );
         this.nextParamName   = private_getInitParameter( "NEXTURL", DEFAULT_NEXTURL_PARAMETER_NAME );
         this.errorParamName  = private_getInitParameter( "ERROR", "$ERROR" );
-//        this.faultBackURL   = private_getInitParameter( "DEFAULTERRORURL", "" );
+//        this.faultBackURL   = private_getInitParameter( "DEFAULTERRORURL", Const.EMPTY_STRING );
     }
 
     private String private_getInitParameter( final String name )
@@ -190,7 +191,7 @@ public class ActionServlet extends HttpServlet
 //     */
 //    protected String getErrorURL(HttpServletRequest request)
 //    {
-//        return "";
+//        return Const.EMPTY_STRING;
 //    }
 
     /**

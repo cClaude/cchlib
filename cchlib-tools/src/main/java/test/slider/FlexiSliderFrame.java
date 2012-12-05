@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import org.jvnet.flamingo.slider.FlexiRangeModel;
 import org.jvnet.flamingo.slider.JFlexiSlider;
+import com.googlecode.cchlib.Const;
 
 public class FlexiSliderFrame extends JFrame 
 {
@@ -61,7 +62,7 @@ public class FlexiSliderFrame extends JFrame
 				System.out.print(slider0.getModel().getValueIsAdjusting());
 				FlexiRangeModel.Value value = slider0.getValue();
 				System.out.println("\t"
-						+ ((value != null) ? value.toString() : ""));
+						+ ((value != null) ? value.toString() : Const.EMPTY_STRING));
 			}
 		});
 

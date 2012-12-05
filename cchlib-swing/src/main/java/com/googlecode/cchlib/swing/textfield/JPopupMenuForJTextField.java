@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -166,7 +167,7 @@ public abstract class JPopupMenuForJTextField
             public void actionPerformed( ActionEvent e )
             {
                 String value = getValue();
-                setClipboardContents( value == null ? "" : value );
+                setClipboardContents( value == null ? Const.EMPTY_STRING : value );
             }
         };
     }

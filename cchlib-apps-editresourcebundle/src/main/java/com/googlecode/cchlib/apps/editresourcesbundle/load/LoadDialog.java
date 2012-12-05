@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
@@ -177,18 +178,9 @@ public class LoadDialog
               getJTextField( index ).setText( fo.getFile().getPath() );
               }
             else {
-                getJTextField( index ).setText("");
+                getJTextField( index ).setText( Const.EMPTY_STRING );
                 }
             }
-//
-//        if( this.filesConfig.getLeftFileObject() != null ) {
-//            getJTextField( 0 ).setText(
-//                    this.filesConfig.getLeftFileObject().getFile().getPath()
-//                    );
-//            }
-//        else {
-//            getJTextField( 0 ).setText("");
-//            }
     }
 
     protected void udpateTabFileTypeDisplay()

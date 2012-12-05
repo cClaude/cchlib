@@ -11,11 +11,14 @@ public class Folder implements Serializable, Comparable<Folder>
 {
     private static final long serialVersionUID = 1L;
     private Path path;
-    private transient FilePath filePath;
+    //private transient FilePath transientFilePath;
 
-    protected Folder( final Path folder )
+    protected Folder( final Path folderPath )
     {
-        this.path = folder;
+        if( folderPath == null ) {
+            throw new IllegalArgumentException();
+            }
+        this.path = folderPath;
     }
     
     public Path getPath()
@@ -23,36 +26,14 @@ public class Folder implements Serializable, Comparable<Folder>
         return this.path;
     }
     
-    public FilePath getFilePath()
-    {
-        if( filePath == null ) {
-            filePath = new FilePath( path, this );
-            }
-        
-        return this.filePath;
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((path == null) ? 0 : path.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals( Object obj )
-    {
-        if( this == obj ) return true;
-        if( obj == null ) return false;
-        if( !(obj instanceof Folder) ) return false;
-        Folder other = (Folder)obj;
-        if( path == null ) {
-            if( other.path != null ) return false;
-        } else if( !path.equals( other.path ) ) return false;
-        return true;
-    }
+//    public FilePath getFilePath()
+//    {
+//        if( transientFilePath == null ) {
+//            transientFilePath = new FilePath( path, this );
+//            }
+//        
+//        return this.transientFilePath;
+//    }
 
     @Override
     public String toString()
@@ -79,5 +60,4 @@ public class Folder implements Serializable, Comparable<Folder>
     {
         return this.path.compareTo( other.path );
     }
-
 }

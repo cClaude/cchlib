@@ -16,8 +16,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.folders.FilePath;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
@@ -73,8 +72,7 @@ abstract class AbstractFolderTreeModel
     final
     public int size()
     {
-        int                     count   = 0;
-        //Iterator<FileTreeNode1>  iter    = this.nodeIterator();
+        int                       count   = 0;
         Iterator<FolderTreeNode>  iter    = this.nodeIterator();
 
         while( iter.hasNext() ) {
@@ -92,33 +90,32 @@ abstract class AbstractFolderTreeModel
      */
     @Override //FileTreeModelable
     final
-    public boolean add( final Folder folder )
+    public void add( final EmptyFolder emptyFolder )
     {
-        final FolderTreeNode n;
-        final boolean        added;
+        final FolderTreeNode newRoot;
+
         
         synchronized( lock ) {
-            n       = synchronizedAdd( folder );
-            added   = n != null;
+            newRoot = synchronizedAdd( emptyFolder );
+            
+            if( newRoot != null ) {
+                // Add this new 'root', to model
+                DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
+                hiddenRoot.add( newRoot );
+                }
+            else {
+                }
             };
-        //logger.info( "try to add: " + file + " * size()=" + size() );
-        //FileTreeNode1   n       = privateAdd( file );
-        //FolderTreeNode   n       = privateAdd( folder );
-        
-        //logger.info( "add? " + added + " - " + file + " * size()=" + size() );
-
-        if( added ) {
-            // Try to notify.
-            //TODO
-//            TreeNode parentNode = n.getParent();
-//            TreePath parentPath = getPath( parentNode );
+            
+        if( newRoot != null ) {
+            logger.debug( "notify JTree that a newRoot has been added: " + newRoot );
+            
+//            // Try to notify.
+//            TreePath path = getPath( newRoot.getParent() );
 //
-//            this.fireTreeStructureChanged( parentPath );
-
-            TreePath path = getPath( n.getParent() );
-
-            this.jTree.collapsePath( path );
-            this.jTree.validate();
+//            this.jTree.collapsePath( path );
+//            this.jTree.validate();
+            super.nodeChanged( root );
 
             //this.jTree.expandPath( path );
             //FIXME: logger.debug( "try to expandPath " + n + " path: " + path );
@@ -132,9 +129,7 @@ abstract class AbstractFolderTreeModel
 //                }
             }
 
-        logger.info( "try to add: " + folder + " to GUI * added? =" + added );
-
-        return added;
+        logger.info( "try to add: " + emptyFolder );
     }
 
 //    /**
@@ -160,39 +155,39 @@ abstract class AbstractFolderTreeModel
     /**
      * Add entry, and return parent node.
      *
-     * @param folder Entry to add
+     * @param emptyFolder Entry to add
      * @return parent node, null if already in tree
      */
-    protected abstract FolderTreeNode synchronizedAdd( final Folder folder );
+    protected abstract FolderTreeNode synchronizedAdd( final EmptyFolder emptyFolder );
 
-    /**
-     * TODOC
-     * @param folder TODOC
-     * @return TODOC
-     */
-    final
-    public FolderTreeNode lookupNode( final Folder folder )
-    {
-        //final FilePath      fp  = new FilePath( folder.getPath() );
-        final FilePath       fp = folder.getFilePath();
-        final FolderTreeNode n  = bestLookupNode( fp );
+//    /**
+//     * TODOC
+//     * @param folder TODOC
+//     * @return TODOC
+//     */
+//    final
+//    public FolderTreeNode lookupNode( final Folder folder )
+//    {
+//        //final FilePath      fp  = new FilePath( folder.getPath() );
+//        final FilePath       fp = folder.getFilePath();
+//        final FolderTreeNode n  = bestLookupNode( fp );
+//
+//        if( n != null ) {
+//            if( n.getFolder().equals( folder ) ) {
+//                return n;
+//                }
+//            }
+//
+//        return null;
+//    }
 
-        if( n != null ) {
-            if( n.getFolder().equals( folder ) ) {
-                return n;
-                }
-            }
-
-        return null;
-    }
-
-    /**
-     * Returns the best {@link FileTreeNode} for this {@link FilePath}
-     * @param pathToFind path to lookup in tree
-     * @return the best {@link FileTreeNode} for this {@link FilePath}, if
-     * even did not match with root tree.
-     */
-    protected abstract FolderTreeNode bestLookupNode( final FilePath pathToFind );
+//    /**
+//     * Returns the best {@link FileTreeNode} for this {@link FilePath}
+//     * @param pathToFind path to lookup in tree
+//     * @return the best {@link FileTreeNode} for this {@link FilePath}, if
+//     * even did not match with root tree.
+//     */
+//    protected abstract FolderTreeNode bestLookupNode( final FilePath pathToFind );
 
     public abstract Iterator<FolderTreeNode> nodeIterator();
 
@@ -381,5 +376,6 @@ abstract class AbstractFolderTreeModel
             }
         };
     }
+
 
 }

@@ -97,6 +97,7 @@ public class DefaultDigestFileCollectorTest
     {
         return new DigestEventListener()
         {
+            private static final long serialVersionUID = 1L;
             int countFile = 0;
             @Override
             public void computeDigest( final File file )

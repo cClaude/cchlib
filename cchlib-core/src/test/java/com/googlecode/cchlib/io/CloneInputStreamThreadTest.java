@@ -7,73 +7,71 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  *
  */
-public class CloneInputStreamThreadTest 
+public class CloneInputStreamThreadTest
 {
     final private static Logger logger = Logger.getLogger( CloneInputStreamThreadTest.class );
-    
+
     @Before
     public void setup() throws FileNotFoundException
     {
     }
-    
-    @Ignore // FIXME
+
     @Test
     public void testCloneInputStreamThread() throws IOException
     {
         InputStream             sourceIS0   = IO.createPNGInputStream();
         CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
-            getClass().getName(), 
+            getClass().getName(),
             sourceIS0,
-            16, 
+            16,
             createExceptionHandlers()
             );
 
         //InputStream[] copies = new InputStream[ threadIS.getSize() ];
         TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
-        
+
         for( int i = 0; i<runs.length; i++ ) {
             final InputStream is = threadIS.getInputStream( i );
 
             runs[ i ]= new TestRunner( is );
-            
+
             logger.info( "start( " + i + " )" );
-            new Thread( runs[ i ], "testCloneInputStreamThread" ).start(); 
+            new Thread( runs[ i ], "testCloneInputStreamThread" ).start();
             }
-        
+
         threadIS.start();
         logger.info( "start()" );
-        
+
         final byte[] source = IO.createPNG();
-        
+
         for( int i = 0; i<runs.length; i++ ) {
             byte[] bytes = runs[ i ].getInputStreamAsBytes();
 
             Assert.assertArrayEquals( source, bytes );
             }
-        
+
         sourceIS0.close();
-        
+
         logger.info( "done" );
     }
 
     private InputStreamThreadExceptionHandler[] createExceptionHandlers()
     {
-        final InputStreamThreadExceptionHandler[] handlers 
+        final InputStreamThreadExceptionHandler[] handlers
         = new InputStreamThreadExceptionHandler[ 5 ];
 
         for( int i = 0; i<handlers.length; i++ ) {
             handlers[ i ] = createExceptionHandler();
             }
-        
+
         return handlers;
     }
-    
+
     private InputStreamThreadExceptionHandler createExceptionHandler()
     {
         return new InputStreamThreadExceptionHandler()
@@ -97,14 +95,14 @@ public class CloneInputStreamThreadTest
         public byte[] getInputStreamAsBytes() throws IOException;
         public IOException IOException();
     }
-    
+
     class TestRunner implements TestRunnable
     {
         private final InputStream   is;
         private byte[]              bytes;
         private boolean             isReady;
         private IOException         ioException;
-        
+
         public TestRunner( final InputStream is )
         {
             this.is      = is;
@@ -133,13 +131,13 @@ public class CloneInputStreamThreadTest
                 try { Thread.sleep( 500 ); }
                 catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
-            
+
             return bytes;
         }
         private byte[] convertInputStreamAsBytes() throws IOException
         {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
-            
+
             try {
                 try {
                     IOHelper.copy( is, os );
@@ -151,7 +149,7 @@ public class CloneInputStreamThreadTest
             finally {
                 is.close();
                 }
-            
+
             return os.toByteArray();
         }
         @Override

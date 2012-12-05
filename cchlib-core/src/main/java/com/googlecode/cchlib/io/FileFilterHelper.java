@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.io;
 
-import java.io.File;
-import java.io.FileFilter;
 import com.googlecode.cchlib.io.filefilter.ANDFileFilter;
 import com.googlecode.cchlib.io.filefilter.DirectoryFileFilter;
 import com.googlecode.cchlib.io.filefilter.FalseFileFilter;
@@ -12,6 +10,8 @@ import com.googlecode.cchlib.io.filefilter.NoneZeroLengthFileFilter;
 import com.googlecode.cchlib.io.filefilter.ORFileFilter;
 import com.googlecode.cchlib.io.filefilter.TrueFileFilter;
 import com.googlecode.cchlib.io.filefilter.XORFileFilter;
+import java.io.File;
+import java.io.FileFilter;
 
 /**
  * Build commons {@link FileFilter} that are {@link java.io.Serializable}

@@ -2,6 +2,7 @@ package alpha.java.util.prefs;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import com.googlecode.cchlib.Const;
 
 /**
   * Simple demonstration of the most common usage of the Java
@@ -52,7 +53,7 @@ public class PrefsDemo
     String newvalue = null;
     boolean export  = false;
 
-    System.err.println ("");
+    System.err.println (Const.EMPTY_STRING);
     if (args.length == 0) {
         System.err.println ("No command given, assuming 'get'");
         command = "get";

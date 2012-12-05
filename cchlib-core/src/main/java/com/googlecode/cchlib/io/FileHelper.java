@@ -18,7 +18,7 @@ public class FileHelper
      * @return File object for tmp directory
      * @since 4.1.6
      */
-    public final static File getTmpDirFile()
+    public static File getTmpDirFile()
     {
         return new File( System.getProperty("java.io.tmpdir" ) );
     }
@@ -30,7 +30,7 @@ public class FileHelper
      * @return File object for current user home directory
      * @since 4.1.6
      */
-    public final static File getUserHomeDirFile()
+    public static File getUserHomeDirFile()
     {
         return new File( System.getProperty("user.home") );
     }
@@ -44,7 +44,7 @@ public class FileHelper
      * @return File object relative to current user home directory
      * @since 4.1.6
      */
-    public final static File getUserHomeDirFile(
+    public static File getUserHomeDirFile(
         final String relativePath
         )
     {
@@ -59,7 +59,7 @@ public class FileHelper
      * @return File object for root system directory
      * @since 4.1.6
      */
-    public final static File getSystemRootFile()
+    public static File getSystemRootFile()
     {
         return new File( "/" );
     }

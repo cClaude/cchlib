@@ -3,6 +3,7 @@ package com.googlecode.cchlib.sql;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.Const;
 
 /**
  *
@@ -85,7 +86,7 @@ public class SQLToolsTest
     @Test
     public void test_parseFieldValue9()
     {
-        test_parseFieldValue( "", "" );
+        test_parseFieldValue( Const.EMPTY_STRING, Const.EMPTY_STRING );
     }
 
     @Test

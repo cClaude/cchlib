@@ -63,20 +63,19 @@ public class FileNameExtensionFilter extends FileFilter
     }
 
     @Override
-    public boolean accept( File file )
+    public boolean accept( final File file )
     {
         if( file.isDirectory() ) {
             return true;
-        }
-
-        // TODO: Optimizations
-        // get index of last '.'; get remaining, toLowerCase() once
-        // and compare remaining of string each time
-        for( String s : this.extensions ) {
-            if( file.getName().toLowerCase().endsWith( '.' + s ) ) {
-                return true;
             }
-        }
+
+        final String lowerCaseName = file.getName().toLowerCase();
+
+        for( String s : this.extensions ) {
+            if( lowerCaseName.endsWith( '.' + s ) ) {
+                return true;
+                }
+            }
         return false;
     }
 

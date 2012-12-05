@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import com.googlecode.cchlib.Const;
 
 
 /**
@@ -55,7 +56,7 @@ class FindByNameJPanel extends JPanel implements FindFilterFactory
         p.add(nameField);
 
         // ignore case
-        p.add(new JLabel("",SwingConstants.RIGHT));
+        p.add(new JLabel(Const.EMPTY_STRING,SwingConstants.RIGHT));
 
         ignoreCaseCheck = new JCheckBox("ignore case",true);
         ignoreCaseCheck.setForeground(Color.black);

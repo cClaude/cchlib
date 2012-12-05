@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import com.googlecode.cchlib.Const;
 
 /**
  * The FormattedProperties class is an extension
@@ -219,7 +220,7 @@ public class FormattedProperties
                         // empty value.
                         line = reader.readLine();
                         if(line == null) {
-                            line = "";
+                            line = Const.EMPTY_STRING;
                             }
                         pos = 0;
                         while( pos < line.length()
@@ -758,7 +759,7 @@ public class FormattedProperties
      */
     public void addBlankLine()
     {
-        lines.addCommentLine( "" );
+        lines.addCommentLine( Const.EMPTY_STRING );
     }
 
     /**

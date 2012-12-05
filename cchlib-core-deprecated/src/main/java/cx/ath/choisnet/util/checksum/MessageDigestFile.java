@@ -268,7 +268,7 @@ public class MessageDigestFile
         final byte[] mdBytes = new byte[ len ];
 
         for( int i = 0; i < len; i++ ) {
-            // TODO: some optimizations here !
+            // TO DO: some optimizations here !
             int     pos   = i << 1;
             String  digit = digestHexKey.substring(pos, pos + 2);
 

@@ -165,19 +165,7 @@ public class DuplicateFileCollector
         final int  files  = c;
         final long length = l;
 
-        return new Stats()
-        {
-            @Override
-            public int getPass2Files()
-            {
-                return files;
-            }
-            @Override
-            public long getPass2Bytes()
-            {
-                return length;
-            }
-        };
+        return new PStats( length, files );
     }
 
     /**
@@ -294,6 +282,31 @@ public class DuplicateFileCollector
     public boolean isCancelProcess()
     {
         return cancelProcess;
+    }
+
+
+    private static final class PStats implements Stats 
+    {
+        private long length;
+        private int  files;
+
+        private PStats( long length, int files )
+        {
+            this.length = length;
+            this.files = files;
+        }
+
+        @Override
+        public int getPass2Files()
+        {
+            return files;
+        }
+
+        @Override
+        public long getPass2Bytes()
+        {
+            return length;
+        }
     }
 
 

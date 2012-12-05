@@ -2,13 +2,14 @@ package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.EventListener;
 
 /**
  * The listener interface for receiving start computing digest events.
  */
 public interface DigestEventListener
-    extends EventListener
+    extends EventListener, Serializable
 {
     /**
      * Invoked before computing digest for this file

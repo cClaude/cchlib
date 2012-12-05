@@ -16,16 +16,16 @@ import org.apache.log4j.Logger;
  *
  */
 public class DefaultContactProperties
-    implements 	ContactProperties,
+    implements     ContactProperties,
                 Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( DefaultContactProperties.class );
 
-    private final String[] 				names;
-    private final ContactValueType[]	types;
-    private final String[]				defaultValues;
-    private final List<String>			defaultValueList;
+    private final String[]                 names;
+    private final ContactValueType[]    types;
+    private final String[]                defaultValues;
+    private final List<String>            defaultValueList;
 
     private Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
 
@@ -39,25 +39,25 @@ public class DefaultContactProperties
         final Collection<? extends String> nameCollection = builder.getNames();
         final int size = nameCollection.size();
 
-        this.names 				= new String[ size ];
-        this.types 				= new ContactValueType[ size ];
-        this.defaultValues 		= new String[ size ];
-        this.defaultValueList 	= new ArrayList<>( size );
+        this.names                = new String[ size ];
+        this.types                = new ContactValueType[ size ];
+        this.defaultValues        = new String[ size ];
+        this.defaultValueList     = new ArrayList<>( size );
 
-        final Iterator<? extends String> 			iterName 	 = nameCollection.iterator();
-        final Iterator<? extends ContactValueType> 	iterType 	 = builder.getTypes().iterator();
-        final Iterator<? extends String> 			iterDefaults = builder.getDefaultValues().iterator();
+        final Iterator<? extends String>             iterName      = nameCollection.iterator();
+        final Iterator<? extends ContactValueType>     iterType      = builder.getTypes().iterator();
+        final Iterator<? extends String>             iterDefaults = builder.getDefaultValues().iterator();
         int index = 0;
 
         while( iterName.hasNext() ) {
-            final String 			name = iterName.next();
-            final ContactValueType 	type = iterType.next();
-            final String 			def  = iterDefaults.next();
+            final String             name = iterName.next();
+            final ContactValueType   type = iterType.next();
+            final String             def  = iterDefaults.next();
 
             logger.info( "Prop[" + index + "]=\"" + name + "\" (" + type + ")/\"" + def + "\"" );
 
-            this.names[ index ] 		= name;
-            this.types[ index ] 		= type;
+            this.names[ index ]         = name;
+            this.types[ index ]         = type;
             this.defaultValues[ index ] = def;
             this.defaultValueList.add( def );
             index++;

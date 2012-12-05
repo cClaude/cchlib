@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import com.googlecode.cchlib.Const;
 import cx.ath.choisnet.ToDo;
 
 /**
@@ -189,7 +190,7 @@ public class MappableBuilder
                 int i = 0;
                 hashMap.put(
                         formatMethodName(name),
-                        (new StringBuilder()).append("").append(iter).toString()
+                        (new StringBuilder()).append(iter).toString()
                         );
                 while( iter.hasNext() ) {
                     hashMap.put(

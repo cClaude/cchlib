@@ -12,6 +12,7 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -252,7 +253,7 @@ public class Preferences implements Serializable
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
-            this.localeLanguage = "";
+            this.localeLanguage = Const.EMPTY_STRING;
             }
         else {
             this.localeLanguage = locale.getLanguage();
@@ -361,7 +362,7 @@ public class Preferences implements Serializable
         pp.populateProperties( this, properties );
 
         File prefs = getPreferencesFile();
-        PropertiesHelper.saveProperties(prefs, properties, "" );
+        PropertiesHelper.saveProperties(prefs, properties, Const.EMPTY_STRING );
         logger.info( "Preferences saved in " + prefs );
     }
 

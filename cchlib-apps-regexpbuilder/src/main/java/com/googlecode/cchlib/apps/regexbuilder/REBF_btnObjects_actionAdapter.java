@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 class REBF_btnObjects_actionAdapter
     implements ActionListener
 {
-    RegExpBuilderWB adaptee;
+    RegExpBuilderPanel adaptee;
 
-    REBF_btnObjects_actionAdapter( final RegExpBuilderWB adaptee )
+    REBF_btnObjects_actionAdapter( final RegExpBuilderPanel adaptee )
     {
         this.adaptee = adaptee;
     }

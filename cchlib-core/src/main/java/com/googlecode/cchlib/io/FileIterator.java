@@ -2,6 +2,7 @@ package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -102,9 +103,10 @@ public class FileIterator
             File[] content = dir.listFiles(this.fileFilter);
 
             if( content != null ) {
-                for( File f : content ) {
-                    currentDirFilesList.add(f);
-                    }
+                currentDirFilesList.addAll( Arrays.asList( content ) );
+                //for( File f : content ) {
+                    //currentDirFilesList.add(f);
+                    //}
                 }
             return hasNext();
             }

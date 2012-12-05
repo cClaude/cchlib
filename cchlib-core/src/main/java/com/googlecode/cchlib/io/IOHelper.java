@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.io;
 
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
+import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,8 +17,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
-import com.googlecode.cchlib.util.iterator.IteratorFilter;
 
 /**
  * Provide some extra tools for I/O operations
@@ -78,7 +78,7 @@ public final class IOHelper
     /**
      * Copy {@link InputStream} content to a File
      *
-     * @param input         {@link InputStream} to copy
+     * @param input         {@link InputStream} to copy (must be close)
      * @param outputFile    {@link File} to receive input content.
      * @param buffer        Buffer to use for copy
      * @throws IOException if an I/O error occurs. 
@@ -107,7 +107,7 @@ public final class IOHelper
     /**
      * Copy an {@link InputStream} to a File
      *
-     * @param input        {@link InputStream} to copy
+     * @param input        {@link InputStream} to copy (must be close)
      * @param outputFile   {@link File} to receive InputStream content.
      * @throws IOException if an I/O error occurs. 
      */
@@ -138,7 +138,7 @@ public final class IOHelper
      */
     public static void toFile(
             final String str, 
-            final File   file 
+            final File   file
             ) 
         throws IOException
     {
@@ -249,8 +249,8 @@ public final class IOHelper
     /**
      * Copy input content to output.
      *
-     * @param input  {@link Reader} to read from
-     * @param output {@link Writer} to write to
+     * @param input  {@link Reader} to read from (must be close)
+     * @param output {@link Writer} to write to (must be close)
      * @param buffer Buffer to use for copy
      * @throws IOException if an I/O error occurs. 
      */
@@ -314,7 +314,7 @@ public final class IOHelper
      * @return true if content (and size) of {@link InputStream} are equals.
      * @throws IOException if an I/O error occurs. 
      */
-    public final static boolean isEquals( 
+    public static boolean isEquals( 
         final InputStream expected,
         final InputStream actual 
         )

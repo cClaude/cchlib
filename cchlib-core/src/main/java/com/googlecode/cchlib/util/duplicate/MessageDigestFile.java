@@ -227,7 +227,7 @@ public class MessageDigestFile
      * @see #computeDigestKey(String)
      * @see #digest()
      */
-    public final static String computeDigestKeyString(
+    public static String computeDigestKeyString(
         final byte[] digestKey
         )
     {
@@ -464,10 +464,7 @@ public class MessageDigestFile
             this.md = MessageDigest.getInstance( algorithm );
             }
         catch( NoSuchAlgorithmException e ) {
-            ClassNotFoundException cnfe = new ClassNotFoundException( algorithm );
-            
-            cnfe.initCause( e );
-            throw cnfe;
+            throw new ClassNotFoundException( algorithm, e );
             }
     }
 }

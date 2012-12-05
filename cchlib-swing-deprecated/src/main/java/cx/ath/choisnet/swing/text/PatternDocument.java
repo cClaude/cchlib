@@ -36,7 +36,7 @@ public class PatternDocument extends PlainDocument
     {
         this.jtf = jTextField;
         this.errorColor = errorColor;
-        //TODO: add listener on LookAndField to invalidate field !
+        //TO DO: add listener on LookAndField to invalidate field !
         // create a new JTextField and get color!
         this.defaultColor = jTextField.getBackground();
     }

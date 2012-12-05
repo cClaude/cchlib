@@ -94,7 +94,7 @@ public class LookAndFeelHelpers
                 }
             }).start();
 
-            // TODO open a dialog !n
+            // TO DO open a dialog !n
             e.printStackTrace();
         }
     }

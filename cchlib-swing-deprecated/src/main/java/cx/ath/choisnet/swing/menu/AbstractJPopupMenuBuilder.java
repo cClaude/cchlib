@@ -23,7 +23,7 @@ import javax.swing.JPopupMenu;
 public abstract class AbstractJPopupMenuBuilder
 {
     @Deprecated final public void add(Object a, Object b)
-    {//FIXME remove this
+    {//FIX ME remove this
         throw new IllegalStateException();
     }
 

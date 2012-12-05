@@ -4,6 +4,7 @@
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
+import com.googlecode.cchlib.Const;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 
 /**
@@ -27,7 +28,7 @@ public class IntrospectionCompareException extends IntrospectionException
             )
     {
         super(
-            (messagePrefix == null ? "" : messagePrefix + ' ')
+            (messagePrefix == null ? Const.EMPTY_STRING : messagePrefix + ' ')
             + "M:" + m.getName() + " o1=(" + o1 + ") o2=(" + o2 + ')'
             );
 

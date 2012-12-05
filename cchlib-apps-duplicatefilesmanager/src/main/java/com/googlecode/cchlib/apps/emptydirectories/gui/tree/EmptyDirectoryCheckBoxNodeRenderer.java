@@ -62,13 +62,13 @@ class EmptyDirectoryCheckBoxNodeRenderer
     }
 
     public Component getTreeCellRendererComponent(
-            JTree   tree,
-            Object  _value_,
-            boolean selected,
-            boolean expanded,
-            boolean leaf,
-            int     row,
-            boolean hasFocus
+            final JTree   tree,
+            final Object  _value_,
+            final boolean selected,
+            final boolean expanded,
+            final boolean leaf,
+            final int     row,
+            final boolean hasFocus
             )
     {
         //FIXME: boolean     useDefaultRendering = true;

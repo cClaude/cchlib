@@ -23,7 +23,6 @@ public class FileIteratorBuilder
 	}
 
 	private Iterable<File> getFileIterator() {
-		// TODO Auto-generated method stub
 		return new FileIterator(
                 root,
                 new java.io.FileFilter() // Filter for files

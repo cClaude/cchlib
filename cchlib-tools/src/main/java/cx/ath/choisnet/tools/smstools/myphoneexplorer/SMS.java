@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Const;
 
 /**
  * SMS content
@@ -162,7 +163,7 @@ public class SMS implements Serializable
                 computedTimeDate = new Date(0);
                 
                 //Remove source
-                this.setXtraSource( "" );
+                this.setXtraSource( Const.EMPTY_STRING );
             }
             else {
                 throw new RuntimeException(

@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import java.io.File;
 import com.googlecode.cchlib.io.SerializableFileFilter;
+import java.io.File;
 
 /**
  * A {@link java.io.Serializable} {@link java.io.FileFilter} with an

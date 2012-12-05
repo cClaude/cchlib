@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.apps.regexbuilder;
 
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.net.URL;
@@ -8,7 +12,9 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
@@ -20,19 +26,51 @@ import com.googlecode.cchlib.awt.PlateformeDesktopNotSupportedException;
  *
  */
 public class RegExpBuilderFrame
-    extends RegExpBuilderWB
+    extends JFrame
         implements HyperlinkListener
 {
     private static final long serialVersionUID = 1L;
+    private XRegExpBuilderPanel panel;
 
     /**
      *  Construct the frame
      */
     public RegExpBuilderFrame()
     {
+        enableEvents( AWTEvent.WINDOW_EVENT_MASK );
 
+        try {
+            setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderPanel.class.getResource("icon.gif")));
+            //setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("com/googlecode/cchlib/apps/regexbuilder/icon.gif")));
+            }
+        catch( Exception e ) {
+            e.printStackTrace();
+            }
+
+        try {
+            initComponents();
+            }
+        catch( Exception e ) {
+            e.printStackTrace();
+            }
     }
-/*
+   
+    private void initComponents()
+    {
+        BorderLayout    borderLayout1         = new BorderLayout();
+        JPanel contentPane = (JPanel)this.getContentPane();
+        contentPane.setLayout( borderLayout1 );
+        this.setFont( new java.awt.Font( "Dialog", 0, 12 ) );
+        this.setSize( new Dimension(720, 520) );
+        this.setTitle( "Regular Expressions Tester" );
+
+        contentPane.setPreferredSize( new Dimension( 438, 142 ) );
+        
+        panel = new XRegExpBuilderPanel();
+        getContentPane().add(panel, BorderLayout.CENTER);  
+    }
+
+    /*
     // Component initialization
     private void jbInit() throws Exception
     {
@@ -210,6 +248,11 @@ public class RegExpBuilderFrame
             System.exit( 0 );
         }
     }
+
+    
+    class XRegExpBuilderPanel extends RegExpBuilderPanel
+    {
+        private static final long serialVersionUID = 1L;
 
     /**
      * The easiest way to check if a particular string matches a regular
@@ -825,7 +868,7 @@ public class RegExpBuilderFrame
                     .split( textSubject.getText() /* , Limit */) );
         }
     }
-
+    }
     @Override // HyperlinkListener
     public void hyperlinkUpdate( HyperlinkEvent hle )
     {

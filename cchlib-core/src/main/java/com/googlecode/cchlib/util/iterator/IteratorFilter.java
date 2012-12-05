@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class IteratorFilter<T>
     extends ComputableIterator<T>
-        implements Iterator<T>
+        //implements Iterator<T>
         //Note: ComputableIterator can't be Iterable<T>
 {
     private Iterator<T>   iterator;

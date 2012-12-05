@@ -40,9 +40,9 @@ public class ConcateReader extends Reader
         if( anIOE != null ) {
             throw anIOE;
             }
-        else {
-            return;
-            }
+        //else {
+            //return;
+            //}
     }
 
     @Override

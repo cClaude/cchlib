@@ -213,7 +213,7 @@ public class CustomJSlider
                     //MouseMotionListener,
                     //MouseListener
     {
-//        private JLabel lblPop = new JLabel("",SwingConstants.CENTER);
+//        private JLabel lblPop = new JLabel(Const.EMPTY_STRING,SwingConstants.CENTER);
 //        public void setPop(MouseEvent me)
 //        {
 //          lblPop.setText( Integer.toString( CustomJSlider.this.getValue() ) );

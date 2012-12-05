@@ -93,9 +93,9 @@ class JHexEditorASCII
                 g.setColor(Color.black);
             }
 
-            String s=""+new Character(model.getBuffer().getChar( n ));
+            String s = (new Character(model.getBuffer().getChar( n ))).toString();
             if((model.getBuffer().getByte( n )<20)||(model.getBuffer().getByte( n )>126)) {
-                s=""+(char)16;
+                s = Character.toString( (char)16 );
                 }
             model.printString(g,s,(x++),y);
 

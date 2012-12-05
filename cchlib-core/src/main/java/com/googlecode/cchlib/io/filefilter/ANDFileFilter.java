@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.io.filefilter;
 
+import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * Handle a collection of {@link FileFilter} to generate

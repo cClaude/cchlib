@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
@@ -223,7 +224,7 @@ public class JPanelResult extends JPanelResultWB
     protected void displayFileInfo( KeyFileState kf )
     {
         if( kf == null ) {
-            getJTextFieldFileInfo().setText( "" );
+            getJTextFieldFileInfo().setText( Const.EMPTY_STRING );
             }
         else {
             File    f       = kf.getFile();

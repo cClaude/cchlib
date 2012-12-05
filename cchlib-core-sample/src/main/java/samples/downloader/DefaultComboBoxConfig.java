@@ -2,6 +2,7 @@ package samples.downloader;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.googlecode.cchlib.Const;
 
 /**
  *
@@ -110,9 +111,9 @@ public class DefaultComboBoxConfig
 //            return this.labelStringList.get( index );
 //    		}
 //    	catch( IndexOutOfBoundsException e ) {
-//    		// TODO: logger !!!
+//    		// TO DO: logger !!!
 //    		
-//            return "";
+//            return Const.EMPTY_STRING;
 //    		}
 //    }
 

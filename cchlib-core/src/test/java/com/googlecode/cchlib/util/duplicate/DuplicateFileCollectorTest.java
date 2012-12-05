@@ -34,6 +34,7 @@ public class DuplicateFileCollectorTest
         instance.addDigestEventListener(
                 new DigestEventListener()
                 {
+                    private static final long serialVersionUID = 1L;
                     long currentFileLength = 0;
                     long cumul = 0;
                     int fileCount = 0;

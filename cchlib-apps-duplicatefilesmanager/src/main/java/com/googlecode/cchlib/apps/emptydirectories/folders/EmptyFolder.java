@@ -39,4 +39,21 @@ public class EmptyFolder extends Folder
         builder.append( "]" );
         return builder.toString();
     }
+
+    public int compareToEmptyFolder( final Folder aFolder )
+    {
+        if( aFolder instanceof EmptyFolder ) {
+            EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
+            
+            if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
+                return compareTo( aEmptyFolder ); 
+                }
+            else {
+                return -2;
+                }
+            }
+        else {
+            return -1;
+            }
+    }
 }
