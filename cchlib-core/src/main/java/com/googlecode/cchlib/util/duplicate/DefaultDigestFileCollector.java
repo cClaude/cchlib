@@ -12,9 +12,7 @@ import java.util.Set;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
-//import cx.ath.choisnet.util.CancelRequestException;
-import cx.ath.choisnet.util.HashMapSet;
-//import cx.ath.choisnet.util.checksum.MessageDigestFile;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * TODOC

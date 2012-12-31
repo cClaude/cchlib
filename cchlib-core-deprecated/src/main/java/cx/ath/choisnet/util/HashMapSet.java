@@ -48,6 +48,7 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
  */
+@Deprecated
 public class HashMapSet<K,V>
     extends HashMap<K,Set<V>>
         implements  Iterable<V>,
@@ -100,7 +101,7 @@ public class HashMapSet<K,V>
      */
     public HashMapSet( int initialCapacity, float loadFactor )
     {
-        super(initialCapacity,loadFactor);
+        super( initialCapacity, loadFactor );
     }
 
     /**
@@ -114,9 +115,9 @@ public class HashMapSet<K,V>
      */
     public void deepClear()
     {
-        for(Set<V> s:super.values()) {
+        for( Set<V> s : super.values() ) {
             s.clear();
-        }
+            }
 
         super.clear();
     }
@@ -139,12 +140,12 @@ public class HashMapSet<K,V>
 
         for(Set<? extends V> s:super.values()) {
             size += s.size();
-        }
+            }
 
         return size;
     }
 
-//    /** CAN'T OVERWRITE containsValue() -> buggy
+//    /** CAN'T OVERWRITE containsValue() -> buggy (NOT SUPPORTED)
 //     * Returns true if this map maps
 //     * one or more keys to the specified value.
 //     * <p>
@@ -205,7 +206,8 @@ public class HashMapSet<K,V>
             s = new HashSet<V>();
 
             super.put(key,s);
-        }
+            }
+        
         return s.add( value );
     }
 
@@ -224,8 +226,8 @@ public class HashMapSet<K,V>
         for(Map.Entry<K,V> e:m.entrySet()) {
            if( add( e.getKey(), e.getValue() ) ) {
                r++;
-           }
-        }
+               }
+            }
 
        return r;
     }
@@ -250,13 +252,13 @@ public class HashMapSet<K,V>
             s = new HashSet<V>();
 
             super.put(key,s);
-        }
+            }
 
         for(V v:values) {
            if( s.add( v ) ) {
                r++;
-           }
-        }
+               }
+            }
 
        return r;
     }
@@ -276,7 +278,7 @@ public class HashMapSet<K,V>
 
         if( s != null ) {
             return s.remove( value );
-        }
+            }
         return false;
     }
 
@@ -296,8 +298,8 @@ public class HashMapSet<K,V>
         for(Set<? extends V> s:super.values()) {
             if( s.contains( value )) {
                 return true;
+                }
             }
-        }
         return false;
     }
 
@@ -315,8 +317,8 @@ public class HashMapSet<K,V>
         for(V v:c) {
             if( !contains(v) ) {
                 return false;
+                }
             }
-        }
         return true;
     }
 
@@ -359,8 +361,8 @@ public class HashMapSet<K,V>
 
            if( (s==null) || (s.size()<minSetSize) ) {
                iter.remove();
-           }
-        }
+               }
+            }
     }
 
     /**
@@ -438,7 +440,7 @@ public class HashMapSet<K,V>
             V v = i.next();
             K k = iterable.computeKey( v );
             add(k,v);
-        }
+            }
     }
 
     /**
@@ -453,7 +455,7 @@ public class HashMapSet<K,V>
             V v = iterator.next();
             K k = iterator.computeKey( v );
             add(k,v);
-        }
+            }
     }
 
     /**

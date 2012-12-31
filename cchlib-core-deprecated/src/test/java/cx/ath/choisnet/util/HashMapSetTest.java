@@ -7,6 +7,7 @@ import org.junit.Test;
 /**
  *
  */
+@Deprecated
 public class HashMapSetTest
 {
 //    public final static String[] POPULATE = {
