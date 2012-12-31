@@ -109,7 +109,12 @@ public class DefaultComboBoxConfig
     @Override
     public String getComboBoxSelectedValue()
     {
-        return this.items.get( getSelectedIndex() ).getJComboBoxText();
+        if( this.items.size() > 0 ) {
+            return this.items.get( getSelectedIndex() ).getJComboBoxText();
+            }
+        else {
+            return null;
+            }
     }
 
     @Override

@@ -61,7 +61,9 @@ class GDAI_tumblr_com_ConfigLoader
     
     private static File getConfigFile()
     {
-        return FileHelper.getUserHomeDirFile( GDAI_tumblr_com.class.getName() + ".properties" );
+        return FileHelper.getUserHomeDirFile( 
+            "." + GDAI_tumblr_com.class.getSimpleName() + ".properties" 
+            );
     }
     
     public int getBlogsSize()
