@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DefaultDigestFileCollector} instead
@@ -84,7 +84,7 @@ public class DefaultDigestFileCollector
      * </pre>
      *
      * @param files
-     * @throws com.googlecode.cchlib.util.CancelRequestException 
+     * @throws com.googlecode.cchlib.util.CancelRequestException
      * @see DigestEventListener#ioError(IOException, File)
      * @see DigestEventListener#computeDigest(File)
      */

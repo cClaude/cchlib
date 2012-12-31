@@ -32,26 +32,6 @@ public class DuplicateFileCollectorTest
         DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
         File                    root              = FileHelper.getUserHomeDirFile();
         Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
-//        Iterable<File>          files = new FileIterator(
-//                root,
-//                new java.io.FileFilter()
-//                {
-//                    private int fileCount = 0;
-//                    @Override
-//                    public boolean accept( File f )
-//                    {
-//                        if( f.isFile() ) {
-//                            if( f.length() < FILE_MAX_LENGTH ) {
-//                                if( fileCount++ < MAX_FILES_COUNT * 2 ) {
-//                                    //logger.info( "Working on: " + f );
-//                                    return true;
-//                                    }
-//                                }
-//                        }
-//                        return false;
-//                    }
-//                }
-//                );
 
         instance.addDigestEventListener(
                 new DigestEventListener()

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import com.googlecode.cchlib.util.CancelRequestException;
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * Perform 2 pass to check duplicate.
