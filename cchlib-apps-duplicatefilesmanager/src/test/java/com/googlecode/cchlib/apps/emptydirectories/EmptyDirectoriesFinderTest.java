@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.lookup.EmptyDirectoriesListener;
 //import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
 //import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.CancelRequestException;

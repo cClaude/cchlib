@@ -27,23 +27,22 @@ import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
+import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
-import cx.ath.choisnet.util.HashMapSet;
 
 /**
  *
  */
 final public class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
-        //implements I18nPrepAutoUpdatable
         implements I18nPrepHelperAutoUpdatable
 {
     private static final long serialVersionUID = 2L;
     static final Logger logger = Logger.getLogger( DuplicateFilesFrame.class );
     private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
-
-    HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
+    
+    private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
 
     private int                 state;
     private int                 subState;

@@ -18,14 +18,16 @@ import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
  *
  */
 public
-class EmptyDirectoryCheckBoxNodeRenderer
+class EmptyDirectoryCheckBoxesNodeRenderer
     implements TreeCellRenderer
 {
-    private final static Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxNodeRenderer.class );
-    final private JCheckBox                 nodeLeafRenderer    = new JCheckBox();
-    final private DefaultTreeCellRenderer   nonLeafRenderer     = new DefaultTreeCellRenderer();
-    //final private JCheckBox nodeRenderer = new JCheckBox();
-    final private FolderTreeModelable model;
+    private final static Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxesNodeRenderer.class );
+    
+    final private JCheckBox                 nodeLeafRenderer        = new JCheckBox();
+    final private JCheckBox                 nonLeafEmptyRenderer    = new JCheckBox();
+    final private DefaultTreeCellRenderer   nonLeafNotEmptyRenderer = new DefaultTreeCellRenderer();
+    final private FolderTreeModelable       model;
+    
     private FolderTreeNode currentValue;
 
     //final private Color selectionBorderColor;
@@ -34,12 +36,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
     final private Color textForeground;
     final private Color textBackground;
 
-//    protected JCheckBox getNodeRenderer()
-//    {
-//        return this.nodeRenderer;
-//    }
-
-    public EmptyDirectoryCheckBoxNodeRenderer( final FolderTreeModelable model )
+    public EmptyDirectoryCheckBoxesNodeRenderer( final FolderTreeModelable model )
     {
         this.model=model;
 
@@ -47,11 +44,14 @@ class EmptyDirectoryCheckBoxNodeRenderer
 
         if (fontValue != null) {
             this.nodeLeafRenderer.setFont(fontValue);
+            this.nonLeafEmptyRenderer.setFont(fontValue);
             }
 
         Boolean booleanValue = (Boolean) UIManager.get("Tree.drawsFocusBorderAroundIcon");
 
         this.nodeLeafRenderer.setFocusPainted((booleanValue != null)
+                && (booleanValue.booleanValue()));
+        this.nonLeafEmptyRenderer.setFocusPainted((booleanValue != null)
                 && (booleanValue.booleanValue()));
 
         //this.selectionBorderColor = UIManager.getColor("Tree.selectionBorderColor");
@@ -71,8 +71,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
             final boolean hasFocus
             )
     {
-        //FIXME: boolean     useDefaultRendering = true;
-        String      name;
+        String name;
 
         if( _value_ instanceof FolderTreeNode ) {
             FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
@@ -87,7 +86,13 @@ class EmptyDirectoryCheckBoxNodeRenderer
                 }
             
             if( folder instanceof EmptyFolder ) {
+                EmptyFolder ef = EmptyFolder.class.cast( folder );
+                
                 if( leaf ) {
+                    if( ! ef.isEmpty() ) {
+                        logger.error( "leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
+                        }
+                    
                     // Build display
                     String stringValue = tree.convertValueToText(
                             name,
@@ -97,9 +102,9 @@ class EmptyDirectoryCheckBoxNodeRenderer
                             row,
                             false
                             );
-                    this.nodeLeafRenderer.setText(stringValue);
-                    this.nodeLeafRenderer.setSelected(false);
-                    this.nodeLeafRenderer.setEnabled(tree.isEnabled());
+                    this.nodeLeafRenderer.setText( stringValue );
+                    this.nodeLeafRenderer.setSelected( false );
+                    this.nodeLeafRenderer.setEnabled( tree.isEnabled() );
 
                     if (selected) {
                         this.nodeLeafRenderer.setForeground( this.selectionForeground );
@@ -111,19 +116,49 @@ class EmptyDirectoryCheckBoxNodeRenderer
                         }
 
                     this.currentValue = nodeValue;
-                    this.nodeLeafRenderer.setSelected(this.model.isSelected( nodeValue ));
+                    this.nodeLeafRenderer.setSelected( this.model.isSelected( nodeValue ) );
                     this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
 
                     return this.nodeLeafRenderer;
                     }
                 else {
-                    logger.info( "node (not leaf) of type: " + folder );
+                    if( ef.isEmpty() ) {
+                        logger.error( "not a leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
+                        }
+
+                    // Build display
+                    String stringValue = tree.convertValueToText(
+                            name,
+                            selected,
+                            expanded,
+                            leaf,
+                            row,
+                            false
+                            );
+                    this.nonLeafEmptyRenderer.setText( stringValue );
+                    this.nonLeafEmptyRenderer.setSelected( false );
+                    this.nonLeafEmptyRenderer.setEnabled( tree.isEnabled() );
+
+                    if (selected) {
+                        this.nonLeafEmptyRenderer.setForeground( this.selectionForeground );
+                        this.nonLeafEmptyRenderer.setBackground( this.selectionBackground );
+                        }
+                    else {
+                        this.nonLeafEmptyRenderer.setForeground( this.textForeground );
+                        this.nonLeafEmptyRenderer.setBackground( this.textBackground );
+                        }
+
+                    this.currentValue = nodeValue;
+                    this.nonLeafEmptyRenderer.setSelected(this.model.isSelected( nodeValue ));
+                    this.nonLeafEmptyRenderer.setEnabled( !nodeValue.isLeaf() );
+
+                    return this.nonLeafEmptyRenderer;
                     }
                 }
             else { // !(folder instanceof EmptyFolder)
-                logger.info( "node (not EmptyFolder) of type: " + folder );
+                //logger.info( "node (not EmptyFolder) of type: " + folder );
                 if( leaf ) {
-                    //FIXME throw new IllegalStateException( "Found leaf on a no empty folder: " + folder );
+                    throw new IllegalStateException( "Found leaf on a no empty folder: " + folder );
                     }
                 }
             }
@@ -134,7 +169,7 @@ class EmptyDirectoryCheckBoxNodeRenderer
         Object defValue = name == null ? _value_ : name;
 
         // use default display
-        return this.nonLeafRenderer.getTreeCellRendererComponent(
+        return this.nonLeafNotEmptyRenderer.getTreeCellRendererComponent(
                     tree,
                     defValue /* name or _value*/,
                     selected,

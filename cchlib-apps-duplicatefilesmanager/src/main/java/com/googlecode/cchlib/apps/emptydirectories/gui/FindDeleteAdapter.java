@@ -1,12 +1,20 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.lookup.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
@@ -61,7 +69,6 @@ public class FindDeleteAdapter
         logger.info( "doFind() thread started" );
 
         this.isCancel = false;
-
         final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel );
         final UpdateJTreeListeners          listener    = new UpdateJTreeListeners();
 
@@ -124,34 +131,60 @@ public class FindDeleteAdapter
         {
             logger.info( "findStarted()" );
 
-            SwingUtilities.invokeLater(
-                    new Runnable()
-                    {
-                        @Override
-                        public void run()
+            try {
+                SwingUtilities.invokeAndWait(
+                        new Runnable()
                         {
-                            treeModel.clear();
-                        }
-                    });
+                            @Override
+                            public void run()
+                            {
+                                treeModel.clear();
+                            }
+                        });
+                }
+            catch( InvocationTargetException | InterruptedException e ) {
+                logger.error( "findStarted() *** ERROR", e );
+                }
         }
         @Override
         public void findDone()
         {
             listener.findTaskDone( isCancel );
-            
+
             logger.info( "findDone()" );
         }
     }
 
     public void doDelete()
     {
-        for( File f : treeModel.selectedFiles() ) {
+        // Get selected list of paths
+        List<Path> selectedPaths = new ArrayList<>();
+
+        for( EmptyFolder ef : treeModel.getSelectedEmptyFolders() ) {
+            selectedPaths.add( ef.getPath() );
+            }
+
+        // Add deepest paths at the beginning
+        Collections.sort( selectedPaths, new Comparator<Path>(){
+            @Override
+            public int compare( Path p1, Path p2 )
+            {
+                return p2.getNameCount() - p1.getNameCount();
+            }
+        });
+
+        // Delete deepest paths firsts
+        for( Path path : selectedPaths ) {
             try {
-                boolean res = f.delete();
-                logger.info( "delete [" + f + "] => " + res );
+                //boolean res = f.delete();
+                boolean res = Files.deleteIfExists( path );
+                logger.info( "delete [" + path + "] => " + res );
+                }
+            catch( DirectoryNotEmptyException e ) {
+                logger.warn( "delete [" + path + "]", e );
                 }
             catch( Exception e ) {
-                logger.warn( "delete [" + f + "]", e );
+                logger.error( "delete [" + path + "]", e );
                 }
             }
     }

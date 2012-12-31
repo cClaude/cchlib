@@ -5,7 +5,7 @@ import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  *

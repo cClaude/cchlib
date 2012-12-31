@@ -10,6 +10,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -21,8 +22,9 @@ class EmptyDirectoryCheckBoxNodeEditor
         implements TreeCellEditor
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxNodeEditor.class );
 
-    final EmptyDirectoryCheckBoxNodeRenderer renderer;
+    final EmptyDirectoryCheckBoxesNodeRenderer renderer;
     final FolderTreeModelable model;
 
     /**
@@ -32,51 +34,38 @@ class EmptyDirectoryCheckBoxNodeEditor
     public EmptyDirectoryCheckBoxNodeEditor( final FolderTreeModelable model )
     {
         this.model      = model;
-        this.renderer   = new EmptyDirectoryCheckBoxNodeRenderer(model);
+        this.renderer   = new EmptyDirectoryCheckBoxesNodeRenderer( model );
 
-        ItemListener itemListener = new ItemListener()
-        {
-            public void itemStateChanged(ItemEvent itemEvent)
-            {
-                Object cb = itemEvent.getItem();
-
-                if (cb instanceof JCheckBox && itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                    FolderTreeNode v = EmptyDirectoryCheckBoxNodeEditor.this.renderer.getCurrentValue();
-                    EmptyDirectoryCheckBoxNodeEditor.this.model.toggleSelected(v);
-                    }
-                // !!! the following 3 lines are important because... ?
-//                if (stopCellEditing()) {
-//                    fireEditingStopped();
-//                }
-            }
-        };
-        this.renderer.getLeafRenderer().addItemListener(itemListener);
+        this.renderer.getLeafRenderer().addItemListener(
+                new EmptyDirectoryCheckBoxNodeEditorItemListener()
+                );
     }
 
+    @Override
     public Object getCellEditorValue()
     {
-        JCheckBox checkbox = this.renderer.getLeafRenderer();
-
-        return checkbox;
+        return this.renderer.getLeafRenderer();
     }
 
-    @Override public boolean isCellEditable(EventObject event)
+    @Override
+    public boolean isCellEditable(EventObject event)
     {
         boolean returnValue = false;
         Object  source      = event.getSource();
 
         if (event instanceof MouseEvent && source instanceof JTree) {
             MouseEvent  mouseEvent  = (MouseEvent) event;
-            TreePath    path        = ((JTree)source).getPathForLocation(
-                    mouseEvent.getX(),
-                    mouseEvent.getY()
-                    );
-            returnValue = this.model.isSelectable(path);
+            TreePath    treePath    = ((JTree)source).getPathForLocation(
+                                                        mouseEvent.getX(),
+                                                        mouseEvent.getY()
+                                                        );
+            returnValue = this.model.isSelectable( treePath );
             }
 
         return returnValue;
     }
 
+    @Override
     public Component getTreeCellEditorComponent(
             final JTree     tree,
             final Object    value,
@@ -98,4 +87,32 @@ class EmptyDirectoryCheckBoxNodeEditor
 
         return editor;
     }
+    
+    
+    private class EmptyDirectoryCheckBoxNodeEditorItemListener implements ItemListener
+    {
+        public void itemStateChanged(ItemEvent itemEvent)
+        {
+            Object cb = itemEvent.getItem();
+
+            if( cb instanceof JCheckBox ) {
+                if( itemEvent.getStateChange() == ItemEvent.SELECTED ) {
+                    FolderTreeNode v = EmptyDirectoryCheckBoxNodeEditor.this.renderer.getCurrentValue();
+                    EmptyDirectoryCheckBoxNodeEditor.this.model.toggleSelected(v);
+                    }
+                else {
+                    logger.warn( "ItemEvent state is not SELECTED" );
+                    }
+                }
+            else {
+                logger.warn( "ItemEvent is not a JCheckBox" );
+                }
+
+            // !!! the following 3 lines are important because... ?
+            if( stopCellEditing() ) {
+                fireEditingStopped();
+                }
+        }
+    };
+
 }

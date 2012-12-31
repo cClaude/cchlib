@@ -7,6 +7,10 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
 
+/**
+ * 
+ *
+ */
 public class FolderTreeBuilder
 {
     private static final Logger logger = Logger.getLogger( FolderTreeBuilder.class );
@@ -15,6 +19,9 @@ public class FolderTreeBuilder
     // TODO use ArrayHashMap instead !
     private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>();
 
+    /**
+     * 
+     */
     public FolderTreeBuilder()
     {
         // empty
@@ -51,7 +58,8 @@ public class FolderTreeBuilder
         // Create EmptyFolder node
         if( bestParentFolderTreeNode.getFolder().getPath().equals( emptyFolder.getPath() ) ) {
             // Alreay exist, juste change type
-            bestParentFolderTreeNode.setUserObject( emptyFolder );
+            bestParentFolderTreeNode.setFolder( emptyFolder );
+            //bestParentFolderTreeNode.setUserObject( emptyFolder );
             
             if( logger.isDebugEnabled() ) {
                 logger.debug( String.format( "Add (%s) already exist (fix type if needed)", emptyFolder ) );

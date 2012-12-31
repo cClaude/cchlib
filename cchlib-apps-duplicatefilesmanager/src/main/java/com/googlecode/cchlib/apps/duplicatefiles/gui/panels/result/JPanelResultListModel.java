@@ -15,8 +15,7 @@ import javax.swing.AbstractListModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  *

@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
-import java.io.File;
-import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
@@ -11,12 +9,6 @@ import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
  */
 public interface FolderTreeModelable extends TreeModel
 {
-    /**
-     * Returns JTree for this TreeModel
-     * @return JTree for this TreeModel
-     */
-    public JTree getJTree();
-
     /**
      * Returns number of visible entry in tree
      * @return number of visible entry in tree
@@ -52,10 +44,10 @@ public interface FolderTreeModelable extends TreeModel
     public void toggleSelected( FolderTreeNode node );
 
     /**
-     *
-     * @return TODOC
-     */
-    public Iterable<File> selectedFiles();
+    *
+    * @return TODOC
+    */
+    public Iterable<EmptyFolder> getSelectedEmptyFolders();
 
     /**
      *
@@ -65,13 +57,16 @@ public interface FolderTreeModelable extends TreeModel
     public void add( EmptyFolder emptyFolder );
 
     /**
-     *
+     * 
      * @param b
      */
-    public void setSelectAllLeaf( boolean b );
+    public void setSelectAll( boolean onlyLeaf, boolean selected );
 
     /**
      * Clear all data.
      */
     public void clear();
+
+    public void expandAllRows();
+
 }

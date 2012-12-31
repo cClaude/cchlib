@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.apps.emptydirectories.lookup;
 
 import java.io.FileFilter;
 import com.googlecode.cchlib.util.CancelRequestException;

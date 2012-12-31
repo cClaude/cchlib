@@ -22,7 +22,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;

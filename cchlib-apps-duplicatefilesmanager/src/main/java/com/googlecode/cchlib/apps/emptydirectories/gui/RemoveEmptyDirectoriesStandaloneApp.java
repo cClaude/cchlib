@@ -19,7 +19,7 @@ import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
  */
 public class RemoveEmptyDirectoriesStandaloneApp
     extends JFrame
-        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
@@ -82,12 +82,6 @@ public class RemoveEmptyDirectoriesStandaloneApp
         autoI18n.performeI18n( this, this.getClass() );
         autoI18n.performeI18n( _contentPane, _contentPane.getClass() );
     }
-
-//    @Override // I18nPrepAutoUpdatable
-//    public String getMessagesBundle()
-//    {
-//        return getDFToolKit().getMessagesBundle();
-//    }
     
     private DFToolKit getDFToolKit()
     {

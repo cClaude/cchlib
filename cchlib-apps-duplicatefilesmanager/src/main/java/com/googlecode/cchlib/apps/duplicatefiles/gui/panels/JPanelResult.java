@@ -30,7 +30,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMo
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import cx.ath.choisnet.util.HashMapSet;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  *
