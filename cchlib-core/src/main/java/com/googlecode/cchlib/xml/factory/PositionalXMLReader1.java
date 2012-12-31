@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.xml.factory.alpha;
+package com.googlecode.cchlib.xml.factory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,18 +14,11 @@ import org.w3c.dom.Node;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
-import org.xml.sax.ext.DefaultHandler2;
 import org.xml.sax.helpers.DefaultHandler;
-import com.googlecode.cchlib.xml.factory.XMLReaderException;
 
-/**
- * TODOC
- *
- * TODO: bug with comments, there are not located properly
- */
-public class PositionalXMLReader2
+@Deprecated/*public*/ class PositionalXMLReader1
 {
-    //private final static Logger logger = Logger.getLogger( PositionalXMLReader.class );
+    //Obsolete version private final static Logger logger = Logger.getLogger( PositionalXMLReader.class );
 
     /**
      * Value = {@value}
@@ -48,9 +41,14 @@ public class PositionalXMLReader2
     final public static  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
 
     /**
-     * @deprecated use {@link #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)} instead
+     *
+     * @param is
+     * @return
+     * @throws XMLReaderException
+     * @throws IOException
+     * @throws SAXException
+     * @see #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)
      */
-    @Deprecated
     public static Document readXML( final InputStream is ) throws XMLReaderException, SAXException, IOException
     {
         final SAXParserFactory       saxParserFactory       = SAXParserFactory.newInstance();
@@ -65,11 +63,10 @@ public class PositionalXMLReader2
 
     /**
      * TODOC
-     *
      * @param saxParserFactory
      * @param documentBuilderFactory
      * @param is
-     * @return TODOC
+     * @return
      * @throws XMLReaderException
      * @throws SAXException
      * @throws IOException
@@ -80,25 +77,24 @@ public class PositionalXMLReader2
         final InputStream            is
         ) throws XMLReaderException, SAXException, IOException
     {
-        DocumentBuilder documentBuilder;
+            DocumentBuilder documentBuilder;
 
-        try {
-            documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            }
-        catch( ParserConfigurationException e ) {
-            throw new XMLReaderException( "Can't create DOM builder", e );
-            }
+            try {
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                }
+            catch( ParserConfigurationException e ) {
+                throw new XMLReaderException("Can't create DOM builder", e);
+                }
 
-        return readXML( saxParserFactory, documentBuilder, is );
+            return readXML( saxParserFactory, documentBuilder, is );
     }
 
     /**
      * TODOC
-     *
      * @param saxParserFactory
      * @param documentBuilder
      * @param is
-     * @return TODOC
+     * @return
      * @throws XMLReaderException
      * @throws SAXException
      * @throws IOException
@@ -116,14 +112,12 @@ public class PositionalXMLReader2
             parser = saxParserFactory.newSAXParser();
             }
         catch( final Exception e ) {
-            throw new XMLReaderException( "Can't create SAX parser", e );
+            throw new XMLReaderException("Can't create SAX parser", e);
             }
 
-        final Stack<Element> elementStack  = new Stack<Element>();
-        final StringBuilder  textBuffer    = new StringBuilder();
-        final StringBuilder  commentBuffer = new StringBuilder();
-
-        final DefaultHandler handler       = new DefaultHandler2() {
+        final Stack<Element> elementStack = new Stack<Element>();
+        final StringBuilder  textBuffer   = new StringBuilder();
+        final DefaultHandler handler      = new DefaultHandler() {
             private Locator locator;
             private int prevLineNumber   = 0;
             private int prevColumnNumber = 0;
@@ -143,24 +137,24 @@ public class PositionalXMLReader2
                 final Attributes attributes
                 ) throws SAXException
             {
-                addTextOrCommentIfNeeded(1);
+                addTextIfNeeded();
 
-                final Element element = doc.createElement( qName );
+                final Element el = doc.createElement( qName );
 
                 for( int i = 0; i < attributes.getLength(); i++ ) {
-                    element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
+                    el.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
                     }
 
-                element.setUserData( BEGIN_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
-                element.setUserData( BEGIN_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
+                el.setUserData( BEGIN_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
+                el.setUserData( BEGIN_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
 
                 prevLineNumber   = this.locator.getLineNumber() ;
                 prevColumnNumber = this.locator.getColumnNumber();
 
-                element.setUserData( END_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
-                element.setUserData( END_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
+                el.setUserData( END_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
+                el.setUserData( END_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
 
-                elementStack.push( element );
+                elementStack.push( el );
             }
 
             @Override
@@ -170,46 +164,18 @@ public class PositionalXMLReader2
                 final String qName
                 )
             {
-                addTextOrCommentIfNeeded(2);
+                addTextIfNeeded();
 
                 final Element closedEl = elementStack.pop();
 
-                if( elementStack.isEmpty() ) { // Is this the root element?
-                    doc.appendChild( closedEl );
+                if (elementStack.isEmpty()) { // Is this the root element?
+                    doc.appendChild(closedEl);
                     }
                 else {
                     final Element parentEl = elementStack.peek();
 
-                    parentEl.appendChild( closedEl );
+                    parentEl.appendChild(closedEl);
                     }
-            }
-
-            @Override
-            public void startEntity(String name) throws SAXException
-            {
-                System.err.println( "startEntity= '" + name + '"' );
-                addTextOrCommentIfNeeded(3);
-            }
-
-            @Override
-            public void endEntity(String name) throws SAXException
-            {
-                System.err.println( "endEntity= '" + name + '"' );
-                addTextOrCommentIfNeeded(4);
-            }
-
-            @Override
-            public void startCDATA()
-            {
-                System.err.println( "startCDATA()" );
-                addTextOrCommentIfNeeded(5);
-            }
-
-            @Override
-            public void endCDATA()
-            {
-                System.err.println( "endCDATA()" );
-                addTextOrCommentIfNeeded(6);
             }
 
             @Override
@@ -222,45 +188,18 @@ public class PositionalXMLReader2
                 textBuffer.append( ch, start, length );
             }
 
-            //Report an XML comment anywhere in the document.
-            @Override
-            public void comment(
-                final char[] ch,
-                final int    start,
-                final int    length
-                ) throws SAXException
-            {
-                commentBuffer.append( ch, start, length );
-            }
-
             // Outputs text accumulated under the current node
-            private void addTextOrCommentIfNeeded(int i)
+            private void addTextIfNeeded()
             {
-                //logger.error( "" + i + " textBuffer=[" + textBuffer + "]" );
-                //logger.error( "" + i + " commentBuffer=[" + commentBuffer + "]" );
-                
-                // FIXME comment is not insert in the right place.
-                if( commentBuffer.length() > 0 ) {
-                    final Element element     = elementStack.peek();
-                    final Node    commentNode = doc.createComment( commentBuffer.toString() );
-                
-                    element.appendChild( commentNode );
-                    commentBuffer.setLength( 0 );
-                    }
-                
                 if( textBuffer.length() > 0 ) {
-                    final Element element  = elementStack.peek();
+                    final Element el       = elementStack.peek();
                     final Node    textNode = doc.createTextNode( textBuffer.toString() );
 
-                    element.appendChild( textNode );
-                    textBuffer.delete( 0, textBuffer.length() );
+                    el.appendChild(textNode);
+                    textBuffer.delete(0, textBuffer.length());
                     }
-
             }
         };
-
-        // Needed for DefaultHandler2
-        parser.setProperty ("http://xml.org/sax/properties/lexical-handler", handler);
         parser.parse( is, handler );
 
         return doc;

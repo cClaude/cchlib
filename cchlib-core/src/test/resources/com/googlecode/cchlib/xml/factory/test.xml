@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
-  <!--  A comment -->
-  <div style="styleValue">Text Value</div>
+  <!--  A comment 1 -->
+  <div style="styleValue">
+    <span>Text Value 1</span>
+    Text Value 2
+  </div>
+  <!-- A comment 2 --><!-- A comment 3 -->
 </body>
 </html>

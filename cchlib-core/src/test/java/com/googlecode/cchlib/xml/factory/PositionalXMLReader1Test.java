@@ -23,11 +23,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import com.googlecode.cchlib.xml.factory.XMLReaderException;
-import com.googlecode.cchlib.xml.factory.alpha.PositionalXMLReader2;
 
-public class PositionalXMLReader2Test
+@Deprecated
+public class PositionalXMLReader1Test
 {
-    private final static Logger logger = Logger.getLogger( PositionalXMLReader2Test.class );
+    private final static Logger logger = Logger.getLogger( PositionalXMLReader1Test.class );
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -57,12 +57,12 @@ public class PositionalXMLReader2Test
 
         documentBuilderFactory.setIgnoringComments( false );
 
-        Document document = PositionalXMLReader2.readXML( saxParserFactory, documentBuilderFactory, is );
+        Document document = PositionalXMLReader1.readXML( saxParserFactory, documentBuilderFactory, is );
 
         logger.info( toStringHiddenException( document ) );
-        
-        
+
         // TODO
+        is.close();
     }
 
     private InputStream createXMLInputStream()

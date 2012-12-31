@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.xml.factory;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -22,6 +24,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
 {
@@ -45,22 +48,48 @@ public class PositionalXMLReaderTest
 
     @Test
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()
-            throws XMLReaderException, SAXException, IOException
+            throws XMLReaderException, SAXException, IOException, TransformerException
     {
-        SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
-        DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        InputStream             is                     = createXMLInputStream();
+        final String xmlString;
 
-        assertNotNull( is );
+        {
+            SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
+            DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            InputStream             is                     = createXMLInputStream();
 
-        documentBuilderFactory.setIgnoringComments( false );
+            assertNotNull( is );
 
-        Document document = PositionalXMLReader.readXML( saxParserFactory, documentBuilderFactory, is );
+            documentBuilderFactory.setIgnoringComments( false );
 
-        logger.info( toStringHiddenException( document ) );
-        
-        
-        // TODO
+            Document document = PositionalXMLReader.readXML( saxParserFactory, documentBuilderFactory, is );
+
+            xmlString = toString( document );
+
+            is.close();
+        }
+
+        logger.info( "---NEW XML---\n" + xmlString + "\n---" );
+
+        final byte[] expecteds;
+        {
+            InputStream is = createXMLInputStream();
+            assertNotNull( is );
+
+            expecteds = new ByteArrayBuilder().append( is ).array();
+            is.close();
+        }
+
+        logger.info( "---EXPECTED XML---\n" + new String( expecteds ) + "\n---" );
+
+        final byte[] actuals = xmlString.getBytes();
+
+        byte[] expecteds2 = skipHeader( expecteds );
+        byte[] actuals2   = skipHeader( actuals );
+
+        logger.info( "---expecteds2 XML---\n" + new String( expecteds2 ) + "\n---" );
+        logger.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
+
+        assertArrayEquals( expecteds2, actuals2 );
     }
 
     private InputStream createXMLInputStream()
@@ -68,17 +97,39 @@ public class PositionalXMLReaderTest
         return getClass().getResourceAsStream( "test.xml" );
     }
 
-    private static String toStringHiddenException( final Node document )
+    private byte[] skipHeader( byte[] bytes )
     {
-        try {
-            return toString( document );
+        final byte[] begging = { '<','?','x','m','l',' ' };
+
+        for( int i=0; i<begging.length; i++ ) {
+            if( bytes[ i ] != begging[ i ] ) {
+                throw new IllegalStateException( "bad value at " + i + " : " + bytes[ i ] );
+                }
             }
-        catch( TransformerException e ) {
-            throw new RuntimeException( e );
+
+        int end = - 1;
+
+        for( int i = begging.length; i<bytes.length; i++ ) {
+            if( bytes[ i - 1 ] == '?' && bytes[ i ] == '>' ) {
+                end  = i + 1;
+                break;
+                }
             }
-        catch( IOException e ) {
-            throw new RuntimeException( e );
+
+        if( end < begging.length ) {
+            throw new IllegalStateException( "Can not find header" );
             }
+
+        // Skip white spaces
+        while( Character.isWhitespace( bytes[ end ] ) ) {
+            end++;
+            }
+
+        byte[] res = new byte[ bytes.length - end ];
+
+        System.arraycopy( bytes, end, res, 0, res.length );
+
+        return res;
     }
 
     private static String toString( final Node document )
