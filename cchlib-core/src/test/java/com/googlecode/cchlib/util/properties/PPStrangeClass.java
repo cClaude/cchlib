@@ -27,7 +27,7 @@ class PPStrangeClass implements PopulatorContener
         StringBuilder builder = new StringBuilder();
         builder.append("PPStrangeClass [privateRealContent=");
         builder.append(privateRealContent);
-        builder.append("]");
+        builder.append(']');
         return builder.toString();
     }
 

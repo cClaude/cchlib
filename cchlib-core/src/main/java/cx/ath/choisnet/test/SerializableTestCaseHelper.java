@@ -56,7 +56,7 @@ public class SerializableTestCaseHelper
         throws java.io.IOException, ClassNotFoundException
     {
         @SuppressWarnings("unchecked")
-        Class<T> clazz = (Class<T>)anObject.getClass();
+        Class<T> clazz = (Class<T>)anObject.getClass(); // $codepro.audit.disable unnecessaryCast
 
         return SerializableHelper.clone( anObject, clazz );
     }

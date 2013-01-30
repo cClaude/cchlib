@@ -1,12 +1,16 @@
 package com.googlecode.cchlib.xml.factory;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
@@ -22,13 +26,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
 {
     private final static Logger logger = Logger.getLogger( PositionalXMLReaderTest.class );
+    private Map<String,Position> checker;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -90,6 +97,8 @@ public class PositionalXMLReaderTest
         logger.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
 
         assertArrayEquals( expecteds2, actuals2 );
+
+        logger.info( "Done" );
     }
 
     private InputStream createXMLInputStream()
@@ -151,4 +160,102 @@ public class PositionalXMLReaderTest
 
         return writer.toString();
     }
+
+    @Test
+    public void testPositon() throws XMLReaderException, SAXException, IOException
+    {
+        final Document document;
+
+        {
+            SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
+            DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            InputStream             is                     = createXMLInputStream();
+
+            assertNotNull( is );
+
+            documentBuilderFactory.setIgnoringComments( false );
+
+            document = PositionalXMLReader.readXML( saxParserFactory, documentBuilderFactory, is );
+
+            is.close();
+        }
+
+        this.checker = new HashMap<String,Position>();
+
+        this.checker.put( "html", new Position( 0,  0, 2, 44 ) );
+        this.checker.put( "body", new Position( 2, 44, 3,  7 ) );
+        this.checker.put( "div" , new Position( 4, 24, 5, 27 ) );
+        this.checker.put( "span", new Position( 5, 27, 6, 11 ) );
+
+        this.checker = Collections.unmodifiableMap( this.checker );
+
+        final NodeList nl = document.getChildNodes();
+
+        doRec( nl );
+
+        logger.info( "Done" );
+    }
+
+    private void doRec( final NodeList nl )
+    {
+        final int length = nl.getLength();
+
+        for( int index = 0; index<length ; index++ ) {
+            final Node n = nl.item( index );
+
+            if( n instanceof Element ) {
+                final Element element = Element.class.cast( n );
+
+                final int bLine = (Integer)element.getUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME );
+                final int bCol  = (Integer)element.getUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME );
+                final int eLine = (Integer)element.getUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME );
+                final int eCol  = (Integer)element.getUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME );
+
+                logger.info(
+                    String.format( "Element: %s @ (%d,%d)/(%d/%d)", element, bLine, bCol, eLine, eCol )
+                    );
+
+                doCheck( element, bLine, bCol, eLine, eCol );
+                }
+            else {
+                logger.info( "not Element:" + n );
+                }
+
+            doRec( n.getChildNodes() );
+            }
+    }
+
+    private void doCheck(
+            final Element element,
+            final int     bLine,
+            final int     bCol,
+            final int     eLine,
+            final int     eCol
+            )
+        {
+            Position pos = this.checker.get( element.getNodeName() );
+
+            assertNotNull( pos );
+
+            assertEquals( pos.bLine, bLine );
+            assertEquals( pos.bCol, bCol );
+            assertEquals( pos.eLine, eLine );
+            assertEquals( pos.eCol, eCol );
+        }
+
+    private class Position
+    {
+        final int bLine;
+        final int bCol;
+        final int eLine;
+        final int eCol;
+
+        public Position( final int bLine, final int bCol, final int eLine, final int eCol )
+        {
+            this.bLine = bLine;
+            this.bCol = bCol;
+            this.eLine = eLine;
+            this.eCol = eCol;
+        }
+    };
 }

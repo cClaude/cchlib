@@ -57,7 +57,7 @@ public class MapKeyWrapper<KS,KR,V>
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.containsKey( unwrapper.wrappe( k ) );
     }
 
@@ -82,7 +82,7 @@ public class MapKeyWrapper<KS,KR,V>
     public V get( Object key )
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
 
         return map.get( unwrapper.wrappe( k ) );
     }
@@ -120,7 +120,7 @@ public class MapKeyWrapper<KS,KR,V>
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.remove( unwrapper.wrappe( k ) );
     }
 

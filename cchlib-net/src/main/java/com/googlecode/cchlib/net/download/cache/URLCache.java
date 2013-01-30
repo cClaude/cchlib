@@ -436,6 +436,7 @@ public class URLCache implements Closeable
             if( this.modificationCount > this.autostoreThreshold ) {
                 try {
                     store();
+                    fireAutoStore();
                     }
                 catch( IOException e ) {
                     fireIOException( e );
@@ -481,6 +482,22 @@ public class URLCache implements Closeable
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if( listeners[i] == URLCacheListener.class ) {
                 ((URLCacheListener)listeners[i + 1]).ioExceptionHandler( ioe );
+                }
+            }
+    }
+
+    /**
+     * Runs each {@link URLCacheListener}'s
+     * {@link URLCacheListener#autoStoreDone()}
+     * method.
+     */
+    protected void fireAutoStore()
+    {
+        Object[] listeners = listenerList.getListenerList();
+
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+            if( listeners[i] == URLCacheListener.class ) {
+                ((URLCacheListener)listeners[i + 1]).autoStoreDone();
                 }
             }
     }

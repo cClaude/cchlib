@@ -63,7 +63,7 @@ public class MapWrapper<K,VS,VR>
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
-        VR v = (VR)value;
+        VR v = (VR)value; // $codepro.audit.disable unnecessaryCast
         return map.containsValue( unwrapper.wrappe( v ) );
     }
 

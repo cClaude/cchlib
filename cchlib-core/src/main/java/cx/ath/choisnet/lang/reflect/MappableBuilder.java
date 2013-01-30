@@ -170,7 +170,7 @@ public class MappableBuilder
                     } while(true);
                 }
 
-                result0 = (Mappable)invoke(object, method, hashMap, Mappable.class);
+                result0 = invoke(object, method, hashMap, Mappable.class);
 
                 if(result0 != null) {
                     MappableBuilder.addRec(

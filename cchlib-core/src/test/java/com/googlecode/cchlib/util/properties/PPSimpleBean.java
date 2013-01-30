@@ -108,7 +108,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
         builder.append(aJCheckBox.isSelected());
         builder.append(", aJComboBox(getSelectedIndex)=");
         builder.append(aJComboBox.getSelectedIndex());
-        builder.append("]");
+        builder.append(']');
         return builder.toString();
     }
 
@@ -162,7 +162,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     }
     
     @Override
-	public boolean equals( Object o )
+	public boolean equals( Object o ) // $codepro.audit.disable overridingEqualsAndHashCode
     {
     	throw new UnsupportedOperationException( "equals() not supported" );
     }

@@ -22,7 +22,6 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import com.googlecode.cchlib.xml.factory.XMLReaderException;
 
 @Deprecated
 public class PositionalXMLReader1Test

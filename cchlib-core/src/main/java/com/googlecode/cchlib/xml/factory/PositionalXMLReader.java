@@ -17,17 +17,14 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.DefaultHandler2;
 import org.xml.sax.helpers.DefaultHandler;
-import com.googlecode.cchlib.xml.factory.XMLReaderException;
 
 /**
  * TODOC
- *
- * TODO: bug with comments, there are not located properly
  */
 public class PositionalXMLReader
 {
     private final static Logger logger = Logger.getLogger( PositionalXMLReader.class );
-    
+
     /**
      * Value = {@value}
      */
@@ -122,7 +119,6 @@ public class PositionalXMLReader
 
         final Stack<Element> elementStack  = new Stack<Element>();
         final StringBuilder  textBuffer    = new StringBuilder();
-        //final StringBuilder  commentBuffer = new StringBuilder();
 
         final DefaultHandler handler       = new DefaultHandler2() {
             private Locator locator;
@@ -141,7 +137,7 @@ public class PositionalXMLReader
                 prevLineNumber   = this.locator.getLineNumber() ;
                 prevColumnNumber = this.locator.getColumnNumber();
             }
-            
+
             @Override
             public void startElement(
                 final String     uri,
@@ -150,7 +146,9 @@ public class PositionalXMLReader
                 final Attributes attributes
                 ) throws SAXException
             {
-                logger.info( "startElement: [" + qName + "]");
+                if(logger.isTraceEnabled() ) {
+                    logger.trace( "startElement: [" + qName + "]");
+                    }
                 addTextIfNeeded();
 
                 final Element element = doc.createElement( qName );
@@ -159,12 +157,12 @@ public class PositionalXMLReader
                     element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
                     }
 
-                element.setUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
+                element.setUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , Integer.valueOf( prevLineNumber   ), null );
                 element.setUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
 
                 updateLocator();
-                
-                element.setUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME, Integer.valueOf( prevLineNumber ), null );
+
+                element.setUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , Integer.valueOf( prevLineNumber   ), null );
                 element.setUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
 
                 elementStack.push( element );
@@ -177,7 +175,10 @@ public class PositionalXMLReader
                 final String qName
                 )
             {
-                logger.info( "endElement: [" + qName + "]");
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "endElement: [" + qName + "]");
+                    }
+                
                 addTextIfNeeded();
 
                 final Element closedEl = elementStack.pop();
@@ -195,28 +196,36 @@ public class PositionalXMLReader
             @Override
             public void startEntity(String name) throws SAXException
             {
-                logger.info( "startEntity: [" + name + "]");
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "startEntity: [" + name + "]");
+                    }
                 //addTextOrCommentIfNeeded(3);
             }
 
             @Override
             public void endEntity(String name) throws SAXException
             {
-                logger.info( "endEntity: [" + name + "]");
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "endEntity: [" + name + "]");
+                    }
                 //addTextOrCommentIfNeeded(4);
             }
 
             @Override
             public void startCDATA()
             {
-                logger.info( "startCDATA" );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "startCDATA" );
+                    }
                 //addTextOrCommentIfNeeded(5);
             }
 
             @Override
             public void endCDATA()
             {
-                logger.info( "endCDATA" );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "endCDATA" );
+                    }
                 //addTextOrCommentIfNeeded(6);
             }
 
@@ -227,9 +236,12 @@ public class PositionalXMLReader
                 final int    length
                 ) throws SAXException
             {
-                logger.info( "characters: [" + new String(ch,start,length) + "]" + length );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "characters: [" + new String(ch,start,length) + "]" + length );
+                    }
 
                 textBuffer.append( ch, start, length );
+                //updateLocator();
             }
 
             //Report an XML comment anywhere in the document.
@@ -240,29 +252,18 @@ public class PositionalXMLReader
                 final int    length
                 ) throws SAXException
             {
-                logger.info( "comment: [" + new String(ch,start,length) + "]" + length );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "comment: [" + new String(ch,start,length) + "]" + length );
+                    }
 
                 addTextIfNeeded();
                 addComment( new String(ch,start,length) );
-                //commentBuffer.append( ch, start, length );
-                //addTextOrCommentIfNeeded(10);
+                updateLocator();
             }
 
             // Outputs text accumulated under the current node
             private void addTextIfNeeded()
             {
-                //logger.error( "" + i + " textBuffer=[" + textBuffer + "]" );
-                //logger.error( "" + i + " commentBuffer=[" + commentBuffer + "]" );
-
-//                // FIXME comment is not insert in the right place.
-//                if( commentBuffer.length() > 0 ) {
-//                    final Element element     = elementStack.peek();
-//                    final Node    commentNode = doc.createComment( commentBuffer.toString() );
-//
-//                    element.appendChild( commentNode );
-//                    commentBuffer.setLength( 0 );
-//                    }
-
                 if( textBuffer.length() > 0 ) {
                     final Element element  = elementStack.peek();
                     final Node    textNode = doc.createTextNode( textBuffer.toString() );
@@ -272,7 +273,7 @@ public class PositionalXMLReader
                     }
 
             }
-            
+
             // Outputs text accumulated under the current node
             private void addComment(final String comment)
             {

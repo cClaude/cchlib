@@ -122,14 +122,6 @@ public class JPanelConfirm extends JPanel
         iconKoButDelete = dfToolKit.getResources().getSmallOKButOKIcon();
     }
 
-//    /**
-//     * Clear content list
-//     */
-//    public void clear()
-//    {
-//        //tableDts_toDelete.clear();
-//    }
-
     public void populate(
             final HashMapSet<String,KeyFileState> dupFiles
             )
@@ -361,7 +353,7 @@ public class JPanelConfirm extends JPanel
 
         logger.info( "private_doDelete: Selected count: " + tableDts_toDelete.size() );
 
-        for(int i=0;i<size;i++) {
+        for( int i=0; i<size; i++ ) {
             KeyFileState kf = tableDts_toDelete.get( i );
             String msg = kf.getFile().getPath();
 
@@ -431,6 +423,5 @@ public class JPanelConfirm extends JPanel
         int newDupCount = duplicateFiles.valuesSize();
 
         logger.info( "newDupCount= " + newDupCount );
-        //tk.sleep( tk.getConfigData().getDeleteFinalDisplay() );
         }
 }

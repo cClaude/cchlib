@@ -14,4 +14,9 @@ public interface URLCacheListener extends EventListener
      * @param ioe
      */
     public void ioExceptionHandler(IOException ioe);
+
+    /**
+     * 
+     */
+    public void autoStoreDone();
 }

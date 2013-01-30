@@ -72,7 +72,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     public boolean contains( Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o;
+        R r = (R)o; // $codepro.audit.disable unnecessaryCast
         return set.contains( unwrapper.wrappe( r ) );
     }
 
@@ -103,7 +103,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     public boolean remove( Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o;
+        R r = (R)o; // $codepro.audit.disable unnecessaryCast
         return set.remove( unwrapper.wrappe( r ) );
     }
 
@@ -168,7 +168,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
 
             for( R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e;
+                T t = (T)e; // $codepro.audit.disable unnecessaryCast
                 a[ i++ ] = t;
                 }
 
@@ -179,7 +179,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
 
             for( R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e;
+                T t = (T)e; // $codepro.audit.disable unnecessaryCast
                 list.add( t );
                 }
 
