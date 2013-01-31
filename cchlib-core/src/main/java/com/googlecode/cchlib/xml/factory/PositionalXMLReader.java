@@ -19,29 +19,48 @@ import org.xml.sax.ext.DefaultHandler2;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * TODOC
+ * <p>
+ * Main goal of this class is to create a {@link Document} from a XML file, and
+ * to give the possibility to have position of each {@link Element} in the file,
+ * using {@link Element#getUserData(String)}.
+ * </p>
+ * <p><i>
+ * Return values are limited by feature of the parser, some implementations provide
+ * an approximation for theses values.
+ * </i></p>
+ * <p>
+ *   Limitations and special features, see
+ *   <a href="http://www.saxproject.org/">http://www.saxproject.org/</a>.
+ * </p>
+ * 
+ * @see Locator
+ * @see DefaultHandler2
  */
 public class PositionalXMLReader
 {
     private final static Logger logger = Logger.getLogger( PositionalXMLReader.class );
 
     /**
-     * Value = {@value}
+     * Attribute name to identify line for the beginning of current element : {@value}
+     * @see Element#getUserData(String)
      */
     final public static String BEGIN_LINE_NUMBER_KEY_NAME = "beginLineNumber";
 
     /**
-     * Value = {@value}
+     * Attribute name to identify column for the beginning of current element : {@value}
+     * @see Element#getUserData(String)
      */
     final public static  String BEGIN_COLUMN_NUMBER_KEY_NAME = "beginColumnNumber";
 
     /**
-     * Value = {@value}
+     * Attribute name to identify line for the ending of current element : {@value}
+     * @see Element#getUserData(String)
      */
     final public static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
 
     /**
-     * Value = {@value}
+     * Attribute name to identify column for the ending of current element : {@value}
+     * @see Element#getUserData(String)
      */
     final public static  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
 
@@ -62,12 +81,12 @@ public class PositionalXMLReader
     }
 
     /**
-     * TODOC
+     * Create a {@link Document} for XML InputStream
      *
      * @param saxParserFactory
      * @param documentBuilderFactory
-     * @param is
-     * @return TODOC
+     * @param xmlInputStream
+     * @return a new instance of a DOM Document object based on XML InputStream
      * @throws XMLReaderException
      * @throws SAXException
      * @throws IOException
@@ -75,7 +94,7 @@ public class PositionalXMLReader
     public static Document readXML(
         final SAXParserFactory       saxParserFactory,
         final DocumentBuilderFactory documentBuilderFactory,
-        final InputStream            is
+        final InputStream            xmlInputStream
         ) throws XMLReaderException, SAXException, IOException
     {
         DocumentBuilder documentBuilder;
@@ -87,7 +106,7 @@ public class PositionalXMLReader
             throw new XMLReaderException( "Can't create DOM builder", e );
             }
 
-        return readXML( saxParserFactory, documentBuilder, is );
+        return readXML( saxParserFactory, documentBuilder, xmlInputStream );
     }
 
     /**
@@ -95,8 +114,8 @@ public class PositionalXMLReader
      *
      * @param saxParserFactory
      * @param documentBuilder
-     * @param is
-     * @return TODOC
+     * @param xmlInputStream
+     * @return a new instance of a DOM Document object based on XML InputStream
      * @throws XMLReaderException
      * @throws SAXException
      * @throws IOException
@@ -104,7 +123,7 @@ public class PositionalXMLReader
     public static Document readXML(
         final SAXParserFactory       saxParserFactory,
         final DocumentBuilder        documentBuilder,
-        final InputStream            is
+        final InputStream            xmlInputStream
         ) throws XMLReaderException, SAXException, IOException
     {
         final Document  doc = documentBuilder.newDocument();
@@ -286,8 +305,9 @@ public class PositionalXMLReader
 
         // Needed for DefaultHandler2
         parser.setProperty ("http://xml.org/sax/properties/lexical-handler", handler);
-        parser.parse( is, handler );
+        parser.parse( xmlInputStream, handler );
 
         return doc;
     }
+           
 }
