@@ -102,6 +102,12 @@
         <artifactId>google-api-client-http</artifactId>
         <version>1.2.3-alpha</version>
     </dependency>
+
+    <dependency>
+        <groupId>com.google.gdata</groupId>
+        <artifactId>core</artifactId>
+        <version>1.47.1</version>
+    </dependency>    
   </dependencies>
 
   <build>
