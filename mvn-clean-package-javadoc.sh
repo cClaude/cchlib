@@ -162,6 +162,7 @@ cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
 cchlib-net
+cchlib-nio
 cchlib-sql
 cchlib-swing
 cchlib-swing-deprecated

@@ -21,11 +21,17 @@ public class EmptyFolder extends Folder
         this.type = type;
     }
 
+    /**
+     * @return true if folder have no entry, false otherwise
+     */
     public boolean isEmpty()
     {
         return type.equals( EFType.IS_EMPTY );
     }
 
+    /**
+     * @return true if folder contain only folder with no entry (rec), false otherwise
+     */
     public boolean containtOnlyEmptyFolders()
     {
         return type.equals( EFType.CONTAINT_ONLY_EMPTY_FOLDERS );

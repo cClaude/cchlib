@@ -32,7 +32,7 @@ import org.xml.sax.helpers.DefaultHandler;
  *   Limitations and special features, see
  *   <a href="http://www.saxproject.org/">http://www.saxproject.org/</a>.
  * </p>
- * 
+ *
  * @see Locator
  * @see DefaultHandler2
  */
@@ -197,7 +197,7 @@ public class PositionalXMLReader
                 if( logger.isTraceEnabled() ) {
                     logger.trace( "endElement: [" + qName + "]");
                     }
-                
+
                 addTextIfNeeded();
 
                 final Element closedEl = elementStack.pop();
@@ -309,5 +309,5 @@ public class PositionalXMLReader
 
         return doc;
     }
-           
+
 }

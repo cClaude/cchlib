@@ -177,6 +177,7 @@
     <module>cchlib-swing</module>
     <module>cchlib-swing-deprecated</module>
     <module>cchlib-sys</module>
+    <module>cchlib-nio</module>
 
     <!-- should not be include : not in maven repository -->
     <!-- Applications -->

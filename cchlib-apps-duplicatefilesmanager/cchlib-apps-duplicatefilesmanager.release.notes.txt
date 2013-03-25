@@ -48,6 +48,7 @@ To improve:
   - Bypass compressed files and recycle bin option
 ---------------------------------------------------------------------
 To add:
+  - Add a PAUSE button !
  - dans la fenetre de suppression des fichiers
    * Selection multiple
    * Menu delete all other

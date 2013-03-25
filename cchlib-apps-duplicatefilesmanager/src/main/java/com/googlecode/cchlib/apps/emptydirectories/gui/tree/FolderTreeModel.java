@@ -51,7 +51,7 @@ class FolderTreeModel
         super( new DefaultMutableTreeNode( "Root" ) );
 
         this.jTree = jTree;
-        
+
         // Hide 'global' root
         this.jTree.setRootVisible( false );
         this.folderTreeBuilder = new FolderTreeBuilder();
@@ -93,10 +93,10 @@ class FolderTreeModel
     public void add( final EmptyFolder emptyFolder )
     {
         final FolderTreeNode newRoot;
-        
+
         synchronized( lock ) {
             newRoot = synchronizedAdd( emptyFolder );
-            
+
             if( newRoot != null ) {
                 // Add this new 'root', to model
                 DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
@@ -105,20 +105,20 @@ class FolderTreeModel
             else {
                 }
             };
-            
+
         if( newRoot != null ) {
             logger.debug( "notify JTree that a newRoot has been added: " + newRoot );
-            
+
 //            // Try to notify.
 //            TreePath path = getPath( newRoot.getParent() );
 //
 //            this.jTree.collapsePath( path );
-//            
+//
             //super.nodeChanged( root );
-//            fireTreeNodesInserted( 
-//                    this, 
-//                    new Object[]{root}, 
-//                    new int[]{ root.getChildCount() - 1}, 
+//            fireTreeNodesInserted(
+//                    this,
+//                    new Object[]{root},
+//                    new int[]{ root.getChildCount() - 1},
 //                    new Object[]{ newRoot });
 //            this.jTree.validate();
             fireStructureChanged();
@@ -134,9 +134,11 @@ class FolderTreeModel
 //                }
             }
 
-        logger.info( "try to add: " + emptyFolder );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "try to add: " + emptyFolder );
+            }
     }
-    
+
 
 
 //    public abstract Iterator<FolderTreeNode> nodeIterator();
@@ -197,7 +199,7 @@ class FolderTreeModel
 
         setSelected( nodeValue, !state );
     }
-    
+
     @Override // FileTreeModelable
     final
     public void setSelectAll( final boolean onlyLeaf, final boolean selected )
@@ -216,7 +218,7 @@ class FolderTreeModel
                     else {
                         changeState = (n.getFolder() instanceof EmptyFolder);
                         }
-                    
+
                     if( changeState ) {
                         if( selected ) {
                             modifiedCheckState.put( n, true );
@@ -323,7 +325,7 @@ class FolderTreeModel
                 public EmptyFolder wrappe( Entry<FolderTreeNode,Boolean> entry )
                 {
                     Folder folder = entry.getKey().getFolder();
-                    
+
                     return EmptyFolder.class.cast( folder );
                 }
             };
@@ -343,7 +345,7 @@ class FolderTreeModel
                 return new IteratorWrapper<Entry<FolderTreeNode,Boolean>,EmptyFolder>( iterator, wrapper );
             }
         };
-    }    
+    }
 
     private DefaultMutableTreeNode getRootNode()
     {
@@ -413,11 +415,15 @@ class FolderTreeModel
     {
         int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
 
-        logger.debug( "#### synchronizedAdd = " + emptyFolder );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "#### synchronizedAdd = " + emptyFolder );
+            }
 
         this.folderTreeBuilder.add( emptyFolder );
 
-        logger.debug( "#### rootCount = " + rootCount + " - " + this.folderTreeBuilder.getRootNodesMap().size() );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "#### rootCount = " + rootCount + " - " + this.folderTreeBuilder.getRootNodesMap().size() );
+            }
 
         if( this.folderTreeBuilder.getRootNodesMap().size() > rootCount ) {
             Collection<FolderTreeNode> values = this.folderTreeBuilder.getRootNodesMap().values();

@@ -6,6 +6,7 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -176,12 +177,18 @@ public class FindDeleteAdapter
         // Delete deepest paths firsts
         for( Path path : selectedPaths ) {
             try {
-                //boolean res = f.delete();
                 boolean res = Files.deleteIfExists( path );
-                logger.info( "delete [" + path + "] => " + res );
+                
+                if( logger.isDebugEnabled() ) {
+                    logger.debug( "DIR delete [" + path + "] => " + res );
+                    }
                 }
             catch( DirectoryNotEmptyException e ) {
                 logger.warn( "delete [" + path + "]", e );
+                
+                String[] files = path.toFile().list();
+                logger.warn( "cause content : [" + Arrays.toString( files ) + "]" );
+                
                 }
             catch( Exception e ) {
                 logger.error( "delete [" + path + "]", e );

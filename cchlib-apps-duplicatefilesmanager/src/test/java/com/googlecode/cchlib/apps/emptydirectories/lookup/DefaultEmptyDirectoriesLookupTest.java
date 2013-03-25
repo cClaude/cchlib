@@ -24,7 +24,7 @@ import org.junit.Test;
 import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
 import com.googlecode.cchlib.util.CancelRequestException;
 
-public class DefaultEmptyDirectoriesLookupTest 
+public class DefaultEmptyDirectoriesLookupTest
 {
     private static final Logger logger = Logger.getLogger( DefaultEmptyDirectoriesLookupTest.class );
 
@@ -46,7 +46,7 @@ public class DefaultEmptyDirectoriesLookupTest
     public void setUp() throws Exception
     {
         this.emptyDirectoriesListener = new LoggerEmptyDirectoriesListener();
-        
+
         this.rootPath = Files.createTempDirectory( getClass().getSimpleName() );
         pathToCleanUpList.add( rootPath );
 
@@ -54,7 +54,7 @@ public class DefaultEmptyDirectoriesLookupTest
         Path dirPath1 = rootPath.resolve( "empty1" );
         Files.createDirectory( dirPath1 );
         isEmptyList.add( dirPath1 );
-        
+
         // path2
         // +--- folder2_1
         //      +--- file2_1_1
@@ -64,23 +64,23 @@ public class DefaultEmptyDirectoriesLookupTest
         Path dirPath2   = rootPath.resolve( "path2" );
         Files.createDirectory( dirPath2 );
         pathToCleanUpList.add( dirPath2 );
-        
+
         Path dirPath2_1 = dirPath2.resolve( "folder2_1" );
         Files.createDirectory( dirPath2_1 );
         pathToCleanUpList.add( dirPath2_1 );
-        
+
         Path filePath2_1_1 = dirPath2.resolve( "file2_1_1" );
         Files.copy( getSomeData(), filePath2_1_1 );
         pathToCleanUpList.add( filePath2_1_1 );
-        
+
         Path dirPath2_2 = dirPath2.resolve( "couldBeEmpty2_2" );
         Files.createDirectory( dirPath2_2 );
         couldBeEmptyList.add( dirPath2_2 );
-        
+
         Path dirPath2_2_1 = dirPath2_2.resolve( "couldBeEmpty2_2_1" );
         Files.createDirectory( dirPath2_2_1 );
         couldBeEmptyList.add( dirPath2_2_1 );
-        
+
         Path dirPath2_2_1_1 = dirPath2_2_1.resolve( "empty2_2_1_1" );
         Files.createDirectory( dirPath2_2_1_1 );
         isEmptyList.add( dirPath2_2_1_1 );
@@ -93,41 +93,24 @@ public class DefaultEmptyDirectoriesLookupTest
     }
 
     @After
-    public void tearDown() throws IOException 
+    public void tearDown() throws IOException
     {
-        /*
-        Iterator<Path> iter = pathToCleanUpList.iterator();
-        
-        while( iter.hasNext() ) {
-            try {
-                Files.delete( iter.next() );
-                }
-            catch( NoSuchFileException alreadyDeleted ) {
-                // TODO Auto-generated catch block
-                alreadyDeleted.printStackTrace();
-                }
-            catch( DirectoryNotEmptyException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                }
-            }
-            */
     }
 
     @Test
     public void testLookup() throws CancelRequestException, IOException
     {
         EmptyDirectoriesLookup edl = new DefaultEmptyDirectoriesLookup( rootPath );
-       
+
         edl.addListener( emptyDirectoriesListener );
         edl.lookup();
-        
+
         Iterator<EmptyFolder> iter =  emptyDirectoriesListener.getEmptyFolderList().iterator();
-        
+
         while( iter.hasNext() ) {
             EmptyFolder ef   = iter.next();
             Path        path = ef.getPath();
-            
+
             logger.info( "check pass1: " + ef );
             if( isEmptyList.contains( path ) ) {
                 assertTrue( ef.isEmpty() );
@@ -143,12 +126,13 @@ public class DefaultEmptyDirectoriesLookupTest
             }
 
         iter =  emptyDirectoriesListener.getEmptyFolderList().iterator();
-        
+
         while( iter.hasNext() ) {
             EmptyFolder ef   = iter.next();
             Path        path = ef.getPath();
-            
+
             logger.info( "check pass2: " + ef );
+
             if( isEmptyList.contains( path ) ) {
                 fail( "Should be delete: " + ef );
                 }
@@ -156,7 +140,7 @@ public class DefaultEmptyDirectoriesLookupTest
                 assertFalse( ef.isEmpty() );
                 ef.check();
                 assertTrue( ef.isEmpty() );
-                
+
                 Files.delete( path );
                 iter.remove();
                 }
@@ -166,14 +150,14 @@ public class DefaultEmptyDirectoriesLookupTest
             }
 
         assertEquals( 0, emptyDirectoriesListener.getEmptyFolderList().size() );
-        
+
         logger.info( "done" );
     }
-    
+
     private class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
     {
         private List<EmptyFolder> emptyFolderList = new ArrayList<>();
-        
+
         public List<EmptyFolder> getEmptyFolderList()
         {
             return emptyFolderList;
@@ -189,10 +173,10 @@ public class DefaultEmptyDirectoriesLookupTest
         public void newEntry( EmptyFolder emptyFolder )
         {
             logger.info( "emptyFolder: " + emptyFolder );
-            
+
             File f = emptyFolder.getPath().toFile();
             assertTrue( "Not a directory", f.isDirectory() );
-            
+
             File[] files = f.listFiles();
             assertNotNull( "Not a valid directory", files );
 
@@ -206,7 +190,7 @@ public class DefaultEmptyDirectoriesLookupTest
                     assertTrue( "found a none directory object: " + file, file.isDirectory() );
                     }
                 }
-            
+
             emptyFolderList.add( emptyFolder );
         }
 
@@ -221,7 +205,6 @@ public class DefaultEmptyDirectoriesLookupTest
         {
             logger.info( "findDone()" );
         }
-        
     }
 
 }
