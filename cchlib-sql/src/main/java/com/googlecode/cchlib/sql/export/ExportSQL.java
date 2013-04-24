@@ -213,22 +213,27 @@ public class ExportSQL  implements Closeable
     {
         ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
 
-        export.println( "-- ---------------------------" );
-        export.print( "-- Export " );
+        try {
+            export.println( "-- ---------------------------" );
+            export.print( "-- Export " );
 
-       if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-           export.print( "`" ).print( schema ).print( "` " );
-           }
+           if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
+               export.print( "`" ).print( schema ).print( "` " );
+               }
 
-       export.print( ": " ).println( getExportDateToString() );
+           export.print( ": " ).println( getExportDateToString() );
 
-       export.println( "-- ---------------------------" );
+           export.println( "-- ---------------------------" );
 
-       if( config.contains( Config.ADD_USE_SCHEMA ) ) {
-           export.print( "USE `" ).print( schema ).println( "`;" );
-           }
+           if( config.contains( Config.ADD_USE_SCHEMA ) ) {
+               export.print( "USE `" ).print( schema ).println( "`;" );
+               }
 
-       export.println();
+           export.println();
+            }
+        finally {
+            export.close();
+            }
     }
 
     /**
@@ -244,20 +249,25 @@ public class ExportSQL  implements Closeable
     {
         ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
 
-        export.println( "-- ---------------------------" );
-        export.println( "-- Cleanup" );
-        export.println( "-- ---------------------------" );
+        try {
+            export.println( "-- ---------------------------" );
+            export.println( "-- Cleanup" );
+            export.println( "-- ---------------------------" );
 
-        for( int i = exportTables.length - 1; i>= 0; --i ) {
-            export.doExportDeleteData( exportTables[ i ] );
+            for( int i = exportTables.length - 1; i>= 0; --i ) {
+                export.doExportDeleteData( exportTables[ i ] );
+                }
+
+//            for( TableDescription table : exportTables ) {
+//                export.doExportData( table );
+//                }
+
+            export.println( "-- Cleanup done." );
+            export.println();
             }
-
-//        for( TableDescription table : exportTables ) {
-//            export.doExportData( table );
-//            }
-
-        export.println( "-- Cleanup done." );
-        export.println();
+        finally {
+            export.close();
+            }
     }
 
     /**
@@ -273,22 +283,27 @@ public class ExportSQL  implements Closeable
     {
         ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
 
-        export.println( "-- ---------------------------" );
-        export.println( "-- Export tables" );
-        export.println( "-- ---------------------------" );
-
         try {
-            for( TableDescription table : exportTables ) {
-                export.doExportData( table );
-                }
+            export.println( "-- ---------------------------" );
+            export.println( "-- Export tables" );
+            export.println( "-- ---------------------------" );
 
-            export.println( "-- Export tables done." );
-            export.println();
+            try {
+                for( TableDescription table : exportTables ) {
+                    export.doExportData( table );
+                    }
+
+                export.println( "-- Export tables done." );
+                export.println();
+                }
+            finally {
+                close();
+                }
             }
         finally {
-            close();
+            export.close();
             }
-    }
+     }
 
     protected String getSchemaName()
     {

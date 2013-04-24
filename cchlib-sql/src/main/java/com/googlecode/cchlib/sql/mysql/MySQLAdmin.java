@@ -8,7 +8,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,6 +76,7 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
+    @SuppressWarnings("resource")
     public void createSQLDumpFile(File outputFile)
         throws MySQLAdminException
     {
@@ -106,6 +106,7 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
+    @SuppressWarnings("resource")
     public void createSQLDumpFile(OutputStream servletOuput, File outputFile)
         throws MySQLAdminException
     {
@@ -130,7 +131,7 @@ public class MySQLAdmin
 
                 createSQLDumpFile(servletOuput, fileOutputStream);
                 }
-            catch(java.io.IOException e) {
+            catch( IOException e) {
                 throw new MySQLAdminException(e);
                 }
             }
@@ -145,54 +146,54 @@ public class MySQLAdmin
      * TODOC
      * @param servletOuput
      * @param fileOutputStream
-     * @throws MySQLAdminException
+     * @throws IOException 
      */
     public void createSQLDumpFile(
             OutputStream servletOuput,
             OutputStream fileOutputStream
             )
-        throws MySQLAdminException
+        throws IOException
     {
-        ParallelOutputStream multipleOutputStream = null;
+        ParallelOutputStream multipleOutputStream = new ParallelOutputStream(servletOuput, fileOutputStream);
 
         try {
-            multipleOutputStream = new ParallelOutputStream(servletOuput, fileOutputStream);
 
             createSQLDumpFile( multipleOutputStream );
             }
         catch(IOException e) {
             throw new MySQLAdminException(e);
             }
+        finally {
+            multipleOutputStream.close();
+            }
     }
 
     /**
      * TODOC
      * @param inputfile
-     * @throws MySQLAdminException
-     * @throws FileNotFoundException
+     * @throws IOException 
      */
     public void applySQL(File inputfile)
-        throws  MySQLAdminException,
-                FileNotFoundException
+        throws  IOException
     {
-        applySQL(
-            new BufferedInputStream(
-                new FileInputStream(inputfile)
-                )
-            );
+        InputStream is = new BufferedInputStream( new FileInputStream( inputfile ) );
+        try {
+            applySQL( is );
+             }
+        finally {
+            is.close();
+        }
     }
 
     /**
      * TODOC
      * @param sqlStream
-     * @throws MySQLAdminException
+     * @throws IOException 
      */
     public void applySQL(InputStream sqlStream)
-        throws MySQLAdminException
+        throws IOException
     {
-        String command = (new StringBuilder()).append(mySQLExe)
-            .append(mySQLParams).toString();
-
+        final String command = mySQLExe + mySQLParams;
         ConcateInputStream fullSQLStream = new ConcateInputStream(sqlStream, "quit\n");
 
         try {
@@ -200,6 +201,9 @@ public class MySQLAdmin
             }
         catch(ExternalAppException e) {
             throw new MySQLAdminException(e);
+            }
+        finally {
+            fullSQLStream.close();
             }
     }
 }
