@@ -36,11 +36,13 @@ public class FileIteratorTest
         currentFile = new File( "." ).getCanonicalFile();
     }
 
+
     @Test
     public void testNotExist()
     {
         try {
-            new FileIterator( NOT_EXIST_FILE );
+            @SuppressWarnings("unused")
+            FileIterator iter = new FileIterator( NOT_EXIST_FILE );
 
             fail( "Should crash here" );
             }

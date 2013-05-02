@@ -77,10 +77,12 @@ public class Enumerations
     {
         return new Enumeration<O>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return enumeration.hasMoreElements();
             }
+            @Override
             public O nextElement()
                 throws java.util.NoSuchElementException
             {

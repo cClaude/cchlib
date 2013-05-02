@@ -2,7 +2,6 @@ package cx.ath.choisnet.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,9 +32,7 @@ public class SerializableHelper
      *         process for this object
      * @throws IOException if any I/O occurred
      */
-    public static <T extends Serializable> byte[] toByteArray(
-            T   anObject
-            )
+    public static <T extends Serializable> byte[] toByteArray( final T anObject )
         throws IOException
     {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -60,8 +57,8 @@ public class SerializableHelper
      * @throws ClassNotFoundException
      */
     public static <T extends Serializable> T toObject(
-            byte[]              aSerializedObject,
-            Class<? extends T>  clazz
+            final byte[]              aSerializedObject,
+            final Class<? extends T>  clazz
             )
         throws IOException, ClassNotFoundException
     {
@@ -85,10 +82,10 @@ public class SerializableHelper
      * @throws ClassNotFoundException
      */
     public static <T extends Serializable> T clone(
-            T                   anObject,
-            Class<? extends T>  clazz
+            final T                   anObject,
+            final Class<? extends T>  clazz
             )
-    throws java.io.IOException, ClassNotFoundException
+        throws IOException, ClassNotFoundException
     {
         return toObject( toByteArray( anObject ), clazz );
     }
@@ -107,29 +104,30 @@ public class SerializableHelper
      * @since 4.1.5
      */
     public static <T extends Serializable> T loadObject(
-            File                aFile,
-            Class<? extends T>  clazz
+            final File                aFile,
+            final Class<? extends T>  clazz
             )
         throws IOException, ClassNotFoundException
     {
-        InputStream         input   = new FileInputStream( aFile );
-        ObjectInputStream   ois     = new ObjectInputStream( input );
-
+        final InputStream input = new FileInputStream( aFile );
+        
         try {
-            T objectClone = clazz.cast( ois.readObject() );
+            final ObjectInputStream ois = new ObjectInputStream( input );
 
-            return objectClone;
+            try {
+                T objectClone = clazz.cast( ois.readObject() );
+
+                return objectClone;
+                }
+            finally {
+                ois.close();
+                }
             }
         finally {
-            silentClose( ois );
-            silentClose( input );
+            input.close();
             }
-    }
-
-    private static void silentClose( Closeable c )
-    {
-        try { c.close(); } catch( IOException ignore ) {} // $codepro.audit.disable emptyCatchClause
-    }
+ 
+     }
 
     /**
      * Serialize an Object in a file
@@ -142,20 +140,25 @@ public class SerializableHelper
      * @since 4.1.5
      */
     public static <T extends Serializable> void toFile(
-            T       anObject,
-            File    aFile
+            final T    anObject,
+            final File aFile
             )
         throws IOException
     {
-        OutputStream        output = new FileOutputStream( aFile );
-        ObjectOutputStream  oos    = new ObjectOutputStream(output);
-
+        final OutputStream output = new FileOutputStream( aFile );
+        
         try {
-            oos.writeObject(anObject);
+            final ObjectOutputStream oos = new ObjectOutputStream( output );
+
+            try {
+                oos.writeObject(anObject);
+                }
+            finally {
+                oos.close();
+                }
             }
         finally {
-            silentClose( oos );
-            silentClose( output );
+            output.close();
             }
     }
 

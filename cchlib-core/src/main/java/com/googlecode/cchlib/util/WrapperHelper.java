@@ -24,6 +24,7 @@ public class WrapperHelper<T,O>
     {
         return new Wrappable<T,String>()
         {
+            @Override
             public String wrappe(T o)
             {
                 return o.toString();

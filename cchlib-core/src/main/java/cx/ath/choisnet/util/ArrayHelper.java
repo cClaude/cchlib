@@ -29,6 +29,7 @@ public final class ArrayHelper
      *             not create a shadow copy given values.
      */
     //Java 1.7 @SafeVarargs
+    @Deprecated
     public static <T> T[] createArray( T...entries )
     {
         return entries;
@@ -76,11 +77,13 @@ public final class ArrayHelper
         return new Enumeration<T>()
         {
             private int index = offset;
+            @Override
             public boolean hasMoreElements()
             {
                 return index < enumLen;
             }
 
+            @Override
             public T nextElement()
                 throws java.util.NoSuchElementException
             {

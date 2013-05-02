@@ -160,10 +160,4 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
     	return this.myCompareTo( o );
     }
-    
-    @Override
-	public boolean equals( Object o ) // $codepro.audit.disable overridingEqualsAndHashCode
-    {
-    	throw new UnsupportedOperationException( "equals() not supported" );
-    }
 }

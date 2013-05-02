@@ -394,20 +394,17 @@ public class MessageDigestFile
     {
         reset();
 
-        FileInputStream fis  = new FileInputStream(file);
-        int             l;
+        FileInputStream fis = new FileInputStream(file);
 
         try {
+            int l;
+
             while( (l = fis.read( buffer )) != -1 ) {
                 update(buffer,0,l);
                 }
             }
         finally {
-            try {
-                fis.close();
-                }
-            catch(Exception ignore) { // $codepro.audit.disable emptyCatchClause
-                }
+            fis.close();
             }
 
         return digestDelegator();

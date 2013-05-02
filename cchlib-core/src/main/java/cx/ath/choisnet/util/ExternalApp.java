@@ -21,16 +21,19 @@ public class ExternalApp
         private byte[] stderr;
         private int returnCode;
 
+        @Override
         public byte[] getStdOut()
         {
             return stdout;
         }
 
+        @Override
         public byte[] getStdErr()
         {
             return stderr;
         }
 
+        @Override
         public int getReturnCode()
         {
             return returnCode;
@@ -136,7 +139,19 @@ public class ExternalApp
             )
         throws ExternalAppException
     {
-        return ExternalApp.execute(command, new EmptyInputStream(), stdout, stderr);
+        final InputStream empty = new EmptyInputStream();
+        
+        try {
+            return ExternalApp.execute(command, empty , stdout, stderr);
+            }
+        finally {
+            try {
+                empty.close();
+                }
+            catch( IOException e ) {
+                throw new RuntimeException( e );
+                }
+            }
     }
 
     /**
@@ -171,7 +186,19 @@ public class ExternalApp
     public static final Output execute(String command)
         throws ExternalAppException
     {
-        return ExternalApp.execute(command, new EmptyInputStream() );
+        final InputStream empty = new EmptyInputStream();
+        
+        try {
+            return ExternalApp.execute( command, empty );
+            }
+        finally {
+            try {
+                empty.close();
+                }
+            catch( IOException e ) {
+                throw new RuntimeException( e );
+                }
+            }
     }
 
     /**

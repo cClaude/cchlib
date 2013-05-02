@@ -174,16 +174,10 @@ public class FormattedProperties
     @Override
     public synchronized void load( Reader aReader ) throws IOException
     {
-        BufferedReader  reader;
+        @SuppressWarnings("resource")
+        BufferedReader  reader = toBufferedReader( aReader );
         String          line;
-
-        if( aReader instanceof BufferedReader ) {
-            reader = BufferedReader.class.cast( aReader );
-            }
-        else {
-            reader = new BufferedReader( aReader );
-            }
-
+        
         while ((line = reader.readLine()) != null) {
             char    c   = 0;
             int     pos = 0;
@@ -349,6 +343,22 @@ public class FormattedProperties
     }
 
     /**
+     * Does not create a new {@link BufferedReader} if <code>aReader</code>
+     * is already a {@link BufferedReader}
+     * @param aReader {@link Reader} to convert (if needed)
+     * @return a {@link BufferedReader} based on <code>aReader</code>
+     */
+    private BufferedReader toBufferedReader( final Reader aReader )
+    {
+        if( aReader instanceof BufferedReader ) {
+            return BufferedReader.class.cast( aReader );
+            }
+        else {
+            return new BufferedReader( aReader );
+            }
+    }
+
+    /**
      * Write the properties to the specified OutputStream.
      * <p>
      * Overloads the store method in Properties so we can
@@ -434,10 +444,10 @@ public class FormattedProperties
      *            specified writer throws an IOException.
      */
     public synchronized void store(
-                Writer          out,
-                EnumSet<Store>  config
-                )
-            throws IOException
+            Writer          out,
+            EnumSet<Store>  config
+            )
+        throws IOException
     {
         EnumSet<Store> attribs;
 
@@ -448,14 +458,9 @@ public class FormattedProperties
             attribs = EnumSet.copyOf( config );
             }
 
-        PrintWriter writer;
+        @SuppressWarnings("resource")
+        PrintWriter writer = toPrintWriter( out );
 
-        if( out instanceof PrintWriter ) {
-            writer = PrintWriter.class.cast( out );
-            }
-        else {
-            writer = new PrintWriter( out );
-            }
         // We ignore the header, because if we prepend a
         // commented header then read it back in it is
         // now a comment, which will be saved and then
@@ -489,6 +494,22 @@ public class FormattedProperties
                 }
             }
         writer.flush ();
+    }
+
+    /**
+     * Does not create a new {@link PrintWriter} if <code>out</code>
+     * is already a {@link PrintWriter}
+     * @param out {@link Writer} to convert (if needed)
+     * @return a {@link PrintWriter} based on <code>out</code>
+     */
+    private PrintWriter toPrintWriter( final Writer out )
+    {
+        if( out instanceof PrintWriter ) {
+            return PrintWriter.class.cast( out );
+            }
+        else {
+            return new PrintWriter( out );
+            }
     }
 
     /**
@@ -1012,6 +1033,7 @@ public class FormattedProperties
      *
      * @return a clone of the FormattedProperties
      */
+    @Override
     public synchronized Object clone()
     {
         FormattedProperties clone = new FormattedProperties(

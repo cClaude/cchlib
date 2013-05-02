@@ -49,6 +49,7 @@ public class StreamCopyThread extends Thread
         super.setName(threadName);
     }
 
+    @Override
     public void run()
     {
         int errorCount = 0;

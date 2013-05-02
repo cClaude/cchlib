@@ -32,6 +32,7 @@ public abstract class AbstractIntrospectionItem<O>
     /**
      * @return the getterMethod
      */
+    @Override
     public Method getGetterMethod()
     {
         return getterMethod;
@@ -40,13 +41,17 @@ public abstract class AbstractIntrospectionItem<O>
     /**
      * @return the setterMethod
      */
+    @Override
     public Method getSetterMethod()
     {
         return setterMethod;
     }
 
+    @Override
     public abstract Object getMinValue();
+    @Override
     public abstract Object getDefaultValue();
+    @Override
     public abstract Object getMaxValue();
     
     /**
@@ -57,6 +62,7 @@ public abstract class AbstractIntrospectionItem<O>
      * @see #setObjectValue(Object, Object)
      * @throws IntrospectionInvokeException if any problems occurs during method invocation
      */
+    @Override
     final public Object getObjectValue( final O object )
             throws IntrospectionInvokeException
     {

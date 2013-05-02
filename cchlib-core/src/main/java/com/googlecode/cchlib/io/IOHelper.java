@@ -123,6 +123,7 @@ public final class IOHelper
     /**
      * @deprecated use {@link #toFile(String, File)} instead
      */
+    @Deprecated
     public static void toFile( final File file, final String str ) throws IOException
     {
         toFile( str, file );

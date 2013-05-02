@@ -60,9 +60,13 @@ public class SimpleZip
     @Override
     public void close() throws IOException
     {
-        zos.flush();
-        zos.finish();
-        zos.close();
+        try {
+            zos.flush();
+            zos.finish();
+            }
+        finally {
+            zos.close();
+            }
     }
 
     /**

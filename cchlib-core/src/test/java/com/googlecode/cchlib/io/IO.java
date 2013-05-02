@@ -32,6 +32,7 @@ public class IO
     /**
      * @deprecated use {@link #createPNGInputStream()} instead
      */
+    @Deprecated
     public final static InputStream getPNGFile() throws FileNotFoundException 
     {
         return createPNGInputStream();

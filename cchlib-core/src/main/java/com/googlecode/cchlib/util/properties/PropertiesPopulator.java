@@ -259,6 +259,7 @@ public class PropertiesPopulator<E>
     /**
      * @deprecated use {@link #populateProperties(String, Object, Properties)} instead
      */
+    @Deprecated
     public void populateProperties(
         final E          bean,
         final Properties properties,
@@ -396,6 +397,7 @@ public class PropertiesPopulator<E>
     /**
      * @deprecated use {@link #populateBean(String, Properties, Object)} instead
      */
+    @Deprecated
     public void populateBean(
         final Properties properties,
         final String     propertiesPrefix,
