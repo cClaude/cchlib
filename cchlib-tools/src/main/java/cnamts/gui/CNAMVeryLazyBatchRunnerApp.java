@@ -60,6 +60,7 @@ public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
      *
      * {@inheritDoc}
      */
+    @Override
     public void start()
     {
         super.start( this.iconURL );

@@ -65,6 +65,7 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
                 );
     }
 
+    @SuppressWarnings("resource")
     public void delNonAlphaChar(
         final File  inputFile,
         final File  outputFile

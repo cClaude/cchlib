@@ -15,7 +15,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#addChangeListener(javax.swing.event.ChangeListener)
 	 */
-	public void addChangeListener(ChangeListener l) {
+	@Override
+    public void addChangeListener(ChangeListener l) {
 		listenerList.add(ChangeListener.class, l);
 	}
 
@@ -24,7 +25,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#removeChangeListener(javax.swing.event.ChangeListener)
 	 */
-	public void removeChangeListener(ChangeListener l) {
+	@Override
+    public void removeChangeListener(ChangeListener l) {
 		listenerList.remove(ChangeListener.class, l);
 	}
 
@@ -67,7 +69,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#setRanges(org.jvnet.flamingo.slider.FlexiRangeModel.Range[])
 	 */
-	public void setRanges(Range... ranges) {
+	@Override
+    public void setRanges(Range... ranges) {
 		this.ranges = new Range[ranges.length];
 		// defensive array copy - so that changes in the application code
 		// will not be reflected in the model
@@ -76,11 +79,13 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 		}
 	}
 
-	public int getRangeCount() {
+	@Override
+    public int getRangeCount() {
 		return this.ranges.length;
 	}
 	
-	public Range getRange(int rangeIndex) {
+	@Override
+    public Range getRange(int rangeIndex) {
 		return this.ranges[rangeIndex];
 	}
 	
@@ -113,7 +118,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#getValue()
 	 */
-	public Value getValue() {
+	@Override
+    public Value getValue() {
 		if (this.value == null)
 			return null;
 		return new Value(this.value);
@@ -124,7 +130,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#setValue(org.jvnet.flamingo.slider.FlexiRangeModel.Value)
 	 */
-	public void setValue(Value value) throws IllegalArgumentException {
+	@Override
+    public void setValue(Value value) throws IllegalArgumentException {
 		if (value == null) {
 			throw new IllegalArgumentException("Can't pass null value");
 		}
@@ -143,7 +150,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#setValueIsAdjusting(boolean)
 	 */
-	public void setValueIsAdjusting(boolean b) {
+	@Override
+    public void setValueIsAdjusting(boolean b) {
 		if (this.isAdjusting != b) {
 			this.isAdjusting = b;
 			this.fireStateChanged();
@@ -155,7 +163,8 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * 
 	 * @see org.jvnet.flamingo.slider.FlexiRangeModel#getValueIsAdjusting()
 	 */
-	public boolean getValueIsAdjusting() {
+	@Override
+    public boolean getValueIsAdjusting() {
 		return isAdjusting;
 	}
 }

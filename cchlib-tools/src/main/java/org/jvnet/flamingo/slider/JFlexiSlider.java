@@ -62,7 +62,8 @@ public class JFlexiSlider extends JComponent
 	 * 
 	 * @see JComponent#updateUI
 	 */
-	public void updateUI() {
+	@Override
+    public void updateUI() {
 		if (UIManager.get(getUIClassID()) != null) {
 			setUI((FlexiSliderUI) UIManager.getUI(this));
 		} else {
@@ -89,7 +90,8 @@ public class JFlexiSlider extends JComponent
 	 * @see JComponent#getUIClassID
 	 * @see UIDefaults#getUI
 	 */
-	public String getUIClassID() {
+	@Override
+    public String getUIClassID() {
 		return uiClassID;
 	}
 

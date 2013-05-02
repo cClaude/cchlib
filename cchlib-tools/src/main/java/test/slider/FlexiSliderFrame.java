@@ -58,7 +58,8 @@ public class FlexiSliderFrame extends JFrame
 		slider0.setValue(new FlexiRangeModel.Value(rangeLargeVeryLarge, 1.0));
 
 		slider0.getModel().addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+			@Override
+            public void stateChanged(ChangeEvent e) {
 				System.out.print(slider0.getModel().getValueIsAdjusting());
 				FlexiRangeModel.Value value = slider0.getValue();
 				System.out.println("\t"
@@ -244,7 +245,8 @@ public class FlexiSliderFrame extends JFrame
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				// JFrame.setDefaultLookAndFeelDecorated(true);
 				new FlexiSliderFrame().setVisible(true);
 			}

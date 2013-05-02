@@ -59,6 +59,7 @@ public class MPECVSContactList
      * @throws BadFileFormatException
      * @throws IOException
      */
+    @SuppressWarnings("resource")
     public MPECVSContactList(
         final File 		myPhoneExplorerCVSFile,
         final Charset	charset,
@@ -136,6 +137,7 @@ public class MPECVSContactList
         return this.contactList.iterator();
     }
 
+    @Override
     public int size()
     {
         return this.contactList.size();

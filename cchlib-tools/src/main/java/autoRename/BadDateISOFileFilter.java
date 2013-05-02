@@ -106,6 +106,7 @@ public class BadDateISOFileFilter extends DateISOFileFilter
         return false;
     }
 
+    @Override
     public void clear()
     {
         if( ignoredFilesFile != null ) {
@@ -122,6 +123,7 @@ public class BadDateISOFileFilter extends DateISOFileFilter
     /**
      * @return the ignoredFilesFile
      */
+    @Override
     public List<File> getIgnoredFilesCopy()
     {
         if( ignoredFilesFile != null ) {
@@ -133,6 +135,7 @@ public class BadDateISOFileFilter extends DateISOFileFilter
     /**
      * @return the ignoredDirsFile
      */
+    @Override
     public List<File> getIgnoredDirsCopy()
     {
         if( ignoredDirsFile != null ) {

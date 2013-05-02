@@ -282,14 +282,20 @@ public class MboxFile
         throws java.io.IOException
     {
         InputStream in = getMessageAsStream(index);
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        int read;
         
-        while((read = in.read()) != -1) {
-            bout.write(read);
-        }
+        try {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            int read;
+            
+            while((read = in.read()) != -1) {
+                bout.write(read);
+            }
 
-        return bout.toByteArray();
+            return bout.toByteArray();
+            }
+        finally {
+            in.close();
+            }
     }
 
 //    public final void appendMessage(byte[] message)
@@ -392,6 +398,7 @@ public class MboxFile
 //        return success;
 //    }
 
+    @Override
     public final void close()
         throws java.io.IOException
     {
@@ -406,6 +413,7 @@ public class MboxFile
         }
     }
 
+    @SuppressWarnings("resource")
     public static boolean isValid(final File file)
     {
         BufferedReader  reader;

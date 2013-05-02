@@ -35,6 +35,7 @@ public class SMSCVSReader
      * @throws FileNotFoundException
      *
      */
+    @SuppressWarnings("resource")
     public SMSCVSReader(final File srcFile) throws FileNotFoundException
     {
         this.srcFile = srcFile;
@@ -46,6 +47,7 @@ public class SMSCVSReader
                         );
     }
 
+    @Override
     public void close() throws IOException
     {
         this.csvr.close();

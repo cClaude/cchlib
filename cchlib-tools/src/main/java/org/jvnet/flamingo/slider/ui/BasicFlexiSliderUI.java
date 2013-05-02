@@ -79,6 +79,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      *
      * @see javax.swing.plaf.ComponentUI#installUI(javax.swing.JComponent)
      */
+    @Override
     public void installUI(JComponent c) {
         this.flexiSlider = (JFlexiSlider) c;
         installDefaults();
@@ -94,6 +95,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      *
      * @see javax.swing.plaf.ComponentUI#uninstallUI(javax.swing.JComponent)
      */
+    @Override
     public void uninstallUI(JComponent c) {
         c.setLayout(null);
         uninstallListeners();
@@ -168,6 +170,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
         this.flexiSlider.addMouseMotionListener(this.mouseMotionListener);
 
         this.flexiSliderChangeListener = new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 flexiSlider.repaint();
             }
@@ -311,6 +314,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String,
          *      java.awt.Component)
          */
+        @Override
         public void addLayoutComponent(String name, Component c) {
         }
 
@@ -319,6 +323,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          *
          * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
          */
+        @Override
         public void removeLayoutComponent(Component c) {
         }
 
@@ -327,6 +332,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          *
          * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
          */
+        @Override
         public Dimension preferredLayoutSize(Container c) {
             int width = 0;
             int height = 0;
@@ -361,6 +367,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          *
          * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
          */
+        @Override
         public Dimension minimumLayoutSize(Container c) {
             return this.preferredLayoutSize(c);
         }
@@ -370,6 +377,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          *
          * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
          */
+        @Override
         public void layoutContainer(Container c) {
             Insets ins = c.getInsets();
             int width = c.getWidth();
