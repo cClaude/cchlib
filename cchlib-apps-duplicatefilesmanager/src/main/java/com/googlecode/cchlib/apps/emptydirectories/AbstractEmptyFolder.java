@@ -1,43 +1,41 @@
-package com.googlecode.cchlib.apps.emptydirectories.folders;
+package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.io.File;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.NotDirectoryException;
-import java.nio.file.Path;
 
-/**
- * TODOC
- */
-public class EmptyFolder extends Folder
+public abstract class AbstractEmptyFolder implements EmptyFolder
 {
-    private static final long serialVersionUID = 2L;
-    protected enum EFType {IS_EMPTY, CONTAINT_ONLY_EMPTY_FOLDERS};
-    private EFType type;
-
-    protected EmptyFolder( final Path path, final EFType type )
+    private static final long serialVersionUID = 1L;
+    private EmptyFolderType type;
+    
+    public AbstractEmptyFolder( EmptyFolderType type )
     {
-        super( path );
-        
         this.type = type;
     }
 
     /**
      * @return true if folder have no entry, false otherwise
      */
+    @Override
+    final // TODO: remove this
     public boolean isEmpty()
     {
-        return type.equals( EFType.IS_EMPTY );
+        return type.equals( EmptyFolderType.IS_EMPTY );
     }
 
     /**
      * @return true if folder contain only folder with no entry (rec), false otherwise
      */
+    @Override
+    final // TODO: remove this
     public boolean containtOnlyEmptyFolders()
     {
-        return type.equals( EFType.CONTAINT_ONLY_EMPTY_FOLDERS );
+        return type.equals( EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
     }
 
     @Override
+    final // TODO: remove this
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
@@ -49,13 +47,14 @@ public class EmptyFolder extends Folder
         return builder.toString();
     }
 
+    final // TODO: remove this
     public int compareToEmptyFolder( final Folder aFolder )
     {
         if( aFolder instanceof EmptyFolder ) {
             EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
             
             if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
-                return compareTo( aEmptyFolder ); 
+                return /*((Folder)this).*/compareTo( aEmptyFolder ); 
                 }
             else {
                 return -2;
@@ -74,9 +73,11 @@ public class EmptyFolder extends Folder
      * @throws NotDirectoryException if EmptyFolder is no more a valid directory
      * @throws DirectoryNotEmptyException if there is at least one file in this directory
      */
+    @Override
+    final // TODO: remove this
     public void check() throws NotDirectoryException, DirectoryNotEmptyException
     {
-        final File file = getPath().toFile();
+        final File file = getFile();
         
         if( ! file.isDirectory() ) {
             throw new NotDirectoryException( file.getPath() ); 
@@ -91,11 +92,11 @@ public class EmptyFolder extends Folder
             }
         
         if( files.length == 0 ) {
-            this.type = EFType.IS_EMPTY;
+            type = EmptyFolderType.IS_EMPTY;
             }
         else {
             // Child folders are not checked !
-            this.type = EFType.CONTAINT_ONLY_EMPTY_FOLDERS;
+            type = EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS;
             }
     }
 }

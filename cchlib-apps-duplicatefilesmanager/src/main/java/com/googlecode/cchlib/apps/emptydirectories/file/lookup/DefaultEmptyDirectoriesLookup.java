@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.previousversion;
+package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -6,7 +6,14 @@ import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
-import com.googlecode.cchlib.io.FileFilterHelper;
+import java.nio.file.Path;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
+import com.googlecode.cchlib.apps.emptydirectories.FolderFilterHelper;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
@@ -42,7 +49,7 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
-     * 
+     *
      * @param rootFiles {@link Enumerable} of root {@link File} objects
      */
     public DefaultEmptyDirectoriesLookup( Enumerable<File> rootFiles )
@@ -50,9 +57,18 @@ public class DefaultEmptyDirectoriesLookup
         this.rootFilesForScan = new ArrayList<File>();
 
         Enumeration<File> enumeration = rootFiles.enumeration();
-        
+
         while( enumeration.hasMoreElements() ) {
             this.rootFilesForScan.add( enumeration.nextElement() );
+            }
+    }
+
+    public DefaultEmptyDirectoriesLookup( Path...rootPaths )
+    {
+        this.rootFilesForScan = new ArrayList<File>( rootPaths.length );
+
+        for( Path p: rootPaths ) {
+            this.rootFilesForScan.add( p.toFile() );
             }
     }
 
@@ -60,11 +76,13 @@ public class DefaultEmptyDirectoriesLookup
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
      * @throws CancelRequestException if any listeners ask to cancel operation
+     * @throws ScanIOException
      */
     @Override
-    public void lookup() throws CancelRequestException
+    public void lookup() throws CancelRequestException, ScanIOException
     {
-        lookup( FileFilterHelper.falseFileFilter() );
+        //lookup( FileFilterHelper.falseFileFilter() );
+        lookup( FolderFilterHelper.falseFileFilter() );
     }
 
     /**
@@ -73,14 +91,15 @@ public class DefaultEmptyDirectoriesLookup
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     @Override
-    public void lookup( final FileFilter excludeDirectoriesFile )
-        throws CancelRequestException
+    //public void lookup( final FileFilter excludeDirectoriesFile )
+    public void lookup( final FolderFilter excludeFolderFilter )
+        throws CancelRequestException, ScanIOException
     {
         for( EmptyDirectoriesListener l : this.listeners ) {
             l.findStarted();
             }
 
-        this.excludeDirectoriesFile = excludeDirectoriesFile;
+        this.excludeDirectoriesFile = excludeFolderFilter.toFileFilter();
 
         for( File f : this.rootFilesForScan ) {
             doScan( f );
@@ -131,26 +150,30 @@ public class DefaultEmptyDirectoriesLookup
             }
 
         if( content.length == 0 ) {
-            add( folder );
+            add( folder, true );
 
             return true;
             }
 
-        boolean allEmpty = true;
+        boolean reallyEmpty  = true;
+        boolean couldBeEmpty = true;
 
         for( File f : content ) {
-            if( f.isDirectory() ) {
-                if( ! isEmpty( f ) ) {
-                    allEmpty = false;
+            if( f.isDirectory() ) {                
+                boolean nextIsEmpty = isEmpty( f );
+                
+                if( ! nextIsEmpty ) {
+                    couldBeEmpty = false;
                     }
+                reallyEmpty = false;                
                 }
             else {
-                allEmpty = false;
+                couldBeEmpty = reallyEmpty = false;
                 }
             }
 
-        if( allEmpty ) {
-            add( folder );
+        if( couldBeEmpty ) {
+            add( folder, reallyEmpty );
 
             return true;
             }
@@ -162,10 +185,19 @@ public class DefaultEmptyDirectoriesLookup
      * Add empty directory to current set, and notify all
      * listeners: {@link EmptyDirectoriesListener#newEntry(File)}
      */
-    private void add( final File emptyDirectoryFile )
+    private void add( final File emptyDirectoryFile, final boolean reallyEmpty )
     {
+        EmptyFolder emptyDirectory;
+        
+        if( reallyEmpty ) {
+            emptyDirectory = Folders.createEmptyFolder( emptyDirectoryFile );
+            }
+        else {
+            emptyDirectory = Folders.createCouldBeEmptyFolder( emptyDirectoryFile );
+            }
+
         for( EmptyDirectoriesListener l : this.listeners ) {
-             l.newEntry( emptyDirectoryFile );
+            l.newEntry( emptyDirectory );
             }
     }
 
@@ -175,6 +207,7 @@ public class DefaultEmptyDirectoriesLookup
      * @param listener A valid {@link EmptyDirectoriesListener}
      * @throws NullPointerException if listener is null.
      */
+    @Override
     public void addListener( final EmptyDirectoriesListener listener )
     {
         if( listener == null ) {
@@ -189,9 +222,9 @@ public class DefaultEmptyDirectoriesLookup
      *
      * @param listener A {@link EmptyDirectoriesListener} object
      */
+    @Override
     public void removeListener( final EmptyDirectoriesListener listener )
     {
         this.listeners.remove( listener );
     }
-
 }

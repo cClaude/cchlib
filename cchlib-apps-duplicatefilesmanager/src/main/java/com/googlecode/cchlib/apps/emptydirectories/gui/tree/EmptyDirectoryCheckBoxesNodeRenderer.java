@@ -10,8 +10,8 @@ import javax.swing.UIManager;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
 /**
  *
@@ -61,6 +61,7 @@ class EmptyDirectoryCheckBoxesNodeRenderer
         this.textBackground = UIManager.getColor("Tree.textBackground");
     }
 
+    @Override
     public Component getTreeCellRendererComponent(
             final JTree   tree,
             final Object  _value_,

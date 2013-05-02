@@ -12,10 +12,11 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
-import com.googlecode.cchlib.apps.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.lookup.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
@@ -87,7 +88,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + treeModel == null ? null : treeModel.size()
                         );
                     }
-                catch( CancelRequestException cancelRequestException )  { // $codepro.audit.disable logExceptions
+                catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
                     logger.info( "Cancel received" );
 
                     // Call done, to cleanup layout.

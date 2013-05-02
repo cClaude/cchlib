@@ -15,8 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.Const;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 public class FolderTreeBuilderTest 
 {
@@ -62,8 +63,8 @@ public class FolderTreeBuilderTest
         //assertEquals( emptyPath.getNameCount() + 1, map.values().iterator().next(). );
         
         
-        Path        emptyPath2   = Files.createTempDirectory( getClass().getSimpleName() );
-        EmptyFolder emptyFolder2 = Folders.createEmptyFolder( emptyPath2 );
+        Path         emptyPath2   = Files.createTempDirectory( getClass().getSimpleName() );
+        EmptyFolder  emptyFolder2 = Folders.createEmptyFolder( emptyPath2 );
         
         logger.info( "############## emptyFolder2 = " + emptyFolder2 );
         folderTreeBuilder.add( emptyFolder2 );

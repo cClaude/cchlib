@@ -89,6 +89,7 @@ public class PropertiesXComboBoxPatternBuilder
     /**
      * Can be called only once. User {@link #getXComboBoxPattern()} instead.
      */
+    @Override
     public XComboBoxPattern createXComboBoxPattern()
     {
         if( this.xComboBoxPattern != null ) {

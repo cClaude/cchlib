@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 
 /**
  *

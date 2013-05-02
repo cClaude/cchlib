@@ -104,6 +104,7 @@ public class JPanelConfirm extends JPanel
         jButtonDoScript = new JButton("Create script");
         jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
         jButtonDoScript.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
             }
         });

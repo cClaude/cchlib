@@ -91,6 +91,7 @@ class EmptyDirectoryCheckBoxNodeEditor
     
     private class EmptyDirectoryCheckBoxNodeEditorItemListener implements ItemListener
     {
+        @Override
         public void itemStateChanged(ItemEvent itemEvent)
         {
             Object cb = itemEvent.getItem();

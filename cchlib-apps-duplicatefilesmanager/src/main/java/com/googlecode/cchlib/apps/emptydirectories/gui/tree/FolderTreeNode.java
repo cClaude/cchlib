@@ -5,9 +5,9 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.folders.Folders;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 /**
  * TODOC

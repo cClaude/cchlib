@@ -73,6 +73,7 @@ public abstract class JPanelResultWB extends JPanel
 
             JButton jButtonPrevSet = new JButton( "<<" );
             jButtonPrevSet.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonPrevSetMouseMousePressed(event);
                     }
@@ -101,6 +102,7 @@ public abstract class JPanelResultWB extends JPanel
 
             JButton jButtonNextSet = new JButton( ">>" );
             jButtonNextSet.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonNextSetMouseMousePressed(event);
                     }
@@ -126,6 +128,7 @@ public abstract class JPanelResultWB extends JPanel
 
             jToggleButtonSelectByRegEx = new JToggleButton( "Select by RegEx" );
             jToggleButtonSelectByRegEx.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent event) {
                     jToggleButtonSelectByRegExChangeStateChanged(event);
                     }
@@ -167,6 +170,7 @@ public abstract class JPanelResultWB extends JPanel
 
             jButtonRegExDelete = new JButton( "Delete" );
             jButtonRegExDelete.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonRegExDeleteMouseMousePressed();
                     }
@@ -181,6 +185,7 @@ public abstract class JPanelResultWB extends JPanel
 
             jButtonRegExKeep = new JButton( "Keep" );
             jButtonRegExKeep.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonRegExKeepMouseMousePressed();
                     }

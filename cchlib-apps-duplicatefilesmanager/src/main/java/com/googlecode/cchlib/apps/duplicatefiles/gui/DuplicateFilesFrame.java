@@ -448,6 +448,7 @@ final public class DuplicateFilesFrame
         return this.mainActionListener;
     }
 
+    @Override
     protected void exitApplication()
     {
         // TODO Perform some checks: running : this frame ?

@@ -9,6 +9,7 @@ public enum ConfigMode
         ADVANCED,
         EXPERT;
 
+        @Override
         public String toString()
         {
             return this.name();

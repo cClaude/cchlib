@@ -21,6 +21,7 @@ public class PropertiesXComboBoxPatternBuilderTstFrameWB extends JFrame
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     PropertiesXComboBoxPatternBuilderTstFrameWB frame = new PropertiesXComboBoxPatternBuilderTstFrameWB();

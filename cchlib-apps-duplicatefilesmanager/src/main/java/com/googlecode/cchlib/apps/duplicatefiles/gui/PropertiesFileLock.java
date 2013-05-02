@@ -57,26 +57,30 @@ class PropertiesFileLock extends Properties
             // Get a file channel for the file
             FileChannel channel = raf.getChannel();
 
-            // Use the file channel to create a lock on the file.
-            // This method blocks until it can retrieve the lock.
-            this.fileLock = channel.lock();
-
-            // Try acquiring the lock without blocking. This method returns
-            // null or throws an exception if the file is already locked.
             try {
-                this.fileLock = channel.tryLock();
-                }
-            catch( OverlappingFileLockException ignore ) {
-                // File is already locked in this thread or virtual machine
-                logger.warn( "init()", ignore );
-                }
+                // Use the file channel to create a lock on the file.
+                // This method blocks until it can retrieve the lock.
+                this.fileLock = channel.lock();
 
-            // Release the lock
-            this.fileLock.release();
+                // Try acquiring the lock without blocking. This method returns
+                // null or throws an exception if the file is already locked.
+                try {
+                    this.fileLock = channel.tryLock();
+                    }
+                catch( OverlappingFileLockException ignore ) {
+                    // File is already locked in this thread or virtual machine
+                    logger.warn( "init()", ignore );
+                    }
 
-            // Close the file
-            // Not needed: channel.close();
-            raf.close();
+                // Release the lock
+                this.fileLock.release();
+                } 
+            finally {
+                // Close the file
+                raf.close();
+                // Not needed: channel.close();
+                channel.close();
+                }
             }
         catch( Exception e ) {
             logger.warn( "init()", e );

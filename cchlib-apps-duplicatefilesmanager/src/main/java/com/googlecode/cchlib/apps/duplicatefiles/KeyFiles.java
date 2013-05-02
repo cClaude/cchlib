@@ -15,6 +15,7 @@ public interface KeyFiles
     /**
      * @return String use by UI display
      */
+    @Override
     public abstract String toString();
 
     /**
@@ -48,6 +49,7 @@ public interface KeyFiles
     /**
      * @return {@link Iterator} all overs {@link KeyFileState}.
      */
+    @Override
     public abstract Iterator<KeyFileState> iterator();
 
 }

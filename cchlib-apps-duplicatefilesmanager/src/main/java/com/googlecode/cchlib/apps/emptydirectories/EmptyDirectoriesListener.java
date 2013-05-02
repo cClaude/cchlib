@@ -1,7 +1,7 @@
-package com.googlecode.cchlib.apps.emptydirectories.previousversion;
+package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.File;
 import java.util.EventListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 
 /**
  *
@@ -20,7 +20,9 @@ public interface EmptyDirectoriesListener
      *
      * @param emptyDirectoryFile
      */
-    public void newEntry( File emptyDirectoryFile );
+    //public void newEntry( File emptyDirectoryFile );
+    public void newEntry( EmptyFolder folder );
+
 
     /**
      *

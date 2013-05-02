@@ -77,12 +77,15 @@ public abstract class AboutPanel extends JPanel
             jLabel_authorName.setForeground(new Color(0, 0, 255));
             jLabel_authorName.setText( resources.getAuthorName() );
             jLabel_authorName.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked( MouseEvent evt ) {
                     authorMouseClicked(evt);
                 }
+                @Override
                 public void mouseEntered( MouseEvent evt ) {
                     authorMouseEntered(evt);
                 }
+                @Override
                 public void mouseExited( MouseEvent evt ) {
                     authorMouseExited(evt);
                 }
@@ -195,6 +198,7 @@ public abstract class AboutPanel extends JPanel
         {
             jButton_Ok = new JButton("OK");
             jButton_Ok.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent event) 
                 {
                     buttonOKClicked();

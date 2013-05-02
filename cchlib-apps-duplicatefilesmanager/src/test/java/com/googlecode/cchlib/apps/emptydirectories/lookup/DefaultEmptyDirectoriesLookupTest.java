@@ -21,7 +21,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.folders.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 public class DefaultEmptyDirectoriesLookupTest
@@ -39,7 +43,7 @@ public class DefaultEmptyDirectoriesLookupTest
     private LoggerEmptyDirectoriesListener emptyDirectoriesListener;
     private List<Path>                     pathToCleanUpList = new ArrayList<>();
     private List<Path>                     isEmptyList       = new ArrayList<>();
-    private List<Path>                     couldBeEmptyList   = new ArrayList<>();
+    private List<Path>                     couldBeEmptyList  = new ArrayList<>();
     private Path rootPath;
 
     @Before
@@ -61,17 +65,17 @@ public class DefaultEmptyDirectoriesLookupTest
         // +--- couldBeEmpty2_2
         //      +--- couldBeEmpty2_2_1
         //           +--- empty2_2_1_1
-        Path dirPath2   = rootPath.resolve( "path2" );
+        Path dirPath2   = rootPath.resolve( "dirPath2" );
         Files.createDirectory( dirPath2 );
         pathToCleanUpList.add( dirPath2 );
 
-        Path dirPath2_1 = dirPath2.resolve( "folder2_1" );
-        Files.createDirectory( dirPath2_1 );
-        pathToCleanUpList.add( dirPath2_1 );
+        Path folder2_1 = dirPath2.resolve( "folder2_1" );
+        Files.createDirectory( folder2_1 );
+        pathToCleanUpList.add( folder2_1 );
 
-        Path filePath2_1_1 = dirPath2.resolve( "file2_1_1" );
-        Files.copy( getSomeData(), filePath2_1_1 );
-        pathToCleanUpList.add( filePath2_1_1 );
+        Path file2_1_1 = folder2_1.resolve( "file2_1_1" );
+        Files.copy( getSomeData(), file2_1_1 );
+        pathToCleanUpList.add( file2_1_1 );
 
         Path dirPath2_2 = dirPath2.resolve( "couldBeEmpty2_2" );
         Files.createDirectory( dirPath2_2 );
@@ -98,20 +102,28 @@ public class DefaultEmptyDirectoriesLookupTest
     }
 
     @Test
-    public void testLookup() throws CancelRequestException, IOException
+    public void testLookup() throws CancelRequestException, IOException, ScanIOException
     {
         EmptyDirectoriesLookup edl = new DefaultEmptyDirectoriesLookup( rootPath );
 
         edl.addListener( emptyDirectoriesListener );
         edl.lookup();
 
+        for( Path p : isEmptyList ) {
+            logger.trace( "isEmptyList: " + p );
+            }
+        for( Path p : couldBeEmptyList ) {
+            logger.trace( "couldBeEmptyList: " + p );
+            }
+
         Iterator<EmptyFolder> iter =  emptyDirectoriesListener.getEmptyFolderList().iterator();
 
         while( iter.hasNext() ) {
-            EmptyFolder ef   = iter.next();
-            Path        path = ef.getPath();
+            final EmptyFolder ef   = iter.next();
+            final Path        path = ef.getPath();
 
-            logger.info( "check pass1: " + ef );
+            logger.info( "check pass1: " + ef + " : path=" + path );
+
             if( isEmptyList.contains( path ) ) {
                 assertTrue( ef.isEmpty() );
                 Files.delete( path );
@@ -121,6 +133,15 @@ public class DefaultEmptyDirectoriesLookupTest
                 assertFalse( ef.isEmpty() );
                 }
             else {
+                logger.warn( "Unexpected entry: " + ef );
+                
+                File[] subFiles = ef.getFile().listFiles();
+                logger.warn( "subFiles=" + subFiles );
+                
+                if( subFiles != null ) {
+                    logger.warn( "subFiles.length=" + subFiles.length );
+                    }
+
                 fail( "Unexpected entry: " + ef );
                 }
             }
@@ -179,9 +200,14 @@ public class DefaultEmptyDirectoriesLookupTest
 
             File[] files = f.listFiles();
             assertNotNull( "Not a valid directory", files );
-
+            
             if( emptyFolder.isEmpty() ) {
-                assertEquals( "Not empty", 0, files.length );
+                logger.warn( "Warn found " + files.length + " file(s)" );
+                
+                for( File file : files ) {
+                    logger.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
+                    }
+                assertEquals( "Not empty: " + emptyFolder, 0, files.length );
                 }
             else {
                 assertTrue( "Is empty", files.length > 0);

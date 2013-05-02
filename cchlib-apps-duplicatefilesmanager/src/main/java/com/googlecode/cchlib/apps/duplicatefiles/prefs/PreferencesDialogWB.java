@@ -406,6 +406,7 @@ public class PreferencesDialogWB
             gbc_jButtonCancel.gridy = 1;
             contentPanel.add(jButtonCancel, gbc_jButtonCancel);
             jButtonCancel.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     PreferencesDialogWB.this.dispose();
                 }
@@ -419,6 +420,7 @@ public class PreferencesDialogWB
             gbc_jButtonSave.gridy = 1;
             contentPanel.add(jButtonSave, gbc_jButtonSave);
             jButtonSave.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent event ) {
                     prefs.setConfigMode( getSelectedItem( jComboBoxUserLevel ) );
                     prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
