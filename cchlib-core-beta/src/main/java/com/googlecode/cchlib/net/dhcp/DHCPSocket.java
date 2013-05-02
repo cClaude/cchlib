@@ -102,7 +102,7 @@ public class DHCPSocket extends DatagramSocket
 //        try {
             DatagramPacket incoming = new DatagramPacket(new byte[packetSize], packetSize);
 
-            super.receive(incoming);
+            super.receive( incoming );
 
             return DHCPParameters.newInstance(incoming.getData());
 //        }

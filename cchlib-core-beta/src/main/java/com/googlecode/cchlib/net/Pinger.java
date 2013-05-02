@@ -68,6 +68,7 @@ public class Pinger extends Thread
     /**
      *
      */
+    @Override
     public void run()
     {
         pingResultReady = false;

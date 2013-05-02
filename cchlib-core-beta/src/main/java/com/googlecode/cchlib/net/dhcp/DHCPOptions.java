@@ -2,6 +2,7 @@ package com.googlecode.cchlib.net.dhcp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,16 +84,7 @@ public class DHCPOptions
                     entry.getKey().byteValue(),
                     entry.getValue().getClone()
                     );
-        }
-
-        /*
-        java.util.Map.Entry entry;
-
-        for(Iterator i$ = aCollection.iterator(); i$.hasNext();
-        setOption(((java.lang.Byte)entry.getKey()).byteValue(), ((cx.ath.choisnet.net.dhcp.DHCPOptionEntry)entry.getValue()).getClone())) {
-            entry = (java.util.Map.Entry)i$.next();
-        }*/
-
+            }
         return this;
     }
 
@@ -122,17 +114,17 @@ public class DHCPOptions
 
         if(entry != null) {
             return entry.getOptionValue();
-
-        }
+            }
         else {
             return null;
-        }
+            }
     }
 
-    public void init(DataInputStream dis)
-        throws java.io.IOException
+    public void init(DataInputStream dis) throws IOException
     {
         clear();
+
+        // Skip 4 bytes
         dis.readByte();
         dis.readByte();
         dis.readByte();
@@ -188,21 +180,17 @@ public class DHCPOptions
     {
         DHCPOptions copy = new DHCPOptions();
 
-        Map.Entry<Byte,DHCPOptionEntry> entry;
-
-        for(
-                Iterator<Map.Entry<Byte,DHCPOptionEntry>> i$ = optionsTable.entrySet().iterator();
-                i$.hasNext();
-                copy.setOption(
-                        entry.getKey().byteValue(),
-                        entry.getValue()).getClone()
-                        ) {
-            entry = i$.next();
-        }
+        for( Map.Entry<Byte,DHCPOptionEntry> entry : optionsTable.entrySet() ) {
+            copy.setOption(
+                    entry.getKey().byteValue(),
+                    entry.getValue().getClone()
+                    );
+            }
 
         return copy;
     }
 
+    @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -249,33 +237,41 @@ public class DHCPOptions
     {
         //DHCPOptions _tmp = this;
 
-        if(prop == null) {
-            String ressourceName = "DHCPOptions.properties";
-            //DHCPOptions _tmp1 = this;
+        if( prop == null ) {
+            final String ressourceName = "DHCPOptions.properties";
+
             prop = new Properties();
 
             InputStream is = getClass().getResourceAsStream(ressourceName);
 
-            try {
-                //DHCPOptions _tmp2 = this;
-                prop.load(is);
+            if( is != null ) {
+                try {
+                    //DHCPOptions _tmp2 = this;
+                    prop.load(is);
+                    }
+                catch( IOException e) {
+                    throw new RuntimeException("Can't read : " + ressourceName, e);
+                    }
+                finally {
+                    try {
+                        is.close();
+                        }
+                    catch( IOException e ) {
+                        throw new RuntimeException( e );
+                        }
+                    }
+                }
+            else {
+                throw new RuntimeException("Can't find : " + ressourceName );
+                }
+            }
 
-                is.close();
-            }
-            catch(java.io.IOException e) {
-                throw new RuntimeException("Can't read :DHCPOptions.properties", e);
-            }
-            catch(java.lang.NullPointerException e) {
-                throw new RuntimeException("Can't find :DHCPOptions.properties", e);
-            }
-        }
-        //DHCPOptions _tmp3 = this;
         return prop.getProperty(name);
     }
 
     public String getOptionComment(byte option)
     {
-        String value = getProperty((new StringBuilder()).append("OPTION_NUM.").append(option).toString());
+        String value = getProperty( "OPTION_NUM." + option );
 
         if(value != null) {
             return value;

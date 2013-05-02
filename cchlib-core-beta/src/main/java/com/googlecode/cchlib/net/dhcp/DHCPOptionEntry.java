@@ -36,6 +36,7 @@ public class DHCPOptionEntry
         return value;
     }
 
+    @Override
     public String toString()
     {
         return (new StringBuilder())

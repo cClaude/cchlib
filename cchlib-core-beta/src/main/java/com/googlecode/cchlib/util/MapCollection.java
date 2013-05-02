@@ -103,6 +103,7 @@ public interface MapCollection<K,V>
      * Returns an iterator over the values in this MapCollection.
      * @return an iterator over the values in this MapCollection.
      */
+    @Override
     public Iterator<V> iterator();
 
 //    void   purge()
