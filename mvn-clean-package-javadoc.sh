@@ -7,7 +7,7 @@
 #
 MVN="${MAVEN_HOME}/bin/mvn"
 
-LOGSDIR="./logs"
+LOGSDIR="${PWD}/logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
 
 LOGS_COMPIL="${LOGSDIR}/.mvn.logs.compilation"
