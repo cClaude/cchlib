@@ -76,6 +76,7 @@ public class GenericDownloaderUIPanel
                         );
             pageScanCountJSpinner = new JSpinner( pageScanCountSpinnerModel );
             pageScanCountJSpinner.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent event)
                 {
                     config.setPageCount( pageScanCountSpinnerModel.getNumber().intValue() );
@@ -188,6 +189,7 @@ public class GenericDownloaderUIPanel
         {
             JButton jButton = new JButton( button.getLabel() );
             jButton.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent event) {
                     button.onClick();
                 }

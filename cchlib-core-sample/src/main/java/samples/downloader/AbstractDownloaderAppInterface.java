@@ -145,7 +145,9 @@ public abstract class AbstractDownloaderAppInterface
             this.beginRegExg = beginRegExg;
             this.lastChar = lastChar;
         }
+        @Override
         public String getBeginRegExp() { return beginRegExg; }
+        @Override
         public char getLastChar() { return lastChar; }
     }
     

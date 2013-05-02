@@ -93,6 +93,7 @@ public class GenericDownloaderUIApp extends JFrame
     public static void main( String[] args )
     {
         EventQueue.invokeLater( new Runnable() {
+            @Override
             public void run()
             {
                 try {
@@ -170,6 +171,7 @@ public class GenericDownloaderUIApp extends JFrame
         if( actionListener == null ) {
             actionListener = new ActionListener() 
             {
+                @Override
                 public void actionPerformed( final ActionEvent event ) 
                 {
                     final String cmd = event.getActionCommand();
@@ -206,15 +208,18 @@ public class GenericDownloaderUIApp extends JFrame
         if( windowListener == null ) {
             windowListener = new WindowListener() 
             {
+                @Override
                 public void windowClosed(final WindowEvent event) 
                 {
                     logger.info("Window close event occur");
                     GenericDownloaderUIApp.this.windowClosed();
                 }
+                @Override
                 public void windowActivated(final WindowEvent event) 
                 {
                     //logger.info("Window Activated");
                 }
+                @Override
                 public void windowClosing(final WindowEvent event) 
                 {
                     //Called in response to a user request for the listened-to window
@@ -224,18 +229,22 @@ public class GenericDownloaderUIApp extends JFrame
                     logger.info("Window Closing");
                     GenericDownloaderUIApp.this.windowClosing();
                 }
+                @Override
                 public void windowDeactivated(final WindowEvent event)
                 {
                     //logger.info("Window Deactivated");
                 }
+                @Override
                 public void windowDeiconified(final WindowEvent event)
                 {
                     //logger.info("Window Deiconified");
                 }
+                @Override
                 public void windowIconified(final WindowEvent event) 
                 {
                     //logger.info("Window Iconified");
                 }
+                @Override
                 public void windowOpened(final WindowEvent event)
                 {
                     logger.info("Window Opened");
@@ -322,6 +331,7 @@ public class GenericDownloaderUIApp extends JFrame
         {
             siteJComboBox = new JComboBox<String>();
             siteJComboBox.addItemListener(new ItemListener() {
+                @Override
                 public void itemStateChanged(ItemEvent event)
                 {
                     CardLayout cl = (CardLayout)(cardsPanel.getLayout());

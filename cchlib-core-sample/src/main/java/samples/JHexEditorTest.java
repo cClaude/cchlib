@@ -3,7 +3,6 @@ package samples;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
@@ -36,11 +35,10 @@ public class JHexEditorTest extends WindowAdapter
 {
     private JFrame win;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
+    private ArrayReadWriteAccess mainArrayAccess;
 
     public JHexEditorTest() throws IOException
     {
-        ArrayReadWriteAccess arrayAccess;
-
         // Build a test entry
         {
             byte[] ar = new byte[16 * 24];
@@ -50,11 +48,13 @@ public class JHexEditorTest extends WindowAdapter
                 ar[ b ] = (byte) b;
                 }
 
-            arrayAccess = new DefaultArrayReadWriteAccess( ar );
+            mainArrayAccess = new DefaultArrayReadWriteAccess( ar );
         }
 
+        @SuppressWarnings("resource") // Just for testing...
         final DefaultHexEditorModel model = new DefaultHexEditorModel();
-        model.setArrayAccess( arrayAccess );
+        
+        model.setArrayAccess( mainArrayAccess );
 
         win = new JFrame();
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -77,6 +77,7 @@ public class JHexEditorTest extends WindowAdapter
         {
             JButton btnSelectFileRWDirect = new JButton("Select a file (direct Read/Write)");
             btnSelectFileRWDirect.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent event)
                 {
                     File f = getFile();
@@ -85,9 +86,14 @@ public class JHexEditorTest extends WindowAdapter
                         try {
                             ArrayReadWriteAccess arrayAccess = new ArrayReadWriteAccessFile( f );
 
-                            model.setArrayAccess( arrayAccess );
+                            try {
+                                model.setArrayAccess( arrayAccess );
+                                }
+                            finally {
+                                arrayAccess.close();
+                                }
                             }
-                        catch( FileNotFoundException e ) {
+                        catch( IOException e ) {
                             e.printStackTrace();
                             }
                         }
@@ -98,6 +104,7 @@ public class JHexEditorTest extends WindowAdapter
         {
             JButton btnSelectFileRO = new JButton("Select a file (Read Only)");
             btnSelectFileRO.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent event)
                 {
                     File f = getFile();
@@ -106,9 +113,14 @@ public class JHexEditorTest extends WindowAdapter
                         try {
                             ArrayReadAccess arrayAccess = new ArrayReadAccessFile( f );
 
-                            model.setArrayAccess( arrayAccess );
+                            try {
+                                model.setArrayAccess( arrayAccess );
+                                }
+                            finally {
+                                arrayAccess.close();
+                                }
                             }
-                        catch( FileNotFoundException e ) {
+                        catch( IOException e ) {
                             e.printStackTrace();
                             }
                         }
@@ -133,6 +145,7 @@ public class JHexEditorTest extends WindowAdapter
         getJFileChooserInitializer();
     }
 
+    @Override
     public void windowClosing(WindowEvent e)
     {
         System.exit(0);
@@ -177,7 +190,8 @@ public class JHexEditorTest extends WindowAdapter
             }
     }
 
-    public static void main(String arg[]) throws IOException
+    @SuppressWarnings("unused")
+    public static void main(String[] args) throws IOException
     {
         new JHexEditorTest();
     }

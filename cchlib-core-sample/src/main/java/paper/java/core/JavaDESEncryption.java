@@ -60,19 +60,45 @@ public class JavaDESEncryption
             Encrypt encrypt = new Encrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
 
             // encrypt file
-            encrypt.encrypt(
-                new FileInputStream(clearFile),
-                new FileOutputStream(encryptedFile)
-                );
+            {
+                InputStream  is = new FileInputStream(clearFile);
+
+                try {
+                    OutputStream os = new FileOutputStream(encryptedFile);
+
+                    try {
+                        encrypt.encrypt( is, os );
+                        }
+                    finally {
+                        os.close();
+                        }
+                    }
+                finally {
+                    is.close();
+                    }
+            }
 
             // set decryption mode
             Decrypt decrypt = new Decrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
 
             // decrypt file
-            decrypt.decrypt(
-                    new FileInputStream( encryptedFile ),
-                    new FileOutputStream( decryptedFile )
-                    );
+            {
+                InputStream  is = new FileInputStream( encryptedFile );
+                 
+                try {
+                    OutputStream os = new FileOutputStream( decryptedFile );
+                    
+                    try {
+                        decrypt.decrypt( is, os );
+                        }
+                    finally {
+                        os.close();
+                        }
+                    }
+                finally {
+                    is.close();
+                    }
+            }
             
             System.out.println("End of Encryption/Decryption procedure!");
 

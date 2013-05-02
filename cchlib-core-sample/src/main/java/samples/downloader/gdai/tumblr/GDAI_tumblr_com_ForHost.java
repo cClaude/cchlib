@@ -53,6 +53,7 @@ class GDAI_tumblr_com_ForHost
         super.addComboBoxConfig( comboBoxConfig );
     }
 
+    @Override
     protected String getCurrentHostName()
     {
         return ( comboBoxConfig == null ) ? // ( comboBoxConfig == null ) ?

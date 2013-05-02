@@ -56,6 +56,7 @@ public class GenericDownloaderUIPanelEntry extends JPanel
 
         jComboBox = new JComboBox<String>();
         jComboBox.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 int index = jComboBox.getSelectedIndex();
                 updateLabel( index );

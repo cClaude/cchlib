@@ -81,6 +81,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         {
             JButton btnCancel = new JButton( "Cancel" );
              btnCancel.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent evt) {
                     cancelClicked();
                 }
@@ -95,6 +96,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         {
             JButton btnOk = new JButton( "OK" );
             btnOk.addActionListener(new ActionListener() {
+                @Override
                 @SuppressWarnings("unchecked")
                 public void actionPerformed(ActionEvent evt) {
                     config.setDataVector( tableModel.getDataVector() );

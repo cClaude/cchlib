@@ -11,21 +11,21 @@ import com.googlecode.cchlib.net.dhcp.DHCPSocket;
  */
 public class DHCPClientSample
 {
-
     private DHCPClientSample()
     {
     }
 
-    public static void main(String[] args)
+    public static void main(String...args)
     {
-        if(args.length == 0) {
+        if( args.length == 0 ) {
             System.out.println("Usage: dhcpclient <ethernet_addresss>\n\tie. dhcpclient 12:34:56:76:89:AB");
             System.exit(1);
-        }
+            }
 
         String hwaddr = args[0];
 
         try {
+            @SuppressWarnings("resource")
             DHCPSocket          mySocket = new DHCPSocket(68);
             DHCPParameters      params   = DHCPClientSample.getDefaultDHCPParameters( DHCPSimpleClient.addrToByte(hwaddr) );
             DHCPSimpleClient    aClient  = new DHCPSimpleClient( mySocket, params, hwaddr, System.out );
@@ -39,7 +39,8 @@ public class DHCPClientSample
             System.err.println("to this port");
             }
         catch( SocketException e) {
-            System.err.println((new StringBuilder()).append("SocketException: ").append(e).toString());
+            System.err.println( "SocketException: " + e );
+            e.printStackTrace();
             }
     }
 

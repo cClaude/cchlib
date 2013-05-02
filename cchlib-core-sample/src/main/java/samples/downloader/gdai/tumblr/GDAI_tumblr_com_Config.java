@@ -33,6 +33,7 @@ class GDAI_tumblr_com_Config
             this.name = blogName;
             this.description = blogDescription;
         }
+        @Override
         public String getName()
         {
             return this.name;
@@ -41,6 +42,7 @@ class GDAI_tumblr_com_Config
         {
             this.name = name;
         }
+        @Override
         public String getDescription()
         {
             return this.description;

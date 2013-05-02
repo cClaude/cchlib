@@ -68,6 +68,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_StdJFileChooser = new JButton("Classic JFileChooser");
             jButton_StdJFileChooser.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooser();
                 }
@@ -83,6 +84,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_BookmarksFiles = new JButton("Bookmarks (Files)");
             jButton_BookmarksFiles.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithBookmarksForFiles();
                 }
@@ -98,6 +100,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_JFileChooserInitializer = new JButton("JFileChooserInitializer");
             jButton_JFileChooserInitializer.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserUsingJFileChooserInitializer();
                 }
@@ -113,6 +116,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_BookmarksFolders = new JButton("Bookmarks (Folders)");
             jButton_BookmarksFolders.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithBookmarksForDirectories();
                 }
@@ -128,6 +132,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_Picture = new JButton("Preview pictures");
             jButton_Picture.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithPicture();
                 }
@@ -143,6 +148,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_WaitingJFileChooserInitializer = new JButton("WaitingJFileChooserInitializer");
             jButton_WaitingJFileChooserInitializer.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserUsingWaitingJFileChooserInitializer();
                 }
@@ -158,6 +164,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_LastSelectedFiles = new JButton("Last selected files");
             jButton_LastSelectedFiles.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithLastSelectedFilesList();
                 }
@@ -173,6 +180,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_LastSelectedFolders = new JButton("Last selected folders");
             jButton_LastSelectedFolders.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithLastSelectedDirectoriesList();
                 }
@@ -188,6 +196,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_TabbedFiles = new JButton("Multi Accessories (Files)");
             jButton_TabbedFiles.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithMultiAccessoryForFiles();
                 }
@@ -203,6 +212,7 @@ public class JFileChooserAccessory extends JFrame
 
             JButton jButton_TabbedFolders = new JButton("Multi Accessories (folders)");
             jButton_TabbedFolders.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     openJFileChooserWithMultiAccessoryForDirectories();
                 }

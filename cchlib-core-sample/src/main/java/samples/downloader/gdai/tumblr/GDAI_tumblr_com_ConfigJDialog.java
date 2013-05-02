@@ -24,6 +24,7 @@ public class GDAI_tumblr_com_ConfigJDialog extends JDialog
     {
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         EventQueue.invokeLater( new Runnable() {
+            @Override
             public void run()
             {
                 try {
