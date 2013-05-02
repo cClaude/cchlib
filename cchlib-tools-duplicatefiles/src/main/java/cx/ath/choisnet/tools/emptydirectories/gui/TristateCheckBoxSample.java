@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 public class TristateCheckBoxSample
 {
 
+    @SuppressWarnings("unused")
     public static void main( String args[] ) throws Exception
     {
         JFrame frame = new JFrame( "TristateCheckBoxTest" );
@@ -38,6 +39,7 @@ public class TristateCheckBoxSample
                 start();
             }
 
+            @Override
             public void run()
             {
                 try {

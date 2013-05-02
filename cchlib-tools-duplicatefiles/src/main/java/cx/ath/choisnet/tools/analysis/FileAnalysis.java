@@ -182,6 +182,7 @@ public class FileAnalysis
                 );
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
             public void run() {
                 CancelState cs = fa.stop();
 

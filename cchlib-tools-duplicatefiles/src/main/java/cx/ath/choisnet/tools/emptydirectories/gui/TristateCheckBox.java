@@ -50,6 +50,7 @@ public class TristateCheckBox extends JCheckBox
         // Add a listener for when the mouse is pressed
         super.addMouseListener(new MouseAdapter()
             {
+                @Override
                 public void mousePressed(MouseEvent e) {
                     grabFocus();
                     model.nextState();
@@ -62,6 +63,7 @@ public class TristateCheckBox extends JCheckBox
             {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 grabFocus();
                 model.nextState();
@@ -94,6 +96,7 @@ public class TristateCheckBox extends JCheckBox
     }
 
     /** No one may add mouse listeners, not even Swing! */
+    @Override
     public void addMouseListener(MouseListener l) {}
 
     /**
@@ -114,6 +117,7 @@ public class TristateCheckBox extends JCheckBox
         return model.getState();
     }
 
+    @Override
     public void setSelected(boolean b)
     {
         if( b ) {
@@ -200,11 +204,13 @@ public class TristateCheckBox extends JCheckBox
         }
 
         /** Filter: No one may change the armed status except us. */
+        @Override
         public void setArmed(boolean b){}
 
         /**
          * We disable focusing on the component when it is not enabled.
          */
+        @Override
         public void setEnabled(boolean b)
         {
             setFocusable(b);
@@ -215,101 +221,121 @@ public class TristateCheckBox extends JCheckBox
          * All these methods simply delegate to the "other" model that is being
          * decorated.
          */
+        @Override
         public boolean isArmed()
         {
             return other.isArmed();
         }
 
+        @Override
         public boolean isSelected()
         {
             return other.isSelected();
         }
 
+        @Override
         public boolean isEnabled()
         {
             return other.isEnabled();
         }
 
+        @Override
         public boolean isPressed()
         {
             return other.isPressed();
         }
 
+        @Override
         public boolean isRollover()
         {
             return other.isRollover();
         }
 
+        @Override
         public void setSelected(boolean b)
         {
             other.setSelected(b);
         }
 
+        @Override
         public void setPressed(boolean b)
         {
             other.setPressed(b);
         }
 
+        @Override
         public void setRollover(boolean b)
         {
             other.setRollover(b);
         }
 
+        @Override
         public void setMnemonic(int key)
         {
             other.setMnemonic(key);
         }
 
+        @Override
         public int getMnemonic()
         {
             return other.getMnemonic();
         }
 
+        @Override
         public void setActionCommand(String s)
         {
             other.setActionCommand(s);
         }
 
+        @Override
         public String getActionCommand()
         {
             return other.getActionCommand();
         }
 
+        @Override
         public void setGroup(ButtonGroup group)
         {
             other.setGroup(group);
         }
 
+        @Override
         public void addActionListener(ActionListener l)
         {
             other.addActionListener(l);
         }
 
+        @Override
         public void removeActionListener(ActionListener l)
         {
             other.removeActionListener(l);
         }
 
+        @Override
         public void addItemListener(ItemListener l)
         {
             other.addItemListener(l);
         }
 
+        @Override
         public void removeItemListener(ItemListener l)
         {
             other.removeItemListener(l);
         }
 
+        @Override
         public void addChangeListener(ChangeListener l)
         {
             other.addChangeListener(l);
         }
 
+        @Override
         public void removeChangeListener(ChangeListener l)
         {
             other.removeChangeListener(l);
         }
 
+        @Override
         public Object[] getSelectedObjects()
         {
             return other.getSelectedObjects();
