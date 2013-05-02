@@ -74,6 +74,7 @@ public class DefaultFilterInputStreamBuilder
         final DownloadFileURL   dURL
         )
     {
+        @SuppressWarnings("resource")
         DefaultFilterInputStream f = DefaultFilterInputStream.class.cast( filter );
         
         try {
