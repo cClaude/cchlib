@@ -17,6 +17,7 @@ import com.googlecode.cchlib.Const;
 /**
  * @deprecated use {@link com.googlecode.cchlib.swing.filechooser.accessory#DefaultBookmarksAccessoryConfigurator} instead
  */
+@Deprecated
 public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {

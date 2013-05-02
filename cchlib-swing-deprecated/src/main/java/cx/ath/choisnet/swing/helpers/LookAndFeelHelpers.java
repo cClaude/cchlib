@@ -36,6 +36,7 @@ public class LookAndFeelHelpers
      * @deprecated use {@link com.googlecode.cchlib.swing.lookandfeel.LookAndFeelHelper#setLookAndFeel(JFrame, String)} instead
      */
 
+    @Deprecated
     public static void setLookAndFeel( JFrame frame, String lnfName )
         throws ClassNotFoundException,
                InstantiationException,
@@ -58,6 +59,7 @@ public class LookAndFeelHelpers
      * @param lnfName  LookAndFeel name to set
      * @deprecated use {@link com.googlecode.cchlib.swing.lookandfeel.LookAndFeelHelper#setLookAndFeelNoException(JFrame, String)} instead
      */
+    @Deprecated
     public static void setLookAndFeelNoException(
         final JFrame frame,
         final String lnfName
@@ -174,6 +176,7 @@ public class LookAndFeelHelpers
 
             jMenuItem.addMouseListener( new MouseAdapter()
             {
+                @Override
                 public void mousePressed( MouseEvent event )
                 {
                     SwingUtilities.invokeLater( new Runnable()

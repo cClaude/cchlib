@@ -25,6 +25,7 @@ public class CustomJSliderTest extends JFrame
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     CustomJSliderTest frame = new CustomJSliderTest();
@@ -71,7 +72,8 @@ public class CustomJSliderTest extends JFrame
         
         final CustomJSlider slider = new CustomJSlider();
         slider.addChangeListener(new ChangeListener() {
-        	public void stateChanged(ChangeEvent e) {
+        	@Override
+            public void stateChanged(ChangeEvent e) {
         		int v = slider.getValue();
         		textField.setValue( v );
         		lblNewLabel.setText( Integer.toString( v ) );

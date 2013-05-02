@@ -11,6 +11,7 @@ import javax.swing.JViewport;
 /**
  * @deprecated use {@link com.googlecode.cchlib.swing.list.LeftDotListCellRenderer} instead
  */
+@Deprecated
 public class LeftDotListCellRenderer extends DefaultListCellRenderer
 {
     private static final long serialVersionUID = 1L;

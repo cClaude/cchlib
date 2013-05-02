@@ -11,6 +11,7 @@ import javax.swing.text.DocumentFilter;
  * @deprecated use {@link com.googlecode.cchlib.swing.textfield.LimitedJTextField} 
  * instead
  */
+@Deprecated
 public class LimitedTextField extends JTextField
 {
     /**
@@ -31,12 +32,14 @@ public class LimitedTextField extends JTextField
             // empty
         }
 
+        @Override
         public void insertString(DocumentFilter.FilterBypass fb, int offset, String str, AttributeSet attr)
             throws BadLocationException
         {
             replace(fb, offset, 0, str, attr);
         }
 
+        @Override
         public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
             throws BadLocationException
         {
@@ -100,6 +103,7 @@ public class LimitedTextField extends JTextField
         	}
     }
 
+    @Override
     public void setText( String str )
     {
         if( str.length() > this.maxLength ) {

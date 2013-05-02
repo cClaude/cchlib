@@ -142,6 +142,7 @@ public class CustomJSlider
         //return getCustomTitle() + Integer.toString( super.getValue() )
     }
 
+    @SuppressWarnings("unused")
     private void refreshCustomTitle()
     {
         logger.info( "refreshCustomTitle()" );
@@ -177,6 +178,7 @@ public class CustomJSlider
         refreshCustomTitle();
     }
 
+    @Override
     public void setBorder( Border b )
     {
         if( b == null ) {

@@ -301,6 +301,7 @@ public abstract class JPopupMenuForJTable
     /**
      * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String, int, int)} instead
      */
+    @Deprecated
     final
     protected void addPasteMenuItem(
             final JPopupMenu    contextMenu,

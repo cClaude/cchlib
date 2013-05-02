@@ -16,6 +16,7 @@ public class LeftDotRenderer extends DefaultTableCellRenderer
     private static final long serialVersionUID = 1L;
     private static final String DOTS = "...";
 
+    @Override
     public Component getTableCellRendererComponent(
         JTable  table, 
         Object  value, 

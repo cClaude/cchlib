@@ -35,6 +35,7 @@ import javax.swing.event.ListDataEvent;
  *
  * @deprecated use {@link com.googlecode.cchlib.swing.XComboBox} instead
  */
+@Deprecated
 public class XComboBox<E> extends JComboBox/*<E>*/
 {
     /**

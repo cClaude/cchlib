@@ -17,6 +17,7 @@ import com.googlecode.cchlib.swing.text.PatternDocument;
  * @see Pattern
  * @deprecated use {@link com.googlecode.cchlib.swing.XComboBoxPattern} instead
  */
+@Deprecated
 public class XComboBoxPattern extends XComboBox<String>
 {
     private static final long serialVersionUID = 2L;
