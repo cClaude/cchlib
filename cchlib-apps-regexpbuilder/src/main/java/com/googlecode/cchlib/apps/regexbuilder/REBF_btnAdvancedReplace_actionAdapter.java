@@ -13,6 +13,7 @@ class REBF_btnAdvancedReplace_actionAdapter
         this.adaptee = adaptee;
     }
 
+    @Override
     public void actionPerformed( ActionEvent e )
     {
         adaptee.btnAdvancedReplace_actionPerformed( e );

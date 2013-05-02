@@ -241,6 +241,7 @@ public class RegExpBuilderFrame
     }
 */
     // Overridden so we can exit when window is closed
+    @Override
     protected void processWindowEvent( WindowEvent e )
     {
         super.processWindowEvent( e );

@@ -13,6 +13,7 @@ class REBF_btnNextMatch_actionAdapter
         this.adaptee = adaptee;
     }
 
+    @Override
     public void actionPerformed( ActionEvent e )
     {
         adaptee.btnNextMatch_actionPerformed( e );

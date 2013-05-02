@@ -68,6 +68,7 @@ public class RegExpApp
         catch( Exception e ) {
             e.printStackTrace();
             }
-        new RegExpApp();
+        @SuppressWarnings("unused")
+        RegExpApp instance = new RegExpApp();
     }
 }
