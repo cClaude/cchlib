@@ -3,6 +3,7 @@ package deprecated.cx.ath.choisnet.system;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class EnvArcException extends Exception
 {
     private static final long serialVersionUID = 1L;

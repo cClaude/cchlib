@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class EnvArcDefaultImpl 
     implements deprecated.cx.ath.choisnet.system.EnvArc
 {

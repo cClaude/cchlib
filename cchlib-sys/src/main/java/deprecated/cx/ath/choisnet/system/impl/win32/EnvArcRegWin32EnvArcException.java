@@ -3,6 +3,7 @@ package deprecated.cx.ath.choisnet.system.impl.win32;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class EnvArcRegWin32EnvArcException
     extends deprecated.cx.ath.choisnet.system.EnvArcException
 {

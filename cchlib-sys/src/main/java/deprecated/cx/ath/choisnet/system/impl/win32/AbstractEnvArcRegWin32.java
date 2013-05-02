@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public abstract class AbstractEnvArcRegWin32
     extends RegWin32
         implements deprecated.cx.ath.choisnet.system.EnvArc
@@ -26,6 +27,7 @@ public abstract class AbstractEnvArcRegWin32
      * @throws EnvArcRegWin32EnvArcException
      * @see EnvArc#getVarNameList()
      */
+    @Override
     public Collection<String> getVarNameList()
         throws EnvArcRegWin32EnvArcException
     {

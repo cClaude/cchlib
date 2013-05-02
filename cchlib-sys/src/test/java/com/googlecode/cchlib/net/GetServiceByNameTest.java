@@ -7,6 +7,7 @@ import com.googlecode.cchlib.lang.UnsupportedSystemException;
 public class GetServiceByNameTest
 {
 
+    @SuppressWarnings("unused")
     @Test
     public void test_GetServiceByName() throws UnsupportedSystemException
     {

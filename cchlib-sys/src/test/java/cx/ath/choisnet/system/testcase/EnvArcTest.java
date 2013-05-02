@@ -5,6 +5,7 @@ import org.junit.Test;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class EnvArcTest
 {
     @Test

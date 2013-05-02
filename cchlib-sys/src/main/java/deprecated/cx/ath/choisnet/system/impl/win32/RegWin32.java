@@ -18,6 +18,7 @@ import com.ice.jni.registry.RegistryValue;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class RegWin32
 {
     final private static Logger slogger = Logger.getLogger(RegWin32.class);

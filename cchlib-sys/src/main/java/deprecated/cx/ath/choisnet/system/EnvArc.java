@@ -5,6 +5,7 @@ import java.util.Collection;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public interface EnvArc
 {
     /**

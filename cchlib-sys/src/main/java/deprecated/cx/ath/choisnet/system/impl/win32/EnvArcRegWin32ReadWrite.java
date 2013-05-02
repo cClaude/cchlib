@@ -6,6 +6,7 @@ package deprecated.cx.ath.choisnet.system.impl.win32;
  * @deprecated no replacement
  * @see EnvArcRegWin32ReadOnly
  */
+@Deprecated
 public class EnvArcRegWin32ReadWrite
     extends AbstractEnvArcRegWin32
 {

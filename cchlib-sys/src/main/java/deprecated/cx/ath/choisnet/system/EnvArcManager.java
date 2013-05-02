@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public final class EnvArcManager
 {
     private static EnvArc defaultEnvArc = new deprecated.cx.ath.choisnet.system.impl.EnvArcDefaultImpl();

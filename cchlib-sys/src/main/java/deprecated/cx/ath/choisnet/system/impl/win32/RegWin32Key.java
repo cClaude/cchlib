@@ -8,6 +8,7 @@ import com.ice.jni.registry.RegistryKey;
 /**
  * @deprecated No replacement
  */
+@Deprecated
 public class RegWin32Key
 {
     final private static Logger slogger = Logger.getLogger(RegWin32Key.class);
@@ -62,6 +63,7 @@ public class RegWin32Key
         return registryTop.openSubKey(regName, RegistryKey.ACCESS_WRITE);
     }
 
+    @Override
     public String toString()
     {
         return regKeyName;
