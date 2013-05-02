@@ -94,6 +94,7 @@ public class PreferencesJPanel extends JPanel
             numberOfFilesJSlider = new JSlider();
             numberOfFilesJSlider.setValue(2);
             numberOfFilesJSlider.addChangeListener(new ChangeListener() {
+                @Override
                 public void stateChanged(ChangeEvent e) {
                     numberOfFilesJTextField.setText( Integer.toString( numberOfFilesJSlider.getValue() ) );
                 }
@@ -150,6 +151,7 @@ public class PreferencesJPanel extends JPanel
         {
             btnCancel = new JButton("Cancel");
             btnCancel.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     action.onCancel();
                 }
@@ -183,6 +185,7 @@ public class PreferencesJPanel extends JPanel
         {
             btnSave = new JButton("Save");
             btnSave.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     action.onSave(new SaveParams() {
                         @Override

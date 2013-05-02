@@ -228,6 +228,7 @@ public class FilesConfig implements Serializable
             }
     }
     
+
     private void privateLoadProperties(
             final Properties defaults,
             final int        index
@@ -235,7 +236,8 @@ public class FilesConfig implements Serializable
             throws  FileNotFoundException,
                     IOException
         {
-        new DefaultCustomProperties( this.getFileObject( index ), defaults );
+        @SuppressWarnings("unused")
+        CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
         }
     
     private void privateLoadFormattedProperties() throws FileNotFoundException, IOException 
@@ -262,7 +264,8 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        new FormattedCustomProperties( 
+        @SuppressWarnings("unused")
+        CustomProperties cprop = new FormattedCustomProperties( 
                 this.getFileObject( index ), 
                 defaults, 
                 formattedPropertiesStore

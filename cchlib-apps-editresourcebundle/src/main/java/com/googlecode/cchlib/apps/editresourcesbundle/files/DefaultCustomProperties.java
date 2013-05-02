@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -31,11 +32,14 @@ class DefaultCustomProperties
         this.fileObject = fileObject;
         this.properties = new Properties( defaults );
 
-        properties.load(
-              new FileInputStream(
-                  fileObject.getFile()
-                  )
-              );
+        InputStream is = new FileInputStream( fileObject.getFile() );
+        
+        try {
+            properties.load( is );
+            }
+        finally {
+            is.close();
+            }
         
         this.fileObject.setCustomProperties( this );
     }

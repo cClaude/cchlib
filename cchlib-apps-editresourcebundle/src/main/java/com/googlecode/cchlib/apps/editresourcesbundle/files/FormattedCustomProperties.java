@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -36,11 +37,14 @@ class FormattedCustomProperties extends AbstractCustomProperties
                 defaults,
                 formattedPropertiesStore
                 );
-        this.properties.load(
-                new FileInputStream(
-                    this.fileObject.getFile()
-                    )
-                );
+        
+        InputStream is = new FileInputStream( this.fileObject.getFile() );
+        try {
+            this.properties.load( is );
+            }
+        finally {
+            is.close();
+            }
         
         this.linesNumbers   = new HashMap<String,Integer>();
         

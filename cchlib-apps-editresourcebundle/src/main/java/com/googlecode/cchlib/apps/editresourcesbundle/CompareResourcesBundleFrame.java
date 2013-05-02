@@ -261,6 +261,7 @@ public class CompareResourcesBundleFrame
             DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
+                @Override
                 public void perfomeConfig(JFileChooser jfc)
                 {
                     super.perfomeConfig( jfc );
@@ -540,8 +541,8 @@ public class CompareResourcesBundleFrame
             }
         };
         
-        //PreferencesJDialog dialog = 
-        new PreferencesJDialog( initParams, action );
+        @SuppressWarnings("unused")
+        PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
     }
 
     /*
