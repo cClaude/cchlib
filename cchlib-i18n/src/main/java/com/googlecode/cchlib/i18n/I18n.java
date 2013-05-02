@@ -29,6 +29,7 @@ public @interface I18n
     /**
      * @deprecated use {@link #method()} instead
      */
+    @Deprecated
     String methodSuffixName() default "";
     
     /**
@@ -41,5 +42,6 @@ public @interface I18n
     /**
      * @deprecated use {@link #id()} instead
      */
+    @Deprecated
     String keyName() default "";
 }
