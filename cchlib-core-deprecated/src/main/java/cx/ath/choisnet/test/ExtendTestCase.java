@@ -17,6 +17,7 @@ public class ExtendTestCase // <- remove avoid JUnit tests crash under eclipse
     /**
      * @deprecated use {@link Assert#assertEquals(String,byte[],byte[])} instead
      */
+    @Deprecated
     public static void assertEquals(
             String message,
             byte[] expected,
@@ -55,6 +56,7 @@ public class ExtendTestCase // <- remove avoid JUnit tests crash under eclipse
     /**
      * @deprecated use {@link Assert#assertEquals(byte[],byte[])} instead
      */
+    @Deprecated
     public static void assertEquals(
             byte[] expected,
             byte[] actual

@@ -5,6 +5,7 @@ package cx.ath.choisnet.zip;
  * 
  * @deprecated no replacement
  */
+@Deprecated
 public interface ZipListener 
 {
     /**

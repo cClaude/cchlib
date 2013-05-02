@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
  * @see FileIterator
  * @deprecated use {@link com.googlecode.cchlib.io.DirectoryIterator} instead
  */
+@Deprecated
 public class DirectoryIterator
     implements  Iterator<File>,
                 Iterable<File>

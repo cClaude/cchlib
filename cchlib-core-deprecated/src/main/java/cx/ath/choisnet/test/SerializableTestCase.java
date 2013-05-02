@@ -7,6 +7,7 @@ import cx.ath.choisnet.io.SerializableHelper;
 /**
  * @deprecated use {@link SerializableTestCaseHelper} instead
  */
+@Deprecated
 final
 public class SerializableTestCase // <- remove avoid JUnit tests crash under eclipse
 {

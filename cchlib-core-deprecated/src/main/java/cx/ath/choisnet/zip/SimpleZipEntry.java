@@ -9,6 +9,7 @@ import java.util.zip.ZipEntry;
  * 
  * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleZipEntry} instead
  */
+@Deprecated
 public interface SimpleZipEntry
 {
     /**

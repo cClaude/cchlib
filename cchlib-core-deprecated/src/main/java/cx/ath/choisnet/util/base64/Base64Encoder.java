@@ -10,6 +10,7 @@ import java.util.Arrays;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.base64.Base64Encoder} instead
  */
+@Deprecated
 public class Base64Encoder extends Base64
 {
     private byte[] buffer;

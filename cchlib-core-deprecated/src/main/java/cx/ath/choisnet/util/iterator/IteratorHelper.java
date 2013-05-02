@@ -14,6 +14,7 @@ import cx.ath.choisnet.util.ArrayHelper;
  * @see com.googlecode.cchlib.io.IOHelper#toIterator(java.io.File[], java.io.FileFilter)
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.Iterators} instead
  */
+@Deprecated
 public class IteratorHelper
 {
     private IteratorHelper()
@@ -33,10 +34,12 @@ public class IteratorHelper
     {
         return new Enumeration<T>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return iterator.hasNext();
             }
+            @Override
             public T nextElement()
                 throws java.util.NoSuchElementException
             {

@@ -17,6 +17,7 @@ import com.googlecode.cchlib.io.IOHelper;
 /**
  * @deprecated
  */
+@Deprecated
 public class FileIteratorTest
 {
     final private static Logger slogger = Logger.getLogger(FileIteratorTest.class);
@@ -41,7 +42,8 @@ public class FileIteratorTest
     public void testNotExist()
     {
         try {
-            new FileIterator( NOT_EXIST_FILE );
+            @SuppressWarnings("unused")
+            FileIterator fi = new FileIterator( NOT_EXIST_FILE );
 
             fail( "Should crash here" );
             }

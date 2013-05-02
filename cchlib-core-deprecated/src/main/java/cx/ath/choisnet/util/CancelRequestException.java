@@ -6,6 +6,7 @@ package cx.ath.choisnet.util;
  * 
  * @deprecated use {@link com.googlecode.cchlib.util.CancelRequestException} instead
  */
+@Deprecated
 public class CancelRequestException 
     extends com.googlecode.cchlib.util.CancelRequestException
 {

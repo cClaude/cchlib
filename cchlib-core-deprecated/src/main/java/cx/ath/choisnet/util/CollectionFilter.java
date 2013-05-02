@@ -8,6 +8,7 @@ import java.util.Collection;
  * @param <T> type of collection.
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.CollectionFilter} instead
  */
+@Deprecated
 public interface CollectionFilter<T> extends com.googlecode.cchlib.util.iterator.CollectionFilter<T>
 {
     /**
@@ -18,5 +19,6 @@ public interface CollectionFilter<T> extends com.googlecode.cchlib.util.iterator
      * @param collection Original {@link Collection}
      * @return new {@link Collection} with only some items of the original one.
      */
+    @Override
     public abstract Collection<T> apply( Collection<T> collection );
 }

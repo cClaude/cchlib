@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 /**
  * @deprecated use {@link cx.ath.choisnet.sql.SQLTools} instead.
  */
+@Deprecated
 public class MySQLTools
 {
     @Deprecated

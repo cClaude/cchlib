@@ -316,6 +316,7 @@ public class Base64Test
         is.close();
     }
 
+    @SuppressWarnings("resource")
     @Test
     public void testFileDeprecated() throws Base64FormatException, IOException
     {
@@ -391,6 +392,7 @@ public class Base64Test
         tmp.deleteOnExit();
 
         {
+            @SuppressWarnings("resource")
             Writer  out64 = new FileWriter( tmp );
 
             encoder.encode( inBinary, out64 );

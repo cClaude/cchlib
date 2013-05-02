@@ -13,6 +13,7 @@ import com.googlecode.cchlib.io.FileIterator;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleUnZip} instead
  */
+@Deprecated
 public class SimpleZip
     implements  java.io.Closeable,
                 ZipListener
@@ -55,6 +56,7 @@ public class SimpleZip
     /**
      *
      */
+    @Override
     public void close()
         throws java.io.IOException
     {

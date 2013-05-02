@@ -2,12 +2,12 @@ package cx.ath.choisnet.util.datetime;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  *
  */
-public class TimePeriod
-    implements java.io.Serializable, Cloneable, Comparable<TimePeriod>
+public class TimePeriod implements Serializable, Cloneable, Comparable<TimePeriod>
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
@@ -47,12 +47,14 @@ public class TimePeriod
 
     }
 
+    @Override
     public int compareTo(TimePeriod anOtherTimePeriod)
     {
         return (int)(time - anOtherTimePeriod.longValue());
 
     }
 
+    @Override
     public boolean equals(Object object)
     {
         if( object instanceof TimePeriod ) {
@@ -86,6 +88,7 @@ public class TimePeriod
         return array;
     }
 
+    @Override
     public String toString()
     {
         validateFields();
@@ -146,5 +149,12 @@ public class TimePeriod
     {
         stream.defaultReadObject();
         time = stream.readLong();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        // TODO Customize ?
+        return super.hashCode();
     }
 }

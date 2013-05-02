@@ -9,6 +9,7 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 **
 ** @deprecated use {@link com.googlecode.cchlib.io.FileFilterHelper} instead
 */
+@Deprecated
 public class FileFilterHelper
 {
     private FileFilterHelper()

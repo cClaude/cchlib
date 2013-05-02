@@ -8,6 +8,7 @@ package cx.ath.choisnet.util;
  * @see cx.ath.choisnet.util.impl.CollectionFilterImpl
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.Selectable} instead
  */
+@Deprecated
 public interface Selectable<T> extends com.googlecode.cchlib.util.iterator.Selectable<T>
 {
     /**
@@ -17,5 +18,6 @@ public interface Selectable<T> extends com.googlecode.cchlib.util.iterator.Selec
      * @return true if object should be selected,
      *         false otherwise
      */
+    @Override
     public abstract boolean isSelected(T obj);
 }

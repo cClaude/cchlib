@@ -7,6 +7,7 @@ import java.io.OutputStream;
 /**
  * @deprecated use {@link InputStreamHelper} instead
  */
+@Deprecated
 public class StreamHelper
 {
     private final static int DEFAULT_BUFFER_SIZE = 4096;
@@ -24,7 +25,8 @@ public class StreamHelper
      * @throws java.io.IOException
      * @deprecated use {@link ReaderHelper#toString(java.io.Reader)} instead
      */
-     public static String toString(InputStream is)
+     @Deprecated
+    public static String toString(InputStream is)
         throws java.io.IOException
     {
         StringBuilder sb     = new StringBuilder();
@@ -52,6 +54,7 @@ public class StreamHelper
      * @throws java.io.IOException
      * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream, byte[])} instead
      */
+    @Deprecated
     public static void copy(
             InputStream  input,
             OutputStream output,
@@ -69,6 +72,7 @@ public class StreamHelper
     /**
      * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream, int)} instead
      */
+    @Deprecated
     public static void copy(InputStream input, OutputStream output, int bufferSize)
         throws java.io.IOException
     {
@@ -78,6 +82,7 @@ public class StreamHelper
     /**
      * @deprecated use {@link InputStreamHelper#copy(InputStream, OutputStream)} instead
      */
+    @Deprecated
     public static void copy(InputStream input, OutputStream output)
         throws java.io.IOException
     {
@@ -87,6 +92,7 @@ public class StreamHelper
     /**
      * @deprecated use {@link InputStreamHelper#concat(InputStream...)} instead
      */
+    @Deprecated
     public static InputStream concat(
             InputStream is1,
             InputStream is2
@@ -100,17 +106,20 @@ public class StreamHelper
     /**
      * @deprecated use {@link InputStreamHelper#concat(InputStream...)} instead
      */
+    @Deprecated
     public static InputStream concat(final InputStream...is)
     {
         return new InputStream() {
             int index;
 
+            @Override
             public int available()
                 throws java.io.IOException
             {
                 return is[index].available();
             }
 
+            @Override
             public void close()
                 throws java.io.IOException
             {
@@ -133,11 +142,13 @@ public class StreamHelper
                 }
             }
 
+            @Override
             public boolean markSupported()
             {
                 return false;
             }
 
+            @Override
             public int read()
                 throws java.io.IOException
             {

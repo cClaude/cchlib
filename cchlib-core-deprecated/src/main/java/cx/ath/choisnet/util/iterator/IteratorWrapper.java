@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
  * @param <O> Result type
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.IteratorWrapper} instead
  */
+@Deprecated
 public class IteratorWrapper<T,O>
     implements Iterator<O>//, Iterable<O>//,IterableIterator<O>
 {

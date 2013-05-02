@@ -3,6 +3,7 @@ package cx.ath.choisnet.util;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.Wrappable} instead
  */
+@Deprecated
 public interface Wrappable<S,R>
 {
     /**

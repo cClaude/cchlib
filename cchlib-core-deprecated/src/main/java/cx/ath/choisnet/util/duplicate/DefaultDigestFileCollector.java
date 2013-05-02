@@ -16,6 +16,7 @@ import com.googlecode.cchlib.util.HashMapSet;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DefaultDigestFileCollector} instead
  */
+@Deprecated
 public class DefaultDigestFileCollector
     implements DigestFileCollector
 {

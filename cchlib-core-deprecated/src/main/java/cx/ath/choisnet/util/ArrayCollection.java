@@ -44,11 +44,13 @@ public class ArrayCollection<T> extends AbstractCollection<T>
         }
     }
 
+    @Override
     public int size()
     {
         return list.size();
     }
 
+    @Override
     public Iterator<T> iterator()
     {
         return list.iterator();

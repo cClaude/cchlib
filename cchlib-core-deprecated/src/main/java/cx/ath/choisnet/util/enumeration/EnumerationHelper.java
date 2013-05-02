@@ -15,6 +15,7 @@ import cx.ath.choisnet.util.ArrayHelper;
  * @see ArrayHelper#toEnumeration(Object[], int, int)
  * @deprecated use {@link com.googlecode.cchlib.util.enumeration.Enumerations} instead
  */
+@Deprecated
 public class EnumerationHelper
 {
     private EnumerationHelper()
@@ -47,10 +48,12 @@ public class EnumerationHelper
     {
         return new Enumeration<O>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return enumeration.hasMoreElements();
             }
+            @Override
             public O nextElement()
                 throws NoSuchElementException
             {
@@ -77,10 +80,12 @@ public class EnumerationHelper
     {
         return new Enumeration<O>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return enumeration.hasMoreElements();
             }
+            @Override
             public O nextElement()
                 throws java.util.NoSuchElementException
             {
@@ -97,6 +102,7 @@ public class EnumerationHelper
      * @deprecated use EnumerationIterator
      * @see EnumerationIterator
      */
+    @Deprecated
     public static <T> Iterator<T> toIterator(
             final Enumeration<T> enumeration
             )

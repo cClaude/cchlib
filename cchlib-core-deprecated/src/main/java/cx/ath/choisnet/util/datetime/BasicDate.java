@@ -306,6 +306,7 @@ public class BasicDate
     /**
      *
      */
+    @Override
     public boolean isBefore(DateInterface anOtherDate)
         throws ClassCastException
     {
@@ -315,6 +316,7 @@ public class BasicDate
     /**
      *
      */
+    @Override
     public boolean isAfter(DateInterface anOtherDate)
         throws ClassCastException
     {
@@ -324,6 +326,7 @@ public class BasicDate
     /**
      *
      */
+    @Override
     public String toString()
     {
         return (new StringBuilder())
@@ -372,6 +375,7 @@ public class BasicDate
      * @param formatter to use to format date
      * @return formatted String according to formatter
      */
+    @Override
     public String toString(Format formatter)
     {
         return formatter.format(getJavaDate());
@@ -380,6 +384,7 @@ public class BasicDate
     /**
      * @return BasicDate as a long
      */
+    @Override
     public long longValue()
     {
         return getJavaDate().getTime() / MILLISECONDS_BY_DAY;
@@ -494,6 +499,7 @@ public class BasicDate
     /**
      * Unsupported Operation
      */
+    @Override
     public DateInterface add(DateInterface anotherDate)
         throws UnsupportedOperationException
     {
@@ -503,6 +509,7 @@ public class BasicDate
     /**
      * UnsupportedOperationException
      */
+    @Override
     public DateInterface sub(DateInterface anotherDate)
         throws UnsupportedOperationException
     {
@@ -541,5 +548,12 @@ public class BasicDate
             transient_ISO_DATE_FMT = new SimpleDateFormat(ISO_DATE_FMT);
         }
         return transient_ISO_DATE_FMT;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        // TODO Customize ?
+        return super.hashCode();
     }
 }

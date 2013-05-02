@@ -24,6 +24,7 @@ import java.io.OutputStream;
  * change.
  * </p>
  */
+@SuppressWarnings("resource")
 public class MySQLAdmin
 {
     private String mySQLExe;

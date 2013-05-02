@@ -64,6 +64,7 @@ public class FlattenIterator<T> extends ComputableIterator<T>
                     );
     }
 
+    @Override
     public T computeNext()
         throws java.util.NoSuchElementException
     {

@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 /**
  * @deprecated use {@link DefaultMappableBuilderFactory} instead
  */
+@Deprecated
 public class MappableBuilderDefaultFactory
     implements MappableBuilderFactory, Serializable
 {

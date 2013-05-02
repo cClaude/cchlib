@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
  * @param <E>  content type
  * @deprecated use {@link com.googlecode.cchlib.util.enumeration.EmptyEnumeration} instead
  */
+@Deprecated
 public class EmptyEnumeration<E>
     implements Enumeration<E>
 {

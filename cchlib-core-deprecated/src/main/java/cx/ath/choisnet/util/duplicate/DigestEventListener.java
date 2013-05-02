@@ -8,6 +8,7 @@ import java.util.EventListener;
  * The listener interface for receiving start computing digest events.
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DigestEventListener} instead
  */
+@Deprecated
 public interface DigestEventListener
     extends EventListener
 {

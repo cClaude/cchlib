@@ -7,6 +7,7 @@ import java.util.Set;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.MapKeyWrapper} instead
  */
+@Deprecated
 public class MapKeyWrapper<KS,KR,V>
     implements Map<KR,V>
 {
@@ -142,6 +143,7 @@ public class MapKeyWrapper<KS,KR,V>
     /**
      * @deprecated
      */
+    @Deprecated
     private class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
     {

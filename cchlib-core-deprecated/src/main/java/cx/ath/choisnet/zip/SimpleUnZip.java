@@ -14,6 +14,7 @@ import java.util.zip.ZipInputStream;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleUnZip} instead
  */
+@Deprecated
 public class SimpleUnZip 
     implements  Closeable, 
                 ZipListener

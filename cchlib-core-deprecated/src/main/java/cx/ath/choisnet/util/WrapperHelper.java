@@ -5,6 +5,7 @@ import java.util.Enumeration;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.WrapperHelper} instead
  */
+@Deprecated
 public class WrapperHelper<T,O>
 {
     private WrapperHelper()
@@ -20,6 +21,7 @@ public class WrapperHelper<T,O>
     {
         return new Wrappable<T,String>()
         {
+            @Override
             public String wrappe(T o)
             {
                 return o.toString();

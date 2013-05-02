@@ -11,6 +11,7 @@ import java.io.Writer;
  * @see FileHelper
  * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
+@Deprecated
 public final class ReaderHelper
 {
     private final static int DEFAULT_BUFFER_SIZE = 4096;

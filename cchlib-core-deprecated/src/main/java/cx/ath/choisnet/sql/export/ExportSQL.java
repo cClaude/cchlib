@@ -11,6 +11,7 @@ import java.util.EnumSet;
 /**
  * Create a SQL script to export values from tables.
  */
+@SuppressWarnings("resource")
 public class ExportSQL  implements Closeable
 {
     /**

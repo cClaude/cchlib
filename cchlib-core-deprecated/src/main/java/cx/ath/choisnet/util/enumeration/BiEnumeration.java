@@ -10,6 +10,7 @@ import java.util.Enumeration;
  * @param <T> content type
  * @deprecated use {@link com.googlecode.cchlib.util.enumeration.BiEnumeration} instead
  */
+@Deprecated
 public class BiEnumeration<T>
     implements Enumeration<T>
 {

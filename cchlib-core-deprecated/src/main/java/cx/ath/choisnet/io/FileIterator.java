@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
  * @see DirectoryIterator
  * @deprecated use {@link com.googlecode.cchlib.io.FileIterator} instead
  */
+@Deprecated
 public class FileIterator
     implements  Iterator<File>,
                 Iterable<File>
@@ -93,6 +94,7 @@ public class FileIterator
      * an element rather than throwing an exception.) 
      * @return true if the iteration has more elements.
      */
+    @Override
     public boolean hasNext()
     {
         if(currentDirFilesList.size() > 0) {
@@ -119,6 +121,7 @@ public class FileIterator
      * @return the next File in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
+    @Override
     public File next() throws NoSuchElementException
     {
         // Initialize currentDirFilesList
@@ -134,6 +137,7 @@ public class FileIterator
      * 
      * @throws UnsupportedOperationException
      */
+    @Override
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
@@ -143,6 +147,7 @@ public class FileIterator
      * Returns an iterator over a set of Files. 
      * @return this Iterator
      */
+    @Override
     public Iterator<File> iterator()
     {
         return this;

@@ -42,6 +42,7 @@ public class XMLParserDOM2 implements XMLParser
         document = null;
     }
 
+    @Override
     public Document getDocument()
     {
         return document;

@@ -26,6 +26,7 @@ import com.googlecode.cchlib.util.iterator.iterable.ArrayIterator;
  * @see ReaderHelper
  * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
+@Deprecated
 public final class FileHelper
 {
     private final static int DEFAULT_BUFFER_SIZE = 4096;
@@ -50,7 +51,9 @@ public final class FileHelper
             )
         throws IOException
     {
+        @SuppressWarnings("resource")
         InputStream  input  = new BufferedInputStream(new FileInputStream(inputFile));
+        @SuppressWarnings("resource")
         OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {
@@ -85,6 +88,7 @@ public final class FileHelper
     public static void copy( final InputStream is, final File outputFile )
         throws IOException
     {
+        @SuppressWarnings("resource")
         OutputStream output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
         try {

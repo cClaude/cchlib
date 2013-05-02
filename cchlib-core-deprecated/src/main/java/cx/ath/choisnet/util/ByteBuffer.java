@@ -202,6 +202,7 @@ public class ByteBuffer
         return true;
     }
 
+    @Override
     public int compareTo(ByteBuffer aByteBuffer)
     {
         int length = lastPos >= aByteBuffer.lastPos ? aByteBuffer.lastPos : lastPos;
@@ -216,6 +217,7 @@ public class ByteBuffer
         return lastPos - aByteBuffer.lastPos;
     }
 
+    @Override
     public boolean equals(Object o)
     {
         try {
@@ -226,11 +228,13 @@ public class ByteBuffer
         }
     }
 
+    @Override
     public String toString()
     {
         return new String(buffer, 0, lastPos);
     }
 
+    @Override
     public ByteBuffer clone()
         throws java.lang.CloneNotSupportedException
     {
@@ -273,6 +277,13 @@ public class ByteBuffer
         }
 
         lastPos = max;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        // TODO Custpmize ?
+        return super.hashCode();
     }
 
 }

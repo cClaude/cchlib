@@ -13,6 +13,7 @@ import java.util.Arrays;
 /**
  * @deprecated use @{com.googlecode.cchlib.lang.ByteArrayBuilder} instead
  */
+@Deprecated
 public class ByteArrayBuilder
     implements  Comparable<ByteArrayBuilder>,
                 Cloneable,

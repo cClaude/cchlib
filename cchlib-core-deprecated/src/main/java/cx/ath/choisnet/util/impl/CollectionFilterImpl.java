@@ -9,6 +9,7 @@ import java.util.Iterator;
  * base on a {@link cx.ath.choisnet.util.Selectable} object.
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.DefaultCollectionFilter} instead
  */
+@Deprecated
 public class CollectionFilterImpl<T> implements cx.ath.choisnet.util.CollectionFilter<T>
 {
     private cx.ath.choisnet.util.Selectable<T> selector;

@@ -19,6 +19,7 @@ import java.io.Writer;
  * @see ReaderHelper
  * @deprecated use {@link com.googlecode.cchlib.io.IOHelper} instead
  */
+@Deprecated
 public final class InputStreamHelper
 {
     private static final int DEFAULT_BUFFER_SIZE = 4096;
@@ -50,6 +51,7 @@ public final class InputStreamHelper
     /**
      * @deprecated use {@link ReaderHelper#toString(java.io.Reader)} instead
      */
+    @Deprecated
     public static String toString( final InputStream is )
         throws IOException
     {
@@ -134,9 +136,11 @@ public final class InputStreamHelper
     /**
      * @deprecated use {@link FileHelper#copy(File, File)} instead
      */
+    @Deprecated
     public static void copy(File inputFile, File outputFile)
         throws IOException
     {
+        @SuppressWarnings("resource")
         InputStream     input  = new BufferedInputStream(new FileInputStream(inputFile));
         OutputStream    output = new BufferedOutputStream(new FileOutputStream(outputFile));
 
@@ -152,6 +156,7 @@ public final class InputStreamHelper
     /**
      * @deprecated use {@link ConcateInputStream} instead
      */
+    @Deprecated
     public static InputStream concat(InputStream is1, InputStream is2)
     {
         InputStream is[] = { is1, is2 };
@@ -216,6 +221,7 @@ public final class InputStreamHelper
     /**
      * @deprecated use {@link ConcateInputStream} instead
      */
+    @Deprecated
     public static InputStream concat(final InputStream...is)
     {
         return new ConcateInputStream( is );

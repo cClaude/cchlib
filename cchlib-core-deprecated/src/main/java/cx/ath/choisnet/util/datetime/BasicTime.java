@@ -249,6 +249,7 @@ public class BasicTime
     /**
      * 
      */
+    @Override
     public String toString()
     {
         return toStringHours() + ':' + toStringMinutes() + ':' + toStringSeconds();
@@ -257,6 +258,7 @@ public class BasicTime
     /**
      * 
      */
+    @Override
     public String toString( final Format formatter )
     {
         return formatter.format( getJavaDate() );
@@ -297,6 +299,7 @@ public class BasicTime
     /**
      * 
      */
+    @Override
     public long longValue()
     {
         return (long)(seconds + 60 * (minutes + 60 * hours));
@@ -363,6 +366,7 @@ public class BasicTime
     /**
      * 
      */
+    @Override
     public boolean isBefore(TimeInterface anotherTime)
     {
         return compareTo(anotherTime) > 0;
@@ -371,6 +375,7 @@ public class BasicTime
     /**
      * 
      */
+    @Override
     public boolean isAfter(TimeInterface anotherTime)
         throws ClassCastException
     {
@@ -416,6 +421,13 @@ public class BasicTime
             transient_ISO_DATE_FMT = new SimpleDateFormat( TIME_FMT );
             }
         return transient_ISO_DATE_FMT;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        // TODO customize ?
+        return super.hashCode();
     }
 
     private static BasicTime buildBasicTime(int hours, int minutes, int seconds)

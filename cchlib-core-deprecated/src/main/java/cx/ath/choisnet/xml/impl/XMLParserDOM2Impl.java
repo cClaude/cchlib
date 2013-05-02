@@ -109,6 +109,7 @@ public class XMLParserDOM2Impl
             }
     }
 
+    @Override
     public Document getDocument()
     {
         return document;

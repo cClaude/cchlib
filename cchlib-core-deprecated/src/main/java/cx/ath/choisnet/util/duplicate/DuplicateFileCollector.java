@@ -26,6 +26,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  * {@link #clear()}
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DuplicateFileCollector} instead
  */
+@Deprecated
 public class DuplicateFileCollector
     extends DefaultDigestFileCollector
 {

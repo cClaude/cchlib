@@ -16,6 +16,7 @@ import java.util.jar.JarFile;
 /**
  * @deprecated use @{com.googlecode.cchlib.lang.ExtendableClassLoader} instead
  */
+@Deprecated
 public class ExtendableClassLoader extends ClassLoader
 {
     final private List<File>              paths = new ArrayList<File>();

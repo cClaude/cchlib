@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.base64.Base64Decoder} instead
  */
+@Deprecated
 public class Base64Decoder extends Base64
 {
     //private static final int DEFAULT_BUFFER_SIZE = 1024;

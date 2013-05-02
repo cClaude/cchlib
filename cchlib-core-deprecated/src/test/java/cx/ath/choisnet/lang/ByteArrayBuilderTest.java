@@ -191,10 +191,14 @@ public class ByteArrayBuilderTest
 
         FileInputStream     fis         = new FileInputStream(file );
         ReadableByteChannel fileChannel = fis.getChannel();
+        ByteArrayBuilder    bab         = new ByteArrayBuilder( 5 );
 
-        ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
-
-        bab.append( fileChannel );
+        try {
+            bab.append( fileChannel );
+            }
+        finally {
+            fileChannel.close();
+            }
         fis.close();
 
         assertEquals("bab bad len",size,bab.length());

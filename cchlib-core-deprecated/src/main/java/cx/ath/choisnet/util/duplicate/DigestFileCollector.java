@@ -8,6 +8,7 @@ import java.util.Set;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.DigestFileCollector} instead
  */
+@Deprecated
 public interface DigestFileCollector
     extends Serializable
 {

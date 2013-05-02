@@ -10,6 +10,7 @@ import java.util.Set;
 /**
  * @deprecated use {@link com.googlecode.cchlib.util.SetWrapper} instead
  */
+@Deprecated
 public class SetWrapper<S,R> implements Set<R>, Serializable
 {
     static final long serialVersionUID = 1L;

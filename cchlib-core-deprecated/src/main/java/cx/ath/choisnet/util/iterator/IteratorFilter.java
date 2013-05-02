@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
  * @param <T> type iterator entries.
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.IteratorFilter} instead
  */
+@Deprecated
 public class IteratorFilter<T>
     extends ComputableIterator<T>
         implements Iterator<T>
@@ -87,6 +88,7 @@ public class IteratorFilter<T>
     public static cx.ath.choisnet.util.Selectable<File> wrappe(final FileFilter fileFilter)
     {
         return new cx.ath.choisnet.util.Selectable<File>() {
+            @Override
             public boolean isSelected(File file)
             {
                 return fileFilter.accept(file);

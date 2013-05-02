@@ -21,6 +21,8 @@ import com.googlecode.cchlib.util.CancelRequestException;
  * <P>This class is not thread safe</P>
  * @deprecated use {@link com.googlecode.cchlib.util.duplicate.MessageDigestFile} instead
  */
+@Deprecated
+@SuppressWarnings("resource")
 public class MessageDigestFile
     implements Serializable
 {

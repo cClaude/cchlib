@@ -46,6 +46,7 @@ public class XMLParserDOM2
     //   14   25:return
     }
 
+    @Override
     public Document getDocument()
     {
         return document;

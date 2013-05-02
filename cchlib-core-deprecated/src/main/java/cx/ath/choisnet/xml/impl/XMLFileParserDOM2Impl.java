@@ -11,11 +11,13 @@ import java.util.EnumSet;
 /**
  * @deprecated use {@link XMLFileParserDOMImpl} instead
  */
+@Deprecated
 public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
     implements XMLFileParser
 {
     private File file;
 
+    @SuppressWarnings("resource")
     @Deprecated
     public XMLFileParserDOM2Impl(
             File sourceFile,
@@ -29,6 +31,7 @@ public class XMLFileParserDOM2Impl extends XMLParserDOM2Impl
         file = sourceFile;
     }
 
+    @Override
     public File getFile()
     {
         return file;
