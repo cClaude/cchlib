@@ -18,6 +18,7 @@ public class SimpleServletRequestImpl
         this.request = request;
     }
 
+    @Override
     public ParameterValue getParameter(final String paramName)
     {
         return new ParameterValue()
@@ -132,6 +133,7 @@ public class SimpleServletRequestImpl
         };
     }
 
+    @Override
     public EnumSet<UserAgent> getUserAgentDetails()
     {
         EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
@@ -307,6 +309,7 @@ public class SimpleServletRequestImpl
             }
     }
 
+    @Override
     public Cookie getCookie(String cookieName)
     {
         initCookiesIfNeeded();

@@ -28,6 +28,7 @@ public class SimpleServletContextImpl
         this.initParametersMap = null;
     }
 
+    @Override
     public String getInitParameter( final String paramName)
         throws ServletContextParamNotFoundException
     {
@@ -39,6 +40,7 @@ public class SimpleServletContextImpl
         	}
     }
 
+    @Override
     public String getInitParameter(String paramName, String defaultValue)
     {
         try {

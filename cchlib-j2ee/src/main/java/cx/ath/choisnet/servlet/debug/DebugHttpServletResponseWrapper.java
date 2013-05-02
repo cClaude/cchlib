@@ -247,6 +247,7 @@ public class DebugHttpServletResponseWrapper
         this.response.setStatus(sc,sm);
     }
 
+    @Override
     public void finalize() throws Throwable
     {
         super.finalize();
