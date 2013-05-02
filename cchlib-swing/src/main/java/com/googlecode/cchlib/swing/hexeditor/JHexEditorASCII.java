@@ -27,7 +27,8 @@ class JHexEditorASCII
         FocusListener    focusListener
         )
     {
-        this.model=hexEditorModel;
+        this.model = hexEditorModel;
+        
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener( focusListener );
@@ -154,6 +155,7 @@ class JHexEditorASCII
     @Override//KeyListener
     public void keyTyped(KeyEvent e)
     {
+        @SuppressWarnings("resource")
         ArrayReadWriteAccess buf = model.getBufferRW();
 
         if( buf != null ) {

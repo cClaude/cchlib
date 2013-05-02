@@ -1,9 +1,11 @@
 package com.googlecode.cchlib.swing.hexeditor;
 
+import java.io.Closeable;
+
 /**
  * TODOC
  */
-public interface ArrayReadAccess
+public interface ArrayReadAccess extends Closeable
 {
 	/**
 	 * TODOC

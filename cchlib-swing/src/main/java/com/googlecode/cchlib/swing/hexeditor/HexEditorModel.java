@@ -7,14 +7,14 @@ import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
-
+import java.io.Closeable;
 import javax.swing.JComponent;
 
 /**
  * TODOC
  *
  */
-public interface HexEditorModel
+public interface HexEditorModel extends Closeable
 {
     /**
      * TODOC
@@ -82,5 +82,4 @@ public interface HexEditorModel
     public void setRootComponent(JComponent rootComponent);
 
     public void updateCursor();
-
 }

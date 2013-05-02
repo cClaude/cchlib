@@ -150,7 +150,8 @@ class TstFrame
     	    jButtonRandomObject.setText("Random Object");
     	    jButtonRandomObject.addMouseListener(new MouseAdapter() {
 
-    			public void mousePressed(MouseEvent event) {
+    			@Override
+                public void mousePressed(MouseEvent event) {
     				jButtonRandomObject_MouseMousePressed(event);
     			}
     		});
@@ -164,6 +165,7 @@ class TstFrame
             jButtonPopulateFrame.setText("O => Frame");
             jButtonPopulateFrame.addMouseListener(new MouseAdapter() {
 
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonPopulateFrame_MouseMousePressed(event);
                 }
@@ -178,6 +180,7 @@ class TstFrame
             jButtonPopulateObject.setText("F => Object");
             jButtonPopulateObject.addMouseListener(new MouseAdapter() {
 
+                @Override
                 public void mousePressed(MouseEvent event) {
                     jButtonPopulateObject_MouseMousePressed(event);
                 }
@@ -349,6 +352,7 @@ class TstFrame
             jSlider_TestIntegerJSlider$root.setValue(25);
             jSlider_TestIntegerJSlider$root.addChangeListener(new ChangeListener() {
 
+                @Override
                 public void stateChanged(ChangeEvent event) {
                     jSlider_TestIntegerJSlider$root_ChangeStateChanged(event);
                 }
@@ -365,7 +369,8 @@ class TstFrame
     		jComboBox_TestIntegerJComboBox$root.setBorder(null);
     		jComboBox_TestIntegerJComboBox$root.addItemListener(new ItemListener() {
 
-    			public void itemStateChanged(ItemEvent event) {
+    			@Override
+                public void itemStateChanged(ItemEvent event) {
     				jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(event);
     			}
     		});

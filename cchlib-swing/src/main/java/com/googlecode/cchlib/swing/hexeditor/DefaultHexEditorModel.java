@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
+import java.io.IOException;
 
 import javax.swing.JComponent;
 
@@ -75,6 +76,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     //@Override
+    @Override
     public void updateCursor()
     {
         int n=(cursor/16);
@@ -275,6 +277,21 @@ public class DefaultHexEditorModel implements HexEditorModel
         if( displayLinesCount>n ) {
             displayLinesCount = n;
             introduction      = 0;
+            }
+    }
+    
+    @Override
+    public void close() throws IOException
+    {
+        try {
+            if( arrayAccess != null ) {
+                arrayAccess.close();
+                }
+            }
+        finally {
+            if( arrayAccessRW != null ) {
+                arrayAccessRW.close();
+                }
             }
     }
 

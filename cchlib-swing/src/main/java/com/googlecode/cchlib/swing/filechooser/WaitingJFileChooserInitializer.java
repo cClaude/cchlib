@@ -84,6 +84,7 @@ public class WaitingJFileChooserInitializer
      * @return default {@link JFileChooserInitializerCustomize} object
      * @deprecated use {@link LasyJFCCustomizer} instead
      */
+    @Deprecated
     public static JFileChooserInitializerCustomize getDefaultConfigurator()
     {
         return new LasyJFCCustomizer();

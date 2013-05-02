@@ -140,6 +140,7 @@ public class LookAndFeelMenu
             };
 
             jMenuItem.addMouseListener( new MouseAdapter() {
+                @Override
                 public void mousePressed( MouseEvent event )
                 {
                     SwingUtilities.invokeLater( r );

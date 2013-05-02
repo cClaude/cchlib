@@ -1,10 +1,11 @@
 package com.googlecode.cchlib.swing.hexeditor;
 
+import java.io.IOException;
+
 /**
  * TODOC
  */
-public final class DefaultArrayReadWriteAccess
-    implements ArrayReadWriteAccess
+public final class DefaultArrayReadWriteAccess implements ArrayReadWriteAccess
 {
     private final byte[] buffer;
 
@@ -39,5 +40,10 @@ public final class DefaultArrayReadWriteAccess
     public void setByte(int index, byte b)
     {
         this.buffer[ index ] = b;
+    }
+
+    @Override
+    public void close() throws IOException
+    {
     }
 }

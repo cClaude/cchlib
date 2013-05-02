@@ -104,6 +104,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
      *  @param  str        the new text to replace
      *                     the gadgets content or <code>null</code>to clear the gadget.
      */
+    @Override
     public void setText( String str )
     {
         super.setText( str );
@@ -196,6 +197,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public void actionPerformed( ActionEvent e )
         {
             setText( null );

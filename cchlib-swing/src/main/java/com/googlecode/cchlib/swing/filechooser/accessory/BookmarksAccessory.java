@@ -185,6 +185,7 @@ public class BookmarksAccessory
         if( actionListener == null ) {
             actionListener = new ActionListener()
             {
+                @Override
                 public void actionPerformed( ActionEvent event )
                 {
                     String cmd = event.getActionCommand();

@@ -132,6 +132,7 @@ public class AutoCompleteTextFieldTestJPanel extends JPanel
         {
             btnApply = new JButton("Apply");
             btnApply.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     onApply();
                 }

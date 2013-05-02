@@ -4,8 +4,7 @@ package com.googlecode.cchlib.swing.hexeditor;
 /**
  * TODOC
  */
-public interface ArrayReadWriteAccess
-      extends ArrayReadAccess
+public interface ArrayReadWriteAccess extends ArrayReadAccess
 {
     /**
      * TODOC

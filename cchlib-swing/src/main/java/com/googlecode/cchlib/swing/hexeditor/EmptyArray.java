@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.swing.hexeditor;
 
+import java.io.IOException;
+
 /**
  * TODOC
  */
@@ -35,4 +37,8 @@ public class EmptyArray implements ArrayReadWriteAccess
     {
     }
 
+    @Override
+    public void close() throws IOException
+    {
+    }
 }

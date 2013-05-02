@@ -245,6 +245,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
             {
                 private static final long serialVersionUID = 1L;
 
+                @Override
                 public void perfomeConfig( JFileChooser jfc )
                 {
                     super.perfomeConfig( jfc );

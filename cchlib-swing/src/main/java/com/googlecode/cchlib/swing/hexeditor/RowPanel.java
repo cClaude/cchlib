@@ -25,11 +25,13 @@ class RowPanel extends JPanel
         this.setLayout(new BorderLayout(1,1));
     }
 
+    @Override
     public Dimension getPreferredSize()
     {
         return getMinimumSize();
     }
 
+    @Override
     public Dimension getMinimumSize()
     {
         Dimension d=new Dimension();
@@ -44,6 +46,7 @@ class RowPanel extends JPanel
         return d;
     }
 
+    @Override
     public void paint(Graphics g)
     {
         Dimension d=getMinimumSize();

@@ -91,6 +91,7 @@ class ImagePreviewComponent
             }
     }
 
+    @Override
     protected void paintComponent(Graphics g)
     {
         if( thumbnail == null ) {

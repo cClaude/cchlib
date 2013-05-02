@@ -106,6 +106,7 @@ public class LastSelectedFilesAccessory
         jButton_Refresh.addMouseListener(
             new MouseAdapter()
             {
+                @Override
                 public void mousePressed(MouseEvent event)
                 {
                     jFileChooser.rescanCurrentDirectory();
@@ -116,6 +117,7 @@ public class LastSelectedFilesAccessory
         jButton_RemoveFile.addMouseListener(
             new MouseAdapter()
             {
+                @Override
                 public void mousePressed(MouseEvent event)
                 {
                     int[] selectedIx = jList_LastSelectedFiles.getSelectedIndices();

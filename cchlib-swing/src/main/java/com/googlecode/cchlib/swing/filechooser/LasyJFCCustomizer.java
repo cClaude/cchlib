@@ -61,6 +61,7 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     /**
      *
      */
+    @Override
     public void perfomeConfig( JFileChooser jfc )
     {
         super.perfomeConfig( jfc );

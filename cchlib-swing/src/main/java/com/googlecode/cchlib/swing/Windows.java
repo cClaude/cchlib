@@ -25,6 +25,7 @@ public class Windows
     {
         window.setMinimumSize( minimumSize );
         window.addComponentListener( new ComponentAdapter() {
+            @Override
             public void componentResized( ComponentEvent e )
             {
                 Dimension d    = window.getSize();

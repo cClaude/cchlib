@@ -1148,10 +1148,12 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         addMouseListener(
             new MouseAdapter()
             {
+                @Override
                 public void mousePressed( final MouseEvent e )
                 {
                     maybeShowPopup( e );
                 }
+                @Override
                 public void mouseReleased( final MouseEvent e )
                 {
                     maybeShowPopup( e );

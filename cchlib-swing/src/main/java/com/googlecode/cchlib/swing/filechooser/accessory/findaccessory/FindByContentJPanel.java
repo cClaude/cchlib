@@ -197,46 +197,43 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             @Override
             public void write (int b) throws IOException
             {
-                if (locate == null) {
+                if( locate == null ) {
                     throw new IOException("NULL locator array");
-                }
-                if (locate.length == 0) {
+                    }
+                if( locate.length == 0 ) {
                     throw new IOException("Empty locator array");
-                }
+                    }
 
                 long foundAt = -1;
 
-                for (int i=matchMakers.size()-1; i>=0; i--)
-                {
+                for( int i=matchMakers.size()-1; i>=0; i-- ) {
+                    @SuppressWarnings("resource")
                     MatchStream m = matchMakers.elementAt(i);
-                    try
-                    {
+                   
+                    try {
                         m.write(b);
-                    }
-                    catch (MatchMadeException e)
-                    {
+                        }
+                    catch (MatchMadeException e) {
                         foundAt = m.getMark();
                         matchMakers.removeElementAt(i);
-                    }
-                    catch (IOException e)
-                    {
+                        }
+                    catch (IOException e) {
                         // Match not made. Remove current matchMaker stream.
                         matchMakers.removeElementAt(i);
+                        }
                     }
-                }
 
-                if (b == locate[0])
-                {
+                if( b == locate[0] ) {
+                    @SuppressWarnings("resource")
                     MatchStream m = new MatchStream(locate,mark);
                     m.write(b); // This will be accepted
                     matchMakers.addElement(m);
-                }
+                    }
                 mark++;
 
-                if (foundAt >= 0)
-                {
+                if (foundAt >= 0) {
                     throw new LocatedException(foundAt);
-                }
+                    }
             }
 
             /**

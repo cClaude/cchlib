@@ -194,27 +194,34 @@ public class DefaultBatchRunnerJFrame extends JFrame
                 this.localeResources.getTextProgressMonitorTitle_FMT(),
                 sourceFile.getName()
                 );
-        final ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
-            this,
-            title,
-            new FileInputStream( sourceFile )
-            );
-        final InputStream is = new BufferedInputStream( pmis );
-
+        final InputStream sourceIs = new FileInputStream( sourceFile );
+        
         try {
-            final OutputStream os = new BufferedOutputStream(
-                    new FileOutputStream( destinationFile )
+            final ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
+                    this,
+                    title,
+                    sourceIs 
                     );
+            final InputStream is = new BufferedInputStream( pmis );
 
             try {
-                this.lazyBatchRunner.runTask( is, os );
+                final OutputStream os = new BufferedOutputStream(
+                        new FileOutputStream( destinationFile )
+                        );
+
+                try {
+                    this.lazyBatchRunner.runTask( is, os );
+                    }
+                finally {
+                    os.close();
+                    }
                 }
             finally {
-                os.close();
+                is.close();
                 }
             }
         finally {
-            is.close();
+            sourceIs.close();
             }
     }
 

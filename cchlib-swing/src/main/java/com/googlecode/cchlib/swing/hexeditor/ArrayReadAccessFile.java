@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.swing.hexeditor;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,9 +9,7 @@ import java.io.RandomAccessFile;
  * TODOC
  *
  */
-public class ArrayReadAccessFile
-    implements ArrayReadAccess,
-               Closeable
+public class ArrayReadAccessFile implements ArrayReadAccess
 {
     protected final RandomAccessFile raf;
 
@@ -27,11 +24,7 @@ public class ArrayReadAccessFile
         this.raf = raf;
     }
 
-    /**
-     * TODOC
-     * @param f
-     * @throws FileNotFoundException
-     */
+    @SuppressWarnings("resource")
     public ArrayReadAccessFile( File f ) throws FileNotFoundException
     {
         this( new RandomAccessFile( f, "r" ) );

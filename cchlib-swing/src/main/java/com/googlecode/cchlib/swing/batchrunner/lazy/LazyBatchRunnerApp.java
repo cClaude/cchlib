@@ -135,6 +135,7 @@ public abstract class LazyBatchRunnerApp
             }
 
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run()
             {
                 try {

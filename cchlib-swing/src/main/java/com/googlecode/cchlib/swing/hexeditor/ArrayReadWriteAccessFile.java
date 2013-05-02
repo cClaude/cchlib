@@ -9,15 +9,14 @@ import java.io.RandomAccessFile;
  * TODOC
  *
  */
-public class ArrayReadWriteAccessFile
-    extends ArrayReadAccessFile
-        implements ArrayReadWriteAccess
+public class ArrayReadWriteAccessFile extends ArrayReadAccessFile implements ArrayReadWriteAccess
 {
     /**
      * TODOC
      * @param f
      * @throws FileNotFoundException
      */
+    @SuppressWarnings("resource")
     public ArrayReadWriteAccessFile( File f ) throws FileNotFoundException
     {
         super( new RandomAccessFile( f, "rw" ) );

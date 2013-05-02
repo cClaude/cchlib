@@ -49,6 +49,7 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
         {
             private static final long serialVersionUID = 1L;
 
+            @Override
             protected void fireContentsChanged(Object obj, int i, int j)
             {
                 if( !isFired ) {

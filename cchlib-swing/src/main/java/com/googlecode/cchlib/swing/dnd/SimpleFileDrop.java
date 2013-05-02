@@ -402,7 +402,9 @@ public class SimpleFileDrop
                         }
                     }
                 else {
-                    new DropTarget( c, dropListener );
+                    @SuppressWarnings("unused")
+                    DropTarget drop = new DropTarget( c, dropListener );
+                    
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "Drop target added to component." );
                         }
@@ -411,7 +413,8 @@ public class SimpleFileDrop
         } );
 
         if( c.getParent() != null ) {
-            new DropTarget( c, dropListener );
+            @SuppressWarnings("unused")
+            DropTarget drop = new DropTarget( c, dropListener );
             }
 
         if( recursive && (c instanceof Container) ) {
