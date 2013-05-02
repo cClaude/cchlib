@@ -17,6 +17,7 @@ public class ValidationServlet extends HttpServlet
     {
     }
 
+    @Override
     public void service(
             HttpServletRequest request, 
             HttpServletResponse response
@@ -25,6 +26,7 @@ public class ValidationServlet extends HttpServlet
     {
         response.setContentType("text/html");
 
+        @SuppressWarnings("resource")
         PrintWriter out = response.getWriter();
 
         try {

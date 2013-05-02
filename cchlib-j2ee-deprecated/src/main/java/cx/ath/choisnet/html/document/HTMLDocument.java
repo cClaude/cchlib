@@ -30,6 +30,7 @@ public class HTMLDocument
     //    8   14:return
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

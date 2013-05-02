@@ -17,6 +17,7 @@ public class Body extends AbstractHTML
         this.cssClass = cssClass;
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

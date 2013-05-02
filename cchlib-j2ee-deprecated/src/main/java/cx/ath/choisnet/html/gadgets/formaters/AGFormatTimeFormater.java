@@ -58,6 +58,7 @@ public class AGFormatTimeFormater
             }
     }
 
+    @Override
     public int getOptionSelected()
     {
         return selectedItem;

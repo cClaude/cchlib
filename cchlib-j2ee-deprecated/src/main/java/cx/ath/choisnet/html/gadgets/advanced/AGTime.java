@@ -64,6 +64,7 @@ public class AGTime extends AbstractGadget
         this.javascriptHours = javascriptHours;
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -83,6 +84,7 @@ public class AGTime extends AbstractGadget
         out.write("</td></tr></table>\n");
     }
 
+    @Override
     public String getHiddenHTMLDatas()
     {
         SelectDay gadgetSelectHours  = buildGadgetSelectHours();
@@ -129,18 +131,21 @@ public class AGTime extends AbstractGadget
         }
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicTimeValue(request);
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicTimeValue(request).longValue();
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLFormException
     {

@@ -25,6 +25,7 @@ public class HTMLDocumentWriterImplementation
     //    8   14:return
     }
 
+    @Override
     public void write(String htmlContent)
         throws HTMLDocumentException
     {
@@ -50,6 +51,7 @@ public class HTMLDocumentWriterImplementation
     //   11   21:return
     }
 
+    @Override
     public Locale getLocale()
     {
         return locale;

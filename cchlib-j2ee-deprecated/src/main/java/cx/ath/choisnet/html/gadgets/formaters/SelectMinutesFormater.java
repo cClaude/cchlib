@@ -91,6 +91,7 @@ public class SelectMinutesFormater extends BGSelectAbstractCollectionFormater
     //   57  111:return
     }
 
+    @Override
     public int getOptionSelected()
     {
         return selectedItem;

@@ -39,6 +39,7 @@ public class Header extends AbstractHTML
     //   11   19:return
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

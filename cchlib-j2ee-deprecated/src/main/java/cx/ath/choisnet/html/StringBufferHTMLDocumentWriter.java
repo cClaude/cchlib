@@ -19,12 +19,14 @@ public class StringBufferHTMLDocumentWriter
         sb.setLength(0);
     }
 
+    @Override
     public void write(String htmlContent)
         throws HTMLDocumentException
     {
         sb.append(htmlContent);
     }
 
+    @Override
     public Locale getLocale()
     {
         return locale;
@@ -35,6 +37,7 @@ public class StringBufferHTMLDocumentWriter
         return sb.toString();
     }
 
+    @Override
     public String toString()
     {
         return sb.toString();

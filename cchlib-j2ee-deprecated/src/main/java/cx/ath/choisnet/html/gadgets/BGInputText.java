@@ -45,6 +45,7 @@ public class BGInputText extends AbstractBG
     //   15   27:return
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -74,6 +75,7 @@ public class BGInputText extends AbstractBG
     //   21   45:return
     }
 
+    @Override
     public String getHiddenHTMLDatas()
     {
         return BGInputText.buildHIDDEN(gadgetName, text);
@@ -85,6 +87,7 @@ public class BGInputText extends AbstractBG
     //    5   11:areturn
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
@@ -95,6 +98,7 @@ public class BGInputText extends AbstractBG
     //    3    5:areturn
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
@@ -106,6 +110,7 @@ public class BGInputText extends AbstractBG
     //    4    8:lreturn
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLFormException
     {

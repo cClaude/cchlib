@@ -44,18 +44,21 @@ public class AGFormatTime extends BGSelect
         }
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicTimeValue(request);
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicTimeValue(request).longValue();
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLFormException
     {

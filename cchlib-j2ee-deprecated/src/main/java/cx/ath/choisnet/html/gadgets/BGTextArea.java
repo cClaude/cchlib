@@ -34,6 +34,7 @@ public class BGTextArea extends BGInputText
     //   10   16:return
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

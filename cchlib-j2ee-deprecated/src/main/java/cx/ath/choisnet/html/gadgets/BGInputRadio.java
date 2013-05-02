@@ -187,6 +187,7 @@ public class BGInputRadio extends AbstractBG
     //   60  106:areturn
     }
 
+    @Override
     public String getHiddenHTMLDatas()
     {
         String valueTxt;
@@ -224,6 +225,7 @@ public class BGInputRadio extends AbstractBG
     //   23   47:areturn
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -313,6 +315,7 @@ public class BGInputRadio extends AbstractBG
     //   63  139:return
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
@@ -323,6 +326,7 @@ public class BGInputRadio extends AbstractBG
     //    3    5:areturn
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
@@ -334,6 +338,7 @@ public class BGInputRadio extends AbstractBG
     //    4    8:lreturn
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLFormException
     {

@@ -9,6 +9,7 @@ public class SimpleJavascript extends AbstractJavascript
         this.rawJavascript = rawJavascript;
     }
 
+    @Override
     public String toInLineJavascript()
     {
         return rawJavascript;

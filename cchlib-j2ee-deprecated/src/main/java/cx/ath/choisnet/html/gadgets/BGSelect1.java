@@ -74,6 +74,7 @@ public class BGSelect1 extends AbstractBGSelect
         }
     }
 
+    @Override
     public int getSelectedIndex()
     {
         if(optionDatas == null) {
@@ -82,6 +83,7 @@ public class BGSelect1 extends AbstractBGSelect
         return optionSelected;
     }
 
+    @Override
     public String[] getOptionValue()
     {
         if(optionDatas == null) {
@@ -90,6 +92,7 @@ public class BGSelect1 extends AbstractBGSelect
         return optionValue;
     }
 
+    @Override
     public String[] getOptionDatas()
     {
         if(optionDatas == null) {

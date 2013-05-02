@@ -27,6 +27,7 @@ public class BGCheckbox extends AbstractBG
         this.checked = checked;
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -41,6 +42,7 @@ public class BGCheckbox extends AbstractBG
         }
     }
 
+    @Override
     public String getHiddenHTMLDatas()
     {
         if(checked) {
@@ -51,12 +53,14 @@ public class BGCheckbox extends AbstractBG
         }
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
         return getStringValue(request);
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
@@ -70,6 +74,7 @@ public class BGCheckbox extends AbstractBG
         }
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLGadgetNotFoundException
     {

@@ -25,6 +25,7 @@ public abstract class AbstractHTML implements HTMLWritable
         htmlItemList.add(new HTMLString(html));
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

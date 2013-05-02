@@ -57,6 +57,7 @@ public class AGDate extends AbstractGadget
         gadgetSelectDay__ = new SelectDay((new StringBuilder()).append("DAY_").append(gadgetName).toString(), 1, 31, dayToSelect, null, javascriptDay);
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -86,6 +87,7 @@ public class AGDate extends AbstractGadget
         out.write("</td></tr></table>\n");
     }
 
+    @Override
     public String getHiddenHTMLDatas()
     {
         StringBuilder b = new StringBuilder();
@@ -129,18 +131,21 @@ public class AGDate extends AbstractGadget
         }
     }
 
+    @Override
     public Object getValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicDateValue(request);
     }
 
+    @Override
     public long getLongValue(ServletRequest request)
         throws HTMLFormException
     {
         return protected_getBasicDateValue(request).longValue();
     }
 
+    @Override
     public String getStringValue(ServletRequest request)
         throws HTMLFormException
     {

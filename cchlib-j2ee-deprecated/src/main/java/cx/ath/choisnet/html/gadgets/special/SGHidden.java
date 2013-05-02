@@ -17,6 +17,7 @@ public class SGHidden extends BGInputText
         super(gadgetName, null, null, String.valueOf(value), null);
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

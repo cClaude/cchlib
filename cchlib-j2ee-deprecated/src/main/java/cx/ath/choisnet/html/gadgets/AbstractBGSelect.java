@@ -29,6 +29,7 @@ public abstract class AbstractBGSelect
 
     public abstract String[] getOptionDatas();
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
@@ -46,6 +47,7 @@ public abstract class AbstractBGSelect
                 );
     }
 
+    @Override
     public final String getHiddenHTMLDatas()
     {
         String[] optionValue = getOptionValue();
@@ -63,18 +65,21 @@ public abstract class AbstractBGSelect
         return BGInputText.buildHIDDEN(gadgetName, valueTxt);
     }
 
+    @Override
     public Object getValue(javax.servlet.ServletRequest request)
         throws HTMLFormException
     {
         return super.protected_getStringValue(request);
     }
 
+    @Override
     public long getLongValue(javax.servlet.ServletRequest request)
         throws HTMLFormException
     {
         return Long.parseLong(super.protected_getStringValue(request));
     }
 
+    @Override
     public String getStringValue(javax.servlet.ServletRequest request)
         throws HTMLFormException
     {

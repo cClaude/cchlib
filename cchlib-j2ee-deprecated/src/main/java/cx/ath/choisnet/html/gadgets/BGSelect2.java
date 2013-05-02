@@ -42,6 +42,7 @@ public class BGSelect2 extends AbstractBGSelect
     //   14   25:return
     }
 
+    @Override
     public int getSelectedIndex()
     {
         return optionSelected;
@@ -50,6 +51,7 @@ public class BGSelect2 extends AbstractBGSelect
     //    2    4:ireturn
     }
 
+    @Override
     public String[] getOptionValue()
     {
         return optionValue;
@@ -58,6 +60,7 @@ public class BGSelect2 extends AbstractBGSelect
     //    2    4:areturn
     }
 
+    @Override
     public String[] getOptionDatas()
     {
         return optionDatas;

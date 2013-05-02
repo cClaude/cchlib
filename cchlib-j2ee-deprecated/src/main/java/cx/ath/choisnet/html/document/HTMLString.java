@@ -36,6 +36,7 @@ public class HTMLString implements HTMLWritable
     //    8   16:return
     }
 
+    @Override
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {

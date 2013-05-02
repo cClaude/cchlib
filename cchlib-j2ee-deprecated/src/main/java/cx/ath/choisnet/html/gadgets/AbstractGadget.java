@@ -16,6 +16,7 @@ public abstract class AbstractGadget
         this.gadgetName = gadgetName;
     }
 
+    @Override
     public abstract Object getValue(ServletRequest servletrequest)
         throws HTMLFormException;
 
