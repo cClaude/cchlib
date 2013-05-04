@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
  * @see cx.ath.choisnet.util.iterator.iterable.BiIterator
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.BiIterator} instead
  */
+@Deprecated
 public class BiIterator<T>
     implements Iterator<T>//, Iterable<T>
 {

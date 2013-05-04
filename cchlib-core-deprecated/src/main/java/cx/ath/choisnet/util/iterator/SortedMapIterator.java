@@ -9,6 +9,7 @@ import java.util.SortedMap;
  * @param <V> Type of value
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.SortedMapIterator} instead
  */
+@Deprecated
 public class SortedMapIterator<K,V>
     implements Iterator<V>//, Iterable<V>
 {
@@ -29,6 +30,7 @@ public class SortedMapIterator<K,V>
             {
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
+                @Override
                 public K computeNext() throws NoSuchElementException
                 {
                     K key = currentSortedMap.lastKey();
@@ -50,6 +52,7 @@ public class SortedMapIterator<K,V>
      * an element rather than throwing an exception.)
      * @return true if the iteration has more elements.
      */
+    @Override
     public boolean hasNext()
     {
         return iter.hasNext();
@@ -60,6 +63,7 @@ public class SortedMapIterator<K,V>
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
+    @Override
     public V next() throws NoSuchElementException
     {
         try {
@@ -99,6 +103,7 @@ public class SortedMapIterator<K,V>
      *         already been called after the last call to the
      *         next method.
      */
+    @Override
     public void remove() throws IllegalStateException
     {
         if(prevKey == null) {

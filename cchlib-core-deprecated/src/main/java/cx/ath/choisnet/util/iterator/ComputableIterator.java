@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
  * Abstract class for create Iterator
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.ComputableIterator} instead
  */
+@Deprecated
 public abstract class ComputableIterator<T>
     implements Iterator<T>
     //Note: Can't implement Iterable<T> here - super class could do this work

@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
  * @see com.googlecode.cchlib.util.iterator.iterable.ArrayIterator
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.ArrayIterator} instead
  */
+@Deprecated
 public class ArrayIterator<T>
     implements Iterator<T>
 {

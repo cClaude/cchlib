@@ -7,6 +7,7 @@ import java.util.Iterator;
  * that operate on or return iterators.
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.Iterators} instead
  */
+@Deprecated
 public class Iterators
 {
     private Iterators()

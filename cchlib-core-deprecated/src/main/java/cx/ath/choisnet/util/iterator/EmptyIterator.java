@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
  * Note: This Iterator extends also {@link Iterable} interface
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.EmptyIterator} instead
  */
+@Deprecated
 public class EmptyIterator<T>
     implements Iterator<T>,
                Iterable<T>,

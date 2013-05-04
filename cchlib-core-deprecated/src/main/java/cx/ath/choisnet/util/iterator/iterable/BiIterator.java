@@ -13,6 +13,7 @@ import java.util.Iterator;
  * @see cx.ath.choisnet.util.iterator.BiIterator
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.iterable.BiIterator} instead
  */
+@Deprecated
 public class BiIterator<T>
     extends cx.ath.choisnet.util.iterator.BiIterator<T>
         implements Iterable<T>,IterableIterator<T>

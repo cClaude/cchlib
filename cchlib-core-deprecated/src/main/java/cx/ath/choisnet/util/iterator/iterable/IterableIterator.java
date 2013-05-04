@@ -13,6 +13,7 @@ import java.util.Iterator;
  * @param <T> content type
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.iterable.IterableIterator} instead
  */
+@Deprecated
 public interface IterableIterator<T>
     extends Iterable<T>,
             Iterator<T>, 

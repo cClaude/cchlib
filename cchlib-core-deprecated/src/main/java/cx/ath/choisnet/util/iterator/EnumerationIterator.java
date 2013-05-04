@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
  * @param <T> type content
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.EnumerationIterator} instead
  */
+@Deprecated
 public class EnumerationIterator<T>
     implements Iterator<T>
 {

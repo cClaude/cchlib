@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
  * @see CascadingIterator
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.MultiIterator} instead
  */
+@Deprecated
 public class MultiIterator<T> extends ComputableIterator<T>
 {
     private final Iterator<? extends Iterator<? extends T>> metaIterator;

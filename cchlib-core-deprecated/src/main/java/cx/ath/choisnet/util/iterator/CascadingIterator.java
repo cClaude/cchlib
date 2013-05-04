@@ -11,6 +11,7 @@ import java.util.Iterator;
  * @param <T> content type
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.CascadingIterator} instead
  */
+@Deprecated
 public class CascadingIterator<T>
     implements Iterator<T>
 {
