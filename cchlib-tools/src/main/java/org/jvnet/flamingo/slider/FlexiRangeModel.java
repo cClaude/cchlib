@@ -69,6 +69,13 @@ public interface FlexiRangeModel {
 		public String toString() {
 			return this.range.toString() + ":" + this.rangeFraction;
 		}
+
+        @Override
+        public int hashCode()
+        {
+            // TODO Auto-generated method stub
+            return super.hashCode();
+        }
 	}
 
 	public Value getValue();
