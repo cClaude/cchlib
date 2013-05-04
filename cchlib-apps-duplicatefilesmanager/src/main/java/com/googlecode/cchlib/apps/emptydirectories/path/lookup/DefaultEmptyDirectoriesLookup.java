@@ -23,10 +23,7 @@ import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
-/**
- * Find empty directories
- *
- */
+@Deprecated
 public class DefaultEmptyDirectoriesLookup
     implements EmptyDirectoriesLookup, Serializable
 {

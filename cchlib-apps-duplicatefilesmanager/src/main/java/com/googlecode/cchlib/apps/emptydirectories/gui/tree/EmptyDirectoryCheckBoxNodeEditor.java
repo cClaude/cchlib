@@ -24,7 +24,7 @@ class EmptyDirectoryCheckBoxNodeEditor
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxNodeEditor.class );
 
-    final EmptyDirectoryCheckBoxesNodeRenderer renderer;
+    final EmptyDirectoryCheckBoxNodeRenderer renderer;
     final FolderTreeModelable model;
 
     /**
@@ -34,7 +34,7 @@ class EmptyDirectoryCheckBoxNodeEditor
     public EmptyDirectoryCheckBoxNodeEditor( final FolderTreeModelable model )
     {
         this.model      = model;
-        this.renderer   = new EmptyDirectoryCheckBoxesNodeRenderer( model );
+        this.renderer   = new EmptyDirectoryCheckBoxNodeRenderer( model );
 
         this.renderer.getLeafRenderer().addItemListener(
                 new EmptyDirectoryCheckBoxNodeEditorItemListener()

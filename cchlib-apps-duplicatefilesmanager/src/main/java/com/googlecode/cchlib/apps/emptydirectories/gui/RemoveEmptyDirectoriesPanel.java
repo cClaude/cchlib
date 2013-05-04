@@ -15,7 +15,7 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeEditor;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxesNodeRenderer;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModel;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
 import com.googlecode.cchlib.i18n.AutoI18n;
@@ -83,7 +83,7 @@ public class RemoveEmptyDirectoriesPanel
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
         treeModel = new FolderTreeModel( jTreeDir );
         jTreeDir.setModel( treeModel );
-        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxesNodeRenderer( treeModel ) );
+        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
         jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
         jTreeDir.setEditable( true );
 

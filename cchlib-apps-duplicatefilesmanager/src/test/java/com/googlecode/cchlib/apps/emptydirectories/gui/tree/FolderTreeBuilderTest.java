@@ -16,7 +16,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 public class FolderTreeBuilderTest 
@@ -50,19 +49,18 @@ public class FolderTreeBuilderTest
         FolderTreeBuilder folderTreeBuilder = new FolderTreeBuilder();
         Path              emptyPath1        = Files.createTempDirectory( getClass().getSimpleName() );
         EmptyFolder       emptyFolder1      = Folders.createEmptyFolder( emptyPath1 );
-        
+
         logger.info( "############## emptyFolder1 = " + emptyFolder1 );
         folderTreeBuilder.add( emptyFolder1 );
-        
+
         Map<Path,FolderTreeNode> map = folderTreeBuilder.getRootNodesMap();
-        
+
         assertEquals( 1, map.size() );
         FolderTreeNode rootFolderTreeNode =  map.values().iterator().next();
         logger.info( "rootFolderTreeNode = " + rootFolderTreeNode );
         //assertEquals( 0, rootFolderTreeNode.g );
         //assertEquals( emptyPath.getNameCount() + 1, map.values().iterator().next(). );
-        
-        
+
         Path         emptyPath2   = Files.createTempDirectory( getClass().getSimpleName() );
         EmptyFolder  emptyFolder2 = Folders.createEmptyFolder( emptyPath2 );
         
@@ -75,21 +73,20 @@ public class FolderTreeBuilderTest
         Files.createDirectory( emptyPath3 );
         EmptyFolder cbEmptyFolder3 = Folders.createCouldBeEmptyFolder( cbEmptyPath3 );
         EmptyFolder emptyFolder3   = Folders.createEmptyFolder( emptyPath3 );
-        
+
         logger.info( "############## emptyFolder3 = " + emptyFolder3 );
         folderTreeBuilder.add( emptyFolder3 );
         assertEquals( 1, map.size() );
-                
+
         logger.info( "############## cbEmptyFolder3 = " + cbEmptyFolder3 );
         folderTreeBuilder.add( cbEmptyFolder3 );
         assertEquals( 1, map.size() );/* */
-        
-        
+
         for( FolderTreeNode rootNode : map.values() ) {
             displayTree( rootNode, Const.EMPTY_STRING );
             checkIfNoDoubleOnNode( rootNode );
             }
-        
+
         logger.info( "done" );
     }
 
@@ -97,19 +94,19 @@ public class FolderTreeBuilderTest
     {
         List<Path>     list = new ArrayList<>(); 
         Enumeration<?> enu  = node.children();
-        
+
         while( enu.hasMoreElements() ) {
             FolderTreeNode child = FolderTreeNode.class.cast( enu.nextElement() );
             Path           path  = child.getFolder().getPath();
             Path           name  = path.getFileName();
-            
+
             logger.info( "checkIfNoDoubleOnNode: " + node + " = " + name );
             assertFalse( list.contains( name ) );
             list.add( name );
-            
+
             assertFalse( globalList.contains( path ) );
             globalList.add( path );
-            
+
             checkIfNoDoubleOnNode( child );
             }
     }
@@ -117,9 +114,9 @@ public class FolderTreeBuilderTest
     private void displayTree( final FolderTreeNode node, String prefix )
     {
         Enumeration<?> enu  = node.children();
-        
+
         logger.info( "T:" + prefix + node.getFolder().getPath() + " * " + node.getFolder() );
-        
+
         while( enu.hasMoreElements() ) {
             FolderTreeNode child = FolderTreeNode.class.cast( enu.nextElement() );
 

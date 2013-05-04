@@ -6,9 +6,7 @@ import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
-/**
- * TODOC
- */
+@Deprecated
 public class PathEmptyFolder extends AbstractEmptyFolder //PathFolder implements EmptyFolder
 {
     private static final long serialVersionUID = 2L;

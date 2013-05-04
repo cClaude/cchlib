@@ -5,9 +5,7 @@ import java.io.Serializable;
 import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
-/**
- * TODOC
- */
+@Deprecated
 public class PathFolder implements Folder, Serializable, Comparable<Folder>
 {
     private static final long serialVersionUID = 1L;

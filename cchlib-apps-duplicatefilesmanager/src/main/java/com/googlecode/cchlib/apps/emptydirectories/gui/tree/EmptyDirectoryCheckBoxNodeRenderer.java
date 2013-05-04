@@ -18,10 +18,10 @@ import com.googlecode.cchlib.apps.emptydirectories.Folder;
  *
  */
 public
-class EmptyDirectoryCheckBoxesNodeRenderer
+class EmptyDirectoryCheckBoxNodeRenderer
     implements TreeCellRenderer
 {
-    private final static Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxesNodeRenderer.class );
+    private final static Logger logger = Logger.getLogger( EmptyDirectoryCheckBoxNodeRenderer.class );
     
     final private JCheckBox                 nodeLeafRenderer        = new JCheckBox();
     final private JCheckBox                 nonLeafEmptyRenderer    = new JCheckBox();
@@ -36,7 +36,7 @@ class EmptyDirectoryCheckBoxesNodeRenderer
     final private Color textForeground;
     final private Color textBackground;
 
-    public EmptyDirectoryCheckBoxesNodeRenderer( final FolderTreeModelable model )
+    public EmptyDirectoryCheckBoxNodeRenderer( final FolderTreeModelable model )
     {
         this.model=model;
 

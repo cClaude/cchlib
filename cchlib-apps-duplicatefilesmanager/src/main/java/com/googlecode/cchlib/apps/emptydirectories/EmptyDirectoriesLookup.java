@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.FileFilter;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -22,12 +21,10 @@ public interface EmptyDirectoriesLookup
     /**
      * Clear previous list and compute current list of empty directories
      *
-     * @param excludeDirectoriesFile {@link FileFilter} to identify directories to exclude.
+     * @param excludeDirectoriesFile {@link FolderFilter} to identify directories <b>to exclude</b>.
      * @throws CancelRequestException
      * @throws ScanIOException 
      */
-//    public void lookup( FileFilter excludeDirectoriesFile )
-//        throws CancelRequestException;
     public void lookup( FolderFilter excludeDirectoriesFile )
             throws CancelRequestException, ScanIOException;
 

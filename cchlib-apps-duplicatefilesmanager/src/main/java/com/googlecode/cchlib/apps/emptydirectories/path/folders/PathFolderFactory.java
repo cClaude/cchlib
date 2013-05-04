@@ -7,9 +7,7 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.FolderFactory;
 
-/**
- * TODOC
- */
+@Deprecated
 public class PathFolderFactory implements FolderFactory
 {
     public PathFolderFactory()
