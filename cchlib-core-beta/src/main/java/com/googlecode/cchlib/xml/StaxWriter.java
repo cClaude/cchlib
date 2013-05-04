@@ -22,31 +22,38 @@ public class StaxWriter
     public void saveConfig() throws Exception {
         // Create a XMLOutputFactory
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        // Create XMLEventWriter
-        XMLEventWriter eventWriter = outputFactory
-                .createXMLEventWriter(new FileOutputStream(configFile));
-        // Create a EventFactory
-        XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-        XMLEvent end = eventFactory.createDTD("\n");
-        // Create and write Start Tag
-        StartDocument startDocument = eventFactory.createStartDocument();
-        eventWriter.add(startDocument);
+        
+        FileOutputStream os = new FileOutputStream(configFile);
+        
+        try {
+            // Create XMLEventWriter
+            XMLEventWriter eventWriter = outputFactory.createXMLEventWriter( os );
+            // Create a EventFactory
+            XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+            XMLEvent end = eventFactory.createDTD("\n");
+            // Create and write Start Tag
+            StartDocument startDocument = eventFactory.createStartDocument();
+            eventWriter.add(startDocument);
 
-        // Create config open tag
-        StartElement configStartElement = eventFactory.createStartElement("",
-                "", "config");
-        eventWriter.add(configStartElement);
-        eventWriter.add(end);
-        // Write the different nodes
-        createNode(eventWriter, "mode", "1");
-        createNode(eventWriter, "unit", "901");
-        createNode(eventWriter, "current", "0");
-        createNode(eventWriter, "interactive", "0");
+            // Create config open tag
+            StartElement configStartElement = eventFactory.createStartElement("",
+                    "", "config");
+            eventWriter.add(configStartElement);
+            eventWriter.add(end);
+            // Write the different nodes
+            createNode(eventWriter, "mode", "1");
+            createNode(eventWriter, "unit", "901");
+            createNode(eventWriter, "current", "0");
+            createNode(eventWriter, "interactive", "0");
 
-        eventWriter.add(eventFactory.createEndElement("", "", "config"));
-        eventWriter.add(end);
-        eventWriter.add(eventFactory.createEndDocument());
-        eventWriter.close();
+            eventWriter.add(eventFactory.createEndElement("", "", "config"));
+            eventWriter.add(end);
+            eventWriter.add(eventFactory.createEndDocument());
+            eventWriter.close();
+            }
+        finally {
+            os.close();
+            }
     }
 
     private void createNode(XMLEventWriter eventWriter, String name,

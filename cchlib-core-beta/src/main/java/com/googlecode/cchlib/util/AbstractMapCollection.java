@@ -313,8 +313,12 @@ public abstract class AbstractMapCollection<K,V>
 
         return false;
     }
-
-    //TODO: hashCode
+    
+    @Override
+    public int hashCode()
+    {
+        return map.hashCode();
+    }
 
     //TODO: toString
 
