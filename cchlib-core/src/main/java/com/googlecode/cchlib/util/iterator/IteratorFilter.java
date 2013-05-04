@@ -60,6 +60,7 @@ public class IteratorFilter<T>
     public static Selectable<File> wrappe(final FileFilter fileFilter)
     {
         return new Selectable<File>() {
+            @Override
             public boolean isSelected(File file)
             {
                 return fileFilter.accept(file);

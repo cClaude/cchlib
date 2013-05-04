@@ -35,6 +35,7 @@ public class SingletonIterator<T>
      * Returns true if the iteration has more elements.
      * @return true if the iteration has more elements.
      */
+    @Override
     public boolean hasNext()
     {
         return hasNext;
@@ -45,6 +46,7 @@ public class SingletonIterator<T>
      * @return the next element in the iteration.
      * @throws NoSuchElementException iteration has no more elements.
      */
+    @Override
     public T next() throws NoSuchElementException
     {
         if( hasNext ) {
@@ -63,6 +65,7 @@ public class SingletonIterator<T>
      * @throws UnsupportedOperationException
      * @throws IllegalStateException
      */
+    @Override
     public void remove()
         throws UnsupportedOperationException,
                IllegalStateException
@@ -79,6 +82,7 @@ public class SingletonIterator<T>
      * Returns an iterator over a set of elements of type T.
      * @return this Iterator
      */
+    @Override
     public Iterator<T> iterator()
     {
         return new SingletonIterator<T>( item );

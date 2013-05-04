@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 /**
  * This class consists exclusively of static methods
- * that operate on or return iterators.
+ * that operate on iterators or return iterators.
  */
 public class Iterators
 {
@@ -30,24 +30,7 @@ public class Iterators
             final Iterator<T> iterator
             )
     {
-        return new Iterator<T>()
-        {
-            @Override
-            public boolean hasNext()
-            {
-                return iterator.hasNext();
-            }
-            @Override
-            public T next()
-            {
-                return iterator.next();
-            }
-            @Override
-            public void remove()
-            {
-                throw new UnsupportedOperationException();
-            }
-        };
+        return new UnmodifiableIterator<T>( iterator );
     }
 
     /**
@@ -76,34 +59,7 @@ public class Iterators
             final Iterator<T>   iterator
             )
     {
-        return new Iterator<T>()
-        {
-            boolean firstDone = false;
-            @Override
-            public boolean hasNext()
-            {
-                if( firstDone ) {
-                    return iterator.hasNext();
-                }
-                return true;
-            }
-            @Override
-            public T next()
-            {
-                if( firstDone ) {
-                    return iterator.next();
-                }
-                else {
-                    firstDone = true;
-                    return firstElement;
-                }
-            }
-            @Override
-            public void remove()
-            {
-                throw new UnsupportedOperationException();
-            }
-        };
+        return new UnmodifiableIterator2<T>( firstElement, iterator );
     }
 
     /**
@@ -117,18 +73,92 @@ public class Iterators
             final Iterator<T> iterator
             )
     {
-        return new Enumeration<T>()
-        {
-            public boolean hasMoreElements()
-            {
-                return iterator.hasNext();
-            }
-            public T nextElement()
-                throws java.util.NoSuchElementException
-            {
-                return iterator.next();
-            }
-        };
+        return new IteratortoEnumeration<T>( iterator );
     }
 
+    private static class UnmodifiableIterator<T> implements Iterator<T>
+    {
+        private Iterator<T> iterator;
+        public UnmodifiableIterator( Iterator<T> iterator )
+        {
+            this.iterator = iterator;
+        }
+        @Override
+        public boolean hasNext()
+        {
+            return iterator.hasNext();
+        }
+        @Override
+        public T next()
+        {
+            return iterator.next();
+        }
+        @Override
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private static class UnmodifiableIterator2<T> implements Iterator<T>
+    {
+        private T firstElement;
+        private boolean firstDone = false;
+        private Iterator<T> iterator;
+        
+        public UnmodifiableIterator2(
+            final T             firstElement,
+            final Iterator<T>   iterator 
+            )
+        {
+            this.firstElement = firstElement;
+            this.iterator     = iterator;
+        }
+        @Override
+        public boolean hasNext()
+        {
+            if( firstDone ) {
+                return iterator.hasNext();
+                }
+            return true;
+        }
+        @Override
+        public T next()
+        {
+            if( firstDone ) {
+                return iterator.next();
+                }
+            else {
+                firstDone = true;
+                return firstElement;
+                }
+        }
+        @Override
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+
+    private static class IteratortoEnumeration<T> implements Enumeration<T>
+    {
+        private Iterator<T> iterator;
+        
+        public IteratortoEnumeration( Iterator<T> iterator )
+        {
+            this.iterator = iterator;
+        }
+        @Override
+        public boolean hasMoreElements()
+        {
+            return iterator.hasNext();
+        }
+        @Override
+        public T nextElement()
+            throws java.util.NoSuchElementException
+        {
+            return iterator.next();
+        }
+    }
 }

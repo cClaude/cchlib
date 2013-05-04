@@ -205,13 +205,22 @@ public class ByteArrayBuilderTest
         }
         assertEquals( "tmp file bad size",size,file.length());
 
-        FileInputStream     fis         = new FileInputStream(file );
-        ReadableByteChannel fileChannel = fis.getChannel();
-
         ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
+        FileInputStream  fis = new FileInputStream(file );
 
-        bab.append( fileChannel );
-        fis.close();
+        try {
+            ReadableByteChannel fileChannel = fis.getChannel();
+            
+            try {
+                 bab.append( fileChannel );
+                }
+            finally {
+                fileChannel.close();
+                }
+            }
+        finally {
+            fis.close();
+            }
 
         assertEquals("bab bad len",size,bab.length());
 
