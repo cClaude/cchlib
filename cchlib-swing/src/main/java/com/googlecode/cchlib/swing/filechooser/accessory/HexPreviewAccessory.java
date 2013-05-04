@@ -8,9 +8,7 @@ import java.io.FileNotFoundException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.swing.hexeditor.ArrayReadAccessFile;
 import com.googlecode.cchlib.swing.hexeditor.EmptyArray;
 import com.googlecode.cchlib.swing.hexeditor.DefaultHexEditorModel;
