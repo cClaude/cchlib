@@ -59,13 +59,6 @@ public class RemoveEmptyDirectoriesPanel
         final Window    mainWindow
         )
     {
-        super();
-        getBtnSelectAll().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
         this.dfToolKit  = dfToolKit;
         this.mainWindow = mainWindow;
 
@@ -155,22 +148,6 @@ public class RemoveEmptyDirectoriesPanel
         return dfToolKit;
     }
 
-    @Override
-    protected void addRootDirectory( final List<File> files )
-    {
-        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
-
-        for( File f:files ) {
-            if( f.isDirectory() ) {
-                model.addElement( f );
-                logger.info( "add drop dir:" + f );
-                }
-            else {
-                logger.warn( "Ignore drop : " + f );
-                }
-            }
-    }
-
     private void onRemoveRootDirectory()
     {
         logger.info( "btnRemoveRootDirectory_mouseClicked" );
@@ -185,6 +162,7 @@ public class RemoveEmptyDirectoriesPanel
                 }
 
             rootList.clearSelection();
+            setEnableFind( model.size() > 0 );
             }
     }
 
@@ -208,7 +186,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onSelectAll( final boolean onlyLeaf )
     {
-        if( super.getBtnSelectAll().isEnabled() ) {
+        if( super.isBtnSelectAllEnabled() ) {
             logger.info( "btnSelectAll_mouseClicked" );
 
             treeModel.setSelectAll( onlyLeaf, true );
@@ -219,7 +197,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onUnselectAll()
     {
-        if( super.getBtnUnselectAll().isEnabled() ) {
+        if( super.isBtnUnselectAllEnabled() ) {
             logger.info( "btnSelectAll_mouseClicked" );
 
             treeModel.setSelectAll( false, false );
@@ -309,6 +287,42 @@ public class RemoveEmptyDirectoriesPanel
            logger.info( "btnAddRootDirectory() done" );
         }
     }
+    
+    @Override
+    protected void addRootDirectory( final List<File> files )
+    {
+//        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
+//
+//        for( File f:files ) {
+//            if( f.isDirectory() ) {
+//                model.addElement( f );
+//                logger.info( "add drop dir:" + f );
+//                }
+//            else {
+//                logger.warn( "Ignore drop : " + f );
+//                }
+//            }
+//
+//        setEnableFind( model.size() > 0 );
+        addRootDirectory( files.toArray( new File[files.size()] ));
+    }
+    
+    private void addRootDirectory( final File[] files )
+    {
+        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
+
+        for( File f: files ) {
+            if( f.isDirectory() ) {
+                model.addElement( f );
+                logger.info( "add drop dir:" + f );
+                }
+            else {
+                logger.warn( "Ignore drop : " + f );
+                }
+            }
+
+        setEnableFind( model.size() > 0 );
+    }
 
     private void onImportDirectories()
     {
@@ -342,17 +356,18 @@ public class RemoveEmptyDirectoriesPanel
             int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                DefaultListModel<File>     model = super.getJListRootDirectoriesModel();
+//                DefaultListModel<File>     model = super.getJListRootDirectoriesModel();
                 File[]                     files = jfc.getSelectedFiles();
 
                 //logger.info( "model:" + model );
                 //logger.info( "model.getClass():" + model.getClass() );
 
-                for( File f:files ) {
-                    //model.
-                    model.addElement( f );
-                    logger.info( "selected dir:" + f );
-                    }
+//                for( File f:files ) {
+//                    //model.
+//                    model.addElement( f );
+//                    logger.info( "selected dir:" + f );
+//                    }
+                addRootDirectory( files );
                 }
             logger.info( "addRootDirectory() done" );
         }

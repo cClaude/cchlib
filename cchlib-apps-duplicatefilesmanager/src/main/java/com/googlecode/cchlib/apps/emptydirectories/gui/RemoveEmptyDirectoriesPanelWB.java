@@ -46,15 +46,15 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
     private JButton btnImportDirectories;
     private JButton btnRemoveRootDirectory;
     private JButton btnSelectAll;
+    private JButton btnSelectAllLeaf;
+    private JButton btnUnselectAll;
     private JButton btnStartDelete;
     private JButton btnStartScan;
-    private JButton btnUnselectAll;
     private JList<File> jListRootDirectories;
     private JProgressBar progressBar;
     private JSeparator separator;
     private JTree jTreeEmptyDirectories;
     private SimpleFileDrop scrollPaneJListSimpleFileDrop;
-    private JButton btnSelectAllLeaf;
 
     protected abstract ActionListener getActionListener();
     protected abstract void addRootDirectory( List<File> files );
@@ -191,6 +191,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         }
         {
             btnSelectAll = new JButton( "Select All" );
+            this.btnSelectAll.setEnabled(false);
             btnSelectAll.setActionCommand( ACTION_SELECT_ALL_SELECTABLE_NODES );
             btnSelectAll.addActionListener( getActionListener() );
 
@@ -203,6 +204,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         }
         {
             btnSelectAllLeaf = new JButton("Select All Leaf");
+            this.btnSelectAllLeaf.setEnabled(false);
             btnSelectAllLeaf.setActionCommand( ACTION_SELECT_ALL_LEAFONLY );
             btnSelectAllLeaf.addActionListener( getActionListener() );
 
@@ -215,6 +217,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         }
         {
             btnUnselectAll = new JButton( "Unselect All" );
+            this.btnUnselectAll.setEnabled(false);
             btnUnselectAll.setActionCommand( ACTION_UNSELECT_ALL );
             btnUnselectAll.addActionListener( getActionListener() );
 
@@ -236,6 +239,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         }
         {
             btnStartDelete = new JButton( "Delete selected" );
+            this.btnStartDelete.setEnabled(false);
             btnStartDelete.setActionCommand( ACTION_START_REMDIRS );
             btnStartDelete.addActionListener( getActionListener() );
 
@@ -281,14 +285,6 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         return model;
     }
 
-    protected JButton getBtnSelectAll()
-    {
-        return btnSelectAll;
-    }
-    protected JButton getBtnUnselectAll()
-    {
-        return btnUnselectAll;
-    }
     protected JTree getJTreeEmptyDirectories()
     {
         return jTreeEmptyDirectories;
@@ -335,6 +331,14 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         btnRemoveRootDirectory.setEnabled( b );
     }
 
+    protected void setEnableFind( boolean b )
+    {
+        this.btnStartScan.setEnabled( b );
+        this.btnSelectAll.setEnabled( b );
+        this.btnSelectAllLeaf.setEnabled( b );
+        this.btnUnselectAll.setEnabled( b );       
+    }
+
     public void enable_startDelete()
     {
         scrollPaneJListSimpleFileDrop.remove();
@@ -346,6 +350,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         btnCancel.setEnabled( true );
 
         btnSelectAll.setEnabled( false );
+        btnSelectAllLeaf.setEnabled( false );
         btnUnselectAll.setEnabled( false );
 
         btnStartDelete.setEnabled( false );
@@ -363,6 +368,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         btnCancel.setEnabled( true );
 
         btnSelectAll.setEnabled( false );
+        btnSelectAllLeaf.setEnabled( false );
         btnUnselectAll.setEnabled( false );
 
         btnStartDelete.setEnabled( false );
@@ -384,12 +390,27 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         btnImportDirectories.setEnabled( true );
         btnRemoveRootDirectory.setEnabled( false );
 
-        btnStartScan.setEnabled( true );
+        ListModel<File> jListModelRootDirectories = jListRootDirectories.getModel();
+        boolean         hasRootDirs = jListModelRootDirectories.getSize() > 0;
+        
+        btnStartScan.setEnabled( hasRootDirs );
         btnCancel.setEnabled( false );
 
-        btnStartDelete.setEnabled( true ); // FIXME: enable only when at least 1 file selected
-        btnSelectAll.setEnabled( true );
-        btnUnselectAll.setEnabled( true ); // FIXME: only if something selected
+        btnStartDelete.setEnabled( hasRootDirs ); // FIXME: enable only when at least 1 file selected
+        btnSelectAll.setEnabled( hasRootDirs );
+        btnSelectAllLeaf.setEnabled( hasRootDirs );
+        btnUnselectAll.setEnabled( hasRootDirs ); // FIXME: only if something selected
+        
         jListRootDirectories.setEnabled( true );
+    }
+    
+    protected boolean isBtnSelectAllEnabled()
+    {
+        return btnSelectAll.isEnabled();
+    }
+    
+    protected boolean isBtnUnselectAllEnabled()
+    {
+        return btnUnselectAll.isEnabled();
     }
 }
