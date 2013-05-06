@@ -51,7 +51,6 @@ public class JHexEditorTest extends WindowAdapter
             mainArrayAccess = new DefaultArrayReadWriteAccess( ar );
         }
 
-        @SuppressWarnings("resource") // Just for testing...
         final DefaultHexEditorModel model = new DefaultHexEditorModel();
         
         model.setArrayAccess( mainArrayAccess );
