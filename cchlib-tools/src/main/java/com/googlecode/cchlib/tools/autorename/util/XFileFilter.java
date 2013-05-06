@@ -1,4 +1,4 @@
-package autoRename.util;
+package com.googlecode.cchlib.tools.autorename.util;
 
 import java.io.File;
 import java.io.FileFilter;

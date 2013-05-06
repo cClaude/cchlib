@@ -1,4 +1,4 @@
-package autoRename;
+package com.googlecode.cchlib.tools.autorename;
 
 import java.io.File;
 import java.util.ArrayList;
