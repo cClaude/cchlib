@@ -21,6 +21,8 @@ import java.io.FileFilter;
  * </p>
  * @since 4.1.7
  * @see SerializableFileFilter
+ * @see com.googlecode.cchlib.io.filefilter.PatternFileFilter
+ * @see com.googlecode.cchlib.io.filefilter.EndsWithFileFilter
 */
 public class FileFilterHelper
 {
