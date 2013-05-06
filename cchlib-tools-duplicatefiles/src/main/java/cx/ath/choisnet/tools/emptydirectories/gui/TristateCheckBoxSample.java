@@ -5,7 +5,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-
 public class TristateCheckBoxSample
 {
 
@@ -26,7 +25,7 @@ public class TristateCheckBoxSample
 
         final TristateCheckBox winBox = new TristateCheckBox(
                 "Testing the tristate checkbox",
-                TristateCheckBox.SELECTED
+                TristateCheckBox.State.SELECTED
                 );
         frame.getContentPane().add( winBox );
 
