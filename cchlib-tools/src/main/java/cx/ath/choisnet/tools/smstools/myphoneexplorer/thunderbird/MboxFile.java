@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 public class MboxFile
     implements Closeable
 {
-    private final static transient Logger slogger = Logger.getLogger( MboxFile.class );
+    private final static Logger slogger = Logger.getLogger( MboxFile.class );
     
 //    public static final class BufferStrategy extends java.lang.Enum
 //    {
@@ -221,7 +221,7 @@ public class MboxFile
 
             } while(true);
 
-            messagePositions = (Long[])posList.toArray(new Long[posList.size()]);
+            messagePositions = /*(Long[])*/posList.toArray(new Long[posList.size()]);
         }
         return messagePositions;
     }

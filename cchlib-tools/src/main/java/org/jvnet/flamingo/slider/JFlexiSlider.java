@@ -31,9 +31,10 @@ package org.jvnet.flamingo.slider;
 
 import javax.swing.*;
 
-import org.jvnet.flamingo.slider.FlexiRangeModel.Range;
+//import org.jvnet.flamingo.slider.FlexiRangeModel.Range;
 import org.jvnet.flamingo.slider.ui.BasicFlexiSliderUI;
 import org.jvnet.flamingo.slider.ui.FlexiSliderUI;
+//import org.jvnet.flamingo.slider.FlexiRangeModel;
 
 /**
  * 
@@ -47,15 +48,15 @@ public class JFlexiSlider extends JComponent
 	 */
 	private static final String uiClassID = "FlexiSliderUI";
 
-	/**
-	 * Sets the new UI delegate.
-	 * 
-	 * @param ui
-	 *            New UI delegate.
-	 */
-	public void setUI(FlexiSliderUI ui) {
-		super.setUI(ui);
-	}
+//	/**
+//	 * Sets the new UI delegate.
+//	 * 
+//	 * @param ui
+//	 *            New UI delegate.
+//	 */
+//	public void setUI(FlexiSliderUI ui) {
+//		super.setUI(ui);
+//	}
 
 	/**
 	 * Resets the UI property to a value from the current look and feel.
@@ -101,7 +102,7 @@ public class JFlexiSlider extends JComponent
 	
 	private String[] controlPointTexts;
 
-	public JFlexiSlider(Range[] ranges, Icon[] controlPointIcons,
+	public JFlexiSlider(FlexiRangeModel.Range[] ranges, Icon[] controlPointIcons,
 			String[] controlPointTexts) throws NullPointerException,
 			IllegalArgumentException {
 		if ((ranges == null) || (controlPointIcons == null)

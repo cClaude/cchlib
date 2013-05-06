@@ -55,7 +55,7 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	 * @see #removeChangeListener
 	 */
 	public ChangeListener[] getChangeListeners() {
-		return (ChangeListener[]) listenerList
+		return /*(ChangeListener[])*/ listenerList
 				.getListeners(ChangeListener.class);
 	}
 

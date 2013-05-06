@@ -32,6 +32,7 @@ public class ImageFilterInputStreamBuilder
         final DownloadFileURL   dURL
         )
     {
+        @SuppressWarnings("resource")
         ImageFilterInputStream f = ImageFilterInputStream.class.cast( filter );
         
         try {

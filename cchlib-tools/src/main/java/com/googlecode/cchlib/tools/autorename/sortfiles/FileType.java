@@ -171,9 +171,9 @@ public enum FileType
             sb.append( "):" );
             //sb.append( Arrays.toString( fileType.getExtensions() ) );
             sb.append( fileType.getFileFilter() );
-            sb.append( ")" );
+            sb.append( ')' );
             }
-        sb.append( "]" );
+        sb.append( ']' );
 
         return sb.toString();
     }

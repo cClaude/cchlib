@@ -14,7 +14,7 @@ import com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask;
 public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     extends VeryLazyBatchRunnerApp<TASK>
 {
-    private static final transient Logger logger = Logger.getLogger( CNAMVeryLazyBatchRunnerApp.class );
+    private static final Logger logger = Logger.getLogger( CNAMVeryLazyBatchRunnerApp.class );
     private URL iconURL;
 
     /**

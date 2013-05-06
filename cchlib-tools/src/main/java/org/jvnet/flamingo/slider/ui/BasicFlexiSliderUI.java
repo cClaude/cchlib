@@ -411,7 +411,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
                 }
             }
 
-            int bumpY = ((totalContiguousWeight == 0.0) || (extraHeight < 0.0)) ? (int) (extraHeight / rangeCount)
+            int bumpY = ((totalContiguousWeight == 0.0) || (extraHeight < 0.0)) ? /*(int)*/ (extraHeight / rangeCount)
                     : 0;
             // the first control point is at the bottom
             int labelX = slider.getPreferredSize().width + ins.left + 4;

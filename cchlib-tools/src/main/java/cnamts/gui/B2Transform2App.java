@@ -13,7 +13,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelF
 public class B2Transform2App
     extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>
 {
-    private static final transient Logger logger = Logger.getLogger( B2Transform2App.class );
+    private static final Logger logger = Logger.getLogger( B2Transform2App.class );
 
     private B2Transform2App(
         final LazyBatchRunnerCustomJPanelFactory customJPanelFactory

@@ -38,7 +38,7 @@ public class IgnoreCaseExtensionsFileFilter implements FileFilter
         StringBuilder builder = new StringBuilder();
         builder.append( "IgnoreCaseExtensionsFileFilter [endsWiths=" );
         builder.append( endsWiths != null ? Arrays.asList( endsWiths ).subList( 0, endsWiths.length) : null );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

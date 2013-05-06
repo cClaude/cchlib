@@ -91,6 +91,7 @@
           <showDeprecation>true</showDeprecation>
           <source>${project.javadoc.source.version}</source>
           <target>${project.javadoc.target.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
       <plugin>
@@ -157,9 +158,9 @@
     </dependency>
 
     <dependency>
-    	<groupId>com.google.guava</groupId>
-    	<artifactId>guava</artifactId>
-    	<version>13.0.1</version>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>14.0.1</version>
     </dependency>
   </dependencies>
 
@@ -187,6 +188,8 @@
     <module>cchlib-core-sample</module>
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools</module>
+
+    <!--  <module>cchlib-sandbox</module> -->
   </modules>
 
 </project>

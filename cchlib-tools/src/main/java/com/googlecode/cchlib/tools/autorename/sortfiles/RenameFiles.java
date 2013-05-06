@@ -48,7 +48,7 @@ public class RenameFiles
                 switch( c ) {
                     case 'С' : sb.append( 'C' ); break;
                     case 'г' : sb.append( 'r' ); break;
-                    case 'е' : sb.append( "e" ); break;
+                    case 'е' : sb.append( 'e' ); break;
                     case 'и' : sb.append( 'n' ); break;
                     case 'к' : sb.append( 'k' ); break;
                     case 'м' : sb.append( 'm' ); break;

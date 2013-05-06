@@ -177,6 +177,7 @@ class JHexEditorHEX
             str[cursor]=e.getKeyChar();
             //he.getBuffer()[he.getCursorPos()]=(byte)Integer.parseInt(new String(str),16);
 
+            @SuppressWarnings("resource") // Should not be closed here.
             ArrayReadWriteAccess buff = model.getBufferRW();
 
             if( buff != null ) {

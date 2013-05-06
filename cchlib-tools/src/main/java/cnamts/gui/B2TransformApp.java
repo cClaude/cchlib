@@ -11,7 +11,7 @@ import com.googlecode.cchlib.swing.DialogHelper;
 public class B2TransformApp
     extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>
 {
-    private static final transient Logger logger = Logger.getLogger( B2TransformApp.class );
+    private static final Logger logger = Logger.getLogger( B2TransformApp.class );
     private B2TransformApp() {}
 
     /**
