@@ -279,6 +279,7 @@ public abstract class JPanelResultWB extends JPanel
             final KeyFileStateListModel jListKeptIntactListModel = listModelDuplicatesFiles.getKeptIntactListModel();
             jListKeptIntact = new JList<KeyFileState>();
             jListKeptIntact.setModel( jListKeptIntactListModel );
+            jListKeptIntact.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
             jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             //jListKeptIntact.setModel( listModelKeptIntact );
             //jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
@@ -316,6 +317,7 @@ public abstract class JPanelResultWB extends JPanel
             jListWillBeDeleted = new JList<KeyFileState>();
             final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
             jListWillBeDeleted.setModel( jListWillBeDeletedListModel );
+            jListWillBeDeleted.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
             jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             //jListWillBeDeleted.setModel( listModelWillBeDeleted );
             //jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );

@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
+import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
@@ -261,7 +262,9 @@ public class JPanelResultListModel
     }
 
     private JPanelResultKeyFileStateListModel listModelKeptIntact;
+    private ListCellRenderer<KeyFileState> listCellRendererlKeptIntact;
     private JPanelResultKeyFileStateListModel listModelWillBeDeleted;
+    private ListCellRenderer<KeyFileState> listCellRendererlWillBeDeleted;
     private String key;
 
     //not public
@@ -272,6 +275,15 @@ public class JPanelResultListModel
             }
         return listModelKeptIntact;
     }
+    
+    //not public
+    ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
+    {
+        if( listCellRendererlKeptIntact == null ) {
+            listCellRendererlKeptIntact = new JPanelResultKeyFileStateListCellRenderer();
+            }
+        return listCellRendererlKeptIntact;
+    }
 
     //not public
     KeyFileStateListModel getWillBeDeletedListModel()
@@ -280,6 +292,15 @@ public class JPanelResultListModel
             listModelWillBeDeleted = new JPanelResultKeyFileStateListModel();
             }
         return listModelWillBeDeleted;
+    }
+    
+    //not public
+    ListCellRenderer<KeyFileState> getWillBeDeletedListCellRenderer()
+    {
+        if( listCellRendererlWillBeDeleted == null ) {
+            listCellRendererlWillBeDeleted = new JPanelResultKeyFileStateListCellRenderer();
+            }
+        return listCellRendererlWillBeDeleted;
     }
 
     public void clearKeepDelete()
