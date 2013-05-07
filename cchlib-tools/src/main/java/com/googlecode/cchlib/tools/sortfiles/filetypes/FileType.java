@@ -11,10 +11,12 @@ public enum FileType
     image_png ( Paths.get( "[image]", "png"  ), new IgnoreCaseExtensionsFileFilter( "png" ) ),
     image_bmp ( Paths.get( "[image]", "bmp"  ), new IgnoreCaseExtensionsFileFilter( "bmp", "wmf" ) ),
     image_tga ( Paths.get( "[image]", "tga"  ), new IgnoreCaseExtensionsFileFilter( "tga" ) ),
+    image_tif ( Paths.get( "[image]", "tga"  ), new IgnoreCaseExtensionsFileFilter( "tif", "tiff" ) ),
 
     sound_mp3( Paths.get( "[sound]", "mp3" ), new IgnoreCaseExtensionsFileFilter( "mp3" ) ),
     sound_wav( Paths.get( "[sound]", "wav" ), new IgnoreCaseExtensionsFileFilter( "wav" ) ),
     sound_Ogg( Paths.get( "[sound]", "Ogg" ), new IgnoreCaseExtensionsFileFilter( "Ogg" ) ),
+    sound_mod( Paths.get( "[sound]", "mod" ), new IgnoreCaseExtensionsFileFilter( "mod", "mo3" ) ),
 
     movie_avi( Paths.get( "[movie]", "avi" ), new IgnoreCaseExtensionsFileFilter( "m4a", "avi", "mkv" ) ),
     movie_mp4( Paths.get( "[movie]", "mp4" ), new IgnoreCaseExtensionsFileFilter( "mp4" ) ),
@@ -23,28 +25,37 @@ public enum FileType
     movie_VOB( Paths.get( "[movie]", "vob" ), new IgnoreCaseExtensionsFileFilter( "vob" ) ),
     movie_mov( Paths.get( "[movie]", "mov" ), new IgnoreCaseExtensionsFileFilter( "mov" ) ),
 
-    arch_zip( Paths.get( "[arch]" ), new IgnoreCaseExtensionsFileFilter( "zip", "rar", "wim", "z", "gz", "7z", "tgz" ) ),
+    arch_7z ( Paths.get( "[arch]", "7z"  ), new IgnoreCaseExtensionsFileFilter( "7z" ) ),
+    arch_zip( Paths.get( "[arch]", "zip" ), new IgnoreCaseExtensionsFileFilter( "zip" ) ),
+    arch_rar( Paths.get( "[arch]", "rar" ), new IgnoreCaseExtensionsFileFilter( "rar" ) ),
+    arch_wim( Paths.get( "[arch]", "wim" ), new IgnoreCaseExtensionsFileFilter( "wim" ) ),
+    arch_gz ( Paths.get( "[arch]", "gz"  ), new IgnoreCaseExtensionsFileFilter( "gz", "tgz", "z" ) ),
 
     web_html( Paths.get( "[web]", "html" ), new IgnoreCaseExtensionsFileFilter( "html", "htm", "css", "js", "json", "php", "xhtml" ) ),
     web_swf ( Paths.get( "[web]", "swf"  ), new IgnoreCaseExtensionsFileFilter( "swf" ) ),
 
+    db_dbx ( Paths.get( "[db]", "dbx"  ), new IgnoreCaseExtensionsFileFilter( "dbx" ) ),
+
     doc_xls( Paths.get( "[doc]", "xls" ), new IgnoreCaseExtensionsFileFilter( "xls" ) ),
-    doc_doc( Paths.get( "[doc]", "doc" ), new IgnoreCaseExtensionsFileFilter( "doc", "odt", "docx", "dot", "dotx" ) ),
+    doc_doc( Paths.get( "[doc]", "doc" ), new IgnoreCaseExtensionsFileFilter( "doc", "odt", "docx", "dot", "dotx", "dotm" ) ),
     doc_pdf( Paths.get( "[doc]", "pdf" ), new IgnoreCaseExtensionsFileFilter( "pdf" ) ),
     doc_ppt( Paths.get( "[doc]", "ppt" ), new IgnoreCaseExtensionsFileFilter( "ppt" ) ),
     doc_rtf( Paths.get( "[doc]", "rtf" ), new IgnoreCaseExtensionsFileFilter( "rtf" ) ),
-
-    SWF( new IgnoreCaseExtensionsFileFilter( "swf" ) ),
+    doc_txt( Paths.get( "[doc]", "txt" ), new IgnoreCaseExtensionsFileFilter( "txt" ) ),
 
     URL( new IgnoreCaseExtensionsFileFilter( "url" ) ),
 
-    exe_dll( new IgnoreCaseExtensionsFileFilter( "dl_", "dll" ) ),
-    exe_exe( new IgnoreCaseExtensionsFileFilter( "cab", "ex_", "cat", "sys", "wiz", "vsd", "exe", "scr", "cpl" ) ),
+    exe_dll ( Paths.get( "[exe]", "dll"  ), new IgnoreCaseExtensionsFileFilter( "dl_", "dll" ) ),
+    exe_exe ( Paths.get( "[exe]", "exe"  ), new IgnoreCaseExtensionsFileFilter( "ex_", "exe" ) ),
+    exe_misc( Paths.get( "[exe]", "misc" ), new IgnoreCaseExtensionsFileFilter( "cab", "cat", "sys", "wiz", "vsd", "scr", "cpl" ) ),
 
     java_jar       ( Paths.get( "[java]", "jar"        ), new IgnoreCaseExtensionsFileFilter( "jar", "war", "ear", "class" ) ),
     java_java      ( Paths.get( "[java]", "java"       ), new IgnoreCaseExtensionsFileFilter( "java" ) ),
     java_properties( Paths.get( "[java]", "properties" ), new IgnoreCaseExtensionsFileFilter( "properties" ) ),
+    
+    ttf( Paths.get( "[fonts]" ), new IgnoreCaseExtensionsFileFilter( "ttf", "fon" ) ),
 
+    so ( new ExtensionsFileFilter( "so" ) ),
     CHK( new IgnoreCaseExtensionsFileFilter( "CHK" ) ),
     ERR( new IgnoreCaseExtensionsFileFilter( "ERR" ) ),
     IDX( new IgnoreCaseExtensionsFileFilter( "IDX" ) ),
@@ -82,7 +93,7 @@ public enum FileType
     dta( new IgnoreCaseExtensionsFileFilter( "dta" ) ),
     ebc( new IgnoreCaseExtensionsFileFilter( "ebc" ) ),
     gnt( new IgnoreCaseExtensionsFileFilter( "gnt" ) ),
-    gs ( new IgnoreCaseExtensionsFileFilter( "gs" ) ),
+    gs ( new IgnoreCaseExtensionsFileFilter( "gs"  ) ),
     hlp( new IgnoreCaseExtensionsFileFilter( "hlp" ) ),
     inf( new IgnoreCaseExtensionsFileFilter( "inf" ) ),
     ini( new IgnoreCaseExtensionsFileFilter( "ini" ) ),
@@ -92,20 +103,18 @@ public enum FileType
     log( new IgnoreCaseExtensionsFileFilter( "log" ) ),
     man( new IgnoreCaseExtensionsFileFilter( "man" ) ),
     mdb( new IgnoreCaseExtensionsFileFilter( "mdb" ) ),
-    mf ( new IgnoreCaseExtensionsFileFilter( "mf" ) ),
+    mf ( new IgnoreCaseExtensionsFileFilter( "mf"  ) ),
     msi( new IgnoreCaseExtensionsFileFilter( "msi" ) ),
     mui( new IgnoreCaseExtensionsFileFilter( "mui" ) ),
     mvs( new IgnoreCaseExtensionsFileFilter( "mvs" ) ),
     nvi( new IgnoreCaseExtensionsFileFilter( "nvi" ) ),
-    obj( new IgnoreCaseExtensionsFileFilter(  "obj" ) ),
+    obj( new IgnoreCaseExtensionsFileFilter( "obj" ) ),
     pas( new IgnoreCaseExtensionsFileFilter( "pas" ) ),
     reg( new IgnoreCaseExtensionsFileFilter( "reg" ) ),
-    s  ( new IgnoreCaseExtensionsFileFilter( "s" ) ),
+    s  ( new IgnoreCaseExtensionsFileFilter( "s"   ) ),
     sav( new IgnoreCaseExtensionsFileFilter( "sav" ) ),
     sql( new IgnoreCaseExtensionsFileFilter( "sql" ) ),
     tab( new IgnoreCaseExtensionsFileFilter( "tab" ) ),
-    ttf( new IgnoreCaseExtensionsFileFilter( "ttf", "fon" ) ),
-    txt( new IgnoreCaseExtensionsFileFilter( "txt" ) ),
     vbs( new IgnoreCaseExtensionsFileFilter( "vbs" ) ),
     wma( new IgnoreCaseExtensionsFileFilter( "wma" ) ),
     xml( new IgnoreCaseExtensionsFileFilter( "xml", "dtd", "xsl" ) ),
@@ -124,6 +133,7 @@ public enum FileType
         this.folder     = folder == null ? Paths.get( name() ) : folder;
         //this.extensions = new String[0];
         this.fileFilter = fileFilter;
+        this.fileFilter.setFileType( this );
     }
     
 //    private FileType( final Path folder, final XFileFilterFactory fileFilterFactory, final String extension, final String...others )

@@ -6,7 +6,8 @@ import java.util.Arrays;
 public class ExtensionsFileFilter implements XFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private String[] endsWiths;;
+    private String[] endsWiths;
+    private FileType fileType;
 
     public ExtensionsFileFilter( String extension,  String...others )
     {
@@ -50,5 +51,17 @@ public class ExtensionsFileFilter implements XFileFilter
         builder.append( Arrays.asList( endsWiths ).subList( 0, endsWiths.length) );
         builder.append( ']' );
         return builder.toString();
+    }
+    
+    @Override
+    public void setFileType( FileType fileType )
+    {
+        this.fileType = fileType;
+    }
+
+    @Override
+    public FileType getFileType()
+    {
+        return fileType;
     }
 }

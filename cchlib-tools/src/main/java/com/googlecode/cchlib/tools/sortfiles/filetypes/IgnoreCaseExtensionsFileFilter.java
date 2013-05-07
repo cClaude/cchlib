@@ -6,7 +6,8 @@ import java.util.Arrays;
 public class IgnoreCaseExtensionsFileFilter implements XFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private String[] endsWiths;;
+    private String[] endsWiths;
+    private FileType fileType;;
 
     public IgnoreCaseExtensionsFileFilter( String extension, String...others )
     {
@@ -41,5 +42,17 @@ public class IgnoreCaseExtensionsFileFilter implements XFileFilter
         builder.append( Arrays.asList( endsWiths ).subList( 0, endsWiths.length) );
         builder.append( ']' );
         return builder.toString();
+    }
+
+    @Override
+    public FileType getFileType()
+    {
+        return fileType;
+    }
+
+    @Override
+    public void setFileType( FileType fileType )
+    {
+        this.fileType = fileType;
     }
 }
