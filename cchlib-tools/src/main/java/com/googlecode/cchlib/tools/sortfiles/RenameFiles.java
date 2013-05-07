@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.autorename.sortfiles;
+package com.googlecode.cchlib.tools.sortfiles;
 
 import java.io.File;
 import java.io.IOException;
