@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
@@ -15,6 +14,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.Windows;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -178,7 +178,7 @@ public class LoadDialog
               getJTextField( index ).setText( fo.getFile().getPath() );
               }
             else {
-                getJTextField( index ).setText( Const.EMPTY_STRING );
+                getJTextField( index ).setText( StringHelper.EMPTY );
                 }
             }
     }

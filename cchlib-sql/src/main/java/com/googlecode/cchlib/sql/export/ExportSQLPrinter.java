@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.sql.SQLCloseException;
 import com.googlecode.cchlib.sql.SQLTools;
 
@@ -106,8 +106,8 @@ final class ExportSQLPrinter implements Closeable
             print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
             }
 
-        println( Const.EMPTY_STRING );
-        println( Const.EMPTY_STRING );
+        println( StringHelper.EMPTY );
+        println( StringHelper.EMPTY);
 
         while( r.next() ) {
             print( "INSERT INTO `" );

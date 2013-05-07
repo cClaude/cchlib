@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *
@@ -109,7 +109,7 @@ public class NTFSStream
     private static String fastStreamCopy1( File filename )
     {
         FileChannel fc  = null;
-        String      s   = Const.EMPTY_STRING;
+        String      s   = StringHelper.EMPTY;
         
         try {
             FileInputStream fis = new FileInputStream( filename );
@@ -204,7 +204,7 @@ public class NTFSStream
                     s = new String( bytes );
                     }
                 else {
-                    s = Const.EMPTY_STRING;
+                    s = StringHelper.EMPTY;
                     }
                 }
             finally {

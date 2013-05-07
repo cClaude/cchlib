@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
 
 /**
@@ -83,7 +83,7 @@ public class PropertiesXComboBoxPatternBuilder
             this.propertiesFile.setProperty( key, value );
             }
 
-        this.propertiesFile.store( Const.EMPTY_STRING );
+        this.propertiesFile.store( StringHelper.EMPTY );
     }
 
     /**

@@ -156,12 +156,13 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-
+    <!-- guava is too big - no more include
     <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>14.0.1</version>
     </dependency>
+    -->
   </dependencies>
 
   <!-- Sub projects -->

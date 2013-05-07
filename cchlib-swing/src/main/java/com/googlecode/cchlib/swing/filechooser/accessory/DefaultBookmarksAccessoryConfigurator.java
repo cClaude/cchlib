@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Provide a basic implementation for
@@ -126,7 +126,7 @@ public class DefaultBookmarksAccessoryConfigurator
             Writer writer = new FileWriter(configFileProperties);
 
             try {
-                properties.store( writer, Const.EMPTY_STRING );
+                properties.store( writer, StringHelper.EMPTY );
                 }
             finally {
                 writer.close();

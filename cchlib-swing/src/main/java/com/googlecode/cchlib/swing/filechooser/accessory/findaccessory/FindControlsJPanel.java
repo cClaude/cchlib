@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Find controls panel displays default action components for starting
@@ -45,7 +45,7 @@ class FindControlsJPanel extends JPanel
         tools.add(this.findAccessoryImpl.actionStop = new FindAction(actionContener, FindAccessoryImpl.ACTION_STOP,null));
         add(tools,BorderLayout.WEST);
 
-        progress = new JLabel( Const.EMPTY_STRING,SwingConstants.RIGHT );
+        progress = new JLabel( StringHelper.EMPTY, SwingConstants.RIGHT );
 
         // So that frequent updates will appear smooth
         progress.setDoubleBuffered(true);

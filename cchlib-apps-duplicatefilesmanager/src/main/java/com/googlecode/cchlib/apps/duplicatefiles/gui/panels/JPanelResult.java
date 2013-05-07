@@ -20,7 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
@@ -29,6 +28,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResultW
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.util.HashMapSet;
 
@@ -224,7 +224,7 @@ public class JPanelResult extends JPanelResultWB
     protected void displayFileInfo( KeyFileState kf )
     {
         if( kf == null ) {
-            getJTextFieldFileInfo().setText( Const.EMPTY_STRING );
+            getJTextFieldFileInfo().setText( StringHelper.EMPTY );
             }
         else {
             File    f       = kf.getFile();

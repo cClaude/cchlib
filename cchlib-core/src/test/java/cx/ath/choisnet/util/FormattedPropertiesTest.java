@@ -23,8 +23,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.lang.StringHelper;
 
 public class FormattedPropertiesTest
 {
@@ -184,7 +184,7 @@ public class FormattedPropertiesTest
                 new FileInputStream(copy)
                 );
         prop.addBlankLine();
-        prop.addCommentLine( Const.EMPTY_STRING );
+        prop.addCommentLine( StringHelper.EMPTY );
         prop.addCommentLine( "# New entries" );
         final String addKey   = "new.key.put";
         final String addValue = "new value";

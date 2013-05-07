@@ -17,7 +17,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.google.common.io.Files;
+import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IOHelper;
 
 public class ExtendableClassLoaderTest
@@ -35,7 +35,7 @@ public class ExtendableClassLoaderTest
         final String      packagename  = ExtendableClassLoaderTest.class.getPackage().getName();
         final String      fullfilename = packagename.replace( '.', File.separatorChar ) + File.separatorChar + filename;
         final InputStream is           = ExtendableClassLoaderTest.class.getClassLoader().getResourceAsStream( fullfilename );
-        final File        tmpDirFile   = Files.createTempDir();
+        final File        tmpDirFile   = FileHelper.createTempDir();
         File              dirFile      = tmpDirFile;
 
         for( String pn : packagename.split( "\\." ) ) {

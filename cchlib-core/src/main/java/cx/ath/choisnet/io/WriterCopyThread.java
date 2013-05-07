@@ -3,7 +3,7 @@ package cx.ath.choisnet.io;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import com.google.common.annotations.Beta;
+import com.googlecode.cchlib.Beta;
 
 /**
  * TODOC

@@ -11,8 +11,8 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.Populator;
 import com.googlecode.cchlib.util.properties.PropertiesPopulator;
@@ -136,7 +136,7 @@ public class Preferences implements Serializable
         pp.populateProperties( this, properties );
 
         File prefs = getPreferencesFile();
-        PropertiesHelper.saveProperties(prefs, properties, Const.EMPTY_STRING );
+        PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
         logger.info( "Preferences saved in " + prefs );
     }
 
@@ -226,7 +226,7 @@ public class Preferences implements Serializable
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
-            this.localeLanguage = Const.EMPTY_STRING;
+            this.localeLanguage = StringHelper.EMPTY;
             }
         else {
             this.localeLanguage = locale.getLanguage();

@@ -30,45 +30,41 @@ public class Metadata
 
     void readAndDisplayMetadata( File file ) 
     {
-        ImageInputStream iis;
-        
-        try {
-            iis = ImageIO.createImageInputStream(file);
+        try( ImageInputStream iis = ImageIO.createImageInputStream( file ) ) {
+            Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
+            readers.hasNext();
+            
+            while( readers.hasNext() ) {
+                // pick the first available ImageReader
+                ImageReader reader = readers.next();
+
+                // attach source to the reader
+                reader.setInput(iis, true);
+
+                // read metadata of first image
+                IIOMetadata metadata;
+                
+                try {
+                    metadata = reader.getImageMetadata(0);
+                    }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                    break;
+                    }
+
+                String[] names = metadata.getMetadataFormatNames();
+                int     length = names.length;
+                
+                for( int i = 0; i < length; i++ ) {
+                    System.out.println( "Format name: " + names[ i ] );
+                    displayMetadata(metadata.getAsTree(names[i]));
+                    }
+                }
             }
         catch( IOException e ) {
             e.printStackTrace();
             return;
             }
-
-        Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
-        readers.hasNext();
-        
-        while( readers.hasNext() ) {
-            // pick the first available ImageReader
-            ImageReader reader = readers.next();
-
-            // attach source to the reader
-            reader.setInput(iis, true);
-
-            // read metadata of first image
-            IIOMetadata metadata;
-            
-            try {
-                metadata = reader.getImageMetadata(0);
-                }
-            catch( IOException e ) {
-                e.printStackTrace();
-                break;
-                }
-
-            String[] names = metadata.getMetadataFormatNames();
-            int     length = names.length;
-            
-            for( int i = 0; i < length; i++ ) {
-                System.out.println( "Format name: " + names[ i ] );
-                displayMetadata(metadata.getAsTree(names[i]));
-                }
-        }
     }
 
     void displayMetadata( Node root )

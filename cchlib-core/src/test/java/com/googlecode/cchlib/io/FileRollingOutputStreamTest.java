@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *
@@ -52,7 +52,7 @@ public class FileRollingOutputStreamTest
         final String assertMsgPrefix = "max:" + maxsize + " ->";
         final File file = File.createTempFile(
                 "FileRollingOutputStreamTest",
-                Const.EMPTY_STRING
+                StringHelper.EMPTY
                 );
         final FileRoller fileRoller = new DefaultFileRoller( file );
 

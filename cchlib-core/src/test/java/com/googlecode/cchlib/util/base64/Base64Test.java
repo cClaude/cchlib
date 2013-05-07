@@ -20,9 +20,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.io.IO; // TEST CASE ONLY
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
@@ -200,7 +200,7 @@ public class Base64Test
     public void testEmpty()
         throws Base64FormatException, IOException
     {
-        String emptyEncodedStr = Base64Encoder.encode( Const.EMPTY_STRING );
+        String emptyEncodedStr = Base64Encoder.encode( StringHelper.EMPTY );
         logger.info( "encode empty String res = [" + emptyEncodedStr + ']' );
 
         assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);

@@ -18,11 +18,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
 /**
@@ -220,7 +220,7 @@ class CompareResourcesBundleTableModel
                 prefix = "*";
                 }
             else {
-                prefix = Const.EMPTY_STRING;
+                prefix = StringHelper.EMPTY;
                 }
 
             return String.format(

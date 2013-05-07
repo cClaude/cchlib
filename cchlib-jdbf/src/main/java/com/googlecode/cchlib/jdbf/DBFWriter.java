@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * An object of this class can create a DBF file.
@@ -242,7 +242,7 @@ public class DBFWriter extends DBFBase
                         dataOutput.write( Utils.textPadding( str_value, characterSetName, this.header.fieldArray[j].getFieldLength()));
                     }
                     else {
-                        dataOutput.write( Utils.textPadding( Const.EMPTY_STRING, this.characterSetName, this.header.fieldArray[j].getFieldLength()));
+                        dataOutput.write( Utils.textPadding( StringHelper.EMPTY, this.characterSetName, this.header.fieldArray[j].getFieldLength()));
                     }
                     break;
 

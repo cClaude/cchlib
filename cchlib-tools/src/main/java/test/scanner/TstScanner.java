@@ -18,12 +18,13 @@ public class TstScanner
 
     public TstScanner() throws IOException
     {
-        FileSystem  fs = FileSystems.getDefault();
-        String first ="/";
-        String more  = "*.html";
-        Path        path = fs.getPath( first, more );
-        scan = new Scanner( path );
-        scan.close();
+        try( FileSystem  fs = FileSystems.getDefault() ) {
+            String first ="/";
+            String more  = "*.html";
+            Path        path = fs.getPath( first, more );
+            scan = new Scanner( path );
+            scan.close();
+        }
     }
 
     static void usage()

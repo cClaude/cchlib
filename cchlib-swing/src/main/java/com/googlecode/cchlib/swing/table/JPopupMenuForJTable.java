@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -294,7 +294,7 @@ public abstract class JPopupMenuForJTable
                 Object value = getTableModel()
                     .getValueAt( rowIndex, columnIndex );
 
-                setClipboardContents( value == null ? Const.EMPTY_STRING : value.toString() );
+                setClipboardContents( value == null ? StringHelper.EMPTY : value.toString() );
             }
         };
     }

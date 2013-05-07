@@ -3,8 +3,9 @@ package cx.ath.choisnet.util;
 import java.util.ArrayList;
 
 /**
- * TODOC
+ * @deprecated use {@link com.googlecode.cchlib.lang.StringHelper} instead
  */
+@Deprecated
 public class StringHelper
 {
 
@@ -19,7 +20,8 @@ public class StringHelper
      * @param token Char token to use as delimiter.
      * @return the array of strings computed by splitting this string around matches of the given token
      * @throws NullPointerException if str is null
-     * @see #split(String, String)
+     * @see com.googlecode.cchlib.lang.StringHelper#split(String, char)
+     * @see com.googlecode.cchlib.lang.StringHelper#split(String, String)
      */
     public static String[] split( final String str, final char token )
     {
@@ -69,7 +71,8 @@ public class StringHelper
      * @param token Char token to use as delimiter.
      * @return the array of strings computed by splitting this string around matches of the given token
      * @throws NullPointerException if str or token is null
-     * @see #split(String, char)
+     * @see com.googlecode.cchlib.lang.StringHelper#split(String, char)
+     * @see com.googlecode.cchlib.lang.StringHelper#split(String, String)
      */
     public static String[] split( final String str, final String token )
     {

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
-import com.google.common.base.Strings;
+//import com.google.common.base.Strings;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * 
@@ -116,8 +117,8 @@ class GDAI_tumblr_com_Config
             Object desc = data.get( 1 );
             
             DefaultEntry entry = new DefaultEntry(
-                Strings.nullToEmpty( name.toString() ),
-                Strings.nullToEmpty( desc ==  null ? null : desc.toString() )
+                StringHelper.nullToEmpty( name.toString() ),
+                StringHelper.nullToEmpty( desc ==  null ? null : desc.toString() )
                 );
 
             entries.add( entry ); 

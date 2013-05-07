@@ -1,7 +1,8 @@
 package com.googlecode.cchlib.sql;
 
 import java.io.IOException;
-import cx.ath.choisnet.util.StringHelper;
+//import cx.ath.choisnet.util.StringHelper;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Conversions tools for create SQL requests.

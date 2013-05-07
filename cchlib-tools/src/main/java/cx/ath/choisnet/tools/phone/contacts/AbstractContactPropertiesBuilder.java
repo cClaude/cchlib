@@ -2,7 +2,7 @@ package cx.ath.choisnet.tools.phone.contacts;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *
@@ -47,7 +47,7 @@ public abstract class AbstractContactPropertiesBuilder
             while( index < this.nameList.size() ) {
                 this.nameList.add( "Undefine_" + this.nameList.size() );
                 this.typeList.add( null );
-                this.defaultList.add( Const.EMPTY_STRING );
+                this.defaultList.add( StringHelper.EMPTY );
                 }
             this.nameList.add( name );
             this.typeList.add( type );

@@ -10,7 +10,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
@@ -74,7 +74,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
         else {
             OutputStream os = new FileOutputStream( fileObject.getFile() );
 
-            properties.store( os, Const.EMPTY_STRING );
+            properties.store( os, StringHelper.EMPTY );
 
             os.close();
             logger.info( "Save : " + fileObject );

@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 import au.com.bytecode.opencsv.CSVReader;
 import cx.ath.choisnet.tools.phone.BadFileFormatException;
 import cx.ath.choisnet.tools.phone.contacts.AbstractContactPropertiesBuilder;
@@ -152,7 +152,7 @@ public class MPECVSContactPropertiesBuilder
         // "Titre","Prénom","Nom","Portable","Portable (dom)","Portable (trav)","Domicile","Travail","Fax","Autre","Adresse","CP","Ville","Région","Pays","Adresse (travail)","CP (travail)","Ville (travail)","Région (travail)","Pays (travail)","Info","e-mail","e-mail 2","e-mail 3","Web","Organisation","Anniversaire"
         for( int i = 0; i<line.length; i++ ) {
             final ContactValueType type;
-            String           defaultValue	= Const.EMPTY_STRING;
+            String           defaultValue	= StringHelper.EMPTY;
 
             switch( i ) {
             case 1 :

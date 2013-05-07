@@ -28,7 +28,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * This class makes it easy to drag and drop files from the operating system to
@@ -265,7 +265,7 @@ public class SimpleFileDrop
                                         }
                                     catch( URISyntaxException e ) {
                                         // TODO: add an Exception listener
-                                        logger.error( Const.EMPTY_STRING, e );
+                                        logger.error( StringHelper.EMPTY, e );
                                         }
                                     }
 

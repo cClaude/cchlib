@@ -14,9 +14,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.lang.StringHelper;
 
 public class FolderTreeBuilderTest 
 {
@@ -83,7 +83,7 @@ public class FolderTreeBuilderTest
         assertEquals( 1, map.size() );/* */
 
         for( FolderTreeNode rootNode : map.values() ) {
-            displayTree( rootNode, Const.EMPTY_STRING );
+            displayTree( rootNode, StringHelper.EMPTY );
             checkIfNoDoubleOnNode( rootNode );
             }
 
