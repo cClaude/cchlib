@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -17,7 +18,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-//import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -27,17 +27,17 @@ import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccesso
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 public final class DefaultDFToolKit
-    implements DFToolKit, I18nAutoUpdatable//I18nPrepAutoUpdatable
+    implements DFToolKit, I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( DefaultDFToolKit.class );
-    private final Map<Window,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentWindow,jFileChooserInitializer;
+    private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
     private final Preferences preferences;
     private DuplicateFilesFrame mainWindow;
 
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString String txtOpenDesktopExceptionTitle = "Can not open file";
+    @I18nString private String txtOpenDesktopExceptionTitle     = "Can not open file";
 
     public DefaultDFToolKit(
         final Preferences preferences
@@ -63,16 +63,22 @@ public final class DefaultDFToolKit
     {
         this.mainWindow = mainWindow;
     }
-    @Deprecated
-    @Override // DFToolKit
-    public DuplicateFilesFrame getMainWindow() throws NullPointerException
+
+    private DuplicateFilesFrame _getMainWindow() throws IllegalStateException
     {
         if( this.mainWindow == null ) {
-            throw new NullPointerException( "mainWindow not set" );
+            throw new IllegalStateException( "mainWindow not set" );
             }
 
         return this.mainWindow;
     }
+
+//    @Deprecated
+//    @Override // DFToolKit
+//    public DuplicateFilesFrame getMainWindow() throws NullPointerException
+//    {
+//        return _getMainWindow();
+//    }
 
     @Override // DFToolKit
     public Frame getMainFrame()
@@ -80,24 +86,38 @@ public final class DefaultDFToolKit
         return this.mainWindow;
     }
 
-    @Override // DFToolKit
-    public JFileChooser getJFileChooser( final Window parentWindow )
+    @Override
+    public void initJFileChooser()
     {
-        return getJFileChooserInitializer( parentWindow ).getJFileChooser();
+        Window win = getMainFrame();
+        getJFileChooserInitializer( win , win );
     }
 
     @Override // DFToolKit
-    public JFileChooser getJFileChooser()
-    {
-        return getJFileChooserInitializer( getMainWindow() ).getJFileChooser();
-    }
-
-    @Override // DFToolKit
-    public JFileChooserInitializer getJFileChooserInitializer(
-        final Window parentWindow
+    public JFileChooser getJFileChooser(
+        final Window    parentWindow,
+        final Component refComponent
         )
     {
-        JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( parentWindow );
+        return getJFileChooserInitializer( parentWindow, refComponent ).getJFileChooser();
+    }
+//    @Deprecated
+//    @Override // DFToolKit
+//    public JFileChooser getJFileChooser()
+//    {
+//        return getJFileChooserInitializer( getMainWindow(), getMainWindow() ).getJFileChooser();
+//    }
+
+    @Override
+    public JFileChooserInitializer getJFileChooserInitializer(
+        final Window    parentWindow,
+        final Component refComponent
+        )
+//    public JFileChooserInitializer getJFileChooserInitializer(
+//        final Window parentWindow
+//        )
+    {
+        JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( refComponent );
 
         if( jFileChooserInitializer == null ) {
             final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
@@ -125,6 +145,7 @@ public final class DefaultDFToolKit
                     jFileChooserInitializerTitle,
                     jFileChooserInitializerMessage
                     );
+            this.jFileChooserInitializerMap.put( refComponent, jFileChooserInitializer );
         }
 
         return jFileChooserInitializer;
@@ -146,7 +167,7 @@ public final class DefaultDFToolKit
             }
         catch( IOException e ) {
             DialogHelper.showMessageExceptionDialog(
-                    getMainWindow(),
+                    getMainFrame(),
                     txtOpenDesktopExceptionTitle,
                     e
                     );
@@ -163,18 +184,6 @@ public final class DefaultDFToolKit
             }
     }
 
-//    @Override // DFToolKit
-//    public Image getImage(String name)
-//    {
-//        return ResourcesLoader.getImage( name );
-//    }
-//
-//    @Override // DFToolKit
-//    public Icon getIcon(String name)
-//    {
-//        return ResourcesLoader.getImageIcon( name );
-//    }
-
     @Override // DFToolKit
     public Preferences getPreferences()
     {
@@ -187,7 +196,7 @@ public final class DefaultDFToolKit
         Locale locale;
 
         try {
-            locale = getMainWindow().getLocale();
+            locale = getMainFrame().getLocale();
             }
         catch( Exception e ) {
             locale = null;
@@ -205,19 +214,19 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public void setEnabledJButtonCancel( boolean b )
     {
-        getMainWindow().setJButtonCancelEnabled( b );
+        _getMainWindow().setJButtonCancelEnabled( b );
     }
 
     @Override // DFToolKit
     public boolean isEnabledJButtonCancel()
     {
-        return getMainWindow().isEnabledJButtonCancel();
+        return _getMainWindow().isEnabledJButtonCancel();
     }
 
     @Override // DFToolKit
     public void initComponentsJPanelConfirm()
     {
-        getMainWindow().initComponentsJPanelConfirm();
+        _getMainWindow().initComponentsJPanelConfirm();
     }
 
     @Override // DFToolKit

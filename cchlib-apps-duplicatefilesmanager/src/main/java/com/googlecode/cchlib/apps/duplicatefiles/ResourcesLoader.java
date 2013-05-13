@@ -246,6 +246,21 @@ public class ResourcesLoader
                 {
                     return siteURI;
                 }
+                @Override
+                public Icon getPrevIcon()
+                {
+                    return getImageIcon( "prev.16x16.png" );
+                }
+                @Override
+                public Icon getNextIcon()
+                {
+                    return getImageIcon( "next.16x16.png" );
+                }
+                @Override
+                public Icon getRefreshIcon()
+                {
+                    return getImageIcon( "refresh.16x16.png" );
+                }
             };
             }
         return resources;

@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
@@ -85,6 +84,8 @@ public class JPanelResult extends JPanelResultWB
         final DFToolKit dFToolKit
         )
     {
+        super( dFToolKit.getResources() );
+        
         this.dFToolKit = dFToolKit;
 
         createPopupMenus();
@@ -131,7 +132,7 @@ public class JPanelResult extends JPanelResultWB
     }
 
     @Override
-    protected void jButtonPrevSetMouseMousePressed( MouseEvent event )
+    protected void onPrevSet()
     {
         final int size = getJListDuplicatesFiles().getModel().getSize();
 
@@ -146,7 +147,7 @@ public class JPanelResult extends JPanelResultWB
     }
 
     @Override
-    protected void jButtonNextSetMouseMousePressed( MouseEvent event )
+    protected void onNextSet()
     {
         final int size = getJListDuplicatesFiles().getModel().getSize();
 
@@ -272,8 +273,7 @@ public class JPanelResult extends JPanelResultWB
     private void updateDisplayKeptDelete( final String key )
     {
         logger.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
-//        listModelKeptIntact.clear();
-//        listModelWillBeDeleted.clear();
+
         displayFileInfo( null );
         Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
         if( s != null ) {
@@ -344,24 +344,9 @@ public class JPanelResult extends JPanelResultWB
                         SortMode    sortMode = getListModelDuplicatesFiles().getSortMode();
                         ButtonGroup gb       = new ButtonGroup();
 
-//                        JCheckBoxMenuItem jcbmiMenuSortBySize = new JCheckBoxMenuItem( txtMenuSortBySize );
-//                        gb.add( jcbmiMenuSortBySize );
-//                        addJMenuItem( sortListMenu, jcbmiMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortBySize, gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
-
-//                        JCheckBoxMenuItem jcbmiMenuSortByName = new JCheckBoxMenuItem( txtMenuSortByName );
-//                        gb.add( jcbmiMenuSortByName );
-//                        addJMenuItem( sortListMenu, jcbmiMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName, gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
-
-//                        JCheckBoxMenuItem jcbmiMenuSortByPath = new JCheckBoxMenuItem( txtMenuSortByPath );
-//                        gb.add( jcbmiMenuSortByPath );
-//                        addJMenuItem( sortListMenu, jcbmiMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
-
-//                        JCheckBoxMenuItem jcbmiMenuSortByDepth = new JCheckBoxMenuItem( txtMenuSortByDepth );
-//                        gb.add( jcbmiMenuSortByDepth );
-//                        addJMenuItem( sortListMenu, jcbmiMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortBySize , gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName , gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath , gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
                         addJCheckBoxMenuItem( sortListMenu, txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
                     }
                     {
@@ -381,10 +366,7 @@ public class JPanelResult extends JPanelResultWB
                         };
                         SelectFirstMode sortMode = getListModelDuplicatesFiles().getSelectFirstMode();
                         ButtonGroup gb           = new ButtonGroup();
-//                        addJMenuItem( sortMenu, txtMenuSortBySize, sortByListener, SortMode.class, SortMode.FILESIZE );
-//                        addJMenuItem( sortMenu, txtMenuSortByName, sortByListener, SortMode.class, SortMode.FIRST_FILENAME );
-//                        addJMenuItem( sortMenu, txtMenuSortByPath, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH );
-//                        addJMenuItem( sortMenu, txtMenuSortByDepth, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH );
+
                         addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileRandom, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.QUICK, sortMode );
                         addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthAscendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_ASCENDING_ORDER, sortMode );
                         addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthDescendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_DESCENDING_ORDER, sortMode );
@@ -747,6 +729,7 @@ public class JPanelResult extends JPanelResultWB
 
     public void clearSelected()
     {
+        // TODO : disable all widgets
         new Thread( new Runnable()
         {
             @Override
@@ -759,9 +742,35 @@ public class JPanelResult extends JPanelResultWB
                     logger.error( "clearSelected()", e );
                     }
                 finally {
+                    // TODO : enable all widgets
                     dFToolKit.setEnabledJButtonCancel( true );
                     }
             }
         }, "clearSelected()" ).start();
+    }
+
+    @Override
+    protected void onRefresh()
+    {
+        logger.info( "onRefresh() - start" );
+
+        // TODO : disable all widgets
+        new Thread( new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try {
+                    getListModelDuplicatesFiles().refreshList();
+                    }
+                catch( Exception e ) {
+                    logger.error( "onRefresh()", e );
+                    }
+                finally {
+                    // TODO : enable all widgets
+                    logger.info( "onRefresh() - done" );
+                    }
+            }
+        }, "onRefresh()" ).start();
     }
 }

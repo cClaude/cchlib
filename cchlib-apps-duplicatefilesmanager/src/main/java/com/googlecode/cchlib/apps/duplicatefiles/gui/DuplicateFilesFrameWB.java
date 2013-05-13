@@ -13,6 +13,7 @@ import javax.swing.ButtonGroup;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
+import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.I18nString;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -37,6 +38,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private ButtonGroup buttonGroupLanguage   = new ButtonGroup();
     private Icon                        icon_DuplicateFiles; // TODO : add
     private Icon                        icon_jPanel_RemoveEmptyDirectories; // TODO : add
+    private Icon                        icon_jPanel_jPanel_RemoveEmptyDirectories; // TODO : add
     private JMenu                       jMenuConfig;
     private JMenu                       jMenuConfigMode;
     private JMenu                       jMenuFile;
@@ -45,6 +47,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private JMenuItem                   jMenuItem_Preferences;
     private JPanel                      jPanel_DuplicateFiles; // Workaround for WindowBuilder
     private JPanel                      jPanel_RemoveEmptyDirectories; // Workaround for WindowBuilder
+    private RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFile;
     private JRadioButtonMenuItem        jMenuItemModeAdvance;
     private JRadioButtonMenuItem        jMenuItemModeBeginner;
     private JRadioButtonMenuItem        jMenuItemModeExpert;
@@ -151,7 +154,10 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
         // $hide<<$
         
-        contentJTabbedPane.addTab("Remove empty directories", icon_jPanel_RemoveEmptyDirectories, jPanel_RemoveEmptyDirectories, null );
+        contentJTabbedPane.addTab("Remove empty directories", this.icon_jPanel_RemoveEmptyDirectories, this.jPanel_RemoveEmptyDirectories, null );
+        
+        this.jPanel_DeleteEmptyFile = new RemoveEmptyFilesJPanel( dfToolKit );
+        this.contentJTabbedPane.addTab("Remove empty files", this.icon_jPanel_jPanel_RemoveEmptyDirectories, this.jPanel_DeleteEmptyFile, null);
         }
     }
 

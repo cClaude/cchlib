@@ -151,7 +151,7 @@ public class JPanelResultListModel
                 );
             }
 
-        Comparator<? super KeyFiles> cmp;
+        Comparator<? super KeyFiles> cmp = null;
 
         switch( sortMode ) {
             case FIRST_FILENAME :
@@ -169,12 +169,16 @@ public class JPanelResultListModel
             case FIRST_FILEDEPTH :
                 cmp = this.depthComparator;
                 break;
-
-            default :
-                throw new UnsupportedOperationException( "SortMode = " + sortMode );
-                //break;
             }
-        Collections.sort( duplicatesFileCacheList, cmp );
+
+        if( cmp != null ) {
+            try {
+                Collections.sort( duplicatesFileCacheList, cmp );
+                }
+            catch( IllegalArgumentException e ) {
+                logger.error( "Can not sort : sortMode = " + sortMode, e );
+                }
+            }
 
         super.fireIntervalRemoved( this, 0, prevLastIndex );
         super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
@@ -193,7 +197,7 @@ public class JPanelResultListModel
         this.duplicateFiles  = duplicateFiles;
         this.sortMode        = sortMode;
         this.selectFirstMode = selectFirstMode;
-        
+
         updateCache();
     }
 
@@ -275,7 +279,7 @@ public class JPanelResultListModel
             }
         return listModelKeptIntact;
     }
-    
+
     //not public
     ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
     {
@@ -293,7 +297,7 @@ public class JPanelResultListModel
             }
         return listModelWillBeDeleted;
     }
-    
+
     //not public
     ListCellRenderer<KeyFileState> getWillBeDeletedListCellRenderer()
     {
@@ -336,7 +340,7 @@ public class JPanelResultListModel
           }
       listModelWillBeDeleted.private_fireAddedAll();
       listModelKeptIntact.private_fireAddedAll();
-      
+
       ss.clear();
     }
 
@@ -360,7 +364,56 @@ public class JPanelResultListModel
             }
         // else no values
 
+        // TODO: update display ??
+
         //logger.info( "clearSelected() done" );
+    }
+
+    public void refreshList()
+    {
+        Iterator<Entry<String, Set<KeyFileState>>> mainIterator = duplicateFiles.entrySet().iterator();
+        int index  = 0;
+        int index0 = -1;
+        int index1 = -1;
+
+        logger.info( "duplicateFiles.size() = " + duplicateFiles.size() );
+
+        while( mainIterator.hasNext() ) {
+            Entry<String,Set<KeyFileState>> entry       = mainIterator.next();
+            Set<KeyFileState>               kfsSet      = entry.getValue();
+            Iterator<KeyFileState>          kfsIterator = kfsSet.iterator();
+
+            while( kfsIterator.hasNext() ) {
+                KeyFileState kfs = kfsIterator.next();
+
+                if( ! kfs.getFile().exists() ) {
+                    // File no more exist (delete by an other process)
+                    logger.info( "File \"" + kfs + "\" no more exist" );
+                    kfsIterator.remove();
+                    }
+                }
+
+            logger.info( "kfsSet.size() = " + kfsSet.size() );
+
+            if( kfsSet.size() < 2 ) {
+                // No more duplicate here !
+                mainIterator.remove();
+
+                if( index0 < 0 ) {
+                    index0 = index;
+                    }
+                index1 = index;
+                }
+
+            index++;
+            }
+
+        logger.info( "duplicateFiles.size() = " + duplicateFiles.size() + " * index0=" + index0 + " index1=" + index1 );
+
+        if( index0 >= 0 ) {
+            updateCache();
+            super.fireContentsChanged( this, index0, index1 );
+            }
     }
 
 }

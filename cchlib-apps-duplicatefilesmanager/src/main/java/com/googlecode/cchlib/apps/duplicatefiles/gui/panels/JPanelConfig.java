@@ -22,6 +22,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigW
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
 
@@ -108,7 +109,7 @@ private Scanner s;
                 public void actionPerformed( ActionEvent e )
                 {
                     //logger.debug( "actionPerformed" );
-                    Tools.invokeLater( new Runnable() {
+                    SafeSwingUtilities.invokeLater( new Runnable() {
                         @Override
                         public void run()
                         {

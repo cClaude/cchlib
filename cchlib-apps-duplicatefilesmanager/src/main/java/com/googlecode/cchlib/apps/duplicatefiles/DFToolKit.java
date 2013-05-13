@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
@@ -15,22 +16,24 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  */
 public interface DFToolKit extends Serializable
 {
-    public JFileChooserInitializer getJFileChooserInitializer( Window parentWindow );
-    public JFileChooser getJFileChooser( Window parentWindow );
-    public JFileChooser getJFileChooser();
+    public void initJFileChooser();
+
+    public JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, Component refComponent );
+    public JFileChooser getJFileChooser( Window parentWindow, Component refComponent );
+    
     public void beep();
     public void openDesktop( File file );
     public Locale getValidLocale();
     public void sleep(long ms);
-    //public Image getImage(String name);
-    //public Icon getIcon(String name);
     public Preferences getPreferences();
     public Frame getMainFrame();
-    @Deprecated public Window getMainWindow();
     public void setEnabledJButtonCancel( boolean b );
     public boolean isEnabledJButtonCancel();
     public void initComponentsJPanelConfirm();
     public String getMessagesBundle();
     public Resources getResources();
     public List<File> getRootDirectoriesList();
+    
+    //@Deprecated public JFileChooser getJFileChooser();
+    //@Deprecated public Window getMainWindow();
 }

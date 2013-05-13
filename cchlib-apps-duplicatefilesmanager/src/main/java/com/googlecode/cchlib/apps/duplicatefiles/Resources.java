@@ -19,6 +19,9 @@ public interface Resources
     public Icon getLogoIcon();
     public Icon getFileIcon();
     public Icon getFolderIcon();
+    public Icon getPrevIcon();
+    public Icon getNextIcon();
+    public Icon getRefreshIcon();
     public Properties getJPanelConfigProperties();
     public Icon getSmallOKIcon();
     public Icon getSmallKOIcon();
@@ -27,5 +30,4 @@ public interface Resources
     public String getAboutVersion();
     public URI getSiteURI();
     public String getAboutVersionDate();
-
 }

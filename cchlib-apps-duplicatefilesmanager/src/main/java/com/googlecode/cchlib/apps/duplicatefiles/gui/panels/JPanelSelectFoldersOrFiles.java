@@ -287,7 +287,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             @Override
             public void run()
             {
-                JFileChooser jfc = dFToolKit.getJFileChooser();
+                JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
                 jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
                 int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
@@ -312,7 +312,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             @Override
             public void run()
             {
-                JFileChooser jfc = dFToolKit.getJFileChooser();
+                JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
                 jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
                 int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 

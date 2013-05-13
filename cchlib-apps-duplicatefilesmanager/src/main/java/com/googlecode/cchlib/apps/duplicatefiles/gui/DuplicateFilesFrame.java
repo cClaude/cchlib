@@ -26,6 +26,7 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
@@ -296,7 +297,7 @@ final public class DuplicateFilesFrame
                     }
             }
         };
-        Tools.invokeLater( safeRunner, "updateDisplayAccordingState()" );
+        SafeSwingUtilities.invokeLater( safeRunner, "updateDisplayAccordingState()" );
     }
 
     private void jButtonNextStep_ActionPerformed()
@@ -329,7 +330,7 @@ final public class DuplicateFilesFrame
                 if( subState == SUBSTATE_CONFIRM_INIT ) {
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
 
-                    Tools.invokeLater(new Runnable() {
+                    SafeSwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run()
                         {
