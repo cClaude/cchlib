@@ -119,6 +119,20 @@ public abstract class JPopupMenuForJList<E>
     }
 
     /**
+     * Returns a shadow copy of selected indices.
+     * @return a shadow copy of selected indices.
+     * @since 4.1.7
+     */
+    protected int[] getSelectedIndices()
+    {
+        int[] selectedIndices = jList.getSelectedIndices();
+        int[] copy            = new int[ selectedIndices.length ];
+        System.arraycopy( selectedIndices, 0, copy, 0, selectedIndices.length );
+
+        return copy;
+    }
+
+    /**
      * Get value from Model
      *
      * @param rowIndex Row index according to view
