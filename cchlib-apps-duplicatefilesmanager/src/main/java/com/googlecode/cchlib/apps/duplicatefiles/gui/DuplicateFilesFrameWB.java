@@ -47,6 +47,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private JMenuItem                   jMenuItem_Preferences;
     private JPanel                      jPanel_DuplicateFiles; // Workaround for WindowBuilder
     private JPanel                      jPanel_RemoveEmptyDirectories; // Workaround for WindowBuilder
+
     private RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFile;
     private JRadioButtonMenuItem        jMenuItemModeAdvance;
     private JRadioButtonMenuItem        jMenuItemModeBeginner;
@@ -192,6 +193,11 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     {
         // Workaround for WindowBuilder
         return RemoveEmptyDirectoriesPanel.class.cast( jPanel_RemoveEmptyDirectories );
+    }
+    
+    public RemoveEmptyFilesJPanel getDeleteEmptyFilePanel()
+    {
+        return jPanel_DeleteEmptyFile;
     }
 
     public abstract ActionListener getActionListener();

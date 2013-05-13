@@ -1,11 +1,14 @@
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -17,25 +20,98 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.ListModel;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResultWB;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.iterator.Iterators;
 
 /**
  *
  */
 public class JPanelResult extends JPanelResultWB
 {
+    private class Selected implements Iterable<KeyFileState>
+    {
+        //private ListModel<KeyFileState> listModel;
+        //private int[] selectedIndices;
+        private List<KeyFileState> selectedList;
+
+        public Selected(
+            final ListModel<KeyFileState> listModel,
+            final int[]                   selectedIndices
+            )
+        {
+            if( selectedIndices == null ) {
+                throw new IllegalArgumentException( "selectedIndices is null - Illegal value" );
+                }
+            if( selectedIndices.length <= 0 ) {
+                throw new IllegalArgumentException( "Illegal value for selectedIndices: " + selectedIndices );
+                }
+
+            //this.listModel       = listModel;
+            //this.selectedIndices = selectedIndices;
+            this.selectedList    = new ArrayList<>();
+            
+            for( int index : selectedIndices ) {
+                this.selectedList.add( listModel.getElementAt( index ) );
+                }            
+        }
+
+        @Override
+        public Iterator<KeyFileState> iterator()
+        {
+            return Iterators.unmodifiableIterator( this.selectedList.iterator() );
+//            return new Iterator<KeyFileState>() {
+//                private int index = 0;
+//
+//                @Override
+//                public boolean hasNext()
+//                {
+//                    return index < selectedIndices.length;
+//                }
+//
+//                @Override
+//                public KeyFileState next()
+//                {
+//                    final int pos = selectedIndices[ index++ ];
+//
+//                    return listModel.getElementAt( pos );
+//                }
+//
+//                @Override
+//                public void remove()
+//                {
+//                    throw new UnsupportedOperationException();
+//                }
+//            };
+        }
+
+        public String getKey()
+        {
+            //return listModel.getElementAt( selectedIndices[ 0 ] ).getKey();
+            return this.selectedList.get( 0 ).getKey();
+        }
+
+        public List<File> toFileList()
+        {
+            List<File> list = new ArrayList<>();
+
+            for( KeyFileState kf : this ) {
+                list.add( kf.getFile() );
+                }
+
+            return list;
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( JPanelResult.class );
 
@@ -44,14 +120,18 @@ public class JPanelResult extends JPanelResultWB
 
     private ActionListener      actionListenerContextSubMenu;
     private final static String ACTION_OBJECT                            = "KeyFile";
-    private final static String ACTION_COMMAND_DeleteThisFile            = "DeleteThisFile";
-    private final static String ACTION_COMMAND_KeepThisFile              = "KeepThisFile";
-    private final static String ACTION_COMMAND_DeleteAllExceptThisFile   = "DeleteAllExceptThisFile";
-    private final static String ACTION_COMMAND_KeepAllExceptThisFile     = "KeepAllExceptThisFile";
+    //private final static String ACTION_COMMAND_DeleteThisFile            = "DeleteThisFile";
+    //private final static String ACTION_COMMAND_KeepThisFile              = "KeepThisFile";
+    //private final static String ACTION_COMMAND_DeleteAllExceptThisFile   = "DeleteAllExceptThisFile";
+    //private final static String ACTION_COMMAND_KeepAllExceptThisFile     = "KeepAllExceptThisFile";
     private final static String ACTION_COMMAND_DeleteDuplicateInDir      = "DeleteDuplicateInDir";
     private final static String ACTION_COMMAND_KeepNonDuplicateInDir     = "KeepNonDuplicateInDir";
     private final static String ACTION_COMMAND_KeepAllInDir              = "KeepAllInDir";
     private final static String ACTION_COMMAND_DeleteAllInDir            = "DeleteAllInDir";
+    private static final String ACTION_COMMAND_DeleteTheseFiles          = "DeleteTheseFiles";
+    private static final String ACTION_COMMAND_DeleteAllExceptTheseFiles = "DeleteAllExceptTheseFiles";
+    private static final String ACTION_COMMAND_KeepTheseFiles            = "KeepTheseFiles";
+    private static final String ACTION_COMMAND_KeepAllExceptTheseFiles   = "KeepAllExceptTheseFiles";
 
     @I18nString private String txtCopy = "Copy";
     @I18nString private String txtOpenFile = "Open (Handle by System)";
@@ -85,7 +165,7 @@ public class JPanelResult extends JPanelResultWB
         )
     {
         super( dFToolKit.getResources() );
-        
+
         this.dFToolKit = dFToolKit;
 
         createPopupMenus();
@@ -161,23 +241,23 @@ public class JPanelResult extends JPanelResultWB
             }
     }
 
-    private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>    m,
-            JPopupMenu                          parentMenu,
-            JMenuItem                           menu,
-            String                              actionCommand,
-            KeyFileState                        kf
-            )
-    {
-        m.addJMenuItem(
-            parentMenu,
-            menu,
-            getActionListenerContextSubMenu(),
-            actionCommand,
-            ACTION_OBJECT,
-            kf
-            );
-    }
+//    private void addContextSubMenuActionCommand(
+//            JPopupMenuForJList<KeyFileState>    m,
+//            JPopupMenu                          parentMenu,
+//            JMenuItem                           menu,
+//            String                              actionCommand,
+//            KeyFileState                        kf
+//            )
+//    {
+//        m.addJMenuItem(
+//            parentMenu,
+//            menu,
+//            getActionListenerContextSubMenu(),
+//            actionCommand,
+//            ACTION_OBJECT,
+//            kf
+//            );
+//    }
 
     private void addContextSubMenuActionCommand(
             JPopupMenuForJList<KeyFileState>    m,
@@ -194,6 +274,24 @@ public class JPanelResult extends JPanelResultWB
             ACTION_OBJECT,
             kf
             );
+    }
+
+    private void addContextSubMenuActionCommand(
+            JPopupMenuForJList<KeyFileState> m,
+            JPopupMenu                       parentMenu,
+            JMenuItem                        menu,
+            String                           actionCommand,
+            Selected                         selected
+            )
+    {
+        m.addJMenuItem(
+                parentMenu,
+                menu,
+                getActionListenerContextSubMenu(),
+                actionCommand,
+                ACTION_OBJECT,
+                selected
+                );
     }
 
     private void addContextSubMenuActionCommandRec(
@@ -320,8 +418,8 @@ public class JPanelResult extends JPanelResultWB
 
         new JPopupMenuForJList<KeyFiles>( getJListDuplicatesFiles() )
             {
-				private static final long serialVersionUID = 1L;
-				@Override
+                private static final long serialVersionUID = 1L;
+                @Override
                 protected JPopupMenu createContextMenu( final int rowIndex )
                 {
                     JPopupMenu cm = new JPopupMenu();
@@ -392,48 +490,59 @@ public class JPanelResult extends JPanelResultWB
             }.setMenu();
    }
 
-    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList )
+    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList_ )
     {
-        final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList )
+        final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList_ )
         {
-			private static final long serialVersionUID = 1L;
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             protected JPopupMenu createContextMenu( final int rowIndex )
             {
                 JPopupMenu cm = new JPopupMenu();
 
-                addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
+                //KeyFileState kf = getValueAt( rowIndex );
+                final int[]        selectedIndices = getSelectedIndices();
+                final Selected     selected        = new Selected( getListModel(), selectedIndices );
+                final KeyFileState kf;
 
-                KeyFileState kf = /*(KeyFileState)*/getValueAt( rowIndex );
+                if( selectedIndices.length == 1 ) {
+                    // Only one file selected...
+                    kf = getListModel().getElementAt( selectedIndices[ 0 ] );
 
-                addJMenuItem(
-                    cm,
-                    txtOpenFile,
-                    createOpenFileActionListener( kf.getFile() )
-                    );
-                addJMenuItem(
-                        cm,
-                        txtOpenParentDirectory,
-                        createOpenFileActionListener( kf.getFile().getParentFile() )
-                        );
-                cm.addSeparator();
+                    addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
 
-                if( jList == getJListKeptIntact() ) {
+                    addJMenuItem(
+                            cm,
+                            txtOpenFile,
+                            createOpenFileActionListener( kf.getFile() )
+                            );
+                        addJMenuItem(
+                                cm,
+                                txtOpenParentDirectory,
+                                createOpenFileActionListener( kf.getFile().getParentFile() )
+                                );
+                        cm.addSeparator();
+                    }
+                else {
+                    kf = null;
+                    }
+
+                if( getJList() == getJListKeptIntact() ) {
                     // ONLY: jListKeptIntact
                     addContextSubMenuActionCommand(
                         this,
                         cm,
                         new JMenuItem(txtDeleteThisFile),
-                        ACTION_COMMAND_DeleteThisFile,
-                        kf
+                        ACTION_COMMAND_DeleteTheseFiles,
+                        selected
                         );
                     // ONLY: jListKeptIntact
                     addContextSubMenuActionCommand(
                         this,
                         cm,
                         new JMenuItem(txtDeleteAllExceptThisFile),
-                        ACTION_COMMAND_DeleteAllExceptThisFile,
-                        kf
+                        ACTION_COMMAND_DeleteAllExceptTheseFiles,
+                        selected
                         );
                     }
                 else {
@@ -442,53 +551,56 @@ public class JPanelResult extends JPanelResultWB
                         this,
                         cm,
                         new JMenuItem(txtKeepThisFile ),
-                        ACTION_COMMAND_KeepThisFile,
-                        kf
+                        ACTION_COMMAND_KeepTheseFiles,
+                        selected
                         );
                     // ONLY: jListWillBeDeleted
                     addContextSubMenuActionCommand(
                         this,
                         cm,
                         new JMenuItem(txtKeepAllExceptThisFile),
-                        ACTION_COMMAND_KeepAllExceptThisFile,
-                        kf
+                        ACTION_COMMAND_KeepAllExceptTheseFiles,
+                        selected
                         );
                     }
 
-                addContextSubMenuActionCommandRec(
-                    this,
-                    cm,
-                    new JMenu(txtDeleteDuplicateIn),
-                    ACTION_COMMAND_DeleteDuplicateInDir,
-                    kf
-                    );
-                addContextSubMenuActionCommandRec(
-                    this,
-                    cm,
-                    new JMenu(txtKeepNonDuplicateIn),
-                    ACTION_COMMAND_KeepNonDuplicateInDir,
-                    kf
-                    );
-                addContextSubMenuActionCommandRec(
-                    this,
-                    cm,
-                    new JMenu(txtKeepAllInDir),
-                    ACTION_COMMAND_KeepAllInDir,
-                    kf
-                    );
-                addContextSubMenuActionCommandRec(
-                    this,
-                    cm,
-                    new JMenu(txtDeleteAllInDir),
-                    ACTION_COMMAND_DeleteAllInDir,
-                    kf
-                    );
+                if( kf != null ) {
+                    addContextSubMenuActionCommandRec(
+                            this,
+                            cm,
+                            new JMenu(txtDeleteDuplicateIn),
+                            ACTION_COMMAND_DeleteDuplicateInDir,
+                            kf
+                            );
+                    addContextSubMenuActionCommandRec(
+                            this,
+                            cm,
+                            new JMenu(txtKeepNonDuplicateIn),
+                            ACTION_COMMAND_KeepNonDuplicateInDir,
+                            kf
+                            );
+                    addContextSubMenuActionCommandRec(
+                            this,
+                            cm,
+                            new JMenu(txtKeepAllInDir),
+                            ACTION_COMMAND_KeepAllInDir,
+                            kf
+                            );
+                    addContextSubMenuActionCommandRec(
+                            this,
+                            cm,
+                            new JMenu(txtDeleteAllInDir),
+                            ACTION_COMMAND_DeleteAllInDir,
+                            kf
+                            );
+                    }
 
                 return cm;
             }
         };
         m.setMenu();
     }
+
 
     private ActionListener getActionListenerContextSubMenu()
     {
@@ -498,147 +610,36 @@ public class JPanelResult extends JPanelResultWB
                 @Override
                 public void actionPerformed( ActionEvent e )
                 {
-                    final JMenuItem    sourceItem = (JMenuItem) e.getSource();
-                    final KeyFileState kf         = (KeyFileState)sourceItem.getClientProperty(ACTION_OBJECT);
+                    final JMenuItem    sourceItem   = (JMenuItem) e.getSource();
+                    final Object       actionObject = sourceItem.getClientProperty(ACTION_OBJECT);
+                    //final KeyFileState kf         = (KeyFileState)sourceItem.getClientProperty(ACTION_OBJECT);
                     final String       cmd        = sourceItem.getActionCommand();
 
-                    logger.info( "cmd:" + cmd + " - " + kf );
+                    logger.info( "cmd:" + cmd + " - " + actionObject );
 
-                    if( ACTION_COMMAND_DeleteThisFile.equals( cmd ) ) {
-                        DeleteThisFile(kf);
+                    if( ACTION_COMMAND_DeleteTheseFiles.equals( cmd ) ) {
+                        onDeleteTheseFiles( actionObject );
                         }
-                    else if( ACTION_COMMAND_KeepThisFile.equals( cmd ) ) {
-                        KeptThisFile(kf);
+                    else if( ACTION_COMMAND_KeepTheseFiles.equals( cmd ) ) {
+                        onKeepTheseFiles( actionObject );
                         }
-                    else if( ACTION_COMMAND_DeleteAllExceptThisFile.equals( cmd ) ) {
-                        final String k    = kf.getKey();
-                        final File   file = kf.getFile();
-
-                        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
-                        //Set<KeyFileState> s = duplicateFiles.get( k );
-
-                        if( s != null ) {
-                            for(KeyFileState f:s) {
-                                if( file.equals( f.getFile() ) ) {
-                                    f.setSelectedToDelete( false );
-                                    }
-                                else {
-                                    f.setSelectedToDelete( true );
-                                    }
-                                }
-                            }
-                        updateDisplayKeptDelete( k );
+                    else if( ACTION_COMMAND_DeleteAllExceptTheseFiles.equals( cmd ) ) {
+                        onDeleteAllExceptTheseFiles( actionObject );
                         }
-                    else if( ACTION_COMMAND_KeepAllExceptThisFile.equals( cmd ) ) {
-                        final String k    = kf.getKey();
-                        final File   file = kf.getFile();
-
-                        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
-//                        Set<KeyFileState> s = duplicateFiles.get( k );
-
-                        if( s != null ) {
-                            for(KeyFileState f:s) {
-                                if( file.equals( f.getFile() ) ) {
-                                    f.setSelectedToDelete( true );
-                                    }
-                                else {
-                                    f.setSelectedToDelete( false );
-                                    }
-                                }
-                            }
-                        updateDisplayKeptDelete( k );
+                    else if( ACTION_COMMAND_KeepAllExceptTheseFiles.equals( cmd ) ) {
+                        onKeepAllExceptTheseFiles( actionObject );
                         }
                     else if( ACTION_COMMAND_DeleteDuplicateInDir.equals( cmd ) ) {
-                        // Delete all files in this dir, but keep one (globally)
-                        final String dirPath = kf.getFile().getPath() + File.separator;
-
-                        //Look for all files in this dir !
-                        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
-//                        for(Entry<String, Set<KeyFileState>> entry:duplicateFiles.entrySet()) {
-                            //String              k = entry.getKey();
-                            Set<KeyFileState>   s = entry.getValue();
-                            int                 c = 0;
-
-                            for( KeyFileState f : s ) {
-                                if( !f.isSelectedToDelete() ) {
-                                   c++;
-                                    }
-                                }
-
-                            // Keep one file !
-                            int maxDel = c - 1;
-                            c = 0;
-
-                            for(KeyFileState f:s) {
-                                if( !f.isSelectedToDelete() ) {
-                                    if( f.isInDirectory( dirPath ) ) {
-                                        if( c < maxDel ) {
-                                            f.setSelectedToDelete( true );
-                                            c++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        // Update display for current file
-                        updateDisplayKeptDelete( kf.getKey() );
+                        onDeleteDuplicateInDir( actionObject );
                         }
                     else if( ACTION_COMMAND_KeepNonDuplicateInDir.equals( cmd ) ) {
-                        // Keep at least on file in this dir.
-                        final String dirPath = kf.getFile().getPath() + File.separator;
-
-                        //Look for all files in this dir !
-                        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
-                            int               c = 0;
-                            Set<KeyFileState> s = entry.getValue();
-
-                            for(KeyFileState f:s) {
-                                if( !f.isSelectedToDelete() ) {
-                                    if( f.isInDirectory( dirPath ) ) {
-                                       c++;
-                                        }
-                                    }
-                                }
-
-                            Iterator<KeyFileState> iter = s.iterator();
-
-                            while( c== 0 && iter.hasNext() ) {
-                                KeyFileState f = iter.next();
-
-                                if( f.isSelectedToDelete() ) {
-                                    if( f.isInDirectory( dirPath ) ) {
-                                        f.setSelectedToDelete( false );
-                                        c++;
-                                        }
-                                    }
-                                }
-                            }
-
-                        // Update display for current file
-                        updateDisplayKeptDelete( kf.getKey() );
+                        onKeepNonDuplicateInDir( actionObject );
                         }
-                    else if( ACTION_COMMAND_KeepAllInDir.equals( cmd )) {
-                        final String k       = kf.getKey();
-                        final String dirPath = kf.getFile().getPath() + File.separator;
-
-                        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
-                            if( f.isInDirectory( dirPath ) ) {
-                                f.setSelectedToDelete( false );
-                                }
-                            }
-                        updateDisplayKeptDelete( k );
+                    else if( ACTION_COMMAND_KeepAllInDir.equals( cmd ) ) {
+                        onKeepAllInDir( actionObject );
                         }
                     else if( ACTION_COMMAND_DeleteAllInDir.equals( cmd ) ) {
-                        final String k       = kf.getKey();
-                        final String dirPath = kf.getFile().getPath() + File.separator;
-
-                        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
-                            if( f.isInDirectory( dirPath ) ) {
-                                f.setSelectedToDelete( true );
-                                }
-                            updateDisplayKeptDelete( k );
-                            }
+                        onDeleteAllInDir( actionObject );
                         }
                     else {
                         logger.error("Don't known how to handle: " + cmd);
@@ -647,6 +648,183 @@ public class JPanelResult extends JPanelResultWB
             };
         }
         return actionListenerContextSubMenu;
+    }
+
+    private void onDeleteAllInDir( final Object actionObject )
+    {
+        final KeyFileState kf = (KeyFileState)actionObject;
+
+        final String k       = kf.getKey();
+        final String dirPath = kf.getFile().getPath() + File.separator;
+
+        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
+            if( f.isInDirectory( dirPath ) ) {
+                f.setSelectedToDelete( true );
+                }
+            updateDisplayKeptDelete( k );
+            }
+    }
+
+    private void onKeepAllInDir( final Object actionObject )
+    {
+        final KeyFileState kf = (KeyFileState)actionObject;
+
+        final String k       = kf.getKey();
+        final String dirPath = kf.getFile().getPath() + File.separator;
+
+        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
+            if( f.isInDirectory( dirPath ) ) {
+                f.setSelectedToDelete( false );
+                }
+            }
+        updateDisplayKeptDelete( k );
+    }
+
+    private void onKeepNonDuplicateInDir( final Object actionObject )
+    {
+        final KeyFileState kf = (KeyFileState)actionObject;
+
+        // Keep at least on file in this dir.
+        // TODO should keep first one OR last one according to current sort order !
+       final String dirPath = kf.getFile().getPath() + File.separator;
+
+        //Look for all files in this dir !
+        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
+            int               c = 0;
+            Set<KeyFileState> s = entry.getValue();
+
+            for(KeyFileState f:s) {
+                if( !f.isSelectedToDelete() ) {
+                    if( f.isInDirectory( dirPath ) ) {
+                       c++;
+                        }
+                    }
+                }
+
+            Iterator<KeyFileState> iter = s.iterator();
+
+            while( c== 0 && iter.hasNext() ) {
+                KeyFileState f = iter.next();
+
+                if( f.isSelectedToDelete() ) {
+                    if( f.isInDirectory( dirPath ) ) {
+                        f.setSelectedToDelete( false );
+                        c++;
+                        }
+                    }
+                }
+            }
+
+        // Update display for current file
+        updateDisplayKeptDelete( kf.getKey() );
+    }
+
+    private void onDeleteDuplicateInDir( final Object actionObject )
+    {
+        final KeyFileState kf = (KeyFileState)actionObject;
+
+        // Delete all files in this dir, but keep one (globally)
+        // TODO should keep first one OR last one according to current sort order !
+        final String dirPath = kf.getFile().getPath() + File.separator;
+
+        //Look for all files in this dir !
+        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
+//        for(Entry<String, Set<KeyFileState>> entry:duplicateFiles.entrySet()) {
+            //String              k = entry.getKey();
+            Set<KeyFileState>   s = entry.getValue();
+            int                 c = 0;
+
+            for( KeyFileState f : s ) {
+                if( !f.isSelectedToDelete() ) {
+                   c++;
+                    }
+                }
+
+            // Keep one file !
+            int maxDel = c - 1;
+            c = 0;
+
+            for(KeyFileState f:s) {
+                if( !f.isSelectedToDelete() ) {
+                    if( f.isInDirectory( dirPath ) ) {
+                        if( c < maxDel ) {
+                            f.setSelectedToDelete( true );
+                            c++;
+                            }
+                        }
+                    }
+                }
+            }
+
+        // Update display for current file
+        updateDisplayKeptDelete( kf.getKey() );
+    }
+
+    private void onKeepAllExceptTheseFiles( final Object actionObject )
+    {
+        //final String k    = kf.getKey();
+        //final File   file = kf.getFile();
+        final Selected         selected      = Selected.class.cast( actionObject );
+        final String           k             = selected.getKey();
+        final Collection<File> selectedFiles = selected.toFileList();
+
+        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
+
+        if( s != null ) {
+            for(KeyFileState f:s) {
+                //if( file.equals( f.getFile() ) ) {
+                if( selectedFiles.contains( f.getFile() ) ) {
+                    f.setSelectedToDelete( true );
+                    }
+                else {
+                    f.setSelectedToDelete( false );
+                    }
+                }
+            }
+        updateDisplayKeptDelete( k );
+    }
+
+    private void onDeleteAllExceptTheseFiles( final Object actionObject )
+    {
+        //final String k    = kf.getKey();
+        //final File   file = kf.getFile();
+        final Selected         selected      = Selected.class.cast( actionObject );
+        final String           k             = selected.getKey();
+        final Collection<File> selectedFiles = selected.toFileList();
+
+        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
+        //Set<KeyFileState> s = duplicateFiles.get( k );
+
+        if( s != null ) {
+            for(KeyFileState f:s) {
+                //if( file.equals( f.getFile() ) ) {
+                if( selectedFiles.contains( f.getFile() ) ) {
+                    f.setSelectedToDelete( false );
+                    }
+                else {
+                    f.setSelectedToDelete( true );
+                    }
+                }
+            }
+        updateDisplayKeptDelete( k );
+    }
+
+    private void onKeepTheseFiles( final Object actionObject )
+    {
+        final Selected selected = Selected.class.cast( actionObject );
+
+        for( KeyFileState kf : selected ) {
+            KeptThisFile(kf);
+            }
+    }
+
+    private void onDeleteTheseFiles( final Object actionObject )
+    {
+        final Selected selected = Selected.class.cast( actionObject );
+
+        for( KeyFileState kf : selected ) {
+            DeleteThisFile(kf);
+            }
     }
 
     @Override

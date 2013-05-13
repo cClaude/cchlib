@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 
 public class SelecDirecoriesJPanel extends JPanel
 {
@@ -33,6 +34,7 @@ public class SelecDirecoriesJPanel extends JPanel
     private DefaultListModel<File> directoriesJListModel = new DefaultListModel<>();
     private JButton importButton;
     private JProgressBar progressBar;
+    private JScrollPane scrollPane;
 
     /**
      * Create the panel.
@@ -45,28 +47,29 @@ public class SelecDirecoriesJPanel extends JPanel
 
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[]{300, 100, 0};
-        gbl_panel.rowHeights = new int[]{0, 25, 0, 50, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 25, 0, 0, 0, 0};
         gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
         gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         this.panel.setLayout(gbl_panel);
-
         {
+            this.scrollPane = new JScrollPane();
+            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            gbc_scrollPane.fill = GridBagConstraints.BOTH;
+            gbc_scrollPane.gridheight = 4;
+            gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+            gbc_scrollPane.gridx = 0;
+            gbc_scrollPane.gridy = 0;
+            this.panel.add(this.scrollPane, gbc_scrollPane);
             this.list = new JList<>();
+            this.scrollPane.setViewportView(this.list);
             this.list.setModel( directoriesJListModel );
-            GridBagConstraints gbc_list = new GridBagConstraints();
-            gbc_list.gridheight = 4;
-            gbc_list.insets = new Insets(0, 0, 5, 5);
-            gbc_list.fill = GridBagConstraints.BOTH;
-            gbc_list.gridx = 0;
-            gbc_list.gridy = 0;
-            this.panel.add(this.list, gbc_list);
-
+            
             SimpleFileDrop.createSimpleFileDrop(
                     this.list,
                     this.directoriesJListModel,
                     SimpleFileDrop.SelectionFilter.DIRECTORIES_ONLY
                     );
-
+            
             // Handle selection change
             this.list.addListSelectionListener( new ListSelectionListener() {
                 @Override
@@ -79,6 +82,9 @@ public class SelecDirecoriesJPanel extends JPanel
                         removeButton.setEnabled( false );
                         }
                 }} );
+        }
+
+        {
 
             this.directoriesJListModel.addListDataListener( new ListDataListener() {
                 private void onChange()

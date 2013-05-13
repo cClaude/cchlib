@@ -16,12 +16,14 @@ import javax.swing.event.TableModelListener;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import java.awt.BorderLayout;
 import org.apache.log4j.Logger;
 import java.awt.CardLayout;
 
-public class RemoveEmptyFilesJPanel extends JPanel
+public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyFilesJPanel.class );
@@ -159,5 +161,14 @@ public class RemoveEmptyFilesJPanel extends JPanel
     public JFileChooser getJFileChooser()
     {
         return getDFToolKit().getJFileChooser( dfToolKit.getMainFrame(), this );
+    }
+
+    @Override
+    public void performeI18n( AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
+
+        autoI18n.performeI18n( this.selecDirecoriesJPanel, SelecDirecoriesJPanel.class );
+        autoI18n.performeI18n( this.workingJPanel, WorkingJPanel.class );
     }
 }

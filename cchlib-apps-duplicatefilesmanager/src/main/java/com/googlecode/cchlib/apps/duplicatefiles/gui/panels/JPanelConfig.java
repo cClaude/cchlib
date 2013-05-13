@@ -16,7 +16,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigWB;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;

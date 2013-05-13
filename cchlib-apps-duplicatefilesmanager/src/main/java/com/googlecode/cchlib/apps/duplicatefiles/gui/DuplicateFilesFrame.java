@@ -141,6 +141,7 @@ final public class DuplicateFilesFrame
         updateI18nData();
         getDuplicateFilesMainPanel().performeI18n( autoI18n );
         getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n );
+        getDeleteEmptyFilePanel().performeI18n( autoI18n );
     }
 
 //    @Override // I18nPrepAutoUpdatable

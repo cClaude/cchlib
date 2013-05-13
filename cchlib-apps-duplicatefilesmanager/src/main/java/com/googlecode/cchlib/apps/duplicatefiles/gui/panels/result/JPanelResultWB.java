@@ -66,7 +66,7 @@ public abstract class JPanelResultWB extends JPanel
 
         {
             GridBagLayout gridBagLayout = new GridBagLayout();
-            gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+            gridBagLayout.columnWidths = new int[]{32, 32, 32, 0, 0, 0, 0, 0};
             gridBagLayout.rowHeights = new int[]{25, 0, 0, 0};
             gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
             gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -117,6 +117,7 @@ public abstract class JPanelResultWB extends JPanel
                 }
             });
             GridBagConstraints gbc_refreshButton = new GridBagConstraints();
+            gbc_refreshButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
             gbc_refreshButton.gridx = 1;
             gbc_refreshButton.gridy = 0;
@@ -304,9 +305,9 @@ public abstract class JPanelResultWB extends JPanel
             JScrollPane jScrollPaneKeptIntact = new JScrollPane();
             final KeyFileStateListModel jListKeptIntactListModel = listModelDuplicatesFiles.getKeptIntactListModel();
             jListKeptIntact = new JList<KeyFileState>();
+            this.jListKeptIntact.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             jListKeptIntact.setModel( jListKeptIntactListModel );
             jListKeptIntact.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
-            jListKeptIntact.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             //jListKeptIntact.setModel( listModelKeptIntact );
             //jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
             jListKeptIntact.addMouseListener( new MouseAdapter() {
@@ -341,10 +342,10 @@ public abstract class JPanelResultWB extends JPanel
 
             JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
             jListWillBeDeleted = new JList<KeyFileState>();
+            this.jListWillBeDeleted.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
             jListWillBeDeleted.setModel( jListWillBeDeletedListModel );
             jListWillBeDeleted.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
-            jListWillBeDeleted.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             //jListWillBeDeleted.setModel( listModelWillBeDeleted );
             //jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );
             jListWillBeDeleted.addMouseListener( new MouseAdapter() {
