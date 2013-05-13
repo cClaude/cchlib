@@ -40,6 +40,4 @@ class I18nSwing
     {
         jTextArea.setText( str );
     }
-    
-
 }

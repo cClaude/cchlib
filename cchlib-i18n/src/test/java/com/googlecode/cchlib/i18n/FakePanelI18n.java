@@ -14,6 +14,7 @@ public class FakePanelI18n
      */
     public FakePanelI18n()
     {
+        int todo;
         I18nInterface a = null; // FIXME
         AutoI18nExceptionHandler c = null; // FIXME
         AutoI18nEventHandler d = null; // FIXME

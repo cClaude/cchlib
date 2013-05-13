@@ -2,11 +2,13 @@ package com.googlecode.cchlib.i18n;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 
-public class FakePanelApp extends JFrame 
+public class FakePanelApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -42,8 +44,14 @@ public class FakePanelApp extends JFrame
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( contentPane );
+
+        FakePanel panel = new FakePanel();
         
-        JPanel panel = new FakePanel();
+        Locale locale = super.getLocale();
+        
+        AutoI18n autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class ).getAutoI18n();
+        panel.performeI18n( autoI18n );
+        
         contentPane.add(panel, BorderLayout.CENTER);
     }
 

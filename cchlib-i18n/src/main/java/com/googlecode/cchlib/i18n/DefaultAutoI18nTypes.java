@@ -96,7 +96,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * Handle I18h for {@link JLabel}
-     * 
+     *
      * @return an {@link AbstractType} to handle {@link JLabel}
      */
     public AbstractType<JLabel> getJLabel()
@@ -118,15 +118,14 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             @Override
             public String[] getText( Object toI18n )
             {
-                String[] r = { cast( toI18n ).getText() };
-                return r;
+                return new String[] { cast( toI18n ).getText() };
             }
         };
     }
 
     /**
      * Handle I18h for {@link AbstractButton}
-     * 
+     *
      * @return an {@link AbstractType} to handle {@link AbstractButton}
      */
     public AbstractType<AbstractButton> getAbstractButton()
@@ -155,7 +154,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * Handle I18h for {@link JCheckBox}
-     * 
+     *
      * @return an {@link AbstractType} to handle {@link JCheckBox}
      */
     public AbstractType<JCheckBox> getJCheckBox()
@@ -184,7 +183,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
 
     /**
      * Handle I18h for {@link JTabbedPane}
-     * 
+     *
      * @return an {@link AbstractType} to handle {@link JTabbedPane}
      */
     public AbstractType<JTabbedPane> getJTabbedPane()
@@ -223,33 +222,32 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
             }
         };
     }
-    
-    //
+
     /**
      * Handle I18h for {@link TitledBorder}
-     * 
+     *
      * @return an {@link AbstractType} to handle {@link TitledBorder}
      */
     public AbstractType<TitledBorder> getTitledBorder()
     {
         return new AbstractType<TitledBorder>()
         {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Class<TitledBorder> getType() 
-			{
-				return TitledBorder.class;
-			}
-			@Override
-			public void setText( Object toI18n, AutoI18n.Key k ) throws MissingResourceException
-			{
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Class<TitledBorder> getType()
+            {
+                return TitledBorder.class;
+            }
+            @Override
+            public void setText( Object toI18n, AutoI18n.Key k ) throws MissingResourceException
+            {
                 cast( toI18n ).setTitle( k.getValue() );
-			}
-			@Override
-			public String[] getText(Object toI18n)
-			{
+            }
+            @Override
+            public String[] getText(Object toI18n)
+            {
                 return new String[] { cast( toI18n ).getTitle() };
-			}
+            }
         };
     }
 

@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.MissingResourceException;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -69,8 +70,8 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 public class AutoI18n implements Serializable
 {
     private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger( AutoI18n.class );
-	
+    private static final Logger logger = Logger.getLogger( AutoI18n.class );
+
     private transient Object      objectToI18n;
     private transient Class<?>    objectToI18nClass;
     private transient String      objectToI18nClassNamePrefix;
@@ -104,7 +105,7 @@ public class AutoI18n implements Serializable
     private AutoI18nTypes defaultTypes;
     /** @serial */
     private AutoI18nTypes forceTypes;
-    
+
     /**
      * How to select Fields:
      * <p>
@@ -142,7 +143,7 @@ public class AutoI18n implements Serializable
          */
         DISABLE,
     }
-    
+
     /**
      * Create an AutoI18n object using {@link I18nInterface},
      *
@@ -161,7 +162,7 @@ public class AutoI18n implements Serializable
             EnumSet<Attribute>          attributes
             )
     {
-    	this(i18n, null, null, exceptionHandler, eventHandler, attributes);
+        this(i18n, null, null, exceptionHandler, eventHandler, attributes);
     }
 
     /**
@@ -237,8 +238,8 @@ public class AutoI18n implements Serializable
      *
      * @param handler {@link AutoI18nExceptionHandler} to use
      */
-    public void setAutoI18nExceptionHandler( 
-        final AutoI18nExceptionHandler handler 
+    public void setAutoI18nExceptionHandler(
+        final AutoI18nExceptionHandler handler
         )
     {
         if( handler == null ) {
@@ -350,6 +351,12 @@ public class AutoI18n implements Serializable
                     }
                 //TODO: ignore some Fields types like EnumSet
 
+                I18nToolTipText toolTipText = f.getAnnotation( I18nToolTipText.class );
+
+                if( toolTipText != null ) {
+                    setToolTipTextValue( f );
+                    }
+
                 I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
 
                 if( ignoreIt != null ) {
@@ -389,27 +396,37 @@ public class AutoI18n implements Serializable
         Method[] methods = null; // 'methods' is use by catch statement !
 
         try {
-            I18n        annoI18n        = f.getAnnotation( I18n.class );
-            
+            I18n annoI18n = f.getAnnotation( I18n.class );
+
             if( annoI18n != null ) {
                 // Get methods
                 methods = getCustomMethodsFromCurrentObject(f, annoI18n.method() );
-                
+
                 if( methods == null ) {
+                    // Support deprecated format
                     @SuppressWarnings("deprecation")
                     Method[] methodsSuppressWarnings = getCustomMethodsFromCurrentObject(f, annoI18n.methodSuffixName() );
                     methods = methodsSuppressWarnings;
+
+                    if( methods != null ) {
+                        logger.warn( "Found deprecated format for field : " + f );
+                        }
                     }
 
                 // Get key
                 key = annoI18n.id();
-                
-                if( key.length() == 0 ) {
+
+                if( key.isEmpty() ) {
+                    // Support deprecated format
                     @SuppressWarnings("deprecation")
                     String keySuppressWarnings = annoI18n.keyName();
                     key = keySuppressWarnings;
+
+                    if( !key.isEmpty() ) {
+                        logger.warn( "Found deprecated format for field : " + f );
+                        }
                     }
-                if( key.length() == 0 ) {
+                if( key.isEmpty() ) {
                     key = getKey( f );
                     }
 
@@ -461,7 +478,7 @@ public class AutoI18n implements Serializable
         catch( IllegalAccessException e ) {
             this.exceptionHandler.handleIllegalAccessException( e );
             }
-        }
+    }
 
     // Warning !
     // Warning !
@@ -514,7 +531,7 @@ public class AutoI18n implements Serializable
         else { // Not a String
             if( f.getAnnotation( I18nString.class ) != null ) {
                 // But annotation
-            	logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
+                logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a " + String.class + ")" );
 //                if( eventHandler!=null ) {
 //                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
 //                }
@@ -538,14 +555,14 @@ public class AutoI18n implements Serializable
         Key key = new Key( k );
 
         try {
-        	AutoI18nTypes types;
-        	
-			if( f.getAnnotation( I18nForce.class ) != null ) {
-        		types = this.forceTypes;
-        		}
-        	else {
-        		types = this.defaultTypes;
-        		}
+            AutoI18nTypes types;
+
+            if( f.getAnnotation( I18nForce.class ) != null ) {
+                types = this.forceTypes;
+                }
+            else {
+                types = this.defaultTypes;
+                }
             for(AutoI18nTypes.Type t:types) {
                 if( t.getType().isAssignableFrom( fclass ) ) {
                     f.setAccessible( true );
@@ -571,16 +588,18 @@ public class AutoI18n implements Serializable
             }
     }
 
+
+
     /**
      * Find get/set method to retrieve or update I18n value
-     * 
+     *
      * @param f_notuse
      * @param suffixName
      * @return null or 2 methods (m[0]=set, m[1]=get]
      */
     private Method[] getCustomMethodsFromCurrentObject(
-        final Field     f_notuse, 
-        final String    suffixName 
+        final Field     f_notuse,
+        final String    suffixName
         )
     //private Method[] getMethods( final Field f, final I18n i18n )
     {
@@ -614,12 +633,12 @@ public class AutoI18n implements Serializable
             }
         return null;
     }
-    
+
     private static void checkIfReturnTypeIsString( final Method m )
         throws NoSuchMethodException
     {
         if( ! m.getReturnType().equals( String.class ) ) {
-            throw new NoSuchMethodException( 
+            throw new NoSuchMethodException(
                 "Method " + m + " must return a String"
                 );
             }
@@ -630,23 +649,70 @@ public class AutoI18n implements Serializable
     {
         String keyValue = this.i18n.getString( key );
 
-        try {
-            methods[0].invoke( this.objectToI18n, keyValue );
+        if( methods[0] == null ) {
+            logger.fatal( "Method not found for " + f );
+            }
+        else {
+            try {
+                methods[0].invoke( this.objectToI18n, keyValue );
 
-            if( eventHandler!=null ) {
-                eventHandler.localizedField( f );
+                if( eventHandler!=null ) {
+                    eventHandler.localizedField( f );
+                    }
+                }
+            catch( IllegalArgumentException e ) {
+                this.exceptionHandler.handleIllegalArgumentException( e );
+                }
+            catch( IllegalAccessException e ) {
+                this.exceptionHandler.handleIllegalAccessException( e );
+                }
+            catch( InvocationTargetException e ) {
+                this.exceptionHandler.handleInvocationTargetException( e );
                 }
             }
-        catch( IllegalArgumentException e ) {
-            this.exceptionHandler.handleIllegalArgumentException(e);
-            }
-        catch( IllegalAccessException e ) {
-            this.exceptionHandler.handleIllegalAccessException(e);
-            }
-        catch( InvocationTargetException e ) {
-            this.exceptionHandler.handleInvocationTargetException(e);
-            }
      }
+
+    private void setToolTipTextValue( final Field f )
+    {
+        // TODO: add parameter on @I18nToolTipText
+        String key = getKey( f );
+
+        setToolTipTextValueFromKey( f, key );
+    }
+
+    private void setToolTipTextValueFromKey( final Field f, final String realKey )
+    {
+        if( JComponent.class.isAssignableFrom( f.getType() ) ) {
+            final boolean accessible = f.isAccessible();
+            final String  key        = realKey + ".ToolTipText";
+
+            try {
+                f.setAccessible( true );
+                JComponent jComponent = JComponent.class.cast( f.get( objectToI18n ) );
+
+                jComponent.setToolTipText( i18n.getString( key ) );
+
+                if( eventHandler!=null ) {
+                    eventHandler.localizedField( f );
+                    }
+                }
+            catch( MissingResourceException e ) {
+                this.exceptionHandler.handleMissingResourceException( e, f, key );
+                }
+            catch( IllegalArgumentException e ) {
+                this.exceptionHandler.handleIllegalArgumentException( e );
+                }
+            catch( IllegalAccessException e ) {
+                this.exceptionHandler.handleIllegalAccessException( e );
+                }
+            finally {
+                f.setAccessible( accessible );
+                }
+            }
+        else {
+            logger.warn( "Annotation: @" + I18nToolTipText.class + " found on field (Not a " + JComponent.class + ")" );
+            }
+    }
 
     /**
      * @return the objectToI18n
