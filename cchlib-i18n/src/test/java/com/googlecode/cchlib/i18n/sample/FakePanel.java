@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n.sample;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -13,12 +13,18 @@ import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.I18n;
+import com.googlecode.cchlib.i18n.I18nForce;
+import com.googlecode.cchlib.i18n.I18nIgnore;
+import com.googlecode.cchlib.i18n.I18nToolTipText;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 
 /**
  *
  */
-public class FakePanel extends JPanel implements I18nAutoUpdatable
+public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelperAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
 
@@ -192,9 +198,15 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable
         }
     }
 
-    @Override
+    @Override // I18nAutoUpdatable
     public void performeI18n( AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
+    }
+
+    @Override // I18nPrepHelperAutoUpdatable
+    public String getMessagesBundleForI18nPrepHelper()
+    {
+        return this.getClass().getPackage().getName() + ".MessagesBundle"; // Default name
     }
 }

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n.sample;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,6 +6,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 
 public class FakePanelApp extends JFrame
@@ -39,7 +40,7 @@ public class FakePanelApp extends JFrame
     public FakePanelApp()
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setBounds( 100, 100, 450, 300 );
+        setBounds( 100, 100, 831, 300 );
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );

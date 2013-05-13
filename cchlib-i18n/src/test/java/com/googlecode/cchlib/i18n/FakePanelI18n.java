@@ -23,8 +23,8 @@ public class FakePanelI18n
 		autoI18n = new AutoI18n(a, null, null, c, d, e);
     }
 
-    public void doI18n( final FakePanel fp )
-    {
-        autoI18n.performeI18n( fp, FakePanel.class );
-    }
+//    public void doI18n( final FakePanel fp )
+//    {
+//        autoI18n.performeI18n( fp, FakePanel.class );
+//    }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 
 /**
@@ -24,33 +23,33 @@ public class I18nPrepHelper
         // All static
     }
 
-    @Deprecated
-    public static void defaultPrep(
-        final Locale                locale,
-        final PrintStream           usageStatPrintStream,
-        final PrintStream           notUsePrintStream,
-        final I18nPrepAutoUpdatable mainFrame,
-        final I18nAutoUpdatable...  otherFrames
-        ) throws IOException
-    {
-        defaultPrep( 
-            locale, 
-            usageStatPrintStream, 
-            notUsePrintStream,
-            new I18nPrepHelperAutoUpdatable() {
-                @Override
-                public void performeI18n( AutoI18n autoI18n )
-                {
-                    mainFrame.performeI18n( autoI18n );
-                }
-                @Override
-                public String getMessagesBundleForI18nPrepHelper()
-                {
-                    return mainFrame.getMessagesBundle();
-                } }, 
-            otherFrames 
-            );
-    }
+//    @Deprecated
+//    public static void defaultPrep(
+//        final Locale                locale,
+//        final PrintStream           usageStatPrintStream,
+//        final PrintStream           notUsePrintStream,
+//        final I18nPrepAutoUpdatable mainFrame,
+//        final I18nAutoUpdatable...  otherFrames
+//        ) throws IOException
+//    {
+//        defaultPrep( 
+//            locale, 
+//            usageStatPrintStream, 
+//            notUsePrintStream,
+//            new I18nPrepHelperAutoUpdatable() {
+//                @Override
+//                public void performeI18n( AutoI18n autoI18n )
+//                {
+//                    mainFrame.performeI18n( autoI18n );
+//                }
+//                @Override
+//                public String getMessagesBundleForI18nPrepHelper()
+//                {
+//                    return mainFrame.getMessagesBundle();
+//                } }, 
+//            otherFrames 
+//            );
+//    }
     
     /**
      * TODOC

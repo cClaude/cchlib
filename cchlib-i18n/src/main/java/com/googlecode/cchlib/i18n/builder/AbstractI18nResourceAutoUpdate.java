@@ -38,7 +38,7 @@ public abstract class AbstractI18nResourceAutoUpdate
         ADD_ONLY_NEEDED_KEY
         };
 
-    private transient static Logger slogger = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
+    private transient static Logger logger = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
     /** @serial */
     private HashMap<String,String> keysValues = new HashMap<String,String>();
     /** @serial */
@@ -167,7 +167,10 @@ public abstract class AbstractI18nResourceAutoUpdate
                         throw new RuntimeException( shouldNotOccur );
                         }
                     }
-                needProperty( getKey( f ), "<<NOT HANDLE (c1)>>");
+                final String msg = "<<NOT HANDLE (c1)>>";
+                needProperty( getKey( f ), msg);
+
+                logger.fatal( msg, new Exception("DEBUG") );
             }
             @Override
             public void handleMissingResourceException(
@@ -315,7 +318,7 @@ public abstract class AbstractI18nResourceAutoUpdate
             loadKnowValue();
             }
 
-        slogger.info( "Entries to add count: " + keysValues.size() );
+        logger.info( "Entries to add count: " + keysValues.size() );
 
         saveValues();
 
