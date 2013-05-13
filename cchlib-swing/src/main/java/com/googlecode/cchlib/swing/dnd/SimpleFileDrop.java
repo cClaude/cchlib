@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TooManyListenersException;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.border.Border;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
@@ -67,6 +69,12 @@ import com.googlecode.cchlib.lang.StringHelper;
 public class SimpleFileDrop
 {
     private static transient Logger logger = Logger.getLogger( SimpleFileDrop.class );
+
+    /**
+     * Filter for {@link #createSimpleFileDrop(JList, DefaultListModel, SelectionFilter)}
+     */
+    public enum SelectionFilter { FILES_AND_DIRECTORIES, FILES_ONLY, DIRECTORIES_ONLY };
+    
     private DropTargetListener dropListener;
     private Border dragTargetComponentBorder;
     private Component dropTargetComponent;
@@ -145,12 +153,13 @@ public class SimpleFileDrop
     }
 
     /**
-     * TODOC
+     * Activate listener.
      *
-     * @throws TooManyListenersException
-     * @throws HeadlessException
+     * @throws <code>TooManyListenersException</code> if a
+     *          <code>DropTargetListener</code> is already added to this
+     *          <code>DropTarget</code>.
      */
-    public void addDropTargetListener() throws HeadlessException, TooManyListenersException
+    public void addDropTargetListener() throws TooManyListenersException
     {
         if( dropListener != null ) {
             throw new IllegalStateException( "DropTargetListener already added" );
@@ -404,7 +413,7 @@ public class SimpleFileDrop
                 else {
                     @SuppressWarnings("unused")
                     DropTarget drop = new DropTarget( c, dropListener );
-                    
+
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "Drop target added to component." );
                         }
@@ -506,5 +515,81 @@ public class SimpleFileDrop
                 remove( comps[ i ], recursive );
                 }
             }
+    }
+
+    /**
+     * Create a SimpleFileDrop with a default border, add attache immediately the
+     * listener ({@link #addDropTargetListener()} to the <code>dropTarget</code>.
+     *
+     * @param dropTarget Component on which files will be dropped.
+     * @param fileDropListener Listens for <tt>filesDropped</tt>.
+     * @return the new SimpleFileDrop object.
+     * @since 4.1.7
+     */
+    public static SimpleFileDrop createSimpleFileDrop(
+        final Component                 dropTarget,
+        final SimpleFileDropListener    fileDropListener
+        )
+    {
+        SimpleFileDrop instance = new SimpleFileDrop( dropTarget, fileDropListener );
+
+        try {
+            instance.addDropTargetListener();
+            }
+        catch( TooManyListenersException e ) {
+            // Should not occur
+            logger.fatal( "Should not occur: ", e );
+
+            throw new IllegalStateException( e );
+            }
+
+        return instance;
+    }
+
+    /**
+     * Create a SimpleFileDrop with a default border, add attache immediately the
+     * listener ({@link #addDropTargetListener()} to the <code>jList</code>.
+     * 
+     * @param jList           @{@link JList} of {@link File}
+     * @param jListModel      Model of the <code>jList</code>.
+     * @param selectionFilter Filter for type of files.
+     * @return the new SimpleFileDrop object.
+     * @since 4.1.7
+     */
+    public static SimpleFileDrop createSimpleFileDrop( 
+        final JList<File>            jList,
+        final DefaultListModel<File> jListModel,
+        final SelectionFilter        selectionFilter
+        )
+    {
+        return createSimpleFileDrop( jList, new SimpleFileDropListener() {
+            @Override
+            public void filesDropped( List<File> files )
+            {
+                for( File file : files ) {
+                    switch( selectionFilter ) {
+                        case DIRECTORIES_ONLY:
+                            if( file.isDirectory() ) {
+                                jListModel.addElement( file );
+                                }
+                            else {
+                                logger.info( "Ignore '" + file + "' not a directory." );
+                                }
+                            break;
+                        case FILES_AND_DIRECTORIES:
+                            jListModel.addElement( file );
+                            break;
+                        case FILES_ONLY:
+                            if( file.isFile() ) {
+                                jListModel.addElement( file );
+                                }
+                            else {
+                                logger.info( "Ignore '" + file + "' not a file." );
+                                }
+                            break;
+                        }
+                    } // for
+            }
+        });
     }
 }
