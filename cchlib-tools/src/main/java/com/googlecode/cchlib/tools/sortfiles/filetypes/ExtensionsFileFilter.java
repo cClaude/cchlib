@@ -1,30 +1,14 @@
 package com.googlecode.cchlib.tools.sortfiles.filetypes;
 
 import java.io.File;
-import java.util.Arrays;
 
-public class ExtensionsFileFilter implements XFileFilter
+public class ExtensionsFileFilter extends AbstractExtensionsFileFilter implements XFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private String[] endsWiths;
-    private FileType fileType;
 
     public ExtensionsFileFilter( String extension,  String...others )
     {
-        this.endsWiths = createExtensionsArrary( extension, others );
-    }
-
-    protected static String[] createExtensionsArrary( String extension,  String...others )
-    {
-        final String[] extentions = new String[ 1 + others.length ];
-
-        extentions[ 0 ] = '.' + extension;
-
-        for( int i = 0; i<others.length; i++ ) {
-            extentions[ i + 1 ] = '.' + others[ i ];
-            }
-
-        return extentions;
+        super( extension, others );
     }
 
     @Override
@@ -33,7 +17,7 @@ public class ExtensionsFileFilter implements XFileFilter
         if( file.isFile() ) {
             final String name = file.getName();
 
-            for( String endsWith : this.endsWiths ) {
+            for( String endsWith : getEndsWiths() ) {
                 if( name.endsWith( endsWith ) ) {
                      return true;
                     }
@@ -44,24 +28,8 @@ public class ExtensionsFileFilter implements XFileFilter
     }
 
     @Override
-    public String toDisplay()
+    protected String customiseExtension( String extension )
     {
-        StringBuilder builder = new StringBuilder();
-        builder.append( "ExtensionsFileFilter [" );
-        builder.append( Arrays.asList( endsWiths ).subList( 0, endsWiths.length) );
-        builder.append( ']' );
-        return builder.toString();
-    }
-    
-    @Override
-    public void setFileType( FileType fileType )
-    {
-        this.fileType = fileType;
-    }
-
-    @Override
-    public FileType getFileType()
-    {
-        return fileType;
+        return "." + extension;
     }
 }

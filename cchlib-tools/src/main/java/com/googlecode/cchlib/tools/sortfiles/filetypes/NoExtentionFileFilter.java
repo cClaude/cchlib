@@ -5,10 +5,10 @@ import java.io.File;
 /**
  *
  */
-public class NoExtentionFileFilter implements XFileFilter
+public class NoExtentionFileFilter extends AbstractXFileFilter implements XFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private FileType fileType;
+    //private FileType fileType;
 
     public NoExtentionFileFilter()
     {
@@ -24,17 +24,5 @@ public class NoExtentionFileFilter implements XFileFilter
     public String toDisplay()
     {
         return "NoExtentionFileFilter []";
-    }
-
-    @Override
-    public FileType getFileType()
-    {
-        return fileType;
-    }
-
-    @Override
-    public void setFileType( FileType fileType )
-    {
-        this.fileType = fileType;
     }
 }

@@ -2,30 +2,24 @@ package com.googlecode.cchlib.tools.sortfiles.filetypes;
 
 import java.io.File;
 
-public class IgnoreCaseExtensionsFileFilter extends AbstractExtensionsFileFilter implements XFileFilter
+public class SpecialExtensionsFileFilter extends AbstractExtensionsFileFilter
 {
     private static final long serialVersionUID = 1L;
 
-    public IgnoreCaseExtensionsFileFilter( String extension, String...others )
+    public SpecialExtensionsFileFilter( String extension, String...others )
     {
         super( extension, others );
-//        
-//        String[] endsWiths = getEndsWiths();
-//        
-//        for( int i = 0; i<getEndsWiths().length; i++ ) {
-//            endsWiths[ i ] = endsWiths[ i ].toLowerCase();
-//            }
     }
 
     @Override
     public boolean accept( File file )
     {
         if( file.isFile() ) {
-            final String name = file.getName().toLowerCase();
-            
+            final String name = file.getName();
+
             for( String endsWith : getEndsWiths() ) {
                 if( name.endsWith( endsWith ) ) {
-                    return true;
+                     return true;
                     }
                 }
             }
@@ -36,6 +30,7 @@ public class IgnoreCaseExtensionsFileFilter extends AbstractExtensionsFileFilter
     @Override
     protected String customiseExtension( String extension )
     {
-        return "." + extension.toLowerCase();
+        return extension;
     }
+
 }
