@@ -1,11 +1,11 @@
 package cx.ath.choisnet.servlet.debug.impl;
 
-import cx.ath.choisnet.lang.reflect.DefaultMappableBuilderFactory;
-import cx.ath.choisnet.lang.reflect.MappableBuilder;
-import cx.ath.choisnet.lang.reflect.MappableBuilderFactory;
-import cx.ath.choisnet.lang.reflect.MappableItem;
 import java.util.HashMap;
 import java.util.Map;
+import com.googlecode.cchlib.util.mappable.DefaultMappableBuilderFactory;
+import com.googlecode.cchlib.util.mappable.MappableBuilder;
+import com.googlecode.cchlib.util.mappable.MappableBuilderFactory;
+import com.googlecode.cchlib.util.mappable.MappableItem;
 
 /**
  * TODOC

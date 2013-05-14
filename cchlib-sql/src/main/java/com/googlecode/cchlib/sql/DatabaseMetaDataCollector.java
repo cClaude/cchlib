@@ -18,9 +18,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.lang.reflect.DefaultMappableBuilderFactory;
-import cx.ath.choisnet.lang.reflect.Mappable;
-import cx.ath.choisnet.lang.reflect.MappableBuilder;
+import com.googlecode.cchlib.util.mappable.DefaultMappableBuilderFactory;
+import com.googlecode.cchlib.util.mappable.Mappable;
+import com.googlecode.cchlib.util.mappable.MappableBuilder;
 
 /**
  * Collect informations on {@link DatabaseMetaData} and put then into a

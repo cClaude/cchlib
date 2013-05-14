@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.sql.mysql;
 
-import cx.ath.choisnet.io.ConcateInputStream;
 import cx.ath.choisnet.io.ParallelOutputStream;
 import cx.ath.choisnet.util.ExternalApp;
 import cx.ath.choisnet.util.ExternalAppException;
@@ -12,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.googlecode.cchlib.io.ConcateInputStream;
 
 /**
  * <p style="border:groove;">

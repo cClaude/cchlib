@@ -1,11 +1,11 @@
 package cx.ath.choisnet.servlet.debug.impl;
 
-import cx.ath.choisnet.lang.reflect.Mappable;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
 
 import java.io.IOException;
 import java.util.Map;
+import com.googlecode.cchlib.util.mappable.Mappable;
 
 /**
  * TODOC

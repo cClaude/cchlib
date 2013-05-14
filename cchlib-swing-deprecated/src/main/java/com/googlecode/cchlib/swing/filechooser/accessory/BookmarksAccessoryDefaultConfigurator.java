@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * @deprecated use {@link com.googlecode.cchlib.swing.filechooser.accessory#DefaultBookmarksAccessoryConfigurator} instead
@@ -105,7 +105,7 @@ public class BookmarksAccessoryDefaultConfigurator
 
         try {
             Writer writer = new FileWriter(configFileProperties);
-            properties.store( writer, Const.EMPTY_STRING );
+            properties.store( writer, StringHelper.EMPTY );
             writer.close();
             }
         catch( IOException e ) {
