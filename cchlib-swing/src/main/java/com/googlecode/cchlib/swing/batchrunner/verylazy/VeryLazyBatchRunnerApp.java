@@ -21,7 +21,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
         implements  VeryLazyBatchRunnerLocaleResources,
                     VeryLazyBatchRunner
 {
-    private static final transient Logger logger = Logger.getLogger( VeryLazyBatchRunnerApp.class );
+    private static final Logger logger = Logger.getLogger( VeryLazyBatchRunnerApp.class );
 
     /**
      * Create a VeryLazyBatchRunnerApp, using default ResourceBundle

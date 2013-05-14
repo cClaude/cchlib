@@ -42,7 +42,7 @@ public class DefaultComboBoxConfig
             builder.append( jComboBoxText );
             builder.append( ", selectedDescription=" );
             builder.append( selectedDescription );
-            builder.append( "]" );
+            builder.append( ']' );
             return builder.toString();
         }
     }
@@ -143,7 +143,7 @@ public class DefaultComboBoxConfig
         builder.append( ", items=" );
         builder.append( items != null ? items.subList( 0,
                 Math.min( items.size(), maxLen ) ) : null );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

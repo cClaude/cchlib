@@ -46,13 +46,13 @@ public class FileResultFormater
 
         sb.setLength( 0 );
         sb.append( prefix ); // F | D* | I*
-        sb.append( "|" );
+        sb.append( '|' );
         sb.append( ISO_FORMAT.format( new Date( f.lastModified() ) ) );
-        sb.append( "|" );
+        sb.append( '|' );
         sb.append( fileLenStr.substring( fileLenStr.length() - 10 ) );
         sb.append( "||" ); // space for MD5
         sb.append( f.getPath() );
-        sb.append( "\n" );
+        sb.append( '\n' );
 
         return sb.toString();
     }

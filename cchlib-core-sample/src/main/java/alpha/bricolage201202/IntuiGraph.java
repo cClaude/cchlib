@@ -86,8 +86,8 @@ public class IntuiGraph extends Applet
             Node n = this.panel.getNode( this.panel.findNode(center) );
             if (cPos != null) {
                 int I = cPos.indexOf('-');
-                n.set_px((n.set_x(new Double(cPos.substring(0, I)).doubleValue())));
-                n.set_py((n.set_y(new Double(cPos.substring(I + 1)).doubleValue())));
+                n.set_px((n.set_x(Double.parseDouble(cPos.substring(0, I)))));
+                n.set_py((n.set_y(Double.parseDouble(cPos.substring(I + 1)))));
                 n.set_fixed((n.set_pfixed(/* 1 */true)));
             } else {
                 System.out.println("width " + d.width + "heigth " + d.height);
@@ -106,8 +106,8 @@ public class IntuiGraph extends Applet
             for( Node n : this.panel.getNodes() ) {
 
                 if ((!n.get_lbl().equals("Intuitec")) && (!n.is_pfixed())) {
-                    n.set_px(new Double(pos.substring(0, I)).doubleValue());
-                    n.set_py(new Double(pos.substring(I + 1)).doubleValue());
+                    n.set_px(Double.parseDouble(pos.substring(0, I)));
+                    n.set_py(Double.parseDouble(pos.substring(I + 1)));
 
                     if (d.width / 2 > n.get_px()) {
                         n.set_x(((n.get_px() - 20.0D) * Math.random()));

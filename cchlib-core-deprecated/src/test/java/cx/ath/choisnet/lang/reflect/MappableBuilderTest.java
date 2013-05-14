@@ -4,7 +4,6 @@ import java.util.Map;
 import javax.swing.JLabel;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.util.mappable.MappableHelperTest;
 
 /**
  *
@@ -46,7 +45,7 @@ public class MappableBuilderTest
             final String v2 	= e.getValue();
             final String v1 	= map1.get( key );
             boolean	nodiff;
-            
+
             if( v2 == null ) {
             	if( v1 == null ) {
             		nodiff = true;
@@ -63,7 +62,7 @@ public class MappableBuilderTest
             		nodiff = false;
             		}
             	}
-            
+
             if( nodiff ) {
 //                logger.info( "no diff: " + key );
                 }

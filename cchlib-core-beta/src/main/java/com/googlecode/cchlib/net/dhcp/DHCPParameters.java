@@ -36,7 +36,7 @@ public class DHCPParameters
     private final byte[] sname  = new byte[64];
     private final byte[] file   = new byte[128];
     private DHCPOptions dhcpOptions;
-    protected transient Object lock;
+    protected /*transient*/ Object lock;
 
     public DHCPParameters()
     {

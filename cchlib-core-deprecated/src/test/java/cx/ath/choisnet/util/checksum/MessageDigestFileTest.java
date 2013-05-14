@@ -12,8 +12,8 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.test.ArrayAssert;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
-import cx.ath.choisnet.test.AssertHelper;
 
 @Deprecated
 public class MessageDigestFileTest
@@ -73,7 +73,7 @@ public class MessageDigestFileTest
             DigestException,
             ClassNotFoundException
     {
-        Iterator<File> iter = AssertHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
+        Iterator<File> iter = FilesTestCaseHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
         int i = 0;
         while( iter.hasNext() ) {
             File f = iter.next();

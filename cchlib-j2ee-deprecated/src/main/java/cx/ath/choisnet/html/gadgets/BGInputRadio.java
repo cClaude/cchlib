@@ -403,7 +403,7 @@ public class BGInputRadio extends AbstractBG
     //*  35   75:aload           5
     //*  36   77:ifnull          106
         {
-            sb.append((new StringBuilder()).append(" ").append(javascript).toString());
+            sb.append((new StringBuilder()).append(' ').append(javascript).toString());
     //   37   80:aload           6
     //   38   82:new             #21  <Class StringBuilder>
     //   39   85:dup

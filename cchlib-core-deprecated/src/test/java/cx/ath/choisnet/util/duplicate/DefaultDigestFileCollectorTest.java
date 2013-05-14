@@ -16,7 +16,7 @@ import com.googlecode.cchlib.io.FileIterator;
 @Deprecated
 public class DefaultDigestFileCollectorTest
 {
-    private static final transient Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
+    private static final Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 150;
 	private static final long FILE_MAX_SIZE = 5 * 1024 * 1024;
 

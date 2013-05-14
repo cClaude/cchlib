@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.FileHelper;
 @Deprecated
 public class DuplicateFileCollectorTest
 {
-    private static final transient Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
+    private static final Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 25;
     private static final long FILE_MAX_LENGTH = 1 * 1024 * 1024;
 

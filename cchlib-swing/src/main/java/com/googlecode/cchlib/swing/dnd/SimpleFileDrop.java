@@ -68,7 +68,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  */
 public class SimpleFileDrop
 {
-    private static transient Logger logger = Logger.getLogger( SimpleFileDrop.class );
+    private static final Logger logger = Logger.getLogger( SimpleFileDrop.class );
 
     /**
      * Filter for {@link #createSimpleFileDrop(JList, DefaultListModel, SelectionFilter)}

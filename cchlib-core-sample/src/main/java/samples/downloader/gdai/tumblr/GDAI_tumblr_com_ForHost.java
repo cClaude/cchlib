@@ -115,7 +115,7 @@ class GDAI_tumblr_com_ForHost
         builder.append( comboBoxConfig_hostname_ );
         builder.append( ", getCurrentHostName()=" );
         builder.append( getCurrentHostName() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

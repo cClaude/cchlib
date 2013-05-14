@@ -33,6 +33,6 @@ public abstract class AbstractHTML implements HTMLWritable
                 Iterator<HTMLWritable> iter0 = htmlItemList.iterator(); 
                 iter0.hasNext(); 
                 iter0.next().writeHTML(out))
-            { }
+            { } // $codepro.audit.disable emptyForStatement
     }
 }

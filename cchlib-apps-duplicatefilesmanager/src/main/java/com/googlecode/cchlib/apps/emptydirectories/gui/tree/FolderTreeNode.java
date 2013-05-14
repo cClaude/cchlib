@@ -86,7 +86,7 @@ public final class FolderTreeNode
         builder.append( getFolder() );
         builder.append( ", getChildCount()=" );
         builder.append( getChildCount() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

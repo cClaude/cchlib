@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class PingerTest
 {
-    private final static transient Logger slogger = Logger.getLogger( PingerTest.class );
+    private final static Logger logger = Logger.getLogger( PingerTest.class );
 /*
     private static String localhostIp = "127.0.0.1";
     private static String localhost = "localhost";
@@ -16,7 +16,7 @@ public class PingerTest
     @Test
     public void test_fake()
     {
-        slogger.info( "PingerTest disabled" );
+        logger.info( "PingerTest disabled" );
     }
 
 //    private static String externhost = "google.com";

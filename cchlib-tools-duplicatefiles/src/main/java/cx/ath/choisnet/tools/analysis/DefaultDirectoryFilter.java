@@ -138,7 +138,7 @@ class DefaultDirectoryFilter implements FileFilter
 
         // Path to ignore (read from environment vars)
         for( String envname : DIR_PATH_TO_IGNORE_FROM_ENV ) {
-            String value = System.getenv( envname );
+            String value = System.getenv( envname ); // $codepro.audit.disable environmentVariableAccess
 
             if( value == null ) {
                 logger.warn( "Var not found: " + envname );

@@ -66,7 +66,7 @@ public class BGTextArea extends BGInputText
 
     protected static String buildTextArea(String gadgetName, Integer lengthChars, Integer heightChars, String text, String javascript)
     {
-        StringBuilder s = new StringBuilder((new StringBuilder()).append("<textarea name=\"").append(gadgetName).append("\"").toString());
+        StringBuilder s = new StringBuilder((new StringBuilder()).append("<textarea name=\"").append(gadgetName).append('"').toString());
     //    0    0:new             #10  <Class StringBuilder>
     //    1    3:dup
     //    2    4:new             #10  <Class StringBuilder>
@@ -85,7 +85,7 @@ public class BGTextArea extends BGInputText
     //*  14   33:aload_1
     //*  15   34:ifnull          67
         {
-            s.append((new StringBuilder()).append(" cols=\"").append(lengthChars).append("\"").toString());
+            s.append((new StringBuilder()).append(" cols=\"").append(lengthChars).append('"').toString());
     //   16   37:aload           5
     //   17   39:new             #10  <Class StringBuilder>
     //   18   42:dup
@@ -104,7 +104,7 @@ public class BGTextArea extends BGInputText
     //*  29   67:aload_2
     //*  30   68:ifnull          101
         {
-            s.append((new StringBuilder()).append(" rows=\"").append(heightChars).append("\"").toString());
+            s.append((new StringBuilder()).append(" rows=\"").append(heightChars).append('"').toString());
     //   31   71:aload           5
     //   32   73:new             #10  <Class StringBuilder>
     //   33   76:dup
@@ -123,7 +123,7 @@ public class BGTextArea extends BGInputText
     //*  44  101:aload           4
     //*  45  103:ifnull          122
         {
-            s.append(" ");
+            s.append(' ');
     //   46  106:aload           5
     //   47  108:ldc1            #20  <String " ">
     //   48  110:invokevirtual   #13  <Method StringBuilder StringBuilder.append(String)>
@@ -134,7 +134,7 @@ public class BGTextArea extends BGInputText
     //   52  118:invokevirtual   #13  <Method StringBuilder StringBuilder.append(String)>
     //   53  121:pop
         }
-        s.append(">");
+        s.append('>');
     //   54  122:aload           5
     //   55  124:ldc1            #21  <String ">">
     //   56  126:invokevirtual   #13  <Method StringBuilder StringBuilder.append(String)>

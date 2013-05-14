@@ -123,7 +123,7 @@ public class BGInputText extends AbstractBG
 
     protected static String buildInputText(String gadgetName, Integer lengthChars, Integer maxChars, String text, String javascript)
     {
-        StringBuilder sb = new StringBuilder((new StringBuilder()).append("<input type=\"TEXT\" name=\"").append(gadgetName).append("\"").toString());
+        StringBuilder sb = new StringBuilder((new StringBuilder()).append("<input type=\"TEXT\" name=\"").append(gadgetName).append('"').toString());
     //    0    0:new             #13  <Class StringBuilder>
     //    1    3:dup
     //    2    4:new             #13  <Class StringBuilder>
@@ -142,7 +142,7 @@ public class BGInputText extends AbstractBG
     //*  14   33:aload_1
     //*  15   34:ifnull          70
         {
-            sb.append((new StringBuilder()).append(" size=\"").append(lengthChars.toString()).append("\"").toString());
+            sb.append((new StringBuilder()).append(" size=\"").append(lengthChars.toString()).append('"').toString());
     //   16   37:aload           5
     //   17   39:new             #13  <Class StringBuilder>
     //   18   42:dup
@@ -162,7 +162,7 @@ public class BGInputText extends AbstractBG
     //*  30   70:aload_2
     //*  31   71:ifnull          107
         {
-            sb.append((new StringBuilder()).append(" maxlength=\"").append(maxChars.toString()).append("\"").toString());
+            sb.append((new StringBuilder()).append(" maxlength=\"").append(maxChars.toString()).append('"').toString());
     //   32   74:aload           5
     //   33   76:new             #13  <Class StringBuilder>
     //   34   79:dup
@@ -182,7 +182,7 @@ public class BGInputText extends AbstractBG
     //*  46  107:aload_3
     //*  47  108:ifnull          141
         {
-            sb.append((new StringBuilder()).append(" value=\"").append(text).append("\"").toString());
+            sb.append((new StringBuilder()).append(" value=\"").append(text).append('"').toString());
     //   48  111:aload           5
     //   49  113:new             #13  <Class StringBuilder>
     //   50  116:dup
@@ -201,7 +201,7 @@ public class BGInputText extends AbstractBG
     //*  61  141:aload           4
     //*  62  143:ifnull          172
         {
-            sb.append((new StringBuilder()).append(" ").append(javascript).toString());
+            sb.append((new StringBuilder()).append(' ').append(javascript).toString());
     //   63  146:aload           5
     //   64  148:new             #13  <Class StringBuilder>
     //   65  151:dup
@@ -227,7 +227,7 @@ public class BGInputText extends AbstractBG
 
     public static String buildHIDDEN(String gadgetName, String text)
     {
-        StringBuilder sb = new StringBuilder((new StringBuilder()).append("<input type=\"HIDDEN\" name=\"").append(gadgetName).append("\"").toString());
+        StringBuilder sb = new StringBuilder((new StringBuilder()).append("<input type=\"HIDDEN\" name=\"").append(gadgetName).append('"').toString());
     //    0    0:new             #13  <Class StringBuilder>
     //    1    3:dup
     //    2    4:new             #13  <Class StringBuilder>
@@ -246,7 +246,7 @@ public class BGInputText extends AbstractBG
     //*  14   32:aload_1
     //*  15   33:ifnull          65
         {
-            sb.append((new StringBuilder()).append(" value=\"").append(text).append("\"").toString());
+            sb.append((new StringBuilder()).append(" value=\"").append(text).append('"').toString());
     //   16   36:aload_2
     //   17   37:new             #13  <Class StringBuilder>
     //   18   40:dup

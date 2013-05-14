@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**

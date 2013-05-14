@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.util.EventListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 
 /**
  *

@@ -399,7 +399,7 @@ public class Preferences implements Serializable
         builder.append( lastDirectory );
         builder.append( ", numberOfFiles=" );
         builder.append( numberOfFiles );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
     

@@ -82,7 +82,7 @@ public abstract class Form extends AbstractHTML
     //*   4    9:getfield        #5   <Field String cx.ath.choisnet.html.document.Form.formName>
     //*   5   12:ifnull          48
         {
-            out.write((new StringBuilder()).append(" name=\"").append(formName).append("\"").toString());
+            out.write((new StringBuilder()).append(" name=\"").append(formName).append('"').toString());
     //    6   15:aload_1
     //    7   16:new             #10  <Class StringBuilder>
     //    8   19:dup

@@ -47,7 +47,7 @@ public class SelectMinutesFormater extends BGSelectAbstractCollectionFormater
     //   21   33:iload           8
     //   22   35:invokestatic    #3   <Method String String.valueOf(int)>
     //   23   38:astore          9
-            super.optionDatas[i] = value <= 9 ? (new StringBuilder()).append("0").append(strValue).toString() : strValue;
+            super.optionDatas[i] = value <= 9 ? (new StringBuilder()).append('0').append(strValue).toString() : strValue;
     //   24   40:aload_0
     //   25   41:getfield        #4   <Field String[] cx.ath.choisnet.html.gadgets.BGSelectAbstractCollectionFormater.optionDatas>
     //   26   44:iload           7

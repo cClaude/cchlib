@@ -68,7 +68,7 @@ public class SelectMonth extends AbstractBGSelect
     //   10   18:iconst_1
     //   11   19:isub
     //   12   20:istore_2
-            optionValue[i] = (new Integer(m)).toString();
+            optionValue[i] = Integer.toString(m);
     //   13   21:aload_0
     //   14   22:getfield        #2   <Field String[] cx.ath.choisnet.html.gadgets.advanced.items.SelectMonth.optionValue>
     //   15   25:iload_2

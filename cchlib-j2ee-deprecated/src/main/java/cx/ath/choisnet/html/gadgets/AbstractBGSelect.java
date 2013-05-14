@@ -100,20 +100,20 @@ public abstract class AbstractBGSelect
 
         b.append("<select name=\"")
          .append(gadgetName)
-         .append("\"");
+         .append('"');
 
         if(javascript != null) {
-            b.append(" ");
+            b.append(' ');
             b.append(javascript);
         }
         
         if(gadgetSize != null) {
             b.append(" size=\"");
             b.append(gadgetSize.toString());
-            b.append("\"");
+            b.append('"');
         }
         
-        b.append(">");
+        b.append('>');
 
         int optionLen = optionDatas.length;
 
@@ -125,19 +125,19 @@ public abstract class AbstractBGSelect
             if(optionValue != null) {
                 b.append("<option value=\"")
                  .append(optionValue[i])
-                 .append("\"");
+                 .append('"');
             }
             else {
                 b.append("<option value=\"")
                  .append(i)
-                 .append("\"");
+                 .append('"');
             }
             
             if(i == optionSelected) {
                 b.append(" selected");
             }
             
-            b.append(">");
+            b.append('>');
             b.append(optionDatas[i]);
             b.append("</option>");
         }

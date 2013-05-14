@@ -14,8 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Collection;
 import com.googlecode.cchlib.util.CancelRequestException;
-//import cx.ath.choisnet.util.CancelRequestException;
-//import cx.ath.choisnet.util.duplicate.DigestEventListener;
 
 /**
  * <P>This class is not thread safe</P>

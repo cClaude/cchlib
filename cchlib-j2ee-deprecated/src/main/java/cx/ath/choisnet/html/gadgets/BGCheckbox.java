@@ -87,14 +87,14 @@ public class BGCheckbox extends AbstractBG
         
         sb.append("<input type=\"CHECKBOX\" name=\"")
           .append(gadgetName)
-          .append("\"");
+          .append('"');
 
         if(checked) {
             sb.append(" checked");
         }
         
         if(javascript != null) {
-            sb.append(" ")
+            sb.append(' ')
               .append(javascript);
         }
         

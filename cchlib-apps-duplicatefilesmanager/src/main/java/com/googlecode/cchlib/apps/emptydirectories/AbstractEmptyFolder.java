@@ -43,7 +43,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
         builder.append( getPath() );
         builder.append( ", type=" );
         builder.append( type );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

@@ -37,7 +37,7 @@ public class ValidationServlet extends HttpServlet
         catch(HTMLDocumentException e) {
             HTMLWriter htmlWriter = new HTMLWriter(out);
 
-            htmlWriter.write((new StringBuilder()).append("HTMLDocumentException: ").append(e.getMessage()).append("\n").toString());
+            htmlWriter.write((new StringBuilder()).append("HTMLDocumentException: ").append(e.getMessage()).append('\n').toString());
             htmlWriter.write(e);
             htmlWriter.flush();
             htmlWriter.close();
@@ -45,7 +45,7 @@ public class ValidationServlet extends HttpServlet
         catch(Exception e) {
             HTMLWriter htmlWriter = new HTMLWriter(out);
 
-            htmlWriter.write((new StringBuilder()).append("Exception: ").append(e.getMessage()).append("\n").toString());
+            htmlWriter.write((new StringBuilder()).append("Exception: ").append(e.getMessage()).append('\n').toString());
             htmlWriter.write(e);
             htmlWriter.flush();
             htmlWriter.close();

@@ -104,7 +104,7 @@ class FolderTreeModel
                 }
             else {
                 }
-            };
+            }
 
         if( newRoot != null ) {
             logger.debug( "notify JTree that a newRoot has been added: " + newRoot );
