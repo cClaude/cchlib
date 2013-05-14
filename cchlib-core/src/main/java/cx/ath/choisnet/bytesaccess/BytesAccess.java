@@ -125,9 +125,7 @@ public abstract class BytesAccess implements Cloneable
     public BytesAccess( final BytesAccess anOtherInstance )
     {
         this( anOtherInstance.bytes.length );
-//        for( int i = 0; i< this.bytes.length; i++ ) {
-//            this.bytes[ i ] = anOtherInstance.bytes[ i ];
-//        }
+
         System.arraycopy(anOtherInstance.bytes, 0, this.bytes, 0, this.bytes.length);
     }
 
@@ -177,6 +175,7 @@ public abstract class BytesAccess implements Cloneable
      */
     public  final static long CMP_MASK_OFFSET     = 0xFFFFFFFFFFFF0000L;
     private final static long CMP_MASK_OFFSET_LOW = 0x0000FFFFFFFFFFFFL;
+    
     /**
      * @see #compare(byte[], byte[])
      */
@@ -186,6 +185,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #compare(byte[], byte[])
      */
     public final static long CMP_MASK_BYTE0_VALUE = 0x000000000000FF00;
+    
     /**
      * @see #compare(byte[], byte[])
      */
@@ -195,6 +195,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #compare(byte[], byte[])
      */
     public final static long CMP_MASK_BYTE1_VALUE = 0x00000000000000FFL;
+    
     /**
      * @see #compare(byte[], byte[])
      */

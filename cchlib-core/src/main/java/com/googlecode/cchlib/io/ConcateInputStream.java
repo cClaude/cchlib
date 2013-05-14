@@ -1,18 +1,16 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import cx.ath.choisnet.ToDo;
 
 /**
  * {@link InputStream} based on InputStream concatenation.
  * <p>
- * InputStreams are read in sequence, when first end of stream is reatch, then
+ * InputStreams are read in sequence, when first end of stream is reach, then
  * second stream is read (and next if any).
  * </p>
  */
-@ToDo
 public class ConcateInputStream extends InputStream
 {
     private int currentStream;

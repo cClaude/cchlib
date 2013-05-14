@@ -1,4 +1,4 @@
-package cx.ath.choisnet.lang.reflect;
+package com.googlecode.cchlib.util.mappable;
 
 import java.io.Serializable;
 import java.util.Set;

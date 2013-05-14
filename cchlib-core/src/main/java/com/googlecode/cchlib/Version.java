@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * Library Version object
  *
- * @since 1.4.7
+ * @since 4.1.7
  */
 public final class Version
 {

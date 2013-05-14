@@ -88,12 +88,12 @@ public final class ArrayHelper
                 throws java.util.NoSuchElementException
             {
                 if( index < enumLen ) {
-                    try {
+                    //try {
                         return array[index++];
-                    	}
-                    catch(IndexOutOfBoundsException ignore) {} // $codepro.audit.disable logExceptions, emptyCatchClause
+                    //	}
+                    //catch(IndexOutOfBoundsException ignore) {} 
                 }
-                throw new NoSuchElementException((new StringBuilder()).append("index = ").append(index).toString());
+                throw new NoSuchElementException( "index = " + index );
             }
         };
     }

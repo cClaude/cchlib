@@ -1,6 +1,5 @@
 package cx.ath.choisnet.util;
 
-import cx.ath.choisnet.io.EmptyInputStream;
 import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -8,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.googlecode.cchlib.io.EmptyInputStream;
 
 /**
  *

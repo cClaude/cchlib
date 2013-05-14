@@ -1,27 +1,21 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.Reader;
 
 /**
- * An always empty {@link InputStream}
+ * An always empty {@link Reader}
  */
-public class EmptyInputStream extends InputStream
+public class EmptyReader extends Reader
 {
     private boolean open;
 
     /**
-     * Create an {@link EmptyInputStream}
+     * Create an {@link EmptyReader}
      */
-    public EmptyInputStream()
+    public EmptyReader()
     {
         open = true;
-    }
-
-    @Override
-    public int read() throws IOException
-    {
-        return -1;
     }
 
     @Override
@@ -33,5 +27,12 @@ public class EmptyInputStream extends InputStream
         else {
             open = false;
         }
+    }
+
+    @Override
+    public int read(char[] cbuf, int off, int len)
+        throws java.io.IOException
+    {
+        return -1;
     }
 }
