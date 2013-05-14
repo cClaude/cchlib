@@ -7,7 +7,7 @@ import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
 
 /**
- * @deprecated use {@link AssertHelper} instead
+ * @deprecated use {@link com.googlecode.cchlib.test.FilesTestCaseHelper} instead
  */
 @Deprecated
 final
@@ -45,7 +45,7 @@ public class TstCaseHelper
     }
 
     /**
-     * use {@link AssertHelper#getFilesFrom(File, FileFilter)} instead
+     * use {@link com.googlecode.cchlib.test.FilesTestCaseHelper#getFilesFrom(File, FileFilter)} instead
      */
     @Deprecated
     public final static Iterator<File> getFilesFrom(

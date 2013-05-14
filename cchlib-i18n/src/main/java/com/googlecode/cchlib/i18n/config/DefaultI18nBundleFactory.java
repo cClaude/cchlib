@@ -63,8 +63,8 @@ public class DefaultI18nBundleFactory
      * i18nPrepAutoUpdatable to build message bundle base name
      * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
      * 
-     * @param locale                {@link Locale} to use
-     * @param i18nPrepAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
+     * @param locale                      {@link Locale} to use
+     * @param i18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
      * @return an AbstractI18nBundle
      * @see I18nPrepAutoUpdatable#getMessagesBundle()
      */

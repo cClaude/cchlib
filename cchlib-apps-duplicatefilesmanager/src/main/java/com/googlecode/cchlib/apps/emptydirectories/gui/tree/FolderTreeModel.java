@@ -85,8 +85,7 @@ class FolderTreeModel
 
     /**
      * TODOC
-     * @param file TODOC
-     * @return TODOC
+     * @param emptyFolder TODOC
      */
     @Override //FileTreeModelable
     final
@@ -407,7 +406,7 @@ class FolderTreeModel
      * Add entry, and return parent node.
      *
      * @param emptyFolder Entry to add
-     * @return
+     * @return TODOC
      * @return parent node, null if already in tree
      */
     //@Override

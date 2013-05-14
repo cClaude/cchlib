@@ -17,7 +17,7 @@ public interface EmptyDirectoriesListener
 
     /**
      *
-     * @param emptyDirectoryFile
+     * @param folder
      */
     //public void newEntry( File emptyDirectoryFile );
     public void newEntry( EmptyFolder folder );

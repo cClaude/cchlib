@@ -87,7 +87,7 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Clear previous list and compute current list of empty directories
-     * @param excludeDirectoriesFile {@link FileFilter} to identify directories to exclude.
+     * @param excludeFolderFilter {@link FolderFilter} to identify directories to exclude.
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     @Override
@@ -128,7 +128,7 @@ public class DefaultEmptyDirectoriesLookup
     /**
      * Returns true if folder has no file
      * @param folder Folder to examine
-     * @return
+     * @return TODOC
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     private boolean isEmpty( final File folder ) throws CancelRequestException
@@ -159,13 +159,13 @@ public class DefaultEmptyDirectoriesLookup
         boolean couldBeEmpty = true;
 
         for( File f : content ) {
-            if( f.isDirectory() ) {                
+            if( f.isDirectory() ) {
                 boolean nextIsEmpty = isEmpty( f );
-                
+
                 if( ! nextIsEmpty ) {
                     couldBeEmpty = false;
                     }
-                reallyEmpty = false;                
+                reallyEmpty = false;
                 }
             else {
                 couldBeEmpty = reallyEmpty = false;
@@ -188,7 +188,7 @@ public class DefaultEmptyDirectoriesLookup
     private void add( final File emptyDirectoryFile, final boolean reallyEmpty )
     {
         EmptyFolder emptyDirectory;
-        
+
         if( reallyEmpty ) {
             emptyDirectory = Folders.createEmptyFolder( emptyDirectoryFile );
             }

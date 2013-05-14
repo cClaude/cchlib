@@ -578,7 +578,7 @@ public class InfosServletDisplayerImpl
     /**
      *
      * @param o
-     * @return
+     * @return TODOC
      */
     private static String toString(Object o)
     {
@@ -593,7 +593,7 @@ public class InfosServletDisplayerImpl
     /**
      *
      * @param o
-     * @return
+     * @return TODOC
      */
     private static String getObjectInfo(Object o)
     {
@@ -608,7 +608,7 @@ public class InfosServletDisplayerImpl
     /**
      *
      * @param enumerator
-     * @return
+     * @return TODOC
      */
     private static Enumeration<String> toEnumerationString(
             final Enumeration<?> enumerator

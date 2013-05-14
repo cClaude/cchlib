@@ -32,14 +32,14 @@ public interface FolderTreeModelable extends TreeModel
 
     /**
      *
-     * @param v
+     * @param node
      * @param b
      */
     public void setSelected( FolderTreeNode node, boolean b );
 
     /**
      *
-     * @param v
+     * @param node
      */
     public void toggleSelected( FolderTreeNode node );
 
@@ -58,7 +58,8 @@ public interface FolderTreeModelable extends TreeModel
 
     /**
      * 
-     * @param b
+     * @param onlyLeaf
+     * @param selected
      */
     public void setSelectAll( boolean onlyLeaf, boolean selected );
 
@@ -68,5 +69,4 @@ public interface FolderTreeModelable extends TreeModel
     public void clear();
 
     public void expandAllRows();
-
 }

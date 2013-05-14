@@ -41,7 +41,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * LOOK_IN_SUPER_CLASSES<br/>
      * Introspect current class and super classes (default)
      * In all case, does not look in classes (and super classes)
-     * of {@link JFrame}, {@link JDialog}, {@link Object}. 
+     * of {@link JFrame}, {@link JDialog}, {@link Object}.
      * </p>
      * <p>
      * ONLY_ACCESSIBLE_PUBLIC_FIELDS<br/>
@@ -93,10 +93,10 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         if( this.attribs.contains( Attrib.LOOK_IN_SUPER_CLASSES )) {
             Class<?> superClass = clazz.getSuperclass();
 
-            while( superClass != null 
-                    && !superClass.equals( Object.class ) 
-                    && !superClass.equals( JFrame.class ) 
-                    && !superClass.equals( JDialog.class ) 
+            while( superClass != null
+                    && !superClass.equals( Object.class )
+                    && !superClass.equals( JFrame.class )
+                    && !superClass.equals( JDialog.class )
                     ) {
                 buildSwingIntrospectorItemMap(map,superClass,attribs);
                 superClass = superClass.getSuperclass();
@@ -121,7 +121,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 slogger.warn( "* Igore (no $root): " + rootItem.getItemsCollection() );
             }
         }
-        
+
         slogger.info( "$root found: " + this.itemsMap.size() + " for: " + clazz );
         //TODO: if size == 0 : exception ?? or error on System.err ??
     }
@@ -176,7 +176,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      *
      * @param clazz
      * @param compareToClass
-     * @return
+     * @return TODOC
      */
     private static final boolean isSubClass( final Class<?> clazz, final Class<?> compareToClass )
     {
@@ -400,7 +400,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         //objectInterface.initComponent( obj, entry.getKey() );
         objectInterface.getComponentInitializer().initComponent( obj, entry.getKey() );
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -408,7 +408,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        
+
         builder.append( "SwingIntrospector [itemsMap=" );
         builder.append( itemsMap );
         builder.append( ", objectInterface=" );
@@ -419,24 +419,24 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * @param <FRAME> 
-     * @param <OBJECT> 
-     * @param frameClass 
-     * @param objectClass 
+     * @param <FRAME>
+     * @param <OBJECT>
+     * @param frameClass
+     * @param objectClass
      * @return a SwingIntrospector based on {@link DefaultSwingIntrospectorObjectInterface}
-     * 
+     *
      */
     public static <FRAME,OBJECT> SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>> buildSwingIntrospector(
             Class<FRAME>    frameClass,
             Class<OBJECT>   objectClass
             )
     {
-        return new SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>>( 
+        return new SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>>(
                 new DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>(
                         frameClass,
                         objectClass
-                        ) 
+                        )
                 );
     }
-    
+
 }
