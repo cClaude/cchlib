@@ -59,17 +59,19 @@ public class TexfFieldWithPrintStream extends JTextArea
     /**
      *  Returns the stream used by this gadget to write data to.
      *
+     *  <p>
+     *  <b>warning</b><br/>
+     *  Theoretically if you use this stream for <code>System.setErr</code>, 
+     *  you will create a recursion deadlock if an exception is thrown
+     *  within the <code>write</code> method of the stream. This case 
+     *  has never been experienced however.
+     *  </p>
+     *  
      *  @return the <code>PrintStream</code>, useful
      *                      for redirecting system output to.
      *
      *  @see System#setOut( PrintStream )
      *  @see System#setErr( PrintStream )
-     *
-     *  @warning    Theoretically if you use this stream for
-     *                              <code>System.setErr</code>, you will create
-     *                              a recursion deadlock if an exception is thrown
-     *                              within the <code>write</code> method of the
-     *                              stream. This case has never been experienced however.
      */
     public PrintStream getPrintStream()
     {

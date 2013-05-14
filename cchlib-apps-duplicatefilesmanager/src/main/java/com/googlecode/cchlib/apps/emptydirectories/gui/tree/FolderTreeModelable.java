@@ -25,7 +25,7 @@ public interface FolderTreeModelable extends TreeModel
 
     /**
      * Returns state for this FileTreeNode
-     * @param nodeValue {@link FileTreeNode} to inspect
+     * @param node {@link FolderTreeNode} to inspect
      * @return true is the giving nodeValue is selected
      */
     public boolean isSelected( FolderTreeNode node );
@@ -51,13 +51,12 @@ public interface FolderTreeModelable extends TreeModel
 
     /**
      *
-     * @param folder
-     * @return TODOC
+     * @param emptyFolder
      */
     public void add( EmptyFolder emptyFolder );
 
     /**
-     * 
+     *
      * @param onlyLeaf
      * @param selected
      */

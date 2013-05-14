@@ -115,7 +115,7 @@ public class DefaultEmptyDirectoriesLookup
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
      * @throws CancelRequestException if any listeners ask to cancel operation
-     * @throws ScanIOException 
+     * @throws ScanIOException
      */
     @Override
     public void lookup() throws CancelRequestException, ScanIOException
@@ -128,9 +128,9 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Clear previous list and compute current list of empty directories
-     * @param excludeDirectoriesFile {@link FileFilter} to identify directories to exclude.
+     * @param excludeFolderFilter {@link FolderFilter} to identify directories to exclude.
      * @throws CancelRequestException if any listeners ask to cancel operation
-     * @throws ScanIOException 
+     * @throws ScanIOException
      */
     @Override
     //public void lookup( final Filter<Path> excludeDirectoriesFile )
@@ -172,14 +172,14 @@ public class DefaultEmptyDirectoriesLookup
      * Launch scan for this folder.
      * @param folder Folder file to scan
      * @throws CancelRequestException if any listeners ask to cancel operation
-     * @throws ScanIOException 
+     * @throws ScanIOException
      */
     private void doScan( final Path folderPath ) throws CancelRequestException, ScanIOException
     {
         if( folderPath.toFile().isFile() ) {
             throw new IllegalStateException( "Not a directory: " + folderPath );
             }
-        
+
         if( logger.isDebugEnabled() ) {
             logger.debug( "doScan:" + folderPath );
             }
@@ -190,7 +190,7 @@ public class DefaultEmptyDirectoriesLookup
     private boolean checkIfCouldBeEmpty( final Path folder ) throws CancelRequestException, ScanIOException
     {
         assert Files.isDirectory( folder, linkOption ) : "Not a directory=" + folder;
-        
+
         if( excludeDirectoriesFile != null ) {
             try {
                 if( excludeDirectoriesFile.accept( folder ) ) {
@@ -211,7 +211,7 @@ public class DefaultEmptyDirectoriesLookup
                 throw new CancelRequestException();
                 }
             }
-        
+
         boolean isEmpty      = true;
         boolean couldBeEmpty = true;
 

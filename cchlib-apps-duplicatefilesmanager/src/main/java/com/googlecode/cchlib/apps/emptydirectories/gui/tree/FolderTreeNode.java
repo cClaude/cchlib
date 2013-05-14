@@ -28,7 +28,7 @@ public final class FolderTreeNode
     private FolderTreeNode( final Folder folder, final boolean selected )
     {
         super();
- 
+
         this.folder = folder;
     }
 
@@ -56,7 +56,7 @@ public final class FolderTreeNode
 
     /**
      * Allow to change a Folder into a "could be empty Folder" or into a real empty folder
-     * 
+     *
      * @param emptyFolder new type for this folder.
      */
     public void setFolder( EmptyFolder emptyFolder )
@@ -68,7 +68,7 @@ public final class FolderTreeNode
             throw new IllegalArgumentException( emptyFolder.toString() );
             }
     }
-    
+
     /**
      * TODOC
      * @return TODOC
@@ -93,7 +93,7 @@ public final class FolderTreeNode
     /**
      * Create a child node on this node.
      *
-     * @param file
+     * @param newFolder TODOC
      * @return TODOC
      */
     public FolderTreeNode addFolder( final Folder newFolder )

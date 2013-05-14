@@ -107,7 +107,7 @@ public final class ArrayHelper
      * @param srcPos
      * @param destPos
      * @param length
-     * @return
+     * @return TODOC
      */
     @NeedTestCases
     public static byte[] cloneArray( byte[] src, int srcPos, int destPos, int length )
