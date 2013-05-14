@@ -12,8 +12,8 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.test.ArrayAssert;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 @Deprecated
 public class MessageDigestFileTest

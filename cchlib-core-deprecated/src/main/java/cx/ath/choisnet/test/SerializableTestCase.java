@@ -2,6 +2,7 @@ package cx.ath.choisnet.test;
 
 import java.io.IOException;
 import java.io.Serializable;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.io.SerializableHelper;
 
 /**

@@ -2,7 +2,7 @@ package cx.ath.choisnet.io;
 
 import java.io.IOException;
 import org.junit.Test;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.util.datetime.BasicDate;
 import cx.ath.choisnet.util.datetime.BasicTime;
 import cx.ath.choisnet.util.datetime.TimePeriod;

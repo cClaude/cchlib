@@ -8,15 +8,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import javax.sql.DataSource;
-import cx.ath.choisnet.ToDo;
-//import cx.ath.choisnet.sql.mysql.MySQLDataSourceFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Create a simple {@link DataSource} based on a standard driver class object.
  */
-@ToDo
 public class DataSourceFactory
 {
     private DataSourceFactory()
