@@ -1,7 +1,7 @@
 package cx.ath.choisnet.test;
 
 import java.util.Arrays;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Provide some extra tools to build JUnit test cases
@@ -21,7 +21,7 @@ public class Assert
      */
     public static <T> void assertEquals( T[] expected, T[] actual )
     {
-        assertEquals( Const.EMPTY_STRING, expected, actual );
+        assertEquals( StringHelper.EMPTY, expected, actual );
     }
 
     /**

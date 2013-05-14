@@ -26,6 +26,7 @@ import cx.ath.choisnet.lang.reflect.MappableBuilder;
  * Collect informations on {@link DatabaseMetaData} and put then into a
  * {@link Map} of strings.
  */
+@Deprecated
 public class DatabaseMetaDataCollector implements Mappable, Serializable
 {
     private static final long serialVersionUID = 2L;

@@ -1,9 +1,8 @@
-
 package cx.ath.choisnet.xml;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import com.googlecode.cchlib.Const;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * @deprecated Class XMLTools is deprecated
@@ -21,7 +20,7 @@ public class XMLTools
     public static String toString(Node aNode)
     {
         StringBuffer sb = new StringBuffer();
-        cx.ath.choisnet.xml.XMLTools.nodeToStringBuffer(sb, aNode, Const.EMPTY_STRING);
+        cx.ath.choisnet.xml.XMLTools.nodeToStringBuffer(sb, aNode, StringHelper.EMPTY);
         return sb.toString();
 
     }
@@ -30,7 +29,7 @@ public class XMLTools
     {
         StringBuffer sb = new StringBuffer();
         sb.append("--------------------\n");
-        XMLTools.nodeToStringBuffer(sb, nodeList, Const.EMPTY_STRING);
+        XMLTools.nodeToStringBuffer(sb, nodeList, StringHelper.EMPTY);
         sb.append("--------------------\n");
         return sb.toString();
 

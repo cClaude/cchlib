@@ -21,8 +21,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import com.googlecode.cchlib.Const;
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 import cx.ath.choisnet.io.IO; // TEST CASE ONLY
 
@@ -129,7 +129,7 @@ public class Base64Test
     public void testEmpty()
         throws Base64FormatException, IOException
     {
-        String emptyEncodedStr = Base64Encoder.encode( Const.EMPTY_STRING );
+        String emptyEncodedStr = Base64Encoder.encode( StringHelper.EMPTY );
         slogger.info( "encode empty String res = [" + emptyEncodedStr + ']' );
 
         Assert.assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);
