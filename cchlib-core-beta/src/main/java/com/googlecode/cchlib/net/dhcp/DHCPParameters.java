@@ -8,13 +8,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  *
  *
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class DHCPParameters
 {
     public static final byte OP_OPTION_BOOTREQUEST = 1;

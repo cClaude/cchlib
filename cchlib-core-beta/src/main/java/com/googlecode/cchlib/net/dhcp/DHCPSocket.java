@@ -6,26 +6,28 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  *
  *
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class DHCPSocket extends DatagramSocket
 {
     /** */
-    @ToDo
+    @NeedDoc
     public static final int CLIENT_PORT = 68;
     /** */
-    @ToDo
+    @NeedDoc
     public static final int SERVER_PORT = 67;
     /** */
-    @ToDo
+    @NeedDoc
     public static final int DEFAULT_PACKET_SIZE = 1500;
     /** */
-    @ToDo
+    @NeedDoc
     public static final int DEFAULT_SOTIME_OUT = 3000;
     /** */
     private int packetSize;

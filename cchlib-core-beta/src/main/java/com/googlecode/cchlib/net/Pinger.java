@@ -9,7 +9,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * Try to solve Ping in JAVA.
@@ -20,7 +21,8 @@ import cx.ath.choisnet.ToDo;
  */
 //To request a Windows System you much install "Simple TCP/IP Services Service DLL" to
 //on the requested computer
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class Pinger extends Thread
 {
     /**

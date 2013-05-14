@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * LinkedHashMapList provide an easy and efficient way
@@ -33,7 +34,8 @@ import cx.ath.choisnet.ToDo;
  * @param <V> the type of mapped values
  * @since 03a.34
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class LinkedHashMapList<K,V>
     //extends LinkedHashMap<K,List<V>>
         extends AbstractMapCollection<K,V>

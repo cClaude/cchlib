@@ -4,13 +4,15 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * TODOC
  *
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class DHCPMessage implements Cloneable
 {
     private final static Logger logger = Logger.getLogger( DHCPMessage.class );
