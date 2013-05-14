@@ -17,10 +17,10 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  * 
  * @since 4.1.7
  */
-public class TestLocal
+public class TestConfigurationHelper
 {
-    //private final static Logger logger = Logger.getLogger( TestLocal.class );
-    private PropertiesPopulator<TestLocal.Config> pp = new PropertiesPopulator<TestLocal.Config>( TestLocal.Config.class );
+    //private final static Logger logger = Logger.getLogger( TestConfigurationHelper.class );
+    private PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
     private Config config;
     
     /**
@@ -63,14 +63,14 @@ public class TestLocal
     /**
      * Create a TestLocalConfig
      */
-    public TestLocal()
+    public TestConfigurationHelper()
     {
-        this.config = new TestLocal.Config();
+        this.config = new TestConfigurationHelper.Config();
     }
     
     private static File getConfigFile()
     {
-        return FileHelper.getUserHomeDirFile( TestLocal.class.getName() + ".properties" );
+        return FileHelper.getUserHomeDirFile( TestConfigurationHelper.class.getName() + ".properties" );
     }
     
     /**

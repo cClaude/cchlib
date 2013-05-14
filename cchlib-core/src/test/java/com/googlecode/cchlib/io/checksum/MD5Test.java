@@ -13,9 +13,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
-import cx.ath.choisnet.test.AssertHelper;
-//import cx.ath.choisnet.util.checksum.MessageDigestFile;
 
 /**
  * 
@@ -38,7 +37,7 @@ public class MD5Test
     public void setUp() throws Exception
     {
         this.mdf        = new MessageDigestFile( "MD5" );        
-        this.fileList   = AssertHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
+        this.fileList   = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
     }
 
     @After

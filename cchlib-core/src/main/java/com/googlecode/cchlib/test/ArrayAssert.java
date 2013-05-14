@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.test;
 
 import java.util.Arrays;
-
 import org.junit.Assert;
 
 /**

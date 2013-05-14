@@ -3,7 +3,7 @@ package com.googlecode.cchlib.util.mappable;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
  * <p style="border:groove;">
@@ -16,7 +16,7 @@ import cx.ath.choisnet.ToDo;
  * </p>
  * Code review in progress.
  */
-@ToDo
+@NeedDoc
 public class MappableHelper
 {
     /**

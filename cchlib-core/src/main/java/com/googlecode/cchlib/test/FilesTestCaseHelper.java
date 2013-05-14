@@ -1,4 +1,4 @@
-package cx.ath.choisnet.test;
+package com.googlecode.cchlib.test;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -10,52 +10,16 @@ import com.googlecode.cchlib.io.FileIterator;
 
 /**
  * Provide some tools to build test cases
- *
  */
-final
-public class AssertHelper
+final public class FilesTestCaseHelper
 {
-    private AssertHelper()
+    private FilesTestCaseHelper()
     {//All static
     }
 
-//    /**
-//     * Returns File object for tmp directory
-//     * according to java.io.tmpdir Java property.
-//     *
-//     * @return File object for tmp directory
-//     * @ deprecated use {@link com.googlecode.cchlib.io.FileHelper#getTmpDirFile()} instead
-//     */
-//    public final static File getTmpDirFile()
-//    {
-//        return new File( System.getProperty("java.io.tmpdir" ) );
-//    }
-
-//    /**
-//     * Returns File object for current user home directory
-//     * according to user.home Java property.
-//     *
-//     * @return File object for current user home directory
-//     * @ deprecated use {@link com.googlecode.cchlib.io.FileHelper#getUserHomeDirFile()} instead
-//     */
-//    public final static File getUserHomeDirFile()
-//    {
-//        return new File( System.getProperty("user.home") );
-//    }
-
-//    /**
-//     * Returns File object for root system directory
-//     * @return File object for root system directory
-//     * @ deprecated use {@link com.googlecode.cchlib.io.FileHelper#getSystemRootFile()} instead
-//     */
-//    public final static File getSystemRootFile()
-//    {
-//        return new File( "/" );
-//    }
-
     /**
-     * Returns a {@link File} {@link Iterator} from given directory (fileDirectory
-     * will be not include in iterator result)
+     * Returns a {@link File} {@link Iterator} from given directory (directories
+     * will not be include in result)
      * @param fileDirectory file directory to explore
      * @param fileFilter    file filter for result files
      *                      (does not filter directories,
@@ -87,9 +51,10 @@ public class AssertHelper
                 privateFileFilter
                 );
     }
+
     /**
-     * Returns a {@link File} {@link List} from given directory (fileDirectory
-     * will be not include in iterator result)
+     * Returns a {@link File} {@link List} from given directory (directories
+     * will not be include in result)
      * @param fileDirectory file directory to explore
      * @param fileFilter    file filter for result files
      *                      (does not filter directories,
@@ -104,12 +69,12 @@ public class AssertHelper
     {
         final List<File>        list = new ArrayList<File>();
         final Iterator<File>    iter = getFilesFrom( fileDirectory, fileFilter );
-        
+
         while( iter.hasNext() ) {
             list.add( iter.next() );
             }
-        
+
         return list;
     }
-            
+
 }

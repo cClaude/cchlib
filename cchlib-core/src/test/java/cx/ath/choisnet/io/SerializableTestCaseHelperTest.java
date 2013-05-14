@@ -1,13 +1,13 @@
 package cx.ath.choisnet.io;
 
 //import cx.ath.choisnet.io.SerializableHelper;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
 import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 /**
  *

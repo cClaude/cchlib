@@ -86,8 +86,8 @@ public class XVector<E> extends Vector<E>
 
     /**
      * Same has {@link #add(Object)}
-     * @param element
-     * @return this object
+     * @param element element to be inserted
+     * @return this object for initialization chaining
      */
     public XVector<E> xadd( E element )
     {
@@ -98,9 +98,9 @@ public class XVector<E> extends Vector<E>
 
     /**
      * Same has {@link #add(int, Object)}
-     * @param index
-     * @param element
-     * @return this object
+     * @param index index at which the specified element is to be inserted
+     * @param element element to be inserted
+     * @return this object for initialization chaining
      */
     public XVector<E> xadd( int index, E element )
     {

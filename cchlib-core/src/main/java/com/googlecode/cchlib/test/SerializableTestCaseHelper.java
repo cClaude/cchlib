@@ -1,4 +1,4 @@
-package cx.ath.choisnet.test;
+package com.googlecode.cchlib.test;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -17,12 +17,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
  * TODOC
  */
-@ToDo
+@NeedDoc
 public class MappableBuilder
 {
     /**

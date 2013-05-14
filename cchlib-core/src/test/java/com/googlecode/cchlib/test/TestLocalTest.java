@@ -18,7 +18,7 @@ public class TestLocalTest
     @Test
     public void testTestLocal() throws IOException
     {
-        TestLocal local = new TestLocal();
+        TestConfigurationHelper local = new TestConfigurationHelper();
         
         try {
             local.load();
@@ -27,7 +27,7 @@ public class TestLocalTest
             logger.warn( "No local config" );
             }
         
-        TestLocal.Config config = local.getConfig();
+        TestConfigurationHelper.Config config = local.getConfig();
         
         logger.info( "-- TestLocal.Config --" );
         for( String entry : config.getExistingMACAddressCollection() ) {

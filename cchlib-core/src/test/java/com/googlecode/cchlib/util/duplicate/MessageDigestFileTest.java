@@ -11,11 +11,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
-
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 import com.googlecode.cchlib.test.ArrayAssert;
-import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 public class MessageDigestFileTest
 {
@@ -74,7 +73,7 @@ public class MessageDigestFileTest
             DigestException,
             ClassNotFoundException
     {
-        Iterator<File> iter = AssertHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
+        Iterator<File> iter = FilesTestCaseHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
         int i = 0;
         while( iter.hasNext() ) {
             File f = iter.next();
