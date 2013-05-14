@@ -3,6 +3,7 @@ package cx.ath.choisnet.io;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
+import com.googlecode.cchlib.io.exceptions.MultiIOException;
 
 /**
  * {@link Writer} able to write data into one or more stream writer at once.
@@ -42,47 +43,41 @@ public final class ParallelWriter extends Writer
     }
 
     @Override
-    public void close() throws IOException
+    public void close() throws MultiIOException
     {
-        IOException lastException = null;
+        MultiIOException exceptions = new MultiIOException();
 
         for(int i = 0; i < writers.length; i++) {
             try {
                 writers[i].close();
                 }
-            catch( IOException e ) {
-                lastException = e;
+            catch( IOException ioe ) {
+                exceptions.addIOException( ioe );
                 }
             }
 
-        if(lastException != null) {
-            throw lastException;
+        if( ! exceptions.isEmpty() ) {
+            throw exceptions;
             }
-        //else {
-            //return;
-            //}
     }
 
     @Override
-    public void flush() throws IOException
+    public void flush() throws MultiIOException
     {
-        IOException lastException = null;
+        MultiIOException exceptions = new MultiIOException();
 
         for(int i = 0; i < writers.length; i++) {
             try {
                 writers[i].flush();
                 }
-            catch( IOException e ) {
-                lastException = e;
+            catch( IOException ioe ) {
+                exceptions.addIOException( ioe );
                 }
             }
 
-        if(lastException != null) {
-            throw lastException;
+        if( ! exceptions.isEmpty() ) {
+            throw exceptions;
             }
-        //else {
-            //return;
-            //}
     }
 
     @Override

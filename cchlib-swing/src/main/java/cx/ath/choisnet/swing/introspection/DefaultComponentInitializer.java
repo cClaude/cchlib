@@ -182,7 +182,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
 
         // Hack to change type, to initialize content with strings
         @SuppressWarnings("unchecked")
-        JComboBox<String> comboString = (JComboBox<String>) combo;
+        JComboBox<String> comboString = (JComboBox<String>) combo; // $codepro.audit.disable unnecessaryCast
 
         comboString.setModel( model );
     }

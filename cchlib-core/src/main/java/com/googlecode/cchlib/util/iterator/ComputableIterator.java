@@ -41,7 +41,7 @@ public abstract class ComputableIterator<T>
             try {
                 nextObject = computeNext();
                 }
-            catch( NoSuchElementException e ) {
+            catch( NoSuchElementException e ) { // $codepro.audit.disable logExceptions
                 return false;
                 }
             }

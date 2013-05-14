@@ -319,13 +319,13 @@ public class BasicTime
     }
 
     @Override
-    public boolean equals( TimeInterface anotherTime )
+    public boolean equals( TimeInterface anotherTime ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         return compareTo(anotherTime) == 0;
     }
 
     @Override
-    public boolean equals( Object o )
+    public boolean equals( Object o ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( o instanceof TimeInterface ) {
             return compareTo( TimeInterface.class.cast( o ) ) == 0;

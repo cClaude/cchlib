@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import com.googlecode.cchlib.lang.StringHelper;
 import cx.ath.choisnet.sql.SQLTools;
-import cx.ath.choisnet.sql.export.ExportSQL.Config;
 
 /**
  * Support class for {@link ExportSQL}
@@ -39,7 +38,7 @@ final class ExportSQLPrinter implements Closeable
     {
         print( "DELETE FROM `" );
 
-        if( this.exportSQL.getConfigSet().contains( Config.ADD_PREFIX_SCHEMA ) ) {
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
             print( this.exportSQL.getSchemaName() ).print( "`.`" );
             }
 
@@ -65,7 +64,7 @@ final class ExportSQLPrinter implements Closeable
         q.setLength( 0 );
         q.append(  "select * from `" );
 
-        if( this.exportSQL.getConfigSet().contains( Config.ADD_PREFIX_SCHEMA ) ) {
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
             q.append( this.exportSQL.getSchemaName() );
             q.append( "`.`" );
             }
@@ -91,18 +90,18 @@ final class ExportSQLPrinter implements Closeable
         println( "-- ---------------------------" );
         print( "-- Data for `"  );
 
-        if( this.exportSQL.getConfigSet().contains( Config.ADD_PREFIX_SCHEMA ) ) {
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
             print( this.exportSQL.getSchemaName() ).print( "`.`" );
             }
 
         print( tableDesc.getName() ).println( "`" );
         println( "-- ---------------------------" );
 
-        if( this.exportSQL.getConfigSet().contains( Config.ADD_DISABLE_AUTOCOMMIT ) ) {
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_DISABLE_AUTOCOMMIT ) ) {
             println( "SET AUTOCOMMIT=0;" );
             }
 
-        if( this.exportSQL.getConfigSet().contains( Config.ADD_PREFIX_SCHEMA ) ) {
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
             print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
             }
 
@@ -112,7 +111,7 @@ final class ExportSQLPrinter implements Closeable
         while( r.next() ) {
             print( "INSERT INTO `" );
 
-            if( this.exportSQL.getConfigSet().contains( Config.ADD_PREFIX_SCHEMA ) ) {
+            if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
                 print( this.exportSQL.getSchemaName() );
                 print( "`.`" );
                 }

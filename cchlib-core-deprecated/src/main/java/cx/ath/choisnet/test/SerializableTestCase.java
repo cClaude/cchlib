@@ -57,7 +57,7 @@ public class SerializableTestCase // <- remove avoid JUnit tests crash under ecl
         throws java.io.IOException, ClassNotFoundException
     {
         @SuppressWarnings("unchecked")
-        Class<T> clazz = (Class<T>)anObject.getClass();
+        Class<T> clazz = (Class<T>)anObject.getClass(); // $codepro.audit.disable unnecessaryCast
 
         return SerializableHelper.clone( anObject, clazz );
     }

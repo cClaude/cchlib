@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.EnableListener;

@@ -55,7 +55,7 @@ public class TimePeriod implements Serializable, Cloneable, Comparable<TimePerio
     }
 
     @Override
-    public boolean equals(Object object)
+    public boolean equals(Object object) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( object instanceof TimePeriod ) {
             return compareTo( TimePeriod.class.cast( object )) == 0;

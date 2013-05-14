@@ -42,5 +42,5 @@ public interface TimeInterface
     /**
      * 
      */
-    public abstract boolean equals(TimeInterface time);
+    public abstract boolean equals(TimeInterface time); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
 }

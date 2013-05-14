@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException; // $codepro.audit.disable unnecessaryImport
 import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
 import com.googlecode.cchlib.util.CancelRequestException;

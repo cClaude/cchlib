@@ -46,7 +46,7 @@ public class MapKeyWrapper<KS,KR,V>
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.containsKey( unwrapper.wrappe( k ) );
     }
 
@@ -77,7 +77,7 @@ public class MapKeyWrapper<KS,KR,V>
     public V get( Object key )
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
 
         return map.get( unwrapper.wrappe( k ) );
     }
@@ -124,7 +124,7 @@ public class MapKeyWrapper<KS,KR,V>
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
-        KR k = (KR)key;
+        KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.remove( unwrapper.wrappe( k ) );
     }
 
@@ -181,7 +181,7 @@ public class MapKeyWrapper<KS,KR,V>
                  }
 
                 @Override
-                public boolean equals(Object obj) {
+                public boolean equals(Object obj) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
                     if (obj == null) {
                         return false;
                     }

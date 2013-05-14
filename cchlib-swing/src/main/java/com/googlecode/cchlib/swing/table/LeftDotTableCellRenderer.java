@@ -35,7 +35,8 @@ public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
 
         int availableWidth = table.getColumnModel().getColumn(column).getWidth();
         availableWidth -= table.getIntercellSpacing().getWidth();
-        Insets borderInsets = getBorder().getBorderInsets((Component)this);
+        
+        Insets borderInsets = getBorder().getBorderInsets( this );
         availableWidth -= (borderInsets.left + borderInsets.right);
 
         final String 		cellText 	= getText();

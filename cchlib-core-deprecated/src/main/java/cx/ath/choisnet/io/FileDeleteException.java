@@ -6,7 +6,7 @@ import java.io.File;
  * @deprecated use {@link com.googlecode.cchlib.io.FileDeleteException} instead
  */
 @Deprecated
-public class FileDeleteException extends com.googlecode.cchlib.io.FileDeleteException//extends IOException
+public class FileDeleteException extends com.googlecode.cchlib.io.exceptions.FileDeleteException
 {
     private static final long serialVersionUID = 2L;
 

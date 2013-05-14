@@ -9,7 +9,6 @@ import java.util.Date;
 import com.googlecode.cchlib.io.DefaultFileRoller;
 import com.googlecode.cchlib.io.FileRoller;
 import com.googlecode.cchlib.io.FileRollingWriter;
-import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
 import cx.ath.choisnet.tools.analysis.view.Log4JXLogger;
 import cx.ath.choisnet.tools.analysis.view.XLogger;
 
@@ -109,7 +108,7 @@ public class FileAnalysis
         logger.info( "Done: " + new Date( System.currentTimeMillis()) );
     }
 
-    protected CancelState stop()
+    protected FileCollector.CancelState stop()
     {
         logger.info(
             "stop() recipe: "
@@ -184,7 +183,7 @@ public class FileAnalysis
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                CancelState cs = fa.stop();
+                FileCollector.CancelState cs = fa.stop();
 
                 logger.info( "ShutdownHook CancelState=" + cs );
 

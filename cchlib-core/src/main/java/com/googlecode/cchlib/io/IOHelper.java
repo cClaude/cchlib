@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.io;
 
+import com.googlecode.cchlib.io.exceptions.FileDeleteException;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import java.io.BufferedInputStream;

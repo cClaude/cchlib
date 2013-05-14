@@ -31,5 +31,5 @@ public interface DateInterface
     /**
      *
      */
-    public abstract boolean equals(DateInterface date);
+    public abstract boolean equals(DateInterface date); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
 }

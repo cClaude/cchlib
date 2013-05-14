@@ -2,14 +2,10 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.io.File;
 import java.util.EnumSet;
-
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
-
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.Attrib;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer.DirectoryType;
 
 /**
  * Default implementation for {@link JFileChooserInitializerCustomize}
@@ -24,11 +20,11 @@ public class DefaultJFCCustomizer
     /** @serial */
     private FileFilter fileFilter; // NOT SERIALISABLE !
     /** @serial */
-    private EnumSet<Attrib> attributes;
+    private EnumSet<JFileChooserInitializer.Attrib> attributes;
     /** @serial */
     private JComponent accessory;
     /** @serial */
-    private DirectoryType directoryType;
+    private JFileChooserInitializer.DirectoryType directoryType;
     private Integer mode;
     private Boolean isMultiSelectionEnabled;
 
@@ -43,10 +39,10 @@ public class DefaultJFCCustomizer
     /**
      * @param attribSet
      */
-    public DefaultJFCCustomizer( EnumSet<Attrib> attribSet )
+    public DefaultJFCCustomizer( EnumSet<JFileChooserInitializer.Attrib> attribSet )
     {
         if( attribSet == null ) {
-            attribSet = EnumSet.noneOf( Attrib.class );
+            attribSet = EnumSet.noneOf( JFileChooserInitializer.Attrib.class );
             }
         this.attributes = attribSet;
     }
@@ -57,7 +53,7 @@ public class DefaultJFCCustomizer
      * @param rest  Others attributes
      * @since 4.1.6
      */
-    public DefaultJFCCustomizer( Attrib first, Attrib...rest )
+    public DefaultJFCCustomizer( JFileChooserInitializer.Attrib first, JFileChooserInitializer.Attrib...rest )
     {
         this.attributes = EnumSet.of( first, rest );
     }
@@ -69,7 +65,7 @@ public class DefaultJFCCustomizer
             logger.trace( "perfomeConfig" );
             }
         
-        if( attributes.contains( Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
+        if( attributes.contains( JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
             // workaround:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
             jfc.putClientProperty( "FileChooser.useShellFolder",
@@ -79,10 +75,10 @@ public class DefaultJFCCustomizer
         if( currentDirectory != null ) {
             jfc.setCurrentDirectory( currentDirectory );
             }
-        else if( this.directoryType == DirectoryType.CURRENT_DIR ) {
+        else if( this.directoryType == JFileChooserInitializer.DirectoryType.CURRENT_DIR ) {
             jfc.setCurrentDirectory( new File( "." ) );
             }
-        else if( this.directoryType == DirectoryType.HOME_DIR ) {
+        else if( this.directoryType == JFileChooserInitializer.DirectoryType.HOME_DIR ) {
             jfc.setCurrentDirectory( new File( System.getProperty( "home.dir" ) ) );
             }
 
@@ -163,7 +159,7 @@ public class DefaultJFCCustomizer
      * @return the caller. This allows for easy chaining of invocations.
      */
     public DefaultJFCCustomizer setDirectory(
-            final DirectoryType directoryType
+            final JFileChooserInitializer.DirectoryType directoryType
             )
     {
         this.directoryType = directoryType;

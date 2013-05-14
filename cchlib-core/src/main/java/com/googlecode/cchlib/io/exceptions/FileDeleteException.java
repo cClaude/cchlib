@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.io;
+package com.googlecode.cchlib.io.exceptions;
 
 import java.io.File;
 import java.io.IOException;

@@ -38,7 +38,7 @@ public class DeleteTask implements Runnable
                 }
             }
         
-        try {  Thread.sleep( 1000 ); } catch( InterruptedException ignore ) {}
+        try {  Thread.sleep( 1000 ); } catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
         
         // FIXME : should wait all tasks has finished
         workingJPanel.deleteDone();

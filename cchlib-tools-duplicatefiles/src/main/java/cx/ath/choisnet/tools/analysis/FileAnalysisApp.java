@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import cx.ath.choisnet.tools.analysis.FileCollector.CancelState;
 import cx.ath.choisnet.tools.analysis.view.FileAnalysisAppWB;
 import cx.ath.choisnet.tools.analysis.view.JTextAreaXLogger;
 
@@ -84,7 +83,7 @@ public class FileAnalysisApp
             public void run()
             {
                 System.out.println( "jButton_Cancel_mouseClicked" );
-                CancelState cancelState = fa.stop();
+                FileCollector.CancelState cancelState = fa.stop();
                 System.out.println( "cancelState = " + cancelState );
                 getJProgressBar().setIndeterminate( false );
             }

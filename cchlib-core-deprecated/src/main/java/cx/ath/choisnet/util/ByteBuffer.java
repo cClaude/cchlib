@@ -218,7 +218,7 @@ public class ByteBuffer
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(Object o) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         try {
             return compareTo((cx.ath.choisnet.util.ByteBuffer)o) == 0;

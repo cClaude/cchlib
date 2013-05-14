@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import cx.ath.choisnet.util.ArrayHelper;
 
 /**
  * <P>
@@ -58,11 +59,12 @@ public abstract class BytesAccess implements Cloneable
         if( offset < 0 ) {
             throw new IllegalArgumentException("offset can't be negative");
         }
-        this.bytes = new byte[ length ];
-
-        for( int i = 0; i<length; i++ ) {
-            this.bytes[ i ] = bytes[ offset + i ];
-        }
+//        this.bytes = new byte[ length ];
+//
+//        for( int i = 0; i<length; i++ ) {
+//            this.bytes[ i ] = bytes[ offset + i ];
+//        }
+        this.bytes = ArrayHelper.cloneArray( bytes, offset, 0, length );
     }
 
     /**
@@ -105,9 +107,9 @@ public abstract class BytesAccess implements Cloneable
         try {
             len = is.read( bytes );
             }
-        catch( IOException e ) {
-            len = -1;
-            }
+//        catch( IOException e ) {
+//            len = -1;
+//            }
         finally {
             is.close();
             }
@@ -150,7 +152,7 @@ public abstract class BytesAccess implements Cloneable
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(Object obj) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if (this == obj) {
             return true;

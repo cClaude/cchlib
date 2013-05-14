@@ -121,83 +121,43 @@ class FindByNameJPanel extends JPanel implements FindFilterFactory
 
             if (howToMatch == NAME_CONTAINS_INDEX) {
                 if (ignoreCase) {
-                    if (filename.toLowerCase().indexOf(match.toLowerCase()) >= 0) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.toLowerCase().indexOf(match.toLowerCase()) >= 0;
                 }
                 else {
-                    if (filename.indexOf(match) >= 0) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.indexOf(match) >= 0;
                 }
             }
             else if (howToMatch == NAME_IS_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.equalsIgnoreCase(match)) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.equalsIgnoreCase(match);
                 }
                 else
                 {
-                    if (filename.equals(match)) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.equals(match);
                 }
             }
             else if (howToMatch == NAME_STARTS_WITH_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.toLowerCase().startsWith(match.toLowerCase())) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.toLowerCase().startsWith(match.toLowerCase());
                 }
                 else
                 {
-                    if (filename.startsWith(match)) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.startsWith(match);
                 }
             }
             else if (howToMatch == NAME_ENDS_WITH_INDEX)
             {
                 if (ignoreCase)
                 {
-                    if (filename.toLowerCase().endsWith(match.toLowerCase())) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.toLowerCase().endsWith(match.toLowerCase());
                 }
                 else
                 {
-                    if (filename.endsWith(match)) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+                    return filename.endsWith(match);
                 }
             }
 

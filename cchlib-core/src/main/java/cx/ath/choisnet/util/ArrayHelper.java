@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
@@ -44,18 +45,80 @@ public final class ArrayHelper
      * @since 4.1.6
      */
     //Java 1.7 @SafeVarargs
+    @NeedTestCases
     public static <T> T[] createArray( Class<T> clazz, T...entries )
     {
-        //Workaround for: T[] array = new T[ entries.length ];
-        @SuppressWarnings("unchecked")
-        final T[] array = (T[])Array.newInstance( clazz, entries.length );
-
-        for( int i = 0; i<entries.length; i++ ) {
-            array[ i ] = entries[ i ];
-            }
-
-        return array;
+//        //Workaround for: T[] array = new T[ entries.length ];
+//        @SuppressWarnings("unchecked")
+//        final T[] array = (T[])Array.newInstance( clazz, entries.length );
+//
+//        for( int i = 0; i<entries.length; i++ ) {
+//            array[ i ] = entries[ i ];
+//            }
+//
+//        return array;
+        return cloneArray( clazz, entries );
     }
+
+    /**
+     *
+     * @param clazz
+     * @param src     the source array
+     * @param srcPos  starting position in the source array.
+     * @param destPos starting position in the destination data.
+     * @param length  the number of array elements to be copied.
+     * @return a new array
+     */
+    @NeedTestCases
+    public static <T> T[] cloneArray(
+        final Class<T> clazz,
+        final T[]      src,
+        final int      srcPos,
+        final int      destPos,
+        final int      length
+        )
+    {
+        @SuppressWarnings("unchecked")
+        final T[] dest = (T[])Array.newInstance( clazz, length );
+
+        System.arraycopy( src, srcPos, dest, destPos, length );
+
+        return dest;
+    }
+
+    /**
+    *
+    * @param clazz
+    * @param src     the source array
+    * @return a new array
+    */
+    @NeedTestCases
+    public static <T> T[] cloneArray(
+        final Class<T> clazz,
+        final T[]      src
+        )
+    {
+        return cloneArray( clazz, src, 0, 0, src.length );
+    }
+
+    /**
+     * TODOC
+     * @param src
+     * @param srcPos
+     * @param destPos
+     * @param length
+     * @return
+     */
+    @NeedTestCases
+    public static byte[] cloneArray( byte[] src, int srcPos, int destPos, int length )
+    {
+        final byte[] dest = new byte[ length ];
+
+        System.arraycopy( src, srcPos, dest, destPos, length );
+
+        return dest;
+    }
+
 
     /**
      * Wrap an array to get an {@link Enumeration}
@@ -90,8 +153,8 @@ public final class ArrayHelper
                 if( index < enumLen ) {
                     //try {
                         return array[index++];
-                    //	}
-                    //catch(IndexOutOfBoundsException ignore) {} 
+                    //    }
+                    //catch(IndexOutOfBoundsException ignore) {}
                 }
                 throw new NoSuchElementException( "index = " + index );
             }

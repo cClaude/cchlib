@@ -21,7 +21,6 @@ import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanel;
 import com.googlecode.cchlib.swing.batchrunner.EnableListener;
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory.BorderLayoutConstraints;
 
 /**
  * Provide a default {@link JFrame} to support {@link BatchRunnerPanel}
@@ -75,7 +74,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
             int extraWidth  = customJPanel.getSize().width;
             int extraHeight = customJPanel.getSize().height;
 
-            BorderLayoutConstraints c = customJPanelFactory.getCustomJPanelLayoutConstraints();
+            LazyBatchRunnerCustomJPanelFactory.BorderLayoutConstraints c = customJPanelFactory.getCustomJPanelLayoutConstraints();
             Dimension frameDimension = getSize();
 
             switch( c ) {

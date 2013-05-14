@@ -3,6 +3,7 @@ package cx.ath.choisnet.io;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
+import com.googlecode.cchlib.io.exceptions.MultiIOException;
 
 /**
  * {@link OutputStream} able to write data into one or more stream ate once.
@@ -42,47 +43,41 @@ public final class ParallelOutputStream extends OutputStream
     }
 
     @Override
-    public void close() throws IOException
+    public void close() throws MultiIOException
     {
-        IOException lastException = null;
+        MultiIOException exceptions = new MultiIOException();
 
         for( int i = 0; i < outputStreams.length; i++ ) {
             try {
                 outputStreams[i].close();
                 }
-            catch( IOException e) {
-                lastException = e;
+            catch( IOException ioe ) {
+                exceptions.addIOException( ioe );
                 }
             }
 
-        if(lastException != null) {
-            throw lastException;
+        if( ! exceptions.isEmpty() ) {
+            throw exceptions;
             }
-        //else {
-            //return;
-            //}
     }
 
     @Override
     public void flush() throws IOException
     {
-        IOException lastException = null;
+        MultiIOException exceptions = new MultiIOException();
 
         for( int i = 0; i < outputStreams.length; i++ ) {
             try {
                 outputStreams[i].flush();
                 }
-            catch( IOException e) {
-                lastException = e;
+            catch( IOException ioe ) {
+                exceptions.addIOException( ioe );
                 }
             }
 
-        if(lastException != null) {
-            throw lastException;
+        if( ! exceptions.isEmpty() ) {
+            throw exceptions;
             }
-        //else {
-            //return;
-            //}
     }
 
     @Override

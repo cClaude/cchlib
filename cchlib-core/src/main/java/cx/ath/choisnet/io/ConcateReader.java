@@ -2,6 +2,7 @@ package cx.ath.choisnet.io;
 
 import java.io.IOException;
 import java.io.Reader;
+import com.googlecode.cchlib.io.exceptions.MultiIOException;
 
 /**
  * ConcateReader is {@link Reader} based on content of one or
@@ -24,21 +25,21 @@ public class ConcateReader extends Reader
     }
 
     @Override
-    public void close() throws IOException
+    public void close() throws MultiIOException
     {
-        IOException anIOE = null;
+        MultiIOException exceptions = new MultiIOException();
 
         for( int i = 0; i < readers.length; i++ ) {
             try {
                 readers[i].close();
                 }
-            catch(IOException e) {
-                anIOE = e;
+            catch( IOException  ioe ) {
+                exceptions.addIOException( ioe );
                 }
             }
 
-        if( anIOE != null ) {
-            throw anIOE;
+        if( ! exceptions.isEmpty() ) {
+            throw exceptions;
             }
         //else {
             //return;

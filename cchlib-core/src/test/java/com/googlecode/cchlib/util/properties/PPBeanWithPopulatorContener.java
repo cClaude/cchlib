@@ -36,7 +36,7 @@ class PPBeanWithPopulatorContener
     }
 
     @Override
-    public boolean equals( Object obj )
+    public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( this == obj ) return true;
         if( obj == null ) return false;

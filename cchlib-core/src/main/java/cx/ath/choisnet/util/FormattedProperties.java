@@ -177,7 +177,7 @@ public class FormattedProperties
         @SuppressWarnings("resource")
         BufferedReader  reader = toBufferedReader( aReader );
         String          line;
-        
+
         while ((line = reader.readLine()) != null) {
             char    c   = 0;
             int     pos = 0;
@@ -759,16 +759,17 @@ public class FormattedProperties
      * @throws IllegalArgumentException if line is not
      *         a comment line.
      */
-    public void addCommentLine(String line)
+    public void addCommentLine( final String line )
         throws IllegalArgumentException
     {
-        String check = line.trim();
+        String trimLine = line.trim();
 
-        if( !check.startsWith( "!" )
-                && !check.startsWith( "#" )
-                && !(check.length() == 0)
-                ) {
-            throw new IllegalArgumentException("Must be a comment line");
+        if( ! trimLine.isEmpty() ) {
+            char firstChar = trimLine.charAt( 0 );
+
+            if( firstChar != '!' && firstChar != '#' ) {
+                throw new IllegalArgumentException("Must be a comment line [" + line + ']');
+                }
             }
 
         lines.addCommentLine( line );
@@ -995,7 +996,7 @@ public class FormattedProperties
      *         to this FormattedProperties
      */
     @Override
-    synchronized public boolean equals( Object obj )
+    synchronized public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( this == obj ) {
             return true;
@@ -1145,7 +1146,7 @@ public class FormattedProperties
          * @see java.lang.Object#equals(java.lang.Object)
          */
         @Override
-        public boolean equals( Object obj )
+        public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
         {
             if( this == obj ) {
                 return true;
@@ -1266,7 +1267,7 @@ public class FormattedProperties
          * @see java.lang.Object#equals(java.lang.Object)
          */
         @Override
-        public boolean equals( Object obj )
+        public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
         {
             if( this == obj ) {
                 return true;

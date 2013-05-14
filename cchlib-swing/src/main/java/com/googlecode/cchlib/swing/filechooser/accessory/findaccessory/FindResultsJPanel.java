@@ -52,8 +52,8 @@ class FindResultsJPanel extends JPanel
             {
                 if (e.getClickCount() == 2) {
                     try {
-                        int index = fileList.locationToIndex(e.getPoint());
-                        File f = (File)model.elementAt(index);
+                        int  index = fileList.locationToIndex(e.getPoint());
+                        File f     = model.elementAt(index);
                         jFileChooserSelector.goTo(f);
                     }
                     catch (Throwable err) {
@@ -126,20 +126,18 @@ class FindResultsJPanel extends JPanel
             setFont(new Font("Helvetica",Font.PLAIN,10));
 
             // show absolute path of file
-            File file = (File)model.elementAt(index);
-            setText(file.getAbsolutePath());
+            File file = model.elementAt( index );
+            setText( file.getAbsolutePath() );
 
             // selection characteristics
-            if(isSelected)
-            {
+            if( isSelected ) {
                 setBackground(list.getSelectionBackground());
                 setForeground(list.getSelectionForeground());
-            }
-            else
-            {
+                }
+            else {
                 setBackground(Color.white);
                 setForeground(Color.black);
-            }
+                }
             return this;
         }
     }

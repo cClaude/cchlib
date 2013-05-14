@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.TooManyListenersException;
+import java.util.TooManyListenersException; // $codepro.audit.disable unnecessaryImport
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionEvent;
