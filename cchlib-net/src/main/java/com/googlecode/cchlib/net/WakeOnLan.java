@@ -6,7 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * TODOC
@@ -20,7 +21,8 @@ import cx.ath.choisnet.ToDo;
  * </p>
  *
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class WakeOnLan
 {
     public static final int PORT = 7;

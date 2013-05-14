@@ -7,17 +7,17 @@ import java.net.UnknownHostException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.Before;
-import com.googlecode.cchlib.test.TestLocal;
+import com.googlecode.cchlib.test.TestConfigurationHelper;
 
 public class WakeOnLanTest
 {
     private static final Logger logger = Logger.getLogger( WakeOnLanTest.class );
-    private TestLocal.Config config;
+    private TestConfigurationHelper.Config config;
     
     @Before
     public void setup() throws IOException
     {
-        TestLocal testLocal = new TestLocal();
+        TestConfigurationHelper testLocal = new TestConfigurationHelper();
         
         try {
             testLocal.load();

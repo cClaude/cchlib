@@ -29,8 +29,8 @@ public class TestLocalConfigPanel
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( TestLocalConfigPanel.class );
     private WindowListener windowListener;
-    private TestLocal testLocal;
-    private TestLocal.Config config;
+    private TestConfigurationHelper testLocal;
+    private TestConfigurationHelper.Config config;
     
     private static final String ACTION_QUIT = "ACTION_QUIT";
     private static final String ACTION_SAVE = "ACTION_SAVE";
@@ -41,7 +41,7 @@ public class TestLocalConfigPanel
     public TestLocalConfigPanel( final WindowListener windowListener )
     {
         this.windowListener = windowListener;
-        this.testLocal      = new TestLocal();
+        this.testLocal      = new TestConfigurationHelper();
         try {
             this.testLocal.load();
             }
@@ -118,7 +118,7 @@ public class TestLocalConfigPanel
             this.windowListener.windowClosed( null );
             }
         else if( ACTION_SAVE.equals( cmd ) ) {
-            final TestLocal.Config config = this.testLocal.getConfig();
+            final TestConfigurationHelper.Config config = this.testLocal.getConfig();
             
             config.setExistingMACAddressCollection( 
                 new ListModelCollection<String>( model_existingMACAddr )

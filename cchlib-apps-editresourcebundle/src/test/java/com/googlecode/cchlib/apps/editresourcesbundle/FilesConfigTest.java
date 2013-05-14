@@ -13,8 +13,8 @@ import org.junit.Test;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
-import cx.ath.choisnet.test.AssertHelper;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import cx.ath.choisnet.util.FormattedProperties.Store;
 
 /**
@@ -45,7 +45,7 @@ public class FilesConfigTest
                 IOException,
                 ClassNotFoundException
     {
-        Iterator<File>  files = AssertHelper.getFilesFrom(
+        Iterator<File>  files = FilesTestCaseHelper.getFilesFrom(
                                     new File("."),
                                     new PatternFileFilter(".*\\.properties")
                                     );

@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 import paper.reflexion.LegacyParentClass;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
 
 /**
  *

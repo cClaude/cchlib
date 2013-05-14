@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import org.junit.Assert;
 import org.junit.Test;
-import cx.ath.choisnet.test.SerializableTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 /**
  * Serialization tests for I18nResourceBundle
