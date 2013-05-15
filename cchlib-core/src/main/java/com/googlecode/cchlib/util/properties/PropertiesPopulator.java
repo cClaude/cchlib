@@ -623,6 +623,11 @@ public class PropertiesPopulator<E>
         final Class<?>  type
         ) throws ConvertCantNotHandleTypeException
     {
+        if( strValue == null ) {
+            // No value.
+            return null;
+            }
+        
         if( String.class.isAssignableFrom( type ) ) {
             return strValue;
             }
