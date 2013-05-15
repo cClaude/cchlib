@@ -40,6 +40,7 @@ Known problems:
 ---------------------------------------------------------------------
 To add/improve:
   make ant build to work with maven architecture
+  http://maven.apache.org/plugins/maven-compiler-plugin/examples/compile-using-different-jdk.html
 ---------------------------------------------------------------------
 Future extensions:
 ---------------------------------------------------------------------
