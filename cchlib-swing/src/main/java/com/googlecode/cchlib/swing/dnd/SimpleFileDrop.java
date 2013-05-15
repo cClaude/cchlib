@@ -68,13 +68,13 @@ import com.googlecode.cchlib.lang.StringHelper;
  */
 public class SimpleFileDrop
 {
-    private static final Logger logger = Logger.getLogger( SimpleFileDrop.class );
-
     /**
      * Filter for {@link #createSimpleFileDrop(JList, DefaultListModel, SelectionFilter)}
      */
     public enum SelectionFilter { FILES_AND_DIRECTORIES, FILES_ONLY, DIRECTORIES_ONLY };
-    
+
+    private static final Logger logger = Logger.getLogger( SimpleFileDrop.class );
+
     private DropTargetListener dropListener;
     private Border dragTargetComponentBorder;
     private Component dropTargetComponent;
@@ -567,6 +567,11 @@ public class SimpleFileDrop
             public void filesDropped( List<File> files )
             {
                 for( File file : files ) {
+//                    if( ! selectionMode.contains( SelectionMode.DUPLICATE_ENTRIES_ALLOWED ) ) {
+//                        if( jListModel.contains( file ) ) {
+//                            continue;
+//                            }
+//                        }
                     switch( selectionFilter ) {
                         case DIRECTORIES_ONLY:
                             if( file.isDirectory() ) {
