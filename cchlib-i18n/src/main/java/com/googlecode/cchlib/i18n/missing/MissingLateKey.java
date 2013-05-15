@@ -9,9 +9,9 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 public class MissingLateKey implements MissingInfo, Serializable 
 {
     private static final long serialVersionUID = 1L;
-    private AutoI18n.Key key;
+    private AutoI18n.LateKey key;
 
-    public MissingLateKey( AutoI18n.Key key )
+    public MissingLateKey( AutoI18n.LateKey key )
     {
         this.key = key;
     }
@@ -31,7 +31,7 @@ public class MissingLateKey implements MissingInfo, Serializable
         return key.getKey();
     }
 
-    public AutoI18n.Key getAutoI18nKey()
+    public AutoI18n.LateKey getAutoI18nKey()
     {
         return key;
     }

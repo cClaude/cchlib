@@ -256,7 +256,8 @@ public class BytesAccessTest
 
     private static void testEquals( BytesAccess ba, BytesAccess compareTo)
     {
-        boolean res = ba.equals( "fake" );
+        Object baIbject = ba;
+        boolean res     = baIbject.equals( "fake" );
 
         assertFalse( "BytesAccess should not be equals to a String", res );
 

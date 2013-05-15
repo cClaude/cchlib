@@ -17,7 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import java.awt.BorderLayout;
 import org.apache.log4j.Logger;

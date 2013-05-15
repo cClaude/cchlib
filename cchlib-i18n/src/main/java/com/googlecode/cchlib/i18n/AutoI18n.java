@@ -16,6 +16,11 @@ import javax.swing.JWindow;
 
 import org.apache.log4j.Logger;
 
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nForce;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
 import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
@@ -559,7 +564,7 @@ public class AutoI18n implements Serializable
             return; //done;
             }
 
-        Key key = new Key( k );
+        LateKey key = new LateKey( k );
 
         try {
             AutoI18nTypes types;
@@ -758,10 +763,11 @@ public class AutoI18n implements Serializable
      * Private class use to identify current field
      * and to resolve value.
      */
-    public class Key
+    public class LateKey implements Serializable
     {
+        private static final long serialVersionUID = 1L;
         private String key;
-        public Key( String key )
+        public LateKey( String key )
         {
             this.key = key;
         }

@@ -15,10 +15,10 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.I18n;
-import com.googlecode.cchlib.i18n.I18nForce;
-import com.googlecode.cchlib.i18n.I18nIgnore;
-import com.googlecode.cchlib.i18n.I18nToolTipText;
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nForce;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 
@@ -45,8 +45,8 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
     @I18nForce(id="myJTextFieldDefineWithId") private JTextField myJTextFieldDefineWithId; // use specific Id TODO
     @I18nForce private JProgressBar jProgressBarToI18n; // TODO
 
-    @I18nToolTipText private JButton buttonToolTipsButton; // TODO
-    @I18nIgnore @I18nToolTipText private JButton buttonIgnoreButton; // TODO
+    @I18nToolTipText private JButton buttonToolTipsButton; // Default process I18n on JButton and special I18n on tool tip text 
+    @I18nIgnore @I18nToolTipText private JButton buttonIgnoreButton; // No I18n on JButton and special I18n on tool tip text 
 
     private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 

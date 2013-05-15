@@ -20,7 +20,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigF
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigWB;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;

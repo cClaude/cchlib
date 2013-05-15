@@ -13,7 +13,7 @@ import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**

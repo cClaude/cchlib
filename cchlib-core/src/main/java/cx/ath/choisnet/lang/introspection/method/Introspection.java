@@ -124,7 +124,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         catch( IntrospectionInvokeException e ) {
             sLog.warn( "Exception while compare: " + e.getMethod(), e );
 
-            return Integer.MIN_VALUE;
+            return Integer.MIN_VALUE - 1;
             }
     }
 

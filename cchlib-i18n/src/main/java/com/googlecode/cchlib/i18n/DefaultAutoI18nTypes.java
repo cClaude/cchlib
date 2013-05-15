@@ -82,7 +82,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 return JLabel.class;
             }
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText( k.getValue() );
@@ -111,7 +111,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 return AbstractButton.class;
             }
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText( k.getValue() );
@@ -140,7 +140,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 return JCheckBox.class;
             }
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
@@ -169,7 +169,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 return JTabbedPane.class;
             }
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 JTabbedPane  o      = cast( toI18n );
@@ -211,7 +211,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 return TitledBorder.class;
             }
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k ) throws MissingResourceException
+            public void setText( Object toI18n, AutoI18n.LateKey k ) throws MissingResourceException
             {
                 cast( toI18n ).setTitle( k.getValue() );
             }

@@ -31,7 +31,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
@@ -60,7 +60,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k)
+            public void setText( Object toI18n, AutoI18n.LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
@@ -89,7 +89,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.Key k )
+            public void setText( Object toI18n, AutoI18n.LateKey k )
                     throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());

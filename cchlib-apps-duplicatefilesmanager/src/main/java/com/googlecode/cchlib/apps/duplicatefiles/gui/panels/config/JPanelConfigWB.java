@@ -13,8 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.I18n;
 import com.googlecode.cchlib.i18n.I18nSwingHelper;
+import com.googlecode.cchlib.i18n.annotation.I18n;
 
 /**
  *

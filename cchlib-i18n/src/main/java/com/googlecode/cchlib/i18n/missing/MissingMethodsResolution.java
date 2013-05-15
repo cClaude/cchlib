@@ -1,17 +1,15 @@
 package com.googlecode.cchlib.i18n.missing;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
  *
  */
-public class MissingMethodsResolution implements MissingInfo, Serializable 
+public class MissingMethodsResolution implements MissingInfo
 {
-    private static final long serialVersionUID = 1L;
     private String key;
-    private Method setter;
-    private Method getter;
+    private Method setter; //not Serializable 
+    private Method getter; //not Serializable
 
     public MissingMethodsResolution( String key, Method setter, Method getter )
     {

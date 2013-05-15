@@ -19,7 +19,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckB
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModel;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;

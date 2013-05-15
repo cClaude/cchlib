@@ -20,7 +20,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;

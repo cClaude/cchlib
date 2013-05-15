@@ -25,8 +25,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
-import com.googlecode.cchlib.i18n.I18nIgnore;
-import com.googlecode.cchlib.i18n.I18nToolTipText;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -82,6 +82,7 @@ public abstract class JPanelResultWB extends JPanel
 
             //JButton jButtonPrevSet = new JButton( "<<" );
             this.jButtonPrevSet = new JButton( resources.getPrevIcon() );
+            this.jButtonPrevSet.setToolTipText( "jButtonPrevSet description" );
             this.jButtonPrevSet.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -99,6 +100,7 @@ public abstract class JPanelResultWB extends JPanel
 
             //JButton jButtonNextSet = new JButton( ">>" );
             this.jButtonNextSet = new JButton( resources.getNextIcon() );
+            this.jButtonNextSet.setToolTipText( "jButtonNextSet description" );
             this.jButtonNextSet.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;

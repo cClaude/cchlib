@@ -17,7 +17,7 @@ public class DefaultI18nBundleFactory
      * Create AbstractI18nBundle for giving locale and giving
      * class to build message bundle base name
      * (see {@link #getMessagesBundle(Class)})
-     * 
+     *
      * @param locale    {@link Locale} to use
      * @param clazz     {@link Class} to use to build message bundle path
      * @return an AbstractI18nBundle
@@ -41,13 +41,13 @@ public class DefaultI18nBundleFactory
     /**
      * Create AbstractI18nBundle for giving locale and giving
      * class to build message bundle base name
-     * (see {@link #getMessagesBundle(Package)})
-     * 
+     * (see {@link #getMessagesBundle(Package,String)})
+     *
      * @param locale    {@link Locale} to use
      * @param pakkage   {@link Package} to use to build message bundle path
      * @param base      Begin of message bundle file name
      * @return an AbstractI18nBundle
-     * @see #getMessagesBundle(Class)
+     * @see #getMessagesBundle(Package,String)
      * @since 4.1.7
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
@@ -67,7 +67,7 @@ public class DefaultI18nBundleFactory
     }
 
 //    @Deprecated
-//    public static AbstractI18nBundle createDefaultI18nBundle( 
+//    public static AbstractI18nBundle createDefaultI18nBundle(
 //            final Locale                locale,
 //            final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
 //            )
@@ -88,16 +88,16 @@ public class DefaultI18nBundleFactory
     /**
      * Create AbstractI18nBundle for giving locale and giving
      * i18nPrepAutoUpdatable to build message bundle base name
-     * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
-     * 
+     * (see {@link I18nPrepHelperAutoUpdatable#getMessagesBundle()})
+     *
      * @param locale                      {@link Locale} to use
      * @param i18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
      * @return an AbstractI18nBundle
-     * @see I18nPrepAutoUpdatable#getMessagesBundle()
+     * @see I18nPrepHelperAutoUpdatable#getMessagesBundleForI18nPrepHelper()
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
             final Locale                      locale,
-            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable 
+            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable
             )
         {
             return new AbstractI18nBundle( locale )
@@ -113,7 +113,7 @@ public class DefaultI18nBundleFactory
     /**
      * Returns Message Bundle base name based on the package name
      * of giving class (add ".MessagesBundle" as extension).
-     * 
+     *
      * @param clazz Class to use to build Message Bundle base name
      * @return Message Bundle base name based on giving class name
      * @see #getMessagesBundle(Package, String)
@@ -123,10 +123,10 @@ public class DefaultI18nBundleFactory
         //return clazz.getPackage().getName() + ".MessagesBundle";
         return getMessagesBundle( clazz.getPackage(), "MessagesBundle" );
     }
-    
+
     /**
      * Returns Message Bundle base name based on the giving package name
-     * 
+     *
      * @param pakkage Package to use to build Message Bundle base name (use to build path)
      * @param base    Base name for the file
      * @return Message Bundle base name based on giving class name

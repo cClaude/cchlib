@@ -9,14 +9,16 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypes;
-import com.googlecode.cchlib.i18n.I18nForce;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nForce;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
 import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
 import com.googlecode.cchlib.i18n.missing.MissingInfo;
 import com.googlecode.cchlib.i18n.missing.MissingLateKey;
@@ -184,7 +186,7 @@ public abstract class AbstractI18nResourceAutoUpdate
             private void handleMissingResourceException_LateKey(
                     MissingResourceException    mse,
                     Field                       f,
-                    Key                         key
+                    LateKey                         key
                     )
             {
                 //getParentHandler().handleMissingResourceException( mse, f, key );
@@ -302,11 +304,50 @@ public abstract class AbstractI18nResourceAutoUpdate
                 final MissingForToolTipText    missingInfo
                 )
             {
-                // TODO Auto-generated method stub
-                int todo;
+                Class<?> fclass = field.getType();
                 
-                AutoI18nTypes x = getAutoI18nDefaultTypes();
-                throw new UnsupportedOperationException();
+                if( JComponent.class.isAssignableFrom( fclass ) ) {
+                    boolean accessible = field.isAccessible();
+                    
+                    if( ! accessible ) {
+                        field.setAccessible( true );
+                        }
+                    
+                    try {
+                        Object obj = field.get( getObjectToI18n() );
+                        String v;
+                        
+                        if( obj == null ) {
+                            String msg = LogFieldFormat.toString( field ) + " value is null";
+                            logger.fatal( msg );
+
+                            v = String.format("<<%s>>", msg );
+                            }
+                        else {
+                            JComponent c   = JComponent.class.cast( obj );
+                            v              = c.getToolTipText();
+                            }
+                        
+                        needProperty( missingInfo.getKey(), v );
+                        }
+                    catch( IllegalArgumentException e ) {
+                        // TODO ?? better handle this exception
+                        throw new RuntimeException( e );
+                        }
+                    catch( IllegalAccessException e ) {
+                        // TODO ?? better handle this exception
+                        throw new RuntimeException( e );
+                        }
+                    }
+                else {
+                    final String msg = "ToolTipText are handle only on " + JComponent.class + " not on " + fclass;
+
+                    logger.fatal( msg );
+                    
+                    String v = String.format("<<%s>>", msg );
+
+                    needProperty( getKey( field ), v );
+                    }
             }
         });
 

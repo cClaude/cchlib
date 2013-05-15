@@ -213,12 +213,14 @@ public class MappableBuilder
                         iter == null ? null : iter.toString()
                         );
 
-                while( iter.hasNext() ) {
-                    hashMap.put(
-                            formatIterableEntry(methodName, i++, -1),
-                            toString(iter.next())
-                            );
-                }
+                if( iter != null ) {
+                    while( iter.hasNext() ) {
+                        hashMap.put(
+                                formatIterableEntry(methodName, i++, -1),
+                                toString(iter.next())
+                                );
+                        }
+                    }
                 continue;
             }
 

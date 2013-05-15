@@ -11,7 +11,7 @@ import java.util.Set;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 
 /**

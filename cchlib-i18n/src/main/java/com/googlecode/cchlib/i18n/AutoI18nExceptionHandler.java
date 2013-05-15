@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import com.googlecode.cchlib.i18n.missing.MissingInfo;
 
@@ -53,8 +52,7 @@ public interface AutoI18nExceptionHandler
      *
      * @param e           The exception to handle
      * @param field       The {@link Field} concern by the exception
-     * @param MissingInfo Informations to retrieve default value
-     * @param methods     Array of {@link Method}, array of 2 methods (setter and getter).
+     * @param missingInfo Informations to retrieve default value
      */
     public void handleMissingResourceException( MissingResourceException e, Field field, MissingInfo missingInfo );
 }
