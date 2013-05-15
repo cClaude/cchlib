@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * Default implementation for {@link I18nForce}
+ * Default implementation for {@link com.googlecode.cchlib.i18n.annotation.I18nForce}
  */
 public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
 {

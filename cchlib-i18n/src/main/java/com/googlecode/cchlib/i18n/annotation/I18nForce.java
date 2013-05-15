@@ -14,8 +14,8 @@ import com.googlecode.cchlib.Beta;
  * or
  * {@link javax.swing.JProgressBar}
  *
- * @see AutoI18n
- * @see ForceAutoI18nTypes
+ * @see com.googlecode.cchlib.i18n.AutoI18n
+ * @see com.googlecode.cchlib.i18n.ForceAutoI18nTypes
  */
 @Documented
 @Inherited
