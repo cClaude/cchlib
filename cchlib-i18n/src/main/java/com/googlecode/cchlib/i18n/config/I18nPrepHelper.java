@@ -22,34 +22,6 @@ public class I18nPrepHelper
     {
         // All static
     }
-
-//    @Deprecated
-//    public static void defaultPrep(
-//        final Locale                locale,
-//        final PrintStream           usageStatPrintStream,
-//        final PrintStream           notUsePrintStream,
-//        final I18nPrepAutoUpdatable mainFrame,
-//        final I18nAutoUpdatable...  otherFrames
-//        ) throws IOException
-//    {
-//        defaultPrep( 
-//            locale, 
-//            usageStatPrintStream, 
-//            notUsePrintStream,
-//            new I18nPrepHelperAutoUpdatable() {
-//                @Override
-//                public void performeI18n( AutoI18n autoI18n )
-//                {
-//                    mainFrame.performeI18n( autoI18n );
-//                }
-//                @Override
-//                public String getMessagesBundleForI18nPrepHelper()
-//                {
-//                    return mainFrame.getMessagesBundle();
-//                } }, 
-//            otherFrames 
-//            );
-//    }
     
     /**
      * TODOC

@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.i18n.logging;
 
 import java.io.PrintStream;
-import java.lang.reflect.Field;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nEventHandler}
@@ -35,29 +34,6 @@ public class AutoI18nPrintStreamLoggingEventHandler
             )
     {
         this.out = output;
-    }
-
-    @Override
-    public void ignoredField( Field f, Cause cause )
-    {
-        out.printf(
-            "Ignore field: %s (%s) [%s] - %s\n",
-            f.getName(),
-            f.getType(),
-            cause,
-            f
-            );
-    }
-
-    @Override//
-    public void localizedField( Field f )
-    {
-        out.printf(
-            "Localized field: %s (%s) - %s\n",
-            f.getName(),
-            f.getType(),
-            f
-            );
     }
 
     @Override

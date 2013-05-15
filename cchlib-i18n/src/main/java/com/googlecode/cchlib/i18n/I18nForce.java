@@ -4,15 +4,23 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import com.googlecode.cchlib.Beta;
 
 /**
- * Annotation to specify how a Field should be localized
+ * Annotation to specify how a Field should be localized, default
+ * implementation use this annotation to internationalize Swing
+ * input components like {@link javax.swing.JTextArea},
+ * {@link javax.swing.JTextField}, {@link javax.swing.JEditorPane}
+ * or
+ * {@link javax.swing.JProgressBar}
  *
  * @see AutoI18n
+ * @see ForceAutoI18nTypes
  */
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
+@Beta
 public @interface I18nForce
 {
     /**
@@ -20,28 +28,11 @@ public @interface I18nForce
      * @return TODOC
      */
     String className() default "";
-
-//    /**
-//     * TODOC
-//     * @return TODOC
-//     */
-//    boolean isStatic() default false;
-    
-//    /**
-//     * Must have two methods, with theses signatures:<br/>
-//     * public void <b>set<i>methodName</b></i>(Object,String) { ... }
-//     * <br/>
-//     * public String get'methodName'() { ... }
-//     *
-//     * @return method name, if not define ("")
-//     *         use default process.
-//     */
-//    String methodName() default "";
     
     /**
      * Returns key name for this field
      * @return key name for this field, if
      *         not define ("") use default process.
      */
-    String keyName() default "";
+    String id() default "";
 }

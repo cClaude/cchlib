@@ -4,4 +4,4 @@
  * resource based on current code.
  */
 package com.googlecode.cchlib.i18n.builder;
-//package cx.ath.choisnet.i18n.builder;
+

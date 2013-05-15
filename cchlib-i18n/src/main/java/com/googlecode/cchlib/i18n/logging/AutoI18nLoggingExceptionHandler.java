@@ -1,11 +1,14 @@
 package com.googlecode.cchlib.i18n.logging;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
+import com.googlecode.cchlib.i18n.missing.MissingInfo;
+import com.googlecode.cchlib.i18n.missing.MissingLateKey;
+import com.googlecode.cchlib.i18n.missing.MissingMethodsResolution;
+import com.googlecode.cchlib.i18n.missing.MissingSimpleKey;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using standard
@@ -55,49 +58,60 @@ public class AutoI18nLoggingExceptionHandler
     }
 
     @Override
-    public void handleMissingResourceException(
+    public void handleMissingResourceException( 
+        final MissingResourceException e,
+        final Field                    field, 
+        final MissingInfo              missingInfo 
+        )
+    {
+        switch( missingInfo.getType() ) {
+            case SIMPLE_KEY :
+                _handleMissingResourceException( e, field, MissingSimpleKey.class.cast( missingInfo ) );
+                break;
+            case LATE_KEY :
+                _handleMissingResourceException( e, field, MissingLateKey.class.cast( missingInfo ) );
+                break;
+            case METHODS_RESOLUTION :
+                _handleMissingResourceException_MissingMethodsResolution( e, field, MissingMethodsResolution.class.cast( missingInfo ) );
+                break;
+            case JCOMPONENT_TOOLTIPTEXT:
+                _handleMissingResourceException( e, field, MissingForToolTipText.class.cast( missingInfo ) );
+                break;
+            }
+    }
+
+    
+    private void _handleMissingResourceException_MissingMethodsResolution(
             MissingResourceException    e,
             Field                       field,
-            String                      key
+            MissingMethodsResolution    missingMethodsResolution
+            )
+    {
+        logger.log(
+                level,
+                String.format(
+                    "* MissingResourceException for: %s using [%s] - %s\n",
+                    missingMethodsResolution.getKey(),
+                    missingMethodsResolution.getGetter(),
+                    e.getLocalizedMessage()
+                    ),
+                e
+                );
+    }
+
+    private void _handleMissingResourceException(
+            final MissingResourceException    e,
+            final Field                       field,
+            final MissingInfo                 missingInfo
             )
     {
         logger.log(
                 level,
                 "* MissingResourceException for:"
-                    + key
+                    + missingInfo.getKey()
                     + " - "
                     + e.getLocalizedMessage(),
                 e
                 );
-    }
-
-    @Override
-    public void handleMissingResourceException(
-            MissingResourceException    e,
-            Field                       field,
-            AutoI18n.Key                key
-            )
-    {
-        handleMissingResourceException(e,field,key.getKey());
-    }
-
-    @Override
-    public void handleMissingResourceException(
-            MissingResourceException    e,
-            Field                       field,
-            String                      key,
-            Method[]                    methods
-            )
-    {
-        logger.log(
-            level,
-            String.format(
-                "* MissingResourceException for: %s using [%s] - %s\n",
-                key,
-                methods[0],
-                e.getLocalizedMessage()
-                ),
-            e
-            );
     }
 }

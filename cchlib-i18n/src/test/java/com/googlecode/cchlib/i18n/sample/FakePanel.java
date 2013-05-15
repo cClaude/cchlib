@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.I18n;
 import com.googlecode.cchlib.i18n.I18nForce;
@@ -27,21 +28,31 @@ import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelperAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( FakePanel.class );
 
-    @I18nIgnore private JLabel jLabelNoI18n;
-    @I18n(id="JButtonID") private JButton jButton;
-    @I18n(keyName="JLabelID")private JLabel jLabel;
-    @I18nForce private JTextArea jTextArea;
-    private JCheckBox jCheckBox;
-    @I18nForce private JTextField jTextField;
+    @I18nIgnore private JLabel jLabelNoI18n; // No I18n
+    private JProgressBar jProgressBar; // No I18n
+
+    private JCheckBox jCheckBox; // I18n default process
+
+    @I18n(id="JButtonID")            private JButton jButton;
+    @I18n(keyName="JLabelID")        private JLabel jLabel;
+    @I18n(method="I18nJPanelBorder") private Object dummy; // ex: declare field to apply a custom method
+
+    @I18nForce private JTextArea   jTextArea;
+    @I18nForce private JTextField  myJTextField;
     @I18nForce private JEditorPane jEditorPane;
-    private JProgressBar jProgressBar;
-    @I18n (method="I18nJPanelBorder") private JPanel jPanel;
-    @I18nToolTipText private JButton buttonToolTipsButton;
-    @I18nIgnore @I18nToolTipText private JButton buttonIgnoreButton;
+    @I18nForce(id="myJTextFieldDefineWithId") private JTextField myJTextFieldDefineWithId; // use specific Id TODO
+    @I18nForce private JProgressBar jProgressBarToI18n; // TODO
+
+    @I18nToolTipText private JButton buttonToolTipsButton; // TODO
+    @I18nIgnore @I18nToolTipText private JButton buttonIgnoreButton; // TODO
+
+    private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 
     public void setI18nJPanelBorder( String str )
     {
+        logger.debug( "setI18nJPanelBorder: [" + str + ']' );
         TitledBorder tb = TitledBorder.class.cast( getBorder() );
 
         tb.setTitle( str );
@@ -49,9 +60,12 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
 
     public String getI18nJPanelBorder()
     {
+        logger.debug( "getI18nJPanelBorder()" );
         TitledBorder tb = TitledBorder.class.cast( getBorder() );
 
-        return tb.getTitle();
+        String str = tb.getTitle();
+        logger.debug( "getI18nJPanelBorder(): [" + str + ']' );
+        return str;
     }
 
     /**
@@ -61,9 +75,9 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
     {
         setBorder(new TitledBorder(null, "TitleBorder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{80, 50, 0, 0};
+        gridBagLayout.columnWidths = new int[]{80, 0, 0, 50, 0, 0};
         gridBagLayout.rowHeights = new int[]{14, 0, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
@@ -79,6 +93,36 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
             add(jLabel, gbc_jLabel);
         }
         {
+            jProgressBar = new JProgressBar();
+            this.jProgressBar.setStringPainted(true);
+            jProgressBar.setValue(50);
+            jProgressBar.setString( "My JProgressBar" );
+            jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
+            jProgressBar.setOrientation(SwingConstants.VERTICAL);
+            GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
+            gbc_jProgressBar.gridheight = 5;
+            gbc_jProgressBar.fill = GridBagConstraints.VERTICAL;
+            gbc_jProgressBar.insets = new Insets(0, 0, 5, 5);
+            gbc_jProgressBar.gridx = 1;
+            gbc_jProgressBar.gridy = 0;
+            add(jProgressBar, gbc_jProgressBar);
+        }
+        {
+            this.jProgressBarToI18n = new JProgressBar();
+            this.jProgressBarToI18n.setValue(50);
+            this.jProgressBarToI18n.setToolTipText("<html>JProgressBar to I18n<br/>ToolTipText to i18n</html>");
+            this.jProgressBarToI18n.setStringPainted(true);
+            this.jProgressBarToI18n.setString("My JProgressBar to I18n");
+            this.jProgressBarToI18n.setOrientation(SwingConstants.VERTICAL);
+            GridBagConstraints gbc_jProgressBarToI18n = new GridBagConstraints();
+            gbc_jProgressBarToI18n.fill = GridBagConstraints.VERTICAL;
+            gbc_jProgressBarToI18n.gridheight = 5;
+            gbc_jProgressBarToI18n.insets = new Insets(0, 0, 5, 5);
+            gbc_jProgressBarToI18n.gridx = 2;
+            gbc_jProgressBarToI18n.gridy = 0;
+            add(this.jProgressBarToI18n, gbc_jProgressBarToI18n);
+        }
+        {
             jTextArea = new JTextArea();
             jTextArea.setEditable(false);
             jTextArea.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
@@ -88,12 +132,12 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
             gbc_jTextArea.insets = new Insets(0, 0, 5, 0);
             gbc_jTextArea.gridheight = 4;
             gbc_jTextArea.fill = GridBagConstraints.BOTH;
-            gbc_jTextArea.gridx = 1;
+            gbc_jTextArea.gridx = 3;
             gbc_jTextArea.gridy = 0;
             add(jTextArea, gbc_jTextArea);
         }
         {
-            jLabelNoI18n = new JLabel("jLabel_No_I18n");
+            jLabelNoI18n = new JLabel("jLabel (No_I18n)");
             GridBagConstraints gbc_jLabelNoI18n = new GridBagConstraints();
             gbc_jLabelNoI18n.anchor = GridBagConstraints.EAST;
             gbc_jLabelNoI18n.insets = new Insets(0, 0, 5, 5);
@@ -121,48 +165,45 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
             add(jCheckBox, gbc_jCheckBox);
         }
         {
-            jProgressBar = new JProgressBar();
-            jProgressBar.setIndeterminate(true);
-            jProgressBar.setValue(25);
-            jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
-            jProgressBar.setOrientation(SwingConstants.VERTICAL);
-            GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
-            gbc_jProgressBar.fill = GridBagConstraints.VERTICAL;
-            gbc_jProgressBar.insets = new Insets(0, 0, 5, 5);
-            gbc_jProgressBar.gridx = 0;
-            gbc_jProgressBar.gridy = 4;
-            add(jProgressBar, gbc_jProgressBar);
-        }
-        {
             jPanel = new JPanel();
-            jPanel.setBorder(new TitledBorder(null, "TitledBorder2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+            jPanel.setBorder(new TitledBorder(null, "My TitledBorder 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
             GridBagConstraints gbc_jPanel = new GridBagConstraints();
             gbc_jPanel.gridwidth = 2;
             gbc_jPanel.insets = new Insets(0, 0, 5, 0);
             gbc_jPanel.fill = GridBagConstraints.BOTH;
-            gbc_jPanel.gridx = 1;
+            gbc_jPanel.gridx = 3;
             gbc_jPanel.gridy = 4;
             add(jPanel, gbc_jPanel);
-            GridBagLayout gbl_jPanel = new GridBagLayout();
-            gbl_jPanel.columnWidths = new int[]{100, 50, 0};
-            gbl_jPanel.rowHeights = new int[]{20, 0, 0};
-            gbl_jPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-            gbl_jPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-            jPanel.setLayout(gbl_jPanel);
+        }
+        GridBagLayout gbl_jPanel = new GridBagLayout();
+        gbl_jPanel.columnWidths = new int[]{0, 0, 0};
+        gbl_jPanel.rowHeights = new int[]{0, 0, 0};
+        gbl_jPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gbl_jPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        this.jPanel.setLayout(gbl_jPanel);
+        {
+            myJTextField = new JTextField();
+            myJTextField.setEditable(false);
+            myJTextField.setToolTipText("<html>jTextField<br/>toolTipText to I18n</html>");
+            myJTextField.setText("My JTextField");
+            GridBagConstraints gbc_myJTextField = new GridBagConstraints();
+            gbc_myJTextField.fill = GridBagConstraints.BOTH;
+            gbc_myJTextField.insets = new Insets(0, 0, 5, 5);
+            gbc_myJTextField.gridx = 0;
+            gbc_myJTextField.gridy = 0;
+            jPanel.add(myJTextField, gbc_myJTextField);
+            myJTextField.setColumns(10);
         }
         {
-            jTextField = new JTextField();
-            jTextField.setEditable(false);
-            jTextField.setToolTipText("<html>jTextField<br/>toolTipText to I18n</html>");
-            jTextField.setText("jTextField");
-            GridBagConstraints gbc_jTextField = new GridBagConstraints();
-            gbc_jTextField.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jTextField.anchor = GridBagConstraints.NORTH;
-            gbc_jTextField.insets = new Insets(0, 0, 5, 5);
-            gbc_jTextField.gridx = 0;
-            gbc_jTextField.gridy = 0;
-            jPanel.add(jTextField, gbc_jTextField);
-            jTextField.setColumns(10);
+            this.myJTextFieldDefineWithId = new JTextField();
+            this.myJTextFieldDefineWithId.setText("My JTextField define with ID");
+            GridBagConstraints gbc_myJTextFieldDefineWithId = new GridBagConstraints();
+            gbc_myJTextFieldDefineWithId.insets = new Insets(0, 0, 5, 0);
+            gbc_myJTextFieldDefineWithId.fill = GridBagConstraints.BOTH;
+            gbc_myJTextFieldDefineWithId.gridx = 1;
+            gbc_myJTextFieldDefineWithId.gridy = 0;
+            this.jPanel.add(this.myJTextFieldDefineWithId, gbc_myJTextFieldDefineWithId);
+            this.myJTextFieldDefineWithId.setColumns(10);
         }
         {
             jEditorPane = new JEditorPane();
@@ -170,12 +211,10 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
             jEditorPane.setToolTipText("<html>JEditorPane ligne1<br/>ToolTipText to I18n</html>");
             jEditorPane.setText("JEditorPane line1\r\nJEditorPane line2\r\nJEditorPane line3\r\n");
             GridBagConstraints gbc_jEditorPane = new GridBagConstraints();
-            gbc_jEditorPane.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jEditorPane.gridheight = 2;
-            gbc_jEditorPane.insets = new Insets(0, 0, 5, 0);
-            gbc_jEditorPane.anchor = GridBagConstraints.NORTH;
-            gbc_jEditorPane.gridx = 1;
-            gbc_jEditorPane.gridy = 0;
+            gbc_jEditorPane.gridwidth = 2;
+            gbc_jEditorPane.fill = GridBagConstraints.BOTH;
+            gbc_jEditorPane.gridx = 0;
+            gbc_jEditorPane.gridy = 1;
             jPanel.add(jEditorPane, gbc_jEditorPane);
         }
         {
@@ -192,7 +231,7 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
             this.buttonIgnoreButton.setToolTipText("<html>my tool<br/>tips 2</html>");
             GridBagConstraints gbc_buttonIgnoreButton = new GridBagConstraints();
             gbc_buttonIgnoreButton.insets = new Insets(0, 0, 0, 5);
-            gbc_buttonIgnoreButton.gridx = 1;
+            gbc_buttonIgnoreButton.gridx = 3;
             gbc_buttonIgnoreButton.gridy = 5;
             add(this.buttonIgnoreButton, gbc_buttonIgnoreButton);
         }

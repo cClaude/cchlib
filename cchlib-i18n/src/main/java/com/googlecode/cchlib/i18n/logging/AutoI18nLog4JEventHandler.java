@@ -13,11 +13,12 @@ import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
  * this debugging your application only!
  * </p>
  */
-public class AutoI18nLog4JEventHandler
-    implements AutoI18nEventHandler
+public class AutoI18nLog4JEventHandler 
+    extends AbstractAutoI18nLoggingEventHandler
+        implements AutoI18nEventHandler
 {
     private static final long serialVersionUID = 1L;
-    private transient static final Logger slogger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
+    private transient static final Logger logger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
     /** @serial */
     private Level levelIgnoredField;
     /** @serial */
@@ -63,31 +64,14 @@ public class AutoI18nLog4JEventHandler
     }
 
     @Override
-    public void ignoredField( Field f, Cause cause )
+    protected void logIgnoredField( String msg )
     {
-        slogger.log(
-                levelIgnoredField,
-                String.format(
-                    "Ignore field: %s (%s) [%s] - %s",
-                    f.getName(),
-                    f.getType(),
-                    cause,
-                    f
-                    )
-                );
+        logger.log( levelIgnoredField, msg );
     }
 
     @Override
-    public void localizedField( Field f )
+    protected void logLocalizedField( String msg )
     {
-        slogger.log(
-                levelLocalizedField,
-                String.format(
-                    "Localized field: %s (%s) - %s",
-                    f.getName(),
-                    f.getType(),
-                    f
-                )
-            );
+        logger.log( levelLocalizedField, msg );
     }
 }

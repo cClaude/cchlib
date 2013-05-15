@@ -19,17 +19,23 @@ public class FakePanelApp extends JFrame
      */
     public static void main( String[] args )
     {
+        start( false );
+        start( true  );
+    }
+
+    public static void start( final boolean doI18n )
+    {
         EventQueue.invokeLater( new Runnable() {
             @Override
             public void run()
             {
                 try {
-                    FakePanelApp frame = new FakePanelApp();
+                    FakePanelApp frame = new FakePanelApp( doI18n );
                     frame.setVisible( true );
-                }
+                    }
                 catch( Exception e ) {
                     e.printStackTrace();
-                }
+                    }
             }
         } );
     }
@@ -37,22 +43,24 @@ public class FakePanelApp extends JFrame
     /**
      * Create the frame.
      */
-    public FakePanelApp()
+    public FakePanelApp( boolean doI18n )
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setBounds( 100, 100, 831, 300 );
+        setSize( 800, 400 );
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( contentPane );
 
         FakePanel panel = new FakePanel();
-        
-        Locale locale = super.getLocale();
-        
-        AutoI18n autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class ).getAutoI18n();
-        panel.performeI18n( autoI18n );
-        
+
+        if( doI18n ) {
+            Locale locale = super.getLocale();
+
+            AutoI18n autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class ).getAutoI18n();
+            panel.performeI18n( autoI18n );
+            }
+
         contentPane.add(panel, BorderLayout.CENTER);
     }
 

@@ -25,25 +25,28 @@ public abstract class AbstractAutoI18nLoggingEventHandler
     protected abstract void logLocalizedField(String msg);
 
     @Override
+    final
     public void ignoredField( Field f, Cause cause )
     {
         logIgnoredField(String.format(
-            "Ignore field: %s (%s) [%s] - %s\n",
+            "Ignore field: %s (%s) [%s] - %s",
             f.getName(),
             f.getType(),
             cause,
-            f
+            LogFieldFormat.toString( f )
             ));
+        //new Exception().printStackTrace();
     }
 
-    @Override//
+    @Override
+    final
     public void localizedField( Field f )
     {
         logLocalizedField(String.format(
-            "Localized field: %s (%s) - %s\n",
+            "Localized field: %s (%s) - %s",
             f.getName(),
             f.getType(),
-            f
+            LogFieldFormat.toString( f )
             ));
     }
 }

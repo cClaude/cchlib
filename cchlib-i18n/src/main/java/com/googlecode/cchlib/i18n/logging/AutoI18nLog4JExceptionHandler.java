@@ -1,12 +1,15 @@
 package com.googlecode.cchlib.i18n.logging;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
+import com.googlecode.cchlib.i18n.missing.MissingInfo;
+import com.googlecode.cchlib.i18n.missing.MissingMethodsResolution;
+import com.googlecode.cchlib.i18n.missing.MissingSimpleKey;
+import com.googlecode.cchlib.i18n.missing.MissingLateKey;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using Log4J to trace
@@ -53,18 +56,43 @@ public class AutoI18nLog4JExceptionHandler
     {
         logger.log( level, "AutoI18n error", e );
     }
-
+    
     @Override
-    public void handleMissingResourceException(
+    public void handleMissingResourceException( 
+        final MissingResourceException e,
+        final Field                    field, 
+        final MissingInfo              missingInfo 
+        )
+    {
+        switch( missingInfo.getType() ) {
+            case SIMPLE_KEY :
+                _handleMissingResourceException( e, field, MissingSimpleKey.class.cast( missingInfo ) );
+                break;
+            case LATE_KEY :
+                _handleMissingResourceException( e, field, MissingLateKey.class.cast( missingInfo ) );
+                break;
+            case METHODS_RESOLUTION :
+                _handleMissingResourceException_MissingMethodsResolution( e, field, MissingMethodsResolution.class.cast( missingInfo ) );
+                break;
+            case JCOMPONENT_TOOLTIPTEXT:
+                _handleMissingResourceException( e, field, MissingForToolTipText.class.cast( missingInfo ) );
+                break;
+            }
+    }
+
+    private void _handleMissingResourceException_MissingMethodsResolution(
             MissingResourceException    e,
             Field                       field,
-            String                      key
+            MissingMethodsResolution    missingMethodsResolution
             )
     {
-        final String msg = "* MissingResourceException for:"
-                    + key
-                    + " - "
-                    + e.getLocalizedMessage();
+        final String msg = String.format(
+                    "* MissingResourceException for: %s using [%s] - %s\n",
+                    missingMethodsResolution.getKey(),
+                    //methods[0],
+                    missingMethodsResolution.getGetter(),
+                    e.getLocalizedMessage()
+                    );
 
         if( logger.isDebugEnabled() ) {
             logger.error( msg, e );
@@ -74,30 +102,16 @@ public class AutoI18nLog4JExceptionHandler
             }
     }
 
-    @Override
-    public void handleMissingResourceException(
-            MissingResourceException    e,
-            Field                       field,
-            AutoI18n.Key                key
-            )
+    private void _handleMissingResourceException(
+        final MissingResourceException    e,
+        final Field                       field,
+        final MissingInfo                 missingInfo
+        )
     {
-        handleMissingResourceException(e,field,key.getKey());
-    }
-
-    @Override
-    public void handleMissingResourceException(
-            MissingResourceException    e,
-            Field                       field,
-            String                      key,
-            Method[]                    methods
-            )
-    {
-        final String msg = String.format(
-                    "* MissingResourceException for: %s using [%s] - %s\n",
-                    key,
-                    methods[0],
-                    e.getLocalizedMessage()
-                    );
+        final String msg = "* MissingResourceException for:"
+                    + missingInfo.getKey()
+                    + " - "
+                    + e.getLocalizedMessage();
 
         if( logger.isDebugEnabled() ) {
             logger.error( msg, e );

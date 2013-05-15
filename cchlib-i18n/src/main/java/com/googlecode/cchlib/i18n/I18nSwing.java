@@ -9,7 +9,6 @@ import javax.swing.JTextArea;
 // NOT public 
 class I18nSwing 
 {
-
     public I18nSwing()
     {
         // Empty

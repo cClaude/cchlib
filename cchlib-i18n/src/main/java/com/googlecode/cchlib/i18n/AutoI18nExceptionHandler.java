@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
+import com.googlecode.cchlib.i18n.missing.MissingInfo;
 
 /**
  * Handler to manage exception or errors during internationalization
@@ -50,28 +51,10 @@ public interface AutoI18nExceptionHandler
     /**
      * Invoke when an {@link MissingResourceException} occurred
      *
-     * @param e         The exception to handle
-     * @param field     The {@link Field} concern by the exception
-     * @param key       The key ({@link String}) to use for translation
-     * @param methods   Array of {@link Method}, array of 2 methods (setter and getter).
+     * @param e           The exception to handle
+     * @param field       The {@link Field} concern by the exception
+     * @param MissingInfo Informations to retrieve default value
+     * @param methods     Array of {@link Method}, array of 2 methods (setter and getter).
      */
-    public void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
-
-    /**
-     * Invoke when an {@link MissingResourceException} occurred
-     *
-     * @param e     The exception to handle
-     * @param field The {@link Field} concern by the exception
-     * @param key   The key ({@link String}) to use for translation
-     */
-    public void handleMissingResourceException( MissingResourceException e, Field field, String key);
-
-    /**
-     * Invoke when an {@link MissingResourceException} occur
-     *
-     * @param e     The exception to handle
-     * @param field The {@link Field} concern by the exception
-     * @param key   The key ({@link AutoI18n.Key}) to use for translation
-     */
-    public void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
+    public void handleMissingResourceException( MissingResourceException e, Field field, MissingInfo missingInfo );
 }

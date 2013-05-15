@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 import javax.swing.AbstractButton;
@@ -22,39 +23,10 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     private ArrayList<AutoI18nTypes.Type> types;
 
     /**
-     * TODOC
-     *
-     * @param <T> TODOC
-     */
-    public abstract class AbstractType<T> implements AutoI18nTypes.Type
-    {
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Returns type for this object
-         * @return type for this object
-         */
-        @Override
-        public abstract Class<T> getType();
-
-        /**
-         * Cast current object to current type.
-         *
-         * @param toI18n Object to I18n
-         * @return cast field to localize to current type
-         * @see #getType()
-         */
-        final public T cast( Object toI18n )
-        {
-            return getType().cast( toI18n );
-        }
-    }
-
-    /**
      * Build {@link DefaultAutoI18nTypes} with the
      * default list of supported classes.
      */
-    public DefaultAutoI18nTypes()
+    protected DefaultAutoI18nTypes()
     {
         this.types = new ArrayList<AutoI18nTypes.Type>();
 
@@ -91,7 +63,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
      */
     public Collection<AutoI18nTypes.Type> getAutoI18nTypes()
     {
-        return types;
+        return Collections.unmodifiableCollection( types );
     }
 
     /**

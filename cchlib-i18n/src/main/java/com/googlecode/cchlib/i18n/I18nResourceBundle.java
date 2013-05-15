@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.io.IOException;
 import java.util.Locale;

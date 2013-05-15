@@ -1,5 +1,4 @@
 package com.googlecode.cchlib.i18n;
-//package cx.ath.choisnet.i18n;
 
 import java.util.Collections;
 import java.util.HashMap;

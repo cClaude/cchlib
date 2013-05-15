@@ -17,6 +17,11 @@ import javax.swing.JWindow;
 import org.apache.log4j.Logger;
 
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
+import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
+import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
+import com.googlecode.cchlib.i18n.missing.MissingMethodsResolution;
+import com.googlecode.cchlib.i18n.missing.MissingSimpleKey;
+import com.googlecode.cchlib.i18n.missing.MissingLateKey;
 
 /**
  * AutoI18n is design to assist internalization process.
@@ -343,7 +348,7 @@ public class AutoI18n implements Serializable
                         }
                     continue; // ignore primitive (numbers)
                     }
-                if( ftype.isAssignableFrom( Number.class )) {
+                 if( Number.class.isAssignableFrom( ftype ) ) {
                     if( eventHandler!=null ) {
                         eventHandler.ignoredField( f, AutoI18nEventHandler.Cause.NUMBER );
                         }
@@ -466,10 +471,12 @@ public class AutoI18n implements Serializable
         }
         catch( MissingResourceException e ) {
             if( methods == null ) {
-                this.exceptionHandler.handleMissingResourceException( e, f, key );
+                //this.exceptionHandler.handleMissingResourceException( e, f, key );
+                this.exceptionHandler.handleMissingResourceException( e, f, new MissingSimpleKey( key ) );
                 }
             else {
-                this.exceptionHandler.handleMissingResourceException( e, f, key, methods );
+                //this.exceptionHandler.handleMissingResourceException( e, f, key, methods );
+                this.exceptionHandler.handleMissingResourceException( e, f, new MissingMethodsResolution( key, methods ) );
                 }
             }
         catch( IllegalArgumentException e ) {
@@ -577,10 +584,11 @@ public class AutoI18n implements Serializable
                     return;//done
                     }
                 }
-            logger.warn( "Type (" + fclass + ") not handle for field: " + f );
+            logger.warn( "Type (" + fclass + ") not handle for field: " + LogFieldFormat.toString( f ) );
             }
         catch( MissingResourceException e ) {
-            this.exceptionHandler.handleMissingResourceException( e, f, key );
+            //this.exceptionHandler.handleMissingResourceException( e, f, key );
+            this.exceptionHandler.handleMissingResourceException( e, f, new MissingLateKey( key ) );
             }
 
         if( eventHandler!=null ) {
@@ -697,7 +705,7 @@ public class AutoI18n implements Serializable
                     }
                 }
             catch( MissingResourceException e ) {
-                this.exceptionHandler.handleMissingResourceException( e, f, key );
+                this.exceptionHandler.handleMissingResourceException( e, f, new MissingForToolTipText( realKey, key ) );
                 }
             catch( IllegalArgumentException e ) {
                 this.exceptionHandler.handleIllegalArgumentException( e );

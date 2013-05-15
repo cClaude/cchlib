@@ -17,6 +17,11 @@ import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypes;
 import com.googlecode.cchlib.i18n.I18nForce;
 import com.googlecode.cchlib.i18n.I18nString;
+import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
+import com.googlecode.cchlib.i18n.missing.MissingInfo;
+import com.googlecode.cchlib.i18n.missing.MissingLateKey;
+import com.googlecode.cchlib.i18n.missing.MissingMethodsResolution;
+import com.googlecode.cchlib.i18n.missing.MissingSimpleKey;
 
 /**
  * Abstract class of {@link AutoI18n} that allow to build initial resource
@@ -105,17 +110,18 @@ public abstract class AbstractI18nResourceAutoUpdate
 
         //Overwrite exception handler
         super.setAutoI18nExceptionHandler(
-        new AutoI18nUpdateEvent(exceptionHandler)
+        new AutoI18nUpdateEvent( exceptionHandler )
         {
             private static final long serialVersionUID = 1L;
-            @Override
-            public void handleMissingResourceException(
+//            @Override
+//            public void handleMissingResourceException(
+            private void handleMissingResourceException_SimpleKey(
                     MissingResourceException    mse,
                     Field                       f,
                     String                      key
                     )
             {
-                getParentHandler().handleMissingResourceException( mse, f, key );
+                //getParentHandler().handleMissingResourceException( mse, f, key );
 
                 // I18nString annotation
                 if( f.getAnnotation( I18nString.class ) != null ) {
@@ -168,18 +174,20 @@ public abstract class AbstractI18nResourceAutoUpdate
                         }
                     }
                 final String msg = "<<NOT HANDLE (c1)>>";
-                needProperty( getKey( f ), msg);
 
                 logger.fatal( msg, new Exception("DEBUG") );
-            }
-            @Override
-            public void handleMissingResourceException(
+
+                needProperty( getKey( f ), msg);
+             }
+//            @Override
+//            public void handleMissingResourceException(
+            private void handleMissingResourceException_LateKey(
                     MissingResourceException    mse,
                     Field                       f,
                     Key                         key
                     )
             {
-                getParentHandler().handleMissingResourceException( mse, f, key );
+                //getParentHandler().handleMissingResourceException( mse, f, key );
 
                 Class<?> fclass = f.getType();
 
@@ -225,15 +233,16 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                 needProperty( getKey( f ), "<<NOT HANDLE (c2)>>");
             }
-            @Override
-            public void handleMissingResourceException(
+            //@Override
+            //public void handleMissingResourceException(
+            private void handleMissingResourceException_Methods(
                     MissingResourceException mse,
                     Field                    f,
                     String                   key,
                     Method[]                 methods
                     )
             {
-                getParentHandler().handleMissingResourceException( mse, f, key );
+                //*getParentHandler().handleMissingResourceException( mse, f, key );
 
                 try {
                     String v = (String)methods[1].invoke( getObjectToI18n() );
@@ -255,6 +264,49 @@ public abstract class AbstractI18nResourceAutoUpdate
                     // TODO ?? better handle this exception
                     throw new RuntimeException( e );
                     }
+            }
+            private void handleMissingResourceException_MissingMethodsResolution(
+                    MissingResourceException mse,
+                    Field field,
+                    MissingMethodsResolution mmr )
+            {
+                handleMissingResourceException_Methods( mse, field, mmr.getKey(), new Method[]{ mmr.getGetter(), mmr.getSetter() } );
+            }
+            @Override
+            public void handleMissingResourceException(
+                final MissingResourceException mse, 
+                final Field                    field,
+                final MissingInfo              missingInfo 
+                )
+            {
+                getParentHandler().handleMissingResourceException( mse, field, missingInfo );
+
+                switch( missingInfo.getType() ) {
+                    case SIMPLE_KEY :
+                        handleMissingResourceException_SimpleKey( mse, field, MissingSimpleKey.class.cast( missingInfo ).getKey() );
+                        break;
+                    case LATE_KEY :
+                        handleMissingResourceException_LateKey( mse, field, MissingLateKey.class.cast( missingInfo ).getAutoI18nKey() );
+                        break;
+                    case METHODS_RESOLUTION :
+                        handleMissingResourceException_MissingMethodsResolution( mse, field, MissingMethodsResolution.class.cast( missingInfo ) );
+                        break;
+                    case JCOMPONENT_TOOLTIPTEXT:
+                        handleMissingResourceException_ToolTipText( mse, field, MissingForToolTipText.class.cast( missingInfo ) );
+                        break;
+                    }
+             }
+            private void handleMissingResourceException_ToolTipText(
+                final MissingResourceException mse, 
+                final Field                    field,
+                final MissingForToolTipText    missingInfo
+                )
+            {
+                // TODO Auto-generated method stub
+                int todo;
+                
+                AutoI18nTypes x = getAutoI18nDefaultTypes();
+                throw new UnsupportedOperationException();
             }
         });
 
