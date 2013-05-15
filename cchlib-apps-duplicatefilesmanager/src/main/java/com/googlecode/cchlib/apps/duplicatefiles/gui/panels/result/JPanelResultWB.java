@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
 import com.googlecode.cchlib.i18n.I18nIgnore;
 import com.googlecode.cchlib.i18n.I18nToolTipText;
 import com.googlecode.cchlib.swing.XComboBoxPattern;
@@ -284,7 +285,6 @@ public abstract class JPanelResultWB extends JPanel
     {
         if (jSplitPaneResultMain == null) {
             jSplitPaneResultMain = new JSplitPane();
-            jSplitPaneResultMain.setDividerLocation(100);
 
             JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
             jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
@@ -299,7 +299,7 @@ public abstract class JPanelResultWB extends JPanel
     {
         if (jSplitPaneResultRight == null) {
             jSplitPaneResultRight = new JSplitPane();
-            jSplitPaneResultRight.setDividerLocation(100);
+            jSplitPaneResultRight.setDividerLocation( 0.5 ); // Proportional
             jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
             JScrollPane jScrollPaneKeptIntact = new JScrollPane();
@@ -332,7 +332,7 @@ public abstract class JPanelResultWB extends JPanel
                             //KeyFileState kf = (KeyFileState)listModelKeptIntact.remove( index );
                             KeyFileState kf = jListKeptIntactListModel.remove( index );
 
-                            DeleteThisFile( kf );
+                            onDeleteThisFile( kf, true );
                             }
                         }
                 }
@@ -370,7 +370,7 @@ public abstract class JPanelResultWB extends JPanel
                             //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.remove( index );
                             KeyFileState kf = jListWillBeDeletedListModel.remove( index );
 
-                            KeptThisFile( kf );
+                            onKeepThisFile( kf, true );
                             }
                         }
                 }
@@ -402,6 +402,28 @@ public abstract class JPanelResultWB extends JPanel
         return listModelDuplicatesFiles;
     }
 
+
+    protected void setDividersLocation(
+        final DividersLocation dividersLocation
+        )
+    {
+        Integer mainDividerLocation = dividersLocation.getMainDividerLocation();
+        if( mainDividerLocation != null ) {
+            this.jSplitPaneResultMain.setDividerLocation( mainDividerLocation.intValue() );
+            }
+        else {
+            jSplitPaneResultMain.setDividerLocation( 0.10 ); // Proportional
+            }
+
+        Integer rightDividerLocation = dividersLocation.getRightDividerLocation();
+        if( rightDividerLocation != null ) {
+            this.jSplitPaneResultRight.setDividerLocation( rightDividerLocation.intValue() );
+            }
+        else {
+            jSplitPaneResultRight.setDividerLocation( 0.50 ); // Proportional
+            }
+    }
+
     protected abstract void jButtonRegExKeepMouseMousePressed();
     protected abstract void jButtonRegExDeleteMouseMousePressed();
     protected abstract void jToggleButtonSelectByRegExChangeStateChanged(ChangeEvent event);
@@ -410,7 +432,7 @@ public abstract class JPanelResultWB extends JPanel
     protected abstract void onRefresh();
 
     protected abstract void updateDisplayKeptDelete(int index);
-    protected abstract void KeptThisFile(KeyFileState kf);
-    protected abstract void DeleteThisFile(KeyFileState kf) ;
+    protected abstract void onKeepThisFile(KeyFileState kf, boolean updateDisplay);
+    protected abstract void onDeleteThisFile(KeyFileState kf, boolean updateDisplay) ;
     protected abstract void displayFileInfo(KeyFileState kf);
 }

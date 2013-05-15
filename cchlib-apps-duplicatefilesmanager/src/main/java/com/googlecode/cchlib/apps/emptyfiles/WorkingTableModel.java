@@ -13,6 +13,7 @@ import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.i18n.I18nString;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
@@ -29,7 +30,13 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     private static final int FILE_DATE = 3;
     private static final int FILE_ATTR = 4;
 
-    private String[]            columnNames = { "Delete", "Filename", "size", "date", "Attributs" };
+    @I18nString private String[] columnNames = { 
+            "Delete", 
+            "Filename",
+            "size", 
+            "date",
+            "Attributs" 
+            };
     private Class<?>[]          columnTypes = new Class[] { Boolean.class, String.class, String.class, Date.class, String.class };
     private List<File>          fileList    = new ArrayList<>();
     private Map<File,FileInfo>  infoMap     = new HashMap<>();

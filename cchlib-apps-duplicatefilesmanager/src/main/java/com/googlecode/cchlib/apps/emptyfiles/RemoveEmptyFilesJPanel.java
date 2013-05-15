@@ -30,9 +30,10 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
 
     private JPanel                mainJPanel;
     private CardLayout            cardLayout;
+    
     private SelecDirecoriesJPanel selecDirecoriesJPanel;
+    
     private WorkingJPanel         workingJPanel;
-
     private WorkingTableModel     tableModel;
 
     @I18nString private String findFilesFmt = "%d files in list";
@@ -170,5 +171,6 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
 
         autoI18n.performeI18n( this.selecDirecoriesJPanel, SelecDirecoriesJPanel.class );
         autoI18n.performeI18n( this.workingJPanel, WorkingJPanel.class );
+        autoI18n.performeI18n( this.tableModel, WorkingTableModel.class );
     }
 }

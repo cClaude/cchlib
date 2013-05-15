@@ -47,6 +47,8 @@ public class Preferences implements Serializable
     @Populator(defaultValue="true") private boolean ignoreHiddenDirectories;
     @Populator(defaultValue="true") private boolean ignoreReadOnlyFiles;
     @Populator(defaultValue="true") private boolean ignoreEmptyFiles;
+    @Populator(defaultValueIsNull=true) private Integer resultsMainDividerLocation;
+    @Populator(defaultValueIsNull=true) private Integer resultsRightDividerLocation;
     private List<String> incFilesFilterPatternRegExpList;
 
     /*
@@ -395,6 +397,34 @@ public class Preferences implements Serializable
             incFilesFilterPatternRegExpList.add( "(.*?)\\.(reg)" );
             }
         return incFilesFilterPatternRegExpList;
+    }
+
+    public DividersLocation getJPaneResultDividerLocations()
+    {
+        return new DividersLocation()
+        {
+            @Override
+            public Integer getMainDividerLocation()
+            {
+                return resultsMainDividerLocation;
+            }
+            @Override
+            public void setMainDividerLocation( Integer mainDividerLocation )
+            {
+                resultsMainDividerLocation = mainDividerLocation;
+            }
+
+            @Override
+            public Integer getRightDividerLocation()
+            {
+                return resultsRightDividerLocation;
+            }
+            @Override
+            public void setRightDividerLocation( Integer rightDividerLocation )
+            {
+                resultsRightDividerLocation = rightDividerLocation;
+            }
+        };
     }
 
 }

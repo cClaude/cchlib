@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
@@ -59,10 +60,10 @@ public class JPanelResult extends JPanelResultWB
             //this.listModel       = listModel;
             //this.selectedIndices = selectedIndices;
             this.selectedList    = new ArrayList<>();
-            
+
             for( int index : selectedIndices ) {
                 this.selectedList.add( listModel.getElementAt( index ) );
-                }            
+                }
         }
 
         @Override
@@ -156,6 +157,7 @@ public class JPanelResult extends JPanelResultWB
     @I18nString private String txtMenuSortByPath = "File path";
     @I18nString private String txtMenuSortByDepth = "File depth";
     @I18nString private String txtMenuSortFirstFile = "Select first file";
+    @I18nString private String txtMenuSortByNumberOfDuplicate = "Number of duplicate";
     @I18nString private String txtMenuFirstFileRandom = "Quick";
     @I18nString private String txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
     @I18nString private String txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
@@ -169,9 +171,17 @@ public class JPanelResult extends JPanelResultWB
         this.dFToolKit = dFToolKit;
 
         createPopupMenus();
+        
+        SwingUtilities.invokeLater( new Runnable() {
+            @Override
+            public void run()
+            {
+                setDividersLocation( dFToolKit.getPreferences().getJPaneResultDividerLocations() ); 
+            }
+        });
     }
 
-    public void populate(
+     public void populate(
             final HashMapSet<String,KeyFileState> duplicateFiles
             )
     {
@@ -383,7 +393,7 @@ public class JPanelResult extends JPanelResultWB
     }
 
     @Override
-    protected void DeleteThisFile( KeyFileState kf )
+    protected void onDeleteThisFile( KeyFileState kf, boolean updateDisplay )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( true );
@@ -392,7 +402,7 @@ public class JPanelResult extends JPanelResultWB
     }
 
     @Override
-    protected void KeptThisFile( KeyFileState kf )
+    protected void onKeepThisFile( KeyFileState kf, boolean updateDisplay )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( false );
@@ -446,6 +456,7 @@ public class JPanelResult extends JPanelResultWB
                         addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName , gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
                         addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath , gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
                         addJCheckBoxMenuItem( sortListMenu, txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
+                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByNumberOfDuplicate, gb, sortByListener, SortMode.class, SortMode.NUMBER_OF_DUPLICATE, sortMode );
                     }
                     {
                         JMenu sortFirstFileMenu = addJMenu( cm, txtMenuSortFirstFile );
@@ -814,8 +825,10 @@ public class JPanelResult extends JPanelResultWB
         final Selected selected = Selected.class.cast( actionObject );
 
         for( KeyFileState kf : selected ) {
-            KeptThisFile(kf);
+            onKeepThisFile( kf, false );
             }
+
+        updateDisplayKeptDelete( selected.getKey() );
     }
 
     private void onDeleteTheseFiles( final Object actionObject )
@@ -823,8 +836,10 @@ public class JPanelResult extends JPanelResultWB
         final Selected selected = Selected.class.cast( actionObject );
 
         for( KeyFileState kf : selected ) {
-            DeleteThisFile(kf);
+            onDeleteThisFile( kf, false );
             }
+
+        updateDisplayKeptDelete( selected.getKey() );
     }
 
     @Override

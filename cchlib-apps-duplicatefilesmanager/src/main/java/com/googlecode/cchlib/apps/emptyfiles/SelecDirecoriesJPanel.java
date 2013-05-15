@@ -13,6 +13,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.util.Collection;
@@ -31,7 +32,7 @@ public class SelecDirecoriesJPanel extends JPanel
     private JButton addButton;
     private JButton removeButton;
     private JButton startButton;
-    private DefaultListModel<File> directoriesJListModel = new DefaultListModel<>();
+    private DefaultListModel<File> directoriesJListModel = new NoDuplicateListModel<>();
     private JButton importButton;
     private JProgressBar progressBar;
     private JScrollPane scrollPane;
@@ -63,13 +64,13 @@ public class SelecDirecoriesJPanel extends JPanel
             this.list = new JList<>();
             this.scrollPane.setViewportView(this.list);
             this.list.setModel( directoriesJListModel );
-            
+
             SimpleFileDrop.createSimpleFileDrop(
-                    this.list,
-                    this.directoriesJListModel,
-                    SimpleFileDrop.SelectionFilter.DIRECTORIES_ONLY
-                    );
-            
+                this.list,
+                this.directoriesJListModel,
+                SimpleFileDrop.SelectionFilter.DIRECTORIES_ONLY
+                );
+
             // Handle selection change
             this.list.addListSelectionListener( new ListSelectionListener() {
                 @Override

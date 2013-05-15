@@ -13,6 +13,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
@@ -34,6 +35,7 @@ public class JPanelResultListModel
     private Comparator<? super KeyFiles> filenameComparator;
     private Comparator<? super KeyFiles> pathComparator;
     private Comparator<? super KeyFiles> sizeComparator;
+    private Comparator<? super KeyFiles> numberOfDuplicateComparator;
     private Comparator<? super KeyFiles> depthComparator;
 
     private SelectFirstMode selectFirstMode;
@@ -66,6 +68,13 @@ public class JPanelResultListModel
                         o1.getFirstFile().length() -
                             o2.getFirstFile().length()
                             );
+                }
+            };
+        numberOfDuplicateComparator = new Comparator<KeyFiles>() {
+                @Override
+                public int compare( KeyFiles o1, KeyFiles o2 )
+                {
+                    return o1.getFiles().size() - o2.getFiles().size();
                 }
             };
         depthComparator = new Comparator<KeyFiles>() {
@@ -168,6 +177,10 @@ public class JPanelResultListModel
 
             case FIRST_FILEDEPTH :
                 cmp = this.depthComparator;
+                break;
+                
+            case NUMBER_OF_DUPLICATE:
+                cmp = this.numberOfDuplicateComparator;
                 break;
             }
 
