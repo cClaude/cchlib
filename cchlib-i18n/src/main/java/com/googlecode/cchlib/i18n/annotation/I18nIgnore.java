@@ -16,10 +16,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface I18nIgnore
 {
-    /**
-     * Returns key name for this field
-     * @return key name for this field, if
-     *         not define ("") use default process.
-     */
-    String id() default "";
 }

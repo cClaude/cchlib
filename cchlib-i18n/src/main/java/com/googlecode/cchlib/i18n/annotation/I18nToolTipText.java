@@ -18,4 +18,10 @@ import com.googlecode.cchlib.Beta;
 @Beta
 public @interface I18nToolTipText
 {
+    /**
+     * Returns key name for this field
+     * @return key name for this field, if
+     *         not define ("") use default process.
+     */
+    String id() default ""; // TODO : not yet implemented
 }

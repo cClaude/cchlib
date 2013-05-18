@@ -29,7 +29,7 @@ public interface AutoI18nTypes
          * @param key    key object for resolve value
          * @throws MissingResourceException if resource missing
          */
-        public void setText(Object toI18n, AutoI18n.LateKey key)
+        public void setText(Object toI18n, LateKey key)
             throws MissingResourceException;
 
         /**

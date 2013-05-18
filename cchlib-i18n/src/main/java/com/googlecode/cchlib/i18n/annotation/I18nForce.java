@@ -14,8 +14,8 @@ import com.googlecode.cchlib.Beta;
  * or
  * {@link javax.swing.JProgressBar}
  *
- * @see com.googlecode.cchlib.i18n.AutoI18n
- * @see com.googlecode.cchlib.i18n.ForceAutoI18nTypes
+ * @see com.googlecode.cchlib.i18n.hidden.AutoI18nImpl
+ * @see com.googlecode.cchlib.i18n.hidden.ForceAutoI18nTypes
  */
 @Documented
 @Inherited
@@ -23,11 +23,11 @@ import com.googlecode.cchlib.Beta;
 @Beta
 public @interface I18nForce
 {
-    /**
-     * Specify class name to use
-     * @return TODOC
-     */
-    String className() default "";
+//    /**
+//     * Specify class name to use
+//     * @return class name to use to 
+//     */
+//    String className() default "";
     
     /**
      * Returns key name for this field

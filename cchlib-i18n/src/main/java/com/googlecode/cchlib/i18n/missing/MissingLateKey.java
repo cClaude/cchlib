@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n.missing;
 
 import java.io.Serializable;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.LateKey;
 
 /**
  *
@@ -9,9 +9,9 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 public class MissingLateKey implements MissingInfo, Serializable 
 {
     private static final long serialVersionUID = 1L;
-    private AutoI18n.LateKey key;
+    private LateKey key;
 
-    public MissingLateKey( AutoI18n.LateKey key )
+    public MissingLateKey( LateKey key )
     {
         this.key = key;
     }
@@ -31,7 +31,7 @@ public class MissingLateKey implements MissingInfo, Serializable
         return key.getKey();
     }
 
-    public AutoI18n.LateKey getAutoI18nKey()
+    public LateKey getAutoI18nKey()
     {
         return key;
     }

@@ -1,4 +1,6 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n.hidden;
+
+import com.googlecode.cchlib.i18n.AutoI18nTypes;
 
 /**
  * TODOC

@@ -6,12 +6,12 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.hidden.AutoI18nImpl;
 
 /**
  * Annotation to specify how a Field should be localized
  *
- * @see AutoI18n
+ * @see AutoI18nImpl
  */
 @Documented
 @Inherited
@@ -30,11 +30,11 @@ public @interface I18n
      */
     String method() default "";
     
-    /**
-     * @deprecated use {@link #method()} instead
-     */
-    @Deprecated
-    String methodSuffixName() default "";
+//    /**
+//     * @deprecated use {@link #method()} instead
+//     */
+//    @Deprecated
+//    String methodSuffixName() default "";
     
     /**
      * Returns key name for this field
@@ -43,9 +43,9 @@ public @interface I18n
      */
     String id() default "";
     
-    /**
-     * @deprecated use {@link #id()} instead
-     */
-    @Deprecated
-    String keyName() default "";
+//    /**
+//     * @deprecated use {@link #id()} instead
+//     */
+//    @Deprecated
+//    String keyName() default "";
 }

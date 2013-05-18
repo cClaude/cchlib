@@ -6,13 +6,13 @@ import java.io.OutputStream;
 import java.util.EnumSet;
 import java.util.Properties;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypes;
+import com.googlecode.cchlib.i18n.AutoI18n;
 
 /***
- * Abstract class of {@link AutoI18n} that allow to build initial properties
+ * Abstract class of {@link AutoI18nImpl} that allow to build initial properties
  * files for localization.
  */
 public abstract class AbstractI18nPropertiesResourceAutoUpdate

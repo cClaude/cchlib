@@ -10,6 +10,7 @@ import com.googlecode.cchlib.i18n.I18nSimpleResourceBundle;
 import com.googlecode.cchlib.i18n.I18nSimpleStatsResourceBundle;
 import com.googlecode.cchlib.i18n.builder.I18nAutoUpdateInterface;
 import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
+import com.googlecode.cchlib.i18n.hidden.AutoI18nImpl;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 
@@ -39,14 +40,14 @@ public abstract class AbstractI18nBundle
     public abstract String getMessagesBundle();
 
     /**
-     * Returns an {@link AutoI18n} for production version
+     * Returns an {@link AutoI18nImpl} for production version
      * of the application.
-     * @return an {@link AutoI18n} able to do the I18n.
+     * @return an {@link AutoI18nImpl} able to do the I18n.
      */
     public AutoI18n getAutoI18n()
     {
        if( autoI18n == null ) {
-           autoI18n = new AutoI18n(
+           autoI18n = new AutoI18nImpl(
                    new I18nSimpleResourceBundle(
                            locale,
                            getMessagesBundle()
@@ -61,12 +62,12 @@ public abstract class AbstractI18nBundle
     }
 
     /**
-     * Returns an {@link AutoI18n} for a development
+     * Returns an {@link AutoI18nImpl} for a development
      * version of the application. This version must
      * open all frames an build all object that should
      * be internationalized using same object structure
      * (key are based on object structure).
-     * @return an {@link AutoI18n} able to identify
+     * @return an {@link AutoI18nImpl} able to identify
      * keys that should be translated, able to collection
      * how many times keys are used.
      */
@@ -96,10 +97,10 @@ public abstract class AbstractI18nBundle
 
     /**
      * Returns default configuration
-     * @see com.googlecode.cchlib.i18n.AutoI18n.Attribute#DO_DEEP_SCAN
+     * @see com.googlecode.cchlib.i18n.hidden.AutoI18nImpl.Attribute#DO_DEEP_SCAN
      * @return default configuration
      */
-    protected EnumSet<AutoI18n.Attribute> getAutoI18nAttributes()
+    protected EnumSet<AutoI18nImpl.Attribute> getAutoI18nAttributes()
     {
         return EnumSet.of(
                 AutoI18n.Attribute.DO_DEEP_SCAN

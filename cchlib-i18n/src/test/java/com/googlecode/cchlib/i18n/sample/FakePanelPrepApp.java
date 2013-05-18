@@ -18,7 +18,7 @@ public class FakePanelPrepApp
         Locale locale = Locale.ENGLISH;
 
         // Build frame
-        FakePanel   panel = new FakePanel();
+        FakePanel frameOrPanel = new FakePanel();
 
         // Define output
         PrintStream usageStatPrintStream    = System.err;
@@ -31,7 +31,7 @@ public class FakePanelPrepApp
             locale,
             usageStatPrintStream,
             notUsePrintStream,
-            panel,
+            frameOrPanel,
             otherFrames
             );
     }

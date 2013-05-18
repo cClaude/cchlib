@@ -11,14 +11,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.EnumSet;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypes;
 import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
- * Implementation of {@link AutoI18n} that allow to build initial resource
+ * Implementation of {@link AutoI18nImpl} that allow to build initial resource
  * file for localization.
  *
  * <p><b>IMPORTANT:</b></br>

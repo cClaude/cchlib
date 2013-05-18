@@ -1,9 +1,10 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n.hidden;
 
 import java.util.MissingResourceException;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.i18n.LateKey;
 
 /**
  * Default implementation for {@link com.googlecode.cchlib.i18n.annotation.I18nForce}
@@ -31,7 +32,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.LateKey k)
+            public void setText( Object toI18n, LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
@@ -60,7 +61,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.LateKey k)
+            public void setText( Object toI18n, LateKey k)
                 throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());
@@ -89,7 +90,7 @@ public class ForceAutoI18nTypes extends DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, AutoI18n.LateKey k )
+            public void setText( Object toI18n, LateKey k )
                     throws MissingResourceException
             {
                 cast( toI18n ).setText(k.getValue());

@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.EnumSet;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -36,7 +37,7 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
     private JCheckBox jCheckBox; // I18n default process
 
     @I18n(id="JButtonID")            private JButton jButton;
-    @I18n(keyName="JLabelID")        private JLabel jLabel;
+    @I18n                            private JLabel jLabel; // annotation not needed
     @I18n(method="I18nJPanelBorder") private Object dummy; // ex: declare field to apply a custom method
 
     @I18nForce private JTextArea   jTextArea;
@@ -50,6 +51,17 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
 
     private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 
+    /*
+    // Errors (during prep process) 
+    @SuppressWarnings("unused")  private JButton     jButtonAreaError1;  // Also error during I18n process (if id exist)
+    @I18nForce                   private JTextArea   jTextAreaError2;    // Also error during I18n process (if id exist)
+    @I18nIgnore @I18nToolTipText private JButton     jButtonAreaError3 = new JButton();
+    */
+    
+    private enum Test {A,B,C};
+    @SuppressWarnings("unused") private Test test;
+    @SuppressWarnings("unused") private EnumSet<Test> testSet;
+    
     public void setI18nJPanelBorder( String str )
     {
         logger.debug( "setI18nJPanelBorder: [" + str + ']' );
@@ -242,7 +254,7 @@ public class FakePanel extends JPanel implements I18nAutoUpdatable, I18nPrepHelp
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-
+    
     @Override // I18nPrepHelperAutoUpdatable
     public String getMessagesBundleForI18nPrepHelper()
     {

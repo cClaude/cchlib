@@ -11,13 +11,15 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import javax.swing.JComponent;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypes;
+import com.googlecode.cchlib.i18n.LateKey;
 import com.googlecode.cchlib.i18n.annotation.I18nForce;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.hidden.AutoI18nImpl;
 import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
 import com.googlecode.cchlib.i18n.missing.MissingForToolTipText;
 import com.googlecode.cchlib.i18n.missing.MissingInfo;
@@ -26,11 +28,11 @@ import com.googlecode.cchlib.i18n.missing.MissingMethodsResolution;
 import com.googlecode.cchlib.i18n.missing.MissingSimpleKey;
 
 /**
- * Abstract class of {@link AutoI18n} that allow to build initial resource
+ * Abstract class of {@link AutoI18nImpl} that allow to build initial resource
  * file for localization.
  */
 public abstract class AbstractI18nResourceAutoUpdate
-    extends AutoI18n
+    extends AutoI18nImpl
         implements Closeable
 {
     private static final long serialVersionUID = 1L;
@@ -94,12 +96,12 @@ public abstract class AbstractI18nResourceAutoUpdate
      */
     public AbstractI18nResourceAutoUpdate(
             final I18nAutoUpdateInterface         i18nAutoUpdateInterface,
-            final AutoI18nTypes                 autoI18nDefaultTypes,
-            final AutoI18nTypes                 autoI18nForceTypes,
-            final AutoI18nExceptionHandler         exceptionHandler,
-            final AutoI18nEventHandler             eventHandler,
+            final AutoI18nTypes                   autoI18nDefaultTypes,
+            final AutoI18nTypes                   autoI18nForceTypes,
+            final AutoI18nExceptionHandler        exceptionHandler,
+            final AutoI18nEventHandler            eventHandler,
             final EnumSet<AutoI18n.Attribute>     autoI18nAttributes,
-            final EnumSet<Attribute>             bundleAttributes
+            final EnumSet<Attribute>              bundleAttributes
             )
     {
         super(  i18nAutoUpdateInterface,
@@ -186,7 +188,7 @@ public abstract class AbstractI18nResourceAutoUpdate
             private void handleMissingResourceException_LateKey(
                     MissingResourceException    mse,
                     Field                       f,
-                    LateKey                         key
+                    LateKey                     key
                     )
             {
                 //getParentHandler().handleMissingResourceException( mse, f, key );
@@ -207,20 +209,32 @@ public abstract class AbstractI18nResourceAutoUpdate
 
                     for( AutoI18nTypes.Type t : types ) {
                         if( t.getType().isAssignableFrom( fclass ) ) {
-                            String[] values = t.getText( f.get( getObjectToI18n() ) );
+                            Object fValue = f.get( getObjectToI18n() );
 
-                            if( values.length == 1 ) {
-                                needProperty(key.getKey(),values[0]);
-                                }
-                            else if( values.length > 1 ) {
-                                String   prefix = getKey( f ) + '.';
+                            if( fValue == null ) {
+                                final String msg = "Value of " + LogFieldFormat.toString( f ) + " is NULL ";
 
-                                for(int i=0;i<values.length;i++) {
-                                    needProperty(prefix+i,values[i]);
-                                    }
+                                logger.warn( msg );
+                                String v = String.format("<<%s>>", msg );
+
+                                needProperty(key.getKey(),v);
                                 }
                             else {
-                                needProperty(key.getKey(),"<<EMPTY-ARRAY-OF-STRING>>");
+                                String[] values = t.getText( fValue );
+
+                                if( values.length == 1 ) {
+                                    needProperty(key.getKey(),values[0]);
+                                    }
+                                else if( values.length > 1 ) {
+                                    String   prefix = getKey( f ) + '.';
+
+                                    for(int i=0;i<values.length;i++) {
+                                        needProperty(prefix+i,values[i]);
+                                        }
+                                    }
+                                else {
+                                    needProperty(key.getKey(),"<<EMPTY-ARRAY-OF-STRING>>");
+                                    }
                                 }
                             return; // done
                             }
@@ -256,15 +270,15 @@ public abstract class AbstractI18nResourceAutoUpdate
                     }
                 catch( IllegalArgumentException e ) {
                     // Should NOT occur !
-                    throw new RuntimeException( e );
+                    throw new RuntimeException( "IllegalArgumentException while invoke: " + methods[1], e );
                     }
                 catch( IllegalAccessException e ) {
                     // TODO ?? better handle this exception
-                    throw new RuntimeException( e );
+                    throw new RuntimeException( "IllegalAccessException while invoke: " + methods[1], e );
                     }
                 catch( InvocationTargetException e ) {
                     // TODO ?? better handle this exception
-                    throw new RuntimeException( e );
+                    throw new RuntimeException( "InvocationTargetException while invoke: " + methods[1], e );
                     }
             }
             private void handleMissingResourceException_MissingMethodsResolution(
@@ -276,9 +290,9 @@ public abstract class AbstractI18nResourceAutoUpdate
             }
             @Override
             public void handleMissingResourceException(
-                final MissingResourceException mse, 
+                final MissingResourceException mse,
                 final Field                    field,
-                final MissingInfo              missingInfo 
+                final MissingInfo              missingInfo
                 )
             {
                 getParentHandler().handleMissingResourceException( mse, field, missingInfo );
@@ -299,24 +313,24 @@ public abstract class AbstractI18nResourceAutoUpdate
                     }
              }
             private void handleMissingResourceException_ToolTipText(
-                final MissingResourceException mse, 
+                final MissingResourceException mse,
                 final Field                    field,
                 final MissingForToolTipText    missingInfo
                 )
             {
                 Class<?> fclass = field.getType();
-                
+
                 if( JComponent.class.isAssignableFrom( fclass ) ) {
                     boolean accessible = field.isAccessible();
-                    
+
                     if( ! accessible ) {
                         field.setAccessible( true );
                         }
-                    
+
                     try {
                         Object obj = field.get( getObjectToI18n() );
                         String v;
-                        
+
                         if( obj == null ) {
                             String msg = LogFieldFormat.toString( field ) + " value is null";
                             logger.fatal( msg );
@@ -324,10 +338,20 @@ public abstract class AbstractI18nResourceAutoUpdate
                             v = String.format("<<%s>>", msg );
                             }
                         else {
-                            JComponent c   = JComponent.class.cast( obj );
-                            v              = c.getToolTipText();
+                            JComponent c          = JComponent.class.cast( obj );
+                            String    toolTipText = c.getToolTipText();
+
+                            if( toolTipText == null ) {
+                                String msg = LogFieldFormat.toString( field ) + ".getToolTipText() value is null";
+                                logger.fatal( msg );
+
+                                v = String.format("<<%s>>", msg );
+                                }
+                            else {
+                                v = toolTipText;
+                                }
                             }
-                        
+
                         needProperty( missingInfo.getKey(), v );
                         }
                     catch( IllegalArgumentException e ) {
@@ -343,7 +367,7 @@ public abstract class AbstractI18nResourceAutoUpdate
                     final String msg = "ToolTipText are handle only on " + JComponent.class + " not on " + fclass;
 
                     logger.fatal( msg );
-                    
+
                     String v = String.format("<<%s>>", msg );
 
                     needProperty( getKey( field ), v );

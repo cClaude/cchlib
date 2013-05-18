@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.config.AbstractI18nBundle;
 import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
 
 public class FakePanelApp extends JFrame
@@ -57,11 +58,16 @@ public class FakePanelApp extends JFrame
         if( doI18n ) {
             Locale locale = super.getLocale();
 
-            AutoI18n autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class ).getAutoI18n();
+            //AutoI18n autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class ).getAutoI18n();
+            AutoI18n autoI18n = getDefaultI18nBundle( locale ).getAutoI18n();
             panel.performeI18n( autoI18n );
             }
 
         contentPane.add(panel, BorderLayout.CENTER);
     }
 
+    public static AbstractI18nBundle getDefaultI18nBundle(Locale locale)
+    {
+        return DefaultI18nBundleFactory.createDefaultI18nBundle( locale, FakePanelApp.class );
+    }
 }
