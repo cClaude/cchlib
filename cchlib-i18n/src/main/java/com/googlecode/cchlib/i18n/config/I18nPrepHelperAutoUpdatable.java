@@ -1,13 +1,12 @@
 package com.googlecode.cchlib.i18n.config;
 
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+
 /**
- * To add on a custom class to identify MessageBundle base name 
+ * use {@link I18nAutoCoreUpdatable} instead
  */
-public interface I18nPrepHelperAutoUpdatable extends I18nAutoUpdatable
-{
-    /**
-     * Returns message bundle base name
-     * @return message bundle base name
-     */
+@Deprecated
+public interface I18nPrepHelperAutoUpdatable extends I18nAutoCoreUpdatable {
+    @Deprecated
     public String getMessagesBundleForI18nPrepHelper();
 }

@@ -23,5 +23,16 @@ public @interface I18nToolTipText
      * @return key name for this field, if
      *         not define ("") use default process.
      */
-    String id() default ""; // TODO : not yet implemented
+    String id() default "";
+    
+    /**
+     * Must have two methods, with theses signatures:<br/>
+     * public void set'method'(String)
+     * <br/>
+     * public String get'method'()
+     *
+     * @return method name, if not define ("")
+     *         use default process.
+     */
+    String method() default "";
 }

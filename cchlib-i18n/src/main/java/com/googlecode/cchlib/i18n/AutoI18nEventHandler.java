@@ -10,30 +10,20 @@ import java.lang.reflect.Field;
 public interface AutoI18nEventHandler
     extends Serializable
 {
-    /** 
-     * TODOC
-     */
-    enum Cause {
-        ANNOTATION,
-        PRIMITIVE,
-        NUMBER,
-        ANNOTATION_I18nIgnore_DEFINE,
-        NOT_HANDLED,
-        NOT_A_I18nString
-        };
-
     /**
      * Call when a Field is ignored
      *
-     * @param f ignored Field
-     * @param cause Cause
+     * @param f          ignored Field
+     * @param key        String key for this field, if available, null otherwise
+     * @param eventCause {@link EventCause} qualification
+     * @param causeDecription Optional cause description (could be null)
      */
-    public void ignoredField(Field f,Cause cause);
+    public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription );
 
     /**
      * Call when a Field is localized
      *
      * @param f localized Field
      */
-    public void localizedField( Field f );
+    public void localizedField( Field f, String key );
 }

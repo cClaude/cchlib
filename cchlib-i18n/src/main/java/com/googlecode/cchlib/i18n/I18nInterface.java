@@ -2,10 +2,12 @@ package com.googlecode.cchlib.i18n;
 
 import java.io.Serializable;
 import java.util.Locale;
-import com.googlecode.cchlib.i18n.hidden.AutoI18nImpl;
 
 /**
- * @see AutoI18nImpl
+ * Resolve value ({@link String}) from a string key ({@link String}) 
+ * according to current {@link Locale}
+ * 
+ * @see AutoI18n
  */
 public interface I18nInterface extends Serializable
 {

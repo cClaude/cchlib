@@ -1,140 +1,58 @@
 package com.googlecode.cchlib.i18n.config;
 
+import java.util.EnumSet;
 import java.util.Locale;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 
 /**
- * TODOC
- *
+ * 
  */
-public class DefaultI18nBundleFactory
-{
-    private DefaultI18nBundleFactory()
+@Deprecated
+public class DefaultI18nBundleFactory {
+
+    private AutoI18nCore autoI18n;
+
+    private DefaultI18nBundleFactory(Locale locale, final I18nPrepHelperAutoUpdatable prep)
     {
-        //All static
+        EnumSet<AutoI18nConfig> config = null; // default config
+        
+        //        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+//                config, 
+//                new I18nSimpleResourceBundle( 
+//                        locale, 
+//                        prep.getMessagesBundleForI18nPrepHelper()
+//                        ) 
+//                );
+        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+                config, 
+                new I18nSimpleResourceBundle( 
+                        locale, 
+                        new I18nResourceBundleName() {
+                            @Override
+                            public String getName()
+                            {
+                                return prep.getMessagesBundleForI18nPrepHelper();
+                            }}
+                        ) 
+                );
     }
-
-    /**
-     * Create AbstractI18nBundle for giving locale and giving
-     * class to build message bundle base name
-     * (see {@link #getMessagesBundle(Class)})
-     *
-     * @param locale    {@link Locale} to use
-     * @param clazz     {@link Class} to use to build message bundle path
-     * @return an AbstractI18nBundle
-     * @see #getMessagesBundle(Class)
-     */
-    public final static AbstractI18nBundle createDefaultI18nBundle(
-        final Locale    locale,
-        final Class<?>  clazz
-        )
+    
+    public static <T> DefaultI18nBundleFactory createDefaultI18nBundle( Locale locale, I18nPrepHelperAutoUpdatable prep )
     {
-        return new AbstractI18nBundle( locale )
-        {
-            @Override
-            public String getMessagesBundle()
-            {
-                return DefaultI18nBundleFactory.getMessagesBundle( clazz );
-            }
-        };
-    }
-
-    /**
-     * Create AbstractI18nBundle for giving locale and giving
-     * class to build message bundle base name
-     * (see {@link #getMessagesBundle(Package,String)})
-     *
-     * @param locale    {@link Locale} to use
-     * @param pakkage   {@link Package} to use to build message bundle path
-     * @param base      Begin of message bundle file name
-     * @return an AbstractI18nBundle
-     * @see #getMessagesBundle(Package,String)
-     * @since 4.1.7
-     */
-    public final static AbstractI18nBundle createDefaultI18nBundle(
-        final Locale  locale,
-        final Package pakkage,
-        final String  base
-        )
-    {
-        return new AbstractI18nBundle( locale )
-        {
-            @Override
-            public String getMessagesBundle()
-            {
-                return DefaultI18nBundleFactory.getMessagesBundle( pakkage, base );
-            }
-        };
-    }
-
-//    @Deprecated
-//    public static AbstractI18nBundle createDefaultI18nBundle(
-//            final Locale                locale,
-//            final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
-//            )
-//    {
-//        return createDefaultI18nBundle( locale, new I18nPrepHelperAutoUpdatable() {
-//            @Override
-//            public void performeI18n( AutoI18n autoI18n )
-//            {
-//                i18nPrepAutoUpdatable.performeI18n( autoI18n );
-//            }
-//            @Override
-//            public String getMessagesBundleForI18nPrepHelper()
-//            {
-//                return i18nPrepAutoUpdatable.getMessagesBundle();
-//            }} );
-//    }
-
-    /**
-     * Create AbstractI18nBundle for giving locale and giving
-     * i18nPrepAutoUpdatable to build message bundle base name
-     * (see {@link I18nPrepHelperAutoUpdatable#getMessagesBundleForI18nPrepHelper()})
-     *
-     * @param locale                      {@link Locale} to use
-     * @param i18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
-     * @return an AbstractI18nBundle
-     * @see I18nPrepHelperAutoUpdatable#getMessagesBundleForI18nPrepHelper()
-     */
-    public final static AbstractI18nBundle createDefaultI18nBundle(
-            final Locale                      locale,
-            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable
-            )
-        {
-            return new AbstractI18nBundle( locale )
-            {
-                @Override
-                public String getMessagesBundle()
-                {
-                    return i18nPrepHelperAutoUpdatable.getMessagesBundleForI18nPrepHelper();
-                }
-            };
+        if( locale == null ) {
+            return new DefaultI18nBundleFactory( Locale.getDefault(), prep );
+        } else {
+            return new DefaultI18nBundleFactory( locale, prep );
         }
-
-    /**
-     * Returns Message Bundle base name based on the package name
-     * of giving class (add ".MessagesBundle" as extension).
-     *
-     * @param clazz Class to use to build Message Bundle base name
-     * @return Message Bundle base name based on giving class name
-     * @see #getMessagesBundle(Package, String)
-     */
-    public final static String getMessagesBundle( Class<?> clazz )
-    {
-        //return clazz.getPackage().getName() + ".MessagesBundle";
-        return getMessagesBundle( clazz.getPackage(), "MessagesBundle" );
     }
 
-    /**
-     * Returns Message Bundle base name based on the giving package name
-     *
-     * @param pakkage Package to use to build Message Bundle base name (use to build path)
-     * @param base    Base name for the file
-     * @return Message Bundle base name based on giving class name
-     * @since 4.1.7
-     */
-    public final static String getMessagesBundle( Package pakkage, String base )
+    public AutoI18nCore getAutoI18n()
     {
-        return pakkage.getName() + '.' + base;
+        return autoI18n;
     }
 
 }

@@ -2,6 +2,7 @@ package com.googlecode.cchlib.i18n.logging;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
+import com.googlecode.cchlib.i18n.EventCause;
 
 /**
  * {@link AutoI18nEventHandler}
@@ -26,13 +27,15 @@ public abstract class AbstractAutoI18nLoggingEventHandler
 
     @Override
     final
-    public void ignoredField( Field f, Cause cause )
+    public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
     {
         logIgnoredField(String.format(
-            "Ignore field: %s (%s) [%s] - %s",
+            "Ignore field: %s (%s) [%s]%s key=%s - %s",
             f.getName(),
             f.getType(),
-            cause,
+            eventCause,
+            LogFieldFormat.toString( causeDecription ),
+            key,
             LogFieldFormat.toString( f )
             ));
         //new Exception().printStackTrace();
@@ -40,12 +43,13 @@ public abstract class AbstractAutoI18nLoggingEventHandler
 
     @Override
     final
-    public void localizedField( Field f )
+    public void localizedField( Field f, String key )
     {
         logLocalizedField(String.format(
-            "Localized field: %s (%s) - %s",
+            "Localized field: %s (%s) key=%s - %s",
             f.getName(),
             f.getType(),
+            key,
             LogFieldFormat.toString( f )
             ));
     }
