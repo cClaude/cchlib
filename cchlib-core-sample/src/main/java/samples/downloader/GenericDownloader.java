@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -26,7 +25,6 @@ import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
 import com.googlecode.cchlib.net.download.cache.URLCache;
 import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 /**
  *
@@ -418,15 +416,15 @@ public class GenericDownloader
         return true;
     }
     
-    private String computeHashString( final File file ) 
-        throws NoSuchAlgorithmException, IOException
-    {
-        // Compute MD5 hash code
-        MessageDigestFile   mdf         = new MessageDigestFile();
-        byte[]              digestKey   = mdf.compute( file );
-
-        return MessageDigestFile.computeDigestKeyString( digestKey );
-    }
+//    private String computeHashString( final File file ) 
+//        throws NoSuchAlgorithmException, IOException
+//    {
+//        // Compute MD5 hash code
+//        MessageDigestFile   mdf         = new MessageDigestFile();
+//        byte[]              digestKey   = mdf.compute( file );
+//
+//        return MessageDigestFile.computeDigestKeyString( digestKey );
+//    }
     
     public void onClickStopDownload()
     {

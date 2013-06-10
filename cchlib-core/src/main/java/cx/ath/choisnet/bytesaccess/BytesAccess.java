@@ -658,9 +658,10 @@ public abstract class BytesAccess implements Cloneable
     {
         byte[] newBytes = new byte[ length ];
 
-        for( int i=0; i<newBytes.length; i++ ) {
-            newBytes[ i ] = bytes[ offset + i ];
-            }
+//        for( int i=0; i<newBytes.length; i++ ) {
+//            newBytes[ i ] = bytes[ offset + i ];
+//            }
+        System.arraycopy( bytes, offset, newBytes, 0, length );
 
         return newBytes;
     }
