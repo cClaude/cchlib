@@ -171,6 +171,7 @@
     <module>cchlib-core-beta</module>
     <module>cchlib-core-deprecated</module>
     <module>cchlib-i18n</module>
+    <module>cchlib-i18n-deprecated</module>
     <module>cchlib-j2ee</module>
     <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-jdbf</module>
