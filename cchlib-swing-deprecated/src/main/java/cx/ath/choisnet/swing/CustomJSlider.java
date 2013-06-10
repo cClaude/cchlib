@@ -12,20 +12,22 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
+//import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 
 /**
  * JSlider than showing current value in title Border
  */
 public class CustomJSlider
     extends JSlider
-        implements AutoI18nBasicInterface
+        //implements AutoI18nBasicInterface
 {
     private static transient final Logger logger = Logger.getLogger( CustomJSlider.class );
     private static final long serialVersionUID = 1L;
+    private static final String DEFAULT_NUMBER_FMT_STR = "{0,number,integer}";
     // Custom title
-    /** @serial */
-    private String customTitle = "customTitle {0,number,###}";
+    ///** @serial */
+    //private String customTitle = "customTitle {0,number,###}";
+    private String customTitle;
     private TitledBorder titledBorder;
 
     /**
@@ -34,6 +36,7 @@ public class CustomJSlider
     public CustomJSlider()
     {
         super();
+        setCustomTitle( null );
         customInit();
     }
 
@@ -53,6 +56,7 @@ public class CustomJSlider
     public CustomJSlider( BoundedRangeModel brm )
     {
         super( brm );
+        setCustomTitle( null );
         customInit();
     }
 
@@ -62,6 +66,7 @@ public class CustomJSlider
     public CustomJSlider( int orientation )
     {
         super( orientation );
+        setCustomTitle( null );
         customInit();
     }
 
@@ -72,6 +77,7 @@ public class CustomJSlider
     public CustomJSlider(int min, int max)
     {
         super( min, max );
+        setCustomTitle( null );
         customInit();
     }
 
@@ -83,6 +89,7 @@ public class CustomJSlider
     public CustomJSlider( int min, int max, int value )
     {
         super( min, max, value );
+        setCustomTitle( null );
         customInit();
     }
 
@@ -95,19 +102,12 @@ public class CustomJSlider
     public CustomJSlider( int orientation, int min, int max, int value )
     {
         super( orientation, min, max, value );
+        setCustomTitle( null );
         customInit();
     }
 
     private void customInit()
     {
-//        TitledBorder tb = BorderFactory.createTitledBorder(
-//                null,//BorderFactory.createBevelBorder(BevelBorder.LOWERED, null, null, null, null),
-//                builCustomTitle(),
-//                TitledBorder.LEADING,
-//                TitledBorder.ABOVE_TOP,//.DEFAULT_POSITION,
-//                new Font("Tahoma", Font.PLAIN, 11),
-//                Color.black
-//                );
         TitledBorder titledBorder = BorderFactory.createTitledBorder(
                 BorderFactory.createEmptyBorder(0, 0, 0, 0),
                 builCustomTitle(),
@@ -118,13 +118,9 @@ public class CustomJSlider
                 );
 
         setTitledBorder( titledBorder );
-//            String title = "Horizontal Position: ";
-//            tb.setTitle( customTitle + Integer.toString( jSlider_MoleVertPos$root.getValue() ) );
 
         CustomJSliderListener customJSliderListener = new CustomJSliderListener();
 
-        //super.addMouseMotionListener(customJSliderListener);
-        //super.addMouseListener(customJSliderListener);
         super.addChangeListener(customJSliderListener);
     }
 
@@ -142,7 +138,6 @@ public class CustomJSlider
         //return getCustomTitle() + Integer.toString( super.getValue() )
     }
 
-    @SuppressWarnings("unused")
     private void refreshCustomTitle()
     {
         logger.info( "refreshCustomTitle()" );
@@ -158,7 +153,7 @@ public class CustomJSlider
                     }
                 });
             }
-        });
+        }).start();
     }
 
     public String getCustomTitle()
@@ -166,15 +161,23 @@ public class CustomJSlider
         return customTitle;
     }
 
+    protected String formatCustomTitle( String customTitle )
+    {
+        if( customTitle == null || customTitle.isEmpty() ) {
+            return DEFAULT_NUMBER_FMT_STR;
+            }
+        
+        if( customTitle.contains( "{" ) ) {
+            return customTitle;
+            }
+
+        return customTitle + ' ' + DEFAULT_NUMBER_FMT_STR;
+    }
+    
     public void setCustomTitle( String customTitle )
     {
-        if( customTitle.contains( "{" ) ) {
-            this.customTitle = customTitle;
-        }
-        else {
-            this.customTitle = customTitle + " {0,number,integer}";
-        }
-
+        this.customTitle = formatCustomTitle( customTitle );
+        
         refreshCustomTitle();
     }
 
@@ -248,16 +251,16 @@ public class CustomJSlider
 //        public void mouseMoved(MouseEvent event){}
     }
 
-    @Override
-    public void setI18nString( String localString )
-    {
-        setCustomTitle( localString );
-    }
-
-    @Override
-    public String getI18nString()
-    {
-        return getCustomTitle();
-    }
+//    @Override
+//    public void setI18nString( String localString )
+//    {
+//        setCustomTitle( localString );
+//    }
+//
+//    @Override
+//    public String getI18nString()
+//    {
+//        return getCustomTitle();
+//    }
 
 }
