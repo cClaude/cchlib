@@ -181,4 +181,11 @@ public class DebugServletResponseWrapper implements ServletResponse
         logger.debug( "setLocale(" + locale + ")" );
         this.response.setLocale(locale);
     }
+
+    @Override
+    public void setContentLengthLong( long length )
+    {
+        logger.debug( "setContentLengthLong(" + length + ")" );
+        this.response.setContentLengthLong( length );
+    }
 }

@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.7-SNAPSHOT</version>
+    <version>4.1.7</version>
   </parent>
   <artifactId>cchlib-i18n-deprecated</artifactId>
   <packaging>jar</packaging>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.7</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
