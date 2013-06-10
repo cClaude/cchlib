@@ -6,15 +6,13 @@ import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
-
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.I18nSwingHelper;
-import com.googlecode.cchlib.i18n.annotation.I18n;
 
 /**
  *
@@ -31,14 +29,17 @@ public abstract class JPanelConfigWB extends JPanel
     protected JCheckBox jCheckBoxIgnoreEmptyFiles;
     private JPanel jPanelFilters;
 
-    @I18n(method="I18nTileUseFilesFilters")
+    //@I18n(method="I18nTileUseFilesFilters")
     private JPanel jPanelFilesFilers;
-
-    @I18n(method="I18nTileUseDirsFilters")
+    private TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+    
+    //@I18n(method="I18nTileUseDirsFilters")
     private JPanel jPanelDirectoryFilters;
+    private Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    @I18n(method="I18nTileIgnore")
+    //@I18n(method="I18nTileIgnore")
     private JPanel jPanelIgnore;
+    private TitledBorder jPanelIgnoreTitledBorder = new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
     /**
      * Create the panel.
@@ -53,7 +54,7 @@ public abstract class JPanelConfigWB extends JPanel
         setLayout(gridBagLayout);
 
         jPanelFilesFilers = new JPanel();
-        jPanelFilesFilers.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        jPanelFilesFilers.setBorder( jPanelFilesFilersTitledBorder );
         GridBagConstraints gbc_jPanelFilesFilers = new GridBagConstraints();
         gbc_jPanelFilesFilers.fill = GridBagConstraints.BOTH;
         gbc_jPanelFilesFilers.insets = new Insets(0, 0, 5, 5);
@@ -76,7 +77,7 @@ public abstract class JPanelConfigWB extends JPanel
         jPanelFilesFilers.add(jComboBoxFilesFilters, gbc_jComboBoxFilesFilters);
 
         jPanelIgnore = new JPanel();
-        jPanelIgnore.setBorder(new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        jPanelIgnore.setBorder( jPanelIgnoreTitledBorder  );
         GridBagConstraints gbc_jPanelIgnore = new GridBagConstraints();
         gbc_jPanelIgnore.insets = new Insets(0, 0, 5, 0);
         gbc_jPanelIgnore.gridheight = 2;
@@ -127,7 +128,7 @@ public abstract class JPanelConfigWB extends JPanel
         jPanelIgnore.add(jCheckBoxIgnoreEmptyFiles, gbc_jCheckBoxIgnoreEmptyFiles);
 
         jPanelDirectoryFilters = new JPanel();
-        jPanelDirectoryFilters.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        jPanelDirectoryFilters.setBorder( jPanelDirectoryFiltersTitledBorder  );
         GridBagConstraints gbc_jPanelDirectoryFilters = new GridBagConstraints();
         gbc_jPanelDirectoryFilters.fill = GridBagConstraints.BOTH;
         gbc_jPanelDirectoryFilters.insets = new Insets(0, 0, 5, 5);
@@ -164,35 +165,35 @@ public abstract class JPanelConfigWB extends JPanel
 
     protected abstract ActionListener getActionListener();
 
-    public void setI18nTileUseFilesFilters(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
-    }
-
-    public String getI18nTileUseFilesFilters()
-    {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
-    }
-
-    public void setI18nTileUseDirsFilters(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
-    }
-
-    public String getI18nTileUseDirsFilters()
-    {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
-    }
-
-    public void setI18nTileIgnore(String localText)
-    {
-        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
-    }
-
-    public String getI18nTileIgnore()
-    {
-        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
-    }
+//    public void setI18nTileUseFilesFilters(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
+//    }
+//
+//    public String getI18nTileUseFilesFilters()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
+//    }
+//
+//    public void setI18nTileUseDirsFilters(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
+//    }
+//
+//    public String getI18nTileUseDirsFilters()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
+//    }
+//
+//    public void setI18nTileIgnore(String localText)
+//    {
+//        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
+//    }
+//
+//    public String getI18nTileIgnore()
+//    {
+//        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
+//    }
 
     /**
      * @wbp.factory

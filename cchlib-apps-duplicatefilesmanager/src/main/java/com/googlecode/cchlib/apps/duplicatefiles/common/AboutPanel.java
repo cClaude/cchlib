@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
-import com.googlecode.cchlib.i18n.annotation.I18nForce;
+import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -44,7 +44,7 @@ public abstract class AboutPanel extends JPanel
     private JLabel jLabel_version;   // I18n
     private JButton jButton_Ok;
     
-    @I18nForce private JTextArea jTextArea;
+    @I18n private JTextArea jTextArea;
 	private TitledBorder titleBorder;
 
     

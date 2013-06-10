@@ -5,10 +5,13 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
 import java.io.Serializable;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /**
@@ -30,9 +33,15 @@ public interface DFToolKit extends Serializable
     public void setEnabledJButtonCancel( boolean b );
     public boolean isEnabledJButtonCancel();
     public void initComponentsJPanelConfirm();
-    public String getMessagesBundle();
     public Resources getResources();
     public List<File> getRootDirectoriesList();
+
+    //public String getMessagesBundle();
+    //public Package getPackageMessageBundleBase();
+    //public String getMessageBundleBaseName();
+    public EnumSet<AutoI18nConfig> getAutoI18nConfig();
+    public I18nResourceBundleName getI18nResourceBundleName();
+
     
     //@Deprecated public JFileChooser getJFileChooser();
     //@Deprecated public Window getMainWindow();

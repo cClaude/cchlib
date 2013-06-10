@@ -18,9 +18,10 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckB
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModel;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
@@ -29,9 +30,10 @@ import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
 /**
  *
  */
+@I18nName("RemoveEmptyDirectoriesPanel")
 public class RemoveEmptyDirectoriesPanel
     extends RemoveEmptyDirectoriesPanelWB
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
@@ -483,7 +485,7 @@ public class RemoveEmptyDirectoriesPanel
     }
 
     @Override//I18nAutoUpdatable
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

@@ -4,17 +4,15 @@ import javax.swing.JDialog;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.i18n.AutoI18n;
-//import com.googlecode.cchlib.i18n.config.I18nPrepAutoUpdatable;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * Display about dialog
  */
 public class AboutDialog
     extends JDialog
-        //implements I18nPrepAutoUpdatable
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private final class Panel extends AboutPanel 
     {
@@ -41,8 +39,8 @@ public class AboutDialog
      * Launch the application.
      */
     public static void open( 
-        final DFToolKit dfToolKit, 
-        final AutoI18n  autoI18n
+        final DFToolKit     dfToolKit, 
+        final AutoI18nCore  autoI18n
         )
     {
         try {
@@ -76,15 +74,9 @@ public class AboutDialog
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
     }
-
-//    @Override // I18nPrepAutoUpdatable
-//    public String getMessagesBundle()
-//    {
-//        return dfToolKit.getMessagesBundle();
-//    }
 }
 

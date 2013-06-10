@@ -28,6 +28,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
@@ -37,6 +38,7 @@ import com.googlecode.cchlib.util.iterator.Iterators;
 /**
  *
  */
+@I18nName("JPanelResult")
 public class JPanelResult extends JPanelResultWB
 {
     private class Selected implements Iterable<KeyFileState>

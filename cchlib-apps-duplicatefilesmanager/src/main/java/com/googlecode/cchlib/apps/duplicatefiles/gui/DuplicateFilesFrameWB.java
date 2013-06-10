@@ -211,47 +211,4 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
         return this.dfToolKit;
     }
-
-//    /**
-//     * @throws TooManyListenersException
-//     * @throws HeadlessException
-//     * @wbp.factory
-//     */
-//    public JPanelSelectFoldersOrFiles createJPanel0Select()
-//        throws HeadlessException, TooManyListenersException
-//    {
-//        return new JPanelSelectFoldersOrFiles( getDFToolKit() );
-//    }
-//
-//    /**
-//     * @wbp.factory
-//     */
-//    public JPanelConfig createJPanel1Config()
-//    {
-//        return new JPanelConfig( getDFToolKit() );
-//    }
-//
-//    /**
-//     * @wbp.factory
-//     */
-//    public JPanelSearching createJPanel2Searching()
-//    {
-//        return new JPanelSearching();
-//    }
-//
-//    /**
-//     * @wbp.factory
-//     */
-//    public JPanelResult createJPanel3Result()
-//    {
-//        return new JPanelResult( getDFToolKit() );
-//    }
-//
-//    /**
-//     * @wbp.factory
-//     */
-//    public JPanelConfirm createJPanel4Confirm()
-//    {
-//        return new JPanelConfirm( getDFToolKit() );
-//    }
 }

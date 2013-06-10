@@ -5,10 +5,13 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /** 
@@ -18,9 +21,11 @@ public class FakeDFToolKit implements DFToolKit
 {
     private static final long serialVersionUID = 1L;
     private JFileChooserInitializer jFileChooserInitializer;
+    private DefaultDFToolKit delegator;
 
     public FakeDFToolKit()
     {
+        delegator = new DefaultDFToolKit(null);
     }
 
     @Override
@@ -51,42 +56,36 @@ public class FakeDFToolKit implements DFToolKit
         return getJFileChooserInitializer( parentWindow, refComponent ).getJFileChooser();
     }
 
-//    @Deprecated
-//    @Override
-//    public JFileChooser getJFileChooser()
-//    {
-//        return getJFileChooser( null, null );
-//    }
-
     @Override
     public void beep()
     {
-        // TODO Auto-generated method stub
+        delegator.beep();
     }
 
     @Override
     public void openDesktop( File file )
     {
-        // TODO Auto-generated method stub
+        // fake
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Locale getValidLocale()
     {
-        // TODO Auto-generated method stub
-        return null;
+        // fake
+        return Locale.ENGLISH;
     }
 
     @Override
     public void sleep( long ms )
     {
-        // TODO Auto-generated method stub
+        delegator.sleep( ms );
     }
 
     @Override
     public Preferences getPreferences()
     {
-        // TODO Auto-generated method stub
+        // fake (no pref here)
         return null;
     }
 
@@ -97,48 +96,58 @@ public class FakeDFToolKit implements DFToolKit
         return null;
     }
 
-//    @Override
-//    public Window getMainWindow()
-//    {
-//        return null;
-//    }
-
     @Override
     public void setEnabledJButtonCancel( boolean b )
     {
-        // TODO Auto-generated method stub
+        // fake
     }
 
     @Override
     public boolean isEnabledJButtonCancel()
     {
-        // TODO Auto-generated method stub
+        // fake
         return false;
     }
 
     @Override
     public void initComponentsJPanelConfirm()
     {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public String getMessagesBundle()
-    {
-        // TODO Auto-generated method stub
-        return null;
+        // fake
     }
 
     @Override
     public Resources getResources()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return delegator.getResources();
     }
 
     @Override
     public List<File> getRootDirectoriesList()
     {
         return Collections.emptyList();
+    }
+
+//    @Override
+//    public Package getPackageMessageBundleBase()
+//    {
+//        return delegator.getPackageMessageBundleBase();
+//    }
+//
+//    @Override
+//    public String getMessageBundleBaseName()
+//    {
+//        return delegator.getMessageBundleBaseName();
+//    }
+
+    @Override
+    public I18nResourceBundleName getI18nResourceBundleName()
+    {
+        return delegator.getI18nResourceBundleName();
+    }
+
+    @Override
+    public EnumSet<AutoI18nConfig> getAutoI18nConfig()
+    {
+        return delegator.getAutoI18nConfig();
     }
 }

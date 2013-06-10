@@ -13,8 +13,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
-import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.event.ActionListener;
 import java.awt.CardLayout;
 import java.util.TooManyListenersException;
@@ -24,7 +24,7 @@ import java.util.TooManyListenersException;
  */
 public class DuplicateFilesMainPanel 
     extends JPanel
-        implements I18nAutoUpdatable//I18nPrepAutoUpdatable
+        implements I18nAutoCoreUpdatable //I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private DFToolKit dfToolKit;
@@ -242,7 +242,7 @@ public class DuplicateFilesMainPanel
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());

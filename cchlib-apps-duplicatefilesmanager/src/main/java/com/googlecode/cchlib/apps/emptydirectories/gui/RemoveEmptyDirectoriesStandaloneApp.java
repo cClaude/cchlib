@@ -7,11 +7,10 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.DefaultDFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  *
@@ -19,11 +18,11 @@ import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
  */
 public class RemoveEmptyDirectoriesStandaloneApp
     extends JFrame
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
-    private AutoI18n autoI18n;
+    private AutoI18nCore autoI18n;
     private DFToolKit dfToolKit;
     private RemoveEmptyDirectoriesPanel _contentPane;
     @I18nString private static String txtFrameTitle = "Delete Empty Directories";
@@ -34,28 +33,37 @@ public class RemoveEmptyDirectoriesStandaloneApp
      * @param autoI18n Could be null.
      */
     private RemoveEmptyDirectoriesStandaloneApp( 
-        final DFToolKit dfToolKit, 
-        final AutoI18n  autoI18n 
+        final DFToolKit     dfToolKit, 
+        final AutoI18nCore  autoI18n 
         )
     {
         this.dfToolKit = dfToolKit;
 
         // Prepare i18n !
         if( autoI18n == null ) {
-            this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle(
-                    this.dfToolKit.getValidLocale(), 
-                    new I18nPrepHelperAutoUpdatable() {
-                        @Override
-                        public void performeI18n( AutoI18n autoI18n )
-                        {
-                            RemoveEmptyDirectoriesStandaloneApp.this.performeI18n( autoI18n );
-                        }
-                        @Override
-                        public String getMessagesBundleForI18nPrepHelper()
-                        {
-                            return getDFToolKit().getMessagesBundle();
-                        }} 
-                    ).getAutoI18n();
+//            this.autoI18n = com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory.createDefaultI18nBundle(
+//                    this.dfToolKit.getValidLocale(), 
+//                    new com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable() {
+//                        @Override
+//                        public void performeI18n( AutoI18nCore autoI18n )
+//                        {
+//                            RemoveEmptyDirectoriesStandaloneApp.this.performeI18n( autoI18n );
+//                        }
+//                        @Override
+//                        public String getMessagesBundleForI18nPrepHelper()
+//                        {
+//                            //return getDFToolKit().getMessagesBundle();
+//                            //return getDFToolKit().getPackageMessageBundleBase().getName() 
+//                            //        + '.' 
+//                            //        + getDFToolKit().getMessageBundleBaseName(); 
+//                            return getDFToolKit().getI18nResourceBundleName().getName(); 
+//                        }} 
+//                    ).getAutoI18n();
+            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+                    getDFToolKit().getAutoI18nConfig(), 
+                    getDFToolKit().getI18nResourceBundleName(), 
+                    getDFToolKit().getValidLocale() // locale == null ? Locale.getDefault() : locale
+                    );
             }
         else {
             this.autoI18n = autoI18n;
@@ -77,7 +85,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18n autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
         autoI18n.performeI18n( _contentPane, _contentPane.getClass() );
@@ -113,8 +121,8 @@ public class RemoveEmptyDirectoriesStandaloneApp
      * @return Main Window
      */
     private static RemoveEmptyDirectoriesStandaloneApp createRemoveEmptyDirectoriesFrame( 
-        final DFToolKit dfToolKit,
-        final AutoI18n  autoI18n
+        final DFToolKit     dfToolKit,
+        final AutoI18nCore  autoI18n
         )
     {
         RemoveEmptyDirectoriesStandaloneApp frame = new RemoveEmptyDirectoriesStandaloneApp( dfToolKit, autoI18n );

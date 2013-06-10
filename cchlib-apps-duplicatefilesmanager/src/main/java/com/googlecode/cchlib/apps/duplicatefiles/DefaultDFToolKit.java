@@ -7,6 +7,7 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -15,9 +16,13 @@ import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
+import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -27,13 +32,14 @@ import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccesso
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 public final class DefaultDFToolKit
-    implements DFToolKit, I18nAutoUpdatable
+    implements DFToolKit, I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( DefaultDFToolKit.class );
     private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
     private final Preferences preferences;
     private DuplicateFilesFrame mainWindow;
+    private EnumSet<AutoI18nConfig> autoI18nConfig;
 
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
@@ -47,18 +53,48 @@ public final class DefaultDFToolKit
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18n autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
 
+//    @Override // DFToolKit
+//    public String getMessagesBundle()
+//    {
+//        return ResourcesLoader.class.getPackage().getName()
+//                + ".MessagesBundle";
+//    }
+
+//    @Override // DFToolKit
+//    public Package getPackageMessageBundleBase()
+//    {
+//        return ResourcesLoader.class.getPackage();
+//    }
+
+//    @Override // DFToolKit
+//    public String getMessageBundleBaseName()
+//    {
+//        return I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME;
+//    }
+    
     @Override // DFToolKit
-    public String getMessagesBundle()
+    public I18nResourceBundleName getI18nResourceBundleName()
     {
-        return ResourcesLoader.class.getPackage().getName()
-                + ".MessagesBundle";
+        return new DefaultI18nResourceBundleName(
+                ResourcesLoader.class, 
+                I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME 
+                );
     }
 
+    @Override
+    public EnumSet<AutoI18nConfig> getAutoI18nConfig()
+    {
+        if( autoI18nConfig == null ) {
+            autoI18nConfig = EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN );
+            }
+        return autoI18nConfig;
+    }
+    
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
     {
         this.mainWindow = mainWindow;
@@ -193,18 +229,23 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public Locale getValidLocale()
     {
-        Locale locale;
-
-        try {
-            locale = getMainFrame().getLocale();
-            }
-        catch( Exception e ) {
-            locale = null;
-            logger.warn( "Can not use main window to set Locale", e );
-            }
+        // Get Locale define by prefs
+        Locale locale = getPreferences().getLocale();
 
         if( locale == null ) {
-            return Locale.getDefault();
+            // Try to get Locale from main JFrame
+            try {
+                locale = getMainFrame().getLocale();
+                }
+            catch( Exception e ) {
+                locale = null;
+                logger.warn( "Can not use main window to set Locale", e );
+                }
+
+            if( locale == null ) {
+                // Use Locale locale
+                return Locale.getDefault();
+                }
             }
 
         return locale;

@@ -22,10 +22,11 @@ import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesStandaloneApp;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import com.googlecode.cchlib.util.HashMapSet;
@@ -34,9 +35,10 @@ import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 /**
  *
  */
+@I18nName("DuplicateFilesFrame")
 final public class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
-        implements I18nPrepHelperAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
     static final Logger logger = Logger.getLogger( DuplicateFilesFrame.class );
@@ -55,7 +57,7 @@ final public class DuplicateFilesFrame
     private final static int    SUBSTATE_CONFIRM_INIT  = 0;
     private final static int    SUBSTATE_CONFIRM_DONE  = 1;
 
-    private AutoI18n autoI18n;
+    private AutoI18nCore autoI18n;
 
     private Icon iconContinue;
     private Icon iconRestart;
@@ -94,6 +96,7 @@ final public class DuplicateFilesFrame
         // Menu: Locale
         //
         final Locale locale = getDFToolKit().getPreferences().getLocale();
+        
         {
             Enumeration<AbstractButton> localEntriesEnum = getButtonGroupLanguage().getElements();
 
@@ -117,13 +120,28 @@ final public class DuplicateFilesFrame
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
-            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
+            logger.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
+            logger.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
             }
         
         // Apply i18n !
-        this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
-        performeI18n( autoI18n );
-
+        //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
+        {
+//            EnumSet<AutoI18nConfig> config = EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN );
+//            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+//                    config, 
+//                    getDFToolKit().getPackageMessageBundleBase(), 
+//                    getDFToolKit().getMessageBundleBaseName(), 
+//                    locale == null ? Locale.getDefault() : locale
+//                    );
+            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+                    getDFToolKit().getAutoI18nConfig(), 
+                    getDFToolKit().getI18nResourceBundleName(), 
+                    getDFToolKit().getValidLocale() //locale == null ? Locale.getDefault() : locale                    
+                    );
+            performeI18n( autoI18n );
+       }
+ 
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
 
         // Init display
@@ -133,7 +151,7 @@ final public class DuplicateFilesFrame
     }
 
     @Override // I18nPrepHelperAutoUpdatable
-    public void performeI18n(AutoI18n autoI18n)
+    public void performeI18n(AutoI18nCore autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
@@ -149,11 +167,11 @@ final public class DuplicateFilesFrame
 //    {
 //        return getDFToolKit().getMessagesBundle();
 //    }
-    @Override//I18nPrepHelperAutoUpdatable
-    public String getMessagesBundleForI18nPrepHelper()
-    {
-        return getDFToolKit().getMessagesBundle();
-    }
+//    @Override//I18nPrepHelperAutoUpdatable
+//    public String getMessagesBundleForI18nPrepHelper()
+//    {
+//        return getDFToolKit().getMessagesBundle();
+//    }
     
     private void initFixComponents()
     {

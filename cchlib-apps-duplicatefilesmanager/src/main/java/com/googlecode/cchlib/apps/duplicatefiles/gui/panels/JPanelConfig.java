@@ -19,8 +19,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigWB;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
@@ -28,6 +29,7 @@ import cx.ath.choisnet.lang.ToStringBuilder;
 /**
  *
  */
+@I18nName("JPanelConfig")
 public class JPanelConfig
     extends JPanelConfigWB
         implements LookAndFeelListener
@@ -78,7 +80,6 @@ private Scanner s;
         super( dfToolKit.getPreferences() );
 
         this.dfToolKit = dfToolKit;
-        //this.rootFrame = dfToolKit.getMainWindow();
     }
 
     @Override//LookAndFeelListener
@@ -124,7 +125,7 @@ private Scanner s;
      * Must be call to have a
      * @param autoI18n
      */
-    public void performeI18n(AutoI18n autoI18n)
+    public void performeI18n(AutoI18nCore autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
 
