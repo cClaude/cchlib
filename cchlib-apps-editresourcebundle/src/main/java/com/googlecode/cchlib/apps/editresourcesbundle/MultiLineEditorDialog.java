@@ -15,9 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -29,7 +29,7 @@ import java.awt.Insets;
 final
 public class MultiLineEditorDialog
     extends JDialog
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     public interface StoreResult
     {
@@ -191,7 +191,7 @@ public class MultiLineEditorDialog
     }
 
     @Override
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

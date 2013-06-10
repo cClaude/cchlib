@@ -11,9 +11,10 @@ import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFram
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.Windows;
@@ -23,9 +24,10 @@ import cx.ath.choisnet.util.FormattedProperties;
 /**
  *
  */
+@I18nName("LoadDialog")
 public class LoadDialog
     extends LoadDialogWB
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
     private final static Logger slogger = Logger.getLogger( LoadDialog.class );
@@ -73,7 +75,7 @@ public class LoadDialog
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n(AutoI18n autoI18n)
+    public void performeI18n(AutoI18nCore autoI18n)
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
@@ -399,6 +401,4 @@ public class LoadDialog
             jButton_RightMouseMousePressed( index );
             }
     }
-
-
 }

@@ -8,9 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -25,7 +25,7 @@ import javax.swing.JCheckBoxMenuItem;
  */
 public class HTMLPreviewDialog
     extends JDialog
-        implements I18nAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final String ACTIONCMD_W3C_LENGTH_UNITS = "ACTIONCMD_W3C_LENGTH_UNITS";
@@ -180,7 +180,7 @@ public class HTMLPreviewDialog
     }
 
     @Override
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

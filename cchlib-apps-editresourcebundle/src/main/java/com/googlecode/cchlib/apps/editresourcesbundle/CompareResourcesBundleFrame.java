@@ -19,10 +19,11 @@ import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
@@ -39,9 +40,10 @@ import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 /**
  *
  */
+@I18nName("CompareResourcesBundleFrame")
 public class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
-        implements I18nPrepHelperAutoUpdatable //I18nPrepAutoUpdatable
+        implements I18nAutoCoreUpdatable //I18nPrepHelperAutoUpdatable //I18nPrepAutoUpdatable
 {
     private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
@@ -58,7 +60,7 @@ public class CompareResourcesBundleFrame
     /* @serial */
     private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
     /* @serial */
-    private AutoI18n autoI18n;
+    private AutoI18nCore autoI18n;
 
     @I18nString private String fileSavedMsg = "File '%s' saved.";
     @I18nString private String fileSaveNowQuestionMsg = "Save file '%s' now ?";
@@ -129,10 +131,14 @@ public class CompareResourcesBundleFrame
         if( logger.isTraceEnabled() ) {
             logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             logger.info( "I18n Init: locale = " + locale );
-            logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
+            //logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
+            logger.info( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
-        this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
-
+        //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
+        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
+                EditResourcesBundleApp.getConfig(), 
+                EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
+                );
 //        ResourceBundle resourceBundle;
 //        if( locale == null ) {
 //            resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle() );
@@ -458,7 +464,7 @@ public class CompareResourcesBundleFrame
      * @param autoI18n
      */
     @Override // I18nAutoUpdatable
-    public void performeI18n( AutoI18n autoI18n )
+    public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
     }
@@ -479,7 +485,7 @@ public class CompareResourcesBundleFrame
         {
             Locale pLocale  = preferences.getLocale();
             int    selected = 0;
-            
+
             if( pLocale == null ) {
                 selected = 0;
                 }
@@ -493,7 +499,7 @@ public class CompareResourcesBundleFrame
                 }
             selectedLanguageIndex = selected;
         }
-        
+
         PreferencesJPanel.InitParams initParams = new PreferencesJPanel.InitParams()
         {
             @Override
@@ -524,23 +530,23 @@ public class CompareResourcesBundleFrame
             {
                 Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
                 preferences.setLocale( locale );
-                
+
                 if( saveParams.isSaveWindowSize() ) {
                     preferences.setWindowDimension( getSize() );
                     }
-                
+
                 preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
 
                 if( saveParams.isSaveLookAndFeel() ) {
                     preferences.setLookAndFeelClassName();
                     }
-                
+
                 savePreferences();
-                
+
                 this.dispose();
             }
         };
-        
+
         @SuppressWarnings("unused")
         PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
     }
@@ -587,12 +593,6 @@ public class CompareResourcesBundleFrame
                 e
                 );
             }
-    }
-
-    @Override // I18nPrepHelperAutoUpdatable
-    public String getMessagesBundleForI18nPrepHelper()
-    {
-        return DefaultI18nBundleFactory.getMessagesBundle( EditResourcesBundleApp.class );
     }
 
     public Preferences getPreferences()

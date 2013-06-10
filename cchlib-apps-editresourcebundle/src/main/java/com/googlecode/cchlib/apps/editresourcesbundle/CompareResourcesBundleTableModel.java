@@ -20,8 +20,8 @@ import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
@@ -86,7 +86,7 @@ class CompareResourcesBundleTableModel
             };
     private final ArrayList<String> keyList = new ArrayList<String>();
     private CustomProperties[] customProperties;
-    private AutoI18n           autoI18n;
+    private AutoI18nCore       autoI18n;
 
     @Override
     public String toString()
@@ -107,7 +107,7 @@ class CompareResourcesBundleTableModel
      */
     public CompareResourcesBundleTableModel(
         final FilesConfig   filesConfig,
-        final AutoI18n      autoI18n
+        final AutoI18nCore  autoI18n
         )
     {
         this.autoI18n = autoI18n;
