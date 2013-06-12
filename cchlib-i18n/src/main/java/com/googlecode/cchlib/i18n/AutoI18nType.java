@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n;
 
 import java.io.Serializable;
+import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 
@@ -8,6 +9,7 @@ import com.googlecode.cchlib.i18n.core.resolve.Values;
  * TODOC
  *
  */
+@NeedDoc
 public interface AutoI18nType extends Serializable
 {
     /**
@@ -16,33 +18,14 @@ public interface AutoI18nType extends Serializable
      */
     public Class<?> getType();
 
-//    /**
-//     * Set localized text
-//     *
-//     * @param toI18n object to localize
-//     * @param key    key object for resolve value
-//     * @throws MissingResourceException if resource missing
-//     */
-//    public void setText(Object toI18n, I18nResolvedField key)
-//        throws MissingResourceException;
-    
     /**
      * Set localized text
      *
      * @param toI18n object to localize
-     * @param key    TODOC
+     * @param values TODOC
      */
     public void setText(Object toI18n, Values values);
 
-//    /**
-//     * Returns current text string for this object
-//     * 
-//     * @param toI18n object to localize
-//     * @return not empty String
-//     *         array, null if not supported
-//     */
-//    public String[] getText(Object toI18n);
-    
     /**
      * Returns current text string for this object
      * 
@@ -51,5 +34,11 @@ public interface AutoI18nType extends Serializable
      */ 
     public Values getText(Object toI18n);
 
+    /**
+     * TODOC
+     * @param toI18n
+     * @param keyBaseName
+     * @return TODOC
+     */
     public Keys getKeys( Object toI18n, String keyBaseName );
 }

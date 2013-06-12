@@ -76,7 +76,7 @@ public interface AutoI18nExceptionHandler
      * Invoke when an {@link NoSuchMethodException} occurred
      *
      * @param cause The exception to handle
-     * @param field
+     * @param i18nField
      */
     public void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField );
 

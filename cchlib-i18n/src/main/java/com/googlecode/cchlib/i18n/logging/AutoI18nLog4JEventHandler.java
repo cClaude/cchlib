@@ -50,9 +50,9 @@ public class AutoI18nLog4JEventHandler
      * Create object using giving {@link Logger}
      *
      * @param levelIgnoredField Level to use for logging
-     *        {@link #ignoredField(Field, com.googlecode.cchlib.i18n.AutoI18nEventHandler.Cause)} informations
+     *        {@link #ignoredField(Field, String, com.googlecode.cchlib.i18n.EventCause, String)} informations
      * @param levelLocalizedField Level to use for logging
-     *        {@link #localizedField(Field)} informations
+     *        {@link #localizedField(Field, String)} informations
      */
     public AutoI18nLog4JEventHandler(
             Level levelIgnoredField,

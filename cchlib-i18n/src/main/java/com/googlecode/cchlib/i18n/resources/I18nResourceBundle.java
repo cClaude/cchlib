@@ -15,7 +15,7 @@ public class I18nResourceBundle implements I18nInterface
 
     /**
      *  ResourceBundle does not implement {@link java.io.Serializable}
-     *  need a {@link #resourceBundleBaseName} information
+     *  need a {@link #resourceBundleFullBaseName} information
      *  to restore it during serialization process.
      */
     protected transient ResourceBundle resourceBundle;
@@ -29,7 +29,7 @@ public class I18nResourceBundle implements I18nInterface
     /**
      * Provide a non initialized object for inherit class
      * that must initialize ResourceBundle object ({@link #resourceBundle}
-     * and {@link #resourceBundleBaseName}).
+     * and {@link #resourceBundleFullBaseName}).
      */
     protected I18nResourceBundle()
     { //Empty 
@@ -37,8 +37,8 @@ public class I18nResourceBundle implements I18nInterface
 
     /**
      *
-     * @param resourceBundleBaseName
-     * @throws IllegalArgumentException if resourceBundleBaseName is null
+     * @param resourceBundleFullBaseName
+     * @throws IllegalArgumentException if <code>resourceBundleFullBaseName</code> is null
      */
     protected I18nResourceBundle( final String resourceBundleFullBaseName )
     {
