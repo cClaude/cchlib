@@ -10,6 +10,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.DefaultCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
@@ -31,22 +32,29 @@ public class FilesConfig implements Serializable
     private boolean showLineNumbers
           = false;
 
-    private final int numberOfFiles;
+    private /*final*/ int numberOfFiles;
 
     public enum FileType {
         PROPERTIES,
         FORMATTED_PROPERTIES
         }
 
+//    private FilesConfig( final int numberOfFiles )
+//    {
+//        this.numberOfFiles = numberOfFiles;
+//
+//        clear();
+//    }
+
     /**
      * Build default {@link FilesConfig} (no file selected yet)
      */
-    public FilesConfig( final int numberOfFiles )
+    public FilesConfig( Preferences preferences )
     {
-        this.numberOfFiles = numberOfFiles;
+        //this( preferences.getNumberOfFiles() );
+        setNumberOfFiles( preferences.getNumberOfFiles() );
+     }
 
-        clear();
-    }
 
     /**
      * Build {@link FilesConfig} based on a existing one
@@ -55,15 +63,36 @@ public class FilesConfig implements Serializable
      */
     public FilesConfig( final FilesConfig filesConfig )
     {
-        this( filesConfig.numberOfFiles );
+        //this( filesConfig.numberOfFiles );
+        setNumberOfFiles( filesConfig.numberOfFiles );
 
-        this.fileObjects           = Arrays.copyOf( filesConfig.fileObjects, numberOfFiles );
+        this.fileObjects              = Arrays.copyOf( filesConfig.fileObjects, numberOfFiles );
         this.fileType                 = filesConfig.fileType;
         this.formattedPropertiesStore = filesConfig.formattedPropertiesStore;
         this.useLeftHasDefault        = filesConfig.useLeftHasDefault;
         this.showLineNumbers          = filesConfig.showLineNumbers;
     }
 
+    public void setNumberOfFiles( int numberOfFiles )
+    {
+        this.numberOfFiles = numberOfFiles;
+        
+        if( this.fileObjects == null ) {
+            this.fileObjects   = new FileObject[ numberOfFiles ];
+            } 
+        else {
+            FileObject[] oldArray = this.fileObjects;
+            
+            this.fileObjects   = new FileObject[ numberOfFiles ];
+            
+            int min = numberOfFiles > oldArray.length ? oldArray.length : numberOfFiles;
+            
+            for( int i = 0; i<min; i++ ) {
+                this.fileObjects[ i ] = oldArray[ i ];
+                }
+            }
+    }
+    
     public int getNumberOfFiles()
     {
         return numberOfFiles ;

@@ -27,9 +27,10 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
     @Override
     public void run()
     {
-        CompareResourcesBundleFrame mainFrame              = new CompareResourcesBundleFrame( Preferences.createDefaultPreferences() );
+        final Preferences           prefs                  = Preferences.createDefaultPreferences();
+        CompareResourcesBundleFrame mainFrame              = new CompareResourcesBundleFrame( prefs );
 
-        FilesConfig                 filesConfig            = new FilesConfig( 2 ); // TODO use prefs ?
+        FilesConfig                 filesConfig            = new FilesConfig( prefs );
         LoadDialog                  loadFrame              = new LoadDialog( mainFrame, filesConfig );
         HTMLPreviewDialog           htmlFrame              = new HTMLPreviewDialog(mainFrame, "<<fakeTitle>>", "**FakeContent**" );
 

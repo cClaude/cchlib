@@ -92,7 +92,7 @@ public class CompareResourcesBundleFrame
         super( prefs.getNumberOfFiles() ); // initComponents();
 
         this.preferences = prefs;
-        this.filesConfig = new FilesConfig( this.preferences.getNumberOfFiles() );
+        this.filesConfig = new FilesConfig( this.preferences );
 
         //setSize(640, 440);
         setSize( this.preferences.getWindowDimension() );
@@ -104,13 +104,8 @@ public class CompareResourcesBundleFrame
             {
                 super.windowClosing( event );
 
-                if( tableModel != null ) {
-                    // FIXME better handle of save
-                    for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
-                        saveFile( i );
-                        }
-                    }
-
+                closeContent();
+                
                 System.exit( 0 ); // AppQuit -- FIXME try to remove this
             }
         };
@@ -174,6 +169,16 @@ public class CompareResourcesBundleFrame
         performeI18n( autoI18n );
 
         JFrames.handleMinimumSize( this, 600, 400 );
+    }
+
+    protected void closeContent()
+    {
+        if( tableModel != null ) {
+            // FIXME better handle of save
+            for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                saveFile( i );
+                }
+            }
     }
 
     public static final URL getResource( final String name )
@@ -383,7 +388,12 @@ public class CompareResourcesBundleFrame
             @Override
             public void run()
             {
+                // TODO: close prev
+                closeContent();
+                
                 FilesConfig fc     = new FilesConfig(filesConfig);
+                fc.setNumberOfFiles( preferences.getNumberOfFiles() );
+                
                 LoadDialog  dialog = new LoadDialog(
                         CompareResourcesBundleFrame.this,
                         fc

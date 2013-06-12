@@ -12,6 +12,7 @@ import java.util.Set;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
@@ -52,7 +53,10 @@ public class FilesConfigTest
         // Hope there is at least 2 properties files
         File            lFile = files.next();
         //File            rFile = files.next();
-        FilesConfig     fc    = new FilesConfig( 3 );
+        
+        Preferences fakePref = Preferences.createDefaultPreferences();
+        fakePref.setNumberOfFiles( 3 );
+        FilesConfig     fc   = new FilesConfig( fakePref );
         fc.setFileType( fileType );
         FileObject leftFileObject = new FileObject( lFile, false );
         fc.setFileObject( leftFileObject, 0 );

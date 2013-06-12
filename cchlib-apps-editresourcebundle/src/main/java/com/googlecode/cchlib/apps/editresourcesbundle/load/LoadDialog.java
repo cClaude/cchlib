@@ -55,14 +55,36 @@ public class LoadDialog
 
     public LoadDialog(
         final CompareResourcesBundleFrame   parentFrame,
+        final Preferences                   preferences
+        )
+    {
+        super( parentFrame, preferences.getNumberOfFiles() );
+
+        this.preferences = preferences;
+        this.filesConfig = new FilesConfig( preferences );
+
+        this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
+
+        init( parentFrame );
+    }
+
+    public LoadDialog(
+        final CompareResourcesBundleFrame   parentFrame,
         final FilesConfig                   filesConfig
         )
     {
         super( parentFrame, filesConfig.getNumberOfFiles() );
 
         this.preferences = parentFrame.getPreferences();
-        this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
         this.filesConfig = filesConfig;
+
+        this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
+
+        init( parentFrame );
+    }
+
+    private void init(CompareResourcesBundleFrame parentFrame)
+    {
         initFixComponents();
 
         setDefaultCloseOperation( LoadDialog.DISPOSE_ON_CLOSE );
@@ -318,7 +340,7 @@ public class LoadDialog
                     else if( ACTIONCMD_SELECT_RIGHT.equals( e.getActionCommand() ) ) {
                         jButton_RightMouseMousePressed();
                         }
-                    else*/ 
+                    else*/
                     if( ACTIONCMD_OK_BUTTON.equals( e.getActionCommand() ) ) {
                         jButton_OkMouseMousePressed();
                         }

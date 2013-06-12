@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 /**
  *
  */
-public abstract class LoadDialogWB extends JDialog
+/*public*/ abstract class LoadDialogWB extends JDialog
 {
     private static final long serialVersionUID  = 4L;
     protected static final String ACTIONCMD_SELECT_PREFIX = "ACTIONCMD_SELECT_";
