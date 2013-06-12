@@ -29,7 +29,7 @@
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-swing</artifactId>
-     <version>4.1.7-SNAPSHOT</version>
+     <version>4.1.7</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
@@ -41,12 +41,12 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-i18n</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.7</version>
     </dependency>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-nio</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.7</version>
     </dependency>
   </dependencies>
 

@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.7-SNAPSHOT</version>
+    <version>4.1.x-SNAPSHOT</version>
   </parent>
 -->
   <groupId>com.googlecode.cchlib-sandbox</groupId>
@@ -45,16 +45,10 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.7</version>
       <type>jar</type>
       <scope>compile</scope>
-    </dependency>
-    <!-- dependency>
-     <groupId>com.googlecode.cchlib</groupId>
-     <artifactId>cchlib-swing</artifactId>
-     <version>4.1.7-SNAPSHOT</version>
-    </dependency -->
-    
+    </dependency>    
     <dependency>
         <groupId>com.google.apis</groupId>
         <artifactId>google-api-services-drive</artifactId>

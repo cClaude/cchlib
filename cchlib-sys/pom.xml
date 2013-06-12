@@ -1,4 +1,4 @@
-﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
@@ -6,13 +6,13 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.7-SNAPSHOT</version>
+    <version>4.1.7</version>
   </parent>
 
   <artifactId>cchlib-sys</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-sys</name>
-  <!-- NOT NEED IF SAME VERSION version>4.1.7-SNAPSHOT</version -->
+  <!-- NOT NEED IF SAME VERSION version>4.1.x-SNAPSHOT</version -->
   <description>Provide system related features. </description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.7</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
