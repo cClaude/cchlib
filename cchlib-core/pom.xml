@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
-    <version>4.1.7</version>
+    <version>4.1.8-SNAPSHOT</version>
     <artifactId>cchlib</artifactId>
   </parent>
   <artifactId>cchlib-core</artifactId>

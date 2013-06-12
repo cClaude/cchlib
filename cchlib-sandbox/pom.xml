@@ -7,14 +7,15 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.7-SNAPSHOT</version>
+    <version>4.1.x-SNAPSHOT</version>
   </parent>
 -->
   <groupId>com.googlecode.cchlib-sandbox</groupId>
   <artifactId>cchlib-sandbox</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-sandbox</name>
-  
+  <version>1.4.8-SNAPSHOT</version>
+
   <prerequisites>
     <maven>3.0.0</maven>
   </prerequisites>
@@ -45,15 +46,10 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.7-SNAPSHOT</version>
+      <version>4.1.8-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    <!-- dependency>
-     <groupId>com.googlecode.cchlib</groupId>
-     <artifactId>cchlib-swing</artifactId>
-     <version>4.1.7-SNAPSHOT</version>
-    </dependency -->
     
     <dependency>
         <groupId>com.google.apis</groupId>
@@ -157,5 +153,4 @@
   <modules>
   </modules>
 
-  <version>1.4.7</version>
 </project>
