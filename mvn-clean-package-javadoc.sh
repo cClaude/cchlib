@@ -109,6 +109,99 @@ mvnJavadoc()
 ##########################################################
 
 ##########################################################
+##########################################################
+
+##########################################################
+copyJars()
+{
+  echo "------------------------------------------"
+  for project in ${PROJECTS}
+  do
+    DDIR=./releases/${project}
+    echo "Init. project [${DDIR}]"
+    if [ ! -e "${DDIR}" ]; then
+      mkdir -p "${DDIR}"
+    elif [ ! -d "${DDIR}" ]; then
+      echo "${DDIR} already exists but is not a directory" 1>&2
+      exit 1
+    fi
+    if [ ! -e "${DDIR}" ]; then
+      echo "${DDIR} not found"1>&2
+      exit 1
+    fi
+
+    JARS="${DDIR}/${project}-*.jar"
+    echo "Clean previous jar files: ${JARS}"
+    if [ -e "${JARS}" ]; then
+      rm -r "${JARS}"
+    fi
+
+    SJARS="`pwd`/${project}/target/${project}-*.jar"
+    echo "Try to copy ${SJARS} to ${DDIR} (no javadoc)"
+    ls ${SJARS} 2>/dev/null | grep -v "javadoc.jar" | while read jar
+    do
+      echo "Copy ${jar} to ${DDIR} (no javadoc)"
+      cp "${jar}" "${DDIR}"
+      if [ "$?" -ne "0" ]; then
+        echo "***[ERROR] Copy error" 1>&2
+        exit 1
+      fi
+    done
+  done
+}
+##########################################################
+copyJavadoc()
+{
+  echo "------------------------------------------"
+  for project in ${PROJECTS_WITH_DOC}
+  do
+      SDIR="./${project}/target/apidocs"
+      DDIR="./releases/${project}"
+
+      JAVADOC="${DDIR}/apidocs"
+      echo "Clean previous documentation: ${JAVADOC}"
+      if [ -e "${JAVADOC}" ]; then
+        rm -r "${JAVADOC}"
+      fi
+
+      echo "Prepare javadoc: [${SDIR}] -> [${DDIR}]"
+      cp -r --no-preserve=all "${SDIR}" "${DDIR}"
+      if [ "$?" -ne "0" ]; then
+        echo "***[ERROR] Copy error" 1>&2
+        exit 1
+      fi
+
+      SJARS="`pwd`/${project}/target/${project}-*-javadoc.jar"
+      echo "(Javadoc jar) Try to copy ${SJARS} to ${DDIR}"
+      ls ${SJARS} 2>/dev/null | while read jar
+      do
+        echo "(Javadoc jar) Copy ${jar} to ${DDIR}"
+        cp "${jar}" "${DDIR}"
+        if [ "$?" -ne "0" ]; then
+          echo "***[ERROR] Copy error" 1>&2
+          exit 1
+        fi
+      done
+      
+#    ls -l ${DDIR}
+#    for doc in ${REMOVE_THESES_DOCS}
+#    do
+#      JAR="${DDIR}/${doc}-*-javadoc.jar"
+# echo "xxxxx internal documentation: ${JAR}"
+#        rm "${JAR}"
+#      if [ -e "${JAR}" ]; then
+#        echo "remove internal documentation: ${JAR}"
+#        rm "${JAR}"
+#      fi
+#    done
+  done
+}
+##########################################################
+
+##########################################################
+##########################################################
+
+##########################################################
 #
 # main
 #
@@ -158,6 +251,7 @@ PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
 cchlib-i18n
+cchlib-i18n-deprecated
 cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
@@ -172,13 +266,24 @@ cchlib-tools"
 PROJECTS_WITH_DOC="cchlib-core
 cchlib-core-deprecated
 cchlib-i18n
+cchlib-i18n-deprecated
 cchlib-j2ee
 cchlib-jdbf
 cchlib-net
+cchlib-nio
 cchlib-sql
 cchlib-swing
 cchlib-swing-deprecated
 cchlib-sys"
+
+# XXXXX-.*-javadoc.jar
+REMOVE_THESES_DOCS="cchlib-apps-regexpbuilder
+DuplicateFilesManager
+EditResourcesBundle
+cchlib-core-beta
+cchlib-core-sample
+cchlib-j2ee-deprecated
+cchlib-swing-deprecated"
 
 PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
 
@@ -188,59 +293,11 @@ PROJECTS_APPS="cchlib-apps-duplicatefilesmanager
 cchlib-apps-regexpbuilder
 cchlib-apps-editresourcebundle"
 
-echo "------------------------------------------"
-for project in ${PROJECTS}
-do
-  DIR=./releases/${project}
-  echo "Init. project [${DIR}]"
-  if [ ! -e "${DIR}" ]; then
-    mkdir -p "${DIR}"
-  elif [ ! -d "${DIR}" ]; then
-    echo "${DIR} already exists but is not a directory" 1>&2
-    exit 1
-  fi
-  if [ ! -e "${DIR}" ]; then
-    echo "${DIR} not found"1>&2
-    exit 1
-  fi
-
-  JAVADOC="${DIR}/apidocs"
-  echo "Clean previous documentation: ${JAVADOC}"
-  if [ -e "${JAVADOC}" ]; then
-    rm -r "${JAVADOC}"
-  fi
-
-  JARS="${DIR}/${project}-*.jar"
-  echo "Clean previous jar files: ${JARS}"
-  if [ -e "${JARS}" ]; then
-    rm -r "${JARS}"
-  fi
-
-  SJARS="`pwd`/${project}/target/${project}-*.jar"
-  echo "Try to copy ${SJARS} to ${DIR}"
-  ls ${SJARS} 2>/dev/null | while read jar
-  do
-    echo "Copy ${jar}"
-    cp "${jar}" "${DIR}"
-    if [ "$?" -ne "0" ]; then
-      echo "***[ERROR] Copy error" 1>&2
-      exit 1
-    fi
-  done
-done
-
-echo "------------------------------------------"
-for project in ${PROJECTS_WITH_DOC}
-do
-  SDIR="./${project}/target/apidocs"
-  DDIR="./releases/${project}"
-  echo "Prepare javadoc: [${SDIR}] -> [${DDIR}]"
-  cp -r --no-preserve=all "${SDIR}" "${DDIR}"
-  if [ "$?" -ne "0" ]; then
-    echo "***[ERROR] Copy error" 1>&2
-    exit 1
-  fi
-done
+echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+copyJars
+copyJavadoc
+echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
+exit 0
 
 echo "------------------------------------------ ${PROJECTS_SUB_cchlib-core}"
 DDIR="./releases/cchlib-core"
@@ -298,7 +355,8 @@ echo "------------------------------------------"
 for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS}
 do
   DDIR="./releases/${project}"
-  rm -r ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
+  #rm -r ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
+  rm -r ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
 done
 
 echo "------------------------------------------"
