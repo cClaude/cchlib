@@ -14,13 +14,13 @@ public abstract class AbstractAutoI18nLoggingEventHandler
     private static final long serialVersionUID = 1L;
 
     /**
-     * Log formatted message from {@link #ignoredField(Field, com.googlecode.cchlib.i18n.AutoI18nEventHandler.Cause)}
+     * Log formatted message from {@link #ignoredField(Field, String, EventCause, String)}
      * @param msg message to log
      */
     protected abstract void logIgnoredField(String msg);
 
     /**
-     * Log formatted message from {@link #localizedField(Field)}
+     * Log formatted message from {@link #localizedField(Field, String)}
      * @param msg message to log
      */
     protected abstract void logLocalizedField(String msg);
@@ -38,7 +38,6 @@ public abstract class AbstractAutoI18nLoggingEventHandler
             key,
             LogFieldFormat.toString( f )
             ));
-        //new Exception().printStackTrace();
     }
 
     @Override

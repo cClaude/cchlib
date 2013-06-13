@@ -42,7 +42,7 @@ public class I18nPrepHelper
     }
 
     /**
-     * Invoke {@link #createI18nPrep(EnumSet, Package, String, Locale)},
+     * Invoke {@link #createI18nPrep(EnumSet, I18nResourceBundleName, Locale)},
      * just here to have same method name that I18n default process
      */
     public static I18nPrep createAutoI18nCore(

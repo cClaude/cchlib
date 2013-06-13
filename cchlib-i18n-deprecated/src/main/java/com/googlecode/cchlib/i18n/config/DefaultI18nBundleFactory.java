@@ -4,7 +4,7 @@ import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18n;
 
 /**
- * 
+ *
  *
  */
 public class DefaultI18nBundleFactory
@@ -18,7 +18,7 @@ public class DefaultI18nBundleFactory
      * Create AbstractI18nBundle for giving locale and giving
      * class to build message bundle base name
      * (see {@link #getMessagesBundle(Class)})
-     * 
+     *
      * @param locale    {@link Locale} to use
      * @param clazz     {@link Class} to use
      * @return an AbstractI18nBundle
@@ -40,7 +40,7 @@ public class DefaultI18nBundleFactory
     }
 
     @Deprecated
-    public static AbstractI18nBundle createDefaultI18nBundle( 
+    public static AbstractI18nBundle createDefaultI18nBundle(
             final Locale                locale,
             final I18nPrepAutoUpdatable i18nPrepAutoUpdatable
             )
@@ -62,15 +62,15 @@ public class DefaultI18nBundleFactory
      * Create AbstractI18nBundle for giving locale and giving
      * i18nPrepAutoUpdatable to build message bundle base name
      * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
-     * 
-     * @param locale                {@link Locale} to use
-     * @param i18nPrepAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
+     *
+     * @param locale                      {@link Locale} to use
+     * @param I18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
      * @return an AbstractI18nBundle
      * @see I18nPrepAutoUpdatable#getMessagesBundle()
      */
     public final static AbstractI18nBundle createDefaultI18nBundle(
             final Locale                      locale,
-            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable 
+            final I18nPrepHelperAutoUpdatable i18nPrepHelperAutoUpdatable
             )
         {
             return new AbstractI18nBundle( locale )
@@ -86,7 +86,7 @@ public class DefaultI18nBundleFactory
     /**
      * Returns Message Bundle base name based on giving class name
      * and ".MessagesBundle" as extension.
-     * 
+     *
      * @param clazz Class to use to build Message Bundle base name
      * @return Message Bundle base name based on giving class name
      */

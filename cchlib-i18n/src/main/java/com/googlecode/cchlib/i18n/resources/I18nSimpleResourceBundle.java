@@ -34,7 +34,7 @@ public class I18nSimpleResourceBundle
     /**
      *
      * @param locale
-     * @param resourceBundleBaseName
+     * @param resourceBundleFullBaseName
      */
     public I18nSimpleResourceBundle(
             final Locale locale,
