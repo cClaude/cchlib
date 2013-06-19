@@ -27,6 +27,13 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-io</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
 
     <dependency>
       <groupId>net.sf.opencsv</groupId>
