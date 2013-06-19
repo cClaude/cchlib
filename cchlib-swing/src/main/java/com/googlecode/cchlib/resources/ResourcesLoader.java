@@ -32,7 +32,12 @@ public class ResourcesLoader
      */
     public static URL getResource( final String name )
     {
-        return ResourcesLoader.class.getResource( name );
+        return getResource( ResourcesLoader.class, name );
+    }
+    
+    public static URL getResource( final Class<?> clazz, final String name )
+    {
+        return clazz.getResource( name );
     }
 
     /**
@@ -47,14 +52,20 @@ public class ResourcesLoader
     public static InputStream getResourceAsStream( final String name )
         throws ResourcesLoaderException
     {
-        final InputStream stream = ResourcesLoader.class.getResourceAsStream( name );
-
-        if( stream == null ) {
-            throw new ResourcesLoaderException( "Can't find resource: " + name );
-            }
-
-        return stream;
+        return getResourceAsStream( ResourcesLoader.class, name );
     }
+    
+    public static InputStream getResourceAsStream( final Class<?> clazz, final String name )
+            throws ResourcesLoaderException
+        {
+            final InputStream stream = clazz.getResourceAsStream( name );
+
+            if( stream == null ) {
+                throw new ResourcesLoaderException( "Can't find resource: " + name );
+                }
+
+            return stream;
+        }
 
     /**
      * Build {@link Icon} for giving resource name
@@ -62,27 +73,36 @@ public class ResourcesLoader
      * @return {@link Icon} for giving resource name
      * @throws ResourcesLoaderException If resource is not found
      */
-    public static Icon getImageIcon( final String name )
+    public static Icon getImageIcon( final String name ) throws ResourcesLoaderException
+    {
+        return getImageIcon( ResourcesLoader.class, name );
+    }
+    
+    public static Icon getImageIcon( final Class<?> clazz, final String name )
         throws ResourcesLoaderException
     {
         try {
-            return new ImageIcon( getResource( name ) );
+            return new ImageIcon( getResource( clazz, name ) );
             }
         catch( Exception e ) {
             throw new ResourcesLoaderException( "Can't find image: " + name );
             }
     }
-
     /**
      * Build {@link Image} for giving resource name
      * @param name Resource name
      * @return {@link Image} for giving resource name
      * @throws ResourcesLoaderException If resource is not found
      */
-    public static Image getImage( final String name )
+    public static Image getImage( final String name ) throws ResourcesLoaderException
+    {
+        return getImage( ResourcesLoader.class, name );
+    }
+    
+    public static Image getImage( final Class<?> clazz, final String name )
         throws ResourcesLoaderException
     {
-        final URL url = getResource( name );
+        final URL url = getResource( clazz, name );
 
         if( url == null ) {
             throw new ResourcesLoaderException(
@@ -100,5 +120,4 @@ public class ResourcesLoader
 
         return image;
     }
-
 }
