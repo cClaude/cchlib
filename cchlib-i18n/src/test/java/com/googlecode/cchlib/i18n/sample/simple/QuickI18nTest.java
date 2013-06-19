@@ -9,13 +9,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-//import com.googlecode.cchlib.i18n.config.AbstractI18nBundle;
-//import com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory;
-//import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-//import com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable;
 import javax.swing.JButton;
 
-public class QuickI18nTest extends JFrame implements I18nAutoCoreUpdatable/*implements I18nAutoUpdatable, I18nPrepHelperAutoUpdatable*/
+public class QuickI18nTest extends JFrame implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -73,25 +69,4 @@ public class QuickI18nTest extends JFrame implements I18nAutoCoreUpdatable/*impl
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-
-//    private static AbstractI18nBundle getDefaultI18nBundle( QuickI18nTest frame )
-//    {
-//        return DefaultI18nBundleFactory.createDefaultI18nBundle(
-//                frame.getLocale(),
-//                frame.getClass().getPackage(),
-//                frame.getClass().getSimpleName()
-//                );
-//    }
-
-//    @Override // I18nAutoUpdatable
-//    public void performeI18n( AutoI18n autoI18n )
-//    {
-//        autoI18n.performeI18n( this, this.getClass() );
-//    }
-
-//    @Override // I18nPrepHelperAutoUpdatable
-//    public String getMessagesBundleForI18nPrepHelper()
-//    {
-//        return getDefaultI18nBundle( this ).getMessagesBundle();
-//    }
 }

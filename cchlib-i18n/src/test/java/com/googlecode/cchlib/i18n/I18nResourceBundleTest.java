@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n;
 
+import static org.fest.assertions.Assertions.assertThat;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -29,9 +30,7 @@ public class I18nResourceBundleTest
         // Launch serialization
         I18nResourceBundle copy = SerializableTestCaseHelper.cloneOverSerialization( irb );
 
-        String value1   = irb.getString( KEY_TEST );
-        String value2   = copy.getString( KEY_TEST );
+        assertThat( copy.getString( KEY_TEST ) ).isEqualTo( irb.getString( KEY_TEST ) );
 
-        Assert.assertEquals( value1, value2 );
     }
 }
