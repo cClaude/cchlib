@@ -13,8 +13,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.util.Iterator;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
-import com.googlecode.cchlib.util.iterator.iterable.ArrayIterator;
 import com.googlecode.cchlib.io.exceptions.FileDeleteException;
 
 /**

@@ -29,6 +29,13 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-io</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>net.iharder</groupId>
       <artifactId>base64</artifactId>
       <scope>test</scope>
