@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.Iterator;
+import com.googlecode.cchlib.util.iterator.CascadingIterator;
 
 /**
  * Build a new Iterator that consume first
@@ -12,7 +13,9 @@ import java.util.Iterator;
  * @param <T> content type
  * @see com.googlecode.cchlib.util.iterator.BiIterator
  * @since 4.1.7
+ * @deprecated use {@link CascadingIterator} instead
  */
+@Deprecated
 public class BiIterator<T>
     extends com.googlecode.cchlib.util.iterator.BiIterator<T>
         implements Iterable<T>,IterableIterator<T>

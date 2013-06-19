@@ -1,9 +1,8 @@
 package com.googlecode.cchlib.util.iterator;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
 
 /**
  * Just a empty Iterator, could be use to deal
@@ -16,8 +15,7 @@ import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
 public class EmptyIterator<T>
     implements Iterator<T>,
                Iterable<T>,
-               IterableIterator<T>,
-               java.io.Serializable
+               Serializable
 {
     private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.Iterator;
+import com.googlecode.cchlib.util.iterable.ArrayIterable;
 
 /**
  * Wrap an Iterator from an existing Array, or
@@ -11,7 +12,9 @@ import java.util.Iterator;
  * @param <T> content type
  * @see com.googlecode.cchlib.util.iterator.SingletonIterator
  * @since 4.1.7
+ * @deprecated use {@link ArrayIterable} instead
  */
+@Deprecated
 public class ArrayIterator<T>
     extends com.googlecode.cchlib.util.iterator.ArrayIterator<T>
         implements Iterable<T>,IterableIterator<T>

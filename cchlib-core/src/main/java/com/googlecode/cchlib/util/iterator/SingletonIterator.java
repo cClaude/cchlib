@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
 
 /**
  * Limit case, iteration on a singleton
@@ -14,8 +13,7 @@ import com.googlecode.cchlib.util.iterator.iterable.IterableIterator;
  */
 public class SingletonIterator<T>
     implements Iterator<T>, 
-               Iterable<T>, 
-               IterableIterator<T>
+               Iterable<T>
 {
     private boolean hasNext;
     private T item;

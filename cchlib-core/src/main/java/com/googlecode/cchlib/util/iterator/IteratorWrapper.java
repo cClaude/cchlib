@@ -1,13 +1,12 @@
 package com.googlecode.cchlib.util.iterator;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import com.googlecode.cchlib.util.Wrappable;
 
 /**
- * Build a Iterator<O> based on an other Iterator<T>
- * or an other Collection<T>, each object is transformed
+ * Build a {@link Iterator}<O> based on an other {@link Iterator}<T>
+ * or an other {@link Iterable}<T>, each object is transformed
  * before returning using giving wrapper.
  *
  * @param <T> Source type
@@ -16,8 +15,8 @@ import com.googlecode.cchlib.util.Wrappable;
 public class IteratorWrapper<T,O>
     implements Iterator<O>
 {
-    private Iterator<T>    iterator;
-    private Wrappable<T,O> wrapper;
+    private Iterator<T>                      iterator;
+    private Wrappable<? super T,? extends O> wrapper;
 
     /**
      * Build a Iterator<O> based on an other Iterator<T>,
@@ -29,8 +28,8 @@ public class IteratorWrapper<T,O>
      *                 T Object to O Object.
      */
     public IteratorWrapper(
-            Iterator<T>     iterator,
-            Wrappable<T,O>  wrapper
+            Iterator<T>                      iterator,
+            Wrappable<? super T,? extends O> wrapper
             )
     {
         this.iterator = iterator;
@@ -42,16 +41,16 @@ public class IteratorWrapper<T,O>
      * each object is transformed before returning using
      * giving wrapper.
      *
-     * @param c        Collection of object T
+     * @param iterable Iterable of object T
      * @param wrapper  Wrapper to use to transform current
      *                 T Object to O Object.
      */
     public IteratorWrapper(
-            Collection<T>   c,
+            Iterable<T>     iterable,
             Wrappable<T,O>  wrapper
             )
     {
-        this(c.iterator(), wrapper);
+        this( iterable.iterator(), wrapper );
     }
 
     /**
@@ -79,8 +78,11 @@ public class IteratorWrapper<T,O>
 
     /**
      * Removes from the underlying collection the last element
-     * returned by the iterator.
-     *
+     * returned by the iterator. 
+     * <p>
+     * remove() is supported if the provided iterator/iterable does. 
+     * </p>
+     * 
      * @throws UnsupportedOperationException if the remove
      *         operation is not supported by current Iterator.
      * @throws IllegalStateException if the next method has
@@ -93,14 +95,4 @@ public class IteratorWrapper<T,O>
     {
         iterator.remove();
     }
-
-//    /**
-//     * Returns an iterator over a set of elements of type O.
-//     * @return this Iterator
-//     */
-//    @Override
-//    public Iterator<O> iterator()
-//    {
-//        return this;
-//    }
 }

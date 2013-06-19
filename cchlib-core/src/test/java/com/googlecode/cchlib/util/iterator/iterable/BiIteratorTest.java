@@ -7,6 +7,7 @@ import org.junit.Test;
 /**
  * Test case
  */
+@Deprecated
 public class BiIteratorTest extends IterableIteratorTestCaseHelper
 {
     @Override

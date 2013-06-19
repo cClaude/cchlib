@@ -22,11 +22,12 @@
   </properties>
 
   <dependencies>
-    <dependency><!-- base64 for test cases (no regression) / no more using sun version -->
-      <groupId>net.iharder</groupId>
-      <artifactId>base64</artifactId>
-      <scope>test</scope>
-      <version>2.3.8</version>
+    <dependency>
+    	<groupId>com.google.guava</groupId>
+    	<artifactId>guava</artifactId>
+    	<version>14.0.1</version>
+    	<classifier>site</classifier>
+    	<scope>test</scope>
     </dependency>
   </dependencies>
 

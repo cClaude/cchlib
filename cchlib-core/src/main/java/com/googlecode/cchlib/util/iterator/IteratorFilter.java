@@ -15,11 +15,9 @@ import java.util.NoSuchElementException;
  */
 public class IteratorFilter<T>
     extends ComputableIterator<T>
-        //implements Iterator<T>
-        //Note: ComputableIterator can't be Iterable<T>
 {
-    private Iterator<T>   iterator;
-    private Selectable<T> filter;
+    private Iterator<T>           iterator;
+    private Selectable<? super T> filter;
 
     /**
      * Create an IteratorFilter based on an iterator
@@ -29,9 +27,9 @@ public class IteratorFilter<T>
      * @param filter
      */
     public IteratorFilter(
-            Iterator<T>     iterator,
-            Selectable<T>   filter
-            )
+        Iterator<T>             iterator,
+        Selectable<? super T>   filter
+        )
     {
         this.iterator = iterator;
         this.filter   = filter;

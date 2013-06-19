@@ -6,6 +6,7 @@ import org.junit.Test;
 /**
  * Test case
  */
+@Deprecated
 public class ArrayIteratorTest extends IterableIteratorTestCaseHelper
 {
     @Override

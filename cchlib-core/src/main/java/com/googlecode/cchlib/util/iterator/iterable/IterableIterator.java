@@ -13,6 +13,7 @@ import java.util.Iterator;
  * @param <T> content type
  * @since 4.1.7
  */
+@Deprecated
 public interface IterableIterator<T>
     extends Iterable<T>, Iterator<T>
 {

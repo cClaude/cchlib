@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.util.iterable.ArrayIterable;
 
 /**
  * Build an Iterator based on an {@link Iterator} of {@link Iterable}.
@@ -29,6 +31,22 @@ public class CascadingIterator<T>
 
         // Init currentIterator with a valid value
         hasNext();
+    }
+    
+    /**
+     * 
+     * @param iterators
+     * @since 4.1.8
+     */
+    @NeedDoc
+    public CascadingIterator( Iterable<? extends T>...iterators )
+    {
+        this( newIterator( iterators ) );
+    }
+
+    private static <T> Iterator<? extends Iterable<? extends T>> newIterator( Iterable<? extends T>[] iterators )
+    {
+        return new ArrayIterable<Iterable<? extends T>>( iterators ).iterator();
     }
 
     @Override

@@ -69,6 +69,7 @@ abstract class IterableIteratorTestCaseHelper
      * @param iterableIterator
      * @param size
      */
+    @Deprecated
     public static <T> void test(IterableIterator<T> iterableIterator, final int size)
     {
         int count = test( iterableIterator );
@@ -103,6 +104,7 @@ abstract class IterableIteratorTestCaseHelper
      * @param c2
      * @return
      */
+    @Deprecated
     protected abstract <T> IterableIterator<T> buildIterableIterator(
         final Collection<T> c1,
         final Collection<T> c2
