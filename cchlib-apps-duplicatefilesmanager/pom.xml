@@ -28,6 +28,11 @@
     </dependency>
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
+     <artifactId>cchlib-io</artifactId>
+     <version>4.1.8-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+     <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-swing</artifactId>
      <version>4.1.8-SNAPSHOT</version>
     </dependency>
