@@ -252,6 +252,7 @@ cchlib-core
 cchlib-core-deprecated
 cchlib-i18n
 cchlib-i18n-deprecated
+cchlib-io
 cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
@@ -267,6 +268,7 @@ PROJECTS_WITH_DOC="cchlib-core
 cchlib-core-deprecated
 cchlib-i18n
 cchlib-i18n-deprecated
+cchlib-io
 cchlib-j2ee
 cchlib-jdbf
 cchlib-net

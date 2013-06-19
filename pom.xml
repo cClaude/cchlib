@@ -156,6 +156,14 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    
     <!-- guava is too big - no more include
     <dependency>
         <groupId>com.google.guava</groupId>
@@ -172,6 +180,7 @@
     <module>cchlib-core-deprecated</module>
     <module>cchlib-i18n</module>
     <module>cchlib-i18n-deprecated</module>
+    <module>cchlib-io</module>
     <module>cchlib-j2ee</module>
     <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-jdbf</module>

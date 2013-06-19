@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
+    <version>4.1.8-SNAPSHOT</version>
+  </parent>
+  <artifactId>cchlib-io</artifactId>
+  <packaging>jar</packaging>
+  <name>cchlib-io</name>
+
+  <!-- Global properties -->
+  <properties>
+    <project.javadoc.source.version>1.6</project.javadoc.source.version>
+    <project.javadoc.target.version>1.6</project.javadoc.target.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+    <dependency><!-- base64 for test cases (no regression) / no more using sun version -->
+      <groupId>net.iharder</groupId>
+      <artifactId>base64</artifactId>
+      <scope>test</scope>
+      <version>2.3.8</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+    </extensions>
+    <plugins>
+    </plugins>
+  </build>
+
+  <modules>
+  </modules>
+</project>
