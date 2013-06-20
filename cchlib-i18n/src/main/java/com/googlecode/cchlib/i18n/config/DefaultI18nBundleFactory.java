@@ -9,38 +9,31 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 
 /**
- * 
+ * @deprecated this class remaind for old project based on previous version of cchlib-i18n (now called cchlib-i18n-deprecated)
  */
 @Deprecated
-public class DefaultI18nBundleFactory {
-
+public class DefaultI18nBundleFactory
+{
     private AutoI18nCore autoI18n;
 
     private DefaultI18nBundleFactory(Locale locale, final I18nPrepHelperAutoUpdatable prep)
     {
         EnumSet<AutoI18nConfig> config = null; // default config
-        
-        //        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-//                config, 
-//                new I18nSimpleResourceBundle( 
-//                        locale, 
-//                        prep.getMessagesBundleForI18nPrepHelper()
-//                        ) 
-//                );
-        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-                config, 
-                new I18nSimpleResourceBundle( 
-                        locale, 
+
+        autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                config,
+                new I18nSimpleResourceBundle(
+                        locale,
                         new I18nResourceBundleName() {
                             @Override
                             public String getName()
                             {
                                 return prep.getMessagesBundleForI18nPrepHelper();
                             }}
-                        ) 
+                        )
                 );
     }
-    
+
     public static <T> DefaultI18nBundleFactory createDefaultI18nBundle( Locale locale, I18nPrepHelperAutoUpdatable prep )
     {
         if( locale == null ) {
@@ -54,5 +47,4 @@ public class DefaultI18nBundleFactory {
     {
         return autoI18n;
     }
-
 }

@@ -54,7 +54,7 @@ public class RegExpBuilderFrame
             e.printStackTrace();
             }
     }
-   
+
     private void initComponents()
     {
         BorderLayout    borderLayout1         = new BorderLayout();
@@ -65,9 +65,9 @@ public class RegExpBuilderFrame
         this.setTitle( "Regular Expressions Tester" );
 
         contentPane.setPreferredSize( new Dimension( 438, 142 ) );
-        
+
         panel = new XRegExpBuilderPanel();
-        getContentPane().add(panel, BorderLayout.CENTER);  
+        getContentPane().add(panel, BorderLayout.CENTER);
     }
 
     /*
@@ -250,7 +250,7 @@ public class RegExpBuilderFrame
         }
     }
 
-    
+
     class XRegExpBuilderPanel extends RegExpBuilderPanel
     {
         private static final long serialVersionUID = 1L;

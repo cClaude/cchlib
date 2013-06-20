@@ -250,6 +250,7 @@ cat "${LOGS_TMP}" \
 PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
+cchlib-core-java5
 cchlib-i18n
 cchlib-i18n-deprecated
 cchlib-io

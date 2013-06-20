@@ -22,3 +22,22 @@ img {
   text-align:center;
   vertical-align:baseline;
   }
+
+.centerTable {
+  margin-left:auto;
+  margin-right:auto;
+  width:100%;
+}
+
+.modname {
+  white-space:nowrap;
+  font-style:italic; 
+}
+
+.javadoc {
+  text-align:center;
+}
+
+.jars {
+  text-align:center;
+}

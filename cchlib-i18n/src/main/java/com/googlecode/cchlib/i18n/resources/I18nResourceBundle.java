@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.i18n.resources;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -93,8 +95,7 @@ public class I18nResourceBundle implements I18nInterface
      * @param out where to write the serialized stream
      * @throws IOException if any
      */
-    private void writeObject( java.io.ObjectOutputStream out )
-        throws IOException
+    private void writeObject( ObjectOutputStream out ) throws IOException
     {
         // Default serialization process (store baseName for this resourceBundle)
         out.defaultWriteObject();
@@ -103,8 +104,7 @@ public class I18nResourceBundle implements I18nInterface
         out.writeObject( resourceBundle.getLocale() );
     }
 
-    private void readObject( java.io.ObjectInputStream in )
-        throws IOException, ClassNotFoundException
+    private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException
     {
         // Default serialization process  (restore baseName for this resourceBundle)
         in.defaultReadObject();

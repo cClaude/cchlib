@@ -418,10 +418,10 @@ public class ByteArrayBuilder
     @Override
     public boolean equals(Object o) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
-    	if( this == o ) {
-    		return true;
-    		}
-    	else if( o instanceof ByteArrayBuilder ) {
+        if( this == o ) {
+            return true;
+            }
+        else if( o instanceof ByteArrayBuilder ) {
             return compareTo( ByteArrayBuilder.class.cast( o )) == 0;
             }
         return false;
@@ -477,7 +477,7 @@ public class ByteArrayBuilder
 
     /**
      * Create a new {@link InputStream} for this {@link ByteArrayBuilder}
-     * 
+     *
      * @return a new {@link InputStream} (must be close)
      * @throws IOException if any I/O error occurred
      * @see #array()
@@ -490,7 +490,7 @@ public class ByteArrayBuilder
 
     /**
      * Copy  {@link ByteArrayBuilder} content to <code>out</code>
-     * 
+     *
      * @param out A valid {@link OutputStream}
      * @throws IOException if any I/O error occurred
      * @see #array()
@@ -507,7 +507,7 @@ public class ByteArrayBuilder
             is.close();
             }
     }
-    
+
     /**
      * Replaces each sub byte array of this ByteArrayBuilder that matches the
      * given pattern with the given replacement.
@@ -571,8 +571,7 @@ public class ByteArrayBuilder
         return new ByteArrayBuilder( dbytes );
     }
 
-    private void writeObject(ObjectOutputStream stream)
-        throws java.io.IOException
+    private void writeObject( ObjectOutputStream stream ) throws IOException
     {
         stream.defaultWriteObject();
         stream.writeInt(buffer.length);
@@ -586,8 +585,7 @@ public class ByteArrayBuilder
         }
     }
 
-    private void readObject(ObjectInputStream stream)
-        throws java.io.IOException, ClassNotFoundException
+    private void readObject( ObjectInputStream stream ) throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
         buffer = new byte[stream.readInt()];
@@ -631,11 +629,11 @@ public class ByteArrayBuilder
                 while( j > 0 && pattern[j] != data[i] ) {
                     j = failure[j - 1];
                     }
-                
+
                 if (pattern[j] == data[i]) {
                     j++;
                     }
-                
+
                 if( j == pattern.length ) {
                     return i - pattern.length + 1;
                     }
@@ -651,16 +649,16 @@ public class ByteArrayBuilder
         {
             int[] failure = new int[ pattern.length ];
             int   j       = 0;
-            
+
             for( int i = 1; i < pattern.length; i++ ) {
                 while( j>0 && pattern[j] != pattern[i] ) {
                     j = failure[j - 1];
                     }
-                
+
                 if( pattern[j] == pattern[i] ) {
                     j++;
                     }
-                
+
                 failure[i] = j;
                 }
 

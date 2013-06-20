@@ -4,7 +4,7 @@ import java.util.Iterator;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
- * Wrap an  {@link Iterable} from an existing Array, or from giving elements.
+ * Wrap an {@link Iterable} object on an existing Array, or from giving elements.
  *
  * @param <T> content type
  * @since 4.1.8

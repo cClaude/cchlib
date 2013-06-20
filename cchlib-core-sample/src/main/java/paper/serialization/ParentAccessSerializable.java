@@ -1,6 +1,8 @@
 package paper.serialization;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -63,8 +65,7 @@ public class ParentAccessSerializable<C>
         return this.hiddenMethods;
     }
 
-    private void writeObject( java.io.ObjectOutputStream out )
-        throws IOException
+    private void writeObject( ObjectOutputStream out ) throws IOException
     {
         // Default serialization process (store only 'clazz' field (on parent class) )
         out.defaultWriteObject();
@@ -73,8 +74,7 @@ public class ParentAccessSerializable<C>
         // method could be removed in this case
     }
 
-    private void readObject( java.io.ObjectInputStream in )
-        throws IOException, ClassNotFoundException
+    private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException
     {
         // Default serialization process  (restore only 'clazz' (on parent class) field)
         in.defaultReadObject();

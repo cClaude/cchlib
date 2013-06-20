@@ -178,6 +178,7 @@
     <module>cchlib-core</module>
     <module>cchlib-core-beta</module>
     <module>cchlib-core-deprecated</module>
+    <module>cchlib-core-java5</module>
     <module>cchlib-i18n</module>
     <module>cchlib-i18n-deprecated</module>
     <module>cchlib-io</module>

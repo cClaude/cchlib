@@ -1,7 +1,12 @@
 /**
  * Provide some a solution to work on Iterator without care of it.
  * <br/>
- * TODOC
+ * {@link Iterables} is a basic version of tools based on {@link Iterable} interface. {@link XIterables} is
+ * based on new interface {@link XIterable} able to use chaining notation to modify, filter a collection.   
+ * <br/>
+ * Theses classes use old concepts already exist in <code>cchlib</code> for a long time based on {@link java.util.Iterator}
+ * but offer simplest way to use them.
+ * 
  * @since 4.1.8
  */
 package com.googlecode.cchlib.util.iterable;
