@@ -266,9 +266,8 @@ cchlib-sys
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
-cchlib-core-deprecated
+cchlib-core-java5
 cchlib-i18n
-cchlib-i18n-deprecated
 cchlib-io
 cchlib-j2ee
 cchlib-jdbf
@@ -276,7 +275,6 @@ cchlib-net
 cchlib-nio
 cchlib-sql
 cchlib-swing
-cchlib-swing-deprecated
 cchlib-sys"
 
 # XXXXX-.*-javadoc.jar
@@ -300,7 +298,6 @@ echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 copyJars
 copyJavadoc
 echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
-exit 0
 
 echo "------------------------------------------ ${PROJECTS_SUB_cchlib-core}"
 DDIR="./releases/cchlib-core"
