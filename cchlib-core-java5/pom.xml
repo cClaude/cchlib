@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <version>4.1.8-SNAPSHOT</version>
+    <artifactId>cchlib</artifactId>
+  </parent>
+  <artifactId>cchlib-core-java5</artifactId>
+  <packaging>jar</packaging>
+  <name>cchlib-core-java5</name>
+
+  <!-- Global properties -->
+  <properties>
+    <project.javadoc.source.version>1.5</project.javadoc.source.version>
+    <project.javadoc.target.version>1.5</project.javadoc.target.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+    </extensions>
+    <plugins>
+    </plugins>
+  </build>
+
+  <modules>
+  </modules>
+</project>
