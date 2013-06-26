@@ -1,15 +1,14 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Map.Entry;
+import java.util.Set;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -19,16 +18,15 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.iterator.IteratorFilter;
-import com.googlecode.cchlib.util.iterator.IteratorWrapper;
-import com.googlecode.cchlib.util.iterator.Selectable;
+import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.iterable.Iterables;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
  */
+//public
 public final
 class FolderTreeModel
     extends DefaultTreeModel//AbstractFolderTreeModel
@@ -37,7 +35,8 @@ class FolderTreeModel
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeModel.class );
     private FolderTreeBuilder folderTreeBuilder;
-    private final Map<FolderTreeNode,Boolean> modifiedCheckState = new HashMap<FolderTreeNode,Boolean>();
+    //private final Map<FolderTreeNode,Boolean> modifiedCheckState = new HashMap<FolderTreeNode,Boolean>();
+    private final Set<FolderTreeNode> selectedNodes = new HashSet<FolderTreeNode>();
     private final JTree jTree;
     private final Object lock = new Object();
 
@@ -57,9 +56,8 @@ class FolderTreeModel
         this.folderTreeBuilder = new FolderTreeBuilder();
     }
 
-    //@Override //FileTreeModelable
-    final
-    protected JTree getJTree()
+    @Override
+    public final JTree getJTree()
     {
         return jTree;
     }
@@ -148,7 +146,12 @@ class FolderTreeModel
     final
     protected void clearSelected()
     {
-        this.modifiedCheckState.clear();
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "Clear selection" );
+            }
+        //this.modifiedCheckState.clear();
+
+        this.selectedNodes.clear();
     }
 
     @Override // FileTreeModelable
@@ -173,21 +176,43 @@ class FolderTreeModel
     final
     public boolean isSelected( final FolderTreeNode nodeValue )
     {
-        Boolean b = modifiedCheckState.get( nodeValue );
+        boolean res = selectedNodes.contains( nodeValue );
 
-        if( b != null ) {
-            return b.booleanValue();
+        if( logger.isTraceEnabled() ) {
+            logger.trace( "isSelected: " + nodeValue + " => " + res );
             }
-        else {
-            return false;
-            }
+
+        return res;
+//        Boolean b = modifiedCheckState.get( nodeValue );
+//
+//        if( b != null ) {
+//            return b.booleanValue();
+//            }
+//        else {
+//            return false;
+//            }
     }
 
     @Override // FileTreeModelable
     final
     public void setSelected( final FolderTreeNode nodeValue, boolean b )
     {
-        modifiedCheckState.put( nodeValue, new Boolean( b ) );
+        //modifiedCheckState.put( nodeValue, Boolean.valueOf( b ) );
+        if( b ) {
+            selectedNodes.add( nodeValue );
+        } else {
+            selectedNodes.remove( nodeValue );
+        }
+
+        TreePath path = getPath( nodeValue );
+
+        assert path != null;
+
+        treeNodesChanged( path );
+
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "setSelected: " + nodeValue + ", " + b + " => " + selectedNodes.contains( nodeValue ) );
+            }
     }
 
     @Override // FileTreeModelable
@@ -219,19 +244,21 @@ class FolderTreeModel
                         }
 
                     if( changeState ) {
-                        if( selected ) {
-                            modifiedCheckState.put( n, true );
-                            }
-                        else {
-                            modifiedCheckState.remove( n );
-                            }
+                        setSelected( n, selected );
+//                        if( selected ) {
+//                            modifiedCheckState.put( n, true );
+//                            }
+//                        else {
+//                            modifiedCheckState.remove( n );
+//                            }
                         }
                     }
                 }
             }
         else {
             // Nothing is select, clear (default is not select)
-            modifiedCheckState.clear();
+            clearSelected();
+            //modifiedCheckState.clear();
             }
 
         fireStructureChanged();
@@ -258,6 +285,39 @@ class FolderTreeModel
     protected void fireTreeStructureChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
+            logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
+            return;
+            }
+
+        try {
+            Object[]        pairs   = listenerList.getListenerList();
+            TreeModelEvent  e       = null;
+
+            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
+                if( pairs[i] == TreeModelListener.class ) {
+                    if( e == null ) {
+                        e = new TreeModelEvent(this, parentPath, null, null);
+                        }
+
+                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    
+                    l.treeStructureChanged( e );
+                    }
+                }
+            }
+        catch( RuntimeException e ) {
+            logger.error( "UI Error : parentPath=" + parentPath, e );
+            }
+    }
+    
+    /**
+     * Call when the tree structure below the path has completely changed.
+     */
+    final
+    protected void treeNodesChanged(final TreePath parentPath)
+    {
+        if( parentPath == null ) {
+            logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
             return;
             }
 
@@ -273,7 +333,7 @@ class FolderTreeModel
 
                     TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
-                    l.treeStructureChanged( e );
+                    l.treeNodesChanged( e );
                     }
                 }
             }
@@ -305,45 +365,52 @@ class FolderTreeModel
     final
     public Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
-        // Inner class to filter only selected entry
-        Selectable<Entry<FolderTreeNode,Boolean>> selectable
-            = new Selectable<Entry<FolderTreeNode,Boolean>>()
-            {
-                @Override
-                public boolean isSelected(Entry<FolderTreeNode,Boolean> entry )
-                {
-                    return entry.getValue();
-                }
-            };
+//        // Inner class to filter only selected entry
+//        Selectable<Entry<FolderTreeNode,Boolean>> selectable
+//            = new Selectable<Entry<FolderTreeNode,Boolean>>()
+//            {
+//                @Override
+//                public boolean isSelected(Entry<FolderTreeNode,Boolean> entry )
+//                {
+//                    return entry.getValue();
+//                }
+//            };
 
         // Inner class to transform entry to file
-        final Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder> wrapper
-            = new Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder>()
-            {
-                @Override
-                public EmptyFolder wrappe( Entry<FolderTreeNode,Boolean> entry )
-                {
-                    Folder folder = entry.getKey().getFolder();
+//        final Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder> wrapper
+//        = new Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder>()
+//        {
+//            @Override
+//            public EmptyFolder wrappe( Entry<FolderTreeNode,Boolean> entry )
+//            {
+//                Folder folder = entry.getKey().getFolder();
+//
+//                return EmptyFolder.class.cast( folder );
+//            }
+//        };
 
-                    return EmptyFolder.class.cast( folder );
-                }
-            };
+//       // Main iterator
+//       final IteratorFilter<Entry<FolderTreeNode,Boolean>> iterator
+//            = new IteratorFilter<Entry<FolderTreeNode,Boolean>>(
+//                modifiedCheckState.entrySet().iterator(),
+//                selectable
+//                );
 
-       // Main iterator
-       final IteratorFilter<Entry<FolderTreeNode,Boolean>> iterator
-            = new IteratorFilter<Entry<FolderTreeNode,Boolean>>(
-                modifiedCheckState.entrySet().iterator(),
-                selectable
-                );
-
-        return new Iterable<EmptyFolder>()
-        {
+//        return new Iterable<EmptyFolder>()
+//        {
+//            @Override
+//            public Iterator<EmptyFolder> iterator()
+//            {
+//                //return new IteratorWrapper<Entry<FolderTreeNode,Boolean>,EmptyFolder>( iterator, wrapper );
+//                return new IteratorWrapper<FolderTreeNode,EmptyFolder>( selectedNodes.iterator(), wrapper );
+//            }
+//        };
+        return Iterables.wrappe( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
             @Override
-            public Iterator<EmptyFolder> iterator()
+            public EmptyFolder wrappe( FolderTreeNode node ) throws WrappeException
             {
-                return new IteratorWrapper<Entry<FolderTreeNode,Boolean>,EmptyFolder>( iterator, wrapper );
-            }
-        };
+                return EmptyFolder.class.cast( node.getFolder() );
+            }} );
     }
 
     private DefaultMutableTreeNode getRootNode()
@@ -356,50 +423,60 @@ class FolderTreeModel
      */
     public Iterable<FolderTreeNode> rootNodes()
     {
-        final Enumeration<?> enu = getRootNode().children(); // never null
+//        final Enumeration<?> enu = getRootNode().children(); // never null
+//
+//        return new Iterable<FolderTreeNode>()
+//        {
+//            @Override
+//            public Iterator<FolderTreeNode> iterator()
+//            {
+//                return new Iterator<FolderTreeNode>()
+//                {
+//                    @Override
+//                    public boolean hasNext()
+//                    {
+//                        return enu.hasMoreElements();
+//                    }
+//                    @Override
+//                    public FolderTreeNode next()
+//                    {
+//                        return FolderTreeNode.class.cast( enu.nextElement() );
+//                    }
+//                    @Override
+//                    public void remove()
+//                    {
+//                        throw new UnsupportedOperationException();
+//                    }
+//                };
+//            }
+//            @Override
+//            public String toString()
+//            {
+//                final StringBuilder sb = new StringBuilder();
+//
+//                sb.append( super.toString() );
+//                sb.append( '[' );
+//                Iterator<FolderTreeNode> iter = iterator();
+//
+//                while( iter.hasNext() ) {
+//                    sb.append( iter.next() );
+//                    sb.append( ',' );
+//                    }
+//                sb.append( ']' );
+//
+//                return sb.toString();
+//            }
+//        };
 
-        return new Iterable<FolderTreeNode>()
-        {
+        @SuppressWarnings("unchecked")
+        final Enumeration<Object> enumeration = getRootNode().children(); // never null
+
+        return Iterables.wrappe( enumeration, new Wrappable<Object,FolderTreeNode>() {
             @Override
-            public Iterator<FolderTreeNode> iterator()
+            public FolderTreeNode wrappe( Object obj ) throws WrappeException
             {
-                return new Iterator<FolderTreeNode>()
-                {
-                    @Override
-                    public boolean hasNext()
-                    {
-                        return enu.hasMoreElements();
-                    }
-                    @Override
-                    public FolderTreeNode next()
-                    {
-                        return FolderTreeNode.class.cast( enu.nextElement() );
-                    }
-                    @Override
-                    public void remove()
-                    {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-            }
-            @Override
-            public String toString()
-            {
-                final StringBuilder sb = new StringBuilder();
-
-                sb.append( super.toString() );
-                sb.append( '[' );
-                Iterator<FolderTreeNode> iter = iterator();
-
-                while( iter.hasNext() ) {
-                    sb.append( iter.next() );
-                    sb.append( ',' );
-                    }
-                sb.append( ']' );
-
-                return sb.toString();
-            }
-        };
+                 return FolderTreeNode.class.cast( obj );
+            }} );
     }
 
     /**

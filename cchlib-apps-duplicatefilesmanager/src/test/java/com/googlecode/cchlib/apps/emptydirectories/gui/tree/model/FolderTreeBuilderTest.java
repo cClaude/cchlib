@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
 import static org.junit.Assert.*;
 import java.io.IOException;

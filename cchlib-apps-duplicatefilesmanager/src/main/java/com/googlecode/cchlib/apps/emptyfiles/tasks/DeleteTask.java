@@ -1,12 +1,15 @@
 package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
+import java.lang.reflect.InvocationTargetException;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
-import com.googlecode.cchlib.apps.emptyfiles.WorkingJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.WorkingTableModel;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class DeleteTask implements Runnable
 {
+    private final static Logger logger = Logger.getLogger( DeleteTask.class );
     private WorkingTableModel tableModel;
     private JProgressBar progressBar;
     private int progressBarValue;
@@ -22,25 +25,29 @@ public class DeleteTask implements Runnable
     @Override
     public void run()
     {
-        for( int i = 0; i<this.tableModel.getRowCount(); i++ ) {
-            final int rowIndex = i;
+        try {
+            for( int i = 0; i<this.tableModel.getRowCount(); i++ ) {
+                final int rowIndex = i;
 
-            if( this.tableModel.isRowSelected( rowIndex ) ) {
-                SwingUtilities.invokeLater( new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        if( tableModel.doDelete( rowIndex ) ) {
-                            progressBar.setValue( ++progressBarValue );
+                if( this.tableModel.isRowSelected( rowIndex ) ) {
+                    SwingUtilities.invokeAndWait( new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            if( tableModel.doDelete( rowIndex ) ) {
+                                progressBar.setValue( ++progressBarValue );
+                            }
                         }
+                        } );
                     }
-                    } );
                 }
-            }
-        
-        try {  Thread.sleep( 1000 ); } catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
-        
-        // FIXME : should wait all tasks has finished
+            
+            logger.info( "All process started" );
+        }
+        catch( InvocationTargetException | InterruptedException e ) {
+            logger.warn( "Can't stark all process", e );
+        } 
+
         workingJPanel.deleteDone();
     }
 }

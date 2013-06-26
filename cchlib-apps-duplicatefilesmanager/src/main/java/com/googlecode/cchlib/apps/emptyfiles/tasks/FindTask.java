@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -11,7 +12,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.util.Collection;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptyfiles.WorkingTableModel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class FindTask
@@ -74,7 +75,11 @@ public class FindTask
             public FileVisitResult visitFileFailed( Path file, IOException exc )
                 throws IOException
             {
-                logger.error( "visitFileFailed", exc );
+                if( exc instanceof AccessDeniedException ) {
+                    logger.warn( "visitFileFailed : " + exc.getMessage() );
+                } else {
+                    logger.error( "visitFileFailed", exc );
+                }
 
                 return FileVisitResult.CONTINUE;
             }

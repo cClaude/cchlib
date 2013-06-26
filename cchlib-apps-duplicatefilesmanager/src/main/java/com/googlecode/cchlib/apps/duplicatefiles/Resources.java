@@ -8,26 +8,33 @@ import javax.swing.Icon;
 /**
  * List all application resources
  */
-public interface Resources 
+public interface Resources
 {
-    public Image getAppImage();
+    public Icon getAddIcon();
     public Icon getAppIcon();
     public Icon getContinueIcon();
-    public Icon getRestartIcon();
-    public Icon getRemoveIcon();
-    public Icon getAddIcon();
-    public Icon getLogoIcon();
+    public Icon getDeselectAllIcon();
     public Icon getFileIcon();
-    public Icon getFolderIcon();
-    public Icon getPrevIcon();
+    public Icon getFolderImportIcon();
+    public Icon getFolderRemoveIcon();
+    public Icon getFolderSelectIcon();
+    public Icon getLogoIcon();
     public Icon getNextIcon();
+    public Icon getPrevIcon();
     public Icon getRefreshIcon();
-    public Properties getJPanelConfigProperties();
-    public Icon getSmallOKIcon();
+    public Icon getRestartIcon();
+    public Icon getSelectAllIcon();
     public Icon getSmallKOIcon();
     public Icon getSmallOKButOKIcon();
-    public String getAuthorName();
+    public Icon getSmallOKIcon();
+
+    public Image getAppImage();
+
+    public Properties getJPanelConfigProperties();
+
     public String getAboutVersion();
-    public URI getSiteURI();
     public String getAboutVersionDate();
+    public String getAuthorName();
+
+    public URI getSiteURI();
 }

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptyfiles;
+package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -10,21 +10,26 @@ import java.awt.BorderLayout;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import org.apache.log4j.Logger;
 
 public class WorkingJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( WorkingJPanel.class );
     private JTable table;
     private JPanel panel;
     private JLabel messageLabel;
     private JProgressBar progressBar;
     private JButton deleteButton;
     private JButton selectAllButton;
-    private JButton unselectAllButton;
+    private JButton deselectAllButton;
     private WorkingTableModel tableModel;
     private JScrollPane scrollPane;
     private JButton restartButton;
@@ -75,25 +80,40 @@ public class WorkingJPanel extends JPanel
                 this.table = new JTable();
                 this.scrollPane.setViewportView(this.table);
                 this.table.setModel( tableModel  );
+
+                // Detect change in model.
+                tableModel.addTableModelListener( new TableModelListener() {
+                    @Override
+                    public void tableChanged( TableModelEvent event )
+                    {
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "tableChanged :" + event.getSource() );
+                            }
+
+                        applySelectionState();
+                    }} );
             }
         }
         {
-            this.unselectAllButton = new JButton("Unselect All");
-            this.unselectAllButton.addActionListener(new ActionListener() {
+            this.deselectAllButton = new JButton("Deselect All");
+            this.deselectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getDeselectAllIcon() );
+            this.deselectAllButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     tableModel.doUnselectAll();
                 }
             });
-            GridBagConstraints gbc_unselectAllButton = new GridBagConstraints();
-            gbc_unselectAllButton.fill = GridBagConstraints.HORIZONTAL;
-            gbc_unselectAllButton.insets = new Insets(0, 0, 5, 0);
-            gbc_unselectAllButton.gridx = 1;
-            gbc_unselectAllButton.gridy = 1;
-            this.panel.add(this.unselectAllButton, gbc_unselectAllButton);
+
+            GridBagConstraints gbc_deselectAllButton = new GridBagConstraints();
+            gbc_deselectAllButton.fill = GridBagConstraints.HORIZONTAL;
+            gbc_deselectAllButton.insets = new Insets(0, 0, 5, 0);
+            gbc_deselectAllButton.gridx = 1;
+            gbc_deselectAllButton.gridy = 1;
+            this.panel.add(this.deselectAllButton, gbc_deselectAllButton);
         }
         {
             this.selectAllButton = new JButton("Select All");
+            this.selectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getSelectAllIcon() );
             this.selectAllButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -147,6 +167,29 @@ public class WorkingJPanel extends JPanel
         }
     }
 
+    protected void applySelectionState()
+    {
+        switch( tableModel.getSelectionState() ) {
+            case ALL_SELECTED:
+                deleteButton.setEnabled( true );
+                selectAllButton.setEnabled( false );
+                deselectAllButton.setEnabled( true );
+               break;
+               
+            case AT_LEAST_ONE_FILE_SELECTED:
+                deleteButton.setEnabled( true );
+                selectAllButton.setEnabled( true );
+                deselectAllButton.setEnabled( true );
+                break;
+                
+            case NONE_SELECTED:
+                deleteButton.setEnabled( false );
+                selectAllButton.setEnabled( true );
+                deselectAllButton.setEnabled( false );
+                break;
+            }
+    }
+
     private void doDelete()
     {
         setEnabledAll( false );
@@ -160,9 +203,15 @@ public class WorkingJPanel extends JPanel
     private void setEnabledAll( boolean b )
     {
         this.restartButton.setEnabled( b );
-        this.deleteButton.setEnabled( b );
-        this.selectAllButton.setEnabled( b );
-        this.unselectAllButton.setEnabled( b );
+
+        if( b ) {
+            applySelectionState();
+            }
+        else {
+            this.deleteButton.setEnabled( false );
+            this.selectAllButton.setEnabled( false );
+            this.deselectAllButton.setEnabled( false );
+            }
     }
 
     public void deleteDone()

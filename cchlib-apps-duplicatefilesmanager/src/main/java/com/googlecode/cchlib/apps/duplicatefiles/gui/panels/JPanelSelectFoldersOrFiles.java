@@ -23,14 +23,14 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import com.googlecode.cchlib.swing.textfield.XTextField;
-import com.googlecode.cchlib.util.iterator.iterable.BiIterator;
-
+import com.googlecode.cchlib.util.iterable.CascadingIterable;
+//import com.googlecode.cchlib.util.iterator.iterable.BiIterator;
 import javax.swing.JLabel;
 
 /**
  * <pre>
  * TODO: replace JList by JTable
- * 
+ *
  * -> add comment if a folder is a child of an other
  *    one, say that it will be ignored, and ignore it !
  * -> store a tree of folders list to find duplicate !
@@ -90,7 +90,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         {
             jButtonRemEntry = new JButton("Remove");
             //jButtonRemEntry.setIcon( dFToolKit.getIcon( "remove.png" ) );
-            jButtonRemEntry.setIcon( dFToolKit.getResources().getRemoveIcon() );
+            jButtonRemEntry.setIcon( dFToolKit.getResources().getFolderRemoveIcon() );
             jButtonRemEntry.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -133,7 +133,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectFile.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                	onJButtonSelectFile();
+                    onJButtonSelectFile();
                 }
             });
             GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
@@ -163,12 +163,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         }
         {
             jButtonSelectDir = new JButton("Select Folder");
-            //jButtonSelectDir.setIcon( dFToolKit.getIcon( "folder.png" ) );
-            jButtonSelectDir.setIcon( dFToolKit.getResources().getFolderIcon() );
+            jButtonSelectDir.setIcon( dFToolKit.getResources().getFolderSelectIcon() );
             jButtonSelectDir.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                	onJButtonSelectDir();
+                    onJButtonSelectDir();
                 }
             });
             GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
@@ -404,7 +403,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private Iterable<File> entries()
     {
-        return new BiIterator<File>( includeFileList, ingoreFileList );
+       @SuppressWarnings("unchecked") Iterable<? extends File>[] array = new Iterable[ 2 ];
+       array[ 0 ] = includeFileList;
+       array[ 1 ] = ingoreFileList;
+
+       return new CascadingIterable<File>( array );
     }
 
     public Iterable<File> entriesToScans()

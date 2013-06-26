@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
 import java.nio.file.Path;
 import java.util.Enumeration;
@@ -8,19 +8,20 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 /**
- * 
+ *
  *
  */
-public class FolderTreeBuilder
+//not public
+final class FolderTreeBuilder
 {
     private static final Logger logger = Logger.getLogger( FolderTreeBuilder.class );
     //private List<FolderTreeNode> rootNodes = new ArrayList<FolderTreeNode>();
-    
+
     // TODO use ArrayHashMap instead !
     private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>();
 
     /**
-     * 
+     *
      */
     public FolderTreeBuilder()
     {
@@ -60,14 +61,14 @@ public class FolderTreeBuilder
             // Alreay exist, juste change type
             bestParentFolderTreeNode.setFolder( emptyFolder );
             //bestParentFolderTreeNode.setUserObject( emptyFolder );
-            
+
             if( logger.isDebugEnabled() ) {
                 logger.debug( String.format( "Add (%s) already exist (fix type if needed)", emptyFolder ) );
                 }
             }
         else {
             bestParentFolderTreeNode.addFolder( emptyFolder );
-            }   
+            }
     }
 
     private static FolderTreeNode findBestParent(
@@ -90,12 +91,12 @@ public class FolderTreeBuilder
            Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
 
            //logger.info( "> findBestParent try in :" + parentFolderTreeNode.getFolder().getPath() );
-     
+
             while( enu.hasMoreElements() ) {
                 FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
                 Path           childNodePath = childNode.getFolder().getPath();
                 Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
-                
+
                 //logger.info( "> findBestParent childNode :" + childNode );
                 //logger.info( "> findBestParent looking for emptyFolderPathName :" + emptyFolderPathName );
                 //logger.info( "> findBestParent childNodeName :" + childNodeName );

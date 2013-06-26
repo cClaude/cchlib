@@ -12,26 +12,35 @@ public class FileInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private boolean selected;
-    private Date lastModifiedDate;
-    private boolean deleted;
-    private String lengthString;
-    private String fileAttributsString;
+    //private Date lastModifiedDate;
+    //private boolean deleted;
+    //private String lengthString;
+    //private String fileAttributsString;
+    private File file;
+    private FileInfoFormater fileInfoFormater;
 
      /**
      * 
      */
     public FileInfo( File file, boolean selected, FileInfoFormater fileInfoFormater )
     {
-        this.selected = selected;
-        this.lastModifiedDate    = new Date( file.lastModified() );
-        this.fileAttributsString = fileInfoFormater.formatAttributs( file );
-        this.lengthString        = fileInfoFormater.formatLength( file );
-        this.deleted = false;
+        this.file             = file;
+        this.selected         = selected;
+        this.fileInfoFormater = fileInfoFormater;
+        //this.lastModifiedDate    = new Date( file.lastModified() );
+        //this.fileAttributsString = fileInfoFormater.formatAttributs( file );
+        //this.lengthString        = fileInfoFormater.formatLength( file );
+        //this.deleted = false;
     }
 
     public boolean isSelected()
     {
-        return selected;
+        if( isDeleted() ) {
+            return false;
+            }
+        else {
+            return selected;
+            }
     }
 
     public void setSelected( boolean selected )
@@ -41,36 +50,36 @@ public class FileInfo implements Serializable
 
     public Date getLastModifiedDate()
     {
-        return this.lastModifiedDate;
+        return new Date( file.lastModified() );
     }
 
     public boolean isDeleted()
     {
-        return deleted;
+        return ! file.exists();
     }
 
-    public void setDeleted( boolean deleted )
-    {
-        this.deleted = deleted;
-    }
+//    public void setDeleted( boolean deleted )
+//    {
+//        this.deleted = deleted;
+//    }
 
     public String getLengthString()
     {
-        return lengthString;
+        return fileInfoFormater.formatLength( file );
     }
 
-    public void setLengthString( String lengthString )
-    {
-        this.lengthString = lengthString;
-    }
+//    public void setLengthString( String lengthString )
+//    {
+//        this.lengthString = lengthString;
+//    }
 
     public String getFileAttributsString()
     {
-        return fileAttributsString;
+        return fileInfoFormater.formatAttributs( file );
     }
     
-    public void setFileAttributsString( String fileAttributsString )
-    {
-        this.fileAttributsString = fileAttributsString;
-    }
+//    public void setFileAttributsString( String fileAttributsString )
+//    {
+//        this.fileAttributsString = fileAttributsString;
+//    }
 }

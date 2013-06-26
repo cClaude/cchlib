@@ -1,49 +1,45 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException; // $codepro.audit.disable unnecessaryImport
 import java.util.Properties;
-
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
+import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
  * Load resources for GUI
  */
-public class ResourcesLoader
+public class MyResourcesLoader
 {
-    private final static Logger logger = Logger.getLogger( ResourcesLoader.class );
+    private final static Logger logger = Logger.getLogger( MyResourcesLoader.class );
     private static Resources resources;
 
     // static methods
-    private ResourcesLoader()
+    private MyResourcesLoader()
     {
         // All static
     }
 
-    /**
-     * Find {@link URL} for resource, according to this 
-     * class {@link ClassLoader}
-     * 
-     * @param name Resource name
-     * @return {@link URL} for giving resource name
-     * @see Class#getResource(String)
-     */
-    private static URL getResource( final String name )
-    {
-        return ResourcesLoader.class.getResource( name );
-    }
+//    /**
+//     * Find {@link URL} for resource, according to this 
+//     * class {@link ClassLoader}
+//     * 
+//     * @param name Resource name
+//     * @return {@link URL} for giving resource name
+//     * @see Class#getResource(String)
+//     */
+//    private static URL getResource( final String name )
+//    {
+//        return ResourcesLoader.getResource( MyResourcesLoader.class, name );
+//    }
 
     /**
      * Find {@link InputStream} for resource, according to this 
@@ -54,31 +50,24 @@ public class ResourcesLoader
      * @see Class#getResourceAsStream(String)
      * @throws ResourcesLoaderException If resource is not found
      */
-    private static InputStream getResourceAsStream( final String name )
+    private static InputStream getResourceAsStream( final String name ) throws ResourcesLoaderException
     {
-        final InputStream stream = ResourcesLoader.class.getResourceAsStream( name );
-
-        if( stream == null ) {
-            logger.error( "Can't find resource: " + name );
-            }
-
-        return stream;
+        return ResourcesLoader.getResourceAsStream( MyResourcesLoader.class, name );
     }
 
     /**
      * Build {@link Icon} for giving resource name
      * @param name Resource name
      * @return {@link Icon} for giving resource name
-     * @throws ResourcesLoaderException If resource is not found
      */
-    private static Icon getImageIcon( final String name )
+    static Icon getImageIcon( final String name ) 
     {
         try {
-            return new ImageIcon( getResource( name ) );
+            return ResourcesLoader.getImageIcon( MyResourcesLoader.class, name );
             }
-        catch( Exception e ) {
-            logger.error( "Can't find image: " + name, e );
-
+        catch( ResourcesLoaderException e ) {
+            logger.error( "Can't load Icon: " + name, e );
+            
             return null;
             }
     }
@@ -87,31 +76,18 @@ public class ResourcesLoader
      * Build {@link Image} for giving resource name
      * @param name Resource name
      * @return {@link Image} for giving resource name
-     * @throws ResourcesLoaderException If resource is not found
      */
     private static Image getImage( final String name )
     {
-        final URL url = getResource( name );
-
-        if( url == null ) {
-            logger.error(
-                String.format( "Bad url for image : '%s'", name )
-                );
-
+        try {
+            return ResourcesLoader.getImage( MyResourcesLoader.class, name );
+            }
+        catch( ResourcesLoaderException e ) {
+            logger.error( "Can't load Image: " + name, e );
+            
             return null;
             }
-
-        final Image image = Toolkit.getDefaultToolkit().getImage( url );
-
-        if( image == null ) {
-            logger.error(
-                String.format( "No image for : '%s'", name )
-                );
-            }
-
-        return image;
     }
-
 
     /**
      * Build {@link Properties} for giving resource name
@@ -124,14 +100,14 @@ public class ResourcesLoader
         final Properties prop = new Properties();
 
         try {
-            InputStream is = ResourcesLoader.getResourceAsStream( name );
+            InputStream is = MyResourcesLoader.getResourceAsStream( name );
 
             if( is != null ) {
                 prop.load( is );
                 is.close();
                 }
             }
-        catch( IOException e ) {
+        catch( IOException | ResourcesLoaderException e ) {
             logger.error( "Can't load properties: " + name, e );
             }
 
@@ -182,7 +158,7 @@ public class ResourcesLoader
                     return getImageIcon( "restart.png" );
                 }
                 @Override
-                public Icon getRemoveIcon()
+                public Icon getFolderRemoveIcon()
                 {
                     return getImageIcon( "remove.png" );
                 }
@@ -202,7 +178,7 @@ public class ResourcesLoader
                     return getImageIcon( "file.png" );
                 }
                 @Override
-                public Icon getFolderIcon()
+                public Icon getFolderSelectIcon()
                 {
                     return getImageIcon( "folder.png" );
                 }
@@ -260,6 +236,21 @@ public class ResourcesLoader
                 public Icon getRefreshIcon()
                 {
                     return getImageIcon( "refresh.16x16.png" );
+                }
+                @Override
+                public Icon getFolderImportIcon()
+                {
+                    return getImageIcon( "import.png" );
+                }
+                @Override
+                public Icon getDeselectAllIcon()
+                {
+                    return getImageIcon( "deselectAll.png" );
+                }
+                @Override
+                public Icon getSelectAllIcon()
+                {
+                    return getImageIcon( "selectAll.png" );
                 }
             };
             }

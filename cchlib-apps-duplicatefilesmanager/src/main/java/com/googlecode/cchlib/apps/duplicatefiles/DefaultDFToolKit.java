@@ -81,7 +81,7 @@ public final class DefaultDFToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return new DefaultI18nResourceBundleName(
-                ResourcesLoader.class, 
+                MyResourcesLoader.class, 
                 I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME 
                 );
     }
@@ -239,7 +239,7 @@ public final class DefaultDFToolKit
                 }
             catch( Exception e ) {
                 locale = null;
-                logger.warn( "Can not use main window to set Locale", e );
+                logger.warn( "Can not use main window to set Locale"/*, e*/ );
                 }
 
             if( locale == null ) {
@@ -273,7 +273,7 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public Resources getResources()
     {
-        return ResourcesLoader.getResources();
+        return MyResourcesLoader.getResources();
     }
 
     @Override // DFToolKit

@@ -17,6 +17,8 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JSeparator;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import javax.swing.JScrollPane;
@@ -43,11 +45,11 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
     private JButton btnAddRootDirectory;
     private JButton btnCancel;
-    private JButton btnImportDirectories;
+    private @I18nToolTipText JButton btnImportDirectories;
     private JButton btnRemoveRootDirectory;
     private JButton btnSelectAll;
     private JButton btnSelectAllLeaf;
-    private JButton btnUnselectAll;
+    private JButton btnDeselectAll;
     private JButton btnStartDelete;
     private JButton btnStartScan;
     private JList<File> jListRootDirectories;
@@ -61,8 +63,9 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
     /**
      * Create the frame.
+     * @param resources  
      */
-    public RemoveEmptyDirectoriesPanelWB()
+    public RemoveEmptyDirectoriesPanelWB( Resources resources )
     {
         setSize( 800, 400 );
 
@@ -75,7 +78,8 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
             this.setLayout(gbl_contentPane);
         }
         {
-            btnAddRootDirectory = new JButton("Add directory to scan");
+            btnAddRootDirectory = new JButton("Select directory");
+            btnAddRootDirectory.setIcon( resources.getFolderSelectIcon() );
             btnAddRootDirectory.setActionCommand( ACTION_ADD_DIRS );
             btnAddRootDirectory.addActionListener( getActionListener() );
 
@@ -115,18 +119,22 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
             scrollPaneJList.setViewportView(jListRootDirectories);
         }
         {
-            btnImportDirectories = new JButton("Import directories");
-            btnImportDirectories.setActionCommand( ACTION_IMPORT_DIRS );
-            btnImportDirectories.addActionListener( getActionListener() );
+            this.btnImportDirectories = new JButton("Import directories");
+            this.btnImportDirectories.setToolTipText("Import directories from duplicate tab");
+            this.btnImportDirectories.setIcon( resources .getFolderImportIcon() );
+            this.btnImportDirectories.setActionCommand( ACTION_IMPORT_DIRS );
+            this.btnImportDirectories.addActionListener( getActionListener() );
+            
             GridBagConstraints gbc_btnImportDirectories = new GridBagConstraints();
             gbc_btnImportDirectories.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnImportDirectories.insets = new Insets(0, 0, 5, 0);
             gbc_btnImportDirectories.gridx = 1;
             gbc_btnImportDirectories.gridy = 1;
-            this.add(btnImportDirectories, gbc_btnImportDirectories);
+            this.add(this.btnImportDirectories, gbc_btnImportDirectories);
         }
         {
             btnRemoveRootDirectory = new JButton("Remove");
+            btnRemoveRootDirectory.setIcon( resources.getFolderRemoveIcon() );
             btnRemoveRootDirectory.setActionCommand( ACTION_REMOVE_DIR );
             btnRemoveRootDirectory.addActionListener( getActionListener() );
             btnRemoveRootDirectory.setEnabled(false);
@@ -190,10 +198,11 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
             scrollPane_jTreeEmptyDirectories.setViewportView(jTreeEmptyDirectories);
         }
         {
-            btnSelectAll = new JButton( "Select All" );
+            this.btnSelectAll = new JButton( "Select All" );
+            this.btnSelectAll.setIcon( resources.getSelectAllIcon() );
             this.btnSelectAll.setEnabled(false);
-            btnSelectAll.setActionCommand( ACTION_SELECT_ALL_SELECTABLE_NODES );
-            btnSelectAll.addActionListener( getActionListener() );
+            this.btnSelectAll.setActionCommand( ACTION_SELECT_ALL_SELECTABLE_NODES );
+            this.btnSelectAll.addActionListener( getActionListener() );
 
             GridBagConstraints gbc_btnSelectAll = new GridBagConstraints();
             gbc_btnSelectAll.fill = GridBagConstraints.HORIZONTAL;
@@ -216,17 +225,18 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
             add(btnSelectAllLeaf, gbc_btnSelectAllLeaf);
         }
         {
-            btnUnselectAll = new JButton( "Unselect All" );
-            this.btnUnselectAll.setEnabled(false);
-            btnUnselectAll.setActionCommand( ACTION_UNSELECT_ALL );
-            btnUnselectAll.addActionListener( getActionListener() );
+            this.btnDeselectAll = new JButton( "Deselect All" );
+            this.btnDeselectAll.setIcon( resources.getDeselectAllIcon() );
+            this.btnDeselectAll.setEnabled(false);
+            this.btnDeselectAll.setActionCommand( ACTION_UNSELECT_ALL );
+            this.btnDeselectAll.addActionListener( getActionListener() );
 
-            GridBagConstraints gbc_btnUnselectAll = new GridBagConstraints();
-            gbc_btnUnselectAll.fill = GridBagConstraints.HORIZONTAL;
-            gbc_btnUnselectAll.insets = new Insets( 0, 0, 5, 0 );
-            gbc_btnUnselectAll.gridx = 1;
-            gbc_btnUnselectAll.gridy = 8;
-            this.add( btnUnselectAll, gbc_btnUnselectAll );
+            GridBagConstraints gbc_btnDeselectAll = new GridBagConstraints();
+            gbc_btnDeselectAll.fill = GridBagConstraints.HORIZONTAL;
+            gbc_btnDeselectAll.insets = new Insets( 0, 0, 5, 0 );
+            gbc_btnDeselectAll.gridx = 1;
+            gbc_btnDeselectAll.gridy = 8;
+            this.add( btnDeselectAll, gbc_btnDeselectAll );
         }
         {
             separator = new JSeparator();
@@ -336,7 +346,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         this.btnStartScan.setEnabled( b );
         this.btnSelectAll.setEnabled( b );
         this.btnSelectAllLeaf.setEnabled( b );
-        this.btnUnselectAll.setEnabled( b );       
+        this.btnDeselectAll.setEnabled( b );       
     }
 
     public void enable_startDelete()
@@ -351,7 +361,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
         btnSelectAll.setEnabled( false );
         btnSelectAllLeaf.setEnabled( false );
-        btnUnselectAll.setEnabled( false );
+        btnDeselectAll.setEnabled( false );
 
         btnStartDelete.setEnabled( false );
     }
@@ -369,7 +379,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
         btnSelectAll.setEnabled( false );
         btnSelectAllLeaf.setEnabled( false );
-        btnUnselectAll.setEnabled( false );
+        btnDeselectAll.setEnabled( false );
 
         btnStartDelete.setEnabled( false );
 
@@ -399,7 +409,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         btnStartDelete.setEnabled( hasRootDirs ); // FIXME: enable only when at least 1 file selected
         btnSelectAll.setEnabled( hasRootDirs );
         btnSelectAllLeaf.setEnabled( hasRootDirs );
-        btnUnselectAll.setEnabled( hasRootDirs ); // FIXME: only if something selected
+        btnDeselectAll.setEnabled( hasRootDirs ); // FIXME: only if something selected
         
         jListRootDirectories.setEnabled( true );
     }
@@ -411,6 +421,6 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
     
     protected boolean isBtnUnselectAllEnabled()
     {
-        return btnUnselectAll.isEnabled();
+        return btnDeselectAll.isEnabled();
     }
 }

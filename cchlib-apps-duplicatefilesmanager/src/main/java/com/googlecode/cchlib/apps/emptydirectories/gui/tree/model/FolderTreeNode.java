@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
 import java.nio.file.Path;
 import java.util.Enumeration;

@@ -14,10 +14,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeEditor;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryCheckBoxNodeRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModel;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellEditor;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -61,6 +61,8 @@ public class RemoveEmptyDirectoriesPanel
         final Window    mainWindow
         )
     {
+        super( dfToolKit.getResources() );
+        
         this.dfToolKit  = dfToolKit;
         this.mainWindow = mainWindow;
 
@@ -78,8 +80,10 @@ public class RemoveEmptyDirectoriesPanel
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
         treeModel = new FolderTreeModel( jTreeDir );
         jTreeDir.setModel( treeModel );
-        jTreeDir.setCellRenderer( new EmptyDirectoryCheckBoxNodeRenderer( treeModel ) );
-        jTreeDir.setCellEditor( new EmptyDirectoryCheckBoxNodeEditor( treeModel ) );
+
+        EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
+        jTreeDir.setCellRenderer( cellRenderer );
+        jTreeDir.setCellEditor( new EmptyDirectoryTreeCellEditor( treeModel, cellRenderer ) );
         jTreeDir.setEditable( true );
 
         enable_findTaskDone();
@@ -289,7 +293,7 @@ public class RemoveEmptyDirectoriesPanel
            logger.info( "btnAddRootDirectory() done" );
         }
     }
-    
+
     @Override
     protected void addRootDirectory( final List<File> files )
     {
@@ -308,7 +312,7 @@ public class RemoveEmptyDirectoriesPanel
 //        setEnableFind( model.size() > 0 );
         addRootDirectory( files.toArray( new File[files.size()] ));
     }
-    
+
     private void addRootDirectory( final File[] files )
     {
         DefaultListModel<File> model = super.getJListRootDirectoriesModel();

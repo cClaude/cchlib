@@ -14,7 +14,11 @@ import javax.swing.JProgressBar;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -31,7 +35,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     private JPanel                mainJPanel;
     private CardLayout            cardLayout;
     
-    private SelecDirecoriesJPanel selecDirecoriesJPanel;
+    private SelectDirecoriesJPanel selecDirecoriesJPanel;
     
     private WorkingJPanel         workingJPanel;
     private WorkingTableModel     tableModel;
@@ -59,7 +63,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         this.cardLayout = new CardLayout(0, 0);
         this.mainJPanel.setLayout( this.cardLayout );
 
-        this.selecDirecoriesJPanel = new SelecDirecoriesJPanel( this );
+        this.selecDirecoriesJPanel = new SelectDirecoriesJPanel( this );
         this.mainJPanel.add( this.selecDirecoriesJPanel, "SelecDirecoriesJPanel" );
 
         this.workingJPanel = new WorkingJPanel( this, tableModel );
@@ -138,6 +142,11 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     {
         return dfToolKit;
     }
+    
+    public Resources getResources()
+    {
+        return getDFToolKit().getResources();
+    }
 
     public void doImport( final DefaultListModel<File> directoriesJListModel )
     {
@@ -169,8 +178,8 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     {
         autoI18n.performeI18n( this, this.getClass() );
 
-        autoI18n.performeI18n( this.selecDirecoriesJPanel, SelecDirecoriesJPanel.class );
+        autoI18n.performeI18n( this.selecDirecoriesJPanel, SelectDirecoriesJPanel.class );
         autoI18n.performeI18n( this.workingJPanel, WorkingJPanel.class );
         autoI18n.performeI18n( this.tableModel, WorkingTableModel.class );
-    }
+    }    
 }

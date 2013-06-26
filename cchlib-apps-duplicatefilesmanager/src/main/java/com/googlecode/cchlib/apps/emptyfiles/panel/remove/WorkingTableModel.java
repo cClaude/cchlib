@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptyfiles;
+package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
 import java.io.File;
 import java.io.Serializable;
@@ -14,7 +14,9 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.iterable.Iterables;
 
 /**
  *
@@ -30,16 +32,16 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     private static final int FILE_DATE = 3;
     private static final int FILE_ATTR = 4;
 
-    @I18nString private String[] columnNames = { 
-            "Delete", 
+    @I18nString private String[] columnNames = {
+            "Delete",
             "Filename",
-            "size", 
+            "size",
             "date",
-            "Attributs" 
+            "Attributs"
             };
     private Class<?>[]          columnTypes = new Class[] { Boolean.class, String.class, String.class, Date.class, String.class };
     private List<File>          fileList    = new ArrayList<>();
-    private Map<File,FileInfo>  infoMap     = new HashMap<>();
+    private Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
     private boolean             selectedDefaultState = true; // FIXME : should be configurable
 
     private FileInfoFormater fileInfoFormater;
@@ -94,7 +96,13 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     @Override
     public boolean isCellEditable( int rowIndex, int columnIndex )
     {
-        return columnIndex == FILE_SELECTED;
+        if( columnIndex == FILE_SELECTED ) {
+            File     file = this.fileList.get( rowIndex );
+            FileInfo fi   = getFileInfo( file );
+
+            return ! fi.isDeleted();
+            }
+        return false;
     }
 
     /* (non-Javadoc)
@@ -129,8 +137,42 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     {
         if( columnIndex == FILE_SELECTED ) {
             File file = this.fileList.get( rowIndex );
+
             getFileInfo( file ).setSelected( (Boolean)aValue );
+
+            if( logger.isTraceEnabled() ) {
+                logger.trace( "selection is " + aValue + " for " + file );
+                }
+
+            super.fireTableCellUpdated( rowIndex, columnIndex );
             }
+    }
+
+    SelectionState getSelectionState()
+    {
+        boolean isAtLeastOneFileSelected = false;
+        boolean isAtLeastOneFileUnSelected = false;
+
+        for( FileInfo fi : getFileInfos() ) {
+            if( fi.isSelected() ) {
+                isAtLeastOneFileSelected = true;
+                }
+            else {
+                isAtLeastOneFileUnSelected = true;
+                }
+            }
+
+        if( isAtLeastOneFileSelected ) {
+            if( isAtLeastOneFileUnSelected ) {
+                return SelectionState.AT_LEAST_ONE_FILE_SELECTED;
+                }
+            else {
+                return SelectionState.ALL_SELECTED;
+                }
+            }
+        else {
+            return SelectionState.NONE_SELECTED;
+        }
     }
 
     public void add( File file )
@@ -152,9 +194,10 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
 
     public void doUnselectAll()
     {
-        for( FileInfo value : this.infoMap.values() ) {
+        for( FileInfo value : getFileInfos() ) {
             value.setSelected( false );
             }
+
         fireTableDataChanged();
     }
 
@@ -163,6 +206,7 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
         for( File file : this.fileList ) {
             getFileInfo( file ).setSelected( true );
             }
+
         fireTableDataChanged();
     }
 
@@ -173,15 +217,20 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
 
         if( value.isSelected() ) {
             logger.info( "doDelete: " + file );
-            // TODO : delete file
-            value.setFileAttributsString( fileInfoFormater.formatAttributsDelete() );
-            value.setLengthString( StringHelper.EMPTY );
-            value.setSelected( false );
-            value.setDeleted( true );
 
-            fireTableRowsUpdated( rowIndex, rowIndex );
+            boolean deleted = file.delete();
 
-            return true;
+            if( deleted ) {
+                value.setSelected( false );
+
+                fireTableRowsUpdated( rowIndex, rowIndex );
+
+                return true;
+                }
+            else {
+                // Not deleted 
+                logger.warn( "Can't delete : " + file );
+                }
             }
 
         return false;
@@ -189,22 +238,33 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
 
     private FileInfo getFileInfo( File file )
     {
-        FileInfo value = this.infoMap.get( file );
+        FileInfo value = this.lasyInfoMap.get( file );
 
         if( value == null ) {
             value = new FileInfo( file, selectedDefaultState, fileInfoFormater );
 
-            this.infoMap.put( file, value );
+            this.lasyInfoMap.put( file, value );
             }
 
         return value;
+    }
+    
+    private Iterable<FileInfo> getFileInfos()
+    {
+        return Iterables.transform( this.fileList, new Wrappable<File,FileInfo>() {
+            @Override
+            public FileInfo wrappe( File file ) throws WrappeException
+            {
+                return getFileInfo( file );
+            }
+        } );
     }
 
     public int getSelectedRowCount()
     {
         int count = 0;
 
-        for( FileInfo value : this.infoMap.values() ) {
+        for( FileInfo value : getFileInfos() ) {
             if( value.isSelected() ) {
                 count ++;
                 }
@@ -221,13 +281,13 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     public void clear()
     {
         this.fileList.clear();
-        this.infoMap.clear();
-        
+        this.lasyInfoMap.clear();
+
         super.fireTableDataChanged();
    }
 
     public boolean isRowSelected( int rowIndex )
     {
-        return this.infoMap.get( this.fileList.get( rowIndex ) ).isSelected();
+        return getFileInfo( this.fileList.get( rowIndex ) ).isSelected();
     }
 }

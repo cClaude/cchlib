@@ -44,7 +44,7 @@ final public class DuplicateFilesFrame
     static final Logger logger = Logger.getLogger( DuplicateFilesFrame.class );
     private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
-    
+
     private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
 
     private int                 state;
@@ -96,7 +96,7 @@ final public class DuplicateFilesFrame
         // Menu: Locale
         //
         final Locale locale = getDFToolKit().getPreferences().getLocale();
-        
+
         {
             Enumeration<AbstractButton> localEntriesEnum = getButtonGroupLanguage().getElements();
 
@@ -123,25 +123,25 @@ final public class DuplicateFilesFrame
             logger.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
             logger.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
             }
-        
+
         // Apply i18n !
         //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
         {
 //            EnumSet<AutoI18nConfig> config = EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN );
-//            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-//                    config, 
-//                    getDFToolKit().getPackageMessageBundleBase(), 
-//                    getDFToolKit().getMessageBundleBaseName(), 
+//            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+//                    config,
+//                    getDFToolKit().getPackageMessageBundleBase(),
+//                    getDFToolKit().getMessageBundleBaseName(),
 //                    locale == null ? Locale.getDefault() : locale
 //                    );
-            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-                    getDFToolKit().getAutoI18nConfig(), 
-                    getDFToolKit().getI18nResourceBundleName(), 
-                    getDFToolKit().getValidLocale() //locale == null ? Locale.getDefault() : locale                    
+            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                    getDFToolKit().getAutoI18nConfig(),
+                    getDFToolKit().getI18nResourceBundleName(),
+                    getDFToolKit().getValidLocale()
                     );
             performeI18n( autoI18n );
        }
- 
+
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
 
         // Init display
@@ -155,7 +155,7 @@ final public class DuplicateFilesFrame
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
-        
+
         updateI18nData();
         getDuplicateFilesMainPanel().performeI18n( autoI18n );
         getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n );
@@ -172,7 +172,7 @@ final public class DuplicateFilesFrame
 //    {
 //        return getDFToolKit().getMessagesBundle();
 //    }
-    
+
     private void initFixComponents()
     {
         setIconImage( getDFToolKit().getResources().getAppImage() );
@@ -183,7 +183,7 @@ final public class DuplicateFilesFrame
         this.state = STATE_SELECT_DIRS;
 
         getDuplicateFilesMainPanel().initFixComponents();
-        
+
         // initDynComponents
         //MenuHelper.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
         LookAndFeelMenu lafMenu = new LookAndFeelMenu( this );
@@ -457,7 +457,7 @@ final public class DuplicateFilesFrame
                                     openAbout();
                                 }}, ACTIONCMD_ABOUT );
                             break;
-                            
+
                         default:
                             logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
                             break;
@@ -495,7 +495,7 @@ final public class DuplicateFilesFrame
     public void openAbout()
     {
         AboutDialog.open( getDFToolKit(), this.autoI18n );
-        
+
         logger.info( "openAbout done" );
     }
 

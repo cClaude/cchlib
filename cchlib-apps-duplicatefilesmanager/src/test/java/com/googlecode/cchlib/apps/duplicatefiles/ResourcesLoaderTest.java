@@ -36,7 +36,7 @@ public class ResourcesLoaderTest
                IllegalArgumentException, 
                InvocationTargetException
     {
-        final Resources resources = ResourcesLoader.getResources();
+        final Resources resources = MyResourcesLoader.getResources();
         final Method[]  methods   = Resources.class.getDeclaredMethods();
         
         for( Method m : methods ) {

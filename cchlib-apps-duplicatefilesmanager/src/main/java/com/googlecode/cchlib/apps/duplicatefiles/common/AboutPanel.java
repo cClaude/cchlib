@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.apps.duplicatefiles.ResourcesLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.MyResourcesLoader;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import java.awt.GridBagLayout;
@@ -54,7 +54,7 @@ public abstract class AboutPanel extends JPanel
     @Deprecated // for windows builder ONLY.
     public AboutPanel() 
     {
-        this( ResourcesLoader.getResources() );
+        this( MyResourcesLoader.getResources() );
     }
 
     
