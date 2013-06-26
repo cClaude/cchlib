@@ -30,7 +30,7 @@ public class ArrayIterator<T>
      *
      * @param array array of element to wrap
      */
-    public ArrayIterator(final T[] array)
+    public ArrayIterator( final T...array )
     {
         this.array = array;
         this.index = 0;

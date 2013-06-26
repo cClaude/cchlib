@@ -32,9 +32,9 @@ public class CascadingIterator<T>
         // Init currentIterator with a valid value
         hasNext();
     }
-    
+
     /**
-     * 
+     *
      * @param iterators
      * @since 4.1.8
      */
@@ -55,11 +55,11 @@ public class CascadingIterator<T>
         if( currentIterator == null ) {
             if( mainIterator.hasNext() ) {
                 currentIterator = mainIterator.next().iterator();
-            }
+                }
             else {
                 return false;
+                }
             }
-        }
 
         for(;;) {
             if( currentIterator.hasNext() ) {
@@ -80,7 +80,6 @@ public class CascadingIterator<T>
         return currentIterator.next();
     }
 
-
     /**
      * Removes from the underlying collection the last element
      * returned by the iterator.
@@ -97,5 +96,4 @@ public class CascadingIterator<T>
     {
         currentIterator.remove();
     }
-
 }
