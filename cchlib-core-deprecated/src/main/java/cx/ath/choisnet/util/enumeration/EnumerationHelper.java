@@ -59,7 +59,7 @@ public class EnumerationHelper
             {
                 T element = enumeration.nextElement();
 
-                return element.wrappe( element );
+                return element.wrap( element );
             }
         };
     }
@@ -89,7 +89,7 @@ public class EnumerationHelper
             public O nextElement()
                 throws java.util.NoSuchElementException
             {
-                return wrapper.wrappe( enumeration.nextElement() );
+                return wrapper.wrap( enumeration.nextElement() );
             }
         };
     }

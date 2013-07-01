@@ -73,7 +73,7 @@ public class IteratorWrapper<T,O>
     @Override
     public O next() throws NoSuchElementException
     {
-        return wrapper.wrappe(iterator.next());
+        return wrapper.wrap(iterator.next());
     }
 
     /**

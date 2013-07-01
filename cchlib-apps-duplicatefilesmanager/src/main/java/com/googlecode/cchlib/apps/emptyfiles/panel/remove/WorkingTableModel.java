@@ -253,7 +253,7 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     {
         return Iterables.transform( this.fileList, new Wrappable<File,FileInfo>() {
             @Override
-            public FileInfo wrappe( File file ) throws WrappeException
+            public FileInfo wrap( File file ) throws WrappeException
             {
                 return getFileInfo( file );
             }

@@ -121,7 +121,7 @@ public class DirectoryIteratorTest
             allFiles.add(d);
         }
         for( File f : files ) {
-            IOHelper.toFile(f,f.getPath());
+            IOHelper.toFile(f.getPath(),f);
         }
 
         List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);

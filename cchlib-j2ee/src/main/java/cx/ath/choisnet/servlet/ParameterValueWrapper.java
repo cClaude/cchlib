@@ -34,7 +34,7 @@ public class ParameterValueWrapper
         List<String> list = new ArrayList<String>(len);
 
         for(int i = 0; i < len; i++) {
-            list.add( wrapper.wrappe( values[i] ) );
+            list.add( wrapper.wrap( values[i] ) );
         }
 
         return list;

@@ -407,7 +407,7 @@ class FolderTreeModel
 //        };
         return Iterables.wrappe( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
             @Override
-            public EmptyFolder wrappe( FolderTreeNode node ) throws WrappeException
+            public EmptyFolder wrap( FolderTreeNode node ) throws WrappeException
             {
                 return EmptyFolder.class.cast( node.getFolder() );
             }} );
@@ -473,7 +473,7 @@ class FolderTreeModel
 
         return Iterables.wrappe( enumeration, new Wrappable<Object,FolderTreeNode>() {
             @Override
-            public FolderTreeNode wrappe( Object obj ) throws WrappeException
+            public FolderTreeNode wrap( Object obj ) throws WrappeException
             {
                  return FolderTreeNode.class.cast( obj );
             }} );

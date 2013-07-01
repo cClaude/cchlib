@@ -211,7 +211,7 @@ public class FileIteratorTest
             allFiles.add(d);
         }
         for( File f : files ) {
-            IOHelper.toFile(f,f.getPath());
+            IOHelper.toFile(f.getPath(),f);
             allFiles.add(f);
         }
 

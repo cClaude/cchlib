@@ -58,7 +58,7 @@ public class MapKeyWrapper<KS,KR,V>
     {
         @SuppressWarnings("unchecked")
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
-        return map.containsKey( unwrapper.wrappe( k ) );
+        return map.containsKey( unwrapper.wrap( k ) );
     }
 
     @Override
@@ -84,7 +84,7 @@ public class MapKeyWrapper<KS,KR,V>
         @SuppressWarnings("unchecked")
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
 
-        return map.get( unwrapper.wrappe( k ) );
+        return map.get( unwrapper.wrap( k ) );
     }
 
     @Override
@@ -103,7 +103,7 @@ public class MapKeyWrapper<KS,KR,V>
     public V put( KR key, V value )
         throws UnsupportedOperationException
     {
-        return map.put( unwrapper.wrappe( key ), value );
+        return map.put( unwrapper.wrap( key ), value );
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MapKeyWrapper<KS,KR,V>
     {
         @SuppressWarnings("unchecked")
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
-        return map.remove( unwrapper.wrappe( k ) );
+        return map.remove( unwrapper.wrap( k ) );
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MapKeyWrapper<KS,KR,V>
             this.ewrapper = ewrapper;
         }
         @Override
-        public Map.Entry<EK1,EV> wrappe( final Map.Entry<EK0,EV> o )
+        public Map.Entry<EK1,EV> wrap( final Map.Entry<EK0,EV> o )
         {
             return new WrappedEntry( o );
         }
@@ -163,7 +163,7 @@ public class MapKeyWrapper<KS,KR,V>
             @Override
             public EK1 getKey()
             {
-                return ewrapper.wrappe( o.getKey() );
+                return ewrapper.wrap( o.getKey() );
             }
 
             @Override

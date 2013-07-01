@@ -64,7 +64,7 @@ public class MapWrapper<K,VS,VR>
     {
         @SuppressWarnings("unchecked")
         VR v = (VR)value; // $codepro.audit.disable unnecessaryCast
-        return map.containsValue( unwrapper.wrappe( v ) );
+        return map.containsValue( unwrapper.wrap( v ) );
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MapWrapper<K,VS,VR>
     @Override
     public VR get( Object key )
     {
-        return wrapper.wrappe(  map.get( key ) );
+        return wrapper.wrap(  map.get( key ) );
     }
 
     @Override
@@ -99,9 +99,9 @@ public class MapWrapper<K,VS,VR>
     public VR put( K key, VR value )
         throws UnsupportedOperationException
     {
-        VS prev = map.put( key, unwrapper.wrappe( value ) );
+        VS prev = map.put( key, unwrapper.wrap( value ) );
 
-        return wrapper.wrappe( prev );
+        return wrapper.wrap( prev );
     }
 
     @Override
@@ -117,7 +117,7 @@ public class MapWrapper<K,VS,VR>
     public VR remove( Object key )
         throws UnsupportedOperationException
     {
-        return wrapper.wrappe( map.remove( key ) );
+        return wrapper.wrap( map.remove( key ) );
     }
 
     @Override
@@ -143,7 +143,7 @@ public class MapWrapper<K,VS,VR>
         }
 
         @Override
-        public Map.Entry<KEY,V1> wrappe( Map.Entry<KEY,V0> o )
+        public Map.Entry<KEY,V1> wrap( Map.Entry<KEY,V0> o )
                 throws WrappeException
         {
             return new WrappedEntry( o );
@@ -167,7 +167,7 @@ public class MapWrapper<K,VS,VR>
             @Override
             public V1 getValue()
             {
-                return ewrapper.wrappe( o.getValue() );
+                return ewrapper.wrap( o.getValue() );
             }
 
             @Override

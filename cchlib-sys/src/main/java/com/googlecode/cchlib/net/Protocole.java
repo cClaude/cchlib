@@ -3,7 +3,7 @@ package com.googlecode.cchlib.net;
 /**
  *
  */
-public enum IPClass 
+public enum Protocole 
 {
     tcp, udp
 }

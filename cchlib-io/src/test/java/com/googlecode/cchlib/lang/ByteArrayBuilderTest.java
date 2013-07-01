@@ -3,7 +3,6 @@ package com.googlecode.cchlib.lang;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,8 +13,8 @@ import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
-import cx.ath.choisnet.io.SerializableHelper;
 
 /**
  *

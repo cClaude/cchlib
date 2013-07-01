@@ -16,9 +16,6 @@ import com.googlecode.cchlib.lang.UnsupportedSystemException;
  */
 public class GetServiceByName
 {
-    private final static String UNIX_SERVICES_FILENAME = "/etc/services";
-    private final static String WIN32_SYSTEM_VARNAME = "SystemRoot";
-    private final static String WIN32_SERVICES_FILENAME = "system32\\drivers\\etc\\services";
     private final File servicesFile;
 
     /**
@@ -39,28 +36,20 @@ public class GetServiceByName
 
     /**
      * Create an GetServiceByName
+     */
+    public GetServiceByName( Services services ) throws UnsupportedSystemException
+    {
+       this( services.getFile() );
+    }
+
+    /**
+     * Create an GetServiceByName
      *
      * @throws UnsupportedSystemException if servicesFile is not found
      */
     public GetServiceByName() throws UnsupportedSystemException
     {
-       this( getEtcServices() );
-    }
-
-    private static File getEtcServices()
-    {
-        File file = new File( UNIX_SERVICES_FILENAME );
-
-        if( ! file.isFile() ) {
-            String systemRoot = System.getenv( WIN32_SYSTEM_VARNAME );
-
-            if( systemRoot != null ) {
-                File systemRootFile = new File( systemRoot );
-                file                = new File( systemRootFile, WIN32_SERVICES_FILENAME );
-                }
-         }
-
-        return file;
+       this( new Services() );
     }
 
     /**
@@ -154,7 +143,7 @@ public class GetServiceByName
         )
         throws GetServiceByNameException
     {
-        return getServiceByName( ipService, IPClass.valueOf( ipClassName ) );
+        return getServiceByName( ipService, Protocole.valueOf( ipClassName ) );
     }
 
     /**
@@ -182,7 +171,7 @@ public class GetServiceByName
       */
     public int getServiceByName(
             final String    ipService,
-            final IPClass   ipClass
+            final Protocole ipClass
             )
             throws GetServiceByNameException
     {

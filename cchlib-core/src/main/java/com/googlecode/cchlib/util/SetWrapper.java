@@ -43,7 +43,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     @Override
     public boolean add( R e )
     {
-        return set.add( unwrapper.wrappe( e ) );
+        return set.add( unwrapper.wrap( e ) );
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     {
         @SuppressWarnings("unchecked")
         R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return set.contains( unwrapper.wrappe( r ) );
+        return set.contains( unwrapper.wrap( r ) );
     }
 
     @Override
@@ -104,7 +104,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     {
         @SuppressWarnings("unchecked")
         R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return set.remove( unwrapper.wrappe( r ) );
+        return set.remove( unwrapper.wrap( r ) );
     }
 
     @Override

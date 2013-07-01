@@ -28,5 +28,5 @@ public interface Wrappable<S,R>
      *         use {@link WrappeException#getCause()} to have
      *         initial error.
      */
-    abstract R wrappe(S obj) throws WrappeException;
+    abstract R wrap(S obj) throws WrappeException;
 }

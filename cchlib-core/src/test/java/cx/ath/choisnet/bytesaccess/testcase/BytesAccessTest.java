@@ -253,11 +253,15 @@ public class BytesAccessTest
             // To-Do-Later: Compare r1long and r5
             }
     }
-
+    
+    private static Object getAnyObjectForFailTest()
+    {
+        return "getAnyObject";
+    }
+    
     private static void testEquals( BytesAccess ba, BytesAccess compareTo)
     {
-        final Object someThingNotABytesAccess = "FALSE";
-        boolean res = ba.equals( someThingNotABytesAccess );
+        boolean res = ba.equals( getAnyObjectForFailTest() );
 
         assertFalse( "BytesAccess should not be equals to a String", res );
 

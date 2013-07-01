@@ -56,7 +56,7 @@ public class Enumerations
             {
                 T element = enumeration.nextElement();
 
-                return element.wrappe( element );
+                return element.wrap( element );
             }
         };
     }
@@ -86,7 +86,7 @@ public class Enumerations
             public O nextElement()
                 throws java.util.NoSuchElementException
             {
-                return wrapper.wrappe( enumeration.nextElement() );
+                return wrapper.wrap( enumeration.nextElement() );
             }
         };
     }

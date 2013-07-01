@@ -29,7 +29,7 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     @Override
     public boolean add( R e )
     {
-        return collection.add( unwrapper.wrappe( e ) );
+        return collection.add( unwrapper.wrap( e ) );
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     {
         @SuppressWarnings("unchecked")
         R r = (R)o;
-        return collection.contains( unwrapper.wrappe( r ) );
+        return collection.contains( unwrapper.wrap( r ) );
     }
 
     @Override
@@ -90,7 +90,7 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     {
         @SuppressWarnings("unchecked")
         R r = (R)o;
-        return collection.remove( unwrapper.wrappe( r ) );
+        return collection.remove( unwrapper.wrap( r ) );
     }
 
     @Override

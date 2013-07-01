@@ -34,7 +34,7 @@ public class LocaleList implements ListContener<Locale>
         return new AbstractIteratorWrapper<Locale,ListInfo<Locale>>( ci )
             {
                 @Override
-                public ListInfo<Locale> wrappe( final Locale locale )
+                public ListInfo<Locale> wrap( final Locale locale )
                         throws WrappeException
                 {
                     return new ListInfo<Locale>()

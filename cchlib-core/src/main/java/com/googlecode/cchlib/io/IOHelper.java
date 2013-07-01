@@ -121,14 +121,14 @@ public final class IOHelper
         copy( input, outputFile, new byte[ DEFAULT_BUFFER_SIZE ]);
     }
 
-    /**
-     * @deprecated use {@link #toFile(String, File)} instead
-     */
-    @Deprecated
-    public static void toFile( final File file, final String str ) throws IOException
-    {
-        toFile( str, file );
-    }
+//    /**
+//     * @deprecated use {@link #toFile(String, File)} instead
+//     */
+//    @Deprecated
+//    public static void toFile( final File file, final String str ) throws IOException
+//    {
+//        toFile( str, file );
+//    }
     
     
     /**

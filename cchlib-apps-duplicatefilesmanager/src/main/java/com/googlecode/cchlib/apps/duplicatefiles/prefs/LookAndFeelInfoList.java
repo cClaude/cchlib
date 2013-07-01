@@ -28,7 +28,7 @@ public class LookAndFeelInfoList
                 )
             {
                 @Override
-                public ListInfo<LookAndFeelInfo> wrappe( final LookAndFeelInfo lafi )
+                public ListInfo<LookAndFeelInfo> wrap( final LookAndFeelInfo lafi )
                         throws WrappeException
                 {
                     return new ListInfo<LookAndFeelInfo>()

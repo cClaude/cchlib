@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,9 +13,9 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
- * Some useful tools for java.io.Serializable
+ * Some useful tools to handle or verify {@link Serializable} objects.
  *
- * @see java.io.Serializable
+ * @see Serializable
  */
 public class SerializableHelper
 {
@@ -101,7 +101,6 @@ public class SerializableHelper
      * @throws IOException if any I/O occurred
      * @throws ClassNotFoundException
      * @see #toFile(Serializable, File)
-     * @since 4.1.5
      */
     public static <T extends Serializable> T loadObject(
             final File                aFile,
@@ -110,7 +109,7 @@ public class SerializableHelper
         throws IOException, ClassNotFoundException
     {
         final InputStream input = new FileInputStream( aFile );
-        
+
         try {
             final ObjectInputStream ois = new ObjectInputStream( input );
 
@@ -126,7 +125,7 @@ public class SerializableHelper
         finally {
             input.close();
             }
- 
+
      }
 
     /**
@@ -137,7 +136,6 @@ public class SerializableHelper
      * @param aFile     {@link File} to use to store object.
      * @throws IOException if any I/O occurred
      * @see #loadObject(File, Class)
-     * @since 4.1.5
      */
     public static <T extends Serializable> void toFile(
             final T    anObject,
@@ -146,7 +144,7 @@ public class SerializableHelper
         throws IOException
     {
         final OutputStream output = new FileOutputStream( aFile );
-        
+
         try {
             final ObjectOutputStream oos = new ObjectOutputStream( output );
 
@@ -161,5 +159,4 @@ public class SerializableHelper
             output.close();
             }
     }
-
 }

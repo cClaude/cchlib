@@ -76,6 +76,8 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
         FileInfoFormater fileInfoFormater = new FileInfoFormater()
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public String formatAttributs( File file )
             {

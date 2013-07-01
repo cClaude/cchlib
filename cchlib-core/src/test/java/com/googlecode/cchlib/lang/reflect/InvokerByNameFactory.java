@@ -9,10 +9,11 @@ package com.googlecode.cchlib.lang.reflect;
  */
 public class InvokerByNameFactory
  {
-    private final static Class<MyTest>  clazz       = MyTest.class;
-    final static String                 className   = clazz.getName();
-    final static String                 methodName  = "myTest";
-    
+    private final static Class<MyTestByName>  clazz       = MyTestByName.class;
+    final static String                       className   = clazz.getName();
+    final static String                       methodName  = "myTest";
+    final static String                       noSuchMethodName  = "noSuchMethodName";
+
     /** Prevent creation of instances of this colass. */
     private InvokerByNameFactory()
     {
@@ -21,26 +22,31 @@ public class InvokerByNameFactory
     /**
      * Create an instance of the class <code>{@link InvokerByName}</code>.
      */
-    public static InvokerByName<?> createInvokerByName()
-        throws ClassNotFoundException
+    public static InvokerByName<?> createInvokerByName() throws ClassNotFoundException
     {
         return new InvokerByName<Object>( Class.forName(className), methodName);
     }
-    
+
     /**
      * Create an instance of the class <code>{@link InvokerByName}</code>.
      */
-    public static InvokerByName<MyTest> createInvokerByName2()
+    public static InvokerByName<MyTestByName> createInvokerByClass()
     {
-        return new InvokerByName<MyTest>( clazz, methodName);
+        return new InvokerByName<MyTestByName>( clazz, methodName);
     }
-    
+
     /**
      * Create an instance of the class <code>{@link InvokerByName}</code>.
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public static InvokerByName<?> createInvokerByName3() throws ClassNotFoundException
     {
         return InvokerByName.forName( className, methodName);
+    }
+
+    public static InvokerByName<MyTestByName> createInvokerByName_NoSuchMethodException()
+        throws ClassNotFoundException
+    {
+        return new InvokerByName<MyTestByName>( clazz, noSuchMethodName);
     }
 }

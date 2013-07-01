@@ -42,10 +42,17 @@ public class InvokerByName<T> extends Invoker<T>
                 InvocationTargetException,
                 MethodResolutionException
     {
-        assert getClazz().isAssignableFrom( instance.getClass() );
+        assert ( instance == null ) || 
+               ( getClazz().isAssignableFrom( instance.getClass() ) ) 
+               : "intance = " + instance + " - getClazz() = " + getClazz();
 
-        if( params.length == 0 ) {
+        if( params == null || params.length == 0 ) {
+            assert getMethodName() != null;
+            
             Method method = getClazz().getMethod( getMethodName(), new Class<?>[0] );
+            
+            assert method != null;
+            
             return method.invoke( instance, params );
             }
 

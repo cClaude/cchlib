@@ -25,7 +25,7 @@ public class WrapperHelper<T,O>
         return new Wrappable<T,String>()
         {
             @Override
-            public String wrappe(T o)
+            public String wrap(T o)
             {
                 return o.toString();
             }
@@ -56,7 +56,7 @@ public class WrapperHelper<T,O>
             @Override
             public O nextElement()
             {
-                 return wrapper.wrappe( enumeration.nextElement() );
+                 return wrapper.wrap( enumeration.nextElement() );
             }
         };
     }

@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 /**

@@ -6,14 +6,6 @@ import com.googlecode.cchlib.lang.UnsupportedSystemException;
 
 public class GetServiceByNameTest
 {
-
-    @SuppressWarnings("unused")
-    @Test
-    public void test_GetServiceByName() throws UnsupportedSystemException
-    {
-        new GetServiceByName();
-    }
-
     @Test
     public void test_getServiceByName0() throws UnsupportedSystemException
     {
@@ -29,7 +21,7 @@ public class GetServiceByNameTest
     {
         GetServiceByName getServiceByName = new GetServiceByName();
 
-        int port = getServiceByName.getServiceByName( "shouldnotexist", IPClass.udp );
+        int port = getServiceByName.getServiceByName( "shouldnotexist", Protocole.udp );
 
         Assert.assertEquals( -1, port );
     }

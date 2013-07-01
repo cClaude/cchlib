@@ -48,7 +48,7 @@ class IterablesTestFactory
     {
         return new Wrappable<Integer,String>() {
             @Override
-            public String wrappe( Integer obj ) throws WrappeException
+            public String wrap( Integer obj ) throws WrappeException
             {
                 return obj.toString();
             }};
@@ -58,7 +58,7 @@ class IterablesTestFactory
     {
         return new Wrappable<String,Integer>() {
             @Override
-            public Integer wrappe( String obj ) throws WrappeException
+            public Integer wrap( String obj ) throws WrappeException
             {
                 return new Integer( obj );
             }};

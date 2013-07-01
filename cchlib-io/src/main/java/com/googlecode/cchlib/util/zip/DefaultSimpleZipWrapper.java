@@ -63,7 +63,7 @@ public class DefaultSimpleZipWrapper
     }
 
     @Override
-    public SimpleZipEntry wrappe( File file ) throws WrappeException
+    public SimpleZipEntry wrap( File file ) throws WrappeException
     {
         try {
             return private_wrappe( file );

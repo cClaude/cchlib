@@ -2,7 +2,7 @@ package com.googlecode.cchlib.test;
 
 import java.io.IOException;
 import java.io.Serializable;
-import cx.ath.choisnet.io.SerializableHelper;
+import com.googlecode.cchlib.io.SerializableHelper;
 
 /**
  * Helper to build {@link org.junit.Test} to test {@link Serializable} objects
