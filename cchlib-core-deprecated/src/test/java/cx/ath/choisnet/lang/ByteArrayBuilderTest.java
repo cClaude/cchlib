@@ -14,7 +14,6 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 
-
 @Deprecated
 public class ByteArrayBuilderTest
 {
