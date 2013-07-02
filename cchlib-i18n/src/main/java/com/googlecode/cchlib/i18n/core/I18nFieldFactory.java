@@ -31,7 +31,7 @@ final /* not public*/ class I18nFieldFactory
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue,
-        final MethodContener           methodContener,
+        final MethodContener    methodContener,
         final AutoI18nType      autoI18nType
         )
     {
@@ -48,14 +48,17 @@ final /* not public*/ class I18nFieldFactory
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue,
-        final MethodContener           methodContener
+        final MethodContener    methodContener
         )
     {
         if( methodContener != null ) {
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, null );
             }
-        else {
+        else if( String.class.isAssignableFrom( field.getType() ) ) {
             return new I18nFieldString( i18nDelegator, i18nKeyFactory, field, keyIdValue );
+            }
+        else {
+            return new I18nFieldStringArray( i18nDelegator, i18nKeyFactory, field, keyIdValue );
             }
     }
 }

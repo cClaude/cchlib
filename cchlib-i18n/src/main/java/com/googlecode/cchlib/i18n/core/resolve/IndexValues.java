@@ -37,4 +37,10 @@ public class IndexValues extends IndexKV implements Values, Serializable
     {
         return values.length;
     }
+
+    @Override
+    public String[] toArray()
+    {
+        return values;
+    }
 }

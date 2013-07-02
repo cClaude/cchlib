@@ -30,6 +30,8 @@ import com.googlecode.cchlib.lang.StringHelper;
 class I18nClassImpl<T> implements I18nClass<T>, Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( I18nClassImpl.class );
+    
     /** Array well know std API classes : do not use reflexion on theses classes */  
     final static Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
@@ -258,7 +260,19 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nStringNotAStringException
     {
         // Check if field is a String
-        if( ! String.class.isAssignableFrom( f.getType() ) ) {
+        if( !String.class.isAssignableFrom( f.getType() ) && !String[].class.isAssignableFrom( f.getType() ) ) {
+            
+            if( logger.isTraceEnabled() ) {
+                boolean res1  = String.class.isAssignableFrom( f.getType() );
+                boolean res2  = String[].class.isAssignableFrom( f.getType() );
+                
+                logger.trace( "*** Syntaxe error " + f.getType() 
+                        + " : res1 = " + res1 
+                        + " * res2 = " + res2,
+                        new Exception()
+                        );
+                }
+            
             throw new I18nStringNotAStringException( f );
         }
 
