@@ -26,16 +26,14 @@ import com.googlecode.cchlib.util.iterator.SingletonIterator;
 /**
  *
  */
-//public
 public final
 class FolderTreeModel
-    extends DefaultTreeModel//AbstractFolderTreeModel
+    extends DefaultTreeModel
         implements FolderTreeModelable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeModel.class );
     private FolderTreeBuilder folderTreeBuilder;
-    //private final Map<FolderTreeNode,Boolean> modifiedCheckState = new HashMap<FolderTreeNode,Boolean>();
     private final Set<FolderTreeNode> selectedNodes = new HashSet<FolderTreeNode>();
     private final JTree jTree;
     private final Object lock = new Object();
@@ -135,8 +133,6 @@ class FolderTreeModel
             logger.trace( "try to add: " + emptyFolder );
             }
     }
-
-
 
 //    public abstract Iterator<FolderTreeNode> nodeIterator();
 

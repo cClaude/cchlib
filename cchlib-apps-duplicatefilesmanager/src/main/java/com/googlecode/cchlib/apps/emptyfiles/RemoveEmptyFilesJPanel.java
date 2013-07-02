@@ -36,9 +36,9 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     private JPanel                mainJPanel;
     private CardLayout            cardLayout;
-    
+
     private SelectDirecoriesJPanel selecDirecoriesJPanel;
-    
+
     private WorkingJPanel         workingJPanel;
     private WorkingTableModel     tableModel;
 
@@ -146,7 +146,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     {
         return dfToolKit;
     }
-    
+
     public Resources getResources()
     {
         return getDFToolKit().getResources();
@@ -185,5 +185,5 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         autoI18n.performeI18n( this.selecDirecoriesJPanel, SelectDirecoriesJPanel.class );
         autoI18n.performeI18n( this.workingJPanel, WorkingJPanel.class );
         autoI18n.performeI18n( this.tableModel, WorkingTableModel.class );
-    }    
+    }
 }

@@ -10,6 +10,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
+import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
@@ -40,12 +41,9 @@ public class DuplicateFilesI18nPrep
             duplicateFilesFrame,
             new AboutDialog( dfToolKit ),
             new PreferencesDialogWB(),
+            new RemoveEmptyFilesJPanel( dfToolKit )
             };
 
-        //Package                 packageMessageBundleBase = duplicateFilesFrame.getClass().getPackage();
-        //Package                 packageMessageBundleBase = dfToolKit.getPackageMessageBundleBase();
-        //String                  messageBundleBaseName    = I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME;
-        //String                  messageBundleBaseName    = dfToolKit.getMessageBundleBaseName();
         EnumSet<AutoI18nConfig> config                 = dfToolKit.getAutoI18nConfig();
         I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
         

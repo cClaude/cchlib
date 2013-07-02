@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -28,25 +30,30 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( WorkingTableModel.class );
 
-    private static final int FILE_SELECTED = 0;
-    private static final int FILE_FILE = 1;
-    private static final int FILE_SIZE = 2;
-    private static final int FILE_DATE = 3;
-    private static final int FILE_ATTR = 4;
-
+    private enum Columns { 
+        FILE_ICON, 
+        FILE_SELECTED, 
+        FILE_FILE,
+        FILE_SIZE,
+        FILE_DATE,
+        FILE_ATTR
+        };
     @I18nString private String[] columnNames = {
+            ".",
             "Delete",
             "Filename",
             "size",
             "date",
             "Attributs"
             };
-    private Class<?>[]          columnTypes = new Class[] { Boolean.class, String.class, String.class, Date.class, String.class };
+    private Class<?>[]          columnTypes = new Class[] { Icon.class, Boolean.class, String.class, String.class, Date.class, String.class };
     private List<File>          fileList    = new ArrayList<>();
     private Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
     private boolean             selectedDefaultState = true; // FIXME : should be configurable
 
     private FileInfoFormater fileInfoFormater;
+    private Icon deletedFileIcon = MyStaticResources.getDeletedFileIcon();
+    private Icon fileIcon = MyStaticResources.getFileIcon();
 
     /**
      *
@@ -98,7 +105,7 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     @Override
     public boolean isCellEditable( int rowIndex, int columnIndex )
     {
-        if( columnIndex == FILE_SELECTED ) {
+        if( columnIndex == Columns.FILE_SELECTED.ordinal() ) {
             File     file = this.fileList.get( rowIndex );
             FileInfo fi   = getFileInfo( file );
 
@@ -113,14 +120,21 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     @Override
     public Object getValueAt( int rowIndex, int columnIndex )
     {
+        Columns c = Columns.values()[ columnIndex ];
         File file = this.fileList.get( rowIndex );
 
-        switch( columnIndex ) {
+        switch( c ) {
+            case FILE_ICON:
+            {
+                FileInfo fi = getFileInfo( file );
+
+                return fi.isDeleted() ? deletedFileIcon : fileIcon;
+            }
             case FILE_SELECTED :
                 {
                     FileInfo fi = getFileInfo( file );
 
-                    return fi.isDeleted() ? null : fi.isSelected();
+                    return fi.isDeleted() ? false : fi.isSelected();
                 }
             case FILE_FILE : return file;
             case FILE_DATE : return getFileInfo( file ).getLastModifiedDate();
@@ -137,7 +151,7 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     @Override
     public void setValueAt( Object aValue, int rowIndex, int columnIndex )
     {
-        if( columnIndex == FILE_SELECTED ) {
+        if( Columns.values()[ columnIndex ] == Columns.FILE_SELECTED ) {
             File file = this.fileList.get( rowIndex );
 
             getFileInfo( file ).setSelected( (Boolean)aValue );

@@ -12,6 +12,8 @@ public class MyStaticResources
     private static Icon duplicateFilesPanelIcon;
     private static Icon removeEmptyDirectoriesPanelIcon;
     private static Icon deleteEmptyFilesPanelIcon;
+    private static Icon deletedFileIcon;
+    private static Icon fileIcon;
 
     private MyStaticResources() {}
 
@@ -69,5 +71,21 @@ public class MyStaticResources
             deleteEmptyFilesPanelIcon = MyResourcesLoader.getImageIcon( "deleteEmptyFilesPanelIcon.png" );
             }
         return deleteEmptyFilesPanelIcon;
+    }
+
+    public static Icon getDeletedFileIcon()
+    {
+        if( deletedFileIcon == null ) {
+            deletedFileIcon = MyResourcesLoader.getImageIcon( "deletedFileIcon.png" );
+            }
+        return deletedFileIcon;
+    }
+
+    public static Icon getFileIcon()
+    {
+        if( fileIcon == null ) {
+            fileIcon = MyResourcesLoader.getImageIcon( "fileIcon.png" );
+            }
+        return fileIcon;
     }
 }
