@@ -49,7 +49,7 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
 
         if( separatorIndex > 0 ) {
             try {
-                Class<? extends Serializable> clazz = getClass( classLoader, valueString.substring( 0, SEPARATOR - 1 ) );
+                Class<? extends Serializable> clazz = getClass( classLoader, valueString.substring( 0, separatorIndex ) );
 
                 byte[] bytes = Base64Decoder.decode( valueString.substring( separatorIndex + 1 ).toCharArray() );
 
@@ -77,12 +77,16 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
     }
 
     @Override
-    public Object getVarObject( Serializable key )
+    public Serializable getVarObject( Serializable key )
     {
         String keyString   = transformSerializableToString( key );
         String ValueString = getVar( keyString );
 
-        return transformStringToSerializable( this.getClass().getClassLoader(), ValueString );
+        if( ValueString == null ) {
+            return null;
+        } else {
+            return transformStringToSerializable( this.getClass().getClassLoader(), ValueString );
+        }
     }
 
     @Override

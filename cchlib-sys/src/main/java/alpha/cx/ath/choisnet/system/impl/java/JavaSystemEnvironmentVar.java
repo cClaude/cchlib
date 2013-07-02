@@ -22,6 +22,11 @@ public class JavaSystemEnvironmentVar
     {
         File userHome = OperatingSystem.getUserHome();
         javaSystemEnvironmentVarFile = new File( userHome, SYSTEM_ENVIRONMENT_VAR_FILENAME );
+
+        if( ! javaSystemEnvironmentVarFile.isFile() ) {
+            // Create file if not exist
+            saveUnsynchronizedProperties( new Properties() );
+            }
     }
 
     /**

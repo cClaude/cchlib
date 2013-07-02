@@ -20,7 +20,7 @@ public interface SystemEnvironmentVar
     public String getVar(String name);
     public void setVar(String name, String value);
     
-    public Object getVarObject(Serializable key);
+    public Serializable getVarObject(Serializable key);
     public void setVarObject(Serializable key, Serializable value);
 
     /**
