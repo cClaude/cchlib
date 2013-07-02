@@ -135,7 +135,7 @@ public class GetServiceByName
      * @throws GetServiceByNameException if any Exception occur while
      *         reading /etc/services file (typically limited access)
      * @throws IllegalArgumentException if ipClassName is not valid
-     * @see #getServiceByName(String, IPClass)
+     * @see #getServiceByName(String, Protocole)
      */
     public int getServiceByName(
         final String ipService,
@@ -162,7 +162,7 @@ public class GetServiceByName
      * @param ipService The name of a TCP/IP "well-known" service found
      *                  in the <tt>/etc/services</tt> file
      *
-     * @param ipClass An {@link IPClass} either tcp or udp, depending
+     * @param ipClass An {@link Protocole} either tcp or udp, depending
      *                on the TCP/IP service desired.
      * @return A port number for a TCP or UDP service (depending on tcpipClass).
      *         Return -1 on error.
