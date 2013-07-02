@@ -17,6 +17,7 @@ import java.util.Locale;
 import javax.swing.JButton;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
@@ -31,6 +32,7 @@ import javax.swing.border.TitledBorder;
 /**
  *
  */
+@I18nName("PreferencesDialogWB")
 public class PreferencesDialogWB
     extends JDialog
         implements I18nAutoCoreUpdatable

@@ -13,6 +13,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
@@ -26,6 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
+@I18nName("emptyfiles.SelectDirecoriesJPanel")
 public class SelectDirecoriesJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;

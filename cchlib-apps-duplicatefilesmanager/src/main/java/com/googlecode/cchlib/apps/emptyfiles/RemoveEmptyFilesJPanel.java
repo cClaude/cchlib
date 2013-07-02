@@ -20,6 +20,7 @@ import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
@@ -27,6 +28,7 @@ import java.awt.BorderLayout;
 import org.apache.log4j.Logger;
 import java.awt.CardLayout;
 
+@I18nName("emptyfiles.RemoveEmptyFilesJPanel")
 public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;

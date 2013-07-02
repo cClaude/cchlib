@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
 import javax.swing.Icon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.Box;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -12,9 +11,10 @@ import java.awt.HeadlessException;
 import javax.swing.ButtonGroup;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -29,6 +29,9 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     private static final long serialVersionUID = 2L;
     private DFToolKit dfToolKit;
 
+    public static final int RemoveEmptyDirectories_TAB = 1;
+    public static final int DeleteEmptyFiles_TAB = 2;
+
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
     public static final String ACTIONCMD_EXIT     = "ACTIONCMD_EXIT";
     public static final String ACTIONCMD_PREFS    = "ACTIONCMD_PREFS";
@@ -36,29 +39,29 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
     private ButtonGroup buttonGroupConfigMode = new ButtonGroup();
     private ButtonGroup buttonGroupLanguage   = new ButtonGroup();
-    private Icon                        icon_DuplicateFiles; // TODO : add
-    private Icon                        icon_jPanel_RemoveEmptyDirectories; // TODO : add
-    private Icon                        icon_jPanel_jPanel_RemoveEmptyDirectories; // TODO : add
+    private Icon                        icon_DuplicateFiles = MyStaticResources.getDuplicateFilesPanelIcon();
+    private Icon                        icon_RemoveEmptyDirectories = MyStaticResources.getRemoveEmptyDirectoriesPanelIcon();
+    private Icon                        icon_DeleteEmptyFiles = MyStaticResources.getDeleteEmptyFilesPanelIcon();
     private JMenu                       jMenuConfig;
     private JMenu                       jMenuConfigMode;
     private JMenu                       jMenuFile;
     private JMenu                       jMenuLookAndFeel;
     private JMenuItem                   jMenuItemExit;
     private JMenuItem                   jMenuItem_Preferences;
-    private JPanel                      jPanel_DuplicateFiles; // Workaround for WindowBuilder
-    private JPanel                      jPanel_RemoveEmptyDirectories; // Workaround for WindowBuilder
 
-    private RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFile;
+    private DuplicateFilesMainPanel     jPanel_DuplicateFiles;
+    private RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
+    private RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFiles;
+
     private JRadioButtonMenuItem        jMenuItemModeAdvance;
     private JRadioButtonMenuItem        jMenuItemModeBeginner;
     private JRadioButtonMenuItem        jMenuItemModeExpert;
-    private JTabbedPane                 contentJTabbedPane;
-    
-    @I18nString private String tip_DuplicateFiles = "Find and remove Duplicate files"; 
-    @I18nString private String tip_jPanel_RemoveEmptyDirectories = "Find and delete empty directories";
+
+    @I18nToolTipText private JTabbedPane contentJTabbedPane;
+
     private JMenu jMenuHelp;
     private JMenuItem jMenuItem_About;
-    
+
     /**
      * Create the frame.
      * @param dfToolKit
@@ -69,15 +72,14 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         throws HeadlessException, TooManyListenersException
     {
         this.dfToolKit = dfToolKit;
-        
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 exitApplication();
             }
         });
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setBounds(100, 100, 450, 300);
+
         setSize(650, 500); // Just for design
 
         JMenuBar jMenuBarMain = new JMenuBar();
@@ -138,36 +140,31 @@ public abstract class DuplicateFilesFrameWB extends JFrame
         jMenuBarMain.add(jMenuLookAndFeel);
 
         {
-        contentJTabbedPane = new JTabbedPane();
-        setContentPane(contentJTabbedPane);
+        this.contentJTabbedPane = new JTabbedPane();
+        setContentPane( this.contentJTabbedPane );
 
         // Workaround for WindowBuilder
-        jPanel_DuplicateFiles = new JPanel();
+        if( dfToolKit == null ) {this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel();}
         // $hide>>$
-        jPanel_DuplicateFiles = new DuplicateFilesMainPanel( dfToolKit, getActionListener() );
+        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( dfToolKit, getActionListener() );
         // $hide<<$
+        this.contentJTabbedPane.addTab("Duplicate files", this.icon_DuplicateFiles, this.jPanel_DuplicateFiles, "Find and remove Duplicate files");
 
-        contentJTabbedPane.addTab("Duplicate files", icon_DuplicateFiles, jPanel_DuplicateFiles, null);
-        
-        // Workaround for WindowBuilder
-        jPanel_RemoveEmptyDirectories = new JPanel();
-        // $hide>>$
-        jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
-        // $hide<<$
-        
-        contentJTabbedPane.addTab("Remove empty directories", this.icon_jPanel_RemoveEmptyDirectories, this.jPanel_RemoveEmptyDirectories, null );
-        
-        this.jPanel_DeleteEmptyFile = new RemoveEmptyFilesJPanel( dfToolKit );
-        this.contentJTabbedPane.addTab("Remove empty files", this.icon_jPanel_jPanel_RemoveEmptyDirectories, this.jPanel_DeleteEmptyFile, null);
+        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
+        this.contentJTabbedPane.addTab("Remove empty directories", this.icon_RemoveEmptyDirectories, this.jPanel_RemoveEmptyDirectories, "Find and delete empty directories" );
+        assert (this.contentJTabbedPane.getTabCount() - 1) == RemoveEmptyDirectories_TAB;
+
+        this.jPanel_DeleteEmptyFiles = new RemoveEmptyFilesJPanel( dfToolKit );
+        this.contentJTabbedPane.addTab("Remove empty files", this.icon_DeleteEmptyFiles, this.jPanel_DeleteEmptyFiles, "Find and delete empty files");
+        assert (this.contentJTabbedPane.getTabCount() - 1) == DeleteEmptyFiles_TAB;
         }
     }
 
-    protected void updateI18nData()
+    protected void setEnabledAt( int index, boolean enabled )
     {
-        contentJTabbedPane.setToolTipTextAt( 0, tip_DuplicateFiles );
-        contentJTabbedPane.setToolTipTextAt( 1, tip_jPanel_RemoveEmptyDirectories );
+        this.contentJTabbedPane.setEnabledAt( index, enabled );
     }
-    
+
     protected ButtonGroup getButtonGroupConfigMode()
     {
         return buttonGroupConfigMode;
@@ -182,22 +179,20 @@ public abstract class DuplicateFilesFrameWB extends JFrame
     {
         return jMenuLookAndFeel;
     }
-    
+
     public DuplicateFilesMainPanel getDuplicateFilesMainPanel()
     {
-        // Workaround for WindowBuilder
-        return DuplicateFilesMainPanel.class.cast( jPanel_DuplicateFiles );
+        return jPanel_DuplicateFiles;
     }
-    
-    public RemoveEmptyDirectoriesPanel getRemoveEmptyDirectoriesPanel()
+
+    RemoveEmptyDirectoriesPanel getRemoveEmptyDirectoriesPanel()
     {
-        // Workaround for WindowBuilder
-        return RemoveEmptyDirectoriesPanel.class.cast( jPanel_RemoveEmptyDirectories );
+        return jPanel_RemoveEmptyDirectories;
     }
-    
-    public RemoveEmptyFilesJPanel getDeleteEmptyFilePanel()
+
+    RemoveEmptyFilesJPanel getDeleteEmptyFilesPanel()
     {
-        return jPanel_DeleteEmptyFile;
+        return jPanel_DeleteEmptyFiles;
     }
 
     public abstract ActionListener getActionListener();

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -19,6 +20,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
 
+@I18nName("emptyfiles.WorkingJPanel")
 public class WorkingJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;

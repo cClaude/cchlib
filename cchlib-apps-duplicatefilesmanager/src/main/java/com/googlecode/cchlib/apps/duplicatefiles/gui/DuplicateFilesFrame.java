@@ -125,15 +125,7 @@ final public class DuplicateFilesFrame
             }
 
         // Apply i18n !
-        //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
         {
-//            EnumSet<AutoI18nConfig> config = EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN );
-//            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
-//                    config,
-//                    getDFToolKit().getPackageMessageBundleBase(),
-//                    getDFToolKit().getMessageBundleBaseName(),
-//                    locale == null ? Locale.getDefault() : locale
-//                    );
             this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
                     getDFToolKit().getAutoI18nConfig(),
                     getDFToolKit().getI18nResourceBundleName(),
@@ -156,22 +148,11 @@ final public class DuplicateFilesFrame
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
 
-        updateI18nData();
+        //updateI18nData();
         getDuplicateFilesMainPanel().performeI18n( autoI18n );
         getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n );
-        getDeleteEmptyFilePanel().performeI18n( autoI18n );
+        getDeleteEmptyFilesPanel().performeI18n( autoI18n );
     }
-
-//    @Override // I18nPrepAutoUpdatable
-//    public String getMessagesBundle()
-//    {
-//        return getDFToolKit().getMessagesBundle();
-//    }
-//    @Override//I18nPrepHelperAutoUpdatable
-//    public String getMessagesBundleForI18nPrepHelper()
-//    {
-//        return getDFToolKit().getMessagesBundle();
-//    }
 
     private void initFixComponents()
     {
@@ -191,6 +172,7 @@ final public class DuplicateFilesFrame
         lafMenu.addChangeLookAndFeelListener( getDuplicateFilesMainPanel().getJPanel1Config() );
         lafMenu.buildMenu( getJMenuLookAndFeel() );
 
+        // Handle lookAndFeel dynamics modifications.
         UIManager.addPropertyChangeListener(
             new PropertyChangeListener()
             {
@@ -216,6 +198,7 @@ final public class DuplicateFilesFrame
                         }
                 }
             });
+
         super.setSize( getDFToolKit().getPreferences().getWindowDimension() );
     }
 
@@ -226,9 +209,10 @@ final public class DuplicateFilesFrame
             @Override
             public void run()
             {
+                applyConfigMode();
+
                 logger.debug( "updateDisplayAccordState: " + state );
 
-                //getJTabbedPaneMain().setSelectedIndex( state );
                 getDuplicateFilesMainPanel().selectedPanel( state );
 
                 getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtContinue );
@@ -432,11 +416,8 @@ final public class DuplicateFilesFrame
                                     sourceConfigMode.getClientProperty( ConfigMode.class )
                                     )
                                 );
-                            logger.debug( "ConfigMode:" + getDFToolKit().getPreferences().getConfigMode() );
 
-                            getDuplicateFilesMainPanel().getJPanel1Config().updateDisplay( true );
-                            getDuplicateFilesMainPanel().getJPanel3Result().updateDisplay();
-                            //TODO: more panel ?
+                            applyConfigMode();
                             }
                             break;
 
@@ -466,6 +447,21 @@ final public class DuplicateFilesFrame
             };
         }
         return this.mainActionListener;
+    }
+
+    protected void applyConfigMode()
+    {
+        ConfigMode mode = getDFToolKit().getPreferences().getConfigMode();
+        logger.debug( "ConfigMode:" + mode );
+
+        getDuplicateFilesMainPanel().getJPanel1Config().updateDisplay( true );
+        getDuplicateFilesMainPanel().getJPanel3Result().updateDisplay();
+
+        boolean advanced = mode != ConfigMode.BEGINNER;
+
+        setEnabledAt( RemoveEmptyDirectories_TAB, advanced );
+        setEnabledAt( DeleteEmptyFiles_TAB, advanced );
+        //TODO: more panel ?
     }
 
     @Override

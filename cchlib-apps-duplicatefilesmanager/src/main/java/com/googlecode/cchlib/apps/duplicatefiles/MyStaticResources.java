@@ -9,6 +9,10 @@ public class MyStaticResources
     private static Icon emptyLeafIcon;
     private static Icon emptyLeafSelectedIcon;
 
+    private static Icon duplicateFilesPanelIcon;
+    private static Icon removeEmptyDirectoriesPanelIcon;
+    private static Icon deleteEmptyFilesPanelIcon;
+
     private MyStaticResources() {}
 
     public static Icon getEmptyIcon()
@@ -41,5 +45,29 @@ public class MyStaticResources
             emptyLeafSelectedIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedIcon.png" );
             }
         return emptyLeafSelectedIcon;
+    }
+
+    public static Icon getDuplicateFilesPanelIcon()
+    {
+        if( duplicateFilesPanelIcon == null ) {
+            duplicateFilesPanelIcon = MyResourcesLoader.getImageIcon( "duplicateFilesPanelIcon.png" );
+            }
+        return duplicateFilesPanelIcon;
+    }
+
+    public static Icon getRemoveEmptyDirectoriesPanelIcon()
+    {
+        if( removeEmptyDirectoriesPanelIcon == null ) {
+            removeEmptyDirectoriesPanelIcon = MyResourcesLoader.getImageIcon( "removeEmptyDirectoriesPanelIcon.png" );
+            }
+        return removeEmptyDirectoriesPanelIcon;
+    }
+
+    public static Icon getDeleteEmptyFilesPanelIcon()
+    {
+        if( deleteEmptyFilesPanelIcon == null ) {
+            deleteEmptyFilesPanelIcon = MyResourcesLoader.getImageIcon( "deleteEmptyFilesPanelIcon.png" );
+            }
+        return deleteEmptyFilesPanelIcon;
     }
 }

@@ -13,6 +13,7 @@ import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.WrappeException;
@@ -21,6 +22,7 @@ import com.googlecode.cchlib.util.iterable.Iterables;
 /**
  *
  */
+@I18nName("emptyfiles.WorkingTableModel")
 public class WorkingTableModel extends AbstractTableModel implements TableModel, Serializable
 {
     private static final long serialVersionUID = 1L;
