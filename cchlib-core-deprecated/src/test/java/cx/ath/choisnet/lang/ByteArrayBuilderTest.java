@@ -9,9 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
-import cx.ath.choisnet.io.SerializableHelper;
 import java.io.ByteArrayInputStream;
 import org.junit.Test;
+import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
 
 
