@@ -52,10 +52,11 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
                     public Values getValues( Keys keys ) throws GetFieldException
                     {
                         try {
-                            Field f = getField();
-                            f.setAccessible( true ); // TODO: try to restore
-                            Object objectField = f.get( objectToI18n );
-                            String value       = (String)objectField;
+//                            Field f = getField();
+//                            f.setAccessible( true ); // TODO: try to restore ! (need to handle concurrent access)
+//                            Object objectField = f.get( objectToI18n );
+//                            String value       = (String)objectField;
+                            String value = getComponent( objectToI18n );
 
                             return new IndexValues( value );
                             }
@@ -81,7 +82,7 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
 
                         try {
                             Field f = getField();
-                            f.setAccessible( true ); // FIXME: try restore
+                            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
                             f.set( objectToI18n, values.get( 0 ) );
                             }
                         catch( IllegalArgumentException e ) {
@@ -94,5 +95,14 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
                 };
             }
         };
+    }
+    
+    private final <T> String getComponent( final T objectToI18n ) 
+            throws IllegalArgumentException, IllegalAccessException
+    {
+        Field f = getField();
+        f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+
+        return (String)f.get( objectToI18n );
     }
 }

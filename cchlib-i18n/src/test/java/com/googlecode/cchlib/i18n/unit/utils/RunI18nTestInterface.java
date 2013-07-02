@@ -6,10 +6,6 @@ import com.googlecode.cchlib.i18n.core.I18nPrep;
 
 public interface RunI18nTestInterface extends I18nAutoCoreUpdatable
 {
-    public void beforePrepTest( PrepTest prepTest );
-    public void afterPrepTest();
-    public void runPerformeI18nTest();
-
     public interface PrepTest
     {
         public void add(I18nAutoCoreUpdatable frame);
@@ -22,4 +18,10 @@ public interface RunI18nTestInterface extends I18nAutoCoreUpdatable
         public AutoI18nExceptionCollector getAutoI18nExceptionHandlerCollector();
     }
 
+    public void beforePrepTest( PrepTest prepTest );
+    public void afterPrepTest();
+    public void runPerformeI18nTest();
+
+    public int getSyntaxeExceptionCount();
+    public int getMissingResourceExceptionCount();
 }

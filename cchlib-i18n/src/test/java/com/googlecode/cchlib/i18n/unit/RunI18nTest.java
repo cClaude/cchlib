@@ -30,7 +30,8 @@ public class RunI18nTest
                 new I18nDefaultTest(),
                 new I18nForcedTest(),
                 new I18nBaseNameTest(),
-                new AutoI18nBasicInterfaceTest()
+                new AutoI18nBasicInterfaceTest(),
+                new I18nToolTipText_for_JTabbedPaneTest()
                 };
     }
 
@@ -39,10 +40,15 @@ public class RunI18nTest
     {
         RunI18nTestInterface.PrepTest prepTest = TestUtils.createPrepTest();
         RunI18nTestInterface[]        tests    = getTests();
+        int syntaxeExceptionCount = 0;
+        int missingResourceExceptionCount = 0;
 
         // Value should not change (check before)
         for( RunI18nTestInterface test : tests ) {
             test.afterPrepTest();
+            
+            syntaxeExceptionCount += test.getSyntaxeExceptionCount();
+            missingResourceExceptionCount += test.getMissingResourceExceptionCount();
             }
 
         for( RunI18nTestInterface test : tests ) {
@@ -69,12 +75,12 @@ public class RunI18nTest
         logger.info( "SecurityException = " + collector.getSecurityExceptionCollector().size() );
         logger.info( "SetFieldException = " + collector.getSetFieldExceptionCollector().size() );
 
-        Assert.assertEquals(  2, collector.getI18nSyntaxeExceptionCollector().size() );
+        Assert.assertEquals( syntaxeExceptionCount , collector.getI18nSyntaxeExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getIllegalAccessExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getIllegalArgumentExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getInvocationTargetExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getMissingKeyExceptionCollector().size() );
-        Assert.assertEquals( 23, collector.getMissingResourceExceptionCollector().size() );
+        Assert.assertEquals( missingResourceExceptionCount, collector.getMissingResourceExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getNoSuchMethodExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getMethodProviderSecurityExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getSecurityExceptionCollector().size() );
@@ -119,6 +125,4 @@ public class RunI18nTest
             }
         logger.info( "ALL runPerformeI18nTest() done"  );
     }
-
-
 }

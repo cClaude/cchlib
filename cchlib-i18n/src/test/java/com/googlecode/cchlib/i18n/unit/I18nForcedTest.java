@@ -215,4 +215,16 @@ public class I18nForcedTest extends JPanel implements I18nAutoCoreUpdatable, Run
             Assert.assertEquals( INIT_myJEditorPane, this.myJEditorPaneNoI18n.getText() );
         }
     }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 8;
+    }
 }

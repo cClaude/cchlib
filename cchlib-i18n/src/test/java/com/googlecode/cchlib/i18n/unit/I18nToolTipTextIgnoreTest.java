@@ -60,4 +60,16 @@ public class I18nToolTipTextIgnoreTest implements I18nAutoCoreUpdatable, RunI18n
         Assert.assertEquals( TOOLTIPTEXT_DEFAULT_BUNDLE, localised );
         Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );
     }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 1;
+    }
 }

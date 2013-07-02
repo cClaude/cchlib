@@ -7,7 +7,7 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 /**
  *
  */
-//public
+//NOT public
 abstract class AbstractI18nField implements I18nField
 {
     private static final long serialVersionUID = 1L;

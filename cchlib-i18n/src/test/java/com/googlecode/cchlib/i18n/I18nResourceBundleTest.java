@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 /**
@@ -16,7 +17,7 @@ public class I18nResourceBundleTest
     private static final String KEY_TEST = "key.test";
 
     @Test
-    public void testSerilization1() throws ClassNotFoundException, IOException
+    public void testSerilization1() throws ClassNotFoundException, IOException, MissingResourceException
     {
         final String    resourceBundleBaseName  = I18nResourceBundleTest.class.getName();
         final Locale    localeEn                = Locale.ENGLISH;

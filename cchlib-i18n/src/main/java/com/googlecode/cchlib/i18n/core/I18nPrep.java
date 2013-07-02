@@ -12,7 +12,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import org.apache.log4j.Level;
@@ -34,6 +33,7 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 
 public class I18nPrep
@@ -130,7 +130,7 @@ public class I18nPrep
                 public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
                 {
                     if( logger.isDebugEnabled() ) {
-                        logger.debug( "ignoredField: " + key );
+                        logger.debug( "ignoredField: " + key + " - field: " + f );
                         }
                     incForKey( key );
                 }

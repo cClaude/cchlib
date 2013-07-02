@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n.logging;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
-import java.util.MissingResourceException;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -13,6 +12,7 @@ import com.googlecode.cchlib.i18n.core.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /**
  * {@link AutoI18nExceptionHandler} using logging
@@ -29,16 +29,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         this.config = config == null ? EnumSet.noneOf( AutoI18nConfig.class ) : config;
     }
 
-//    /**
-//     * All exceptions implements methods
-//     * use this method to log message,
-//     *
-//     * @param e Exception to log.
-//     */
-//    //protected abstract void defaultHandle( Exception e, I18nField field );
     protected abstract void doHandle( String msg, Throwable e );
-    //protected abstract void doHandleMissingResourceException_MissingMethodsResolution( Exception e, I18nField i18nField );
-    //protected abstract void doHandleMissingResourceException( Exception e, I18nField i18nField );
 
     private void doHandleForField( String msg, Throwable e, I18nField i18nField )
     {
@@ -143,14 +134,11 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
             case JCOMPONENT_TOOLTIPTEXT:
                 doHandleMissingResourceException( e, i18nField );
                 break;
+            case JCOMPONENT_MULTI_TOOLTIPTEXT:
+                doHandleMissingResourceException( e, i18nField ); // FIXME : todo check this !
+                break;
             }
     }
-
-//    @Override
-//    public void handleNoSuchMethodException( NoSuchMethodException e )
-//    {
-//        doHandleForField( "NoSuchMethodException", e, (I18nField)null );
-//    }
 
     @Override
     public void handleNoSuchMethodException( NoSuchMethodException cause, Field field )
@@ -169,12 +157,6 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     {
         doHandleForField( "SecurityException", cause, (I18nField)null );
     }
-
-//    @Override
-//    public void handleSecurityException( SecurityException e )
-//    {
-//        doHandleForField( "SecurityException", e, (I18nField)null );
-//    }
     
     @Override
     public void handleSecurityException( SecurityException cause, I18nField i18nField )
@@ -201,6 +183,9 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
                 break;
             case JCOMPONENT_TOOLTIPTEXT:
                 doHandleMissingResourceException( e, i18nField );
+                break;
+            case JCOMPONENT_MULTI_TOOLTIPTEXT:
+                doHandleMissingResourceException( e, i18nField ); // FIXME : todo check this !
                 break;
             }
     }

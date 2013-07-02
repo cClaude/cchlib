@@ -30,24 +30,6 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
         assert autoI18nType != null : "Parameter autoI18nTypes must not be null";
    }
 
-    /*@Override
-    public <T> String[] getDefaultValues( T objectToI18n ) throws I18nFieldDefaultValueException
-    {
-        try {
-            Field  f           = getField();
-            Object fieldObject = f.get( objectToI18n );
-            
-            //return getI18nDelegator().getAutoI18nTypes().getText( f, fieldObject );
-            return getAutoI18nTypes().getText( fieldObject );
-            }
-        catch( IllegalArgumentException e ) {
-            throw new I18nFieldDefaultValueException( e );
-            }
-        catch( IllegalAccessException e ) {
-            throw new I18nFieldDefaultValueException( e );
-            }
-    }*/
-
     @Override
     public FieldType getFieldType()
     {
@@ -62,9 +44,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
             public Keys getKeys() throws MissingKeyException
             {
                 try {
-                   Field  f = getField();
-                   f.setAccessible( true ); // FIXME: try to restore
-                   Object fieldObject = f.get( objectToI18n );
+                   Object fieldObject = getComponent( objectToI18n );
                    
                    return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
                     }
@@ -84,13 +64,8 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
                     public Values getValues( Keys keys ) throws GetFieldException
                     {
                         try {
-                            Field  f = getField();
-                            f.setAccessible( true ); // FIXME: try to restore
-                             Object fieldObject = f.get( objectToI18n );
-                            
-//                            String[] value = getAutoI18nTypes().getText( fieldObject );
-//                            
-//                            return new IndexValues( value );
+                            Object fieldObject = getComponent( objectToI18n );
+
                             return getAutoI18nTypes().getText( fieldObject );
                             }
                         catch( IllegalArgumentException e ) {
@@ -112,9 +87,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
                             throws SetFieldException
                     {
                         try {
-                            Field  f = getField();
-                            f.setAccessible( true ); // FIXME: try to restore
-                            Object fieldObject = f.get( objectToI18n );
+                            Object fieldObject = getComponent( objectToI18n );
 
                             getAutoI18nTypes().setText( fieldObject, values );
                             }
@@ -128,5 +101,14 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
                 };
             }
         };
+    }
+    
+    private final <T> Object getComponent( final T objectToI18n ) 
+            throws IllegalArgumentException, IllegalAccessException
+    {
+        Field f = getField();
+        f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+
+        return f.get( objectToI18n );
     }
 }

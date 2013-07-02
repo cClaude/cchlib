@@ -11,11 +11,16 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     private String keyBase;
     private int    size;
 
-    public IndexKeys( final String key, final int size )
+    /**
+     * new IndexKeys with <code>keyBase</code> and <code>size</code> possible values
+     * @param keyBase base name ('.' will be added between keyBase and key index)
+     * @param size number of name (and values) for this key
+     */
+    public IndexKeys( final String keyBase, final int size )
     {
         assert size > 0;
 
-        this.keyBase    = key;
+        this.keyBase    = keyBase;
         this.size       = size;
     }
 

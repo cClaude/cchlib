@@ -4,6 +4,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.utils.RunI18nTestInterface;
 import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -62,11 +63,11 @@ public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, Ru
             super.add( myJTabbedPane );
             {
                 this.panel1 = new JPanel();
-                this.myJTabbedPane.addTab(INIT_myJTabbedPane1, null, this.panel1, null);
+                this.myJTabbedPane.addTab(INIT_myJTabbedPane1, (Icon)null, this.panel1, (String)null);
             }
             {
                 this.panel2 = new JPanel();
-                this.myJTabbedPane.addTab(INIT_myJTabbedPane2, null, this.panel2, null);
+                this.myJTabbedPane.addTab(INIT_myJTabbedPane2, (Icon)null, this.panel2, (String)null);
 
                 this.myTitledBorder = new TitledBorder(null, INIT_myTitledBorder, TitledBorder.LEADING, TitledBorder.TOP, null, null);
                 this.panel2.setBorder( this.myTitledBorder );
@@ -133,5 +134,17 @@ public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, Ru
             logger.info( "TEST RESULT: this.myTitledBorder.getTitle() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myTitledBorder, r );
         }
+    }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 5;
     }
 }

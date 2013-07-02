@@ -77,4 +77,16 @@ public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18
             this.i18nString = localString;  
         }
     }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 1;
+    }
 }

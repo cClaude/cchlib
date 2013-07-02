@@ -65,4 +65,16 @@ public class I18nToolTipTextTest implements I18nAutoCoreUpdatable, RunI18nTestIn
         logger.info( "TEST RESULT: getText() " + text );
         Assert.assertEquals( TEXT_DEFAULT_BUNDLE, text );
     }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 2;
+    }
 }

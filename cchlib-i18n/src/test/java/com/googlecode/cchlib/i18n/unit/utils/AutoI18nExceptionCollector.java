@@ -2,7 +2,6 @@ package com.googlecode.cchlib.i18n.unit.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.MissingResourceException;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxeException;
@@ -11,6 +10,7 @@ import com.googlecode.cchlib.i18n.core.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
 {

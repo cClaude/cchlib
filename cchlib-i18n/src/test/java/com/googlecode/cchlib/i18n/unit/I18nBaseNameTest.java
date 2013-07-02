@@ -93,4 +93,16 @@ public class I18nBaseNameTest extends JPanel implements I18nAutoCoreUpdatable, R
         autoI18n.performeI18n( this, this.getClass() );
     }
 
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 0;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 4;
+    }
+
 }

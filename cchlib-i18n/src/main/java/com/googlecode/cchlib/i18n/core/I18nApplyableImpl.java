@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n.core;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
-import java.util.MissingResourceException;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
@@ -11,9 +11,11 @@ import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.core.resolve.ValuesFromKeys;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /*not public*/ class I18nApplyableImpl<T> implements I18nApplyable<T>
 {
+    private final static Logger logger = Logger.getLogger( I18nApplyableImpl.class );
     private I18nClass<T> i18nClass;
     private I18nDelegator i18nDelegator;
 
@@ -57,10 +59,20 @@ import com.googlecode.cchlib.i18n.core.resolve.ValuesFromKeys;
                 I18nResolver r = field.createI18nResolver( objectToI18n, i18nInterface );
 
                 try {
-                    Keys    keys   = r.getKeys();
-                    Values  values = new ValuesFromKeys( i18nInterface, keys );
+                    Keys keys = r.getKeys();
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "keys = " + keys + " for " + field );
+                        }
+
+                    Values values = new ValuesFromKeys( i18nInterface, keys );
+                    if( logger.isTraceEnabled() ) {
+                        logger.trace( "values = " + values );
+                        }
 
                     try {
+                        if( logger.isTraceEnabled() ) {
+                            logger.trace( "I18nResolver.getI18nResolvedFieldSetter() = " + r.getI18nResolvedFieldSetter() );
+                            }
                         r.getI18nResolvedFieldSetter().setValues( keys, values );
                         }
                     catch( SetFieldException e ) {

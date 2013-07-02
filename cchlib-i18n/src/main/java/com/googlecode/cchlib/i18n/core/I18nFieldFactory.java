@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
+import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 
@@ -11,11 +12,14 @@ final /* not public*/ class I18nFieldFactory
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue,
-        final MethodContener           methodContener
+        final MethodContener    methodContener
         )
     {
         if( methodContener != null ) {
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, null );
+            }
+        else if( JTabbedPane.class.isAssignableFrom( field.getType() ) ) {
+            return new I18nFieldToolTipTextForJTabbedPane( i18nDelegator, i18nKeyFactory, field, keyIdValue );
             }
         else {
             return new I18nFieldToolTipText( i18nDelegator, i18nKeyFactory, field, keyIdValue );

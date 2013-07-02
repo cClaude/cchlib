@@ -71,9 +71,14 @@ public class I18nResourceBundle implements I18nInterface
 
     @Override // I18nInterface
     public String getString(String key)
-        throws java.util.MissingResourceException
+        throws MissingResourceException
     {
-        return resourceBundle.getString( key );
+        try {
+            return resourceBundle.getString( key );
+            }
+        catch( java.util.MissingResourceException e ) {
+            throw new MissingResourceException( e );
+            }
     }
 
     /**

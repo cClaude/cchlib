@@ -99,4 +99,16 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
         logger.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
     }
+
+    @Override
+    public int getSyntaxeExceptionCount()
+    {
+        return 2;
+    }
+
+    @Override
+    public int getMissingResourceExceptionCount()
+    {
+        return 2;
+    }
 }

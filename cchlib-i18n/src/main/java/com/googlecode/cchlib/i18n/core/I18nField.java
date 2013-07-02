@@ -22,21 +22,26 @@ public interface I18nField extends Serializable
         SIMPLE_KEY,
         LATE_KEY,
         METHODS_RESOLUTION,
+
+        /** Handle tool tip text */
         JCOMPONENT_TOOLTIPTEXT,
+
+        /** Handle tool tip text for JTabbedPane */
+        JCOMPONENT_MULTI_TOOLTIPTEXT,
         }
 
     /**
      * @return the reflexion {@link Field} for this I18nField
      */
     public Field getField();
-    
+
     /**
      * @return key for this I18nField, warning this is the key base name, could
      * be different than the final key in resource bundle, specially for multiple values
      * support.
      */
     public String getKeyBase();
-    
+
     /**
      * @return {@link MethodContener} object for this field, if custom getter/setter define,
      * return null otherwise
@@ -44,12 +49,12 @@ public interface I18nField extends Serializable
     public MethodContener getMethods();
 
     public FieldType getFieldType();
-    
+
     /**
      * @return {@link AutoI18nType} for this I18nField, if supported. Returns null otherwise.
      */
     public AutoI18nType getAutoI18nTypes();
-    
+
     @NeedDoc
     public <T> I18nResolver createI18nResolver( T objectToI18n, I18nInterface i18nInterface );
 }

@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.i18n.resources;
 
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -71,12 +70,12 @@ public class I18nSimpleResourceBundle
                   getLocale()
                   );
           }
-      catch( MissingResourceException e ) {
+      catch( java.util.MissingResourceException e ) {
           logger.error(
               "Error while trying to open default resource bundle for: "
                   + resourceBundleFullBaseName
               );
-          throw e;
+          throw e; // FIXME : throw new MissingResourceBundleException !!!
           }
 
       if( logger.isTraceEnabled() ) {
