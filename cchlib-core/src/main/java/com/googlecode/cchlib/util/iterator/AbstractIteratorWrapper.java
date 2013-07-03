@@ -5,7 +5,7 @@ import com.googlecode.cchlib.util.Wrappable;
 
 /**
  * Wrapper for an {@link Iterator}, you just need to implement
- * D wrappe(O obj) method to transform you O object into D object
+ * D {@link Wrappable#wrap(Object)} method to transform you O object into D object
 
  * @param <O> Original type
  * @param <D> Destination type
@@ -41,5 +41,4 @@ public abstract class AbstractIteratorWrapper<O,D>
     {
         iteratorWrapper.remove();
     }
-
 }

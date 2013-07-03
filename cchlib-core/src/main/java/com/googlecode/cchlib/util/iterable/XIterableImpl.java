@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 /**
@@ -32,12 +32,12 @@ public class XIterableImpl<T> implements XIterable<T>
      *
      * @param iterable
      * @param wrapper
-     * @throws WrappeException
+     * @throws WrapperException
      */
     public <S> XIterableImpl(
         final Iterable<S>                      iterable,
         final Wrappable<? super S,? extends T> wrapper
-        ) throws WrappeException
+        ) throws WrapperException
     {
         this.iterable = new IterableWrapper<S,T>( iterable, wrapper );
     }
@@ -62,7 +62,7 @@ public class XIterableImpl<T> implements XIterable<T>
     }
 
     @Override
-    public <R> XIterable<R> wrappe( final Wrappable<? super T,? extends R> wrapper )
+    public <R> XIterable<R> wrap( final Wrappable<? super T,? extends R> wrapper )
     {
         return new XIterableImpl<R>( this, wrapper );
     }

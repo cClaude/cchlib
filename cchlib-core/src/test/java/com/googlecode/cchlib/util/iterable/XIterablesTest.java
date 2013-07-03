@@ -41,7 +41,7 @@ public class XIterablesTest
     }
 
     /**
-     * Run the Iterable<Object> wrappe(Iterable<S>,Wrappable<S,R>) method test.
+     * Run the Iterable<Object> {@link XIterables#wrap(Iterable, Wrappable)} method test.
      */
     @Test
     public void testWrappe_1()
@@ -49,7 +49,7 @@ public class XIterablesTest
         Collection<Integer>       iterable = IterablesTestFactory.createIterable();
         Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
 
-        XIterable<String>  result = XIterables.wrappe( iterable, wrapper );
+        XIterable<String>  result = XIterables.wrap( iterable, wrapper );
         List<String>       list1  = XIterables.newList( result );
         List<String>       list2  = result.toList();
 
@@ -71,7 +71,7 @@ public class XIterablesTest
 
         XIterable<Integer>  result1   = new XIterableImpl<Integer>( collection );
         XIterable<Integer>  result2  = result1.filter( filter );
-        XIterable<String>   result3  = result2.wrappe( wrapper );
+        XIterable<String>   result3  = result2.wrap( wrapper );
 
         List<Integer>     result1list1  = result1.toList();
         List<Integer>     result1list2  = result1.toList();
@@ -97,7 +97,7 @@ public class XIterablesTest
         Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
         Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
 
-        XIterable<String> result3 = XIterables.filter( collection, filter ).wrappe( wrapper ).sort( comparator );
+        XIterable<String> result3 = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator );
 
         List<String>     result3list1  = result3.toList();
         List<String>     result3list2  = result3.toList();
@@ -113,7 +113,7 @@ public class XIterablesTest
         Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
         Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
 
-        List<String> result = XIterables.filter( collection, filter ).wrappe( wrapper ).sort( comparator ).toList();
+        List<String> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).toList();
 
         assertEquals( collection.size() / 2, result.size() );
 
@@ -134,7 +134,7 @@ public class XIterablesTest
         Comparator<Integer>       comparator2 = IterablesTestFactory.createComparatorForInteger();
         Selectable<String>        filter2     = IterablesTestFactory.createFilterRemoveEntryIfStringEndWithZero();
 
-        List<Integer> result = XIterables.filter( collection, filter ).wrappe( wrapper ).sort( comparator ).filter( filter2 ).wrappe( wrapper2 ).sort( comparator2 ).toList();
+        List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
 
         //int firstElement = result.get( 0 ).intValue();
         //assertEquals( 2, firstElement );
@@ -161,8 +161,6 @@ public class XIterablesTest
 
     /**
      * Launch the test.
-     *
-     * @param args the command line arguments
      */
     public static void main(String[] args)
     {

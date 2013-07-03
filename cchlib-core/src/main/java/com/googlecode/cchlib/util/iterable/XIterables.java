@@ -4,7 +4,7 @@ import java.util.List;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 /**
@@ -19,11 +19,11 @@ public class XIterables
     private XIterables() {}
     
     /**
-     * Guava like function for {@link #wrappe(Iterable, Wrappable)}
+     * Guava like function for {@link #wrap(Iterable, Wrappable)}
      */
     public static <F,T> XIterable<T> transform(Iterable<F> fromIterable, Wrappable<? super F,? extends T> function)
     {
-        return wrappe( fromIterable, function );
+        return wrap( fromIterable, function );
     }
     
  
@@ -37,10 +37,10 @@ public class XIterables
      * @param iterable
      * @param wrapper
      * @return an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
-     * @throws WrappeException if any
+     * @throws WrapperException if any
      */
-    public static <S,R> XIterable<R> wrappe( Iterable<S> iterable, Wrappable<? super S,? extends R> wrapper )
-        throws WrappeException
+    public static <S,R> XIterable<R> wrap( Iterable<S> iterable, Wrappable<? super S,? extends R> wrapper )
+        throws WrapperException
     {
         return new XIterableImpl<R>( iterable, wrapper );
     }

@@ -18,7 +18,7 @@ import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterable.Iterables;
 
 /**
@@ -269,7 +269,7 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     {
         return Iterables.transform( this.fileList, new Wrappable<File,FileInfo>() {
             @Override
-            public FileInfo wrap( File file ) throws WrappeException
+            public FileInfo wrap( File file ) throws WrapperException
             {
                 return getFileInfo( file );
             }

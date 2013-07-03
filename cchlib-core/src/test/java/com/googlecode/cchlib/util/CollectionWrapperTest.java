@@ -22,7 +22,7 @@ public class CollectionWrapperTest
         Wrappable<Integer,String> wrapper = new Wrappable<Integer,String>()
         {
             @Override
-            public String wrap( Integer o ) throws WrappeException
+            public String wrap( Integer o ) throws WrapperException
             {
                 return Integer.toString( - o );
             }
@@ -30,7 +30,7 @@ public class CollectionWrapperTest
         Wrappable<String,Integer> unwrapper = new Wrappable<String,Integer>()
         {
             @Override
-            public Integer wrap( String o ) throws WrappeException
+            public Integer wrap( String o ) throws WrapperException
             {
                 return - Integer.parseInt( o );
             }

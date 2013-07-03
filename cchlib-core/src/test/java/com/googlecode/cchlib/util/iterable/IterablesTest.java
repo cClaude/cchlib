@@ -22,7 +22,7 @@ public class IterablesTest
 {
     @Test
     public void testFilter_1()
-    { 
+    {
         Collection<Integer> iterable = IterablesTestFactory.createIterable();
         Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
@@ -39,7 +39,7 @@ public class IterablesTest
     }
 
     public void testFilter_2()
-    { 
+    {
         Collection<Integer> iterable = IterablesTestFactory.createIterable();
         Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
@@ -52,9 +52,9 @@ public class IterablesTest
         assertEquals( iterable.size() / 2, list1.size() );
         assertEquals( iterable.size() / 2, list2.size() );
     }
-    
+
     public void testFilter_3()
-    { 
+    {
         Collection<Integer> iterable = IterablesTestFactory.createIterable();
         Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
@@ -69,18 +69,15 @@ public class IterablesTest
     }
 
     /**
-     * Run the Iterable<Object> wrappe(Iterable<S>,Wrappable<S,R>) method test.
-     *
-     * @throws Exception
+     * Run the Iterable<Object> {@link Iterables#wrap(Iterable, Wrappable)} method test.
      */
     @Test
     public void testWrappe_1()
-        throws Exception
     {
         Collection<Integer>       iterable = IterablesTestFactory.createIterable();
         Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
 
-        Iterable<String>   result = Iterables.wrappe(iterable, wrapper);
+        Iterable<String>   result = Iterables.wrap(iterable, wrapper);
         List<String>       list1  = Iterables.newList( result );
         List<String>       list2  = Iterables.newList( result );
 
@@ -92,34 +89,24 @@ public class IterablesTest
 
     /**
      * Perform pre-test initialization.
-     *
-     * @throws Exception
-     *         if the initialization fails for some reason
      */
     @Before
-    public void setUp()
-        throws Exception
+    public void setUp() throws Exception
     {
         // add additional set up code here
     }
 
     /**
      * Perform post-test clean-up.
-     *
-     * @throws Exception
-     *         if the clean-up fails for some reason
      */
     @After
-    public void tearDown()
-        throws Exception
+    public void tearDown() throws Exception
     {
         // Add additional tear down code here
     }
 
     /**
      * Launch the test.
-     *
-     * @param args the command line arguments
      */
     public static void main(String[] args)
     {

@@ -119,6 +119,6 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
     @Override
     public Iterable<String> getVarNames() throws UnsupportedOperationException
     {
-        return XIterables.transform( getStringKeys(), toSerializable ).filter( filterString ).wrappe( castToString );
+        return XIterables.transform( getStringKeys(), toSerializable ).filter( filterString ).wrap( castToString );
     }
 }

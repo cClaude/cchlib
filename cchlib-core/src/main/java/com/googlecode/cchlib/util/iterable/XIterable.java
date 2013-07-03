@@ -4,14 +4,14 @@ import java.util.Comparator;
 import java.util.List;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 /**
  * e<B>X</B>tended {@link Iterable} interface. Allow to use chaining annotation like :
  * 
  * <code><pre>
- *   List<Integer> result = XIterables.filter( collection, filter ).wrappe( wrapper ).sort( comparator ).filter( filter2 ).wrappe( wrapper2 ).sort( comparator2 ).toList();
+ *   List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
  * </pre></code>
  * 
  * @param <T>
@@ -28,9 +28,9 @@ public interface XIterable<T> extends Iterable<T>
      *
      * @param wrapper
      * @return a new wrapped {@link XIterable} 
-     * @throws WrappeException
+     * @throws WrapperException
      */
-    public <R> XIterable<R> wrappe( Wrappable<? super T,? extends R> wrapper ) throws WrappeException;
+    public <R> XIterable<R> wrap( Wrappable<? super T,? extends R> wrapper ) throws WrapperException;
 
     /**
      *

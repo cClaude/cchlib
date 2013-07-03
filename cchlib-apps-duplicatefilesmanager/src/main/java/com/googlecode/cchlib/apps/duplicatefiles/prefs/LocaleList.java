@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
 import java.util.Iterator;
 import java.util.Locale;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
@@ -35,7 +35,7 @@ public class LocaleList implements ListContener<Locale>
             {
                 @Override
                 public ListInfo<Locale> wrap( final Locale locale )
-                        throws WrappeException
+                        throws WrapperException
                 {
                     return new ListInfo<Locale>()
                     {

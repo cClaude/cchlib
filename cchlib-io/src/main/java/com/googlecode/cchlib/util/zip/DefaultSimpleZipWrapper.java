@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 
 /**
  * {@link Wrappable} object to transform {@link File} into {@link SimpleZipEntry}
@@ -63,19 +63,17 @@ public class DefaultSimpleZipWrapper
     }
 
     @Override
-    public SimpleZipEntry wrap( File file ) throws WrappeException
+    public SimpleZipEntry wrap( File file ) throws WrapperException
     {
         try {
-            return private_wrappe( file );
+            return wrapper( file );
             }
         catch( IOException e ) {
-            throw new WrappeException( e );
+            throw new WrapperException( e );
             }
     }
 
-    private SimpleZipEntry private_wrappe(
-        final File file
-        ) throws IOException
+    private SimpleZipEntry wrapper( final File file ) throws IOException
     {
         String name = file.getCanonicalPath().replace('\\', '/');
 

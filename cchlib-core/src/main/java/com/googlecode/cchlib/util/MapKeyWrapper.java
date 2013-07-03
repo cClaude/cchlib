@@ -145,6 +145,7 @@ public class MapKeyWrapper<KS,KR,V>
         {
             this.ewrapper = ewrapper;
         }
+        
         @Override
         public Map.Entry<EK1,EV> wrap( final Map.Entry<EK0,EV> o )
         {

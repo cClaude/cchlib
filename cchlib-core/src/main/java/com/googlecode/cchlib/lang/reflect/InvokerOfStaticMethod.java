@@ -9,9 +9,8 @@ public class InvokerOfStaticMethod<T> extends Invoker<T>
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      * @param clazz
-     * @param annotationClass
      */
     public InvokerOfStaticMethod(
         Class<? extends T> clazz
@@ -24,8 +23,8 @@ public class InvokerOfStaticMethod<T> extends Invoker<T>
     protected String formatMethodNameForException( String format )
     {
         return String.format(
-                format, 
-                getClazz().getName() + ".{method static}" 
+                format,
+                getClazz().getName() + ".{method static}"
                 );
     }
 }

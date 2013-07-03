@@ -19,7 +19,7 @@ import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterable.Iterables;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
@@ -361,49 +361,9 @@ class FolderTreeModel
     final
     public Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
-//        // Inner class to filter only selected entry
-//        Selectable<Entry<FolderTreeNode,Boolean>> selectable
-//            = new Selectable<Entry<FolderTreeNode,Boolean>>()
-//            {
-//                @Override
-//                public boolean isSelected(Entry<FolderTreeNode,Boolean> entry )
-//                {
-//                    return entry.getValue();
-//                }
-//            };
-
-        // Inner class to transform entry to file
-//        final Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder> wrapper
-//        = new Wrappable<Entry<FolderTreeNode,Boolean>,EmptyFolder>()
-//        {
-//            @Override
-//            public EmptyFolder wrappe( Entry<FolderTreeNode,Boolean> entry )
-//            {
-//                Folder folder = entry.getKey().getFolder();
-//
-//                return EmptyFolder.class.cast( folder );
-//            }
-//        };
-
-//       // Main iterator
-//       final IteratorFilter<Entry<FolderTreeNode,Boolean>> iterator
-//            = new IteratorFilter<Entry<FolderTreeNode,Boolean>>(
-//                modifiedCheckState.entrySet().iterator(),
-//                selectable
-//                );
-
-//        return new Iterable<EmptyFolder>()
-//        {
-//            @Override
-//            public Iterator<EmptyFolder> iterator()
-//            {
-//                //return new IteratorWrapper<Entry<FolderTreeNode,Boolean>,EmptyFolder>( iterator, wrapper );
-//                return new IteratorWrapper<FolderTreeNode,EmptyFolder>( selectedNodes.iterator(), wrapper );
-//            }
-//        };
-        return Iterables.wrappe( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
+        return Iterables.wrap( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
             @Override
-            public EmptyFolder wrap( FolderTreeNode node ) throws WrappeException
+            public EmptyFolder wrap( FolderTreeNode node ) throws WrapperException
             {
                 return EmptyFolder.class.cast( node.getFolder() );
             }} );
@@ -467,9 +427,9 @@ class FolderTreeModel
         @SuppressWarnings("unchecked")
         final Enumeration<Object> enumeration = getRootNode().children(); // never null
 
-        return Iterables.wrappe( enumeration, new Wrappable<Object,FolderTreeNode>() {
+        return Iterables.wrap( enumeration, new Wrappable<Object,FolderTreeNode>() {
             @Override
-            public FolderTreeNode wrap( Object obj ) throws WrappeException
+            public FolderTreeNode wrap( Object obj ) throws WrapperException
             {
                  return FolderTreeNode.class.cast( obj );
             }} );

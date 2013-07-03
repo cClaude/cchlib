@@ -7,7 +7,7 @@ import java.util.List;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.EnumerationIterator;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
@@ -23,8 +23,8 @@ import com.googlecode.cchlib.util.iterator.Selectable;
 @NeedTestCases
 public class Iterables
 {
-    private Iterables() {} 
-    
+    private Iterables() {}
+
     public static <T> Iterable<T> create( Enumeration<T> enumeration )
     {
         return new OnlyOnceIterable<T>( new EnumerationIterator<T>( enumeration ) );
@@ -36,47 +36,47 @@ public class Iterables
     }
 
     /**
-     * {@link #wrappe(Iterable, Wrappable)} for {@link Iterator} objects
+     * {@link #wrap(Iterable, Wrappable)} for {@link Iterator} objects
      */
-    public static <S,R> Iterable<R> wrappe(Iterator<S> iterator, Wrappable<? super S,? extends R> wrapper )
-        throws WrappeException
+    public static <S,R> Iterable<R> wrap(Iterator<S> iterator, Wrappable<? super S,? extends R> wrapper )
+        throws WrapperException
     {
-        return wrappe( Iterables.create( iterator ), wrapper );
-    }
-    
-    /**
-     * {@link #wrappe(Iterable, Wrappable)} for {@link Enumeration} objects
-     */
-    public static <S,R> Iterable<R> wrappe( Enumeration<S> enumeration, Wrappable<? super S,? extends R> wrapper )
-            throws WrappeException
-    {
-        return wrappe( Iterables.create( enumeration ), wrapper );
+        return wrap( Iterables.create( iterator ), wrapper );
     }
 
     /**
-     * Guava like function for {@link #wrappe(Iterable, Wrappable)}
+     * {@link #wrap(Iterable, Wrappable)} for {@link Enumeration} objects
+     */
+    public static <S,R> Iterable<R> wrap( Enumeration<S> enumeration, Wrappable<? super S,? extends R> wrapper )
+            throws WrapperException
+    {
+        return wrap( Iterables.create( enumeration ), wrapper );
+    }
+
+    /**
+     * Guava like function for {@link #wrap(Iterable, Wrappable)}
      */
     public static <F,T> Iterable<T> transform(Iterable<F> fromIterable, Wrappable<? super F,? extends T> function)
     {
-        return wrappe( fromIterable, function );
+        return wrap( fromIterable, function );
     }
- 
+
     /**
      * Returns an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
      * <p>
      * The returned iterable's iterator supports remove() if the provided iterator does.
-     * After a successful remove() call, <code>iterable</code> no longer contains the 
+     * After a successful remove() call, <code>iterable</code> no longer contains the
      * corresponding element.
      * </p>
      * @param iterable
      * @param wrapper
      * @return an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
-     * @throws WrappeException if any
+     * @throws WrapperException if any
      */
-    public static <S,R> Iterable<R> wrappe(
+    public static <S,R> Iterable<R> wrap(
         final Iterable<S>                      iterable,
         final Wrappable<? super S,? extends R> wrapper
-        ) throws WrappeException
+        ) throws WrapperException
     {
         return new Iterable<R>()
         {
@@ -103,9 +103,9 @@ public class Iterables
     {
         return filter( Iterables.create( enumeration ), filter );
     }
-    
+
     /**
-     * Returns the elements of <code>unfiltered<code> that satisfy a filter. 
+     * Returns the elements of <code>unfiltered<code> that satisfy a filter.
      * The resulting iterable's iterator does not support remove().
      *
      * @param unfiltered

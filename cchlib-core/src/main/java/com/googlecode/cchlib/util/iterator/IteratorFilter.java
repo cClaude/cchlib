@@ -55,7 +55,7 @@ public class IteratorFilter<T>
      * @param fileFilter
      * @return a wrapper for File use that use FileFilter
      */
-    public static Selectable<File> wrappe(final FileFilter fileFilter)
+    public static Selectable<File> wrap(final FileFilter fileFilter)
     {
         return new Selectable<File>() {
             @Override

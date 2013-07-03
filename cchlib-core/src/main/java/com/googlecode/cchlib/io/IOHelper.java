@@ -205,7 +205,7 @@ public final class IOHelper
     {
         return new IteratorFilter<File>(
                 new ArrayIterator<File>(files),
-                IteratorFilter.wrappe(fileFilter)
+                IteratorFilter.wrap(fileFilter)
                 );
     }
 

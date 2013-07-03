@@ -22,7 +22,7 @@ public class MapWrapperTest
         Wrappable<MyType,Integer> wrapper = new Wrappable<MyType,Integer>()
         {
             @Override
-            public Integer wrap( MyType v ) throws WrappeException
+            public Integer wrap( MyType v ) throws WrapperException
             {
                 if( v == null ) {
                     return null;
@@ -35,7 +35,7 @@ public class MapWrapperTest
         Wrappable<Integer,MyType> unwrapper = new Wrappable<Integer,MyType>()
         {
             @Override
-            public MyType wrap( Integer v ) throws WrappeException
+            public MyType wrap( Integer v ) throws WrapperException
             {
                 return new MyType( v.intValue() );
             }

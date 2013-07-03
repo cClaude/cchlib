@@ -22,7 +22,7 @@ public class MapKeyWrapperTest
         Wrappable<Integer,String> wrapper = new Wrappable<Integer,String>()
         {
             @Override
-            public String wrap( Integer intKey ) throws WrappeException
+            public String wrap( Integer intKey ) throws WrapperException
             {
                 return Integer.toString( -intKey );
             }
@@ -30,7 +30,7 @@ public class MapKeyWrapperTest
         Wrappable<String,Integer> unwrapper = new Wrappable<String,Integer>()
         {
             @Override
-            public Integer wrap( String strKey ) throws WrappeException
+            public Integer wrap( String strKey ) throws WrapperException
             {
                 return - Integer.parseInt( strKey );
             }

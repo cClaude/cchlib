@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrappeException;
+import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 class IterablesTestFactory
@@ -48,7 +48,7 @@ class IterablesTestFactory
     {
         return new Wrappable<Integer,String>() {
             @Override
-            public String wrap( Integer obj ) throws WrappeException
+            public String wrap( Integer obj ) throws WrapperException
             {
                 return obj.toString();
             }};
@@ -58,7 +58,7 @@ class IterablesTestFactory
     {
         return new Wrappable<String,Integer>() {
             @Override
-            public Integer wrap( String obj ) throws WrappeException
+            public Integer wrap( String obj ) throws WrapperException
             {
                 return new Integer( obj );
             }};

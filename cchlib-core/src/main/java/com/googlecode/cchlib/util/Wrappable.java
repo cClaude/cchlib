@@ -24,9 +24,9 @@ public interface Wrappable<S,R>
      *
      * @param obj object to wrap
      * @return an other view for giving object
-     * @throws WrappeException if any error occur while wrapping,
-     *         use {@link WrappeException#getCause()} to have
+     * @throws WrapperException if any error occur while wrapping,
+     *         use {@link WrapperException#getCause()} to have
      *         initial error.
      */
-    abstract R wrap(S obj) throws WrappeException;
+    abstract R wrap(S obj) throws WrapperException;
 }

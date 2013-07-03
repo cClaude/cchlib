@@ -144,7 +144,7 @@ public class MapWrapper<K,VS,VR>
 
         @Override
         public Map.Entry<KEY,V1> wrap( Map.Entry<KEY,V0> o )
-                throws WrappeException
+                throws WrapperException
         {
             return new WrappedEntry( o );
         }
