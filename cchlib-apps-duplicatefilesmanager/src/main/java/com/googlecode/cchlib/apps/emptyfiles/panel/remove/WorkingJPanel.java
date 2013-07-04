@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -26,6 +27,7 @@ public class WorkingJPanel extends JPanel
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( WorkingJPanel.class );
     private JTable table;
+    private JTableColumnsAutoSizer autoSizer;
     private JPanel panel;
     private JLabel messageLabel;
     private JProgressBar progressBar;
@@ -92,8 +94,14 @@ public class WorkingJPanel extends JPanel
                             logger.trace( "tableChanged :" + event.getSource() );
                             }
 
+                        //fixDisplay();
+                        //autoSizer.apply();
                         applySelectionState();
                     }} );
+
+                autoSizer = new JTableColumnsAutoSizer( table, tableModel );
+                tableModel.addTableModelListener( autoSizer );
+                table.addComponentListener( autoSizer );
             }
         }
         {
@@ -169,7 +177,14 @@ public class WorkingJPanel extends JPanel
         }
     }
 
-    protected void applySelectionState()
+//    private void fixDisplay()
+//    {
+//        //JTableColumnWidth.fixColumnWidth( table );
+//        //JTableColumnsAutoSizer.sizeColumnsToFit( table, JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN, tableModel );
+//        autoSizer.apply();
+//    }
+
+    private void applySelectionState()
     {
         switch( tableModel.getSelectionState() ) {
             case ALL_SELECTED:
@@ -177,13 +192,13 @@ public class WorkingJPanel extends JPanel
                 selectAllButton.setEnabled( false );
                 deselectAllButton.setEnabled( true );
                break;
-               
+
             case AT_LEAST_ONE_FILE_SELECTED:
                 deleteButton.setEnabled( true );
                 selectAllButton.setEnabled( true );
                 deselectAllButton.setEnabled( true );
                 break;
-                
+
             case NONE_SELECTED:
                 deleteButton.setEnabled( false );
                 selectAllButton.setEnabled( true );

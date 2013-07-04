@@ -17,6 +17,8 @@ import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
+import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterable.Iterables;
@@ -25,19 +27,28 @@ import com.googlecode.cchlib.util.iterable.Iterables;
  *
  */
 @I18nName("emptyfiles.WorkingTableModel")
-public class WorkingTableModel extends AbstractTableModel implements TableModel, Serializable
+public class WorkingTableModel 
+    extends AbstractTableModel
+        implements TableModel, Serializable, ForceColumnWidthModel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( WorkingTableModel.class );
 
     private enum Columns { 
-        FILE_ICON, 
+        FILE_ICON( 16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN), 
         FILE_SELECTED, 
         FILE_FILE,
         FILE_SIZE,
         FILE_DATE,
-        FILE_ATTR
+        FILE_ATTR,
+        ;
+        private int forceColumnWidth;
+
+        private Columns() { this.forceColumnWidth = 0; }
+        private Columns( int forceColumnWidth ) { this.forceColumnWidth = forceColumnWidth; }
+        public int getForceColumnWidth() { return forceColumnWidth; }
         };
+    private int[] forceColumnWidths;
     @I18nString private String[] columnNames = {
             ".",
             "Delete",
@@ -305,5 +316,35 @@ public class WorkingTableModel extends AbstractTableModel implements TableModel,
     public boolean isRowSelected( int rowIndex )
     {
         return getFileInfo( this.fileList.get( rowIndex ) ).isSelected();
+    }
+
+    private int[] getForceColumnWidths()
+    {
+        if( forceColumnWidths == null ) {
+            forceColumnWidths = new int[ Columns.values().length ];
+
+            for( int i = 0; i<forceColumnWidths.length; i++ ) {
+                forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth(); 
+                }
+            }
+        return forceColumnWidths;
+    }
+
+    @Override//ForceColumnWidthModel
+    public boolean isWidthFor( int columnIndex )
+    {
+        return getForceColumnWidths()[ columnIndex ] > 0;
+    }
+
+    @Override//ForceColumnWidthModel
+    public int getWidthFor( int columnIndex )
+    {
+        return getForceColumnWidths()[ columnIndex ];
+    }
+
+    @Override//ForceColumnWidthModel
+    public int getRemainingColumnIndex()
+    {
+        return Columns.FILE_FILE.ordinal();
     }
 }
