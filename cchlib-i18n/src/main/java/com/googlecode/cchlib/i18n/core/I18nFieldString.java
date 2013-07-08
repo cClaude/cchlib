@@ -26,7 +26,7 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
     {
         super( i18nDelegator, i18nKeyFactory, field, keyIdValue, null, null );
 
-        assert field.getType().equals( String.class );
+        assert field.getType().equals( String.class ) : "field.getType() = " + field.getType() + " != String.class";
     }
 
     @Override
