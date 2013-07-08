@@ -64,7 +64,7 @@ public class DefaultI18nBundleFactory
      * (see {@link I18nPrepAutoUpdatable#getMessagesBundle()})
      *
      * @param locale                      {@link Locale} to use
-     * @param I18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
+     * @param i18nPrepHelperAutoUpdatable {@link I18nPrepHelperAutoUpdatable} to use
      * @return an AbstractI18nBundle
      * @see I18nPrepAutoUpdatable#getMessagesBundle()
      */
