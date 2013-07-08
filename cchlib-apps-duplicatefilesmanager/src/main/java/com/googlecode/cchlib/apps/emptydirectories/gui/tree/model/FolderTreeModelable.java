@@ -24,25 +24,25 @@ public interface FolderTreeModelable extends TreeModel
      */
     public boolean isSelectable( TreePath path );
 
-    /**
-     * Returns state for this FileTreeNode
-     * @param node {@link FolderTreeNode} to inspect
-     * @return true is the giving nodeValue is selected
-     */
-    public boolean isSelected( FolderTreeNode node );
+//    /**
+//     * Returns state for this FileTreeNode
+//     * @param node {@link FolderTreeNode} to inspect
+//     * @return true is the giving nodeValue is selected
+//     */
+//    public boolean isSelected( FolderTreeNode node );
 
-    /**
-     *
-     * @param node
-     * @param b
-     */
-    public void setSelected( FolderTreeNode node, boolean b );
+//    /**
+//     *
+//     * @param node
+//     * @param b
+//     */
+//    public void setSelected( FolderTreeNode node, boolean b );
 
-    /**
-     *
-     * @param node
-     */
-    public void toggleSelected( FolderTreeNode node );
+//    /**
+//     *
+//     * @param node
+//     */
+//    public void toggleSelected( FolderTreeNode node );
 
     /**
     *
@@ -71,4 +71,8 @@ public interface FolderTreeModelable extends TreeModel
     public void expandAllRows();
 
     public JTree getJTree();
+
+    //public void treeNodesChanged( FolderTreeNode selectedNode );
+
+    public void toggleSelected( FolderTreeNode selectedNode );
 }

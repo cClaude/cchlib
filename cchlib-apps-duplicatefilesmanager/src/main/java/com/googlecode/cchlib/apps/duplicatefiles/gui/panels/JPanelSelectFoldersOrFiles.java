@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
@@ -42,6 +43,7 @@ import javax.swing.JLabel;
  * </pre>
  *
  */
+@I18nName("duplicatefiles.JPanelSelectFoldersOrFiles")
 public class JPanelSelectFoldersOrFiles extends JPanel
 {
     private static final long serialVersionUID = 4L;

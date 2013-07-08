@@ -3,7 +3,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.common;
 import javax.swing.JDialog;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
@@ -12,24 +11,23 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
  */
 public class AboutDialog
     extends JDialog
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoCoreUpdatable, AboutPanelAction
 {
-    private final class Panel extends AboutPanel 
-    {
-        private static final long serialVersionUID = 1L;
-        
-        private Panel( Resources resources )
-        {
-            super( resources );
-        }
-
-        @Override
-        protected void buttonOKClicked()
-        {
-            AboutDialog.this.dispose();
-        }
-    }
-
+//    private final class Panel extends AboutPanel 
+//    {
+//        private static final long serialVersionUID = 1L;
+//        
+//        private Panel( Resources resources )
+//        {
+//            super( resources );
+//        }
+//
+//        @Override
+//        protected void buttonOKClicked()
+//        {
+//            AboutDialog.this.dispose();
+//        }
+//    }
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( AboutDialog.class );
     private /*final*/ AboutPanel contentPanel;
@@ -67,7 +65,7 @@ public class AboutDialog
         super( dfToolKit.getMainFrame() );
 
         //this.dfToolKit    = dfToolKit;
-        this.contentPanel = new Panel( dfToolKit.getResources() );
+        this.contentPanel = new AboutPanel( dfToolKit.getResources(), this );
         
         super.setContentPane( contentPanel );
         super.setSize( 500, 350 );
@@ -77,6 +75,12 @@ public class AboutDialog
     public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
+    }
+
+    @Override
+    public void buttonOKClicked()
+    {
+        AboutDialog.this.dispose();
     }
 }
 

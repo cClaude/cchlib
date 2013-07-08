@@ -38,7 +38,7 @@ import com.googlecode.cchlib.util.iterator.Iterators;
 /**
  *
  */
-@I18nName("JPanelResult")
+@I18nName("duplicatefiles.JPanelResult")
 public class JPanelResult extends JPanelResultWB
 {
     private class Selected implements Iterable<KeyFileState>

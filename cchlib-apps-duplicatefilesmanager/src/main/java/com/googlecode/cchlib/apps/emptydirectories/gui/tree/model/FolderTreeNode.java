@@ -19,6 +19,7 @@ public final class FolderTreeNode
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeNode.class );
     private Folder folder;
+    private boolean selected;
 
     /**
      * Create a root FileTreeNode
@@ -29,7 +30,8 @@ public final class FolderTreeNode
     {
         super();
 
-        this.folder = folder;
+        this.folder   = folder;
+        this.selected = false;
     }
 
     /**
@@ -76,18 +78,6 @@ public final class FolderTreeNode
     public Folder getFolder()
     {
         return this.folder;
-    }
-
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append( "FolderTreeNode [getFolder()=" );
-        builder.append( getFolder() );
-        builder.append( ", getChildCount()=" );
-        builder.append( getChildCount() );
-        builder.append( ']' );
-        return builder.toString();
     }
 
     /**
@@ -149,5 +139,32 @@ public final class FolderTreeNode
         logger.trace( "path.getRoot() = " + path.getRoot() );
 
         return new FolderTreeNode( Folders.createFolder( path.getRoot() ) );
+    }
+
+    public void toggleSelected()
+    {
+        setSelected( !isSelected() );
+    }
+
+    public void setSelected( boolean selected )
+    {
+        this.selected = selected;
+    }
+
+    public boolean isSelected()
+    {
+        return selected;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append( "FolderTreeNode [folder=" );
+        builder.append( folder );
+        builder.append( ", selected=" );
+        builder.append( selected );
+        builder.append( ']' );
+        return builder.toString();
     }
 }

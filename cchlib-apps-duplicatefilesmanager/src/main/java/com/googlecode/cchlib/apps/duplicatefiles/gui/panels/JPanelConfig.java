@@ -29,7 +29,7 @@ import cx.ath.choisnet.lang.ToStringBuilder;
 /**
  *
  */
-@I18nName("JPanelConfig")
+@I18nName("duplicatefiles.JPanelConfig")
 public class JPanelConfig
     extends JPanelConfigWB
         implements LookAndFeelListener

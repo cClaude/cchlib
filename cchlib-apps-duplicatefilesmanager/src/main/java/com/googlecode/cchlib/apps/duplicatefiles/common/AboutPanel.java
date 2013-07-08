@@ -13,16 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.apps.duplicatefiles.MyResourcesLoader;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
@@ -30,7 +29,9 @@ import javax.swing.UIManager;
 /**
  *
  */
-public abstract class AboutPanel extends JPanel 
+@I18nName("AboutPanel")
+final
+public class AboutPanel extends JPanel 
 {
     private static final long serialVersionUID = 1L;
     private static final String DESCRIPTION = "About brief (dev text)";
@@ -48,22 +49,26 @@ public abstract class AboutPanel extends JPanel
 	private TitledBorder titleBorder;
 
     
-    /** 
-     * Creates new form AboutPanel for windows builder ONLY.
-     */
-    @Deprecated // for windows builder ONLY.
-    public AboutPanel() 
-    {
-        this( MyResourcesLoader.getResources() );
-    }
+//    /** 
+//     * Creates new form AboutPanel for windows builder ONLY.
+//     * 
+//     * @param action  
+//     */
+//    public AboutPanel( AboutPanelAction action ) 
+//    {
+//        this( MyResourcesLoader.getResources(), action  );
+//    }
 
     
     /** 
      * Creates new form AboutPanel 
      */
-    public AboutPanel( final Resources resources ) 
+    public AboutPanel( 
+        final Resources        resources,
+        final AboutPanelAction action
+        ) 
     {
-        this.resources = resources;
+        this.resources = resources;        
         
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{20, 20, 20, 20, 0};
@@ -201,7 +206,7 @@ public abstract class AboutPanel extends JPanel
                 @Override
                 public void actionPerformed(ActionEvent event) 
                 {
-                    buttonOKClicked();
+                    action.buttonOKClicked();
                 }
             });
             GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
@@ -212,7 +217,7 @@ public abstract class AboutPanel extends JPanel
         }
     }
     
-    protected abstract void buttonOKClicked();
+    //protected abstract void buttonOKClicked();
 
     private void authorMouseEntered( final MouseEvent evt )
     {

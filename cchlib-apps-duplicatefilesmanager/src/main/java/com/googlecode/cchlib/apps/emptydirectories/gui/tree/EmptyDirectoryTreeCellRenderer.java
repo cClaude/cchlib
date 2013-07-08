@@ -1,13 +1,17 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.awt.Component;
+import java.io.File;
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 
 /**
  *
@@ -21,6 +25,7 @@ class EmptyDirectoryTreeCellRenderer
     private final static Logger logger = Logger.getLogger( EmptyDirectoryTreeCellRenderer.class );
     final private FolderTreeModelable model;
 
+    //private JLabel checkBox = new JLabel();
     private Icon nodeLeafRendererIcon;
     private Icon nodeLeafRendererIconSelected;
     private Icon nodeLeafEmptyRendererIcon;
@@ -167,7 +172,7 @@ class EmptyDirectoryTreeCellRenderer
     public Component getTreeCellRendererComponent(
             final JTree   tree,
             final Object  _value_,
-            final boolean selected,
+            final boolean _selected_,
             final boolean expanded,
             final boolean leaf,
             final int     row,
@@ -175,10 +180,10 @@ class EmptyDirectoryTreeCellRenderer
             )
     {
         final String name;
-        final Icon   icon;
 
-        name = null;
-        icon = null;
+
+        //final Icon   icon;
+        //icon = null;
         /*
         if( _value_ instanceof FolderTreeNode ) {
             FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
@@ -225,25 +230,87 @@ class EmptyDirectoryTreeCellRenderer
             icon = null; // Default icon
             }
 */
+        if( _value_ instanceof FolderTreeNode ) {
+            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
+            Folder         folder    = nodeValue.getFolder();
+            File           file      = folder.getPath().toFile();
+
+            name = file.getName();
+
+//            if( folder instanceof EmptyFolder ) {
+//                boolean selected = nodeValue.isSelected();
+//                //EmptyFolder ef = EmptyFolder.class.cast( folder );
+//
+//
+//                //checkBox.setText( file.getName() );
+//                super.setToolTipText( file.getPath() );
+//                //checkBox.setSelected( selected );
+//
+//                if( leaf ) {
+//                    //super.set
+//                    super.setIcon( selected ?  nodeLeafEmptyRendererIconSelected : nodeLeafEmptyRendererIcon );
+//                    }
+//                else {
+//                    super.setIcon( selected ?  nodeLeafRendererIconSelected : nodeLeafRendererIcon );
+//                    }
+//
+//                //value = checkBox;
+//                }
+//            else {
+//                logger.fatal( "folder is  " + folder );
+//                }
+            }
+        else {
+            // handle hidden root node
+            name = null;
+            }
+
         Component cellEditorValue = super.getTreeCellRendererComponent(
                 tree,
-                name == null ? _value_ : name /* name or _value_*/,
-                selected,
+                name == null ? _value_ : name,
+                _selected_,
                 expanded,
                 leaf,
                 row,
                 hasFocus
                 );
 
+        if( _value_ instanceof FolderTreeNode ) {
+            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
+            Folder         folder    = nodeValue.getFolder();
+            File           file      = folder.getPath().toFile();
+            
+            super.setToolTipText( file.getPath() );
+
+            if( folder instanceof EmptyFolder ) {
+                boolean selected = nodeValue.isSelected();
+                //EmptyFolder ef = EmptyFolder.class.cast( folder );
+
+
+                //checkBox.setText( file.getName() );
+                //checkBox.setSelected( selected );
+
+                if( leaf ) {
+                    //super.set
+                    super.setIcon( selected ?  nodeLeafEmptyRendererIconSelected : nodeLeafEmptyRendererIcon );
+                    }
+                else {
+                    super.setIcon( selected ?  nodeLeafRendererIconSelected : nodeLeafRendererIcon );
+                    }
+
+                //value = checkBox;
+                }
+            }
+
         // use default display
 //        this.cellEditorValue = this.nonLeafNotEmptyRenderer.getTreeCellRendererComponent(
 
         //assert this.renderer == cellEditorValue;
 
-        if( icon != null ) {
-            super.setIcon( icon );
-            logger.info( "setIcon() => " + icon );
-            }
+//        if( icon != null ) {
+//            super.setIcon( icon );
+//            logger.info( "setIcon() => " + icon );
+//            }
 
         return cellEditorValue;
     }

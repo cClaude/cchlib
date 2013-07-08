@@ -168,57 +168,57 @@ class FolderTreeModel
         return false;
     }
 
-    @Override // FileTreeModelable
-    final
-    public boolean isSelected( final FolderTreeNode nodeValue )
-    {
-        boolean res = selectedNodes.contains( nodeValue );
-
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "isSelected: " + nodeValue + " => " + res );
-            }
-
-        return res;
-//        Boolean b = modifiedCheckState.get( nodeValue );
+//    @Override // FileTreeModelable
+//    final
+//    public boolean isSelected( final FolderTreeNode nodeValue )
+//    {
+//        boolean res = selectedNodes.contains( nodeValue );
 //
-//        if( b != null ) {
-//            return b.booleanValue();
+//        if( logger.isTraceEnabled() ) {
+//            logger.trace( "isSelected: " + nodeValue + " => " + res );
 //            }
-//        else {
-//            return false;
+//
+//        return res;
+////        Boolean b = modifiedCheckState.get( nodeValue );
+////
+////        if( b != null ) {
+////            return b.booleanValue();
+////            }
+////        else {
+////            return false;
+////            }
+//    }
+
+//    @Override // FileTreeModelable
+//    final
+//    public void setSelected( final FolderTreeNode nodeValue, boolean b )
+//    {
+//        //modifiedCheckState.put( nodeValue, Boolean.valueOf( b ) );
+//        if( b ) {
+//            selectedNodes.add( nodeValue );
+//        } else {
+//            selectedNodes.remove( nodeValue );
+//        }
+//
+//        TreePath path = getPath( nodeValue );
+//
+//        assert path != null;
+//
+//        treeNodesChanged( path );
+//
+//        if( logger.isDebugEnabled() ) {
+//            logger.debug( "setSelected: " + nodeValue + ", " + b + " => " + selectedNodes.contains( nodeValue ) );
 //            }
-    }
+//    }
 
-    @Override // FileTreeModelable
-    final
-    public void setSelected( final FolderTreeNode nodeValue, boolean b )
-    {
-        //modifiedCheckState.put( nodeValue, Boolean.valueOf( b ) );
-        if( b ) {
-            selectedNodes.add( nodeValue );
-        } else {
-            selectedNodes.remove( nodeValue );
-        }
-
-        TreePath path = getPath( nodeValue );
-
-        assert path != null;
-
-        treeNodesChanged( path );
-
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "setSelected: " + nodeValue + ", " + b + " => " + selectedNodes.contains( nodeValue ) );
-            }
-    }
-
-    @Override // FileTreeModelable
-    final
-    public void toggleSelected( final FolderTreeNode nodeValue )
-    {
-        boolean state = isSelected( nodeValue );
-
-        setSelected( nodeValue, !state );
-    }
+//    @Override // FileTreeModelable
+//    final
+//    public void toggleSelected( final FolderTreeNode nodeValue )
+//    {
+//        boolean state = isSelected( nodeValue );
+//
+//        setSelected( nodeValue, !state );
+//    }
 
     @Override // FileTreeModelable
     final
@@ -240,13 +240,7 @@ class FolderTreeModel
                         }
 
                     if( changeState ) {
-                        setSelected( n, selected );
-//                        if( selected ) {
-//                            modifiedCheckState.put( n, true );
-//                            }
-//                        else {
-//                            modifiedCheckState.remove( n );
-//                            }
+                        n.setSelected( selected );
                         }
                     }
                 }
@@ -296,7 +290,7 @@ class FolderTreeModel
                         }
 
                     TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-                    
+
                     l.treeStructureChanged( e );
                     }
                 }
@@ -305,7 +299,7 @@ class FolderTreeModel
             logger.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
-    
+
     /**
      * Call when the tree structure below the path has completely changed.
      */
@@ -336,6 +330,15 @@ class FolderTreeModel
         catch( RuntimeException e ) {
             logger.error( "UI Error : parentPath=" + parentPath, e );
             }
+    }
+
+    private void treeNodesChanged( FolderTreeNode selectedNode )
+    {
+      TreePath path = getPath( selectedNode );
+
+      assert path != null;
+
+      treeNodesChanged( path );
     }
 
     /**
@@ -572,5 +575,12 @@ class FolderTreeModel
                 logger.error( "expandAllRows()", e );
                 }
             }
+    }
+
+    @Override
+    public void toggleSelected( FolderTreeNode selectedNode )
+    {
+        selectedNode.toggleSelected();
+        treeNodesChanged( selectedNode );
     }
 }

@@ -26,6 +26,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.util.HashMapSet;
@@ -37,6 +38,7 @@ import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
  *
  *
  */
+@I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearching extends JPanel//SearchingWB
 {
     private static final long serialVersionUID = 1L;

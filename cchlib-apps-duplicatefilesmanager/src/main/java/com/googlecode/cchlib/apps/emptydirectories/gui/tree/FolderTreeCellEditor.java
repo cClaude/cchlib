@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTree;
@@ -10,72 +9,70 @@ import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 
 /**
  *
  *
  */
 final public
-class EmptyDirectoryTreeCellEditor
+class FolderTreeCellEditor
     extends AbstractCellEditor
         implements TreeCellEditor
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( EmptyDirectoryTreeCellEditor.class );
+    private static final Logger logger = Logger.getLogger( FolderTreeCellEditor.class );
 
     final EmptyDirectoryTreeCellRenderer renderer;
     final FolderTreeModelable            model;
 
-    public EmptyDirectoryTreeCellEditor(
+    public FolderTreeCellEditor(
         final FolderTreeModelable             model,
         final EmptyDirectoryTreeCellRenderer renderer
         )
     {
         this.model      = model;
         this.renderer   = renderer;
-
-        this.renderer.addMouseListener( new MouseListener() {
-            @Override
-            public void mouseClicked( MouseEvent event )
-            {
-            }
-            @Override
-            public void mousePressed( MouseEvent event )
-            {
-                TreePath treePath = model.getJTree().getPathForLocation( event.getX(), event.getY() );
-
-                if( treePath != null ) {
-                    Object value = treePath.getLastPathComponent();
-
-                    if( value instanceof FolderTreeNode ) {
-                        FolderTreeNode node   = FolderTreeNode.class.cast( value );
-
-                        logger.info( "mousePressed  => folder =" + node.getFolder() ); // TODO Remove this
-                        logger.info( "............  => isSelected =" + model.isSelected( node ) ); // TODO Remove this
-                        model.toggleSelected( node );
-                        logger.info( "............  => isSelected =" + model.isSelected( node ) ); // TODO Remove this
-                        }
-                    else {
-                        logger.error( "mousePressed : " + event + " => BAD TYPE: " + value );
-                        }
-                    }
-                else {
-                    logger.error( "NOT FOUND in JTree <= mousePressed : " + event );
-                }
-            }
-            @Override
-            public void mouseReleased( MouseEvent event )
-            {
-            }
-            @Override
-            public void mouseEntered( MouseEvent event )
-            {
-            }
-            @Override
-            public void mouseExited( MouseEvent event )
-            {
-            }} );
+//        this.renderer.addMouseListener( new MouseListener() {
+//            @Override
+//            public void mouseClicked( MouseEvent event )
+//            {
+//            }
+//            @Override
+//            public void mousePressed( MouseEvent event )
+//            {
+//                TreePath treePath = model.getJTree().getPathForLocation( event.getX(), event.getY() );
+//
+//                if( treePath != null ) {
+//                    Object value = treePath.getLastPathComponent();
+//
+//                    if( value instanceof FolderTreeNode ) {
+//                        FolderTreeNode node   = FolderTreeNode.class.cast( value );
+//
+//                        logger.info( "mousePressed  => folder =" + node.getFolder() ); // TODO Remove this
+//                        logger.info( "............  => isSelected =" + model.isSelected( node ) ); // TODO Remove this
+//                        model.toggleSelected( node );
+//                        logger.info( "............  => isSelected =" + model.isSelected( node ) ); // TODO Remove this
+//                        }
+//                    else {
+//                        logger.error( "mousePressed : " + event + " => BAD TYPE: " + value );
+//                        }
+//                    }
+//                else {
+//                    logger.error( "NOT FOUND in JTree <= mousePressed : " + event );
+//                }
+//            }
+//            @Override
+//            public void mouseReleased( MouseEvent event )
+//            {
+//            }
+//            @Override
+//            public void mouseEntered( MouseEvent event )
+//            {
+//            }
+//            @Override
+//            public void mouseExited( MouseEvent event )
+//            {
+//            }} );
     }
 
     @Override

@@ -12,12 +12,15 @@ import javax.swing.JProgressBar;
 import javax.swing.JTree;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellEditor;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -81,9 +84,28 @@ public class RemoveEmptyDirectoriesPanel
         treeModel = new FolderTreeModel( jTreeDir );
         jTreeDir.setModel( treeModel );
 
+        jTreeDir.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent event)
+            {
+                Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
+                System.err.println( "currentSelectedNodeModel = " + currentSelectedNodeModel );
+                if( currentSelectedNodeModel instanceof FolderTreeNode ) {
+                    FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
+                    
+                    treeModel.toggleSelected( selectedNode );
+                 }
+//                if (currentSelectedNodeModel != null    && currentSelectedNodeModel.getLocalNode() != null) {
+//                    LocalOTNode myOTNode = currentSelectedNodeModel.getLocalNode();
+//                    _migrationDocumentAction.setSelectedOTNode(myOTNode);
+//                } else {
+//                    _migrationDocumentAction.setSelectedOTNode(null);
+//                    }
+//                 }
+            }});
         EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
         jTreeDir.setCellRenderer( cellRenderer );
-        jTreeDir.setCellEditor( new EmptyDirectoryTreeCellEditor( treeModel, cellRenderer ) );
+        jTreeDir.setCellEditor( new FolderTreeCellEditor( treeModel, cellRenderer ) );
         jTreeDir.setEditable( true );
 
         enable_findTaskDone();
