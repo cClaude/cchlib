@@ -16,9 +16,9 @@ import org.junit.Test;
 /**
  *
  */
-public class FileIteratorTest
+public class FileIterableTest
 {
-    final private static Logger slogger = Logger.getLogger(FileIteratorTest.class);
+    final private static Logger slogger = Logger.getLogger(FileIterableTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     //public static final File ROOT_FILE = new File( "C:/" );
@@ -42,7 +42,7 @@ public class FileIteratorTest
     {
         try {
             @SuppressWarnings("unused")
-            FileIterator iter = new FileIterator( NOT_EXIST_FILE );
+            FileIterable iter = new FileIterable( NOT_EXIST_FILE );
 
             fail( "Should crash here" );
             }
@@ -53,7 +53,7 @@ public class FileIteratorTest
     /* OLD VERSION
     public void testNotExist()
     {
-        Iterator<File> iter = new FileIterator( NOT_EXIST_FILE );
+        Iterator<File> iter = new FileIterable( NOT_EXIST_FILE );
 
         if( iter.hasNext() ) {
             StringBuilder msg = new StringBuilder()
@@ -80,10 +80,10 @@ public class FileIteratorTest
     }
     */
     @Test
-    public void testFileIteratorCounter()
+    public void testFileIterableCounter()
     {
         File rootFile = TEMP_DIR_FILE;
-        FileIterator fi = new FileIterator( rootFile );
+        FileIterable fi = new FileIterable( rootFile );
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
@@ -92,12 +92,10 @@ public class FileIteratorTest
 
         slogger.info( "---------------------" );
         slogger.info( rootFile );
-        slogger.info( "* testFileIteratorCounter( <<no filter>> )" );
+        slogger.info( "* testFileIterableCounter( <<no filter>> )" );
         slogger.info( "---------------------" );
         long begin  = System.currentTimeMillis();
-        
-        while( fi.hasNext() ) {
-            File f = fi.next();
+        for( File f : fi ) {
             if( displayCount++<displayMax ) {
                 slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
@@ -123,7 +121,7 @@ public class FileIteratorTest
     }
 
     @Test
-    public void testFileIteratorFileFilter()
+    public void testFileIterableFileFilter()
     {
         File rootFile = currentFile;
         FileFilter fileFilter = new FileFilter(){
@@ -133,7 +131,7 @@ public class FileIteratorTest
                 return f.getName().endsWith( ".java" );
             }
         };
-        FileIterator fi = new FileIterator( rootFile, fileFilter );
+        FileIterable fi = new FileIterable( rootFile, fileFilter );
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
@@ -142,12 +140,10 @@ public class FileIteratorTest
 
         slogger.info( "---------------------" );
         slogger.info( rootFile );
-        slogger.info( "* testFileIteratorFileFilter( *.java )" );
+        slogger.info( "* testFileIterableFileFilter( *.java )" );
         slogger.info( "---------------------" );
         long begin  = System.currentTimeMillis();
-        
-        while( fi.hasNext() ) {
-            File f = fi.next();
+        for( File f : fi ) {
             if( displayCount++<displayMax ) {
                 slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
@@ -219,29 +215,28 @@ public class FileIteratorTest
             allFiles.add( f );
             }
 
-        List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
-        List<File> foundInFileIterator    = new ArrayList<File>();
+        List<File> notFoundInFileIterable = new ArrayList<File>(allFiles);
+        List<File> foundInFileIterable    = new ArrayList<File>();
 
-        FileIterator fi = new FileIterator( dirRootFile );
+        FileIterable fi = new FileIterable( dirRootFile );
 
-        while( fi.hasNext() ) {
-            File f = fi.next();
-            foundInFileIterator.add( f );
+        for( File f : fi ) {
+            foundInFileIterable.add( f );
 
-            boolean oldFound = notFoundInFileIterator.remove( f );
+            boolean oldFound = notFoundInFileIterable.remove( f );
             assertTrue( "File should not be here: " + f, oldFound);
         }
 
         slogger.info( "allFiles # " + allFiles.size() );
-        slogger.info( "foundInFileIterator # " + foundInFileIterator.size() );
-        slogger.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
+        slogger.info( "foundInFileIterable # " + foundInFileIterable.size() );
+        slogger.info( "notFoundInFileIterable # " + notFoundInFileIterable.size() );
 
-        for( File f : notFoundInFileIterator ) {
+        for( File f : notFoundInFileIterable ) {
             slogger.info( "  > not found by Iterator: " + f );
         }
 
-        assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
-        assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
+        assertEquals("File count not equals !",allFiles.size(),foundInFileIterable.size());
+        assertEquals("Somes files not founds !",0,notFoundInFileIterable.size());
 
         // cleanup !
         IOHelper.deleteTree(dirRootFile);

@@ -10,8 +10,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.FileIterator;
-//import cx.ath.choisnet.util.CancelRequestException;
+import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
@@ -34,7 +33,7 @@ public class DefaultDigestFileCollectorTest
         instance.addDigestEventListener( getDigestEventListener() );
 
         File            root  = FileHelper.getUserHomeDirFile();
-        Iterable<File>  files = new FileIterator(
+        Iterable<File>  files = new FileIterable(
                 root,
                 new java.io.FileFilter()
                 {

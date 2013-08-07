@@ -20,10 +20,9 @@ import java.util.NoSuchElementException;
  *
  * @see FileFilterHelper
  * @see DirectoryIterator
+ * @see FileIterable
  */
-public class FileIterator
-    implements  Iterator<File>,
-                Iterable<File>
+public class FileIterator implements  Iterator<File>
 {
     private DirectoryIterator directoryIterator;
     private LinkedList<File>  currentDirFilesList = new LinkedList<File>();
@@ -96,7 +95,7 @@ public class FileIterator
     @Override
     public boolean hasNext()
     {
-        if(currentDirFilesList.size() > 0) {
+        if( currentDirFilesList.size() > 0 ) {
             return true;
             }
         else if( directoryIterator.hasNext() ) {
@@ -141,15 +140,5 @@ public class FileIterator
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Returns an iterator over a set of Files.
-     * @return this Iterator
-     */
-    @Override
-    public Iterator<File> iterator()
-    {
-        return this;
     }
 }

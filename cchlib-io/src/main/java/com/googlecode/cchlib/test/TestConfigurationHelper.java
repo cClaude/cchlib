@@ -14,7 +14,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 /**
  * Allow test case to use specific configuration according
  * to current computer
- * 
+ *
  * @since 4.1.7
  */
 public class TestConfigurationHelper
@@ -22,14 +22,14 @@ public class TestConfigurationHelper
     //private final static Logger logger = Logger.getLogger( TestConfigurationHelper.class );
     private PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
     private Config config;
-    
+
     /**
-     * 
+     *
      */
     public class Config
     {
         @Populator private String[] existingMACAddr;
-        
+
         /**
          * Returns an unmodifiable collection of existing MAC Address
          * accessible by current computer.
@@ -44,18 +44,32 @@ public class TestConfigurationHelper
                 return new ArrayCollection<String>( existingMACAddr );
                 }
         }
+        
         /**
-         * Set a collection of existing MAC Address
-         * accessible by current computer.
+         * Set a collection of existing MAC Address accessible by current computer.
          */
-        public void setExistingMACAddressCollection( Collection<String> c )
+        public void setExistingMACAddressCollection( Collection<String> macAddrs )
         {
-            this.existingMACAddr = new String[ c.size() ];
-            
+            this.existingMACAddr = new String[ macAddrs.size() ];
+
             int i = 0;
-            
-            for( String e : c ) {
-                this.existingMACAddr[ i++ ] = e;
+
+            for( String macAddr : macAddrs ) {
+                this.existingMACAddr[ i++ ] = macAddr;
+                }
+        }
+        
+        /**
+         * Set a collection of existing MAC Address accessible by current computer.
+         */
+        public void setExistingMACAddressCollection( String...macAddrs )
+        {
+            this.existingMACAddr = new String[ macAddrs.length ];
+
+            int i = 0;
+
+            for( String macAddr : macAddrs ) {
+                this.existingMACAddr[ i++ ] = macAddr;
                 }
         }
     }
@@ -67,15 +81,15 @@ public class TestConfigurationHelper
     {
         this.config = new TestConfigurationHelper.Config();
     }
-    
+
     private static File getConfigFile()
     {
         return FileHelper.getUserHomeDirFile( TestConfigurationHelper.class.getName() + ".properties" );
     }
-    
+
     /**
      * Load configuration.
-     * 
+     *
      * @throws IOException if configuration can not be loaded.
      */
     public void load() throws IOException
@@ -84,18 +98,18 @@ public class TestConfigurationHelper
 
         pp.populateBean( properties , this.config );
     }
-    
+
     /**
      * Save configuration.
-     * 
+     *
      * @throws IOException if configuration can not be saved.
      */
     public void save() throws IOException
     {
         Properties properties = new Properties();
-        
+
         pp.populateProperties( this.config, properties );
-        
+
         PropertiesHelper.saveProperties( getConfigFile(), properties );
     }
 
