@@ -152,8 +152,8 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             catch (Throwable e) {
                 }
             finally {
-                try { if (locator != null) { locator.close(); } } catch (IOException e){}
-                try { if (in != null) { in.close(); } } catch (IOException e){}
+                try { if (locator != null) { locator.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause
+                try { if (in != null) { in.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause
                 }
             
             return result;

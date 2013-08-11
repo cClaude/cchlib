@@ -83,7 +83,7 @@ public class LookAndFeelHelper
                         }
                     });
                 }
-            }).start();
+            },"LookAndFeelHelper.setLookAndFeelNoException()").start();
 
             // TODO open a dialog !??
             e.printStackTrace();

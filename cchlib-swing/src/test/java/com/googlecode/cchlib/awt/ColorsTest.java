@@ -6,7 +6,6 @@ import java.lang.reflect.Modifier;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.*;
-import com.googlecode.cchlib.awt.Colors;
 import static org.junit.Assert.*;
 
 /**

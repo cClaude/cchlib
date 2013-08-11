@@ -164,7 +164,7 @@ public class DialogHelper
                 ResourcesLoader.getImageIcon( iconResourceName )
                 );
             }
-        catch( ResourcesLoaderException e ) {
+        catch( ResourcesLoaderException e ) { // $codepro.audit.disable logExceptions
             button.setText( textIfError );
             }
     }

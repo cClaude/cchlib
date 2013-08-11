@@ -27,12 +27,12 @@ public class SimpleFileDropTest
         JScrollPane     scrollPane  = new JScrollPane();
         JList<File>     jlist_files = new JList<>( model_files );
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle( this.getClass().getName() );
         frame.add( scrollPane );
         scrollPane.setViewportView( jlist_files );
         frame.setSize(200,200);
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // build a listener
         SimpleFileDropListener listener = new SimpleFileDropListener()
@@ -59,7 +59,7 @@ public class SimpleFileDropTest
         try {
             Thread.sleep( 5 * 1000);
             }
-        catch( InterruptedException e ) {
+        catch( InterruptedException e ) { // $codepro.audit.disable logExceptions
             logger.warn( "InterruptedException" );
             }
 

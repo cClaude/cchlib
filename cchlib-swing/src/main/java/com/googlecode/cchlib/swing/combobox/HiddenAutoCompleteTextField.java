@@ -91,7 +91,7 @@ public class HiddenAutoCompleteTextField
                 setSelectionStart(k);
                 setSelectionEnd(getLength());
                 }
-            catch( Exception ignore ) {
+            catch( Exception ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
                 }
             }
     }
@@ -165,7 +165,7 @@ public class HiddenAutoCompleteTextField
 
                 _lb.replace( i, j - i, s, null );
                 }
-            catch( Exception exception ) {
+            catch( Exception exception ) { // $codepro.audit.disable logExceptions, emptyCatchClause
                 }
             }
     }

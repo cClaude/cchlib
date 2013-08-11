@@ -102,7 +102,7 @@ final class ResourcesUtils implements Serializable
                 getResource( resourceId )
                 );
             }
-        catch( ResourcesUtilsException e ) {
+        catch( ResourcesUtilsException e ) { // $codepro.audit.disable logExceptions
             return createOnePixelImageIcon();
             }
     }
@@ -121,7 +121,7 @@ final class ResourcesUtils implements Serializable
                     )
                 );
             }
-        catch( ResourcesUtilsException e ) {
+        catch( ResourcesUtilsException e ) { // $codepro.audit.disable logExceptions
             // Try to show something when resource is missing
             return new JButton( resourceId.name() );
             }
@@ -156,7 +156,7 @@ final class ResourcesUtils implements Serializable
             
             return rb.getString( resourceId.name() );
             }
-        catch( MissingResourceException e ) {
+        catch( MissingResourceException e ) { // $codepro.audit.disable logExceptions
             logger.error( "Text resource not found for " + resourceId );
  
             return resourceId.name(); 

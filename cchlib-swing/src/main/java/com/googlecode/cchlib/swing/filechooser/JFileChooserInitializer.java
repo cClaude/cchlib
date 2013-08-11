@@ -296,7 +296,7 @@ public class JFileChooserInitializer
                 try {
                     Thread.sleep( this.attemptDelay ); // default: 500
                     }
-                catch( InterruptedException ignore ) {
+                catch( InterruptedException ignore ) { // $codepro.audit.disable logExceptions
                     }
 
                 count++;
@@ -358,7 +358,7 @@ public class JFileChooserInitializer
             // WARN: SwingUtilities.invokeLater( r );
             // Should not use event thread to not look UI during initialization
             // Use simple thread instead.
-            new Thread( r ).start();
+            new Thread( r, "JFileChooserInitializer.init0()" ).start();
         }
     }
 

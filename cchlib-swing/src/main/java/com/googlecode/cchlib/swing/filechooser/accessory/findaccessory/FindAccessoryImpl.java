@@ -395,7 +395,7 @@ public class FindAccessoryImpl
             actionStop.setEnabled(true);
             runFind(chooser.getCurrentDirectory(),newFind());
             }
-        catch (InterruptedException e) {
+        catch (InterruptedException e) { // $codepro.audit.disable emptyCatchClause
             }
         finally {
             actionStart.setEnabled(true);

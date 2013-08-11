@@ -84,7 +84,7 @@ public class DialogHelperTest
         final OpenExceptionDialog openExceptionDialog
         )
     {
-        try { crashTest(); } catch( FakeException e ) {
+        try { crashTest(); } catch( FakeException e ) { // $codepro.audit.disable logExceptions
             final Exception exception = e;
             new Thread( new Runnable() {
                 @Override
@@ -97,7 +97,7 @@ public class DialogHelperTest
                         logger.fatal( "showMessageExceptionDialog Real ERROR!!!", e );
                         }
                 }
-            }).start();
+            },"test").start();
             }
     }
 

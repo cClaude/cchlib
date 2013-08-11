@@ -89,7 +89,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
         try {
             setCaretPosition( Math.max( 0, totalLength - 1 ));
             }
-        catch( IllegalArgumentException ignore ) {
+        catch( IllegalArgumentException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
             }
     }
 
