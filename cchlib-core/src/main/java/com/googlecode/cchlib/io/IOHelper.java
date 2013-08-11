@@ -18,6 +18,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.Iterator;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 
 /**
  * Provide some extra tools for I/O operations
@@ -32,8 +34,7 @@ public final class IOHelper
     private final static int DEFAULT_BUFFER_SIZE = 4096;
 
     private IOHelper()
-    {
-        //All static
+    { //All static
     }
 
     /**
@@ -43,7 +44,7 @@ public final class IOHelper
      * @param outputFile    {@link File} to receive inputFile content.
      * @throws IOException if any IO occurred
      */
-    public static void copy( final File inputFile, final File outputFile )
+    public static void copy( @Nonnull final File inputFile, @Nonnull final File outputFile )
         throws IOException
     {
         copy(inputFile, outputFile, new byte[DEFAULT_BUFFER_SIZE] );
@@ -58,9 +59,9 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-            final File  inputFile,
-            final File  outputFile,
-            byte[]      buffer
+            @Nonnull final File  inputFile,
+            @Nonnull final File  outputFile,
+            @Nonnull byte[]      buffer
             )
         throws IOException
     {
@@ -86,9 +87,9 @@ public final class IOHelper
      * @since 4.1.7
      */
     public static void copy(
-            final InputStream   input,
-            final File          outputFile,
-            byte[]              buffer
+            @Nonnull final InputStream   input,
+            @Nonnull final File          outputFile,
+            @Nonnull byte[]              buffer
             )
         throws IOException
     {
@@ -113,8 +114,8 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-            final InputStream   input, 
-            final File          outputFile 
+            @Nonnull final InputStream   input, 
+            @Nonnull final File          outputFile 
             )
         throws IOException
     {
@@ -139,8 +140,8 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void toFile(
-            final String str, 
-            final File   file
+            @Nonnull final String str, 
+            @Nonnull final File   file
             ) 
         throws IOException
     {
@@ -160,7 +161,7 @@ public final class IOHelper
      * @param rootDirFile a valid {@link File} object (could be a File or a Directory)
      * @throws FileDeleteException if any error occur during delete process
      */
-    public static void deleteTree( final File rootDirFile )
+    public static void deleteTree( @Nonnull final File rootDirFile )
         throws FileDeleteException
     {
         if( !rootDirFile.exists() ) {
@@ -199,9 +200,9 @@ public final class IOHelper
      * @return a file Iterator
      */
     public static Iterator<File> toIterator(
-            final File[]     files,
-            final FileFilter fileFilter
-            )
+        @Nonnull final File[]     files,
+        @Nonnull final FileFilter fileFilter
+        )
     {
         return new IteratorFilter<File>(
                 new ArrayIterator<File>(files),
@@ -216,7 +217,7 @@ public final class IOHelper
      * @return content of File
      * @throws IOException if an I/O error occurs. 
      */
-    public static String toString( final File file )
+    public static String toString( @Nonnull final File file )
         throws IOException
     {
         final Reader r = new FileReader( file );
@@ -237,7 +238,7 @@ public final class IOHelper
      * @return content of {@link InputStream}
      * @throws IOException if an I/O error occurs. 
      */
-    public static byte[] toByteArray( final InputStream input )
+    public static byte[] toByteArray( @Nonnull final InputStream input )
         throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -257,9 +258,9 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-            final InputStream   input,
-            final OutputStream  output,
-            byte[]              buffer
+            @Nonnull final InputStream   input,
+            @Nonnull final OutputStream  output,
+            @Nonnull byte[]              buffer
             )
         throws IOException
     {
@@ -281,9 +282,9 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-            final InputStream   input,
-            final OutputStream  output,
-            final int           bufferSize
+            @Nonnull     final InputStream   input,
+            @Nonnull     final OutputStream  output,
+            @Nonnegative final int           bufferSize
             )
         throws IOException
     {
@@ -299,8 +300,8 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
     */
     public static void copy(
-            final InputStream   input,
-            final OutputStream  output
+            @Nonnull final InputStream   input,
+            @Nonnull final OutputStream  output
             )
         throws IOException
     {
@@ -317,8 +318,8 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static boolean isEquals( 
-        final InputStream expected,
-        final InputStream actual 
+        @Nonnull final InputStream expected,
+        @Nonnull final InputStream actual 
         )
         throws IOException
     {
@@ -344,7 +345,7 @@ public final class IOHelper
      * @return true if content (and size) of {@link InputStream} is equals to array content.
      * @throws IOException if an I/O error occurs. 
      */
-    public static boolean isEquals( final InputStream is, final byte[] bytes )
+    public static boolean isEquals( @Nonnull final InputStream is, @Nonnull final byte[] bytes )
         throws IOException
     {
         int index = 0;
@@ -370,7 +371,7 @@ public final class IOHelper
      * @return content of Reader
      * @throws IOException if an I/O error occurs. 
      */
-    public static String toString( final Reader input )
+    public static String toString( @Nonnull final Reader input )
         throws IOException
     {
         StringBuilder sb     = new StringBuilder();
@@ -399,9 +400,9 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-       final Reader input,
-       final Writer output,
-       final char[] buffer
+       @Nonnull final Reader input,
+       @Nonnull final Writer output,
+       @Nonnull final char[] buffer
        ) throws IOException
     {
        int len;
@@ -422,9 +423,9 @@ public final class IOHelper
      * @throws IOException if an I/O error occurs. 
      */
     public static void copy(
-        final Reader   input,
-        final Writer   output,
-        final int      bufferSize
+        @Nonnull final Reader   input,
+        @Nonnull final Writer   output,
+        @Nonnull final int      bufferSize
         ) throws IOException
     {
         copy( input, output, new char[bufferSize] );
@@ -437,7 +438,7 @@ public final class IOHelper
      * @param output {@link Writer} to write to
      * @throws IOException if an I/O error occurs. 
      */
-    public static void copy( final Reader input, final Writer output )
+    public static void copy( @Nonnull final Reader input, @Nonnull final Writer output )
        throws IOException
     {
         copy( input, output, DEFAULT_BUFFER_SIZE );

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.Properties;
 import com.googlecode.cchlib.lang.StringHelper;
 
@@ -15,33 +16,62 @@ import com.googlecode.cchlib.lang.StringHelper;
 public class PropertiesHelper
 {
     private PropertiesHelper()
-    {
-        // All static
+    { // All static
     }
 
     /**
      * Create a {@link Properties} from a file.
      *
      * @param propertiesFile File to load.
-     * @throws IOException if any I/O occur
+     * @return a {@link Properties} filled with value found on file.
+     * @throws IOException - if an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
      * @see Properties#load(InputStream)
     */
     public static Properties loadProperties(
         final File propertiesFile
-        ) throws IOException
+        ) throws IOException, IllegalArgumentException
    {
-       Properties  properties = new Properties();
-       InputStream is         = new FileInputStream( propertiesFile );
+       InputStream is = new FileInputStream( propertiesFile );
 
        try {
-           properties.load( is );
+           return loadProperties( is );
            }
        finally {
            is.close();
            }
-
-       return properties;
        }
+    
+    /**
+    * Create a {@link Properties} from a <code>ressourceName</code> 
+      * 
+     * @param classLoader   {@link ClassLoader} to use to find resource
+     * @param resourceName  Resource name
+     * @return a {@link Properties} filled with value found on resource.
+     * @throws IOException - if an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
+     */
+    public static Properties getResourceAsProperties(
+        final ClassLoader classLoader,
+        final String      resourceName 
+        ) throws IOException, IllegalArgumentException
+    {
+        InputStream is = classLoader.getResourceAsStream( resourceName );
+
+        try {
+            return loadProperties( is );
+            }
+        finally {
+            is.close();
+            }
+    }
+    
+    private static Properties loadProperties( InputStream is ) throws IOException, IllegalArgumentException
+    {
+        Properties  properties = new Properties();
+        properties.load( is );
+        return properties;
+    }
 
     /**
      * Store properties content into a file.
@@ -82,4 +112,22 @@ public class PropertiesHelper
     {
         saveProperties( propertiesFile, properties, null );
     }
+
+    /**
+     * Create a new {@link Properties} object with shadow copy of <code>propertiesMap</code>
+     * 
+     * @param propertiesMap Map to clone
+     * @return a new {@link Properties}
+     */
+    public static Properties cloneFrom( final Map<String,String> propertiesMap )
+    {
+        Properties properties = new Properties();
+        
+        for( Map.Entry<String,String> entry : propertiesMap.entrySet() ) {
+            properties.put( entry.getKey(), entry.getValue() );
+            }
+        
+        return properties;
+    }
+
 }

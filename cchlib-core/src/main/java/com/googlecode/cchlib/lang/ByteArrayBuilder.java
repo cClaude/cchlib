@@ -11,6 +11,9 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -55,7 +58,7 @@ public class ByteArrayBuilder
      *
      * @param bytes array of bytes to append to the buffer (could be null)
      */
-    public ByteArrayBuilder(byte[] bytes)
+    public ByteArrayBuilder(@Nullable byte[] bytes)
     {
         lastPos = 0;
 
@@ -162,7 +165,7 @@ public class ByteArrayBuilder
      * @param len  length of copy
      * @return caller for initialization chaining
      */
-    public final ByteArrayBuilder append(byte[] bytes, int offset, int len)
+    public final ByteArrayBuilder append(@Nonnull byte[] bytes, int offset, int len)
     {
         // this method is final because: use in constructor
         ensureCapacity(length() + len);
@@ -201,7 +204,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws java.io.IOException
      */
-    public ByteArrayBuilder append(InputStream is)
+    public ByteArrayBuilder append(@Nonnull final InputStream is)
         throws IOException
     {
         return append(is, DEFAULT_SIZE);
@@ -221,8 +224,8 @@ public class ByteArrayBuilder
      *         other I/O error occurs.
      */
     public ByteArrayBuilder append(
-            final InputStream is,
-            final int         bufferSize
+            @Nonnull final InputStream is,
+            final int                  bufferSize
             )
         throws IOException
     {
@@ -244,8 +247,8 @@ public class ByteArrayBuilder
      * @throws NullPointerException if b is null.
      */
     public ByteArrayBuilder append(
-            final InputStream is,
-            final byte[]      b
+            @Nonnull final InputStream is,
+            @Nonnull final byte[]      b
             )
         throws IOException
     {
@@ -267,7 +270,7 @@ public class ByteArrayBuilder
      * @see java.io.FileInputStream#getChannel()
      * @see java.nio.channels.FileChannel
      */
-    public ByteArrayBuilder append( ReadableByteChannel channel )
+    public ByteArrayBuilder append( @Nonnull final ReadableByteChannel channel )
         throws IOException
     {
         return append(channel, DEFAULT_SIZE);
@@ -281,7 +284,7 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws IOException if any I/O occurs
      */
-    public ByteArrayBuilder append(ReadableByteChannel channel, int bufferSize)
+    public ByteArrayBuilder append(@Nonnull final ReadableByteChannel channel, @Nonnegative final int bufferSize)
         throws IOException
     {
         byte[] byteBuffer = new byte[bufferSize];
@@ -320,7 +323,7 @@ public class ByteArrayBuilder
      * @return true if current ByteArrayBuilder start with giving
      *         ByteArrayBuilder
      */
-    public boolean startsWith(ByteArrayBuilder prefix)
+    public boolean startsWith(@Nonnull final ByteArrayBuilder prefix)
     {
         return startsWith(prefix.array());
     }
@@ -333,7 +336,7 @@ public class ByteArrayBuilder
      * @return true if current ByteArrayBuilder start with giving
      *         bytes
      */
-    public boolean startsWith(byte[] prefix)
+    public boolean startsWith(@Nonnull final byte[] prefix)
     {
         if( prefix.length > lastPos ) {
             return false;
@@ -358,7 +361,7 @@ public class ByteArrayBuilder
      *         sequence represented by this object;
      *         false otherwise.
      */
-    public boolean endsWith(ByteArrayBuilder suffix)
+    public boolean endsWith(@Nonnull final ByteArrayBuilder suffix)
     {
         return endsWith(suffix.array());
     }
@@ -373,7 +376,7 @@ public class ByteArrayBuilder
      *         sequence represented by this object;
      *         false otherwise.
      */
-    public boolean endsWith(byte[] suffix)
+    public boolean endsWith(@Nonnull final byte[] suffix)
     {
         if( suffix.length > lastPos ) {
             return false;
@@ -398,7 +401,7 @@ public class ByteArrayBuilder
      *         if different.
      */
     @Override
-    public int compareTo(ByteArrayBuilder aByteArrayBuilder)
+    public int compareTo(@Nonnull final ByteArrayBuilder aByteArrayBuilder)
     {
         int length = lastPos >= aByteArrayBuilder.lastPos
                         ? aByteArrayBuilder.lastPos
@@ -496,7 +499,7 @@ public class ByteArrayBuilder
      * @see #array()
      * @since 4.1.7
      */
-    public void copyTo( final OutputStream out ) throws IOException
+    public void copyTo( @Nonnull final OutputStream out ) throws IOException
     {
         ByteArrayInputStream is = new ByteArrayInputStream( this.array() );
 
@@ -517,9 +520,9 @@ public class ByteArrayBuilder
      * @return a new ByteArrayBuilder
      */
     public ByteArrayBuilder replaceAll(
-            final byte[]    pattern,
-            final byte[]    replace
-            )
+        @Nonnull final byte[]    pattern,
+        @Nonnull final byte[]    replace
+        )
     {
         return replace( this.array(), pattern, replace );
     }
@@ -534,9 +537,9 @@ public class ByteArrayBuilder
      * @return a new ByteArrayBuilder
      */
     private static ByteArrayBuilder replace(
-        final byte[]    sbytes,
-        final byte[]    pattern,
-        final byte[]    replace
+        @Nonnull final byte[]    sbytes,
+        @Nonnull final byte[]    pattern,
+        @Nonnull final byte[]    replace
         )
     {
         byte[] dbytes;
@@ -571,7 +574,7 @@ public class ByteArrayBuilder
         return new ByteArrayBuilder( dbytes );
     }
 
-    private void writeObject( ObjectOutputStream stream ) throws IOException
+    private void writeObject( @Nonnull final ObjectOutputStream stream ) throws IOException
     {
         stream.defaultWriteObject();
         stream.writeInt(buffer.length);
@@ -585,7 +588,7 @@ public class ByteArrayBuilder
         }
     }
 
-    private void readObject( ObjectInputStream stream ) throws IOException, ClassNotFoundException
+    private void readObject( @Nonnull final ObjectInputStream stream ) throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
         buffer = new byte[stream.readInt()];

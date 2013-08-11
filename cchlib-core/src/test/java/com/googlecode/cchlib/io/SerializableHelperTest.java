@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.io;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import org.fest.assertions.Assertions;
@@ -18,12 +20,15 @@ import org.junit.Test;
  */
 public class SerializableHelperTest
 {
+    private final static Logger logger = Logger.getLogger( SerializableHelperTest.class );
+
     /**
      * Run the Serializable clone(T,Class<? extends T>) method test.
+     * @throws ClassNotFoundException 
+     * @throws IOException 
      */
     @Test
-    public void testClone_String()
-        throws Exception
+    public void testClone_String() throws IOException, ClassNotFoundException
     {
         final String            value = "123456789";
         Class<? extends String> clazz = value.getClass();
@@ -69,10 +74,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -90,10 +91,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test(expected = java.io.IOException.class)
@@ -111,10 +108,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test(expected = java.io.IOException.class)
@@ -132,10 +125,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test(expected = java.lang.ClassNotFoundException.class)
@@ -153,10 +142,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test(expected = java.io.FileNotFoundException.class)
@@ -173,13 +158,27 @@ public class SerializableHelperTest
     }
 
     /**
+     * Run the byte[] toByteArray(null) method test.
+     */
+    @Test
+    public void testToByteArray_null()
+        throws Exception
+    {
+            byte[] result = SerializableHelper.toByteArray(null);
+
+            logger.info( "result not null = " + (result!=null) );
+
+            // add additional test code here
+            assertNotNull(result);
+    }
+
+    /**
      * Run the byte[] toByteArray(T) method test.
      */
     @Test
     public void testToByteArray_1()
         throws Exception
     {
-
         byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
@@ -248,16 +247,11 @@ public class SerializableHelperTest
 
     /**
      * Run the byte[] toByteArray(T) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test
     public void testToByteArray_2()
         throws Exception
     {
-
         byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
@@ -326,10 +320,6 @@ public class SerializableHelperTest
 
     /**
      * Run the byte[] toByteArray(T) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test
     public void testToByteArray_3()
@@ -404,10 +394,6 @@ public class SerializableHelperTest
 
     /**
      * Run the byte[] toByteArray(T) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test
     public void testToByteArray_4()
@@ -482,10 +468,6 @@ public class SerializableHelperTest
 
     /**
      * Run the byte[] toByteArray(T) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test
     public void testToByteArray_5()
@@ -560,10 +542,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -585,10 +563,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -610,10 +584,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -635,10 +605,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -660,10 +626,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -685,10 +647,6 @@ public class SerializableHelperTest
 
     /**
      * Run the void toFile(T,File) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -710,10 +668,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable toObject(byte[],Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Ignore
     @Test
@@ -747,10 +701,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable toObject(byte[],Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test(expected = java.io.IOException.class)
     public void testToObject_3()
@@ -767,10 +717,6 @@ public class SerializableHelperTest
 
     /**
      * Run the Serializable toObject(byte[],Class<? extends T>) method test.
-     *
-     * @throws Exception
-     *
-     * @generatedBy CodePro at 27/06/13 13:47
      */
     @Test(expected = java.io.IOException.class)
     public void testToObject_4()

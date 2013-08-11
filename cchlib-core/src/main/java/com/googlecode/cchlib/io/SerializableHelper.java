@@ -7,10 +7,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidClassException;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Some useful tools to handle or verify {@link Serializable} objects.
@@ -28,17 +34,19 @@ public class SerializableHelper
      *
      * @param <T> type of the object
      * @param anObject Object to serialize
-     * @return a byte array build using standard serialization
-     *         process for this object
-     * @throws IOException if any I/O occurred
+     * @return a byte array build using standard serialization process for this object
+     *
+     * @throws InvalidClassException - Something is wrong with a class used by serialization.
+     * @throws NotSerializableException - Some object to be serialized does not implement the java.io.Serializable interface.
+     * @throws IOException - Any exception thrown by the underlying OutputStream.
      */
-    public static <T extends Serializable> byte[] toByteArray( final T anObject )
-        throws IOException
+    public static <T extends Serializable> byte[] toByteArray( @Nullable final T anObject )
+        throws InvalidClassException, NotSerializableException, IOException
     {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ObjectOutputStream    oos    = new ObjectOutputStream(output);
+        ObjectOutputStream    oos    = new ObjectOutputStream( output );
 
-        oos.writeObject(anObject);
+        oos.writeObject( anObject );
         oos.flush();
         oos.close();
 
@@ -53,19 +61,25 @@ public class SerializableHelper
      * @param aSerializedObject
      * @param clazz
      * @return the object.
-     * @throws IOException if any I/O occurred
+     *
+     * @throws ClassNotFoundException - Class of a serialized object cannot be found.
+     * @throws InvalidClassException - Something is wrong with a class used by serialization.
+     * @throws StreamCorruptedException - Control information in the stream is inconsistent.
+     * @throws OptionalDataException - Primitive data was found in the stream instead of objects.
+     * @throws IOException - Any of the usual Input/Output related exceptions.
+     *
      * @throws ClassNotFoundException
      */
     public static <T extends Serializable> T toObject(
-            final byte[]              aSerializedObject,
-            final Class<? extends T>  clazz
+            @Nonnull final byte[]              aSerializedObject,
+            @Nonnull final Class<? extends T>  clazz
             )
-        throws IOException, ClassNotFoundException
+        throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException
     {
         ByteArrayInputStream input = new ByteArrayInputStream(aSerializedObject);
         ObjectInputStream    ois   = new ObjectInputStream(input);
 
-        T objectClone = clazz.cast(ois.readObject());
+        T objectClone = clazz.cast( ois.readObject() );
         ois.close();
 
         return objectClone;
@@ -82,8 +96,8 @@ public class SerializableHelper
      * @throws ClassNotFoundException
      */
     public static <T extends Serializable> T clone(
-            final T                   anObject,
-            final Class<? extends T>  clazz
+            @Nullable final T                   anObject,
+            @Nonnull  final Class<? extends T>  clazz
             )
         throws IOException, ClassNotFoundException
     {
@@ -98,15 +112,20 @@ public class SerializableHelper
      * @param aFile A {@link File} where is store the object.
      * @param clazz of this object.
      * @return the object.
-     * @throws IOException if any I/O occurred
-     * @throws ClassNotFoundException
+     *
+     * @throws ClassNotFoundException - Class of a serialized object cannot be found.
+     * @throws InvalidClassException - Something is wrong with a class used by serialization.
+     * @throws StreamCorruptedException - Control information in the stream is inconsistent.
+     * @throws OptionalDataException - Primitive data was found in the stream instead of objects.
+     * @throws IOException - Any of the usual Input/Output related exceptions.
+     *
      * @see #toFile(Serializable, File)
      */
     public static <T extends Serializable> T loadObject(
-            final File                aFile,
-            final Class<? extends T>  clazz
+            @Nonnull final File                aFile,
+            @Nonnull final Class<? extends T>  clazz
             )
-        throws IOException, ClassNotFoundException
+        throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException
     {
         final InputStream input = new FileInputStream( aFile );
 
@@ -125,7 +144,6 @@ public class SerializableHelper
         finally {
             input.close();
             }
-
      }
 
     /**
@@ -134,14 +152,18 @@ public class SerializableHelper
      * @param <T> type of the object
      * @param anObject Object to serialize
      * @param aFile     {@link File} to use to store object.
-     * @throws IOException if any I/O occurred
+     *
+     * @throws InvalidClassException - Something is wrong with a class used by serialization.
+     * @throws NotSerializableException - Some object to be serialized does not implement the {@link Serializable} interface.
+     * @throws IOException - Any exception thrown by the underlying OutputStream.
+     *
      * @see #loadObject(File, Class)
      */
     public static <T extends Serializable> void toFile(
-            final T    anObject,
-            final File aFile
+            @Nullable final T    anObject,
+            @Nonnull  final File aFile
             )
-        throws IOException
+        throws InvalidClassException, NotSerializableException, IOException
     {
         final OutputStream output = new FileOutputStream( aFile );
 
