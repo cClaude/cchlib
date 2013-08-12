@@ -71,6 +71,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     //
     // BEGIN: LazyBatchRunner
     //
+    @SuppressWarnings("unused")
     private TASK batchInstance;
     private long beginTimeMillis;
 

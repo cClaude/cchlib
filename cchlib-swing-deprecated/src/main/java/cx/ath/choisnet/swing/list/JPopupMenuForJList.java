@@ -21,14 +21,14 @@ public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
     private static final long serialVersionUID = 1L;
-    private JList/*<E>*/ jList;
+    private JList<E> jList;
 
     /**
      * Create JPopupMenuForJList
      *
      * @param jList to use.
      */
-    public JPopupMenuForJList( final JList/*<E>*/ jList )
+    public JPopupMenuForJList( final JList<E> jList )
     {
         this.jList = jList;
     }
@@ -37,7 +37,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns current JList
      * @return current JList
      */
-    protected JList/*<E>*/ getJList()
+    protected JList<E> getJList()
     {
         return jList;
     }
@@ -46,7 +46,7 @@ public abstract class JPopupMenuForJList<E>
      * Returns ListModel for current JList
      * @return ListModel for current JList
      */
-    protected ListModel/*<E>*/ getListModel()
+    protected ListModel<E> getListModel()
     {
         return jList.getModel();
     }

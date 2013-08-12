@@ -43,8 +43,9 @@ public class DefaultBatchRunnerJFrame extends JFrame
     /**
      * Create the frame.
      *
-     * @param lazyBatchRunner
+     * @param lazyBatchRunnable
      * @param localeResources
+     * @param customJPanelFactory
      * @throws HeadlessException if GraphicsEnvironment.isHeadless() returns true.
      */
     public DefaultBatchRunnerJFrame(
@@ -204,12 +205,12 @@ public class DefaultBatchRunnerJFrame extends JFrame
                 sourceFile.getName()
                 );
         final InputStream sourceIs = new FileInputStream( sourceFile );
-        
+
         try {
             final ProgressMonitorInputStream pmis = new ProgressMonitorInputStream(
                     this,
                     title,
-                    sourceIs 
+                    sourceIs
                     );
             final InputStream is = new BufferedInputStream( pmis );
 
@@ -260,7 +261,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
     }
 
     /**
-     * Adds an EnableListener to the listener list. 
+     * Adds an EnableListener to the listener list.
      *
      * @param l the listener to be added
      * @see BatchRunnerPanel#addEnableListener(EnableListener)
@@ -271,7 +272,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
     }
 
     /**
-     * Remove an EnableListener to the listener list. 
+     * Remove an EnableListener to the listener list.
      *
      * @param l the listener to be removed
      * @see BatchRunnerPanel#removeEnableListener(EnableListener)
