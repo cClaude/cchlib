@@ -28,7 +28,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
@@ -281,7 +281,7 @@ public class JPanelSearching extends JPanel//SearchingWB
         for(File f : entriesToScans ) {
 
             if( f.isDirectory() ) {
-                Iterable<File>  files = new FileIterator(
+                Iterable<File>  files = new FileIterable(
                         f,
                         fileFilter,
                         dirFilter

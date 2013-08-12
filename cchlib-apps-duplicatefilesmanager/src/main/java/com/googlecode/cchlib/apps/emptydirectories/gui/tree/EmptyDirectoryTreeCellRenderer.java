@@ -181,84 +181,12 @@ class EmptyDirectoryTreeCellRenderer
     {
         final String name;
 
-
-        //final Icon   icon;
-        //icon = null;
-        /*
-        if( _value_ instanceof FolderTreeNode ) {
-            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
-            Folder         folder    = nodeValue.getFolder();
-            File           nodeFile  = folder.getPath().toFile();
-
-            name = nodeFile.getName();
-
-            // DOES NOT WORK : super.setToolTipText( folder.getFile().toString() );
-
-            if( name.isEmpty() ) {
-                // Root file
-                name = nodeFile.getPath();
-                }
-
-            if( folder instanceof EmptyFolder ) {
-                EmptyFolder ef = EmptyFolder.class.cast( folder );
-
-                if( leaf ) {
-                    if( ! ef.isEmpty() ) {
-                        logger.error( "leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
-                        }
-
-                    icon = this.model.isSelected( nodeValue ) ? this.nodeLeafRendererIconSelected : this.nodeLeafRendererIcon;
-                    }
-                else {
-                    if( ef.isEmpty() ) {
-                        logger.error( "not a leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
-                        }
-
-                    icon = this.model.isSelected( nodeValue ) ? this.nodeLeafEmptyRendererIconSelected : this.nodeLeafEmptyRendererIcon;
-                    }
-                }
-            else { // !(folder instanceof EmptyFolder)
-                icon = null; // Default icon
-
-                if( leaf ) {
-                    throw new IllegalStateException( "Found leaf on a no empty folder: " + folder );
-                    }
-                }
-            }
-        else {
-            name = null;
-            icon = null; // Default icon
-            }
-*/
         if( _value_ instanceof FolderTreeNode ) {
             FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
             Folder         folder    = nodeValue.getFolder();
             File           file      = folder.getPath().toFile();
 
             name = file.getName();
-
-//            if( folder instanceof EmptyFolder ) {
-//                boolean selected = nodeValue.isSelected();
-//                //EmptyFolder ef = EmptyFolder.class.cast( folder );
-//
-//
-//                //checkBox.setText( file.getName() );
-//                super.setToolTipText( file.getPath() );
-//                //checkBox.setSelected( selected );
-//
-//                if( leaf ) {
-//                    //super.set
-//                    super.setIcon( selected ?  nodeLeafEmptyRendererIconSelected : nodeLeafEmptyRendererIcon );
-//                    }
-//                else {
-//                    super.setIcon( selected ?  nodeLeafRendererIconSelected : nodeLeafRendererIcon );
-//                    }
-//
-//                //value = checkBox;
-//                }
-//            else {
-//                logger.fatal( "folder is  " + folder );
-//                }
             }
         else {
             // handle hidden root node
@@ -301,34 +229,8 @@ class EmptyDirectoryTreeCellRenderer
                 //value = checkBox;
                 }
             }
-
-        // use default display
-//        this.cellEditorValue = this.nonLeafNotEmptyRenderer.getTreeCellRendererComponent(
-
-        //assert this.renderer == cellEditorValue;
-
-//        if( icon != null ) {
-//            super.setIcon( icon );
-//            logger.info( "setIcon() => " + icon );
-//            }
-
+        
         return cellEditorValue;
     }
-
-//    public FolderTreeNode getCurrentValue()
-//    {
-//        return this.currentValue;
-//    }
-
-//    DefaultTreeCellRenderer getCellEditorValue()
-//    {
-//        return this.renderer;
-//    }
-
-
-//    public JCheckBox getLeafRenderer()
-//    {
-//        return this.nodeLeafRenderer;
-//    }
 
 }
