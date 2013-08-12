@@ -5,23 +5,23 @@ import java.net.URL;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class DesktopHelperTest
+public class DesktopHelperJ5Test
 {
     @Test
     @Ignore // result depend of jdk
     public void test_isNativeDesktopSupported()
-        throws PlateformeDesktopNotSupportedException
+        throws PlateformeDesktopNotSupportedJ5Exception
     {
-        DesktopHelper.isNativeDesktopSupported();
+        DesktopHelperJ5.isNativeDesktopSupported();
     }
     
     @Test
     @Ignore // could not work under jdk 1.5
     public void testDesktopHelper()
-        throws PlateformeDesktopNotSupportedException, MalformedURLException
+        throws PlateformeDesktopNotSupportedJ5Exception, MalformedURLException
     {        
         URL url = new URL( "http://google.com/" );
         
-        DesktopHelper.browse( url  );
+        DesktopHelperJ5.browse( url  );
     }
 }

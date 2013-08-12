@@ -5,18 +5,20 @@ import java.net.URI;
 import java.net.URL;
 
 /**
+ * <p>This class is design to be able to run under java 1.5</p>
+ * 
  * Tools for allow to use {@link java.awt.Desktop} using jdk 1.5
  *
  * @since 4.1.6
  */
-public class DesktopHelper
+public class DesktopHelperJ5
 {
     private static final String DesktopClassName = "java.awt.Desktop";
     private static final String isDesktopSupportedMethodName = "isDesktopSupported";
 
     private static final String DesktopActionClassName = "java.awt.Desktop$Action";
 
-    private DesktopHelper()
+    private DesktopHelperJ5()
     {
         // All Static
     }
@@ -26,14 +28,14 @@ public class DesktopHelper
      *
      * @return true if java.awt.Desktop class is supported on the current platform;
      *         false otherwise
-     * @throws PlateformeDesktopNotSupportedException if any
+     * @throws PlateformeDesktopNotSupportedJ5Exception if any
      *         error occur while trying to resolve
      *         {@link Desktop#isDesktopSupported()}.
      *         That mean current JRE does not support
      *         {@link Desktop}.
      */
     public static boolean isNativeDesktopSupported()
-        throws PlateformeDesktopNotSupportedException
+        throws PlateformeDesktopNotSupportedJ5Exception
     {
         try {
             Class<?>    c = Class.forName( DesktopClassName );
@@ -46,7 +48,7 @@ public class DesktopHelper
             return false;
             }
         catch( Throwable e ) {
-            throw new PlateformeDesktopNotSupportedException(
+            throw new PlateformeDesktopNotSupportedJ5Exception(
                     "Desktop doesn't support the browse action (fatal)",
                     e
                     );
@@ -57,22 +59,22 @@ public class DesktopHelper
      * TODOC
      *
      * @param url
-     * @throws PlateformeDesktopNotSupportedException
+     * @throws PlateformeDesktopNotSupportedJ5Exception
      */
     public static void browse( final URL url )
-        throws PlateformeDesktopNotSupportedException
+        throws PlateformeDesktopNotSupportedJ5Exception
     {
         if( isNativeDesktopSupported() ) {
             try {
                 browseNative( url );
                 }
             catch( Exception e ) {
-                throw new PlateformeDesktopNotSupportedException( e );
+                throw new PlateformeDesktopNotSupportedJ5Exception( e );
                 }
             }
         else {
             // N2H: Try to run using "start <url>" under windows.
-            throw new PlateformeDesktopNotSupportedException(
+            throw new PlateformeDesktopNotSupportedJ5Exception(
                     "Error on browse action (fatal):" + url
                     );
             }
@@ -109,7 +111,7 @@ public class DesktopHelper
         if( ! ((Boolean)isSupported).booleanValue() ) { //  if( ! isSupported )
             // Should not occur, should be tested before using this
             // method
-            throw new PlateformeDesktopNotSupportedException(
+            throw new PlateformeDesktopNotSupportedJ5Exception(
                     "Desktop doesn't support the browse action (fatal)"
                     );
             }
