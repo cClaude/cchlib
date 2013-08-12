@@ -1,26 +1,28 @@
 package com.googlecode.cchlib.swing.batchrunner;
 
+import java.io.Serializable;
+
 /**
  * Use to detect user cancel action
  *
- * @since 1.4.7
+ * @since 1.4.8
  */
-public class BatchRunnerInterruptedException extends Exception
+public class BRInterruptedException extends Exception
 {
-    private static final long serialVersionUID = 2L;
-    private Object customObject;
+    private static final long serialVersionUID = 1L;
+    private Serializable customObject;
 
-    public BatchRunnerInterruptedException( Throwable cause )
+    public BRInterruptedException( Throwable cause )
     {
         super( cause );
     }
 
-    public BatchRunnerInterruptedException( String message )
+    public BRInterruptedException( String message )
     {
         super( message );
     }
 
-    public BatchRunnerInterruptedException( String message, Throwable cause )
+    public BRInterruptedException( String message, Throwable cause )
     {
         super( message, cause );
     }
@@ -28,9 +30,9 @@ public class BatchRunnerInterruptedException extends Exception
     /**
      * Could be use by client to store extra information.
      *
-     * @param customObject Any custom object
+     * @param customObject Any {@link Serializable} custom object
      */
-    public void setCustomObject( final Object customObject )
+    public void setCustomObject( final Serializable customObject )
     {
         this.customObject = customObject;
     }
@@ -39,7 +41,7 @@ public class BatchRunnerInterruptedException extends Exception
      * Returns customObject if has been set, null otherwise
      * @return customObject if has been set, null otherwise
      */
-    public Object getCustomObject()
+    public Serializable getCustomObject()
     {
         return this.customObject;
     }
