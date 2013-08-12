@@ -6,8 +6,8 @@ import java.net.URL;
 
 /**
  * <p>This class is design to be able to run under java 1.5</p>
- * 
- * Tools for allow to use {@link java.awt.Desktop} using jdk 1.5
+ *
+ * Tools for allow to use java.awt.Desktop under jdk 1.5
  *
  * @since 4.1.6
  */
@@ -24,15 +24,13 @@ public class DesktopHelperJ5
     }
 
     /**
-     * Test using reflection if {@link Desktop#isDesktopSupported()} return true.
+     * Test using reflection if java.awt.Desktop#isDesktopSupported() return true.
      *
      * @return true if java.awt.Desktop class is supported on the current platform;
      *         false otherwise
      * @throws PlateformeDesktopNotSupportedJ5Exception if any
-     *         error occur while trying to resolve
-     *         {@link Desktop#isDesktopSupported()}.
-     *         That mean current JRE does not support
-     *         {@link Desktop}.
+     *         error occur while trying to resolve java.awt.Desktop#isDesktopSupported().
+     *         That mean current JRE does not support java.awt.Desktop.
      */
     public static boolean isNativeDesktopSupported()
         throws PlateformeDesktopNotSupportedJ5Exception

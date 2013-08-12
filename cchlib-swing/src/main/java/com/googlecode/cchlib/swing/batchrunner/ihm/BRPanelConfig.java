@@ -14,31 +14,31 @@ public interface BRPanelConfig
 {
     /**
      *
-     * @return
+     * @return TODOC
      */
     public FileFilter getSourceFileFilter();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public int getSourceFilesFileSelectionMode();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public int getDestinationFolderFileSelectionMode();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public File getDefaultSourceDirectoryFile();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public File getDefaultDestinationDirectoryFile();
 }
