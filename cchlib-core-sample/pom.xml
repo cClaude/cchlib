@@ -20,7 +20,7 @@
     <project.javadoc.source.version>1.7</project.javadoc.source.version>
     <project.javadoc.target.version>1.7</project.javadoc.target.version>
   </properties>
-<!-- 
+<!--
   <repositories>
     <repository>
       <id>google-releases</id>
@@ -117,15 +117,25 @@
 <!--         <version>1.47.1</version> -->
 <!--     </dependency> -->
 <!--     <dependency> -->
-<!--     	<groupId>com.google.inject</groupId> -->
-<!--     	<artifactId>guice</artifactId> -->
-<!--     	<version>3.0</version> -->
+<!--         <groupId>com.google.inject</groupId> -->
+<!--         <artifactId>guice</artifactId> -->
+<!--         <version>3.0</version> -->
 <!--     </dependency> -->
-  	<dependency>
-  		<groupId>com.googlecode.cchlib</groupId>
-  		<artifactId>cchlib-core-java5</artifactId>
-  		<version>4.1.8-SNAPSHOT</version>
-  	</dependency>
+<!--       <dependency> -->
+<!--           <groupId>com.googlecode.cchlib</groupId> -->
+<!--           <artifactId>cchlib-core-java5</artifactId> -->
+<!--           <version>4.1.8-SNAPSHOT</version> -->
+<!--       </dependency> -->
+    <dependency>
+        <groupId>com.lexicalscope.jewelcli</groupId>
+        <artifactId>jewelcli</artifactId>
+        <version>0.8.5</version>
+    </dependency>
+    <dependency>
+        <groupId>net.sf.flexjson</groupId>
+        <artifactId>flexjson</artifactId>
+        <version>3.1</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class DesktopHelperTest
 {
+    @SuppressWarnings("deprecation")
     @Test
     public void test_isNativeDesktopSupported()
         throws PlateformeDesktopNotSupportedException
