@@ -3,14 +3,14 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 import java.util.ResourceBundle;
 
 /**
- * Default implementation of {@link BRLocaleResources} based on
+ * Default implementation of {@link BRPanelLocaleResources} based on
  * a {@link ResourceBundle}
  *
  * @since 4.1.8
  */
-public class DefaultBRLocaleResources implements BRLocaleResources
+public class DefaultBRLocaleResources implements BRPanelLocaleResources
 {
-    protected ResourceBundle resourceBundle;
+    private ResourceBundle resourceBundle;
 
     public DefaultBRLocaleResources( ResourceBundle resourceBundle )
     {
@@ -28,6 +28,11 @@ public class DefaultBRLocaleResources implements BRLocaleResources
     public DefaultBRLocaleResources()
     {
         this( null );
+    }
+
+    public ResourceBundle getResourceBundle()
+    {
+        return resourceBundle;
     }
 
     @Override

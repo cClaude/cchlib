@@ -10,9 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
+import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 
 /**
- *
+ * Default scalable {@link JFrame} for {@link BRPanel}
+ * 
  * @since 4.1.8
  */
 public class BRFrame extends JFrame
@@ -20,8 +23,8 @@ public class BRFrame extends JFrame
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( BRFrame.class );
 
-    private BRLocaleResources resources;
-    private JPanel   contentPane;
+    private BRPanelLocaleResources panelLocaleResources;
+    private JPanel  contentPane;
     private BRPanel panel;
 
     @SuppressWarnings("unused") // for windows builder only
@@ -33,13 +36,29 @@ public class BRFrame extends JFrame
     /**
      * Prepare the frame.
      * *
-     * @param resources
+     * @param panelLocaleResources
+     * @param xLocaleResources
      *
      * @see #createFrame(BRActionListener)
      */
-    public BRFrame( BRLocaleResources resources )
+    public BRFrame( BRPanelLocaleResources panelLocaleResources, BRXLocaleResources xLocaleResources )
     {
-        this.resources = resources;
+        this.panelLocaleResources = panelLocaleResources;
+
+        setTitle( xLocaleResources.getFrameTitle() );
+        setIconImage( xLocaleResources.getFrameIconImage() );
+    }
+    
+    /**
+     * Prepare the frame.
+     * *
+     * @param localeResourcesAgregator
+     *
+     * @see #createFrame(BRActionListener)
+     */
+    public BRFrame( BRLocaleResourcesAgregator localeResourcesAgregator )
+    {
+        this( localeResourcesAgregator, localeResourcesAgregator );
     }
 
     /**
@@ -57,7 +76,7 @@ public class BRFrame extends JFrame
         contentPanelSetLayout( this.contentPane );
         setContentPane( this.contentPane );
 
-        this.panel = new BRPanel( actionListener, resources );
+        this.panel = new BRPanel( actionListener, this.panelLocaleResources );
         //$hide>>$
         actionListener.setSBRPanel( this.panel );
         //$hide<<$
@@ -126,12 +145,15 @@ public class BRFrame extends JFrame
             }
         else {
             //Custom button text
-            Object[] options = { this.resources.getTextExitRequestYes(), this.resources.getTextExitRequestNo() };
+            Object[] options = { 
+                this.panelLocaleResources.getTextExitRequestYes(), 
+                this.panelLocaleResources.getTextExitRequestNo() 
+                };
 
             int n = JOptionPane.showOptionDialog(
                 this,
-                this.resources.getTextExitRequestMessage(),
-                this.resources.getTextExitRequestTitle(),
+                this.panelLocaleResources.getTextExitRequestMessage(),
+                this.panelLocaleResources.getTextExitRequestTitle(),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,

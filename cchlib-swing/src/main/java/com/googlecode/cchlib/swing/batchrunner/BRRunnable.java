@@ -3,15 +3,15 @@ package com.googlecode.cchlib.swing.batchrunner;
 import java.io.File;
 
 /**
- * 
+ *
  * @since 4.1.8
  */
-public interface BRRunnable 
+public interface BRRunnable
 {
     /**
      * Invoke when user call start batch action
-     * 
-     * @param destinationFolderFile 
+     *
+     * @param destinationFolderFile
      */
     public void initializeBath( File destinationFolderFile );
 
@@ -21,7 +21,7 @@ public interface BRRunnable
      * @param isCancelled true if batch has been cancelled, false otherwise
      */
     public void finalizeBath(boolean isCancelled);
-    
+
     /**
      * Returns output {@link File} object for giving sourceFile
      *
@@ -32,15 +32,13 @@ public interface BRRunnable
      */
     public File buildOutputFile( File sourceFile ) throws BRInterruptedException;
 
-//    /**
-//     * Invoke for each file
-//     *
-//     * @param sourceFile        Source {@link File}
-//     * @param destinationFile   Destination {@link File}
-//     * @throws IOException if any I/O occurred (This error is shown to the user)
-//     * @throws BatchRunnerInterruptedException if batch should be cancel
-//     */
-//    public void runTask( final File sourceFile, final File destinationFile )
-//        throws BatchRunnerInterruptedException;
-    public void execute( BRExecutionEvent event ) throws BRExecutionException;
+    /**
+     * Invoke for each file
+     *
+     * @param event a {@link BRExecutionEvent} for current file
+     *
+     * @throws BRUserCancelException if {@link BRExecutionEvent} trap an user cancel.
+     * @throws BRExecutionException if batch should be cancel, for any reason.
+     */
+    public void execute( BRExecutionEvent event ) throws BRUserCancelException, BRExecutionException;
 }

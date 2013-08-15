@@ -43,7 +43,7 @@ abstract class AbstractBRActionListener  implements ActionListener
         this.panel.setCursor( cursor );
     }
 
-    protected BRLocaleResources getSBRLocaleResources()
+    protected BRPanelLocaleResources getSBRLocaleResources()
     {
         return this.panel.getSBRLocaleResources();
     }

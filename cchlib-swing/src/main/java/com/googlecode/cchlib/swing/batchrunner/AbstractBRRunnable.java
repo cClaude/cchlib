@@ -75,5 +75,4 @@ public abstract class AbstractBRRunnable implements BRRunnable
     {
         logger.info( "finalizeBath( " + isCancelled + " );" );
     }
-
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEvent;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEventFactory;
+import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrame;
+import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 
 /**
  * Default implementation of {@link BRExecutionEventFactory} that create
@@ -19,7 +21,7 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     /**
      * TODOC
      * 
-     * @param progressMonitorParentComponent
+     * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
      * @param progressMonitorMessage
      */
     @NeedDoc
@@ -27,6 +29,17 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     {
         this.progressMonitorParentComponent = progressMonitorParentComponent;
         this.progressMonitorMessage         = progressMonitorMessage;
+    }
+
+    /**
+     * TODOC
+     * 
+     * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
+     * @param resources
+     */
+    public BRExecutionEventFactoryImpl( Component progressMonitorParentComponent, BRXLocaleResources resources )
+    {
+        this( progressMonitorParentComponent, resources.getProgressMonitorMessage() );
     }
 
     @Override

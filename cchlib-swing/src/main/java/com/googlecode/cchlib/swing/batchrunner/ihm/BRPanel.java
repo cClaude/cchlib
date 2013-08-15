@@ -38,7 +38,7 @@ public class BRPanel extends JPanel
     public static final String ACTIONCMD_DO_ACTION = "ACTIONCMD_DO_ACTION";
 
     private BRActionListener  actionListener;
-    private BRLocaleResources localeResources;
+    private BRPanelLocaleResources localeResources;
 
     private JTextField jTextFieldDestination;
     private JTextField jTextFieldMessage;
@@ -57,7 +57,7 @@ public class BRPanel extends JPanel
      */
     protected BRPanel(
         final BRActionListener  actionListener,
-        final BRLocaleResources localeResources
+        final BRPanelLocaleResources localeResources
         )
     {
         this.actionListener  = actionListener;
@@ -193,7 +193,7 @@ public class BRPanel extends JPanel
         }
     }
 
-    public BRLocaleResources getSBRLocaleResources()
+    public BRPanelLocaleResources getSBRLocaleResources()
     {
         return localeResources;
     }

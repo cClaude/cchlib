@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.junit.*;
 import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResources;
-import com.googlecode.cchlib.swing.batchrunner.ihm.BRLocaleResources;
+import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelLocaleResources;
 import static org.junit.Assert.*;
 
 /**
@@ -18,7 +18,7 @@ public class DefaultSBRLocaleResourcesTest
 {
     private final static Logger logger = Logger.getLogger( DefaultSBRLocaleResourcesTest.class );
     
-    private static class SBRLocaleResourcesEN implements BRLocaleResources
+    private static class SBRLocaleResourcesEN implements BRPanelLocaleResources
     {
         @Override public String getTextAddSourceFile() { return "Select source files to add";  }
         @Override public String getTextSetDestinationFolder() { return "Select destination folder";  }
@@ -36,7 +36,7 @@ public class DefaultSBRLocaleResourcesTest
         @Override public String getTextExitRequestNo() { return "No";  }
     }
 
-    private static class SBRLocaleResourcesFR implements BRLocaleResources
+    private static class SBRLocaleResourcesFR implements BRPanelLocaleResources
     {
         @Override public String getTextAddSourceFile() { return "Ajouter des fichiers source";  }
         @Override public String getTextSetDestinationFolder() { return "Dossier de destination";  }
@@ -80,9 +80,9 @@ public class DefaultSBRLocaleResourcesTest
         doAssert( new SBRLocaleResourcesFR(), result );
     }
     
-    private void doAssert( BRLocaleResources ref, BRLocaleResources result ) throws Exception
+    private void doAssert( BRPanelLocaleResources ref, BRPanelLocaleResources result ) throws Exception
     {
-        Method[] methods = BRLocaleResources.class.getDeclaredMethods();
+        Method[] methods = BRPanelLocaleResources.class.getDeclaredMethods();
 
         for( Method m : methods ) {
             Object valueRef = m.invoke( ref, (Object[])null );

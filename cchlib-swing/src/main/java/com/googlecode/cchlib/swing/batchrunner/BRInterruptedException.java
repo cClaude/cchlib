@@ -11,10 +11,13 @@ public class BRInterruptedException extends Exception
 {
     private static final long serialVersionUID = 1L;
     private Serializable customObject;
+    private boolean hide;
 
     public BRInterruptedException( Throwable cause )
     {
         super( cause );
+        
+        setHide( cause instanceof BRUserCancelException );
     }
 
     public BRInterruptedException( String message )
@@ -25,6 +28,8 @@ public class BRInterruptedException extends Exception
     public BRInterruptedException( String message, Throwable cause )
     {
         super( message, cause );
+        
+        setHide( cause instanceof BRUserCancelException );
     }
 
     /**
@@ -44,5 +49,24 @@ public class BRInterruptedException extends Exception
     public Serializable getCustomObject()
     {
         return this.customObject;
+    }
+
+    /**
+     * Returns true if exception should not be display to user, false otherwise
+     * @return true if exception should not be display to user, false otherwise
+     */
+    public boolean isHide()
+    {
+        return hide;
+    }
+
+    /**
+     * Set <code>hide</code> attribute.
+     * 
+     * @param hide <code>hide</code> attribute to set.
+     */
+    public void setHide( boolean hide )
+    {
+        this.hide = hide;
     }
 }

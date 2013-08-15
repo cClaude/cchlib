@@ -9,37 +9,44 @@ import com.googlecode.cchlib.NeedDoc;
 /**
  * 
  * @since 4.1.8
+ * @see BRUserCancelException
  */
 @NeedDoc
 public interface BRExecutionEvent 
 {
     /**
-     * 
-     * @return TODOC
+     * Returns current source {@link File} object
+     * @return current source file.
      */
-    @NeedDoc
     public File getSourceFile();
     
     /**
+     * Returns current source file {@link InputStream}. {@link InputStream} methods 
+     * could generate a {@link BRUserCancelException} to handle user cancel action.
      * 
-     * @return TODOC
-     * @throws FileNotFoundException 
+     * @return current source file {@link InputStream}.
+     * @throws FileNotFoundException if the file does not exist, is a directory rather than
+     *         a regular file, or for some other reason cannot be opened for reading.
+     * @throws SecurityException if a security manager exists and its checkRead
+     *         method denies read access to the file.
+     * @throws BRUserCancelException if an user cancel action occur
      */
-    @NeedDoc
-    public InputStream getInputStream() throws FileNotFoundException;
+    public InputStream getInputStream() throws FileNotFoundException, BRUserCancelException, SecurityException;
 
     /**
-     * 
-     * @return TODOC
+     * Returns current destination {@link File} object
+     * @return current destination file.
      */
-    @NeedDoc
     public File getDestinationFile();
     
     /**
-     * 
-     * @return TODOC
-     * @throws FileNotFoundException 
+     * Returns current destination file {@link InputStream}.
+     * @return current destination file {@link InputStream}.
+     * @throws FileNotFoundException if the file exists but is a directory rather than
+     *         a regular file, does not exist but cannot be created, or cannot be opened 
+     *         for any other reason
+     * @throws SecurityException if a security manager exists and its checkWrite method 
+     *         denies write access to the file.
      */
-    @NeedDoc
     public OutputStream getOutputStream() throws FileNotFoundException;
 }

@@ -8,7 +8,7 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
  *
  * @since 1.4.8
  */
-public interface BRLocaleResources
+public interface BRPanelLocaleResources
 {
     /**
      * @return localized text for Add source files button
