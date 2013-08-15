@@ -1,8 +1,7 @@
-package com.googlecode.cchlib.swing.batchrunner;
+package com.googlecode.cchlib.samples.swing.batchrunner;
 
 import java.awt.EventQueue;
 import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream; // $codepro.audit.disable unnecessaryImport
 import java.io.OutputStream; // $codepro.audit.disable unnecessaryImport
@@ -28,7 +27,6 @@ public class SimpleBatchRunnerSample
      */
     public static void main( String[] args )
     {
-        //final BRRunnable task = newSBRRunnableForFiles_DoesNothing();
         final BRRunnable task = newSBRRunnableForStreams_CopyFile();
 
         final BRPanelConfig             config                  = new DefaultBRPanelConfig();
@@ -102,26 +100,5 @@ public class SimpleBatchRunnerSample
                 logger.info( "DONE" );
             }
         };
-    }
-
-    private static void sleep( int millis )
-    {
-        try { Thread.sleep( millis ); } catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
-    }
-
-    private static BRRunnable newSBRRunnableForFiles_DoesNothing()
-    {
-        return new AbstractBRRunnable() {
-            @Override
-            public void execute( BRExecutionEvent event )
-                    throws BRExecutionException
-            {
-                File sourceFile      = event.getSourceFile();
-                File destinationFile = event.getDestinationFile();
-
-                logger.info( "DO execute() : " + sourceFile + " -> " + destinationFile );
-                sleep( 10 * 1000 );
-                logger.info( "DONE execute() : " + sourceFile + " -> " + destinationFile );
-            }};
     }
 }
