@@ -287,7 +287,6 @@ public class MessageDigestFile
      * @throws FileNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings("resource")
     public byte[] compute( final File file )
         throws FileNotFoundException,
                IOException
@@ -334,7 +333,6 @@ public class MessageDigestFile
      * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
-    @SuppressWarnings("resource")
     public byte[] compute(
             File                            file,
             Collection<cx.ath.choisnet.util.duplicate.DigestEventListener> listeners
@@ -396,7 +394,6 @@ public class MessageDigestFile
      * @throws FileNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings("resource")
     public byte[] computeInputStream(File file)
         throws FileNotFoundException,
                IOException
