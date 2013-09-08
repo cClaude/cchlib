@@ -1,10 +1,10 @@
-package samples.batchrunner.phone.recordsorter;
+package com.googlecode.cchlib.tools.phone.recordsorter;
 
 import java.awt.Image;
 import java.util.ResourceBundle;
-import samples.Samples;
 import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResources;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
+import com.googlecode.cchlib.tools.Tools;
 
 public class PhoneRecordSorterResources extends DefaultBRLocaleResources implements BRLocaleResourcesAgregator 
 {
@@ -33,6 +33,6 @@ public class PhoneRecordSorterResources extends DefaultBRLocaleResources impleme
     @Override
     public Image getFrameIconImage()
     {
-        return Samples.getSampleIconImage();
+        return Tools.getToolsIconImage();
     }
 }

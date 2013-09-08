@@ -1,4 +1,4 @@
-package samples.downloader.gdai.tumblr;
+package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.awt.Frame;
 import java.net.MalformedURLException;
@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
-import samples.downloader.AbstractDownloaderAppInterface;
-import samples.downloader.DefaultComboBoxConfig;
-import samples.downloader.GenericDownloaderAppInterface;
-import samples.downloader.GenericDownloaderAppUIResults;
-import samples.downloader.PolyURLDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
+import com.googlecode.cchlib.tools.downloader.PolyURLDownloadFileURL;
 
 /**
  *

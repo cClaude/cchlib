@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.io.File;
 import java.net.URL;

@@ -1,11 +1,9 @@
-package samples.batchrunner.phone.recordsorter.conf;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
 
 public abstract class AbstractConfig implements Config
 {

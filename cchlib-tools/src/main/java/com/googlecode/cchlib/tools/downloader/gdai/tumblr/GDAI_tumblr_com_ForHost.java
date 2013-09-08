@@ -1,12 +1,12 @@
-package samples.downloader.gdai.tumblr;
+package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.awt.Frame;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
-import samples.downloader.DefaultComboBoxConfig;
-import samples.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 class GDAI_tumblr_com_ForHost
     extends GDAI_tumblr_com

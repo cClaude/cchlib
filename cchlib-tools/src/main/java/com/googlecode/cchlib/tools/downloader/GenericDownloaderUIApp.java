@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.awt.EventQueue;
 import javax.swing.DefaultComboBoxModel;
@@ -21,8 +21,10 @@ import javax.swing.JButton;
 import org.apache.log4j.Logger;
 
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableBuilder;
+import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableModel;
+import com.googlecode.cchlib.tools.downloader.gdai.tumblr.GDAI_tumblr_com;
 
-import samples.downloader.display.table.DisplayTableModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -41,8 +43,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
-import samples.downloader.display.table.DisplayTableBuilder;
-import samples.downloader.gdai.tumblr.GDAI_tumblr_com;
 
 /**
  * Application starting class

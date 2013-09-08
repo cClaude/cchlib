@@ -1,8 +1,8 @@
-package samples.batchrunner.phone.recordsorter.conf.json;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.json;
 
-import samples.batchrunner.phone.recordsorter.conf.AbstractConfig;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.AbstractConfig;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 
 public class ConfigJSONImpl extends AbstractConfig implements Config
 {   

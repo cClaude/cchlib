@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.net.CookieStore;
 import java.net.HttpCookie;

@@ -1,15 +1,15 @@
-package samples.batchrunner.phone.recordsorter.core;
+package com.googlecode.cchlib.tools.phone.recordsorter.core;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 import com.googlecode.cchlib.io.filefilter.DirectoryFileFilter;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.ConfigDebug;
-import samples.batchrunner.phone.recordsorter.conf.ConfigFactory;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
-import samples.batchrunner.phone.recordsorter.conf.json.ConfigJSONFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigDebug;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.ConfigJSONFactory;
 
 public class BuildConf
 {

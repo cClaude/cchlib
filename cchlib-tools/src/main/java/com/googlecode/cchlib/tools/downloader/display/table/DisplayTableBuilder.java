@@ -1,4 +1,4 @@
-package samples.downloader.display.table;
+package com.googlecode.cchlib.tools.downloader.display.table;
 
 import java.awt.Desktop;
 import java.awt.Window;

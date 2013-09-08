@@ -1,4 +1,4 @@
-package samples.downloader.gdai.tumblr;
+package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;

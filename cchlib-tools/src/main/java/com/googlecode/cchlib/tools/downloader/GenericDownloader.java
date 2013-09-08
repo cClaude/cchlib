@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.awt.Dimension;
 import java.io.File;

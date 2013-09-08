@@ -1,4 +1,4 @@
-package samples.batchrunner.phone.recordsorter;
+package com.googlecode.cchlib.tools.phone.recordsorter;
 
 import java.io.File;
 import javax.swing.JFileChooser;

@@ -1,8 +1,8 @@
-package samples.batchrunner.phone.recordsorter.conf.xml;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.xml;
 
 import java.util.Set;
-import samples.batchrunner.phone.recordsorter.conf.AbstractContact;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.AbstractContact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 
 /**
  *

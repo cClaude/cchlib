@@ -1,14 +1,13 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
-import samples.downloader.GenericDownloaderUIPanelEntry.Item;
-
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 /**
  *

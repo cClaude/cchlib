@@ -1,4 +1,4 @@
-package samples.batchrunner.phone.recordsorter.conf.json;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.json;
 
 import java.util.Arrays;
 import java.util.List;

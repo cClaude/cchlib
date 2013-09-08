@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

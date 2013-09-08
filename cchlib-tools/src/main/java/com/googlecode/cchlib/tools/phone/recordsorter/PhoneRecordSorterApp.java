@@ -1,12 +1,10 @@
-package samples.batchrunner.phone.recordsorter;
+package com.googlecode.cchlib.tools.phone.recordsorter;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.File;
 import javax.swing.JTextPane;
 import org.apache.log4j.Logger;
-import samples.batchrunner.phone.recordsorter.conf.ConfigFactory;
-import samples.batchrunner.phone.recordsorter.conf.json.ConfigJSONFactory;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEventFactory;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelConfig;
@@ -14,6 +12,8 @@ import com.googlecode.cchlib.swing.batchrunner.ihm.BRActionListener;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrame;
 import com.googlecode.cchlib.swing.batchrunner.impl.BRExecutionEventFactoryImpl;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.ConfigJSONFactory;
 
 /**
  *
@@ -75,7 +75,7 @@ public class PhoneRecordSorterApp implements Runnable
             this.guiLogger = new JTextPane();
 
             frame.createFrame( actionListener );
-            frame.contentPanelAdd( guiLogger, BorderLayout.SOUTH );
+            frame.addToContentPanel( guiLogger, BorderLayout.SOUTH );
 
             frame.setVisible( true );
             }

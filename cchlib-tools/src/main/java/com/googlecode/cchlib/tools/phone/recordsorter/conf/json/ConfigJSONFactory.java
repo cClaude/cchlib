@@ -1,4 +1,4 @@
-package samples.batchrunner.phone.recordsorter.conf.json;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.json;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,11 +9,11 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.ConfigFactory;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
 
 public class ConfigJSONFactory implements ConfigFactory
 {

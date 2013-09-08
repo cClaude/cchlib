@@ -1,4 +1,4 @@
-package samples.batchrunner.tel.core;
+package com.googlecode.cchlib.tools.phone.recordsorter.core.old;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,13 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.ConfigDebug;
-import samples.batchrunner.phone.recordsorter.conf.ConfigFactory;
-import samples.batchrunner.phone.recordsorter.conf.json.ConfigJSONFactory;
-import samples.batchrunner.phone.recordsorter.core.DestinationFolders;
 import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.io.filefilter.FileFileFilter;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigDebug;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.ConfigJSONFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
 
 /**
  *

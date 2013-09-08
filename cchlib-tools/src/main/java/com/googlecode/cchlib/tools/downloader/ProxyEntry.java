@@ -1,4 +1,4 @@
-package samples.downloader;
+package com.googlecode.cchlib.tools.downloader;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;

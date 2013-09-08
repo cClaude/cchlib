@@ -1,4 +1,4 @@
-package samples.batchrunner.phone.recordsorter.conf;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf;
 
 /**
  *

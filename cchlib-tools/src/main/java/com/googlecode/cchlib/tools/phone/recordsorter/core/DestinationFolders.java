@@ -1,8 +1,8 @@
-package samples.batchrunner.phone.recordsorter.core;
+package com.googlecode.cchlib.tools.phone.recordsorter.core;
 
 import java.io.File;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 
 public class DestinationFolders
 {

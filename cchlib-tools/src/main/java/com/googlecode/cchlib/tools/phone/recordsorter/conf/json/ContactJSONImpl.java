@@ -1,10 +1,10 @@
-package samples.batchrunner.phone.recordsorter.conf.json;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.json;
 
 import java.util.List;
 import java.util.Set;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.AbstractContact;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 import flexjson.JSON;
-import samples.batchrunner.phone.recordsorter.conf.AbstractContact;
-import samples.batchrunner.phone.recordsorter.conf.Contact;
 
 public class ContactJSONImpl extends AbstractContact implements Contact
 {

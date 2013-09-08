@@ -1,11 +1,11 @@
-package samples.downloader.display.table;
+package com.googlecode.cchlib.tools.downloader.display.table;
 
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
-import samples.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 
 /**
 *

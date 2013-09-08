@@ -1,4 +1,4 @@
-package samples.batchrunner.phone.recordsorter.conf.xml;
+package com.googlecode.cchlib.tools.phone.recordsorter.conf.xml;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -7,8 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import samples.batchrunner.phone.recordsorter.conf.Config;
-import samples.batchrunner.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
 
 public class ConfigXMLFactory implements ConfigFactory 
 {

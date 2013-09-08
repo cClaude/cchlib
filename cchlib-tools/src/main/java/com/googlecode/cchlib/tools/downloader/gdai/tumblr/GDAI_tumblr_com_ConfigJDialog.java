@@ -1,4 +1,4 @@
-package samples.downloader.gdai.tumblr;
+package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
