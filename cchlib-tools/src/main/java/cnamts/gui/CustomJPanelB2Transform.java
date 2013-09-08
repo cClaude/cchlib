@@ -9,21 +9,19 @@ import javax.swing.JLabel;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerListModel;
-
-import com.googlecode.cchlib.swing.batchrunner.EnableListener;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 
 /**
  *
  */
+@Deprecated
 public class CustomJPanelB2Transform
     extends JPanel
-        implements EnableListener
+        implements com.googlecode.cchlib.swing.batchrunner.EnableListener
 {
     private static final long serialVersionUID = 1L;
     private JTextField extentionJTextField;

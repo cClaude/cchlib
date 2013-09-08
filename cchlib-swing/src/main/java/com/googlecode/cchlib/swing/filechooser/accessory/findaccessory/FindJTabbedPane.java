@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import org.apache.log4j.Logger;
 
 /**
  * Contains a collection of search options displayed as tabbed panes and
@@ -20,6 +21,8 @@ import javax.swing.JTabbedPane;
 class FindJTabbedPane extends JTabbedPane
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( FindJTabbedPane.class );
+    
     protected String            TAB_NAME = "Name";
     protected String            TAB_DATE = "Date";
     protected String            TAB_CONTENT = "Content";
@@ -115,6 +118,7 @@ class FindJTabbedPane extends JTabbedPane
             }
             catch (Throwable e) {
                 // The FindResults pane does not implement FindFilterFactory
+                logger.warn( "The FindResults pane does not implement FindFilterFactory", e );
             }
         }
         if( filters.isEmpty() ) {

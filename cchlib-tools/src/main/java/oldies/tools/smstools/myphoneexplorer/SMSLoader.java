@@ -26,7 +26,7 @@ public class SMSLoader
     }
 
     /**
-     * @param args
+     * @param f SMS File (CVS formated)
      * @throws IOException 
      * @throws ParseException 
      */

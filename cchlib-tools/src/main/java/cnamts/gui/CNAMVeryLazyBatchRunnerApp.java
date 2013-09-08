@@ -4,15 +4,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory;
-import com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchRunnerApp;
-import com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask;
-
 /**
  *
  */
-public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
-    extends VeryLazyBatchRunnerApp<TASK>
+@Deprecated
+public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask>
+    extends com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchRunnerApp<TASK>
 {
     private static final Logger logger = Logger.getLogger( CNAMVeryLazyBatchRunnerApp.class );
     private URL iconURL;
@@ -39,7 +36,7 @@ public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
      * @param resourceBundle
      */
     public CNAMVeryLazyBatchRunnerApp(
-        final LazyBatchRunnerCustomJPanelFactory customJPanelFactory,
+        final com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory customJPanelFactory,
         final ResourceBundle resourceBundle
         )
     {

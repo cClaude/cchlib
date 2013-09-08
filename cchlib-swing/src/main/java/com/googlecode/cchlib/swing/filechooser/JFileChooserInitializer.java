@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.EventObject;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
@@ -39,7 +40,7 @@ public class JFileChooserInitializer
      *  @since 4.1.6
      */
     private int attemptMax = 0;
-    
+
     /** @serial
      * @since 4.1.6
      */
@@ -131,7 +132,7 @@ public class JFileChooserInitializer
         if( this.configurator == null ) {
             throw new NullPointerException( "Parameter configurator is null" );
             }
-        
+
         init();
 
         UIManager.addPropertyChangeListener(
@@ -294,9 +295,10 @@ public class JFileChooserInitializer
 
             while( jFileChooser == null ) {
                 try {
-                    Thread.sleep( this.attemptDelay ); // default: 500
+                    TimeUnit.MILLISECONDS.sleep( this.attemptDelay ); // default: 500
+                    //Thread.sleep( this.attemptDelay ); // default: 500
                     }
-                catch( InterruptedException ignore ) { // $codepro.audit.disable logExceptions
+                catch( InterruptedException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
                     }
 
                 count++;

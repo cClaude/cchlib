@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import org.apache.log4j.Logger;
 
 //TODO: Optimizations
 
@@ -29,6 +30,7 @@ import javax.swing.SwingConstants;
 class FindByContentJPanel extends JPanel implements FindFilterFactory
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( FindByContentJPanel.class );
 
     /**
      * Find for the first occurrence of the text in this field.
@@ -44,7 +46,7 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
     FindByContentJPanel()
     {
         super();
-        
+
         setLayout(new BorderLayout());
 
         JPanel p = new JPanel();
@@ -107,7 +109,7 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             boolean             result  = false;
             BufferedInputStream in      = null;
             LocatorStream       locator = null;
-            
+
             try {
                 long fileLength = f.length();
                 in = new BufferedInputStream(new FileInputStream(f));
@@ -118,12 +120,12 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 else {
                     contentBytes = content.getBytes();
                     }
-                
+
                 locator = new LocatorStream(contentBytes);
                 long counter = 0;
                 int callbackCounter = 20; // Only call back every 20 bytes
                 int c = -1;
-                
+
                 while((c = in.read()) != -1) {
                     counter++;
                     int matchChar = c;
@@ -146,19 +148,19 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                         }
                     }
                 }
-            catch( LocatedException e ) {
+            catch( LocatedException e ) { // $codepro.audit.disable logExceptions
                 result = true;
                 }
             catch (Throwable e) {
+                logger.warn( "ContentFilter error", e );
                 }
             finally {
                 try { if (locator != null) { locator.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause
                 try { if (in != null) { in.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause
                 }
-            
+
             return result;
         }
-
 
         /**
             Thrown when a LocatorStream object finds a byte array.
@@ -179,10 +181,10 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
         }
 
         /**
-            Locate an array of bytes on the output stream. Throws
-            a LocatedStream exception for every occurrence of the byte
-            array.
-        */
+         * Locate an array of bytes on the output stream. Throws
+         * a LocatedStream exception for every occurrence of the byte
+         * array.
+         */
         class LocatorStream extends OutputStream
         {
             protected byte[]                locate = null;
@@ -209,15 +211,15 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 for( int i=matchMakers.size()-1; i>=0; i-- ) {
                     @SuppressWarnings("resource")
                     MatchStream m = matchMakers.elementAt(i);
-                   
+
                     try {
                         m.write(b);
                         }
-                    catch (MatchMadeException e) {
+                    catch (MatchMadeException e) { // $codepro.audit.disable logExceptions
                         foundAt = m.getMark();
                         matchMakers.removeElementAt(i);
                         }
-                    catch (IOException e) {
+                    catch (IOException e) { // $codepro.audit.disable logExceptions
                         // Match not made. Remove current matchMaker stream.
                         matchMakers.removeElementAt(i);
                         }
@@ -255,13 +257,12 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             }
 
             /**
-                Accept "output" as long as it matches a specified array of
-                bytes.
-                Throw a MatchMadeException when the bytes written equals
-                the match array.
-                Throw an IOException when a byte does not match. Ignore
-                everything after a match is made.
-            */
+             * Accept "output" as long as it matches a specified array of bytes.
+             * Throw a MatchMadeException when the bytes written equals the
+             * match array.
+             * Throw an IOException when a byte does not match. Ignore
+             * everything after a match is made.
+             */
             class MatchStream extends OutputStream
             {
                 protected long      mark = -1;

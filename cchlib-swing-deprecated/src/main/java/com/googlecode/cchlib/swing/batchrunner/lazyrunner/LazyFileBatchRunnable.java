@@ -2,7 +2,6 @@ package com.googlecode.cchlib.swing.batchrunner.lazyrunner;
 
 import java.io.File;
 import java.io.IOException;
-import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 
 /**
  * Methods that should be implements by customization.
@@ -24,5 +23,5 @@ public interface LazyFileBatchRunnable extends LazyBatchRunnable
         final File inputFile,
         final File outputFile
         )
-    throws IOException, BatchRunnerInterruptedException;
+    throws IOException, com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 }

@@ -3,20 +3,19 @@ package cnamts.gui;
 import java.io.File;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
-import cnamts.DelNonAlphaChar;
 import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory;
 
 /**
- *
+ * @deprecated no replacement - obsolete
  */
+@Deprecated
 public class B2Transform2App
-    extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>
+    extends CNAMVeryLazyBatchRunnerApp<cnamts.DelNonAlphaChar>
 {
     private static final Logger logger = Logger.getLogger( B2Transform2App.class );
 
     private B2Transform2App(
-        final LazyBatchRunnerCustomJPanelFactory customJPanelFactory
+        final com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory customJPanelFactory
         )
     {
         super( customJPanelFactory , null );
@@ -52,7 +51,7 @@ public class B2Transform2App
     //BEGIN: VeryLazyBatchRunnerApp
     //
     @Override//VeryLazyBatchRunnerApp
-    public DelNonAlphaChar buildTask()
+    public cnamts.DelNonAlphaChar buildTask()
     {
         CustomJPanelB2Transform panel = getCustomJPanelB2Transform();
 
@@ -62,7 +61,7 @@ public class B2Transform2App
         logger.info( "User getReplacementChar() = " + rCharacter );
         logger.info( "User getLineLength() = " + lineLength );
 
-        return new DelNonAlphaChar( rCharacter, lineLength );
+        return new cnamts.DelNonAlphaChar( rCharacter, lineLength );
     }
 
     @Override//VeryLazyBatchRunnerApp

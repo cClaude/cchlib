@@ -45,8 +45,8 @@ public class TestLocalConfigPanel
         try {
             this.testLocal.load();
             }
-        catch( FileNotFoundException e ) {
-            logger.warn( "No config to load" );
+        catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
+            logger.warn( "No config to load : " + e.getMessage() );
             }
         catch( IOException e ) {
             logger.error( "Can not load config", e );

@@ -39,19 +39,19 @@ class GDAI_tumblr_com_Config
         {
             return this.name;
         }
-        public void setName( String name )
-        {
-            this.name = name;
-        }
+//        public void setName( String name )
+//        {
+//            this.name = name;
+//        }
         @Override
         public String getDescription()
         {
             return this.description;
         }
-        public void setDescription( String description )
-        {
-            this.description = description;
-        }
+//        public void setDescription( String description )
+//        {
+//            this.description = description;
+//        }
     }
     
     /**

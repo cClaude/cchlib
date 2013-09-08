@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp;
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory;
 
 /**
  * TODOC
@@ -15,7 +12,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelF
  */
 @Deprecated
 public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
-    extends LazyBatchRunnerApp
+    extends com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp
         implements  VeryLazyBatchRunnerLocaleResources,
                     VeryLazyBatchRunner
 {
@@ -40,8 +37,8 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
      *        localization, could be null to use internal {@link ResourceBundle}.
      */
     public VeryLazyBatchRunnerApp(
-        final LazyBatchRunnerCustomJPanelFactory    customJPanelFactory,
-        final ResourceBundle                        resourceBundle
+        final com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory customJPanelFactory,
+        final ResourceBundle resourceBundle
         )
     {
         super( customJPanelFactory, resourceBundle );
@@ -58,7 +55,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
      * Implementation must build a valid destination file for
      * giving sourceFile, output File must be store under
      * output folder select by user
-     * (see {@link LazyBatchRunnerApp#getOutputFolderFile()}).
+     * (see {@link com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp#getOutputFolderFile()}).
      *
      * @param destinationFolderFile Destination directory {@link File} object
      * @param sourceFile Source {@link File} object
@@ -88,7 +85,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
 
     @Override//LazyBatchRunner
     public File buildOuputFile( final File sourceFile )
-            throws BatchRunnerInterruptedException
+            throws com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException
     {
         final File  destinationFolderFile   = super.getOutputFolderFile();
 
@@ -123,7 +120,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
         final VeryLazyBatchRunnerLocaleResources local,
         final VeryLazyBatchRunner                tools
         )
-            throws BatchRunnerInterruptedException
+            throws com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException
     {
         //final File  destinationFolderFile   = super.getOutputFolderFile();
         File        outputFile              = outputFileFirstTry;//buildBasicOuputFile( destinationFolderFile, sourceFile );
@@ -156,8 +153,8 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
 
                 //case JOptionPane.CANCEL_OPTION :
                 default : {
-                    BatchRunnerInterruptedException e
-                        = new BatchRunnerInterruptedException( "File already exist" );
+                    com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException e
+                        = new com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException( "File already exist" );
 
                     e.setCustomObject( outputFile );
 

@@ -9,13 +9,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
-import com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask;
 
 /**
  *
  */
-public class DelNonAlphaChar implements VeryLazyBatchTask
+@Deprecated
+public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask
 {
     public final static char REPLACEMENT_CHAR = '#';
     public final static int DEFAULT_LINE_SIZE = 128;
@@ -104,8 +103,8 @@ public class DelNonAlphaChar implements VeryLazyBatchTask
     public void runTask(
         final InputStream   inputStream,
         final OutputStream  outputStream
-        ) throws    IOException,
-                    BatchRunnerInterruptedException
+        ) throws IOException,
+                 com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException
     {
         delNonAlphaChar( inputStream, outputStream );
     }

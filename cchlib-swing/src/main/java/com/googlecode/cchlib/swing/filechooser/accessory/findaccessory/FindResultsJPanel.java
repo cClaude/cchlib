@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import org.apache.log4j.Logger;
 
 /**
  * Appears as a special pane within the FindOptions tabbed panel.
@@ -23,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 class FindResultsJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( FindResultsJPanel.class );
+
     protected DefaultListModel<File>  model = null;
     protected JList<File>             fileList = null;
 
@@ -57,6 +60,7 @@ class FindResultsJPanel extends JPanel
                         jFileChooserSelector.goTo(f);
                     }
                     catch (Throwable err) {
+                        logger.warn( "FindResultsJPanel - MouseListener", err );
                     }
                 }
             }

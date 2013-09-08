@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.swing.batchrunner.lazy;
 
-import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
-
 /**
  * Text for localization of {@link LazyBatchRunnerApp}
  *
@@ -9,7 +7,7 @@ import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
  */
 @Deprecated
 public interface LazyBatchRunnerLocaleResources
-    extends BatchRunnerPanelLocaleResources
+    extends com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources
 {
     /**
      * @return localized text for end of batch message

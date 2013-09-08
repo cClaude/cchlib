@@ -10,19 +10,19 @@ public interface ContactPropertiesBuilder
 {
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Collection<? extends String> getNames();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Collection<? extends ContactValueType> getTypes();
 
     /**
      *
-     * @return
+     * @return TODOC
      */
     public Collection<? extends String> getDefaultValues();
 }

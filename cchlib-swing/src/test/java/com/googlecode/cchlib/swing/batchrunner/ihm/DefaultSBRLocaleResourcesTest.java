@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.junit.*;
-import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResources;
-import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelLocaleResources;
 import static org.junit.Assert.*;
 
 /**

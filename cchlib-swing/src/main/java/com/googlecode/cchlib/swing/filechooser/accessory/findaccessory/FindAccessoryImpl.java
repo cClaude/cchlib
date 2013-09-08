@@ -352,7 +352,7 @@ public class FindAccessoryImpl
         updateFindDirectory();
         killFind = false;
         if( searchThread == null ) {
-            searchThread = new Thread(this);
+            searchThread = new Thread( this, "FindAccessoryImpl" );
             }
         if( searchThread != null ) {
             searchThread.start();
@@ -395,7 +395,7 @@ public class FindAccessoryImpl
             actionStop.setEnabled(true);
             runFind(chooser.getCurrentDirectory(),newFind());
             }
-        catch (InterruptedException e) { // $codepro.audit.disable emptyCatchClause
+        catch (InterruptedException e) { // $codepro.audit.disable emptyCatchClause, logExceptions
             }
         finally {
             actionStart.setEnabled(true);

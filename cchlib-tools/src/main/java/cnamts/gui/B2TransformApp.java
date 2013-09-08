@@ -2,14 +2,14 @@ package cnamts.gui;
 
 import java.io.File;
 import org.apache.log4j.Logger;
-import cnamts.DelNonAlphaChar;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 /**
  *
  */
+@Deprecated
 public class B2TransformApp
-    extends CNAMVeryLazyBatchRunnerApp<DelNonAlphaChar>
+    extends CNAMVeryLazyBatchRunnerApp<cnamts.DelNonAlphaChar>
 {
     private static final Logger logger = Logger.getLogger( B2TransformApp.class );
     private B2TransformApp() {}
@@ -34,10 +34,10 @@ public class B2TransformApp
     //BEGIN: VeryLazyBatchRunnerApp
     //
     @Override//VeryLazyBatchRunnerApp
-    public DelNonAlphaChar buildTask()
+    public cnamts.DelNonAlphaChar buildTask()
     {
-         return new DelNonAlphaChar(
-             new Character( DelNonAlphaChar.REPLACEMENT_CHAR ),
+         return new cnamts.DelNonAlphaChar(
+             new Character( cnamts.DelNonAlphaChar.REPLACEMENT_CHAR ),
              new Integer( 128 )
              );
     }

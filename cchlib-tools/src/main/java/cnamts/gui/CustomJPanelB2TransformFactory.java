@@ -2,14 +2,12 @@ package cnamts.gui;
 
 import javax.swing.JPanel;
 
-import com.googlecode.cchlib.swing.batchrunner.EnableListener;
-import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory;
-
 /**
  *
  */
+@Deprecated
 public class CustomJPanelB2TransformFactory
-     implements LazyBatchRunnerCustomJPanelFactory
+     implements com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory
 {
     private CustomJPanelB2Transform customJPanelB2Transform;
 
@@ -35,7 +33,7 @@ public class CustomJPanelB2TransformFactory
     }
 
     @Override
-    public EnableListener getEnableListener()
+    public com.googlecode.cchlib.swing.batchrunner.EnableListener getEnableListener()
     {
         return getCustomJPanel();
     }

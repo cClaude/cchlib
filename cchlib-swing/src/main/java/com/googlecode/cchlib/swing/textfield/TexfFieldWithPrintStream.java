@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import javax.swing.AbstractAction;
 import javax.swing.JTextArea;
+import org.apache.log4j.Logger;
 
 /**
  * TODOC
@@ -17,6 +18,7 @@ import javax.swing.JTextArea;
 public class TexfFieldWithPrintStream extends JTextArea
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( TexfFieldWithPrintStream.class );
 
     private final File          logFile;
     private final PrintStream   ps;
@@ -101,6 +103,9 @@ public class TexfFieldWithPrintStream extends JTextArea
             setCaretPosition( Math.max( 0, totalLength - 1 ));
             }
         catch( IllegalArgumentException ignore ) {
+            if( logger.isTraceEnabled() ) {
+                logger.trace( "updateCaret() ", ignore );
+                }
             }
     }
 
