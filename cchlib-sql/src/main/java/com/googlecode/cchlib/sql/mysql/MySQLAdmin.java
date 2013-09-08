@@ -76,7 +76,6 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
-    @SuppressWarnings("resource")
     public void createSQLDumpFile(File outputFile)
         throws MySQLAdminException
     {
@@ -106,7 +105,6 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
-    @SuppressWarnings("resource")
     public void createSQLDumpFile(OutputStream servletOuput, File outputFile)
         throws MySQLAdminException
     {
