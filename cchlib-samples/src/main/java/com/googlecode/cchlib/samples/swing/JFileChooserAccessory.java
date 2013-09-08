@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.samples.swing;
 
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;

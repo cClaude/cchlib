@@ -6,7 +6,7 @@ import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
- * Just here to get {@link Samples}.class
+ * Default resources for samples
  */
 public class Samples 
 {

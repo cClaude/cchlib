@@ -5,12 +5,14 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream; // $codepro.audit.disable unnecessaryImport
 import java.io.OutputStream; // $codepro.audit.disable unnecessaryImport
+import com.googlecode.cchlib.samples.Samples;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.AbstractBRRunnable;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEvent;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEventFactory;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionException;
 import com.googlecode.cchlib.swing.batchrunner.BRRunnable;
+import com.googlecode.cchlib.swing.batchrunner.BRUserCancelException;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelConfig;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelLocaleResources;
 import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResources;
@@ -20,14 +22,29 @@ import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrame;
 import com.googlecode.cchlib.swing.batchrunner.impl.BRExecutionEventFactoryImpl;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 
-public class SimpleBatchRunnerSample
+/**
+ * A simple sample using {@link BRFrame}
+ * 
+ * @see BRPanelConfig
+ * @see DefaultBRPanelConfig
+ * @see BRPanelLocaleResources
+ * @see DefaultBRLocaleResources
+ * @see BRXLocaleResources
+ * @see BRFrame
+ * @see BRExecutionEventFactory
+ * @see BRExecutionEventFactoryImpl
+ * @see BRActionListener
+ * @see BRRunnable
+ * @see AbstractBRRunnable
+ */
+public class SimpleBatchRunnerSample extends AbstractBRRunnable
 {
     /**
      * Launch the application.
      */
     public static void main( String[] args )
     {
-        final BRRunnable task = newSBRRunnableForStreams_CopyFile();
+        final BRRunnable task = new SimpleBatchRunnerSample();
 
         final BRPanelConfig             config                  = new DefaultBRPanelConfig();
         final BRPanelLocaleResources    panelLocaleResources    = new DefaultBRLocaleResources();
@@ -35,17 +52,17 @@ public class SimpleBatchRunnerSample
             @Override
             public String getProgressMonitorMessage()
             {
-                return "Working....";
+                return "Copy in progress...";
             }
             @Override
             public String getFrameTitle()
             {
-                return "Sample !";
+                return "Sample ! Just copie selected files into a other folder";
             }
             @Override
             public Image getFrameIconImage()
             {
-                return null;
+                return Samples.getSampleIconImage();
             }
         };
  
@@ -71,34 +88,32 @@ public class SimpleBatchRunnerSample
         } );
     }
 
-    private static BRRunnable newSBRRunnableForStreams_CopyFile()
+    @Override
+    public void execute( BRExecutionEvent event )
+        throws BRUserCancelException, BRExecutionException
     {
-        return new AbstractBRRunnable() {
-            @Override
-            public void execute( BRExecutionEvent event )
-                    throws BRExecutionException
-            {
-                logger.info( "DO execute()" );
+        logger.info( "DO execute()" );
 
-                try( InputStream is = event.getInputStream() ) {
-                    try( OutputStream os = event.getOutputStream() ) {
-                        assert is != null;
-                        assert os != null;
+        if( event.getDestinationFile().exists() ) {
+            logger.warn( "Destination File already exist : " + event.getDestinationFile() );
+        } else {
+            try( InputStream is = event.getInputStream() ) {
+                try( OutputStream os = event.getOutputStream() ) {
+                    assert is != null;
+                    assert os != null;
 
-                        byte[] buffer = new byte[256];
-                        int    len;
+                    byte[] buffer = new byte[256];
+                    int    len;
 
-                        while( (len = is.read( buffer )) != -1 ) {
-                            os.write( buffer, 0, len );
-                            }
+                    while( (len = is.read( buffer )) != -1 ) {
+                        os.write( buffer, 0, len );
                         }
                     }
-                catch( IOException e ) {
-                    throw new BRExecutionException( e );
-                    }
-
-                logger.info( "DONE" );
-            }
-        };
+                }
+            catch( IOException e ) {
+                throw new BRExecutionException( e );
+                }
+            logger.info( "DONE" );
+        }
     }
 }
