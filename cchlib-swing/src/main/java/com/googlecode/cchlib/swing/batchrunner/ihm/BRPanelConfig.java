@@ -2,10 +2,11 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 
 import java.io.File;
 import java.io.FileFilter;
+import javax.swing.JFileChooser;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * Configuration for {@link BRPanel}
+ * Provided {@link BRPanel} configuration
  *
  * @since 4.1.8
  */
@@ -21,12 +22,14 @@ public interface BRPanelConfig
     /**
      *
      * @return TODOC
+     * @see JFileChooser#setFileSelectionMode(int)
      */
     public int getSourceFilesFileSelectionMode();
 
     /**
      *
      * @return TODOC
+     * @see JFileChooser#setFileSelectionMode(int)
      */
     public int getDestinationFolderFileSelectionMode();
 

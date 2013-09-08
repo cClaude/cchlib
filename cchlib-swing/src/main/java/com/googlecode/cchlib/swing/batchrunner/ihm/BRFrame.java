@@ -73,24 +73,24 @@ public class BRFrame extends JFrame
         setSize( 450, 300 );
         this.contentPane = new JPanel();
 
-        contentPanelSetLayout( this.contentPane );
+        setLayoutForContentPanel( this.contentPane );
         setContentPane( this.contentPane );
 
         this.panel = new BRPanel( actionListener, this.panelLocaleResources );
         //$hide>>$
         actionListener.setSBRPanel( this.panel );
         //$hide<<$
-        contentPanelAdd( this.panel );
+        addToContentPanel( this.panel );
     }
 
     /**
      * This method is design to be override for a custom layout
      *
      * @param contentPane JPanel build by {@link #createFrame(BRActionListener)}
-     * @see #contentPanelAdd(BRPanel)
-     * @see #contentPanelAdd(Component, Object)
+     * @see #addToContentPanel(BRPanel)
+     * @see #addToContentPanel(Component, Object)
      */
-    public void contentPanelSetLayout( JPanel contentPane )
+    public void setLayoutForContentPanel( JPanel contentPane )
     {
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
@@ -100,22 +100,27 @@ public class BRFrame extends JFrame
      * This method is design to be override for a custom layout
      *
      * @param panel SBRPanel build by {@link #createFrame(BRActionListener)}
-     * @see #contentPanelSetLayout(JPanel)
-     * @see #contentPanelAdd(Component, Object)
+     * @see #setLayoutForContentPanel(JPanel)
+     * @see #addToContentPanel(Component, Object)
      */
-    public void contentPanelAdd( BRPanel panel )
+    public void addToContentPanel( BRPanel panel )
     {
         this.contentPane.add(panel, BorderLayout.CENTER);
     }
 
     /**
-     * This method is design to be use with a custom layout
+     * This method is design to be use with a custom layout.
+     * <br/>
+     * Example :
+     * <pre><code>
+     *   {@link #addToContentPanel}( panel, BorderLayout.WEST );
+     * </code></pre>
      *
      * @param comp the component to be added
-     * @see #contentPanelSetLayout(JPanel)
-     * @see #contentPanelAdd(BRPanel)
+     * @see #setLayoutForContentPanel(JPanel)
+     * @see #addToContentPanel(BRPanel)
      */
-    public void contentPanelAdd( Component comp, Object constraints )
+    public void addToContentPanel( Component comp, Object constraints )
     {
         this.contentPane.add( comp, constraints );
     }

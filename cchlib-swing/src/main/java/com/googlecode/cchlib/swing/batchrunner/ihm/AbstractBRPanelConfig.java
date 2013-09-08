@@ -7,6 +7,7 @@ import com.googlecode.cchlib.io.filefilter.FileFileFilter;
 import com.googlecode.cchlib.io.filefilter.TrueFileFilter;
 
 /**
+ * Common implentation.
  *
  * @since 4.1.8
  */
@@ -16,11 +17,18 @@ public abstract class AbstractBRPanelConfig implements BRPanelConfig
     private int lastSelectionMode;
 
     /**
+     * {@inheritDoc}
+     * 
+     * Returns a {@link FileFilter} based on result of {@link #getSourceFilesFileSelectionMode()}.
+     * 
      * @return a new {@link FileFilter} according 
      * to {@link #getSourceFilesFileSelectionMode()} result.
+     * @see FileFileFilter
+     * @see DirectoryFileFilter
+     * @see TrueFileFilter
      */
     @Override
-    public synchronized FileFilter getSourceFileFilter()
+    final public synchronized FileFilter getSourceFileFilter()
     {
         if( fileFilter == null ) {
             resolveSourceFileFilter();
@@ -56,6 +64,8 @@ public abstract class AbstractBRPanelConfig implements BRPanelConfig
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @return {@link JFileChooser#FILES_ONLY}
      */
     @Override
@@ -65,6 +75,8 @@ public abstract class AbstractBRPanelConfig implements BRPanelConfig
     }
 
     /**
+     *  {@inheritDoc}
+     *  
      * @return {@link JFileChooser#DIRECTORIES_ONLY}
      */
     @Override
