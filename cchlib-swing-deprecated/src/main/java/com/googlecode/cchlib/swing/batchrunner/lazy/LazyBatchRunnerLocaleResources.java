@@ -7,6 +7,7 @@ import com.googlecode.cchlib.swing.batchrunner.BatchRunnerPanelLocaleResources;
  *
  * @since 1.4.7
  */
+@Deprecated
 public interface LazyBatchRunnerLocaleResources
     extends BatchRunnerPanelLocaleResources
 {

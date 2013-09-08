@@ -13,6 +13,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelF
  *
  * @since 1.4.7
  */
+@Deprecated
 public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
     extends LazyBatchRunnerApp
         implements  VeryLazyBatchRunnerLocaleResources,

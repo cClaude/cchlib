@@ -5,6 +5,7 @@ package com.googlecode.cchlib.swing.batchrunner;
  *
  * @since 1.4.7
  */
+@Deprecated
 public class BatchRunnerInterruptedException extends Exception
 {
     private static final long serialVersionUID = 2L;

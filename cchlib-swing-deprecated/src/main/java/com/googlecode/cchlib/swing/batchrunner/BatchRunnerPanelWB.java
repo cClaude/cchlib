@@ -30,6 +30,7 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
  * @see DefaultBatchRunnerJFrame
  * @since 4.1.7
  */
+@Deprecated
 public abstract class BatchRunnerPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;

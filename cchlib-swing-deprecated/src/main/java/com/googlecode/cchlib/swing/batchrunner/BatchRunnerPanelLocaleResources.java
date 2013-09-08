@@ -7,6 +7,7 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
  *
  * @since 1.4.7
  */
+@Deprecated
 public interface BatchRunnerPanelLocaleResources
 {
     /**

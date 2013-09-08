@@ -30,6 +30,7 @@ import com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyStreamBatchRunnabl
  *
  * @since 1.4.7
  */
+@Deprecated
 public class DefaultBatchRunnerJFrame extends JFrame
 {
     private static final transient Logger logger = Logger.getLogger( DefaultBatchRunnerJFrame.class );

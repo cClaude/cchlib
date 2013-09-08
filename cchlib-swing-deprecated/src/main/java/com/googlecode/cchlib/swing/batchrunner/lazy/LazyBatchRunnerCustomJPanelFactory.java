@@ -12,6 +12,7 @@ import com.googlecode.cchlib.swing.batchrunner.EnableListener;
  *
  * @since 1.4.7
  */
+@Deprecated
 public interface LazyBatchRunnerCustomJPanelFactory
 {
     /**

@@ -7,8 +7,9 @@ import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 /**
  * Methods that should be implements by customization.
  *
- * @since 1.4.8
+ * @since 1.4.7
  */
+@Deprecated
 public interface LazyFileBatchRunnable extends LazyBatchRunnable
 {
     /**

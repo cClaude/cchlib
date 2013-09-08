@@ -10,6 +10,7 @@ import java.io.File;
  * 
  * @since 1.4.7
  */
+@Deprecated
 public interface VeryLazyBatchRunner
 {
     /**

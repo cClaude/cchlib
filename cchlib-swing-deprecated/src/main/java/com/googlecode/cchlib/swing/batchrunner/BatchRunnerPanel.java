@@ -23,6 +23,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
  * Warning: Top level ancestor must be a {@link Window}
  * @since 1.4.7
  */
+@Deprecated
 public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
 {
     private static final long serialVersionUID = 1L;

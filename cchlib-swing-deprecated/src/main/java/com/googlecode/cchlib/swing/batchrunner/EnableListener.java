@@ -9,6 +9,7 @@ import java.util.EventListener;
  * commands when defaults commands are disabled.
  *
  */
+@Deprecated
 public interface EnableListener extends EventListener
 {
     /**

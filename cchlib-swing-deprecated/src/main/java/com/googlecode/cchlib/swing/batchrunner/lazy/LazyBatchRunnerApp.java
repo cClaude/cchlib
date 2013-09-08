@@ -12,8 +12,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.batchrunner.EnableListener;
-import com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyBatchRunnable;
 
 /**
  * This class is provide to build a quick application able
@@ -22,8 +20,9 @@ import com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyBatchRunnable;
  *
  * @since 1.4.7
  */
+@Deprecated
 public abstract class LazyBatchRunnerApp
-    implements  LazyBatchRunnable,
+    implements  com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyBatchRunnable,
                 LazyBatchRunnerLocaleResources
 {
     private final static Logger logger = Logger.getLogger( LazyBatchRunnerApp.class );
@@ -74,9 +73,9 @@ public abstract class LazyBatchRunnerApp
                         return null;
                     }
                     @Override
-                    public EnableListener getEnableListener()
+                    public com.googlecode.cchlib.swing.batchrunner.EnableListener getEnableListener()
                     {
-                        return new EnableListener()
+                        return new com.googlecode.cchlib.swing.batchrunner.EnableListener()
                         {
                             @Override
                             public void setEnabled(boolean enable) {}
