@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * @deprecated use {@link InputStreamHelper} instead
  */
 @Deprecated
-public class StreamHelper
+public final class StreamHelper
 {
     private final static int DEFAULT_BUFFER_SIZE = 4096;
 

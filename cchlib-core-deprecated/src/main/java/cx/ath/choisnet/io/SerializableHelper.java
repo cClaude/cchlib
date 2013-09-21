@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @deprecated use {@link com.googlecode.cchlib.io.SerializableHelper} instead.
  */
 @Deprecated
-public class SerializableHelper
+public final class SerializableHelper
 {
     private SerializableHelper()
     {//All static !
@@ -112,7 +112,7 @@ public class SerializableHelper
         throws IOException, ClassNotFoundException
     {
         final InputStream input = new FileInputStream( aFile );
-        
+
         try {
             final ObjectInputStream ois = new ObjectInputStream( input );
 
@@ -128,7 +128,7 @@ public class SerializableHelper
         finally {
             input.close();
             }
- 
+
      }
 
     /**
@@ -148,7 +148,7 @@ public class SerializableHelper
         throws IOException
     {
         final OutputStream output = new FileOutputStream( aFile );
-        
+
         try {
             final ObjectOutputStream oos = new ObjectOutputStream( output );
 

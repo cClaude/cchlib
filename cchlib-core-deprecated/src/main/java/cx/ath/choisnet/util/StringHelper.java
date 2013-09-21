@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @deprecated use {@link com.googlecode.cchlib.lang.StringHelper} instead
  */
 @Deprecated
-public class StringHelper
+public final class StringHelper
 {
 
     /**

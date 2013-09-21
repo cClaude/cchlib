@@ -15,7 +15,7 @@ import cx.ath.choisnet.util.ArrayHelper;
  * @deprecated use {@link com.googlecode.cchlib.util.iterator.Iterators} instead
  */
 @Deprecated
-public class IteratorHelper
+public final class IteratorHelper
 {
     private IteratorHelper()
     {//All static
