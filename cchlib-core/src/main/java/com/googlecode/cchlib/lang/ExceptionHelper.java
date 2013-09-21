@@ -7,7 +7,7 @@ import java.io.Writer;
 /**
  * Utilities for managing {@link Throwable} objects
  */
-public class ExceptionHelper
+public final class ExceptionHelper
 {
     private ExceptionHelper()
     {
@@ -16,7 +16,7 @@ public class ExceptionHelper
     /**
      * Returns stack trace into a String
      * @param aThrowable Exception where one wishes retrieve the stack
-     * @return String with Stack trace 
+     * @return String with Stack trace
      */
     public static String getStackTrace(
         final Throwable aThrowable

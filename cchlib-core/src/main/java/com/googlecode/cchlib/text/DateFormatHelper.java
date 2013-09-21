@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
  * Provide some commons {@link DateFormat} factories
  * @since 4.1.6
  */
-public class DateFormatHelper {
+public final class DateFormatHelper {
 
     private DateFormatHelper() {} // All static
 

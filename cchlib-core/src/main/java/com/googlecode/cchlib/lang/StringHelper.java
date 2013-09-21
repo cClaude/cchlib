@@ -3,10 +3,10 @@ package com.googlecode.cchlib.lang;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  * @since 4.1.7
  */
-public class StringHelper
+public final class StringHelper
 {
     private StringHelper() {} // ALl static
     public final static String EMPTY = "";
@@ -20,7 +20,7 @@ public class StringHelper
     {
         return str == null ? EMPTY : str;
     }
-    
+
     /**
      * Splits this string around matches of the given token
      * <p>

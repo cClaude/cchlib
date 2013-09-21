@@ -14,10 +14,10 @@ import com.googlecode.cchlib.util.iterator.Selectable;
  */
 @NeedDoc
 @NeedTestCases
-public class XIterables
+public final class XIterables
 {
     private XIterables() {}
-    
+
     /**
      * Guava like function for {@link #wrap(Iterable, Wrappable)}
      */
@@ -25,13 +25,13 @@ public class XIterables
     {
         return wrap( fromIterable, function );
     }
-    
- 
+
+
     /**
      * Returns an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
      * <p>
      * The returned iterable's iterator supports remove() if the provided iterator does.
-     * After a successful remove() call, <code>iterable</code> no longer contains the 
+     * After a successful remove() call, <code>iterable</code> no longer contains the
      * corresponding element.
      * </p>
      * @param iterable

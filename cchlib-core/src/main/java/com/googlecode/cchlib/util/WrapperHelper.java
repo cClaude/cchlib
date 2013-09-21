@@ -9,7 +9,7 @@ import java.util.Enumeration;
  * @param <O>
  * @since 4.1.7
  */
-public class WrapperHelper<T,O>
+public final class WrapperHelper<T,O>
 {
     private WrapperHelper()
     {//All static
@@ -31,7 +31,7 @@ public class WrapperHelper<T,O>
             }
         };
     }
-    
+
     /**
      * Wrap an Enumeration.
      *

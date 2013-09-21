@@ -13,7 +13,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 /**
  * Extra tools for {@link Properties}.
  */
-public class PropertiesHelper
+public final class PropertiesHelper
 {
     private PropertiesHelper()
     { // All static
@@ -41,10 +41,10 @@ public class PropertiesHelper
            is.close();
            }
        }
-    
+
     /**
-    * Create a {@link Properties} from a <code>ressourceName</code> 
-      * 
+    * Create a {@link Properties} from a <code>ressourceName</code>
+      *
      * @param classLoader   {@link ClassLoader} to use to find resource
      * @param resourceName  Resource name
      * @return a {@link Properties} filled with value found on resource.
@@ -53,7 +53,7 @@ public class PropertiesHelper
      */
     public static Properties getResourceAsProperties(
         final ClassLoader classLoader,
-        final String      resourceName 
+        final String      resourceName
         ) throws IOException, IllegalArgumentException
     {
         InputStream is = classLoader.getResourceAsStream( resourceName );
@@ -65,7 +65,7 @@ public class PropertiesHelper
             is.close();
             }
     }
-    
+
     private static Properties loadProperties( InputStream is ) throws IOException, IllegalArgumentException
     {
         Properties  properties = new Properties();
@@ -115,18 +115,18 @@ public class PropertiesHelper
 
     /**
      * Create a new {@link Properties} object with shadow copy of <code>propertiesMap</code>
-     * 
+     *
      * @param propertiesMap Map to clone
      * @return a new {@link Properties}
      */
     public static Properties cloneFrom( final Map<String,String> propertiesMap )
     {
         Properties properties = new Properties();
-        
+
         for( Map.Entry<String,String> entry : propertiesMap.entrySet() ) {
             properties.put( entry.getKey(), entry.getValue() );
             }
-        
+
         return properties;
     }
 

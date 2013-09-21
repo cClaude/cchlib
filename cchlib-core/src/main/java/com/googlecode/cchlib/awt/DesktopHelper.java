@@ -8,7 +8,7 @@ import java.net.URL;
  *
  * @since 4.1.6
  */
-public class DesktopHelper
+public final class DesktopHelper
 {
     private DesktopHelper()
     {

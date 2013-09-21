@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
  * TODOC
  *
  */
-public class XMLHelper
+public final class XMLHelper
 {
    private final static Logger logger = Logger.getLogger( XMLHelper.class );
 

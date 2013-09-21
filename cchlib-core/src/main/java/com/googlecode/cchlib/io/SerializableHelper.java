@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
  *
  * @see Serializable
  */
-public class SerializableHelper
+public final class SerializableHelper
 {
     private SerializableHelper()
     {//All static !

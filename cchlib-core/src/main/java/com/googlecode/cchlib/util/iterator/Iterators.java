@@ -7,10 +7,10 @@ import java.util.Iterator;
  * This class consists exclusively of static methods
  * that operate on iterators or return iterators.
  */
-public class Iterators
+public final class Iterators
 {
     private Iterators()
-    {//empty
+    {//All static
     }
 
     /**
@@ -105,10 +105,10 @@ public class Iterators
         private T firstElement;
         private boolean firstDone = false;
         private Iterator<T> iterator;
-        
+
         public UnmodifiableIterator2(
             final T             firstElement,
-            final Iterator<T>   iterator 
+            final Iterator<T>   iterator
             )
         {
             this.firstElement = firstElement;
@@ -144,7 +144,7 @@ public class Iterators
     private static class IteratortoEnumeration<T> implements Enumeration<T>
     {
         private Iterator<T> iterator;
-        
+
         public IteratortoEnumeration( Iterator<T> iterator )
         {
             this.iterator = iterator;

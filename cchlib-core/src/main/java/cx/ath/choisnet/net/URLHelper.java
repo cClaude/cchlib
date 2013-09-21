@@ -18,7 +18,7 @@ import com.googlecode.cchlib.io.IOHelper;
 /**
  * Extra tools for {@link URL}
  */
-public class URLHelper
+public final class URLHelper
 {
 
     private URLHelper()
@@ -72,9 +72,6 @@ public class URLHelper
         try {
             IOHelper.copy(input, output);
             }
-        catch( IOException e ) {
-            throw e;
-            }
         finally {
             input.close();
             }
@@ -104,10 +101,7 @@ public class URLHelper
             try {
                 IOHelper.copy( input, output );
                 }
-            catch( IOException e ) {
-                throw e;
-                }
-            finally {
+             finally {
                 output.close();
                 }
             }
@@ -130,9 +124,6 @@ public class URLHelper
 
         try {
             IOHelper.copy(input, output);
-            }
-        catch( IOException e ) {
-            throw e;
             }
         finally {
             input.close();
@@ -159,9 +150,6 @@ public class URLHelper
 
         try {
             IOHelper.copy(input, output);
-            }
-        catch( IOException e ) {
-            throw e;
             }
         finally {
             input.close();
