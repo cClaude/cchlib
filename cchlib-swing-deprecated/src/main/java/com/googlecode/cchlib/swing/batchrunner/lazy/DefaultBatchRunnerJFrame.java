@@ -156,7 +156,7 @@ public class DefaultBatchRunnerJFrame extends JFrame
                 private_runTask_Throwable( LazyStreamBatchRunnable.class.cast( lazyBatchRunnable ), sourceFile, destinationFile );
                 }
             else {
-                throw new IllegalStateException( "Not a LazyFileBatchRunnable nor a LazyStreamBatchRunnable: " + lazyBatchRunnable); // FIXME
+                throw new IllegalStateException( "Not a LazyFileBatchRunnable nor a LazyStreamBatchRunnable: " + lazyBatchRunnable); // FIX ME
                 }
 
             this.batchRunnerPanel.setCurrentMessage(

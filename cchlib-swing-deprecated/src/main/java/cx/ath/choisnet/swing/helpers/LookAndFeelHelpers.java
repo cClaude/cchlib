@@ -18,7 +18,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 @Deprecated
-public class LookAndFeelHelpers
+public final class LookAndFeelHelpers
 {
     private LookAndFeelHelpers()
     {//All static
