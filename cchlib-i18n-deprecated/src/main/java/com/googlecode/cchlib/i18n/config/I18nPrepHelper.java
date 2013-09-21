@@ -17,7 +17,7 @@ import com.googlecode.cchlib.i18n.builder.I18nPropertyResourceBundleAutoUpdate;
 /**
  * Create resources bundles files
  */
-public class I18nPrepHelper
+public final class I18nPrepHelper
 {
     private I18nPrepHelper()
     {

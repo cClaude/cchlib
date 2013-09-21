@@ -7,7 +7,7 @@ import javax.swing.border.TitledBorder;
 /**
  * Provide some tools for internationalization of swings components.
  */
-public class I18nSwingHelper 
+public final class I18nSwingHelper 
 {
     private I18nSwingHelper()
     {//All static

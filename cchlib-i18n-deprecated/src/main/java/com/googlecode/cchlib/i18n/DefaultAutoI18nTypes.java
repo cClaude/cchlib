@@ -203,7 +203,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
                 final int    len    = o.getTabCount();
 
                 for(int i = 0;i<len;i++) {
-                    //FIXME ! ONLY FIST VALUE COLLECTED HERE?
+                    //FIX ME ! ONLY FIRST VALUE COLLECTED HERE?
                     o.setTitleAt( i, k.getValue( i ) );
                     }
             }
