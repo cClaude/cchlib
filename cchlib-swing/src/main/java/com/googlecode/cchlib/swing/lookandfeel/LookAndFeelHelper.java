@@ -11,7 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @since 1.4.7
  */
-public class LookAndFeelHelper
+public final class LookAndFeelHelper
 {
     private LookAndFeelHelper()
     {//All static

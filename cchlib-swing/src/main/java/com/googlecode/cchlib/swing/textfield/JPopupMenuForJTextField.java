@@ -107,14 +107,14 @@ public abstract class JPopupMenuForJTextField
      */
     protected abstract JPopupMenu createContextMenu();
 
-    /**
-     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String)} instead
-     */
-    @Deprecated
-    public void addCopyMenuItem( final JPopupMenu contextMenu )
-    {
-        addCopyMenuItem( contextMenu, "Copy" );
-    }
+//    /**
+//     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String)} instead
+//     */
+//    @Deprecated
+//    public void addCopyMenuItem( final JPopupMenu contextMenu )
+//    {
+//        addCopyMenuItem( contextMenu, "Copy" );
+//    }
 
     /**
      * TODOC
@@ -172,14 +172,14 @@ public abstract class JPopupMenuForJTextField
         };
     }
 
-    /**
-     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String)} instead
-     */
-    @Deprecated
-    protected void addPasteMenuItem( final JPopupMenu contextMenu )
-    {
-        addPasteMenuItem( contextMenu, "Paste" );
-    }
+//    /**
+//     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String)} instead
+//     */
+//    @Deprecated
+//    protected void addPasteMenuItem( final JPopupMenu contextMenu )
+//    {
+//        addPasteMenuItem( contextMenu, "Paste" );
+//    }
 
     /**
      * TODOC

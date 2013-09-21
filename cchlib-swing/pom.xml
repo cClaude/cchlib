@@ -59,6 +59,11 @@
 <!--     	<artifactId>commons-lang3</artifactId> -->
 <!--     	<version>3.1</version> -->
 <!--     </dependency> -->
+  	<dependency>
+  		<groupId>com.googlecode.cchlib</groupId>
+  		<artifactId>cchlib-i18n</artifactId>
+  		<version>4.1.8-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 
   <build>

@@ -3,6 +3,9 @@ package com.googlecode.cchlib.swing.textfield;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * e<B>X</B>tended <B>TextField</B> is a JTextField with extra features...
@@ -10,9 +13,11 @@ import javax.swing.text.Document;
  * <li>Copy/Paste support using context menu</li>
  * </ul>
  */
-public class XTextField extends JTextField
+public class XTextField extends JTextField implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
+    @I18nString private String copyTxt  = "Copy";
+    @I18nString private String pasteTxt = "Paste";
 
     /**
      * Constructs a new TextField. A default model is created,
@@ -116,7 +121,7 @@ public class XTextField extends JTextField
      */
     public String getTextForCopy()
     {
-        return "Copy";
+        return copyTxt;
     }
 
     /**
@@ -125,7 +130,13 @@ public class XTextField extends JTextField
      */
     public String getTextForPaste()
     {
-        return "Paste";
+        return pasteTxt ;
+    }
+
+    @Override
+    public void performeI18n( AutoI18nCore autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
     }
 
 }

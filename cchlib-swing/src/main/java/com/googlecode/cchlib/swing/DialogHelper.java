@@ -12,7 +12,7 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
  *
  *
  */
-public class DialogHelper
+public final class DialogHelper
 {
     private DialogHelper()
     {
