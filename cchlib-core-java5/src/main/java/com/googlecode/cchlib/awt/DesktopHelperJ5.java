@@ -11,7 +11,7 @@ import java.net.URL;
  *
  * @since 4.1.6
  */
-public class DesktopHelperJ5
+public final class DesktopHelperJ5
 {
     private static final String DesktopClassName = "java.awt.Desktop";
     private static final String isDesktopSupportedMethodName = "isDesktopSupported";
