@@ -16,6 +16,12 @@ LOGS_COMPIL_WARNING="${LOGSDIR}/.mvn.logs.compilation.WARNING"
 LOGS_JAVADOC="${LOGSDIR}/.mvn.logs.javadoc"
 LOGS_JAVADOC_WARNING="${LOGSDIR}/.mvn.logs.javadoc.WARNING"
 
+if [ -e "${HOME}/.cchlib_conf.sh" ]; then
+  . ${HOME}/.cchlib_conf.sh
+fi
+
+set | grep MAVEN
+
 if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
 fi
@@ -161,6 +167,7 @@ copyJavadoc()
       JAVADOC="${DDIR}/apidocs"
       echo "Clean previous documentation: ${JAVADOC}"
       if [ -e "${JAVADOC}" ]; then
+        chmod -R 777 "${JAVADOC}"
         rm -r "${JAVADOC}"
       fi
 
@@ -361,3 +368,4 @@ done
 
 echo "------------------------------------------"
 exit 0
+
