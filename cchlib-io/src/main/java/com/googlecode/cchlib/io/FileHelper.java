@@ -6,7 +6,7 @@ import java.io.File;
  * Miscellaneous tools to create commons {@link File} objects
  * @since 4.1.6
  */
-public class FileHelper
+public final class FileHelper
 {
     /** Maximum loop count when creating temp directories. */
     private static final int TEMP_DIR_ATTEMPTS = 10000;

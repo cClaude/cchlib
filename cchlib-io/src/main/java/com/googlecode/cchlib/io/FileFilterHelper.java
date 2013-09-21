@@ -24,7 +24,7 @@ import java.io.FileFilter;
  * @see com.googlecode.cchlib.io.filefilter.PatternFileFilter
  * @see com.googlecode.cchlib.io.filefilter.EndsWithFileFilter
 */
-public class FileFilterHelper
+public final class FileFilterHelper
 {
     private FileFilterHelper()
     {
