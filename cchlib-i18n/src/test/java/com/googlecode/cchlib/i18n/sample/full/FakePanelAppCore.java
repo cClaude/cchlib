@@ -65,7 +65,7 @@ public class FakePanelAppCore extends JFrame
             I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
             AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.createAutoI18nCore( config, i18nResourceBundleName, locale );
 
-            autoI18n.setLocale( locale );
+            //autoI18n.setLocale( locale );
             panel.performeI18n( autoI18n );
             }
 

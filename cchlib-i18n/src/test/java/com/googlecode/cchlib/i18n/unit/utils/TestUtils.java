@@ -111,7 +111,7 @@ public class TestUtils
                 validMessageBundle,
                 locale
                 );
-        autoI18n.setLocale( locale );
+        //autoI18n.setLocale( locale );
         
         frame.performeI18n( autoI18n );
     }

@@ -26,7 +26,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
             )
     {
         super( i18nDelegator, i18nKeyFactory, field, keyIdValue, null, autoI18nType );
-        
+
         assert autoI18nType != null : "Parameter autoI18nTypes must not be null";
    }
 
@@ -45,7 +45,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
             {
                 try {
                    Object fieldObject = getComponent( objectToI18n );
-                   
+
                    return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
                     }
                 catch( IllegalArgumentException e ) {
@@ -102,8 +102,8 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
             }
         };
     }
-    
-    private final <T> Object getComponent( final T objectToI18n ) 
+
+    private final <T> Object getComponent( final T objectToI18n )
             throws IllegalArgumentException, IllegalAccessException
     {
         Field f = getField();

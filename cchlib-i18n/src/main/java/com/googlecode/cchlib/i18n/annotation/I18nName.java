@@ -5,7 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- *
+ * Allow to define a name for internationalization of current object
+ * <br/>
+ * This name is used to prefix keys found on object
+ * 
+ * @see com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

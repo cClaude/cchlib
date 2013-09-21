@@ -13,10 +13,10 @@ import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 /**
  *
  */
-public class AutoI18nCoreFactory 
+public class AutoI18nCoreFactory
 {
     private AutoI18nCoreFactory() {} // All static
-    
+
     public static AutoI18nCore createAutoI18nCore(
         final EnumSet<AutoI18nConfig> config,
         final I18nInterface           i18nInterface
@@ -26,7 +26,7 @@ public class AutoI18nCoreFactory
 
         return createAutoI18nCore( config, defaultAutoI18nTypes, i18nInterface );
     }
-    
+
     public static AutoI18nCore createAutoI18nCore(
         final EnumSet<AutoI18nConfig> config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
@@ -42,29 +42,14 @@ public class AutoI18nCoreFactory
     }
 
     public static AutoI18nCore createAutoI18nCore(
-            final EnumSet<AutoI18nConfig>     config, 
+            final EnumSet<AutoI18nConfig>     config,
             final I18nResourceBundleName      resourceBundleName,
-            final Locale                      locale 
+            final Locale                      locale
             )
         {
-             return createAutoI18nCore( 
-                     config, 
-                     new I18nSimpleResourceBundle( locale, resourceBundleName ) 
+             return createAutoI18nCore(
+                     config,
+                     new I18nSimpleResourceBundle( locale, resourceBundleName )
                      );
         }
-//    public static AutoI18nCore createAutoI18nCore(
-//        final EnumSet<AutoI18nConfig>     config, 
-//        final Package                     packageMessageBundleBase,
-//        final String                      messageBundleBaseName,
-//        final Locale                      locale
-//        )
-//    {
-//         return createAutoI18nCore( 
-//                 config, 
-//                 new I18nSimpleResourceBundle( 
-//                         locale, 
-//                         packageMessageBundleBase.getName() + '.' + messageBundleBaseName
-//                         ) 
-//                 );
-//    }
 }

@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to define a String Field that must be localized
+ * 
+ * @see com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable
  */
 @Documented
 @Inherited

@@ -20,7 +20,7 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 /**
  * Create resources bundles files
  */
-public class I18nPrepHelper
+public final class I18nPrepHelper
 {
     public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = "MessagesBundle";
 

@@ -9,7 +9,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 /**
  *
  */
-//public
+//NOT public
 class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -53,10 +53,9 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         apply.performeI18n( objectToI18n, locale );
     }
 
-    @Override
-    public void setLocale( Locale locale )
-    {
-       this.locale = locale;
-    }
-
+//    @Override
+//    public void setLocale( Locale locale )
+//    {
+//       this.locale = locale;
+//    }
 }
