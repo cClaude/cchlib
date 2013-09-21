@@ -10,7 +10,7 @@ import java.nio.file.Path;
  * TODOC
  *
  */
-public class FilterHelper
+public final class FilterHelper
 {
     private FilterHelper() {}
 
