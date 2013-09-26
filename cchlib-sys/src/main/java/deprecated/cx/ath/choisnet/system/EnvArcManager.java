@@ -31,19 +31,19 @@ public final class EnvArcManager
         // TxOxDxO: 1. identify operating system
         // TxOxDxO: 2. load EnvArc implementation(s?) (using reflexion)
 
-        try {
-            deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly envArcRegWin32 = new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly();
-            addEnvArcEntry( envArcRegWin32 );
-            currentEnvArc = envArcRegWin32;
-        }
-        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
-        }
+//        try {
+//            deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly envArcRegWin32 = new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadOnly();
+//            addEnvArcEntry( envArcRegWin32 );
+//            currentEnvArc = envArcRegWin32;
+//        }
+//        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
+//        }
 
-        try {
-            addEnvArcEntry( new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite() );
-        }
-        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
-        }
+//        try {
+//            addEnvArcEntry( new deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32ReadWrite() );
+//        }
+//        catch( deprecated.cx.ath.choisnet.system.impl.win32.EnvArcRegWin32EnvArcException notSupported ) {
+//        }
 
         // Initialize current (if not yet done)
         if( currentEnvArc == null ) {

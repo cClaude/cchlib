@@ -3,7 +3,6 @@ package com.googlecode.cchlib.xml.factory;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -20,6 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
+import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,8 +55,10 @@ public class PositionalXMLReaderTest
 
     @Test
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()
-            throws XMLReaderException, SAXException, IOException, TransformerException
+            throws XMLReaderException, SAXException, IOException, TransformerException, InterruptedException
     {
+        logger.info( "# testReadXMLSAXParserFactoryDocumentBuilderInputStream()" );
+
         final String xmlString;
 
         {
@@ -93,10 +95,14 @@ public class PositionalXMLReaderTest
         byte[] expecteds2 = skipHeader( expecteds );
         byte[] actuals2   = skipHeader( actuals );
 
+        Thread.sleep( 500 );
+        logger.info( "---expecteds2 XML - length= " + expecteds2.length );
+        logger.info( "---actuals2 XML - length= " + actuals2.length );
         logger.info( "---expecteds2 XML---\n" + new String( expecteds2 ) + "\n---" );
         logger.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
 
-        assertArrayEquals( expecteds2, actuals2 );
+        Assertions.assertThat( actuals2 ).isEqualTo( expecteds2 );
+        //assertArrayEquals( expecteds2, actuals2 );
 
         logger.info( "Done" );
     }
@@ -164,6 +170,8 @@ public class PositionalXMLReaderTest
     @Test
     public void testPositon() throws XMLReaderException, SAXException, IOException
     {
+        logger.info( "# testPositon()" );
+
         final Document document;
 
         {
@@ -226,22 +234,22 @@ public class PositionalXMLReaderTest
     }
 
     private void doCheck(
-            final Element element,
-            final int     bLine,
-            final int     bCol,
-            final int     eLine,
-            final int     eCol
-            )
-        {
-            Position pos = this.checker.get( element.getNodeName() );
+        final Element element,
+        final int     bLine,
+        final int     bCol,
+        final int     eLine,
+        final int     eCol
+        )
+    {
+        Position pos = this.checker.get( element.getNodeName() );
 
-            assertNotNull( pos );
+        assertNotNull( pos );
 
-            assertEquals( pos.bLine, bLine );
-            assertEquals( pos.bCol, bCol );
-            assertEquals( pos.eLine, eLine );
-            assertEquals( pos.eCol, eCol );
-        }
+        assertEquals( pos.bLine, bLine );
+        assertEquals( pos.bCol , bCol  );
+        assertEquals( pos.eLine, eLine );
+        assertEquals( pos.eCol , eCol  );
+    }
 
     private class Position
     {

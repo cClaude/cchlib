@@ -28,7 +28,7 @@ public class URLHelperTest
     @Before
     public void setUp() throws Exception
     {
-        testURL = new URL( "http://www.google.com/" );
+        testURL = new URL( "https://code.google.com/p/cchlib/" );
     }
 
     @After

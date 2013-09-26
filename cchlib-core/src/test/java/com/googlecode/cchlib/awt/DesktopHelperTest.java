@@ -20,7 +20,7 @@ public class DesktopHelperTest
     public void testDesktopHelper()
         throws PlateformeDesktopNotSupportedException, MalformedURLException
     {        
-        URL url = new URL( "http://google.com/" );
+        URL url = new URL( "https://code.google.com/p/cchlib/" );
         
         DesktopHelper.browse( url  );
     }

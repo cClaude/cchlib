@@ -50,7 +50,18 @@ Future extensions:
 
 
 ---------------------------------------------------------------------
+Versions management:
+* git
+  git svn clone --username your-name -s https://cchlib.googlecode.com/svn
+
+  http://google-opensource.blogspot.fr/2008/05/develop-with-git-on-google-code-project.html
+  http://alblue.bandlem.com/2011/07/setting-up-google-code-with-git.html
+
+---------------------------------------------------------------------
 Tools:
+* eclipse :
+  http://download.eclipse.org/technology/m2e/releases
+
 * Check new version of dependency
   mvn versions:display-dependency-updates
 
