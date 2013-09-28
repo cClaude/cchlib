@@ -1,12 +1,14 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream; // $codepro.audit.disable unnecessaryImport
 import java.nio.file.Files; // $codepro.audit.disable unnecessaryImport
 import java.nio.file.Path;
 import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,6 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.nio.file.FilterHelper; // $codepro.audit.disable unnecessaryImport
 import com.googlecode.cchlib.util.CancelRequestException;
 
@@ -48,12 +52,12 @@ public class EmptyDirectoriesFinderTest
 
         MyEmptyDirectoriesListener listener = new MyEmptyDirectoriesListener();
 
-        //File[] rootDirs = { new File( "T:/Data" ) };
-        File[] rootDirs = File.listRoots();
-        if( rootDirs.length > 1) {
-            // Only first root for testing
-            rootDirs = new File[]{ rootDirs[0] };
-            }
+//      File[] rootDirs = File.listRoots();
+//      if( rootDirs.length > 1) {
+//          // Only first root for testing
+//          rootDirs = new File[]{ rootDirs[0] };
+//          } TODO check why this loop on unix (using path /proc)
+        File[] rootDirs = new File[]{ FileHelper.getUserHomeDirFile() };
 
         logger.info( "#################################" );
 
