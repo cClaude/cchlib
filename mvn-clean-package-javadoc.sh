@@ -7,7 +7,7 @@
 #
 MVN="${MAVEN_HOME}/bin/mvn"
 
-LOGSDIR="${PWD}/logs"
+LOGSDIR="${PWD}/.logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
 
 LOGS_COMPIL="${LOGSDIR}/.mvn.logs.compilation"
@@ -15,6 +15,12 @@ LOGS_COMPIL_WARNING="${LOGSDIR}/.mvn.logs.compilation.WARNING"
 
 LOGS_JAVADOC="${LOGSDIR}/.mvn.logs.javadoc"
 LOGS_JAVADOC_WARNING="${LOGSDIR}/.mvn.logs.javadoc.WARNING"
+
+if [ -e "${HOME}/.cchlib_conf.sh" ]; then
+  . ${HOME}/.cchlib_conf.sh
+fi
+
+set | grep MAVEN
 
 if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
@@ -117,7 +123,7 @@ copyJars()
   echo "------------------------------------------"
   for project in ${PROJECTS}
   do
-    DDIR=./releases/${project}
+    DDIR=./.releases/${project}
     echo "Init. project [${DDIR}]"
     if [ ! -e "${DDIR}" ]; then
       mkdir -p "${DDIR}"
@@ -156,11 +162,12 @@ copyJavadoc()
   for project in ${PROJECTS_WITH_DOC}
   do
       SDIR="./${project}/target/apidocs"
-      DDIR="./releases/${project}"
+      DDIR="./.releases/${project}"
 
       JAVADOC="${DDIR}/apidocs"
       echo "Clean previous documentation: ${JAVADOC}"
       if [ -e "${JAVADOC}" ]; then
+        chmod -R 777 "${JAVADOC}"
         rm -r "${JAVADOC}"
       fi
 
@@ -250,8 +257,10 @@ cat "${LOGS_TMP}" \
 PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
+cchlib-core-java5
 cchlib-i18n
 cchlib-i18n-deprecated
+cchlib-io
 cchlib-j2ee
 cchlib-j2ee-deprecated
 cchlib-jdbf
@@ -264,16 +273,15 @@ cchlib-sys
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
-cchlib-core-deprecated
+cchlib-core-java5
 cchlib-i18n
-cchlib-i18n-deprecated
+cchlib-io
 cchlib-j2ee
 cchlib-jdbf
 cchlib-net
 cchlib-nio
 cchlib-sql
 cchlib-swing
-cchlib-swing-deprecated
 cchlib-sys"
 
 # XXXXX-.*-javadoc.jar
@@ -297,10 +305,9 @@ echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 copyJars
 copyJavadoc
 echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
-exit 0
 
 echo "------------------------------------------ ${PROJECTS_SUB_cchlib-core}"
-DDIR="./releases/cchlib-core"
+DDIR="./.releases/cchlib-core"
 for project in ${PROJECTS_SUB_CCHLIB_CORE}
 do
   SJAR="./${project}/target/*.jar"
@@ -317,7 +324,7 @@ done
 # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
 echo "------------------------------------------"
-DDIR="./releases/cchlib-j2ee"
+DDIR="./.releases/cchlib-j2ee"
 for project in ${PROJECTS_SUB_CCHLIB_J2EE}
 do
   SJAR="./${project}/target/*.jar"
@@ -334,7 +341,7 @@ done
 # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
 echo "------------------------------------------"
-DDIR="./releases/cchlib-apps"
+DDIR="./.releases/cchlib-apps"
 for project in ${PROJECTS_APPS}
 do
   SJAR="./${project}/target/*.jar"
@@ -354,10 +361,11 @@ echo "------------------------------------------"
 # clean dirs
 for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS}
 do
-  DDIR="./releases/${project}"
+  DDIR="./.releases/${project}"
   #rm -r ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
   rm -r ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
 done
 
 echo "------------------------------------------"
 exit 0
+
