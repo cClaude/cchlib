@@ -7,10 +7,13 @@ import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.EventObject;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
 import javax.swing.filechooser.FileFilter;
+
+import org.apache.log4j.Logger;
 
 /**
  * On windows JFileChooser initialization is to slow!
@@ -22,6 +25,8 @@ public class JFileChooserInitializer
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(JFileChooserInitializer.class);
+    
     /** @serial */
     private JFileChooser jFileChooser;
     /** @serial */
@@ -335,25 +340,29 @@ public class JFileChooserInitializer
                 @Override
                 public void run()
                 {
-                    JFileChooser jfc = new JFileChooser();
+                	try {
+                        JFileChooser jfc = new JFileChooser();
 
-                    if( jFileChooser != null ) {
-                        // JFileChooser initialization error
-                        final String msg = "JFileChooser initialization error";
+                        if( jFileChooser != null ) {
+                            // JFileChooser initialization error
+                            final String msg = "JFileChooser initialization error";
 
-                        System.err.println( msg );
+                            System.err.println( msg );
 
-                        fireJFileChooserInitializerJFileChooserInitializationError();
+                            fireJFileChooserInitializerJFileChooserInitializationError();
 
-                        // Synchronization exception
-                        throw new RuntimeException( msg );
-                        }
+                            // Synchronization exception
+                            throw new RuntimeException( msg );
+                            }
 
-                    configurator.perfomeConfig( jfc );
+                        configurator.perfomeConfig( jfc );
 
-                    jFileChooser = jfc;
+                        jFileChooser = jfc;
 
-                    fireJFileChooserInitializerJFileChooserReady();
+                        fireJFileChooserInitializerJFileChooserReady();
+                	} catch( Throwable e ) {
+                		logger.fatal("JFileChooserInitializer.init0()",e);
+                	}
                 }
             };
 
