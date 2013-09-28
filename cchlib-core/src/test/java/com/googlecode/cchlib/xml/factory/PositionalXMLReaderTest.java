@@ -56,7 +56,7 @@ public class PositionalXMLReaderTest
     {}
 
     @Test
-    @Ignore//FIXME for unix
+    //@Ignore//FIXME for unix
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()
             throws XMLReaderException, SAXException, IOException, TransformerException
     {

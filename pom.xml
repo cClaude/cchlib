@@ -156,14 +156,14 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-assert</artifactId>
       <version>1.4</version>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- guava is too big - no more include
     <dependency>
         <groupId>com.google.guava</groupId>
@@ -176,7 +176,7 @@
       <artifactId>jsr305</artifactId>
       <version>2.0.1</version>
     </dependency>
-    
+
   </dependencies>
 
   <!-- Sub projects -->
@@ -184,7 +184,6 @@
     <module>cchlib-core</module>
     <module>cchlib-core-beta</module>
     <module>cchlib-core-deprecated</module>
-    <module>cchlib-core-java5</module>
     <module>cchlib-i18n</module>
     <module>cchlib-i18n-deprecated</module>
     <module>cchlib-io</module>
@@ -208,7 +207,11 @@
     <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools</module>
 
+    <!-- Not compile by default script -->
     <!--  <module>cchlib-sandbox</module> -->
+
+    <!-- No more supported -->
+    <!--module>cchlib-core-java5</module-->
   </modules>
 
 </project>
