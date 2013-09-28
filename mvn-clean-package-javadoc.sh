@@ -21,6 +21,7 @@ if [ -e "${HOME}/.cchlib_conf.sh" ]; then
 fi
 
 set | grep MAVEN
+umask u=rwx,g=rwx,o=rwx
 
 if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
@@ -257,7 +258,6 @@ cat "${LOGS_TMP}" \
 PROJECTS="cchlib-apps
 cchlib-core
 cchlib-core-deprecated
-cchlib-core-java5
 cchlib-i18n
 cchlib-i18n-deprecated
 cchlib-io
@@ -273,7 +273,6 @@ cchlib-sys
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
-cchlib-core-java5
 cchlib-i18n
 cchlib-io
 cchlib-j2ee

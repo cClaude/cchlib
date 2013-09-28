@@ -17,21 +17,18 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
@@ -56,7 +53,6 @@ public class PositionalXMLReaderTest
     {}
 
     @Test
-    //@Ignore//FIXME for unix
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()
             throws XMLReaderException, SAXException, IOException, TransformerException
     {
@@ -104,7 +100,6 @@ public class PositionalXMLReaderTest
         logger.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
 
         Assertions.assertThat( actuals2 ).isEqualTo( expecteds2 );
-        //assertArrayEquals( expecteds2, actuals2 );
 
         logger.info( "Done" );
     }
@@ -142,11 +137,18 @@ public class PositionalXMLReaderTest
             end++;
             }
 
-        byte[] res = new byte[ bytes.length - end ];
-
-        System.arraycopy( bytes, end, res, 0, res.length );
-
-        return res;
+        // Remove 0X0D : 13, 10 => 10
+        ByteArrayBuilder bab = new ByteArrayBuilder();
+        
+        for( int i = end; i<bytes.length; i++ ) {
+            final byte b = bytes[ i ];
+            
+            if( b != 13 ) {
+                bab.append( b );
+                }
+            }
+        
+        return bab.array();
     }
 
     private static String toString( final Node document )
