@@ -21,7 +21,6 @@ if [ -e "${HOME}/.cchlib_conf.sh" ]; then
 fi
 
 set | grep MAVEN
-umask u=rwx,g=rwx,o=rwx
 
 if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
@@ -33,7 +32,7 @@ fi
 #
 mvnClean()
 {
-  echo "------------------------------------------"
+  echo "-- mvnClean() ----------------------------------------"
   MVNPARAM="clean --offline"
   echo ${MVN} ${MVNPARAM}
   ###
@@ -52,7 +51,7 @@ mvnClean()
 #
 mvnCompile()
 {
-  echo "------------------------------------------"
+  echo "-- mvnCompile() ----------------------------------------"
   MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
   echo "${MVN} ${MVNPARAM}"
   ${MVN} ${MVNPARAM} >"${LOGS_COMPIL}"
@@ -77,7 +76,7 @@ mvnCompile()
 #
 mvnPackage()
 {
-  echo "------------------------------------------"
+  echo "-- mvnPackage() ----------------------------------------"
   # install ??? TODO fix this if possible
   MVNPARAM="install package --errors --fail-fast"
   echo "${MVN} ${MVNPARAM}"
@@ -98,7 +97,7 @@ mvnPackage()
 #
 mvnJavadoc()
 {
-  echo "------------------------------------------"
+  echo "-- mvnJavadoc() ----------------------------------------"
   MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
   echo ${MVN} ${MVNPARAM}
   ###
@@ -121,7 +120,7 @@ mvnJavadoc()
 ##########################################################
 copyJars()
 {
-  echo "------------------------------------------"
+  echo "-- copyJars() ----------------------------------------"
   for project in ${PROJECTS}
   do
     DDIR=./.releases/${project}
@@ -159,7 +158,7 @@ copyJars()
 ##########################################################
 copyJavadoc()
 {
-  echo "------------------------------------------"
+  echo "-- copyJavadoc() ----------------------------------------"
   for project in ${PROJECTS_WITH_DOC}
   do
       SDIR="./${project}/target/apidocs"
@@ -322,7 +321,7 @@ done
 # No javadoc for these projects
 # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
-echo "------------------------------------------"
+echo "------------------------------------------ ${PROJECTS_SUB_CCHLIB_J2EE}"
 DDIR="./.releases/cchlib-j2ee"
 for project in ${PROJECTS_SUB_CCHLIB_J2EE}
 do
@@ -356,15 +355,20 @@ done
 # No javadoc for these projects
 # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 
-echo "------------------------------------------"
+echo "-- clean dirs ----------------------------------------"
 # clean dirs
 for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS}
 do
   DDIR="./.releases/${project}"
-  #rm -r ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
-  rm -r ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar 2>/dev/null
+
+  if [ -e "${DDIR}/*-shaded.jar" ]; then
+    rm -r -f ${DDIR}/*-shaded.jar
+  fi
+  if [ -e "${DDIR}/original-*.jar" ]; then
+    rm -r -f ${DDIR}/original-*.jar
+  fi
 done
 
-echo "------------------------------------------"
+echo "-- done --"
 exit 0
 
