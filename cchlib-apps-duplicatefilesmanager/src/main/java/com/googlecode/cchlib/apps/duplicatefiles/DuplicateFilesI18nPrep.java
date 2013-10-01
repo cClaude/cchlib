@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.HeadlessException;
+import java.awt.Window;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.EnumSet;
@@ -23,7 +24,7 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public class DuplicateFilesI18nPrep
 {
-    public static void main( String[] args ) throws IOException, HeadlessException, TooManyListenersException
+    public static void main( final String[] args ) throws IOException, HeadlessException, TooManyListenersException, InterruptedException
     {
         // Default language !
         Preferences preferences = Preferences.createDefaultPreferences();
@@ -46,13 +47,20 @@ public class DuplicateFilesI18nPrep
 
         EnumSet<AutoI18nConfig> config                 = dfToolKit.getAutoI18nConfig();
         I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
-        
+
         I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, locale );
 
-        //I18nPrepHelper.defaultPrep( i18nPrep, usageStatPrintStream, notUsePrintStream, i18nConteners );
         Result r = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
-        
+
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
+
+        for( I18nAutoCoreUpdatable contener : i18nConteners ) {
+            if( contener instanceof Window ) {
+                ((Window)contener).dispose();
+                }
+            }
+        System.gc();
+        Thread.sleep( 1000 );
     }
 }

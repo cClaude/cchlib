@@ -58,25 +58,6 @@ public final class DefaultDFToolKit
         autoI18n.performeI18n( this, this.getClass() );
     }
 
-//    @Override // DFToolKit
-//    public String getMessagesBundle()
-//    {
-//        return ResourcesLoader.class.getPackage().getName()
-//                + ".MessagesBundle";
-//    }
-
-//    @Override // DFToolKit
-//    public Package getPackageMessageBundleBase()
-//    {
-//        return ResourcesLoader.class.getPackage();
-//    }
-
-//    @Override // DFToolKit
-//    public String getMessageBundleBaseName()
-//    {
-//        return I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME;
-//    }
-    
     @Override // DFToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
@@ -109,13 +90,6 @@ public final class DefaultDFToolKit
         return this.mainWindow;
     }
 
-//    @Deprecated
-//    @Override // DFToolKit
-//    public DuplicateFilesFrame getMainWindow() throws NullPointerException
-//    {
-//        return _getMainWindow();
-//    }
-
     @Override // DFToolKit
     public Frame getMainFrame()
     {
@@ -137,21 +111,12 @@ public final class DefaultDFToolKit
     {
         return getJFileChooserInitializer( parentWindow, refComponent ).getJFileChooser();
     }
-//    @Deprecated
-//    @Override // DFToolKit
-//    public JFileChooser getJFileChooser()
-//    {
-//        return getJFileChooserInitializer( getMainWindow(), getMainWindow() ).getJFileChooser();
-//    }
 
     @Override
     public JFileChooserInitializer getJFileChooserInitializer(
         final Window    parentWindow,
         final Component refComponent
         )
-//    public JFileChooserInitializer getJFileChooserInitializer(
-//        final Window parentWindow
-//        )
     {
         JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( refComponent );
 
@@ -174,7 +139,6 @@ public final class DefaultDFToolKit
                 }
             };
 
-            //jFileChooserInitializer = new JFileChooserInitializer( configurator );
             jFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
                     parentWindow,

@@ -36,13 +36,6 @@ public interface DFToolKit extends Serializable
     public Resources getResources();
     public List<File> getRootDirectoriesList();
 
-    //public String getMessagesBundle();
-    //public Package getPackageMessageBundleBase();
-    //public String getMessageBundleBaseName();
     public EnumSet<AutoI18nConfig> getAutoI18nConfig();
     public I18nResourceBundleName getI18nResourceBundleName();
-
-    
-    //@Deprecated public JFileChooser getJFileChooser();
-    //@Deprecated public Window getMainWindow();
 }

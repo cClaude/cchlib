@@ -14,7 +14,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
-/** 
+/**
  * Fake class for tests
  */
 public class FakeDFToolKit implements DFToolKit
@@ -36,8 +36,8 @@ public class FakeDFToolKit implements DFToolKit
     }
 
     @Override
-    public JFileChooserInitializer getJFileChooserInitializer( 
-        final Window parentWindow, 
+    public JFileChooserInitializer getJFileChooserInitializer(
+        final Window parentWindow,
         final Component refComponent
         )
     {
@@ -48,8 +48,8 @@ public class FakeDFToolKit implements DFToolKit
     }
 
     @Override
-    public JFileChooser getJFileChooser(         
-        final Window parentWindow, 
+    public JFileChooser getJFileChooser(
+        final Window parentWindow,
         final Component refComponent
         )
     {
@@ -126,18 +126,6 @@ public class FakeDFToolKit implements DFToolKit
     {
         return Collections.emptyList();
     }
-
-//    @Override
-//    public Package getPackageMessageBundleBase()
-//    {
-//        return delegator.getPackageMessageBundleBase();
-//    }
-//
-//    @Override
-//    public String getMessageBundleBaseName()
-//    {
-//        return delegator.getMessageBundleBaseName();
-//    }
 
     @Override
     public I18nResourceBundleName getI18nResourceBundleName()

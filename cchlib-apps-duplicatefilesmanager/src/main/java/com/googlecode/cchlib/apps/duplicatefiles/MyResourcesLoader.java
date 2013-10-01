@@ -17,29 +17,15 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
 /**
  * Load resources for GUI
  */
-public class MyResourcesLoader
+public final class MyResourcesLoader
 {
     private final static Logger logger = Logger.getLogger( MyResourcesLoader.class );
     private static Resources resources;
 
-    // static methods
     private MyResourcesLoader()
     {
         // All static
     }
-
-//    /**
-//     * Find {@link URL} for resource, according to this 
-//     * class {@link ClassLoader}
-//     * 
-//     * @param name Resource name
-//     * @return {@link URL} for giving resource name
-//     * @see Class#getResource(String)
-//     */
-//    private static URL getResource( final String name )
-//    {
-//        return ResourcesLoader.getResource( MyResourcesLoader.class, name );
-//    }
 
     /**
      * Find {@link InputStream} for resource, according to this 

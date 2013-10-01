@@ -38,6 +38,8 @@ public abstract class JPanelResultWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( JPanelResultWB.class );
+    private Resources resources;
+
     private JTextField jTextFieldFileInfo;
     private JToggleButton jToggleButtonSelectByRegEx;
     private XComboBoxPattern xComboBoxPatternRegEx;
@@ -50,16 +52,18 @@ public abstract class JPanelResultWB extends JPanel
     private JList<KeyFileState> jListKeptIntact;
     private JList<KeyFileState> jListWillBeDeleted;
     private JList<KeyFiles> jListDuplicatesFiles;
-    @I18nIgnore @I18nToolTipText private JButton refreshButton;
     @I18nIgnore @I18nToolTipText private JButton jButtonPrevSet;
+    @I18nIgnore @I18nToolTipText private JButton refreshButton;
     @I18nIgnore @I18nToolTipText private JButton jButtonNextSet;
 
     /**
      *
      */
-    public JPanelResultWB( Resources resources )
+    public JPanelResultWB( final Resources resources )
     {
-        Color errorColor = Color.RED;
+        this.resources = resources;
+
+        final Color errorColor = Color.RED;
 
         setSize(488, 240);
 
@@ -72,59 +76,6 @@ public abstract class JPanelResultWB extends JPanel
             gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
             gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
             setLayout(gridBagLayout);
-        }
-        {
-            GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
-            gbc_jButtonPrevSet.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonPrevSet.insets = new Insets(0, 0, 5, 5);
-            gbc_jButtonPrevSet.gridx = 0;
-            gbc_jButtonPrevSet.gridy = 0;
-
-            //JButton jButtonPrevSet = new JButton( "<<" );
-            this.jButtonPrevSet = new JButton( resources.getPrevIcon() );
-            this.jButtonPrevSet.setToolTipText( "jButtonPrevSet description" );
-            this.jButtonPrevSet.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    onPrevSet();
-                }
-            });
-            add(this.jButtonPrevSet, gbc_jButtonPrevSet);
-        }
-        {
-            GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
-            gbc_jButtonNextSet.fill = GridBagConstraints.HORIZONTAL;
-            gbc_jButtonNextSet.insets = new Insets(0, 0, 5, 5);
-            gbc_jButtonNextSet.gridx = 2;
-            gbc_jButtonNextSet.gridy = 0;
-
-            //JButton jButtonNextSet = new JButton( ">>" );
-            this.jButtonNextSet = new JButton( resources.getNextIcon() );
-            this.jButtonNextSet.setToolTipText( "jButtonNextSet description" );
-            this.jButtonNextSet.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    onNextSet();
-                }
-            });
-            add(this.jButtonNextSet, gbc_jButtonNextSet);
-        }
-        {
-            //this.refreshButton = new JButton("R");
-            this.refreshButton = new JButton( resources.getRefreshIcon() );
-            this.refreshButton.setToolTipText( "Refresh file list (remove deleted entries from an other process)" );
-            this.refreshButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    onRefresh();
-                }
-            });
-            GridBagConstraints gbc_refreshButton = new GridBagConstraints();
-            gbc_refreshButton.fill = GridBagConstraints.HORIZONTAL;
-            gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
-            gbc_refreshButton.gridx = 1;
-            gbc_refreshButton.gridy = 0;
-            add(this.refreshButton, gbc_refreshButton);
         }
         {
             GridBagConstraints gbc_jTextFieldFileInfo = new GridBagConstraints();
@@ -223,7 +174,6 @@ public abstract class JPanelResultWB extends JPanel
             add( jButtonRegExKeep, gbc_jButtonRegExKeep );
         }
         {
-            //listModelDuplicatesFiles = new JPanelResultListModel();
             jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
             jListDuplicatesFiles.addListSelectionListener(
@@ -288,10 +238,75 @@ public abstract class JPanelResultWB extends JPanel
         if (jSplitPaneResultMain == null) {
             jSplitPaneResultMain = new JSplitPane();
 
-            JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
-            jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
+            JPanel leftPanel = new JPanel();
 
-            jSplitPaneResultMain.setLeftComponent( jScrollPaneDuplicatesFiles );
+            jSplitPaneResultMain.setLeftComponent( leftPanel );
+            GridBagLayout gbl_leftPanel = new GridBagLayout();
+            gbl_leftPanel.columnWidths = new int[]{10, 10, 10, 0};
+            gbl_leftPanel.rowHeights = new int[]{10, 20, 0};
+            gbl_leftPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+            gbl_leftPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+            leftPanel.setLayout(gbl_leftPanel);
+            {
+                GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
+                gbc_jButtonPrevSet.fill = GridBagConstraints.BOTH;
+                gbc_jButtonPrevSet.insets = new Insets(0, 0, 5, 5);
+                gbc_jButtonPrevSet.gridx = 0;
+                gbc_jButtonPrevSet.gridy = 0;
+
+                this.jButtonPrevSet = new JButton( resources.getPrevIcon() );
+                this.jButtonPrevSet.setToolTipText( "jButtonPrevSet description" );
+                this.jButtonPrevSet.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        onPrevSet();
+                    }
+                });
+                leftPanel.add(this.jButtonPrevSet, gbc_jButtonPrevSet);
+            }
+            {
+                this.refreshButton = new JButton( resources.getRefreshIcon() );
+                this.refreshButton.setToolTipText( "Refresh file list (remove deleted entries from an other process)" );
+                this.refreshButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        onRefresh();
+                    }
+                });
+                GridBagConstraints gbc_refreshButton = new GridBagConstraints();
+                gbc_refreshButton.fill = GridBagConstraints.BOTH;
+                gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
+                gbc_refreshButton.gridx = 1;
+                gbc_refreshButton.gridy = 0;
+                leftPanel.add(this.refreshButton, gbc_refreshButton);
+            }
+            {
+                GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
+                gbc_jButtonNextSet.fill = GridBagConstraints.BOTH;
+                gbc_jButtonNextSet.insets = new Insets(0, 0, 5, 5);
+                gbc_jButtonNextSet.gridx = 2;
+                gbc_jButtonNextSet.gridy = 0;
+
+                this.jButtonNextSet = new JButton( resources.getNextIcon() );
+                this.jButtonNextSet.setToolTipText( "jButtonNextSet description" );
+                this.jButtonNextSet.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        onNextSet();
+                    }
+                });
+                leftPanel.add(this.jButtonNextSet, gbc_jButtonNextSet);
+            }
+            {
+                JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
+                jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
+                GridBagConstraints gbc_panel = new GridBagConstraints();
+                gbc_panel.fill = GridBagConstraints.BOTH;
+                gbc_panel.gridwidth = 3;
+                gbc_panel.gridx = 0;
+                gbc_panel.gridy = 1;
+                leftPanel.add(jScrollPaneDuplicatesFiles, gbc_panel);
+            }
             jSplitPaneResultMain.setRightComponent(getJSplitPaneResultRight());
             }
         return jSplitPaneResultMain;
@@ -310,8 +325,7 @@ public abstract class JPanelResultWB extends JPanel
             this.jListKeptIntact.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             jListKeptIntact.setModel( jListKeptIntactListModel );
             jListKeptIntact.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
-            //jListKeptIntact.setModel( listModelKeptIntact );
-            //jListKeptIntact.setModel( listModelDuplicatesFiles.getKeptIntactListModel() );
+
             jListKeptIntact.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mouseClicked( MouseEvent e )
@@ -321,7 +335,6 @@ public abstract class JPanelResultWB extends JPanel
                         int index = jListKeptIntact.locationToIndex( e.getPoint() );
 
                         if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.get( index );
                             KeyFileState kf = jListKeptIntactListModel.getElementAt( index );
 
                             displayFileInfo( kf );
@@ -331,7 +344,6 @@ public abstract class JPanelResultWB extends JPanel
                         int index = jListKeptIntact.locationToIndex( e.getPoint() );
 
                         if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelKeptIntact.remove( index );
                             KeyFileState kf = jListKeptIntactListModel.remove( index );
 
                             onDeleteThisFile( kf, true );
@@ -345,11 +357,10 @@ public abstract class JPanelResultWB extends JPanel
             JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
             jListWillBeDeleted = new JList<KeyFileState>();
             this.jListWillBeDeleted.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
             final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
             jListWillBeDeleted.setModel( jListWillBeDeletedListModel );
             jListWillBeDeleted.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
-            //jListWillBeDeleted.setModel( listModelWillBeDeleted );
-            //jListKeptIntact.setModel( listModelDuplicatesFiles.getWillBeDeletedListModel() );
             jListWillBeDeleted.addMouseListener( new MouseAdapter() {
                 @Override
                 public void mouseClicked( MouseEvent e )
@@ -359,7 +370,6 @@ public abstract class JPanelResultWB extends JPanel
                         int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
 
                         if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.get( index );
                             KeyFileState kf = jListWillBeDeletedListModel.getElementAt( index );
 
                             displayFileInfo( kf );
@@ -369,7 +379,6 @@ public abstract class JPanelResultWB extends JPanel
                         int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
 
                         if( index >= 0 ) {
-                            //KeyFileState kf = (KeyFileState)listModelWillBeDeleted.remove( index );
                             KeyFileState kf = jListWillBeDeletedListModel.remove( index );
 
                             onKeepThisFile( kf, true );

@@ -21,7 +21,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
@@ -29,6 +28,7 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 import com.googlecode.cchlib.swing.textfield.XTextField;
 import com.googlecode.cchlib.util.iterable.CascadingIterable;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * <pre>
@@ -52,7 +52,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private static transient Logger logger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
 
     private JTable jTableSelectedFoldersOrFiles;
-    @I18n private XTextField jTextFieldCurrentDir;
+    private XTextField jTextFieldCurrentDir;
     private JButton jButtonSelectDir;
     private JButton jButtonSelectFile;
     private JButton jButtonAddEntry;
@@ -93,6 +93,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
         {
             jButtonRemEntry = new JButton("Remove");
+            this.jButtonRemEntry.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonRemEntry.setIcon( dFToolKit.getResources().getFolderRemoveIcon() );
             jButtonRemEntry.addMouseListener(new MouseAdapter() {
                 @Override
@@ -103,6 +104,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         }
         {
             jButtonAddEntry = new JButton("Append");
+            this.jButtonAddEntry.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonAddEntry.setIcon( dFToolKit.getResources().getAddIcon() );
             jButtonAddEntry.addMouseListener(new MouseAdapter() {
                 @Override
@@ -129,6 +131,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         }
         {
             jButtonSelectFile = new JButton("Select File");
+            this.jButtonSelectFile.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonSelectFile.setIcon( dFToolKit.getResources().getFileIcon() );
             jButtonSelectFile.addMouseListener(new MouseAdapter() {
                 @Override
@@ -180,6 +183,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         }
         {
             jButtonSelectDir = new JButton("Select Folder");
+            this.jButtonSelectDir.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonSelectDir.setIcon( dFToolKit.getResources().getFolderSelectIcon() );
             jButtonSelectDir.addMouseListener(new MouseAdapter() {
                 @Override
@@ -387,6 +391,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         else {
             ingoreFileList.remove( index - includeFileListSize );
             }
+
+        if( ingoreFileList.isEmpty() ) {
+            this.jButtonRemEntry.setEnabled( false );
+            }
     }
 
     private boolean addEntry( File f, boolean ignore )
@@ -413,6 +421,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 tableModelSelectedFoldersOrFiles.fireTableDataChanged();
                 logger.info( "add: " + f );
 //                slogger.info( "size: " + filesList.size() );
+
+                jButtonRemEntry.setEnabled( true );
                 return true;
                 }
             else {
