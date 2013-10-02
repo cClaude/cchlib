@@ -362,10 +362,10 @@ do
   DDIR="./.releases/${project}"
 
   if [ -e "${DDIR}/*-shaded.jar" ]; then
-    rm -r -f ${DDIR}/*-shaded.jar
+    rm -f ${DDIR}/*-shaded.jar
   fi
   if [ -e "${DDIR}/original-*.jar" ]; then
-    rm -r -f ${DDIR}/original-*.jar
+    rm -f ${DDIR}/original-*.jar
   fi
 done
 
