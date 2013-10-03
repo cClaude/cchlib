@@ -22,16 +22,17 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 /**
  *
- *
  */
-public class Preferences implements Serializable
+public final class Preferences implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    //private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
-    private final static transient Logger logger = Logger.getLogger( Preferences.class );
+    private static final transient Logger logger = Logger.getLogger( Preferences.class );
+
     private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
+
     @Populator(defaultValueIsNull=true) private String lookAndFeelName;
     @Populator(defaultValueIsNull=true) private String lookAndFeelClassName;
     @Populator(defaultValueIsNull=true) private String localeLanguage;
@@ -51,15 +52,11 @@ public class Preferences implements Serializable
     @Populator(defaultValueIsNull=true) private Integer resultsRightDividerLocation;
     private List<String> incFilesFilterPatternRegExpList;
 
-    /*
-    private Preferences()
-    {
-        //this.lookAndFeelName = DEFAULT_LOOK_AND_FEEL;
-        this.localeLanguage = null;
-        this.preferencesFile = createPropertiesFile();
-        //this.configMode = ConfigMode.BEGINNER;
-        this.configModeName = this.configMode.name();
-    }*/
+    @Populator(defaultValue="640") private int minimumWindowWidth;
+    @Populator(defaultValue="440") private int minimumWindowHeight;
+
+    @Populator(defaultValue="640") private int minimumPreferenceWidth;
+    @Populator(defaultValue="350") private int minimumPreferenceHeight;
 
     /**
      * Build preferences using giving file.
@@ -101,9 +98,9 @@ public class Preferences implements Serializable
     public static Preferences createDefaultPreferences()
     {
         return new Preferences(
-        		createPropertiesFile(),
-        		new Properties()
-        		);
+                createPropertiesFile(),
+                new Properties()
+                );
     }
 
     /**
@@ -120,24 +117,22 @@ public class Preferences implements Serializable
             properties = PropertiesHelper.loadProperties( preferencesFile );
             }
         catch( FileNotFoundException fileNotFoundException ) { // $codepro.audit.disable logExceptions
-        	properties = new Properties();
-        	
+            properties = new Properties();
+
             logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {
-        	properties = new Properties();
+            properties = new Properties();
 
-        	final String msg = "Cannot load preferences: " + preferencesFile;
+            final String msg = "Cannot load preferences: " + preferencesFile;
             logger.warn( msg, e );
 
             DialogHelper.showMessageExceptionDialog( null, msg, e );
             }
 
         return new Preferences( preferencesFile, properties );
-        //return createDefaultPreferences();
     }
 
-    final
     public Dimension getWindowDimension()
     {
         if( this.windowWidth < 320 ) {
@@ -149,20 +144,17 @@ public class Preferences implements Serializable
         return new Dimension( this.windowWidth, this.windowHeight );
     }
 
-    final
     public void setWindowDimension( final Dimension size )
     {
         this.windowWidth = size.width;
         this.windowHeight = size.height;
     }
 
-    final
     public void setLastDirectory( final File file )
     {
         this.lastDirectory = file.getPath();
     }
 
-    final
     public File getLastDirectory()
     {
         if( this.lastDirectory != null ) {
@@ -229,16 +221,7 @@ public class Preferences implements Serializable
             }
 
     }
-/*
-    @Deprecated
-    public void setLookAndFeel( LookAndFeel laf )
-    {
-        this.lookAndFeelClassName = laf.getClass().getName();
-        // Store name has well, if class not found
-        this.lookAndFeelName = laf.getName();
-    }*/
 
-    final
     public Locale getLocale()
     {
         logger.info( "localeLanguage = " + this.localeLanguage );
@@ -251,7 +234,6 @@ public class Preferences implements Serializable
             }
     }
 
-    final
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
@@ -321,38 +303,38 @@ public class Preferences implements Serializable
         this.messageDigestBufferSize = value;
     }
 
-	public boolean isIgnoreHiddenFiles() {
-		return ignoreHiddenFiles;
-	}
+    public boolean isIgnoreHiddenFiles() {
+        return ignoreHiddenFiles;
+    }
 
-	public void setIgnoreHiddenFiles(boolean ignoreHiddenFiles) {
-		this.ignoreHiddenFiles = ignoreHiddenFiles;
-	}
+    public void setIgnoreHiddenFiles(boolean ignoreHiddenFiles) {
+        this.ignoreHiddenFiles = ignoreHiddenFiles;
+    }
 
-	public boolean isIgnoreReadOnlyFiles() {
-		return ignoreReadOnlyFiles;
-	}
+    public boolean isIgnoreReadOnlyFiles() {
+        return ignoreReadOnlyFiles;
+    }
 
-	public void setIgnoreReadOnlyFiles(boolean ignoreReadOnlyFiles) {
-		this.ignoreReadOnlyFiles = ignoreReadOnlyFiles;
-	}
+    public void setIgnoreReadOnlyFiles(boolean ignoreReadOnlyFiles) {
+        this.ignoreReadOnlyFiles = ignoreReadOnlyFiles;
+    }
 
-	public boolean isIgnoreHiddenDirectories() {
-		return ignoreHiddenDirectories;
-	}
+    public boolean isIgnoreHiddenDirectories() {
+        return ignoreHiddenDirectories;
+    }
 
-	public void setIgnoreHiddenDirectories(boolean ignoreReadOnlyDirectories) {
-		this.ignoreHiddenDirectories = ignoreReadOnlyDirectories;
-	}
+    public void setIgnoreHiddenDirectories(boolean ignoreReadOnlyDirectories) {
+        this.ignoreHiddenDirectories = ignoreReadOnlyDirectories;
+    }
 
-	public boolean isIgnoreEmptyFiles() {
-		return ignoreEmptyFiles;
-	}
+    public boolean isIgnoreEmptyFiles() {
+        return ignoreEmptyFiles;
+    }
 
-	public void setIgnoreEmptyFiles(boolean ignoreEmptyFiles) {
-		this.ignoreEmptyFiles = ignoreEmptyFiles;
-	}
-    
+    public void setIgnoreEmptyFiles(boolean ignoreEmptyFiles) {
+        this.ignoreEmptyFiles = ignoreEmptyFiles;
+    }
+
     /**
      * Save Preferences to disk
      * @throws IOException if any
@@ -368,9 +350,6 @@ public class Preferences implements Serializable
         logger.info( "Preferences saved in " + prefs );
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {
@@ -391,7 +370,7 @@ public class Preferences implements Serializable
     {
         if( incFilesFilterPatternRegExpList == null ) {
             incFilesFilterPatternRegExpList = new ArrayList<String>();
-            
+
             // TODO: Store this into prefs !
             incFilesFilterPatternRegExpList.add( "(.*?)\\.(jpg|jpeg|png|gif)" );
             incFilesFilterPatternRegExpList.add( "(.*?)\\.(reg)" );
@@ -427,4 +406,11 @@ public class Preferences implements Serializable
         };
     }
 
+    public Dimension getMinimumWindowDimension() {
+        return new Dimension(minimumWindowWidth, minimumWindowHeight);
+    }
+
+    public Dimension getMinimumPreferenceDimension() {
+        return new Dimension(minimumPreferenceWidth, minimumPreferenceHeight);
+    }
 }

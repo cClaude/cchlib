@@ -9,17 +9,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TooManyListenersException;
+
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesStandaloneApp;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -27,6 +31,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import com.googlecode.cchlib.util.HashMapSet;
@@ -478,12 +483,15 @@ final public class DuplicateFilesFrame
     {
         logger.info( "openPreferences() : " + getDFToolKit().getPreferences() );
 
+        final Preferences preferences = getDFToolKit().getPreferences();
         PreferencesDialogWB dialog = new PreferencesDialogWB(
-                getDFToolKit().getPreferences(),
+                preferences ,
                 getSize()
                 );
         dialog.performeI18n( autoI18n );
         dialog.setVisible( true );
+
+        JFrames.handleMinimumSize(dialog, preferences.getMinimumPreferenceDimension());
 
         logger.info( "openPreferences done : " + getDFToolKit().getPreferences() );
     }
