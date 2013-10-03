@@ -13,16 +13,16 @@ public class JFrames
      * Handle minimum of JFrame
      *
      * @param jFrame the {@link JFrame}
-     * @param minimumSize the new minimum size of this window
+     * @param minimumSize the new minimum {@link Dimension} of this window
      * 
       * @since 4.1.7
      */
     public static void handleMinimumSize(
         final Window     jFrame,
-        final Dimension  minimumSize
+        final Dimension  minimumDimension
         )
     {
-    	Windows.handleMinimumSize( jFrame, minimumSize );
+    	Windows.handleMinimumSize( jFrame, minimumDimension );
     }
     
     /**

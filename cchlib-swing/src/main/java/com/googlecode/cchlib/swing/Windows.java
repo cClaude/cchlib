@@ -14,16 +14,16 @@ public class Windows
      * Handle minimum of {@link Window}
      *
      * @param window the {@link Window}
-     * @param minimumSize the new minimum size of this window
+     * @param minimumDimension the new minimum {@link Dimension} of this window
      *
       * @since 4.1.7
      */
     public static void handleMinimumSize(
         final Window     window,
-        final Dimension  minimumSize
+        final Dimension  minimumDimension
         )
     {
-        window.setMinimumSize( minimumSize );
+        window.setMinimumSize( minimumDimension );
         window.addComponentListener( new ComponentAdapter() {
             @Override
             public void componentResized( ComponentEvent e )
