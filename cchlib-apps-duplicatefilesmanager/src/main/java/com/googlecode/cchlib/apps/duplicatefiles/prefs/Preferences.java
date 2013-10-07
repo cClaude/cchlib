@@ -27,7 +27,7 @@ public final class Preferences implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
+    private static final String DEFAULT_PREFS_FILE = '.' + Preferences.class.getName() + ".properties";
     private static final transient Logger logger = Logger.getLogger( Preferences.class );
 
     private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);

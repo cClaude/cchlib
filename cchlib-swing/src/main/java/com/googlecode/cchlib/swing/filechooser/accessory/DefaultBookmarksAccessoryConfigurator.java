@@ -2,6 +2,7 @@ package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
@@ -39,13 +41,34 @@ public class DefaultBookmarksAccessoryConfigurator
      */
     public DefaultBookmarksAccessoryConfigurator()
     {
-        this(
-            new File(
-                new File( System.getProperty("user.home") ),
-                DefaultBookmarksAccessoryConfigurator.class.getName()
-                ),
+        this( getDefaultConfigFilePropertiesFile(),
             DefaultBookmarksAccessoryConfigurator.class.getSimpleName() + "."
             );
+    }
+
+    private static File getDefaultConfigFilePropertiesFile() {
+        final File userHomeDirFile = new File( System.getProperty("user.home") );
+        final File defaultConfigFilePropertiesFile = new File(
+                userHomeDirFile,
+                '.' + DefaultBookmarksAccessoryConfigurator.class.getName()
+                );
+        final File obsoleteConfigFilePropertiesFile = new File(
+                userHomeDirFile,
+                DefaultBookmarksAccessoryConfigurator.class.getName()
+                );
+
+        if( obsoleteConfigFilePropertiesFile.isFile() ) {
+            if( defaultConfigFilePropertiesFile.isFile() ) {
+                // Both exist, delete obsolete version
+                obsoleteConfigFilePropertiesFile.delete();
+                }
+            else {
+                // Just rename
+                obsoleteConfigFilePropertiesFile.renameTo(defaultConfigFilePropertiesFile);
+                }
+            }
+        
+        return defaultConfigFilePropertiesFile;
     }
 
     /**
@@ -80,6 +103,9 @@ public class DefaultBookmarksAccessoryConfigurator
             finally {
                 is.close();
                 }
+            }
+        catch( FileNotFoundException e ) {
+            logger.warning( "Config file not found : " + configFileProperties + " - " + e );
             }
         catch( IOException e ) {
             logger.warning( "File error : " + configFileProperties + " - " + e );

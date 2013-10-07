@@ -26,6 +26,8 @@ if [ ! -e "${LOGSDIR}" ]; then
   mkdir "${LOGSDIR}"
 fi
 
+gnome-open http://google.com/
+
 ##########################################################
 #
 # Perform a full clean first
