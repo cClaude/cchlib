@@ -14,10 +14,8 @@
 */
 package cx.ath.choisnet.html.gadgets;
 
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import cx.ath.choisnet.html.util.FormItem;
 import java.util.Collection;
-import javax.servlet.ServletRequest;
 
 /**
 ** <p>

@@ -8,11 +8,11 @@
 **  1.01.___ 2005.03.24 Claude CHOISNET
 **                      Add constructor form a valid DataSource
 **  2.01.001 2005.10.02 Claude CHOISNET
-**                      Ajout d'un garde fou dans la méthode
+**                      Ajout d'un garde fou dans la mï¿½thode
 **                      getConnection(DataSource)
 **                      Implemente l'interface java.io.Closeable
 **  2.02.009 2005.12.14 Claude CHOISNET
-**                      La classe étend maintenant SimpleDataSource
+**                      La classe ï¿½tend maintenant SimpleDataSource
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.sql.SimpleUpdate
@@ -22,8 +22,6 @@ package cx.ath.choisnet.sql;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
@@ -105,7 +103,7 @@ public int doUpdate( final String query ) // ------------------------------
 }
 
 /**
-** <P>Libère les informations de la requête courante.</P>
+** <P>Libï¿½re les informations de la requï¿½te courante.</P>
 */
 public void close() // ----------------------------------------------------
     throws java.io.IOException

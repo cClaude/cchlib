@@ -11,14 +11,13 @@
 */
 package cx.ath.choisnet.util.impl;
 
-import cx.ath.choisnet.util.IteratorFilter;
 import cx.ath.choisnet.util.Selectable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Iterator;
 
 /**
-** Objectif de l'interface traiter des algorithmes génériques de filtrage.
+** Objectif de l'interface traiter des algorithmes gï¿½nï¿½riques de filtrage.
 **
 ** @author Claude CHOISNET
 ** @since   3.02.008
@@ -44,15 +43,15 @@ public CollectionFilterImpl( final Selectable<T> selector ) // ------------
 }
 
 /**
-** Filtre une collection d'élément pour obtenir un sous ensemble de
+** Filtre une collection d'ï¿½lï¿½ment pour obtenir un sous ensemble de
 ** cette liste.
 **
-** @param elements Collections d'éléments, ce paramètre ne doit pas être
-**        null, mais la collection peut éventuellement être vide.
+** @param elements Collections d'ï¿½lï¿½ments, ce paramï¿½tre ne doit pas ï¿½tre
+**        null, mais la collection peut ï¿½ventuellement ï¿½tre vide.
 **
-** @return un Collections d'éléments, sous ensemble de la collection donée,
-**         ne retourne jamais null, mais le résultat peut éventullement
-**         être une collection vide.
+** @return un Collections d'ï¿½lï¿½ments, sous ensemble de la collection donï¿½e,
+**         ne retourne jamais null, mais le rï¿½sultat peut ï¿½ventullement
+**         ï¿½tre une collection vide.
 */
 public Collection<T> apply( final Collection<T> elements ) // -------------
 {

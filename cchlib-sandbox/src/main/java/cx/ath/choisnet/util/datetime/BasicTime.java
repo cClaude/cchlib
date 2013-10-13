@@ -8,7 +8,7 @@
 **  2.00.003 2005.09.17 Claude CHOISNET
 **                      Adapation JDK1.5 et TimeInterface
 **  2.01.012 2005.10.07 Claude CHOISNET
-**                      Ammélioration de la sérialisation
+**                      Ammï¿½lioration de la sï¿½rialisation
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.datetime.BasicTime
@@ -19,10 +19,9 @@ package cx.ath.choisnet.util.datetime;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.text.Format;
-import java.util.Date;
 
 /**
-** Cette classe gère les problèmes d'heure au sens commun (heure, minutes, secondes)
+** Cette classe gï¿½re les problï¿½mes d'heure au sens commun (heure, minutes, secondes)
 ** <P>
 ** <P>
 ** NOTES:<br/>
@@ -43,24 +42,24 @@ public class BasicTime
 private static final long serialVersionUID = 1L;
 
 /**
-** Chaîne de formatage pour la class SimpleDateFormat du
-** résultat de la méthode toString()
+** Chaï¿½ne de formatage pour la class SimpleDateFormat du
+** rï¿½sultat de la mï¿½thode toString()
 */
 protected final static String TIMEFMT  = "HH:mm:ss";
 
 /**
 ** Objet de formatage SimpleDateFormat correspondant au format
-** de la méthode toString()
+** de la mï¿½thode toString()
 */
 protected final static SimpleDateFormat TIME_FMT = new SimpleDateFormat( TIMEFMT );
 
-/** int contenant le numéro de l'heure de 0 à 23 */
+/** int contenant le numï¿½ro de l'heure de 0 ï¿½ 23 */
 protected int hours = -1;
 
-/** int contenant le numéro des minutes de 0 à 59 */
+/** int contenant le numï¿½ro des minutes de 0 ï¿½ 59 */
 protected int minutes = -1;
 
-/** int contenant le numéro des secondes de 0 à 59 */
+/** int contenant le numï¿½ro des secondes de 0 ï¿½ 59 */
 protected int seconds = -1;
 
 /** Valeur minimum pour BasicTime */
@@ -70,7 +69,7 @@ public final static BasicTime MIN_VALUE = buildBasicTime( 0, 0, 0 );
 public final static BasicTime MAX_VALUE = buildBasicTime( 23, 59, 59 );
 
 /**
-** Construit à partir d'un autre object BasicTime
+** Construit ï¿½ partir d'un autre object BasicTime
 ** <P>
 ** @param time BasicTime <B>valide</B>
 */
@@ -103,7 +102,7 @@ public BasicTime( java.util.Date javadate ) // ---------------------------
 }
 
 /**
-** Construit une heure BasicTime avec la date spécifiée
+** Construit une heure BasicTime avec la date spï¿½cifiï¿½e
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
@@ -120,7 +119,7 @@ public BasicTime( int hours, int minutes, int secondes ) // --------------
 }
 
 /**
-** Construit une heure BasicTime avec la date spécifiée
+** Construit une heure BasicTime avec la date spï¿½cifiï¿½e
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
@@ -147,11 +146,11 @@ public BasicTime( long secondsFormMidnight ) // ---------------------------
 }
 
 /**
-** Construit BasicTime une chaîne au format spécifiée
+** Construit BasicTime une chaï¿½ne au format spï¿½cifiï¿½e
 **
-** @param time          heure sous forme de chaîne.
-** @param formatter     object SimpleDateFormat décrivant le format de la
-**                      chaîne 'time'
+** @param time          heure sous forme de chaï¿½ne.
+** @param formatter     object SimpleDateFormat dï¿½crivant le format de la
+**                      chaï¿½ne 'time'
 **
 ** @exception java.text.ParseException
 */
@@ -162,14 +161,14 @@ public BasicTime( String time, SimpleDateFormat formatter ) // -----------
 }
 
 /**
-** Initialise l'objet BasicTime à partir de l'année, du mois et du jour.
+** Initialise l'objet BasicTime ï¿½ partir de l'annï¿½e, du mois et du jour.
 ** <P>
-** Cette méthode lance un exception si les paramètres de la date ne sont pas
-** consistant vis-à-vis du calendrier.
+** Cette mï¿½thode lance un exception si les paramï¿½tres de la date ne sont pas
+** consistant vis-ï¿½-vis du calendrier.
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
-** @param seconds   les secondes interval [0..59] (dépend du mois et de l'année)
+** @param seconds   les secondes interval [0..59] (dï¿½pend du mois et de l'annï¿½e)
 **
 ** @exception BasicTimeException
 */
@@ -192,7 +191,7 @@ public void set( int hours, int minutes, int seconds ) // -----------------
 }
 
 /**
-** Définition de l'heure à partir du nombre de secondes
+** Dï¿½finition de l'heure ï¿½ partir du nombre de secondes
 **
 */
 protected void set( long secondsFromMidnight ) // -------------------------
@@ -220,7 +219,7 @@ protected void set( long secondsFromMidnight ) // -------------------------
 }
 
 /**
-** Initialise l'objet BasicTime avec une String formatée avec
+** Initialise l'objet BasicTime avec une String formatï¿½e avec
 ** le format interne : SIMPLE_TIME_FORMAT
 ** <P>
 */
@@ -235,7 +234,7 @@ protected void setWithFmtString( String fmtTime ) // ----------------------
 }
 
 /**
-** Initialise l'objet BasicTime à partir d'un objet java.util.Date
+** Initialise l'objet BasicTime ï¿½ partir d'un objet java.util.Date
 */
 protected void set( java.util.Date javaDate ) // --------------------------
 {
@@ -245,7 +244,7 @@ protected void set( java.util.Date javaDate ) // --------------------------
 /**
 ** retourne les heures
 **
-** @return un int correspondant à la valeur des heures [0..23]
+** @return un int correspondant ï¿½ la valeur des heures [0..23]
 */
 public int getHours() // --------------------------------------------------
 {
@@ -255,7 +254,7 @@ public int getHours() // --------------------------------------------------
 /**
 ** retourne les minutes
 **
-** @return un int correspondant à la valeur des minutes [0..59]
+** @return un int correspondant ï¿½ la valeur des minutes [0..59]
 */
 public int getMinutes() // ------------------------------------------------
 {
@@ -265,7 +264,7 @@ public int getMinutes() // ------------------------------------------------
 /**
 ** retourne les secondes
 **
-** @return un int correspondant à la valeur des secondes [0..59]
+** @return un int correspondant ï¿½ la valeur des secondes [0..59]
 */
 public int getSeconds() // ------------------------------------------------
 {
@@ -273,8 +272,8 @@ public int getSeconds() // ------------------------------------------------
 }
 
 /**
-** Surcharge de la méthode toString() de la classe Object, permet d'utiliser
-** la classe comme une chaîne.
+** Surcharge de la mï¿½thode toString() de la classe Object, permet d'utiliser
+** la classe comme une chaï¿½ne.
 **
 ** @return l'heure au format hh:mm:ss
 */
@@ -284,12 +283,12 @@ public String toString() // -----------------------------------------------
 }
 
 /**
-** Renvoie la date associée au calendrier conformément à l'oject de formatage.
+** Renvoie la date associï¿½e au calendrier conformï¿½ment ï¿½ l'oject de formatage.
 **
-** @param formatter     Object SimpleDateFormat contenant les caractéristiques
+** @param formatter     Object SimpleDateFormat contenant les caractï¿½ristiques
 **                      du format attendu.
 **
-** @return l'horaire formaté
+** @return l'horaire formatï¿½
 */
 public String toString( Format formatter ) // -----------------------------
 {
@@ -297,9 +296,9 @@ public String toString( Format formatter ) // -----------------------------
 }
 
 /**
-** retourne les heures dans une chaîne sur 2 caractères
+** retourne les heures dans une chaï¿½ne sur 2 caractï¿½res
 **
-** @return une String correspondant à la valeur des heures [00..23]
+** @return une String correspondant ï¿½ la valeur des heures [00..23]
 */
 public String toStringHours() // ------------------------------------------
 {
@@ -312,9 +311,9 @@ public String toStringHours() // ------------------------------------------
 }
 
 /**
-** retourne les minutes dans une chaîne sur 2 caractères
+** retourne les minutes dans une chaï¿½ne sur 2 caractï¿½res
 **
-** @return une String correspondant à la valeur des minutes [00..59]
+** @return une String correspondant ï¿½ la valeur des minutes [00..59]
 */
 public String toStringMinutes() // ----------------------------------------
 {
@@ -322,9 +321,9 @@ public String toStringMinutes() // ----------------------------------------
 }
 
 /**
-** retourne les secondes dans une chaîne sur 2 caractères
+** retourne les secondes dans une chaï¿½ne sur 2 caractï¿½res
 **
-** @return une String correspondant à la valeur des secondes [00..59]
+** @return une String correspondant ï¿½ la valeur des secondes [00..59]
 */
 public String toStringSeconds() // ----------------------------------------
 {
@@ -332,7 +331,7 @@ public String toStringSeconds() // ----------------------------------------
 }
 
 /**
-** retourne le nombre secondes depuis l'heure 00:00:00 correspondant à la
+** retourne le nombre secondes depuis l'heure 00:00:00 correspondant ï¿½ la
 ** valeur BasicTime de l'object
 **
 ** @return un long correspondant le nombre secondes depuis l'heure 00:00:00
@@ -368,7 +367,7 @@ public java.util.Date getJavaDate() // ------------------------------------
 /**
 ** Compare deux BasicTime.
 **
-** @return true si les 2 horaires correspondent à la seconde près.
+** @return true si les 2 horaires correspondent ï¿½ la seconde prï¿½s.
 */
 public boolean equals( TimeInterface anotherTime ) // ---------------------
 {
@@ -391,10 +390,10 @@ public boolean equals( Object o ) // --------------------------------------
 /**
 ** Compare deux BasicTime.
 **
-** @return  la valeur 0 si les 2 horaires correspondent à la même heure, une
-**          valeur négative si la date de l'object courant est plus vielle que l'horaire
-**          passé en paramètre. une valeur positive si l'horaire de l'object
-**          courant est plus récent que l'horaire passé en paramètre.
+** @return  la valeur 0 si les 2 horaires correspondent ï¿½ la mï¿½me heure, une
+**          valeur nï¿½gative si la date de l'object courant est plus vielle que l'horaire
+**          passï¿½ en paramï¿½tre. une valeur positive si l'horaire de l'object
+**          courant est plus rï¿½cent que l'horaire passï¿½ en paramï¿½tre.
 */
 public int compareTo( TimeInterface anotherTime ) // ----------------------
     throws ClassCastException
@@ -544,7 +543,7 @@ public static BasicTime subtract( // --------------------------------------
 }
 
 /**
-** Construit à partir d'un autre object BasicTime
+** Construit ï¿½ partir d'un autre object BasicTime
 ** <P>
 */
 private static BasicTime buildBasicTime( // -------------------------------

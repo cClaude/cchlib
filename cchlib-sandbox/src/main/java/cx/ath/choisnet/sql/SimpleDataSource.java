@@ -13,7 +13,6 @@
 package cx.ath.choisnet.sql;
 
 import java.sql.Connection;
-import java.sql.Statement;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -27,7 +26,7 @@ import javax.sql.DataSource;
 public class SimpleDataSource
     implements java.io.Closeable
 {
-/** Description de la source de données */
+/** Description de la source de donnï¿½es */
 private DataSource ds;
 
 /**  */
@@ -65,7 +64,7 @@ protected DataSource getDataSource() // -----------------------------------
 }
 
 /**
-** <P>Libère les informations de la requête courante.</P>
+** <P>Libï¿½re les informations de la requï¿½te courante.</P>
 */
 public void close() // ----------------------------------------------------
     throws java.io.IOException

@@ -12,13 +12,12 @@
 */
 package cx.ath.choisnet.io;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
 ** <p>
-** Exception déclanchée, par certaine méthode, lors de la tentative
-** échouée de suppression d'un fichier
+** Exception dï¿½clanchï¿½e, par certaine mï¿½thode, lors de la tentative
+** ï¿½chouï¿½e de suppression d'un fichier
 ** </p>
 **
 **

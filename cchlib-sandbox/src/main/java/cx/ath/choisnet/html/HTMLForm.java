@@ -6,7 +6,7 @@
 **  1.00.___ 2000.09.29 Claude CHOISNET - Version initiale
 **                      Nom: cx.ath.choisnet.html.document.Form
 **  1.50.___ 2005.05.19 Claude CHOISNET
-**                      Adaptation à l'interface HTMLWritable
+**                      Adaptation ï¿½ l'interface HTMLWritable
 **  3.02.031 2006.07.24 Claude CHOISNET
 **                      Nouveau nom: cx.ath.choisnet.html.HTMLForm
 ** -----------------------------------------------------------------------
@@ -16,7 +16,6 @@
 */
 package cx.ath.choisnet.html;
 
-import java.util.LinkedList;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import cx.ath.choisnet.html.util.HTMLDocumentException;
 import cx.ath.choisnet.html.util.HTMLNamedObject;
@@ -34,7 +33,7 @@ import cx.ath.choisnet.html.util.HTMLWritable;
 public class HTMLForm
     extends HTMLNamedObject<HTMLForm>
 {
-/** Liste des éléments HTML défini dans le formulaire */
+/** Liste des ï¿½lï¿½ments HTML dï¿½fini dans le formulaire */
 private HTMLWritableCollection htmlCollection;
 
 /** */

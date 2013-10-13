@@ -6,7 +6,7 @@
 **  1.00.____ 2000.09.29 Claude CHOISNET - Version initiale
 **                      Nom: cx.ath.choisnet.html.document.Header
 **  1.50.___ 2005.05.19 Claude CHOISNET
-**                      Adaptation à l'interface HTMLWritable
+**                      Adaptation ï¿½ l'interface HTMLWritable
 **  3.02.031 2006.07.24 Claude CHOISNET
 **                      Nouveau nom: cx.ath.choisnet.html.HTMLHeader
 ** -----------------------------------------------------------------------
@@ -20,10 +20,6 @@ import java.util.List;
 import java.util.LinkedList;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import cx.ath.choisnet.html.util.HTMLDocumentException;
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
-import cx.ath.choisnet.html.util.HTMLDocumentException;
-import cx.ath.choisnet.html.util.HTMLNamedObject;
-import cx.ath.choisnet.html.util.HTMLWritableCollection;
 import cx.ath.choisnet.html.util.HTMLWritable;
 import cx.ath.choisnet.html.util.HTMLString;
 
@@ -55,7 +51,7 @@ private List<HTMLString> htmlStrings;
 
 
 /**
-** Création d'une en-tête de page HTML
+** Crï¿½ation d'une en-tï¿½te de page HTML
 */
 public HTMLHeader() // ----------------------------------------------------
 {
@@ -74,7 +70,7 @@ public HTMLHeader getThis() // --------------------------------------------
 */
 
 /**
-** Définition d'un titre
+** Dï¿½finition d'un titre
 */
 public HTMLHeader setTitle( final String title ) // -----------------------
 {

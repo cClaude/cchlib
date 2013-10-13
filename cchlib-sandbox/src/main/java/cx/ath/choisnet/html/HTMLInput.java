@@ -17,7 +17,6 @@ import cx.ath.choisnet.html.util.FormItem;
 import cx.ath.choisnet.html.util.HTMLDocumentException;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import java.util.Collection;
-import javax.servlet.ServletRequest;
 
 /**
 ** <p>
@@ -271,7 +270,7 @@ public T setSize( final int size ) // -------------------------------------
 /**
 **
 **
-** @throws java.util.NoSuchElementException() si la valeur n'a pas été définie
+** @throws java.util.NoSuchElementException() si la valeur n'a pas ï¿½tï¿½ dï¿½finie
 */
 public int getSize() // ---------------------------------------------------
 {
@@ -297,7 +296,7 @@ public T setMaxLength( final int maxLength ) // ---------------------------
 **
 **
 **
-** @throws java.util.NoSuchElementException() si la valeur n'a pas été définie
+** @throws java.util.NoSuchElementException() si la valeur n'a pas ï¿½tï¿½ dï¿½finie
 */
 public int getMaxLength() // ----------------------------------------------
 {
@@ -378,7 +377,7 @@ public T setTabIndex( final int tabIndex ) // -----------------------------
 **
 **
 **
-** @throws java.util.NoSuchElementException() si la valeur n'a pas été définie
+** @throws java.util.NoSuchElementException() si la valeur n'a pas ï¿½tï¿½ dï¿½finie
 */
 public int getTabIndex() // -----------------------------------------------
 {
@@ -404,7 +403,7 @@ public T setAccessKey( final char accessKey ) // --------------------------
 **
 **
 **
-** @throws java.util.NoSuchElementException() si la valeur n'a pas été définie
+** @throws java.util.NoSuchElementException() si la valeur n'a pas ï¿½tï¿½ dï¿½finie
 */
 public char getAccessKey() // ---------------------------------------------
 {

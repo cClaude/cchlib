@@ -19,7 +19,6 @@ import cx.ath.choisnet.xml.XMLFileParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import java.io.File;
 import java.util.EnumSet;
-import org.xml.sax.ErrorHandler;
 
 /**
 **

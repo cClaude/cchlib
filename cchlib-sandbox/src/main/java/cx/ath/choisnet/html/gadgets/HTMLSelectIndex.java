@@ -12,11 +12,6 @@
 */
 package cx.ath.choisnet.html.gadgets;
 
-// import cx.ath.choisnet.html.util.FormItem;
-// import java.util.Collection;
-//import java.util.LinkedList;
-//import java.util.List;
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import javax.servlet.ServletRequest;
 
 /**

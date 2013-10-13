@@ -12,8 +12,6 @@
 */
 package cx.ath.choisnet.util.checksum;
 
-import cx.ath.choisnet.util.duplicate.DuplicateLayer;
-import cx.ath.choisnet.util.duplicate.MD5Collection;
 import java.io.File;
 
 /**
@@ -38,7 +36,7 @@ public MD5TreeDebug() // --------------------------------------------------
 }
 
 /**
-** Retourne le sous-arbre sous forme ASCII dans la chaîne
+** Retourne le sous-arbre sous forme ASCII dans la chaï¿½ne
 */
 public String tree() // ---------------------------------------------------
 {
@@ -46,7 +44,7 @@ public String tree() // ---------------------------------------------------
 }
 
 /**
-** Retourne le sous-arbre sous forme ASCII dans la chaîne
+** Retourne le sous-arbre sous forme ASCII dans la chaï¿½ne
 */
 final static public String tree( final MD5Tree aMD5Tree ) // --------------
 {

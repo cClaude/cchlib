@@ -6,9 +6,9 @@
 **
 **  1.03.___ 2000.10.29 Claude CHOISNET - Version initiale
 **  1.31.___ 2005.05.16 Claude CHOISNET
-**                      Prise en charge de la serialization à travers les
-**                      les méthodes writeObject() et readObject()
-**                      Changement de la représentation interne
+**                      Prise en charge de la serialization ï¿½ travers les
+**                      les mï¿½thodes writeObject() et readObject()
+**                      Changement de la reprï¿½sentation interne
 **  2.00.003 2005.09.17 Claude CHOISNET
 **                      Adapation JDK1.5 et DateInterface
 ** -----------------------------------------------------------------------
@@ -22,16 +22,15 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-//** Elle ne gère pas les notions d'heure ou de calendrier, elle pourra être
-//** complété en utilisant les méthodes statiques de FullCalendar
+//** Elle ne gï¿½re pas les notions d'heure ou de calendrier, elle pourra ï¿½tre
+//** complï¿½tï¿½ en utilisant les mï¿½thodes statiques de FullCalendar
 
 /**
 **
-** Cette classe gère les problèmes de date au sens commun (jour, mois, année)
+** Cette classe gï¿½re les problï¿½mes de date au sens commun (jour, mois, annï¿½e)
 ** <P>
-** Elle ne gère pas les notions d'heure ou de calendrier.
+** Elle ne gï¿½re pas les notions d'heure ou de calendrier.
 ** <P>
 ** <PRE>
 **  Exemple 1:
@@ -43,7 +42,7 @@ import java.util.Date;
 ** </PRE>
 ** <P>
 ** <PRE>
-**  Exemple 2: Parcours d'une période.
+**  Exemple 2: Parcours d'une pï¿½riode.
 **      BasicDate  firstDayDate = new BasicDate( getDebutDePeriode() );
 **      BasicDate  lastDayDate  = new BasicDate( getFinDePeriode() );
 **
@@ -75,24 +74,24 @@ public class BasicDate
 private static final long serialVersionUID = 1L;
 
 /**
-** Chaîne de formatage pour la class BasicDateFormat de
-** la méthode toString()
+** Chaï¿½ne de formatage pour la class BasicDateFormat de
+** la mï¿½thode toString()
 */
 protected final static String DATEFMT = "yyyyMMdd";
 
 /**
 ** Object de formatage pour la class BasicDateFormat de
-** la méthode toString()
+** la mï¿½thode toString()
 */
 protected final static SimpleDateFormat DATE_FMT = new SimpleDateFormat( DATEFMT );
 
-/** Integer contenant le numéro de l'année de 0 à 9999 */
+/** Integer contenant le numï¿½ro de l'annï¿½e de 0 ï¿½ 9999 */
 protected transient int year = -1;
 
-/** Integer contenant le numéro du mois 1 à 12 */
+/** Integer contenant le numï¿½ro du mois 1 ï¿½ 12 */
 protected transient int month = -1;
 
-/** Integer contenant le numéro du jour 1 à 31 */
+/** Integer contenant le numï¿½ro du jour 1 ï¿½ 31 */
 protected transient int day = -1;
 
 /**
@@ -116,7 +115,7 @@ public BasicDate( java.util.Date javaDate ) // ----------------------------
 }
 
 /**
-** Construit à partir d'un autre object BasicDate
+** Construit ï¿½ partir d'un autre object BasicDate
 ** <P>
 ** @param date  BasicDate <B>valide</B>
 */
@@ -131,10 +130,10 @@ public BasicDate( BasicDate date ) // -----------------------------------
 }
 
 /**
-** Construit un calendrier avec une chaîne au format spécifiée
+** Construit un calendrier avec une chaï¿½ne au format spï¿½cifiï¿½e
 **
-** @param date  date sous forme de chaîne.
-** @param fmt   format de la chaîne, conformément à la classe BasicDateFormat.
+** @param date  date sous forme de chaï¿½ne.
+** @param fmt   format de la chaï¿½ne, conformï¿½ment ï¿½ la classe BasicDateFormat.
 **
 ** @exception java.text.ParseException
 */
@@ -146,7 +145,7 @@ public BasicDate( String date, SimpleDateFormat fmt ) // -----------------
 
 ///*
 //*
-//** Construit une date BasicDate avec une chaîne ayant le format YYYYMMDD
+//** Construit une date BasicDate avec une chaï¿½ne ayant le format YYYYMMDD
 //**
 //** @param date  date au format YYYYMMDD
 //**
@@ -170,9 +169,9 @@ public BasicDate( String date, SimpleDateFormat fmt ) // -----------------
 
 
 /**
-** Construit une date BasicDate avec la date spécifiée
+** Construit une date BasicDate avec la date spï¿½cifiï¿½e
 **
-** @param year  l'année
+** @param year  l'annï¿½e
 ** @param month le mois intervalle [1..12]
 ** @param day   le jour
 **
@@ -219,14 +218,14 @@ public void set( int year, int month, int day ) // ------------------------
 */
 
 /**
-** Initialise l'objet BasicDate à partir de l'année, du mois et du jour.
+** Initialise l'objet BasicDate ï¿½ partir de l'annï¿½e, du mois et du jour.
 ** <P>
-** Cette méthode lance un exception si les paramètres de la date ne sont pas
-** consistant vis-à-vis du calendrier.
+** Cette mï¿½thode lance un exception si les paramï¿½tres de la date ne sont pas
+** consistant vis-ï¿½-vis du calendrier.
 **
-** @param year  l'année interval [0..9999]
+** @param year  l'annï¿½e interval [0..9999]
 ** @param month le mois interval [1..12]
-** @param day   le jour interval [1..31] (dépend du mois et de l'année)
+** @param day   le jour interval [1..31] (dï¿½pend du mois et de l'annï¿½e)
 **
 ** @exception BasicDateException
 */
@@ -255,9 +254,9 @@ public void set( int year, int month, int day ) // ------------------------
 }
 
 /**
-** Modifie le numéro de l'année de l'objet BasicDate
+** Modifie le numï¿½ro de l'annï¿½e de l'objet BasicDate
 **
-** @param year le numéro de l'année [0..9999]
+** @param year le numï¿½ro de l'annï¿½e [0..9999]
 **
 ** @exception BasicDateException
 */
@@ -267,7 +266,7 @@ public void setYear( int year ) throws BasicDateException // -------------
 }
 
 /**
-** Modifie le numéro du mois de l'objet BasicDate
+** Modifie le numï¿½ro du mois de l'objet BasicDate
 **
 ** @param month   le mois [1..12]
 **
@@ -279,7 +278,7 @@ public void setMonth( int month ) throws BasicDateException // -----------
 }
 
 /**
-** Modifie le numéro du jour de l'objet BasicDate
+** Modifie le numï¿½ro du jour de l'objet BasicDate
 **
 ** @param day   le jour [1..31]
 **
@@ -291,7 +290,7 @@ public void setDay( int day ) throws BasicDateException // ---------------
 }
 
 /**
-** Initialise l'objet BasicDate à partir d'un object  java.util.Date
+** Initialise l'objet BasicDate ï¿½ partir d'un object  java.util.Date
 **
 ** @param javaDate date
 */
@@ -301,7 +300,7 @@ public void set( java.util.Date javaDate  ) // ----------------------------
 }
 
 /**
-** Initialise l'objet BasicDate avec une String formatée avec
+** Initialise l'objet BasicDate avec une String formatï¿½e avec
 ** le format interne
 ** <P>
 */
@@ -316,23 +315,23 @@ protected void setWithFmtString( String fmtTime ) // ----------------------
 }
 
 /**
-** retourne le numéro du jour.
+** retourne le numï¿½ro du jour.
 **
-** @return le numéro du jour [1..31]
+** @return le numï¿½ro du jour [1..31]
 */
 public int getDay() { return this.day; } // -------------------------------
 
 /**
-** retourne le numéro du mois.
+** retourne le numï¿½ro du mois.
 **
-** @return le numéro du mois [1..12]
+** @return le numï¿½ro du mois [1..12]
 */
 public int getMonth() { return this.month; } // ---------------------------
 
 /**
-** retourne le numéro de l'année.
+** retourne le numï¿½ro de l'annï¿½e.
 **
-** @return le numéro de l'année
+** @return le numï¿½ro de l'annï¿½e
 */
 public int getYear() { return this.year; } // -----------------------------
 
@@ -381,7 +380,7 @@ public boolean equals( Object o ) // --------------------------------------
 /**
 ** Compare deux BasicDate.
 **
-** @return true si les 2 dates correspondent au même jour, false autrement.
+** @return true si les 2 dates correspondent au mï¿½me jour, false autrement.
 */
 public boolean equals( DateInterface anotherDate ) // ---------------------
 {
@@ -400,10 +399,10 @@ public int compareTo( Object o ) // ---------------------------------------
 /**
 ** Compare deux BasicDate.
 **
-** @return  la valeur 0 si les 2 dates correspondent au même jour, une valeur
-**          négative si la date de l'object courant est plus vielle que la
-**          date passé en paramètre. une valeur positive si la date de l'object
-**          courant est plus récente que la date passé en paramètre.
+** @return  la valeur 0 si les 2 dates correspondent au mï¿½me jour, une valeur
+**          nï¿½gative si la date de l'object courant est plus vielle que la
+**          date passï¿½ en paramï¿½tre. une valeur positive si la date de l'object
+**          courant est plus rï¿½cente que la date passï¿½ en paramï¿½tre.
 */
 public int compareTo( DateInterface anotherDate ) // -----------------------
 {
@@ -472,8 +471,8 @@ public boolean isAfter( DateInterface anOtherDate ) // --------------------
 }
 
 /**
-** Surcharge de la méthode toString() de la classe Object, permet d'utiliser
-** la classe comme une chaîne. Retourne la date au format interne de la
+** Surcharge de la mï¿½thode toString() de la classe Object, permet d'utiliser
+** la classe comme une chaï¿½ne. Retourne la date au format interne de la
 ** classe BasicDate.
 **
 ** @return la date au format YYYYMMDD
@@ -510,12 +509,12 @@ public String toStringDay() // --------------------------------------------
 }
 
 /**
-** Renvoie la date associée au calendrier conformément à l'oject de formatage.
+** Renvoie la date associï¿½e au calendrier conformï¿½ment ï¿½ l'oject de formatage.
 **
-** @param formatter     Object BasicDateFormat contenant les caractéristiques
+** @param formatter     Object BasicDateFormat contenant les caractï¿½ristiques
 **                      du format attendu.
 **
-** @return la date formatée
+** @return la date formatï¿½e
 */
 public String toString( Format formatter ) // -----------------------------
 {
@@ -525,7 +524,7 @@ public String toString( Format formatter ) // -----------------------------
 private final static long MILLISECONDS_BY_DAY = (1000L*60L*60L*24L);
 
 /**
-** NOTE: cette méthode devrait retourner le nombre de jour depuis
+** NOTE: cette mï¿½thode devrait retourner le nombre de jour depuis
 ** le 1er janvier de l'an 1.
 **
 ** @return le nombre de jour depuis le 1er January 1970,
@@ -536,17 +535,17 @@ public long longValue() // ------------------------------------------------
 }
 
 /**
-** Ajoute de UN an à la date courante.
+** Ajoute de UN an ï¿½ la date courante.
 ** <P>
-** Passe automatiquement à l'année suivante, en cas de dépassement de capacité
-** de l'année (9999) retour à l'an 0.
+** Passe automatiquement ï¿½ l'annï¿½e suivante, en cas de dï¿½passement de capacitï¿½
+** de l'annï¿½e (9999) retour ï¿½ l'an 0.
 */
 public void incYear() // -------------------------------------------------
 {
- int year = this.getYear() + 1; // Incrémente
+ int year = this.getYear() + 1; // Incrï¿½mente
 
  if( year > 9999 ) {
-    // Afin d'éviter à transmettre une exception, presque inutile ;-)
+    // Afin d'ï¿½viter ï¿½ transmettre une exception, presque inutile ;-)
     year = 0;
     }
 
@@ -559,22 +558,22 @@ public void incYear() // -------------------------------------------------
 }
 
 /**
-** Ajoute de UN mois à la date courante.
+** Ajoute de UN mois ï¿½ la date courante.
 ** <P>
-** Passe automatiquement à l'année suivante, en cas de dépassement de capacité
-** de l'année (9999) retour à l'an 0.
+** Passe automatiquement ï¿½ l'annï¿½e suivante, en cas de dï¿½passement de capacitï¿½
+** de l'annï¿½e (9999) retour ï¿½ l'an 0.
 */
 public void incMonth() // -------------------------------------------------
 {
  int year   = this.getYear();
- int month  = this.getMonth() + 1; // Incrémente
+ int month  = this.getMonth() + 1; // Incrï¿½mente
 
  if( month > 12 ) {
     month = 1; // Janvier
     year += 1;
 
     if( year > 9999 ) {
-        // Afin d'éviter à transmettre une exception, presque inutile ;-)
+        // Afin d'ï¿½viter ï¿½ transmettre une exception, presque inutile ;-)
         year = 0;
         }
     }
@@ -588,11 +587,11 @@ public void incMonth() // -------------------------------------------------
 }
 
 /**
-** Méthode permettant de calculer la durée en jours entre 2 dates BasicDate
-** la date le l'object actuel est la référence de début de période
+** Mï¿½thode permettant de calculer la durï¿½e en jours entre 2 dates BasicDate
+** la date le l'object actuel est la rï¿½fï¿½rence de dï¿½but de pï¿½riode
 ** <P>
 ** <PRE>
-**  // Calcul le nombre de jour d'un mois donné.
+**  // Calcul le nombre de jour d'un mois donnï¿½.
 **  BasicDate startDate = new BasicDate( yearNumber, monthNumber, 1 );
 **  BasicDate endDate   = new BasicDate( yearNumber, monthNumber, 1 );
 **  endDate.incMonth();
@@ -600,9 +599,9 @@ public void incMonth() // -------------------------------------------------
 **  int countOfDayInTheMonth = startDate.countOfDay( endDate );
 ** </PRE>
 **
-** @param endOfPeriod BasicDate initialisé à la fin de la période
+** @param endOfPeriod BasicDate initialisï¿½ ï¿½ la fin de la pï¿½riode
 **
-** @return durée (en jours) entre la date de début et la date de fin
+** @return durï¿½e (en jours) entre la date de dï¿½but et la date de fin
 */
 public int countOfDay( BasicDate endOfPeriod ) // ------------------------
 {
@@ -625,7 +624,7 @@ public int countOfDay( BasicDate endOfPeriod ) // ------------------------
 protected void check() throws BasicDateException // ----------------------
 {
  //
- // Vérification que la date est consistante.
+ // Vï¿½rification que la date est consistante.
  //
  BasicDate checkDate = new BasicDate( this.getJavaDate() );
 
@@ -688,14 +687,14 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
 
 /*
 *
-** Ajoute de UN jour à la date courante.
+** Ajoute de UN jour ï¿½ la date courante.
 ** <P>
-** Passe automatiquement au mois et à l'année suivante si besoin.
+** Passe automatiquement au mois et ï¿½ l'annï¿½e suivante si besoin.
 *
 /
 public void incDay() // ---------------------------------------------------
 {
- int day = this.getDay() + 1; // Incrémente
+ int day = this.getDay() + 1; // Incrï¿½mente
 
  if( day > 28 ) {
     // Il y a un risque potentiel de changement de mois,
@@ -707,7 +706,7 @@ public void incDay() // ---------------------------------------------------
 
     calendar.add( FullCalendar.DATE, 1 );
 
-    // Récupère une date toute propre ;-)
+    // Rï¿½cupï¿½re une date toute propre ;-)
     dateYYYYMMDD = calendar.getDate( SIMPLE_DATE_FORMAT );
 
     // System.out.println( "cal :" + calendar.getDate( SIMPLE_DATE_FORMAT ) );
@@ -728,9 +727,9 @@ public void incDay() // ---------------------------------------------------
 
 /*
 *
-** Ajoute 'numberOfDay' jours à la date.
+** Ajoute 'numberOfDay' jours ï¿½ la date.
 **
-** @param numberOfDay   nombres de jours à ajouter à partir de la date courante
+** @param numberOfDay   nombres de jours ï¿½ ajouter ï¿½ partir de la date courante
 **                      (valeur <B>positive uniquement</B>).
 *
 /
@@ -746,9 +745,9 @@ public void incDay( int numberOfDay ) // ----------------------------------
 
 /*
 *
-** Retire UN jour à la date courante.
+** Retire UN jour ï¿½ la date courante.
 ** <P>
-** Ajoute automatiquement le mois et l'année si besoin.
+** Ajoute automatiquement le mois et l'annï¿½e si besoin.
 *
 /
 public void decDay() // ---------------------------------------------------
@@ -759,9 +758,9 @@ public void decDay() // ---------------------------------------------------
 
 /*
 *
-** Retire 'numberOfDay' jours à la date.
+** Retire 'numberOfDay' jours ï¿½ la date.
 **
-** @param numberOfDay   nombres de jours à retirer à partir de la date courante
+** @param numberOfDay   nombres de jours ï¿½ retirer ï¿½ partir de la date courante
 **                      (valeur <B>positive uniquement</B>).
 *
 /

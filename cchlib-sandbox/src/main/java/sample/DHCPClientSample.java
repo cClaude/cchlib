@@ -3,7 +3,6 @@
 // last updated 9/06/1999
 package sample;
 
-import cx.ath.choisnet.net.dhcp.DHCPMessage;
 import cx.ath.choisnet.net.dhcp.DHCPOptions;
 import cx.ath.choisnet.net.dhcp.DHCPParameters;
 import cx.ath.choisnet.net.dhcp.DHCPSimpleClient;

@@ -11,9 +11,6 @@
 */
 package cx.ath.choisnet.net.dhcp;
 
-import java.net.DatagramSocket;
-import java.net.DatagramPacket;
-
 /**
 **
 ** @author Claude CHOISNET

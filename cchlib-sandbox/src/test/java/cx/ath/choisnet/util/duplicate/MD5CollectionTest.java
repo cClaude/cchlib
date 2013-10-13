@@ -14,7 +14,6 @@ package cx.ath.choisnet.util.duplicate;
 import cx.ath.choisnet.io.Serialization;
 import cx.ath.choisnet.util.checksum.MD5Tree;
 import cx.ath.choisnet.util.duplicate.impl.MD5CollectionImpl;
-import cx.ath.choisnet.util.duplicate.tasks.TasksFactory;
 import java.io.File;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -85,7 +84,7 @@ protected void tearDown() // ----------------------------------------------
 
 
 /**
-** Vérification java.io.Serializable et Comparable<MD5Collection>
+** Vï¿½rification java.io.Serializable et Comparable<MD5Collection>
 */
 public void testSerializable() // -----------------------------------------
     throws java.io.IOException, ClassNotFoundException
@@ -97,7 +96,7 @@ public void testSerializable() // -----------------------------------------
     MD5Collection   aMD5Collection      = Serialization.newFromByteArray( serialization, MD5Collection.class );
 
     assertEquals(
-        "Résultat de la sérialisation ",
+        "Rï¿½sultat de la sï¿½rialisation ",
         thisMD5Collection.compareTo( aMD5Collection ),
         0
         );
@@ -105,7 +104,7 @@ public void testSerializable() // -----------------------------------------
 }
 
 /**
-** Vérification Comparable<MD5Collection>
+** Vï¿½rification Comparable<MD5Collection>
 */
 public void testCompareTo() // --------------------------------------------
 {

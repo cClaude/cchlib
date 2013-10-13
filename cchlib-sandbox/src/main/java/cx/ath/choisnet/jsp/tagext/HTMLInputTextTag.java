@@ -12,8 +12,6 @@
 */
 package cx.ath.choisnet.jsp.tagext;
 
-//import cx.ath.choisnet.html.HTMLForm;
-import cx.ath.choisnet.html.gadgets.HTMLInputText;
 import cx.ath.choisnet.html.HTMLInput;
 import cx.ath.choisnet.html.util.impl.HTMLDocumentWriterWrapper;
 

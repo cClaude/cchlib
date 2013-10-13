@@ -3,8 +3,6 @@ package com.googlecode.cchlib.tools.phone.recordsorter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.googlecode.cchlib.io.FileIterator;

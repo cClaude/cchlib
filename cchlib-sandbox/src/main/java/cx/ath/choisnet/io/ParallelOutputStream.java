@@ -6,11 +6,11 @@
 **
 **  1.00.___ 2005.04.19 Claude CHOISNET
 **  3.00.003 2006.02.14 Claude CHOISNET
-**                      Suppression du constructeur avec 3 paramètres
+**                      Suppression du constructeur avec 3 paramï¿½tres
 **                      OutputStream.
 **                      Reprise du constructeur ParallelOutputStream(...)
-**                      afin d'être compatible avec ce qu'était le
-**                      constructeur à 3 paramètres (création d'un tableau
+**                      afin d'ï¿½tre compatible avec ce qu'ï¿½tait le
+**                      constructeur ï¿½ 3 paramï¿½tres (crï¿½ation d'un tableau
 **                      local).
 ** -----------------------------------------------------------------------
 **
@@ -20,7 +20,6 @@
 package cx.ath.choisnet.io;
 
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 /**
 **
@@ -89,7 +88,7 @@ public void close() // ----------------------------------------------------
         }
     catch( java.io.IOException e ) {
         //
-        // Sauvegarde la dernière exception
+        // Sauvegarde la derniï¿½re exception
         //
         lastException = e;
         }

@@ -13,14 +13,12 @@ package cx.ath.choisnet.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 
 /**
-** Outils autour de la sérialisation, cette classe permet, entre autre,
-** de vérifier si un object est "serializable" ou pas
+** Outils autour de la sï¿½rialisation, cette classe permet, entre autre,
+** de vï¿½rifier si un object est "serializable" ou pas
 **
 ** @author Claude CHOISNET
 ** @since   3.01.002

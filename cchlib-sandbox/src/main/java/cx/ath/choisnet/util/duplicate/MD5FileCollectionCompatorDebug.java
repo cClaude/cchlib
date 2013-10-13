@@ -20,12 +20,9 @@ import cx.ath.choisnet.util.duplicate.tasks.DefaultFileTasksFactory;
 import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionBridgeImpl;
 import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionFactory;
 import java.io.File;
-import java.util.Collection;
-import java.util.Map.Entry;
-import java.util.Map;
 
 /**
-** Classe réservée au débuggage de {@link MD5CollectionCompator}
+** Classe rï¿½servï¿½e au dï¿½buggage de {@link MD5CollectionCompator}
 **
 **
 ** @author Claude CHOISNET

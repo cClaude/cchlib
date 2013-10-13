@@ -11,10 +11,7 @@
 */
 package cx.ath.choisnet.util.duplicate;
 
-import cx.ath.choisnet.io.Serialization;
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
-import cx.ath.choisnet.util.checksum.MD5Tree;
-import cx.ath.choisnet.util.duplicate.impl.MD5CollectionFactory;
 import cx.ath.choisnet.util.duplicate.tasks.Task;
 import cx.ath.choisnet.util.duplicate.tasks.TasksFactory;
 import java.io.File;
@@ -48,7 +45,7 @@ protected void setUp() // -------------------------------------------------
 }
 
 /**
-** Vérification  getMD5CollectionCompatorResult()
+** Vï¿½rification  getMD5CollectionCompatorResult()
 */
 public void testCompatorResult() // ---------------------------------------
     throws java.io.IOException, ClassNotFoundException
@@ -63,12 +60,12 @@ public void testCompatorResult() // ---------------------------------------
 
  int taskListSize = md5cmp.getTasksList().size();
 
- assertEquals( "Tâches attendues " + taskListSize, taskListSize, 0 );
+ assertEquals( "Tï¿½ches attendues " + taskListSize, taskListSize, 0 );
 */
 }
 
 /**
-** Vérification  getMD5CollectionCompatorResult()
+** Vï¿½rification  getMD5CollectionCompatorResult()
 */
 public void testCompatorResultNoChange() // ---------------------------------------
     throws java.io.IOException, ClassNotFoundException
@@ -83,7 +80,7 @@ public void testCompatorResultNoChange() // ------------------------------------
 
  int taskListSize = md5cmp.getTasksList().size();
 
- assertEquals( "pas de tâches attendues " + taskListSize, taskListSize, 0 );
+ assertEquals( "pas de tï¿½ches attendues " + taskListSize, taskListSize, 0 );
  */
 }
 

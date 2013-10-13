@@ -12,14 +12,12 @@
 */
 package cx.ath.choisnet.html.gadgets;
 
-import cx.ath.choisnet.html.util.FormItem;
 import cx.ath.choisnet.html.util.HTMLDocumentException;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import javax.servlet.ServletRequest;
 
 /**
 ** <p>

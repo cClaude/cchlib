@@ -18,7 +18,7 @@
 **                      New method to download classes : toBytes()
 **  3.02.042 2007.01.08 Claude CHOISNET
 **                      Modification de findResource( final String name )
-**                      afin d'être compatible avec les recommendations
+**                      afin d'ï¿½tre compatible avec les recommendations
 **                      java 1.6
 ** ------------------------------------------------------------------------
 **
@@ -33,17 +33,14 @@
 package cx.ath.choisnet.lang;
 
 import cx.ath.choisnet.util.ByteBuffer;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.LinkedList;
-import java.util.Map.Entry;
 import java.util.Map;
 
 /**
@@ -220,6 +217,7 @@ private byte[] getClassFromAddedClassPaths( final String className ) // ---
 /**
 **
 */
+@Override
 public URL findResource( final String name ) // ---------------------------
 {
  //
@@ -298,7 +296,8 @@ final static protected byte[] toBytes( final InputStream inputStream ) //--
 ** @exception ClassNotFoundException
 **            if the class loader cannot find a definition for the class.
 **/
-public Class loadClass( final String className ) // -----------------------
+@Override
+public Class<?> loadClass( final String className ) // -----------------------
     throws ClassNotFoundException
 {
  return loadClass( className, true );
@@ -317,6 +316,7 @@ public Class loadClass( final String className ) // -----------------------
 ** @exception ClassNotFoundException
 **            if the class loader cannot find a definition for the class.
 */
+@Override
 public synchronized Class<?> loadClass( // --------------------------------
     final String  className,
     final boolean resolveIt
@@ -337,7 +337,7 @@ public synchronized Class<?> loadClass( // --------------------------------
         }
     }
 
- Class classResult = (Class)cache.get( className );
+ Class<?> classResult = cache.get( className );
 
 //
 // Check the cache of classes
@@ -391,6 +391,7 @@ catch( ClassNotFoundException ignore ) {
 /**
 **
 */
+@Override
 protected Class<?> findClass( final String name ) // ----------------------
     throws ClassNotFoundException
 {

@@ -14,7 +14,6 @@
 package cx.ath.choisnet.xml.impl;
 
 import java.io.PrintWriter;
-import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

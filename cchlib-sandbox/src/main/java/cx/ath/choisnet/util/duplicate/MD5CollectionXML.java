@@ -18,11 +18,7 @@ package cx.ath.choisnet.util.duplicate;
 
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import cx.ath.choisnet.xml.XMLParser;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,9 +27,9 @@ import org.w3c.dom.NodeList;
 
 /**
 ** <p>
-** Classe permettant de constuire des flux XML à partir d'un objet
+** Classe permettant de constuire des flux XML ï¿½ partir d'un objet
 ** {@link MD5Collection} ou  d'un objet {@link MD5FileCollection}
-** et réciproquement.
+** et rï¿½ciproquement.
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -51,7 +47,7 @@ public class MD5CollectionXML
 private static final long serialVersionUID = 1L;
 
 /**
-** Nom de l'élément racine du document XML
+** Nom de l'ï¿½lï¿½ment racine du document XML
 */
 public final static String ROOT_ELEMENT_NAME
                             = MD5CollectionXML.class.getName();
@@ -72,7 +68,7 @@ public MD5CollectionXML( // -----------------------------------------------
     //
     // Prob. d'initialisation...
     //
-    throw new MD5CollectionXMLException( "Élément inattendu '" + rootElement.getTagName() + "'" );
+    throw new MD5CollectionXMLException( "ï¿½lï¿½ment inattendu '" + rootElement.getTagName() + "'" );
     }
 
  loadFolders( rootElement.getElementsByTagName( "folders" ) );
@@ -93,9 +89,9 @@ public MD5CollectionXML( // -----------------------------------------------
 /**
 ** Sauvegarde l'objet dans un flux sous forme de XML.
 **
-** @param output Objet {@link Appendable} destiné à recevoir le flux XML.
+** @param output Objet {@link Appendable} destinï¿½ ï¿½ recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de problème lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de problï¿½me lors de l'ajout dans le flux.
 **
 ** @see #toXML(MD5Collection,Appendable)
 */
@@ -194,10 +190,10 @@ private static SortedSet<String> buildFilesSet( // ------------------------
 /**
 ** Transformation d'un objet {@link MD5Collection} en un flux XML.
 **
-** @param aMD5Collection    Objet {@link MD5Collection} à transformer en XML.
-** @param output            Objet {@link Appendable} destiné à recevoir le flux XML.
+** @param aMD5Collection    Objet {@link MD5Collection} ï¿½ transformer en XML.
+** @param output            Objet {@link Appendable} destinï¿½ ï¿½ recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de problème lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de problï¿½me lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final MD5Collection aMD5Collection,
@@ -211,10 +207,10 @@ public static void toXML( // ----------------------------------------------
 /**
 ** Transformation d'un objet {@link MD5Collection} en un flux XML.
 **
-** @param aMD5FileCollection    Objet {@link MD5Collection} à transformer en XML.
-** @param output                Objet {@link Appendable} destiné à recevoir le flux XML.
+** @param aMD5FileCollection    Objet {@link MD5Collection} ï¿½ transformer en XML.
+** @param output                Objet {@link Appendable} destinï¿½ ï¿½ recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de problème lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de problï¿½me lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final MD5FileCollection aMD5FileCollection,

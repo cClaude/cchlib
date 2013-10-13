@@ -6,7 +6,7 @@
 **
 **  1.00.___ 2005.05.04 Claude CHOISNET
 **  2.01.021 2005.10.20 Claude CHOISNET
-**                      Ajout de la méthode : setLength(int)
+**                      Ajout de la mï¿½thode : setLength(int)
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.io.StringBufferWriter
@@ -14,7 +14,6 @@
 */
 package cx.ath.choisnet.io;
 
-import java.io.Writer;
 import java.io.StringWriter;
 
 /**

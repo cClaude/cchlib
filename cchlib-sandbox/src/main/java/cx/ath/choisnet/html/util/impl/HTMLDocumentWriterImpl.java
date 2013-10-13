@@ -12,8 +12,6 @@
 */
 package cx.ath.choisnet.html.util.impl;
 
-import cx.ath.choisnet.html.util.HTMLDocumentStringWriter;
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import java.util.Locale;
 
 /**

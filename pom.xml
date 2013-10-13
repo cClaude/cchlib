@@ -209,6 +209,7 @@
 
     <!-- Not compile by default script -->
     <!--  <module>cchlib-sandbox</module> -->
+    <!-- <module>cchlib-tools-sandbox</module> -->
 
     <!-- No more supported -->
     <!--module>cchlib-core-java5</module-->

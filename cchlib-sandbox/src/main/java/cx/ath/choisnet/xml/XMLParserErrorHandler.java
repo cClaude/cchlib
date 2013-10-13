@@ -10,7 +10,7 @@
 **                      Le constructeur XMLParserErrorHandler( PrintStream )
 **                      est deprecated.
 **  3.02.002 2006.05.30 Claude CHOISNET
-**                      Ajout des méthodes:
+**                      Ajout des mï¿½thodes:
 **                          ioError(IOException)
 **                          parserError(ParserConfigurationException)
 **  3.02.043 2007.01.09 Claude CHOISNET
@@ -26,13 +26,10 @@ package cx.ath.choisnet.xml;
 
 import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
 ** Error handler to report errors and warnings

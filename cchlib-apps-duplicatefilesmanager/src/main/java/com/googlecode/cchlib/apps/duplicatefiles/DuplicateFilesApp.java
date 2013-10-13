@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Dimension;
-
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;

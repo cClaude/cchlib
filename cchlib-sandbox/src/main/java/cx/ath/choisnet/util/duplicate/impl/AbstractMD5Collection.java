@@ -12,7 +12,6 @@
 */
 package cx.ath.choisnet.util.duplicate.impl;
 
-import cx.ath.choisnet.util.checksum.MD5Tree;
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import cx.ath.choisnet.util.duplicate.MD5Collection;
 import cx.ath.choisnet.util.duplicate.MD5CollectionHelper;
@@ -63,10 +62,10 @@ protected AbstractMD5Collection() // --------------------------------------
 }
 
 /**
-** Retourne un ensemble, non modifiable, de chaines représentant le
+** Retourne un ensemble, non modifiable, de chaines reprï¿½sentant le
 ** le nom relatif de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais éventuellement vide.
+** @return un objet Set<String> non null, mais ï¿½ventuellement vide.
 */
 final
 public Set<String> getFolderFilenames() // --------------------------------
@@ -77,9 +76,9 @@ public Set<String> getFolderFilenames() // --------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple formé de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble de chaîne représentant le nom relatif de chacune des
-** instances de ce fichier (il doit y avoir au moins une entrée).
+** object Map contenant un couple formï¿½ de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de chaï¿½ne reprï¿½sentant le nom relatif de chacune des
+** instances de ce fichier (il doit y avoir au moins une entrï¿½e).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
 */
@@ -91,13 +90,13 @@ public Map<MD5TreeEntry,? extends Set<String>> getEntryFilenames() // -----
 }
 
 /**
-** Retourne l'ensemble des noms de fichier relatifs correspondant à
-** l'empreinte donnée.
+** Retourne l'ensemble des noms de fichier relatifs correspondant ï¿½
+** l'empreinte donnï¿½e.
 **
-** @param md5 Empreinte recherchée
+** @param md5 Empreinte recherchï¿½e
 **
 ** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
-** donné, retourne null autrement.
+** donnï¿½, retourne null autrement.
 */
 final
 public Set<String> getEntryFilenames( final MD5TreeEntry md5 ) // ---------
@@ -119,11 +118,11 @@ public void computeEntryCount() // ----------------------------------------
 
 /**
 ** Retourne le nombre de fichiers contenu dans la collection. Cette valeur
-** étant cachée, si la collection est modifiée, elle devrait être
-** réinitialisée {@link #computeEntryCount()}.
+** ï¿½tant cachï¿½e, si la collection est modifiï¿½e, elle devrait ï¿½tre
+** rï¿½initialisï¿½e {@link #computeEntryCount()}.
 **
-** @return un int correspondant au nombre de fichiers (hors dossier) étant
-**         défini dans la collection.
+** @return un int correspondant au nombre de fichiers (hors dossier) ï¿½tant
+**         dï¿½fini dans la collection.
 **
 ** @see #computeEntryCount()
 */
@@ -146,7 +145,7 @@ final
 public int compareTo( final MD5Collection anOtherMD5Collection ) // -------
 {
  if( super.equals( anOtherMD5Collection ) ) {
-    return 0; // on s'arrête là, c'est le même objet !
+    return 0; // on s'arrï¿½te lï¿½, c'est le mï¿½me objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherMD5Collection );
@@ -160,7 +159,7 @@ final
 public boolean equals( final MD5Collection anOtherMD5Collection ) // ------
 {
  if( super.equals( anOtherMD5Collection ) ) {
-    return true; // on s'arrête là, c'est le même objet !
+    return true; // on s'arrï¿½te lï¿½, c'est le mï¿½me objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherMD5Collection ) == 0;

@@ -13,8 +13,6 @@ package cx.ath.choisnet.util;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
 ** <P>
@@ -22,8 +20,8 @@ import java.util.List;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de créer de nouvelle collection. Elle permet d'applatir
-** la vue avec de traiter les sous-objets séquentiellement.
+** avoir besoin de crï¿½er de nouvelle collection. Elle permet d'applatir
+** la vue avec de traiter les sous-objets sï¿½quentiellement.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -86,7 +84,7 @@ public FlattenIterable( // ------------------------------------------------
 ** </p>
 **
 ** @param   arrayOfIterable Tableau d'objets {@link Iterable}
-** @param   offset          Index de départ
+** @param   offset          Index de dï¿½part
 ** @param   len             Index de fin
 **
 */
@@ -117,13 +115,13 @@ public FlattenIterable( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur d'un objet {@link Iterable} et un
-** élément.
+** ï¿½lï¿½ment.
 ** </p>
 **
 ** @param iterable  Object {@link Iterable}
 ** @param element   Element seul
 **
-** L'élément seul sera traiter APRÈS les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter APRï¿½S les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public FlattenIterable( // ------------------------------------------------
@@ -140,14 +138,14 @@ public FlattenIterable( // ------------------------------------------------
 
 /**
 ** <p>
-** Construction d'Iterator s'appuyant sur un élément
+** Construction d'Iterator s'appuyant sur un ï¿½lï¿½ment
 ** et d'objet {@link Iterable}
 ** </p>
 **
 ** @param element   Element seul
 ** @param iterable  Object {@link Iterable}
 **
-** L'élément seul sera traiter AVANT les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter AVANT les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public FlattenIterable( // ------------------------------------------------

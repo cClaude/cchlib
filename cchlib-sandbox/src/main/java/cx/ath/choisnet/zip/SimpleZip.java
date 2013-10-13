@@ -19,7 +19,6 @@ import cx.ath.choisnet.util.Wrappable;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.OutputStream;
-import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 

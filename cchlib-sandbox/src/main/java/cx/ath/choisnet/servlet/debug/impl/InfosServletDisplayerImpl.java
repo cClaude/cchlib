@@ -6,18 +6,18 @@
 ** Encodage      : ANSI
 **
 **  2.01.032 2005.11.21 Claude CHOISNET - Version initiale
-**                      inspirée de :
+**                      inspirï¿½e de :
 **                          cx.ath.choisnet.servlet.debug.DisplayServletInfos
-**                      et basé sur :
+**                      et basï¿½ sur :
 **                          cx.ath.choisnet.lang.reflect.MappableHelper
 **  2.02.007 2005.12.05 Claude CHOISNET
 **                      Ajout de l'affichage du contenu de l'objet HttpSession
 **  2.02.042 2006.01.09 Claude CHOISNET
-**                      Ajout d'un résumé dans l'affichage.
+**                      Ajout d'un rï¿½sumï¿½ dans l'affichage.
 **  3.03.002 29.05.2007 Claude CHOISNET
 **                      Traitement de l'affichage des informations de la
-**                      JVM (runtime) à l'aide de réflexion. Permet de
-**                      d'appeller des mèthodes pas nécessairement disponible
+**                      JVM (runtime) ï¿½ l'aide de rï¿½flexion. Permet de
+**                      d'appeller des mï¿½thodes pas nï¿½cessairement disponible
 **                      sur toutes les versions de JVM.
 **  3.03.003 05.06.2007 Claude CHOISNET
 ** -----------------------------------------------------------------------
@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Enumeration;
-import java.io.PrintWriter;
 import cx.ath.choisnet.util.EnumerationBuilder;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
 import cx.ath.choisnet.servlet.debug.InfosServletDisplay.Anchor;

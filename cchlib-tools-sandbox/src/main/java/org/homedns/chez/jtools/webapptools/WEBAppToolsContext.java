@@ -15,8 +15,6 @@ package org.homedns.chez.jtools.webapptools;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletContext;
-import org.homedns.chez.jtools.lib.ContextInitializable;
 import org.homedns.chez.jtools.lib.ContextInitializationException;
 import org.homedns.chez.jtools.lib.ContextLoader;
 

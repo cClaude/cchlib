@@ -14,18 +14,19 @@ import java.util.NoSuchElementException;
 ** Liste cha�n�e d'�l�ments simplifi�e. Cette liste est particuli�rement
 ** efficasse en terme de m�moire et de temps sur les op�rations simples.
 */
-public class SimpleList
-    extends AbstractSequentialList
+public class SimpleList<E>
+    extends AbstractSequentialList<E>
         implements
-            List,
+            List<E>,
             Cloneable,
             java.io.Serializable
 {
     private static final long serialVersionUID = 1L;
-private SimpleListEntry firstItem;
-private SimpleListEntry lastItem;
-private int             size;
-private int             modificationCounter = 0;
+
+    private SimpleListEntry<E> firstItem;
+    private SimpleListEntry<E> lastItem;
+    private int                size;
+    private int                modificationCounter = 0;
 
 /**
 **
@@ -39,7 +40,7 @@ public SimpleList() // ----------------------------------------------------
 **
 */
 public SimpleList( // -----------------------------------------------------
-    SimpleListEntry firstEntry
+    SimpleListEntry<E> firstEntry
     )
 {
  if( firstEntry == null ) {
@@ -49,9 +50,9 @@ public SimpleList( // -----------------------------------------------------
  else {
     this.firstItem = firstEntry;
 
-    int             count   = 1;
-    SimpleListEntry prev    = firstEntry;
-    SimpleListEntry node    = firstEntry.next;
+    int                count   = 1;
+    SimpleListEntry<E> prev    = firstEntry;
+    SimpleListEntry<E> node    = firstEntry.next;
 
     while( node != null ) {
         prev = node;
@@ -67,13 +68,13 @@ public SimpleList( // -----------------------------------------------------
 /**
 ** @return the SimpleListEntry at the specified position in this list.
 */
-private SimpleListEntry getSimpleListEntry( int index ) // -----------------
+private SimpleListEntry<E> getSimpleListEntry( int index ) // -----------------
 {
  if( index < 0 || index >= size ) {
     throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
     }
 
- SimpleListEntry e = firstItem;
+ SimpleListEntry<E> e = firstItem;
 
  for( int i = 0; i <= index; i++ ) {
     e = e.next;
@@ -82,31 +83,32 @@ private SimpleListEntry getSimpleListEntry( int index ) // -----------------
  return e;
 }
 
-/**
-** @return the previous SimpleListEntry that specify.
-*/
-private SimpleListEntry getPrevSimpleListEntry( // ------------------------
-    SimpleListEntry entry
-    )
-{
- SimpleListEntry prev = null;
-
- for( SimpleListEntry e = firstItem; e != null; e = e.next ) {
-
-    if( e == entry ) {
-        return prev;
-        }
-
-    prev = e;
-    }
-
- throw new InternalError( "entry not found." );
-}
+///**
+//** @return the previous SimpleListEntry that specify.
+//*/
+//private SimpleListEntry<E> getPrevSimpleListEntry( // ------------------------
+//    SimpleListEntry<E> entry
+//    )
+//{
+// SimpleListEntry<E> prev = null;
+//
+// for( SimpleListEntry<E> e = firstItem; e != null; e = e.next ) {
+//
+//    if( e == entry ) {
+//        return prev;
+//        }
+//
+//    prev = e;
+//    }
+//
+// throw new InternalError( "entry not found." );
+//}
 
 /**
 **
 */
-public void add( int index, Object o ) // ---------------------------------
+@Override
+public void add( int index, E o ) // ---------------------------------
 {
  if( index < 0 || index > size ) {
     throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
@@ -125,10 +127,10 @@ public void add( int index, Object o ) // ---------------------------------
     }
 
  // Recherche de la position
- SimpleListEntry prev = getSimpleListEntry( index - 1 );
+ SimpleListEntry<E> prev = getSimpleListEntry( index - 1 );
 
- // Insertion d'une nouvelle entr�e.
- prev.next = new SimpleListEntry( o, prev.next );
+ // Insertion d'une nouvelle entree.
+ prev.next = new SimpleListEntry<E>( o, prev.next );
 
  this.size++;
  this.modificationCounter++;
@@ -137,15 +139,16 @@ public void add( int index, Object o ) // ---------------------------------
 /**
 ** Appends the specified element to the end of this list.
 */
-public boolean add( Object o ) // -----------------------------------------
+@Override
+public boolean add( E o ) // -----------------------------------------
 {
  if( this.firstItem == null ) {
     // list vide
-    this.lastItem = this.firstItem = new SimpleListEntry( o );
+    this.lastItem = this.firstItem = new SimpleListEntry<E>( o );
     }
  else {
     // this.firstItem = [NO CHANGE];
-    this.lastItem = new SimpleListEntry( o, this.lastItem );
+    this.lastItem = new SimpleListEntry<E>( o, this.lastItem );
     }
 
  this.modificationCounter++;
@@ -159,14 +162,14 @@ public boolean add( Object o ) // -----------------------------------------
 **
 ** @param o the element to be inserted at the beginning of this list.
 */
-public void addFirst( Object o ) // ---------------------------------------
+public void addFirst( E o ) // ---------------------------------------
 {
  if( this.firstItem == null ) {
     // list vide
-    this.lastItem = this.firstItem = new SimpleListEntry( o );
+    this.lastItem = this.firstItem = new SimpleListEntry<E>( o );
     }
  else {
-    this.firstItem = new SimpleListEntry( o, this.firstItem );
+    this.firstItem = new SimpleListEntry<E>( o, this.firstItem );
     // this.lastItem = [NO CHANGE];
     }
 
@@ -180,6 +183,7 @@ public void addFirst( Object o ) // ---------------------------------------
 /**
 ** Removes all of the elements from this list
 */
+@Override
 public void clear() // ----------------------------------------------------
 {
  this.lastItem = this.firstItem = null;
@@ -196,6 +200,7 @@ public void clear() // ----------------------------------------------------
 **
 ** @return true if this list contains the specified element.
 */
+@Override
 public boolean contains( Object o ) // ------------------------------------
 {
  return indexOf( o ) != -1;
@@ -212,7 +217,8 @@ public boolean contains( Object o ) // ------------------------------------
 ** @throws IndexOutOfBoundsException if the specified index is is out of
 **      range (<tt>index &lt; 0 || index &gt;= size()</tt>).
 */
-public Object get( int index ) // -----------------------------------------
+@Override
+public E get( int index ) // -----------------------------------------
 {
  return getSimpleListEntry( index ).element;
 }
@@ -227,10 +233,11 @@ public Object get( int index ) // -----------------------------------------
 ** @throws IndexOutOfBoundsException if the specified index is out of
 *        range (<tt>index &lt; 0 || index &gt;= size()</tt>).
 */
-public Object set( int index, Object element )
+@Override
+public E set( int index, E element )
 {
- SimpleListEntry    e       = getSimpleListEntry( index );
- Object             oldVal  = e.element;
+ SimpleListEntry<E> e       = getSimpleListEntry( index );
+ E                  oldVal  = e.element;
 
  e.element = element;
 
@@ -254,12 +261,13 @@ public Object set( int index, Object element )
 **         specified element, or -1 if the list does not contain this
 **         element.
 */
+@Override
 public int indexOf( Object o ) // -----------------------------------------
 {
  int index = 0;
 
  if( o == null ) {
-    for( SimpleListEntry e = firstItem; e != null; e = e.next ) {
+    for( SimpleListEntry<E> e = firstItem; e != null; e = e.next ) {
         if( e.element == null ) {
             return index;
             }
@@ -267,7 +275,7 @@ public int indexOf( Object o ) // -----------------------------------------
         }
     }
  else {
-    for( SimpleListEntry e = firstItem; e != null; e = e.next ) {
+    for( SimpleListEntry<E> e = firstItem; e != null; e = e.next ) {
         if( o.equals( e.element ) ) {
             return index;
             }
@@ -281,7 +289,8 @@ public int indexOf( Object o ) // -----------------------------------------
 /**
 ** @return an iterator over the elements in this list in proper sequence.
 */
-public Iterator iterator() // ---------------------------------------------
+@Override
+public Iterator<E> iterator() // ---------------------------------------------
 {
  return new SLIterator();
 }
@@ -311,13 +320,15 @@ public Iterator iterator() // ---------------------------------------------
 **        (<tt>index &lt; 0 || index &gt; size()</tt>).
 ** @see List#listIterator(int)
 */
-public ListIterator listIterator( final int index ) // --------------------
+@Override
+public ListIterator<E> listIterator( final int index ) // --------------------
 {
  return new SLListIterator( index );
 }
 
 // public Object _remove(int index)
 
+@Override
 public boolean remove( Object o ) // --------------------------------------
 {
 System.out.println( "public boolean remove( Object o )" );
@@ -336,9 +347,9 @@ System.out.println( "public boolean remove( Object o )" );
         return true;
         }
 
-    SimpleListEntry prev = null;
+    SimpleListEntry<E> prev = null;
 
-    for( SimpleListEntry e = this.firstItem; e != null; e = e.next ) {
+    for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
 
         if( e.element == null ) {
             // il ne s'agit ni du premier, ni du dernier �l�ment.
@@ -365,9 +376,9 @@ System.out.println( "public boolean remove( Object o )" );
         return true;
         }
 
-    SimpleListEntry prev = null;
+    SimpleListEntry<E> prev = null;
 
-    for( SimpleListEntry e = this.firstItem; e != null; e = e.next ) {
+    for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
         if( o.equals( e.element ) ) {
             // il ne s'agit ni du premier, ni du dernier �l�ment.
             prev.next = e.next;
@@ -382,7 +393,7 @@ System.out.println( "public boolean remove( Object o )" );
     }
 }
 
-private void removeSimpleListEntry( SimpleListEntry entry ) // ------------
+private void removeSimpleListEntry( SimpleListEntry<E> entry ) // ------------
 {
  if( this.firstItem == entry ) {
     removeFirst();
@@ -394,9 +405,9 @@ private void removeSimpleListEntry( SimpleListEntry entry ) // ------------
     return;
     }
 
- SimpleListEntry prev = null;
+ SimpleListEntry<E> prev = null;
 
- for( SimpleListEntry e = this.firstItem; e != null; e = e.next ) {
+ for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
     if( e == entry ) {
         // il ne s'agit ni du premier, ni du dernier �l�ment.
         prev.next = e.next;
@@ -419,6 +430,7 @@ private void removeSimpleListEntry( SimpleListEntry entry ) // ------------
 **
 ** @return the number of elements in this list.
 */
+@Override
 public int size() // ------------------------------------------------------
 {
  return size;
@@ -441,7 +453,8 @@ public int size() // ------------------------------------------------------
 ** @throws IndexOutOfBoundsException if the specified index is out of
 **        range (<tt>index &lt; 0 || index &gt;= size()</tt>).
 */
-public Object remove( int index ) // --------------------------------------
+@Override
+public E remove( int index ) // --------------------------------------
 {
 System.out.println( "public boolean remove( int index )" );
 
@@ -457,8 +470,8 @@ System.out.println( "public boolean remove( int index )" );
     return removeLast();
     }
 
- SimpleListEntry prev   = null;
- SimpleListEntry e      = firstItem;
+ SimpleListEntry<E> prev   = null;
+ SimpleListEntry<E> e      = firstItem;
 
  for( int i = 0; i <= index; i++ ) {
     prev    = e;
@@ -472,7 +485,7 @@ System.out.println( "public boolean remove( int index )" );
  this.size--;
  this.modificationCounter++;
 
- return e;
+ return e.element;
 }
 
 /**
@@ -482,11 +495,11 @@ System.out.println( "public boolean remove( int index )" );
 **
 ** @throws    NoSuchElementException if this list is empty.
 */
-public Object removeFirst() // --------------------------------------------
+public E removeFirst() // --------------------------------------------
 {
 System.out.println( "public Object removeFirst()" );
 
- SimpleListEntry first = firstItem;
+ SimpleListEntry<E> first = firstItem;
 
  if( first == null ) {
     throw new NoSuchElementException();
@@ -504,7 +517,7 @@ System.out.println( "public Object removeFirst()" );
 
  this.modificationCounter++;
 
- return first;
+ return first.element;
 }
 
 
@@ -514,11 +527,11 @@ System.out.println( "public Object removeFirst()" );
 ** @return the last element from this list.
 ** @throws    NoSuchElementException if this list is empty.
 */
-public Object removeLast() // ---------------------------------------------
+public E removeLast() // ---------------------------------------------
 {
 System.out.println( "public Object removeLast()" );
 
- SimpleListEntry last = lastItem;
+ SimpleListEntry<E> last = lastItem;
 
  if( last == null ) {
     throw new NoSuchElementException();
@@ -542,7 +555,7 @@ System.out.println( "public Object removeLast()" );
 
  this.modificationCounter++;
 
- return last;
+ return last.element;
 }
 
 /**
@@ -551,12 +564,13 @@ System.out.println( "public Object removeLast()" );
 **
 ** @return a shallow copy of this <tt>SimpleList</tt> instance.
 */
+@Override
 public Object clone() // --------------------------------------------------
 {
- SimpleList clone = null;
+ SimpleList<E> clone = null;
 
  try {
-    clone = (SimpleList)super.clone();
+    clone = (SimpleList<E>)super.clone();
     }
  catch( CloneNotSupportedException e ) {
     throw new InternalError();
@@ -569,7 +583,7 @@ public Object clone() // --------------------------------------------------
  clone.modificationCounter   = 0;
 
  // Read in all elements in the proper order.
- for( SimpleListEntry e = firstItem.next; e != null; e = e.next ) {
+ for( SimpleListEntry<E> e = firstItem.next; e != null; e = e.next ) {
     clone.add( e.element );
     }
 
@@ -594,7 +608,7 @@ private synchronized void writeObject( java.io.ObjectOutputStream s ) // --
  s.writeInt( size );
 
  // Write out all elements in the proper order.
- for( SimpleListEntry e = firstItem.next; e != null; e = e.next ) {
+ for( SimpleListEntry<E> e = firstItem.next; e != null; e = e.next ) {
     s.writeObject( e.element );
     }
 }
@@ -620,19 +634,20 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
 
  // Read in all elements in the proper order.
  for( int i=0; i<size; i++ ) {
-    add( s.readObject() );
+    E e = (E)(s.readObject());
+    add( e );
     }
 }
 
     /**
     **
     */
-    private class SLIterator implements Iterator
+    private class SLIterator implements Iterator<E>
     {
-    protected SimpleListEntry   currentEntry;
-    protected int               currentEntryIndex;
-    protected int               iteratorMC;
-    protected SimpleListEntry   lastReturn;
+    protected SimpleListEntry<E> currentEntry;
+    protected int                currentEntryIndex;
+    protected int                iteratorMC;
+    protected SimpleListEntry<E> lastReturn;
 
     public SLIterator() // ------------------------------------------------
     {
@@ -642,14 +657,16 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
      lastReturn         = null;
     }
 
+    @Override
     public boolean hasNext() // -------------------------------------------
     {
      return currentEntry != null;
     }
 
-    public Object next() // -----------------------------------------------
+    @Override
+    public E next() // -----------------------------------------------
     {
-     SimpleListEntry result = currentEntry;
+     SimpleListEntry<E> result = currentEntry;
 
      if( iteratorMC != modificationCounter ) {
         throw new ConcurrentModificationException();
@@ -668,6 +685,7 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
      return result.element;
     }
 
+    @Override
     public void remove() // -----------------------------------------------
     {
      if( lastReturn == null ) {
@@ -691,12 +709,12 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
     /**
     **
     */
-    private class SLListIterator extends SLIterator implements ListIterator
+    private class SLListIterator extends SLIterator implements ListIterator<E>
     {
-    private int             currentIndex;
-    private int             iteratorMC;
-    private SimpleListEntry lastReturned;
-    private SimpleListEntry lastReturnedNext;
+    private int                currentIndex;
+    private int                iteratorMC;
+    private SimpleListEntry<E> lastReturned;
+    private SimpleListEntry<E> lastReturnedNext;
 
     public SLListIterator( int index ) // ---------------------------------
     {
@@ -706,7 +724,8 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
      lastReturnedNext   = null;
     }
 
-    public void add( Object o ) // ----------------------------------------
+    @Override
+    public void add( E o ) // ----------------------------------------
     {
          synchronized( SimpleList.this ) {
             if( iteratorMC != modificationCounter ) {
@@ -722,24 +741,27 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
          lastReturned = lastReturnedNext = null;
         }
 
+        @Override
         public boolean hasNext() // ---------------------------------------
         {
          return currentIndex < size;
         }
 
+        @Override
         public boolean hasPrevious() // -----------------------------------
         {
          return currentIndex > 0;
         }
 
-        public Object next() // -------------------------------------------
+        @Override
+        public E next() // -------------------------------------------
         {
          if( iteratorMC != modificationCounter ) {
             throw new ConcurrentModificationException();
             }
 
-         SimpleListEntry    entry = getSimpleListEntry( currentIndex++ );
-         Object             value;
+         SimpleListEntry<E> entry = getSimpleListEntry( currentIndex++ );
+         E                  value;
 
          try {
             value = entry.element;
@@ -754,12 +776,14 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
          return value;
         }
 
+        @Override
         public int nextIndex() // -----------------------------------------
         {
          return currentIndex;
         }
 
-        public Object previous() // ---------------------------------------
+        @Override
+        public E previous() // ---------------------------------------
         {
          if( iteratorMC != modificationCounter ) {
             throw new ConcurrentModificationException();
@@ -769,19 +793,21 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
             throw new NoSuchElementException();
             }
 
-         SimpleListEntry    entry = getSimpleListEntry( --currentIndex );
-         Object             value = entry.element;
+         SimpleListEntry<E> entry = getSimpleListEntry( --currentIndex );
+         E                  value = entry.element;
 
          lastReturnedNext = lastReturned = entry;
 
          return value;
         }
 
+        @Override
         public int previousIndex() // -------------------------------------
         {
          return currentIndex - 1;
         }
 
+        @Override
         public void remove() // -------------------------------------------
         {
          synchronized( SimpleList.this ) {
@@ -805,7 +831,8 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
          lastReturned = lastReturnedNext = null;
         }
 
-        public void set( Object o ) // ------------------------------------
+        @Override
+        public void set( E o ) // ------------------------------------
         {
          if( iteratorMC != modificationCounter ) {
             throw new ConcurrentModificationException();
@@ -822,13 +849,13 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
 
 public static void main( String[] args ) // -------------------------------
 {
- SimpleList instance
-    = new SimpleList(
-        new SimpleListEntry( "1",
-            new SimpleListEntry( "2",
-                new SimpleListEntry( "3",
-                    new SimpleListEntry( "4",
-                        new SimpleListEntry( "5" )
+ SimpleList<String> instance
+    = new SimpleList<String>(
+        new SimpleListEntry<String>( "1",
+            new SimpleListEntry<String>( "2",
+                new SimpleListEntry<String>( "3",
+                    new SimpleListEntry<String>( "4",
+                        new SimpleListEntry<String>( "5" )
                         )
                     )
                 )
@@ -838,7 +865,7 @@ public static void main( String[] args ) // -------------------------------
  System.out.print( "LIST( " );
  int skip = 3;
 
- for( Iterator iter = instance.iterator(); iter.hasNext(); ) {
+ for( Iterator<String> iter = instance.iterator(); iter.hasNext(); ) {
     System.out.print( " " + iter.next() + "," );
 
     if( skip == 0 ) {
@@ -853,7 +880,7 @@ public static void main( String[] args ) // -------------------------------
 
  System.out.print( "LIST( " );
 
- for( Iterator iter = instance.iterator(); iter.hasNext(); ) {
+ for( Iterator<String> iter = instance.iterator(); iter.hasNext(); ) {
     System.out.print( " " + iter.next() + "," );
     }
 

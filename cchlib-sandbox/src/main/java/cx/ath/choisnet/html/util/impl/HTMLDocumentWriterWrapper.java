@@ -11,9 +11,6 @@
 */
 package cx.ath.choisnet.html.util.impl;
 
-import cx.ath.choisnet.html.util.HTMLDocumentStringWriter;
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
-import java.util.Locale;
 import javax.servlet.jsp.PageContext;
 
 /**
@@ -82,8 +79,8 @@ public Appendable append( // ----------------------------------------------
 }
 
 /**
-** @return un object Locale correspondant à la localisation en cours,
-**         utilisé pour l'encodage de certain gadgets, en particulier pour
+** @return un object Locale correspondant ï¿½ la localisation en cours,
+**         utilisï¿½ pour l'encodage de certain gadgets, en particulier pour
 **         les dates et les horaires.
 **
 ** @throws UnsupportedOperationException
@@ -92,13 +89,13 @@ public Locale getLocale() // ----------------------------------------------
 {
  if( this.locale == null ) {
     //
-    // Récupère la locale du browser !
+    // Rï¿½cupï¿½re la locale du browser !
     //
 
     /// $$$$$$$$$$ A ECRIRE $$$$$$$$$$$$$$$$
 
     //
-    // Si rien trouvé, on prend le traitement par défaut
+    // Si rien trouvï¿½, on prend le traitement par dï¿½faut
     //
     if( this.locale == null ) {
         super.getLocale();

@@ -12,7 +12,6 @@
 */
 package cx.ath.choisnet.html.gadgets;
 
-import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import javax.servlet.ServletRequest;
 
 /**

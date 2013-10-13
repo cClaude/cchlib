@@ -14,8 +14,6 @@ package cx.ath.choisnet.html.gadgets;
 
 import cx.ath.choisnet.html.util.HTMLDocumentException;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
-import cx.ath.choisnet.html.util.HTMLNamedObject;
-import javax.servlet.ServletRequest;
 
 /**
 ** <p>

@@ -16,8 +16,6 @@ package cx.ath.choisnet.util;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
 ** <P>
@@ -25,7 +23,7 @@ import java.util.List;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de créer de nouvelle collection.
+** avoir besoin de crï¿½er de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -57,7 +55,7 @@ private T nextObject = null;
 ** d'iterateurs.
 ** </p>
 **
-** @param iteratorOfIterator    Iterateur de référence
+** @param iteratorOfIterator    Iterateur de rï¿½fï¿½rence
 */
 public FlattenIterator( // ------------------------------------------------
     final Iterator<Iterator<T>> iteratorOfIterator
@@ -72,7 +70,7 @@ public FlattenIterator( // ------------------------------------------------
 ** ({@link Iterator}),
 ** </p>
 **
-** @param collectionOfIterator    Collection de référence
+** @param collectionOfIterator    Collection de rï¿½fï¿½rence
 */
 public FlattenIterator( // ------------------------------------------------
     final Collection<Iterator<T>> collectionOfIterator
@@ -87,7 +85,7 @@ public FlattenIterator( // ------------------------------------------------
 ** </p>
 **
 ** @param arrayOfIterator   Tableau d'iterateur
-** @param   offset          Index de départ
+** @param   offset          Index de dï¿½part
 ** @param   len             Index de fin
 **
 */
@@ -144,14 +142,14 @@ public FlattenIterator( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** élément.
+** ï¿½lï¿½ment.
 ** </p>
 ** Ce constructeur s'appuis sur {@link ArrayCollection}.
 **
 ** @param iter      Object {@link Iterator}
 ** @param element   Element seul
 **
-** L'élément seul sera traiter APRÈS les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter APRï¿½S les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public FlattenIterator( // ------------------------------------------------
@@ -169,14 +167,14 @@ public FlattenIterator( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** élément.
+** ï¿½lï¿½ment.
 ** </p>
 ** Ce constructeur s'appuis sur {@link ArrayCollection}.
 **
 ** @param element   Element seul
 ** @param iter      Object {@link Iterator}
 **
-** L'élément seul sera traiter AVANT les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter AVANT les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public FlattenIterator( // ------------------------------------------------

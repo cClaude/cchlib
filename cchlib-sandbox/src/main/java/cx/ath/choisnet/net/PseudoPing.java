@@ -5,13 +5,10 @@
 */
 package cx.ath.choisnet.net;
 
-import java.io.PrintStream;
-import java.net.Socket;
 import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.BufferedOutputStream;
 import java.io.InputStreamReader;
-import java.net.Socket;
 
 /**
 **

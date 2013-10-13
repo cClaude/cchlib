@@ -4,10 +4,10 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
+**                      Adaptï¿½ du code de Jason Goldschmidt and Nick Stone
 **                      edu.bucknell.net.JDHCP.DHCPMessage
 **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      et basï¿½ sur les RFCs 1700, 2131 et 2132
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.dhcp.DHCPMessage
@@ -15,13 +15,8 @@
 */
 package cx.ath.choisnet.net.dhcp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.util.Arrays;
 
 /**
 ** This class represents a DHCP Message.

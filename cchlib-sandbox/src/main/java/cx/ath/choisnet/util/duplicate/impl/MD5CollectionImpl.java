@@ -17,17 +17,13 @@
 package cx.ath.choisnet.util.duplicate.impl;
 
 import cx.ath.choisnet.util.duplicate.MD5Collection;
-import cx.ath.choisnet.util.duplicate.MD5CollectionHelper;
 import cx.ath.choisnet.util.duplicate.MD5CollectionXML;
 import cx.ath.choisnet.util.checksum.MD5Tree;
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import cx.ath.choisnet.util.checksum.MD5TreeNode;
 import java.io.File;
 import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
@@ -71,10 +67,10 @@ protected MD5CollectionImpl() // ------------------------------------------
 }
 
 /**
-** Construction d'un objet MD5Collection relative à un dossier.
+** Construction d'un objet MD5Collection relative ï¿½ un dossier.
 **
 ** @param md5tree           Arbre contenant l'arboressance
-** @param baseFolderFile    Dossier correspondant à la racine de
+** @param baseFolderFile    Dossier correspondant ï¿½ la racine de
 **                          l'arboressance.
 **
 **
@@ -91,7 +87,7 @@ public MD5CollectionImpl( // ----------------------------------------------
 }
 
 /**
-** Permet de modifier le dossier de référance (cas du déplacement).
+** Permet de modifier le dossier de rï¿½fï¿½rance (cas du dï¿½placement).
 */
 private final void setBaseFolderFile( final File baseFolderFile ) // ------
 {
@@ -108,7 +104,7 @@ private String getRelativePath( final File absoluteFile ) // ---------------
 
  if( relFilePath.startsWith( this.baseFolderFilePath ) ) {
     //
-    // On retire le chemin vers la référance.
+    // On retire le chemin vers la rï¿½fï¿½rance.
     //
     relFilePath = relFilePath.substring( this.baseFolderFilePathLen );
     }
@@ -126,7 +122,7 @@ private String getName( final File file ) // ------------------------------
 
  if( relFilePath.startsWith( this.baseFolderFilePath ) ) {
     //
-    // On retire le chemin vers la référance.
+    // On retire le chemin vers la rï¿½fï¿½rance.
     //
     return relFilePath.substring( this.baseFolderFilePathLen );
     }
@@ -147,7 +143,7 @@ public File getRelativeFile( final File absoluteFile ) // -----------------
 ** Charge l'arbre dans cette collection.
 ** <br/>
 ** <br/>
-** Ces listes permettent, en particulier, d'avoir une vue des dossier basée
+** Ces listes permettent, en particulier, d'avoir une vue des dossier basï¿½e
 ** sur l'empreinte des fichiers et non pas leur localisation.
 ** </p>
 **

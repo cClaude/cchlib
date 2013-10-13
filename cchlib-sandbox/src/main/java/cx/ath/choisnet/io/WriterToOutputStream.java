@@ -12,7 +12,6 @@
 */
 package cx.ath.choisnet.io;
 
-import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -46,7 +45,7 @@ public WriterToOutputStream( // -------------------------------------------
     final Writer writer
     )
 {
- this( writer, Charset.defaultCharset() ); // Nécessite le jdk 1.5
+ this( writer, Charset.defaultCharset() ); // Nï¿½cessite le jdk 1.5
 }
 
 /**

@@ -12,7 +12,7 @@
 **                      Ajout de: toMap(MappableHelper,T)
 **  3.02.047 2007.01.20 Claude CHOISNET
 **                      Modification de: toMap(MappableHelper,T) qui accepte
-**                      maintenant les valeurs "null" sur ces deux paramètres.
+**                      maintenant les valeurs "null" sur ces deux paramï¿½tres.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.servlet.debug.impl.InfosServletDisplayImpl2
@@ -22,10 +22,8 @@ package cx.ath.choisnet.servlet.debug.impl;
 
 import cx.ath.choisnet.lang.reflect.MappableHelper;
 import cx.ath.choisnet.lang.reflect.MappableHelperFactory;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
 **

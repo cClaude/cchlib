@@ -7,7 +7,7 @@
 **  2.01.019 2005.10.18 Claude CHOISNET - Version initiale
 **  2.01.020 2005.10.19 Claude CHOISNET
 **                      Refonte de la classe.
-**                      Gère le cas des dossiers.
+**                      Gï¿½re le cas des dossiers.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl
@@ -17,7 +17,6 @@ package cx.ath.choisnet.zip.impl;
 
 import cx.ath.choisnet.zip.SimpleZipEntry;
 import java.io.File;
-import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**

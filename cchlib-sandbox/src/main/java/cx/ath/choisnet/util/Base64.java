@@ -13,9 +13,6 @@
 */
 package cx.ath.choisnet.util;
 
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-
 /**
 **
 ** @author Claude CHOISNET

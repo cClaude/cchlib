@@ -4,13 +4,13 @@
 ** Description   :
 **
 **  2.02.040 2006.01.06 Claude CHOISNET - Version initiale
-**                      Basé sur cx.ath.choisnet.net.NetTools
+**                      Basï¿½ sur cx.ath.choisnet.net.NetTools
 **  3.02.021 2006.01.06 Claude CHOISNET - Version initiale
-**                      Ajout des méthodes: setConnectRetryCount(int),
+**                      Ajout des mï¿½thodes: setConnectRetryCount(int),
 **                      setDelaisBeforeRetry(long), sleep(long),
 **                      download(URL,OutputStream), download(URL,File),
 **  3.02.022 2006.07.04 Claude CHOISNET - Version initiale
-**                      Ajout de la méthode: setProxy(Proxy)
+**                      Ajout de la mï¿½thode: setProxy(Proxy)
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.URLHelper
@@ -32,8 +32,6 @@ import java.io.Writer;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 
 /**
 **

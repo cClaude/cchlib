@@ -4,8 +4,8 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      Adaptï¿½ du code de Jason Goldschmidt and Nick Stone
+**                      et basï¿½ sur les RFCs 1700, 2131 et 2132
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.dhcp.DHCPParameters
@@ -17,8 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
 import java.util.Arrays;
 
 /**
@@ -42,8 +40,8 @@ public static final byte OP_OPTION_BOOTREQUEST = 1;
 */
 public static final byte OP_OPTION_BOOTREPLY = 2;
 
-private byte            op;     // Code opération du message
-private byte            htype;  // HW: Adresse matérielle
+private byte            op;     // Code opï¿½ration du message
+private byte            htype;  // HW: Adresse matï¿½rielle
 private byte            hlen;   // hardware address length
 private byte            hops;   // Hw options
 private int             xid;    // transaction id

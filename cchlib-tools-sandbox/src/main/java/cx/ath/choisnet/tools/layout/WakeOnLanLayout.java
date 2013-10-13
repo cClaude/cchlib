@@ -16,7 +16,6 @@ package cx.ath.choisnet.tools.layout;
 //import cx.ath.choisnet.net.WakeOnLan;
 import java.io.Writer;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 // import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;

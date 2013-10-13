@@ -14,7 +14,6 @@
 package cx.ath.choisnet.util.duplicate.impl;
 
 import cx.ath.choisnet.util.checksum.MD5Tree;
-import cx.ath.choisnet.util.duplicate.MD5Collection;
 import cx.ath.choisnet.util.duplicate.MD5FileCollection;
 import java.io.File;
 

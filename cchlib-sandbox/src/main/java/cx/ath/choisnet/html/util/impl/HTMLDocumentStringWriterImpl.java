@@ -14,7 +14,6 @@
 */
 package cx.ath.choisnet.html.util.impl;
 
-import cx.ath.choisnet.html.util.HTMLDocumentException;
 import cx.ath.choisnet.html.util.HTMLDocumentStringWriter;
 import cx.ath.choisnet.html.util.HTMLDocumentWriter;
 import java.util.Locale;
@@ -121,8 +120,8 @@ public Appendable append( // ----------------------------------------------
 }
 
 /**
-** @return un object Locale correspondant à la localisation en cours,
-**         utilisé pour l'encodage de certain gadgets, en particulier pour
+** @return un object Locale correspondant ï¿½ la localisation en cours,
+**         utilisï¿½ pour l'encodage de certain gadgets, en particulier pour
 **         les dates et les horaires.
 **
 ** @throws UnsupportedOperationException

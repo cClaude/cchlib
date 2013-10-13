@@ -20,7 +20,6 @@ import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import cx.ath.choisnet.util.duplicate.tasks.Task;
 import cx.ath.choisnet.util.duplicate.tasks.TasksFactory;
 import java.io.File;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -28,15 +27,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
 ** <p>
 ** Cette classe prend en charge la comparaison de deux {@link MD5Collection},
-** elle permet défectuer des traitements défini par {@link TasksFactory}
+** elle permet dï¿½fectuer des traitements dï¿½fini par {@link TasksFactory}
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -50,7 +47,7 @@ import java.util.TreeSet;
 public class MD5FileCollectionCompator
 {
 /**
-** Liste des fichiers à l'origine
+** Liste des fichiers ï¿½ l'origine
 */
 private MD5FileCollection reference;
 
@@ -137,12 +134,12 @@ public void init() // -----------------------------------------------------
  //# ##################################################################
 
  //
- // Dossiers à ajouter (résultat)
+ // Dossiers ï¿½ ajouter (rï¿½sultat)
  //
  for( File folder : this.reference.getFolderFiles() ) {
     if( ! this.toUpdate.getFolderFiles().contains( folder ) ) {
         //
-        // Pas trouvé, il faut créer le dossier....
+        // Pas trouvï¿½, il faut crï¿½er le dossier....
         //
         addTask(
             this.tasksFactory.buildActionLocalCreateFolder( folder )
@@ -151,7 +148,7 @@ public void init() // -----------------------------------------------------
     }
 
  //
- // Dossiers à supprimer (résultat)
+ // Dossiers ï¿½ supprimer (rï¿½sultat)
  //
     {
     final SortedSet<File> foldersToDelete = new TreeSet<File>( new DirComparator() );
@@ -159,7 +156,7 @@ public void init() // -----------------------------------------------------
     for( File folder : this.toUpdate.getFolderFiles() ) {
         if( ! this.reference.getFolderFiles().contains( folder ) ) {
             //
-            // Pas trouvé, il faut supprimer le dossier....
+            // Pas trouvï¿½, il faut supprimer le dossier....
             //
             foldersToDelete.add( folder );
             }
@@ -179,17 +176,17 @@ public void init() // -----------------------------------------------------
  //# ##################################################################
 
  //
- // Fichiers de références - FIXE
+ // Fichiers de rï¿½fï¿½rences - FIXE
  //
  final Map<MD5TreeEntry,? extends Set<File>> referenceFiles = this.reference.getEntryFiles();
 
  //
- // Fichiers actuellements présents - FIXE
+ // Fichiers actuellements prï¿½sents - FIXE
  //
  final Map<MD5TreeEntry,? extends Set<File>> toUpdateFiles = this.toUpdate.getEntryFiles();
 
  //
- // Recherche les fichiers supprimés (en terme d'empreintes)
+ // Recherche les fichiers supprimï¿½s (en terme d'empreintes)
  //
  for( Map.Entry<MD5TreeEntry,? extends Set<File>> toUpdate : toUpdateFiles.entrySet() ) {
     MD5TreeEntry    md5             = toUpdate.getKey();
@@ -198,7 +195,7 @@ public void init() // -----------------------------------------------------
 
     if( refList == null ) {
         //
-        // Les fichiers associés à cette matière (md5) n'existent plus.
+        // Les fichiers associï¿½s ï¿½ cette matiï¿½re (md5) n'existent plus.
         //
         for( File f : toUpdateList ) {
             addTask(
@@ -210,7 +207,7 @@ public void init() // -----------------------------------------------------
     }
 
  //
- // Traitement des déplacements et ajout de matière
+ // Traitement des dï¿½placements et ajout de matiï¿½re
  //
 
 //        System.err.println( "** this.reference " + this.reference );
@@ -224,12 +221,12 @@ public void init() // -----------------------------------------------------
     if( newList == null ) {
         //
         // Ce fichier est dans la reference, mais pas dans la destination
-        //      il récupérer la matière et créer les fichiers
+        //      il rï¿½cupï¿½rer la matiï¿½re et crï¿½er les fichiers
         //
         addTask( this.tasksFactory.buildActionCopyFileFromSource( md5 ) );
 
         //
-        // Création de tous les fichiers associés
+        // Crï¿½ation de tous les fichiers associï¿½s
         //
         for( File f : refList ) {
             addTask( this.tasksFactory.buildActionLocalCopyFile( md5, f ) );
@@ -237,11 +234,11 @@ public void init() // -----------------------------------------------------
         }
     else {
         //
-        // Ce fichier existe déjà dans la destination,
-        // il n'y a pas besoin de récupérer la matière.
+        // Ce fichier existe dï¿½jï¿½ dans la destination,
+        // il n'y a pas besoin de rï¿½cupï¿½rer la matiï¿½re.
         //
-        // Pour le traitement, on recherche un fichier de référance
-        // correspondant à l'empreinte (qui ne bougera pas).
+        // Pour le traitement, on recherche un fichier de rï¿½fï¿½rance
+        // correspondant ï¿½ l'empreinte (qui ne bougera pas).
         //
         File currentMD5RefFile = null;
 
@@ -262,7 +259,7 @@ public void init() // -----------------------------------------------------
             }
 
         //
-        // On recherche les fichiers a créer
+        // On recherche les fichiers a crï¿½er
         //
         final LinkedList<File> to2create = new LinkedList<File>();
 
@@ -279,7 +276,7 @@ public void init() // -----------------------------------------------------
         final Iterator<File> to2createIter    = to2create.iterator();
 
         //
-        // Déplacements
+        // Dï¿½placements
         //
         while( to2delIter.hasNext() && to2createIter.hasNext() ) {
             final File to2delFile       = to2delIter.next();
