@@ -168,58 +168,6 @@ class FolderTreeModel
         return false;
     }
 
-//    @Override // FileTreeModelable
-//    final
-//    public boolean isSelected( final FolderTreeNode nodeValue )
-//    {
-//        boolean res = selectedNodes.contains( nodeValue );
-//
-//        if( logger.isTraceEnabled() ) {
-//            logger.trace( "isSelected: " + nodeValue + " => " + res );
-//            }
-//
-//        return res;
-////        Boolean b = modifiedCheckState.get( nodeValue );
-////
-////        if( b != null ) {
-////            return b.booleanValue();
-////            }
-////        else {
-////            return false;
-////            }
-//    }
-
-//    @Override // FileTreeModelable
-//    final
-//    public void setSelected( final FolderTreeNode nodeValue, boolean b )
-//    {
-//        //modifiedCheckState.put( nodeValue, Boolean.valueOf( b ) );
-//        if( b ) {
-//            selectedNodes.add( nodeValue );
-//        } else {
-//            selectedNodes.remove( nodeValue );
-//        }
-//
-//        TreePath path = getPath( nodeValue );
-//
-//        assert path != null;
-//
-//        treeNodesChanged( path );
-//
-//        if( logger.isDebugEnabled() ) {
-//            logger.debug( "setSelected: " + nodeValue + ", " + b + " => " + selectedNodes.contains( nodeValue ) );
-//            }
-//    }
-
-//    @Override // FileTreeModelable
-//    final
-//    public void toggleSelected( final FolderTreeNode nodeValue )
-//    {
-//        boolean state = isSelected( nodeValue );
-//
-//        setSelected( nodeValue, !state );
-//    }
-
     @Override // FileTreeModelable
     final
     public void setSelectAll( final boolean onlyLeaf, final boolean selected )
@@ -382,51 +330,6 @@ class FolderTreeModel
      */
     public Iterable<FolderTreeNode> rootNodes()
     {
-//        final Enumeration<?> enu = getRootNode().children(); // never null
-//
-//        return new Iterable<FolderTreeNode>()
-//        {
-//            @Override
-//            public Iterator<FolderTreeNode> iterator()
-//            {
-//                return new Iterator<FolderTreeNode>()
-//                {
-//                    @Override
-//                    public boolean hasNext()
-//                    {
-//                        return enu.hasMoreElements();
-//                    }
-//                    @Override
-//                    public FolderTreeNode next()
-//                    {
-//                        return FolderTreeNode.class.cast( enu.nextElement() );
-//                    }
-//                    @Override
-//                    public void remove()
-//                    {
-//                        throw new UnsupportedOperationException();
-//                    }
-//                };
-//            }
-//            @Override
-//            public String toString()
-//            {
-//                final StringBuilder sb = new StringBuilder();
-//
-//                sb.append( super.toString() );
-//                sb.append( '[' );
-//                Iterator<FolderTreeNode> iter = iterator();
-//
-//                while( iter.hasNext() ) {
-//                    sb.append( iter.next() );
-//                    sb.append( ',' );
-//                    }
-//                sb.append( ']' );
-//
-//                return sb.toString();
-//            }
-//        };
-
         @SuppressWarnings("unchecked")
         final Enumeration<Object> enumeration = getRootNode().children(); // never null
 
