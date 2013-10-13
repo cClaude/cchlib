@@ -12,14 +12,14 @@
 -->
   <groupId>com.googlecode.cchlib-sandbox</groupId>
   <artifactId>cchlib-sandbox</artifactId>
-  <packaging>jar</packaging>
   <name>cchlib-sandbox</name>
+  <packaging>jar</packaging>
   <version>1.4.8-SNAPSHOT</version>
 
   <prerequisites>
     <maven>3.0.0</maven>
   </prerequisites>
-  
+
   <!-- Global properties -->
   <properties>
     <build.date>${maven.build.timestamp}</build.date>
@@ -29,7 +29,7 @@
     <project.javadoc.source.version>1.7</project.javadoc.source.version>
     <project.javadoc.target.version>1.7</project.javadoc.target.version>
   </properties>
-  
+
   <repositories>
     <repository>
       <id>google-releases</id>
@@ -39,6 +39,11 @@
     <repository>
       <id>google-api-services</id>
       <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
+    </repository>
+    
+    <repository>
+      <id>Java.Net</id>
+      <url>http://download.java.net/maven/2/</url>
     </repository>
   </repositories>
 
@@ -50,7 +55,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
         <groupId>com.google.apis</groupId>
         <artifactId>google-api-services-drive</artifactId>
@@ -86,13 +91,13 @@
         <artifactId>google-api-client-http</artifactId>
         <version>1.2.3-alpha</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.geronimo.bundles</groupId>
       <artifactId>commons-httpclient</artifactId>
       <version>3.1_2</version>
     </dependency>
-    
+
     <dependency>
         <groupId>com.google.gdata</groupId>
         <artifactId>core</artifactId>
@@ -103,6 +108,12 @@
         <artifactId>guice</artifactId>
         <version>3.0</version>
     </dependency>
+    
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+   </dependency>
   </dependencies>
 
   <build>

@@ -1,0 +1,43 @@
+/*
+** $VER: IncludeHTMLFileInterface.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+/**
+**
+**
+** @author Claude CHOISNET
+** @version 1.00 17/11/2000
+**
+** @see IncludeHTMLFile
+*/
+public interface IncludeHTMLFileInterface
+{
+/** */
+final static int        TYPE_MASK                       = 0x00FF0000;
+
+final static int        TYPE_BEGIN                      = 0x00010000;
+final static int        TYPE_END                        = 0x00020000;
+final static int        TYPE_REPLACE                    = 0x00040000;
+//protected final static int  TYPE_REMOVE_BEGIN        = 0x00080000;
+//protected final static int  TYPE_REMOVE_END          = 0x00100000;
+
+/** */
+final static int        ACTION_MODE_MASK                = 0x0000FF00;
+
+public final static int ACTION_MODE_REPLACE_TAG_ONLY    = 0x00000100;
+public final static int ACTION_MODE_REPLACE_LINE        = 0x00000200;
+public final static int ACTION_MODE_REMOVE_LINE         = 0x00000400;
+
+/** */
+final static int        MATCH_MODE_MASK                 = 0x000000FF;
+
+public final static int MATCH_MODE_BEGIN_OF_LINE        = 0x00000001; // 1
+public final static int MATCH_MODE_END_OF_LINE          = 0x00000002; // 1<<1
+public final static int MATCH_MODE_IN_THE_LINE          = 0x00000004; // 1<<2
+public final static int MATCH_MODE_ALL_THE_LINE         = 0x00000008; // 0000 1000
+
+/** Même recherche que MATCH_MODE_IN_THE_LINE */
+public final static int MATCH_MODE_TAG_ONLY             = MATCH_MODE_IN_THE_LINE;
+
+} // interface

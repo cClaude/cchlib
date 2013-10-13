@@ -1,0 +1,168 @@
+/*
+** $VER: IncludeHTMLFileArea.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+/**
+** Permet d'inclure du code HTML personnalisé depuis un fichier
+** dans le résultat d'une servlet.
+**
+** @author Claude CHOISNET
+** @version 1.00 05/12/2000
+*/
+public class IncludeHTMLFileArea implements IncludeHTMLFileInterface
+{
+/** Nom de la zone */
+private String areaNameId;
+
+/**
+** Objet IncludeHTMLFileTags pour recherche le début de la zone,
+** si null alors on recopie dès le 1er caractère.
+*/
+private IncludeHTMLFileTags beginTag    = null;
+
+/**
+** Objet IncludeHTMLFileTags pour recherche du début de la zone,
+** si null alors on recopie jusqu'à la fin du fichier.
+*/
+private IncludeHTMLFileTags endTag      = null;
+
+/**
+** Liste d'objet IncludeHTMLFileTags
+*/
+private LinkedList          tagsList    = null;
+
+/**
+** @param nameId    String contenant le nom de la zone.
+*/
+public IncludeHTMLFileArea( String nameId ) // ----------------------------
+{
+ this.areaNameId    = nameId;
+ this.tagsList      = new LinkedList();
+}
+
+/**
+** Définition du motif de départ, par défaut on commence on début
+*/
+public void setBeginTag( String tag, int matchMode, int actionMode )
+    throws IncludeHTMLFileTagsException
+{
+ this.beginTag = new IncludeHTMLFileTags( tag, TYPE_BEGIN, actionMode, matchMode );
+}
+
+/**
+** Définition du motif de fin, par défaut on vat jusqu'à la fin
+*/
+public void setEndTag( String tag, int matchMode, int actionMode )
+    throws IncludeHTMLFileTagsException
+{
+ this.endTag = new IncludeHTMLFileTags( tag, TYPE_END, actionMode, matchMode );
+}
+
+/**
+** Définition du motif de replacement, par défaut si la zone a été trouvé
+** on recopie telquel le flux d'entrée.
+*/
+public void replaceTagWith( // --------------------------------------------
+    String  tag,
+    String  value,
+    int     matchMode,
+    int     actionMode
+    )
+    throws IncludeHTMLFileTagsException
+{
+ tagsList.add(
+    new IncludeHTMLFileTags(
+        tag,
+        value,
+        TYPE_REPLACE,
+        actionMode,
+        matchMode
+        )
+    );
+}
+
+/**
+**
+*/
+public String getNameId() // ----------------------------------------------
+{
+ return this.areaNameId;
+}
+
+/**
+** Méthode de redirection du contenu d'un fichier vers la sortie en
+** fonction des filtres.
+**
+** @param out   flux de sortie (résultat)
+** @param in    flux d'entrée (source)
+*/
+public void print( Writer out, BufferedReader in ) // ---------------------
+    throws IOException
+{
+ String line;
+
+ if( beginTag != null ) {
+    //
+    // Recherche du début de la recopie
+    //
+     while( (line = in.readLine() ) != null ) {
+
+// System.err.println( "line1 : [" + line + "]" );
+
+        if( beginTag.isConcern( line ) ) {
+            // Effectue la transformation éventuelle de la ligne
+            line = beginTag.getNewLine( line );
+
+            if( line != null ) {
+                out.write( line );
+                out.write( "\n" );
+                }
+            // On a trouver le début, on continu sur la suite
+            break;
+            }
+        }
+    }
+
+ ListIterator   iter; // Iterator sur la liste des IncludeHTMLFileTags
+ boolean        run = true;
+
+ while( run && ((line = in.readLine() ) != null) ) {
+
+    if( endTag.isConcern( line ) ) {
+        // Effectue la transformation éventuelle de la ligne
+        line = endTag.getNewLine( line );
+
+        // On a trouver la fin, on arrête
+        run = false;
+        }
+
+    if( run ) {
+        iter = tagsList.listIterator( 0 );
+
+        while( run && iter.hasNext() ) {
+            IncludeHTMLFileTags tag = (IncludeHTMLFileTags)iter.next();
+
+            if( tag.isConcern( line ) ) {
+                // Effectue la transformation (éventuelle) de la ligne
+                line = tag.getNewLine( line );
+                }
+            }
+        }
+
+    // Traite l'affichage de la ligne
+    if( line != null ) {
+        out.write( line );
+        out.write( "\n" );
+        }
+    }
+}
+
+} // class

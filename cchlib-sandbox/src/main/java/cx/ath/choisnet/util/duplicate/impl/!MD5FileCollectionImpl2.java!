@@ -1,0 +1,303 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/util/duplicate/impl/MD5FileCollectionImpl2.java
+** Description   :
+** Encodage      : ANSI
+**
+**  3.01.042 2006.05.24 Claude CHOISNET - Version initiale
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionImpl2
+**
+*/
+package cx.ath.choisnet.util.duplicate.impl;
+
+import cx.ath.choisnet.util.duplicate.MD5FileCollection;
+import cx.ath.choisnet.util.duplicate.MD5Collection;
+import cx.ath.choisnet.util.duplicate.MD5CollectionHelper;
+import cx.ath.choisnet.util.checksum.MD5Tree;
+import cx.ath.choisnet.util.checksum.MD5TreeEntry;
+import cx.ath.choisnet.util.checksum.MD5TreeNode;
+import cx.ath.choisnet.util.IteratorFilter;
+import cx.ath.choisnet.util.Selectable;
+import cx.ath.choisnet.util.SortedMapIterator;
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+/**
+** Conteneur pour une arboressance d'empreintes : "Message Digest"
+**
+** @author Claude CHOISNET
+** @since   3.01.042
+** @version 3.01.042
+**
+** @see cx.ath.choisnet.util.duplicate.DuplicateLayer
+*/
+public class MD5FileCollectionImpl2
+    extends MD5CollectionImpl
+        implements MD5FileCollection
+{
+/** serialVersionUID */
+private static final long serialVersionUID = 1L;
+
+/**
+** Liste des objets File correspondant aux dossiers
+*/
+private SortedSet<File> dbFoldersFiles;
+
+/**
+** Couple (empreinte, liste de File fichiers)
+*/
+private SortedMap<MD5TreeEntry,SortedSet<File>> dbMessageDigestFiles;
+
+/**
+** Construction d'un objet MD5FileCollection vide.
+*/
+public MD5FileCollectionImpl2() // ----------------------------------------
+{
+ super();
+
+ this.dbFoldersFiles        = null;
+ this.dbMessageDigestFiles  = null;
+}
+
+/**
+** Construction d'un objet {@link MD5FileCollection} à partir d'un
+** {@link MD5Collection} et d'un dossier de référence.
+**
+*/
+public MD5FileCollectionImpl2( // -----------------------------------------
+    final MD5Collection aMD5Collection,
+    final File          folder
+    )
+{
+ super();
+
+ this.dbFoldersFiles        = null;
+ this.dbMessageDigestFiles  = null;
+//
+// this.dbMessageDigest   = new TreeMap<MD5TreeEntry,SortedSet<File>>();
+// this.dbFoldersFile     = new TreeSet<File>();
+//
+}
+
+
+/**
+** Retourne un ensemble, non modifiable, d'objet {@link File} représentant le
+** le nom complet de l'ensemble des dossiers connus de cette collection.
+**
+** @return un objet Set<String> non null, mais éventuellement vide.
+*/
+public Set<File> getFolderFiles() // --------------------------------------
+{
+ if( this.dbFoldersFiles == null ) {
+    computeFolderFiles();
+    }
+
+ return this.dbFoldersFiles;
+}
+
+/**
+** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
+** object Map contenant un couple formé de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de {@link File} représentant le nom complet de chacune des
+** instances de ce fichier (il doit y avoir au moins une entrée).
+**
+** @return un Map<MD5TreeEntry,? extends Set<File>> non null, et non vide.
+**
+** @see MD5Collection#files()
+*/
+public Map<MD5TreeEntry,? extends Set<File>> getFiles() // ----------------
+{
+ if( this.dbMessageDigestFiles == null ) {
+    computeFiles();
+    }
+
+ return this.dbMessageDigestFiles;
+}
+
+/**
+** Retourne l'ensemble des noms de fichier complet correspondant à
+** l'empreinte donnée.
+**
+** @param md5 Empreinte recherchée
+**
+** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
+** donné, retourne null autrement.
+**
+** @see MD5Collection#getFileNames(MD5TreeEntry)
+*/
+public Set<File> getFiles( final MD5TreeEntry md5 ) // --------------------
+{
+ if( this.dbMessageDigestFiles == null ) {
+    computeFiles();
+    }
+
+ return this.dbMessageDigestFiles.get( md5 );
+}
+
+/**
+**
+*/
+protected void computeFolderFiles() // ------------------------------------
+{
+ this.dbFoldersFiles = new TreeSet<File>();
+
+ for( String name : folderNames() ) {
+    this.dbFoldersFiles.add( new File( name ) );
+    }
+}
+
+/**
+**
+*/
+protected void computeFiles() // ------------------------------------------
+{
+ this.dbMessageDigestFiles = new TreeMap<MD5TreeEntry,SortedSet<File>>();
+
+ final Map<MD5TreeEntry,? extends Set<String>> db = files();
+
+ for(  Map.Entry<MD5TreeEntry,? extends Set<String>> entry : db.entrySet() ) {
+    final SortedSet<File> fset = new TreeSet<File>();
+
+    for( String n : entry.getValue() ) {
+        fset.add( new File( n ) );
+        }
+
+    this.dbMessageDigestFiles.put( entry.getKey(), fset );
+    }
+}
+
+
+/**
+** Construction d'un MD5Tree
+public MD5Collection( MD5Tree tree ) // -----------------------------------
+{
+ this();
+
+ this.add( tree );
+}
+*/
+
+/**
+** Vide la collection.
+public void clear() // ----------------------------------------------------
+{
+ this.dbMessageDigest.clear();
+ this.dbFoldersFile.clear();
+}
+*/
+
+/**
+** <p>
+** Ajout un nouvel arbre à cette collection.
+** </p>
+** Ces listes permettent, en particulier, d'avoir une vue des dossier basée
+** sur l'empreinte des fichiers et non pas leur localisation.
+public void add( final MD5Tree tree ) // ----------------------------------
+{
+ for( MD5TreeNode node : tree.nodes() ) {
+    File folderFile = node.getFile();
+
+    this.dbFoldersFile.add( folderFile );
+
+    for( Map.Entry<String,MD5TreeEntry> entry : node.getFileEntries().entrySet() ) {
+        final MD5TreeEntry  md  = entry.getValue();
+        SortedSet<File>     set = dbMessageDigest.get( md );
+
+        if( set == null ) {
+            set = new TreeSet<File>();
+            dbMessageDigest.put( md, set );
+            }
+
+        set.add( new File( folderFile, entry.getKey() ) );
+        }
+    }
+}
+*/
+
+/**
+** La liste des fichiers sous forme d'un object Map contenant un couple
+** formé de l'empreinte du fichier et d'un ensemble d'objects File (1+)
+** correspondant à ces représentants.
+**
+** @return un Map<MD5TreeEntry,? extends Set<File>>
+public Map<MD5TreeEntry,? extends Set<File>> files() // -------------------
+{
+ return this.dbMessageDigest;
+}
+*/
+
+/**
+** Liste des objets File correspondant aux dossiers
+public Set<File> folders() // ---------------------------------------------
+{
+ return this.dbFoldersFile;
+}
+*/
+
+/**
+** Retrouve un ensemble de fichier à partir de leur empreinte.
+**
+** @param md5 Empreinte recherchée
+**
+** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
+** donné, retourne null sinon.
+public Set<File> getFiles( MD5TreeEntry md5 ) // --------------------------
+{
+ return this.dbMessageDigest.get( md5 );
+}
+*/
+
+/**
+** Retourne le nombre de fichiers connus
+public int filesCount() // ------------------------------------------------
+{
+ int count = 0;
+
+ for( Collection<File> c : this.files().values() ) {
+    count += c.size();
+    }
+
+ return count;
+}
+*/
+
+/**
+** Compares this object with the specified object for order. Returns a
+** negative integer, zero, or a positive integer as this object is less
+** than, equal to, or greater than the specified object.
+public int compareTo( final MD5Collection anOtherMD5Collection ) // -------
+{
+ if( super.equals( anOtherMD5Collection ) ) {
+    return 0; // on s'arrête là, c'est le même objet !
+    }
+
+ return MD5CollectionHelper.compare( this, anOtherMD5Collection );
+}
+*/
+
+/**
+** Indicates whether some other MD5Collection is "equal to" this one.
+**
+public boolean equals( final MD5Collection anOtherMD5Collection ) // ------
+{
+ if( super.equals( anOtherMD5Collection ) ) {
+    return true; // on s'arrête là, c'est le même objet !
+    }
+
+ return MD5CollectionHelper.compare( this, anOtherMD5Collection ) == 0;
+}
+*/
+
+} // class

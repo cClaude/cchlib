@@ -1,0 +1,88 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/util/checksum/MD5Collection.java
+** Description   :
+** Encodage      : ANSI
+**
+**  2.01.021 2005.10.25 Claude CHOISNET - Version initiale
+**  3.01.001 2006.02.15 Claude CHOISNET
+**                      Suppression des méthodes liés à MD5Tree
+**  3.01.008 2006.03.06 Claude CHOISNET
+**                      Devient une interface.
+**  3.01.042 2006.05.24 Claude CHOISNET
+**                      Reprise de la documentation.
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.util.checksum.MD5Collection
+**
+*/
+package cx.ath.choisnet.util.checksum;
+
+import java.util.Set;
+import java.io.File;
+import java.util.Map;
+
+/**
+** <p>
+** Vue par empreintes d'un ensemble de fichiers
+** </p>
+** <p>
+** Cette collection permet d'avoir une vue des dossier basée
+** sur l'empreinte des fichiers ({@link MD5TreeEntry}) et non
+** pas par leur localisation ({@link File}).
+** </p>
+**
+** @author Claude CHOISNET
+** @since   2.01.021
+** @version 3.01.042
+**
+** @see MD5Tree
+** @see DuplicateLayer
+** @see MD5CollectionCompator
+** @deprecated use {@link cx.ath.choisnet.util.duplicate.MD5Collection} instead
+*/
+@Deprecated
+public interface MD5Collection
+    extends
+        Comparable<MD5Collection>,
+        java.io.Serializable
+{
+
+/**
+** Retourne un ensemble, non modifiable, des objets {@link File}
+** correspondant à l'ensemble des dossiers connus de cette collection.
+**
+** @return un objet Set<File> non null, mais éventuellement vide.
+*/
+public Set<File> folders(); // --------------------------------------------
+
+/**
+** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
+** object Map contenant un couple formé de l'empreinte du fichier et d'un
+** ensemble d'objects File (1+) correspondant à ces représentants.
+**
+** @return un Map<MD5TreeEntry,? extends Set<File>> non null, mais
+**         éventuellement vide.
+*/
+public Map<MD5TreeEntry,? extends Set<File>> files(); // ------------------
+
+/**
+** Retourne un ensemble de nom de fichiers à partir d'une empreinte.
+**
+** @param md5 Empreinte recherchée
+**
+** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
+** donné, retourne null sinon.
+*/
+public Set<File> getFiles( MD5TreeEntry md5 ); // -------------------------
+
+
+/**
+** Retourne le nombre de fichiers contenu dans la collection.
+**
+** @return un int correspondant au nombre de fichiers (hors dossier) étant
+**         défini dans la collection.
+*/
+public int filesCount(); // -----------------------------------------------
+
+} // class

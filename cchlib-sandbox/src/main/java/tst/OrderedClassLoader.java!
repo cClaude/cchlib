@@ -1,0 +1,361 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : /package1/package2/OrderedClassLoader.java
+** Description   :
+** Encodage      : ANSI
+**
+**  1.00.000 yyyy.mm.dd Claude CHOISNET  - Version initiale
+** -----------------------------------------------------------------------
+**
+** tst.OrderedClassLoader
+**
+*/
+package tst;
+
+import java.util.LinkedList;
+
+/**
+**
+** @author Claude CHOISNET
+** @version 1.0
+** @since 1.00
+*/
+public class OrderedClassLoader
+    extends ClassLoader
+{
+/** */
+private LinkedList<ClassLoader> list;
+
+/**
+**
+*/
+public OrderedClassLoader() // --------------------------------------------
+{
+ list = new LinkedList<ClassLoader>();
+}
+
+/**
+**
+*/
+public OrderedClassLoader( ClassLoader classLoader ) // -------------------
+{
+ this();
+
+ add( classLoader );
+}
+
+/**
+**
+*/
+public OrderedClassLoader( // ---------------------------------------------
+    ClassLoader firstClassLoader,
+    ClassLoader secondClassLoader
+    )
+{
+ this();
+
+ add( firstClassLoader );
+ add( secondClassLoader );
+}
+
+/**
+**
+*/
+public void add( ClassLoader classLoader ) // -----------------------------
+{
+ list.addLast( classLoader );
+}
+
+
+//findClass(String name)
+
+} // class
+
+/*
+public class ExtendableClassLoader
+    extends ClassLoader
+
+/** List of folder * /
+private LinkedList<File> paths;
+
+/** List of jarfile * /
+private HashMap<File,JarFile> jars;
+
+// private Hashtable cache;
+private HashMap<String,Class> cache;
+
+/**
+** Constructs a new class loader and initializes it.
+* /
+public ExtendableClassLoader() // -----------------------------------------
+{
+ this.paths = new LinkedList<File>();
+ this.jars  = new HashMap<File,JarFile>();
+ this.cache = new HashMap<String,Class>();
+}
+
+/**
+** Add a path to the list of class paths
+**
+** @param path the class path
+* /
+public void addClassPath( String path ) // --------------------------------
+    throws java.io.IOException
+{
+ addClassPath( new File( path ) );
+}
+
+/**
+** Add a path to the list of class paths
+**
+** @param path the class path
+* /
+public void addClassPath( File path ) // ----------------------------------
+    throws java.io.IOException
+{
+ if( path.isFile() ) {
+    synchronized( jars ) {
+        jars.put( path, new JarFile( path ) );
+        }
+    }
+ else {
+    synchronized( paths ) {
+        paths.add( path );
+        }
+    }
+}
+
+/**
+** Remove a class path
+** <P>
+** Remark: the previous loaded class with this path are not
+** unloaded.
+**
+** @param path the class path to remove
+* /
+public void removeClassPath( String path ) // -----------------------------
+{
+ removeClassPath( new File( path ) );
+}
+
+/**
+** Remove a class path
+** <P>
+** Remark: the previous loaded class with this path are not
+** unloaded.
+**
+** @param path the class path to remove
+* /
+public void removeClassPath( File path ) // -------------------------------
+{
+ JarFile found;
+
+
+ synchronized( jars ) {
+    found = jars.remove( path );
+    }
+
+ if( found == null ) {
+    synchronized( paths ) {
+        paths.remove( path );
+        }
+    }
+}
+
+/**
+** Translate a class name into a file name.<P>
+** e.g: myPackage.MyClass -> myPackage/MyClass.class
+**
+** @param className the class name to translate
+**
+** @return the file name
+* /
+private String ClassNameToFileName( String className ) // -----------------
+{
+ return className.replace( '.', '/' ) + ".class";
+}
+
+
+/**
+** Looks up a class into all the class path and return its byte
+**  code.
+**
+** @param className the class to load
+**
+** @return a byte array containing the byte code of the class
+* /
+private byte[] getClassFromAddedClassPaths( String className ) // ---------
+{
+ byte[] result = null;
+
+ try {
+    String fileName = ClassNameToFileName( className );
+
+System.out.println( "$$$ fileName " + fileName );
+
+    //
+    // Lookup the class into all the added class paths (folder)
+    //
+    for( File path : paths ) {
+        File f = new File( path, fileName );
+
+        if( f.exists() ) {
+//            FileInputStream fis = new FileInputStream( f );
+//
+//            result = new byte[ fis.available() ];
+//            fis.read( result ); // :CAUTION: What if its return is < to fis.available()
+//
+            result = getClass( new FileInputStream( f ) );
+            break;
+            }
+      }
+
+    //
+    // Lookup the class into all the added jarfiles
+    //
+    for( Map.Entry<File,JarFile> entry :jars.entrySet() ) {
+        //
+        //
+        //
+        JarFile     jarFile     = entry.getValue();
+        JarEntry    jarEntry    = jarFile.getJarEntry( fileName );
+
+System.out.println( "JarFile  " + jarFile  );
+System.out.println( "JarEntry " + jarEntry + " (" + fileName + ")" );
+//System.out.println( "test " + jarFile.getJarEntry( "InstanceTest.class" ) );
+
+//        for( Enumeration<JarEntry> en = jarFile.entries(); en.hasMoreElements(); ) {
+//            JarEntry je = en.nextElement();
+//
+//System.out.println( "je " + je + " (" + je.getName() + ")" );
+//            }
+
+        if( jarEntry != null ) {
+//            InputStream fis = jarFile.getInputStream( jarEntry );
+//            result = new byte[ fis.available() ];
+//            fis.read( result ); // :CAUTION: What if its return is < to fis.available()
+
+            result = getClass( jarFile.getInputStream( jarEntry ) );
+            break;
+            }
+        }
+
+System.out.println( "$$$ NOT FOUND : fileName " + fileName );
+
+    }
+ catch( Exception ignore ) {
+    // ignore
+    ignore.printStackTrace( System.err );
+    }
+
+ return result;
+}
+
+/**
+**
+* /
+private byte[] getClass( InputStream inputStream ) // ---------------------
+    throws java.io.IOException
+{
+ byte[] result = new byte[ inputStream.available() ];
+
+ int len = inputStream.read( result ); // :CAUTION: What if its return is < to fis.available()
+
+System.out.println( "result.length  = " + result.length );
+System.out.println( "len            = " + len );
+
+ return result;
+}
+
+/**
+** Requests the class loader to load a class with the specified
+** name. The loadClass method is called by the Java Virtual Machine
+** when a class loaded by a class loader first references another
+** class.
+**
+** @param name the name of the desired <code>Class</code>.add
+** @return the resulting <code>Class</code>, or <code>null</code> if
+** it was not found.
+** @exception ClassNotFoundException
+** if the class loader cannot find a definition for the class.
+** /
+public Class loadClass( String className ) // -----------------------------
+    throws ClassNotFoundException
+{
+ return loadClass( className, true );
+}
+
+/**
+** Resolves the specified name to a Class. The method loadClass() is
+** called by the virtual machine.
+**
+** @param name the name of the desired <code>Class</code>.
+** @param resolve true if the <code>Class</code> needs to be resolved.
+** @return the resulting <code>Class</code>, or <code>null</code> if
+** it was not found.
+**
+** @exception ClassNotFoundException
+** if the class loader cannot find a definition for the class.
+* /
+public synchronized Class loadClass( // -----------------------------------
+    String  className,
+    boolean resolveIt
+    )
+    throws ClassNotFoundException
+{
+ Class classResult = (Class)cache.get( className );
+
+//
+// Check the cache of classes
+//
+ if( classResult != null ) {
+    return classResult;
+    }
+
+//
+// Check with the primordial class loader
+//
+try {
+    classResult = super.findSystemClass( className );
+
+    return classResult;
+    }
+catch( ClassNotFoundException ignore ) {
+    // ignore, continue
+    ignore.printStackTrace( System.err );
+    }
+
+ //
+ // Try to load it from the added class paths
+ //
+ byte[] classData = getClassFromAddedClassPaths( className );
+
+ if( classData == null ) {
+    throw new ClassNotFoundException( className );
+    }
+
+ //
+ // Define it (parse the class file)
+ //
+ classResult = defineClass( className, classData, 0, classData.length );
+
+ if( classResult == null ) {
+    throw new ClassFormatError();
+    }
+
+ if( resolveIt ) {
+    resolveClass( classResult );
+    }
+
+ //
+ // Add the class to the cache
+ //
+ cache.put( className, classResult );
+
+ return classResult;
+}
+
+} // class
+
+
+*/

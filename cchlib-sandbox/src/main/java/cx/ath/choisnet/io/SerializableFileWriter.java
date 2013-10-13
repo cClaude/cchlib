@@ -1,0 +1,155 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/io/SerializableFileWriter.java
+** Description   :
+** Encodage      : ANSI
+**
+**  2.01.010 2005.10.07 Claude CHOISNET
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.io.SerializableFileWriter
+**
+*/
+package cx.ath.choisnet.io;
+
+import java.io.File;
+import java.io.Writer;
+
+/**
+** <p>Objet équivalent à la classe {@link java.io.FileWriter}, et implémentant
+** l'interface {@link java.io.Serializable}.</p>
+** <br />
+** <p>Le principe de la "sérialisation" de cet objet s'appuit sur la
+** classe {@link SerializableFileOutputStream}</p>
+** <br />
+**
+** @author Claude CHOISNET
+** @version 2.01.010
+** @since   2.01.010
+**
+** @see java.io.FileWriter
+** @see java.io.Serializable
+** @see SerializableFileOutputStream
+*/
+public class SerializableFileWriter
+    extends Writer
+        implements
+            java.io.Serializable
+{
+/** serialVersionUID */
+private static final long serialVersionUID = 1L;
+
+/** */
+private SerializableFileOutputStream serOutput;
+
+/** */
+private String encoding;
+
+/** */
+private transient Writer output;
+
+/**
+** <p>Constructs a SerializableFileWriter object given a File object.</>
+**
+** @see java.nio.charset.Charset
+** @see javax.servlet.ServletResponse#getCharacterEncoding()
+*/
+public SerializableFileWriter( // -----------------------------------------
+    File    file,
+    String  encoding
+    )
+    throws
+        java.io.FileNotFoundException,
+        java.io.UnsupportedEncodingException,
+        java.io.IOException
+{
+ this( file, encoding, false );
+}
+
+/**
+** <p>Constructs a SerializableFileWriter object given a File object.</>
+**
+** @see java.nio.charset.Charset
+** @see javax.servlet.ServletResponse#getCharacterEncoding()
+*/
+public SerializableFileWriter( // -----------------------------------------
+    File    file,
+    String  encoding,
+    boolean append
+    )
+    throws
+        java.io.FileNotFoundException,
+        java.io.UnsupportedEncodingException,
+        java.io.IOException
+{
+ this.serOutput = new SerializableFileOutputStream( file, append );
+ this.encoding  = encoding;
+
+ this.open();
+}
+
+/**
+** par la réprise (sérialisation) il faut mettre le paramètre 'append' à
+** la valeur 'true'
+*/
+private void open() // ----------------------------------------------------
+{
+ this.output = new java.io.OutputStreamWriter( this.serOutput );
+}
+
+/**
+**
+*/
+public void close() // ----------------------------------------------------
+    throws java.io.IOException
+{
+ output.close();
+}
+
+/**
+**
+*/
+public void flush() // ----------------------------------------------------
+    throws java.io.IOException
+{
+ output.flush();
+}
+
+/**
+**
+*/
+public void write( char[] array, int offset, int len ) // -----------------
+    throws java.io.IOException
+{
+ output.write( array, offset, len );
+}
+
+/**
+** java.io.Serializable
+*/
+private void writeObject( java.io.ObjectOutputStream stream ) // ----------
+    throws java.io.IOException
+{
+ output.flush();
+ output.close();
+
+ stream.defaultWriteObject();
+}
+
+/**
+** java.io.Serializable
+*/
+private void readObject( java.io.ObjectInputStream stream ) // ------------
+    throws java.io.IOException, ClassNotFoundException
+{
+ stream.defaultReadObject();
+
+ //
+ // Réinitialisation des champs non sauvegardés
+ //
+ this.open();
+}
+
+} // class
+
+

@@ -1,0 +1,59 @@
+/*
+** $VER: HTMLBuilderDebugger.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+import jrpdk.servlet.debug.ServletLoggin;
+import javax.servlet.http.HttpServletRequest;
+
+/*
+** Classe permettant d'armoniser la gestion des traces pour les
+** erreurs.
+** <P>
+** Cette doit être utilisée pour récupérer des exceptions qui sont
+** typiquement des bugs (problèmes d'algoritmique, ...).
+**
+**
+** @author Claude CHOISNET
+** @version 1.00 22/11/2000
+**
+** @see SendAnException
+** @see ProjectID#TOOLS_HTML_BUILDER
+*/
+public class HTMLBuilderDebugger
+{
+
+/**
+**
+*/
+public static void trace( // ----------------------------------------------
+    Object      object,
+    Exception   exception,
+    String      message
+    )
+{
+ trace( object, exception, null, message );
+}
+
+/**
+**
+*/
+public static void trace( // ----------------------------------------------
+    Object              object,
+    Exception           exception,
+    HttpServletRequest  request,
+    String              message
+    )
+{
+ ServletLoggin.trace( object, exception, request, message );
+}
+
+/**
+**
+*/
+public static void println( String s ) // ---------------------------------
+{
+ ServletLoggin.println( s );
+}
+
+} // class

@@ -1,0 +1,135 @@
+/*
+** $VER: HTML_Escape.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+/**
+** Codage d'une chaîne JAVA (String) en HTML.<BR>
+** Basé sur la RFC1866 et sur la norme HTML 3.2 FINAL
+** <A HREF="http://www.w3.org/TR/REC-html32#latin1">http://www.w3.org/TR/REC-html32#latin1</A>.
+**
+** <PRE>
+**  1.00 2000.09.27 Version initiale, définitions uniquement.
+**                  La classe n'est pas fonctionnelle.
+** </PRE>
+**
+** @author Claude CHOISNET
+** @version 1.00 04/12/2000
+*/
+public class HTML_Escape
+{
+private final static HTML_Escape[] HTML_ESCAPE = {
+    new HTML_Escape( '"', "&quot;"      ), // ", Double quote
+
+    new HTML_Escape( 160, "&nbsp;"      ), // no-break space
+    new HTML_Escape( 161, "&iexcl;"     ), // inverted exclamation mark
+    new HTML_Escape( 162, "&cent;"      ), // cent sign
+    new HTML_Escape( 163, "&pound;"     ), // pound sterling sign
+    new HTML_Escape( 164, "&curren;"    ), // general currency sign
+    new HTML_Escape( 165, "&yen;"       ), // yen sign
+    new HTML_Escape( 166, "&brvbar;"    ), // broken (vertical) bar
+    new HTML_Escape( 167, "&sect;"      ), // section sign
+    new HTML_Escape( 168, "&uml;"       ), // umlaut (dieresis)
+    new HTML_Escape( 169, "&copy;"      ), // copyright sign
+    new HTML_Escape( 170, "&ordf;"      ), // ordinal indicator, feminine
+    new HTML_Escape( 171, "&laquo;"     ), // angle quotation mark, left
+    new HTML_Escape( 172, "&not;"       ), // not sign
+    new HTML_Escape( 173, "&shy;"       ), // soft hyphen
+    new HTML_Escape( 174, "&reg;"       ), // registered sign
+    new HTML_Escape( 175, "&macr;"      ), // macron
+    new HTML_Escape( 176, "&deg;"       ), // degree sign
+    new HTML_Escape( 177, "&plusmn;"    ), // plus-or-minus sign
+    new HTML_Escape( 178, "&sup2;"      ), // superscript two
+    new HTML_Escape( 179, "&sup3;"      ), // superscript three
+    new HTML_Escape( 180, "&acute;"     ), // acute accent
+    new HTML_Escape( 181, "&micro;"     ), // micro sign
+    new HTML_Escape( 182, "&para;"      ), // pilcrow (paragraph sign)
+    new HTML_Escape( 183, "&middot;"    ), // middle dot
+    new HTML_Escape( 184, "&cedil;"     ), // cedilla
+    new HTML_Escape( 185, "&sup1;"      ), // superscript one
+    new HTML_Escape( 186, "&ordm;"      ), // ordinal indicator, masculine
+    new HTML_Escape( 187, "&raquo;"     ), // angle quotation mark, right
+    new HTML_Escape( 188, "&frac14;"    ), // fraction one-quarter
+    new HTML_Escape( 189, "&frac12;"    ), // fraction one-half
+    new HTML_Escape( 190, "&frac34;"    ), // fraction three-quarters
+    new HTML_Escape( 191, "&iquest;"    ), // inverted question mark
+    new HTML_Escape( 192, "&Agrave;"    ), // capital A, grave accent
+    new HTML_Escape( 193, "&Aacute;"    ), // capital A, acute accent
+    new HTML_Escape( 194, "&Acirc;"     ), // capital A, circumflex accent
+    new HTML_Escape( 195, "&Atilde;"    ), // capital A, tilde
+    new HTML_Escape( 196, "&Auml;"      ), // capital A, dieresis or umlaut mark
+    new HTML_Escape( 197, "&Aring;"     ), // capital A, ring
+    new HTML_Escape( 198, "&AElig;"     ), // capital AE diphthong (ligature)
+    new HTML_Escape( 199, "&Ccedil;"    ), // capital C, cedilla
+    new HTML_Escape( 200, "&Egrave;"    ), // capital E, grave accent
+    new HTML_Escape( 201, "&Eacute;"    ), // capital E, acute accent
+    new HTML_Escape( 202, "&Ecirc;"     ), // capital E, circumflex accent
+    new HTML_Escape( 203, "&Euml;"      ), // capital E, dieresis or umlaut mark
+    new HTML_Escape( 204, "&Igrave;"    ), // capital I, grave accent
+    new HTML_Escape( 205, "&Iacute;"    ), // capital I, acute accent
+    new HTML_Escape( 206, "&Icirc;"     ), // capital I, circumflex accent
+    new HTML_Escape( 207, "&Iuml;"      ), // capital I, dieresis or umlaut mark
+    new HTML_Escape( 208, "&ETH;"       ), // capital Eth, Icelandic
+    new HTML_Escape( 209, "&Ntilde;"    ), // capital N, tilde
+    new HTML_Escape( 210, "&Ograve;"    ), // capital O, grave accent
+    new HTML_Escape( 211, "&Oacute;"    ), // capital O, acute accent
+    new HTML_Escape( 212, "&Ocirc;"     ), // capital O, circumflex accent
+    new HTML_Escape( 213, "&Otilde;"    ), // capital O, tilde
+    new HTML_Escape( 214, "&Ouml;"      ), // capital O, dieresis or umlaut mark
+    new HTML_Escape( 215, "&times;"     ), // multiply sign
+    new HTML_Escape( 216, "&Oslash;"    ), // capital O, slash
+    new HTML_Escape( 217, "&Ugrave;"    ), // capital U, grave accent
+    new HTML_Escape( 218, "&Uacute;"    ), // capital U, acute accent
+    new HTML_Escape( 219, "&Ucirc;"     ), // capital U, circumflex accent
+    new HTML_Escape( 220, "&Uuml;"      ), // capital U, dieresis or umlaut mark
+    new HTML_Escape( 221, "&Yacute;"    ), // capital Y, acute accent
+    new HTML_Escape( 222, "&THORN;"     ), // capital THORN, Icelandic
+    new HTML_Escape( 223, "&szlig;"     ), // small sharp s, German (sz ligature)
+    new HTML_Escape( 224, "&agrave;"    ), // small a, grave accent
+    new HTML_Escape( 225, "&aacute;"    ), // small a, acute accent
+    new HTML_Escape( 226, "&acirc;"     ), // small a, circumflex accent
+    new HTML_Escape( 227, "&atilde;"    ), // small a, tilde
+    new HTML_Escape( 228, "&auml;"      ), // small a, dieresis or umlaut mark
+    new HTML_Escape( 229, "&aring;"     ), // small a, ring
+    new HTML_Escape( 230, "&aelig;"     ), // small ae diphthong (ligature)
+    new HTML_Escape( 231, "&ccedil;"    ), // small c, cedilla
+    new HTML_Escape( 232, "&egrave;"    ), // small e, grave accent
+    new HTML_Escape( 233, "&eacute;"    ), // small e, acute accent
+    new HTML_Escape( 234, "&ecirc;"     ), // small e, circumflex accent
+    new HTML_Escape( 235, "&euml;"      ), // small e, dieresis or umlaut mark
+    new HTML_Escape( 236, "&igrave;"    ), // small i, grave accent
+    new HTML_Escape( 237, "&iacute;"    ), // small i, acute accent
+    new HTML_Escape( 238, "&icirc;"     ), // small i, circumflex accent
+    new HTML_Escape( 239, "&iuml;"      ), // small i, dieresis or umlaut mark
+    new HTML_Escape( 240, "&eth;"       ), // small eth, Icelandic
+    new HTML_Escape( 241, "&ntilde;"    ), // small n, tilde
+    new HTML_Escape( 242, "&ograve;"    ), // small o, grave accent
+    new HTML_Escape( 243, "&oacute;"    ), // small o, acute accent
+    new HTML_Escape( 244, "&ocirc;"     ), // small o, circumflex accent
+    new HTML_Escape( 245, "&otilde;"    ), // small o, tilde
+    new HTML_Escape( 246, "&ouml;"      ), // small o, dieresis or umlaut mark
+    new HTML_Escape( 247, "&divide;"    ), // divide sign
+    new HTML_Escape( 248, "&oslash;"    ), // small o, slash
+    new HTML_Escape( 249, "&ugrave;"    ), // small u, grave accent
+    new HTML_Escape( 250, "&uacute;"    ), // small u, acute accent
+    new HTML_Escape( 251, "&ucirc;"     ), // small u, circumflex accent
+    new HTML_Escape( 252, "&uuml;"      ), // small u, dieresis or umlaut mark
+    new HTML_Escape( 253, "&yacute;"    ), // small y, acute accent
+    new HTML_Escape( 254, "&thorn;"     ), // small thorn, Icelandic
+    new HTML_Escape( 255, "&yuml;"      )  // small y, dieresis or umlaut mark
+    };
+
+private int      ascci;
+private String   htmlString;
+
+public HTML_Escape( int ascii, String htmlString ) // ---------------------
+{
+ this.htmlString    = htmlString;
+ this.ascci         = ascci;
+}
+
+public int      toASCII()   { return ascci; } // --------------------------
+public String   toHTML()    { return htmlString; } // ---------------------
+
+} // class
+
