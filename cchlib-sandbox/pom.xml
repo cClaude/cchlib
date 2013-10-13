@@ -59,7 +59,7 @@
     <dependency>
         <groupId>com.google.apis</groupId>
         <artifactId>google-api-services-drive</artifactId>
-        <version>v2-rev73-1.14.2-beta</version>
+        <version>v2-rev102-1.17.0-rc</version>
     </dependency>
     <!--dependency>
         <groupId>com.google.api.client</groupId>
@@ -79,12 +79,12 @@
     <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client-jackson2</artifactId>
-        <version>1.14.1-beta</version>
+        <version>1.17.0-rc</version>
     </dependency>
     <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-jetty</artifactId>
-        <version>1.14.1-beta</version>
+        <version>1.17.0-rc</version>
     </dependency>
     <dependency>
         <groupId>com.google.api.client</groupId>
@@ -112,7 +112,7 @@
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
-      <version>6.0</version>
+      <version>7.0</version>
    </dependency>
   </dependencies>
 
