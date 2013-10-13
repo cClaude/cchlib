@@ -1,0 +1,238 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/zip/JZipDirectory.java
+** Description   :
+** Encodage      : ANSI
+**
+**  1.10 2005.05.04 Claude CHOISNET
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.zip.JZipDirectory
+**
+*/
+package cx.ath.choisnet.zip;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.Checksum;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+/**
+**
+** @author Claude CHOISNET
+** @version 1.52
+*/
+public abstract class JZipDirectory
+{
+/** Taille du buffer pour la compression */
+final static int BUFFER_SIZE = 1024;
+
+/** */
+private File baseDirectoryFile;
+
+private int baseDirectoryPathLen;
+
+/** */
+private CheckedOutputStream checksum;
+
+/**
+**
+*/
+public JZipDirectory( // --------------------------------------------------
+    File baseDirectory
+    )
+    throws
+        java.io.FileNotFoundException
+{
+ this.baseDirectoryFile = baseDirectory;
+
+ if( ! baseDirectory.isDirectory() ) {
+    throw new java.io.FileNotFoundException(
+        "Directory doesn't exists '" + baseDirectory+ "'"
+        );
+    }
+
+ String path = baseDirectoryFile.getPath() + File.separator;
+
+ this.baseDirectoryPathLen = path.length();
+}
+
+
+/**
+**
+*/
+public void zipAs( // -----------------------------------------------------
+    File    archiveFile
+    )
+    throws
+        java.io.FileNotFoundException,
+        java.io.IOException
+{
+ FileOutputStream       fs          = new FileOutputStream( archiveFile );
+ BufferedOutputStream   bs          = new BufferedOutputStream( fs );
+
+ this.checksum = new CheckedOutputStream( bs, new Adler32() );
+
+ ZipOutputStream out = new ZipOutputStream( new BufferedOutputStream( checksum ) );
+
+ zip_rec( baseDirectoryFile, out );
+
+ out.close();
+ bs.close();
+ fs.close();
+// Xystem.out.println( "done '" + archiveFile + "' checksum: " + checksum.getChecksum().getValue() );
+}
+
+/**
+**
+*/
+public Checksum getChecksum() // ------------------------------------------
+{
+ return checksum.getChecksum();
+}
+
+/**
+**
+*/
+public String getHEXChecksum() // ------------------------------------------
+{
+ return checksumToHEX( this.getChecksum() );
+}
+
+/**
+**
+*/
+public static String checksumToHEX( final Checksum checksum ) // ----------
+{
+ return checksumToHEX( checksum.getValue() );
+}
+
+/**
+**
+*/
+public static String checksumToHEX( final long checksum ) // --------------
+{
+ final String value = Long.toHexString( checksum ).toUpperCase();
+
+ return "00000000".substring( value.length() ) + value;
+}
+
+/**
+**
+*/
+protected void zip_rec( // ------------------------------------------------
+    File            currentDirectory,
+    ZipOutputStream output
+    )
+    throws
+        java.io.FileNotFoundException,
+        java.io.IOException
+{
+ BufferedInputStream origin = null;
+
+ // out.setMethod(ZipOutputStream.DEFLATED);
+
+ final byte[] data = new byte[ BUFFER_SIZE ];
+
+ //
+ // get a list of files from current directory
+ //
+ File[] files = currentDirectory.listFiles();
+ File   cfile;
+ String cname;
+
+ for( int i=0; i<files.length; i++ ) {
+    cfile = files[ i ];
+    cname = cfile.getPath().substring( baseDirectoryPathLen );
+
+    if( cfile.isFile() ) {
+        FileInputStream fi = new FileInputStream( cfile );
+
+        origin  = new BufferedInputStream( fi, BUFFER_SIZE );
+
+        ZipEntry entry = new ZipEntry( cname );
+
+        traceAdd( entry.getName() );
+
+        output.putNextEntry( entry );
+
+        int count;
+
+        while( ( count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
+            output.write(data, 0, count);
+            }
+
+        origin.close();
+        }
+    else if( cfile.isDirectory() ) {
+        //
+        // On ajoute l'entrée : permet de gérer les répertoires vide !
+        // par convention les répertoires finnissent par /
+        //
+        ZipEntry entry = new ZipEntry( cname + "/" );
+
+        output.putNextEntry( entry );
+
+        traceAdd( entry.getName() );
+        zip_rec( cfile, output );
+        }
+    else {
+        traceWarning( cname );
+        }
+    }
+}
+
+/**
+** <P>Cette methode est destinée à être surchargée</P>
+**
+** Par défaut cette méthode ne fait rien.
+*/
+public abstract void traceAdd( String filename ); // ----------------------
+
+/**
+** <P>Cette methode est destinée à être surchargée</P>
+**
+** Par défaut cette méthode ne fait rien.
+*/
+public abstract void traceWarning( String filename ); // ------------------
+
+// ** Par défaut cette méthode imprime un message sur la sortie System.err
+ // empty
+ // logger.warn( "***Warning ignore '" + filename + "'" );
+
+/**
+**
+*/
+public static void main( String[] args ) // -------------------------------
+{
+ try {
+    JZipDirectory instance
+        = new JZipDirectory( new File( args[ 0 ] ) )
+            {
+                public void traceAdd( String filename )
+                {
+                    System.out.println( "Add '" + filename + "'" );
+                }
+
+                public void traceWarning( String filename )
+                {
+                    System.err.println( "***Warning ignore '" + filename + "'" );
+                }
+            };
+
+    instance.zipAs( new File( args[ 1 ] ) );
+    }
+ catch( java.io.IOException e ) {
+    System.err.println( "UNCATCH Exception : " + e );
+
+    e.printStackTrace();
+    }
+}
+
+} // class

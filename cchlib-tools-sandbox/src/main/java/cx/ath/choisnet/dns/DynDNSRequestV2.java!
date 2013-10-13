@@ -1,0 +1,173 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/dns/DynDNSRequestV2.java
+** Description   :
+**
+** 1.00 2005.mm.dd Claude CHOISNET - Version initiale
+** -----------------------------------------------------------------------
+**
+** ** cx.ath.choisnet.dns.DynDNSRequestV2
+**
+*/
+package cx.ath.choisnet.dns;
+
+import java.net.URL;
+import java.net.Socket;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.BufferedInputStream;
+
+/**
+**
+** @author Claude CHOISNET
+** @version 1.0
+*/
+public class DynDNSRequestV2
+    implements DNSRequestInterface
+{
+
+/** statdns|dyndns */
+private final String system;
+
+/** yourhost.ourdomain.ext,yourhost2.dyndns.org */
+private final String hostnameList;
+
+/** ON|OFF|NOCHG */
+private final String wildcard;
+
+/** Encode64( username:pass ) */
+private final String usernamePass;
+
+/**
+**
+*/
+public DynDNSRequestV2( // ------------------------------------------------
+    String hostnameList,
+    String wildcard,
+    String username,
+    String password
+    )
+{
+ this.system        = "dyndns";
+ this.hostnameList  = hostnameList;
+ this.wildcard      = wildcard;
+ this.usernamePass  = encodeBase64( username + ":" + password );
+}
+
+/**
+**
+*/
+protected static String encodeBase64( String str ) // ---------------------
+{
+ try {
+    return cx.ath.choisnet.util.Base64Encode.encode( str );
+    }
+ catch( java.io.UnsupportedEncodingException e ) {
+    throw new RuntimeException( e );
+    }
+}
+
+/**
+**
+*/
+public String getHTTPRequest( String ip ) // ------------------------------
+{
+ return buildHTTPRequest( hostnameList, ip, wildcard, usernamePass );
+}
+
+/**
+**
+*/
+public InputStream getInputStream( String ip ) // -------------------------
+    throws java.io.IOException
+{
+ final String       request = getHTTPRequest( ip );
+ // final Socket       socket  = new Socket( "members.dyndns.org", 80 );
+ final Socket       socket  = new Socket( "127.0.0.1", 80 );
+ final OutputStream os = socket.getOutputStream();
+
+ os.write( request.getBytes() );
+ //os.close();
+
+ return socket.getInputStream();
+}
+
+/**
+**
+*/
+public static String buildHTTPRequest( // ---------------------------------
+    String hostnameList,
+    String ipAddress,
+    String wildcard,
+    String usernamePass
+    )
+{
+ final StringBuffer request = new StringBuffer();
+
+ request.append( "GET /Tools/DisplayServletInfos/nic/update?\r\n" );
+// request.append( "GET /nic/update?\r\n" );
+    // request.add( "    system=statdns&" );
+ request.append( "    system=dyndns&\r\n" );
+    // request.add( "    hostname=yourhost.ourdomain.ext,yourhost2.dyndns.org&" );
+ request.append( "    hostname=" + hostnameList + "&\r\n" );
+ request.append( "    myip=" + ipAddress + "&\r\n" );
+ request.append( "    wildcard=" + wildcard + "\r\n" );
+    // request.add( "    mx=mail.exchanger.ext&" );
+    // request.add( "    backmx=NO&" );
+    // request.add( "    offline=NO" );
+    request.append( "    HTTP/1.0\r\n" );
+    request.append( "Host: members.dyndns.org\r\n" );
+    // request.add( "Authorization: Basic username:pass " );
+    request.append( "Authorization: Basic " + usernamePass + "\r\n" );
+    request.append( "User-Agent: cx.ath.choisnet.dns.DynDNSRequest/0.10 me@null.net\r\n" );
+
+ return request.toString();
+}
+
+/**
+**
+*/
+public boolean updateIP( String ip ) // -----------------------------------
+{
+ try {
+    return private_updateIP( getInputStream( ip ) );
+    }
+ catch( Exception e ) {
+    e.printStackTrace( System.out );
+
+    return false;
+    }
+}
+
+
+/**
+**
+** http://resolute.ucsd.edu/~diwaker/articles/java-proxy.html
+*/
+public boolean private_updateIP( InputStream inputStream ) // -------------
+    throws java.io.IOException
+{
+ final StringBuffer         sb  = new StringBuffer();
+ final byte[]               b   = new byte[ 1024 ];
+ final BufferedInputStream  bis = new BufferedInputStream( inputStream );
+ int                        len;
+
+ while( (len = bis.read( b, 0, b.length ))>0 ) {
+    sb.append( new String( b, 0, len)  );
+    }
+ bis.close();
+
+ System.out.println( "res =" );
+ System.out.println(  sb );
+ System.out.println( "-----" );
+
+ final String result = sb.toString();
+
+ return result.equals( "good" );
+}
+
+
+
+}
+
+// class
