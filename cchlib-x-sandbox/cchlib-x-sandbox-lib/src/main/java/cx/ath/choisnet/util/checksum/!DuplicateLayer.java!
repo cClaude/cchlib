@@ -1,0 +1,874 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/util/checksum/DuplicateLayer.java
+** Description   :
+** Encodage      : ANSI
+**
+**  2.01.023 2005.11.03 Claude CHOISNET - Version initiale
+**  2.02.007 2005.12.05 Claude CHOISNET
+**                      Ajout de l'enum Params.
+**  2.02.010 2005.12.15 Claude CHOISNET
+**  3.01.029 2006.04.24 Claude CHOISNET
+**                      Petites optimisations, documentation,
+**                      Ajout de: delete(FileFilter,EnumSet)
+**                      Les 2 autres méthodes de suppressions s'appuit sur
+**                      le code de cette nouvelle version.
+**  3.01.030 2006.04.25 Claude CHOISNET
+**                      Suppression de: deleteByHashCode(Collection<Long>,EnumSet<Params>)
+**                      car la signature n'est pas correcte. (hashCode est
+**                      int et non pas un long)
+**  3.01.031 2006.04.25 Claude CHOISNET
+**                      Ajout de: select(FileFilter,EnumSet<Params>)
+**                      Suppression de: filesToIgnore(String)
+**                      Suppression de: delete(Pattern,EnumSet)
+**                      Obsolessance de: delete(FileFilter,EnumSet)
+**  3.01.032 2006.04.25 Claude CHOISNET
+**                      Ajout de: select(CollectionFilter<File>)
+**                      Suppression de: delete(FileFilter,EnumSet)
+**  3.01.035 2006.05.06 Claude CHOISNET
+**                      Ajout du constructeur sans argument.
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.util.checksum.DuplicateLayer
+**
+*/
+package cx.ath.choisnet.util.checksum;
+
+import cx.ath.choisnet.io.FileFilterHelper;
+import cx.ath.choisnet.util.CollectionFilter;
+import cx.ath.choisnet.util.IteratorFilter;
+import cx.ath.choisnet.util.Selectable;
+import cx.ath.choisnet.util.SortedMapIterator;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+
+/**
+** Classe permettant de retrouver et éventuellement d'effacer les
+** fichiers en double.
+**
+** @author Claude CHOISNET
+** @since   2.01.023
+** @version 3.01.035
+** @deprecated use {@link cx.ath.choisnet.util.duplicate.DuplicateLayer} instead
+*/
+@Deprecated
+public class DuplicateLayer
+    implements java.io.Serializable
+{
+/** serialVersionUID */
+private static final long serialVersionUID = 5L;
+
+    /**
+    ** Paramètre pour les méthodes delete et select
+    **
+    ** @see #select(FileFilter,EnumSet)
+    */
+    public enum Params
+    {
+
+        /**
+        ** La suppression de toutes les occurences est autorisée, par
+        ** défaut si la suppression engendre la suppression de toutes
+        ** les occurences trouvés AUCUN fichier n'est supprimée.
+        ** deprecated no remplacement
+        Deprecated
+        deleteAllAllowed,
+        */
+
+        /**
+        ** Supprime physiquement le fichier. Par défaut le fichier n'est
+        ** pas effacé.
+        ** deprecated no remplacement
+        Deprecated
+        doDelete,
+        */
+
+        /**
+        ** Ne supprime pas de la liste interne. Par défaut
+        ** deprecated no remplacement
+        Deprecated
+        doNotRemoveInDuplicateLayer,
+        */
+
+        /**
+        **
+        ** @since 3.01.031
+        */
+        SELECT_DO_NOT_SELECT_ALL_OCCURENCES
+
+    };
+
+    /**
+    ** Interface permettant de retrouver les caractéristiques d'un fichier
+    ** a effacée ou ayant été éffacé.
+    **
+    ** @deprecated no remplacement
+    */
+    @Deprecated
+    public static interface DeletedFile
+    {
+        public File getFile();
+        public long length();
+    }
+
+    /**
+    ** Implémentation minimum pour DeletedFile
+    **
+    ** @deprecated no remplacement
+    */
+    @Deprecated
+    private static class DeletedFileImpl implements DeletedFile
+    {
+        private File file;
+        private long length;
+
+        public DeletedFileImpl( File f )
+        {
+            this.file = f;
+            this.length = f.length();
+        }
+        public boolean delete() { return this.file.delete(); }
+        public File getFile() { return this.file; }
+        public long length() { return this.length; }
+    }
+
+/**
+** Collection de Collections de fichiers identiques
+*/
+//private Collection<? extends Collection<File>> duplicatesFiles;
+private Collection<Collection<File>> duplicatesFiles;
+
+/**
+** Liste des fichiers (ou dossiers) devant être conservés.
+*/
+private List<File> filesToKeep;
+
+/**
+** Expression régulièrer des fichiers (ou dossier) devant être conservés.
+*/
+private List<Pattern> filesToKeepRegExp;
+
+/**
+** Construction d'un DuplicateLayer vide (cas limite)
+**
+** @since 3.01.035
+*/
+public DuplicateLayer() // ------------------------------------------------
+{
+ this.duplicatesFiles   = new LinkedList<Collection<File>>();
+ this.filesToKeep       = new LinkedList<File>();
+ this.filesToKeepRegExp = new LinkedList<Pattern>();
+}
+
+/**
+** Construction d'un DuplicateLayer
+*/
+public DuplicateLayer( final MD5Collection collec ) // --------------------
+{
+ this();
+
+ addMD5Collection( collec );
+ //this.duplicatesFiles  = DuplicateLayer.getDupFilesList( collec );
+ //this.filesToKeep       = new LinkedList<File>();
+ //this.filesToKeepRegExp = new LinkedList<Pattern>();
+}
+
+
+/**
+** Retourne une collection non modifiable de collections de fichier
+**
+** @return une liste ({@link Collection}) de listes ({@link Collection})
+** d'objet {@link File}.
+*/
+public Collection<? extends Collection<File>> getDuplicateFilesList() //---
+{
+ return Collections.unmodifiableCollection( this.duplicatesFiles );
+}
+
+/**
+** <p>
+** Permet de définir un filtre (FileFilter) des fichiers à ignorer. Les
+** entrées correspondant à ce filtre sont supprimer de la liste de
+** référence : ainsi s'il n'existe qu'un seul double celui-ci sera
+** lui aussi ignoré.
+** </p>
+** <p>
+** Cette méthode peut être appellé plusieurs fois avec des filtres différents.
+** </p>
+** @param fileFilter    Object FileFilter valide permetant d'identifier les
+**                      fichiers à ignorer
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see cx.ath.choisnet.io.FileFilterHelper
+** @see cx.ath.choisnet.io.PatternFileFilter
+*/
+public DuplicateLayer filesToIgnore( final FileFilter fileFilter ) // -----
+{
+ final Iterator<? extends Collection<File>> iter1 = this.duplicatesFiles.iterator();
+
+ while( iter1.hasNext() ) {
+    final Collection<File> collection = iter1.next();
+
+    for( Iterator<File> iter2 = collection.iterator(); iter2.hasNext(); ) {
+
+        if( fileFilter.accept( iter2.next() ) ) {
+            //
+            // Supprime l'entrée
+            //
+            iter2.remove();
+            }
+        }
+
+    if( collection.size() < 2 ) {
+        //
+        // Plus de double dans cette collection
+        //
+        iter1.remove();
+        }
+    }
+
+ return this;
+}
+
+/**
+**
+**
+** @return l'objet DuplicateLayer lui-même.
+*/
+public DuplicateLayer addFileToKeep( final File file ) // -----------------
+{
+ this.filesToKeep.add( file );
+
+ return this;
+}
+
+/**
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see java.util.regex.Pattern
+*/
+public DuplicateLayer addFileToKeep( final String regexp ) // -------------
+{
+ this.filesToKeepRegExp.add( Pattern.compile( regexp ) );
+
+ return this;
+}
+
+/**
+** Permet de savoir si un fichier doit être protégé ou non
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see #addFileToKeep
+*/
+public boolean isDeletable( final File file ) // --------------------------
+{
+ for( File f : this.filesToKeep ) {
+    if( f.equals( file ) ) {
+        return false;
+        }
+    }
+
+ final String path = file.getPath();
+
+ for( Pattern p : this.filesToKeepRegExp ) {
+    if( p.matcher( path ).matches() ) {
+        return false;
+        }
+    }
+
+ return true;
+}
+
+/**
+** Construit une collection de fichier  à partir de la liste des
+** fichiers interne et d'un filtre ({@link FileFilter}) donné
+** <p>
+** Exemple d'utilisation:
+** <pre>
+**  final List&lt;Integer&gt; listOfHashCodes = ...
+**
+**  Collection&lt;File&gt; selectedList = aDuplicateLayerObject.select(
+**          new FileFilter()
+**              {
+**                  public boolean accept( final File file )
+**                  {
+**                      return listOfHashCodes.contains( Integer.valueOf( file.hashCode() ) );
+**                  }
+**              },
+**          params
+**          );
+** </pre>
+** </p>
+**
+** @param selectFileFilter  Objet {@link FileFilter} valide permettant
+**                          d'identifier les fichiers à copier dans
+**                          la liste.
+** @param params           Paramètres permettant d'affiner le traitement.
+**
+** @return une collection des fichiers qui correspondent aux critères.
+**
+** @see DuplicateLayer.Params#SELECT_DO_NOT_SELECT_ALL_OCCURENCES
+** @see cx.ath.choisnet.io.FileFilterHelper
+** @see cx.ath.choisnet.io.PatternFileFilter
+**
+** @since 3.01.031
+*/
+public Collection<File> select( // ----------------------------------------
+    final FileFilter        selectFileFilter,
+    final EnumSet<Params>   params
+    )
+{
+ final List<File>   result              = new LinkedList<File>();
+ final List<File>   currentSelectList   = new LinkedList<File>();
+ final boolean      selectAllAllowed    = ! params.contains( Params.SELECT_DO_NOT_SELECT_ALL_OCCURENCES );
+
+ final Iterator<? extends Collection<File>> iter = this.duplicatesFiles.iterator();
+
+ while( iter.hasNext() ) {
+    final Collection<File> filesList = iter.next();
+
+    for( File f : filesList ) {
+
+        if( selectFileFilter.accept( f ) ) {
+            //
+            // Correspond au motif de suppression, mais
+            // est-il dans la liste des fichiers protégés
+            //
+            if( isDeletable( f ) ) {
+                currentSelectList.add( f );
+                }
+            }
+        }
+
+    final int size = currentSelectList.size();
+
+    if( size > 0 ) {
+        //
+        // Il y'a quelque chose à selectionner
+        //
+
+        if( selectAllAllowed || size < filesList.size() ) {
+            //
+            // Tous les éléments non pas été sélectionné
+            // ou bien on est autorisé à sélectionner tous les
+            // éléments
+            //
+            result.addAll( currentSelectList );
+            }
+
+        currentSelectList.clear();
+        }
+    }
+
+ return result;
+}
+
+/**
+** Construit une collection de fichier  à partir de la liste des
+** fichiers interne et d'un filtre ({@link CollectionFilter}) donné
+**
+** @param collectionFileFilter Objet {@link CollectionFilter} valide
+**          permettant de filters pour chaques occurances d'un fichier
+**          le ou les fichiers qui devront être retournés.
+**
+** @return une collection des fichiers qui correspondent aux critères.
+**
+** @see CollectionFilter#apply
+**
+** @since 3.01.032
+*/
+public Collection<File> select( // ----------------------------------------
+    final CollectionFilter<File> collectionFileFilter
+    )
+{
+ final Collection<File> result = new java.util.LinkedList<File>();
+
+ for( Collection<File> files : this.getDuplicateFilesList() ) {
+    result.addAll(
+        collectionFileFilter.apply( files )
+        );
+    }
+
+ return result;
+}
+
+/**
+** Met à jour la liste des fichiers en double, en supprimant de la liste
+** les fichiers n'existes plus physiquement. Cas d'une suppression par un
+** autre thread, par exemple, ou d'un nettoyage manuel...
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @since 2.02.010
+*/
+public DuplicateLayer updateList() // -------------------------------------
+{
+ final Iterator<? extends Collection<File>> iter1 = this.duplicatesFiles.iterator();
+
+ while( iter1.hasNext() ) {
+    final Collection<File> collection = iter1.next();
+
+    for( Iterator<File> iter2 = collection.iterator(); iter2.hasNext(); ) {
+        File f = iter2.next();
+
+        if( ! f.exists() ) {
+            //
+            // Le fichier n'existe plus....
+            //
+            iter2.remove();
+            }
+        }
+
+    if( collection.size() < 2 ) {
+        //
+        // Plus de double dans cette collection
+        //
+        iter1.remove();
+        }
+    }
+
+ return this;
+}
+
+/**
+**
+*/
+private static final IteratorFilter<Set<File>> getDupFiles( // ------------
+    final MD5Collection md5Collection
+    )
+{
+ final SortedMap<MD5TreeEntry,Set<File>> map
+        = new TreeMap<MD5TreeEntry, Set<File>>( md5Collection.files() );
+
+ return new IteratorFilter<Set<File>>(
+    new SortedMapIterator<MD5TreeEntry,Set<File>>( map ),
+    new Selectable<Set<File>>()
+        {
+            //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            public boolean isSelected( final Set<File> object ) //- - - - -
+            {
+                return object.size() > 1;
+            }
+            //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        }
+    );
+}
+
+/**
+**
+**
+** @since 3.01.035
+*/
+private final void addMD5Collection( // -----------------------------------
+    final MD5Collection md5Collection
+    )
+{
+//add(capture of ? extends java.util.Collection<java.io.File>)
+//in java.util.Collection<capture of ? extends java.util.Collection<java.io.File>> cannot be applied to
+//(java.util.Collection<java.io.File>)
+
+//private Collection<? extends Collection<File>> duplicatesFiles;
+
+// final Collection<Collection<File>> list = new LinkedList<Collection<File>>();
+ for( Collection<File> item : DuplicateLayer.getDupFiles( md5Collection ) ) {
+    this.duplicatesFiles.add( item );
+    }
+
+// return list;
+}
+/**
+**
+private static final Collection<Collection<File>> getDupFilesList( // -----
+    final MD5Collection md5Collection
+    )
+{
+ final Collection<Collection<File>> list = new LinkedList<Collection<File>>();
+
+ for( Collection<File> item : DuplicateLayer.getDupFiles( md5Collection ) ) {
+    list.add( item );
+    }
+
+ return list;
+}
+*/
+
+} // class
+
+
+/**
+** Méthode prenant en charge la suppression des fichiers en fonction
+** des critères donnés.
+** <p>
+** Exemple d'utilisation:
+** <pre>
+**  final List&lt;Integer&gt; listOfHashCodes = ...
+**
+**  List&lt;DeletedFile&gt; list = aDuplicateLayerObject.delete(
+**          new FileFilter()
+**              {
+**                  public boolean accept( final File file )
+**                  {
+**                      return listOfHashCodes.contains( Integer.valueOf( file.hashCode() ) );
+**                  }
+**              },
+**          paramsSet
+**          );
+** </pre>
+** </p>
+**
+** @param deleteFileFilter  Objet {@link FileFilter} valide permettant
+**                          d'identifier les fichiers à supprimer.
+** @param paramsSet         Paramètres permettant d'affiner le traitement.
+**
+** @return la liste des éléments qui ont été supprimé.
+**
+** @see cx.ath.choisnet.io.FileFilterHelper
+** @see cx.ath.choisnet.io.PatternFileFilter
+** @see DuplicateLayer.Params#deleteAllAllowed
+** @see DuplicateLayer.Params#doDelete
+** @see DuplicateLayer.Params#doNotRemoveInDuplicateLayer
+**
+** @since 3.01.030
+** @deprecated use {@link #select(FileFilter,EnumSet)} instead
+@Deprecated
+public List<DeletedFile> delete( // ---------------------------------------
+    final FileFilter        deleteFileFilter,
+    final EnumSet<Params>   paramsSet
+    )
+{
+ final List<DeletedFile>    deleteList          = new LinkedList<DeletedFile>();
+ final List<File>           currentDeleteList   = new LinkedList<File>();
+
+ final boolean  deleteAllAllowed    = paramsSet.contains( Params.deleteAllAllowed );
+ final boolean  doDelete            = paramsSet.contains( Params.doDelete );
+ final boolean  doNotRemoveInDLayer = paramsSet.contains( Params.doNotRemoveInDuplicateLayer );
+
+// System.out.println( "deletePattern "  +  deletePattern );
+
+ final Iterator<? extends Collection<File>> iter = this.duplicatesFiles.iterator();
+
+ while( iter.hasNext() ) {
+    final Collection<File> filesList = iter.next();
+
+    for( File f : filesList ) {
+
+        if( deleteFileFilter.accept( f ) ) {
+            //
+            // Correspond au motif de suppression, mais
+            // est-il dans la liste des fichiers protégés
+            //
+            if( isDeletable( f ) ) {
+//System.out.println( ">match "  + f + " !" );
+                currentDeleteList.add( f );
+                }
+            }
+        }
+
+    final int size = currentDeleteList.size();
+
+    if( size > 0 ) {
+
+        if( deleteAllAllowed || size < filesList.size() ) {
+//System.out.println( "delete " + currentDeleteList.size() );
+
+            for( File f : currentDeleteList ) {
+
+                if( !doNotRemoveInDLayer ) {
+                    filesList.remove( f );
+                    }
+
+                DeletedFileImpl delFile = new DeletedFileImpl( f );
+
+                if( doDelete ) {
+                    delFile.delete();
+                    }
+
+                deleteList.add( delFile );
+
+//System.out.println( "delete "  + f + " (" + deleteList.size() + ")" );
+                }
+
+            if( filesList.size() < 2 ) {
+                //
+                // Plus de double, on supprime l'entrée
+                //
+                iter.remove();
+                }
+            }
+
+        currentDeleteList.clear();
+        }
+    }
+
+ return deleteList;
+}
+*/
+
+/**
+** Méthode prenant en charge la suppression des fichiers en fonction
+** des critères donnés.
+**
+** @param deletePattern Motif pour la comparaison avec le résultat
+**                      de la méthode getPath()
+** @param paramsSet     Paramètres permettant de spécifier le traitement.
+**
+** @return la liste des éléments qui ont été supprimé.
+**
+** @see #delete(FileFilter,EnumSet)
+** @see java.util.regex.Pattern
+** @see java.util.regex.Matcher#matches()
+** @see File#getPath()
+** @see DuplicateLayer.Params
+** @see Params
+public List<DeletedFile> delete( // ----------------------------------------------
+    final Pattern           deletePattern,
+    final EnumSet<Params>   paramsSet
+    )
+{
+ return delete(
+    new FileFilter()
+        {
+            public boolean accept( final File file )
+            {
+                return deletePattern.matcher( file.getPath() ).matches();
+            }
+        },
+    paramsSet
+    );
+}
+*/
+
+/**
+** <p>
+** Permet de définir un filtre, basé sur une expression régulière,
+** des fichiers à ignorer.
+** </p>
+** <p>
+** Cette méthode peut être appellé plusieurs fois avec des filtres différents
+** </p>
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see #filesToIgnore( FileFilter )
+** @see FileFilterHelper#nameMatchesFileFilter
+** @see java.util.regex.Pattern
+public DuplicateLayer filesToIgnore( final String regexp ) // -------------
+{
+ return filesToIgnore( FileFilterHelper.nameMatchesFileFilter( regexp ) );
+}
+*/
+
+/**
+** Méthode prenant en charge la suppression des fichiers en fonction
+** des critères donnés.
+**
+** @param hashCodes Collection de Integer contenant le hashcode des objets
+**                  File à traiter.
+** @param paramsSet Paramètres permettant de spécifier le traitement.
+**
+** @return la liste des éléments qui ont été supprimé.
+**
+** @see #delete(FileFilter,EnumSet)
+** @see File#hashCode()
+** @see Object#hashCode()
+** @see Params
+public List<DeletedFile> deleteByHashCode( // -----------------------------
+    final Collection<Integer>   hashCodes,
+    final EnumSet<Params>       paramsSet
+    )
+{
+ return delete(
+    new FileFilter()
+        {
+            public boolean accept( final File file )
+            {
+                return hashCodes.contains( Integer.valueOf( file.hashCode() ) );
+            }
+        },
+    paramsSet
+    );
+}
+*/
+
+/**
+**
+**
+** @param deletePattern Motif pour la comparaison avec le résultat
+**                      de la méthode getPath()
+** @param paramsSet     Paramètres permettant de spécifier le traitement.
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see java.util.regex.Pattern
+** @see java.util.regex.Matcher#matches()
+** @see File#getPath()
+** @see Params
+public List<DeletedFile> delete( // ----------------------------------------------
+    final Pattern           deletePattern,
+    final EnumSet<Params>   paramsSet
+    )
+{
+ final List<DeletedFile>    deleteList          = new LinkedList<DeletedFile>();
+ final List<File>           currentDeleteList   = new LinkedList<File>();
+
+ final boolean  deleteAllAllowed    = paramsSet.contains( Params.deleteAllAllowed );
+ final boolean  doDelete            = paramsSet.contains( Params.doDelete );
+ final boolean  doNotRemoveInDLayer = paramsSet.contains( Params.doNotRemoveInDuplicateLayer );
+
+// System.out.println( "deletePattern "  +  deletePattern );
+
+ final Iterator<? extends Collection<File>> iter = this.duplicatesFiles.iterator();
+
+ while( iter.hasNext() ) {
+    final Collection<File> filesList = iter.next();
+
+    for( File f : filesList ) {
+
+        if( deletePattern.matcher( f.getPath() ).matches() ) {
+// System.out.println( "match "  + f + " - " + isDeletable( f ) );
+
+            //
+            // Correspond au motif de suppression, mais
+            // est-il dans la liste des fichiers protégés
+            //
+            if( isDeletable( f ) ) {
+//System.out.println( ">match "  + f + " !" );
+                currentDeleteList.add( f );
+                }
+            }
+        }
+
+    final int size = currentDeleteList.size();
+
+    if( size > 0 ) {
+
+        if( deleteAllAllowed || size < filesList.size() ) {
+//System.out.println( "delete " + currentDeleteList.size() );
+
+            for( File f : currentDeleteList ) {
+
+                if( !doNotRemoveInDLayer ) {
+                    filesList.remove( f );
+                    }
+
+                DeletedFileImpl delFile = new DeletedFileImpl( f );
+
+                if( doDelete ) {
+                    delFile.delete();
+                    }
+
+                deleteList.add( delFile );
+
+//System.out.println( "delete "  + f + " (" + deleteList.size() + ")" );
+                }
+
+            if( filesList.size() < 2 ) {
+                //
+                // Plus de double, on supprime l'entrée
+                //
+                iter.remove();
+                }
+            }
+
+        currentDeleteList.clear();
+        }
+    }
+
+ return deleteList;
+}
+*/
+
+
+
+/**
+**
+**
+** @param hashCodes Collection de Long contenant le hashcode des objets
+**                  File à traiter.
+** @param paramsSet Paramètres permettant de spécifier le traitement.
+**
+** @return l'objet DuplicateLayer lui-même.
+**
+** @see File#hashCode()
+** @see Params
+public List<DeletedFile> deleteByHashCode( // -----------------------------
+    final Collection<Long>  hashCodes,
+    final EnumSet<Params>   paramsSet
+    )
+{
+ final List<DeletedFile>    deleteList          = new LinkedList<DeletedFile>();
+ final List<File>           currentDeleteList   = new LinkedList<File>();
+
+ final boolean  deleteAllAllowed    = paramsSet.contains( Params.deleteAllAllowed );
+ final boolean  doDelete            = paramsSet.contains( Params.doDelete );
+ final boolean  doNotRemoveInDLayer = paramsSet.contains( Params.doNotRemoveInDuplicateLayer );
+
+ for( Iterator<? extends Collection<File>> iter = this.duplicatesFiles.iterator(); iter.hasNext(); ) {
+    final Collection<File> filesList = iter.next();
+
+    for( File f : filesList ) {
+
+        if( hashCodes.contains( new Long( f.hashCode() ) ) ) {
+            //
+            // Correspond au motif de suppression, mais
+            // est-il dans la liste des fichiers protégés
+            //
+            if( isDeletable( f ) ) {
+                currentDeleteList.add( f );
+                }
+            }
+        }
+
+    final int size = currentDeleteList.size();
+
+    if( size > 0 ) {
+
+        if( deleteAllAllowed || size < filesList.size() ) {
+
+            for( File f : currentDeleteList ) {
+
+                if( !doNotRemoveInDLayer ) {
+                    filesList.remove( f );
+                    }
+
+                DeletedFileImpl delFile = new DeletedFileImpl( f );
+
+                if( doDelete ) {
+                    delFile.delete();
+                    }
+
+                deleteList.add( delFile );
+                }
+
+            if( filesList.size() < 2 ) {
+                //
+                // Plus de double, on supprime l'entrée
+                //
+                iter.remove();
+                }
+            }
+
+        currentDeleteList.clear();
+        }
+    }
+
+ return deleteList;
+}
+*/
+
+

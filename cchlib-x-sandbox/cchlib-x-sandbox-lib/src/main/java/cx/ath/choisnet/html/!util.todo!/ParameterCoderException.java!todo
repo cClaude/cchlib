@@ -1,0 +1,23 @@
+/*
+** $VER: ParameterCoderException.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+/**
+** Erreur de la classe ParameterCoder
+**
+** <PRE>
+**  1.00 2000.10.09 Version initiale
+** </PRE>
+**
+** @author Claude CHOISNET
+** @version 1.00 09/10/2000
+*/
+public class ParameterCoderException extends Exception
+{
+public ParameterCoderException( String message ) // -----------------------
+{
+ super( message );
+}
+} // class
+

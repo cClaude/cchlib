@@ -1,0 +1,384 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/util/duplicate/MD5CollectionXML.java
+** Description   :
+** Encodage      : ANSI
+**
+**  3.01.042 2006.05.24 Claude CHOISNET
+**                      Reprise de la classe:
+**                          cx.ath.choisnet.util.checksum.MD5CollectionXML
+**                      sous le nom:
+**                          cx.ath.choisnet.util.duplicate.MD5CollectionXML
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.util.duplicate.MD5CollectionXML
+**
+*/
+package cx.ath.choisnet.util.duplicate;
+
+import cx.ath.choisnet.util.checksum.MD5TreeEntry;
+import cx.ath.choisnet.xml.XMLParser;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+/**
+** <p>
+** Classe permettant de constuire des flux XML à partir d'un objet
+** {@link MD5Collection} et réciproquement.
+** </p>
+**
+** @author Claude CHOISNET
+** @since   3.01.042
+** @version 3.01.042
+**
+** @see cx.ath.choisnet.util.checksum.MD5Tree
+** @see DuplicateLayer
+*/
+public class MD5CollectionXML
+    implements MD5Collection
+{
+/** serialVersionUID */
+private static final long serialVersionUID = 1L;
+
+/**
+** Liste des objets File correspondant aux dossiers
+*/
+protected SortedSet<String> dbFoldersFilenames;
+
+/**
+** Couple (empreinte, liste de File fichiers)
+*/
+protected SortedMap<MD5TreeEntry,SortedSet<String>> dbMessageDigest;
+
+/**
+** Mise en cache du nombre de fichiers.
+*/
+private transient int _transient_filesCount = 0;
+
+/**
+** Nom de l'élément racine du document XML
+*/
+public final static String ROOT_ELEMENT_NAME
+                            = MD5CollectionXML.class.getName();
+
+/**
+** Construction d'un MD5CollectionXML vide
+*/
+private MD5CollectionXML() // ---------------------------------------------
+{
+ this.dbMessageDigest       = new TreeMap<MD5TreeEntry,SortedSet<String>>();
+ this.dbFoldersFilenames    = new TreeSet<String>();
+}
+
+/**
+** Construction d'un MD5CollectionXML vide
+*/
+public MD5CollectionXML( // -----------------------------------------------
+    final Document document
+    )
+    throws MD5CollectionXMLException
+{
+ this();
+
+ final Element rootElement = document.getDocumentElement();
+
+ if( ! rootElement.getTagName().equals( ROOT_ELEMENT_NAME ) ) {
+    //
+    // Prob. d'initialisation...
+    //
+    throw new MD5CollectionXMLException( "Élément inattendu '" + rootElement.getTagName() + "'" );
+    }
+
+ loadFolders( rootElement.getElementsByTagName( "folders" ) );
+ loadFiles( rootElement.getElementsByTagName( "files" ) );
+}
+
+/**
+** Construction d'un MD5CollectionXML vide
+*/
+public MD5CollectionXML( // -----------------------------------------------
+    final XMLParser xmlParser
+    )
+    throws MD5CollectionXMLException
+{
+ this( xmlParser.getDocument() );
+}
+
+/**
+** Retourne un ensemble, non modifiable, de chaines représentant le
+** le nom relatif de l'ensemble des dossiers connus de cette collection.
+**
+** @return un objet Set<String> non null, mais éventuellement vide.
+*/
+public Set<String> folderNames() // ---------------------------------------
+{
+ return this.dbFoldersFilenames;
+}
+
+/**
+** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
+** object Map contenant un couple formé de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de chaîne représentant le nom relatif de chacune des
+** instances de ce fichier (il doit y avoir au moins une entrée).
+**
+** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
+*/
+public Map<MD5TreeEntry,? extends Set<String>> files() // -----------------
+{
+ return this.dbMessageDigest;
+}
+
+/**
+** Retourne l'ensemble des noms de fichier relatifs correspondant à
+** l'empreinte donnée.
+**
+** @param md5 Empreinte recherchée
+**
+** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
+** donné, retourne null autrement.
+*/
+public Set<String> getFileNames( final MD5TreeEntry md5 ) // --------------
+{
+ return this.dbMessageDigest.get( md5 );
+}
+
+/**
+** Retourne le nombre de fichiers contenu dans la collection.
+**
+** @return un int correspondant au nombre de fichiers (hors dossier) étant
+**         défini dans la collection.
+*/
+public int filesCount() // ------------------------------------------------
+{
+ if( this._transient_filesCount == 0 ) {
+    _transient_filesCount = MD5CollectionHelper.filesCount( this );
+    }
+
+ return _transient_filesCount;
+}
+
+/**
+** Compares this object with the specified object for order. Returns a
+** negative integer, zero, or a positive integer as this object is less
+** than, equal to, or greater than the specified object.
+*/
+public int compareTo( final MD5Collection anOtherMD5Collection ) // -------
+{
+ if( super.equals( anOtherMD5Collection ) ) {
+    return 0; // on s'arrête là, c'est le même objet !
+    }
+
+ return MD5CollectionHelper.compare( this, anOtherMD5Collection );
+}
+
+/**
+** Indicates whether some other {@link MD5Collection} is "equal to" this one.
+**
+*/
+public boolean equals( final MD5Collection anOtherMD5Collection ) // ------
+{
+ if( super.equals( anOtherMD5Collection ) ) {
+    return true; // on s'arrête là, c'est le même objet !
+    }
+
+ return MD5CollectionHelper.compare( this, anOtherMD5Collection ) == 0;
+}
+
+/**
+** Sauvegarde l'objet dans un flux sous forme de XML.
+**
+** @param output Objet {@link Appendable} destiné à recevoir le flux XML.
+**
+** @throws java.io.IOException en cas de problème lors de l'ajout dans le flux.
+**
+** @see #toXML(MD5Collection,Appendable)
+*/
+public void toXML( final Appendable output ) // ---------------------------
+    throws java.io.IOException
+{
+ toXML( this, output );
+}
+
+/**
+**
+**
+**
+*/
+private void loadFolders( final NodeList foldersNodeList ) // -------------
+    throws MD5CollectionXMLException
+{
+ final int len = foldersNodeList.getLength();
+
+ if( len > 1 ) {
+    throw new MD5CollectionXMLException( "to much folders Elements:" + len );
+    }
+ else if( len == 1 ) {
+    final NodeList  nodeList= ((Element)foldersNodeList.item( 0 )).getElementsByTagName( "folder" );
+    final int       max     = nodeList.getLength();
+
+    for( int i = 0; i < max; i++ ) {
+        final Node node = nodeList.item( i );
+
+        if( node instanceof Element ) {
+            // System.out.println( "node: " + node + " - " + node.getTextContent() );
+            // this.dbFoldersFilenames.add( new File( node.getTextContent() ) );
+            this.dbFoldersFilenames.add( node.getTextContent() );
+            }
+        }
+    }
+}
+
+/**
+**
+**
+**
+*/
+private void loadFiles( final NodeList filesNodeList ) // -----------------
+    throws MD5CollectionXMLException
+{
+ final int len = filesNodeList.getLength();
+
+ if( len > 1 ) {
+    throw new MD5CollectionXMLException( "to much files Elements:" + len );
+    }
+ else if( len == 1 ) {
+    final NodeList  nodeList= ((Element)filesNodeList.item( 0 )).getElementsByTagName( "entry" );
+    final int       max     = nodeList.getLength();
+
+    for( int i = 0; i < max; i++ ) {
+        final Node node = nodeList.item( i );
+
+        if( node instanceof Element ) {
+            final Element       element = ((Element)node);
+            final MD5TreeEntry  md5     = MD5TreeEntry.newInstance( element.getAttribute( "id" ) );
+
+            this.dbMessageDigest.put(
+                    md5,
+                    buildFilesSet( element.getElementsByTagName( "file" ) )
+                    );
+            }
+        }
+    }
+}
+
+/**
+**
+**
+**
+*/
+private static SortedSet<String> buildFilesSet( // ----------------
+    final NodeList nodeList
+    )
+{
+ final int                  max     = nodeList.getLength();
+ final SortedSet<String>    list    = new TreeSet<String>();
+
+ for( int i = 0; i < max; i++ ) {
+    final Node node = nodeList.item( i );
+
+    if( node instanceof Element ) {
+        // list.add( new File( node.getTextContent() ) );
+        list.add( node.getTextContent() );
+        }
+    }
+
+ return list;
+}
+
+/**
+** Sauvegarde d'un objet {@link MD5Collection} dans un flux sous forme de XML.
+**
+** @param aMD5Collection    Objet {@link MD5Collection} à transformer en XML.
+** @param output            Objet {@link Appendable} destiné à recevoir le flux XML.
+**
+** @throws java.io.IOException en cas de problème lors de l'ajout dans le flux.
+*/
+public static void toXML( // ----------------------------------------------
+    final MD5Collection aMD5Collection,
+    final Appendable    output
+    )
+    throws java.io.IOException
+{
+ output.append( "<" + ROOT_ELEMENT_NAME + ">\n" );
+ output.append( " <folders>\n" );
+
+ for( String foldername : aMD5Collection.folderNames() ) {
+    output.append( "  <folder>" + foldername + "</folder>\n" );
+    }
+
+ output.append( " </folders>\n" );
+ output.append( " <files>\n" );
+
+ for( Map.Entry<MD5TreeEntry,? extends Set<String>> entry : aMD5Collection.files().entrySet() ) {
+    output.append( "  <entry id=\"" + entry.getKey() + "\">\n" );
+
+    for( String filename : entry.getValue() ) {
+        output.append( "    <file>" + filename + "</file>\n" );
+        }
+
+    output.append( "  </entry>\n" );
+    }
+
+ output.append( " </files>\n" );
+ output.append( "</" + ROOT_ELEMENT_NAME + ">\n" );
+}
+
+/**
+** Transformation d'un objet {@link MD5Collection} en une chaîne sous forme de XML.
+**
+** @param aMD5Collection Objet {@link MD5Collection} à transformer en XML.
+*/
+public static String toXML( final MD5Collection aMD5Collection ) // --------
+{
+ final StringBuilder sb = new StringBuilder();
+
+ try {
+    MD5CollectionXML.toXML( aMD5Collection, sb );
+    }
+  catch( java.io.IOException unexpected ) {
+    throw new RuntimeException( unexpected );
+    }
+
+ return sb.toString();
+}
+
+/**
+** java cx.ath.choisnet.util.checksum.MD5CollectionXML file.xml
+public static void main( String[] args ) // -------------------------------
+    throws Exception
+{
+ File                   file    = new File( args[ 0 ] );
+ java.io.StringWriter   sw      = new java.io.StringWriter();
+ MD5CollectionXML instance
+        = new MD5CollectionXML(
+                new cx.ath.choisnet.xml.XMLParserDOM2(
+                    new java.io.FileInputStream( file ),
+                    false,  //  boolean validation,
+                    false,  //  boolean ignoreWhitespace,
+                    false,  //  boolean ignoreComments,
+                    false,  //  boolean putCDATAIntoText,
+                    false,  // boolean createEntityRefs,
+                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
+                        new java.io.PrintWriter( sw )
+                        )
+                    )
+                );
+
+ System.out.println( "ERROR" );
+ System.out.print( sw.toString() );
+ System.out.println( "-----" );
+ System.out.println( "INSTANCE" );
+ System.out.print( MD5CollectionXML.toXML( instance ) );
+ System.out.println( "-----" );
+}
+*/
+
+} // class

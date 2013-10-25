@@ -1,0 +1,165 @@
+/*
+** $VER: IncludeHTMLFile.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+/**
+** Permet d'inclure du code HTML personnalisé depuis un fichier
+** dans le résultat d'une servlet.
+**
+** @author Claude CHOISNET
+** @version 1.00 17/11/2000
+*/
+public class IncludeHTMLFile implements IncludeHTMLFileInterface
+{
+/** Flux de sortie (vers navigateur client par exemple) */
+private Writer out;
+
+/**
+** Objet IncludeHTMLFileTags pour recherche le début de la copie,
+** si null alors on recopie dès le 1er caractère.
+*/
+private IncludeHTMLFileTags beginTag   = null;
+
+/**
+** Liste d'objet IncludeHTMLFileTags
+*/
+private LinkedList          tagsList    = null;
+
+/**
+** @param printer   Chemin d'acces au fichier (avec spérateur final)
+*/
+public IncludeHTMLFile( Writer printer ) // -------------------------------
+{
+ this.out       = printer;
+ this.tagsList  = new LinkedList();
+}
+
+/**
+** Méthode de redirection du contenu d'un fichier vers la sortie définie
+** dans le constructeur en fonction des filtres.
+**
+** @param fileReader    Fichier à rediriger
+*/
+public void print( FileReader fileReader ) // -----------------------------
+    throws IOException
+{
+ print( new BufferedReader( fileReader ) );
+}
+
+/**
+** Méthode de redirection du contenu d'un fichier vers la sortie définie
+** dans le constructeur en fonction des filtres.
+**
+** @param bufferedReader flux à rediriger
+*/
+public void print( BufferedReader bufferedReader ) // ---------------------
+    throws IOException
+{
+ String line;
+
+ if( beginTag != null ) {
+    //
+    // Recherche du début de la recopie
+    //
+     while( (line = bufferedReader.readLine() ) != null ) {
+
+// System.err.println( "line1 : [" + line + "]" );
+
+        if( beginTag.isConcern( line ) ) {
+            String newLine = beginTag.getNewLine( line );
+
+            if( newLine != null ) {
+                out.write( newLine );
+                out.write( "\n" );
+                }
+            // On a trouver le début, on continu sur la suite
+            break;
+            }
+        }
+    }
+
+ ListIterator   iter; // Iterator sur la liste des IncludeHTMLFileTags
+ boolean        run = true;
+
+ while( run && ((line = bufferedReader.readLine() ) != null) ) {
+
+// System.err.println( "line2 : [" + line + "]" );
+
+    iter = tagsList.listIterator( 0 );
+
+    while( run && iter.hasNext() ) {
+        IncludeHTMLFileTags tag = (IncludeHTMLFileTags)iter.next();
+
+        if( tag.isConcern( line ) ) {
+            line = tag.getNewLine( line );
+
+            if( tag.getType() == TYPE_END ) {
+                // bye !
+                run = false;
+                }
+            }
+        }
+
+    // Prévoir un état COPIE/SKIP $$$$$ A REVOIR $$$$
+    if( line != null ) {
+        out.write( line );
+        out.write( "\n" );
+        }
+    }
+
+ bufferedReader.close();
+}
+
+/**
+**
+*/
+public void setBeginTag( String tag, int matchMode, int actionMode )
+    throws IncludeHTMLFileTagsException
+{
+ this.beginTag = new IncludeHTMLFileTags( tag, TYPE_BEGIN, actionMode, matchMode );
+}
+
+/**
+**
+*/
+public void setEndTag( String tag, int matchMode, int actionMode )
+    throws IncludeHTMLFileTagsException
+{
+ tagsList.addFirst(
+    new IncludeHTMLFileTags( tag, TYPE_END, actionMode, matchMode )
+    );
+}
+
+/**
+**
+*/
+public void replaceTagWith( // --------------------------------------------
+    String  tag,
+    String  value,
+    int     matchMode,
+    int     actionMode
+    )
+    throws IncludeHTMLFileTagsException
+{
+ tagsList.addFirst(
+    new IncludeHTMLFileTags(
+        tag,
+        value,
+        TYPE_REPLACE,
+        actionMode,
+        matchMode
+        )
+    );
+}
+
+} // class RedirectFile

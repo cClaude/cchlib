@@ -1,0 +1,248 @@
+/*
+** $VER: IncludeHTMLFileTags.java
+*/
+package jrpdk.servlet.htmlGenerator.util;
+
+import java.io.PrintWriter;
+
+/*
+** Permet de définir les méthodes de recherche et de remplacement
+** lors de l'inclusion de code HTML dans le résultat d'une servlet.
+**
+** @author Claude CHOISNET
+** @version 1.00 17/11/2000
+*/
+class IncludeHTMLFileTags implements IncludeHTMLFileInterface
+{
+protected String    matchString         = null;
+protected int       matchStringLength   = 0;
+protected int       flags               = 0;
+protected String    replaceString       = null;
+protected int       replaceStringLength = 0;
+
+/**
+**
+*/
+public IncludeHTMLFileTags( // --------------------------------------------
+    String  matchString,
+    int     typeFlag,
+    int     actionFlag,
+    int     matchFlag
+    )
+    throws IncludeHTMLFileTagsException
+{
+ this( matchString, null, typeFlag, actionFlag, matchFlag );
+}
+
+
+/**
+**
+*/
+public IncludeHTMLFileTags( // --------------------------------------------
+    String  matchString,
+    String  replaceString,
+    int     typeFlag,
+    int     actionFlag,
+    int     matchFlag
+    )
+    throws IncludeHTMLFileTagsException
+{
+ this.matchString       = matchString;
+ this.matchStringLength = matchString.length();
+ this.flags             = flagsAreOk( typeFlag, actionFlag, matchFlag, replaceString != null );
+ this.replaceString     = replaceString;
+
+ if( replaceString != null ) {
+    this.replaceStringLength = replaceString.length();
+    }
+}
+
+/**
+**
+*/
+public boolean isConcern( String line ) // --------------------------------
+{
+ int indexOf = line.indexOf( matchString );
+
+ if( indexOf == -1 ) {
+    //
+    // Le motif n'a pas été trouvé dans la chaîne
+    //
+    return false;
+    }
+
+ int matchFlag = flags & MATCH_MODE_MASK;
+
+ //
+ // $$$$ OPTIMISATIONS POSSIBLES $$$$
+ //
+ switch( matchFlag ) {
+    case MATCH_MODE_BEGIN_OF_LINE:
+        if( line.startsWith( matchString ) ) { return true; }
+        break;
+
+    case MATCH_MODE_END_OF_LINE  :
+        if( line.endsWith( matchString ) ) { return true; }
+        break;
+
+    case MATCH_MODE_IN_THE_LINE  :
+    //   MATCH_MODE_TAG_ONLY
+        // (indexOf != -1 )
+        return true;
+
+    case MATCH_MODE_ALL_THE_LINE :
+        if( line.equals( matchString ) ) { return true; }
+        break;
+
+    default:
+        break;
+    }
+
+ return false;
+}
+
+/**
+**
+*/
+public String getNewLine( String orignalLine ) // -------------------------
+{
+ int indexOf = orignalLine.indexOf( matchString );
+
+ if( indexOf == -1 ) {
+    throw new IllegalStateException( "matchString not found in line" );
+    }
+
+ int actionFlag  = flags & ACTION_MODE_MASK;
+
+ switch( actionFlag ) {
+    case ACTION_MODE_REPLACE_TAG_ONLY :
+        // retourne la nouvelle ligne
+        return getNewLine_REPLACE_TAG_ONLY( orignalLine );
+
+    case ACTION_MODE_REPLACE_LINE :
+        // retourne la nouvelle ligne
+        return replaceString;
+
+    case ACTION_MODE_REMOVE_LINE :
+        // On ne fait rien !
+        return null;
+    }
+
+ throw new IllegalStateException( "unkown 'actionFlag'" );
+}
+
+/**
+** méthode à REVOIR pour OPTIMISATION
+*/
+private String getNewLine_REPLACE_TAG_ONLY( String origLine ) // ----------
+{
+ String copie   = origLine;
+ int    begin   = 0;
+ int    indexOf;
+
+// System.err.println( "In line : [" + origLine + "]" );
+// System.err.println( "replace : [" + matchString + "]" );
+// System.err.println( "by : [" + replaceString + "]" );
+
+ while( (indexOf = copie.indexOf( matchString, begin )) != -1 ) {
+    // La chaîne à remplacer se trouve à la position : indexOf
+
+    // Copie du début de la chaîne jusqu'à la position du
+    // motif.
+    copie =
+        copie.substring( 0, indexOf ) +
+        replaceString +
+        copie.substring( indexOf + matchStringLength );
+
+    // Calcul le prochain "début" pour la recherche du motif:
+    // ce sera après la zone a été remplacée
+    begin = indexOf + replaceStringLength;
+    }
+
+// System.err.println( "RESULT : [" + copie + "]" );
+
+ // retourne la nouvelle ligne
+ return copie;
+}
+
+/**
+**
+*/
+public int getType() // ---------------------------------------------------
+{
+ return flags & TYPE_MASK;
+}
+
+/**
+** Identification des couples (mode_de_recherche,action) reconnu
+*/
+private static int flagsAreOk( // -----------------------------------------
+    int     typeFlag,
+    int     actionFlag,
+    int     matchFlag,
+    boolean replaceStringNotNull
+    ) // ------
+    throws IncludeHTMLFileTagsException
+{
+ //
+ // Verification des tranches de valeurs
+ //
+ if( (matchFlag & ~MATCH_MODE_MASK) != 0 ) {
+    throw new IncludeHTMLFileTagsException( "bad match flags" );;
+    }
+ else if( (actionFlag & ~ACTION_MODE_MASK) != 0 ) {
+    throw new IncludeHTMLFileTagsException( "bad action flags" );;
+    }
+ else if( (typeFlag & ~TYPE_MASK) != 0 ) {
+    throw new IncludeHTMLFileTagsException( "bad type flags" );;
+    }
+
+ //
+ // Vérification pour les cas où il y a une opération de
+ // remplacement que la chaîne de replacement est définie
+ //
+ if(    ( (actionFlag & ACTION_MODE_REPLACE_LINE) == ACTION_MODE_REPLACE_LINE )
+        ||
+        ( (actionFlag & ACTION_MODE_REPLACE_TAG_ONLY) == ACTION_MODE_REPLACE_TAG_ONLY )
+    ) {
+    if( ! replaceStringNotNull ) {
+        throw new IncludeHTMLFileTagsException( "no replaceString" );
+        }
+    }
+
+ int action_match = actionFlag | matchFlag;
+
+ //
+ // Identification des couples valides
+ //
+ switch( action_match ) {
+    case MATCH_MODE_BEGIN_OF_LINE | ACTION_MODE_REPLACE_LINE :
+    case MATCH_MODE_BEGIN_OF_LINE | ACTION_MODE_REMOVE_LINE :
+    case MATCH_MODE_BEGIN_OF_LINE | ACTION_MODE_REPLACE_TAG_ONLY :
+
+    case MATCH_MODE_END_OF_LINE | ACTION_MODE_REPLACE_LINE :
+    case MATCH_MODE_END_OF_LINE | ACTION_MODE_REMOVE_LINE :
+    case MATCH_MODE_END_OF_LINE | ACTION_MODE_REPLACE_TAG_ONLY :
+
+    case MATCH_MODE_IN_THE_LINE | ACTION_MODE_REPLACE_LINE :
+    case MATCH_MODE_IN_THE_LINE | ACTION_MODE_REMOVE_LINE :
+//  NOT! MATCH_MODE_IN_THE_LINE | ACTION_MODE_REPLACE_TAG_ONLY :
+
+    case MATCH_MODE_ALL_THE_LINE | ACTION_MODE_REPLACE_LINE :
+    case MATCH_MODE_ALL_THE_LINE | ACTION_MODE_REMOVE_LINE :
+    case MATCH_MODE_ALL_THE_LINE | ACTION_MODE_REPLACE_TAG_ONLY :
+
+//  NOT! MATCH_MODE_TAG_ONLY | ACTION_MODE_REPLACE_LINE :
+//  NOT! MATCH_MODE_TAG_ONLY | ACTION_MODE_REMOVE_LINE :
+    case MATCH_MODE_TAG_ONLY | ACTION_MODE_REPLACE_TAG_ONLY :
+
+        return typeFlag | actionFlag | matchFlag;
+
+    default:
+        break;
+    }
+
+ throw new IncludeHTMLFileTagsException( "bad flags" );
+}
+
+} // class

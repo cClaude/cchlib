@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>cchlib-x-sandbox</artifactId>
+  <name>cchlib-x-sandbox</name>
+  <packaging>pom</packaging>
+
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
+
+  <!-- Global properties -->
+  <properties>
+    <build.date>${maven.build.timestamp}</build.date>
+    <buildNumber>${maven.build.timestamp}</buildNumber>
+    <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>google-releases</id>
+      <name>Google Releases</name>
+      <url>https://oss.sonatype.org/content/repositories/google-releases</url>
+    </repository>
+    <repository>
+      <id>google-api-services</id>
+      <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
+    </repository>
+
+    <repository>
+      <id>Java.Net</id>
+      <url>http://download.java.net/maven/2/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <!--dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-googleapis</artifactId>
+        <version>1.4.1-beta</version>
+    </dependency-->
+    <!--dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-googleapis-json</artifactId>
+        <version>1.2.3-alpha</version>
+    </dependency-->
+
+
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+      <extension><!-- maven on googlecode -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <verbose />
+          <optimize>true</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <source>${project.javadoc.source.version}</source>
+          <target>${project.javadoc.target.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <charset>UTF-8</charset>
+          <docencoding>UTF-8</docencoding>
+          <docfilessubdirs>true</docfilessubdirs>
+          <optimize>true</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
+          <links>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+          </links>
+          <show>protected</show>
+          <source>${project.javadoc.source.version}</source>
+      </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <modules>
+    <module>cchlib-x-sandbox-lib</module>
+    <module>cchlib-x-sandbox-tools</module>
+  </modules>
+
+  <parent>
+  	<groupId>com.googlecode.cchlib</groupId>
+  	<artifactId>cchlib</artifactId>
+  	<version>4.1.8-SNAPSHOT</version>
+  </parent>
+</project>

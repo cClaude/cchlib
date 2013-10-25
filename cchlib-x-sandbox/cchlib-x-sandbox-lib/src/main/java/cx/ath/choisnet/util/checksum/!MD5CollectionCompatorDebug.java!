@@ -1,0 +1,215 @@
+/*
+** -----------------------------------------------------------------------
+** Nom           : cx/ath/choisnet/util/checksum/MD5CollectionCompatorDebug.java
+** Description   :
+** Encodage      : ANSI
+**
+**  3.01.004 2006.03.02 Claude CHOISNET - Version initiale
+**  3.01.027 2006.04.19 Claude CHOISNET - Version initiale
+**                      Adaptation à cx.ath.choisnet.xml.impl.XMLParserDOM2
+** -----------------------------------------------------------------------
+**
+** cx.ath.choisnet.util.checksum.MD5CollectionCompatorDebug
+**
+*/
+package cx.ath.choisnet.util.checksum;
+
+import cx.ath.choisnet.util.checksum.impl.MD5CollectionFactory;
+import cx.ath.choisnet.util.checksum.impl.MD5CollectionImpl;
+import cx.ath.choisnet.util.checksum.tasks.DefaultTasksFactory;
+import java.io.File;
+import java.util.Collection;
+import java.util.Map.Entry;
+import java.util.Map;
+
+/**
+** Classe réservée au débuggage de MD5CollectionCompator
+**
+** cx.ath.choisnet.util.checksum.MD5CollectionCompatorDebug
+**
+** @author Claude CHOISNET
+** @since   3.01.004
+** @version 3.01.027
+** @deprecated use {@link cx.ath.choisnet.util.duplicate.MD5CollectionXMLException} instead
+*/
+@Deprecated
+public class MD5CollectionCompatorDebug
+{
+
+/**
+**
+public static void main( final String[] args ) // -------------------------
+    throws Exception
+{
+ final File referenceFolder   = new File( args[ 0 ] );
+ final File toUpdateFolder    = new File( args[ 1 ] );
+ final File localTmpFolder    = new File( args[ 2 ] );
+
+ System.out.println( "--" );
+ System.out.println( "referenceFolder   = " + referenceFolder );
+ System.out.println( "toUpdateFolder    = " + toUpdateFolder );
+ System.out.println( "localTmpFolder    = " + localTmpFolder );
+ System.out.println( "--" );
+
+ MD5Collection referenceMD5C = buildMD5Collection( referenceFolder );
+
+// System.out.println( ">---------> referenceMD5C >--------->" );
+// System.out.print( MD5CollectionXML.toXML( referenceMD5C ) );
+// System.out.println( "<---------<" );
+
+ MD5Collection toUpdateMD5C = buildMD5Collection( toUpdateFolder );
+
+// System.out.println( ">---------> toUpdateMD5C >--------->" );
+// System.out.print( MD5CollectionXML.toXML( toUpdateMD5C ) );
+// System.out.println( "<---------<" );
+
+ main(
+    referenceMD5C,
+    toUpdateMD5C,
+    referenceFolder,
+    toUpdateFolder,
+    localTmpFolder
+    );
+}
+*/
+
+/**
+**
+*/
+public static void main( final String[] args ) // -------------------------
+    throws Exception
+{
+ final File referenceFile     = new File( args[ 0 ] );
+ final File referenceFolder   = new File( args[ 1 ] );
+ final File toUpdateFile      = new File( args[ 2 ] );
+ final File toUpdateFolder    = new File( args[ 3 ] );
+ final File localTmpFolder    = new File( args[ 4 ] );
+
+ System.out.println( "--" );
+ System.out.println( "referenceFile     = " + referenceFile );
+ System.out.println( "referenceFolder   = " + referenceFolder );
+ System.out.println( "--" );
+ System.out.println( "toUpdateFile      = " + toUpdateFile );
+ System.out.println( "toUpdateFolder    = " + toUpdateFolder );
+ System.out.println( "--" );
+ System.out.println( "localTmpFolder    = " + localTmpFolder );
+ System.out.println( "--" );
+
+ MD5Collection referenceMD5C = loadFromXML( referenceFile );
+
+// System.out.println( ">---------> referenceMD5C >--------->" );
+// System.out.print( MD5CollectionXML.toXML( referenceMD5C ) );
+// System.out.println( "<---------<" );
+
+ MD5Collection toUpdateMD5C = loadFromXML( toUpdateFile );
+
+// System.out.println( ">---------> toUpdateMD5C >--------->" );
+// System.out.print( MD5CollectionXML.toXML( toUpdateMD5C ) );
+// System.out.println( "<---------<" );
+
+ main(
+    referenceMD5C,
+    toUpdateMD5C,
+    referenceFolder,
+    toUpdateFolder,
+    localTmpFolder
+    );
+}
+/**
+**
+*/
+public static void main( // -----------------------------------------------
+    final MD5Collection referenceMD5C,
+    final MD5Collection toUpdateMD5C,
+    final File          referenceFolder,
+    final File          toUpdateFolder,
+    final File          tmpFolder
+    )
+    throws Exception
+{
+ System.out.println( "Initialisaton de MD5CollectionCompator" );
+
+ final MD5CollectionCompator md5cmp
+        = new MD5CollectionCompator(
+                referenceMD5C,
+                toUpdateMD5C,
+                new DefaultTasksFactory(
+                        referenceMD5C,
+                        referenceFolder,
+                        toUpdateFolder,
+                        tmpFolder
+                        )
+                );
+
+ md5cmp.init();
+ md5cmp.runTasks();
+}
+
+/**
+**
+*/
+private static MD5Collection buildMD5Collection( // -----------------------
+    final File folder
+    )
+    throws java.io.IOException
+{
+ if( ! folder.isDirectory() ) {
+    throw new java.io.IOException( "***Fail: not a folder : " + folder );
+    }
+
+ final MD5CollectionFactory factory = new MD5CollectionFactory()
+    {
+        public void handleIOException(
+                    File                file,
+                    java.io.IOException cause
+                    )
+                {
+                    // on ignore les erreurs...
+                    System.err.println( "***warn : " + file + " - " + cause );
+                }
+    };
+
+ return factory.newInstance( folder );
+}
+
+/**
+**
+*/
+public static MD5Collection loadFromXML( final File file ) // -------------
+    throws Exception
+{
+ java.io.StringWriter   sw      = new java.io.StringWriter();
+
+// MD5CollectionXML instance
+//        = new MD5CollectionXML(
+//                new cx.ath.choisnet.xml.XMLParserDOM2(
+//                    new java.io.FileInputStream( file ),
+//                    false,  //  boolean validation,
+//                    false,  //  boolean ignoreWhitespace,
+//                    false,  //  boolean ignoreComments,
+//                    false,  //  boolean putCDATAIntoText,
+//                    false,  // boolean createEntityRefs,
+//                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
+//                        new java.io.PrintWriter( sw )
+//                        )
+//                    )
+//                );
+ MD5CollectionXML instance
+        = new MD5CollectionXML(
+                new cx.ath.choisnet.xml.impl.XMLParserDOM2(
+                    new java.io.FileInputStream( file ),
+                    cx.ath.choisnet.xml.impl.XMLParserDOM2.DEFAULT_ATTRIBUTS,
+                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
+                        new java.io.PrintWriter( sw )
+                        )
+                    )
+                );
+
+ if( sw.getBuffer().length() > 0 ) {
+    System.err.print( sw.toString() );
+    }
+
+ return instance;
+}
+
+} // class
