@@ -15,7 +15,7 @@ import com.googlecode.cchlib.swing.text.PatternDocument;
  *
  * @see PatternDocument
  * @see Pattern
- * @deprecated use {@link com.googlecode.cchlib.swing.XComboBoxPattern} instead
+ * @deprecated use {@link com.googlecode.cchlib.swing.combobox.XComboBoxPattern} instead
  */
 @Deprecated
 public class XComboBoxPattern extends XComboBox<String>
