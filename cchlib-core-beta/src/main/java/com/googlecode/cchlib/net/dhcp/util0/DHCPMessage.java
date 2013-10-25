@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.net.dhcp.util0;
 
-import com.googlecode.cchlib.net.dhcp.util0.DHCPUtility;
+
 
 public class DHCPMessage {
     public static final int BOOTREQUEST = 1;
@@ -302,7 +302,7 @@ public class DHCPMessage {
     private void internalize(byte[] msg) {
         int staticSize = 236;
         int msgLength = msg.length;
-        
+
         assert(msgLength >= staticSize);
 
         op = msg[0];    //1 byte
@@ -600,20 +600,20 @@ public class DHCPMessage {
             }*/
 
 
-            String msgDivider = new String("");
+            String msgDivider = "";
             for (int i = 0; i < width+6; i++) msgDivider += "=";
             msgDivider += NL;
 
-            String rowDivider = new String("");
+            String rowDivider = "";
             for (int i = 0; i < width+6; i++) rowDivider += "-";
             rowDivider += NL;
 
             msg.append( msgDivider ).append( "|| " ).append( row[0] ).append( " ||\n" );
             for (int i = 1; i < row.length; i++) {
                     int halfWhiteSpace = (width - row[i].length()) / 2;
-                    String halfWhite = new String("");
+                    String halfWhite = "";
                     for (int j=0; j < halfWhiteSpace; j++) halfWhite += " ";
-                    
+
                     msg.append( rowDivider ).append( "|| " ).append( halfWhite + row[i] ).append( halfWhite ).append( " ||\n" );
             }
             msg.append( msgDivider ).append( options.toString() ).append( msgDivider );

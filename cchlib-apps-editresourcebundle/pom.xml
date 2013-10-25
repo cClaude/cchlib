@@ -42,6 +42,12 @@
      <artifactId>cchlib-i18n</artifactId>
      <version>4.1.8-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>com.googlecode.cchlib</groupId>
+    	<artifactId>cchlib-unit</artifactId>
+    	<version>4.1.8-SNAPSHOT</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>

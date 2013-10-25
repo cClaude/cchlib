@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 /**
@@ -13,6 +14,8 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( AutoI18nCoreImpl.class );
+
     private Map<Class<?>,I18nClass<?>> map = new HashMap<Class<?>,I18nClass<?>>();
     /** @serial */
     private I18nDelegator i18nDelegator;
@@ -39,6 +42,10 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             return;
             }
 
+        if( logger.isDebugEnabled() ) {
+            logger.debug( "I18n handle class " + clazz + " on " + objectToI18n );
+            }
+
         @SuppressWarnings("unchecked")
         I18nClass<T> i18nClass = (I18nClass<T>)this.map.get( clazz ); // $codepro.audit.disable unnecessaryCast
 
@@ -52,10 +59,4 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 
         apply.performeI18n( objectToI18n, locale );
     }
-
-//    @Override
-//    public void setLocale( Locale locale )
-//    {
-//       this.locale = locale;
-//    }
 }

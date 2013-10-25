@@ -2,12 +2,12 @@ package com.googlecode.cchlib.net.dhcp.util0;
 
 import java.util.Arrays;
 import java.util.Hashtable;
-import com.googlecode.cchlib.net.dhcp.util0.DHCPUtility;
+
 
 /**
  * This class represents a hash table of options for a DHCP message. Its purpose
  * is to ease option handling such as add, remove, or change.
-  * 
+  *
  */
 public class DHCPOptions {
         // DHCP Message Types
@@ -32,7 +32,7 @@ public class DHCPOptions {
         public static final int DHCPCLIENTIDENTIFIER = 61;
 
         private static final int MAX_OPTION_SIZE = 320;
-        
+
 
         // private LinkedList<byte[]> options = new LinkedList<byte[]>();
         private Hashtable<Integer, byte[]> options;
@@ -161,7 +161,7 @@ public class DHCPOptions {
 
         @Override
         public String toString() {
-                String output = new String("");
+                String output = "";
                 for (byte[] option : options.values()) {
                         output += "optionID: " + option[0] + " optionLength: " + option[1]
                                         + " optionData: ";

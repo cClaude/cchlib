@@ -94,7 +94,7 @@ public class DHCPUtility {
     }
 
     public static String byteToHex( byte b ) {
-        return Integer.toHexString( (int)(b & 0xff) );
+        return Integer.toHexString( (b & 0xff) );
     }
 
     //only works for 4 bytes
@@ -149,7 +149,7 @@ public class DHCPUtility {
 
     public static String printString(byte[] ba) {
         StringBuilder str = new StringBuilder();
-        
+
         for (int i=0; i < ba.length; i++) {
             if (ba[i] != 0) {
                 str.append( (char) ba[i] );
@@ -191,11 +191,11 @@ public class DHCPUtility {
     public static byte[] strToIP(String str) {
         Pattern regex =  Pattern.compile(".*?(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}).*");
         Matcher m = regex.matcher(str);
-        
+
         if( m.matches() ) {
             String[] ip   = m.group(1).split("\\.");
             byte[]   baIP = new byte[4];
-            
+
             baIP[0] = new Byte((byte) Integer.parseInt(ip[0]));
             baIP[1] = new Byte((byte) Integer.parseInt(ip[1]));
             baIP[2] = new Byte((byte) Integer.parseInt(ip[2]));
