@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.swing;
+package com.googlecode.cchlib.swing.combobox;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseWheelEvent;

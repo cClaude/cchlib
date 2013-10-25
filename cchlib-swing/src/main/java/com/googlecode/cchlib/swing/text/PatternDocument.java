@@ -2,10 +2,12 @@ package com.googlecode.cchlib.swing.text;
 
 import java.awt.Color;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+import org.apache.log4j.Logger;
 
 /**
  * PatternDocument is simple {@link javax.swing.text.Document}
@@ -19,6 +21,8 @@ import javax.swing.text.PlainDocument;
 public class PatternDocument extends PlainDocument
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( PatternDocument.class );
+
     /** @serial */
     private JTextField jtf;
     /** @serial */
@@ -117,8 +121,17 @@ public class PatternDocument extends PlainDocument
             Pattern.compile( jtf.getText() );
             jtf.setBackground( defaultColor );
             }
+        catch(PatternSyntaxException e) {
+            jtf.setBackground( errorColor );
+
+            if( logger.isDebugEnabled() ) {
+                logger.debug( "Bad partern: " + jtf.getText(), e );
+                }
+            }
         catch(Exception e) {
             jtf.setBackground( errorColor );
+
+            logger.warn( "check error", e );
             }
     }
 

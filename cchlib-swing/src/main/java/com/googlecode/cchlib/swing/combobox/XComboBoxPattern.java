@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.swing;
+package com.googlecode.cchlib.swing.combobox;
 
 import java.awt.Color;
 import java.awt.Component;

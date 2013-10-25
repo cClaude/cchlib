@@ -122,7 +122,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 logger.warn( "* Igore (no $root): " + rootItem.getItemsCollection() );
                 }
             }
-        
+
         if( logger.isDebugEnabled() ) {
             logger.debug( "$root found: " + this.itemsMap.size() + " for: " + clazz );
             }
@@ -346,10 +346,20 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 op.populateObject( item.getValue(), rootItem );
                 }
             catch( SwingIntrospectorException e ) {
-                logger.warn( "SwingIntrospectorException for: " + beanName );
+                if( logger.isDebugEnabled() ) {
+                    logger.debug( "SwingIntrospectorException for: " + beanName,e  );
+                    }
+                else {
+                    logger.warn( "SwingIntrospectorException for: " + beanName );
+                    }
                 }
             catch( IntrospectionException e ) {
-                logger.warn( "IntrospectionException for: " + beanName );
+                if( logger.isDebugEnabled() ) {
+                    logger.debug( "IntrospectionException for: " + beanName, e );
+                    }
+                else {
+                    logger.warn( "IntrospectionException for: " + beanName );
+                    }
                 }
         }
     }
