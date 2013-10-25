@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
-import com.googlecode.cchlib.swing.XComboBoxPattern;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *

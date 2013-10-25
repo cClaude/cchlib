@@ -20,12 +20,15 @@ final class FolderTreeBuilder
     // TODO use ArrayHashMap instead !
     private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>();
 
+    private FolderTreeModelable model;
+
     /**
+     * @param model  
      *
      */
-    public FolderTreeBuilder()
+    public FolderTreeBuilder( final FolderTreeModelable model )
     {
-        // empty
+        this.model = model ;
     }
 
     protected void add( final EmptyFolder emptyFolder )
@@ -36,23 +39,17 @@ final class FolderTreeBuilder
         // Find best parent
         final Path emptyFolderPath = emptyFolder.getPath();
 
-        //logger.info( "> emptyFolderRootFolderTreeNode :" + emptyFolderRootFolderTreeNode.getFolder() );
-
-        //logger.info( "> emptyFolderPath :" + emptyFolderPath );
-        //logger.info( "> emptyFolderPath.getNameCount() :" + emptyFolderPath.getNameCount() );
-
         FolderTreeNode bestParentFolderTreeNode = findBestParent( emptyFolderRootFolderTreeNode, emptyFolderPath );
         Path           bestParentPath           = bestParentFolderTreeNode.getFolder().getPath();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( String.format( "Add (%s) bestParentPath (%s)", emptyFolder, bestParentPath ) );
+        if( logger.isTraceEnabled() ) {
+            logger.trace( String.format( "Add (%s) bestParentPath (%s)", emptyFolder, bestParentPath ) );
             }
 
         // Create nested nodes
         for( int i = bestParentPath.getNameCount(); i<emptyFolderPath.getNameCount()-1 ; i++ ) {
             bestParentPath = bestParentPath.resolve( emptyFolderPath.getName( i ) );
             // Add (unknown state) folders
-            //logger.info( "> ADD bestParentPath :" + bestParentPath );
             bestParentFolderTreeNode = bestParentFolderTreeNode.addFolder( Folders.createFolder( bestParentPath ) );
             }
 
@@ -60,7 +57,6 @@ final class FolderTreeBuilder
         if( bestParentFolderTreeNode.getFolder().getPath().equals( emptyFolder.getPath() ) ) {
             // Alreay exist, juste change type
             bestParentFolderTreeNode.setFolder( emptyFolder );
-            //bestParentFolderTreeNode.setUserObject( emptyFolder );
 
             if( logger.isDebugEnabled() ) {
                 logger.debug( String.format( "Add (%s) already exist (fix type if needed)", emptyFolder ) );
@@ -90,19 +86,12 @@ final class FolderTreeBuilder
            Enumeration<?> enu                      = parentFolderTreeNode.children();
            Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
 
-           //logger.info( "> findBestParent try in :" + parentFolderTreeNode.getFolder().getPath() );
-
             while( enu.hasMoreElements() ) {
                 FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
                 Path           childNodePath = childNode.getFolder().getPath();
                 Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
 
-                //logger.info( "> findBestParent childNode :" + childNode );
-                //logger.info( "> findBestParent looking for emptyFolderPathName :" + emptyFolderPathName );
-                //logger.info( "> findBestParent childNodeName :" + childNodeName );
-
                 if( childNodeName.equals( emptyFolderPathName ) ) {
-                    //logger.info( "> findBestParent REC :" + childNode );
                     return findBestParentRec( childNode, emptyFolderPath, emptyFolderPathNameIndex + 1 );
                     }
                 }
@@ -123,7 +112,7 @@ final class FolderTreeBuilder
         FolderTreeNode emptyFolderRootFolderTreeNode = rootNodesMap.get( emptyFolderRootPath );
 
         if( emptyFolderRootFolderTreeNode == null ) {
-            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath() );
+            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath(), model );
 
             rootNodesMap.put( emptyFolderRootPath, emptyFolderRootFolderTreeNode );
             }

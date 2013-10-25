@@ -1,9 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.util.Date;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -21,7 +20,11 @@ public class DuplicateFilesApp
      */
     public static void main( final String[] args )
     {
-        logger .info( "starting..." );
+        logger .info( "starting... : " + new Date() );
+        logger .info( "availableProcessors = " + Runtime.getRuntime().availableProcessors() );
+        logger .info( "freeMemory          = " + Runtime.getRuntime().freeMemory() );
+        logger .info( "maxMemory           = " + Runtime.getRuntime().maxMemory() );
+        logger .info( "totalMemory         = " + Runtime.getRuntime().totalMemory() );
 
         final Preferences   preferences = Preferences.createPreferences();
         final String        title       = "Duplicate Files Manager";

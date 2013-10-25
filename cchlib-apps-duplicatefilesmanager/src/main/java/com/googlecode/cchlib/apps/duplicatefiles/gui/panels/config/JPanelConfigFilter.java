@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.FileTypeCheckBox;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.swing.XComboBoxPattern;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *

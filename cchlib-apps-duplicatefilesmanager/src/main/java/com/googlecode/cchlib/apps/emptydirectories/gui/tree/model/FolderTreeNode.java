@@ -18,30 +18,40 @@ public final class FolderTreeNode
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeNode.class );
-    private Folder folder;
-    private boolean selected;
+    
+    private Folder              folder;
+    private boolean             selected;
+    private FolderTreeModelable model;
 
     /**
      * Create a root FileTreeNode
      *
      * @param folder {@link EmptyFolder} object for this root FileTreeNode
+     * @param selected
+     * @param model
      */
-    private FolderTreeNode( final Folder folder, final boolean selected )
+    private FolderTreeNode(
+        final Folder              folder, 
+        final boolean             selected,
+        final FolderTreeModelable model
+        )
     {
         super();
 
         this.folder   = folder;
         this.selected = false;
+        this.model    = model;
     }
 
     /**
      * Create a root FileTreeNode
      *
      * @param folder {@link EmptyFolder} object for this root FileTreeNode
+     * @param model
      */
-    private FolderTreeNode( final Folder folder )
+    private FolderTreeNode( final Folder folder, final FolderTreeModelable model )
     {
-        this( folder, true );
+        this( folder, true, model );
     }
 
 
@@ -97,7 +107,7 @@ public final class FolderTreeNode
                 );
             }
 
-        FolderTreeNode newNode = new FolderTreeNode( newFolder );
+        FolderTreeNode newNode = new FolderTreeNode( newFolder, this.model );
 
         super.add( newNode );//TODO: Could do better using super.insert( node, index );
 
@@ -133,12 +143,12 @@ public final class FolderTreeNode
         };
     }
 
-    public static FolderTreeNode createRootFolderFor( final Path path )
+    public static FolderTreeNode createRootFolderFor( final Path path, final FolderTreeModelable model )
     {
         logger.trace( "path = " + path );
         logger.trace( "path.getRoot() = " + path.getRoot() );
 
-        return new FolderTreeNode( Folders.createFolder( path.getRoot() ) );
+        return new FolderTreeNode( Folders.createFolder( path.getRoot() ), model );
     }
 
     public void toggleSelected()
@@ -149,6 +159,7 @@ public final class FolderTreeNode
     public void setSelected( boolean selected )
     {
         this.selected = selected;
+        this.model.updateState( this );
     }
 
     public boolean isSelected()

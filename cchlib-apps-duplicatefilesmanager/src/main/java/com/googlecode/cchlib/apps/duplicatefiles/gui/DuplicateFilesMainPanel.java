@@ -22,7 +22,7 @@ import java.util.TooManyListenersException;
 /**
  * Main frame layout for DuplicateFilesManager
  */
-public class DuplicateFilesMainPanel 
+public class DuplicateFilesMainPanel
     extends JPanel
         implements I18nAutoCoreUpdatable //I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
@@ -52,7 +52,7 @@ public class DuplicateFilesMainPanel
     {
         //Empty
     }
-    
+
     /**
      * Create the frame.
      * @param dfToolKit
@@ -67,7 +67,7 @@ public class DuplicateFilesMainPanel
     {
         this.dfToolKit          = dfToolKit;
         this.mainActionListener = mainActionListener;
-        
+
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
         gbl_contentPane.rowHeights = new int[]{100, 0, 0};
@@ -241,22 +241,17 @@ public class DuplicateFilesMainPanel
         return new JPanelConfirm( getDFToolKit() );
     }
 
-    @Override // I18nAutoUpdatable
+    @Override // I18nAutoCoreUpdatable
     public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());
         getJPanel1Config().performeI18n(autoI18n);
         autoI18n.performeI18n(getJPanel2Searching(),getJPanel2Searching().getClass());
-        autoI18n.performeI18n(getJPanel3Result(),getJPanel3Result().getClass());
+        //autoI18n.performeI18n(getJPanel3Result(),getJPanel3Result().getClass());
+        getJPanel3Result().performeI18n(autoI18n);
         autoI18n.performeI18n(getJPanel4Confirm(),getJPanel4Confirm().getClass());
     }
-
-//    @Override // I18nPrepAutoUpdatable
-//    public String getMessagesBundle()
-//    {
-//        return getDFToolKit().getMessagesBundle();
-//    }
 
     public void initFixComponents()
     {

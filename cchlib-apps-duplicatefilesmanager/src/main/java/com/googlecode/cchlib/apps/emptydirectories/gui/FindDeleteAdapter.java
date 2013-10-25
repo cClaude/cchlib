@@ -166,6 +166,10 @@ public class FindDeleteAdapter
             selectedPaths.add( ef.getPath() );
             }
 
+        logger.info( "doDelete() : selected files count = " + selectedPaths.size() );
+
+        assert selectedPaths.size() > 0;
+
         // Add deepest paths at the beginning
         Collections.sort( selectedPaths, new Comparator<Path>(){
             @Override
@@ -179,17 +183,17 @@ public class FindDeleteAdapter
         for( Path path : selectedPaths ) {
             try {
                 boolean res = Files.deleteIfExists( path );
-                
+
                 if( logger.isDebugEnabled() ) {
                     logger.debug( "DIR delete [" + path + "] => " + res );
                     }
                 }
             catch( DirectoryNotEmptyException e ) {
                 logger.warn( "delete [" + path + "]", e );
-                
+
                 String[] files = path.toFile().list();
                 logger.warn( "cause content : [" + Arrays.toString( files ) + "]" );
-                
+
                 }
             catch( Exception e ) {
                 logger.error( "delete [" + path + "]", e );

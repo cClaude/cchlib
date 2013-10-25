@@ -139,4 +139,28 @@ final public class KeyFileState
     {
         return file.compareTo( kfs.file );
     }
+
+    public String getFileNameWithoutExtention()
+    {
+        final String name = getFileNameWithExtention();
+
+        if( name.indexOf( 0 ) == '.' ) {
+            // File start with DOT, so it's a hidden file (or system file) - no extention
+            return name;
+            }
+
+        final int index = name.lastIndexOf( '.' );
+
+        if( index < 0 ) {
+            // No extention
+            return name;
+            }
+
+        return name.substring( 0, index );
+    }
+
+    public String getFileNameWithExtention()
+    {
+        return getFile().getName();
+    }
 }

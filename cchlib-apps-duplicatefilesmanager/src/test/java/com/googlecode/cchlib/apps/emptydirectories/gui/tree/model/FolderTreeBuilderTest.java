@@ -14,11 +14,12 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import com.googlecode.cchlib.lang.StringHelper;
 
-public class FolderTreeBuilderTest 
+public class FolderTreeBuilderTest
 {
     private static final Logger logger = Logger.getLogger( FolderTreeBuilderTest.class );
     private static final String TAB = "  ";
@@ -31,7 +32,7 @@ public class FolderTreeBuilderTest
     public static void tearDownAfterClass() throws Exception
     {}
 
-    private List<Path> globalList = new ArrayList<>(); 
+    private List<Path> globalList = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception
@@ -46,7 +47,9 @@ public class FolderTreeBuilderTest
     @Test
     public void testAdd() throws IOException
     {
-        FolderTreeBuilder folderTreeBuilder = new FolderTreeBuilder();
+        final FolderTreeModelable model = Mockito.mock( FolderTreeModelable.class );
+
+        FolderTreeBuilder folderTreeBuilder = new FolderTreeBuilder( model  );
         Path              emptyPath1        = Files.createTempDirectory( getClass().getSimpleName() );
         EmptyFolder       emptyFolder1      = Folders.createEmptyFolder( emptyPath1 );
 
@@ -63,7 +66,7 @@ public class FolderTreeBuilderTest
 
         Path         emptyPath2   = Files.createTempDirectory( getClass().getSimpleName() );
         EmptyFolder  emptyFolder2 = Folders.createEmptyFolder( emptyPath2 );
-        
+
         logger.info( "############## emptyFolder2 = " + emptyFolder2 );
         folderTreeBuilder.add( emptyFolder2 );
         assertEquals( 1, map.size() );
@@ -92,7 +95,7 @@ public class FolderTreeBuilderTest
 
     private void checkIfNoDoubleOnNode( final FolderTreeNode node )
     {
-        List<Path>     list = new ArrayList<>(); 
+        List<Path>     list = new ArrayList<>();
         Enumeration<?> enu  = node.children();
 
         while( enu.hasMoreElements() ) {
@@ -110,7 +113,7 @@ public class FolderTreeBuilderTest
             checkIfNoDoubleOnNode( child );
             }
     }
-    
+
     private void displayTree( final FolderTreeNode node, String prefix )
     {
         Enumeration<?> enu  = node.children();

@@ -65,7 +65,7 @@ public class RemoveEmptyDirectoriesPanel
         )
     {
         super( dfToolKit.getResources() );
-        
+
         this.dfToolKit  = dfToolKit;
         this.mainWindow = mainWindow;
 
@@ -89,19 +89,12 @@ public class RemoveEmptyDirectoriesPanel
             public void valueChanged(TreeSelectionEvent event)
             {
                 Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
-                System.err.println( "currentSelectedNodeModel = " + currentSelectedNodeModel );
+
                 if( currentSelectedNodeModel instanceof FolderTreeNode ) {
                     FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
-                    
+
                     treeModel.toggleSelected( selectedNode );
                  }
-//                if (currentSelectedNodeModel != null    && currentSelectedNodeModel.getLocalNode() != null) {
-//                    LocalOTNode myOTNode = currentSelectedNodeModel.getLocalNode();
-//                    _migrationDocumentAction.setSelectedOTNode(myOTNode);
-//                } else {
-//                    _migrationDocumentAction.setSelectedOTNode(null);
-//                    }
-//                 }
             }});
         EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
         jTreeDir.setCellRenderer( cellRenderer );
@@ -110,8 +103,7 @@ public class RemoveEmptyDirectoriesPanel
 
         enable_findTaskDone();
 
-        final LeftDotListCellRenderer leftListCellRenderer
-        = new LeftDotListCellRenderer( super.getJListRootDirectories(), true );
+        final LeftDotListCellRenderer leftListCellRenderer = new LeftDotListCellRenderer( super.getJListRootDirectories(), true );
         super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
 
         super.getJListRootDirectories().addListSelectionListener(
@@ -178,7 +170,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onRemoveRootDirectory()
     {
-        logger.info( "btnRemoveRootDirectory_mouseClicked" );
+        logger.info( "onRemoveRootDirectory()" );
 
         if( super.isButtonRemoveRootDirectoryEnabled() ) {
             JList<File>             rootList        = super.getJListRootDirectories();
@@ -197,7 +189,7 @@ public class RemoveEmptyDirectoriesPanel
     private void onFindEmptyDirectories()
     {
         if( super.isButtonStartScanEnabled() ) {
-            logger.info( "btnStartScan_mouseClicked" );
+            logger.info( "onFindEmptyDirectories()" );
 
             findBegin(); // Launch a thread
             }
@@ -205,7 +197,8 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onCancel()
     {
-        logger.info( "btnCancel_mouseClicked" );
+        logger.info( "onCancel()" );
+
         if( super.getBtnCancel().isEnabled() ) {
             findDeleteAdapter.cancel();
             logger.info( "Cancel!" );
@@ -215,10 +208,11 @@ public class RemoveEmptyDirectoriesPanel
     private void onSelectAll( final boolean onlyLeaf )
     {
         if( super.isBtnSelectAllEnabled() ) {
-            logger.info( "btnSelectAll_mouseClicked" );
+            logger.info( "onSelectAll() : onlyLeaf=" + onlyLeaf );
 
             treeModel.setSelectAll( onlyLeaf, true );
-            //treeModel.setSelectAllLeaf( true );
+            logger.info( "onSelectAll() : size=" + treeModel.getSelectedEmptyFoldersSize() );
+
             treeModel.expandAllRows();
             }
     }
@@ -226,7 +220,7 @@ public class RemoveEmptyDirectoriesPanel
     private void onUnselectAll()
     {
         if( super.isBtnUnselectAllEnabled() ) {
-            logger.info( "btnSelectAll_mouseClicked" );
+            logger.info( "onUnselectAll()" );
 
             treeModel.setSelectAll( false, false );
             //treeModel.setSelectAllLeaf( false );
@@ -319,19 +313,6 @@ public class RemoveEmptyDirectoriesPanel
     @Override
     protected void addRootDirectory( final List<File> files )
     {
-//        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
-//
-//        for( File f:files ) {
-//            if( f.isDirectory() ) {
-//                model.addElement( f );
-//                logger.info( "add drop dir:" + f );
-//                }
-//            else {
-//                logger.warn( "Ignore drop : " + f );
-//                }
-//            }
-//
-//        setEnableFind( model.size() > 0 );
         addRootDirectory( files.toArray( new File[files.size()] ));
     }
 
@@ -384,17 +365,8 @@ public class RemoveEmptyDirectoriesPanel
             int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-//                DefaultListModel<File>     model = super.getJListRootDirectoriesModel();
-                File[]                     files = jfc.getSelectedFiles();
+                final File[] files = jfc.getSelectedFiles();
 
-                //logger.info( "model:" + model );
-                //logger.info( "model.getClass():" + model.getClass() );
-
-//                for( File f:files ) {
-//                    //model.
-//                    model.addElement( f );
-//                    logger.info( "selected dir:" + f );
-//                    }
                 addRootDirectory( files );
                 }
             logger.info( "addRootDirectory() done" );
@@ -405,7 +377,6 @@ public class RemoveEmptyDirectoriesPanel
     {
         if( waitingJFileChooserInitializer == null ) {
             JFileChooserInitializerCustomize configurator
-                //= WaitingJFileChooserInitializer.getDefaultConfigurator();
                 = new LasyJFCCustomizer()
                     .setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
 
@@ -474,7 +445,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void startDelete()
     {
-        logger.info( "delete thread started" );
+        logger.info( "DELETE Thread started" );
 
         enable_startDelete();
 
@@ -495,6 +466,9 @@ public class RemoveEmptyDirectoriesPanel
                 catch( Exception e ) {
                     logger.warn( "doDelete()", e );
                     }
+                catch( Error e ) {
+                    logger.fatal( "doDelete()", e );
+                    }
                 finally {
                     getBtnStartDelete().setEnabled( true );
 
@@ -505,7 +479,7 @@ public class RemoveEmptyDirectoriesPanel
                     findBegin();
                     }
 
-                logger.info( "delete thread done" );
+                logger.info( "DELETE Thread done" );
             }
         }, "startDelete()").start();
     }

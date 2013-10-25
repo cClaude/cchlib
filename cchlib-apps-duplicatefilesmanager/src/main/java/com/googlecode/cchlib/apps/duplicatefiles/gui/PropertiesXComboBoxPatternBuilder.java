@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.XComboBoxPattern;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *

@@ -18,6 +18,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterable.Iterables;
@@ -34,7 +35,8 @@ class FolderTreeModel
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeModel.class );
     private FolderTreeBuilder folderTreeBuilder;
-    private final Set<FolderTreeNode> selectedNodes = new HashSet<FolderTreeNode>();
+    //private final Set<FolderTreeNode> selectedNodes = new HashSet<>();
+    private final Set<EmptyFolder> selectedNodes = new HashSet<>();
     private final JTree jTree;
     private final Object lock = new Object();
 
@@ -51,7 +53,7 @@ class FolderTreeModel
 
         // Hide 'global' root
         this.jTree.setRootVisible( false );
-        this.folderTreeBuilder = new FolderTreeBuilder();
+        this.folderTreeBuilder = new FolderTreeBuilder( this );
     }
 
     @Override
@@ -172,7 +174,7 @@ class FolderTreeModel
     final
     public void setSelectAll( final boolean onlyLeaf, final boolean selected )
     {
-        if( selected || onlyLeaf ) {
+        if( selected ) {
             synchronized( lock ) {
                 final Iterator<FolderTreeNode> iter = nodeIterator();
 
@@ -312,12 +314,19 @@ class FolderTreeModel
     final
     public Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
-        return Iterables.wrap( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
-            @Override
-            public EmptyFolder wrap( FolderTreeNode node ) throws WrapperException
-            {
-                return EmptyFolder.class.cast( node.getFolder() );
-            }} );
+//        return Iterables.wrap( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
+//            @Override
+//            public EmptyFolder wrap( FolderTreeNode node ) throws WrapperException
+//            {
+//                return EmptyFolder.class.cast( node.getFolder() );
+//            }} );
+        return Collections.unmodifiableSet( this.selectedNodes );
+    }
+
+    @Override //FileTreeModelable
+    public int getSelectedEmptyFoldersSize()
+    {
+        return selectedNodes.size();
     }
 
     private DefaultMutableTreeNode getRootNode()
@@ -481,9 +490,26 @@ class FolderTreeModel
     }
 
     @Override
-    public void toggleSelected( FolderTreeNode selectedNode )
+    public void toggleSelected( final FolderTreeNode aNode )
     {
-        selectedNode.toggleSelected();
-        treeNodesChanged( selectedNode );
+        aNode.toggleSelected();
+        treeNodesChanged( aNode );
+    }
+
+    @Override
+    public void updateState( final FolderTreeNode aNode )
+    {
+        final Folder folder = aNode.getFolder();
+
+        assert folder instanceof EmptyFolder;
+
+        final EmptyFolder emptyFolder = (EmptyFolder)folder;
+
+        if( aNode.isSelected() ) {
+            this.selectedNodes.add( emptyFolder );
+            }
+        else {
+            this.selectedNodes.remove( emptyFolder );
+        }
     }
 }

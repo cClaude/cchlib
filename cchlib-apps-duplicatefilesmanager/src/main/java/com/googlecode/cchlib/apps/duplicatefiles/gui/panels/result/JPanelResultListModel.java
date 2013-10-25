@@ -118,7 +118,7 @@ public class JPanelResultListModel
 
         duplicatesFileCacheList.clear();
 
-        for( Map.Entry<String,Set<KeyFileState>> e : duplicateFiles.entrySet() ) {
+        for( Map.Entry<String,Set<KeyFileState>> e : getDuplicateFiles().entrySet() ) {
             Collection<KeyFileState> files = e.getValue();
             final KeyFileState       firstFile;
 
@@ -177,7 +177,7 @@ public class JPanelResultListModel
             case FIRST_FILEDEPTH :
                 cmp = this.depthComparator;
                 break;
-                
+
             case NUMBER_OF_DUPLICATE:
                 cmp = this.numberOfDuplicateComparator;
                 break;
@@ -257,24 +257,32 @@ public class JPanelResultListModel
 
     public Set<KeyFileState> getStateSet( final String key )
     {
-        return duplicateFiles.get( key );
+        return getDuplicateFiles().get( key );
     }
 
     public Set<Entry<String,Set<KeyFileState>>> getStateEntrySet()
     {
-        return this.duplicateFiles.entrySet();
+        return this.getDuplicateFiles().entrySet();
     }
 
-    public Iterable<KeyFileState> iter()
+    public Iterable<KeyFileState> getAllDuplicates()
     {
         return new Iterable<KeyFileState>()
         {
             @Override
             public Iterator<KeyFileState> iterator()
             {
-                return duplicateFiles.iterator();
+                return getDuplicateFiles().iterator();
             }
         };
+    }
+
+    /**
+     * @return the duplicateFiles
+     */
+    public HashMapSet<String,KeyFileState> getDuplicateFiles()
+    {
+        return duplicateFiles;
     }
 
     private JPanelResultKeyFileStateListModel listModelKeptIntact;
@@ -362,14 +370,14 @@ public class JPanelResultListModel
         //
         // Update global list
         //
-        for( KeyFileState kfs : duplicateFiles ) {
+        for( KeyFileState kfs : getDuplicateFiles() ) {
             kfs.setSelectedToDelete( false );
             }
 
         //
         // Update current models
         //
-        Set<KeyFileState> kfs = duplicateFiles.get( this.key );
+        Set<KeyFileState> kfs = getDuplicateFiles().get( this.key );
 
         if( kfs != null ) {
             setKeepDelete( this.key, kfs );
@@ -383,12 +391,12 @@ public class JPanelResultListModel
 
     public void refreshList()
     {
-        Iterator<Entry<String, Set<KeyFileState>>> mainIterator = duplicateFiles.entrySet().iterator();
+        Iterator<Entry<String, Set<KeyFileState>>> mainIterator = getDuplicateFiles().entrySet().iterator();
         int index  = 0;
         int index0 = -1;
         int index1 = -1;
 
-        logger.info( "duplicateFiles.size() = " + duplicateFiles.size() );
+        logger.info( "duplicateFiles.size() = " + getDuplicateFiles().size() );
 
         while( mainIterator.hasNext() ) {
             Entry<String,Set<KeyFileState>> entry       = mainIterator.next();
@@ -420,12 +428,11 @@ public class JPanelResultListModel
             index++;
             }
 
-        logger.info( "duplicateFiles.size() = " + duplicateFiles.size() + " * index0=" + index0 + " index1=" + index1 );
+        logger.info( "duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
 
         if( index0 >= 0 ) {
             updateCache();
             super.fireContentsChanged( this, index0, index1 );
             }
     }
-
 }
