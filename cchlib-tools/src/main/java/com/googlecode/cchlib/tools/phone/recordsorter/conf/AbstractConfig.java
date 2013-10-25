@@ -89,7 +89,7 @@ public abstract class AbstractConfig implements Config
         builder.append( getClass().getSimpleName() );
         builder.append( " [getContacts()=" );
         builder.append( getContacts() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 }

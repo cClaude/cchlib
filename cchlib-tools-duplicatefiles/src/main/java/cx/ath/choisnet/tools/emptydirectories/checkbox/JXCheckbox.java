@@ -15,15 +15,15 @@ public class JXCheckbox extends JComponent
      */
     private static final String uiClassID = "FlexiSliderUI";
 
-    /** 
-     * Sets the new UI delegate.
-     * @param ui New UI delegate.
-     */
-    // $codepro.audit.disable unnecessaryOverride
-    public void setUI( XCheckboxUI ui )
-    {
-        super.setUI( ui );
-    }
+//    /** 
+//     * Sets the new UI delegate.
+//     * @param ui New UI delegate.
+//     */
+//    // $codepro.audit.disable unnecessaryOverride
+//    public void setUI( XCheckboxUI ui )
+//    {
+//        super.setUI( ui );
+//    }
 
     /**
      * Resets the UI property to a value from the current look and feel.

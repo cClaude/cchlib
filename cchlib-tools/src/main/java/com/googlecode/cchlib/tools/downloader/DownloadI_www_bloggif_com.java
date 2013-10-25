@@ -13,6 +13,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
+
 /**
  *
  *
@@ -21,8 +22,8 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
-	private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
+    private static final long serialVersionUID = 1L;
+    private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
 
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES = 25;
@@ -181,11 +182,11 @@ public class DownloadI_www_bloggif_com
     {
         return null;
     }
-    
+
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

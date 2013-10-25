@@ -9,11 +9,9 @@
     <version>4.1.8-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.googlecode.cchlib-samples</groupId>
-  <artifactId>cchlib-samples</artifactId>
+  <artifactId>cchlib-x-samples</artifactId>
   <packaging>jar</packaging>
-  <name>cchlib-samples</name>
-  <version>1.4.8-SNAPSHOT</version>
+  <name>cchlib-x-samples</name>
 
   <prerequisites>
     <maven>3.0.0</maven>

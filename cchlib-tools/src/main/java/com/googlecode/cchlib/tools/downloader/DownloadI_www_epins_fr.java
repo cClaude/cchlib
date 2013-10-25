@@ -12,6 +12,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
+
 /**
  *
  *
@@ -20,8 +21,8 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 public class DownloadI_www_epins_fr
     extends AbstractDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
-	/* http://www.epins.fr/pins/98699.png */
+    private static final long serialVersionUID = 1L;
+    /* http://www.epins.fr/pins/98699.png */
     /* http://www.epins.fr/pins/104639.png */
     private final static String serverRootURLString = "http://www.epins.fr";
     private final static String htmlURLFmt0         = serverRootURLString + "/pins/";
@@ -144,11 +145,11 @@ public class DownloadI_www_epins_fr
     {
         return null;
     }
-    
+
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

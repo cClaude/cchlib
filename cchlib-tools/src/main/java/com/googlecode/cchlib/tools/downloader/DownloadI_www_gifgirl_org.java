@@ -14,6 +14,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
+
 /**
  * http://www.gifgirl.org/search?updated-max=2012-06-12T17:20:00-05:00&max-results=40&start=12&by-date=false
  * http://www.gifgirl.org/search?updated-max=2012-06-21T16:09:00-05:00&max-results=4

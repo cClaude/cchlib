@@ -10,6 +10,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
+
 /**
  *
  *
@@ -19,7 +20,7 @@ public class DownloadI_www_gifpal_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private final static String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
 
     /**
@@ -91,7 +92,7 @@ public class DownloadI_www_gifpal_com
 
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults   gdauir, 
+            GenericDownloaderAppUIResults   gdauir,
             DownloadStringURL               content2Parse
             )
             throws MalformedURLException
@@ -113,11 +114,11 @@ public class DownloadI_www_gifpal_com
     {
         return null;
     }
-    
+
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

@@ -18,7 +18,7 @@ import alpha.cx.ath.choisnet.system.SystemEnvironmentVar;
 public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentVar
 {
     private final static char SEPARATOR = '\0';
-    
+
     private Wrappable<String,Serializable>         toSerializable = new StringToSerializable();
     private Selectable<Serializable>               filterString   = new SelectString();
     private Wrappable<? super Serializable,String> castToString   = new CastToString();
@@ -67,13 +67,14 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
             }
     }
 
-    @SuppressWarnings("unchecked")
     private static Class<? extends Serializable> getClass(
         final ClassLoader classLoader,
         final String      className
         ) throws ClassNotFoundException
     {
-        return (Class<? extends Serializable>)Class.forName( className, true, classLoader );
+        @SuppressWarnings("unchecked")
+        final Class<? extends Serializable> result = (Class<? extends Serializable>)Class.forName( className, true, classLoader );
+        return result;
     }
 
     @Override

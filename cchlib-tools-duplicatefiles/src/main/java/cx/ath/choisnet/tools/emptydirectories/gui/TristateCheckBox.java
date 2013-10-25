@@ -94,7 +94,7 @@ public class TristateCheckBox extends JCheckBox
 
     /** No one may add mouse listeners, not even Swing! */
     @Override
-    public void addMouseListener(MouseListener l) {}
+    synchronized public void addMouseListener(MouseListener l) {}
 
     /**
      * Set the new state to either SELECTED, NOT_SELECTED or DONT_CARE. If state

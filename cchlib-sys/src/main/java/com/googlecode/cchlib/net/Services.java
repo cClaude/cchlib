@@ -5,7 +5,7 @@ import com.googlecode.cchlib.lang.OperatingSystem;
 
 /**
  * GetServiceByName lookup port numbers in the /etc/services file
- * 
+ *
  * @since 4.1.8
  */
 public class Services
@@ -21,7 +21,7 @@ public class Services
             servicesFile = new File( UNIX_SERVICES_FILENAME );
             }
         else if( OperatingSystem.isWindows() ) {
-            String systemRoot = System.getenv( WIN32_SYSTEM_VARNAME );
+            String systemRoot = System.getenv( WIN32_SYSTEM_VARNAME ); // $codepro.audit.disable environmentVariableAccess
 
             if( systemRoot != null ) {
                 File systemRootFile = new File( systemRoot );
@@ -39,6 +39,6 @@ public class Services
         return servicesFile;
     }
 
-    
-    
+
+
 }

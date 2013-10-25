@@ -5,7 +5,7 @@ import java.io.IOException;
 import oldies.tools.phone.BadFileFormatException;
 import oldies.tools.phone.contacts.Contact;
 import oldies.tools.phone.contacts.ContactProperties;
-import oldies.tools.phone.contacts.myphoneexplorer.MPECVSContactList;
+
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
 

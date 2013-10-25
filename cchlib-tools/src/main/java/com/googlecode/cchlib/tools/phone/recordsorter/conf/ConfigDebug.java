@@ -9,7 +9,7 @@ public class ConfigDebug
     public static void debug( Config config, Appendable out ) throws IOException
     {
         for( Contact c : config.getContacts() ) {
-            out.append( "\t"  ).append( c.toString() );
+            out.append( '\t'  ).append( c.toString() );
             }
     }
 
