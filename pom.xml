@@ -153,8 +153,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
-      <type>jar</type>
-      <scope>compile</scope>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -177,6 +176,12 @@
       <version>2.0.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <!-- Sub projects -->
@@ -187,6 +192,7 @@
     <module>cchlib-i18n</module>
     <module>cchlib-i18n-deprecated</module>
     <module>cchlib-io</module>
+    <module>cchlib-io-test</module>
     <module>cchlib-j2ee</module>
     <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-jdbf</module>
@@ -195,6 +201,7 @@
     <module>cchlib-swing</module>
     <module>cchlib-swing-deprecated</module>
     <module>cchlib-sys</module>
+    <module>cchlib-unit</module>
     <module>cchlib-nio</module>
 
     <!-- should not be include in maven repository -->

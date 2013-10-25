@@ -5,5 +5,5 @@ Set CYGWiN=C:\Apps\cygwin64
 set JAVA_HOME=%JAVA_7_HOME%
 
 set PATH=%PATH%;%CYGWIN%\bin
-mintty /bin/env CHERE_INVOKING=1 /bin/bash -l
-pause
+start /B mintty /bin/env CHERE_INVOKING=1 /bin/bash -l
+
