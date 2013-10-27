@@ -81,7 +81,7 @@ private DirectoryIterator( // ---------------------------------------------
 }
 
 /**
-** Ajoute un dossier dans le résultat de l'itérateur.
+** Ajoute un dossier dans le rï¿½sultat de l'itï¿½rateur.
 */
 protected void addFolder( File folderFile ) // ----------------------------
 {
@@ -105,6 +105,7 @@ protected void addArray( final File[] folderContentFiles ) // -------------
 /**
 **
 */
+@Override
 public File next() // -----------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -123,6 +124,7 @@ public File next() // -----------------------------------------------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  return this.foldersList.size() > 0;
@@ -134,6 +136,7 @@ public boolean hasNext() // -----------------------------------------------
 **
 ** @throws UnsupportedOperationException
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException
 {
@@ -143,6 +146,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<File> iterator() // ---------------------------------------
 {
  return this;
@@ -175,7 +179,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // Réinitialisation des champs non sauvegardés
+ // Rï¿½initialisation des champs non sauvegardï¿½s
  //
  this.folderContentIndex = stream.readInt();
 

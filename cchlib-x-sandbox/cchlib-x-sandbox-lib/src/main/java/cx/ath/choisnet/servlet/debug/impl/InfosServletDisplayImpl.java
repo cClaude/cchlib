@@ -71,11 +71,13 @@ public InfosServletDisplayImpl( // ----------------------------------------
     title,
     new Anchor()
             {
+                @Override
                 public String getHTMLName()
                 {
                     return anchorName.replaceAll( "[\\)\\(\\.]","_" );
                 }
 
+                @Override
                 public String getDisplay()
                 {
                     return anchorName;
@@ -113,6 +115,7 @@ public InfosServletDisplayImpl( // ----------------------------------------
 /**
 **
 */
+@Override
 public InfosServletDisplay put( String key, String value ) // -------------
 {
  this.map.put( key, value );
@@ -123,6 +126,7 @@ public InfosServletDisplay put( String key, String value ) // -------------
 /**
 **
 */
+@Override
 public Anchor getAnchor() // ----------------------------------------------
 {
  return this.anchor;
@@ -131,6 +135,7 @@ public Anchor getAnchor() // ----------------------------------------------
 /**
 **
 */
+@Override
 public void appendHTML( Appendable out ) // -------------------------------
 {
  try {

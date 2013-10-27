@@ -216,6 +216,7 @@ public static void main( final String[] args ) // -------------------------
 
  final MD5CollectionFactory factory = new MD5CollectionFactory()
     {
+                @Override
                 public void handleIOException(
                     File                file,
                     java.io.IOException cause

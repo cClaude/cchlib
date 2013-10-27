@@ -6,7 +6,7 @@
 **
 **  1.00.000 2005.03.17 Claude CHOISNET
 **  3.01.025 2006.04.18 Claude CHOISNET
-**                      Correction d'un bug sur la méthode: available()
+**                      Correction d'un bug sur la mï¿½thode: available()
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.io.ConcateInputStream
@@ -78,6 +78,7 @@ public ConcateInputStream( // -------------------------------------------
 **
 ** @see InputStream#available()
 */
+@Override
 public int available() // -------------------------------------------------
     throws java.io.IOException
 {
@@ -92,6 +93,7 @@ public int available() // -------------------------------------------------
 /**
 ** @see InputStream#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -103,6 +105,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see InputStream#read()
 */
+@Override
 public int read() // ------------------------------------------------------
     throws java.io.IOException
 {
@@ -129,6 +132,7 @@ public int read() // ------------------------------------------------------
 /**
 ** @see InputStream#markSupported()
 */
+@Override
 public boolean markSupported() // -----------------------------------------
 {
  return false;
@@ -137,6 +141,7 @@ public boolean markSupported() // -----------------------------------------
 /**
 ** @see InputStream#mark(int)
 */
+@Override
 public void mark( int readlimit ) // --------------------------------------
 {
  // empty
@@ -145,6 +150,7 @@ public void mark( int readlimit ) // --------------------------------------
 /**
 ** @see InputStream#reset()
 */
+@Override
 public void reset() // ----------------------------------------------------
 {
  // empty
@@ -176,6 +182,7 @@ private void check() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  final StringBuilder sb = new StringBuilder( "[" );

@@ -6,7 +6,7 @@
 **
 **  1.51.003 2005.06.07 Claude CHOISNET
 **  3.02.023 2006.07.05 Claude CHOISNET
-**                      Le nom par défaut du thread est basé sur le nom
+**                      Le nom par dï¿½faut du thread est basï¿½ sur le nom
 **                      de la classe et le HashCode de l'objet
 ** -----------------------------------------------------------------------
 **
@@ -20,7 +20,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
-** Classe permettant de lire un flux de manière assynchrone
+** Classe permettant de lire un flux de maniï¿½re assynchrone
 **
 ** @author Claude CHOISNET
 ** @since   1.51.003
@@ -50,7 +50,7 @@ public InputStreamThread( final InputStream is ) // -----------------------
 }
 
 /**
-** @param threadName    Nom de la tache qui sera crée
+** @param threadName    Nom de la tache qui sera crï¿½e
 ** @param is            InputStream source
 **
 */
@@ -81,6 +81,7 @@ public InputStream getInputStream() //-------------------------------------
 /**
 **
 */
+@Override
 public void run() // ------------------------------------------------------
 {
  int errorCount = 0;

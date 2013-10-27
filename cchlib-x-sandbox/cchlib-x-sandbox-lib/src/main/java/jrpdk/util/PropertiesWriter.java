@@ -18,13 +18,13 @@ private       PrintWriter   output;
 private final boolean       doNotSaveNullValue;
 
 /**
-** Construction à partir d'objet PrintWriter<P>
+** Construction ï¿½ partir d'objet PrintWriter<P>
 **
 ** @param properties    PrintWriter valide dans lequel sera construit
 **                      le fichier properties.
-** @param hideNullValue Si true les couples (clé,objets) pour lesquels
+** @param hideNullValue Si true les couples (clï¿½,objets) pour lesquels
 **                      l'objet est null ne sont pas incrits dans le
-**                      fichier properties, si false seule la clé
+**                      fichier properties, si false seule la clï¿½
 **                      est incrite.
 */
 public PropertiesWriter( // -----------------------------------------------
@@ -37,10 +37,10 @@ public PropertiesWriter( // -----------------------------------------------
 }
 
 /**
-** Construction à partir d'objet PrintWriter<P>
+** Construction ï¿½ partir d'objet PrintWriter<P>
 **
-** Par défault les couples (clé,objets) pour lesquels l'objet est null ne
-** sont pas incrits dans le fichier properties, si false seule la clé
+** Par dï¿½fault les couples (clï¿½,objets) pour lesquels l'objet est null ne
+** sont pas incrits dans le fichier properties, si false seule la clï¿½
 ** est incrite.
 */
 public PropertiesWriter( PrintWriter properties ) // ----------------------
@@ -49,13 +49,13 @@ public PropertiesWriter( PrintWriter properties ) // ----------------------
 }
 
 /**
-** Construction à partir d'objet OutputStream
+** Construction ï¿½ partir d'objet OutputStream
 **
 ** @param properties    OutputStream valide dans lequel sera construit
 **                      le fichier properties.
-** @param hideNullValue Si true les couples (clé,objets) pour lesquels
+** @param hideNullValue Si true les couples (clï¿½,objets) pour lesquels
 **                      l'objet est null ne sont pas incrits dans le
-**                      fichier properties, si false seule la clé
+**                      fichier properties, si false seule la clï¿½
 **                      est incrite.
 */
 public PropertiesWriter( // -----------------------------------------------
@@ -67,10 +67,10 @@ public PropertiesWriter( // -----------------------------------------------
 }
 
 /**
-** Construction à partir d'objet OutputStream<P>
+** Construction ï¿½ partir d'objet OutputStream<P>
 **
-** Par défault les couples (clé,objets) pour lesquels l'objet est null ne
-** sont pas incrits dans le fichier properties, si false seule la clé
+** Par dï¿½fault les couples (clï¿½,objets) pour lesquels l'objet est null ne
+** sont pas incrits dans le fichier properties, si false seule la clï¿½
 ** est incrite.
 */
 public PropertiesWriter( OutputStream properties ) // ---------------------
@@ -78,6 +78,7 @@ public PropertiesWriter( OutputStream properties ) // ---------------------
  this( new PrintWriter( properties ), true );
 }
 
+@Override
 protected void finalize() throws Throwable // -----------------------------
 {
  output.flush();
@@ -87,8 +88,8 @@ protected void finalize() throws Throwable // -----------------------------
 }
 
 /**
-** Ajout d'une ligne dans le fichier properties. La ligne est ajoutée
-** sans aucun traitement spécifique.
+** Ajout d'une ligne dans le fichier properties. La ligne est ajoutï¿½e
+** sans aucun traitement spï¿½cifique.
 */
 public void putLine( String line ) // -------------------------------------
 {
@@ -106,9 +107,9 @@ public void putComment( String comment ) // -------------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 **
-** @param key       Clé, String non nulle
+** @param key       Clï¿½, String non nulle
 ** @param value     Valeur, String non nulle
 */
 private void private_set( String key, String value ) // -------------------
@@ -117,7 +118,7 @@ private void private_set( String key, String value ) // -------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, String value ) // ----------------------------
 {
@@ -134,7 +135,7 @@ public void set( String key, String value ) // ----------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, boolean value ) // ---------------------------
 {
@@ -142,7 +143,7 @@ public void set( String key, boolean value ) // ---------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, Object value ) // ----------------------------
 {
@@ -159,7 +160,7 @@ public void set( String key, Object value ) // ----------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, int value ) // -------------------------------
 {
@@ -167,7 +168,7 @@ public void set( String key, int value ) // -------------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, long value ) // ------------------------------
 {
@@ -175,7 +176,7 @@ public void set( String key, long value ) // ------------------------------
 }
 
 /**
-** Ajout d'un couple clé, valeur dans le fichier properties.
+** Ajout d'un couple clï¿½, valeur dans le fichier properties.
 */
 public void set( String key, float value ) // -----------------------------
 {

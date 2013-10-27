@@ -16,21 +16,21 @@ import java.io.File;
 import java.io.OutputStream;
 
 /**
-** <p>Objet équivalent à la classe {@link java.io.FileOutputStream}, et implémentant
+** <p>Objet ï¿½quivalent ï¿½ la classe {@link java.io.FileOutputStream}, et implï¿½mentant
 ** l'interface {@link java.io.Serializable}.</p>
 ** <br />
-** Le principe de la "sérialisation" de cet objet fonctionne comme suit:
+** Le principe de la "sï¿½rialisation" de cet objet fonctionne comme suit:
 ** <br />
 ** <ul>
-**  <li>Lorsque l'objet est "sérialiser", le flux de support est fermé
-**      proprement, et les références ayant permis de le construire est
-**      sauvegarder dans le flux de "sérialisation".</li>
+**  <li>Lorsque l'objet est "sï¿½rialiser", le flux de support est fermï¿½
+**      proprement, et les rï¿½fï¿½rences ayant permis de le construire est
+**      sauvegarder dans le flux de "sï¿½rialisation".</li>
 **  <li>Lorsque l'objet est recontruit, le flux de support (fichier) est
-**      recréé sur lequel on viendra ajouter les données.</li>
+**      recrï¿½ï¿½ sur lequel on viendra ajouter les donnï¿½es.</li>
 ** </ul>
 ** <br/>
-** <b>La solution proposée par cette sérialisation n'est pas utilisable
-** pour une sérialisation à travers un réseau</b>.
+** <b>La solution proposï¿½e par cette sï¿½rialisation n'est pas utilisable
+** pour une sï¿½rialisation ï¿½ travers un rï¿½seau</b>.
 **
 ** @author Claude CHOISNET
 ** @version 2.01.010
@@ -82,7 +82,7 @@ public SerializableFileOutputStream( // -----------------------------------
 }
 
 /**
-** par la réprise (sérialisation) il faut mettre le paramètre 'append' à
+** par la rï¿½prise (sï¿½rialisation) il faut mettre le paramï¿½tre 'append' ï¿½
 ** la valeur 'true'
 */
 private void open( boolean append ) // ------------------------------------
@@ -94,6 +94,7 @@ private void open( boolean append ) // ------------------------------------
 /**
 **
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -103,6 +104,7 @@ public void close() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -112,6 +114,7 @@ public void flush() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public void write( int b ) // ---------------------------------------------
     throws java.io.IOException
 {
@@ -139,7 +142,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // Réinitialisation des champs non sauvegardés
+ // Rï¿½initialisation des champs non sauvegardï¿½s
  //
  this.open( true );
 }

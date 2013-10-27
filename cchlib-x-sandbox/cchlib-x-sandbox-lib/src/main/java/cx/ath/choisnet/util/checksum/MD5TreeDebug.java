@@ -102,6 +102,7 @@ final static private void tree( // ----------------------------------------
         /**
         **
         */
+        @Override
         public void appendFile( File file )
         {
             // System.out.println( file.getPath() );
@@ -110,6 +111,7 @@ final static private void tree( // ----------------------------------------
 
         **
         */
+        @Override
         public void appendFolder( File file )
         {
             System.out.println( file.getPath() );
@@ -125,6 +127,7 @@ final static private void tree( // ----------------------------------------
         /**
         ** Se contente de reproduire l'exception.
         */
+        @Override
         public void handleIOException( File file, java.io.IOException e )
             throws java.io.IOException
         {

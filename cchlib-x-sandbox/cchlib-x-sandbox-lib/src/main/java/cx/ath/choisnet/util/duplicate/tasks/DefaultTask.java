@@ -35,12 +35,12 @@ public abstract class DefaultTask
     implements Task
 {
 /**
-** Fichier local sur lequel sera effectué le traitement.
+** Fichier local sur lequel sera effectuï¿½ le traitement.
 */
 protected File destinationAbsoluteFile;
 
 /**
-** Fichier local sur lequel sera effectué le traitement.
+** Fichier local sur lequel sera effectuï¿½ le traitement.
 */
 private Boolean firstime = Boolean.TRUE;
 
@@ -64,6 +64,7 @@ protected DefaultTask( // -------------------------------------------------
 /**
 ** Gestion du traitement des nouvelles tentatives.
 */
+@Override
 public void doJob() // ----------------------------------------------------
     throws
         TaskFailException,
@@ -87,13 +88,14 @@ public void doJob() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  return this.actionName + ":[" + destinationAbsoluteFile + "]";
 }
 
 /**
-** Action d'IO à traiter
+** Action d'IO ï¿½ traiter
 */
 abstract public void doIOJob() // -----------------------------------------
     throws
@@ -103,7 +105,7 @@ abstract public void doIOJob() // -----------------------------------------
 
     /**
     ** <p>
-    ** Action par défaut pour la suppression d'un fichier.
+    ** Action par dï¿½faut pour la suppression d'un fichier.
     ** </p>
     */
     public static class ActionLocalDeleteFile extends DefaultTask
@@ -113,10 +115,10 @@ abstract public void doIOJob() // -----------------------------------------
 
         /**
         ** <p>
-        ** Action par défaut pour la suppression d'un fichier.
+        ** Action par dï¿½faut pour la suppression d'un fichier.
         ** </p>
         **
-        ** @param destinationAbsoluteFile object File à supprimer
+        ** @param destinationAbsoluteFile object File ï¿½ supprimer
         */
         public ActionLocalDeleteFile( final File destinationAbsoluteFile )
         {
@@ -124,12 +126,13 @@ abstract public void doIOJob() // -----------------------------------------
         }
 
         /**
-        ** Cette méthode vérifie que l'objet File donné est bien un
+        ** Cette mï¿½thode vï¿½rifie que l'objet File donnï¿½ est bien un
         ** fichier, avant d'effacer le fichier, dans le cas contraire
         ** il ne fait rien.
         **
-        ** @throws cx.ath.choisnet.io.DeleteFileException si la suppression n'a pas pu être faite.
+        ** @throws cx.ath.choisnet.io.DeleteFileException si la suppression n'a pas pu ï¿½tre faite.
         */
+        @Override
         public void doIOJob() throws cx.ath.choisnet.io.DeleteFileException
         {
             if( destinationAbsoluteFile.isFile() ) {
@@ -167,6 +170,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public void doIOJob() throws java.io.IOException
         {
             if( ! destinationAbsoluteFile.isDirectory() ) {
@@ -182,7 +186,7 @@ abstract public void doIOJob() // -----------------------------------------
                         );
                     }
                 }
-            // else { on fait rien il existe déjà }
+            // else { on fait rien il existe dï¿½jï¿½ }
         }
     }
 
@@ -205,6 +209,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public void doIOJob() throws cx.ath.choisnet.io.DeleteDirectoryException
         {
             if( destinationAbsoluteFile.isDirectory() ) {
@@ -250,6 +255,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public String toString() // -----------------------------------------------
         {
             return "ActionLocalCopyFile from:[" + sourceAbsoluteFile
@@ -261,6 +267,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public void doIOJob()
             throws
                 TaskRetryLaterException,
@@ -322,6 +329,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public void doIOJob() throws java.io.IOException
         {
             final InputStream   input   = this.tasksFactory.getInputStreamFromSource( sourceFileDigest );
@@ -372,6 +380,7 @@ abstract public void doIOJob() // -----------------------------------------
         /**
         **
         */
+        @Override
         public void doIOJob() throws TaskRetryLaterException
         {
             if( destinationAbsoluteFile.exists() ) {

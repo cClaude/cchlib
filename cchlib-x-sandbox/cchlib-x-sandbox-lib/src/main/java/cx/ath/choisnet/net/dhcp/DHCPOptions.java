@@ -4,10 +4,10 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
+**                      Adaptï¿½ du code de Jason Goldschmidt and Nick Stone
 **                      edu.bucknell.net.JDHCP.DHCPOptions
 **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      et basï¿½ sur les RFCs 1700, 2131 et 2132
 **  3.02.015 2006.06.22 Claude CHOISNET
 **                      implemente java.io.Serializable
 ** -----------------------------------------------------------------------
@@ -34,47 +34,47 @@ import java.util.TreeMap;
 ** <pre>
 ** CHAMP   OCTETS  DESCRIPTION
 **
-** op          1   Code opération du message:/
+** op          1   Code opï¿½ration du message:/
 **                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
 **
-** htype       1   Adresse matérielle, voir la section ARP dans le RFC "Assigned Numbers" ;
+** htype       1   Adresse matï¿½rielle, voir la section ARP dans le RFC "Assigned Numbers" ;
 **                 par ex., '1' = Ethernet 10Mb.
 **
-** hlen        1   Longueur de l'adresse matérielle (par ex. '6' for Ethernet 10Mb).
+** hlen        1   Longueur de l'adresse matï¿½rielle (par ex. '6' for Ethernet 10Mb).
 **
-** hops        1   Mis à zéro par le client, utilisé de manière optionnelle par les agents
-**                 de relais quand on démarre via un agent de relais
+** hops        1   Mis ï¿½ zï¿½ro par le client, utilisï¿½ de maniï¿½re optionnelle par les agents
+**                 de relais quand on dï¿½marre via un agent de relais
 **
-** xid         4   Identifiant de transaction, un nombre aléatoire choisi par le client,
-**                 utilisé par le client et le serveur pour associer les messages et les
-**                 réponses entre un client et un serveur
+** xid         4   Identifiant de transaction, un nombre alï¿½atoire choisi par le client,
+**                 utilisï¿½ par le client et le serveur pour associer les messages et les
+**                 rï¿½ponses entre un client et un serveur
 **
-** secs        2   Rempli par le client, les secondes s'écoulent depuis le processus
+** secs        2   Rempli par le client, les secondes s'ï¿½coulent depuis le processus
 **                 d'acquisition ou de renouvellement d'adresse du client
 **
 ** flags       2   Drapeaux (voir figure 2).
 **
-** ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un état
-**                 AFFECTÉ, RENOUVELLEMENT ou REAFFECTATION
-**                 et peut répondre aux requêtes ARP
+** ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un ï¿½tat
+**                 AFFECTï¿½, RENOUVELLEMENT ou REAFFECTATION
+**                 et peut rï¿½pondre aux requï¿½tes ARP
 **
 ** yiaddr      4   'votre' (client) adresse IP.
 **
-** siaddr      4   Adresse IP du prochain serveur à utiliser pour le processus de démarrage;
-**                 retournée par le serveur dans DHCPOFFER et DHCPACK.
+** siaddr      4   Adresse IP du prochain serveur ï¿½ utiliser pour le processus de dï¿½marrage;
+**                 retournï¿½e par le serveur dans DHCPOFFER et DHCPACK.
 **
-** giaddr      4   Adresse IP de l'agent de relais, utilisée pour démarrer via un agent de relais.
+** giaddr      4   Adresse IP de l'agent de relais, utilisï¿½e pour dï¿½marrer via un agent de relais.
 **
-** chaddr     16   Adresse matérielle des clients (Address MAC).
+** chaddr     16   Adresse matï¿½rielle des clients (Address MAC).
 **
-** sname      64   Nom d'hôte du serveur optionnel, chaîne de caractères terminée par
-**                 un caractère nul.
+** sname      64   Nom d'hï¿½te du serveur optionnel, chaï¿½ne de caractï¿½res terminï¿½e par
+**                 un caractï¿½re nul.
 **
-** fichier   128   Nom du fichier de démarrage, chaîne terminée par un caractère nul;
+** fichier   128   Nom du fichier de dï¿½marrage, chaï¿½ne terminï¿½e par un caractï¿½re nul;
 **                 nom "generic" ou nul dans le DHCPDISCOVER,
-**                 nom du répertoire explicite dans DHCPOFFER.
+**                 nom du rï¿½pertoire explicite dans DHCPOFFER.
 **
-** options   var   Champ de paramètres optionnels.
+** options   var   Champ de paramï¿½tres optionnels.
 **
 ** </pre>
 **
@@ -492,6 +492,7 @@ private String format( final byte optionNumber ) // -----------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  final StringBuilder sb = new StringBuilder();
@@ -546,17 +547,18 @@ private transient static Properties prop;
 /**
 **
 */
+@SuppressWarnings("resource")
 public String getProperty( final String name ) // -------------------------
 {
- if( this.prop == null ) {
+ if( DHCPOptions.prop == null ) {
     final String ressourceName = "DHCPOptions.properties";
 
-    this.prop = new Properties();
+    DHCPOptions.prop = new Properties();
 
     final InputStream is = getClass().getResourceAsStream( ressourceName );
 
     try {
-        this.prop.load( is );
+        DHCPOptions.prop.load( is );
 
         is.close();
         }
@@ -568,7 +570,7 @@ public String getProperty( final String name ) // -------------------------
         }
     }
 
- return this.prop.getProperty( name );
+ return DHCPOptions.prop.getProperty( name );
 }
 
 /**

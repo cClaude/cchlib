@@ -32,6 +32,8 @@ import java.util.Collection;
 public abstract class HTMLInput<T extends HTMLInput,U>
     extends cx.ath.choisnet.html.util.HTMLNamedFormObject<T,U>
 {
+    private static final long serialVersionUID = 1L;
+
 /** */
 private String value;
 
@@ -158,6 +160,7 @@ public U getCurrentValue( final ServletRequest request ) // ---------------
 /**
 **
 */
+@Override
 public T append( final Collection<FormItem> collection ) // ---------------
 {
  collection.add(
@@ -443,6 +446,7 @@ public String getAccept() // ----------------------------------------------
 /**
 **
 */
+@Override
 public void writeStartTag( final HTMLDocumentWriter out ) // --------------
     throws HTMLDocumentException
 {
@@ -503,6 +507,7 @@ public void writeStartTag( final HTMLDocumentWriter out ) // --------------
 /**
 **
 */
+@Override
 public void writeBody( final HTMLDocumentWriter out ) // ------------------
     throws HTMLDocumentException
 {
@@ -512,6 +517,7 @@ public void writeBody( final HTMLDocumentWriter out ) // ------------------
 /**
 **
 */
+@Override
 public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
     throws HTMLDocumentException
 {
@@ -521,6 +527,7 @@ public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

@@ -6,9 +6,9 @@
 ** Encodage      : ANSI
 **
 **  2.01.032 2005.11.21 Claude CHOISNET - Version initiale
-**                      inspirée de :
+**                      inspirÃ©e de :
 **                          cx.ath.choisnet.servlet.debug.DisplayServletInfos
-**                      et basé sur :
+**                      et basÃ© sur :
 **                          cx.ath.choisnet.lang.reflect.MappableHelper
 ** -----------------------------------------------------------------------
 **

@@ -4,8 +4,8 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      AdaptÃ© du code de Jason Goldschmidt and Nick Stone
+**                      et basÃ© sur les RFCs 1700, 2131 et 2132
 **                      http://www.themanualpage.org/dhcp/
 ** -----------------------------------------------------------------------
 **
@@ -42,12 +42,12 @@ private final Random ranXid;
 private boolean running;
 
 /**
-** Paramètres initiaux
+** ParamÃ©tres initiaux
 */
 private final DHCPParameters dhcpParameters;
 
 /**
-** Dernier message reçu.
+** Dernier message reÃ©u.
 */
 private DHCPMessage dhcpMessageReceived;
 
@@ -72,6 +72,7 @@ public DHCPSimpleClient( // -----------------------------------------------
 /**
 **
 */
+@Override
 public void run() // ------------------------------------------------------
 {
  this.dhcpMessageReceived = new DHCPMessage();
@@ -181,7 +182,7 @@ public void send( // ------------------------------------------------------
 
         if( dhcpMessageSend.isSameThread( this.dhcpMessageReceived ) ) {
             //
-            // C'est bien la réponse à notre message...
+            // C'est bien la rÃ©ponse Ã© notre message...
             //
             sentinal = false;
             }
@@ -286,7 +287,7 @@ protected void sendDHCPDISCOVER() // ------------------------------------------
 //
 //        if( dhcpMessageSend.isSameThread( this.dhcpMessageReceived ) ) {
 //            //
-//            // C'est bien la réponse à notre message...
+//            // C'est bien la rÃ©ponse Ã© notre message...
 //            //
 //            sentinal = false;
 //            }
@@ -354,7 +355,7 @@ protected void sendRequest() // -------------------------------------------
 //
 //        if( dhcpMessageSend.isSameThread( this.dhcpMessageReceived ) ) {
 //            //
-//            // C'est bien la réponse à notre message...
+//            // C'est bien la rÃ©ponse Ã© notre message...
 //            //
 //            sentinal = false;
 //            }

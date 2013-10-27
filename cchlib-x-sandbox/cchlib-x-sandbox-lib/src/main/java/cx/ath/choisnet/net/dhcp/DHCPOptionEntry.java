@@ -4,8 +4,8 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      Adaptï¿½ du code de Jason Goldschmidt and Nick Stone
+**                      et basï¿½ sur les RFCs 1700, 2131 et 2132
 **  3.02.015 2006.06.22 Claude CHOISNET
 **                      implemente java.io.Serializable
 ** -----------------------------------------------------------------------
@@ -91,6 +91,7 @@ public boolean isNull() // ------------------------------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
     return "("

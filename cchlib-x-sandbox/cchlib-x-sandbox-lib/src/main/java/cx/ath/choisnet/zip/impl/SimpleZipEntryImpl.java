@@ -45,6 +45,7 @@ public SimpleZipEntryImpl( File file, ZipEntry zipEntry ) // --------------
 /**
 **
 */
+@Override
 public ZipEntry getZipEntry() // ------------------------------------------
 {
  return zipEntry;
@@ -53,6 +54,7 @@ public ZipEntry getZipEntry() // ------------------------------------------
 /**
 **
 */
+@Override
 public InputStream getInputStream() // ------------------------------------
     throws java.io.FileNotFoundException
 {

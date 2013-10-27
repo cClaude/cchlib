@@ -47,6 +47,7 @@ public boolean continueRunning(); // --------------------------------------
 */
 public void log( String message ); // -------------------------------------
 
+@Override
 void run();
 
 } // interface

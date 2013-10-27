@@ -69,6 +69,7 @@ public String getInstanceName() // ----------------------------------------
 /**
 **
 */
+@Override
 public String getTaskName() // --------------------------------------------
 {
  final String name = this.getInstanceName();
@@ -92,6 +93,7 @@ public void stop() // -----------------------------------------------------
 /**
 **
 */
+@Override
 public boolean continueRunning() // ---------------------------------------
 {
  return this.continueRunning;
@@ -101,6 +103,7 @@ public boolean continueRunning() // ---------------------------------------
 /**
 **
 */
+@Override
 public void log( String message ) // --------------------------------------
 {
  logger.trace( message );

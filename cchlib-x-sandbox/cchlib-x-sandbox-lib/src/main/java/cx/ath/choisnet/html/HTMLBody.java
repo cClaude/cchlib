@@ -6,7 +6,7 @@
 **  1.00.___ 2000.10.28 Claude CHOISNET - Version initiale
 **                      Nom: cx.ath.choisnet.html.document.Body
 **  1.50.___ 2005.05.19 Claude CHOISNET
-**                      Adaptation à l'interface HTMLWritable
+**                      Adaptation ï¿½ l'interface HTMLWritable
 **  3.02.031 2006.07.24 Claude CHOISNET
 **                      Nouveau nom: cx.ath.choisnet.html.HTMLBody
 **  3.02.037 2006.08.07 Claude CHOISNET
@@ -48,6 +48,7 @@ public HTMLBody() // ------------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLBody getThis() // ----------------------------------------------
 {
  return this;
@@ -77,6 +78,7 @@ public HTMLBody add( final String htmlStr ) // ----------------------------
 /**
 **
 */
+@Override
 public void writeStartTag( final HTMLDocumentWriter out ) // --------------
     throws HTMLDocumentException
 {
@@ -95,6 +97,7 @@ public void writeStartTag( final HTMLDocumentWriter out ) // --------------
 /**
 **
 */
+@Override
 public void writeBody( final HTMLDocumentWriter out ) // ------------------
     throws HTMLDocumentException
 {
@@ -104,6 +107,7 @@ public void writeBody( final HTMLDocumentWriter out ) // ------------------
 /**
 **
 */
+@Override
 public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
     throws HTMLDocumentException
 {
@@ -118,6 +122,7 @@ public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

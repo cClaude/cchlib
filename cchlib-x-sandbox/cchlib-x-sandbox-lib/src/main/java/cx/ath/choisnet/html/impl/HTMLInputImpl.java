@@ -17,7 +17,7 @@ import javax.servlet.ServletRequest;
 
 /**
 ** <p>
-** Implémentation minimum de {@link HTMLInput}
+** Implï¿½mentation minimum de {@link HTMLInput}
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -36,6 +36,7 @@ private String type;
 /**
 **
 */
+@Override
 public HTMLInput getThis() // ---------------------------------------------
 {
  return this;
@@ -54,6 +55,7 @@ public HTMLInput setType( final String type ) // --------------------------
 /**
 **
 */
+@Override
 public String getType() // ------------------------------------------------
 {
  return this.type;
@@ -62,6 +64,7 @@ public String getType() // ------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLInput setCurrentValue( final String value ) // -----------------
 {
  setValue( value );
@@ -72,6 +75,7 @@ public HTMLInput setCurrentValue( final String value ) // -----------------
 /**
 **
 */
+@Override
 public String getCurrentValue( // -----------------------------------------
     final ServletRequest request
     )

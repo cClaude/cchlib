@@ -55,11 +55,11 @@ protected WEBAppToolsContext() // -----------------------------------------
 }
 
 /**
-** Recherche de objet {@link WEBAppToolsContext} à partir du request
-** courant, si l'objet n'a pas été trouvé on le crée.
+** Recherche de objet {@link WEBAppToolsContext} Ã© partir du request
+** courant, si l'objet n'a pas Ã©tÃ© trouvÃ© on le crÃ©e.
 **
 ** @param request   Objet {@link javax.servlet.http.HttpServletRequest} valide
-**                  de la requête en cours.
+**                  de la requÃ©te en cours.
 **
 */
 public static WEBAppToolsContext getContext( // ---------------------------

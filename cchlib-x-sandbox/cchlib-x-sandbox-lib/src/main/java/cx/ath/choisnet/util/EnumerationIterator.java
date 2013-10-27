@@ -7,8 +7,8 @@
 **  3.01.014 2006.03.31 Claude CHOISNET
 **                      Prend en charge la conversion dans les 2 sens
 **  3.02.008 2006.06.09 Claude CHOISNET
-**                      Implémente Iterable<T>
-**                      Implémente IterableIterator<T>
+**                      Implï¿½mente Iterable<T>
+**                      Implï¿½mente IterableIterator<T>
 **  3.02.045 2007.01.16 Claude CHOISNET
 **                      nouveau constructeur
 **                          EnumerationIterator(Enumeration<?>,Class<T>)
@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** Construction d'un objet Iterator à partir d'un objet Enumeration ou
+** Construction d'un objet Iterator ï¿½ partir d'un objet Enumeration ou
 ** vis et versa.
 ** </P>
 **
@@ -46,24 +46,27 @@ public class EnumerationIterator<T>
 private Iterator<T> iterator;
 
 /**
-** Construction d'un objet Iterator equivalent à l'Enumeration donné
+** Construction d'un objet Iterator equivalent ï¿½ l'Enumeration donnï¿½
 */
 public EnumerationIterator( final Enumeration<T> enumeration ) // ---------
 {
  this.iterator = new Iterator<T>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasNext() // - - - - - - - - - - - - - - - - - - - -
         {
             return enumeration.hasMoreElements();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T next() //- - - - - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
             return enumeration.nextElement();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void remove() // - - - - - - - - - - - - - - - - - - - - - -
             throws UnsupportedOperationException
         {
@@ -74,8 +77,8 @@ public EnumerationIterator( final Enumeration<T> enumeration ) // ---------
 }
 
 /**
-** Construction d'un objet Iterator equivalent à l'Enumeration donné (non
-** typée pre java 1.5) et la classe de support de cette énumération.
+** Construction d'un objet Iterator equivalent ï¿½ l'Enumeration donnï¿½ (non
+** typï¿½e pre java 1.5) et la classe de support de cette ï¿½numï¿½ration.
 **
 ** @since 3.02.045
 */
@@ -87,17 +90,20 @@ public EnumerationIterator( // --------------------------------------------
  this.iterator = new Iterator<T>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasNext() // - - - - - - - - - - - - - - - - - - - -
         {
             return enumeration.hasMoreElements();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T next() //- - - - - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
             return classT.cast( enumeration.nextElement() );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void remove() // - - - - - - - - - - - - - - - - - - - - - -
             throws UnsupportedOperationException
         {
@@ -108,7 +114,7 @@ public EnumerationIterator( // --------------------------------------------
 }
 
 /**
-** Construction d'un objet Enumeration equivalent à l'Iterator donné
+** Construction d'un objet Enumeration equivalent ï¿½ l'Iterator donnï¿½
 */
 public EnumerationIterator( final Iterator<T> iterator ) // ---------------
 {
@@ -118,6 +124,7 @@ public EnumerationIterator( final Iterator<T> iterator ) // ---------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
     return this.iterator.hasNext();
@@ -126,6 +133,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 **
 */
+@Override
 public boolean hasMoreElements() // ---------------------------------------
 {
     return this.iterator.hasNext();
@@ -134,6 +142,7 @@ public boolean hasMoreElements() // ---------------------------------------
 /**
 **
 */
+@Override
 public T next() // --------------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -143,6 +152,7 @@ public T next() // --------------------------------------------------------
 /**
 **
 */
+@Override
 public T nextElement() // -------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -152,6 +162,7 @@ public T nextElement() // -------------------------------------------------
 /**
 **
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException, IllegalStateException
 {
@@ -161,6 +172,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this.iterator;

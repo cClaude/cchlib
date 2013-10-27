@@ -11,7 +11,7 @@
 **                      qui ne faisait pas de OutputStream.flush() en fin
 **                      copie.
 **                      Correction d'un bug mineur dans copy(File,File)
-**                      la fermeture du flux de destination ne génerait pas
+**                      la fermeture du flux de destination ne gï¿½nerait pas
 **                      d'exception.
 ** ------------------------------------------------------------------------
 **
@@ -30,9 +30,9 @@ import java.io.BufferedOutputStream;
 
 /**
 **
-** Classe offrant des méthodes autour de {@link InputStream}, en
+** Classe offrant des mï¿½thodes autour de {@link InputStream}, en
 ** particulier la copie de flux (ou de fichier), ainsi que la
-** concaténation de flux.
+** concatï¿½nation de flux.
 **
 **
 **
@@ -48,7 +48,7 @@ public class InputStreamHelper
 {
 
 /**
-** Transforme le contenu du flux en chaîne, puis ferme le flux.
+** Transforme le contenu du flux en chaï¿½ne, puis ferme le flux.
 **
 ** @throws java.io.IOException en cas d'erreur
 */
@@ -76,7 +76,7 @@ public static String toString( InputStream is ) // ------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas fermés</b>
+** <b>Les flux ne sont pas fermï¿½s</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -103,7 +103,7 @@ public static void copy( // -----------------------------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas fermés</b>
+** <b>Les flux ne sont pas fermï¿½s</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -119,7 +119,7 @@ public static void copy( InputStream input, OutputStream output ) // ------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas fermés</b>
+** <b>Les flux ne sont pas fermï¿½s</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -136,7 +136,7 @@ public static void copy( File inputFile, File outputFile ) // -------------
  finally {
     try {  input.close(); } catch( Exception ignore ) {}
 
-    output.close(); // close avec génération d'exception....
+    output.close(); // close avec gï¿½nï¿½ration d'exception....
     }
 }
 
@@ -169,12 +169,14 @@ public static InputStream concat( // --------------------------------------
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         int index = 0;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int available() // - - - - - - - - - - - - - - - - - - - - -
             throws java.io.IOException
         {
             return is[ index ].available();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void close() //- - - - - - - - - - - - - - - - - - - - - - -
             throws java.io.IOException
         {
@@ -194,8 +196,10 @@ public static InputStream concat( // --------------------------------------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean markSupported() { return false; } // - - - - - - - -
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int read() //- - - - - - - - - - - - - - - - - - - - - - - -
             throws java.io.IOException
         {

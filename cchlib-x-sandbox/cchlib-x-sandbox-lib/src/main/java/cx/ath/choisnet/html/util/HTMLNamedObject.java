@@ -27,7 +27,7 @@ import cx.ath.choisnet.html.util.HTMLDocumentException;
 ** Prise en charge d'un object HTML acceptant l'attribut 'name'
 ** </p>
 ** <p>
-** La méthode {@link #getName()} peut éventuellement être surchargée
+** La mï¿½thode {@link #getName()} peut ï¿½ventuellement ï¿½tre surchargï¿½e
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -69,6 +69,7 @@ public String getName() // ------------------------------------------------
 /**
 **
 */
+@Override
 public void writeStartTag( final HTMLDocumentWriter out ) // --------------
     throws HTMLDocumentException
 {

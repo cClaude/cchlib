@@ -8,7 +8,7 @@
 **  1.30.___ 2005.05.19 Claude CHOISNET
 **                      Utilisation de HTMLWriter pour l'affichage des erreurs
 **  1.50.___ 2005.05.19 Claude CHOISNET
-**                      Adaptation à l'interface HTMLWritable
+**                      Adaptation ï¿½ l'interface HTMLWritable
 **  3.02.031 2006.07.24 Claude CHOISNET
 **                      Nouveau nom:
 **                          cx.ath.choisnet.html.validation.HTMLValidationServlet
@@ -51,6 +51,7 @@ private static final long serialVersionUID = 1L;
 /**
 **
 */
+@Override
 public void service( // ---------------------------------------------------
     final HttpServletRequest    request,
     final HttpServletResponse   response

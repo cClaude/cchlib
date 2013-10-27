@@ -84,6 +84,7 @@ private final static String getParseExceptionInfo( // ---------------------
 ** See SAX documentation for more info.
 **
 */
+@Override
 public void warning( final SAXParseException spe ) // ---------------------
     throws SAXException
 {
@@ -98,6 +99,7 @@ public void warning( final SAXParseException spe ) // ---------------------
 ** See SAX documentation for more info.
 **
 */
+@Override
 public void error( final SAXParseException spe ) // -----------------------
     throws SAXException
 {
@@ -112,6 +114,7 @@ public void error( final SAXParseException spe ) // -----------------------
 ** See SAX documentation for more info.
 **
 */
+@Override
 public void fatalError( final SAXParseException spe ) // ------------------
     throws SAXException
 {

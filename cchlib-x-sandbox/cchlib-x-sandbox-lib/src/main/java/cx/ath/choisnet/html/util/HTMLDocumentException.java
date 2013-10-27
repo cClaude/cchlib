@@ -17,7 +17,7 @@ package cx.ath.choisnet.html.util;
 
 /**
 ** <p>
-** Classe principales des exceptions pour les créations des objects HTML
+** Classe principales des exceptions pour les crÃ©ations des objects HTML
 ** </p>
 **
 ** @author Claude CHOISNET

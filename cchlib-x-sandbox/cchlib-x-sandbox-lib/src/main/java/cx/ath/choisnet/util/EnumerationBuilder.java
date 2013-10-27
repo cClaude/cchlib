@@ -35,11 +35,13 @@ public static <T> Enumeration<T> toEnumeration() // -----------------------
  return new Enumeration<T>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasMoreElements() // - - - - - - - - - - - - - - - -
         {
             return false;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T nextElement() // - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
@@ -63,7 +65,7 @@ public static <T> Enumeration<T> toEnumeration( final T[] array ) // ------
 }
 
 /**
-** @return  un {@link Enumeration} sur les objets du tableau de offset et jusqu'à la
+** @return  un {@link Enumeration} sur les objets du tableau de offset et jusqu'ï¿½ la
 **          position len - 1
 */
 public static <T> Enumeration<T> toEnumeration( // ------------------------
@@ -77,11 +79,13 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         private int index = offset;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasMoreElements() // - - - - - - - - - - - - - - - -
         {
             return index < len;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T nextElement() // - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
@@ -101,7 +105,7 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
 }
 
 /**
-** @return  un {@link Enumeration} correspondant à l'Iterator donné
+** @return  un {@link Enumeration} correspondant ï¿½ l'Iterator donnï¿½
 */
 public static <T> Enumeration<T> toEnumeration( // ------------------------
     final java.util.Iterator<T> iterator
@@ -110,11 +114,13 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
  return new Enumeration<T>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasMoreElements() // - - - - - - - - - - - - - - - -
         {
             return iterator.hasNext();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T nextElement() // - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
@@ -125,7 +131,7 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
 }
 
 /**
-** @return un {@link Enumeration}<String> à partir d'un {@link Enumeration}<?>
+** @return un {@link Enumeration}<String> ï¿½ partir d'un {@link Enumeration}<?>
 */
 public static Enumeration<String> toEnumerationString( // -----------------
     final Enumeration<?> enumeration
@@ -134,11 +140,13 @@ public static Enumeration<String> toEnumerationString( // -----------------
  return new Enumeration<String>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasMoreElements() // - - - - - - - - - - - - - - - -
         {
             return enumeration.hasMoreElements();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String nextElement() //- - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
@@ -149,9 +157,9 @@ public static Enumeration<String> toEnumerationString( // -----------------
 }
 
 /**
-** Transforme une énumération non typée en énumération typée.
+** Transforme une ï¿½numï¿½ration non typï¿½e en ï¿½numï¿½ration typï¿½e.
 **
-** @return un {@link Enumeration}<T> à partir d'un {@link Enumeration}<?> et de la classe
+** @return un {@link Enumeration}<T> ï¿½ partir d'un {@link Enumeration}<?> et de la classe
 **         de support.
 */
 public static <T> Enumeration<? extends T> toEnumeration( // --------------
@@ -166,11 +174,13 @@ public static <T> Enumeration<? extends T> toEnumeration( // --------------
  return new Enumeration<T>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasMoreElements() // - - - - - - - - - - - - - - - -
         {
             return enumeration.hasMoreElements();
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T nextElement() // - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {

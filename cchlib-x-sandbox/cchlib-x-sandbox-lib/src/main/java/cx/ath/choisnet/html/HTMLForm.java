@@ -52,6 +52,7 @@ public HTMLForm() // ------------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLForm getThis() // ----------------------------------------------
 {
  return this;
@@ -90,6 +91,7 @@ public HTMLForm add( final String htmlStr ) // ----------------------------
 /**
 **
 */
+@Override
 public void writeStartTag( final HTMLDocumentWriter out ) // --------------
     throws HTMLDocumentException
 {
@@ -111,6 +113,7 @@ public void writeStartTag( final HTMLDocumentWriter out ) // --------------
 /**
 **
 */
+@Override
 public void writeBody( final HTMLDocumentWriter out ) // ------------------
     throws HTMLDocumentException
 {
@@ -119,6 +122,7 @@ public void writeBody( final HTMLDocumentWriter out ) // ------------------
 /**
 **
 */
+@Override
 public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
     throws HTMLDocumentException
 {
@@ -133,6 +137,7 @@ public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

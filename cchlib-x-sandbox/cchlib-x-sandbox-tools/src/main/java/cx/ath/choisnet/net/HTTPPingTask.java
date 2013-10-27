@@ -58,6 +58,7 @@ public HTTPPingTask( String instanceName ) // -----------------------------
 /**
 **
 */
+@Override
 public void init( ServletConfig servletConfig ) // ------------------------
     throws javax.servlet.ServletException
 {
@@ -118,6 +119,7 @@ public void init( ServletConfig servletConfig ) // ------------------------
 /**
 **
 */
+@Override
 public void run() // ------------------------------------------------------
 {
  for( URL anURL : urls ) {

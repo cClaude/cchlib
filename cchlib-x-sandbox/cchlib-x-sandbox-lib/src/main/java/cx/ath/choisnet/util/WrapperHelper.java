@@ -17,7 +17,7 @@ package cx.ath.choisnet.util;
 
 /**
 ** <p>
-**  Classe prenant en charge la transformation de type élémentaires.
+**  Classe prenant en charge la transformation de type ï¿½lï¿½mentaires.
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -32,8 +32,8 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
 {
 
     /**
-    ** Permet de créer un objet de type {@link Wrappable} gérant
-    ** une valeur par défaut en cas d'échec de la transformation.
+    ** Permet de crï¿½er un objet de type {@link Wrappable} gï¿½rant
+    ** une valeur par dï¿½faut en cas d'ï¿½chec de la transformation.
     */
     static class DefaultValueWrapper<T,U> implements Wrappable<T,U>
     {
@@ -46,6 +46,7 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
             this.defValue   = defValue;
         }
 
+        @Override
         public U wrappe( T o )
         {
             try {
@@ -65,6 +66,7 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
          // empty
         }
 
+        @Override
         public String wrappe( final Object o )
         {
             return o.toString();
@@ -77,6 +79,7 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
 private final static Wrappable<String,Long> WRAPPESTRINGTOLONG
          = new Wrappable<String,Long>()
     {
+        @Override
         public Long wrappe( String o )
         {
             return Long.parseLong( o );
@@ -116,6 +119,7 @@ public final static Wrappable<String,Integer> wrappeStringToInteger() // --
 {
  return new Wrappable<String,Integer>()
     {
+        @Override
         public Integer wrappe( String o )
         {
             return Integer.parseInt( o );
@@ -140,6 +144,7 @@ public final static Wrappable<String,Float> wrappeStringToFloat() // ------
 {
  return new Wrappable<String,Float>()
     {
+        @Override
         public Float wrappe( String o )
         {
             return Float.parseFloat( o );
@@ -164,6 +169,7 @@ public final static Wrappable<String,Double> wrappeStringToDouble() // ----
 {
  return new Wrappable<String,Double>()
     {
+        @Override
         public Double wrappe( String o )
         {
             return Double.parseDouble( o );

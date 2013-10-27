@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** Permet de construire un objet Iterator à partir d'un Iterateur {@link Iterator}
+** Permet de construire un objet Iterator ï¿½ partir d'un Iterateur {@link Iterator}
 ** d'objets iterables {@link Iterable}>
 ** </P>
 **
@@ -39,7 +39,7 @@ private Iterator<T> currentIterator;
 
 /**
 ** <P>
-** Permet de construire un objet à partir d'un Iterateur <Iterator>
+** Permet de construire un objet ï¿½ partir d'un Iterateur <Iterator>
 ** d'objet iterable <Iterable>.
 ** </P>
 */
@@ -54,6 +54,7 @@ public CascadingIterator( // ----------------------------------------------
 /**
 **
 */
+@Override
 public T computeNext() // -------------------------------------------------
     throws java.util.NoSuchElementException
 {

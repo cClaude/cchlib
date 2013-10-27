@@ -65,6 +65,7 @@ public ParallelWriter( // -------------------------------------------------
 /**
 ** @see Writer#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -90,6 +91,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see Writer#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -101,6 +103,7 @@ public void flush() // ----------------------------------------------------
 /**
 ** @see Writer#write(char[] cbuf, int off, int len)
 */
+@Override
 public void write( char[] cbuf, int off, int len ) // ---------------------
     throws java.io.IOException
 {

@@ -31,6 +31,7 @@ public EmptyInputStream() // ----------------------------------------------
 /**
 ** @see java.io.InputStream#read()
 */
+@Override
 public int read() // ------------------------------------------------------
     throws java.io.IOException
 {

@@ -6,7 +6,7 @@
 **
 **  2.01.001 2005.10.24 Claude CHOISNET - version initiale
 **  3.02.026 2006.07.19 Claude CHOISNET
-**                      MàJ Documentation
+**                      MÃ©J Documentation
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.lang.reflect.Mappable
@@ -16,7 +16,7 @@ package cx.ath.choisnet.lang.reflect;
 import java.util.Map;
 
 /**
-** <P>Permet d'avoir une vue synthétique d'un objet</P>
+** <P>Permet d'avoir une vue synthÃ©tique d'un objet</P>
 **
 ** @author Claude CHOISNET
 ** @since   2.01.001
@@ -31,11 +31,11 @@ public interface Mappable
 
 /**
 ** <P>
-** Retourne des couples de chaînes (nomDeMethode,valeur) à partir des
-** observateurs de l'objet courant (en général, il s'agit des méthodes
-** sans paramètres commençant par 'get' ou 'is'). Si c'est c'est la classe
-** {@link MappableHelper} qui prend en charge la construction du résultat,
-** le choix de méthode explorée sera défini par un objet {@link MappableHelperFactory}.
+** Retourne des couples de chaÃ©nes (nomDeMethode,valeur) Ã© partir des
+** observateurs de l'objet courant (en gÃ©nÃ©ral, il s'agit des mÃ©thodes
+** sans paramÃ©tres commenÃ©ant par 'get' ou 'is'). Si c'est c'est la classe
+** {@link MappableHelper} qui prend en charge la construction du rÃ©sultat,
+** le choix de mÃ©thode explorÃ©e sera dÃ©fini par un objet {@link MappableHelperFactory}.
 ** </P>
 **
 ** @see MappableHelper

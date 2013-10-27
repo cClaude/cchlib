@@ -91,6 +91,7 @@ public long getLastChangeTimeMillis() // ----------------------------------
 /**
 **
 */
+@Override
 public String getCurrentPublicIP() // -------------------------------------
     throws PublicIPException
 {
@@ -100,6 +101,7 @@ public String getCurrentPublicIP() // -------------------------------------
 /**
 **
 */
+@Override
 public String getPreviousPublicIP() // ------------------------------------
     throws PublicIPException
 {
@@ -109,6 +111,7 @@ public String getPreviousPublicIP() // ------------------------------------
 /**
 **
 */
+@Override
 public void storePublicIP() // --------------------------------------------
     throws PublicIPException
 {

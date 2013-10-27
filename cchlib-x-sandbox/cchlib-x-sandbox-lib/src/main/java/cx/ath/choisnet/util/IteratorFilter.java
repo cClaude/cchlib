@@ -10,7 +10,7 @@
 **  2.01.015 2005.10.14 Claude CHOISNET - Nouveau nom
 **                          cx.ath.choisnet.util.IteratorFilter
 **  3.02.007 2006.06.07 Claude CHOISNET
-**                      Implémente IterableIterator<T>
+**                      Implï¿½mente IterableIterator<T>
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.IteratorFilter
@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** {@link Iterator} basé sur un {@link Iterator} de base et sur le filtre donné.
+** {@link Iterator} basï¿½ sur un {@link Iterator} de base et sur le filtre donnï¿½.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -43,14 +43,14 @@ public class IteratorFilter<T>
             Iterable<T>,
             IterableIterator<T>
 {
-/** Iterator de référence */
+/** Iterator de rï¿½fï¿½rence */
 private Iterator<T> iterator;
 
 /** Filtre associer */
 private Selectable<T> filter;
 
 /**
-** Iterator basé sur un Iterator de base et sur le filtre donné.
+** Iterator basï¿½ sur un Iterator de base et sur le filtre donnï¿½.
 */
 public IteratorFilter( // -------------------------------------------------
     final Iterator<T>   iterator,
@@ -64,6 +64,7 @@ public IteratorFilter( // -------------------------------------------------
 /**
 **
 */
+@Override
 public T computeNext() // -------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -72,7 +73,7 @@ public T computeNext() // -------------------------------------------------
 
     if( this.filter.isSelected( currentObject ) ) {
         //
-        // Trouvé ! On sort avec le prochain object valide
+        // Trouvï¿½ ! On sort avec le prochain object valide
         //
         return currentObject;
         }
@@ -87,6 +88,7 @@ public T computeNext() // -------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;
@@ -102,6 +104,7 @@ public static Selectable<File> wrappe( // ---------------------------------
  return new Selectable<File>()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean isSelected( File file ) // - - - - - - - - - - - - -
         {
             return fileFilter.accept( file );
@@ -111,15 +114,15 @@ public static Selectable<File> wrappe( // ---------------------------------
 
 /**
 ** <p>
-** Transforme un {@link Iterator} en une chaîne en utilisant la méthode {@link Object#toString()}.
+** Transforme un {@link Iterator} en une chaï¿½ne en utilisant la mï¿½thode {@link Object#toString()}.
 ** </p>
 **
 ** @param iterator  Iterator Object to use
 ** @param separator a String
 **
-** @return un String correspondant à la concaténation des valeurs {@link Object#toString()}
-**         de l'iterateur donnée. Chaque valeur étant séparée par le contenu
-**         de la chaîne 'separator'
+** @return un String correspondant ï¿½ la concatï¿½nation des valeurs {@link Object#toString()}
+**         de l'iterateur donnï¿½e. Chaque valeur ï¿½tant sï¿½parï¿½e par le contenu
+**         de la chaï¿½ne 'separator'
 **
 ** @since 1.53.002
 */

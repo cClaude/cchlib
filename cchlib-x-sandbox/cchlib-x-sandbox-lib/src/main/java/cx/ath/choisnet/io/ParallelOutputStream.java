@@ -65,6 +65,7 @@ public ParallelOutputStream( // -------------------------------------------
 /**
 ** @see OutputStream#write(int)
 */
+@Override
 public void write( int b ) // ---------------------------------------------
     throws java.io.IOException
 {
@@ -77,6 +78,7 @@ public void write( int b ) // ---------------------------------------------
 /**
 ** @see OutputStream#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -102,6 +104,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see OutputStream#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {

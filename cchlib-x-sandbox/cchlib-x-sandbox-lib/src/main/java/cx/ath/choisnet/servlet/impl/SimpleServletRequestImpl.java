@@ -5,9 +5,9 @@
 ** Encodage      : ANSI
 **
 **  2.01.030 2005.11.10 Claude CHOISNET - Version initiale
-**                      Le code de getUserAgent() est expérimental.
+**                      Le code de getUserAgent() est expï¿½rimental.
 **  3.01.018 2006.04.11 Claude CHOISNET
-**                      La méthode getUserAgent() est deprecated,
+**                      La mï¿½thode getUserAgent() est deprecated,
 **                      Ajout de getUserAgentDetails()
 **  3.01.033 2006.04.11 Claude CHOISNET
 **                      Ajout de getCookie(String)
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
 ** <p>
-** Implémentation basique de {@link cx.ath.choisnet.servlet.SimpleServletRequest}
+** Implï¿½mentation basique de {@link cx.ath.choisnet.servlet.SimpleServletRequest}
 ** </p>
 **
 ** @see javax.servlet.http.HttpServletRequest
@@ -65,21 +65,25 @@ public SimpleServletRequestImpl( // ---------------------------------------
 **
 ** @see HttpServletRequest#getParameterValues(String)
 */
+@Override
 public ParameterValue getParameter( final String paramName ) // -----------
 {
  return new ParameterValue()
     {
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String[] toArray() //- - - - - - - - - - - - - - - - - - - -
         {
             return SimpleServletRequestImpl.this.request.getParameterValues( paramName );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String toString() // - - - - - - - - - - - - - - - - - - - -
         {
             return SimpleServletRequestImpl.this.request.getParameter( paramName );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String toString( String defaultValue ) //- - - - - - - - - -
         {
             try {
@@ -98,11 +102,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
             return defaultValue;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean booleanValue() //- - - - - - - - - - - - - - - - - -
         {
             return booleanValue( false );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean booleanValue( boolean defaultValue ) //- - - - - - -
         {
             try {
@@ -119,11 +125,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int intValue() //- - - - - - - - - - - - - - - - - - - - - -
         {
             return intValue( 0 );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int intValue( int defaultValue ) //- - - - - - - - - - - - -
         {
             try {
@@ -134,11 +142,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public long longValue() //- - - - - - - - - - - - - - - - - - - - -
         {
             return longValue( 0 );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public long longValue( long defaultValue ) // - - - - - - - - - - -
         {
             try {
@@ -149,11 +159,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public float floatValue() //- - - - - - - - - - - - - - - - - - - -
         {
             return floatValue( 0 );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public float floatValue( float defaultValue ) //- - - - - - - - - -
         {
             try {
@@ -164,11 +176,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public double doubleValue() //- - - - - - - - - - - - - - - - - - -
         {
             return doubleValue( 0 );
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public double doubleValue( double defaultValue ) // - - - - - - - -
         {
             try {
@@ -185,12 +199,13 @@ public ParameterValue getParameter( final String paramName ) // -----------
 
 /**
 ** <p>
-** Le code de cette méthode est encore expérimental.
+** Le code de cette mï¿½thode est encore expï¿½rimental.
 ** </p>
 **
 **
 ** @return an {@link EnumSet} of {@link UserAgent}.
 */
+@Override
 public EnumSet<UserAgent> getUserAgentDetails() // ------------------------
 {
  //
@@ -302,7 +317,7 @@ public EnumSet<UserAgent> getUserAgentDetails() // ------------------------
 }
 
 /**
-** Basé sur la documentation Micr*s*ft :
+** Basï¿½ sur la documentation Micr*s*ft :
 ** <a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/aboutuseragent.asp">
 ** http://msdn.microsoft.com/workshop/author/dhtml/overview/aboutuseragent.asp
 ** </a>
@@ -369,7 +384,7 @@ private EnumSet<UserAgent> getOSForIE( final String userAgent ) // --------
 }
 
 /**
-** Basé sur la documentation :
+** Basï¿½ sur la documentation :
 ** <a href="http://www.mozilla.org/build/revised-user-agent-strings.html">
 ** http://www.mozilla.org/build/revised-user-agent-strings.html
 ** </a>
@@ -385,7 +400,7 @@ private EnumSet<UserAgent> getOSForMozilla( final String userAgent ) // ---
     details.add( UserAgent.WINDOWS );
 
     //
-    // Valeurs ignorées :
+    // Valeurs ignorï¿½es :
     //
     // * Win3.11 for Windows 3.11
     // * WinNT3.51 for Windows NT 3.11
@@ -432,8 +447,8 @@ private EnumSet<UserAgent> getOSForMozilla( final String userAgent ) // ---
 
 
 /**
-** Initialise le tableau de cookies si cela n'a pas été fait. Cette méthode
-** permet d'être indépendant de l'implémentation de {@link HttpServletRequest}
+** Initialise le tableau de cookies si cela n'a pas ï¿½tï¿½ fait. Cette mï¿½thode
+** permet d'ï¿½tre indï¿½pendant de l'implï¿½mentation de {@link HttpServletRequest}
 **
 ** @since 3.01.033
 */
@@ -444,7 +459,7 @@ private void initCookiesIfNeeded() // -------------------------------------
 
     if( this.cookies == null ) {
         //
-        // Pas de coolies de défini
+        // Pas de coolies de dï¿½fini
         //
         this.cookies = new Cookie[ 0 ];
         }
@@ -458,6 +473,7 @@ private void initCookiesIfNeeded() // -------------------------------------
 **
 ** @since 3.01.033
 */
+@Override
 public Cookie getCookie( final String cookieName ) // ---------------------
 {
  initCookiesIfNeeded();

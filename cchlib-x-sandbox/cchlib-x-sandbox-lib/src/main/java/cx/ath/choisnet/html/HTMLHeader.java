@@ -129,6 +129,7 @@ public HTMLHeader add( final String htmlStr ) // --------------------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

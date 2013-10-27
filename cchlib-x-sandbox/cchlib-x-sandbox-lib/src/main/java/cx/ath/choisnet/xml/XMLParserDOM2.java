@@ -71,6 +71,7 @@ protected XMLParserDOM2( // -----------------------------------------------
 /**
 **
 */
+@Override
 public Document getDocument() // ------------------------------------------
 {
  return this.document;

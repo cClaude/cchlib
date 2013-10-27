@@ -23,7 +23,7 @@ public class Maths
 {
 
 /**
-** Standard deviation - écart type
+** Standard deviation - Ã©cart type
 */
 public final static double sd( double... values ) // ----------------------
 {

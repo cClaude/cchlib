@@ -29,6 +29,7 @@ private AppletContext appletContext;
 /**
 ** Initialisations
 */
+@SuppressWarnings("deprecation")
 protected StandAloneAppletInitializer( // ---------------------------------
     AppletContext appletContext
     )

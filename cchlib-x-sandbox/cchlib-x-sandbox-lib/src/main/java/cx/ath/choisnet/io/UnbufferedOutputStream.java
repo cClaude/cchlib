@@ -17,8 +17,8 @@ package cx.ath.choisnet.io;
 import java.io.OutputStream;
 
 /**
-** Classe permettant d'avoir un flux sans mémoire tampon ou avec une mémoire
-** tampon limitée, même avec un flux héritant de {@link java.io.BufferedOutputStream}
+** Classe permettant d'avoir un flux sans mï¿½moire tampon ou avec une mï¿½moire
+** tampon limitï¿½e, mï¿½me avec un flux hï¿½ritant de {@link java.io.BufferedOutputStream}
 **
 ** @author Claude CHOISNET
 ** @version 3.01.037
@@ -39,12 +39,12 @@ private final int maxBufferSize;
 private int bufferSize;
 
 /**
-** Permet de limité la mémoire tampon à maxBufferSize maximum.
+** Permet de limitï¿½ la mï¿½moire tampon ï¿½ maxBufferSize maximum.
 **
 ** @param   outputStream    Object {@link OutputStream} valide, vers lequel sera
-**                          émis le flux.
-** @param   maxBufferSize   Taille maximum de la mémoire tampon, ne garantis
-**                          pas que cela soit également le mimimum.
+**                          ï¿½mis le flux.
+** @param   maxBufferSize   Taille maximum de la mï¿½moire tampon, ne garantis
+**                          pas que cela soit ï¿½galement le mimimum.
 */
 public UnbufferedOutputStream( // -----------------------------------------
     final OutputStream  outputStream,
@@ -57,10 +57,10 @@ public UnbufferedOutputStream( // -----------------------------------------
 }
 
 /**
-** Construit un flux sans mémoire tampon.
+** Construit un flux sans mï¿½moire tampon.
 **
 ** @param   outputStream    Object {@link OutputStream} valide, vers lequel sera
-**                          émis le flux.
+**                          ï¿½mis le flux.
 **
 */
 public UnbufferedOutputStream( // -----------------------------------------
@@ -73,6 +73,7 @@ public UnbufferedOutputStream( // -----------------------------------------
 /**
 ** @see OutputStream#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -82,6 +83,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see OutputStream#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -92,6 +94,7 @@ public void flush() // ----------------------------------------------------
 /**
 ** @see OutputStream#write(int)
 */
+@Override
 public void write( int b ) // ---------------------------------------------
     throws java.io.IOException
 {
@@ -105,6 +108,7 @@ public void write( int b ) // ---------------------------------------------
 /**
 ** @see OutputStream#write(byte[],int,int)
 */
+@Override
 public void write( final byte[] cbuf, final int off, final int len ) // ---
     throws java.io.IOException
 {
@@ -118,6 +122,7 @@ public void write( final byte[] cbuf, final int off, final int len ) // ---
 /**
 ** @see OutputStream#write(byte[])
 */
+@Override
 public void write( final byte[] cbuf ) // ---------------------------------
     throws java.io.IOException
 {

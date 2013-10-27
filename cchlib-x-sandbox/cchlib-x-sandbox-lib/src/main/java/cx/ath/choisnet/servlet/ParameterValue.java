@@ -29,10 +29,10 @@ public interface ParameterValue
 {
 /**
 ** <p>
-** Retourne la valeur du paramètre sous forme de tableau de chaîne.
+** Retourne la valeur du paramï¿½tre sous forme de tableau de chaï¿½ne.
 ** </p>
 **
-** @return la valeur du paramètre si elle existe, retourne null autrement.
+** @return la valeur du paramï¿½tre si elle existe, retourne null autrement.
 **
 ** @see ParameterValueWrapper#asList(ParameterValue)
 */
@@ -40,29 +40,30 @@ public String[] toArray(); // ---------------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur du paramètre sous forme de chaîne unique.
+** Retourne la valeur du paramï¿½tre sous forme de chaï¿½ne unique.
 ** </p>
 **
-** @return la valeur du paramètre (éventuellement une chaîne vide) si le
-**         paramètre a été défini, retourne null autrement.
+** @return la valeur du paramï¿½tre (ï¿½ventuellement une chaï¿½ne vide) si le
+**         paramï¿½tre a ï¿½tï¿½ dï¿½fini, retourne null autrement.
 */
+@Override
 public String toString(); // ----------------------------------------------
 
 /**
 **
 **
-** @return la valeur du paramètre si elle existe et si elle est non vide,
+** @return la valeur du paramï¿½tre si elle existe et si elle est non vide,
 **         retourne la valeur (defautValue) autrement.
 */
 public String toString( String defaultValue ); // -------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme de boolean.
+** Retourne la valeur d'un paramï¿½tre sous forme de boolean.
 ** </p>
 **
-** @return la valeur sous forme de boolean du paramètre. La valeur par
-**         défault est false
+** @return la valeur sous forme de boolean du paramï¿½tre. La valeur par
+**         dï¿½fault est false
 **
 ** @see #booleanValue( boolean )
 */
@@ -70,100 +71,100 @@ public boolean booleanValue(); // -----------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur sous forme de boolean d'un paramètre.
+** Retourne la valeur sous forme de boolean d'un paramï¿½tre.
 ** </p>
 ** Pour que la valeur soit 'true', il faut que l'une des conditions
 ** suivante soit remplie :
 ** <br/>
-** La valeur trouvée est "on" ou "true" (non sensible à la casse).
+** La valeur trouvï¿½e est "on" ou "true" (non sensible ï¿½ la casse).
 ** <br/>
-** La valeur trouvée est un entier stritement positif ( v > 0 ).
+** La valeur trouvï¿½e est un entier stritement positif ( v > 0 ).
 ** <br/>
 **
-** @return la valeur sous forme de boolean du paramètre, si le paramètre
-**         n'existe pas la valeur par défaut (defautValue) est retournée.
+** @return la valeur sous forme de boolean du paramï¿½tre, si le paramï¿½tre
+**         n'existe pas la valeur par dï¿½faut (defautValue) est retournï¿½e.
 **
 */
 public boolean booleanValue( boolean defautValue ); // --------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un entier.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un entier.
 ** </p>
 **
-** @return la valeur sous forme d'entier du paramètre. La valeur par
-**         défault est 0.
+** @return la valeur sous forme d'entier du paramï¿½tre. La valeur par
+**         dï¿½fault est 0.
 */
 public int intValue(); // -------------------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un entier.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un entier.
 ** </p>
 **
-** @return la valeur sous forme d'entier du paramètre, si le paramètre n'existe
-**         pas la valeur par défaut (defautValue) est retournée.
+** @return la valeur sous forme d'entier du paramï¿½tre, si le paramï¿½tre n'existe
+**         pas la valeur par dï¿½faut (defautValue) est retournï¿½e.
 */
 public int intValue( int defautValue ); // --------------------------------
 
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un long.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un long.
 ** </p>
 **
-** @return la valeur sous forme d'un long du paramètre. La valeur par
-**         défault est 0.
+** @return la valeur sous forme d'un long du paramï¿½tre. La valeur par
+**         dï¿½fault est 0.
 */
 public long longValue(); // -----------------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un long.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un long.
 ** </p>
 **
-** @return la valeur sous forme d'un long du paramètre, si le paramètre
-**         n'existe pas la valeur par défaut (defautValue) est retournée.
+** @return la valeur sous forme d'un long du paramï¿½tre, si le paramï¿½tre
+**         n'existe pas la valeur par dï¿½faut (defautValue) est retournï¿½e.
 */
 public long longValue( long defautValue ); // -----------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un float.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un float.
 ** </p>
 **
-** @return la valeur sous forme d'un float du paramètre. La valeur par
-**         défault est 0.
+** @return la valeur sous forme d'un float du paramï¿½tre. La valeur par
+**         dï¿½fault est 0.
 */
 public float floatValue(); // ---------------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un float.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un float.
 ** </p>
 **
-** @return la valeur sous forme d'un float du paramètre, si le paramètre
-**         n'existe pas la valeur par défaut (defautValue) est retournée.
+** @return la valeur sous forme d'un float du paramï¿½tre, si le paramï¿½tre
+**         n'existe pas la valeur par dï¿½faut (defautValue) est retournï¿½e.
 */
 public float floatValue( float defautValue ); // --------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un double.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un double.
 ** </p>
 **
-** @return la valeur sous forme d'un double du paramètre. La valeur par
-**         défault est 0.
+** @return la valeur sous forme d'un double du paramï¿½tre. La valeur par
+**         dï¿½fault est 0.
 */
 public double doubleValue(); // -------------------------------------------
 
 /**
 ** <p>
-** Retourne la valeur d'un paramètre sous forme d'un double.
+** Retourne la valeur d'un paramï¿½tre sous forme d'un double.
 ** </p>
 **
-** @return la valeur sous forme d'un double du paramètre, si le paramètre
-**         n'existe pas la valeur par défaut (defautValue) est retournée.
+** @return la valeur sous forme d'un double du paramï¿½tre, si le paramï¿½tre
+**         n'existe pas la valeur par dï¿½faut (defautValue) est retournï¿½e.
 */
 public double doubleValue( double defautValue ); // -----------------------
 

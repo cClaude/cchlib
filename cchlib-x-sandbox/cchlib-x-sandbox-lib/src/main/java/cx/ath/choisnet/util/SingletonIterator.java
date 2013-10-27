@@ -49,7 +49,7 @@ private T item;
 
 /**
 ** Construction d'un objet Iterator valide, contenant uniquement l'objet
-** passé en paramètre.
+** passï¿½ en paramï¿½tre.
 **
 */
 public SingletonIterator( T item ) // -------------------------------------
@@ -61,6 +61,7 @@ public SingletonIterator( T item ) // -------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  return this.hasNext;
@@ -69,6 +70,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public T next() // --------------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -84,6 +86,7 @@ public T next() // --------------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws
         UnsupportedOperationException,
@@ -100,6 +103,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;

@@ -62,6 +62,7 @@ public XMLFileParserDOM2Impl( // ------------------------------------------
 /**
 ** Retourne l'objet File de la source.
 */
+@Override
 public File getFile() // --------------------------------------------------
 {
  return this.file;

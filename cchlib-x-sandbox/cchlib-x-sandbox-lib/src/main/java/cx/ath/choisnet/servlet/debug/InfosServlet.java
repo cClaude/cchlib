@@ -72,6 +72,7 @@ protected final static String SERVLETNAME = "InfosServlet";
 ** This method is called when the servlet is initialized.
 ** It is used to initialize any resources which are needed by the servlet.
 */
+@Override
 public void init() throws ServletException // -----------------------------
 {
  log( SERVLETNAME + " init() method called." );
@@ -98,6 +99,7 @@ if( names != null ) {
 /**
 **
 */
+@Override
 public void service( // ---------------------------------------------------
     HttpServletRequest  request,
     HttpServletResponse response
@@ -118,6 +120,7 @@ public void service( // ---------------------------------------------------
 /**
 **
 */
+@Override
 public String getServletInfo() // -----------------------------------------
 {
  return SERVLETNAME + " returns info from the request and servlet context.";
@@ -126,6 +129,7 @@ public String getServletInfo() // -----------------------------------------
 /**
 ** This method is called when the servlet is destroyed.
 */
+@Override
 public void destroy() // --------------------------------------------------
 {
  super.destroy();

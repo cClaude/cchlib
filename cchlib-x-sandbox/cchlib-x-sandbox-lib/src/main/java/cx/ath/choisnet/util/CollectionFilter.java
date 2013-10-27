@@ -14,7 +14,7 @@ package cx.ath.choisnet.util;
 import java.util.Collection;
 
 /**
-** Objectif de l'interface traiter des algorithmes génériques de filtrage.
+** Objectif de l'interface traiter des algorithmes gÃ©nÃ©riques de filtrage.
 **
 ** @author Claude CHOISNET
 ** @since   3.01.032
@@ -29,15 +29,15 @@ public interface CollectionFilter<T>
 {
 
 /**
-** Filtre une collection d'élément pour obtenir un sous ensemble de
+** Filtre une collection d'Ã©lÃ©ment pour obtenir un sous ensemble de
 ** cette liste.
 **
-** @param elements Collections d'éléments, ce paramètre ne doit pas être
-**        null, mais la collection peut éventuellement être vide.
+** @param elements Collections d'Ã©lÃ©ments, ce paramÃ©tre ne doit pas Ã©tre
+**        null, mais la collection peut Ã©ventuellement Ã©tre vide.
 **
-** @return un Collections d'éléments, sous ensemble de la collection donée,
-**         ne retourne jamais null, mais le résultat peut éventullement
-**         être une collection vide.
+** @return un Collections d'Ã©lÃ©ments, sous ensemble de la collection donÃ©e,
+**         ne retourne jamais null, mais le rÃ©sultat peut Ã©ventullement
+**         Ã©tre une collection vide.
 */
 public Collection<T> apply( Collection<T> elements ); // ------------------
 

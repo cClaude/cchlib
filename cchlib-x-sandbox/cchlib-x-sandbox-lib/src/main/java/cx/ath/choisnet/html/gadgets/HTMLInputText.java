@@ -42,6 +42,7 @@ public HTMLInputText() // -------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLInputText getThis() // -----------------------------------------
 {
  return this;
@@ -50,6 +51,7 @@ public HTMLInputText getThis() // -----------------------------------------
 /**
 **
 */
+@Override
 public String getCurrentValue( final ServletRequest request ) // ----------
     throws cx.ath.choisnet.html.util.HTMLGadgetNotFoundException
 {
@@ -59,6 +61,7 @@ public String getCurrentValue( final ServletRequest request ) // ----------
 /**
 **
 */
+@Override
 public HTMLInputText setCurrentValue( final String value ) // -------------
 {
  return setValue( value );
@@ -67,6 +70,7 @@ public HTMLInputText setCurrentValue( final String value ) // -------------
 /**
 **
 */
+@Override
 public String getType() // -----------------------------------------------
 {
  return "text";

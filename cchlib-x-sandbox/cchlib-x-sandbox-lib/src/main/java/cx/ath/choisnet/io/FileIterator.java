@@ -6,34 +6,34 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET
 **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
-**                      Implémente java.io.Serializable
+**                      Implï¿½mente java.io.Serializable
 **                      Ajout de la classe statique DirectoriesOnlyFileFilter
-**                      Ajout de la méthode statique getCounts( File )
+**                      Ajout de la mï¿½thode statique getCounts( File )
 **  2.01.008 2005.10.05 Claude CHOISNET - Version initiale
-**                      Optimisations, reprise de l'implémentation de Count
+**                      Optimisations, reprise de l'implï¿½mentation de Count
 **                      afin de limiter l'allocations d'objets.
 **  2.01.013 2005.10.09 Claude CHOISNET - Version initiale
 **                      Correction d'un bug lorsqu'un des objects File
-**                      donné n'existait pas.
+**                      donnï¿½ n'existait pas.
 **                      Correction de getCounts( File )
 **  2.01.014 2005.10.11 Claude CHOISNET - Version initiale
 **                      Ajout de la classe statique :
 **                          NoDirectoriesFileFilter
 **  2.01.034 2005.11.22 Claude CHOISNET - Version initiale
-**                      Le dossier initial n'est plus retourné dans
-**                      l'itération, le constructeur à base de plusieurs
+**                      Le dossier initial n'est plus retournï¿½ dans
+**                      l'itï¿½ration, le constructeur ï¿½ base de plusieurs
 **                      dossier n'est plus disponible.
 **  2.02.006 2005.12.04 Claude CHOISNET - Version initiale
-**                      Dù aux nombreux bug de la sérialisation, cet objet
-**                      n'est plus déclaré comme "Serializable"
+**                      Dï¿½ aux nombreux bug de la sï¿½rialisation, cet objet
+**                      n'est plus dï¿½clarï¿½ comme "Serializable"
 **  2.02.041 2006.01.09 Claude CHOISNET
-**                      Nouvelle version dérécursifiée, basée sur
+**                      Nouvelle version dï¿½rï¿½cursifiï¿½e, basï¿½e sur
 **                          cx.ath.choisnet.io.FileFolderIterator
-**                      Cette version gère correctement la sérialisation,
-**                      utilise moins de mémoire et va plus vite (10%) que
-**                      la version précédente.
+**                      Cette version gï¿½re correctement la sï¿½rialisation,
+**                      utilise moins de mï¿½moire et va plus vite (10%) que
+**                      la version prï¿½cï¿½dente.
 **  3.02.036 2006.08.04 Claude CHOISNET
-**                      Suppression des inner-classes obsolètes.
+**                      Suppression des inner-classes obsolï¿½tes.
 ** ------------------------------------------------------------------------
 **
 ** cx.ath.choisnet.io.FileIterator
@@ -89,6 +89,7 @@ public FileIterator( // ---------------------------------------------------
 /**
 **
 */
+@Override
 protected void addArray( final File[] folderContentFiles ) // -------------
 {
  if( folderContentFiles != null ) {
@@ -108,6 +109,7 @@ protected void addArray( final File[] folderContentFiles ) // -------------
 /**
 **
 */
+@Override
 public File next() // -----------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -131,6 +133,7 @@ public File next() // -----------------------------------------------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  if( this.filesList.size() > 0 ) {
@@ -150,7 +153,7 @@ public File computeNext() // ---------------------------------------------
 
  if( this.folderFile != null ) {
     //
-    // Traite le répertoire courant
+    // Traite le rï¿½pertoire courant
     //
     cFile = this.folderFile;
 
@@ -195,6 +198,7 @@ public File computeNext() // ---------------------------------------------
 **
 ** @throws UnsupportedOperationException
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException
 {
@@ -204,6 +208,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<File> iterator() // ---------------------------------------
 {
  return this;
@@ -236,7 +241,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // Réinitialisation des champs non sauvegardés
+ // Rï¿½initialisation des champs non sauvegardï¿½s
  //
  this.folderContentIndex = stream.readInt();
 
@@ -343,13 +348,13 @@ public static class Count implements java.io.Serializable
             this.sizeCount      = sizeCount;
         }
 
-        /** Nombre de dossiers trouvés */
+        /** Nombre de dossiers trouvï¿½s */
         public int getDirectories() { return this.folderCount; }
 
-        /** Nombre de fichiers trouvés */
+        /** Nombre de fichiers trouvï¿½s */
         public int getFiles() { return this.filesCount; }
 
-        /** Nombre d'octets de l'ensemble des fichiers trouvés */
+        /** Nombre d'octets de l'ensemble des fichiers trouvï¿½s */
         public long getBytes() { return this.sizeCount; }
 
         /**
@@ -381,7 +386,7 @@ public static class Count implements java.io.Serializable
             stream.defaultReadObject();
 
             //
-            // Réinitialisation des champs non sauvegardés
+            // Rï¿½initialisation des champs non sauvegardï¿½s
             //
             this.folderCount    = stream.readInt();
             this.filesCount     = stream.readInt();
@@ -623,7 +628,7 @@ public static class DirectoriesOnlyFileFilter
 */
 
 /**
-** Permet de filter les fichiers n'étant pas des dossiers.
+** Permet de filter les fichiers n'ï¿½tant pas des dossiers.
 **
 ** @deprecated use FileFilterHelper
 ** @see FileFilterHelper#directoryFileFilter()

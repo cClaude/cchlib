@@ -392,6 +392,7 @@ private static final IteratorFilter<Set<File>> getDupFiles( // ------------
     new Selectable<Set<File>>()
         {
             //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+            @Override
             public boolean isSelected( final Set<File> object ) //- - - - -
             {
                 return object.size() > 1;

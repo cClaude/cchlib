@@ -7,7 +7,7 @@
 **  2.02.030 2005.12.21 Claude CHOISNET - Version initiale
 **  2.02.033 2005.12.23 Claude CHOISNET
 **                      Ajout de asList( HttpServletRequest, String )
-**                      Mes méthodes asList() peuvebt retournée null.
+**                      Mes mÃ©thodes asList() peuvent retournÃ©e null.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.servlet.ParameterValueWrapper
@@ -44,10 +44,10 @@ public ParameterValueWrapper( Wrappable<String,T> wrapper ) // ------------
 
 /**
 ** <p>
-** Retourne les valeurs du paramètre sous forme d'une liste typée.
+** Retourne les valeurs du paramÃ©tre sous forme d'une liste typÃ©e.
 ** </p>
 **
-** @return une liste contenant les valeurs du paramètre s'il existe,
+** @return une liste contenant les valeurs du paramÃ©tre s'il existe,
 **         null autrement
 */
 public List<T> asList( // -------------------------------------------------
@@ -60,14 +60,14 @@ public List<T> asList( // -------------------------------------------------
 
 /**
 ** <p>
-** Retourne les valeurs du paramètre sous forme d'une liste typée.
+** Retourne les valeurs du paramÃ©tre sous forme d'une liste typÃ©e.
 ** </p>
 ** <p>
-** Cette méthode s'appuit sur {@link ParameterValue#toArray()} pour
-** retrouver les valeurs du paramètres.
+** Cette mÃ©thode s'appuit sur {@link ParameterValue#toArray()} pour
+** retrouver les valeurs du paramÃ©tres.
 ** </p>
 **
-** @return une liste contenant les valeurs du paramètre s'il existe,
+** @return une liste contenant les valeurs du paramÃ©tre s'il existe,
 **         null autrement
 */
 public List<T> asList( final ParameterValue paramValue ) // ---------------
@@ -77,12 +77,12 @@ public List<T> asList( final ParameterValue paramValue ) // ---------------
 
 /**
 ** <p>
-** Transforme un tableau de chaîne en sont équivalant sous forme
+** Transforme un tableau de chaÃ©ne en sont Ã©quivalant sous forme
 ** de liste en accort avec le wrapper courant.
 ** </p>
-** @param values tableau de chaînes à traiter.
+** @param values tableau de chaÃ©nes Ã© traiter.
 **
-** @return une liste contenant les valeurs wrappées, ou null si le paramètre
+** @return une liste contenant les valeurs wrappÃ©es, ou null si le paramÃ©tre
 **         values est null.
 */
 private List<T> asList( final String[] values ) // ------------------------

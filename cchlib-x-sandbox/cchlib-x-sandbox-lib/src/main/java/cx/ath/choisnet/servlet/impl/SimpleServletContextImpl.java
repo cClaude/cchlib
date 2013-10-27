@@ -62,6 +62,7 @@ public SimpleServletContextImpl( // ---------------------------------------
 **
 ** @param paramName Name of the parameter to retrieved from
 */
+@Override
 public String getInitParameter( final String paramName ) // ---------------
     throws ServletContextParamNotFoundException
 {
@@ -78,6 +79,7 @@ public String getInitParameter( final String paramName ) // ---------------
 **
 ** @param paramName Name of the parameter to retrieved from
 */
+@Override
 public String getInitParameter( // ----------------------------------------
     final String paramName,
     final String defaultValue

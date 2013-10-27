@@ -17,7 +17,7 @@ import java.io.Writer;
 /**
 ** <p>
 ** Classe permettant de contruire des flux XML
-** Ecrit le flux en transformant les caractères spéciaux en leur équivalent
+** Ecrit le flux en transformant les caractï¿½res spï¿½ciaux en leur ï¿½quivalent
 ** HTML
 ** </p>
 **
@@ -44,7 +44,7 @@ private final Writer writer;
 private final StringBuilder sbuffer;
 
 /**
-** Création d'un nouvel objet {@link XMLWriter}
+** Crï¿½ation d'un nouvel objet {@link XMLWriter}
 */
 public XMLWriter( // ------------------------------------------------------
     final Writer writer
@@ -57,6 +57,7 @@ public XMLWriter( // ------------------------------------------------------
 /**
 ** @see Writer#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -66,6 +67,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see Writer#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -76,6 +78,7 @@ public void flush() // ----------------------------------------------------
 **
 ** @see Writer#write(char[] cbuf, int off, int len)
 */
+@Override
 public void write( final char[] cbuf, final int off, final int len ) // ---
     throws java.io.IOException
 {

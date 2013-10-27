@@ -81,6 +81,7 @@ public SimpleZip( OutputStream output, int bufferSize ) // ----------------
 /**
 **
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -240,6 +241,7 @@ public static void main( String[] arg ) // --------------------------------
         source,
         new cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl( source )
             {
+                @Override
                 public SimpleZipEntry wrappe( File file )
                 {
                     System.out.println( "add: " + file );

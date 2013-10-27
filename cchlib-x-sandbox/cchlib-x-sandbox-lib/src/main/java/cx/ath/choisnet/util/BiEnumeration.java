@@ -48,6 +48,7 @@ public BiEnumeration(// ------------------------------------------------------
 /**
 **
 */
+@Override
 public boolean hasMoreElements() // -----------------------------------------------
 {
  if( firstEnum.hasMoreElements() ) {

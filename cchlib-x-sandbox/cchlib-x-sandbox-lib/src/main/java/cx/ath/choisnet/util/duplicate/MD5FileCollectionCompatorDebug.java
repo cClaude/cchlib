@@ -150,6 +150,7 @@ private static MD5FileCollection getMD5FileCollection( // -----------------
 
  final MD5FileCollectionFactory factory = new MD5FileCollectionFactory()
     {
+        @Override
         public void handleIOException(
                     File                file,
                     java.io.IOException cause

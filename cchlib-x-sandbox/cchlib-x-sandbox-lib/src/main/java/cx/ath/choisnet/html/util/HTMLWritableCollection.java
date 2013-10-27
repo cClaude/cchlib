@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
 ** <p>
-** Implémentation d'un conteneur {@link HTMLWritable}, pouvant recevoir d'autre
+** Implï¿½mentation d'un conteneur {@link HTMLWritable}, pouvant recevoir d'autre
 ** objects {@link HTMLWritable}
 ** </p>
 **
@@ -64,6 +64,7 @@ public HTMLWritableCollection add( final String htmlStr ) // --------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

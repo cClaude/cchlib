@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.NoSuchElementException;
 
 /**
 **
@@ -56,11 +56,23 @@ public Applet getApplet( String name ) // ---------------------------------
 ** Interface AppletContext
 */
 @Override
-public Enumeration getApplets() // ---------------------------------
+public Enumeration<Applet> getApplets() // ---------------------------------
 {
  System.err.println( "StandAloneAppletConsoleContext FAKE : getApplets()" );
 
- return (new Vector()).elements(); // fake
+ return new Enumeration<Applet>(){
+
+    @Override
+    public boolean hasMoreElements()
+    {
+        return false;
+    }
+
+    @Override
+    public Applet nextElement()
+    {
+        return null;
+    }};
 }
 
 /**
@@ -119,19 +131,20 @@ public void showStatus( String message ) // -------------------------------
 }
 
 /**
-** @return un Iterator valide mais sans �l�ment.
+** @return
+ * @return un Iterator valide mais sans élément.
 */
 @Override
-public Iterator getStreamKeys()
+public Iterator<String> getStreamKeys()
 {
- return new Iterator() {
+ return new Iterator<String>() {
     @Override
     public boolean hasNext() { return false; }
 
     @Override
-    public Object next() throws java.util.NoSuchElementException
+    public String next() throws NoSuchElementException
     {
-     throw new java.util.NoSuchElementException();
+     throw new NoSuchElementException();
     }
 
     @Override

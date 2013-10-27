@@ -33,11 +33,11 @@ private ContextLoader() // ------------------------------------------------
 }
 
 /**
-** Recherche de objet T à partir du request courant sur le contexte,
-** si l'objet n'a pas été trouvé on le crée.
+** Recherche de objet T Ã© partir du request courant sur le contexte,
+** si l'objet n'a pas Ã©tÃ© trouvÃ© on le crÃ©e.
 **
 ** @param request               Objet {@link javax.servlet.http.HttpServletRequest}
-**                              valide de la requête en cours.
+**                              valide de la requÃ©te en cours.
 ** @param aContextClass         Class de l'object attendu.
 ** @param aContextInitializator Initialisateur de l'objet.
 **
@@ -76,14 +76,14 @@ public static <T> T getContext( // ----------------------------------------
 
 /**
 ** Recherche du context de l'application {@link ContextInitializable#getServletContextName()}
-** à partir sur la liste des contextes disponibles trouvé à l'aide du request
-** donnée.
+** Ã© partir sur la liste des contextes disponibles trouvÃ© Ã© l'aide du request
+** donnÃ©e.
 ** <br/>
-** Si le contexte n'est pas trouvé ou si la valeur de {@link ContextInitializable#getServletContextName()}
-** est null, c'est le contexte lié au request qui sera utilisé.
+** Si le contexte n'est pas trouvÃ© ou si la valeur de {@link ContextInitializable#getServletContextName()}
+** est null, c'est le contexte liÃ© au request qui sera utilisÃ©.
 **
 ** @param request               Objet {@link javax.servlet.http.HttpServletRequest}
-**                              valide de la requête en cours.
+**                              valide de la requÃ©te en cours.
 ** @param aContextInitializator Initialisateur de l'objet.
 **
 ** @see ServletContext
@@ -109,8 +109,8 @@ public static ServletContext getServletContext( // -----------------------------
     }
 
  //
- // On n'a pas récupérer le contexte à partir de son nom, on prend celui
- // directement lié au request
+ // On n'a pas rÃ©cupÃ©rer le contexte Ã© partir de son nom, on prend celui
+ // directement liÃ© au request
  //
  return request.getSession().getServletContext();
 }

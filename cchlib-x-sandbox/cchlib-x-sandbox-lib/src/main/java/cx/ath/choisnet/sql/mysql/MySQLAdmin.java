@@ -16,6 +16,7 @@ package cx.ath.choisnet.sql.mysql;
 import cx.ath.choisnet.io.ConcateInputStream;
 import cx.ath.choisnet.io.ParallelOutputStream;
 import cx.ath.choisnet.util.ExternalApp;
+import cx.ath.choisnet.util.ExternalAppException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,8 +26,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
-** <P>Classe prenant en charge l'excution des reqûetes SQL vers
-** une base de donnée MySQL en utilisant les commandes
+** <P>Classe prenant en charge l'excution des reqÃ©etes SQL vers
+** une base de donnÃ©e MySQL en utilisant les commandes
 ** d'administration de la base.
 ** </P>
 **
@@ -38,22 +39,22 @@ import java.io.OutputStream;
 public class MySQLAdmin
 {
 /**
-** Paramètre de la servlet
+** ParamÃ©tre de la servlet
 public final static String MYSQL_EXE = "MYSQL_EXE";
 */
 
 /**
-** Paramètre de la servlet
+** ParamÃ©tre de la servlet
 public final static String MYSQL_EXE_PARAMS = "MYSQL_EXE_PARAMS";
 */
 
 /**
-** Paramètre de la servlet
+** ParamÃ©tre de la servlet
 public final static String MYSQL_DUMP_EXE = "MYSQL_DUMP_EXE";
 */
 
 /**
-** Paramètre de la servlet
+** ParamÃ©tre de la servlet
 public final static String MYSQL_DUMP_EXE_PARAMS = "MYSQL_DUMP_EXE_PARAMS";
 */
 
@@ -95,7 +96,7 @@ public MySQLAdmin( // -----------------------------------------------------
 }
 
 /**
-** Initialisation à partir de la servlet
+** Initialisation Ã© partir de la servlet
 public void init( ServletConfig servletConfig ) // ------------------------
     throws ServletException
 {
@@ -220,8 +221,8 @@ public void createSQLDumpFile( // -----------------------------------------
 
 
 /**
-** <P>NOTE: Les paramtères <code>servletOuput</code> et <code>outputFile</code>
-** ne doivent pas être null en même temps.</P>
+** <P>NOTE: Les paramtÃ©res <code>servletOuput</code> et <code>outputFile</code>
+** ne doivent pas Ã©tre null en mÃ©me temps.</P>
 **
 ** @param   servletOuput    Flux de la servlet ou null
 ** @param   outputFile      Fichier de sortie ou null
@@ -339,7 +340,7 @@ public void applySQL( // --------------------------------------------------
         System.err
         );
     }
- catch( cx.ath.choisnet.util.ExternalAppException e ) {
+ catch( ExternalAppException e ) {
     throw new MySQLAdminException( e );
     }
 }

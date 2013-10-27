@@ -27,7 +27,7 @@ public interface JavaScript
 {
 
 /**
-** Retourne le code javascript à inclure dans la page HTML
+** Retourne le code javascript Ã© inclure dans la page HTML
 abstract public String toInLineJavascript();
 */
 

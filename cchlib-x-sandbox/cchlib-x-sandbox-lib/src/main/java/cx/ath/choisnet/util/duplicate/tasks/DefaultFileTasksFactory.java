@@ -63,21 +63,23 @@ public DefaultFileTasksFactory( // ----------------------------------------
 }
 
 /**
-** Construction d'un object File local et temporaire à partir d'un
+** Construction d'un object File local et temporaire ï¿½ partir d'un
 ** object MD5TreeEntry
 */
+@Override
 public File getLocalTmpName( final MD5TreeEntry md5 ) // ------------------
 {
  return new File( this.baseTempFolder, md5.toString() );
 }
 
 /**
-** Retourne un flux permettant de récupérer la matière associée à l'empreinte
-** donnée.
+** Retourne un flux permettant de rï¿½cupï¿½rer la matiï¿½re associï¿½e ï¿½ l'empreinte
+** donnï¿½e.
 **
-** @return un object InputStream valide permettant de recopie la matière
+** @return un object InputStream valide permettant de recopie la matiï¿½re
 **         depuis la source.
 */
+@Override
 public InputStream getInputStreamFromSource( final MD5TreeEntry md5 ) // --
     throws java.io.FileNotFoundException
 {
@@ -92,7 +94,7 @@ public InputStream getInputStreamFromSource( final MD5TreeEntry md5 ) // --
     }
 
  //
- // On récupère 1 élément dans la liste
+ // On rï¿½cupï¿½re 1 ï¿½lï¿½ment dans la liste
  //
  final String relativeName = list.iterator().next().getPath();
 
@@ -114,9 +116,10 @@ private File getAbsoluteDestinationFile( // -------------------------------
 
 /**
 ** <p>
-** Action par défaut pour la suppression d'un fichier.
+** Action par dï¿½faut pour la suppression d'un fichier.
 ** </p>
 */
+@Override
 public DefaultTask buildActionLocalDeleteFile( final File f ) // ----------
 {
  return new DefaultTask.ActionLocalDeleteFile( getAbsoluteDestinationFile( f ) );
@@ -125,6 +128,7 @@ public DefaultTask buildActionLocalDeleteFile( final File f ) // ----------
 /**
 **
 */
+@Override
 public DefaultTask buildActionLocalCreateFolder( final File f ) // --------
 {
  return new DefaultTask.ActionLocalCreateFolder( getAbsoluteDestinationFile( f ) );
@@ -133,6 +137,7 @@ public DefaultTask buildActionLocalCreateFolder( final File f ) // --------
 /**
 **
 */
+@Override
 public DefaultTask buildActionLocalDeleteFolder( final File f ) // --------
 {
  return new DefaultTask.ActionLocalDeleteFolder( getAbsoluteDestinationFile( f ) );
@@ -141,6 +146,7 @@ public DefaultTask buildActionLocalDeleteFolder( final File f ) // --------
 /**
 **
 */
+@Override
 public DefaultTask buildActionLocalCopyFile( // ---------------------------
     final MD5TreeEntry  md5,
     final File          f
@@ -155,6 +161,7 @@ public DefaultTask buildActionLocalCopyFile( // ---------------------------
 /**
 **
 */
+@Override
 public DefaultTask buildActionLocalCopyFile( // ---------------------------
     final File sourceFile,
     final File destfinationFile
@@ -169,6 +176,7 @@ public DefaultTask buildActionLocalCopyFile( // ---------------------------
 /**
 **
 */
+@Override
 public DefaultTask buildActionCopyFileFromSource( // ----------------------
     final MD5TreeEntry md5
     )
@@ -179,6 +187,7 @@ public DefaultTask buildActionCopyFileFromSource( // ----------------------
 /**
 **
 */
+@Override
 public DefaultTask buildActionLocalMoveFile( // ---------------------------
     final File sourceFile,
     final File destfinationFile

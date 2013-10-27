@@ -4,12 +4,12 @@
 ** Description   :
 **
 **  2.01.015 2005.10.14 Claude CHOISNET - Version initiale
-**                      Implémente Iterable<T>
+**                      Implï¿½mente Iterable<T>
 **  2.01.020 2005.10.20 Claude CHOISNET
 **                      Ajout du constructeur :
 **                          IteratorWrapper(Collection<T>,Wrappable<T,U>)
 **  3.02.007 2006.06.07 Claude CHOISNET
-**                      Implémente IterableIterator<U>
+**                      Implï¿½mente IterableIterator<U>
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.IteratorWrapper
@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
-** Permet de construire des {@link Iterator} à partir d'un autre Iterateur
-** en changeant de type à la volée.
+** Permet de construire des {@link Iterator} ï¿½ partir d'un autre Iterateur
+** en changeant de type ï¿½ la volï¿½e.
 **
 ** @author Claude CHOISNET
 ** @since   2.01.015
@@ -73,6 +73,7 @@ public IteratorWrapper( // ------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  return this.iterator.hasNext();
@@ -83,6 +84,7 @@ public boolean hasNext() // -----------------------------------------------
 **
 ** @throws java.util.NoSuchElementException
 */
+@Override
 public U next() // --------------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -92,6 +94,7 @@ public U next() // --------------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException
 {
@@ -101,6 +104,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<U> iterator() // ------------------------------------------
 {
  return this;

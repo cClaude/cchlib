@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 /**
 ** <p>
-** Classe permettant de concerver un context lors d'échange de
+** Classe permettant de concerver un context lors d'ï¿½change de
 ** flux HTTP.
 **
 ** See :<br/>
@@ -34,7 +34,7 @@ import java.util.TreeMap;
 ** <a href="http://www.faqs.org/rfcs/rfc2109.html">RFC 2109</a><br/>
 ** </p>
 ** <p>
-** BUG: Ne gère pas *encore* les cookies multiples...
+** BUG: Ne gï¿½re pas *encore* les cookies multiples...
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
 private Map<String,String> requestProperty;
 
 /**
-** Proxy spécifier a utiliser pour les connections.
+** Proxy spï¿½cifier a utiliser pour les connections.
 */
 private Proxy proxy;
 
@@ -162,7 +162,7 @@ public HttpURLConnection openHttpConnection( URL url ) // -----------------
 /**
 ** update current URLContext from URLConnection
 **
-** @param connection URLConnection déjà connectée.
+** @param connection URLConnection dï¿½jï¿½ connectï¿½e.
 **
 ** @see #openHttpConnection
 ** @see #openConnection
@@ -210,7 +210,7 @@ for( int n = 0;; n++ ) { // n=0 has no key, and the HTTP return status in the va
             }
         else {
             //
-            // On ignore l'entrée
+            // On ignore l'entrï¿½e
             //
             }
         }
@@ -234,10 +234,10 @@ for( int n = 0;; n++ ) { // n=0 has no key, and the HTTP return status in the va
 
 /**
 ** <p>
-** Permet de définir des propriétés utilisé par toutes les requêtes
-** émise à l'aide de l'objet courant.
+** Permet de dï¿½finir des propriï¿½tï¿½s utilisï¿½ par toutes les requï¿½tes
+** ï¿½mise ï¿½ l'aide de l'objet courant.
 ** </p>
-** Typiquement on initialisera un échange par<br/>
+** Typiquement on initialisera un ï¿½change par<br/>
 ** <pre>
 ** URLContext ctxt = new URLContext();
 **
@@ -303,6 +303,7 @@ public void setDoOutput( boolean dooutput ) // ----------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
 // final StringBuilder sb = new StringBuilder( "URLContext[" + this.requestProperty );

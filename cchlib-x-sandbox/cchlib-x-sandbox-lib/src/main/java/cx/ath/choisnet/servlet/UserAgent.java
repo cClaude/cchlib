@@ -6,7 +6,7 @@
 **
 **  2.01.030 2005.11.10 Claude CHOISNET - Version initiale
 **  3.01.018 2006.04.11 Claude CHOISNET
-**                      Inclus maintenant les informations liées à l'OS.
+**                      Inclus maintenant les informations liÃ©es Ã© l'OS.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.servlet.UserAgent
@@ -16,7 +16,7 @@ package cx.ath.choisnet.servlet;
 
 /**
 ** <p>
-** Enumération des navigateur WEB connus
+** EnumÃ©ration des navigateur WEB connus
 ** </p>
 **
 **
@@ -31,8 +31,8 @@ public enum UserAgent
 {
     /*
     *
-    ** Indique que le navigateur n'a pu être identifier.
-    ** @ de precated ne doit pas doit être retournée par
+    ** Indique que le navigateur n'a pu Ã©tre identifier.
+    ** @ de precated ne doit pas doit Ã©tre retournÃ©e par
     **             {@link cx.ath.choisnet.servlet.SimpleServletRequest#getUserAgentDetails()}
     UNKOWN,
     */
@@ -58,7 +58,7 @@ public enum UserAgent
     OPERA,
 
     /**
-    ** OS non défini pour un Navigateur MSIE.
+    ** OS non dÃ©fini pour un Navigateur MSIE.
     */
     MSIE_UNKNOW_OS,
 
@@ -118,7 +118,7 @@ public enum UserAgent
     WINDOWS_CE,
 
     /**
-    ** OS non défini pour un Navigateur MOZILLA.
+    ** OS non dÃ©fini pour un Navigateur MOZILLA.
     */
     MOZILLA_UNKNOW_OS,
 
@@ -128,12 +128,12 @@ public enum UserAgent
     MACOS,
 
     /**
-    ** Identifie Macintosh à base de processeur Motorola 68k  : "68K"
+    ** Identifie Macintosh Ã© base de processeur Motorola 68k  : "68K"
     */
     MACOS_68K,
 
     /**
-    ** Identifie Macintosh à base de processeur Motorola PowerPC  : "PPC"
+    ** Identifie Macintosh Ã© base de processeur Motorola PowerPC  : "PPC"
     */
     MACOS_PPC,
 
@@ -143,7 +143,7 @@ public enum UserAgent
     X11,
 
     /**
-    ** OS non défini pour un Navigateur OPERA.
+    ** OS non dÃ©fini pour un Navigateur OPERA.
     */
     OPERA_UNKNOW_OS,
 

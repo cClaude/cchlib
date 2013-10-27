@@ -116,6 +116,7 @@ protected static String encodeBase64( String str ) // ---------------------
 /**
 **
 */
+@Override
 public InputStream getInputStream( String ip ) // -------------------------
     throws
         java.net.MalformedURLException,
@@ -163,6 +164,7 @@ public InputStream getInputStream( String ip ) // -------------------------
 /**
 **
 */
+@Override
 public boolean updateIP( String ip ) // -----------------------------------
 {
  try {

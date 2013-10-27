@@ -7,7 +7,7 @@
 **  2.01.015 2005.10.14 Claude CHOISNET
 **                      extends ComputableIterator<T>
 **  2.01.018 2005.10.14 Claude CHOISNET
-**                      Ajout des constructeurs acceptant un élément seul.
+**                      Ajout des constructeurs acceptant un ï¿½lï¿½ment seul.
 **  3.02.018 2006.06.28 Claude CHOISNET
 **                      Ajout des constructeurs :
 **                          MultiIterator(Iterator<Iterator<T>>)
@@ -34,7 +34,7 @@ import java.util.List;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de créer de nouvelle collection.
+** avoir besoin de crï¿½er de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -111,9 +111,9 @@ public MultiIterator( // --------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** élément.
+** ï¿½lï¿½ment.
 ** </p>
-** L'élément seul sera traiter APRÈS les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter APRï¿½S les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public MultiIterator( // --------------------------------------------------
@@ -132,9 +132,9 @@ public MultiIterator( // --------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** élément.
+** ï¿½lï¿½ment.
 ** </p>
-** L'élément seul sera traiter AVANT les éléments de l'iterateur.
+** L'ï¿½lï¿½ment seul sera traiter AVANT les ï¿½lï¿½ments de l'iterateur.
 **
 */
 public MultiIterator( // --------------------------------------------------
@@ -179,6 +179,7 @@ public MultiIterator( // --------------------------------------------------
 /**
 **
 */
+@Override
 public T computeNext() // -------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -236,7 +237,7 @@ public boolean hasNext() // -----------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas prêt, on le prepare
+    // L'objet suivant n'est pas prï¿½t, on le prepare
     //
     try {
         nextObject = computeNext();
@@ -250,7 +251,7 @@ public boolean hasNext() // -----------------------------------------------
     }
 
  //
- // L'object suivant est prêt et valide !
+ // L'object suivant est prï¿½t et valide !
  //
  return true;
 }
@@ -263,7 +264,7 @@ public T next() // --------------------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas prêt, on le prepare
+    // L'objet suivant n'est pas prï¿½t, on le prepare
     //
     //  Note: on sort en NoSuchElementException s'il n'existe pas
     //
@@ -271,7 +272,7 @@ public T next() // --------------------------------------------------------
     }
 
  //
- // On sauvegarde l'élément courant
+ // On sauvegarde l'ï¿½lï¿½ment courant
  //
  T returnObject = nextObject;
 

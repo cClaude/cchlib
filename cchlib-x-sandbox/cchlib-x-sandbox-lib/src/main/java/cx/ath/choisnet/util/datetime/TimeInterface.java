@@ -6,7 +6,7 @@
 **
 **  1.53.014 2005.05.20 Claude CHOISNET - Version initiale
 **  2.00.003 2005.09.17 Claude CHOISNET
-**                      Modification de l'héritable JDK1.5
+**                      Modification de l'hï¿½ritable JDK1.5
 **                          Comparable -> Comparable<TimeInterface>
 ** -----------------------------------------------------------------------
 **
@@ -59,19 +59,20 @@ public abstract boolean equals( TimeInterface anotherTime ); // -----------
 /*
 ** Compare deux object horaire.
 **
-** @return  la valeur 0 si les 2 horaires correspondent, une valeur négative
-**          si l'object courant est plus ancien que l'horaire donné en
-**          paramètre. une valeur positive si l'horaire de l'object
-**          courant est plus récent que l'horaire passé en paramètre.
+** @return  la valeur 0 si les 2 horaires correspondent, une valeur nï¿½gative
+**          si l'object courant est plus ancien que l'horaire donnï¿½ en
+**          paramï¿½tre. une valeur positive si l'horaire de l'object
+**          courant est plus rï¿½cent que l'horaire passï¿½ en paramï¿½tre.
 */
+@Override
 public abstract int compareTo( TimeInterface anotherTime ); // ------------
 
 } // class
 
 /**
-** Renvoie la date associée au calendrier conformément à l'oject de formatage.
+** Renvoie la date associï¿½e au calendrier conformï¿½ment ï¿½ l'oject de formatage.
 **
-** @param formatter     Object de formattage contenant les caractéristiques
+** @param formatter     Object de formattage contenant les caractï¿½ristiques
 **                      du texte attendu.
 ** @see java.text.Format
 ** @see java.text.DateFormat

@@ -60,6 +60,7 @@ public StatsEntry addDelay( final long delay ) // -------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  return this.delays.toString();

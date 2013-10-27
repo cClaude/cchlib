@@ -30,6 +30,7 @@ public interface HTMLDocumentStringWriter
 /**
 ** Return internal buffer as String.
 */
+@Override
 public String toString(); // ----------------------------------------------
 
 /**

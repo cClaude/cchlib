@@ -14,7 +14,7 @@ package cx.ath.choisnet.util;
 import java.util.Map;
 
 /**
-** Implémentation minimum de l'interface {@link java.util.Map.Entry}
+** Implï¿½mentation minimum de l'interface {@link java.util.Map.Entry}
 **
 ** @author Claude CHOISNET
 ** @since   3.02.029
@@ -39,6 +39,7 @@ public class MapEntry<K,V>
     /**
     **
     */
+    @Override
     public K getKey() // --------------------------------------------------
     {
         return this.key;
@@ -47,6 +48,7 @@ public class MapEntry<K,V>
     /**
     **
     */
+    @Override
     public V getValue() // ------------------------------------------------
     {
         return this.value;
@@ -55,6 +57,7 @@ public class MapEntry<K,V>
     /**
     **
     */
+    @Override
     public V setValue( final V value ) // ---------------------------------
     {
         throw new UnsupportedOperationException();
@@ -63,6 +66,7 @@ public class MapEntry<K,V>
     /**
     **
     */
+    @Override
     public boolean equals( final Object o ) // ----------------------------
     {
         if( o == null ) {
@@ -98,6 +102,7 @@ public class MapEntry<K,V>
     /**
     **
     */
+    @Override
     public int hashCode() // ----------------------------------------------
     {
         return

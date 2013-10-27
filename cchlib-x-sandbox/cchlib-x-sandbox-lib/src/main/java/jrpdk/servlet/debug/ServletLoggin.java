@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 ** Classe permettant d'armoniser la gestion des traces pour les
 ** erreurs.
 ** <P>
-** Cette doit être utilisée pour récupérer des exceptions qui sont
-** typiquement des bugs (problèmes d'algoritmique, ...).
+** Cette doit Ã©tre utilisÃ©e pour rÃ©cupÃ©rer des exceptions qui sont
+** typiquement des bugs (problÃ©mes d'algoritmique, ...).
 **
 **
 ** @author Claude CHOISNET

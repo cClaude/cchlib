@@ -34,6 +34,7 @@ public EmptyReader() // ---------------------------------------------------
 /**
 ** @see java.io.Reader#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -43,6 +44,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see java.io.Reader#read(char[],int,int)
 */
+@Override
 public int read( char[] cbuf, int off, int len ) // -----------------------
     throws java.io.IOException
 {

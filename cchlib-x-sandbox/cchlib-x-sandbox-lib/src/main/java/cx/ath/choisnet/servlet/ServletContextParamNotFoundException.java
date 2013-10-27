@@ -13,7 +13,7 @@
 package cx.ath.choisnet.servlet;
 
 /**
-** <P>Exception déclanchées par la classe {@link SimpleServletContext}</P>
+** <P>Exception dÃ©clanchÃ©es par la classe {@link SimpleServletContext}</P>
 **
 ** @author Claude CHOISNET
 ** @since   3.02.008

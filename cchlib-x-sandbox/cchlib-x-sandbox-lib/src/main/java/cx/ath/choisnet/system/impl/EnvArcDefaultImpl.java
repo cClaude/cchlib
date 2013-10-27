@@ -38,6 +38,7 @@ public EnvArcDefaultImpl() // ---------------------------------------------
 /**
 **
 */
+@Override
 public void setVar( final String varname, final String value ) // ---------
     throws
         cx.ath.choisnet.system.EnvArcException,
@@ -49,6 +50,7 @@ public void setVar( final String varname, final String value ) // ---------
 /**
 **
 */
+@Override
 public String getVar( final String varname ) // ---------------------------
     throws cx.ath.choisnet.system.EnvArcException
 {

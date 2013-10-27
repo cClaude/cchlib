@@ -39,6 +39,7 @@ private MyTestCase[] myTestCase;
 /**
 **
 */
+@Override
 protected void setUp() // -------------------------------------------------
 {
  this.myTestCase = MD5CollectionTest.getMyTestCase();
@@ -57,6 +58,7 @@ private static MD5Tree getMD5Tree( final File folder ) // -----------------
         folder,
         new MD5Tree.ExceptionHandler()
             {
+                @Override
                 public void handleIOException(
                     File                file,
                     java.io.IOException cause

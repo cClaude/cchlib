@@ -47,7 +47,7 @@ public SimpleServletConfig( // --------------------------------------------
 }
 
 /**
-** Recherche le paramètre d'abord dans les paramètres de la servlet, ensuite
+** Recherche le paramÃ©tre d'abord dans les paramÃ©tres de la servlet, ensuite
 ** dans le context de l'application courante.
 **
 */
@@ -72,7 +72,7 @@ public String getRequiredParameter( final String name ) // ----------------
 }
 
 /**
-** Recherche le paramètre d'abord dans les paramètres de la servlet, ensuite
+** Recherche le paramÃ©tre d'abord dans les paramÃ©tres de la servlet, ensuite
 ** dans le context de l'application courante.
 **
 */
@@ -93,7 +93,7 @@ public int getRequiredParameterAsInt( final String name ) // --------------
 }
 
 /**
-** Recherche le paramètre d'abord dans les paramètres de la servlet, ensuite
+** Recherche le paramÃ©tre d'abord dans les paramÃ©tres de la servlet, ensuite
 ** dans le context de l'application courante.
 */
 public File getRequiredParameterAsFile( final String name ) // ------------

@@ -6,12 +6,12 @@
 **
 **  2.01.001 2005.10.24 Claude CHOISNET - version initiale
 **  2.01.028 2005.11.09 Claude CHOISNET
-**                      Adaptation à la nouvelle méthode
-**                      MappableHelper#toMap permettant de définir le nom
-**                      des méthodes à analyser.
+**                      Adaptation ï¿½ la nouvelle mï¿½thode
+**                      MappableHelper#toMap permettant de dï¿½finir le nom
+**                      des mï¿½thodes ï¿½ analyser.
 **  3.01.012 2006.03.27 Claude CHOISNET
-**                      La méthode toXML() a été supprimée, n'ayant rien
-**                      à faire ici...
+**                      La mï¿½thode toXML() a ï¿½tï¿½ supprimï¿½e, n'ayant rien
+**                      ï¿½ faire ici...
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.lang.reflect.AbstractMappable
@@ -21,7 +21,7 @@ package cx.ath.choisnet.lang.reflect;
 import java.util.Map;
 
 /**
-** <P>Permet d'avoir une vue synthétique d'un objet</P>
+** <P>Permet d'avoir une vue synthï¿½tique d'un objet</P>
 **
 ** @author Claude CHOISNET
 ** @since   2.01.001
@@ -36,8 +36,8 @@ public abstract class AbstractMappable
 ** Retourne des couples (nomDeMethode,valeur)
 ** </P>
 **
-** Constuit des couples de chaînes à partir des observateurs de l'objet
-** courant (méthodes sans paramètres commençant par 'get' ou 'is') et retournant
+** Constuit des couples de chaï¿½nes ï¿½ partir des observateurs de l'objet
+** courant (mï¿½thodes sans paramï¿½tres commenï¿½ant par 'get' ou 'is') et retournant
 ** des objects ou des tableaux d'objets de type primitif ou d'un des types suivant :
 ** <ul>
 **  <li>java.lang.String</li>
@@ -47,6 +47,7 @@ public abstract class AbstractMappable
 **
 ** @see MappableHelper#toMap
 */
+@Override
 public Map<String,String> toMap() // --------------------------------------
 {
  final MappableHelper mappableHelper =
@@ -69,7 +70,7 @@ public Map<String,String> toMap() // --------------------------------------
 
 /**
 ** <P>
-** Retourne une vue XML du résultat de la méthode toMap()
+** Retourne une vue XML du rï¿½sultat de la mï¿½thode toMap()
 ** </P>
 **
 ** @see #toMap()

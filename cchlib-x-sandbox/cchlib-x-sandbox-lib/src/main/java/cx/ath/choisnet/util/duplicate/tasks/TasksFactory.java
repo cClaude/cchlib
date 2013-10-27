@@ -31,19 +31,19 @@ import java.io.InputStream;
 public interface TasksFactory<T>
 {
 /**
-** Construction d'un object File local et temporaire à partir d'un
+** Construction d'un object File local et temporaire Ã© partir d'un
 ** object MD5TreeEntry
 **
 ** @return un object File valide permettant de stocker puis de retrouver
-**         la matière qui y sera déposée.
+**         la matiÃ©re qui y sera dÃ©posÃ©e.
 */
 public File getLocalTmpName( MD5TreeEntry md5 ); // -----------------------
 
 /**
-** Retourne un flux permettant de récupérer la matière associée à l'empreinte
-** donnée depuis la source.
+** Retourne un flux permettant de rÃ©cupÃ©rer la matiÃ©re associÃ©e Ã© l'empreinte
+** donnÃ©e depuis la source.
 **
-** @return un object InputStream valide permettant de recopie la matière
+** @return un object InputStream valide permettant de recopie la matiÃ©re
 **         depuis la source.
 */
 public InputStream getInputStreamFromSource( MD5TreeEntry md5 ) // --------
@@ -51,7 +51,7 @@ public InputStream getInputStreamFromSource( MD5TreeEntry md5 ) // --------
 
 /**
 ** <p>
-** Action par défaut pour la suppression d'un fichier.
+** Action par dÃ©faut pour la suppression d'un fichier.
 ** </p>
 */
 public Task buildActionLocalDeleteFile( // --------------------------------

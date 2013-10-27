@@ -40,6 +40,7 @@ public HTMLSelectSingleString() // ----------------------------------------
 /**
 **
 */
+@Override
 public HTMLSelectSingleString getThis() // --------------------------------
 {
  return this;
@@ -48,6 +49,7 @@ public HTMLSelectSingleString getThis() // --------------------------------
 /**
 **
 */
+@Override
 public HTMLSelectSingleString setCurrentValue( final String value ) // ----
 {
  return setValue( value );
@@ -56,6 +58,7 @@ public HTMLSelectSingleString setCurrentValue( final String value ) // ----
 /**
 **
 */
+@Override
 public String getCurrentValue( final ServletRequest request ) // ----------
     throws cx.ath.choisnet.html.util.HTMLGadgetNotFoundException
 {

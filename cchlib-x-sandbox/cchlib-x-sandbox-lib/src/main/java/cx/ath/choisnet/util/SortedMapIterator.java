@@ -18,9 +18,9 @@ import java.util.SortedMap;
 
 /**
 ** <P>
-** Construction d'un {@link Iterator} à partir d'objet SortedMap,
-** on iter sur les valeurs (et non pas sur les clés), de plus la
-** méthode remove() est supportée.
+** Construction d'un {@link Iterator} ï¿½ partir d'objet SortedMap,
+** on iter sur les valeurs (et non pas sur les clï¿½s), de plus la
+** mï¿½thode remove() est supportï¿½e.
 ** </P>
 **
 ** @author Claude CHOISNET
@@ -49,7 +49,7 @@ private Iterator<K> iter;
 private K prevKey;
 
 /**
-** Construction d'un SortedMapIterator à partir d'objet SortedMap
+** Construction d'un SortedMapIterator ï¿½ partir d'objet SortedMap
 **
 */
 public SortedMapIterator( final SortedMap<K,V> sortedMap ) // -------------
@@ -61,6 +61,7 @@ public SortedMapIterator( final SortedMap<K,V> sortedMap ) // -------------
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         private SortedMap<K,V> currentSortedMap = sortedMap;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public K computeNext() // - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
@@ -81,14 +82,16 @@ public SortedMapIterator( final SortedMap<K,V> sortedMap ) // -------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  return this.iter.hasNext();
 }
 
 /**
-** Retourne la valeur de l'élément suivant
+** Retourne la valeur de l'ï¿½lï¿½ment suivant
 */
+@Override
 public V next() // --------------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -105,7 +108,7 @@ public V next() // --------------------------------------------------------
 }
 
 /**
-** Retourne la clé du dernier élément traité par la méthode next();
+** Retourne la clï¿½ du dernier ï¿½lï¿½ment traitï¿½ par la mï¿½thode next();
 **
 ** @since 3.00.004
 */
@@ -122,6 +125,7 @@ public K getLastKey() // --------------------------------------------------
 /**
 **
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws IllegalStateException
 {
@@ -135,6 +139,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<V> iterator() // ------------------------------------------
 {
  return this;

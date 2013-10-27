@@ -10,13 +10,13 @@
 **                      Ajout de l'interface AppendFileListener et
 **                      prise en compte
 **  2.02.011 2005.12.15 Claude CHOISNET
-**                      Bug min: fermeture du flux d'accès aux fichiers.
+**                      Bug min: fermeture du flux d'accï¿½s aux fichiers.
 **  2.02.037 2005.10.25 Claude CHOISNET
 **                      Ajout de l'interface Loader et externalisation
 **                      du chargeur.
-**                      Le buffer par défaut passe de 8ko à 1Mo
+**                      Le buffer par dï¿½faut passe de 8ko ï¿½ 1Mo
 **  3.00.003 2006.02.14 Claude CHOISNET
-**                      Les classes statiques sont également Serializable
+**                      Les classes statiques sont ï¿½galement Serializable
 **  3.01.003 2006.03.01 Claude CHOISNET
 **                      Les inner-class NullExceptionHandler et
 **                      NullAppendFileListener sont maintenant static
@@ -52,18 +52,18 @@ public class MD5Tree
 /** serialVersionUID */
 private static final long serialVersionUID = 2L;
 
-/** Taille par défaut du buffer */
+/** Taille par dï¿½faut du buffer */
 private static final int DEFAULT_BUFFER_SIZE = 1048576; // 1 Mo
 
 /** Noeud racine */
 private MD5TreeNode rootNode;
 
     /**
-    ** Gestion des erreurs lors de l'ajout de nouvelles entrées.
+    ** Gestion des erreurs lors de l'ajout de nouvelles entrï¿½es.
     */
     public interface ExceptionHandler
     {
-        /** Méthode appellée lors d'un problème d'E/S */
+        /** Mï¿½thode appellï¿½e lors d'un problï¿½me d'E/S */
         public void handleIOException( File file, java.io.IOException e )
             throws java.io.IOException;
 
@@ -72,12 +72,12 @@ private MD5TreeNode rootNode;
     }
 
     /**
-    ** Interface à utiliser pour suivre les traitements.
+    ** Interface ï¿½ utiliser pour suivre les traitements.
     */
     public interface AppendFileListener
     {
         /**
-        ** Méthode appellée lors du traitement d'un fichier
+        ** Mï¿½thode appellï¿½e lors du traitement d'un fichier
         **
         ** @param file Object file correspondant au fichier en cours de
         **             traitement.
@@ -85,7 +85,7 @@ private MD5TreeNode rootNode;
         public void appendFile( File file ); // - - - - - - - - - - - - - -
 
         /**
-        ** Méthode appellée lors du traitement d'un dossier
+        ** Mï¿½thode appellï¿½e lors du traitement d'un dossier
         **
         ** @param file Object file correspondant au dossier en cours de
         **             traitement.
@@ -94,7 +94,7 @@ private MD5TreeNode rootNode;
     }
 
     /**
-    ** Interface devant être implémentée par les classes prendant
+    ** Interface devant ï¿½tre implï¿½mentï¿½e par les classes prendant
     ** en charge l'initialisation d'un object {@link MD5Tree}
     **
     ** @since   2.02.037
@@ -102,11 +102,11 @@ private MD5TreeNode rootNode;
     public interface Loader
     {
         /**
-        ** Création d'une nouvelle instance prête à être utilisée.
+        ** Crï¿½ation d'une nouvelle instance prï¿½te ï¿½ ï¿½tre utilisï¿½e.
         **
         ** @param appendFileListener    Ecouteur
         ** @param errorHandler          Gestionnaire d'erreur.
-        ** @param bufferSize            Taille du buffer utilisé pour
+        ** @param bufferSize            Taille du buffer utilisï¿½ pour
         **                              le calcul MD5.
         */
         public Loader newInstance( // - - - - - - - - - - - - - - - - - - -
@@ -116,12 +116,12 @@ private MD5TreeNode rootNode;
             );
 
         /**
-        ** Ajout du dossier principal (cette méthode peut éventuellement
-        ** être appellée récursivement).
+        ** Ajout du dossier principal (cette mï¿½thode peut ï¿½ventuellement
+        ** ï¿½tre appellï¿½e rï¿½cursivement).
         **
         ** @param node      Noeud courant.
-        ** @param folder    Objet File correspondant au dossier à analyser
-        **                  (récursivement).
+        ** @param folder    Objet File correspondant au dossier ï¿½ analyser
+        **                  (rï¿½cursivement).
         */
         public void addFolder( // - - - - - - - - - - - - - - - - - - - - -
             MD5TreeNode node,
@@ -141,9 +141,9 @@ public MD5Tree() // -------------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree à partir d'un dossier donné
+** Chargement d'un MD5Tree ï¿½ partir d'un dossier donnï¿½
 **
-** @return un référence vers l'objet lui-même.
+** @return un rï¿½fï¿½rence vers l'objet lui-mï¿½me.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -166,9 +166,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree à partir d'un dossier donné
+** Chargement d'un MD5Tree ï¿½ partir d'un dossier donnï¿½
 **
-** @return un référence vers l'objet lui-même.
+** @return un rï¿½fï¿½rence vers l'objet lui-mï¿½me.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -190,9 +190,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree à partir d'un dossier donné
+** Chargement d'un MD5Tree ï¿½ partir d'un dossier donnï¿½
 **
-** @return un référence vers l'objet lui-même.
+** @return un rï¿½fï¿½rence vers l'objet lui-mï¿½me.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -205,9 +205,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree à partir d'un dossier donné
+** Chargement d'un MD5Tree ï¿½ partir d'un dossier donnï¿½
 **
-** @return un référence vers l'objet lui-même.
+** @return un rï¿½fï¿½rence vers l'objet lui-mï¿½me.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File              rootFolderFile,
@@ -255,6 +255,7 @@ public Iterable<MD5TreeNode> nodes() // -----------------------------------
         /**
         ** Se contente de reproduire l'exception.
         */
+        @Override
         public void handleIOException( File file, java.io.IOException e )
             throws java.io.IOException
         {
@@ -276,6 +277,7 @@ public Iterable<MD5TreeNode> nodes() // -----------------------------------
         /**
         ** Ne fait rien
         */
+        @Override
         public void appendFile( File file )
         {
         }
@@ -283,6 +285,7 @@ public Iterable<MD5TreeNode> nodes() // -----------------------------------
         /**
         ** Ne fait rien
         */
+        @Override
         public void appendFolder( File file )
         {
         }

@@ -274,11 +274,13 @@ class A
      return c == null ? null : c.getA();
     }
 
+    @Override
     public String getContent()
     {
      return this.content;
     }
 
+    @Override
     public String getSubContent( int maxlength )
     {
      StringBuilder sb = new StringBuilder( " B:" );
@@ -294,6 +296,7 @@ class A
     return sb.toString();
     }
 
+    @Override
     public String toString()
     {
      return "{" + this.getClass().getSimpleName()
@@ -329,6 +332,7 @@ class A
             }
     }
 
+    @Override
     public int compare( final A a1, final A a2 )
     {
      return scompare( a1, a2 );
@@ -421,17 +425,20 @@ class C
      return this.a;
     }
 
+    @Override
     public String getContent()
     {
      return this.content;
     }
 
+    @Override
     public String getSubContent( int maxlength )
     {
      return " A:" +
             (this.a == null ? "*" :this.a.getFullContent( maxlength - 3 ));
     }
 
+    @Override
     public int compare( final C c1, final C c2 )
     {
         return scompare( c1, c2 );
@@ -469,6 +476,7 @@ class C
             }
     }
 
+    @Override
     public String toString()
     {
      return "{" + this.getClass().getSimpleName()
@@ -507,6 +515,7 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
             }
     }
 
+    @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder( "{" + this.bool
@@ -526,6 +535,7 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
         return sb.toString();
     }
 
+    @Override
     public int compareTo( BasicTypes anOtherTboolean )
     {
         if( this.bool == anOtherTboolean.bool ) {

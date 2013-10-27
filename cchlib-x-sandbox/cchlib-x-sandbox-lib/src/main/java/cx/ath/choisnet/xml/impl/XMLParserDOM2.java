@@ -68,8 +68,8 @@ public class XMLParserDOM2
     };
 
     /**
-    ** Pas de validation, les commentaires sont gardés,
-    ** les WHITESPACE sont ignorés.
+    ** Pas de validation, les commentaires sont gardï¿½s,
+    ** les WHITESPACE sont ignorï¿½s.
     **
     ** @see Attributs#IGNORE_WHITESPACE
     */
@@ -83,7 +83,7 @@ public class XMLParserDOM2
                             );
 
     /**
-    ** Seule la validation est activée.
+    ** Seule la validation est activï¿½e.
     **
     ** @see Attributs#ENABLE_VALIDATING
     */
@@ -127,6 +127,7 @@ protected XMLParserDOM2( // -----------------------------------------------
 /**
 **
 */
+@Override
 public Document getDocument() // ------------------------------------------
 {
  return this.document;

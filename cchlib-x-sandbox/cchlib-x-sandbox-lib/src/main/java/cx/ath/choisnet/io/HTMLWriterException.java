@@ -16,8 +16,8 @@ import java.io.IOException;
 
 /**
 ** <p>
-** Exception déclanchée, par certaine méthode, lors de la tentative
-** échouée de suppression d'un fichier
+** Exception dÃ©clanchÃ©e, par certaine mÃ©thode, lors de la tentative
+** Ã©chouÃ©e de suppression d'un fichier
 ** </p>
 **
 **

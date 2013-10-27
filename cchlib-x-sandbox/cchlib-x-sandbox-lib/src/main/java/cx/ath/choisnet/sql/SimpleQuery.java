@@ -10,7 +10,7 @@
 **  2.01.001 2005.10.02 Claude CHOISNET
 **                      Implemente l'interface java.io.Closeable
 **  2.02.009 2005.12.14 Claude CHOISNET
-**                      La classe étend maintenant SimpleDataSource
+**                      La classe ï¿½tend maintenant SimpleDataSource
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.sql.SimpleQuery
@@ -43,10 +43,10 @@ import javax.sql.DataSource;
 public class SimpleQuery
     extends SimpleDataSource
 {
-/** Connection courante à la source de données */
+/** Connection courante ï¿½ la source de donnï¿½es */
 private Connection conn = null;
 
-/** Support de la requête courante */
+/** Support de la requï¿½te courante */
 private Statement stmt = null;
 
 /**
@@ -93,7 +93,7 @@ public ResultSet executeQuery( final String query ) // --------------------
  finally {
     if( rset == null ) {
         //
-        // Il y a eu un problème
+        // Il y a eu un problï¿½me
         //
         flush();
         }
@@ -104,7 +104,7 @@ public ResultSet executeQuery( final String query ) // --------------------
 
 /**
 **
-** @return une liste (List) de String contenant les n valeurs trouvées dans le
+** @return une liste (List) de String contenant les n valeurs trouvï¿½es dans le
 **         ResultSet. Ne retourne jamais null.
 **
 ** @throws java.sql.SQLException
@@ -125,7 +125,7 @@ public static List translateResultSetToStringList( // --------------------
 
 /**
 **
-** @return un tableau de String contenant les n valeurs trouvées dans le
+** @return un tableau de String contenant les n valeurs trouvï¿½es dans le
 **         ResultSet. Ne retourne jamais null.
 **
 ** @throws java.sql.SQLException
@@ -155,8 +155,8 @@ public static String[] translateResultSetToStringArray( // ----------------
 
 /**
 **
-** @return un tableau de String contenant les n valeurs trouvées à l'aide
-**         de la requête. Ne retourne jamais null.
+** @return un tableau de String contenant les n valeurs trouvï¿½es ï¿½ l'aide
+**         de la requï¿½te. Ne retourne jamais null.
 **
 ** @throws java.sql.SQLException
 */
@@ -183,8 +183,8 @@ public String[] translateQueryToStringArray( // ---------------------------
 
 /**
 **
-** @return un tableau de String contenant les n valeurs trouvées à l'aide
-**         de la requête. Ne retourne jamais null.
+** @return un tableau de String contenant les n valeurs trouvï¿½es ï¿½ l'aide
+**         de la requï¿½te. Ne retourne jamais null.
 **
 ** @throws SimpleQueryException
 ** @throws java.sql.SQLException
@@ -262,9 +262,9 @@ protected void closeConnection() // ---------------------------------------
 }
 
 /**
-** <P>Libère les informations de la requête courante.</P>
+** <P>Libï¿½re les informations de la requï¿½te courante.</P>
 **
-** Autorise l'execution d'une nouvelle requête.
+** Autorise l'execution d'une nouvelle requï¿½te.
 */
 public void flush() // ----------------------------------------------------
 {
@@ -272,8 +272,9 @@ public void flush() // ----------------------------------------------------
 }
 
 /**
-** <P>Libère les informations de la requête courante.</P>
+** <P>Libï¿½re les informations de la requï¿½te courante.</P>
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -283,8 +284,9 @@ public void close() // ----------------------------------------------------
 }
 
 /**
-** Libère les ressources.
+** Libï¿½re les ressources.
 */
+@Override
 protected void finalize() throws Throwable // -----------------------------
 {
  closeConnection();

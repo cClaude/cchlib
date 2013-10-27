@@ -7,7 +7,7 @@
 **  1.53.002 2005.08.08 Claude CHOISNET
 **                      Ajout de: toString( Iterator, String )
 **  1.53.010 2005.08.18 Claude CHOISNET
-**                      Evolution de la méthode :
+**                      Evolution de la mÃ©thode :
 **                          toString( Iterator, String )
 **  2.01.006 2005.10.03 Claude CHOISNET
 **                      Correction d'un bug sur
@@ -15,7 +15,7 @@
 **                      et  toIterator( T[] ) qui ne retournais pas un
 **                      Iterator<T>.
 **  2.01.017 2005.10.14 Claude CHOISNET
-**                      Nettoyage de certaine méthodes disponibles sous
+**                      Nettoyage de certaine mÃ©thodes disponibles sous
 **                      forme de classe autonome.
 ** -----------------------------------------------------------------------
 **
@@ -29,7 +29,7 @@ import java.util.Iterator;
 /**
 ** <P>
 ** Classe permettant de construire des objets Iterator sans pour cela
-** avoir besoin de créer de nouvelle collection.
+** avoir besoin de crÃ©er de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -53,7 +53,7 @@ public class IteratorBuilder
 {
 
 /**
-** @return un Iterator basé sur le tableau de File et sur le filtre donné.
+** @return un Iterator basÃ© sur le tableau de File et sur le filtre donnÃ©.
 **
 ** @see cx.ath.choisnet.io.FileFilterHelper#and(FileFilter,FileFilter)
 ** @see cx.ath.choisnet.io.FileFilterHelper#directoryFileFilter
@@ -113,12 +113,13 @@ public static <T> Iterator<T> toIterator( // ------------------------------
         int index       = offset;
         T   nextObject  = null;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean hasNext() // - - - - - - - - - - - - - - - - - - - -
         {
             if( nextObject == null ) {
 
                 //
-                // L'objet suivant n'est pas prêt, on le prepare
+                // L'objet suivant n'est pas prÃ©t, on le prepare
                 //
                 try {
                     nextObject = computeNext();
@@ -132,17 +133,18 @@ public static <T> Iterator<T> toIterator( // ------------------------------
                 }
 
             //
-            // L'object suivant est prêt et valide !
+            // L'object suivant est prÃ©t et valide !
             //
             return true;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public T next() //- - - - - - - - - - - - - - - - - - - - - - - - -
             throws java.util.NoSuchElementException
         {
             if( nextObject == null ) {
                 //
-                // L'objet suivant n'est pas prêt, on le prepare
+                // L'objet suivant n'est pas prÃ©t, on le prepare
                 //
                 //  Note: on sort en NoSuchElementException s'il n'existe pas
                 //
@@ -150,7 +152,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
                 }
 
             //
-            // On sauvegarde l'élément courant
+            // On sauvegarde l'Ã©lÃ©ment courant
             //
             T returnObject = nextObject;
 
@@ -167,6 +169,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
             return returnObject;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void remove() // - - - - - - - - - - - - - - - - - - - - - -
         {
             throw new UnsupportedOperationException();
@@ -198,15 +201,15 @@ public static <T> Iterator<T> toIterator( // ------------------------------
 ** @param iterator  Iterator Object to use
 ** @param separator a String
 **
-** @return un String correspondant à la concaténation des valeurs toString()
-**         de l'iterateur donnée. Chaque valeur étant séparée par le contenu
-**         de la chaîne 'separator'
+** @return un String correspondant Ã© la concatÃ©nation des valeurs toString()
+**         de l'iterateur donnÃ©e. Chaque valeur Ã©tant sÃ©parÃ©e par le contenu
+**         de la chaÃ©ne 'separator'
 **
 ** @since 1.53.002
 **
 ** @see IteratorWrapper#toString
 */
-public static String toString( Iterator iterator, String separator ) // ---
+public static String toString( Iterator<?> iterator, String separator ) // ---
 {
  final StringBuilder sb = new StringBuilder();
 
@@ -225,9 +228,9 @@ public static String toString( Iterator iterator, String separator ) // ---
 } // class
 
 /**
-** Construction d'un objet Iterator à partir d'un objet Enumeration
+** Construction d'un objet Iterator Ã© partir d'un objet Enumeration
 **
-** @return  un Iterator equivalent à l'Enumeration donné
+** @return  un Iterator equivalent Ã© l'Enumeration donnÃ©
 **
 ** @see EnumerationIterator
 public static <T> Iterator<T> toIterator( // ------------------------------
@@ -257,7 +260,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
 */
 
 /**
-** @return un Iterator basé sur un Iterator de base et sur le filtre donné.
+** @return un Iterator basÃ© sur un Iterator de base et sur le filtre donnÃ©.
 **
 ** @see IteratorWrapper
 public static <T> Iterator<T> toIterator( // ------------------------------
@@ -278,7 +281,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
 
                 if( filter.isSelected( currentObject ) ) {
                     //
-                    // Trouvé ! On sort avec le prochain object valide
+                    // TrouvÃ© ! On sort avec le prochain object valide
                     //
                     return currentObject;
                     }
@@ -295,7 +298,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
             if( nextObject == null ) {
 
                 //
-                // L'objet suivant n'est pas prêt, on le prepare
+                // L'objet suivant n'est pas prÃ©t, on le prepare
                 //
                 try {
                     nextObject = computeNext();
@@ -309,7 +312,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
                 }
 
             //
-            // L'object suivant est prêt et valide !
+            // L'object suivant est prÃ©t et valide !
             //
             return true;
         }
@@ -319,7 +322,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
         {
             if( nextObject == null ) {
                 //
-                // L'objet suivant n'est pas prêt, on le prepare
+                // L'objet suivant n'est pas prÃ©t, on le prepare
                 //
                 //  Note: on sort en NoSuchElementException s'il n'existe pas
                 //
@@ -327,7 +330,7 @@ public static <T> Iterator<T> toIterator( // ------------------------------
                 }
 
             //
-            // On sauvegarde l'élément courant
+            // On sauvegarde l'Ã©lÃ©ment courant
             //
             T returnObject = nextObject;
 
@@ -388,7 +391,7 @@ public static <T> Iterator<T> toIterator() // -----------------------------
 ** Construction d'objet Iterator parcourant l'ensemble des objects du tableau.
 ** </P>
 ** <br />
-** Cette méthode accepte la valeur null pour le paramètre 'array', dans ce
+** Cette mÃ©thode accepte la valeur null pour le paramÃ©tre 'array', dans ce
 ** cas elle retourne un objet Iterator vide, mais valide.
 ** <br />
 **
@@ -408,14 +411,14 @@ public static <T> Iterator<T> toIterator( final T[] array ) // ------------
 
 /**
 ** <P>
-** Construction d'objet Iterator parcourant les objects du tableau à partir
-** de l'indice offset et jusqu'à la position len - 1
+** Construction d'objet Iterator parcourant les objects du tableau Ã© partir
+** de l'indice offset et jusqu'Ã© la position len - 1
 ** </P>
 ** <br />
-** Cette méthode <b>n'accepte pas</b> la valeur null pour le paramètre 'array'
+** Cette mÃ©thode <b>n'accepte pas</b> la valeur null pour le paramÃ©tre 'array'
 ** <br />
 **
-** @return  un Iterator sur les objets du tableau de offset et jusqu'à la
+** @return  un Iterator sur les objets du tableau de offset et jusqu'Ã© la
 **          position len - 1
 **
 ** @see ArrayIterator

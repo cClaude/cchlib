@@ -6,7 +6,7 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET - Version initiale
 **  2.01.021 2005.10.20 Claude CHOISNET
-**                      Ajout de la méthode : computeMessageDigest(String)
+**                      Ajout de la mÃ©thode : computeMessageDigest(String)
 **  2.01.036 2005.12.27 Claude CHOISNET
 **                      Ajout de update( java.nio.ByteBuffer )
 ** -----------------------------------------------------------------------
@@ -19,7 +19,7 @@ package cx.ath.choisnet.util.checksum;
 import java.security.MessageDigest;
 
 /**
-** Classe permettant de calculer plusieurs MD5 consécutif à moindre coup
+** Classe permettant de calculer plusieurs MD5 consÃ©cutif Ã© moindre coup
 **
 ** @author Claude CHOISNET
 ** @version 2.00.005
@@ -65,7 +65,7 @@ public String getStringValue() // -----------------------------------------
 }
 
 /**
-** Fini le calcul pour la valeur MD5 courante et retourne le résultat
+** Fini le calcul pour la valeur MD5 courante et retourne le rÃ©sultat
 */
 public byte[] getValue() // -----------------------------------------------
 {
@@ -73,8 +73,8 @@ public byte[] getValue() // -----------------------------------------------
 }
 
 /**
-** Fini le calcul pour la valeur MD5 courante, la complète à le tableau
-** de byte donnée et retourne le résultat
+** Fini le calcul pour la valeur MD5 courante, la complÃ©te Ã© le tableau
+** de byte donnÃ©e et retourne le rÃ©sultat
 */
 public byte[] getValue( byte[] key ) // -----------------------------------
 {

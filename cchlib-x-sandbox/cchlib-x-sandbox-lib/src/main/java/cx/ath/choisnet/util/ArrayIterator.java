@@ -20,7 +20,7 @@ import java.util.Iterator;
 /**
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de créer de nouvelle collection.
+** avoir besoin de crï¿½er de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -49,7 +49,7 @@ private int index;
 ** Construction d'objet Iterator parcourant l'ensemble des objects du tableau.
 ** </P>
 ** <br />
-** Ce constructeur accepte la valeur null pour le paramètre 'array', dans ce
+** Ce constructeur accepte la valeur null pour le paramï¿½tre 'array', dans ce
 ** cas elle retourne un objet {@link Iterator} vide, mais valide.
 ** <br />
 */
@@ -68,11 +68,11 @@ public ArrayIterator( final T[] array ) // --------------------------------
 
 /**
 ** <P>
-** Construction d'objet Iterator parcourant les objects du tableau à partir
-** de l'indice offset et jusqu'à la position len - 1
+** Construction d'objet Iterator parcourant les objects du tableau ï¿½ partir
+** de l'indice offset et jusqu'ï¿½ la position len - 1
 ** </P>
 ** <br />
-** Cette méthode <b>n'accepte pas</b> la valeur null pour le paramètre 'array'
+** Cette mï¿½thode <b>n'accepte pas</b> la valeur null pour le paramï¿½tre 'array'
 ** <br />
 */
 public ArrayIterator( // --------------------------------------------------
@@ -89,6 +89,7 @@ public ArrayIterator( // --------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
     return index < len;
@@ -97,6 +98,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public T next() // --------------------------------------------------------
 {
     try {
@@ -113,6 +115,7 @@ public T next() // --------------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public void remove() // ---------------------------------------------------
 {
     throw new UnsupportedOperationException();
@@ -121,6 +124,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;

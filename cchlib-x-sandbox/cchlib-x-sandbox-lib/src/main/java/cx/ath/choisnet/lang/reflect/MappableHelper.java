@@ -294,7 +294,7 @@ public <T> Map<String,String> toMap( // ---------------------------------------
     )
 {
  final HashMap<String,String>   hashMap = new HashMap<String,String>();
- final Class                    clazz   = object.getClass();
+ final Class<?>                 clazz   = object.getClass();
  final Method[]                 methods = getDeclaredMethods( clazz );
 
  for( Method method : methods ) {
@@ -538,11 +538,11 @@ protected String formatMethodName( // -------------------------------------
 }
 
 /**
-** Permet de r�cup�rer la liste des m�thodes � traiter.
+** Permet de récupérer la liste des méthodes à traiter.
 **
-** @param clazz Objet Class de l'objet � analyser.
+** @param clazz Objet Class de l'objet à analyser.
 **
-** @return un tableau des m�thodes correspondants aux crit�res.
+** @return un tableau des méthodes correspondants aux critères.
 **
 ** @since 3.01.015
 */
@@ -564,7 +564,7 @@ private final Method[] getDeclaredMethods( final Class<?> clazz ) // ------
  //
  // Construit une liste des classes parentes
  //
- Class c = clazz.getSuperclass();
+ Class<?> c = clazz.getSuperclass();
 
  while( c != null ) {
     for( Method m : c.getDeclaredMethods() ) {
@@ -768,7 +768,7 @@ private final static <T> String toString( // ------------------------------
  else if( attributesSet.contains( Attributes.DO_ITERATOR ) ) {
 
     if( object instanceof Iterator ) {
-        final Iterator      iter   = (Iterator)object;
+        final Iterator<?>   iter   = (Iterator<?>)object;
         final StringBuilder sb      = new StringBuilder();
         boolean             first   = true;
 
@@ -789,9 +789,9 @@ private final static <T> String toString( // ------------------------------
  else if( attributesSet.contains( Attributes.DO_ENUMERATION ) ) {
 
     if( object instanceof Enumeration ) {
-        final Enumeration   enum0   = (Enumeration)object;
-        final StringBuilder sb      = new StringBuilder();
-        boolean             first   = true;
+        final Enumeration<?>  enum0   = (Enumeration<?>)object;
+        final StringBuilder   sb      = new StringBuilder();
+        boolean               first   = true;
 
         while( enum0.hasMoreElements() ) {
             if( first ) {
@@ -934,7 +934,7 @@ public static <T> Map<String,String> toMap( // ----------------------------
 */
 public static void toXML( // ----------------------------------------------
     final Appendable            out,
-    final Class                 clazz,
+    final Class<?>              clazz,
     final Map<String,String>    map
     )
     throws java.io.IOException

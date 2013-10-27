@@ -27,7 +27,7 @@ public static final int PORT = 7;
 private final int port;
 
 /**
-** Prépare une requête WakeOnLan sur le port par défaut
+** Prï¿½pare une requï¿½te WakeOnLan sur le port par dÃ©faut
 */
 public WakeOnLan() // ----------------------------------------------------
 {
@@ -35,7 +35,7 @@ public WakeOnLan() // ----------------------------------------------------
 }
 
 /**
-** Prépare une requête WakeOnLan sur le port avec le port spécifié.
+** PrÃ©pare une requÃªte WakeOnLan sur le port avec le port spÃ©cifiÃ©.
 */
 public WakeOnLan( int port ) // -------------------------------------------
 {
@@ -43,10 +43,10 @@ public WakeOnLan( int port ) // -------------------------------------------
 }
 
 /**
-** Envoit une notification de reveil à une adresse MAC donnée à travers
-** tout le réseaux.
+** Envoit une notification de reveil Ã  une adresse MAC donnÃ©e Ã travers
+** tout le rÃ©seaux.
 **
-** @param macAddress adresse MAC de la machine à reveillée
+** @param macAddress adresse MAC de la machine Ã  reveillÃ©e
 */
 public void notify( final String macAddress ) // --------------------------
     throws
@@ -59,11 +59,11 @@ public void notify( final String macAddress ) // --------------------------
 }
 
 /**
-** Envoit une notification de reveil à une adresse MAC donnée à travers
-** le réseaux défini par broadcastAddress
+** Envoit une notification de reveilÃ une adresse MAC donnÃ©e Ã  travers
+** le rÃ©seaux dÃ©fini par broadcastAddress
 **
 ** @param broadcastAddress  adresse de broadcast.
-** @param macAddress        adresse MAC de la machine à reveillée
+** @param macAddress        adresse MAC de la machine Ã  reveillÃ©e
 */
 public void notify( // ----------------------------------------------------
     String          broadcastAddress,

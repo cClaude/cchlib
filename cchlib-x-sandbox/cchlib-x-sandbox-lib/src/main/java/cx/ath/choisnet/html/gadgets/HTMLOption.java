@@ -80,6 +80,7 @@ public HTMLOption( // -----------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLOption getThis() // --------------------------------------------
 {
  return this;
@@ -178,6 +179,7 @@ public boolean isDisabled() // --------------------------------------------
 /**
 **
 */
+@Override
 public void writeStartTag( final HTMLDocumentWriter out ) // --------------
     throws HTMLDocumentException
 {
@@ -209,6 +211,7 @@ public void writeStartTag( final HTMLDocumentWriter out ) // --------------
 /**
 **
 */
+@Override
 public void writeBody( final HTMLDocumentWriter out ) // ------------------
     throws HTMLDocumentException
 {
@@ -225,6 +228,7 @@ public void writeBody( final HTMLDocumentWriter out ) // ------------------
 /**
 **
 */
+@Override
 public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
     throws HTMLDocumentException
 {
@@ -239,6 +243,7 @@ public void writeEndTag( final HTMLDocumentWriter out ) // ----------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

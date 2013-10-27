@@ -56,6 +56,7 @@ public SimpleZipEntryFactoryImpl( String refFolder ) // -------------------
 /**
 **
 */
+@Override
 public SimpleZipEntry wrappe( File file ) // ------------------------------
 {
  String name = file.getPath().replace( '\\', '/' );

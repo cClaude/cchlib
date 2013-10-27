@@ -49,6 +49,7 @@ public InputStreamTee( final InputStream inputStream ) // -----------------
 /**
 **
 */
+@Override
 public int available() // -------------------------------------------------
     throws java.io.IOException
 {
@@ -58,6 +59,7 @@ public int available() // -------------------------------------------------
 /**
 **
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -68,6 +70,7 @@ public void close() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public void mark( final int readlimit ) // --------------------------------
 {
  this.inputStream.mark( readlimit );
@@ -76,6 +79,7 @@ public void mark( final int readlimit ) // --------------------------------
 /**
 **
 */
+@Override
 public boolean markSupported() // -----------------------------------------
 {
  return this.inputStream.markSupported();
@@ -84,6 +88,7 @@ public boolean markSupported() // -----------------------------------------
 /**
 **
 */
+@Override
 public int read() // ------------------------------------------------------
     throws java.io.IOException
 {
@@ -97,6 +102,7 @@ public int read() // ------------------------------------------------------
 /**
 **
 */
+@Override
 public int read( final byte[] b ) // --------------------------------------
     throws java.io.IOException
 {
@@ -106,6 +112,7 @@ public int read( final byte[] b ) // --------------------------------------
 /**
 **
 */
+@Override
 public int read( final byte[] b, final int off, final int len ) // --------
     throws java.io.IOException
 {
@@ -124,6 +131,7 @@ public int read( final byte[] b, final int off, final int len ) // --------
 /**
 **
 */
+@Override
 public void reset() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -133,6 +141,7 @@ public void reset() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public long skip( final long n ) // ---------------------------------------
     throws java.io.IOException
 {

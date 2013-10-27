@@ -11,7 +11,7 @@
 **                      Changement de package :
 **                          cam.amt.techno.drs.sql.MySQLTools
 **  1.52.016 2004.12.07 Claude CHOISNET
-**                      Correction d'un bug sur la méthode
+**                      Correction d'un bug sur la mÃ©thode
 **                          parseFieldValue()
 **  3.01.026 2006.04.19 Claude CHOISNET
 **                      Utilisation de StringBuilder en lieu et place de

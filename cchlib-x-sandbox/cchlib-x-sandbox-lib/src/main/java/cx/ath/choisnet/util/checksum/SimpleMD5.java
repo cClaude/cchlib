@@ -17,7 +17,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
-** Classe permettant de calculer le MD5 de différents fichiers à moindre
+** Classe permettant de calculer le MD5 de diffÃ©rents fichiers Ã© moindre
 ** coup.
 **
 ** @author Claude CHOISNET
@@ -51,7 +51,7 @@ public SimpleMD5() // -----------------------------------------------------
 
 /**
 ** <p>
-** Prend complètement en charge le calcul MD5 du fichier donné.
+** Prend complÃ©tement en charge le calcul MD5 du fichier donnÃ©.
 ** </p>
 ** @param file  fichier pour lequel on souhaite calculer la valeur MD5
 **

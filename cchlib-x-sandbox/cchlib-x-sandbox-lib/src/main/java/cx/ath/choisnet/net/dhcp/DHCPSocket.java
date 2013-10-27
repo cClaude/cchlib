@@ -4,10 +4,10 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapté du code de Jason Goldschmidt and Nick Stone
+**                      AdaptÃ© du code de Jason Goldschmidt and Nick Stone
 **                      edu.bucknell.net.JDHCP.DHCPSocket
 **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et basé sur les RFCs 1700, 2131 et 2132
+**                      et basÃ© sur les RFCs 1700, 2131 et 2132
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.dhcp.DHCPSocket

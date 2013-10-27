@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
 ** <p>
-** Cette classe à pour objectif de simplifier les échanges entre les
+** Cette classe ï¿½ pour objectif de simplifier les ï¿½changes entre les
 ** tableaux natif et l'API des collections JAVA.
 ** </p>
 **
@@ -45,13 +45,13 @@ public ArrayCollection() // -----------------------------------------------
 
 /**
 ** <p>
-** Construction d'une {@link java.util.Collection} à partir d'un tableau d'objet
+** Construction d'une {@link java.util.Collection} ï¿½ partir d'un tableau d'objet
 ** </p>
 **
-** @param array Tableau de valeurs à ajouter dans la collection.
+** @param array Tableau de valeurs ï¿½ ajouter dans la collection.
 **
 ** <p>
-** Ce constructeur accepte la valeur null pour le paramètre 'array', dans ce
+** Ce constructeur accepte la valeur null pour le paramï¿½tre 'array', dans ce
 ** cas elle retourne une vide {@link java.util.Collection}, mais valide.
 ** </p>
 */
@@ -71,20 +71,20 @@ public ArrayCollection( final E ... array ) // ----------------------------
 
 /**
 ** <p>
-** Construction d'une {@link java.util.Collection} à partir d'une portion
+** Construction d'une {@link java.util.Collection} ï¿½ partir d'une portion
 ** d'un tableau d'objet.
 ** </p>
 **
-** @param array     Tableau de valeurs à ajouter dans la collection.
-** @param offset    Indice à partir duquel commencera la copie
+** @param array     Tableau de valeurs ï¿½ ajouter dans la collection.
+** @param offset    Indice ï¿½ partir duquel commencera la copie
 ** @param len       Indice de fin de la copie
 **
 ** <p>
-** Construction d'objet Iterator parcourant les objects du tableau à partir
-** de l'indice offset et jusqu'à la position len - 1
+** Construction d'objet Iterator parcourant les objects du tableau ï¿½ partir
+** de l'indice offset et jusqu'ï¿½ la position len - 1
 ** </p>
 ** <p>
-** Cette méthode <b>n'accepte pas</b> la valeur null pour le paramètre 'array'
+** Cette mï¿½thode <b>n'accepte pas</b> la valeur null pour le paramï¿½tre 'array'
 ** </p>
 */
 public ArrayCollection( // --------------------------------------------------
@@ -103,6 +103,7 @@ public ArrayCollection( // --------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public int size() // ------------------------------------------------------
 {
  return this.list.size();
@@ -111,6 +112,7 @@ public int size() // ------------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public Iterator<E> iterator() // ------------------------------------------
 {
  return this.list.iterator();
@@ -119,6 +121,7 @@ public Iterator<E> iterator() // ------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean add( final E element ) // ----------------------------------
 {
  return this.list.add( element );

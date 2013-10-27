@@ -50,6 +50,7 @@ public BiIterator(// ------------------------------------------------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  if( firstIter.hasNext() ) {
@@ -63,6 +64,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 **
 */
+@Override
 public T next() // ---------------------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -77,6 +79,7 @@ public T next() // ---------------------------------------------------------
 /**
 **
 */
+@Override
 public void remove() // ---------------------------------------------------
 {
  throw new UnsupportedOperationException();
@@ -85,6 +88,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;

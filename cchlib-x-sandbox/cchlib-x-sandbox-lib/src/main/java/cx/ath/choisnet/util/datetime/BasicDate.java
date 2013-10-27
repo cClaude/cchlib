@@ -367,6 +367,7 @@ public java.sql.Date getSQLDate() // --------------------------------------
 /**
 ** @see #equals( DateInterface )
 */
+@Override
 public boolean equals( Object o ) // --------------------------------------
 {
  try {
@@ -382,6 +383,7 @@ public boolean equals( Object o ) // --------------------------------------
 **
 ** @return true si les 2 dates correspondent au m�me jour, false autrement.
 */
+@Override
 public boolean equals( DateInterface anotherDate ) // ---------------------
 {
  return (this.compareTo( anotherDate ) == 0);
@@ -404,6 +406,7 @@ public int compareTo( Object o ) // ---------------------------------------
 **          date pass� en param�tre. une valeur positive si la date de l'object
 **          courant est plus r�cente que la date pass� en param�tre.
 */
+@Override
 public int compareTo( DateInterface anotherDate ) // -----------------------
 {
  if( anotherDate instanceof BasicDate ) {
@@ -447,6 +450,7 @@ public int compareTo( DateInterface anotherDate ) // -----------------------
 **
 ** @exception ClassCastException
 */
+@Override
 public boolean isBefore( DateInterface anOtherDate ) // -------------------
     throws ClassCastException
 {
@@ -464,6 +468,7 @@ public boolean isBefore( DateInterface anOtherDate ) // -------------------
 **
 ** @exception ClassCastException
 */
+@Override
 public boolean isAfter( DateInterface anOtherDate ) // --------------------
     throws ClassCastException
 {
@@ -477,6 +482,7 @@ public boolean isAfter( DateInterface anOtherDate ) // --------------------
 **
 ** @return la date au format YYYYMMDD
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  return toStringYear() + toStringMonth() + toStringDay();
@@ -516,6 +522,7 @@ public String toStringDay() // --------------------------------------------
 **
 ** @return la date format�e
 */
+@Override
 public String toString( Format formatter ) // -----------------------------
 {
  return formatter.format( this.getJavaDate() );
@@ -529,6 +536,7 @@ private final static long MILLISECONDS_BY_DAY = (1000L*60L*60L*24L);
 **
 ** @return le nombre de jour depuis le 1er January 1970,
 */
+@Override
 public long longValue() // ------------------------------------------------
 {
  return this.getJavaDate().getTime() / MILLISECONDS_BY_DAY;
@@ -642,6 +650,7 @@ protected void check() throws BasicDateException // ----------------------
 /**
 **
 */
+@Override
 public DateInterface add( DateInterface anotherDate ) // ------------------
 {
  throw new RuntimeException( "$$$$ NOT YET IMPLEMENTED $$$$" );
@@ -650,6 +659,7 @@ public DateInterface add( DateInterface anotherDate ) // ------------------
 /**
 **
 */
+@Override
 public DateInterface sub( DateInterface anotherDate ) // ------------------
 {
  throw new RuntimeException( "$$$$ NOT YET IMPLEMENTED $$$$" );

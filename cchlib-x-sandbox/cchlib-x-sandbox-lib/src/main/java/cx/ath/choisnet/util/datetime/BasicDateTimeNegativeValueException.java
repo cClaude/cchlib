@@ -13,8 +13,8 @@
 package cx.ath.choisnet.util.datetime;
 
 /**
-** Indique une tentative de création d'une valeur date
-** ou d'un heure négative
+** Indique une tentative de crÃ©ation d'une valeur date
+** ou d'un heure nÃ©gative
 **
 ** @author Claude CHOISNET
 ** @since 1.50

@@ -43,6 +43,7 @@ public class BuildAppTest extends JFrame
     public static void main(String[] args)
     {
         EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     BuildAppTest frame = new BuildAppTest();
@@ -126,8 +127,10 @@ public class BuildAppTest extends JFrame
         {
             final JButton btnBuildFiles = new JButton("Build files");
             btnBuildFiles.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     new Thread( new Runnable() {
+                        @Override
                         public void run()
                         {
                             try {

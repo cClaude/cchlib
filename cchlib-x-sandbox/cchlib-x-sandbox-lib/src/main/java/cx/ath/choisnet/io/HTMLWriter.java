@@ -17,13 +17,13 @@
 **  3.02.003 2005.05.20 Claude CHOISNET
 **                      Ajout de: rawWrite(String)
 **                      Deprecated de: writeHTML(String)
-**                      Ajout d'une synchronisation sur la méthode
+**                      Ajout d'une synchronisation sur la mï¿½thode
 **                      write(byte[],int,int)
 **  3.02.009 2006.06.12 Claude CHOISNET
 **                      Documentation
 **  3.02.025 2006.07.18 Claude CHOISNET
-**                      Les méthodes ne produisent plus de java.io.IOException,
-**                      mais une HTMLWriterException. Objectif facilité
+**                      Les mï¿½thodes ne produisent plus de java.io.IOException,
+**                      mais une HTMLWriterException. Objectif facilitï¿½
 **                      la source de l'exception.
 ** -----------------------------------------------------------------------
 **
@@ -36,7 +36,7 @@ import java.io.Writer;
 
 /**
 ** <p>
-** Flux destiné a être utiliser pour contruire une page HTML.
+** Flux destinï¿½ a ï¿½tre utiliser pour contruire une page HTML.
 ** </p>
 **
 **
@@ -62,7 +62,7 @@ private final Writer writer;
 private final StringBuilder sbuffer;
 
 /**
-** Ecrit le flux en transformant les caractères spéciaux en leur équivalent
+** Ecrit le flux en transformant les caractï¿½res spï¿½ciaux en leur ï¿½quivalent
 ** HTML
 */
 public HTMLWriter( // -----------------------------------------------------
@@ -75,11 +75,12 @@ public HTMLWriter( // -----------------------------------------------------
 
 /**
 ** Vide les caches {@link #flush()} et ferme le flux (y compris le flux
-** père)
+** pï¿½re)
 **
 ** @see #flush()
 ** @see Writer#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws HTMLWriterException // java.io.IOException
 {
@@ -95,6 +96,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see Writer#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws HTMLWriterException // java.io.IOException
 {
@@ -135,6 +137,7 @@ public void rawWrite( final String htmlWellFormatString ) // --------------
 /**
 ** @see Writer#write(char[] cbuf, int off, int len)
 */
+@Override
 public void write( final char[] cbuf, final int off, final int len ) // ---
     throws HTMLWriterException // java.io.IOException
 {
@@ -193,6 +196,7 @@ public void write( final char[] cbuf, final int off, final int len ) // ---
 **
 ** @since 3.02.025
 */
+@Override
 public void write( final char[] cbuf ) // ---------------------------------
     throws HTMLWriterException
 {
@@ -206,6 +210,7 @@ public void write( final char[] cbuf ) // ---------------------------------
 **
 ** @since 3.02.025
 */
+@Override
 public void write( final String str ) // ----------------------------------
     throws HTMLWriterException
 {
@@ -219,6 +224,7 @@ public void write( final String str ) // ----------------------------------
 **
 ** @since 3.02.025
 */
+@Override
 public void write( final String str, final int off, final int len ) // ----
     throws HTMLWriterException
 {

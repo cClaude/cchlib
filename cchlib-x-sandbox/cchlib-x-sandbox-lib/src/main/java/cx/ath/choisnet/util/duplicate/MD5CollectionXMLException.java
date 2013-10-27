@@ -19,7 +19,7 @@ package cx.ath.choisnet.util.duplicate;
 
 /**
 ** <p>
-** Exception déclancher lors d'un problème lors de la création d'un
+** Exception dÃ©clancher lors d'un problÃ©me lors de la crÃ©ation d'un
 ** objet {@link MD5CollectionXML}
 ** </p>
 **

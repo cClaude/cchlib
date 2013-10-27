@@ -58,6 +58,7 @@ private static String removeQuotes( final String str ) // -----------------
 /**
 **
 */
+@Override
 public void init( ServletConfig servletConfig ) // ------------------------
     throws ServletException
 {
@@ -128,6 +129,7 @@ public void init( ServletConfig servletConfig ) // ------------------------
 /**
 **
 */
+@Override
 public void run() // ------------------------------------------------------
 {
  if( continueRunning ) {
@@ -188,6 +190,7 @@ public void run() // ------------------------------------------------------
 /**
 **
 */
+@Override
 public String getTaskName() // --------------------------------------------
 {
  return "PublicIPTaskUpdate";
@@ -196,6 +199,7 @@ public String getTaskName() // --------------------------------------------
 /**
 **
 */
+@Override
 public boolean continueRunning() // ---------------------------------------
 {
  return continueRunning;
@@ -204,6 +208,7 @@ public boolean continueRunning() // ---------------------------------------
 /**
 **
 */
+@Override
 public void log( String message ) // --------------------------------------
 {
  logger.trace( message );
@@ -214,8 +219,8 @@ public void log( String message ) // --------------------------------------
 /**
 ** <p>PublicIPBackupManagerInterface</p>
 **
-** return une chaîne contenant l'adresse IP sauvegardée ou si elle n'existe
-**        pas retourne la chaîne  "0.0.0.0"
+** return une chaï¿½ne contenant l'adresse IP sauvegardï¿½e ou si elle n'existe
+**        pas retourne la chaï¿½ne  "0.0.0.0"
 public String load() // ---------------------------------------------------
     throws PublicIPException
 {

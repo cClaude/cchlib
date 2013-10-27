@@ -31,7 +31,7 @@ public class ReaderHelper
 {
 
 /**
-** Transforme le contenu du flux en chaîne, puis ferme le flux.
+** Transforme le contenu du flux en chaï¿½ne, puis ferme le flux.
 **
 ** @throws java.io.IOException en cas d'erreur
 */
@@ -59,7 +59,7 @@ public static String toString( Reader input ) // ---------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas fermés</b>
+** <b>Les flux ne sont pas fermï¿½s</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -86,7 +86,7 @@ public static void copy( // -----------------------------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas fermés</b>
+** <b>Les flux ne sont pas fermï¿½s</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -124,6 +124,7 @@ public static Reader concat( // -------------------------------------------
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         int index = 0;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void close() //- - - - - - - - - - - - - - - - - - - - - - -
             throws java.io.IOException
         {
@@ -143,8 +144,10 @@ public static Reader concat( // -------------------------------------------
                 }
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public boolean markSupported() { return false; } // - - - - - - - -
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int read() //- - - - - - - - - - - - - - - - - - - - - - - -
             throws java.io.IOException
         {
@@ -159,6 +162,7 @@ public static Reader concat( // -------------------------------------------
             return -1;
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public int read( char[] cbuf, int off, int len ) // - - - - - - - -
             throws java.io.IOException
         {

@@ -20,10 +20,10 @@ import cx.ath.choisnet.html.util.FormItem;
 
 /**
 ** <p>
-** Interface commune à tous les objets HTML dépendant d'un formulaire,
-** cette interface décris les méthodes permettant de construire
-** la page finale à partir des différents éléments ainsi que de récupérer
-** les données de cette même page lorsqu'il s'agit d'un formulaire.
+** Interface commune Ã© tous les objets HTML dÃ©pendant d'un formulaire,
+** cette interface dÃ©cris les mÃ©thodes permettant de construire
+** la page finale Ã© partir des diffÃ©rents Ã©lÃ©ments ainsi que de rÃ©cupÃ©rer
+** les donnÃ©es de cette mÃ©me page lorsqu'il s'agit d'un formulaire.
 ** </p>
 **
 **
@@ -38,7 +38,7 @@ public abstract interface HTMLFormEntry<T extends HTMLObjectInterface,U>
         java.io.Serializable
 {
 /**
-** Initialise la valeur (par défaut) de l'entrée du formulaire à partir
+** Initialise la valeur (par dÃ©faut) de l'entrÃ©e du formulaire Ã© partir
 ** de son type natif
 **
 ** @throws UnsupportedOperationException
@@ -47,7 +47,7 @@ public T setCurrentValue( U value ) // ------------------------------------
     throws UnsupportedOperationException;
 
 /**
-** Lecture des données la lecture des données depuis la page HTML (formulaire)
+** Lecture des donnÃ©es la lecture des donnÃ©es depuis la page HTML (formulaire)
 **
 ** @return la valeur
 **

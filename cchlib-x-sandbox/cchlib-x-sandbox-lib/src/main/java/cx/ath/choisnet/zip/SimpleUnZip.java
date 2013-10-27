@@ -71,6 +71,7 @@ public SimpleUnZip( InputStream input, int bufferSize ) // ----------------
 /**
 **
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {

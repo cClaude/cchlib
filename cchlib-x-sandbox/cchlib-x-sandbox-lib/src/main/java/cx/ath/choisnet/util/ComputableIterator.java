@@ -5,9 +5,9 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET - Version initiale
 **  2.01.015 2005.10.14 Claude CHOISNET
-**                      Implémente Iterable<T>
+**                      Implï¿½mente Iterable<T>
 **  3.02.006 2006.06.06 Claude CHOISNET
-**                      Cette version implémente la nouvelle interface
+**                      Cette version implï¿½mente la nouvelle interface
 **                      cx.ath.choisnet.util.IterableIterator
 ** -----------------------------------------------------------------------
 **
@@ -19,7 +19,7 @@ package cx.ath.choisnet.util;
 import java.util.Iterator;
 
 /**
-** Permet de construire des {@link Iterator} uniquement à l'aide de la méthode
+** Permet de construire des {@link Iterator} uniquement ï¿½ l'aide de la mï¿½thode
 ** computeNext()
 **
 ** @author Claude CHOISNET
@@ -52,11 +52,12 @@ public abstract T computeNext() // ----------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas prêt, on le prepare
+    // L'objet suivant n'est pas prï¿½t, on le prepare
     //
     try {
         nextObject = computeNext();
@@ -70,7 +71,7 @@ public boolean hasNext() // -----------------------------------------------
     }
 
  //
- // L'object suivant est prêt et valide !
+ // L'object suivant est prï¿½t et valide !
  //
  return true;
 }
@@ -80,12 +81,13 @@ public boolean hasNext() // -----------------------------------------------
 **
 ** @throws java.util.NoSuchElementException
 */
+@Override
 public T next() // --------------------------------------------------------
     throws java.util.NoSuchElementException
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas prêt, on le prepare
+    // L'objet suivant n'est pas prï¿½t, on le prepare
     //
     //  Note: on sort en NoSuchElementException s'il n'existe pas
     //
@@ -93,7 +95,7 @@ public T next() // --------------------------------------------------------
     }
 
  //
- // On sauvegarde l'élément courant
+ // On sauvegarde l'ï¿½lï¿½ment courant
  //
  T returnObject = nextObject;
 
@@ -116,6 +118,7 @@ public T next() // --------------------------------------------------------
 **
 ** @throws UnsupportedOperationException
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException
 {
@@ -125,6 +128,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;

@@ -25,7 +25,7 @@ import java.util.Locale;
 ** @since   3.02.037
 ** @version 3.02.037
 */
-public abstract class AbstractHTMLDocumentWriter<T extends AbstractHTMLDocumentWriter>
+public abstract class AbstractHTMLDocumentWriter<T extends AbstractHTMLDocumentWriter<?>>
     implements HTMLDocumentWriter
 {
 /** */
@@ -48,7 +48,7 @@ public abstract T getThis(); // -------------------------------------------
 **
 ** @see #getLocale()
 */
-public T setLocale( final Locale local ) // -------------------------------
+public T setLocale( final Locale locale ) // -------------------------------
 {
  this.locale = locale;
 
@@ -56,14 +56,15 @@ public T setLocale( final Locale local ) // -------------------------------
 }
 
 /**
-** @return un object Locale correspondant à la localisation en cours,
-**         utilisé pour l'encodage de certain gadgets, en particulier pour
+** @return un object Locale correspondant ï¿½ la localisation en cours,
+**         utilisï¿½ pour l'encodage de certain gadgets, en particulier pour
 **         les dates et les horaires.
 **
 ** @see #setLocale
 **
 ** @throws UnsupportedOperationException
 */
+@Override
 public Locale getLocale() // ----------------------------------------------
     throws UnsupportedOperationException
 {
@@ -77,6 +78,7 @@ public Locale getLocale() // ----------------------------------------------
 /**
 **
 */
+@Override
 public String formatTag( final String tag ) // ----------------------------
 {
  return tag.toLowerCase();
@@ -85,6 +87,7 @@ public String formatTag( final String tag ) // ----------------------------
 /**
 **
 */
+@Override
 public String formatAttribute( final String attribute ) // ----------------
 {
  return attribute.toLowerCase();
@@ -93,6 +96,7 @@ public String formatAttribute( final String attribute ) // ----------------
 /**
 **
 */
+@Override
 public HTMLDocumentStringWriter getHTMLDocumentStringWriter() // ----------
 {
  return new HTMLDocumentStringWriterImpl( this );

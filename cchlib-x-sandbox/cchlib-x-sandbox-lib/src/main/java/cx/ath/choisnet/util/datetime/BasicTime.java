@@ -277,6 +277,7 @@ public int getSeconds() // ------------------------------------------------
 **
 ** @return l'heure au format hh:mm:ss
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  return toStringHours() + ":" + toStringMinutes() + ":" + toStringSeconds();
@@ -290,6 +291,7 @@ public String toString() // -----------------------------------------------
 **
 ** @return l'horaire format�
 */
+@Override
 public String toString( Format formatter ) // -----------------------------
 {
  return formatter.format( this.getJavaDate() );
@@ -336,6 +338,7 @@ public String toStringSeconds() // ----------------------------------------
 **
 ** @return un long correspondant le nombre secondes depuis l'heure 00:00:00
 */
+@Override
 public long longValue() // ------------------------------------------------
 {
  return
@@ -369,6 +372,7 @@ public java.util.Date getJavaDate() // ------------------------------------
 **
 ** @return true si les 2 horaires correspondent � la seconde pr�s.
 */
+@Override
 public boolean equals( TimeInterface anotherTime ) // ---------------------
 {
  return (this.compareTo( anotherTime ) == 0);
@@ -377,6 +381,7 @@ public boolean equals( TimeInterface anotherTime ) // ---------------------
 /**
 ** @see #equals( TimeInterface )
 */
+@Override
 public boolean equals( Object o ) // --------------------------------------
 {
  try {
@@ -395,6 +400,7 @@ public boolean equals( Object o ) // --------------------------------------
 **          pass� en param�tre. une valeur positive si l'horaire de l'object
 **          courant est plus r�cent que l'horaire pass� en param�tre.
 */
+@Override
 public int compareTo( TimeInterface anotherTime ) // ----------------------
     throws ClassCastException
 {
@@ -448,6 +454,7 @@ public int compareTo( Object o ) // ---------------------------------------
 **
 ** @exception ClassCastException
 */
+@Override
 public boolean isBefore( TimeInterface anotherTime ) // -------------------
 {
  return (this.compareTo( anotherTime ) > 0);
@@ -464,6 +471,7 @@ public boolean isBefore( TimeInterface anotherTime ) // -------------------
 **
 ** @exception ClassCastException
 */
+@Override
 public boolean isAfter( TimeInterface anotherTime ) // --------------------
     throws ClassCastException
 {
@@ -476,6 +484,7 @@ public boolean isAfter( TimeInterface anotherTime ) // --------------------
 ** @exception ClassCastException
 ** @exception BasicDateTimeNegativeValueException
 */
+@Override
 public TimeInterface add( TimeInterface anotherTime ) // ------------------
     throws BasicDateTimeNegativeValueException
 {
@@ -489,6 +498,7 @@ public TimeInterface add( TimeInterface anotherTime ) // ------------------
 **
 ** @exception ClassCastException
 */
+@Override
 public TimeInterface sub( TimeInterface anotherTime ) // ------------------
     throws BasicDateTimeNegativeValueException
 {

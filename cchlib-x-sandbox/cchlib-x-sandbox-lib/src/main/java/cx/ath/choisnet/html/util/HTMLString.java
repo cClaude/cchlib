@@ -48,6 +48,7 @@ public HTMLString( final String str ) // ----------------------------------
 /**
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

@@ -13,12 +13,12 @@ package cx.ath.choisnet.util;
 
 /**
 ** <P>
-** Interface permettant d'avoir des Objets qui soit à la fois compatible avec
+** Interface permettant d'avoir des Objets qui soit Ã© la fois compatible avec
 ** l'interface {@link java.util.Iterator} et l'interface {@link Iterable}.
 ** <br/>
 ** <br/>
-** Cette classe à pour but de pouvoir bénéficier des écritures simplifiée
-** du JDK 1.5 également sur des objets implémentant l'interface {@link java.util.Iterator}
+** Cette classe Ã© pour but de pouvoir bÃ©nÃ©ficier des Ã©critures simplifiÃ©e
+** du JDK 1.5 Ã©galement sur des objets implÃ©mentant l'interface {@link java.util.Iterator}
 ** </P>
 **
 ** @author Claude CHOISNET

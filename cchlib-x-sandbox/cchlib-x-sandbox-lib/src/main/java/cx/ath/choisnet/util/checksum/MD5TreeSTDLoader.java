@@ -41,7 +41,7 @@ private final byte[] buffer;
 private final MD5 md5;
 
 /**
-** Construit un objet {@link MD5TreeSTDLoader} devant être initialisé.
+** Construit un objet {@link MD5TreeSTDLoader} devant ï¿½tre initialisï¿½.
 */
 public MD5TreeSTDLoader() // ----------------------------------------------
 {
@@ -70,6 +70,7 @@ public MD5TreeSTDLoader( // -----------------------------------------------
 **
 ** {@inheritDoc}
 */
+@Override
 public MD5Tree.Loader newInstance( // -------------------------------------
     final MD5Tree.AppendFileListener    appendFileListener,
     final MD5Tree.ExceptionHandler      errorHandler,
@@ -83,6 +84,7 @@ public MD5Tree.Loader newInstance( // -------------------------------------
 **
 ** {@inheritDoc}
 */
+@Override
 public final void addFolder( // -------------------------------------------
     final MD5TreeNode   node,
     final File          folder

@@ -34,8 +34,8 @@ public interface HTMLDocumentWriter
 /**
 **
 **
-** @return un object Locale correspondant à la localisation en cours,
-**         utilisé pour l'encodage de certain gadgets, en particulier pour
+** @return un object Locale correspondant Ã© la localisation en cours,
+**         utilisÃ© pour l'encodage de certain gadgets, en particulier pour
 **         les dates et les horaires.
 **
 ** @throws UnsupportedOperationException if the getLocale operation is not

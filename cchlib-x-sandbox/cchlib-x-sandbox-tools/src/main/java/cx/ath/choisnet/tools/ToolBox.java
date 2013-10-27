@@ -28,7 +28,7 @@ public class ToolBox
 private ToolBox() {}
 
 /**
-** Utilisé par: /private/index.jsp
+** UtilisÃ© par: /private/index.jsp
 */
 public final static void addProxyView( // ---------------------------------
     final Writer output,

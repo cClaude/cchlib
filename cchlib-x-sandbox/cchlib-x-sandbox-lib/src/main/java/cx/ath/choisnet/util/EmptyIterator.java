@@ -7,7 +7,7 @@
 **  2.00.006 2005.09.30 Claude CHOISNET
 **                      Implemente Iterable<T>
 **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
-**                      Implémente java.io.Serializable
+**                      Implï¿½mente java.io.Serializable
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.EmptyIterator
@@ -54,6 +54,7 @@ public EmptyIterator() // -------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
     return false;
@@ -62,6 +63,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public T next() // --------------------------------------------------------
 {
     throw new java.util.NoSuchElementException();
@@ -70,6 +72,7 @@ public T next() // --------------------------------------------------------
 /**
 ** {@inheritDoc}
 */
+@Override
 public void remove() // ---------------------------------------------------
 {
     throw new UnsupportedOperationException();
@@ -78,6 +81,7 @@ public void remove() // ---------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<T> iterator() // ------------------------------------------
 {
  return this;

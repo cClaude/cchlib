@@ -99,6 +99,7 @@ public InfosServletDisplayerImpl( // --------------------------------------
 /**
 **
 */
+@Override
 public void appendHTML( Appendable out ) // -------------------------------
 {
  try {

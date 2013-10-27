@@ -53,6 +53,7 @@ public CollectionFilterImpl( final Selectable<T> selector ) // ------------
 **         ne retourne jamais null, mais le r�sultat peut �ventullement
 **         �tre une collection vide.
 */
+@Override
 public Collection<T> apply( final Collection<T> elements ) // -------------
 {
  final LinkedList<T>  list = new LinkedList<T>();

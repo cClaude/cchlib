@@ -19,8 +19,8 @@ package cx.ath.choisnet.io;
 import java.io.Writer;
 
 /**
-** Classe permettant d'avoir un flux sans mémoire tampon ou avec une mémoire
-** tampon limitée, même avec un flux héritant de {@link java.io.BufferedWriter}
+** Classe permettant d'avoir un flux sans mï¿½moire tampon ou avec une mï¿½moire
+** tampon limitï¿½e, mï¿½me avec un flux hï¿½ritant de {@link java.io.BufferedWriter}
 **
 ** @author Claude CHOISNET
 ** @version 1.30
@@ -41,12 +41,12 @@ private final int maxBufferSize;
 private int bufferSize;
 
 /**
-** Permet de limité la mémoire tampon à maxBufferSize maximum.
+** Permet de limitï¿½ la mï¿½moire tampon ï¿½ maxBufferSize maximum.
 **
 ** @param   writer          Object {@link Writer} valide, vers lequel sera
-**                          émis le flux.
-** @param   maxBufferSize   Taille maximum de la mémoire tampon, ne garantis
-**                          pas que cela soit également le mimimum.
+**                          ï¿½mis le flux.
+** @param   maxBufferSize   Taille maximum de la mï¿½moire tampon, ne garantis
+**                          pas que cela soit ï¿½galement le mimimum.
 */
 public UnbufferedWriter( // -----------------------------------------------
     final Writer    writer,
@@ -59,10 +59,10 @@ public UnbufferedWriter( // -----------------------------------------------
 }
 
 /**
-** Construit un flux sans mémoire tampon.
+** Construit un flux sans mï¿½moire tampon.
 **
 ** @param   writer  Object {@link Writer} valide, vers lequel sera
-**                  émis le flux.
+**                  ï¿½mis le flux.
 **
 */
 public UnbufferedWriter( // -----------------------------------------------
@@ -75,6 +75,7 @@ public UnbufferedWriter( // -----------------------------------------------
 /**
 ** @see Writer#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -84,6 +85,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see Writer#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -94,6 +96,7 @@ public void flush() // ----------------------------------------------------
 /**
 ** @see Writer#write(char[] cbuf, int off, int len)
 */
+@Override
 public void write( final char[] cbuf, final int off, final int len ) // ---
     throws java.io.IOException
 {

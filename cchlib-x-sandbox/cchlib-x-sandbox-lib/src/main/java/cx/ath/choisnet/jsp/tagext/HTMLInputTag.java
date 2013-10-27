@@ -43,6 +43,7 @@ protected HTMLDocumentWriterWrapper wrapper;
 **
 ** @see javax.servlet.jsp.tagext.TagSupport
 */
+@Override
 public int doStartTag() // ------------------------------------------------
     throws javax.servlet.jsp.JspException
 {
@@ -72,6 +73,7 @@ public int doStartTag() // ------------------------------------------------
 **
 ** @see javax.servlet.jsp.tagext.TagSupport
 */
+@Override
 public int doEndTag() // --------------------------------------------------
     throws javax.servlet.jsp.JspException
 {
@@ -97,6 +99,7 @@ public void setClass( final String cssClass ) // --------------------------
 **
 ** @see HTMLInput#setId(String)
 */
+@Override
 public void setId( final String id ) // -----------------------------------
 {
  this.gadgetFactory.setId( id );

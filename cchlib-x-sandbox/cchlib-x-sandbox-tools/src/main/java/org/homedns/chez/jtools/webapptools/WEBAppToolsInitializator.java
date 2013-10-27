@@ -70,6 +70,7 @@ protected WEBAppToolsInitializator() // -------------------------------------
 /**
 **
 */
+@Override
 public String getServletContextName() // ----------------------------------
 {
  return SERVLET_CONTEXT_NAME;
@@ -78,6 +79,7 @@ public String getServletContextName() // ----------------------------------
 /**
 **
 */
+@Override
 public String getAttributeName() // ---------------------------------------
 {
  return ATTRIBUTE_NAME;
@@ -118,6 +120,7 @@ public String getServletContextInitParameter( // --------------------------
 /**
 **
 */
+@Override
 public WEBAppToolsContext newInstance( HttpServletRequest request ) // ----
     throws WEBAppToolsInitializationException
 {

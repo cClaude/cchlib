@@ -80,6 +80,7 @@ public StatsEntry get( K key ) // -----------------------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  final Object[]         params  = new Object[ 2 ];
@@ -133,7 +134,7 @@ public void compute() // --------------------------------------------------
 {
  if( this.standDevMap != null && this.meanMap != null ) {
     //
-    // déjà calculé
+    // dï¿½jï¿½ calculï¿½
     //
     return;
     }
@@ -162,7 +163,7 @@ public void append( Appendable a ) // -------------------------------------
 */
 
 /**
-** Standard deviation - écart type
+** Standard deviation - ï¿½cart type
 */
 public final static double sd( double... values ) // ----------------------
 {

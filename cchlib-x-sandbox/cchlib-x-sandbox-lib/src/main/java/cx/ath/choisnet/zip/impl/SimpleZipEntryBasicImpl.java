@@ -18,7 +18,7 @@ import java.util.zip.ZipEntry;
 
 /**
 ** <p>
-** Implémentation minimal de {@link SimpleZipEntry}
+** Implï¿½mentation minimal de {@link SimpleZipEntry}
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -57,6 +57,7 @@ public SimpleZipEntryBasicImpl( // ----------------------------------------
 /**
 **
 */
+@Override
 public ZipEntry getZipEntry() // ------------------------------------------
 {
  return zipEntry;
@@ -65,6 +66,7 @@ public ZipEntry getZipEntry() // ------------------------------------------
 /**
 **
 */
+@Override
 public InputStream getInputStream() // ------------------------------------
 {
  return inputStream;

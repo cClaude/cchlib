@@ -20,10 +20,10 @@ import java.util.Iterator;
 
 /**
 ** <p>
-** Outils permettant de créer des identificateurs HTML, CSS ou JavaScript
-** à partir du hashcode ({@link Object#hashCode()}) de l'objet Java
-** concerné ({@link #getHTMLID(Object)})
-** et de récupérer le hashcode à partir de l'ID ({@link #getHashCode(String)})
+** Outils permettant de crï¿½er des identificateurs HTML, CSS ou JavaScript
+** ï¿½ partir du hashcode ({@link Object#hashCode()}) de l'objet Java
+** concernï¿½ ({@link #getHTMLID(Object)})
+** et de rï¿½cupï¿½rer le hashcode ï¿½ partir de l'ID ({@link #getHashCode(String)})
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -38,7 +38,7 @@ public class HTMLParameterHelper<T>
 {
 
 /**
-** Encode le hashcode de l'objet en un chaîne qui peut permettre
+** Encode le hashcode de l'objet en un chaï¿½ne qui peut permettre
 ** d'identifier un objet HTML, CSS ou JavaScript.
 **
 ** @see #hashCode()
@@ -52,7 +52,7 @@ public final static String getHTMLID( // ----------------------------------
 }
 
 /**
-** Permet de retrouver le hashcode encodé à l'aide de la méthode
+** Permet de retrouver le hashcode encodï¿½ ï¿½ l'aide de la mï¿½thode
 ** {@link #getHTMLID(Object)}
 **
 ** @see #getHTMLID(Object)
@@ -106,7 +106,7 @@ public final static int[] getHashCodes( // --------------------------------
 ** @see #getHashCode(String)
 ** @see #getHashCodes(String[])
 **
-** @return l'objet trouvé ou null sinon
+** @return l'objet trouvï¿½ ou null sinon
 **
 ** @since 3.02.009
 */
@@ -159,7 +159,7 @@ public final static <T> IterableIterator<T> select( // -------------------------
 }
 
     /**
-    ** N'est pas sérializable
+    ** N'est pas sï¿½rializable
     */
     public static class Selectable<T>
         implements cx.ath.choisnet.util.Selectable<T>
@@ -176,6 +176,7 @@ public final static <T> IterableIterator<T> select( // -------------------------
          this( getHashCodes( htmlIDs ) );
         }
 
+        @Override
         public boolean isSelected( final T o )
         {
             final int oHashCode = o.hashCode();

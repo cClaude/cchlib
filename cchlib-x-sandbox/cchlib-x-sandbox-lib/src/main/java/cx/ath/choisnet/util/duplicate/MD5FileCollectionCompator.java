@@ -326,6 +326,7 @@ public void init() // -----------------------------------------------------
         /**
         **
         */
+        @Override
         public int compare( File o1, File o2 )
         {
             return - o1.compareTo( o2 );

@@ -40,6 +40,7 @@ public EmptyWriter() // ---------------------------------------------------
 /**
 ** @see java.io.Writer#close()
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -53,6 +54,7 @@ public void close() // ----------------------------------------------------
 /**
 ** @see java.io.Writer#flush()
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -64,6 +66,7 @@ public void flush() // ----------------------------------------------------
 /**
 ** @see java.io.Writer#write(char[],int,int)
 */
+@Override
 public void write( char[] cbuf, int off, int len ) // ---------------------
     throws java.io.IOException
 {

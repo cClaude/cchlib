@@ -105,6 +105,7 @@ public int doUpdate( final String query ) // ------------------------------
 /**
 ** <P>Lib�re les informations de la requ�te courante.</P>
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {

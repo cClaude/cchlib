@@ -26,12 +26,12 @@ import java.util.Set;
 ** <br/>
 ** <br/>
 ** Cette classe permet d'avoir une vue d'une arboressance de
-** fichiée basée sur une liste de nom de répertoires et sur
+** fichiÃ©e basÃ©e sur une liste de nom de rÃ©pertoires et sur
 ** l'empreinte des fichiers ({@link MD5TreeEntry}) auquel est
-** attachée une liste de noms.
+** attachÃ©e une liste de noms.
 ** <br/>
 ** <br/>
-** Voir également {@link MD5FileCollection}
+** Voir Ã©galement {@link MD5FileCollection}
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -51,39 +51,39 @@ public interface MD5Collection
 {
 
 /**
-** Retourne un ensemble, non modifiable, de chaines représentant le
+** Retourne un ensemble, non modifiable, de chaines reprÃ©sentant le
 ** le nom relatif de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais éventuellement vide.
+** @return un objet Set<String> non null, mais Ã©ventuellement vide.
 */
 public Set<String> getFolderFilenames(); // -------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple formé de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble de chaîne représentant le nom relatif de chacune des
-** instances de ce fichier (il doit y avoir au moins une entrée).
+** object Map contenant un couple formÃ© de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de chaÃ©ne reprÃ©sentant le nom relatif de chacune des
+** instances de ce fichier (il doit y avoir au moins une entrÃ©e).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
 */
 public Map<MD5TreeEntry,? extends Set<String>> getEntryFilenames(); // ----
 
 /**
-** Retourne l'ensemble des noms de fichier relatifs correspondant à
-** l'empreinte donnée.
+** Retourne l'ensemble des noms de fichier relatifs correspondant Ã©
+** l'empreinte donnÃ©e.
 **
-** @param md5 Empreinte recherchée
+** @param md5 Empreinte recherchÃ©e
 **
 ** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
-** donné, retourne null autrement.
+** donnÃ©, retourne null autrement.
 */
 public Set<String> getEntryFilenames( MD5TreeEntry md5 ); // --------------
 
 /**
 ** Retourne le nombre de fichiers contenu dans la collection.
 **
-** @return un int correspondant au nombre de fichiers (hors dossier) étant
-**         défini dans la collection.
+** @return un int correspondant au nombre de fichiers (hors dossier) Ã©tant
+**         dÃ©fini dans la collection.
 */
 public int getEntryCount(); // --------------------------------------------
 

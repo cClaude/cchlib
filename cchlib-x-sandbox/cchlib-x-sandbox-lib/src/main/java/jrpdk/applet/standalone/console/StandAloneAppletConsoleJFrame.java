@@ -21,7 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 
 /**
-** Console g�n�rique.
+** Console générique.
 ** <PRE>
 **  StandAloneExitInterface exit = new StandAloneExitInterface()
 **     {
@@ -42,7 +42,7 @@ import javax.swing.JTextArea;
 **  console.setTitle( "My Title" );
 ** </PRE>
 ** <P>
-** Conform�ment � l'object java.awt.Component cette classe impl�mente
+** Conformément à l'object java.awt.Component cette classe implémente
 ** correctenement l'interface Serializable
 **
 **
@@ -126,7 +126,8 @@ public StandAloneAppletConsoleJFrame() // ---------------------------------
  this.add( status, "South" );
  /* --- */
 
- this.show();
+ //this.show();
+ this.setVisible( true );
 }
 
 /**

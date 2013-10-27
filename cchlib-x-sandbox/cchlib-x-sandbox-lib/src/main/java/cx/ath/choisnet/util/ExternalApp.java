@@ -10,17 +10,17 @@
 **  1.51.002 2005.04.28 Claude CHOISNET
 **                      Mise en place d'un premier jet de doc.
 **  2.01.000 2005.09.30 Claude CHOISNET
-**                      La méthode execute(String, Writer, Writer) est
+**                      La mï¿½thode execute(String, Writer, Writer) est
 **                      'deprecated'
 **  2.02.034 2005.12.26 Claude CHOISNET
 **                      Ajout de execute( String, InputStream )
 **                      Ajout de execute( String )
-**                      La méthode execute(String,Reader,String,Writer,String,Writer,String)
+**                      La mï¿½thode execute(String,Reader,String,Writer,String,Writer,String)
 **                      est 'deprecated'
 **  3.01.011 2005.12.26 Claude CHOISNET
-**                      La méthode run(String,InputStream,OutputStream,OutputStream)
-**                      est réintroduite, car elle travaille différement
-**                      de la méthode execute(String,InputStream,OutputStream,OutputStream)
+**                      La mï¿½thode run(String,InputStream,OutputStream,OutputStream)
+**                      est rï¿½introduite, car elle travaille diffï¿½rement
+**                      de la mï¿½thode execute(String,InputStream,OutputStream,OutputStream)
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.ExternalApp
@@ -36,7 +36,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
-** <p>Version simplifiée de la méthode {@link Runtime#exec(String)}</p>
+** <p>Version simplifiï¿½e de la mï¿½thode {@link Runtime#exec(String)}</p>
 **
 **
 ** @author Claude CHOISNET
@@ -51,14 +51,14 @@ public class ExternalApp
 {
 
 /**
-** Execute la commande donnée
+** Execute la commande donnï¿½e
 **
-** @param command   Chaine contenant la commande à executer
-** @param input     Flux d'entrée
+** @param command   Chaine contenant la commande ï¿½ executer
+** @param input     Flux d'entrï¿½e
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant à la valeur retournée par la méthode
+** @return un int correspondant ï¿½ la valeur retournï¿½e par la mï¿½thode
 **         exitValue() processus.
 **
 ** @see Process#exitValue()
@@ -131,14 +131,14 @@ public final static int execute( // ---------------------------------------
 }
 
 /**
-** Execute la commande donnée, avec un flux d'entrée vide, cette méthode
-** est basée sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnï¿½e, avec un flux d'entrï¿½e vide, cette mï¿½thode
+** est basï¿½e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   commande à executer
+** @param command   commande ï¿½ executer
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant à la valeur retournée par la méthode
+** @return un int correspondant ï¿½ la valeur retournï¿½e par la mï¿½thode
 **         exitValue() processus.
 **
 ** @see #execute(String,InputStream,OutputStream,OutputStream)
@@ -155,7 +155,7 @@ public final static int execute( // ---------------------------------------
 }
 
     /**
-    ** Résultats de l'execution.
+    ** Rï¿½sultats de l'execution.
     **
     ** @since 2.02.034
     **
@@ -167,21 +167,21 @@ public final static int execute( // ---------------------------------------
         /**
         ** Tableau de byte correspondant au flux stdout brut.
         **
-        ** @return un byte[] correspondant au flux stdout de la commande executé.
+        ** @return un byte[] correspondant au flux stdout de la commande executï¿½.
         */
         public byte[] getStdOut(); // - - - - - - - - - - - - - - - - - - -
 
         /**
         ** Tableau de byte correspondant au flux sdterr brut.
         **
-        ** @return un byte[] correspondant au flux sdterr de la commande executé.
+        ** @return un byte[] correspondant au flux sdterr de la commande executï¿½.
         */
         public byte[] getStdErr(); // - - - - - - - - - - - - - - - - - - -
 
         /**
         ** Entier correspondant au code erreur retour par l'application.
         **
-        ** @return un int contenant la valeur retourné par l'application.
+        ** @return un int contenant la valeur retournï¿½ par l'application.
         **
         ** @see Process#exitValue()
         */
@@ -189,7 +189,7 @@ public final static int execute( // ---------------------------------------
     }
 
     /**
-    ** Implementation privée de Output
+    ** Implementation privï¿½e de Output
     **
     ** @since 2.02.034
     */
@@ -211,16 +211,19 @@ public final static int execute( // ---------------------------------------
             this.returnCode = returnCode;
         }
 
+        @Override
         public byte[] getStdOut() //- - - - - - - - - - - - - - - - - - - -
         {
             return stdout;
         }
 
+        @Override
         public byte[] getStdErr() //- - - - - - - - - - - - - - - - - - - -
         {
             return stderr;
         }
 
+        @Override
         public int getReturnCode() // - - - - - - - - - - - - - - - - - - -
         {
             return returnCode;
@@ -228,13 +231,13 @@ public final static int execute( // ---------------------------------------
     }
 
 /**
-** Execute la commande donnée, avec un flux d'entrée vide, cette méthode
-** est basée sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnï¿½e, avec un flux d'entrï¿½e vide, cette mï¿½thode
+** est basï¿½e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   Commande à executer
-** @param input     Flux à envoyer à la commande.
+** @param command   Commande ï¿½ executer
+** @param input     Flux ï¿½ envoyer ï¿½ la commande.
 **
-** @return un Object Output correspondant aux résultats du traitement
+** @return un Object Output correspondant aux rï¿½sultats du traitement
 **
 ** @since 2.02.034
 **
@@ -254,12 +257,12 @@ public final static Output execute( // ------------------------------------
 }
 
 /**
-** Execute la commande donnée, avec un flux d'entrée vide, cette méthode
-** est basée sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnï¿½e, avec un flux d'entrï¿½e vide, cette mï¿½thode
+** est basï¿½e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   Commande à executer
+** @param command   Commande ï¿½ executer
 **
-** @return un Object Output correspondant aux résultats du traitement
+** @return un Object Output correspondant aux rï¿½sultats du traitement
 **
 ** @since 2.02.034
 **
@@ -273,19 +276,19 @@ public final static Output execute( // ------------------------------------
 }
 
 /**
-** Execute la commande donnée, commande équivalente à
+** Execute la commande donnï¿½e, commande ï¿½quivalente ï¿½
 ** {@link #execute(String,InputStream,OutputStream,OutputStream)}
-** mais à la différence de cette dernière les flux sont copiés
-** à l'aide de {@link StreamCopyThread} permettant un traitement
-** assynchrone des flux. Par ailleurs la fin de la tâche est
-** traité à l'aide de {@link Process#waitFor()}.
+** mais ï¿½ la diffï¿½rence de cette derniï¿½re les flux sont copiï¿½s
+** ï¿½ l'aide de {@link StreamCopyThread} permettant un traitement
+** assynchrone des flux. Par ailleurs la fin de la tï¿½che est
+** traitï¿½ ï¿½ l'aide de {@link Process#waitFor()}.
 **
-** @param command   Chaine contenant la commande à executer
-** @param input     Flux d'entrée
+** @param command   Chaine contenant la commande ï¿½ executer
+** @param input     Flux d'entrï¿½e
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant à la valeur retournée par la méthode
+** @return un int correspondant ï¿½ la valeur retournï¿½e par la mï¿½thode
 **         {@link Process#waitFor()}. processus.
 **
 ** @see Process#waitFor()
@@ -337,9 +340,9 @@ public final static int run( // -------------------------------------------
 }
 
 /**
-** Excute la commande donnée
+** Excute la commande donnï¿½e
 **
-** @param command           commande à executer
+** @param command           commande ï¿½ executer
 ** @param input
 ** @param inputCharsetName
 ** @param stdout
@@ -347,7 +350,7 @@ public final static int run( // -------------------------------------------
 ** @param stderr
 ** @param stderrCharsetName
 **
-** @return un int correspondant à la valeur retournée par la méthode
+** @return un int correspondant ï¿½ la valeur retournï¿½e par la mï¿½thode
 **         exitValue() processus.
 **
 ** @see Process#exitValue()
@@ -366,7 +369,7 @@ public final static int run( // -------------------------------------------
 **      stderr, "Cp850"
 **      );
 ** </pre>
-** Peut être remplacé par<br />
+** Peut ï¿½tre remplacï¿½ par<br />
 ** <pre>
 **  Writer stdout = ...
 **  Writer stderr = ...
@@ -485,13 +488,13 @@ public final static int execute( // ---------------------------------------
 }
 
 /**
-** Excute la commande donnée, avec un flux d'entrée vide
+** Excute la commande donnï¿½e, avec un flux d'entrï¿½e vide
 **
-** @param command   commande à executer
+** @param command   commande ï¿½ executer
 ** @param stdout
 ** @param stderr
 **
-** @return un int correspondant à la valeur retournée par la méthode
+** @return un int correspondant ï¿½ la valeur retournï¿½e par la mï¿½thode
 **         exitValue() processus.
 **
 ** @see #execute( String, Reader, String, Writer, String, Writer, String )

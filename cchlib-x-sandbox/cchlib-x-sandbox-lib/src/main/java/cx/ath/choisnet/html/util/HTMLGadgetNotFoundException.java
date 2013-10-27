@@ -15,8 +15,8 @@ package cx.ath.choisnet.html.util;
 
 /**
 ** <p>
-** Exception indiquant un problème de concistance entre le
-** formulaire émis et le formulaire analysé.
+** Exception indiquant un problÃ©me de concistance entre le
+** formulaire Ã©mis et le formulaire analysÃ©.
 ** </p>
 **
 ** @author Claude CHOISNET

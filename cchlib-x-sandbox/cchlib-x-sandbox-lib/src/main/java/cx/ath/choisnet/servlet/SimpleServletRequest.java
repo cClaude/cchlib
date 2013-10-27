@@ -6,7 +6,7 @@
 **
 **  2.01.030 2005.11.10 Claude CHOISNET
 **  3.01.018 2006.04.11 Claude CHOISNET
-**                      La méthode getUserAgent() est deprecated,
+**                      La mÃ©thode getUserAgent() est deprecated,
 **                      Ajout de getUserAgentDetails()
 **  3.01.033 2006.04.11 Claude CHOISNET
 **                      Ajout de getCookie(String)

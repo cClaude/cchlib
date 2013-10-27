@@ -24,7 +24,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
-** Conteneur correspondant à un dossier d'empreintes : "Message Digest"
+** Conteneur correspondant ï¿½ un dossier d'empreintes : "Message Digest"
 **
 ** @author Claude CHOISNET
 ** @since   2.00.006
@@ -39,12 +39,12 @@ public class MD5TreeNode
 private static final long serialVersionUID = 2L;
 
 /**
-** Lien vers le noeud père
+** Lien vers le noeud pï¿½re
 */
 private File folderFile;
 
 /**
-** Lien vers le noeud père
+** Lien vers le noeud pï¿½re
 */
 private MD5TreeNode parent;
 
@@ -70,7 +70,7 @@ protected MD5TreeNode( MD5TreeNode parent, File folderFile ) // -----------
 }
 
 /**
-** @return un objet MDNode correspondant au nouveau noeud créé.
+** @return un objet MDNode correspondant au nouveau noeud crï¿½ï¿½.
 */
 public MD5TreeNode addNode( String foldername ) // ------------------------
 {
@@ -80,7 +80,7 @@ public MD5TreeNode addNode( String foldername ) // ------------------------
 }
 
 /**
-** @return un objet MDNode correspondant au nouveau noeud créé.
+** @return un objet MDNode correspondant au nouveau noeud crï¿½ï¿½.
 */
 protected MD5TreeNode addNode( MD5TreeNode node, String foldername ) // ---
 {
@@ -93,13 +93,14 @@ protected MD5TreeNode addNode( MD5TreeNode node, String foldername ) // ---
 **
 ** @see Comparable#compareTo
 */
+@Override
 public int compareTo( MD5TreeNode anOtherMD5TreeNode ) // -----------------
 {
  return this.hashCode() - anOtherMD5TreeNode.hashCode();
 }
 
 /**
-** Ajoute une fichier à l'aide de son nom et de son MD5TreeEntry
+** Ajoute une fichier ï¿½ l'aide de son nom et de son MD5TreeEntry
 */
 public void add( String filename, MD5TreeEntry md ) // --------------------
 {
@@ -133,7 +134,7 @@ public MD5TreeNode getParent() // -----------------------------------------
 }
 
     /**
-    ** Classe permettant de faire un parcours récursif de tous les dossiers
+    ** Classe permettant de faire un parcours rï¿½cursif de tous les dossiers
     ** vus comme un objet MDNode
     **
     ** @see MD5TreeNode#getNodeIterator()
@@ -153,12 +154,14 @@ public MD5TreeNode getParent() // -----------------------------------------
         }
 
         /** */
+        @Override
         public NodeIterator wrappe( MD5TreeNode node )
         {
             return new NodeIterator( node );
         }
 
         /** */
+        @Override
         public Iterator<MD5TreeNode> iterator()
         {
             return this.node.nodes().iterator();
@@ -180,19 +183,19 @@ public Collection<MD5TreeNode> getNodes() // ------------------------------
 public Iterable<MD5TreeNode> nodes() // -----------------------------------
 {
  return new FlattenIterator<MD5TreeNode>(
-            this, // Le noeuds (courant) à retourner
+            this, // Le noeuds (courant) ï¿½ retourner
             new CascadingIterator<MD5TreeNode>(
                     new IteratorWrapper<MD5TreeNode,NodeIterator>(
-                            this.getNodes(), // Les noeuds à explorer
+                            this.getNodes(), // Les noeuds ï¿½ explorer
                             new NodeIterator( this )
                             )
                         )
                     );
 // return new MultiIterator<MD5TreeNode>(
-//            this, // Le noeuds (courant) à retourner
+//            this, // Le noeuds (courant) ï¿½ retourner
 //            new CascadingIterator<MD5TreeNode>(
 //                    new IteratorWrapper<MD5TreeNode,NodeIterator>(
-//                            this.getNodes(), // Les noeuds à explorer
+//                            this.getNodes(), // Les noeuds ï¿½ explorer
 //                            new NodeIterator( this )
 //                            )
 //                        )

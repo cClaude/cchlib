@@ -36,7 +36,7 @@ private static final long serialVersionUID = 2L;
 private transient byte[] mdBytes;
 
 /**
-** Construction d'une entrée à partir de sa valeur brute.
+** Construction d'une entrï¿½e ï¿½ partir de sa valeur brute.
 */
 public MD5TreeEntry( final byte[] mdBytes ) // ----------------------------
 {
@@ -71,6 +71,7 @@ public String getHEXKey() //-----------------------------------------------
 /**
 **
 */
+@Override
 public int compareTo( MD5TreeEntry anOtherMD5TreeEntry ) // ---------------
 {
  if( anOtherMD5TreeEntry.mdBytes.length != this.mdBytes.length ) {
@@ -91,6 +92,7 @@ public int compareTo( MD5TreeEntry anOtherMD5TreeEntry ) // ---------------
 /**
 **
 */
+@Override
 public boolean equals( Object object ) // ---------------------------------
 {
  if( object != null ) {
@@ -108,6 +110,7 @@ public boolean equals( Object object ) // ---------------------------------
 /**
 **
 */
+@Override
 public String toString() //------------------------------------------------
 {
  return getHEXKey();
@@ -116,6 +119,7 @@ public String toString() //------------------------------------------------
 /**
 **
 */
+@Override
 public MD5TreeEntry clone() // --------------------------------------------
     throws CloneNotSupportedException
 {
@@ -171,7 +175,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
 }
 
 /**
-** Construction d'une entrée à partir de sa chaîne en HEXADECIMAL.
+** Construction d'une entrï¿½e ï¿½ partir de sa chaï¿½ne en HEXADECIMAL.
 */
 public final static MD5TreeEntry newInstance( final String hexKey ) // ----
     throws NumberFormatException

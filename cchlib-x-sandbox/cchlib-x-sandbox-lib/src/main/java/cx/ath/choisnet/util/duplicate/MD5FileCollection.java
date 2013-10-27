@@ -27,12 +27,12 @@ import java.util.Set;
 ** <br/>
 ** <br/>
 ** Cette classe permet d'avoir une vue d'une arboressance de
-** fichiée basée sur une liste d'objet {@link File} de répertoires et sur
+** fichiÃ©e basÃ©e sur une liste d'objet {@link File} de rÃ©pertoires et sur
 ** l'empreinte des fichiers ({@link MD5TreeEntry}) auquel est
-** attachée une liste de d'objet {@link File} représentant les fichiers.
+** attachÃ©e une liste de d'objet {@link File} reprÃ©sentant les fichiers.
 ** <br/>
 ** <br/>
-** Voir également {@link MD5Collection}
+** Voir Ã©galement {@link MD5Collection}
 ** </p>
 =**
 ** @author Claude CHOISNET
@@ -52,10 +52,10 @@ public interface MD5FileCollection
 {
 
 /**
-** Retourne un ensemble, non modifiable, d'objet {@link File} représentant le
+** Retourne un ensemble, non modifiable, d'objet {@link File} reprÃ©sentant le
 ** le nom complet de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais éventuellement vide.
+** @return un objet Set<String> non null, mais Ã©ventuellement vide.
 **
 ** @see MD5Collection#getFolderFilenames()
 */
@@ -63,9 +63,9 @@ public Set<File> getFolderFiles(); // -------------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple formé de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble de {@link File} représentant le nom complet de chacune des
-** instances de ce fichier (il doit y avoir au moins une entrée).
+** object Map contenant un couple formÃ© de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de {@link File} reprÃ©sentant le nom complet de chacune des
+** instances de ce fichier (il doit y avoir au moins une entrÃ©e).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<File>> non null, et non vide.
 **
@@ -74,13 +74,13 @@ public Set<File> getFolderFiles(); // -------------------------------------
 public Map<MD5TreeEntry,? extends Set<File>> getEntryFiles(); // ----------
 
 /**
-** Retourne l'ensemble des noms de fichier complet correspondant à
-** l'empreinte donnée.
+** Retourne l'ensemble des noms de fichier complet correspondant Ã©
+** l'empreinte donnÃ©e.
 **
-** @param md5 Empreinte recherchée
+** @param md5 Empreinte recherchÃ©e
 **
 ** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
-** donné, retourne null autrement.
+** donnÃ©, retourne null autrement.
 **
 ** @see MD5Collection#getEntryFilenames(MD5TreeEntry)
 */
@@ -89,8 +89,8 @@ public Set<File> getEntryFiles( MD5TreeEntry md5 ); // --------------------
 /**
 ** Retourne le nombre de fichiers contenu dans la collection.
 **
-** @return un int correspondant au nombre de fichiers (hors dossier) étant
-**         défini dans la collection.
+** @return un int correspondant au nombre de fichiers (hors dossier) Ã©tant
+**         dÃ©fini dans la collection.
 */
 public int getEntryCount(); // --------------------------------------------
 

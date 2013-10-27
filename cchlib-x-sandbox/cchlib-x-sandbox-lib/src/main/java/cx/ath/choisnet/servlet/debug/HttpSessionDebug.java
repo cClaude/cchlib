@@ -51,11 +51,12 @@ public static StringBuffer buildDisplay( HttpSession session ) // ---------
  StringBuffer buffer = new StringBuffer();
 
  try {
-    Enumeration enum0 = session.getAttributeNames();
+    @SuppressWarnings("unchecked")
+    Enumeration<String> enum0 = session.getAttributeNames();
 
     if( enum0 != null ) {
         while( enum0.hasMoreElements() ) {
-            String attributeName      = (String)enum0.nextElement();
+            String attributeName      = enum0.nextElement();
             Object attributeValue     = session.getAttribute( attributeName );
             String attributeClassName;
 

@@ -65,6 +65,7 @@ protected AbstractMD5FileCollection() // ----------------------------------
 **
 ** @return un objet Set<String> non null, mais �ventuellement vide.
 */
+@Override
 final
 public Set<File> getFolderFiles() // --------------------------------------
 {
@@ -79,6 +80,7 @@ public Set<File> getFolderFiles() // --------------------------------------
 **
 ** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
 */
+@Override
 final
 public Map<MD5TreeEntry,? extends Set<File>> getEntryFiles() // -----------
 {
@@ -94,6 +96,7 @@ public Map<MD5TreeEntry,? extends Set<File>> getEntryFiles() // -----------
 ** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
 ** donn�, retourne null autrement.
 */
+@Override
 final
 public Set<File> getEntryFiles( final MD5TreeEntry md5 ) // ---------------
 {
@@ -121,6 +124,7 @@ public void computeEntryCount() // ----------------------------------------
 **
 ** @see #computeEntryCount()
 */
+@Override
 final
 public int getEntryCount() // ---------------------------------------------
 {
@@ -136,6 +140,7 @@ public int getEntryCount() // ---------------------------------------------
 ** negative integer, zero, or a positive integer as this object is less
 ** than, equal to, or greater than the specified object.
 */
+@Override
 final
 public int compareTo( final MD5FileCollection anOtherCollection ) // ------
 {
@@ -163,6 +168,7 @@ public boolean equals( final MD5FileCollection anOtherCollection ) // -----
 /**
 **
 */
+@Override
 final
 public String toString() // -----------------------------------------------
 {

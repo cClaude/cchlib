@@ -56,6 +56,7 @@ public HTMLDocumentWriterImpl( // -----------------------------------------
 /**
 **
 */
+@Override
 public HTMLDocumentWriterImpl getThis() // --------------------------------
 {
  return this;
@@ -64,6 +65,7 @@ public HTMLDocumentWriterImpl getThis() // --------------------------------
 /**
 **
 */
+@Override
 public Appendable append( final char c ) // -------------------------------
     throws java.io.IOException
 {
@@ -73,6 +75,7 @@ public Appendable append( final char c ) // -------------------------------
 /**
 **
 */
+@Override
 public Appendable append( final CharSequence csq ) // ---------------------
     throws java.io.IOException
 {
@@ -82,6 +85,7 @@ public Appendable append( final CharSequence csq ) // ---------------------
 /**
 **
 */
+@Override
 public Appendable append( // ----------------------------------------------
     final CharSequence  csq,
     final int           start,

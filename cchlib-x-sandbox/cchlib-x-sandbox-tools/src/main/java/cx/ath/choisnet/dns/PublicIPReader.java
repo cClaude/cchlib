@@ -26,26 +26,26 @@ public interface PublicIPReader
 
 /**
 ** <p>
-**  Retrouve la valeur getCurrentPublicIP() lors du dernier appel à
-**  la méthode storePublicIP()
+**  Retrouve la valeur getCurrentPublicIP() lors du dernier appel Ã©
+**  la mÃ©thode storePublicIP()
 ** </p>
 **
-** @return un chaîne contenant l'IP courante sous la forme 10.11.12.13
+** @return un chaÃ©ne contenant l'IP courante sous la forme 10.11.12.13
 */
 public String getPreviousPublicIP() // ------------------------------------
     throws PublicIPException;
 
 /**
-** Sauvegarde la valeur donnée par l'appel à la méthode getCurrentPublicIP()
+** Sauvegarde la valeur donnÃ©e par l'appel Ã© la mÃ©thode getCurrentPublicIP()
 */
 public void storePublicIP() // --------------------------------------------
     throws PublicIPException;
 
 /**
-** <p>Détermine l'adresse IP courante</p>
+** <p>DÃ©termine l'adresse IP courante</p>
 **
-** @return un chaîne contenant l'IP courante sous la forme 10.11.12.13
-**         retourne null s'il n'y a oas d'adresse IP Publique (non connecté)
+** @return un chaÃ©ne contenant l'IP courante sous la forme 10.11.12.13
+**         retourne null s'il n'y a oas d'adresse IP Publique (non connectÃ©)
 */
 public String getCurrentPublicIP() // -------------------------------------
     throws PublicIPException;

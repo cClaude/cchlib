@@ -6,9 +6,9 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET
 **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
-**                      Implémente java.io.Serializable
+**                      Implï¿½mente java.io.Serializable
 **  2.01.008 2005.10.05 Claude CHOISNET - Version initiale
-**                      Implémente Iterable<MD5FileEntry>
+**                      Implï¿½mente Iterable<MD5FileEntry>
 **  2.01.036 2005.12.27 Claude CHOISNET
 **                      La classe est DEPRECATED au profit de MD5Tree
 ** -----------------------------------------------------------------------
@@ -102,6 +102,7 @@ public MD5Iterator( // ----------------------------------------------------
 /**
 **
 */
+@Override
 public Iterator<MD5FileEntry> iterator() // -------------------------------
 {
  return this;
@@ -110,6 +111,7 @@ public Iterator<MD5FileEntry> iterator() // -------------------------------
 /**
 **
 */
+@Override
 public boolean hasNext() // -----------------------------------------------
 {
  return this.fileIterator.hasNext();
@@ -118,6 +120,7 @@ public boolean hasNext() // -----------------------------------------------
 /**
 **
 */
+@Override
 public MD5FileEntry next() // ---------------------------------------------
     throws java.util.NoSuchElementException
 {
@@ -157,6 +160,7 @@ public MD5FileEntry next() // ---------------------------------------------
 /**
 **
 */
+@Override
 public void remove() // ---------------------------------------------------
     throws UnsupportedOperationException,IllegalStateException
 {
@@ -186,7 +190,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // Réinitialisation des champs non sauvegardés
+ // Rï¿½initialisation des champs non sauvegardï¿½s
  //
  int len = stream.readInt();
 

@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.net.URLEncoder;
 
 /**
-** <p>Class permettant de construire proprement une URL de manière simple.</p>
+** <p>Class permettant de construire proprement une URL de maniÃ©re simple.</p>
 **
 ** ex 1: <br/>
 ** <pre>
@@ -129,7 +129,7 @@ private String toString( // -----------------------------------------------
 
  if( this.baseURL.indexOf( '?' ) == -1 ) {
     //
-    // Pas de paramètre dans 'baseURL'
+    // Pas de paramÃ©tre dans 'baseURL'
     //
     first = true;
     }

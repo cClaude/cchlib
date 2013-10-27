@@ -14,7 +14,7 @@ package cx.ath.choisnet.lang.reflect;
 import java.util.Map;
 
 /**
-** <P>Permet d'avoir une vue synthétique d'un objet</P>
+** <P>Permet d'avoir une vue synthÃ©tique d'un objet</P>
 **
 ** @author Claude CHOISNET
 ** @since   3.02.026
@@ -29,10 +29,10 @@ public interface Explorable
 
 /**
 ** <P>
-** Retourne des couples de chaînes (nomDeMethode,valeur) à partir des
-** observateurs de l'objet courant, en général, il s'agit des méthodes
-** sans paramètres commençant par 'get' ou 'is'; mais le choix des
-** méthodes explorées est défini par un l'objet {@link MappableHelperFactory}
+** Retourne des couples de chaÃ©nes (nomDeMethode,valeur) Ã© partir des
+** observateurs de l'objet courant, en gÃ©nÃ©ral, il s'agit des mÃ©thodes
+** sans paramÃ©tres commenÃ©ant par 'get' ou 'is'; mais le choix des
+** mÃ©thodes explorÃ©es est dÃ©fini par un l'objet {@link MappableHelperFactory}
 ** qui initialisera 'mappableHelper'
 ** </P>
 **

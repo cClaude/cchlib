@@ -10,20 +10,20 @@
 **                      Ajout de l'interface SerializableFileFilter
 **                      Ajout de: trueFileFilter()
 **  3.01.031 2006.04.25 Claude CHOISNET - Version initial
-**                      La méthode nameMatchesFileFilter(String) est
+**                      La mï¿½thode nameMatchesFileFilter(String) est
 **                      deprecated au profit de PatternFileFilter
 **  3.01.041 2006.05.24 Claude CHOISNET - Version initial
-**                      La méthode not(FileFilter) retourne maintenant un
+**                      La mï¿½thode not(FileFilter) retourne maintenant un
 **                      objet SerializableFileFilter
-**                      La méthode not(FileFilter) retourne maintenant un
+**                      La mï¿½thode not(FileFilter) retourne maintenant un
 **                      objet SerializableFileFilter
-**                      La méthode and(FileFilter,FileFilter) retourne
+**                      La mï¿½thode and(FileFilter,FileFilter) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La méthode and(FileFilter[]) retourne
+**                      La mï¿½thode and(FileFilter[]) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La méthode or(FileFilter,FileFilter) retourne
+**                      La mï¿½thode or(FileFilter,FileFilter) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La méthode or(FileFilter[]) retourne
+**                      La mï¿½thode or(FileFilter[]) retourne
 **                      maintenant un objet SerializableFileFilter
 ** ------------------------------------------------------------------------
 **
@@ -80,6 +80,7 @@ public static SerializableFileFilter directoryFileFilter() // -------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             return file.isDirectory();
@@ -102,6 +103,7 @@ public static SerializableFileFilter trueFileFilter() // ------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             return true;
@@ -123,6 +125,7 @@ public static SerializableFileFilter not( // ------------------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             return !aFileFilter.accept( file );
@@ -145,6 +148,7 @@ public static SerializableFileFilter and( // -----------------------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             if( firstFileFilter.accept( file ) ) {
@@ -170,6 +174,7 @@ public static SerializableFileFilter and( // ------------------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             for( FileFilter ff : fileFilters ) {
@@ -198,6 +203,7 @@ public static SerializableFileFilter or( // -------------------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File pathname )
         {
             if( firstFileFilter.accept( pathname ) ) {
@@ -223,6 +229,7 @@ public static SerializableFileFilter or( // -------------------------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File pathname )
         {
             for( FileFilter ff : fileFilters ) {
@@ -249,6 +256,7 @@ public static SerializableFileFilter zeroLengthFileFilter() // ------------
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public boolean accept( final File file )
         {
             return file.length() == 0;
@@ -258,7 +266,7 @@ public static SerializableFileFilter zeroLengthFileFilter() // ------------
 
 /**
 ** <p>
-** Construit un FileFilter basé sur une expression régulière.
+** Construit un FileFilter basï¿½ sur une expression rï¿½guliï¿½re.
 ** </p>
 **
 ** @deprecated use {@link PatternFileFilter} instead

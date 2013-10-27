@@ -62,6 +62,7 @@ public void run() // ------------------------------------------------------
 /**
 **
 */
+@Override
 public String getTaskName() // --------------------------------------------
 {
  if( name == null ) {
@@ -75,6 +76,7 @@ public String getTaskName() // --------------------------------------------
 /**
 **
 */
+@Override
 public boolean continueRunning() // ---------------------------------------
 {
  return true;

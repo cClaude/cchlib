@@ -50,6 +50,7 @@ public static PublicIPReader getDefaultPublicIPReader() // ----------------
         /** serialVersionUID */
         private static final long serialVersionUID = 2L;
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String getPreviousPublicIP() //- - - - - - - - - - - - - - -
             throws PublicIPException
         {
@@ -75,6 +76,7 @@ public static PublicIPReader getDefaultPublicIPReader() // ----------------
 
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public String getCurrentPublicIP() // - - - - - - - - - - - - - - -
             throws PublicIPException
         {
@@ -129,6 +131,7 @@ public static PublicIPReader getDefaultPublicIPReader() // ----------------
             return parts[ 0 ];
         }
         //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        @Override
         public void storePublicIP() //- - - - - - - - - - - - - - - - - - -
             throws PublicIPException
         {

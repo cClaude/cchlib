@@ -63,6 +63,7 @@ public WriterToOutputStream( // -------------------------------------------
 /**
 **
 */
+@Override
 public void write( int b ) // ---------------------------------------------
     throws java.io.IOException
 {
@@ -74,6 +75,7 @@ public void write( int b ) // ---------------------------------------------
 /**
 **
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -83,6 +85,7 @@ public void close() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public void flush() // ----------------------------------------------------
     throws java.io.IOException
 {
@@ -92,6 +95,7 @@ public void flush() // ----------------------------------------------------
 /**
 **
 */
+@Override
 public void write( byte[] b ) // ------------------------------------------
     throws java.io.IOException
 {
@@ -102,6 +106,7 @@ public void write( byte[] b ) // ------------------------------------------
 /**
 **
 */
+@Override
 public void write( byte[] b, int off, int len ) // ------------------------
     throws java.io.IOException
 {

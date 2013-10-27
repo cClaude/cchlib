@@ -7,7 +7,7 @@
 **  1.00.___ 2000.10.28 Claude CHOISNET - Version initiale
 **                      Nom: cx.ath.choisnet.html.document.HTMLDocument
 **  1.50.___ 2005.05.19 Claude CHOISNET
-**                      Adaptation à l'interface HTMLWritable
+**                      Adaptation ï¿½ l'interface HTMLWritable
 **  3.02.031 2006.07.24 Claude CHOISNET
 **                      Nouveau nom: cx.ath.choisnet.html.HTMLDocument
 **  3.02.037 2006.08.07 Claude CHOISNET
@@ -34,7 +34,7 @@ import cx.ath.choisnet.html.HTMLHeader;
 public class HTMLDocument
     implements HTMLWritable
 {
-/** Début du document */
+/** Dï¿½but du document */
 private HTMLHeader header;
 
 /** Corp du document */
@@ -88,6 +88,7 @@ public HTMLBody getBody() // ----------------------------------------------
 /*
 **
 */
+@Override
 public void write( final HTMLDocumentWriter out ) // ----------------------
     throws HTMLDocumentException
 {

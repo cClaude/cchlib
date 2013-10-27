@@ -71,6 +71,7 @@ public HTMLDocumentStringWriterImpl( // -----------------------------------
 /**
 **
 */
+@Override
 public String toString() // -----------------------------------------------
 {
  return this.strBuilder.toString();
@@ -79,6 +80,7 @@ public String toString() // -----------------------------------------------
 /**
 ** Clean up internal buffer, and return previous value
 */
+@Override
 public String reset() // --------------------------------------------------
 {
  final String previous = toString();
@@ -91,6 +93,7 @@ public String reset() // --------------------------------------------------
 /**
 **
 */
+@Override
 public Appendable append( final char c ) // -------------------------------
     throws java.io.IOException
 {
@@ -100,6 +103,7 @@ public Appendable append( final char c ) // -------------------------------
 /**
 **
 */
+@Override
 public Appendable append( final CharSequence csq ) // ---------------------
     throws java.io.IOException
 {
@@ -109,6 +113,7 @@ public Appendable append( final CharSequence csq ) // ---------------------
 /**
 **
 */
+@Override
 public Appendable append( // ----------------------------------------------
     final CharSequence  csq,
     final int           start,
@@ -126,6 +131,7 @@ public Appendable append( // ----------------------------------------------
 **
 ** @throws UnsupportedOperationException
 */
+@Override
 public Locale getLocale() // ----------------------------------------------
     throws UnsupportedOperationException
 {
@@ -135,6 +141,7 @@ public Locale getLocale() // ----------------------------------------------
 /**
 **
 */
+@Override
 public String formatTag( final String tag ) // ----------------------------
 {
  return this.hWriter.formatTag( tag );
@@ -143,6 +150,7 @@ public String formatTag( final String tag ) // ----------------------------
 /**
 **
 */
+@Override
 public String formatAttribute( final String attribute ) // ----------------
 {
  return this.hWriter.formatAttribute( attribute );
@@ -151,6 +159,7 @@ public String formatAttribute( final String attribute ) // ----------------
 /**
 **
 */
+@Override
 public HTMLDocumentStringWriter getHTMLDocumentStringWriter() // ----------
 {
  return new HTMLDocumentStringWriterImpl( this );

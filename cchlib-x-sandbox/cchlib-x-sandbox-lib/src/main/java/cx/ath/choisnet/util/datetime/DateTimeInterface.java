@@ -23,9 +23,9 @@ import java.text.Format;
 public interface DateTimeInterface
 {
 /**
-** Renvoie la date associée au calendrier conformément à l'oject de formatage.
+** Renvoie la date associÃ©e au calendrier conformÃ©ment Ã© l'oject de formatage.
 **
-** @param formatter     Object de formattage contenant les caractéristiques
+** @param formatter     Object de formattage contenant les caractÃ©ristiques
 **                      du texte attendu.
 ** @see java.text.Format
 ** @see java.text.DateFormat

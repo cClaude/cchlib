@@ -42,6 +42,7 @@ public HTMLInputCheckBox() // ---------------------------------------------
 /**
 **
 */
+@Override
 public HTMLInputCheckBox getThis() // -------------------------------------
 {
  return this;
@@ -50,6 +51,7 @@ public HTMLInputCheckBox getThis() // -------------------------------------
 /**
 **
 */
+@Override
 public String getType() // ------------------------------------------------
 {
  return "checkbox";
@@ -58,6 +60,7 @@ public String getType() // ------------------------------------------------
 /**
 **
 */
+@Override
 public HTMLInputCheckBox setCurrentValue( final Boolean value ) // --------
 {
  return setChecked( booleanValue( value ) );
@@ -74,6 +77,7 @@ public HTMLInputCheckBox setChecked() // ----------------------------------
 /**
 **
 */
+@Override
 public Boolean getCurrentValue( final ServletRequest request ) // ---------
     throws cx.ath.choisnet.html.util.HTMLGadgetNotFoundException
 {

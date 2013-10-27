@@ -56,6 +56,7 @@ private final static java.util.regex.Pattern DEFAULT_PATTERN =
 /**
 **
 */
+@Override
 protected void setUp() // -------------------------------------------------
 {
 // this.globalMap = ;
@@ -260,7 +261,7 @@ private void toX_Map( // --------------------------------------------------
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public TestMap() {}
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    public final static String getClassName( final Class clazz )
+    public final static String getClassName( final Class<?> clazz )
     {
         // return clazz.getName();
         // return clazz.getCanonicalName();
@@ -290,6 +291,7 @@ private void toX_Map( // --------------------------------------------------
         return new cx.ath.choisnet.util.EnumerationIterator<String>( getStringIterator() );
     }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public Map<String,String> toMap() //- - - - - - - - - - - - - - - - - -
     {
         return MappableHelper.toMap(
@@ -390,8 +392,10 @@ private void toX_Map( // --------------------------------------------------
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public TestMap1() { super(); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName() { return getClassName( this.getClass() ); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName1() { return "#TestMap1"; }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public Set<String> getStringSet()
@@ -404,16 +408,19 @@ private void toX_Map( // --------------------------------------------------
         return Collections.unmodifiableSet( getStringSet() );
     }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public Iterator<String> getStringIterator()
     {
         return new cx.ath.choisnet.util.ArrayIterator<String>( STRINGS_2 );
     }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public Enumeration<String> getStringEnumeration()
     {
         return new cx.ath.choisnet.util.EnumerationIterator<String>( getStringIterator() );
     }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public Iterator<String> iterator()
     {
         return getStringIterator();
@@ -429,8 +436,10 @@ private void toX_Map( // --------------------------------------------------
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public TestMap2() { super(); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName() { return getClassName( this.getClass() ); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName1() { return "#TestMap2"; }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public String getString2() { return "string2"; }
@@ -445,8 +454,10 @@ private void toX_Map( // --------------------------------------------------
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public TestMap3() { super(); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName() { return getClassName( this.getClass() ); }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    @Override
     public String getClassName1() { return "#TestMap3"; }
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public String getString3() { return "string3"; }

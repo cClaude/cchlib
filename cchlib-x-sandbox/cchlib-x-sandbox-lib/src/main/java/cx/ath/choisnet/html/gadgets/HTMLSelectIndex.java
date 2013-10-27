@@ -41,6 +41,7 @@ public HTMLSelectIndex() // -----------------------------------------------
 /**
 **
 */
+@Override
 public HTMLSelectIndex getThis() // ---------------------------------------
 {
  return this;
@@ -49,6 +50,7 @@ public HTMLSelectIndex getThis() // ---------------------------------------
 /**
 **
 */
+@Override
 public Integer getCurrentValue( final ServletRequest request ) // ---------
     throws cx.ath.choisnet.html.util.HTMLGadgetNotFoundException
 {
@@ -58,6 +60,7 @@ public Integer getCurrentValue( final ServletRequest request ) // ---------
 /**
 **
 */
+@Override
 public HTMLSelectIndex setCurrentValue( final Integer value ) // ----------
 {
  return setValue( value.toString() );

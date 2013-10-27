@@ -66,6 +66,7 @@ protected DataSource getDataSource() // -----------------------------------
 /**
 ** <P>Lib�re les informations de la requ�te courante.</P>
 */
+@Override
 public void close() // ----------------------------------------------------
     throws java.io.IOException
 {

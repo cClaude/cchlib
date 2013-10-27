@@ -35,6 +35,7 @@ private static final long serialVersionUID = 1L;
 **
 ** @see javax.servlet.jsp.tagext.TagSupport
 */
+@Override
 public int doStartTag() // ------------------------------------------------
     throws javax.servlet.jsp.JspException
 {
@@ -63,6 +64,7 @@ public int doStartTag() // ------------------------------------------------
 /**
 ** @throws UnsupportedOperationException
 */
+@Override
 public void setType( final String type ) // -------------------------------
     throws UnsupportedOperationException
 {
