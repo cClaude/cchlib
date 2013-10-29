@@ -19,6 +19,7 @@ import com.googlecode.cchlib.swing.DialogHelper;
  * result into a select output folder.
  *
  * @since 1.4.7
+ * @deprecated
  */
 @Deprecated
 public abstract class LazyBatchRunnerApp

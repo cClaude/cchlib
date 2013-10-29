@@ -6,6 +6,7 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
  * Text for localization of {@link BatchRunnerPanel}
  *
  * @since 1.4.7
+ * @deprecated
  */
 @Deprecated
 public interface BatchRunnerPanelLocaleResources

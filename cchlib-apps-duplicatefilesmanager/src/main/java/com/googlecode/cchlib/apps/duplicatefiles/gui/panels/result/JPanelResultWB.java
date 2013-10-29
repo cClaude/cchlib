@@ -180,7 +180,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
 
             jSplitPaneResultMain.setLeftComponent( leftPanel );
             GridBagLayout gbl_leftPanel = new GridBagLayout();
-            gbl_leftPanel.columnWidths = new int[]{32, 32, 32, 0};
+            gbl_leftPanel.columnWidths = new int[]{64, 64, 64, 0};
             gbl_leftPanel.rowHeights = new int[]{24, 20, 0};
             gbl_leftPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
             gbl_leftPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};

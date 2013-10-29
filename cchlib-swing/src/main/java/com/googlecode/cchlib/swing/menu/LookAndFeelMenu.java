@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.swing.menu;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.EventListenerList;
+import org.apache.log4j.Logger;
 
 /**
  * Add menu entries ({@link JRadioButtonMenuItem}) on giving
@@ -28,6 +30,9 @@ import javax.swing.event.EventListenerList;
  */
 public class LookAndFeelMenu
 {
+    private static final Logger logger = Logger.getLogger( LookAndFeelMenu.class );
+    private static final String NIMBUS_LNF = "Nimbus";
+
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private LookAndFeelInfo[] lookAndFeelInfos;
@@ -45,9 +50,7 @@ public class LookAndFeelMenu
      * @param mainWindow {@link Window} that will be customize with
      *        selected LookAndFeel
      */
-    public LookAndFeelMenu(
-        final Window    mainWindow
-        )
+    public LookAndFeelMenu( final Window mainWindow )
     {
         this.componentList.add( mainWindow );
     }
@@ -101,53 +104,70 @@ public class LookAndFeelMenu
             }
 
         for( LookAndFeelInfo info : lookAndFeelInfos ) {
-            JRadioButtonMenuItem jMenuItem = new JRadioButtonMenuItem();
+            // Nimbus did not work properly with dynamic update
+            if( ! info.getName().equals( NIMBUS_LNF )) {
+                JRadioButtonMenuItem jMenuItem = new JRadioButtonMenuItem();
 
-            jMenuItem.setText( info.getName() );
-            final String cname = info.getClassName();
+                jMenuItem.setText( info.getName() );
+                final String cname = info.getClassName();
 
-            if( cname.equals( currentLookAndFeelClassName )) {
-                jMenuItem.setSelected( true );
-                }
+                if( cname.equals( currentLookAndFeelClassName )) {
+                    jMenuItem.setSelected( true );
+                    }
 
-            buttonGroup.add( jMenuItem );
+                buttonGroup.add( jMenuItem );
 
-            final Runnable r = new Runnable()
-            {
-                @Override
-                public void run()
+                final Runnable r = new Runnable()
                 {
-                    try {
-                        UIManager.setLookAndFeel( cname );
+                    @Override
+                    public void run()
+                    {
+                        try {
+                            UIManager.setLookAndFeel( cname );
 
-                        for( Component c : componentList ) {
-                            SwingUtilities.updateComponentTreeUI( c );
-                            }
-
-                        for( Component c : componentList ) {
-                            if( c instanceof Window ) {
-                                Window.class.cast( c ).pack();
+                            for( Component c : componentList ) {
+                                SwingUtilities.updateComponentTreeUI( c );
                                 }
+
+                            for( Component c : componentList ) {
+                                if( c instanceof Window ) {
+                                    final Window    w    = Window.class.cast( c );
+                                    final Dimension size = w.getSize();
+
+                                    // Redraw gadget
+                                    w.pack();
+
+                                    // Try to keep original size
+                                    Dimension newSize = w.getSize();
+                                    if( newSize.height < size.height ) {
+                                        newSize.height = size.height;
+                                        }
+                                    if( newSize.width < size.width ) {
+                                        newSize.width = size.width;
+                                        }
+
+                                    w.setSize( newSize );
+                                    }
+                                }
+
+                            fireLookAndFeelChanging( cname );
                             }
+                        catch( Exception e ) {
+                            logger.error( "Apply LookAndFeel: " + cname, e );
+                            }
+                    }
+                };
 
-                        fireLookAndFeelChanging( cname );
-                        }
-                    catch( Exception e ) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        }
-                }
-            };
+                jMenuItem.addMouseListener( new MouseAdapter() {
+                    @Override
+                    public void mousePressed( MouseEvent event )
+                    {
+                        SwingUtilities.invokeLater( r );
+                    }
+                });
 
-            jMenuItem.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mousePressed( MouseEvent event )
-                {
-                    SwingUtilities.invokeLater( r );
-                }
-            });
-
-            jMenu.add( jMenuItem );
+                jMenu.add( jMenuItem );
+            }
         }
     }
 

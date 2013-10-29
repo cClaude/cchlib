@@ -26,7 +26,7 @@ public class JFileChooserInitializer
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger(JFileChooserInitializer.class);
-    
+
     /** @serial */
     private JFileChooser jFileChooser;
     /** @serial */
@@ -340,7 +340,7 @@ public class JFileChooserInitializer
                 @Override
                 public void run()
                 {
-                	try {
+                    try {
                         JFileChooser jfc = new JFileChooser();
 
                         if( jFileChooser != null ) {
@@ -360,9 +360,9 @@ public class JFileChooserInitializer
                         jFileChooser = jfc;
 
                         fireJFileChooserInitializerJFileChooserReady();
-                	} catch( Throwable e ) {
-                		logger.fatal("JFileChooserInitializer.init0()",e);
-                	}
+                    } catch( Throwable e ) {
+                        logger.fatal("JFileChooserInitializer.init0()",e);
+                    }
                 }
             };
 

@@ -38,7 +38,6 @@ class MethodProviderImpl implements MethodProvider
         MethodContener methodContener = new MethodContenerImpl( clazz, methodName );
 
         methodContener.getInvokeMethod();
-        //methodContener.getSetter();
 
         return methodContener;
     }

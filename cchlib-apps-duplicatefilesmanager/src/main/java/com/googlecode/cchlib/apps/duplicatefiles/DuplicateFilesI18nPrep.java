@@ -27,8 +27,7 @@ public class DuplicateFilesI18nPrep
     public static void main( final String[] args ) throws IOException, HeadlessException, TooManyListenersException, InterruptedException
     {
         // Default language !
-        Preferences preferences = Preferences.createDefaultPreferences();
-        Locale locale = Locale.ENGLISH;
+        Preferences preferences = getPreferences();
 
         // Build frame
         DefaultDFToolKit    defaultDFToolKit_   = new DefaultDFToolKit( preferences );
@@ -48,7 +47,7 @@ public class DuplicateFilesI18nPrep
         EnumSet<AutoI18nConfig> config                 = dfToolKit.getAutoI18nConfig();
         I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
 
-        I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, locale );
+        I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
 
         Result r = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
@@ -62,5 +61,13 @@ public class DuplicateFilesI18nPrep
             }
         System.gc();
         Thread.sleep( 1000 );
+    }
+
+    
+    private static Preferences getPreferences()
+    {
+        final Preferences preferences = Preferences.createDefaultPreferences();
+        preferences.setLocale( Locale.ENGLISH );
+        return preferences;
     }
 }

@@ -60,7 +60,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
     public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );
-        
+
         for( SelectorPanel p : this.map.values() ) {
             p.performeI18n( autoI18n );
             }

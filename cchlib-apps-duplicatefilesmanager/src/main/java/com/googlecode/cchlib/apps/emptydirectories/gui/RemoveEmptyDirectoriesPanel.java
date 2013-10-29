@@ -16,6 +16,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel;
@@ -93,7 +94,9 @@ public class RemoveEmptyDirectoriesPanel
                 if( currentSelectedNodeModel instanceof FolderTreeNode ) {
                     FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
 
-                    treeModel.toggleSelected( selectedNode );
+                    if( selectedNode.getFolder() instanceof EmptyFolder ) {
+                        treeModel.toggleSelected( selectedNode );
+                    } // else click on a none empty folder => ignore
                  }
             }});
         EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );

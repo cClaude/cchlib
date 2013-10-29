@@ -171,9 +171,8 @@ final public class DuplicateFilesFrame
         getDuplicateFilesMainPanel().initFixComponents();
 
         // initDynComponents
-        //MenuHelper.buildLookAndFeelMenu( this, getJMenuLookAndFeel() );
         LookAndFeelMenu lafMenu = new LookAndFeelMenu( this );
-        //FIXME to test
+
         lafMenu.addChangeLookAndFeelListener( getDuplicateFilesMainPanel().getJPanel1Config() );
         lafMenu.buildMenu( getJMenuLookAndFeel() );
 
@@ -189,7 +188,6 @@ final public class DuplicateFilesFrame
                         LookAndFeel newLAF = LookAndFeel.class.cast( e.getNewValue() );
 
                         if( ! newLAF.equals( oldLAF ) ) {
-                             //getJPanel1Config().initFixComponents();
                              //
                              // Add extra customization here
                              //

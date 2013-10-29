@@ -23,9 +23,9 @@ class EmptyDirectoryTreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
     private final static Logger logger = Logger.getLogger( EmptyDirectoryTreeCellRenderer.class );
+
     final private FolderTreeModelable model;
 
-    //private JLabel checkBox = new JLabel();
     private Icon nodeLeafRendererIcon;
     private Icon nodeLeafRendererIconSelected;
     private Icon nodeLeafEmptyRendererIcon;
@@ -207,7 +207,7 @@ class EmptyDirectoryTreeCellRenderer
             FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
             Folder         folder    = nodeValue.getFolder();
             File           file      = folder.getPath().toFile();
-            
+
             super.setToolTipText( file.getPath() );
 
             if( folder instanceof EmptyFolder ) {
@@ -229,8 +229,28 @@ class EmptyDirectoryTreeCellRenderer
                 //value = checkBox;
                 }
             }
-        
+
         return cellEditorValue;
     }
+
+//    @Override
+//    public void setIcon( Icon icon )
+//    {
+//        logger.info( "icon = " + icon );
+//
+//        if( icon instanceof ImageIcon ) {
+//            File file = new File( icon.toString() );
+//            try {
+//                Images.saveTo( (ImageIcon)icon, file, BufferedImage.TYPE_INT_ARGB );
+//                }
+//            catch( IOException e ) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//                }
+//            super.setIcon( icon );
+//            }
+//
+//        new Exception().printStackTrace();
+//    }
 
 }
