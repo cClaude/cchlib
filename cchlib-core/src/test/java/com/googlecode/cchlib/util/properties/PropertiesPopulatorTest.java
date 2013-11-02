@@ -50,7 +50,6 @@ public class PropertiesPopulatorTest
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void test_PropertiesPopulator1() throws PopulatorException
     {
