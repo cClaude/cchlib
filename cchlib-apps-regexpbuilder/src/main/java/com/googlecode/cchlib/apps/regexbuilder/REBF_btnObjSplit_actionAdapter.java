@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 class REBF_btnObjSplit_actionAdapter
     implements ActionListener
 {
-    RegExpBuilderPanel adaptee;
+    private RegExpBuilderPanel adaptee;
 
     REBF_btnObjSplit_actionAdapter( final RegExpBuilderPanel adaptee )
     {

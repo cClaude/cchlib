@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.AWTEvent;
@@ -251,7 +252,7 @@ public class RegExpBuilderFrame
     }
 
 
-    class XRegExpBuilderPanel extends RegExpBuilderPanel
+    private static class XRegExpBuilderPanel extends RegExpBuilderPanel
     {
         private static final long serialVersionUID = 1L;
 

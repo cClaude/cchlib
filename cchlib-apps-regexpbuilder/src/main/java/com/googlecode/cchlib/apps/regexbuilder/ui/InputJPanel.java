@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.regexbuilder.ui;
 
 import javax.swing.JPanel;
