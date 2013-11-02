@@ -92,8 +92,7 @@ public class DuplicateFileCollector
      * @throws IllegalStateException if {@link #pass2()} already call.
      * @see #pass2()
      */
-    synchronized
-    public void pass1Add(Iterable<File> files)
+    public synchronized void pass1Add(Iterable<File> files)
     {
         if( this.alreadyCallPass2 ) {
             throw new IllegalStateException();
@@ -101,7 +100,7 @@ public class DuplicateFileCollector
         for(File f:files) {
             long size = f.length();
 
-            if( ignoreEmptyFile && size == 0 ) {
+            if( ignoreEmptyFile && (size == 0) ) {
                 continue;
             }
 
@@ -172,7 +171,7 @@ public class DuplicateFileCollector
      * @see MessageDigestFile#compute(File)
      * @throws IllegalStateException if {@link #pass2()} already call.
      */
-    synchronized public void pass2()
+    public synchronized void pass2()
     {
         if( this.alreadyCallPass2 ) {
             throw new IllegalStateException();

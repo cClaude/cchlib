@@ -9,8 +9,8 @@ import java.io.PipedOutputStream;
  * TODOC
  *
  */
-public class CloneInputStreamThread 
-    extends Thread 
+public class CloneInputStreamThread
+    extends Thread
 {
     private final InputStream                   is;
     private InputStreamThreadExceptionHandler[] exceptionHandlers;
@@ -21,24 +21,24 @@ public class CloneInputStreamThread
 
     /**
      * TODOC
-     * 
+     *
      * @param is
      * @param bufferSize
-     * @param exceptionHandlers 
-     * 
+     * @param exceptionHandlers
+     *
      * @throws IOException
      * @throws NullPointerException
      * @throws IllegalArgumentException
      */
-    public CloneInputStreamThread( 
-        final InputStream                           is, 
+    public CloneInputStreamThread(
+        final InputStream                           is,
         final int                                   bufferSize,
         final InputStreamThreadExceptionHandler...  exceptionHandlers        ) throws IOException
     {
-        this( 
-            CloneInputStreamThread.class.getName(), 
-            is, 
-            bufferSize, 
+        this(
+            CloneInputStreamThread.class.getName(),
+            is,
+            bufferSize,
             exceptionHandlers
             );
     }
@@ -47,21 +47,21 @@ public class CloneInputStreamThread
      * Copy giving {@link InputStream} to a list of {@link InputStream}.
      * <br/>
      * Number of produce {@link InputStream} is define by number of exceptionHandlers
-     * 
+     *
      * @param threadName
      * @param is
      * @param bufferSize
      * @param exceptionHandlers
-     * 
+     *
      * @throws IOException
      * @throws NullPointerException
      * @throws IllegalArgumentException
      */
     public CloneInputStreamThread(
-        final String                                threadName, 
+        final String                                threadName,
         final InputStream                           is,
         final int                                   bufferSize,
-        final InputStreamThreadExceptionHandler...  exceptionHandlers 
+        final InputStreamThreadExceptionHandler...  exceptionHandlers
         ) throws IOException
     {
         super( threadName );
@@ -76,28 +76,28 @@ public class CloneInputStreamThread
             throw new NullPointerException( "Exception handler array is null" );
             }
         if( exceptionHandlers.length == 0 ) {
-            throw new IllegalArgumentException( 
-                "Exception handler array must have at leat one element" 
+            throw new IllegalArgumentException(
+                "Exception handler array must have at leat one element"
                 );
             }
-        
+
         for( InputStreamThreadExceptionHandler exceptionHandler : exceptionHandlers ) {
             if( exceptionHandler == null ) {
                 throw new NullPointerException( "At leat one exception handler is null" );
                 }
             }
-         
+
         this.is                 = is;
         this.bufferSize         = bufferSize;
         this.exceptionHandlers  = exceptionHandlers;
-        
+
         this.running = true;
         this.pipesOut = new PipedOutputStream[ this.exceptionHandlers.length ];
         this.pipesIn  = new PipedInputStream[ this.exceptionHandlers.length ];
-        
+
         for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
-            this.pipesOut[ i ] = new PipedOutputStream();
-            this.pipesIn[ i ]  = new PipedInputStream( this.pipesOut[ i ] );
+            this.pipesOut[ i ] = new PipedOutputStream(); // $codepro.audit.disable avoidInstantiationInLoops
+            this.pipesIn[ i ]  = new PipedInputStream( this.pipesOut[ i ] ); // $codepro.audit.disable avoidInstantiationInLoops
             }
 
         setDaemon( true );
@@ -111,7 +111,7 @@ public class CloneInputStreamThread
     {
         return this.pipesIn[ index ];
     }
-    
+
     /**
      * TODOC
      * @return TODOC
@@ -125,10 +125,10 @@ public class CloneInputStreamThread
     public void run()
     {
         final byte[] buffer = new byte[ bufferSize ];
-        
+
         while( running ) {
             int len;
-            
+
             try {
                 len = is.read( buffer, 0, buffer.length );
 

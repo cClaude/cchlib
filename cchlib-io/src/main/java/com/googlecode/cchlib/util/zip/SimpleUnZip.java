@@ -71,7 +71,7 @@ public class SimpleUnZip
     }
 
     @Override
-    protected void finalize() throws Throwable
+    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         close();
         super.finalize();

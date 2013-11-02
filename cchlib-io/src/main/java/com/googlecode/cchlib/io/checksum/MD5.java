@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
- * 
+ *
  * @author Santeri Paavolainen http://www.helsinki.fi/~sjpaavol/programs/md5/
  * @author Stephen Ostermiller http://ostermiller.org/contact.pl?regarding=Java+Utilities
  * @author Claude CHOISNET (remove some memory leaks, provide some optimization)
@@ -29,27 +29,27 @@ public class MD5
      *
      * @return Array of 16 bytes, the hash of all updated bytes.
      */
-    public byte[] getHash() 
+    public byte[] getHash()
     {
         if( !finalState.valid ) {
             finalState.copy( workingState );
-            
+
             long bitCount = finalState.bitCount;
-            
+
             // Compute the number of left over bits
             int leftOver = (int) (((bitCount >>> 3)) & 0x3f);
-            
+
             // Compute the amount of padding to add based on number of left over bits.
             int padlen = (leftOver < 56) ? (56 - leftOver) : (120 - leftOver);
-            
+
             // add the padding
-            update(finalState, padding, 0, padlen);
-            
+            update(finalState, PADDING, 0, padlen);
+
             // add the length (computed before padding was added)
             update(finalState, encode(bitCount), 0, 8);
             finalState.valid = true;
             }
-        
+
         // make a copy of the hash before returning it.
         return encode( finalState.state, 16 );
     }
@@ -97,16 +97,16 @@ public class MD5
      * @return Array of 16 bytes, the hash of all updated bytes.
      * @throws IOException if an I/O error occurs.
      */
-    public static byte[] getHash( final InputStream in ) throws IOException 
+    public static byte[] getHash( final InputStream in ) throws IOException
     {
         MD5       md5     = new MD5();
         byte[]    buffer  = new byte[1024];
         int       read;
-        
+
         while( (read = in.read(buffer)) != -1 ) {
             md5.update(buffer, read);
             }
-        
+
         return md5.getHash();
     }
 
@@ -117,17 +117,17 @@ public class MD5
      * @return 32-character hex representation the data's MD5 hash.
      * @throws IOException if an I/O error occurs.
      */
-    public static String getHashString( final InputStream in ) 
-        throws IOException 
+    public static String getHashString( final InputStream in )
+        throws IOException
     {
         MD5       md5     = new MD5();
         byte[]    buffer  = new byte[1024];
         int       read;
-        
+
         while((read = in.read(buffer)) != -1 ) {
             md5.update(buffer, read);
             }
-        
+
         return md5.getHashString();
     }
 
@@ -142,14 +142,14 @@ public class MD5
     {
         InputStream is = new BufferedInputStream( new FileInputStream( f ) );
         byte[]      hash;
-        
+
         try {
             hash  = getHash(is);
             }
         finally {
             is.close();
             }
-        
+
         return hash;
     }
 
@@ -161,18 +161,18 @@ public class MD5
      * @throws IOException if an I/O error occurs.
      */
     public static String getHashString( final File f )
-        throws IOException 
+        throws IOException
     {
         InputStream is = new BufferedInputStream( new FileInputStream( f ) );
         String      hash;
-        
+
         try {
             hash = getHashString(is);
             }
         finally {
             is.close();
             }
-        
+
         return hash;
     }
 
@@ -214,7 +214,7 @@ public class MD5
      * @return Array of 16 bytes, the hash of all updated bytes.
      * @throws UnsupportedEncodingException If the named encoding is not supported.
      */
-    public static byte[] getHash(String s, String enc) throws UnsupportedEncodingException 
+    public static byte[] getHash(String s, String enc) throws UnsupportedEncodingException
     {
         MD5 md5 = new MD5();
         md5.update(s, enc);
@@ -229,7 +229,7 @@ public class MD5
      * @return 32-character hex representation the data's MD5 hash.
      * @throws UnsupportedEncodingException If the named encoding is not supported.
      */
-    public static String getHashString(String s, String enc) throws UnsupportedEncodingException 
+    public static String getHashString(String s, String enc) throws UnsupportedEncodingException
     {
         MD5 md5 = new MD5();
         md5.update(s, enc);
@@ -239,7 +239,7 @@ public class MD5
     /**
      * Reset the MD5 sum to its initial state.
      */
-    public void reset() 
+    public void reset()
     {
         workingState.reset();
         finalState.valid = false;
@@ -250,7 +250,7 @@ public class MD5
      *
      * @return String representation of this object's hash.
      */
-    @Override 
+    @Override
     public String toString()
     {
         return getHashString();
@@ -271,7 +271,7 @@ public class MD5
      * @param offset Offset to buffer array.
      * @param length number of bytes to hash.
      */
-    private void update( MD5State state, byte[] buffer, int offset, int length ) 
+    private void update( MD5State state, byte[] buffer, int offset, int length )
     {
         finalState.valid = false;
 
@@ -290,23 +290,23 @@ public class MD5
 
         int partlen = 64 - index;
         int i       = 0;
-        
+
         if( length >= partlen ) {
             System.arraycopy( buffer, offset, state.buffer, index, partlen );
-            
+
             transform( state, decode( state.buffer, 64, 0 ) );
-            
+
             for (i = partlen; (i + 63) < length; i+= 64){
                 transform(state, decode(buffer, 64, i));
                 }
-            
+
             index = 0;
             }
 
         // buffer remaining input
         if( i < length ) {
             for (int start = i; i < length; i++) {
-                state.buffer[index + i - start] = buffer[i + offset];
+                state.buffer[(index + i) - start] = buffer[i + offset];
                 }
             }
     }
@@ -321,7 +321,7 @@ public class MD5
      * @param offset Offset to buffer array.
      * @param length number of bytes to hash.
      */
-    public void update( byte[] buffer, int offset, int length ) 
+    public void update( byte[] buffer, int offset, int length )
     {
         update( workingState, buffer, offset, length );
     }
@@ -335,7 +335,7 @@ public class MD5
      * @param buffer Array of bytes to be hashed.
      * @param length number of bytes to hash.
      */
-    public void update( byte[] buffer, int length ) 
+    public void update( byte[] buffer, int length )
     {
         update( buffer, 0, length );
     }
@@ -345,7 +345,7 @@ public class MD5
      *
      * @param buffer Array of bytes to be hashed.
      */
-    public void update( byte[] buffer ) 
+    public void update( byte[] buffer )
     {
         update(buffer, 0, buffer.length);
     }
@@ -355,7 +355,7 @@ public class MD5
      *
      * @param b byte to be hashed.
      */
-    public void update( byte b ) 
+    public void update( byte b )
     {
         byte[] buffer = new byte[1];
         buffer[0] = b;
@@ -369,7 +369,7 @@ public class MD5
      *
      * @param s String to be hashed.
      */
-    public void update( String s ) 
+    public void update( String s )
     {
         update( s.getBytes() );
     }
@@ -381,7 +381,7 @@ public class MD5
      * @param enc The name of a supported character encoding.
      * @throws UnsupportedEncodingException If the named encoding is not supported.
      */
-    public void update( String s, String enc ) throws UnsupportedEncodingException 
+    public void update( String s, String enc ) throws UnsupportedEncodingException
     {
         update( s.getBytes( enc ) );
     }
@@ -408,7 +408,7 @@ public class MD5
      * 64 bytes of padding that can be added if the length
      * is not divisible by 64.
      */
-    private static final byte[] padding = {
+    private static final byte[] PADDING = {
       (byte) 0x80, 0, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 0, 0,
@@ -423,7 +423,7 @@ public class MD5
      * Contains internal state of the MD5 class.
      * Passes MD5 test suite as defined in RFC1321.
      */
-    private class MD5State 
+    private static class MD5State
     {
         /**
          * True if this state is valid.
@@ -474,11 +474,11 @@ public class MD5
         {
             System.arraycopy(from.buffer, 0, this.buffer, 0, this.buffer.length);
             System.arraycopy(from.state, 0, this.state, 0, this.state.length);
-            
+
             this.valid    = from.valid;
             this.bitCount = from.bitCount;
         }
-    }//class MD5State 
+    }//class MD5State
 
     /**
      * Turns array of bytes into string representing each byte as
@@ -490,23 +490,23 @@ public class MD5
     private static String toHex( byte[] hash )
     {
         StringBuilder buf = new StringBuilder( hash.length * 2 );
-        
+
         for( byte element: hash ) {
             int intVal = element & 0xff;
-            
+
             if( intVal < 0x10 ) {
                 // append a zero before a one digit hex
                 // number to make it two digits.
                 buf.append('0');
                 }
-            
+
             buf.append( Integer.toHexString( intVal ) );
             }
-        
+
         return buf.toString().toUpperCase();
     }
 
-    private static int FF( int a, int b, int c, int d, int x, int s, int ac ) 
+    private static int FF( int a, int b, int c, int d, int x, int s, int ac )
     {
         a += ((b & c) | (~b & d));
         a += x;
@@ -564,21 +564,21 @@ public class MD5
     {
         byte[] out = new byte[len];
         int i, j;
-        
+
         for (i = j = 0; j  < len; i++, j += 4) {
             out[j] = (byte) (input[i] & 0xff);
             out[j + 1] = (byte) ((input[i] >>> 8) & 0xff);
             out[j + 2] = (byte) ((input[i] >>> 16) & 0xff);
             out[j + 3] = (byte) ((input[i] >>> 24) & 0xff);
             }
-        
+
         return out;
     }
 
     private int[] decode( byte[] buffer, int len, int offset )
     {
       int i, j;
-      
+
       for (i = j = 0; j < len; i++, j += 4) {
           decodeBuffer[i] = (
                   (buffer[j + offset] & 0xff)) |

@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  *
  * @see FileIterator
  */
-public class DirectoryIterator
+public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
     implements  Iterator<File>,
                 Iterable<File>
 {

@@ -8,8 +8,8 @@ import java.awt.Dimension;
 final class DefaultExtendedFileDataTypeDescription
     implements ExtendedFileDataTypeDescription
 {
-    final private FileDataTypeDescription typeDescription;
-    final private Dimension dimension;
+    private final FileDataTypeDescription typeDescription;
+    private final Dimension dimension;
     private String formatName;
     
     /**

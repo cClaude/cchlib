@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class FileRollingOutputStream
     extends OutputStream
 {
-    private final static Logger logger = Logger.getLogger( FileRollingOutputStream.class );
+    private static final Logger logger = Logger.getLogger( FileRollingOutputStream.class );
 
     private final List<File>    fileList    = new ArrayList<File>();;
     private FileRoller          fileRoller;
@@ -98,7 +98,7 @@ public class FileRollingOutputStream
     {
         this.currentLength += len;
 
-        if( this.currentLength + len > this.maxLength ) {
+        if( (this.currentLength + len) > this.maxLength ) {
             roolToNewFile();
             }
     }

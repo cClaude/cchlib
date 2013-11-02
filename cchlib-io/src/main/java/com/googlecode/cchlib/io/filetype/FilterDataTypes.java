@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 class FilterDataTypes extends FilterInputStream
 {
-    private final static Logger logger = Logger.getLogger( FilterDataTypes.class );
+    private static final Logger logger = Logger.getLogger( FilterDataTypes.class );
     private int offset = 0;
     private boolean ready = false;
     private FileDataTypeDescription currentType = null;
@@ -80,7 +80,7 @@ class FilterDataTypes extends FilterInputStream
         if( ! ready ) {
             // Check offset with value b
             
-            if( b<0 || b>255 ) {
+            if( (b<0) || (b>255) ) {
                 throw new IOException( "unsupported value: " + b );
                 }
             
@@ -121,7 +121,7 @@ class FilterDataTypes extends FilterInputStream
     private void update( byte[] b, int off, int len ) throws IOException
     {
         if( ! ready ) {
-            for( int i = off; i < len + off; i++ ) {
+            for( int i = off; i < (len + off); i++ ) {
                 update( 0x000000FF & (int)(b[ i ]) );
                 
                 if( ready ) {

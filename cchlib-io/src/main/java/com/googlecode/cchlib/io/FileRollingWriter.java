@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 public class FileRollingWriter
     extends Writer
 {
-    private final static Logger logger = Logger.getLogger( FileRollingWriter.class );
+    private static final Logger logger = Logger.getLogger( FileRollingWriter.class );
 
     private final FileRoller    fileRoller;
     private final List<File>    fileList    = new ArrayList<File>();;
@@ -98,7 +98,7 @@ public class FileRollingWriter
     {
         this.currentLength += len;
 
-        if( this.currentLength + len > this.maxLength ) {
+        if( (this.currentLength + len) > this.maxLength ) {
             roolToNewFile();
             }
     }

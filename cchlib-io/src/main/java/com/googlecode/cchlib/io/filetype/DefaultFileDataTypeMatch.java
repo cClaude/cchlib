@@ -59,7 +59,7 @@ class DefaultFileDataTypeMatch implements FileDataTypeMatch
     @Override
     public boolean isLastOffset( int offset )
     {
-        return offset == sample.length - 1;
+        return offset == (sample.length - 1);
     }
     
     @Override

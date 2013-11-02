@@ -22,7 +22,7 @@ public class MessageDigestFile
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final static char[] HEX = {
+    private static final char[] HEX = {
         '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
         };
     private transient MessageDigest md;
@@ -34,7 +34,7 @@ public class MessageDigestFile
     /**
      * Default buffer size : {@value}
      */
-    protected final static int DEFAULT_BUFFER_SIZE = 8192;
+    protected static final int DEFAULT_BUFFER_SIZE = 8192;
 
     /**
      * Create a MessageDigestFile object that based on
@@ -258,7 +258,7 @@ public class MessageDigestFile
         final int slen = digestHexKey.length();
         final int len   = slen / 2;
 
-        if(len * 2 != slen ) {
+        if((len * 2) != slen ) {
             throw new NumberFormatException("key error * bad length()");
             }
 
@@ -298,7 +298,7 @@ public class MessageDigestFile
         	
             try {
                 for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                        fchannel.read(bb) != -1 || bb.position() > 0;
+                        (fchannel.read(bb) != -1) || (bb.position() > 0);
                         bb.compact()
                         ) {
                     bb.flip();
@@ -342,7 +342,7 @@ public class MessageDigestFile
         
         try {
             for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                    fchannel.read(bb) != -1 || bb.position() > 0;
+                    (fchannel.read(bb) != -1) || (bb.position() > 0);
                     bb.compact()
                     ) {
                 bb.flip();

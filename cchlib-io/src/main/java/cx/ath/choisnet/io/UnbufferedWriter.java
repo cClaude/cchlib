@@ -48,7 +48,7 @@ public final class UnbufferedWriter extends Writer
 
             writer.write(b);
 
-            if(b == '\n' || b == '\r') {
+            if((b == '\n') || (b == '\r')) {
                 flush();
             }
 

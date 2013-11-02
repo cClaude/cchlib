@@ -83,7 +83,7 @@ public final class FileHelper
         String baseName = System.currentTimeMillis() + "-";
         
         for( int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++ ) {
-            File tempDir = new File( baseDir, baseName + counter);
+            File tempDir = new File( baseDir, baseName + counter); // $codepro.audit.disable avoidInstantiationInLoops
             
             if( tempDir.mkdir() ) {
                 return tempDir;
