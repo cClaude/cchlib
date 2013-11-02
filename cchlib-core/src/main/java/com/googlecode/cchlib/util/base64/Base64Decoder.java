@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.base64;
 
 import java.io.CharArrayReader;
@@ -118,9 +119,9 @@ public class Base64Decoder extends Base64
      * @return decoded String according to Charset
      * @throws UnsupportedEncodingException
      */
-    public static String decode( 
-            final String str, 
-            final String charsetName 
+    public static String decode(
+            final String str,
+            final String charsetName
             )
         throws UnsupportedEncodingException
     {
@@ -131,7 +132,7 @@ public class Base64Decoder extends Base64
 
     /**
      * Efficient decode method for String
-     * 
+     *
      * @param str String to decode
      * @return decoded String using default Charset
      * @throws UnsupportedEncodingException
@@ -150,8 +151,8 @@ public class Base64Decoder extends Base64
      * @param charset {@link java.nio.charset.Charset} to use to encode String
      * @return decoded String according to CharSet
      */
-    public static String decode( 
-        final String  str, 
+    public static String decode(
+        final String  str,
         final Charset charset
         )
     {
@@ -179,19 +180,19 @@ public class Base64Decoder extends Base64
      * @param length    Number of char to read in array (must be divisible by 4)
      * @return an array of bytes
      */
-    public static byte[] decode( 
-        final char[]    in, 
-        final int       offset, 
+    public static byte[] decode(
+        final char[]    in,
+        final int       offset,
         int             length
         )
     {
-        if( length%4 != 0 ) {
+        if( (length % 4) != 0 ) {
             throw new IllegalArgumentException(
                 "Length of Base64 encoded input string is not a multiple of 4."
                 );
             }
 
-        while( length > 0 && in[offset+length-1] == '=' ) {
+        while( (length > 0) && (in[offset+length-1] == '=') ) {
             length--;
             }
 
@@ -204,36 +205,36 @@ public class Base64Decoder extends Base64
         while( ip < iEnd ) {
             int i0 = in[ip++];
             int i1 = in[ip++];
-            int i2 = ip < iEnd ? in[ip++] : 'A';
-            int i3 = ip < iEnd ? in[ip++] : 'A';
-            
-            if( i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127 ) {
+            int i2 = (ip < iEnd) ? in[ip++] : 'A';
+            int i3 = (ip < iEnd) ? in[ip++] : 'A';
+
+            if( (i0 > 127) || (i1 > 127) || (i2 > 127) || i3 > 127 ) {
                 throw new IllegalArgumentException(
                     "Illegal character in Base64 encoded data. (<127) : ip=" + ip
                     );
                 }
-            
+
             int b0 = map2[i0];
             int b1 = map2[i1];
             int b2 = map2[i2];
             int b3 = map2[i3];
-            
+
             if( b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ) {
                 throw new IllegalArgumentException(
                     "Illegal character in Base64 encoded data. (>0) : ip=" + ip
                     );
                 }
-            
+
             int o0 = ( b0       <<2) | (b1>>>4);
             int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
             int o2 = ((b2 &   3)<<6) |  b3;
-            
+
             out[op++] = (byte)o0;
-            
+
             if (op<oLen) { out[op++] = (byte)o1; }
             if (op<oLen) { out[op++] = (byte)o2; }
             }
-        
+
         return out;
         }
 }

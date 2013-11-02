@@ -1,7 +1,8 @@
+// $codepro.audit.disable avoidAutoBoxing, numericLiterals
 package com.googlecode.cchlib.util;
 
-import static org.junit.Assert.assertEquals;
 import java.util.Iterator;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -25,9 +26,9 @@ public class HashMapSetTest
                     String.format( "val%d", i )
                     );
         }
-        assertEquals(size,hms.size());
-        assertEquals(size,hms.valuesSize());
-        assertEquals(size,sizeOfHashMapSet(hms));
+        Assert.assertEquals(size,hms.size());
+        Assert.assertEquals(size,hms.valuesSize());
+        Assert.assertEquals(size,sizeOfHashMapSet(hms));
 
         // Add same keys-values, no changes !
         for(int i=0;i<size;i++) {
@@ -36,8 +37,8 @@ public class HashMapSetTest
                     String.format( "val%d", i )
                     );
         }
-        assertEquals(size,hms.size());
-        assertEquals(size,hms.valuesSize());
+        Assert.assertEquals(size,hms.size());
+        Assert.assertEquals(size,hms.valuesSize());
 
         // Add same keys, but with different values
         for(int i=0;i<size;i++) {
@@ -46,9 +47,9 @@ public class HashMapSetTest
                     String.format( "XX%d", i )
                     );
         }
-        assertEquals(size,hms.size());
-        assertEquals(size*2,hms.valuesSize());
-        assertEquals(size*2,sizeOfHashMapSet(hms));
+        Assert.assertEquals(size,hms.size());
+        Assert.assertEquals(size*2,hms.valuesSize());
+        Assert.assertEquals(size*2,sizeOfHashMapSet(hms));
     }
 
     private int sizeOfHashMapSet( HashMapSet<?,?> hms )

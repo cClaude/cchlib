@@ -1,9 +1,10 @@
 package com.googlecode.cchlib.util;
 
 import java.util.AbstractCollection;
-import java.util.Iterator;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import java.util.Collection;
+import java.util.Iterator;
+
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
  * Unmodifiable {@link Collection} base on an array

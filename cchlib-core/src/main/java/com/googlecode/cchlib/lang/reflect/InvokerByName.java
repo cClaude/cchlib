@@ -46,7 +46,7 @@ public class InvokerByName<T> extends Invoker<T>
                ( getClazz().isAssignableFrom( instance.getClass() ) ) 
                : "intance = " + instance + " - getClazz() = " + getClazz();
 
-        if( params == null || params.length == 0 ) {
+        if( (params == null) || (params.length == 0) ) {
             assert getMethodName() != null;
             
             Method method = getClazz().getMethod( getMethodName(), new Class<?>[0] );

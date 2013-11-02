@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.lang;
 
 import java.io.ByteArrayInputStream;
@@ -135,7 +136,7 @@ public class ByteArrayBuilder
             int newLength;
 
             for(newLength = buffer.length; newLength < minimumCapacity; ) {
-                newLength = newLength + 1 << 1;
+                newLength = (newLength + 1) << 1;
                 }
 
             byte[] newBuffer = new byte[newLength];
@@ -403,7 +404,7 @@ public class ByteArrayBuilder
     @Override
     public int compareTo(@Nonnull final ByteArrayBuilder aByteArrayBuilder)
     {
-        int length = lastPos >= aByteArrayBuilder.lastPos
+        int length = (lastPos >= aByteArrayBuilder.lastPos)
                         ? aByteArrayBuilder.lastPos
                         : lastPos;
 
@@ -434,8 +435,8 @@ public class ByteArrayBuilder
     public int hashCode()
     {
         int hash = 3;
-        hash = 97 * hash + Arrays.hashCode(this.buffer);
-        hash = 97 * hash + this.lastPos;
+        hash = (97 * hash) + Arrays.hashCode(this.buffer);
+        hash = (97 * hash) + this.lastPos;
         return hash;
     }
 
@@ -629,7 +630,7 @@ public class ByteArrayBuilder
             int j = 0;
 
             for (int i = from/*0*/; i < data.length; i++) {
-                while( j > 0 && pattern[j] != data[i] ) {
+                while( (j > 0) && (pattern[j] != data[i]) ) {
                     j = failure[j - 1];
                     }
 
@@ -638,7 +639,7 @@ public class ByteArrayBuilder
                     }
 
                 if( j == pattern.length ) {
-                    return i - pattern.length + 1;
+                    return (i - pattern.length) + 1;
                     }
                 }
             return -1;
@@ -654,7 +655,7 @@ public class ByteArrayBuilder
             int   j       = 0;
 
             for( int i = 1; i < pattern.length; i++ ) {
-                while( j>0 && pattern[j] != pattern[i] ) {
+                while( (j>0) && (pattern[j] != pattern[i]) ) {
                     j = failure[j - 1];
                     }
 

@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidAutoBoxing
 package cx.ath.choisnet.util;
 
 import java.io.File;
@@ -28,7 +29,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 
 public class FormattedPropertiesTest
 {
-    private final static String REF = "tstref.properties";
+    private static final String REF = "tstref.properties";
     private Properties refPropertiesStream;
     private Properties refPropertiesReader;
 
@@ -53,8 +54,8 @@ public class FormattedPropertiesTest
 //                );
 
         // Something loaded ?
-        Assert.assertTrue("Should not empty",0 != refPropertiesStream.size() );
-        Assert.assertTrue("Should not empty",0 != refPropertiesReader.size() );
+        Assert.assertTrue("Should not empty",refPropertiesStream.size() != 0 );
+        Assert.assertTrue("Should not empty",refPropertiesReader.size() != 0 );
 
         // Verify standard Properties
         // give same result using Steam and Reader
@@ -402,7 +403,7 @@ public class FormattedPropertiesTest
         // for giving file
         Assert.assertEquals(
                 "bad size()",
-                propRef .size(),
+                propRef.size(),
                 prop.size()
                 );
 

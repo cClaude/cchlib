@@ -39,7 +39,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  */
 public class PropertiesPopulator<E>
 {
-    private final static Logger logger = Logger.getLogger( PropertiesPopulator.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
     private Map<Field,PropertiesPopulatorAnnotation<E>> keyFieldMap;
 
     private interface PropertiesPopulatorAnnotation<E>
@@ -47,7 +47,7 @@ public class PropertiesPopulator<E>
         /**
          * Return annotation value
          */
-        public boolean defaultValueIsNull();
+        public boolean isDefaultValueNull();
         /**
          * Return annotation value
          */
@@ -100,7 +100,7 @@ public class PropertiesPopulator<E>
             this.populator = populator;
         }
         @Override
-        public boolean defaultValueIsNull()
+        public boolean isDefaultValueNull()
         {
             return populator.defaultValueIsNull();
         }
@@ -143,7 +143,7 @@ public class PropertiesPopulator<E>
             this.persistent = persistent;
         }
         @Override
-        public boolean defaultValueIsNull()
+        public boolean isDefaultValueNull()
         {
             return false;
         }
@@ -232,11 +232,11 @@ public class PropertiesPopulator<E>
                 }
             }
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Found " + this.keyFieldMap.size() + " fields on " + clazz );
-            
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Found " + this.keyFieldMap.size() + " fields on " + clazz );
+
             for( Map.Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
-                logger.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
+                LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
                 }
             }
     }
@@ -256,18 +256,18 @@ public class PropertiesPopulator<E>
         populateProperties( null, bean, properties );
     }
 
-    /**
-     * @deprecated use {@link #populateProperties(String, Object, Properties)} instead
-     */
-    @Deprecated
-    public void populateProperties(
-        final E          bean,
-        final Properties properties,
-        final String     propertiesPrefix
-        ) throws PropertiesPopulatorException
-    {
-        populateProperties( propertiesPrefix, bean, properties );
-    }
+//    /**
+//     * @deprecated use {@link #populateProperties(String, Object, Properties)} instead
+//     */
+//    @Deprecated
+//    public void populateProperties(
+//        final E          bean,
+//        final Properties properties,
+//        final String     propertiesPrefix
+//        ) throws PropertiesPopulatorException
+//    {
+//        populateProperties( propertiesPrefix, bean, properties );
+//    }
 
     /**
      * Store fields annotate with {@link Populator} from bean
@@ -275,7 +275,7 @@ public class PropertiesPopulator<E>
      * Null entries are not stored in properties, but null entries
      * from arrays are stored.
      *
-     * @param propertiesPrefix Prefix for properties names, if null or empty ignored. 
+     * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
      * @throws PropertiesPopulatorException
@@ -289,7 +289,7 @@ public class PropertiesPopulator<E>
         final StringBuilder prefix;
         final int           prefixLength;
 
-        if( propertiesPrefix == null || propertiesPrefix.isEmpty() ) {
+        if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
             prefix       = new StringBuilder();
             prefixLength = 0;
             }
@@ -298,82 +298,112 @@ public class PropertiesPopulator<E>
             prefixLength = prefix.length();
             }
 
-        for( Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
-            final Field f = entry.getKey();
+        for( final Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
+            final Field field = entry.getKey();
 
-            f.setAccessible( true );
+            field.setAccessible( true );
+
             try {
-                final Object o = f.get( bean );
+                final Object o = field.get( bean );
 
                 if( o != null ) {
-                    if( f.getType().isArray() ) {
-                        // Handle Arrays
-                        final int length = Array.getLength( o );
-
-                        for( int i = 0; i < length; i ++ ) {
-                            Object arrayElement = Array.get( o, i );
-
-                            prefix.setLength( prefixLength );
-                            prefix.append( f.getName() );
-                            prefix.append( '.' );
-                            prefix.append( i );
-
-                            if( arrayElement == null ) {
-                                properties.put( prefix.toString(), StringHelper.EMPTY );
-                                }
-                            else {
-                                // FIXME for Persistent !!!
-                                properties.put(
-                                    prefix.toString(),
-                                    // arrayElement.toString()
-                                    entry.getValue().toString( arrayElement )
-                                    );
-                                }
-                            }
+                    if( field.getType().isArray() ) {
+                        handleArray( properties, prefix, prefixLength, entry, field, o );
                         }
-                    else if( PopulatorContener.class.isAssignableFrom( f.getType() ) ) {
-                        String strValue = PopulatorContener.class.cast( o ).getConvertToString();
-
-                        if( prefixLength == 0 ) {
-                            properties.put( f.getName(), strValue );
-                            }
-                        else {
-                            prefix.setLength( prefixLength );
-                            prefix.append( f.getName() );
-                            properties.put( prefix.toString(), strValue );
-                            }
-                    }
+                    else if( PopulatorContener.class.isAssignableFrom( field.getType() ) ) {
+                        handlePopulatorContener( properties, prefix, prefixLength, field, o );
+                        }
                     else {
-                        // Handle non arrays
-                        if( prefixLength == 0 ) {
-                            //properties.put( f.getName(), o.toString() );
-                            properties.put( f.getName(), entry.getValue().toString( o ) );
-                            }
-                        else {
-                            prefix.setLength( prefixLength );
-                            prefix.append( f.getName() );
-                            //properties.put( prefix.toString(), o.toString() );
-                            properties.put( prefix.toString(), entry.getValue().toString( o ) );
-                            }
+                        handleNonArray( properties, prefix, prefixLength, entry, field, o );
                         }
                     }
                 else {
                     // Ignore null entries
-                    if( logger.isTraceEnabled() ) {
-                        logger.trace( "Ignore null value from field " + f );
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "Ignore null value from field " + field );
                         }
                     }
                 }
             catch( IllegalArgumentException e ) {
                 // ignore !
-                logger .warn( "Cannot read field:" + f, e );
+                LOGGER.warn( "Cannot read field:" + field, e );
                 }
             catch( IllegalAccessException e ) {
                 // ignore !
-                logger .warn( "Cannot read field:" + f, e );
+                LOGGER.warn( "Cannot read field:" + field, e );
                 }
             finally {
-                f.setAccessible( false );
+                field.setAccessible( false );
+                }
+            }
+    }
+    private void handleNonArray( final Properties properties,
+            final StringBuilder prefix, final int prefixLength,
+            final Entry<Field, PropertiesPopulatorAnnotation<E>> entry,
+            final Field field, final Object o )
+    {
+        // Handle non arrays
+        if( prefixLength == 0 ) {
+            //properties.put( f.getName(), o.toString() );
+            properties.put( field.getName(), entry.getValue().toString( o ) );
+            }
+        else {
+            prefix.setLength( prefixLength );
+            prefix.append( field.getName() );
+            //properties.put( prefix.toString(), o.toString() );
+            properties.put( prefix.toString(), entry.getValue().toString( o ) );
+            }
+    }
+
+    private void handlePopulatorContener(
+        final Properties properties,
+        final StringBuilder prefix,
+        final int prefixLength,
+        final Field field,
+        final Object o
+        )
+    {
+        String strValue = PopulatorContener.class.cast( o ).getConvertToString();
+
+        if( prefixLength == 0 ) {
+            properties.put( field.getName(), strValue );
+            }
+        else {
+            prefix.setLength( prefixLength );
+            prefix.append( field.getName() );
+            properties.put( prefix.toString(), strValue );
+            }
+    }
+
+    private void handleArray( final Properties properties,
+        final StringBuilder prefix,
+        final int prefixLength,
+        final Entry<Field, PropertiesPopulatorAnnotation<E>> entry,
+        final Field field,
+        final Object o
+        )
+    {
+        // Handle Arrays
+        final int length = Array.getLength( o );
+
+        for( int i = 0; i < length; i ++ ) {
+            Object arrayElement = Array.get( o, i );
+
+            prefix.setLength( prefixLength );
+            prefix.append( field.getName() );
+            prefix.append( '.' );
+            prefix.append( i );
+
+            if( arrayElement == null ) {
+                properties.put( prefix.toString(), StringHelper.EMPTY );
+                }
+            else {
+                // FIXME for Persistent !!!
+                properties.put(
+                    prefix.toString(),
+                    // arrayElement.toString()
+                    entry.getValue().toString( arrayElement )
+                    );
                 }
             }
     }
@@ -394,24 +424,24 @@ public class PropertiesPopulator<E>
         populateBean( null, properties, bean );
     }
 
-    /**
-     * @deprecated use {@link #populateBean(String, Properties, Object)} instead
-     */
-    @Deprecated
-    public void populateBean(
-        final Properties properties,
-        final String     propertiesPrefix,
-        final E          bean
-        ) throws PropertiesPopulatorException
-    {
-        populateBean(propertiesPrefix, properties, bean);
-    }
+//    /**
+//     * @deprecated use {@link #populateBean(String, Properties, Object)} instead
+//     */
+//    @Deprecated
+//    public void populateBean(
+//        final Properties properties,
+//        final String     propertiesPrefix,
+//        final E          bean
+//        ) throws PropertiesPopulatorException
+//    {
+//        populateBean(propertiesPrefix, properties, bean);
+//    }
 
     /**
      * Set fields annotate with {@link Populator} from properties
      * on bean
      *
-     * @param propertiesPrefix Prefix for properties names, if null or empty ignored. 
+     * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to store values
      * @param properties {@link Properties} to use to get values
      * @throws PropertiesPopulatorException
@@ -447,7 +477,7 @@ public class PropertiesPopulator<E>
             this.properties = properties;
             this.bean       = bean;
 
-            if( propertiesPrefix == null || propertiesPrefix.isEmpty() ) {
+            if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
                 prefix = null;
                 prefixLength = 0;
                 }
@@ -473,7 +503,7 @@ public class PropertiesPopulator<E>
                     final String strValue;
                     final String defaultValue;
 
-                    if( entry.getValue().defaultValueIsNull() ) {
+                    if( entry.getValue().isDefaultValueNull() ) {
                         defaultValue = null;
                         }
                     else {
@@ -520,15 +550,15 @@ public class PropertiesPopulator<E>
                             }
                         }
                     catch( NumberFormatException e ) {
-                        logger.warn( "Cannot set field:" + f, e );
+                        LOGGER.warn( "Cannot set field:" + f, e );
                         }
                     catch( IllegalArgumentException e ) {
                         // ignore !
-                        logger.warn( "Cannot set field:" + f, e );
+                        LOGGER.warn( "Cannot set field:" + f, e );
                         }
                     catch( IllegalAccessException e ) {
                         // ignore !
-                        logger.error( "Cannot set field:" + f, e );
+                        LOGGER.error( "Cannot set field:" + f, e );
                         }
                     finally {
                         f.setAccessible( false );
@@ -585,7 +615,7 @@ public class PropertiesPopulator<E>
 
                 Object o = f.get( bean );
 
-                if( o == null || length != Array.getLength( o ) ) {
+                if( (o == null) || (length != Array.getLength( o )) ) {
                     o = Array.newInstance( type, length );
                     f.set( bean, o );
                     }
@@ -604,11 +634,11 @@ public class PropertiesPopulator<E>
                 }
             catch( IllegalArgumentException e ) {
                 // ignore !
-                logger.warn( "Cannot set field:" + f, e );
+                LOGGER.warn( "Cannot set field:" + f, e );
                 }
             catch( IllegalAccessException e ) {
                 // ignore !
-                logger.warn( "Cannot set field:" + f, e );
+                LOGGER.warn( "Cannot set field:" + f, e );
                 }
             finally {
                 f.setAccessible( false );
@@ -627,7 +657,7 @@ public class PropertiesPopulator<E>
             // No value.
             return null;
             }
-        
+
         if( String.class.isAssignableFrom( type ) ) {
             return strValue;
             }

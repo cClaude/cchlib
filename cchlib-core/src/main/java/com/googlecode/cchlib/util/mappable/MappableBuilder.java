@@ -1,14 +1,13 @@
 package com.googlecode.cchlib.util.mappable;
 
-import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URI;
-import java.net.URL;
+
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,36 +27,20 @@ public class MappableBuilder
     /**
      * TODOC
      */
-    public static final MappableItem[] MAPPABLE_ITEM_DEFAULT_CONFIG = {
+    public static final Set<MappableItem> MAPPABLE_ITEM_DEFAULT_CONFIG = EnumSet.of(
         MappableItem.ALL_PRIMITIVE_TYPE,
         MappableItem.DO_ARRAYS
-        };
+        );
 
     /**
      * Add all primitives types in map.
      */
-    public static final MappableItem[] MAPPABLE_ITEM_SHOW_ALL = {
-            MappableItem.ALL_PRIMITIVE_TYPE
-            };
-
-    /**
-     * Add all classes types in map.
-     */
-    public static final Class<?>[] CLASSES_SHOW_ALL = {
-        Object.class
-        };
-
-    /**
-     *  TODOC
-     */
-    public static final Class<?>[] CLASSES_STANDARDS_TYPES = {
-        Boolean.class, Character.class, Enum.class, Number.class, String.class,
-        File.class, URL.class, URI.class,
-        Collection.class
-        };
+    public static final  Set<MappableItem> MAPPABLE_ITEM_SHOW_ALL = EnumSet.of(
+        MappableItem.ALL_PRIMITIVE_TYPE
+        );
 
     private final Pattern methodesNamePattern;
-    private final Set<Class<?>> returnTypeClasses;
+    private final Collection<Class<?>> returnTypeClasses;
     private final Set<MappableItem> mappableItemSet;
     private final String toStringNullValue;
     private final MessageFormat messageFormatIteratorEntry;
@@ -110,7 +93,7 @@ public class MappableBuilder
     {
         return new DefaultMappableBuilderFactory()
             .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
-            .add( CLASSES_STANDARDS_TYPES )
+            .add( MappableTypes.CLASSES_STANDARDS_TYPES )
             ;
     }
 
@@ -128,7 +111,7 @@ public class MappableBuilder
 
         for( Method method : methods ) {
             if(
-                    method.getParameterTypes().length != 0
+                    (method.getParameterTypes().length != 0)
                     || !methodesNamePattern.matcher(
                             method.getName()
                             ).matches()
@@ -210,7 +193,7 @@ public class MappableBuilder
                 int i = 0;
                 hashMap.put(
                         formatMethodName( methodName ),
-                        iter == null ? null : iter.toString()
+                        (iter == null) ? null : iter.toString()
                         );
 
                 if( iter != null ) {
@@ -231,7 +214,7 @@ public class MappableBuilder
                 int i = 0;
                 hashMap.put(
                         formatMethodName( methodName ),
-                        enum0 == null ? null : enum0.toString()
+                        (enum0 == null) ? null : enum0.toString()
                         );
 
                 if( enum0 != null ) {
@@ -292,6 +275,15 @@ public class MappableBuilder
         return new TreeMap<String,String>(hashMap);
     }
 
+    private String[] buildStringArray( final String methodeName, final int index, final int max )
+    {
+        return new String[] {
+            methodeName,
+            Integer.toString(index),
+            Integer.toString(max)
+            };
+    }
+
     /**
      * TODOC
      *
@@ -301,16 +293,12 @@ public class MappableBuilder
      * @return TODOC
      */
     protected String formatIterableEntry(
-            String  methodeName,
-            int     index,
-            int     max
-            )
+        final String  methodeName,
+        final int     index,
+        final int     max
+        )
     {
-        String params[] = {
-            methodeName, Integer.toString(index), Integer.toString(max)
-        };
-
-        return messageFormatIterableEntry.format(params);
+        return messageFormatIterableEntry.format( buildStringArray( methodeName, index, max ) );
     }
 
     /**
@@ -321,15 +309,9 @@ public class MappableBuilder
      * @param max
      * @return TODOC
      */
-    protected String formatIteratorEntry(String methodeName, int index, int max)
+    protected String formatIteratorEntry( final String methodeName, final int index, final int max)
     {
-        String[] params = {
-            methodeName,
-            Integer.toString(index),
-            Integer.toString(max)
-        };
-
-        return messageFormatIteratorEntry.format(params);
+        return messageFormatIteratorEntry.format( buildStringArray( methodeName, index, max ) );
     }
 
     /**
@@ -340,15 +322,9 @@ public class MappableBuilder
      * @param max
      * @return TODOC
      */
-    protected String formatEnumerationEntry(String methodeName, int index, int max)
+    protected String formatEnumerationEntry( final String methodeName, final int index, final int max )
     {
-        final String[] params = {
-            methodeName,
-            Integer.toString(index),
-            Integer.toString(max)
-            };
-
-        return messageFormatEnumerationEntry.format(params);
+        return messageFormatEnumerationEntry.format( buildStringArray( methodeName, index, max ) );
     }
 
     /**
@@ -359,24 +335,18 @@ public class MappableBuilder
      * @param max
      * @return TODOC
      */
-    protected String formatArrayEntry(String methodeName, int index, int max)
+    protected String formatArrayEntry( final String methodeName, final int index, final int max )
     {
-        final String[] params = {
-            methodeName,
-            Integer.toString(index),
-            Integer.toString(max)
-            };
-
-        return messageFormatArrayEntry.format(params);
+        return messageFormatArrayEntry.format( buildStringArray( methodeName, index, max )  );
     }
 
     /**
-     * TODOC
+     *
      *
      * @param methodeName
      * @return TODOC
      */
-    protected String formatMethodName(String methodeName)
+    protected String formatMethodName( final String methodeName )
     {
         final String[] params = {
             methodeName
@@ -385,35 +355,26 @@ public class MappableBuilder
         return messageFormatMethodName.format(params);
     }
 
-    private final Method[] getDeclaredMethods(Class<?> clazz)
+    /** Build methods list to handle */
+    private final Method[] getDeclaredMethods( final Class<?> clazz )
     {
         if( !mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
             return clazz.getDeclaredMethods();
             }
 
-        Set<Method> methodsSet = new HashSet<Method>();
-        for( Method m : clazz.getDeclaredMethods() ) {
-            methodsSet.add( m );
+        final Set<Method> methodsSet = new HashSet<Method>();
+
+        for( Method method : clazz.getDeclaredMethods() ) {
+            methodsSet.add( method );
             }
 
-        for(Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
-            Method arr1$[] = c.getDeclaredMethods();
-            int len1$ = arr1$.length;
-            for(int i$ = 0; i$ < len1$; i$++) {
-                Method m = arr1$[i$];
-                methodsSet.add(m);
+        for(Class<?> aClass = clazz.getSuperclass(); aClass != null; aClass = aClass.getSuperclass()) {
+            for( Method method : aClass.getDeclaredMethods() ) {
+                methodsSet.add( method );
                 }
             }
 
-        Method[] methods = new Method[methodsSet.size()];
-        int i = 0;
-
-        for(Iterator<Method> i$ = methodsSet.iterator(); i$.hasNext();) {
-            Method m = i$.next();
-            methods[i++] = m;
-            }
-
-        return methods;
+         return methodsSet.toArray( new Method[ methodsSet.size() ] );
     }
 
     /**
@@ -422,7 +383,7 @@ public class MappableBuilder
      * @param clazz
      * @return TODOC
      */
-    protected final boolean isMappable(Class<?> clazz)
+    protected final boolean isMappable( final Class<?> clazz )
     {
         if(!mappableItemSet.contains(MappableItem.DO_RECURSIVE)) {
             return false;
@@ -436,7 +397,7 @@ public class MappableBuilder
             }
     }
 
-    private final boolean shouldEvaluate(Class<?> returnType)
+    private final boolean shouldEvaluate( final Class<?> returnType )
     {
         int modifier = returnType.getModifiers();
 
@@ -478,9 +439,9 @@ public class MappableBuilder
 
     // TODO: Optimizations: remove some StringBuilder
     private static final String toString(
-            Set<MappableItem>   mappableItemSet,
-            Object              object
-            )
+        final Set<MappableItem>   mappableItemSet,
+        final Object              object
+        )
     {
         if(object.getClass().isArray()) {
             StringBuilder   sb      = new StringBuilder();
@@ -567,7 +528,7 @@ public class MappableBuilder
                 Iterator<Map.Entry<String,String>> i$ = set.iterator();
                 i$.hasNext();
                 hashMap.put(
-                        (new StringBuilder()).append(methodName).append(entry.getKey()).toString(),
+                        methodName + entry.getKey(),
                         entry.getValue()
                         )
                      ) {

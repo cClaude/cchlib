@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.xml.factory;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -17,10 +16,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,11 +30,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
 {
-    private final static Logger logger = Logger.getLogger( PositionalXMLReaderTest.class );
+    private static final Logger logger = Logger.getLogger( PositionalXMLReaderTest.class );
     private Map<String,Position> checker;
 
     @BeforeClass
@@ -65,7 +67,7 @@ public class PositionalXMLReaderTest
             DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
             InputStream             is                     = createXMLInputStream();
 
-            assertNotNull( is );
+            Assert.assertNotNull( is );
 
             documentBuilderFactory.setIgnoringComments( false );
 
@@ -81,7 +83,7 @@ public class PositionalXMLReaderTest
         final byte[] expecteds;
         {
             InputStream is = createXMLInputStream();
-            assertNotNull( is );
+            Assert.assertNotNull( is );
 
             expecteds = new ByteArrayBuilder().append( is ).array();
             is.close();
@@ -122,7 +124,7 @@ public class PositionalXMLReaderTest
         int end = - 1;
 
         for( int i = begging.length; i<bytes.length; i++ ) {
-            if( bytes[ i - 1 ] == '?' && bytes[ i ] == '>' ) {
+            if( (bytes[ i - 1 ] == '?') && (bytes[ i ] == '>') ) {
                 end  = i + 1;
                 break;
                 }
@@ -139,15 +141,15 @@ public class PositionalXMLReaderTest
 
         // Remove 0X0D : 13, 10 => 10
         ByteArrayBuilder bab = new ByteArrayBuilder();
-        
+
         for( int i = end; i<bytes.length; i++ ) {
             final byte b = bytes[ i ];
-            
+
             if( b != 13 ) {
                 bab.append( b );
                 }
             }
-        
+
         return bab.array();
     }
 
@@ -183,7 +185,7 @@ public class PositionalXMLReaderTest
             DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
             InputStream             is                     = createXMLInputStream();
 
-            assertNotNull( is );
+            Assert.assertNotNull( is );
 
             documentBuilderFactory.setIgnoringComments( false );
 
@@ -218,13 +220,13 @@ public class PositionalXMLReaderTest
             if( n instanceof Element ) {
                 final Element element = Element.class.cast( n );
 
-                final int bLine = (Integer)element.getUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME );
-                final int bCol  = (Integer)element.getUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME );
-                final int eLine = (Integer)element.getUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME );
-                final int eCol  = (Integer)element.getUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME );
+                final int bLine = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME )).intValue();
+                final int bCol  = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME )).intValue();
+                final int eLine = ((Integer)element.getUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME )).intValue();
+                final int eCol  = ((Integer)element.getUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME )).intValue();
 
                 logger.info(
-                    String.format( "Element: %s @ (%d,%d)/(%d/%d)", element, bLine, bCol, eLine, eCol )
+                    String.format( "Element: %s @ (%d,%d)/(%d/%d)", element, bLine, bCol, eLine, eCol ) // $codepro.audit.disable avoidAutoBoxing
                     );
 
                 doCheck( element, bLine, bCol, eLine, eCol );
@@ -247,15 +249,15 @@ public class PositionalXMLReaderTest
     {
         Position pos = this.checker.get( element.getNodeName() );
 
-        assertNotNull( pos );
+        Assert.assertNotNull( pos );
 
-        assertEquals( pos.bLine, bLine );
-        assertEquals( pos.bCol , bCol  );
-        assertEquals( pos.eLine, eLine );
-        assertEquals( pos.eCol , eCol  );
+        Assert.assertEquals( pos.bLine, bLine );
+        Assert.assertEquals( pos.bCol , bCol  );
+        Assert.assertEquals( pos.eLine, eLine );
+        Assert.assertEquals( pos.eCol , eCol  );
     }
 
-    private class Position
+    private static class Position
     {
         final int bLine;
         final int bCol;

@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
  */
 public final class XMLHelper
 {
-   private final static Logger logger = Logger.getLogger( XMLHelper.class );
+   private static final Logger LOGGER = Logger.getLogger( XMLHelper.class );
 
    private XMLHelper(){} // All static
 
@@ -79,13 +79,13 @@ public final class XMLHelper
             buffer.append("\n\nTransformerConfigurationException: ");
             buffer.append( e.getMessage() );
 
-            logger.error( XMLHelper.class.getSimpleName() + ".toString()", e );
+            LOGGER.error( XMLHelper.class.getSimpleName() + ".toString()", e );
             }
         catch( TransformerException e ) {
             buffer.append("\n\nTransformerException: ");
             buffer.append( e.getMessage() );
 
-            logger.error( XMLHelper.class.getSimpleName() + ".toString()", e );
+            LOGGER.error( XMLHelper.class.getSimpleName() + ".toString()", e );
             }
 
         return buffer.toString();

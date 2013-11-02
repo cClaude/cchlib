@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.io;
 
-import com.googlecode.cchlib.io.exceptions.FileDeleteException;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
-import com.googlecode.cchlib.util.iterator.IteratorFilter;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,6 +18,10 @@ import java.util.Iterator;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import com.googlecode.cchlib.io.exceptions.FileDeleteException;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
+import com.googlecode.cchlib.util.iterator.IteratorFilter;
+
 /**
  * Provide some extra tools for I/O operations
  *
@@ -31,7 +32,7 @@ import javax.annotation.Nonnull;
  */
 public final class IOHelper
 {
-    private final static int DEFAULT_BUFFER_SIZE = 4096;
+    private static final int DEFAULT_BUFFER_SIZE = 4096;
 
     private IOHelper()
     { //All static
@@ -147,37 +148,36 @@ public final class IOHelper
     /**
      * Delete all files and folders giving folder
      *
-     * @param rootDirFile a valid {@link File} object (could be a File or a Directory)
+     * @param toDeleteFile a valid {@link File} object (could be a File or a Directory)
      * @throws FileDeleteException if any error occur during delete process
      */
-    public static void deleteTree( @Nonnull final File rootDirFile )
+    public static void deleteTree( @Nonnull final File toDeleteFile )
         throws FileDeleteException
     {
-        if( !rootDirFile.exists() ) {
+        if( ! toDeleteFile.exists() ) {
             return;
             }
 
-        final File[] files = rootDirFile.listFiles();
+        if( toDeleteFile.isFile() ) {
+            final boolean res = toDeleteFile.delete();
 
-        if( files != null ) {
-            for(File f : files) {
-                if( f.isFile() ) {
-                    boolean res = f.delete();
-
-                    if( !res ) {
-                        throw new FileDeleteException(f);
-                    }
-                }
-                else if( f.isDirectory() ) {
-                    deleteTree( f );
+            if( !res ) {
+                throw new FileDeleteException( toDeleteFile );
                 }
             }
-        }
+        else {
+            final File[] files = toDeleteFile.listFiles();
 
-        boolean res = rootDirFile.delete();
+            if( files != null ) {
+                for(File f : files) {
+                    deleteTree( f );
+                    }
+                }
+            final boolean res = toDeleteFile.delete();
 
-        if( !res ) {
-            throw new FileDeleteException(rootDirFile);
+            if( !res ) {
+                throw new FileDeleteException(toDeleteFile);
+                }
             }
     }
 
@@ -209,7 +209,7 @@ public final class IOHelper
     public static String toString( @Nonnull final File file )
         throws IOException
     {
-        final Reader r = new FileReader( file );
+        final Reader r = new FileReader( file ); // $codepro.audit.disable questionableName
 
         try {
             return toString( r );
@@ -341,7 +341,7 @@ public final class IOHelper
 
         for(;;) {
             int c1 = is.read();
-            int c2 = index < bytes.length ? (0x00FF & bytes[ index++ ]) : -1;
+            int c2 = (index < bytes.length) ? (0x00FF & bytes[ index++ ]) : -1; // $codepro.audit.disable numericLiterals
 
             if( c1 != c2 ) {
                 return false;

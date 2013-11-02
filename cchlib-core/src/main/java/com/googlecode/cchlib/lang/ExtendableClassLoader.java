@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotSubclassClassLoader
 package com.googlecode.cchlib.lang;
 
 import java.io.File;
@@ -13,20 +14,23 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.ToDo;
 
 /**
  * A custom {@link ClassLoader} able to add extra directory or jar
  */
+@ToDo
 public class ExtendableClassLoader extends ClassLoader
-{//TODO: Test case
-    final private static Logger logger = Logger.getLogger( ExtendableClassLoader.class );
+{
+    private static final Logger LOGGER = Logger.getLogger( ExtendableClassLoader.class );
+    private static final int BUFFER_SIZE = 4096;
 
     /** ArrayList preserve insert order */
-    final private ArrayList<File>              paths = new ArrayList<File>();
+    private final ArrayList<File>              paths = new ArrayList<File>();
     /** LinkedHashMap preserve insert order */
-    final private LinkedHashMap<File,JarFile>  jars  = new LinkedHashMap<File,JarFile>();
+    private final LinkedHashMap<File,JarFile>  jars  = new LinkedHashMap<File,JarFile>();
     /** Loaded class, no order */
-    final private Map<String,Class<?>>         cache = new HashMap<String,Class<?>>();
+    private final Map<String,Class<?>>         cache = new HashMap<String,Class<?>>();
 
     /**
      * Creates a new ExtendableClassLoader using the <tt>ClassLoader</tt> returned by
@@ -139,21 +143,21 @@ public class ExtendableClassLoader extends ClassLoader
         byte[]       result   = null;
 
         for( File path : this.paths ) {
-            File f = new File(path, fileName);
+            File f = new File(path, fileName); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
 
             if( f.exists() ) {
                 try {
                     result = toBytes( new FileInputStream( f ) );
                     }
                 catch( IOException e ) {
-                    logger.warn( "Can not read : " + f, e );
+                    LOGGER.warn( "Can not read : " + f, e );
                     //Try to continue anyway
                     }
                 break;
                 }
             }
 
-        for( Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
+        for( final Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
             JarFile  jarFile  = entry.getValue();
             JarEntry jarEntry = jarFile.getJarEntry( fileName );
 
@@ -162,7 +166,7 @@ public class ExtendableClassLoader extends ClassLoader
                     result = toBytes( jarFile.getInputStream( jarEntry ) );
                     }
                 catch( IOException e ) {
-                    logger.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
+                    LOGGER.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
                     //Try to continue anyway
                     }
                 break;
@@ -222,7 +226,7 @@ public class ExtendableClassLoader extends ClassLoader
     {
         try {
             final ByteArrayBuilder  result = new ByteArrayBuilder( inputStream.available() );
-            final byte[]            buffer = new byte[ 4096 ];
+            final byte[]            buffer = new byte[ BUFFER_SIZE ];
             int                     len;
 
             while( (len = inputStream.read(buffer)) != -1 ) {

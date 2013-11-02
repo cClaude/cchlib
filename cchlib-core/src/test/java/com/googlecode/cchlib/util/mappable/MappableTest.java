@@ -1,3 +1,4 @@
+// $codepro.audit.disable concatenationInAppend
 package com.googlecode.cchlib.util.mappable;
 
 import java.util.Map;
@@ -9,13 +10,13 @@ public class MappableTest
     private MappableBuilder mb1 = new MappableBuilder(
             new DefaultMappableBuilderFactory()
                 .setMethodesNamePattern( "(is|get|allows).*" )
-                .add( MappableBuilder.CLASSES_STANDARDS_TYPES )
+                .add( MappableTypes.CLASSES_STANDARDS_TYPES )
                 .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
                 );
     private MappableBuilder mb2 = new MappableBuilder(
             new DefaultMappableBuilderFactory()
                 .setMethodesNamePattern( ".*" )
-                .add( MappableBuilder.CLASSES_SHOW_ALL )
+                .add( MappableTypes.CLASSES_SHOW_ALL )
                 .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
                 );
 

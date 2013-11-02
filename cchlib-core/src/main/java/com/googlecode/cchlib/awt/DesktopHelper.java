@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.awt;
 
 import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -20,7 +22,7 @@ public final class DesktopHelper
      */
     @Deprecated
     public static boolean isNativeDesktopSupported()
-        throws PlateformeDesktopNotSupportedException
+        throws PlateformeDesktopNotSupportedException // $codepro.audit.disable unnecessaryExceptions
     {
         return Desktop.isDesktopSupported();
     }
@@ -50,7 +52,7 @@ public final class DesktopHelper
             }
     }
 
-    private static void browseNative( final URL url ) throws Exception
+    private static void browseNative( final URL url ) throws PlateformeDesktopNotSupportedException, IOException, URISyntaxException
     {
         Desktop desktop     = Desktop.getDesktop();
         boolean isSupported = desktop.isSupported( Desktop.Action.BROWSE );

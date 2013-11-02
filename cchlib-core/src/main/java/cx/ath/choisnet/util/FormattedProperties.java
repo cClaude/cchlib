@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals
 package cx.ath.choisnet.util;
 
 import java.io.BufferedReader;
@@ -37,11 +38,11 @@ public class FormattedProperties
 {
     private static final long serialVersionUID = 1L;
     /** {@value} */
-    final static public String ENCODING_ISO_8859_1 = "ISO-8859-1";
-    final static protected Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
-    final static protected Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*[^\\n]<[bB][rR][^/]*[/]?>",Pattern.DOTALL);
-    final static protected Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
-    final static protected Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*[^\\n]</[pP]>",Pattern.DOTALL);
+    public static final String ENCODING_ISO_8859_1 = "ISO-8859-1"; // $codepro.audit.disable constantNamingConvention
+    protected static final Pattern PATTERN_BR_ADD_BEFORE = Pattern.compile("<[bB][rR][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
+    protected static final Pattern PATTERN_BR_ADD_AFTER = Pattern.compile(".*[^\\n]<[bB][rR][^/]*[/]?>",Pattern.DOTALL);
+    protected static final Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
+    protected static final Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*[^\\n]</[pP]>",Pattern.DOTALL);
     /** @serial */
     private Lines lines = new Lines();
     /** @serial */
@@ -202,7 +203,7 @@ public class FormattedProperties
             // Try to short-circuit when there is no escape char.
             int     start       = pos;
             boolean needsEscape = line.indexOf('\\', pos) != -1;
-            StringBuilder key = needsEscape ? new StringBuilder() : null;
+            StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
 
             while ( pos < line.length()
                     && ! Character.isWhitespace(c = line.charAt(pos++))
@@ -286,7 +287,7 @@ public class FormattedProperties
                 }
 
             // Escape char found so iterate through the rest of the line.
-            StringBuilder element = new StringBuilder(line.length() - pos);
+            StringBuilder element = new StringBuilder(line.length() - pos); // $codepro.audit.disable avoidInstantiationInLoops
             while (pos < line.length()) {
                 c = line.charAt(pos++);
                 if (c == '\\') {
@@ -297,13 +298,15 @@ public class FormattedProperties
                         // We might have seen a backslash at the end of
                         // the file.  The JDK ignores the backslash in
                         // this case, so we follow for compatibility.
-                        if (line == null)
+                        if (line == null) {
                             break;
+                            }
 
                         pos = 0;
                         while ( pos < line.length()
-                                && Character.isWhitespace(c = line.charAt(pos)))
+                                && Character.isWhitespace(c = line.charAt(pos))) {
                             pos++;
+                            }
                         element.ensureCapacity(line.length() - pos +
                                                element.length());
                         }
@@ -590,7 +593,7 @@ public class FormattedProperties
                                 }
                             }
                     }
-                default:
+                default: // $codepro.audit.disable nonTerminatedCaseClause
                     if( isISO_8859_1( c ) ) {
                         buffer.append(c);
                         }
@@ -1004,7 +1007,7 @@ public class FormattedProperties
         if( !super.equals( obj ) ) {
             return false;
             }
-        if( getClass() != obj.getClass() ) {
+        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
             return false;
             }
         FormattedProperties other = (FormattedProperties)obj;
@@ -1071,12 +1074,12 @@ public class FormattedProperties
          * true if line is a Comment
          * @serial
          */
-        boolean isComment;
+        private boolean isComment;
         /**
          * Full comment line or key if not a comment
          * @serial
          */
-        String content;
+        private String content;
 
         private Line()
         { // Can't build line outside this class
@@ -1154,7 +1157,7 @@ public class FormattedProperties
             if( obj == null ) {
                 return false;
                 }
-            if( getClass() != obj.getClass() ) {
+            if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
                 return false;
                 }
             Line other = (Line)obj;
@@ -1275,7 +1278,7 @@ public class FormattedProperties
             if( obj == null ) {
                 return false;
                 }
-            if( getClass() != obj.getClass() ) {
+            if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
                 return false;
                 }
             Lines other = (Lines)obj;

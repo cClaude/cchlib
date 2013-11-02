@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidAutoBoxing, numericLiterals
 package com.googlecode.cchlib.util.iterator.iterable;
 
 import java.util.ArrayList;
@@ -15,14 +16,14 @@ import org.junit.Assert;
 //public
 abstract class IterableIteratorTestCaseHelper
 {
-    final private static Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
+    private static final Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
 
   /**
    * Build an unmodifiable collection with giving values
    * @param values values to add in Collection
    * @return a Collection populate with values
    */
-    public final static <T> Collection<T> buildCollection(T[] values)
+    public static final <T> Collection<T> buildCollection(T[] values)
     {
         List<T> c = new ArrayList<T>(values.length);
 
@@ -37,7 +38,7 @@ abstract class IterableIteratorTestCaseHelper
    * Build an empty collection of integers
    * @return an empty Collection of Integer
    */
-    public final static <T> Collection<T> buildEmptyCollection()
+    public static final <T> Collection<T> buildEmptyCollection()
     {
         return Collections.emptyList();
     }
@@ -46,7 +47,7 @@ abstract class IterableIteratorTestCaseHelper
      * Default implementation for {@link #buildCollection1()}
      * @return a Collection of Integer
      */
-    public final static Collection<Integer> buildDefaultIntegerCollection1()
+    public static final Collection<Integer> buildDefaultIntegerCollection1()
     {
         //return buildCollection( 0, 1, 2, 3 );
         return buildCollection( new Integer[]{ 0, 1, 2, 3 });
@@ -56,7 +57,7 @@ abstract class IterableIteratorTestCaseHelper
      * Default implementation for {@link #buildCollection2()}
      * @return a Collection of Integer
      */
-    public final static Collection<Integer> buildDefaultIntegerCollection2()
+    public static final Collection<Integer> buildDefaultIntegerCollection2()
     {
         //return buildCollection( 4, 5, 6 );
         return buildCollection( new Integer[]{ 4, 5, 6 });
@@ -110,7 +111,7 @@ abstract class IterableIteratorTestCaseHelper
         final Collection<T> c2
         );
 
-    final public void test_crash1()
+    public final void test_crash1()
     {
         try {
             buildIterableIterator( null, buildEmptyCollection() );
@@ -122,7 +123,7 @@ abstract class IterableIteratorTestCaseHelper
             }
     }
 
-    final public void test_crash2()
+    public final void test_crash2()
     {
         try {
             buildIterableIterator( buildEmptyCollection(), null );
@@ -134,12 +135,12 @@ abstract class IterableIteratorTestCaseHelper
             }
     }
 
-    final public void test1()
+    public final void test1()
     {
         test( buildIterableIterator( buildEmptyCollection(), buildEmptyCollection() ), 0 );
     }
 
-    final public void test2()
+    public final void test2()
     {
         Collection<Integer> c1 = buildDefaultIntegerCollection1();
         Collection<Integer> c2 = buildDefaultIntegerCollection2();

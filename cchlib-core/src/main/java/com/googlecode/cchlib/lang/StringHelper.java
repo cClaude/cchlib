@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public final class StringHelper
 {
     private StringHelper() {} // ALl static
-    public final static String EMPTY = "";
+    public static final String EMPTY = "";
 
     /**
      * Returns the given string if it is non-null; the empty string otherwise
@@ -18,7 +18,7 @@ public final class StringHelper
      */
     public static String nullToEmpty( String str )
     {
-        return str == null ? EMPTY : str;
+        return (str == null) ? EMPTY : str;
     }
 
     /**
@@ -40,24 +40,24 @@ public final class StringHelper
             throw new NullPointerException();
             }
 
-        final ArrayList<String> a     = new ArrayList<String>();
+        final ArrayList<String> array = new ArrayList<String>();
         int                     pos   = 0;
 
         for(;;) {
             int i = str.indexOf(token, pos);
 
             if( i < 0 ) {
-                a.add( str.substring(pos) );
+                array.add( str.substring(pos) );
                 break;
                 }
 
-            a.add( str.substring(pos, i) );
+            array.add( str.substring(pos, i) );
             pos = i + 1;
             }
 
-        final String[] res = new String[ a.size() ];
+        final String[] res = new String[ array.size() ];
 
-        return a.toArray(res);
+        return array.toArray(res);
     }
 
     /**
@@ -90,23 +90,23 @@ public final class StringHelper
             throw new NullPointerException();
             }
 
-        final ArrayList<String> a     = new ArrayList<String>();
+        final ArrayList<String> array = new ArrayList<String>();
         int                     pos   = 0;
 
         for(;;) {
             int i = str.indexOf(token, pos);
 
             if( i < 0 ) {
-                a.add( str.substring(pos) );
+                array.add( str.substring(pos) );
                 break;
                 }
 
-            a.add( str.substring(pos, i) );
+            array.add( str.substring(pos, i) );
             pos = i + token.length();
             }
 
-        final String[] res = new String[ a.size() ];
+        final String[] res = new String[ array.size() ];
 
-        return a.toArray(res);
+        return array.toArray(res);
     }
 }

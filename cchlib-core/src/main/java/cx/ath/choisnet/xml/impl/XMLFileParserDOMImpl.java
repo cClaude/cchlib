@@ -1,11 +1,13 @@
 package cx.ath.choisnet.xml.impl;
 
-import cx.ath.choisnet.xml.XMLFileParser;
-import cx.ath.choisnet.xml.XMLParserErrorHandler;
-import cx.ath.choisnet.xml.XMLParserException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.EnumSet;
+
+import cx.ath.choisnet.xml.XMLFileParser;
+import cx.ath.choisnet.xml.XMLParserErrorHandler;
+import cx.ath.choisnet.xml.XMLParserException;
+
 
 /**
  * DOM parser implementation that allow to retrieve based XML File for XML

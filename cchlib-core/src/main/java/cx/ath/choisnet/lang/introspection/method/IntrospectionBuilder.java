@@ -20,7 +20,7 @@ public class IntrospectionBuilder<O>
 {
 
     /** Some logs */
-    private final static Logger sLog = Logger.getLogger(IntrospectionBuilder.class);
+    private static final Logger sLog = Logger.getLogger(IntrospectionBuilder.class);
 
     /** Getter Methods list */
     private Map<String,Method> getterMethodsMap = new TreeMap<String,Method>();

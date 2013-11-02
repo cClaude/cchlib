@@ -93,6 +93,6 @@ public class SortedList<T> extends ArrayList<T>
      */
     public boolean containsElement( final T e )
     {
-        return (Collections.binarySearch(this, e, comparator) > -1);
+        return Collections.binarySearch(this, e, comparator) > -1;
     }
 }

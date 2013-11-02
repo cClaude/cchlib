@@ -27,7 +27,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     implements Comparator<O>
 {
     /** Some logs */
-    private final static Logger sLog = Logger.getLogger(Introspection.class);
+    private static final Logger sLog = Logger.getLogger(Introspection.class);
 
     /**
      *

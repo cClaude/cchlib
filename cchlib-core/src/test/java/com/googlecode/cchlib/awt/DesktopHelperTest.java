@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class DesktopHelperTest
 {
-    private final static Logger logger = Logger.getLogger(DesktopHelperTest.class);
+    private static final Logger logger = Logger.getLogger(DesktopHelperTest.class);
 
     @Test
     @Deprecated

@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals, importOrder
 package com.googlecode.cchlib.util.iterable;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -138,7 +139,7 @@ public class XIterablesTest
 
         //int firstElement = result.get( 0 ).intValue();
         //assertEquals( 2, firstElement );
-        assertThat( result ).startsWith( 2 );
+        assertThat( result ).startsWith( 2 ); // $codepro.audit.disable avoidAutoBoxing
     }
 
     /**

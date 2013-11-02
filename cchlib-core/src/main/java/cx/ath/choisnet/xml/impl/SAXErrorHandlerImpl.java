@@ -26,7 +26,7 @@ public class SAXErrorHandlerImpl implements ErrorHandler
     {
         StringBuilder sb = new StringBuilder();
 
-        if(spe.getSystemId() != null && spe.getPublicId() != null) {
+        if((spe.getSystemId() != null) && (spe.getPublicId() != null)) {
             sb.append("URI('systemId','publicId')=(");
             sb.append(spe.getSystemId());
 

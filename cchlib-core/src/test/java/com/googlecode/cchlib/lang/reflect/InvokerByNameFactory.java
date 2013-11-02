@@ -1,4 +1,7 @@
+// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.lang.reflect;
+
+import org.fest.util.VisibleForTesting;
 
 
 
@@ -9,10 +12,10 @@ package com.googlecode.cchlib.lang.reflect;
  */
 public class InvokerByNameFactory
  {
-    private final static Class<MyTestByName>  clazz       = MyTestByName.class;
-    final static String                       className   = clazz.getName();
-    final static String                       methodName  = "myTest";
-    final static String                       noSuchMethodName  = "noSuchMethodName";
+    private static final Class<MyTestByName>  clazz             = MyTestByName.class;
+    @VisibleForTesting static final String    className         = clazz.getName();
+    @VisibleForTesting static final String    methodName        = "myTest";
+    private static final String               noSuchMethodName  = "noSuchMethodName";
 
     /** Prevent creation of instances of this colass. */
     private InvokerByNameFactory()

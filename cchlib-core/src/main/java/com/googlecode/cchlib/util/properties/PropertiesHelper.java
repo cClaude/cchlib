@@ -90,7 +90,7 @@ public final class PropertiesHelper
         OutputStream os = new FileOutputStream( propertiesFile );
 
         try {
-            properties.store( os, comment == null ? StringHelper.EMPTY : comment );
+            properties.store( os, (comment == null) ? StringHelper.EMPTY : comment );
             }
         finally {
             os.close();

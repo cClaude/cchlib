@@ -11,7 +11,7 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 /**
  * Provide a default implementation for IntrospectionItem
- * 
+ *
  * @author CC
  * @param <O> Object to inspect
  *
@@ -27,8 +27,8 @@ public abstract class AbstractIntrospectionItem<O>
         this.getterMethod = getterMethod;
         this.setterMethod = setterMethod;
     }
-    
-    
+
+
     /**
      * @return the getterMethod
      */
@@ -53,10 +53,10 @@ public abstract class AbstractIntrospectionItem<O>
     public abstract Object getDefaultValue();
     @Override
     public abstract Object getMaxValue();
-    
+
     /**
      * Get invocation raw result has an Object.
-     * 
+     *
      * @param object Object where method will be apply
      * @return result value from invocation
      * @see #setObjectValue(Object, Object)
@@ -70,7 +70,7 @@ public abstract class AbstractIntrospectionItem<O>
             //workaround for bug:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957
             this.getterMethod.setAccessible(true);
-            
+
             return this.getterMethod.invoke( object, (Object[])null );
         }
         catch( IllegalArgumentException e ) {
@@ -88,7 +88,7 @@ public abstract class AbstractIntrospectionItem<O>
             throws IntrospectionInvokeException, IntrospectionClassCastException
     {
         try {
-            return Integer.class.cast( getObjectValue( object ) );
+            return Integer.class.cast( getObjectValue( object ) ).intValue();
         }
         catch( ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
@@ -99,7 +99,7 @@ public abstract class AbstractIntrospectionItem<O>
             throws IntrospectionInvokeException, IntrospectionClassCastException
     {
         try {
-            return Boolean.class.cast( getObjectValue( object ) );
+            return Boolean.class.cast( getObjectValue( object ) ).booleanValue();
         }
         catch( ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
@@ -116,10 +116,10 @@ public abstract class AbstractIntrospectionItem<O>
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
     }
-    
+
     /**
      * Set invocation raw Object.
-     * 
+     *
      * @param object Object where method will be apply
      * @param value  value to be set
      * @see #getObjectValue(Object)
@@ -130,7 +130,7 @@ public abstract class AbstractIntrospectionItem<O>
     {
         final Object[] params = new Object[ 1 ];
         params[ 0 ] = value;
-        
+
         try {
             //workaround for bug:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957
@@ -150,7 +150,7 @@ public abstract class AbstractIntrospectionItem<O>
 
     /**
      * Just to be symmetric, for automation
-     * 
+     *
      * @param object Object where method will be apply
      * @param value  value to be set
      * @see #setObjectValue(Object, Object)
@@ -164,7 +164,7 @@ public abstract class AbstractIntrospectionItem<O>
 
     /**
      * Just to be symmetric, for automation
-     * 
+     *
      * @param object Object where method will be apply
      * @param value  value to be set
      * @see #setObjectValue(Object, Object)
@@ -178,7 +178,7 @@ public abstract class AbstractIntrospectionItem<O>
 
     /**
      * Just to be symmetric, for automation
-     * 
+     *
      * @param object Object where method will be apply
      * @param value  value to be set
      * @see #setObjectValue(Object, Object)

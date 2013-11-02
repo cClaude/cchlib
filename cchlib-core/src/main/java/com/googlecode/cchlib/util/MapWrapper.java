@@ -132,7 +132,7 @@ public class MapWrapper<K,VS,VR>
         return new CollectionWrapper<VS,VR>( map.values(), wrapper, unwrapper );
     }
 
-    public class EntryWrapper<KEY,V0,V1>
+    public static class EntryWrapper<KEY,V0,V1>
         implements Wrappable<Entry<KEY,V0>,Entry<KEY,V1>>
     {
         private Wrappable<V0,V1> ewrapper;
@@ -181,8 +181,8 @@ public class MapWrapper<K,VS,VR>
             {
                 final int prime = 31;
                 int result = 1;
-                result = prime * result + getOuterType().hashCode();
-                result = prime * result + ((o == null) ? 0 : o.hashCode());
+                result = (prime * result) + getOuterType().hashCode();
+                result = (prime * result) + ((o == null) ? 0 : o.hashCode());
                 return result;
             }
 
@@ -195,7 +195,7 @@ public class MapWrapper<K,VS,VR>
                 if( obj == null ) {
                     return false;
                     }
-                if( getClass() != obj.getClass() ) {
+                if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
                     return false;
                     }
                 @SuppressWarnings("unchecked")

@@ -41,21 +41,21 @@ public class DefaultIntrospectionItem<O>
         IVInt  ivInt  = setter.getAnnotation( IVInt.class );
         IVLong ivLong = setter.getAnnotation( IVLong.class );
 
-        if( ivInt != null && ivLong != null ) {
+        if( (ivInt != null) && (ivLong != null) ) {
             // Exception ? or log ? nothing ?
             }
 
         if( ivInt != null ) {
             // Use protected setters ?
-            this.minValue     = ivInt.minValue();
-            this.defaultValue = ivInt.defaultValue();
-            this.maxValue     = ivInt.maxValue();
+            this.minValue     = Integer.valueOf( ivInt.minValue() );
+            this.defaultValue = Integer.valueOf( ivInt.defaultValue() );
+            this.maxValue     = Integer.valueOf( ivInt.maxValue() );
             }
         else if( ivLong != null ) {
             // Use protected setters ?
-            this.minValue     = ivLong.minValue();
-            this.defaultValue = ivLong.defaultValue();
-            this.maxValue     = ivLong.maxValue();
+            this.minValue     = Long.valueOf( ivLong.minValue() );
+            this.defaultValue = Long.valueOf( ivLong.defaultValue() );
+            this.maxValue     = Long.valueOf( ivLong.maxValue() );
             }
         else {
             // Don't do anything, since this

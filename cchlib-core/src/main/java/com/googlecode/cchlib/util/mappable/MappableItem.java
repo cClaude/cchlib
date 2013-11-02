@@ -9,7 +9,8 @@ import java.util.Iterator;
 public enum MappableItem
 {
     /**
-     *  Add all primitives to map
+     *  Add all primitives (boolean, int, long, ...) to map
+     *  (also add primitives arrays if {@link #DO_ARRAYS} enabled)
      */
     ALL_PRIMITIVE_TYPE,
 
@@ -24,17 +25,17 @@ public enum MappableItem
     DO_ARRAYS,
 
     /**
-     * Include {@link Iterator} into map
+     * Handle {@link Iterator} for adding into map
      */
     DO_ITERATOR,
 
     /**
-     * Include {@link Iterable} into map
+     * Handle {@link Iterable} for adding into map
      */
     DO_ITERABLE,
 
     /**
-     * Include {@link Enumeration} into map
+     * Handle {@link Enumeration} for adding into map
      */
     DO_ENUMERATION,
 

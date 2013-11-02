@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.util.mappable;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -45,7 +46,7 @@ public interface MappableBuilderFactory extends Serializable
     /**
      * TODOC
      */
-    public Set<Class<?>> getClasses();
+    public Collection<Class<?>> getClasses();
 
     /**
      * Returns an unmodifiable {@link Set} of {@link MappableItem}

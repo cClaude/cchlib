@@ -517,7 +517,7 @@ public class HashMapSet<K,V>
      * @see HashMapSet.ComputeKeyInterface
      * @see HashMapSet.ComputeKeyIterable
      */
-    public static abstract class AbstractComputeKeyIterator<K,V>
+    public abstract static class AbstractComputeKeyIterator<K,V>
         implements ComputeKeyIterator<K,V>
     {
         private Iterator<V> iterator;

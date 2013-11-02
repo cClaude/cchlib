@@ -136,7 +136,7 @@ public class MapKeyWrapper<KS,KR,V>
         return map.values();
     }
 
-    private class EntryWrapper<EK0,EK1,EV>
+    private static class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
     {
         private final Wrappable<EK0,EK1> ewrapper;
@@ -145,7 +145,7 @@ public class MapKeyWrapper<KS,KR,V>
         {
             this.ewrapper = ewrapper;
         }
-        
+
         @Override
         public Map.Entry<EK1,EV> wrap( final Map.Entry<EK0,EV> o )
         {
@@ -184,8 +184,8 @@ public class MapKeyWrapper<KS,KR,V>
             {
                 final int prime = 31;
                 int result = 1;
-                result = prime * result + getOuterType().hashCode();
-                result = prime * result + ((o == null) ? 0 : o.hashCode());
+                result = (prime * result) + getOuterType().hashCode();
+                result = (prime * result) + ((o == null) ? 0 : o.hashCode());
                 return result;
             }
 
@@ -198,7 +198,7 @@ public class MapKeyWrapper<KS,KR,V>
                 if( obj == null ) {
                     return false;
                     }
-                if( getClass() != obj.getClass() ) {
+                if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
                     return false;
                     }
                 @SuppressWarnings("unchecked")

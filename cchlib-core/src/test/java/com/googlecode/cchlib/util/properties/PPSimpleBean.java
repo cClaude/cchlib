@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package com.googlecode.cchlib.util.properties;
 
 import java.util.Arrays;
@@ -26,10 +27,10 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
         this.aJTextField = new JTextField();
         this.aJTextField.setText( "ERROR" );
-        
+
         this.aJCheckBox  = new JCheckBox();
         this.aJCheckBox.setSelected(false);
-        
+
         this.aJComboBox  = new JComboBox( getComboBoxModel() );
     }
 
@@ -43,19 +44,19 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
         final int       jComboBoxSelectedIndex
         )
     {
-    	this();
-    	
+        this();
+
         this.aString        = aString;
         this.aInt           = aInt;
         this.aFloat         = aFloat;
         this.someBooleans   = booleans;
         this.someBooleans   = booleans;
-        
+
         this.aJTextField.setText( jTextFieldString );
         this.aJCheckBox.setSelected( jCheckBoxSelected );
         this.aJComboBox.setSelectedIndex( jComboBoxSelectedIndex );
     }
-    
+
     public final String getaString()
     {
         return aString;
@@ -80,16 +81,16 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
         this.aFloat = aFloat;
     }
-    
-    private static ComboBoxModel getComboBoxModel() 
+
+    private static ComboBoxModel getComboBoxModel()
     {
         final Object[] objects = {
-        	"Aa", "Bbb", "Ccc", "Dddd", "Eeeee", 
-        	};
+            "Aa", "Bbb", "Ccc", "Dddd", "Eeeee",
+            };
 
         return new DefaultComboBoxModel( objects );
     }
-    
+
 
     @Override
     public String toString() {
@@ -112,7 +113,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
         return builder.toString();
     }
 
-    private int myCompareTo( final PPSimpleBean o ) // USE THIS ONE 
+    private int myCompareTo( final PPSimpleBean o ) // USE THIS ONE
     {
         int res = this.aString.compareTo( o.aString );
         if( res != 0 ) {
@@ -135,7 +136,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
             }
 
         for( int i = 0; i<this.someBooleans.length; i++ ) {
-            res = Boolean.valueOf( this.someBooleans[ i ] ).compareTo( o.someBooleans[ i ] );
+            res = Boolean.valueOf( this.someBooleans[ i ] ).compareTo( Boolean.valueOf( o.someBooleans[ i ] ) );
             if( res != 0 ) {
                 return res;
                 }
@@ -145,19 +146,19 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
         if( res != 0 ) {
             return res;
             }
-        
+
         if( ! this.aJCheckBox.isSelected() == o.aJCheckBox.isSelected() ) {
-        	return 1;
-        	}
+            return 1;
+            }
 
         res = this.aJComboBox.getSelectedIndex() - o.aJComboBox.getSelectedIndex();
-        
+
         return res;
     }
-    
+
     @Override
-    public int compareTo( final PPSimpleBean o ) // USE THIS ONE 
+    public int compareTo( final PPSimpleBean o ) // USE THIS ONE
     {
-    	return this.myCompareTo( o );
+        return this.myCompareTo( o );
     }
 }

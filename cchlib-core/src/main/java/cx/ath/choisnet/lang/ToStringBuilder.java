@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 public class ToStringBuilder<T>
 {
-    private final static String[] ignore = {
+    private static final String[] IGNORE_METHODS = {
         "clone",
         "toString",
         "hashCode"
@@ -30,33 +30,33 @@ public class ToStringBuilder<T>
      * @param clazz Class (or interface) to use to
      *        build toString()
      */
-    public ToStringBuilder(Class<T> clazz)
+    public ToStringBuilder( final Class<T> clazz )
     {
         this.clazz = clazz;
-        //Method[] ms = clazz.getMethods();
+
         // Only methods define by this class (or interface) !
-        Method[] ms = clazz.getDeclaredMethods();
+        final Method[] ms = clazz.getDeclaredMethods();
 
-        for( Method m : ms ) {
+        for( final Method method : ms ) {
             // No parameters
-            if( m.getParameterTypes().length == 0 ) {
+            if( method.getParameterTypes().length == 0 ) {
                 // No void !
-                Class<?> r = m.getReturnType();
+                Class<?> returnType = method.getReturnType();
 
-                if( r.equals( Void.class ) ) {
+                if( returnType.equals( Void.class ) ) {
                     continue;
                     }
-                if( r.equals( Void.TYPE ) ) {
+                if( returnType.equals( Void.TYPE ) ) {
                     continue;
                     }
-                String n = m.getName();
+                String name = method.getName();
 
-                for(String s:ignore) {
-                    if( n.equals( s )) {
+                for(String ignoreName:IGNORE_METHODS) {
+                    if( name.equals( ignoreName )) {
                         continue;
                         }
                     }
-                methods.add( m );
+                methods.add( method );
                 }
              }
     }
@@ -66,15 +66,15 @@ public class ToStringBuilder<T>
      * @param o to get toString view
      * @return toString view for this object.
      */
-    public String toString(T o)
+    public String toString( final T o )
     {
-       StringBuilder    sb      = new StringBuilder();
-       boolean          first   = true;
+       final StringBuilder sb      = new StringBuilder();
+       boolean             first   = true;
 
        sb.append( clazz.getSimpleName() );
        sb.append( " [" );
 
-       for( Method m : methods ) {
+       for( final Method method : methods ) {
            if( first ) {
                first = false;
                }
@@ -82,11 +82,11 @@ public class ToStringBuilder<T>
                sb.append( ", " );
                }
 
-           sb.append( m.getName() );
+           sb.append( method.getName() );
            sb.append( "()=" );
 
            try {
-               sb.append( m.invoke( o ) );
+               sb.append( method.invoke( o ) );
                }
            catch( IllegalArgumentException e ) {
                sb.append( e );

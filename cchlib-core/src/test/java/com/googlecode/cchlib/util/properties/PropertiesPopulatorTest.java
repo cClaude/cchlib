@@ -1,3 +1,4 @@
+// $codepro.audit.disable importOrder
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
@@ -14,7 +15,7 @@ import org.junit.Test;
  */
 public class PropertiesPopulatorTest
 {
-    private final static Logger logger = Logger.getLogger( PropertiesPopulatorTest.class );
+    private static final Logger logger = Logger.getLogger( PropertiesPopulatorTest.class );
 
     @Test
     public void test_PropertiesPopulator0() throws PopulatorException
@@ -68,12 +69,11 @@ public class PropertiesPopulatorTest
         {
             final String prefix = "with_a_prefix.";
             Properties properties = new Properties();
-            pp.populateProperties( bean, properties, prefix );
-
+            pp.populateProperties(prefix, bean, properties);
             logProperties( properties );
 
             PPSimpleBean copy = new PPSimpleBean();
-            pp.populateBean( properties, prefix, copy );
+            pp.populateBean( prefix, properties, copy );
 
             logger.info( "expected : [" + bean + "]" );
             logger.info( "actual   : [" + copy + "]" );
@@ -177,13 +177,13 @@ public class PropertiesPopulatorTest
     }
 
 
-    private final static void logProperties( final Properties properties )
+    private static final void logProperties( final Properties properties )
     {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( "Properties" );
         for( String s : properties.stringPropertyNames() ) {
-            sb.append( "\n\t(" + s + "," + properties.getProperty( s ) + ")" );
+            sb.append("\n\t(").append(s).append(',').append(properties.getProperty( s )).append(')');
             }
         logger.info( sb.toString() );
     }

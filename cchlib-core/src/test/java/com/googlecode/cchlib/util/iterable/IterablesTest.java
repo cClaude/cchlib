@@ -1,3 +1,4 @@
+// $codepro.audit.disable importOrder
 package com.googlecode.cchlib.util.iterable;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -91,7 +92,7 @@ public class IterablesTest
      * Perform pre-test initialization.
      */
     @Before
-    public void setUp() throws Exception
+    public void setUp() 
     {
         // add additional set up code here
     }
@@ -100,7 +101,7 @@ public class IterablesTest
      * Perform post-test clean-up.
      */
     @After
-    public void tearDown() throws Exception
+    public void tearDown() 
     {
         // Add additional tear down code here
     }

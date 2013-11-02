@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class MapWrapperTest
 {
-    private final static Logger logger = Logger.getLogger( MapWrapperTest.class );
+    private static final Logger logger = Logger.getLogger( MapWrapperTest.class );
     private Map<String,MyType>   map;
     private Map<String,Integer>  wrapped;
 

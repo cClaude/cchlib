@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util;
 
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import org.junit.Test;
  */
 public class SetWrapperTest
 {
-    private final static Logger logger = Logger.getLogger( SetWrapperTest.class );
+    private static final Logger logger = Logger.getLogger( SetWrapperTest.class );
     private Set<Integer> set;
     private Set<String>  wrapped;
 
@@ -24,7 +25,7 @@ public class SetWrapperTest
             @Override
             public String wrap( Integer o ) throws WrapperException
             {
-                return Integer.toString( - o );
+                return Integer.toString( - o.intValue() );
             }
         };
         Wrappable<String,Integer> unwrapper = new Wrappable<String,Integer>()
@@ -32,18 +33,18 @@ public class SetWrapperTest
             @Override
             public Integer wrap( String o ) throws WrapperException
             {
-                return - Integer.parseInt( o );
+                return Integer.valueOf( - Integer.parseInt( o ) );
             }
         };
         set       = new HashSet<Integer>();
         wrapped   = new SetWrapper<Integer,String>( set, wrapper, unwrapper );
     }
-    
+
     private void addOnSet( int i )
     {
         set.add( new Integer( i ) );
     }
-    
+
     private void addOnSetWrapper( int i )
     {
         wrapped.add( Integer.toString( - i ) );
@@ -71,7 +72,7 @@ public class SetWrapperTest
         Assert.assertEquals( expectedSize, wrapped.toArray().length );
         Assert.assertEquals( expectedSize, wrapped.toArray( new String[0] ).length );
     }
-    
+
     @Test
     public void testsize3()
     {
@@ -86,7 +87,7 @@ public class SetWrapperTest
         Assert.assertEquals( expectedSize, wrapped.toArray().length );
         Assert.assertEquals( expectedSize, wrapped.toArray( new String[0] ).length );
     }
-    
+
     @Test
     public void test_remove_add()
     {
@@ -94,7 +95,7 @@ public class SetWrapperTest
         for( int i = 0; i<expectedSize; i++ ) {
             addOnSet( i );
             }
-        
+
         int count = 0;
         for( String k : wrapped ) {
             logger.info( "k = " + k );

@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.util.mappable;
 
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +30,6 @@ public class DefaultMappableBuilderFactory
     /** Default regexp for {@link #getMethodesNamePattern()} - value: {@value} */
     public static final String DEFAULT_METHODS = "(is|get).*";
 
-    private static final Set<Class<?>> ALL_CLASS_SET = getAllClasses();
-
     /** @serial */
     private HashSet<Class<?>> classes;
     /** @serial */
@@ -51,35 +49,10 @@ public class DefaultMappableBuilderFactory
         this.attributesSet       = EnumSet.noneOf( MappableItem.class );
     }
 
-    private static Set<Class<?>> getAllClasses()
-    {
-        HashSet<Class<?>> set = new HashSet<Class<?>>();
-
-        for( Class<?> c : MappableBuilder.CLASSES_SHOW_ALL ) {
-            set.add( c );
-            }
-
-        return Collections.unmodifiableSet( set );
-    }
-
     /**
-     * Add {@link MappableItem} to internal set
+     * Add {@link MappableItem} value(s) to internal set
      *
-     * @param item A {@link MappableItem} to add
-     * @return caller for initialization chaining
-     */
-    public DefaultMappableBuilderFactory add(
-            final MappableItem item
-            )
-    {
-        attributesSet.add( item );
-        return this;
-    }
-
-    /**
-     * Add {@link MappableItem} list to internal set
-     *
-     * @param items A list of {@link MappableItem} to add
+     * @param items One or more{@link MappableItem} to add
      * @return caller for initialization chaining
      */
     public DefaultMappableBuilderFactory add(
@@ -93,26 +66,18 @@ public class DefaultMappableBuilderFactory
         return this;
     }
 
-//    /**
-//     * Add {@link MappableItem} list to internal set
-//     *
-//     * @param items A list of {@link MappableItem} to add
-//     * @return caller for initialization chaining
-//     */
-//    public MappableBuilderDefaultFactory addItems(
-//            final Collection<MappableItem> items
-//            )
-//    {
-//        attributesSet.addAll( items );
-//        return this;
-//    }
+    public DefaultMappableBuilderFactory add( final Set<MappableItem> mappableItems )
+    {
+        attributesSet.addAll( mappableItems );
+
+        return this;
+    }
 
     @Override
     public Set<MappableItem> getMappableItemSet()
     {
         return attributesSet;
     }
-
 
     /**
      * Add the giving {@link Class} to the internal collection
@@ -135,38 +100,28 @@ public class DefaultMappableBuilderFactory
     public DefaultMappableBuilderFactory add( final Class<?>...classes)
     {
         for( Class<?> clazz : classes ) {
-            this.classes.add(clazz);
+            this.classes.add( clazz );
             }
 
         return this;
     }
 
-//    /**
-//     * Add the giving {@link Class} list to the internal collection
-//     *
-//     * @param classes {@link Class} list to add
-//     * @return caller for initialization chaining
-//     */
-//    public MappableBuilderDefaultFactory addClasses(
-//            final Collection<Class<?>> classes
-//            )
-//    {
-//        for( Class<?> clazz : classes ) {
-//            this.classes.add( clazz );
-//            }
-//
-//        return this;
-//    }
+    public DefaultMappableBuilderFactory add( final MappableTypes mappableTypes )
+    {
+        classes.addAll( mappableTypes.getClasses() );
+
+        return this;
+    }
 
     /**
      * If internal set is empty the return a unmodifiable set
      * within value of {@link #ALL_CLASS_SET}.
      */
     @Override
-    public Set<Class<?>> getClasses()
+    public Collection<Class<?>> getClasses()
     {
         if( classes.size() == 0 ) {
-            return ALL_CLASS_SET;
+            return MappableTypes.CLASSES_SHOW_ALL.getClasses();
             }
 
         return classes;
@@ -263,5 +218,4 @@ public class DefaultMappableBuilderFactory
     {
         return DEFAULT_MESSAGE_FORMAT_METHOD_NAME;
     }
-
 }

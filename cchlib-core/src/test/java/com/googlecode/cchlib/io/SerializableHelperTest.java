@@ -1,12 +1,14 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.io;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
 import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
@@ -20,12 +22,12 @@ import org.junit.Test;
  */
 public class SerializableHelperTest
 {
-    private final static Logger logger = Logger.getLogger( SerializableHelperTest.class );
+    private static final Logger logger = Logger.getLogger( SerializableHelperTest.class );
 
     /**
      * Run the Serializable clone(T,Class<? extends T>) method test.
-     * @throws ClassNotFoundException 
-     * @throws IOException 
+     * @throws ClassNotFoundException
+     * @throws IOException
      */
     @Test
     public void testClone_String() throws IOException, ClassNotFoundException

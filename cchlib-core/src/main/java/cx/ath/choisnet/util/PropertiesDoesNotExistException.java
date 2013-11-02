@@ -3,12 +3,12 @@ package cx.ath.choisnet.util;
 /**
  * @see MultiProperties
  */
-public class RootPropertiesDoesNotContainsKey
+public class PropertiesDoesNotExistException
     extends MultiPropertiesException
 {
     private static final long serialVersionUID = 1L;
 
-    public RootPropertiesDoesNotContainsKey( String message )
+    public PropertiesDoesNotExistException( String message )
     {
         super( message );
     }

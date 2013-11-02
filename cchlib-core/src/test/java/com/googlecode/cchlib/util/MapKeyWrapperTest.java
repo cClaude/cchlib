@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import org.junit.Test;
  */
 public class MapKeyWrapperTest
 {
-    private final static Logger logger = Logger.getLogger( MapKeyWrapperTest.class );
+    private static final Logger logger = Logger.getLogger( MapKeyWrapperTest.class );
     private Map<Integer,MyType> map;
     private Map<String,MyType>  wrapped;
 
@@ -24,7 +25,7 @@ public class MapKeyWrapperTest
             @Override
             public String wrap( Integer intKey ) throws WrapperException
             {
-                return Integer.toString( -intKey );
+                return Integer.toString( - intKey.intValue() );
             }
         };
         Wrappable<String,Integer> unwrapper = new Wrappable<String,Integer>()
@@ -32,7 +33,7 @@ public class MapKeyWrapperTest
             @Override
             public Integer wrap( String strKey ) throws WrapperException
             {
-                return - Integer.parseInt( strKey );
+                return Integer.valueOf( - Integer.parseInt( strKey ) );
             }
         };
         map     = new HashMap<Integer,MyType>();

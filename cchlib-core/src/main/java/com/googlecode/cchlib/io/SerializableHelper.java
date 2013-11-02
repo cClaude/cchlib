@@ -1,3 +1,4 @@
+// $codepro.audit.disable unnecessaryExceptions
 package com.googlecode.cchlib.io;
 
 import java.io.ByteArrayInputStream;
@@ -74,7 +75,7 @@ public final class SerializableHelper
             @Nonnull final byte[]              aSerializedObject,
             @Nonnull final Class<? extends T>  clazz
             )
-        throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException
+        throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException // $codepro.audit.disable unnecessaryExceptions
     {
         ByteArrayInputStream input = new ByteArrayInputStream(aSerializedObject);
         ObjectInputStream    ois   = new ObjectInputStream(input);

@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.iterator;
 
 import java.lang.reflect.Array;

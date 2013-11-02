@@ -89,13 +89,13 @@ public abstract class Invoker<T> implements Serializable
     public static Class<?> getAutoboxingType( Class<?> clazz )
     {
         if( clazz.isPrimitive() ) {
-            if(      clazz == boolean.class ) { return Boolean.class; }
-            else if( clazz == byte.class    ) { return Byte.class; }
-            else if( clazz == char.class    ) { return Character.class; }
-            else if( clazz == float.class   ) { return Float.class; }
-            else if( clazz == int.class     ) { return Integer.class; }
-            else if( clazz == long.class    ) { return Long.class; }
-            else if( clazz == short.class   ) { return Short.class; }
+            if(      clazz == boolean.class ) { return Boolean.class; } // $codepro.audit.disable useEquals
+            else if( clazz == byte.class    ) { return Byte.class; } // $codepro.audit.disable useEquals
+            else if( clazz == char.class    ) { return Character.class; } // $codepro.audit.disable useEquals
+            else if( clazz == float.class   ) { return Float.class; } // $codepro.audit.disable useEquals
+            else if( clazz == int.class     ) { return Integer.class; } // $codepro.audit.disable useEquals
+            else if( clazz == long.class    ) { return Long.class; } // $codepro.audit.disable useEquals
+            else if( clazz == short.class   ) { return Short.class; } // $codepro.audit.disable useEquals
             }
         return clazz;
     }
@@ -122,16 +122,7 @@ public abstract class Invoker<T> implements Serializable
             final Class<?>[] methodParameterTypes = method.getParameterTypes();
 
             if( methodParameterTypes.length == params.length ) {
-                boolean isMatching = true;
-                // Same number of parameters
-                for( int i = 0; i<params.length; i++ ) {
-                    Class<?> type = Invoker.getAutoboxingType( methodParameterTypes[ i ] );
-
-                    if( ! type.isAssignableFrom( params[ i ].getClass() ) ) {
-                        isMatching = false;
-                        break;
-                        }
-                    }
+                boolean isMatching = canParametersTypesMatch( params, methodParameterTypes );
 
                 if( isMatching ) {
                     matchingMethods.add( method );
@@ -142,4 +133,23 @@ public abstract class Invoker<T> implements Serializable
         return matchingMethods;
     }
 
+    private static boolean canParametersTypesMatch(
+        final Object[] params,
+        final Class<?>[] methodParameterTypes
+        )
+    {
+        boolean isMatching = true;
+
+        // Same number of parameters
+        for( int i = 0; i<params.length; i++ ) {
+            Class<?> type = Invoker.getAutoboxingType( methodParameterTypes[ i ] );
+
+            if( ! type.isAssignableFrom( params[ i ].getClass() ) ) {
+                isMatching = false;
+                break;
+                }
+            }
+
+        return isMatching;
+    }
 }

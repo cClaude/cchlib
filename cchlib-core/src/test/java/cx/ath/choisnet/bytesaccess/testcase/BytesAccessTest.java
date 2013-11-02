@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package cx.ath.choisnet.bytesaccess.testcase;
 
 import static org.junit.Assert.assertEquals;
@@ -18,8 +19,8 @@ public class BytesAccessTest
 {
     private static Logger slogger = Logger.getLogger(BytesAccessTest.class);
     private static Object nullObject = null;
-    private final static Random random = new Random();
-    private final static byte[] BYTES = {
+    private static final Random random = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
+    private static final byte[] BYTES = {
             (byte)0xDE, (byte)0xAD,
             (byte)0xBE, (byte)0xFF,
             (byte)0xBA, (byte)0xBE,
@@ -38,10 +39,10 @@ public class BytesAccessTest
         final InputStream is     = getRandomInputStream( length );
         try {
             final FileOutputStream fos = new FileOutputStream( f );
-            
+
             try {
                 int c;
-                
+
                 while( (c = is.read()) >= 0 ) {
                     fos.write( c );
                     }
@@ -158,8 +159,8 @@ public class BytesAccessTest
         // Verify than r(n) give similar result
         assertTrue( "mismatch advanceCompareTo(BytesAccess)=" + r1
                     + " advanceCompareTo(byte[])=" + r2,
-                r1==null?
-                        (r2==null?true:r2.equals( r1 ))
+                (r1==null)?
+                        ((r2==null)?true:r2.equals( r1 ))
                         :
                         r1.equals( r2 )
                 );
@@ -253,12 +254,12 @@ public class BytesAccessTest
             // To-Do-Later: Compare r1long and r5
             }
     }
-    
+
     private static Object getAnyObjectForFailTest()
     {
         return "getAnyObject";
     }
-    
+
     private static void testEquals( BytesAccess ba, BytesAccess compareTo)
     {
         boolean res = ba.equals( getAnyObjectForFailTest() );
@@ -365,7 +366,7 @@ public class BytesAccessTest
             }
         };
     }
-    
+
     private static BytesAccess getConstantBytesAccess()
         throws NullPointerException,
                BytesAccessException,

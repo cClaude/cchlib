@@ -1,3 +1,4 @@
+// $codepro.audit.disable characterComparison, packageNamingConvention, numericLiterals
 package com.googlecode.cchlib.util.base64;
 
 /**
@@ -8,7 +9,7 @@ abstract class Base64
 {
     protected static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    protected static final char[] BASE64 = {
+    protected static final char[] BASE64 = { // $codepro.audit.disable constantNamingConvention
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
         'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
@@ -19,7 +20,7 @@ abstract class Base64
     };
 
     // Mapping table from 6-bit nibbles to Base64 characters.
-    protected static char[]    map1 = new char[64];
+    protected static final char[] map1 = new char[64];
     static {
         int i=0;
         for(char c='A'; c<='Z'; c++) {
@@ -48,38 +49,38 @@ abstract class Base64
 
     /**
      * Compute valid internal buffer size for decoder.
-     * 
+     *
      * @param expectedBufferSize expected buffer size
      * @return needed buffer size according to bufferSize
      */
-    protected static int computeDecoderBufferSize( 
+    protected static int computeDecoderBufferSize(
         final int expectedBufferSize
         )
     {
         return computeBufferSize( expectedBufferSize, 4 );
     }
-    
+
     /**
      * Compute valid internal buffer size for encoder.
-     * 
+     *
      * @param expectedBufferSize expected buffer size
      * @return needed buffer size according to bufferSize
      */
-    protected static int computeEncoderBufferSize( 
+    protected static int computeEncoderBufferSize(
         final int expectedBufferSize
         )
     {
         return computeBufferSize( expectedBufferSize, 12 );
     }
-    
+
     /**
      * Compute valid internal buffer size.
-     * 
+     *
      * @param bufferSize expected buffer size
      * @param modulo     alignement need for operation
      * @return needed buffer size according to bufferSize
      */
-    private static int computeBufferSize( 
+    private static int computeBufferSize(
         final int bufferSize,
         final int modulo
         )
@@ -89,7 +90,7 @@ abstract class Base64
         if( newBufferSize < 0 ) {
             newBufferSize = DEFAULT_BUFFER_SIZE;
             }
-        
+
         if( (newBufferSize % modulo) != 0 ) {
             newBufferSize = ((newBufferSize / modulo) + 1)*modulo;
             }

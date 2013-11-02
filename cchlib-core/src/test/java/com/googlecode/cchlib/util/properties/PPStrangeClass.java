@@ -36,8 +36,8 @@ class PPStrangeClass implements PopulatorContener
     {
         final int prime = 31;
         int result = 1;
-        result = prime
-                * result
+        result = (prime
+                * result)
                 + ((privateRealContent == null) ? 0 : privateRealContent
                         .hashCode());
         return result;
@@ -46,18 +46,23 @@ class PPStrangeClass implements PopulatorContener
     @Override
     public boolean equals(Object obj) 
     {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+            }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof PPStrangeClass))
+            }
+        if (!(obj instanceof PPStrangeClass)) {
             return false;
+            }
         PPStrangeClass other = (PPStrangeClass) obj;
         if (privateRealContent == null) {
-            if (other.privateRealContent != null)
+            if (other.privateRealContent != null) {
                 return false;
-        } else if (!privateRealContent.equals(other.privateRealContent))
+            }
+        } else if (!privateRealContent.equals(other.privateRealContent)) {
             return false;
+        }
         return true;
     }
 }

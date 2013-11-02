@@ -1,6 +1,5 @@
 package cx.ath.choisnet.net;
 
-import static org.junit.Assert.*;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.File;
@@ -12,9 +11,11 @@ import java.nio.charset.Charset;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -22,7 +23,7 @@ import com.googlecode.cchlib.io.IOHelper;
  */
 public class URLHelperTest
 {
-    private final static Logger logger = Logger.getLogger( URLHelperTest.class );
+    private static final Logger logger = Logger.getLogger( URLHelperTest.class );
     private URL testURL;
 
     @Before
@@ -67,7 +68,7 @@ public class URLHelperTest
 
         String s = URLHelper.toString( testURL );
 
-        assertNotNull( s );
+        Assert.assertNotNull( s );
     }
 
     /**
@@ -84,9 +85,8 @@ public class URLHelperTest
         URLHelper.copy( testURL, os );
 
         String s = os.toString();
-        //System.out.println( "testURL = " + testURL );
-        //System.out.println( "s       = " + s );
-        assertNotNull( s );
+
+        Assert.assertNotNull( s );
     }
 
     /**
@@ -103,9 +103,8 @@ public class URLHelperTest
         URLHelper.copy( testURL, file );
 
         String s = IOHelper.toString( file );
-//        System.out.println( "testURL = " + testURL );
-//        System.out.println( "s       = " + s );
-        assertNotNull( s );
+
+        Assert.assertNotNull( s );
     }
 
     /**
@@ -122,9 +121,8 @@ public class URLHelperTest
         URLHelper.copy( testURL, w );
 
         String s = w.toString();
-//        System.out.println( "testURL = " + testURL );
-//        System.out.println( "s       = " + s );
-        assertNotNull( s );
+
+        Assert.assertNotNull( s );
     }
 
     /**
@@ -142,9 +140,8 @@ public class URLHelperTest
         URLHelper.copy( testURL, w, Charset.defaultCharset().displayName() );
 
         String s = w.toString();
-//        System.out.println( "testURL = " + testURL );
-//        System.out.println( "s       = " + s );
-        assertNotNull( s );
+
+        Assert.assertNotNull( s );
     }
 
     @Test

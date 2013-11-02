@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals, importOrder
 package com.googlecode.cchlib.util;
 
 import static org.junit.Assert.assertEquals;
@@ -14,22 +15,22 @@ import org.junit.Test;
 
 public class SortedListTest
 {
-    private final static Logger logger = Logger.getLogger( SortedListTest.class );
+    private static final Logger logger = Logger.getLogger( SortedListTest.class );
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    public static void setUpBeforeClass() {
     }
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    public static void tearDownAfterClass() {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test

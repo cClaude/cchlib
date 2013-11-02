@@ -1,11 +1,11 @@
 package cx.ath.choisnet.xml;
 
-import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 
 /**
  * TODOC

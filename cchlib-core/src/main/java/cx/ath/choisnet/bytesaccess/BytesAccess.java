@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -160,7 +161,7 @@ public abstract class BytesAccess implements Cloneable
         if (obj == null) {
             return false;
             }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()) { // $codepro.audit.disable useEquals
             return false;
             }
 
@@ -175,33 +176,33 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @see #compare(byte[], byte[])
      */
-    public  final static long CMP_MASK_OFFSET     = 0xFFFFFFFFFFFF0000L;
-    private final static long CMP_MASK_OFFSET_LOW = 0x0000FFFFFFFFFFFFL;
-    
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public final static int  CMP_MASK_ROT_OFFSET = 16; //2*8;
+    public  static final long CMP_MASK_OFFSET     = 0xFFFFFFFFFFFF0000L;
+    private static final long CMP_MASK_OFFSET_LOW = 0x0000FFFFFFFFFFFFL;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public final static long CMP_MASK_BYTE0_VALUE = 0x000000000000FF00;
-    
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public final static long CMP_MASK_ROT_BYTE0_VALUE = 8; //1*8
+    public static final int  CMP_MASK_ROT_OFFSET = 16; //2*8;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public final static long CMP_MASK_BYTE1_VALUE = 0x00000000000000FFL;
-    
+    public static final long CMP_MASK_BYTE0_VALUE = 0x000000000000FF00;
+
     /**
      * @see #compare(byte[], byte[])
      */
-    public final static int CMP_MASK_ROT_BYTE1_VALUE = 0; //0*8
+    public static final long CMP_MASK_ROT_BYTE0_VALUE = 8; //1*8
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final long CMP_MASK_BYTE1_VALUE = 0x00000000000000FFL;
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final int CMP_MASK_ROT_BYTE1_VALUE = 0; //0*8
 
    /**
     * Could be use to create your own compareTo() method
@@ -643,7 +644,7 @@ public abstract class BytesAccess implements Cloneable
     protected  final String toString( final int from, final int to, final String encodingCharset )
     {
         try {
-            return new String( bytes, from, to - from + 1, encodingCharset );
+            return new String( bytes, from, (to - from) + 1, encodingCharset );
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException( e );
         }
@@ -741,7 +742,7 @@ public abstract class BytesAccess implements Cloneable
         }
 
         final int sBytesLen = sBytes.length - 2;
-        final int copyLen = to - from + 1;
+        final int copyLen = (to - from) + 1;
 
         for( int i=0; i<copyLen; i++ ) {
             if( i<sBytesLen ) { bytes[ i + from ] = sBytes[ i + 2 ]; }

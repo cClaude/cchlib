@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;

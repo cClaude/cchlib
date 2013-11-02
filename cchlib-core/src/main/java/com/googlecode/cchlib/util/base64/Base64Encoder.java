@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.util.base64;
 
 import java.io.IOException;
@@ -41,16 +42,16 @@ public class Base64Encoder extends Base64
      * @throws IOException if any
      * @throws UnsupportedEncodingException if any
      */
-    public synchronized void encode( 
+    public synchronized void encode(
         final InputStream in,
-        final Writer      out 
+        final Writer      out
         )
         throws IOException, UnsupportedEncodingException
     {
         int len;
 
         //FIXME: bad result if buffer is not big enough !
-        
+
         while( (len = in.read( buffer )) > 0 ) {
             char[] enc = encodeToChar( buffer, 0, len );
             out.write( enc );
@@ -80,9 +81,9 @@ public class Base64Encoder extends Base64
      * @return Base 64 encoded string.
      * @throws UnsupportedEncodingException if any
      */
-    public static String encode( 
-        final String str, 
-        final String charsetName 
+    public static String encode(
+        final String str,
+        final String charsetName
         )
         throws UnsupportedEncodingException
     {

@@ -14,7 +14,7 @@ public class MyTestByName
 
     public String myTest( Integer value1, int value2 )
     {
-        return Integer.toString( value1 + value2 );
+        return Integer.toString( value1.intValue() + value2 );
     }
 
     public String myTest( int...values )

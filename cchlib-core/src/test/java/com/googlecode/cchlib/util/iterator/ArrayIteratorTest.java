@@ -1,5 +1,9 @@
-// $codepro.audit.disable logExceptions
+// $codepro.audit.disable logExceptions, avoidAutoBoxing, importOrder
 package com.googlecode.cchlib.util.iterator;
+
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,21 +13,17 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 /**
  * Test case
  */
 public class ArrayIteratorTest
 {
-    final private static Logger slogger = Logger.getLogger(ArrayIteratorTest.class);
+    private static final Logger slogger = Logger.getLogger(ArrayIteratorTest.class);
 
-    private final static Integer[] ARRAY_INT = {
+    private static final Integer[] ARRAY_INT = {
         1,2,3,4,5,6
     };
-    private final static List<?>[] ARRAY_LIST = {
+    private static final List<?>[] ARRAY_LIST = {
         buildList(1),
         buildList(2),
         buildList(3),
@@ -54,7 +54,7 @@ public class ArrayIteratorTest
         Integer                firstValue = null;
 
         while( iter.hasNext() ) {
-            int v = iter.next();
+            Integer v = iter.next();
 
             if( firstValue == null ) {
                 firstValue = v;
@@ -87,7 +87,7 @@ public class ArrayIteratorTest
     public void testBadLen()
     {
         final int offset = 2;
-        final int len    = ARRAY_INT.length - offset + 1;
+        final int len    = (ARRAY_INT.length - offset) + 1;
         ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
 

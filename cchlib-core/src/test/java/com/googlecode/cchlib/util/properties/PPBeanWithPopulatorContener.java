@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package com.googlecode.cchlib.util.properties;
 
 class PPBeanWithPopulatorContener
@@ -30,7 +31,7 @@ class PPBeanWithPopulatorContener
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result
+        result = (prime * result)
                 + ((myStrangeClass == null) ? 0 : myStrangeClass.hashCode());
         return result;
     }
@@ -40,12 +41,13 @@ class PPBeanWithPopulatorContener
     {
         if( this == obj ) return true;
         if( obj == null ) return false;
-        if( getClass() != obj.getClass() ) return false;
+        if( getClass() != obj.getClass() ) return false; // $codepro.audit.disable useEquals
         PPBeanWithPopulatorContener other = (PPBeanWithPopulatorContener)obj;
         if( myStrangeClass == null ) {
             if( other.myStrangeClass != null ) return false;
-        } else if( !myStrangeClass.equals( other.myStrangeClass ) )
+        } else if( !myStrangeClass.equals( other.myStrangeClass ) ) {
             return false;
+        }
         return true;
     }
 }

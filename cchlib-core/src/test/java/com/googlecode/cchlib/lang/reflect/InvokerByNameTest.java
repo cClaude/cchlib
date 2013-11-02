@@ -1,11 +1,14 @@
+// $codepro.audit.disable avoidAutoBoxing, unnecessaryExceptions, importOrder
 package com.googlecode.cchlib.lang.reflect;
 
 import static org.junit.Assert.assertNotNull;
+
+import org.apache.log4j.Logger;
+import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
+
 /**
  * The class <code>InvokerByNameTest</code> contains tests for the class <code>{@link InvokerByName}</code>.
  *
@@ -13,7 +16,7 @@ import org.fest.assertions.Assertions;
  */
 public class InvokerByNameTest
 {
-    private final static Logger logger = Logger.getLogger( InvokerByNameTest.class );
+    private static final Logger logger = Logger.getLogger( InvokerByNameTest.class );
 
     /**
      * Run the InvokerByName(Class<? extends T>,String) constructor test.
@@ -228,7 +231,7 @@ public class InvokerByNameTest
     {
         InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
-        final int value = 128;  
+        final int value = 128;
 
         MyTestByName   instance = new MyTestByName();
         Object[] params   = new Object[] { value };
@@ -240,7 +243,7 @@ public class InvokerByNameTest
         Assertions.assertThat( result.getClass() ).isEqualTo( String.class );
         Assertions.assertThat( result ).isEqualTo( Integer.toString( value ) );
     }
-    
+
     /**
      * Run the Object invoke(T,Object[]) method test.
      */
@@ -250,8 +253,8 @@ public class InvokerByNameTest
     {
         InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
-        final int value1 = -1;  
-        final int value2 = 57;  
+        final int value1 = -1;
+        final int value2 = 57;
 
         MyTestByName   instance = new MyTestByName();
         Object[] params   = new Object[] { value1, value2 };
@@ -273,10 +276,10 @@ public class InvokerByNameTest
     {
         InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
-        final int value1 = 876;  
-        final int value2 = 5;  
-        final int value3 = 258;  
-        final int[] values = { value1, value2, value3 };  
+        final int value1 = 876;
+        final int value2 = 5;
+        final int value3 = 258;
+        final int[] values = { value1, value2, value3 };
 
         MyTestByName   instance = new MyTestByName();
         Object[] params   = new Object[] { values };

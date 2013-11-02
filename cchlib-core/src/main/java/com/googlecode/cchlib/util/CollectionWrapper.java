@@ -71,8 +71,8 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     public boolean contains( Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return collection.contains( unwrapper.wrap( r ) );
+        R rO = (R)o; // $codepro.audit.disable unnecessaryCast
+        return collection.contains( unwrapper.wrap( rO ) );
     }
 
     @Override
@@ -102,8 +102,8 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     public boolean remove( Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return collection.remove( unwrapper.wrap( r ) );
+        R rO = (R)o; // $codepro.audit.disable unnecessaryCast
+        return collection.remove( unwrapper.wrap( rO ) );
     }
 
     @Override
@@ -165,10 +165,10 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
         if( a.length >= collection.size() ) {
             int i = 0;
 
-            for( R e : this ) {
+            for( final R entry : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e; // $codepro.audit.disable unnecessaryCast
-                a[ i++ ] = t;
+                T tEntry = (T)entry; // $codepro.audit.disable unnecessaryCast
+                a[ i++ ] = tEntry;
                 }
 
             return a;
@@ -176,10 +176,10 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
         else {
             List<T> list = new ArrayList<T>( collection.size() );
 
-            for( R e : this ) {
+            for( R entry : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e; // $codepro.audit.disable unnecessaryCast
-                list.add( t );
+                T tEntry = (T)entry; // $codepro.audit.disable unnecessaryCast
+                list.add( tEntry );
                 }
 
             return list.toArray(a);

@@ -38,31 +38,31 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PositionalXMLReader
 {
-    private final static Logger logger = Logger.getLogger( PositionalXMLReader.class );
+    private static final Logger logger = Logger.getLogger( PositionalXMLReader.class );
 
     /**
      * Attribute name to identify line for the beginning of current element : {@value}
      * @see Element#getUserData(String)
      */
-    final public static String BEGIN_LINE_NUMBER_KEY_NAME = "beginLineNumber";
+    public static final String BEGIN_LINE_NUMBER_KEY_NAME = "beginLineNumber";
 
     /**
      * Attribute name to identify column for the beginning of current element : {@value}
      * @see Element#getUserData(String)
      */
-    final public static  String BEGIN_COLUMN_NUMBER_KEY_NAME = "beginColumnNumber";
+    public static final  String BEGIN_COLUMN_NUMBER_KEY_NAME = "beginColumnNumber";
 
     /**
      * Attribute name to identify line for the ending of current element : {@value}
      * @see Element#getUserData(String)
      */
-    final public static String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
+    public static final String END_LINE_NUMBER_KEY_NAME = "endLineNumber";
 
     /**
      * Attribute name to identify column for the ending of current element : {@value}
      * @see Element#getUserData(String)
      */
-    final public static  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
+    public static final  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
 
     /**
      * @deprecated use {@link #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)} instead
