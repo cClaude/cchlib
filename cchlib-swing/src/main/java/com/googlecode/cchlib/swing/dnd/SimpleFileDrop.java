@@ -385,7 +385,7 @@ public class SimpleFileDrop
     }
     // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
 
-    private void makeDropTarget( final Component c, boolean recursive )
+    private void makeDropTarget( final Component component, final boolean recursive )
         throws HeadlessException, TooManyListenersException
     {
         // Make drop target
@@ -395,7 +395,7 @@ public class SimpleFileDrop
 
         // Listen for hierarchy changes and remove the drop target when the
         // parent gets cleared out.
-        c.addHierarchyListener( new HierarchyListener() {
+        component.addHierarchyListener( new HierarchyListener() {
             @Override
             public void hierarchyChanged( HierarchyEvent evt )
             {
@@ -403,41 +403,45 @@ public class SimpleFileDrop
                     logger.trace( "FileDrop: Hierarchy changed." );
                     }
 
-                Component parent = c.getParent();
+                Component parent = component.getParent();
                 if( parent == null ) {
-                    c.setDropTarget( null );
+                    component.setDropTarget( null );
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "Drop target cleared from component." );
                         }
                     }
                 else {
-                    @SuppressWarnings("unused")
-                    DropTarget drop = new DropTarget( c, dropListener );
+                    newDropTarget( component );
 
                     if( logger.isTraceEnabled() ) {
                         logger.trace( "Drop target added to component." );
                         }
                     }
             }
-        } );
 
-        if( c.getParent() != null ) {
-            @SuppressWarnings("unused")
-            DropTarget drop = new DropTarget( c, dropListener );
+         } );
+
+        if( component.getParent() != null ) {
+            newDropTarget( component );
             }
 
-        if( recursive && (c instanceof Container) ) {
+        if( recursive && (component instanceof Container) ) {
             // Get the container
-            Container cont = (Container)c;
+            Container container = (Container)component;
 
             // Get it's components
-            Component[] comps = cont.getComponents();
+            Component[] subComponents = container.getComponents();
 
             // Set it's components as listeners also
-            for( int i = 0; i < comps.length; i++ ) {
-                makeDropTarget( comps[ i ], recursive );
+            for( int i = 0; i < subComponents.length; i++ ) {
+                makeDropTarget( subComponents[ i ], recursive );
                 }
         }
+    }
+
+    private DropTarget newDropTarget( final Component component )
+    {
+        return new DropTarget( component, dropListener );
     }
 
     /** Determine if the dragged data is a file list. */
@@ -549,14 +553,14 @@ public class SimpleFileDrop
     /**
      * Create a SimpleFileDrop with a default border, add attache immediately the
      * listener ({@link #addDropTargetListener()} to the <code>jList</code>.
-     * 
+     *
      * @param jList           @{@link JList} of {@link File}
      * @param jListModel      Model of the <code>jList</code>.
      * @param selectionFilter Filter for type of files.
      * @return the new SimpleFileDrop object.
      * @since 4.1.7
      */
-    public static SimpleFileDrop createSimpleFileDrop( 
+    public static SimpleFileDrop createSimpleFileDrop(
         final JList<File>            jList,
         final DefaultListModel<File> jListModel,
         final SelectionFilter        selectionFilter

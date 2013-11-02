@@ -57,7 +57,7 @@ public enum Colors {
     ghostwhite               (248,248,255),     // #F8F8FF
     gold                     (255,215,0  ),     // #FFD700
     goldenrod                (218,165,32 ),     // #DAA520
-    gray                     (128,128,128),     // #808080      
+    gray                     (128,128,128),     // #808080
     green                    (0,255,0    ),     //              (0,128,0    ), * #008000
     greenyellow              (173,255,47 ),     // #ADFF2F
     honeydew                 (240,255,240),     // #F0FFF0
@@ -220,7 +220,7 @@ public enum Colors {
     }
 
     /**
-     * 
+     *
      * @param color
      * @return TODOC
      */
@@ -230,31 +230,38 @@ public enum Colors {
     }
 
     /**
-     * 
+     *
      * @param rgb
      * @return TODOC
      */
     public static Colors find( int rgb )
     {
         if( colorMap == null ) {
-            colorMap = new HashMap<Integer,Colors>();
-
-            for( Colors c : values() ) {
-                if( c.ref == null ) { // Does not include alias Colors in Map
-                    int _rgb_ = c.toColor().getRGB();
-
-                    assert ! colorMap.containsKey( _rgb_ ) : "Color " + c + '('+ c.ref +") already exist : " + colorMap.get( _rgb_ ) + '('+ colorMap.get( _rgb_ ).ref + ')';
-
-                    colorMap.put( Integer.valueOf( _rgb_ ), c );
-                    }
-                }
+            colorMap = newMap();
             }
 
         return  colorMap.get( rgb );
     }
 
+    private static HashMap<Integer,Colors> newMap()
+    {
+        final HashMap<Integer,Colors> colorMap = new HashMap<Integer,Colors>();
+
+        for( Colors c : values() ) {
+            if( c.ref == null ) { // Does not include alias Colors in Map
+                int _rgb_ = c.toColor().getRGB();
+
+                assert ! colorMap.containsKey( _rgb_ ) : "Color " + c + '('+ c.ref +") already exist : " + colorMap.get( _rgb_ ) + '('+ colorMap.get( _rgb_ ).ref + ')';
+
+                colorMap.put( Integer.valueOf( _rgb_ ), c );
+                }
+            }
+
+        return colorMap;
+    }
+
     /**
-     * 
+     *
      * @param colorName
      * @return TODOC
      */
@@ -265,7 +272,7 @@ public enum Colors {
                 return c;
                 }
             }
-        
+
         return null;
     }
 }
