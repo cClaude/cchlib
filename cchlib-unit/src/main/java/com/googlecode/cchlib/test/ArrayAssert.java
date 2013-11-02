@@ -195,8 +195,7 @@ public class ArrayAssert
 
             Assert.fail( sb.toString() );
             }
-        
-        if( expected.length != actual.length ) {
+        else if( expected.length != actual.length ) {
             final StringBuilder sb = new StringBuilder();
             
             if( message != null ) {
@@ -215,13 +214,14 @@ public class ArrayAssert
 
             Assert.fail( sb.toString() );
             }
-
-        for( int i=0; i<expected.length; i++ ) {
-            if( expected[ i ] == actual[ i ] ) {
-                continue;
-                }
-            
+        else {
+            for( int i=0; i<expected.length; i++ ) {
+                if( expected[ i ] == actual[ i ] ) {
+                    continue;
+                    }
+                
             failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
+            }
         }
     }
 
