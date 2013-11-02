@@ -14,12 +14,12 @@ import java.util.Properties;
 import com.googlecode.cchlib.lang.OperatingSystem;
 import alpha.cx.ath.choisnet.system.SystemEnvironmentVar;
 
-public class JavaSystemEnvironmentVar 
-    extends AbstractSystemEnvironmentVar 
+public class JavaSystemEnvironmentVar
+    extends AbstractSystemEnvironmentVar
         implements SystemEnvironmentVar
 {
     private static final String SYSTEM_ENVIRONMENT_VAR_FILENAME = ".javaSystemEnvironment";
-    private static JavaSystemEnvironmentVar javaSystemEnvironmentVar;
+    private static JavaSystemEnvironmentVar javaSystemEnvironmentVar = new JavaSystemEnvironmentVar();
     private File javaSystemEnvironmentVarFile;
 
     private JavaSystemEnvironmentVar()
@@ -38,10 +38,6 @@ public class JavaSystemEnvironmentVar
      */
     public static SystemEnvironmentVar getSystemEnvironmentVar()
     {
-        if( javaSystemEnvironmentVar == null ) {
-            javaSystemEnvironmentVar = new JavaSystemEnvironmentVar();
-            }
-
         return javaSystemEnvironmentVar;
     }
 
