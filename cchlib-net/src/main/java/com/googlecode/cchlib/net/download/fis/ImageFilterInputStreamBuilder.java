@@ -10,7 +10,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 public class ImageFilterInputStreamBuilder 
     implements DownloadFilterInputStreamBuilder
 {
-    private final static Logger logger = Logger.getLogger( ImageFilterInputStreamBuilder.class );
+    private static final Logger logger = Logger.getLogger( ImageFilterInputStreamBuilder.class );
 
     /**
      * 
@@ -44,7 +44,7 @@ public class ImageFilterInputStreamBuilder
             dURL.setProperty( "FormatName", infos.getFormatName() );
             }
         catch( IllegalStateException e ) {
-            logger .error( e );
+            logger.error( e );
             }
         catch( IOException e ) {
             logger.warn( e );

@@ -15,7 +15,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 public class DefaultFilterInputStreamBuilder 
     implements DownloadFilterInputStreamBuilder
 {
-    private final static Logger logger = Logger.getLogger( DefaultFilterInputStreamBuilder.class );
+    private static final Logger logger = Logger.getLogger( DefaultFilterInputStreamBuilder.class );
 
     /** 
      * Property name for {@link java.awt.Dimension Dimension}
@@ -86,7 +86,7 @@ public class DefaultFilterInputStreamBuilder
             dURL.setProperty( FORMAT_NAME, infos.getFormatName() );
             }
         catch( IllegalStateException e ) {
-            logger .error( e );
+            logger.error( e );
             }
         catch( IOException e ) {
             logger.warn( e );

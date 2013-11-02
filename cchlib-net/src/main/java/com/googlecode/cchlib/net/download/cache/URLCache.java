@@ -16,15 +16,18 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.7
  */
-public class URLCache implements Closeable
+public class URLCache implements Closeable // $codepro.audit.disable largeNumberOfMethods
 {
     private static final Logger logger = Logger.getLogger( URLCache.class );
 
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
+    
     /** Cache all access should be synchronized on this object */
     private final CacheContent _cache_;
+    
     private final File cacheRootDirFile;
+    
     /**
      * Cache file, use {@link #getCacheFile()} and {@link #setCacheFile(File)}
      * to access
@@ -173,9 +176,9 @@ public class URLCache implements Closeable
      */
     public URLDataCacheEntry get( final URL url )
     {
-    	synchronized( _cache_ ) {
+        synchronized( _cache_ ) {
             return _cache_.get( url );
-    		}
+            }
     }
 
     /**
@@ -267,7 +270,7 @@ public class URLCache implements Closeable
     public File getCacheFile()
     {
         if( this.__cacheFile__ == null ) {
-        	// provide a default cache file if not set.
+            // provide a default cache file if not set.
             this.__cacheFile__ = new File( this.cacheRootDirFile, ".cache-index" );
             }
 
@@ -282,7 +285,7 @@ public class URLCache implements Closeable
     {
         final File cacheFile = getCacheFile();
 
-        return new File( cacheFile .getParentFile(), cacheFile.getName() + "~" );
+        return new File( cacheFile.getParentFile(), cacheFile.getName() + "~" );
     }
 
     /**
@@ -327,29 +330,29 @@ public class URLCache implements Closeable
      *
      * @throws FileNotFoundException if cache does not exist
      * @throws IOException if any I/O error occur
-     * @throws PersistenceFileBadVersion
+     * @throws PersistenceFileBadVersionException
      * @see #getCacheFile()
      */
     public void load() throws FileNotFoundException, IOException
     {
         synchronized( _cache_ ) {
             try {
-        	    persistenceManager.load( getCacheFile(), _cache_ );
-        		}
-            catch( PersistenceFileBadVersion retry ) { // $codepro.audit.disable logExceptions
+                persistenceManager.load( getCacheFile(), _cache_ );
+                }
+            catch( PersistenceFileBadVersionException retry ) { // $codepro.audit.disable logExceptions
                 new SimpleTextPersistenceManagerV0().load( getCacheFile(), _cache_ );
                 }
-        	catch( IOException retry ) {
-        		logger.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
+            catch( IOException retry ) {
+                logger.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
 
-        		try {
+                try {
                     persistenceManager.load( getBackupCacheFile(), _cache_ );
                     }
-                catch( PersistenceFileBadVersion e ) { // $codepro.audit.disable logExceptions
+                catch( PersistenceFileBadVersionException e ) { // $codepro.audit.disable logExceptions
                     new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), _cache_ );
                     }
-        		}
-    		}
+                }
+            }
     }
 
     /**
@@ -361,11 +364,11 @@ public class URLCache implements Closeable
     //synchronized
     public void store() throws IOException
     {
-        final File cacheFile 	= getCacheFile();
-        final File backupFile	= getBackupCacheFile();
+        final File cacheFile     = getCacheFile();
+        final File backupFile    = getBackupCacheFile();
 
         if( logger.isTraceEnabled() ) {
-            logger .trace( "Try to store: " + cacheFile );
+            logger.trace( "Try to store: " + cacheFile );
             }
 
         if( cacheFile.isFile() ) {
@@ -377,7 +380,7 @@ public class URLCache implements Closeable
             boolean b = cacheFile.renameTo( backupFile );
 
             if( logger.isTraceEnabled() ) {
-                logger .trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+                logger.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
                 }
 
             if( ! b ) {
@@ -395,38 +398,38 @@ public class URLCache implements Closeable
         this.modificationCount = 0;
 
         if( cacheFile.length() < backupFile.length() ) {
-        	// Loose data in cache !
-        	logger.warn( "Loose data append previous file" );
+            // Loose data in cache !
+            logger.warn( "Loose data append previous file" );
 
-        	CacheContent tmpCache = new CacheContent();
+            CacheContent tmpCache = new CacheContent();
 
-        	try {
+            try {
                 persistenceManager.load( backupFile, tmpCache );
                 }
-            catch( PersistenceFileBadVersion e ) {
+            catch( PersistenceFileBadVersionException e ) {
                 // unexpected cache content
                 throw new IOException( "Unexpected cache file", e );
                 }
 
-	    	synchronized( _cache_ ) {
-				// Add in tmpCache current values
-	            for( Entry<URL,URLDataCacheEntry> entry : _cache_ ) {
-	            	tmpCache.put( entry.getKey(), entry.getValue() );
-	            	}
+            synchronized( _cache_ ) {
+                // Add in tmpCache current values
+                for( Entry<URL,URLDataCacheEntry> entry : _cache_ ) {
+                    tmpCache.put( entry.getKey(), entry.getValue() );
+                    }
 
-	            // Update cache using tmpCache
-	            for( Entry<URL,URLDataCacheEntry> entry : tmpCache ) {
-	            	_cache_.put( entry.getKey(), entry.getValue() );
-	            	}
+                // Update cache using tmpCache
+                for( Entry<URL,URLDataCacheEntry> entry : tmpCache ) {
+                    _cache_.put( entry.getKey(), entry.getValue() );
+                    }
 
-	            tmpCache.clear();
-	            //storeSimpleTxt( cacheFile, _cache );
-	            persistenceManager.store( cacheFile, _cache_ );
-	    		}
-        	}
+                tmpCache.clear();
+                //storeSimpleTxt( cacheFile, _cache );
+                persistenceManager.store( cacheFile, _cache_ );
+                }
+            }
 
         if( logger.isTraceEnabled() ) {
-            logger .trace( "Cache stored successfully " );
+            logger.trace( "Cache stored successfully " );
             }
     }
 
@@ -480,7 +483,7 @@ public class URLCache implements Closeable
         Object[] listeners = listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
-            if( listeners[i] == URLCacheListener.class ) {
+            if( listeners[i] == URLCacheListener.class ) { // $codepro.audit.disable useEquals
                 ((URLCacheListener)listeners[i + 1]).ioExceptionHandler( ioe );
                 }
             }
@@ -496,7 +499,7 @@ public class URLCache implements Closeable
         Object[] listeners = listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
-            if( listeners[i] == URLCacheListener.class ) {
+            if( listeners[i] == URLCacheListener.class ) { // $codepro.audit.disable useEquals
                 ((URLCacheListener)listeners[i + 1]).autoStoreDone();
                 }
             }

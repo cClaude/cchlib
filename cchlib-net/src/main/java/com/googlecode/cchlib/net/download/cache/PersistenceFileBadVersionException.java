@@ -4,14 +4,14 @@ package com.googlecode.cchlib.net.download.cache;
  *
  * @since 4.1.7
  */
-public class PersistenceFileBadVersion extends Exception 
+public class PersistenceFileBadVersionException extends Exception 
 {
     private static final long serialVersionUID = 1L;
 
     /**
      * @param message
      */
-    public PersistenceFileBadVersion( String message )
+    public PersistenceFileBadVersionException( String message )
     {
         super( message );
     }

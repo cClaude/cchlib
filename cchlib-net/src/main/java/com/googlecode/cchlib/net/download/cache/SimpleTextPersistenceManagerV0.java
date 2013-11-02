@@ -20,24 +20,24 @@ import org.apache.log4j.Logger;
  */
 // Not public
 class SimpleTextPersistenceManagerV0
-    implements URLCachePersistenceManager 
+    implements URLCachePersistenceManager
 {
-	private final static Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV0.class );
+    private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV0.class );
 
     /**
-	 * Create an URLCachePersistenceManager
-	 */
-	public SimpleTextPersistenceManagerV0()
-	{
-	}
+    * Create an URLCachePersistenceManager
+    */
+    public SimpleTextPersistenceManagerV0()
+    {
+    }
 
     /* (non-Javadoc) */
     @Override
     public void store( final File cacheFile, final CacheContent cache )
-    	throws IOException
+        throws IOException
     {
         // store cache using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
+        Writer w = new BufferedWriter( new FileWriter( cacheFile ) ); // $codepro.audit.disable questionableName
 
         for( Entry<URL,URLDataCacheEntry> entry : cache ) {
             final String contentHashCode = entry.getValue().getContentHashCode();
@@ -61,48 +61,59 @@ class SimpleTextPersistenceManagerV0
     public void load( File cacheFile, CacheContent cache )
             throws FileNotFoundException, IOException
     {
-        BufferedReader r = null;
+        BufferedReader reader = null; // $codepro.audit.disable questionableName
 
         try {
-            r = new BufferedReader( new FileReader( cacheFile ) );
+            reader = new BufferedReader( new FileReader( cacheFile ) );
 
             for(;;) {
-                String hashCode = r.readLine();
+                String hashCode = reader.readLine();
                 if( hashCode == null ) {
                     break; // EOF
                     }
                 else if( hashCode.isEmpty() ) {
                     hashCode = null; // No hash code
                     }
-                
+
                 URL    url;
-                String line = r.readLine();
-                
+                String line = reader.readLine();
+                if( line == null ) {
+                    throw new PersistenceFileBadFormatException( "Expected url found EOF" );
+                    }
+
                 try {
                     url = new URL( line );
                     }
                 catch ( MalformedURLException e ) {
-                    logger .error( "Bad URL format (ignore) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]", 
-                            e 
+                    logger.error( "Bad URL format (ignore) in URLCache file : " + cacheFile
+                            + " value = [" + line + "]",
+                            e
                             );
                     url = null;
                     }
-                
+
                 Date   date;
-                line = r.readLine();
+                line = reader.readLine();
+                if( line == null ) {
+                    throw new PersistenceFileBadFormatException( "Expected Date found EOF" );
+                    }
+
                 try {
                     date = new Date( Long.parseLong( line ) );
                     }
                 catch( NumberFormatException e ) {
                     logger.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]", 
+                            + " value = [" + line + "]",
                             e
                             );
-                    
+
                     date = new Date( 0 );
                     }
-                String filename = r.readLine();
+
+                final String filename = reader.readLine();
+                if( filename == null ) {
+                    throw new PersistenceFileBadFormatException( "Expected file name found EOF" );
+                    }
 
                 if( url != null ) {
                     // Skip entry with no URL !
@@ -111,8 +122,8 @@ class SimpleTextPersistenceManagerV0
                 }
             }
         finally {
-            if( r != null ) {
-                r.close();
+            if( reader != null ) {
+                reader.close();
                 }
             }
     }

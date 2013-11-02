@@ -22,7 +22,7 @@ public abstract class AbstractDownloadURL
     implements DownloadURL, Serializable
 {
     private static final long serialVersionUID = 2L;
-    private final static transient Logger logger = Logger.getLogger( AbstractDownloadURL.class );
+    private static final transient Logger logger = Logger.getLogger( AbstractDownloadURL.class );
 
     private       URL                   url;
     private final Map<String,String>    requestPropertyMap;
@@ -35,24 +35,24 @@ public abstract class AbstractDownloadURL
      * @param requestPropertyMap    A {@link Map} of request properties to put
      *                              on {@link URLConnection} (could be null)
      * @param proxy                 {@link Proxy} to use for download (could be null)
-     * 
+     *
      * @throws NullPointerException if url is null
      */
     public AbstractDownloadURL(
         final URL                   url,
         final Map<String,String>    requestPropertyMap,
         final Proxy                 proxy
-        ) throws URISyntaxException
+        ) throws URISyntaxException // $codepro.audit.disable unnecessaryExceptions
     {
         if( url == null ) {
             throw new NullPointerException();
             }
-        
+
         this.url                = url;
         this.requestPropertyMap = requestPropertyMap;
         this.proxy              = proxy;
     }
-    
+
     /**
      * Create an AbstractDownloadURL using giving {@link URI}
      *
@@ -62,9 +62,9 @@ public abstract class AbstractDownloadURL
      *                              on {@link URLConnection} (could be null)
      * @param proxy                 {@link Proxy} to use for download (could be null)
      * @throws IllegalArgumentException If this URL is not absolute
-     * @throws MalformedURLException    If a protocol handler for 
+     * @throws MalformedURLException    If a protocol handler for
      *         the URL could not be found, or if some other error
-     *         occurred while constructing the URL 
+     *         occurred while constructing the URL
      */
     public AbstractDownloadURL(
         final URI                   uri,
@@ -76,10 +76,10 @@ public abstract class AbstractDownloadURL
         this.requestPropertyMap = requestPropertyMap;
         this.proxy              = proxy;
     }
-    
+
     /**
      * Set the url.
-     *  
+     *
      * @param url {@link URL} to set
      * @throws NullPointerException if url is null
      */
@@ -88,10 +88,10 @@ public abstract class AbstractDownloadURL
         if( url == null ) {
             throw new NullPointerException();
             }
-        
+
         this.url = url;
     }
-    
+
     @Override
     public URL getURL()
     {

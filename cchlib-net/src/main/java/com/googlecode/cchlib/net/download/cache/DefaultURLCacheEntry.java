@@ -8,25 +8,25 @@ import java.util.Date;
  * @since 4.1.7
  */
 // Not public
-final class DefaultURLCacheEntry implements URLDataCacheEntry 
+final class DefaultURLCacheEntry implements URLDataCacheEntry
 {
     private String  hashCode;
     private Date    date;
     private String  filename;
 
     /**
-     * 
+     *
      * @param date
      * @param hashCode
      * @param filename
      */
-    public DefaultURLCacheEntry( 
-        final Date   date, 
+    public DefaultURLCacheEntry(
+        final Date   date,
         final String hashCode,
         final String filename
         )
     {
-        this.date     = date == null ? new Date() : date;
+        this.date     = (date == null) ? new Date() : date;
         this.hashCode = hashCode;
         if( filename == null ) {
             this.filename = null;
@@ -64,16 +64,16 @@ final class DefaultURLCacheEntry implements URLDataCacheEntry
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result
+        result = (prime * result) + ((date == null) ? 0 : date.hashCode());
+        result = (prime * result)
                 + ((filename == null) ? 0 : filename.hashCode());
-        result = prime * result
+        result = (prime * result)
                 + ((hashCode == null) ? 0 : hashCode.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals, cyclomaticComplexity
     {
         if( this == obj ) {
             return true;
@@ -81,7 +81,7 @@ final class DefaultURLCacheEntry implements URLDataCacheEntry
         if( obj == null ) {
             return false;
         }
-        if( getClass() != obj.getClass() ) {
+        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
             return false;
         }
         DefaultURLCacheEntry other = (DefaultURLCacheEntry)obj;

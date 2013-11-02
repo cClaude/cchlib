@@ -20,26 +20,26 @@ import org.apache.log4j.Logger;
  * @since 4.1.7
  */
 //Not public
-class SimpleTextPersistenceManagerV1 
+class SimpleTextPersistenceManagerV1
     implements URLCachePersistenceManager
 {
-    private final static Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV1.class );
-    private final static String VERSION_STR = "V:1";
-    
+    private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV1.class );
+    private static final String VERSION_STR = "V:1";
+
     /* (non-Javadoc) */
     @Override
     public void store( File cacheFile, CacheContent cache ) throws IOException
     {
         // store cache using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( cacheFile ) );
-        
+        Writer w = new BufferedWriter( new FileWriter( cacheFile ) ); // $codepro.audit.disable questionableName
+
         try {
             w.append( VERSION_STR ).append( '\n' );
 
             for( Entry<URL,URLDataCacheEntry> entry : cache ) {
                 storeEntry( w, entry );
                 }
-            
+
             w.flush();
             }
         finally {
@@ -49,7 +49,7 @@ class SimpleTextPersistenceManagerV1
 
     private void storeEntry(
             final Writer                           w,
-            final Map.Entry<URL,URLDataCacheEntry> entry 
+            final Map.Entry<URL,URLDataCacheEntry> entry
             ) throws IOException
     {
         // First line is a valid URL
@@ -57,15 +57,15 @@ class SimpleTextPersistenceManagerV1
         w.append( entry.getKey().toExternalForm() ).append( '\n' );
 
         final URLDataCacheEntry cacheEntry = entry.getValue();
-        
+
         // Second line must be a valid Long
         // Can not be null (use of getTime())
         w.append( Long.toString( cacheEntry.getDate().getTime() ) ).append( '\n' );
-        
+
         // Third line is MD5 HashCode of download content
         // Can not be null (use of trim())
         w.append( cacheEntry.getContentHashCode().trim() ).append( '\n' );
-        
+
         // Fourth line is the relative filename (could be empty)
         // Can not be null (use of getRelativeFilename())
         String filename = cacheEntry.getRelativeFilename();
@@ -74,13 +74,13 @@ class SimpleTextPersistenceManagerV1
             }
         w.append( '\n' );
     }
-    
+
     /* (non-Javadoc) */
     @Override
     public void load( File cacheFile, CacheContent cache )
-            throws FileNotFoundException, IOException, PersistenceFileBadVersion
+            throws FileNotFoundException, IOException, PersistenceFileBadVersionException
     {
-        BufferedReader r = null;
+        BufferedReader r = null; // $codepro.audit.disable questionableName
 
         try {
             r = new BufferedReader( new FileReader( cacheFile ) );
@@ -91,7 +91,7 @@ class SimpleTextPersistenceManagerV1
                 if( ! VERSION_STR.equals( checkVersion ) ) {
                     r.close();
                     r = null;
-                    throw new PersistenceFileBadVersion( checkVersion );
+                    throw new PersistenceFileBadVersionException( checkVersion );
                     }
             }
 
@@ -103,14 +103,14 @@ class SimpleTextPersistenceManagerV1
                     // EOF
                     break;
                     }
-                
+
                 try {
                     url = new URL( line );
                     }
                 catch ( MalformedURLException e ) {
                     logger.error( "Bad URL format (try next line) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]", 
-                            e 
+                            + " value = [" + line + "]",
+                            e
                             );
                     continue;
                     }
@@ -122,19 +122,19 @@ class SimpleTextPersistenceManagerV1
                     // EOF (ignore entry)
                     break;
                     }
-                
+
                 try {
                     date = new Date( Long.parseLong( line ) );
                     }
                 catch( NumberFormatException e ) {
                     logger.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]", 
+                            + " value = [" + line + "]",
                             e
                             );
-                    
+
                     date = new Date( 0 );
                     }
-                
+
                 // Third line
                 String hashCode = r.readLine();
                 if( hashCode == null ) {
@@ -157,7 +157,7 @@ class SimpleTextPersistenceManagerV1
             if( r != null ) {
                 r.close();
                 }
-            }  
+            }
     }
 
 }

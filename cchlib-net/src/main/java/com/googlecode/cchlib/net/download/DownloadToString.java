@@ -10,7 +10,7 @@ import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Download {@link URL} and put result into a {@link String}
- * 
+ *
  * @since 4.1.5
  */
 public class DownloadToString extends AbstractDownload
@@ -30,10 +30,10 @@ public class DownloadToString extends AbstractDownload
 
     @Override
     protected void download( final InputStream inputStream )
-            throws IOException, DownloadIOException
+            throws IOException, DownloadIOException // $codepro.audit.disable unnecessaryExceptions
     {
         CharArrayWriter buffer = new CharArrayWriter();
-        Reader          r      = new InputStreamReader( inputStream );
+        Reader          r      = new InputStreamReader( inputStream ); // $codepro.audit.disable questionableName
 
         try {
             IOHelper.copy( r, buffer );
@@ -43,7 +43,7 @@ public class DownloadToString extends AbstractDownload
             }
 
         final DownloadStringURL dURL = DownloadStringURL.class.cast( getDownloadURL() );
-        
+
         dURL.setResultAsString( buffer.toString() );
     }
 }

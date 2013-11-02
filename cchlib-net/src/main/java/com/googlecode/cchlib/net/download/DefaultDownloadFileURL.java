@@ -105,7 +105,7 @@ public class DefaultDownloadFileURL
         builder.append( "DefaultDownloadFileURL [file=" );
         builder.append( file );
         builder.append( ", properties=" );
-        builder.append( properties != null ? toString( properties.entrySet() ) : null );
+        builder.append( (properties != null) ? toString( properties.entrySet() ) : null );
         builder.append( ']' );
         return builder.toString();
     }

@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collection;
+
 import org.apache.log4j.Logger;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
+
 import com.googlecode.cchlib.test.TestConfigurationHelper;
 
 public class WakeOnLanTest

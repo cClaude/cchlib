@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 //NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
-    private final static Logger logger = Logger.getLogger( AbstractDownload.class );
+    private static final Logger logger = Logger.getLogger( AbstractDownload.class );
     // Use getDownloadURL() to access to this object
     private final DownloadURL downloadURL;
     // Use getDownloadEvent() to access to this object
@@ -83,14 +83,14 @@ abstract class AbstractDownload implements RunnableDownload
      * @param inputStream {@link InputStream} based on URL.
      * @throws DownloadIOException
      */
-    abstract protected void download( InputStream inputStream )
+    protected abstract void download( InputStream inputStream )
             throws IOException, DownloadIOException;
 
     /**
      * Returns {@link DownloadEvent} for this {@link AbstractDownload}
      * @return {@link DownloadEvent} for this {@link AbstractDownload}
      */
-    final protected DownloadEvent getDownloadEvent() 
+    protected final DownloadEvent getDownloadEvent() 
     {
         return event; 
     }

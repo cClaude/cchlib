@@ -27,9 +27,9 @@ interface URLCachePersistenceManager
 	 * @param tmpCache
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
-	 * @throws PersistenceFileBadVersion 
+	 * @throws PersistenceFileBadVersionException 
 	 */
     public void load( File cacheFile, CacheContent cache )
-        throws FileNotFoundException, IOException, PersistenceFileBadVersion;
+        throws FileNotFoundException, IOException, PersistenceFileBadVersionException;
 
 }

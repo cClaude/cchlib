@@ -84,12 +84,12 @@ public class WakeOnLan
             broadcastAddress = broadcastAddress.trim();
             }
 
-        if( broadcastAddress == null || broadcastAddress.length() == 0 ) {
+        if( (broadcastAddress == null) || (broadcastAddress.length() == 0) ) {
             broadcastAddress = "255.255.255.255";
             }
 
         byte[] macBytes = WakeOnLan.getMacAddressBytes(macAddress);
-        byte[] bytes = new byte[6 + 16 * macBytes.length];
+        byte[] bytes = new byte[6 + (16 * macBytes.length)];
 
         for( int i = 0; i < 6; i++ ) {
             bytes[i] = -1;

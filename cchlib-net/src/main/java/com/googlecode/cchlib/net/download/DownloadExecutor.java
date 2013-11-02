@@ -26,7 +26,7 @@ public class DownloadExecutor
     private final ThreadPoolExecutor pool;
     //private final MD5FilterInputStreamBuilder downloadFilterBuilder;
     private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
-    
+
     /**
      * Create DownloadExecutor
      *
@@ -87,7 +87,7 @@ public class DownloadExecutor
      *
      * @param downloadURLs      {@link Collection} of {@link URL} to download.
      * @param eventHandler  A valid {@link DownloadEvent} according downloadURLs type
-     * 
+     *
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
@@ -99,7 +99,7 @@ public class DownloadExecutor
             final Collection<? extends DownloadURL> downloadURLs,
             final DownloadEvent                     eventHandler
             )
-        throws  RejectedExecutionException, 
+        throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
         for( DownloadURL u: downloadURLs ) {
@@ -115,7 +115,7 @@ public class DownloadExecutor
      *
      * @param downloadURLs  {@link Iterable} of {@link URL} to download.
      * @param eventHandler  A valid {@link DownloadEvent} according to downloadURLs type
-     * 
+     *
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
@@ -127,7 +127,7 @@ public class DownloadExecutor
             final Iterable<DownloadURL> downloadURLs,
             final DownloadEvent         eventHandler
             )
-        throws  RejectedExecutionException, 
+        throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
         for( DownloadURL u: downloadURLs ) {
@@ -143,7 +143,7 @@ public class DownloadExecutor
      *
      * @param downloadURL   A valid {@link DownloadURL}.
      * @param eventHandler  A valid {@link DownloadEvent} according to downloadURL type
-     * 
+     *
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
@@ -156,7 +156,7 @@ public class DownloadExecutor
             final DownloadEvent     eventHandler
             )
         throws  RejectedExecutionException,
-                DownloadConfigurationException
+                DownloadConfigurationException // $codepro.audit.disable unnecessaryExceptions
     {
         Runnable command;
 
@@ -170,7 +170,7 @@ public class DownloadExecutor
 
             if( eventHandler instanceof DownloadFileEvent ) {
                 DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
-                
+
                 command = new DownloadToFile( downloadFileURL, fileEventHandler , downloadFilterBuilder );
                 }
             else {
@@ -183,7 +183,7 @@ public class DownloadExecutor
 
         pool.execute( command );
     }
-    
+
     /**
      * Blocks until all tasks have completed execution
      * <p>

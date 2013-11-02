@@ -10,7 +10,7 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
 /**
  * Download {@link URL} and put result into a {@link File}
- * 
+ *
  * @since 4.1.5
  */
 public class DownloadToFile extends AbstractDownload
@@ -20,7 +20,7 @@ public class DownloadToFile extends AbstractDownload
 
     /**
      * Create a new DownloadToFile
-     * 
+     *
      * @param downloadURL
      * @param fileEventHandler
      * @param downloadFilterBuilder
@@ -32,7 +32,7 @@ public class DownloadToFile extends AbstractDownload
         )
     {
         super( downloadURL, fileEventHandler );
-        
+
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
 
@@ -45,7 +45,7 @@ public class DownloadToFile extends AbstractDownload
         final DownloadFileURL       dURL = DownloadFileURL.class.cast( getDownloadURL() );
         final InputStream           is;
         final FilterInputStream     filter;
-        
+
         if( downloadFilterBuilder != null ) {
             is = filter = downloadFilterBuilder.createFilterInputStream( inputStream );
             }
@@ -56,10 +56,10 @@ public class DownloadToFile extends AbstractDownload
 
         try {
             IOHelper.copy( is, file );
-            
+
             if( filter != null ) {
                 filter.close(); // Needed ???
-                
+
                 downloadFilterBuilder.storeFilterResult( filter, dURL );
                 }
             }
@@ -67,7 +67,9 @@ public class DownloadToFile extends AbstractDownload
             throw new DownloadIOException( getDownloadURL(), file, e );
             }
         finally {
-            filter.close(); // Needed ???
+            if( filter != null ) {
+                filter.close(); // Needed ???
+                }
             }
 
         dURL.setResultAsFile( file );
