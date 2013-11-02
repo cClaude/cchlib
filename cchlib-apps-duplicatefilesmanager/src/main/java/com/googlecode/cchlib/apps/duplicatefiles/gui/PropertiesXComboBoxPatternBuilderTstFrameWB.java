@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
 import java.awt.EventQueue;

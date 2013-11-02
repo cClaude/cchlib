@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 import java.awt.CardLayout;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
-public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable
+public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( RemoveEmptyFilesJPanel.class );
@@ -95,7 +95,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
             @Override
             public String formatLength( File file )
             {
-                return String.format( fileLengthFmt, file.length() );
+                return String.format( fileLengthFmt, Long.valueOf( file.length() ) );
             }
         };
         this.tableModel = new WorkingTableModel( fileInfoFormater );
@@ -115,7 +115,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
             @Override
             public void tableChanged( TableModelEvent e )
             {
-                progressBar.setString( String.format( findFilesFmt, tableModel.getRowCount() ) );
+                progressBar.setString( String.format( findFilesFmt, Integer.valueOf( tableModel.getRowCount() ) ) );
             }
         };
         this.tableModel.addTableModelListener( tableModelListener  );
@@ -156,7 +156,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     {
         logger.info( "doImport()" );
 
-        Runnable r = new Runnable() {
+        Runnable importDirectories = new Runnable() {
             @Override
             public void run()
             {
@@ -169,7 +169,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
                 logger.info( "doImport() done" );
             }
         };
-        new Thread( r, "doImport()" ).start();
+        new Thread( importDirectories, "doImport():importDirectories" ).start();
     }
 
     public JFileChooser getJFileChooser()

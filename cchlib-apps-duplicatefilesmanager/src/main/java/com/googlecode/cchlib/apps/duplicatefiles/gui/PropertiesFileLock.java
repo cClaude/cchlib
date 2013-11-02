@@ -40,8 +40,8 @@ class PropertiesFileLock extends Properties
     }
 
     public PropertiesFileLock(
-        final File             file,
-        final Properties     defaults
+        final File          file,
+        final Properties    defaults // $codepro.audit.disable declareAsInterface
         ) throws IOException
     {
         super(defaults);
@@ -74,7 +74,7 @@ class PropertiesFileLock extends Properties
 
                 // Release the lock
                 this.fileLock.release();
-                } 
+                }
             finally {
                 // Close the file
                 raf.close();

@@ -1,20 +1,27 @@
+// $codepro.audit.disable questionableName
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
-import javax.swing.JLabel;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Locale;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -23,11 +30,6 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import javax.swing.JCheckBox;
-import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -122,13 +124,14 @@ public class PreferencesDialogWB
         {
             jComboBoxLookAndFeel.removeAllItems();
 
-            LookAndFeel currentLAF = UIManager.getLookAndFeel();
-            LookAndFeelInfoList l = new LookAndFeelInfoList();
+            final LookAndFeel         currentLAF          = UIManager.getLookAndFeel();
+            final LookAndFeelInfoList list                = new LookAndFeelInfoList();
+            final String              currentLAFClassName = currentLAF.getClass().getName();
 
-            for( ListInfo<LookAndFeelInfo> info : l ) {
+            for( ListInfo<LookAndFeelInfo> info : list ) {
                 jComboBoxLookAndFeel.addItem( info );
 
-                if( info.getContent().getClassName().equals( currentLAF.getClass().getName() ) ) {
+                if( info.getContent().getClassName().equals( currentLAFClassName  ) ) {
                     jComboBoxLookAndFeel.setSelectedItem( info );
                     }
                 }

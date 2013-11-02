@@ -1,41 +1,42 @@
+// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.border.TitledBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
 
 /**
  *
  */
 @I18nName("AboutPanel")
 final
-public class AboutPanel extends JPanel 
+public class AboutPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final String DESCRIPTION = "About brief (dev text)";
-    
+
     private boolean click;
     private Resources resources;
 
@@ -44,39 +45,39 @@ public class AboutPanel extends JPanel
     private JLabel jLabel_copyRight; // I18n
     private JLabel jLabel_version;   // I18n
     private JButton jButton_Ok;
-    
-    @I18n private JTextArea jTextArea;
-	private TitledBorder titleBorder;
 
-    
-//    /** 
+    @I18n private JTextArea jTextArea;
+    private TitledBorder titleBorder;
+
+
+//    /**
 //     * Creates new form AboutPanel for windows builder ONLY.
-//     * 
-//     * @param action  
+//     *
+//     * @param action
 //     */
-//    public AboutPanel( AboutPanelAction action ) 
+//    public AboutPanel( AboutPanelAction action )
 //    {
 //        this( MyResourcesLoader.getResources(), action  );
 //    }
 
-    
-    /** 
-     * Creates new form AboutPanel 
-     */
-    public AboutPanel( 
+
+    /**
+     * Creates new form AboutPanel
+     */// $codepro.audit.disable sourceLength
+    public AboutPanel(
         final Resources        resources,
         final AboutPanelAction action
-        ) 
+        )
     {
-        this.resources = resources;        
-        
+        this.resources = resources;
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{20, 20, 20, 20, 0};
         gridBagLayout.rowHeights = new int[]{22, 22, 22, 100, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
-        
+
         {
             jLabel_authorName = new JLabel();
             jLabel_authorName.setForeground(new Color(0, 0, 255));
@@ -128,7 +129,7 @@ public class AboutPanel extends JPanel
         {
             jLabel_author = new JLabel();
             jLabel_author.setHorizontalAlignment(SwingConstants.RIGHT);
-            jLabel_author.setText( "Author :" ); 
+            jLabel_author.setText( "Author :" );
             GridBagConstraints gbc_jLabel_author = new GridBagConstraints();
             gbc_jLabel_author.fill = GridBagConstraints.BOTH;
             gbc_jLabel_author.insets = new Insets(0, 0, 5, 5);
@@ -186,7 +187,7 @@ public class AboutPanel extends JPanel
             jTextArea.setLineWrap(true);
             jTextArea.setRows(5);
             jTextArea.setText( DESCRIPTION );
-            
+
             JScrollPane jScrollPane = new JScrollPane();
             titleBorder = BorderFactory.createTitledBorder( "Brief" );
             jScrollPane.setBorder( titleBorder );
@@ -204,7 +205,7 @@ public class AboutPanel extends JPanel
             jButton_Ok = new JButton("OK");
             jButton_Ok.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent event) 
+                public void actionPerformed(ActionEvent event)
                 {
                     action.buttonOKClicked();
                 }
@@ -216,7 +217,7 @@ public class AboutPanel extends JPanel
             add(jButton_Ok, gbc_jButton_Ok);
         }
     }
-    
+
     //protected abstract void buttonOKClicked();
 
     private void authorMouseEntered( final MouseEvent evt )
@@ -228,25 +229,25 @@ public class AboutPanel extends JPanel
     private void authorMouseExited( final MouseEvent evt )
     {
         jLabel_authorName.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        
+
         if( click ) {
             jLabel_authorName.setForeground(new Color(128,0,128));
-            } 
+            }
         else {
             jLabel_authorName.setForeground(Color.BLUE);
             }
     }
-    
-    private void authorMouseClicked( final MouseEvent evt ) 
+
+    private void authorMouseClicked( final MouseEvent evt )
     {
         click = true;
-        
+
         if( Desktop.isDesktopSupported() ) {
             try {
                 Desktop.getDesktop().browse( resources.getSiteURI() );
                 }
             catch( IOException e ) {
-                Logger.getLogger( getClass() ).warn( "Error while opening: " + resources.getSiteURI(), e ); 
+                Logger.getLogger( getClass() ).warn( "Error while opening: " + resources.getSiteURI(), e );
                 }
             }
     }

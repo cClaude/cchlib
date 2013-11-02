@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
 import java.awt.Color;

@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
 import java.awt.HeadlessException;
@@ -50,17 +51,17 @@ final public class DuplicateFilesFrame
     private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
 
-    private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>();
+    private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>(); // $codepro.audit.disable declareAsInterface
 
     private int                 state;
     private int                 subState;
-    private final static int    STATE_SELECT_DIRS      = 0;
-    private final static int    STATE_SEARCH_CONFIG    = 1;
-    private final static int    STATE_SEARCHING        = 2;
-    private final static int    STATE_RESULTS          = 3;
-    private final static int    STATE_CONFIRM          = 4;
-    private final static int    SUBSTATE_CONFIRM_INIT  = 0;
-    private final static int    SUBSTATE_CONFIRM_DONE  = 1;
+    private static final int    STATE_SELECT_DIRS      = 0;
+    private static final int    STATE_SEARCH_CONFIG    = 1;
+    private static final int    STATE_SEARCHING        = 2;
+    private static final int    STATE_RESULTS          = 3;
+    private static final int    STATE_CONFIRM          = 4;
+    private static final int    SUBSTATE_CONFIRM_INIT  = 0;
+    private static final int    SUBSTATE_CONFIRM_DONE  = 1;
 
     private AutoI18nCore autoI18n;
 
@@ -248,7 +249,7 @@ final public class DuplicateFilesFrame
                                         "MD5",
                                         getDFToolKit().getPreferences().getMessageDigestBufferSize()
                                         ),
-                                    getDuplicateFilesMainPanel().getJPanel1Config().IsIgnoreEmptyFiles()
+                                    getDuplicateFilesMainPanel().getJPanel1Config().isIgnoreEmptyFiles()
                                 );
                         }
                     catch( NoSuchAlgorithmException ignore ) {
@@ -462,8 +463,8 @@ final public class DuplicateFilesFrame
 
         boolean advanced = mode != ConfigMode.BEGINNER;
 
-        setEnabledAt( RemoveEmptyDirectories_TAB, advanced );
-        setEnabledAt( DeleteEmptyFiles_TAB, advanced );
+        setEnabledAt( REMOVE_EMPTY_DIRECTORIES_TAB, advanced );
+        setEnabledAt( DELETE_EMPTY_FILES_TAB, advanced );
         //TODO: more panel ?
     }
 
@@ -474,7 +475,7 @@ final public class DuplicateFilesFrame
         // TODO Perform some checks: running : empty directories frame ?
         // TODO Save prefs ???
 
-        System.exit( 0 );
+        System.exit( 0 ); // $codepro.audit.disable noExplicitExit
     }
 
     private void openPreferences()

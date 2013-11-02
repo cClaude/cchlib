@@ -184,13 +184,30 @@ public class DefaultEmptyDirectoriesLookup
             logger.debug( "doScan:" + folderPath );
             }
 
-        checkIfCouldBeEmpty( folderPath );
+        canBeEmpty( folderPath );
     }
 
-    private boolean checkIfCouldBeEmpty( final Path folder ) throws CancelRequestException, ScanIOException
+    private boolean canBeEmpty( final Path folder ) throws CancelRequestException, ScanIOException
     {
         assert Files.isDirectory( folder, linkOption ) : "Not a directory=" + folder;
 
+
+        if( canBeScan( folder ) ) {
+            for( EmptyDirectoriesListener l : this.listeners ) {
+                if( l.isCancel() ) {
+                    throw new CancelRequestException();
+                    }
+                }
+
+            return scanSubFolders( folder );
+            }
+        else {
+            return false;
+            }
+    }
+
+    private boolean canBeScan( final Path folder ) throws ScanIOException // $codepro.audit.disable blockDepth
+    {
         if( excludeDirectoriesFile != null ) {
             try {
                 if( excludeDirectoriesFile.accept( folder ) ) {
@@ -206,12 +223,12 @@ public class DefaultEmptyDirectoriesLookup
                 }
             }
 
-        for( EmptyDirectoriesListener l : this.listeners ) {
-            if( l.isCancel() ) {
-                throw new CancelRequestException();
-                }
-            }
+        return true;
+    }
 
+    private boolean scanSubFolders( final Path folder ) // $codepro.audit.disable booleanMethodNamingConvention
+            throws CancelRequestException, ScanIOException
+    {
         boolean isEmpty      = true;
         boolean couldBeEmpty = true;
 
@@ -225,7 +242,7 @@ public class DefaultEmptyDirectoriesLookup
                 isEmpty = false;
 
                 if( entryPath.toFile().isDirectory() ) {
-                    couldBeEmpty = checkIfCouldBeEmpty( entryPath );
+                    couldBeEmpty = canBeEmpty( entryPath );
                     }
                 else {
                     couldBeEmpty = false;
@@ -242,7 +259,6 @@ public class DefaultEmptyDirectoriesLookup
                         @Override
                         public boolean accept( File pathname )
                         {
-                            // TODO Auto-generated method stub
                             return false;
                         }}).length == 0;
 

@@ -18,7 +18,7 @@ public final class FolderTreeNode
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( FolderTreeNode.class );
-    
+
     private Folder              folder;
     private boolean             selected;
     private FolderTreeModelable model;
@@ -31,7 +31,7 @@ public final class FolderTreeNode
      * @param model
      */
     private FolderTreeNode(
-        final Folder              folder, 
+        final Folder              folder,
         final boolean             selected,
         final FolderTreeModelable model
         )

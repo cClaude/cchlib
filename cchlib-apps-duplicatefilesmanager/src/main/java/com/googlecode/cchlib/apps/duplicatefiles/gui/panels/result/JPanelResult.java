@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
 import java.awt.event.ActionEvent;
@@ -39,7 +40,7 @@ import com.googlecode.cchlib.util.iterator.Iterators;
 @I18nName("duplicatefiles.JPanelResult")
 public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
 {
-    private class Selected implements Iterable<KeyFileState>
+    private static class Selected implements Iterable<KeyFileState>
     {
         private List<KeyFileState> selectedList;
 
@@ -94,11 +95,11 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     private transient DFToolKit dFToolKit;
 
     private ActionListener      actionListenerContextSubMenu;
-    private final static String ACTION_OBJECT                            = "KeyFile";
-    private final static String ACTION_COMMAND_DeleteDuplicateInDir      = "DeleteDuplicateInDir";
-    private final static String ACTION_COMMAND_KeepNonDuplicateInDir     = "KeepNonDuplicateInDir";
-    private final static String ACTION_COMMAND_KeepAllInDir              = "KeepAllInDir";
-    private final static String ACTION_COMMAND_DeleteAllInDir            = "DeleteAllInDir";
+    private static final String ACTION_OBJECT                            = "KeyFile";
+    private static final String ACTION_COMMAND_DeleteDuplicateInDir      = "DeleteDuplicateInDir";
+    private static final String ACTION_COMMAND_KeepNonDuplicateInDir     = "KeepNonDuplicateInDir";
+    private static final String ACTION_COMMAND_KeepAllInDir              = "KeepAllInDir";
+    private static final String ACTION_COMMAND_DeleteAllInDir            = "DeleteAllInDir";
     private static final String ACTION_COMMAND_DeleteTheseFiles          = "DeleteTheseFiles";
     private static final String ACTION_COMMAND_DeleteAllExceptTheseFiles = "DeleteAllExceptTheseFiles";
     private static final String ACTION_COMMAND_KeepTheseFiles            = "KeepTheseFiles";
@@ -151,7 +152,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
      public void populate(
-            final HashMapSet<String,KeyFileState> duplicateFiles
+            final HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
             )
     {
         SortMode sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
@@ -260,7 +261,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     m,
                     menu,
                     actionCommand,
-                    new KeyFileState( k, f )
+                    new KeyFileState( k, f ) // $codepro.audit.disable avoidInstantiationInLoops
                     );
 
             f = f.getParentFile();
@@ -289,7 +290,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                 String.format(
                         "%s - %d [%s%s%s] %s (%s)",
                         f.getName(),
-                        f.length(),
+                        Long.valueOf( f.length() ),
                         //f.canExecute()?txtCanExecuteFirstLetter:"-",
                         f.canRead()?txtCanReadFirstLetter:"-",
                         f.canWrite()?txtCanWriteFirstLetter:"-",
@@ -421,7 +422,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     return cm;
                 }
 
-                private <E> void addJCheckBoxMenuItem(
+                private <E> void addJCheckBoxMenuItem( // $codepro.audit.disable largeNumberOfParameters
                     JMenu          sortMenu,
                     String         txt,
                     ButtonGroup    gb,
@@ -652,7 +653,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
             Iterator<KeyFileState> iter = s.iterator();
 
-            while( c== 0 && iter.hasNext() ) {
+            while( (c== 0) && iter.hasNext() ) {
                 KeyFileState f = iter.next();
 
                 if( f.isSelectedToDelete() ) {

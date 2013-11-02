@@ -30,7 +30,7 @@ public interface Resources
 
     public Image getAppImage();
 
-    public Properties getJPanelConfigProperties();
+    public Properties getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
 
     public String getAboutVersion();
     public String getAboutVersionDate();

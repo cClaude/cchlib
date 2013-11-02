@@ -5,9 +5,10 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
 import java.util.Collections;
-import java.util.EnumSet;
+
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
@@ -134,7 +135,7 @@ public class FakeDFToolKit implements DFToolKit
     }
 
     @Override
-    public EnumSet<AutoI18nConfig> getAutoI18nConfig()
+    public Set<AutoI18nConfig> getAutoI18nConfig()
     {
         return delegator.getAutoI18nConfig();
     }

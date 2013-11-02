@@ -19,25 +19,25 @@ public class PathFolder implements Folder, Serializable, Comparable<Folder>
             }
         this.path = folderPath;
     }
-    
+
     @Override
     public Path getPath()
     {
         return this.path;
     }
-    
+
     @Override
     public File getFile()
     {
         return this.path.toFile();
     }
-    
+
 //    public FilePath getFilePath()
 //    {
 //        if( transientFilePath == null ) {
 //            transientFilePath = new FilePath( path, this );
 //            }
-//        
+//
 //        return this.transientFilePath;
 //    }
 
@@ -65,7 +65,7 @@ public class PathFolder implements Folder, Serializable, Comparable<Folder>
     public int compareTo( final Folder aEmptyFolder )
     {
         PathFolder other = PathFolder.class.cast( aEmptyFolder );
-        
+
         return this.path.compareTo( other.path );
     }
 }

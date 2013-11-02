@@ -7,7 +7,7 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
 @Deprecated
-public class PathEmptyFolder extends AbstractEmptyFolder //PathFolder implements EmptyFolder
+public class PathEmptyFolder extends AbstractEmptyFolder
 {
     private static final long serialVersionUID = 2L;
     private Path path;

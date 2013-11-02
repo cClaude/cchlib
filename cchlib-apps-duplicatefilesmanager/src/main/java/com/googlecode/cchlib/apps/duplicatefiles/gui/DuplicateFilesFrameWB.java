@@ -1,36 +1,36 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
+import java.awt.HeadlessException;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.TooManyListenersException;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JFrame;
-import javax.swing.Box;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.HeadlessException;
-import javax.swing.ButtonGroup;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTabbedPane;
+
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.TooManyListenersException;
-import javax.swing.JTabbedPane;
-
 /**
  * Main frame layout.
  */
-public abstract class DuplicateFilesFrameWB extends JFrame
+public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
 {
     private static final long serialVersionUID = 2L;
     private DFToolKit dfToolKit;
 
-    public static final int RemoveEmptyDirectories_TAB = 1;
-    public static final int DeleteEmptyFiles_TAB = 2;
+    public static final int REMOVE_EMPTY_DIRECTORIES_TAB = 1;
+    public static final int DELETE_EMPTY_FILES_TAB = 2;
 
     public static final String ACTIONCMD_SET_MODE = "ACTIONCMD_SET_MODE";
     public static final String ACTIONCMD_EXIT     = "ACTIONCMD_EXIT";
@@ -67,7 +67,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
      * @param dfToolKit
      * @throws TooManyListenersException
      * @throws HeadlessException
-     */
+     */// $codepro.audit.disable sourceLength
     public DuplicateFilesFrameWB( final DFToolKit dfToolKit )
         throws HeadlessException, TooManyListenersException
     {
@@ -80,7 +80,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame
             }
         });
 
-        setSize(650, 500); // Just for design
+        setSize(650, 500); // Just for design // $codepro.audit.disable numericLiterals
 
         JMenuBar jMenuBarMain = new JMenuBar();
         setJMenuBar(jMenuBarMain);
@@ -152,11 +152,11 @@ public abstract class DuplicateFilesFrameWB extends JFrame
 
         this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
         this.contentJTabbedPane.addTab("Remove empty directories", this.icon_RemoveEmptyDirectories, this.jPanel_RemoveEmptyDirectories, "Find and delete empty directories" );
-        assert (this.contentJTabbedPane.getTabCount() - 1) == RemoveEmptyDirectories_TAB;
+        assert (this.contentJTabbedPane.getTabCount() - 1) == REMOVE_EMPTY_DIRECTORIES_TAB;
 
         this.jPanel_DeleteEmptyFiles = new RemoveEmptyFilesJPanel( dfToolKit );
         this.contentJTabbedPane.addTab("Remove empty files", this.icon_DeleteEmptyFiles, this.jPanel_DeleteEmptyFiles, "Find and delete empty files");
-        assert (this.contentJTabbedPane.getTabCount() - 1) == DeleteEmptyFiles_TAB;
+        assert (this.contentJTabbedPane.getTabCount() - 1) == DELETE_EMPTY_FILES_TAB;
         }
     }
 

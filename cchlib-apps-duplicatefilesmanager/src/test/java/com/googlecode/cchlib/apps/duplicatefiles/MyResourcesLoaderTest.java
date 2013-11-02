@@ -10,13 +10,14 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
 public class MyResourcesLoaderTest
 {
-    private final static Logger logger = Logger.getLogger( MyResourcesLoaderTest.class );
-    private List<Method> methodList;
+    private static final Logger logger = Logger.getLogger( MyResourcesLoaderTest.class );
 
+    private List<Method> methodList;
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -37,37 +38,37 @@ public class MyResourcesLoaderTest
     {}
 
     @Test
-    public void testGetResources() 
+    public void testGetResources()
         throws IllegalAccessException,
-               IllegalArgumentException, 
+               IllegalArgumentException,
                InvocationTargetException
     {
         final Resources resources = MyResourcesLoader.getResources();
         final Method[]  methods   = Resources.class.getDeclaredMethods();
-        
+
         for( Method m : methods ) {
             Object result = m.invoke( resources, (Object[])null );
-            
+
             logger.info( "getResources() - m: " + m + " => " + result );
 
             // add additional test code here
             Assertions.assertThat( result ).isNotNull();
             }
-        
+
         logger.info( "All resources found" );
     }
-    
+
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
         for( Method m : methodList ) {
-            Object result = m.invoke( null, new Object[0] );
-            
+            Object result = m.invoke( null, Objects.emptyArray() );
+
             logger.info( "m: " + m + " => " + result );
 
             // add additional test code here
             Assertions.assertThat( result ).isNotNull();
-            }  
+            }
     }
 
 }

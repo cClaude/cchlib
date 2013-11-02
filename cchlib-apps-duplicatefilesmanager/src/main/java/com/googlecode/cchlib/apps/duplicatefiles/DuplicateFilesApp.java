@@ -13,18 +13,18 @@ import com.googlecode.cchlib.swing.JFrames;
  */
 public class DuplicateFilesApp
 {
-    private final static Logger logger = Logger.getLogger( DuplicateFilesApp.class );
+    private static final Logger logger = Logger.getLogger( DuplicateFilesApp.class );
 
     /**
      * Launch application
      */
     public static void main( final String[] args )
     {
-        logger .info( "starting... : " + new Date() );
-        logger .info( "availableProcessors = " + Runtime.getRuntime().availableProcessors() );
-        logger .info( "freeMemory          = " + Runtime.getRuntime().freeMemory() );
-        logger .info( "maxMemory           = " + Runtime.getRuntime().maxMemory() );
-        logger .info( "totalMemory         = " + Runtime.getRuntime().totalMemory() );
+        logger.info( "starting... : " + new Date() );
+        logger.info( "availableProcessors = " + Runtime.getRuntime().availableProcessors() );
+        logger.info( "freeMemory          = " + Runtime.getRuntime().freeMemory() );
+        logger.info( "maxMemory           = " + Runtime.getRuntime().maxMemory() );
+        logger.info( "totalMemory         = " + Runtime.getRuntime().totalMemory() );
 
         final Preferences   preferences = Preferences.createPreferences();
         final String        title       = "Duplicate Files Manager";

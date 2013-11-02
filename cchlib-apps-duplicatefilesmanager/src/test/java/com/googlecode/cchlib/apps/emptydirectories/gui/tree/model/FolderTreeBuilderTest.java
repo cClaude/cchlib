@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,11 +27,11 @@ public class FolderTreeBuilderTest
     private static final String TAB = "  ";
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception
+    public static void setUpBeforeClass() 
     {}
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception
+    public static void tearDownAfterClass()
     {}
 
     private List<Path> globalList = new ArrayList<>();

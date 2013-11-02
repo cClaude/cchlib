@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
 import java.awt.GridBagConstraints;
@@ -21,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
@@ -322,7 +324,8 @@ public class JPanelSearching extends JPanel//SearchingWB
         displayPass = 2;
 
         jProgressBarFiles.setMaximum( pass1CountFile );
-        jProgressBarOctets.setMaximum( Math.round( pass1BytesCount/1024) );
+        //jProgressBarOctets.setMaximum( Math.round( pass1BytesCount/1024) );
+        jProgressBarOctets.setMaximum( (int)(pass1BytesCount/1024) );
         duplicateFC.pass2();
 
         displayFile = null;
@@ -347,12 +350,12 @@ public class JPanelSearching extends JPanel//SearchingWB
                     updateDisplay();
 
                     try {
-                        Thread.sleep(300);
-                    }
+                        Thread.sleep(300); // $codepro.audit.disable disallowSleepInsideWhile
+                        }
                     catch( InterruptedException e ) {
                         return;
+                        }
                     }
-                }
             }
         }, "updateDisplayThread()" ).start();
     }
@@ -361,20 +364,20 @@ public class JPanelSearching extends JPanel//SearchingWB
     {
         if( displayFile != null ) {
             jTextFieldCurrentFile.setText( displayFile.getAbsolutePath() );
-        }
+            }
         else {
             jTextFieldCurrentFile.setText( "" );
         }
         jLabelDuplicateSetsFoundValue.setText(
                 String.format(
                     txtDuplicateSetsFound,
-                    duplicateFC.getDuplicateSetsCount()
+                    Integer.valueOf( duplicateFC.getDuplicateSetsCount() )
                     )
                 );
         jLabelDuplicateFilesFoundValue.setText(
                 String.format(
                     txtDuplicateFilesFound,
-                    duplicateFC.getDuplicateFilesCount()
+                    Integer.valueOf( duplicateFC.getDuplicateFilesCount() )
                     )
                 );
 
@@ -382,13 +385,13 @@ public class JPanelSearching extends JPanel//SearchingWB
             jProgressBarFiles.setString(
                     String.format(
                         txtNumberOfFilesProcessed,
-                        pass1CountFile
+                        Integer.valueOf( pass1CountFile )
                         )
                     );
             jProgressBarOctets.setString(
                 String.format(
                     txtOctectsToCheck,
-                    pass1BytesCount
+                    Long.valueOf( pass1BytesCount )
                     )
                 );
         }
@@ -400,9 +403,10 @@ public class JPanelSearching extends JPanel//SearchingWB
 //                    )
 //                );
             jProgressBarFiles.setValue( pass2CountFile );
-            jProgressBarFiles.setString( String.format( "%d / %d", pass2CountFile, pass1CountFile ) );
-            jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
-            jProgressBarOctets.setString( String.format( "%d / %d", pass2BytesCount, pass1BytesCount ) );
+            jProgressBarFiles.setString( String.format( "%d / %d", Integer.valueOf( pass2CountFile ), Integer.valueOf( pass1CountFile ) ) );
+            //jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
+            jProgressBarOctets.setValue( (int)( pass2BytesCount/1024 ) );
+            jProgressBarOctets.setString( String.format( "%d / %d", Long.valueOf( pass2BytesCount), Long.valueOf( pass1BytesCount ) ) );
         }
     }
 
@@ -452,7 +456,7 @@ public class JPanelSearching extends JPanel//SearchingWB
             Iterable<File>                  entriesToScans,
             Iterable<File>                  entriesToIgnore,
             FileFilterBuilders              fileFilterBuilders,
-            HashMapSet<String,KeyFileState> duplicateFiles
+            HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
             )
     {
         slogger.info( "pass1" );

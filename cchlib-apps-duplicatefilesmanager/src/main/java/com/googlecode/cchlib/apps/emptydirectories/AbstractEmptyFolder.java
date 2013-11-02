@@ -8,7 +8,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
 {
     private static final long serialVersionUID = 1L;
     private EmptyFolderType type;
-    
+
     public AbstractEmptyFolder( EmptyFolderType type )
     {
         this.type = type;
@@ -29,7 +29,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
      */
     @Override
     final // TODO: remove this
-    public boolean containtOnlyEmptyFolders()
+    public boolean isContaintOnlyEmptyFolders()
     {
         return type.equals( EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
     }
@@ -47,14 +47,13 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
         return builder.toString();
     }
 
-    final // TODO: remove this
-    public int compareToEmptyFolder( final Folder aFolder )
+    public final int compareToEmptyFolder( final Folder aFolder )
     {
         if( aFolder instanceof EmptyFolder ) {
             EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
-            
+
             if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
-                return /*((Folder)this).*/compareTo( aEmptyFolder ); 
+                return /*((Folder)this).*/compareTo( aEmptyFolder );
                 }
             else {
                 return -2;
@@ -69,7 +68,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
      * Check current directory and change state if needed, state is not change if
      * any exception occur.
      * <p>Child directories are not checked !</p>
-     * 
+     *
      * @throws NotDirectoryException if EmptyFolder is no more a valid directory
      * @throws DirectoryNotEmptyException if there is at least one file in this directory
      */
@@ -78,19 +77,19 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
     public void check() throws NotDirectoryException, DirectoryNotEmptyException
     {
         final File file = getFile();
-        
+
         if( ! file.isDirectory() ) {
-            throw new NotDirectoryException( file.getPath() ); 
+            throw new NotDirectoryException( file.getPath() );
             }
-        
+
         final File[] files = file.listFiles();
-        
+
         for( File f : files ) {
             if( ! f.isDirectory() ) {
-                throw new DirectoryNotEmptyException( file.getPath() ); 
+                throw new DirectoryNotEmptyException( file.getPath() );
                 }
             }
-        
+
         if( files.length == 0 ) {
             type = EmptyFolderType.IS_EMPTY;
             }

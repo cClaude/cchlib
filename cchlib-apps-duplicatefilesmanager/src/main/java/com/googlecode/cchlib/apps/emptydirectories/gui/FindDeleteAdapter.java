@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ import com.googlecode.cchlib.util.CancelRequestException;
  */
 public class FindDeleteAdapter
 {
-    private final static Logger logger = Logger.getLogger( FindDeleteAdapter.class );
+    private static final Logger logger = Logger.getLogger( FindDeleteAdapter.class );
     private MyDefaultListModel<File> listModel;
     private FolderTreeModelable treeModel;
     private FindDeleteListener listener;
@@ -85,7 +86,7 @@ public class FindDeleteAdapter
                     emptyDirs.lookup();
 
                     logger.info(
-                        "treeModel.size(): " + treeModel == null ? null : treeModel.size()
+                        "treeModel.size(): " + ((treeModel == null) ? null : Integer.valueOf( treeModel.size()) )
                         );
                     }
                 catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
@@ -188,12 +189,14 @@ public class FindDeleteAdapter
                     logger.debug( "DIR delete [" + path + "] => " + res );
                     }
                 }
-            catch( DirectoryNotEmptyException e ) {
-                logger.warn( "delete [" + path + "]", e );
+            catch( AccessDeniedException e ) { // $codepro.audit.disable logExceptions
+                logger.warn( "delete AccessDeniedException  [" + path + "]" );
+                }
+            catch( DirectoryNotEmptyException e ) { // $codepro.audit.disable logExceptions
+                logger.warn( "delete DirectoryNotEmptyException [" + path + "]" );
 
                 String[] files = path.toFile().list();
                 logger.warn( "cause content : [" + Arrays.toString( files ) + "]" );
-
                 }
             catch( Exception e ) {
                 logger.error( "delete [" + path + "]", e );

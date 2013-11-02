@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import javax.swing.JFrame;
@@ -28,13 +29,13 @@ public class RemoveEmptyDirectoriesStandaloneApp
     @I18nString private static String txtFrameTitle = "Delete Empty Directories";
 
     /**
-     * 
+     *
      * @param dfToolKit
      * @param autoI18n Could be null.
      */
-    private RemoveEmptyDirectoriesStandaloneApp( 
-        final DFToolKit     dfToolKit, 
-        final AutoI18nCore  autoI18n 
+    private RemoveEmptyDirectoriesStandaloneApp(
+        final DFToolKit     dfToolKit,
+        final AutoI18nCore  autoI18n
         )
     {
         this.dfToolKit = dfToolKit;
@@ -42,7 +43,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
         // Prepare i18n !
         if( autoI18n == null ) {
 //            this.autoI18n = com.googlecode.cchlib.i18n.config.DefaultI18nBundleFactory.createDefaultI18nBundle(
-//                    this.dfToolKit.getValidLocale(), 
+//                    this.dfToolKit.getValidLocale(),
 //                    new com.googlecode.cchlib.i18n.config.I18nPrepHelperAutoUpdatable() {
 //                        @Override
 //                        public void performeI18n( AutoI18nCore autoI18n )
@@ -53,15 +54,15 @@ public class RemoveEmptyDirectoriesStandaloneApp
 //                        public String getMessagesBundleForI18nPrepHelper()
 //                        {
 //                            //return getDFToolKit().getMessagesBundle();
-//                            //return getDFToolKit().getPackageMessageBundleBase().getName() 
-//                            //        + '.' 
-//                            //        + getDFToolKit().getMessageBundleBaseName(); 
-//                            return getDFToolKit().getI18nResourceBundleName().getName(); 
-//                        }} 
+//                            //return getDFToolKit().getPackageMessageBundleBase().getName()
+//                            //        + '.'
+//                            //        + getDFToolKit().getMessageBundleBaseName();
+//                            return getDFToolKit().getI18nResourceBundleName().getName();
+//                        }}
 //                    ).getAutoI18n();
-            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-                    getDFToolKit().getAutoI18nConfig(), 
-                    getDFToolKit().getI18nResourceBundleName(), 
+            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                    getDFToolKit().getAutoI18nConfig(),
+                    getDFToolKit().getI18nResourceBundleName(),
                     getDFToolKit().getValidLocale() // locale == null ? Locale.getDefault() : locale
                     );
             }
@@ -90,7 +91,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
         autoI18n.performeI18n( this, this.getClass() );
         autoI18n.performeI18n( _contentPane, _contentPane.getClass() );
     }
-    
+
     private DFToolKit getDFToolKit()
     {
         return dfToolKit;
@@ -103,7 +104,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
     {
         final Preferences   preferences = Preferences.createPreferences();
         final DFToolKit     dfToolKit   = new DefaultDFToolKit( preferences );
-        
+
         SwingUtilities.invokeLater( new Runnable() {
             @Override
             public void run()
@@ -120,7 +121,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
      * A WindowHandler should be add on frame.
      * @return Main Window
      */
-    private static RemoveEmptyDirectoriesStandaloneApp createRemoveEmptyDirectoriesFrame( 
+    private static RemoveEmptyDirectoriesStandaloneApp createRemoveEmptyDirectoriesFrame(
         final DFToolKit     dfToolKit,
         final AutoI18nCore  autoI18n
         )

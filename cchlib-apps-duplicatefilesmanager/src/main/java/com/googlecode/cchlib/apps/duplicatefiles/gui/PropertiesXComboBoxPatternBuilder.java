@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
@@ -15,9 +17,9 @@ import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder
 {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
-    private PropertiesFileLock propertiesFile;
+    private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
+    private PropertiesFileLock propertiesFile; // $codepro.audit.disable declareAsInterface
     private String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;
 
@@ -27,16 +29,16 @@ public class PropertiesXComboBoxPatternBuilder
      * @param keyPrefix
      */
     public PropertiesXComboBoxPatternBuilder(
-        final PropertiesFileLock 	propertiesFile,
-        final String 			keyPrefix
+        final PropertiesFileLock     propertiesFile,
+        final String             keyPrefix
         )
     {
-        this.keyPrefix 		= keyPrefix;
+        this.keyPrefix         = keyPrefix;
         this.propertiesFile = propertiesFile;
 
         for( int i = 0;; i++ ) {
-            final String key 	= keyPrefix + "." + i;
-            final String value	= propertiesFile.getProperty( key );
+            final String key     = keyPrefix + "." + i;
+            final String value    = propertiesFile.getProperty( key );
 
             logger.info("add k=" + key + " v=" + value );
 
@@ -55,7 +57,7 @@ public class PropertiesXComboBoxPatternBuilder
      * @throws IOException
      */
     public PropertiesXComboBoxPatternBuilder(
-       final File 	propertiesFile,
+       final File     propertiesFile,
        final String keyPrefix
        ) throws IOException
     {
@@ -75,8 +77,8 @@ public class PropertiesXComboBoxPatternBuilder
         logger.info("save count=" + this.xComboBoxPattern.getItemCount() );
 
         for( int i = 0; i<this.xComboBoxPattern.getItemCount(); i++ ) {
-            final String key 	= keyPrefix + "." + i;
-            final String value	= this.xComboBoxPattern.getItemAt( i );
+            final String key     = keyPrefix + "." + i;
+            final String value    = this.xComboBoxPattern.getItemAt( i );
 
             logger.info("save k=" + key + " v=" + value );
 
@@ -111,8 +113,8 @@ public class PropertiesXComboBoxPatternBuilder
     }
 
     public static PropertiesXComboBoxPatternBuilder createPropertiesXComboBoxPatternBuilder(
-        final File		propertiesFile,
-        final String	keyPrefix
+        final File        propertiesFile,
+        final String    keyPrefix
         ) throws IOException
     {
         return new PropertiesXComboBoxPatternBuilder(
@@ -121,14 +123,14 @@ public class PropertiesXComboBoxPatternBuilder
                 );
     }
 
-    public void SaveOnExit()
+    public void saveOnExit()
     {
         SaveOnExitHook.add( this );
     }
 
-    static class SaveOnExitHook
+    private static class SaveOnExitHook
     {
-        private static LinkedHashSet<PropertiesXComboBoxPatternBuilder> combos
+        private static Set<PropertiesXComboBoxPatternBuilder> COMBOS
             = new LinkedHashSet<PropertiesXComboBoxPatternBuilder>();
 
 //        static {
@@ -161,24 +163,24 @@ public class PropertiesXComboBoxPatternBuilder
 
         private SaveOnExitHook() {}
 
-        static synchronized void add( PropertiesXComboBoxPatternBuilder combo )
+        static synchronized void add( PropertiesXComboBoxPatternBuilder combo ) // $codepro.audit.disable synchronizedMethod
         {
-            if( combos == null) {
+            if( COMBOS == null) {
                 // DeleteOnExitHook is running. Too late to add a file
                 throw new IllegalStateException("Shutdown in progress");
                 }
 
-            combos.add( combo );
+            COMBOS.add( combo );
         }
 
         static void runHooks()
         {
-            LinkedHashSet<PropertiesXComboBoxPatternBuilder> theCombos;
+            Set<PropertiesXComboBoxPatternBuilder> theCombos;
             synchronized( SaveOnExitHook.class ) {
-                theCombos = combos;
-                combos = null;
+                theCombos = COMBOS;
+                COMBOS = null;
                 }
-            ArrayList<PropertiesXComboBoxPatternBuilder> toBeSaved
+            List<PropertiesXComboBoxPatternBuilder> toBeSaved
                 = new ArrayList<PropertiesXComboBoxPatternBuilder>( theCombos );
 
             for( PropertiesXComboBoxPatternBuilder c : toBeSaved ) {

@@ -14,7 +14,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeMode
  *
  *
  */
-final public
+public final
 class FolderTreeCellEditor
     extends AbstractCellEditor
         implements TreeCellEditor
@@ -32,6 +32,7 @@ class FolderTreeCellEditor
     {
         this.model      = model;
         this.renderer   = renderer;
+
 //        this.renderer.addMouseListener( new MouseListener() {
 //            @Override
 //            public void mouseClicked( MouseEvent event )

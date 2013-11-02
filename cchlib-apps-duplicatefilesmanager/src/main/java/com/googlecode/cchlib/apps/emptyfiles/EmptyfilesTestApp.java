@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.emptyfiles;
 
 import java.awt.BorderLayout;
@@ -44,7 +45,7 @@ public class EmptyfilesTestApp extends JFrame
         this.contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         this.contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( this.contentPane );
-        
+
         DFToolKit fake = new FakeDFToolKit();
         RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel( fake  );
         this.contentPane.add( testPanel );

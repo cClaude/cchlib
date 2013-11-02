@@ -141,8 +141,7 @@ class FolderTreeModel
     /**
      *
      */
-    final
-    protected void clearSelected()
+    protected final void clearSelected()
     {
         if( logger.isDebugEnabled() ) {
             logger.debug( "Clear selection" );
@@ -204,8 +203,7 @@ class FolderTreeModel
         fireStructureChanged();
     }
 
-    final
-    protected void fireStructureChanged()
+    protected final void fireStructureChanged()
     {
         Object root = getRoot();
 
@@ -221,8 +219,7 @@ class FolderTreeModel
     /**
      * Call when the tree structure below the path has completely changed.
      */
-    final
-    protected void fireTreeStructureChanged(final TreePath parentPath)
+    protected final void fireTreeStructureChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
             logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
@@ -236,7 +233,7 @@ class FolderTreeModel
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
                 if( pairs[i] == TreeModelListener.class ) {
                     if( e == null ) {
-                        e = new TreeModelEvent(this, parentPath, null, null);
+                        e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
                     TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
@@ -253,8 +250,7 @@ class FolderTreeModel
     /**
      * Call when the tree structure below the path has completely changed.
      */
-    final
-    protected void treeNodesChanged(final TreePath parentPath)
+    protected final void treeNodesChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
             logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
@@ -268,7 +264,7 @@ class FolderTreeModel
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
                 if( pairs[i] == TreeModelListener.class ) {
                     if( e == null ) {
-                        e = new TreeModelEvent(this, parentPath, null, null);
+                        e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
                     TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
@@ -294,8 +290,7 @@ class FolderTreeModel
     /**
      * Returns a TreePath containing the specified node.
      */
-    final
-    protected TreePath getPath( TreeNode node )
+    protected final TreePath getPath( TreeNode node )
     {
         final List<TreeNode> list = new ArrayList<TreeNode>();
 
@@ -393,7 +388,7 @@ class FolderTreeModel
     //@Override
     protected Iterator<FolderTreeNode> nodeIterator()
     {
-        final ArrayList<Iterator<FolderTreeNode>> iterators = new ArrayList<Iterator<FolderTreeNode>>();
+        final List<Iterator<FolderTreeNode>> iterators = new ArrayList<Iterator<FolderTreeNode>>();
 
         for( FolderTreeNode rn : rootNodes() ) {
             iterators.add( new SingletonIterator<FolderTreeNode>( rn ) );

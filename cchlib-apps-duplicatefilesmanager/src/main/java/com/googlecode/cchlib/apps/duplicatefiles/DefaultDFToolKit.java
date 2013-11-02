@@ -7,11 +7,11 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
@@ -39,7 +39,7 @@ public final class DefaultDFToolKit
     private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
     private final Preferences preferences;
     private DuplicateFilesFrame mainWindow;
-    private EnumSet<AutoI18nConfig> autoI18nConfig;
+    private Set<AutoI18nConfig> autoI18nConfig;
 
     @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
@@ -62,26 +62,26 @@ public final class DefaultDFToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return new DefaultI18nResourceBundleName(
-                MyResourcesLoader.class, 
-                I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME 
+                MyResourcesLoader.class,
+                I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }
 
     @Override
-    public EnumSet<AutoI18nConfig> getAutoI18nConfig()
+    public Set<AutoI18nConfig> getAutoI18nConfig()
     {
         if( autoI18nConfig == null ) {
-            autoI18nConfig = EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN );
+            autoI18nConfig = AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN );
             }
         return autoI18nConfig;
     }
-    
+
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
     {
         this.mainWindow = mainWindow;
     }
 
-    private DuplicateFilesFrame _getMainWindow() throws IllegalStateException
+    private DuplicateFilesFrame private_getMainWindow() throws IllegalStateException
     {
         if( this.mainWindow == null ) {
             throw new IllegalStateException( "mainWindow not set" );
@@ -162,7 +162,7 @@ public final class DefaultDFToolKit
         java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
         try {
-            logger .info( "trying to open: " + file );
+            logger.info( "trying to open: " + file );
             desktop.open( file );
             }
         catch( IOException e ) {
@@ -203,7 +203,7 @@ public final class DefaultDFToolKit
                 }
             catch( Exception e ) {
                 locale = null;
-                logger.warn( "Can not use main window to set Locale"/*, e*/ );
+                logger.warn( "Can not use main window to set Locale", e );
                 }
 
             if( locale == null ) {
@@ -219,19 +219,19 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public void setEnabledJButtonCancel( boolean b )
     {
-        _getMainWindow().setJButtonCancelEnabled( b );
+        private_getMainWindow().setJButtonCancelEnabled( b );
     }
 
     @Override // DFToolKit
     public boolean isEnabledJButtonCancel()
     {
-        return _getMainWindow().isEnabledJButtonCancel();
+        return private_getMainWindow().isEnabledJButtonCancel();
     }
 
     @Override // DFToolKit
     public void initComponentsJPanelConfirm()
     {
-        _getMainWindow().initComponentsJPanelConfirm();
+        private_getMainWindow().initComponentsJPanelConfirm();
     }
 
     @Override // DFToolKit

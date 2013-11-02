@@ -31,6 +31,6 @@ public class FileFolder implements Folder
     {
         FileFolder other = FileFolder.class.cast( otherFolder );
 
-        return this.file.compareTo( other .file );
+        return this.file.compareTo( other.file );
     }
 }

@@ -2,8 +2,8 @@ package com.googlecode.cchlib.apps.duplicatefiles.alpha.prefs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
-
 import javax.swing.UIManager;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 
@@ -15,7 +15,7 @@ public class PreferencesImpl implements Preferences
     private static final long serialVersionUID = 1L;
     private ConfigMode userLevel;
     private String lookAndFeelName;
-    private ArrayList<RootFile> rootFileList = new ArrayList<>();
+    private List<RootFile> rootFileList = new ArrayList<>();
     private Locale locale;
 
     /**

@@ -27,16 +27,16 @@ import com.googlecode.cchlib.util.iterable.Iterables;
  *
  */
 @I18nName("emptyfiles.WorkingTableModel")
-public class WorkingTableModel 
+public class WorkingTableModel
     extends AbstractTableModel
         implements TableModel, Serializable, ForceColumnWidthModel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( WorkingTableModel.class );
 
-    private enum Columns { 
-        FILE_ICON( 16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN), 
-        FILE_SELECTED, 
+    private enum Columns {
+        FILE_ICON( 16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN),
+        FILE_SELECTED,
         FILE_FILE,
         FILE_SIZE,
         FILE_DATE,
@@ -145,7 +145,7 @@ public class WorkingTableModel
                 {
                     FileInfo fi = getFileInfo( file );
 
-                    return fi.isDeleted() ? false : fi.isSelected();
+                    return Boolean.valueOf( fi.isDeleted() ? false : fi.isSelected() );
                 }
             case FILE_FILE : return file;
             case FILE_DATE : return getFileInfo( file ).getLastModifiedDate();
@@ -165,7 +165,7 @@ public class WorkingTableModel
         if( Columns.values()[ columnIndex ] == Columns.FILE_SELECTED ) {
             File file = this.fileList.get( rowIndex );
 
-            getFileInfo( file ).setSelected( (Boolean)aValue );
+            getFileInfo( file ).setSelected( ((Boolean)aValue).booleanValue() );
 
             if( logger.isTraceEnabled() ) {
                 logger.trace( "selection is " + aValue + " for " + file );
@@ -237,7 +237,7 @@ public class WorkingTableModel
         fireTableDataChanged();
     }
 
-    public boolean doDelete( int rowIndex )
+    public boolean doDelete( int rowIndex ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         File     file  = this.fileList.get( rowIndex );
         FileInfo value = getFileInfo( file );
@@ -255,7 +255,7 @@ public class WorkingTableModel
                 return true;
                 }
             else {
-                // Not deleted 
+                // Not deleted
                 logger.warn( "Can't delete : " + file );
                 }
             }
@@ -275,7 +275,7 @@ public class WorkingTableModel
 
         return value;
     }
-    
+
     private Iterable<FileInfo> getFileInfos()
     {
         return Iterables.transform( this.fileList, new Wrappable<File,FileInfo>() {
@@ -324,7 +324,7 @@ public class WorkingTableModel
             forceColumnWidths = new int[ Columns.values().length ];
 
             for( int i = 0; i<forceColumnWidths.length; i++ ) {
-                forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth(); 
+                forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth();
                 }
             }
         return forceColumnWidths;

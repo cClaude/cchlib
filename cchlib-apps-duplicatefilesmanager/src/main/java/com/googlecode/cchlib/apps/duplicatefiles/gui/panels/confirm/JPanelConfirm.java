@@ -1,6 +1,12 @@
+// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.BoxLayout;
@@ -17,17 +23,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 import com.googlecode.cchlib.util.HashMapSet;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class JPanelConfirm extends JPanel
 {
@@ -124,7 +126,7 @@ public class JPanelConfirm extends JPanel
     }
 
     public void populate(
-            final HashMapSet<String,KeyFileState> dupFiles
+            final HashMapSet<String,KeyFileState> dupFiles // $codepro.audit.disable declareAsInterface
             )
     {
         //clear();
@@ -151,8 +153,8 @@ public class JPanelConfirm extends JPanel
                     KeyFileState f = tableDts_toDelete.get( row );
                     setText( f.getFile().getPath() );
 
-                    //Boolean b = tableDts_deleted[row];
-                    Boolean b = tableDts_toDelete.isDeleted( row );
+                    Boolean b = tableDts_toDelete.getDeleted( row );
+                    
                     if( b != null ) {
                         setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -170,7 +172,7 @@ public class JPanelConfirm extends JPanel
                                 }
                             }
                         }
-                    }
+                    } // else no change !
 
                 return super.getTableCellRendererComponent(
                         table,
@@ -229,8 +231,8 @@ public class JPanelConfirm extends JPanel
                     switch(columnIndex) {
                         case 0 : return f.getFile().getPath();
                         //case 1 : return f.getFile().length();
-                        case 2 : return computeKept(dupFiles,f.getKey());
-                        case 3 : return computeDeleted(dupFiles,f.getKey());
+                        case 2 : return computeKept( dupFiles,f.getKey() );
+                        case 3 : return computeDeleted( dupFiles,f.getKey() );
                     }
                     return null;
                 }
@@ -267,7 +269,7 @@ public class JPanelConfirm extends JPanel
         jProgressBarDeleteProcess.setString( txtWaiting  );
         jProgressBarDeleteProcess.setStringPainted( true );
 
-        jLabelTitle.setText( String.format( txtTitle, tableDts_toDelete.size() ) );
+        jLabelTitle.setText( String.format( txtTitle, Integer.valueOf( tableDts_toDelete.size() ) ) );
     }
 
     public void updateProgressBar(int count, String msg)
@@ -276,10 +278,10 @@ public class JPanelConfirm extends JPanel
         jProgressBarDeleteProcess.setString( msg );
     }
 
-    private int computeKept(
-            HashMapSet<String,KeyFileState> dupFiles,
-            String                          k
-            )
+    private Integer computeKept(
+        final HashMapSet<String,KeyFileState> dupFiles, // $codepro.audit.disable declareAsInterface
+        final String                          k
+        )
     {
         Set<KeyFileState> s = dupFiles.get( k );
         int               c = 0;
@@ -292,13 +294,13 @@ public class JPanelConfirm extends JPanel
             }
         }
 
-        return c;
+        return Integer.valueOf( c );
     }
 
-    private int computeDeleted(
-            HashMapSet<String,KeyFileState> dupFiles,
-            String                          k
-            )
+    private Integer computeDeleted(
+        final HashMapSet<String,KeyFileState> dupFiles, // $codepro.audit.disable declareAsInterface
+        final String                          k
+        )
     {
         Set<KeyFileState> s = dupFiles.get( k );
         int               c = 0;
@@ -311,15 +313,14 @@ public class JPanelConfirm extends JPanel
             }
         }
 
-        return c;
+        return Integer.valueOf( c );
     }
 
     public void doDelete(
-            final HashMapSet<String,KeyFileState>   duplicateFiles
-            )
+        final HashMapSet<String,KeyFileState>   duplicateFiles // $codepro.audit.disable declareAsInterface
+        )
     {
-        Runnable r = new Runnable()
-        {
+        Runnable r = new Runnable() {
             @Override
             public void run()
             {
@@ -347,7 +348,7 @@ public class JPanelConfirm extends JPanel
         int                     deleteCount = 0;
         final int               size = tableDts_toDelete.size();
         final long deleteSleepDisplay =
-            size < this.dfToolKit.getPreferences().getDeleteSleepDisplayMaxEntries() ?
+            (size < this.dfToolKit.getPreferences().getDeleteSleepDisplayMaxEntries()) ?
                     this.dfToolKit.getPreferences().getDeleteSleepDisplay()
                     :
                     0;
@@ -375,8 +376,7 @@ public class JPanelConfirm extends JPanel
 
             final int row = i;
 
-            SwingUtilities.invokeLater( new Runnable()
-            {
+            SwingUtilities.invokeLater( new Runnable() { // $codepro.audit.disable anonymousClassInLoop, avoidInstantiationInLoops
                 @Override
                 public void run()
                 {

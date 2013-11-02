@@ -35,6 +35,6 @@ public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolde
     {
         FileEmptyFolder other = FileEmptyFolder.class.cast( otherFolder );
 
-        return this.file.compareTo( other .file );
+        return this.file.compareTo( other.file );
     }
 }

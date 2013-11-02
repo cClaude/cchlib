@@ -9,7 +9,7 @@ import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class DeleteTask implements Runnable
 {
-    private final static Logger logger = Logger.getLogger( DeleteTask.class );
+    private static final Logger logger = Logger.getLogger( DeleteTask.class );
     private WorkingTableModel tableModel;
     private JProgressBar progressBar;
     private int progressBarValue;
@@ -26,11 +26,11 @@ public class DeleteTask implements Runnable
     public void run()
     {
         try {
-            for( int i = 0; i<this.tableModel.getRowCount(); i++ ) {
+            for( int i = 0; i < this.tableModel.getRowCount(); i++ ) {
                 final int rowIndex = i;
 
                 if( this.tableModel.isRowSelected( rowIndex ) ) {
-                    SwingUtilities.invokeAndWait( new Runnable() {
+                    SwingUtilities.invokeAndWait( new Runnable() { // $codepro.audit.disable anonymousClassInLoop, avoidInstantiationInLoops
                         @Override
                         public void run()
                         {

@@ -15,16 +15,16 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
                Serializable
 {
     private static final long serialVersionUID = 1L;
-    private HashMapSet<String, KeyFileState> dupFiles;
+    private HashMapSet<String, KeyFileState> dupFiles; // $codepro.audit.disable declareAsInterface
     private int size;
-    private ArrayList<KeyFileState> cache = new ArrayList<>();
-    private Boolean[] isDeleted;
+    private List<KeyFileState> cache = new ArrayList<>();
+    private Boolean[] deleted; // Tree states boolean array ?????? FIXME
     // need to cache files lengths, to display length even when
     // a file will be deleted.
-    private ArrayList<Long> cacheFileLength = new ArrayList<>();
+    private List<Long> cacheFileLength = new ArrayList<>();
 
     public JPanelConfirmModel(
-        final HashMapSet<String,KeyFileState> dupFiles
+        final HashMapSet<String,KeyFileState> dupFiles // $codepro.audit.disable declareAsInterface
         )
     {
         this.dupFiles = dupFiles;
@@ -39,13 +39,13 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
         for( KeyFileState f:dupFiles ) {
             if( f.isSelectedToDelete() ) {
                 this.cache.add( f );
-                this.cacheFileLength.add( f.getFile().length() );
+                this.cacheFileLength.add( Long.valueOf( f.getFile().length() ) );
                 index++;
                 }
             }
 
         this.size = index;
-        this.isDeleted  = new Boolean[ index ] ;
+        this.deleted  = new Boolean[ index ] ;
     }
 
     @Override
@@ -65,7 +65,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
      * @param index
      * @return
      */
-    public long getFileLength( int index )
+    public Long getFileLength( final int index )
     {
         return this.cacheFileLength.get( index );
     }
@@ -73,16 +73,30 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     /**
      * @return the isDeleted
      */
-    public Boolean isDeleted( int index )
+    public boolean isDeleted( final int index )
     {
-        return isDeleted[ index ];
+        final Boolean b = getDeleted( index );
+
+        if( b != null ) {
+            return b.booleanValue();
+            }
+
+        return false;
     }
 
     /**
-     * @param isDeleted the isDeleted to set
+     * @return the deleted flag for index file (could be null = never selected - so not mark delete)
+     */
+    public Boolean getDeleted( final int index )
+    {
+        return deleted[ index ];
+    }
+
+    /**
+     * @param deleted the isDeleted to set
      */
     public void setDeleted( int index, boolean deleted )
     {
-        this.isDeleted[ index ] = deleted;
+        this.deleted[ index ] = Boolean.valueOf( deleted );
     }
 }

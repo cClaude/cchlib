@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
@@ -39,13 +40,13 @@ public class SelectBySameFolder extends SelectorPanel
         @Override
         public int compare( final KeyFileState o1, final KeyFileState o2 )
         {
-            return o1.getFile().lastModified() > o2.getFile().lastModified() ? 1 : -1;
+            return (o1.getFile().lastModified() > o2.getFile().lastModified()) ? 1 : -1;
         }};
     private static final Comparator<KeyFileState> OLDEST_COMPARATOR = new Comparator<KeyFileState>() {
         @Override
         public int compare( final KeyFileState o1, final KeyFileState o2 )
         {
-            return o1.getFile().lastModified() < o2.getFile().lastModified() ? 1 : -1;
+            return (o1.getFile().lastModified() < o2.getFile().lastModified()) ? 1 : -1;
         }};
 
     private enum Mode {

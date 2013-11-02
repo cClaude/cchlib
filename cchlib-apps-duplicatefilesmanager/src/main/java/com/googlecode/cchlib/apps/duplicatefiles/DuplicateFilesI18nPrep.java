@@ -2,10 +2,9 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.HeadlessException;
 import java.awt.Window;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TooManyListenersException;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
@@ -24,7 +23,7 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public class DuplicateFilesI18nPrep
 {
-    public static void main( final String[] args ) throws IOException, HeadlessException, TooManyListenersException, InterruptedException
+    public static void main( final String[] args ) throws HeadlessException, TooManyListenersException, InterruptedException
     {
         // Default language !
         Preferences preferences = getPreferences();
@@ -44,15 +43,15 @@ public class DuplicateFilesI18nPrep
             new RemoveEmptyFilesJPanel( dfToolKit )
             };
 
-        EnumSet<AutoI18nConfig> config                 = dfToolKit.getAutoI18nConfig();
+        Set<AutoI18nConfig>     config                 = dfToolKit.getAutoI18nConfig();
         I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
 
         I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
 
-        Result r = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
 
         for( I18nAutoCoreUpdatable contener : i18nConteners ) {
             if( contener instanceof Window ) {
@@ -60,10 +59,10 @@ public class DuplicateFilesI18nPrep
                 }
             }
         System.gc();
-        Thread.sleep( 1000 );
+        Thread.sleep( 1000 ); // $codepro.audit.disable numericLiterals
     }
 
-    
+
     private static Preferences getPreferences()
     {
         final Preferences preferences = Preferences.createDefaultPreferences();

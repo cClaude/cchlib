@@ -6,6 +6,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -21,12 +27,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 public class DefaultEmptyDirectoriesLookupTest
 {
@@ -134,10 +134,10 @@ public class DefaultEmptyDirectoriesLookupTest
                 }
             else {
                 logger.warn( "Unexpected entry: " + ef );
-                
+
                 File[] subFiles = ef.getFile().listFiles();
                 logger.warn( "subFiles=" + subFiles );
-                
+
                 if( subFiles != null ) {
                     logger.warn( "subFiles.length=" + subFiles.length );
                     }
@@ -175,7 +175,7 @@ public class DefaultEmptyDirectoriesLookupTest
         logger.info( "done" );
     }
 
-    private class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
+    private static class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
     {
         private List<EmptyFolder> emptyFolderList = new ArrayList<>();
 
@@ -200,10 +200,10 @@ public class DefaultEmptyDirectoriesLookupTest
 
             File[] files = f.listFiles();
             assertNotNull( "Not a valid directory", files );
-            
+
             if( emptyFolder.isEmpty() ) {
                 logger.warn( "Warn found " + files.length + " file(s)" );
-                
+
                 for( File file : files ) {
                     logger.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
                     }

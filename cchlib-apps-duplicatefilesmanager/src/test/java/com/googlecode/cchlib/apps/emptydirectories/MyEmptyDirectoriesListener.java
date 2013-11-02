@@ -8,7 +8,7 @@ final class MyEmptyDirectoriesListener
     implements EmptyDirectoriesListener//, 
                //com.googlecode.cchlib.apps.emptydirectories.path.lookup.EmptyDirectoriesListener
 {
-    private final static Logger logger = Logger.getLogger( MyEmptyDirectoriesListener.class );
+    private static final Logger logger = Logger.getLogger( MyEmptyDirectoriesListener.class );
     private boolean isCancel = false;
     private List<EmptyFolder> newIsEmptyList      = new SortedList<>();
     private List<EmptyFolder> newCouldBeEmptyList = new SortedList<>();

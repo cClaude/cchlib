@@ -16,15 +16,15 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode
 /**
  *
  */
-final public
+public final
 class EmptyDirectoryTreeCellRenderer
     extends DefaultTreeCellRenderer
         implements TreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( EmptyDirectoryTreeCellRenderer.class );
+    private static final Logger logger = Logger.getLogger( EmptyDirectoryTreeCellRenderer.class );
 
-    final private FolderTreeModelable model;
+    private final FolderTreeModelable model;
 
     private Icon nodeLeafRendererIcon;
     private Icon nodeLeafRendererIconSelected;
@@ -39,6 +39,15 @@ class EmptyDirectoryTreeCellRenderer
         this.nodeLeafRendererIconSelected      = MyStaticResources.getEmptySelectedIcon();
         this.nodeLeafEmptyRendererIcon         = MyStaticResources.getEmptyLeafIcon();
         this.nodeLeafEmptyRendererIconSelected = MyStaticResources.getEmptyLeafSelectedIcon();
+        
+        
+//        this.setDisabledIcon( disabledIcon );
+//        this.setLeafIcon( leafIcon );
+//        this.setOpenIcon( openIcon );
+//        this.setDisabledIcon( MyStaticResources.getDuplicateFilesPanelIcon() );
+//        this.setLeafIcon( MyStaticResources.getRemoveEmptyDirectoriesPanelIcon() );
+//        this.setOpenIcon( MyStaticResources.getDeletedFileIcon() );
+
     }
 /*
     @Override
@@ -171,8 +180,8 @@ class EmptyDirectoryTreeCellRenderer
     @Override
     public Component getTreeCellRendererComponent(
             final JTree   tree,
-            final Object  _value_,
-            final boolean _selected_,
+            final Object  _value_, // $codepro.audit.disable methodParameterNamingConvention, localVariableNamingConvention
+            final boolean _selected_, // $codepro.audit.disable methodParameterNamingConvention, localVariableNamingConvention
             final boolean expanded,
             final boolean leaf,
             final int     row,
@@ -195,7 +204,7 @@ class EmptyDirectoryTreeCellRenderer
 
         Component cellEditorValue = super.getTreeCellRendererComponent(
                 tree,
-                name == null ? _value_ : name,
+                (name == null) ? _value_ : name,
                 _selected_,
                 expanded,
                 leaf,

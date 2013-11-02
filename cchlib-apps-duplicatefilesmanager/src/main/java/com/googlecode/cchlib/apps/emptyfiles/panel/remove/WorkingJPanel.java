@@ -22,7 +22,7 @@ import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
 
 @I18nName("emptyfiles.WorkingJPanel")
-public class WorkingJPanel extends JPanel
+public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = Logger.getLogger( WorkingJPanel.class );
@@ -40,7 +40,7 @@ public class WorkingJPanel extends JPanel
 
     /**
      * Create the panel.
-     */
+     */// $codepro.audit.disable sourceLength
     public WorkingJPanel(
         final RemoveEmptyFilesJPanel removeEmptyFilesJPanel,
         final WorkingTableModel      tableModel

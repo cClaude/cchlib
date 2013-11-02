@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
 import java.awt.event.ActionEvent;
@@ -7,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
@@ -64,15 +66,15 @@ private Scanner s;
     @I18nString private String txtIncludeFilesFilters = "Include filters";
     @I18nString private String txtExcludeFilesFilters = "Exclude filters";
     //private final static int FILES_FILTER_DISABLED  = 0;
-    private final static int FILES_FILTER_INCLUDE   = 1;
-    private final static int FILES_FILTER_EXCLUDE   = 2;
+    private static final int FILES_FILTER_INCLUDE   = 1;
+    private static final int FILES_FILTER_EXCLUDE   = 2;
 
     @I18nString private String txtDisableDirsFilters = "Disable dirs filters";
     @I18nString private String txtExcludeDirsFilters = "Exclude filters";
     @I18nString private String txtIncludeDirsFilters = "Include filters";
     //private final static int DIRS_FILTER_DISABLED   = 0;
-    private final static int DIRS_FILTER_EXCLUDE    = 2;
-    private final static int DIRS_FILTER_INCLUDE    = 1;
+    private static final int DIRS_FILTER_EXCLUDE    = 2;
+    private static final int DIRS_FILTER_INCLUDE    = 1;
 
 
     public JPanelConfig( final DFToolKit dfToolKit )
@@ -130,9 +132,9 @@ private Scanner s;
         autoI18n.performeI18n(this,this.getClass());
 
         //Properties  prop  = ResourcesLoader.getProperties( "JPanelConfig.properties" );
-        Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties();
+        Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
         Preferences prefs = dfToolKit.getPreferences();
-        
+
         jPanelIncFilesFilter = new JPanelConfigFilter(
                 jPanelIncFilesFilterTitle,
                 jPanelIncFilesFilterRegExp,
@@ -140,7 +142,7 @@ private Scanner s;
                 "filetype",
                 getActionListener()
                 );
-        
+
         for( String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
             jPanelIncFilesFilter.addPatternRegExp( exp );
             }
@@ -307,12 +309,12 @@ private Scanner s;
      * Returns true if Empty Files should be skipped
      * @return true if Empty Files should be skipped
      */
-    public boolean IsIgnoreEmptyFiles()
+    public boolean isIgnoreEmptyFiles()
     {
         return jCheckBoxIgnoreEmptyFiles.isSelected();
     }
 
-    private final static void addExtIf(
+    private static final void addExtIf(
             Collection<String>                  c,
             FileTypeCheckBox ft
             )
@@ -328,8 +330,8 @@ private Scanner s;
 
     private FileFilterBuilder createIncludeFilesFileFilterBuilder()
     {
-        final HashSet<String>   extsList = new HashSet<String>();
-        Pattern                 pattern  = null;
+        final Set<String>   extsList = new HashSet<String>();
+        Pattern             pattern  = null;
 
         final boolean userIncFilesFilers =
             (getJComboBoxFilesFilters().getSelectedIndex()
@@ -375,8 +377,8 @@ private Scanner s;
 
     private FileFilterBuilder createExcludeFilesFileFilterBuilder()
     {
-        final HashSet<String>   extsList = new HashSet<String>();
-        Pattern                 pattern  = null;
+        final Set<String>   extsList = new HashSet<String>();
+        Pattern             pattern  = null;
 
         final boolean userExcFilesFilers =
             (getJComboBoxFilesFilters().getSelectedIndex()
@@ -420,7 +422,7 @@ private Scanner s;
         };
     }
 
-    private final static void addNameIf(
+    private static final void addNameIf(
             final Collection<String>    c,
             final FileTypeCheckBox      ft
             )
@@ -436,8 +438,8 @@ private Scanner s;
 
     private FileFilterBuilder createIncludeDirectoriesFileFilterBuilder()
     {
-        final HashSet<String>   namesList = new HashSet<String>();
-        Pattern                 pattern   = null;
+        final Set<String>   namesList = new HashSet<String>();
+        Pattern             pattern   = null;
 
         final boolean useIncDirsFilters  =
             (getJComboBoxDirsFilters().getSelectedIndex()
@@ -485,8 +487,8 @@ private Scanner s;
 
     private FileFilterBuilder createExcludeDirectoriesFileFilterBuilder()
     {
-        final HashSet<String>   namesList = new HashSet<String>();
-        Pattern                 pattern   = null;
+        final Set<String>   namesList = new HashSet<String>();
+        Pattern             pattern   = null;
 
         final boolean useExcDirsFilters  =
             (getJComboBoxDirsFilters().getSelectedIndex()

@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
-public abstract class SelectorPanel extends JPanel implements I18nAutoCoreUpdatable
+public abstract class SelectorPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
 {
     private static final long serialVersionUID = 1L;
 

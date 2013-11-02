@@ -15,10 +15,10 @@ public class XFileFilterFactory {
     }
 
     public static XFileFilter createXX(
-        final String			name,
-        final String			description,
-        final XFileFilterType 	type,
-        final XFileFilterMode 	mode
+        final String            name,
+        final String            description,
+        final XFileFilterType     type,
+        final XFileFilterMode     mode
         )
     {
         return new AbstractXFileFilter(name, description, type, mode)

@@ -15,35 +15,35 @@ public class DefaultRootFile implements RootFile
      *
      */
     public DefaultRootFile(
-        final File 				file,
-        final RootFileAction 	rootFileAction
+        final File              file,
+        final RootFileAction    rootFileAction
         )
     {
-    	if( file == null ) {
-    		throw new IllegalArgumentException( "No File provided" );
-    		}
-    	if( rootFileAction == null ) {
-    		throw new IllegalArgumentException( "No RootFileAction provided" );
-    		}
-    	
-        this.file 			= file;
+        if( file == null ) {
+            throw new IllegalArgumentException( "No File provided" );
+            }
+        if( rootFileAction == null ) {
+            throw new IllegalArgumentException( "No RootFileAction provided" );
+            }
+
+        this.file             = file;
         this.rootFileAction = rootFileAction;
     }
 
     /**
-     * 
+     *
      * @param filepath
      * @param rootFileAction
      */
     public DefaultRootFile(
-    	final String 			filepath, 
-    	final RootFileAction 	rootFileAction
-    	) 
+        final String             filepath,
+        final RootFileAction     rootFileAction
+        )
     {
-    	this( new File( filepath ), rootFileAction );
-	}
+        this( new File( filepath ), rootFileAction );
+    }
 
-	@Override
+    @Override
     public File getFile()
     {
         return this.file;

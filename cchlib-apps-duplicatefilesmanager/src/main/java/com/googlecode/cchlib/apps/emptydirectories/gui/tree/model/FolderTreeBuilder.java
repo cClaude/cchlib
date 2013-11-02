@@ -18,12 +18,12 @@ final class FolderTreeBuilder
     //private List<FolderTreeNode> rootNodes = new ArrayList<FolderTreeNode>();
 
     // TODO use ArrayHashMap instead !
-    private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>();
+    private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>(); // $codepro.audit.disable declareAsInterface
 
     private FolderTreeModelable model;
 
     /**
-     * @param model  
+     * @param model
      *
      */
     public FolderTreeBuilder( final FolderTreeModelable model )
@@ -47,7 +47,7 @@ final class FolderTreeBuilder
             }
 
         // Create nested nodes
-        for( int i = bestParentPath.getNameCount(); i<emptyFolderPath.getNameCount()-1 ; i++ ) {
+        for( int i = bestParentPath.getNameCount(); i<(emptyFolderPath.getNameCount()-1) ; i++ ) {
             bestParentPath = bestParentPath.resolve( emptyFolderPath.getName( i ) );
             // Add (unknown state) folders
             bestParentFolderTreeNode = bestParentFolderTreeNode.addFolder( Folders.createFolder( bestParentPath ) );
@@ -120,7 +120,7 @@ final class FolderTreeBuilder
         return emptyFolderRootFolderTreeNode;
     }
 
-    protected LinkedHashMap<Path,FolderTreeNode> getRootNodesMap()
+    protected LinkedHashMap<Path,FolderTreeNode> getRootNodesMap() // $codepro.audit.disable declareAsInterface
     {
         return rootNodesMap;
     }

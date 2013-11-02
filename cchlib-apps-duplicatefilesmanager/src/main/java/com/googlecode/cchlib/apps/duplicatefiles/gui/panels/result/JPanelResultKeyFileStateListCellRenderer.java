@@ -44,7 +44,7 @@ public class JPanelResultKeyFileStateListCellRenderer
     }
 
     private static final long serialVersionUID = 1L;
-    private static final LinkOption linkOption = LinkOption.NOFOLLOW_LINKS;
+    private static final LinkOption DEFAULT_LINK_OPTIONS = LinkOption.NOFOLLOW_LINKS;
 
     @I18nString private String executableStr = "Executable";
     @I18nString private String notExecutableStr = "Not Executable";
@@ -70,11 +70,11 @@ public class JPanelResultKeyFileStateListCellRenderer
 
         try {
             try {
-                Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, linkOption );
+                Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, DEFAULT_LINK_OPTIONS );
 
                 permStr = Enums.toString( perms );
                 }
-            catch( UnsupportedOperationException e ) {
+            catch( UnsupportedOperationException e ) { // $codepro.audit.disable logExceptions
                 permStr = getPermsString( path );
                 }
             }

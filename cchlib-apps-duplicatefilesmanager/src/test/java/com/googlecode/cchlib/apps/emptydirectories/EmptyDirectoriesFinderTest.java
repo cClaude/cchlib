@@ -23,7 +23,7 @@ import com.googlecode.cchlib.util.CancelRequestException;
 
 public class EmptyDirectoriesFinderTest
 {
-    private final static Logger logger = Logger.getLogger( EmptyDirectoriesFinderTest.class );
+    private static final Logger logger = Logger.getLogger( EmptyDirectoriesFinderTest.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception
@@ -72,7 +72,7 @@ public class EmptyDirectoriesFinderTest
         try {
             emptyDirs.lookup( filter );
             }
-        catch( CancelRequestException | ScanIOException e ) {
+        catch( CancelRequestException | ScanIOException e ) { // $codepro.audit.disable logExceptions
             logger.warn( "testFindDir() - emptyDirs.lookup() - CancelRequestException" );
             }
 

@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfMethods, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
 import java.awt.Dimension;
@@ -65,7 +66,7 @@ public final class Preferences implements Serializable
      */
     private Preferences(
         final File          preferencesFile,
-        final Properties    properties
+        final Properties    properties // $codepro.audit.disable declareAsInterface
         )
     {
         this.preferencesFile = preferencesFile;
@@ -226,7 +227,7 @@ public final class Preferences implements Serializable
     {
         logger.info( "localeLanguage = " + this.localeLanguage );
 
-        if( this.localeLanguage == null || this.localeLanguage.isEmpty() ) {
+        if( (this.localeLanguage == null) || this.localeLanguage.isEmpty() ) {
             return null;
             }
         else {
@@ -341,7 +342,7 @@ public final class Preferences implements Serializable
      */
     public void save() throws IOException
     {
-        Properties properties = new Properties();
+        Properties properties = new Properties(); // $codepro.audit.disable declareAsInterface
 
         pp.populateProperties( this, properties );
 

@@ -68,7 +68,7 @@ public class AboutDialog
         this.contentPanel = new AboutPanel( dfToolKit.getResources(), this );
         
         super.setContentPane( contentPanel );
-        super.setSize( 500, 350 );
+        super.setSize( 500, 350 ); // $codepro.audit.disable numericLiterals
     }
 
     @Override // I18nAutoUpdatable

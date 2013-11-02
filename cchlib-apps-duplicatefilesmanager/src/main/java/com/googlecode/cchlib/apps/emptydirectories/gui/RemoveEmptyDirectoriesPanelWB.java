@@ -121,7 +121,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
         {
             this.btnImportDirectories = new JButton("Import directories");
             this.btnImportDirectories.setToolTipText("Import directories from duplicate tab");
-            this.btnImportDirectories.setIcon( resources .getFolderImportIcon() );
+            this.btnImportDirectories.setIcon( resources.getFolderImportIcon() );
             this.btnImportDirectories.setActionCommand( ACTION_IMPORT_DIRS );
             this.btnImportDirectories.addActionListener( getActionListener() );
             

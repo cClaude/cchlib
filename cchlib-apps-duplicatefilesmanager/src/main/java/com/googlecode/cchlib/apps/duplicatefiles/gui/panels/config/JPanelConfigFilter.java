@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
 import java.awt.Color;
@@ -131,15 +132,16 @@ class JPanelConfigFilter
         this( titleBorderText, regExpText );
 
         for(int i=0;;i++) {
-            String descKey = String.format( "%s.%d.description", prefix, i );
-            String dataKey = String.format( "%s.%d.data", prefix, i );
+            Integer index = Integer.valueOf( i );
+            String descKey = String.format( "%s.%d.description", prefix, index );
+            String dataKey = String.format( "%s.%d.data", prefix, index );
             String desc    = properties.getProperty( descKey );
             String data    = properties.getProperty( dataKey );
 
             if( desc != null && data != null ) {
-                FileTypeCheckBox box = new FileTypeCheckBox( desc, data );
+                FileTypeCheckBox box = new FileTypeCheckBox( desc, data ); // $codepro.audit.disable avoidInstantiationInLoops
 
-                fileTypeCheckBoxMap.put( i, box );
+                fileTypeCheckBoxMap.put( index, box );
                 jPanelCheckBox.add( box.getJCheckBox() );
                 }
             else {
@@ -167,7 +169,7 @@ class JPanelConfigFilter
      */
     public FileTypeCheckBox getFileTypeCheckBox( final int key )
     {
-        return fileTypeCheckBoxMap.get( key );
+        return fileTypeCheckBoxMap.get( Integer.valueOf( key ) );
     }
 
     public void addPatternRegExp( final String regExp )

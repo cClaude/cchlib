@@ -9,6 +9,7 @@ import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
 /**
@@ -16,16 +17,17 @@ import com.googlecode.cchlib.lang.reflect.Methods;
  */
 public class MyStaticResourcesTest
 {
-    private static final Logger logger = Logger.getLogger( MyStaticResourcesTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MyStaticResourcesTest.class );
     private List<Method> methodList;
 
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
         for( Method m : methodList ) {
-            Object o = m.invoke( null, new Object[0] );
+            LOGGER.info( "m: " + m );
+            Object o = m.invoke( null, Objects.emptyArray() );
 
-            logger.info( "m: " + m + " => " + o );
+            LOGGER.info( "m: " + m + " => " + o );
             Icon result = (Icon)o;
 
             // add additional test code here

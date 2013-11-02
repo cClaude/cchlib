@@ -1,19 +1,21 @@
+// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.util.HashMapSet;
@@ -25,8 +27,8 @@ public class JPanelResultListModel
     extends AbstractListModel<KeyFiles>
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( JPanelResultListModel.class );
-    private HashMapSet<String,KeyFileState> duplicateFiles;
+    private static final Logger logger = Logger.getLogger( JPanelResultListModel.class );
+    private HashMapSet<String,KeyFileState> duplicateFiles; // $codepro.audit.disable declareAsInterface
 
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
@@ -201,7 +203,7 @@ public class JPanelResultListModel
      * @param duplicateFiles
      */
     public void updateCache(
-            final HashMapSet<String,KeyFileState> duplicateFiles,
+            final HashMapSet<String,KeyFileState> duplicateFiles, // $codepro.audit.disable declareAsInterface
             final SortMode                        sortMode,
             final SelectFirstMode                 selectFirstMode
             )
@@ -280,7 +282,7 @@ public class JPanelResultListModel
     /**
      * @return the duplicateFiles
      */
-    public HashMapSet<String,KeyFileState> getDuplicateFiles()
+    public HashMapSet<String,KeyFileState> getDuplicateFiles() // $codepro.audit.disable declareAsInterface
     {
         return duplicateFiles;
     }

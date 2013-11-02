@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
  *
  *
  */
-public abstract class JPanelConfigWB extends JPanel
+public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
 {
     private static final long serialVersionUID = 1L;
     private JComboBox<String> jComboBoxFilesFilters;
@@ -32,7 +33,7 @@ public abstract class JPanelConfigWB extends JPanel
     //@I18n(method="I18nTileUseFilesFilters")
     private JPanel jPanelFilesFilers;
     private TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
-    
+
     //@I18n(method="I18nTileUseDirsFilters")
     private JPanel jPanelDirectoryFilters;
     private Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
@@ -93,7 +94,7 @@ public abstract class JPanelConfigWB extends JPanel
         jPanelIgnore.setLayout(gbl_jPanelIgnore);
 
         jCheckBoxFFIgnoreHidden = new JCheckBox("Hidden files");
-        jCheckBoxFFIgnoreHidden.setSelected( prefs.isIgnoreHiddenFiles() ); 
+        jCheckBoxFFIgnoreHidden.setSelected( prefs.isIgnoreHiddenFiles() );
         GridBagConstraints gbc_jCheckBoxFFIgnoreHidden = new GridBagConstraints();
         gbc_jCheckBoxFFIgnoreHidden.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxFFIgnoreHidden.insets = new Insets(0, 0, 5, 5);
@@ -102,7 +103,7 @@ public abstract class JPanelConfigWB extends JPanel
         jPanelIgnore.add(jCheckBoxFFIgnoreHidden, gbc_jCheckBoxFFIgnoreHidden);
 
         jCheckBoxIgnoreReadOnlyFiles = new JCheckBox("Read only files");
-        jCheckBoxIgnoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() ); 
+        jCheckBoxIgnoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() );
         GridBagConstraints gbc_jCheckBoxIgnoreReadOnlyFiles = new GridBagConstraints();
         gbc_jCheckBoxIgnoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxIgnoreReadOnlyFiles.insets = new Insets(0, 0, 5, 0);

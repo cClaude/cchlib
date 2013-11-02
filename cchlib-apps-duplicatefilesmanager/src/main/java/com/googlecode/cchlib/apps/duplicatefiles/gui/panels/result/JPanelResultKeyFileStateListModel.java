@@ -49,7 +49,7 @@ class JPanelResultKeyFileStateListModel
         int size = dataList.size();
 
         if( size > 0 ) {
-            fireIntervalAdded( this, 0, size -1 );
+            fireIntervalAdded( this, 0, size - 1 );
             }
     }
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  *
  */
-final public class KeyFileState
+public final class KeyFileState
     implements  Serializable,
                 Comparable<KeyFileState>
 {
@@ -102,9 +102,9 @@ final public class KeyFileState
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int prime = 31; // $codepro.audit.disable numericLiterals
         int result = 1;
-        result = prime * result + ((file == null) ? 0 : file.hashCode());
+        result = (prime * result) + ((file == null) ? 0 : file.hashCode());
         return result;
     }
 

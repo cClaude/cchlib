@@ -1,8 +1,11 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -15,6 +18,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
@@ -26,8 +30,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  *
@@ -36,7 +38,7 @@ import java.awt.event.ActionEvent;
 public abstract class JPanelResultWB extends JPanel implements DuplicateData
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( JPanelResultWB.class );
+    private static final Logger logger = Logger.getLogger( JPanelResultWB.class );
     private Resources resources;
 
     private JTextField jTextFieldFileInfo;
