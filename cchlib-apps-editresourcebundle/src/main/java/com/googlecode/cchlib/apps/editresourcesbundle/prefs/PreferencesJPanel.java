@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 public class PreferencesJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private JLabel     numberOfFilesJLabel;
     private JTextField numberOfFilesJTextField;
     private JSlider    numberOfFilesJSlider;
@@ -53,13 +55,12 @@ public class PreferencesJPanel extends JPanel
         public boolean isSaveLookAndFeel();
     }
 
-
     /**
      * Create the panel.
      */
-    public PreferencesJPanel( 
+    public PreferencesJPanel(
         final InitParams initParams,
-        final Action     action 
+        final Action     action
         )
     {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -217,13 +218,13 @@ public class PreferencesJPanel extends JPanel
             gbc_btnSave.gridy = 5;
             add(btnSave, gbc_btnSave);
         }
-        
+
         // Init
         this.numberOfFilesJSlider.setValue( initParams.getNumberOfFiles() );
 
         this.languageJComboBox.setModel( new DefaultComboBoxModel<>( initParams.getLanguages() ) );
         this.languageJComboBox.setSelectedIndex( initParams.getSelectedLanguageIndex() );
-        
+
         this.saveWindowSizeJCheckBox.setSelected( initParams.isSaveWindowSize() );
     }
 }

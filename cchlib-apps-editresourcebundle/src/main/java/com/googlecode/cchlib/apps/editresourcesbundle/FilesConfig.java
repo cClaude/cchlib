@@ -76,23 +76,23 @@ public class FilesConfig implements Serializable
     public void setNumberOfFiles( int numberOfFiles )
     {
         this.numberOfFiles = numberOfFiles;
-        
+
         if( this.fileObjects == null ) {
             this.fileObjects   = new FileObject[ numberOfFiles ];
-            } 
+            }
         else {
             FileObject[] oldArray = this.fileObjects;
-            
+
             this.fileObjects   = new FileObject[ numberOfFiles ];
-            
-            int min = numberOfFiles > oldArray.length ? oldArray.length : numberOfFiles;
-            
+
+            int min = (numberOfFiles > oldArray.length) ? oldArray.length : numberOfFiles;
+
             for( int i = 0; i<min; i++ ) {
                 this.fileObjects[ i ] = oldArray[ i ];
                 }
             }
     }
-    
+
     public int getNumberOfFiles()
     {
         return numberOfFiles ;
@@ -229,12 +229,12 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        switch( fileType ) 
+        switch( fileType )
         {
             case PROPERTIES:
                 privateLoadProperties();
                 break;
-            
+
             case FORMATTED_PROPERTIES :
                 privateLoadFormattedProperties();
                 break;
@@ -245,18 +245,18 @@ public class FilesConfig implements Serializable
     {
         privateLoadProperties( null, 0 );
 
-        Properties def = isUseLeftHasDefault() ? 
-            DefaultCustomProperties.class.cast( 
-                this.fileObjects[ 0 ].getCustomProperties() 
-                ).getProperties() 
+        Properties def = isUseLeftHasDefault() ?
+            DefaultCustomProperties.class.cast(
+                this.fileObjects[ 0 ].getCustomProperties()
+                ).getProperties()
             :
             null;
-        
+
         for( int i = 1; i<this.numberOfFiles; i++ ) {
             privateLoadProperties( def, i);
             }
     }
-    
+
 
     private void privateLoadProperties(
             final Properties defaults,
@@ -264,19 +264,18 @@ public class FilesConfig implements Serializable
             )
             throws  FileNotFoundException,
                     IOException
-        {
-        @SuppressWarnings("unused")
+    {
         CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
-        }
-    
-    private void privateLoadFormattedProperties() throws FileNotFoundException, IOException 
+    }
+
+    private void privateLoadFormattedProperties() throws FileNotFoundException, IOException
     {
         privateLoadFormattedProperties( null, 0 );
 
-        FormattedProperties def  = 
+        FormattedProperties def  =
             isUseLeftHasDefault() ?
-                FormattedCustomProperties.class.cast( 
-                    this.fileObjects[ 0 ].getCustomProperties() 
+                FormattedCustomProperties.class.cast(
+                    this.fileObjects[ 0 ].getCustomProperties()
                     ).getFormattedProperties()
                 :
                 null;
@@ -293,10 +292,9 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        @SuppressWarnings("unused")
-        CustomProperties cprop = new FormattedCustomProperties( 
-                this.getFileObject( index ), 
-                defaults, 
+        CustomProperties cprop = new FormattedCustomProperties(
+                this.getFileObject( index ),
+                defaults,
                 formattedPropertiesStore
                 );
     }
@@ -323,16 +321,16 @@ public class FilesConfig implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode( fileObjects );
-        result = prime * result
+        result = (prime * result) + Arrays.hashCode( fileObjects );
+        result = (prime * result)
                 + ((fileType == null) ? 0 : fileType.hashCode());
-        result = prime
-                * result
+        result = (prime
+                * result)
                 + ((formattedPropertiesStore == null) ? 0
                         : formattedPropertiesStore.hashCode());
-        result = prime * result + numberOfFiles;
-        result = prime * result + (showLineNumbers ? 1231 : 1237);
-        result = prime * result + (useLeftHasDefault ? 1231 : 1237);
+        result = (prime * result) + numberOfFiles;
+        result = (prime * result) + (showLineNumbers ? 1231 : 1237);
+        result = (prime * result) + (useLeftHasDefault ? 1231 : 1237);
         return result;
     }
 
@@ -343,8 +341,9 @@ public class FilesConfig implements Serializable
         if( obj == null ) return false;
         if( !(obj instanceof FilesConfig) ) return false;
         FilesConfig other = (FilesConfig)obj;
-        if( !Arrays.equals( fileObjects, other.fileObjects ) )
+        if( !Arrays.equals( fileObjects, other.fileObjects ) ) {
             return false;
+        }
         if( fileType != other.fileType ) return false;
         if( formattedPropertiesStore == null ) {
             if( other.formattedPropertiesStore != null ) return false;

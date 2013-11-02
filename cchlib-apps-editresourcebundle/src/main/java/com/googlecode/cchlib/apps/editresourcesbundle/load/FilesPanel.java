@@ -53,7 +53,7 @@ public class FilesPanel extends JPanel
     public FileEntryPanel getPanelFile( int index )
     {
         if( panelFiles[ index ] == null ) {
-            final String msgString     = index == 0 ? msgStringLeft : String.format( msgStringFmt, index );
+            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, index );
             final String actionCommand = LoadDialogWB.ACTIONCMD_SELECT_PREFIX + index;
 
             panelFiles[ index ] = new FileEntryPanel( msgString, msgButton, actionCommand , actionListener );

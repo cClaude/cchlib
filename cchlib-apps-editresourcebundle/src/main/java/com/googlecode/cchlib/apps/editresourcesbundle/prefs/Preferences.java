@@ -215,7 +215,7 @@ public class Preferences implements Serializable
     {
         logger.info( "localeLanguage = " + this.localeLanguage );
 
-        if( this.localeLanguage == null || this.localeLanguage.isEmpty() ) {
+        if( (this.localeLanguage == null) || this.localeLanguage.isEmpty() ) {
             return null;
             }
         else {
@@ -306,22 +306,22 @@ public class Preferences implements Serializable
         this.htmlPreviewDimension_height = size.height;
     }
 
-    public void setHTMLPreview_W3C_LENGTH_UNITS(Boolean b)
+    public void setHTMLPreview_W3C_LENGTH_UNITS(boolean b)
     {
         this.htmlPreview_W3C_LENGTH_UNITS = b;
     }
 
-    public Boolean getHTMLPreview_W3C_LENGTH_UNITS()
+    public boolean getHTMLPreview_W3C_LENGTH_UNITS()
     {
         return this.htmlPreview_W3C_LENGTH_UNITS;
     }
 
-    public void setHTMLPreview_HONOR_DISPLAY_PROPERTIES(Boolean b)
+    public void setHTMLPreview_HONOR_DISPLAY_PROPERTIES(boolean b)
     {
         this.htmlPreview_HONOR_DISPLAY_PROPERTIES = b;
     }
 
-    public Boolean getHTMLPreview_HONOR_DISPLAY_PROPERTIES()
+    public boolean getHTMLPreview_HONOR_DISPLAY_PROPERTIES()
     {
         return this.htmlPreview_HONOR_DISPLAY_PROPERTIES;
     }
@@ -402,6 +402,6 @@ public class Preferences implements Serializable
         builder.append( ']' );
         return builder.toString();
     }
-    
-    
+
+
 }

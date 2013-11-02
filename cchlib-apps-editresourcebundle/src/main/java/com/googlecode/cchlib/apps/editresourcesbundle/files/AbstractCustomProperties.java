@@ -45,7 +45,7 @@ public abstract class AbstractCustomProperties
             //logger.info( "setEdited: prepare notification: " + listeners.length );
 
             for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
-                if( listeners[i] == ChangeListener.class ) {
+                if( listeners[i] == ChangeListener.class ) { // $codepro.audit.disable useEquals
                     ((ChangeListener)listeners[i + 1]).stateChanged( event );
                     //logger.info( "setEdited: notification sent: " + listeners[i + 1] );
                     }

@@ -53,13 +53,13 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
                 EditResourcesBundleApp.getI18nResourceBundleName(),
                 defaultLocale
                 );
-        Result r = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
         PrintStream                 usageStatPrintStream    = System.err;
         PrintStream                 notUsePrintStream       = System.out;
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
 
         System.err.flush();
         System.out.flush();

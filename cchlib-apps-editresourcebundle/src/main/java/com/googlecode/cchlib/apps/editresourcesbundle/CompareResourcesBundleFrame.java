@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.event.ActionEvent;
@@ -105,7 +106,7 @@ public class CompareResourcesBundleFrame
                 super.windowClosing( event );
 
                 closeContent();
-                
+
                 System.exit( 0 ); // AppQuit -- FIXME try to remove this
             }
         };
@@ -130,8 +131,8 @@ public class CompareResourcesBundleFrame
             logger.info( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
         //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
-        autoI18n = AutoI18nCoreFactory.createAutoI18nCore( 
-                EditResourcesBundleApp.getConfig(), 
+        autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
 //        ResourceBundle resourceBundle;
@@ -390,10 +391,10 @@ public class CompareResourcesBundleFrame
             {
                 // TODO: close prev
                 closeContent();
-                
+
                 FilesConfig fc     = new FilesConfig(filesConfig);
                 fc.setNumberOfFiles( preferences.getNumberOfFiles() );
-                
+
                 LoadDialog  dialog = new LoadDialog(
                         CompareResourcesBundleFrame.this,
                         fc
@@ -557,39 +558,10 @@ public class CompareResourcesBundleFrame
             }
         };
 
-        @SuppressWarnings("unused")
         PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
+        dialog.setVisible( true );
     }
 
-    /*
-    private void saveCurrentPreferences()
-    {
-        preferences.setLookAndFeelClassName();
-        preferences.setLocale( Locale.getDefault() );
-
-        preferences.setWindowDimension( getSize() );
-
-        // Add here extra preferences values
-
-        savePreferences();
-    }
-    private void setGuiLocale( final Locale locale )
-    {
-        preferences.setLocale( locale );
-
-        savePreferences();
-
-        JOptionPane.showMessageDialog(
-                this,
-                String.format(
-                        msgStringAlertLocale,
-                        locale == null ? msgStringDefaultLocale : locale.getDisplayLanguage()
-                        ),
-                msgStringAlertLocaleTitle,
-                JOptionPane.INFORMATION_MESSAGE
-                );
-    }
-*/
     private void savePreferences()
     {
         logger.info( "Save prefs: " + preferences );

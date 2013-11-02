@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import java.awt.Color;
@@ -60,7 +61,7 @@ import javax.swing.JScrollPane;
     {
         super( parent );
 
-        this.numberOfFiles = numberOfFiles < 2 ? 2 : numberOfFiles;
+        this.numberOfFiles = (numberOfFiles < 2) ? 2 : numberOfFiles;
 
         initComponents();
     }

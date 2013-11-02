@@ -28,7 +28,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
 
     public FormattedCustomProperties(
             final FileObject                            fileObject,
-            final FormattedProperties                   defaults, 
+            final FormattedProperties                   defaults,
             final EnumSet<FormattedProperties.Store>    formattedPropertiesStore
             ) throws FileNotFoundException, IOException
     {
@@ -37,7 +37,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
                 defaults,
                 formattedPropertiesStore
                 );
-        
+
         InputStream is = new FileInputStream( this.fileObject.getFile() );
         try {
             this.properties.load( is );
@@ -45,11 +45,11 @@ class FormattedCustomProperties extends AbstractCustomProperties
         finally {
             is.close();
             }
-        
+
         this.linesNumbers   = new HashMap<String,Integer>();
-        
+
         refreshLinesNumber();
-        
+
         this.fileObject.setCustomProperties( this );
     }
 
@@ -59,9 +59,6 @@ class FormattedCustomProperties extends AbstractCustomProperties
         return properties.stringPropertyNames();
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.i18n.PropertiesInOut#store(cx.ath.choisnet.tools.i18n.FileObject)
-     */
     @Override
     public boolean store()
         throws FileNotFoundException, IOException
@@ -94,7 +91,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
     {
         return properties;
     }
-    
+
     @Override
     public String getProperty( String key )
     {

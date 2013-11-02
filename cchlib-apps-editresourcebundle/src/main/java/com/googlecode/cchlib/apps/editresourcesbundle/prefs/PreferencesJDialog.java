@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.BorderLayout;
@@ -12,10 +13,10 @@ public class PreferencesJDialog extends JDialog
     private static final long serialVersionUID = 1L;
     private final PreferencesJPanel contentPanel;
 
-    public static abstract class AbstractAction implements PreferencesJPanel.Action 
+    public static abstract class AbstractAction implements PreferencesJPanel.Action
     {
         private Window window;
-        
+
         final void setWindow( final Window window )
         {
             this.window = window;
@@ -30,11 +31,11 @@ public class PreferencesJDialog extends JDialog
             window.dispose();
         }
     }
-    
+
     /**
      * Create the dialog.
-     * @param action 
-     * @param initParams 
+     * @param action
+     * @param initParams
      */
     public PreferencesJDialog(
        final PreferencesJPanel.InitParams initParams,
@@ -62,52 +63,5 @@ public class PreferencesJDialog extends JDialog
             @Override
             public void windowActivated( WindowEvent e ) {}
         } );
-        this.setVisible( true );
     }
-
-    /**
-     * Launch the application.
-     * /
-    public static void main( String[] args )
-    {
-        try {
-            final String languageSelected = "Language Selected";
-            
-            PreferencesJPanel.InitParams initParams = new PreferencesJPanel.InitParams() 
-            {
-                @Override
-                public int getNumberOfFiles()
-                {
-                    return 7;
-                }
-                @Override
-                public String[] getLanguages()
-                {
-                    return new String[]{ "Language 1", "Language 2", languageSelected,"Language 3"};
-                }
-                @Override
-                public String getSelectedLanguage()
-                {
-                    return languageSelected;
-                }
-                @Override
-                public boolean isSaveWindowSize()
-                {
-                    return true;
-                }
-            };
-            AbstractAction action = new AbstractAction() 
-            {
-                @Override
-                public void onSave( PreferencesJPanel.SaveParams saveParams )
-                {
-                    this.dispose();
-                }};
-            PreferencesJDialog dialog = new PreferencesJDialog(initParams, action);
-            dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-            }
-        catch( Exception e ) {
-            e.printStackTrace();
-            }
-    }/* */
 }

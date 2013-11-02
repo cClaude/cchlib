@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import static org.junit.Assert.assertTrue;
@@ -52,7 +53,7 @@ public class FilesConfigTest
         // Hope there is at least 2 properties files
         File            lFile = files.next();
         //File            rFile = files.next();
-        
+
         Preferences fakePref = Preferences.createDefaultPreferences();
         fakePref.setNumberOfFiles( 3 );
         FilesConfig     fc   = new FilesConfig( fakePref );
