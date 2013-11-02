@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.i18n.logging;
 
-import java.util.EnumSet;
+import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
@@ -13,16 +13,16 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private transient final Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private final transient Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
     /** @serial */
     private Level level;
-    
+
     /**
      * Create object using Logger based on current class
      * with a level define has {@link Level#WARN}
      * @param config Configuration
      */
-    public AutoI18nLog4JExceptionHandler( EnumSet<AutoI18nConfig> config )
+    public AutoI18nLog4JExceptionHandler( Set<AutoI18nConfig> config )
     {
         this( Level.WARN, config );
     }
@@ -34,12 +34,12 @@ public class AutoI18nLog4JExceptionHandler
      * @param config Configuration
      */
     public AutoI18nLog4JExceptionHandler(
-            Level                   level,
-            EnumSet<AutoI18nConfig> config
+            Level               level,
+            Set<AutoI18nConfig> config
             )
     {
         super( config );
-        
+
         this.level  = level;
     }
 

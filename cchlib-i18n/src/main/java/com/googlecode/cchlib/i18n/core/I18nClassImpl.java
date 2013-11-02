@@ -33,7 +33,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     private static final Logger logger = Logger.getLogger( I18nClassImpl.class );
 
     /** Array well know std API classes : do not use reflexion on theses classes */
-    final static Class<?>[] NOT_HANDLED_CLASS_TYPES = {
+    static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
         JFrame.class,
         JDialog.class,
@@ -43,7 +43,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         Component.class,
         JComponent.class,
         };
-    private final static Class<?>[] NOT_HANDLED_FIELD_TYPES = {
+    private static final Class<?>[] NOT_HANDLED_FIELD_TYPES = {
         Number.class,
         EnumSet.class,
         Logger.class,
@@ -220,9 +220,10 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 }
             else {
                 alreadyHandle = true;
+
                 try {
-                    AutoI18nType t = this.i18nDelegator.getAutoI18nTypes().lookup( f );
-                    addValueToCustomize( f, i18n.id(), i18n.method(), t );
+                    AutoI18nType type = this.i18nDelegator.getAutoI18nTypes().lookup( f );
+                    addValueToCustomize( f, i18n.id(), i18n.method(), type );
                     }
                 catch( MethodProviderSecurityException e ) {
                     i18nDelegator.handleSecurityException( e, f );
@@ -235,11 +236,11 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         if( ! alreadyHandle ) {
             // No annotation, use default process
-            AutoI18nType t = this.i18nDelegator.getDefaultAutoI18nTypes().lookup( f );
+            AutoI18nType type = this.i18nDelegator.getDefaultAutoI18nTypes().lookup( f );
 
-            if( t != null ) {
+            if( type != null ) {
                 try {
-                    addValueToCustomize( f, StringHelper.EMPTY, StringHelper.EMPTY, t );
+                    addValueToCustomize( f, StringHelper.EMPTY, StringHelper.EMPTY, type );
                     }
                 catch( MethodProviderSecurityException e ) {
                     // Should not occur (no reflexion here)

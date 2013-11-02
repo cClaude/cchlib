@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 class MethodContenerImpl implements MethodContener
 {
     private static final long serialVersionUID = 1L;
+    private static final Class<?>[] EMPTY_ARRAY = new Class<?>[0];
+
     private Class<?> clazz;
     private String methodName;
 
@@ -13,13 +15,13 @@ class MethodContenerImpl implements MethodContener
         this.clazz      = clazz;
         this.methodName = methodName;
     }
-    
+
     @Override
     public String getBaseName()
     {
         return methodName;
     }
-    
+
     @Override
     public String getInvokeMethodName()
     {
@@ -37,8 +39,8 @@ class MethodContenerImpl implements MethodContener
     {
         final String fullMethodName = getInvokeMethodName();
 
-        Method m = getMethodForClass( clazz, fullMethodName, new Class[0] );
-        
+        Method m = getMethodForClass( clazz, fullMethodName, EMPTY_ARRAY );
+
         if( m.getReturnType().equals( void.class ) ) {
             return m;
             }

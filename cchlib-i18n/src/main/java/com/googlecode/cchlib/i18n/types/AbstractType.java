@@ -36,7 +36,7 @@ public abstract class AbstractType<T> implements AutoI18nType
      * @return cast field to localize to current type
      * @see #getType()
      */
-    final public T cast( Object toI18n )
+    public final T cast( Object toI18n )
     {
         try {
             return getType().cast( toI18n );

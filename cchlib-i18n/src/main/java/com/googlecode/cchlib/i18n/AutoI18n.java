@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n;
+package com.googlecode.cchlib.i18n; // $codepro.audit.disable packageNamingConvention
 
 public interface AutoI18n 
 {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
@@ -41,13 +42,13 @@ class I18nDelegator implements Serializable
     private I18nInterface i18nInterface;
 
     public I18nDelegator(
-        final EnumSet<AutoI18nConfig>   config,
-        final AutoI18nTypeLookup        defaultAutoI18nTypes,
-        final I18nInterface             i18nInterface // TODO: use a factory
+        final Set<AutoI18nConfig>   userConfig,
+        final AutoI18nTypeLookup    defaultAutoI18nTypes,
+        final I18nInterface         i18nInterface // TODO: use a factory
         )
     {
-        this.config       = config == null ? EnumSet.noneOf( AutoI18nConfig.class ) : config;
-        this.defaultTypes = defaultAutoI18nTypes == null ? new DefaultAutoI18nTypes() : defaultAutoI18nTypes;
+        this.config       = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
+        this.defaultTypes = (defaultAutoI18nTypes == null) ? new DefaultAutoI18nTypes() : defaultAutoI18nTypes;
 
         if( Boolean.getBoolean( AutoI18n.DISABLE_PROPERTIES )) {
             // Internalization is disabled.
@@ -62,12 +63,12 @@ class I18nDelegator implements Serializable
 
     protected void addAutoI18nEventHandler( AutoI18nEventHandler eventHandler )
     {
-        eventHandlerList .add( eventHandler );
+        eventHandlerList.add( eventHandler );
     }
 
     protected void addAutoI18nExceptionHandler( AutoI18nExceptionHandler exceptionHandler )
     {
-        exceptionHandlerList .add( exceptionHandler );
+        exceptionHandlerList.add( exceptionHandler );
     }
 
     public void fireIgnoreAnnotation(

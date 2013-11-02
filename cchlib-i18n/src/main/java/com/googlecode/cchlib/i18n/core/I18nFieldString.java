@@ -32,7 +32,7 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
     @Override
     public FieldType getFieldType()
     {
-        return getMethods() != null ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
+        return (getMethods() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
     }
 
     @Override

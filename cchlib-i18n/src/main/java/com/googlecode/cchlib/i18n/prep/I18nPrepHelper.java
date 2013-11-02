@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
@@ -46,7 +47,7 @@ public final class I18nPrepHelper
      * just here to have same method name that I18n default process
      */
     public static I18nPrep createAutoI18nCore(
-        final EnumSet<AutoI18nConfig> config,
+        final Set<AutoI18nConfig>     config,
         final I18nResourceBundleName  messageBundleName,
         final Locale                  locale
         )
@@ -55,7 +56,7 @@ public final class I18nPrepHelper
     }
 
     public static I18nPrep createI18nPrep(
-        final EnumSet<AutoI18nConfig> config,
+        final Set<AutoI18nConfig>     config,
         final I18nResourceBundleName  messageBundleName,
         final Locale                  locale
         )
@@ -66,7 +67,7 @@ public final class I18nPrepHelper
     }
 
     public static I18nPrep createI18nPrep(
-        final EnumSet<AutoI18nConfig> config,
+        final Set<AutoI18nConfig>     config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
         final I18nResourceBundleName  messageBundleName,
         final Locale                  locale
@@ -83,9 +84,10 @@ public final class I18nPrepHelper
         usageStatPrintStream.flush();
 
         for( Map.Entry<String,Integer> entry : usageStatCollector ) {
-            usageStatPrintStream.println(
-                "K=" + entry.getKey() + " Usage= " + entry.getValue()
-                );
+            usageStatPrintStream.print("K=");
+            usageStatPrintStream.print(entry.getKey());
+            usageStatPrintStream.print(" Usage= ");
+            usageStatPrintStream.println(entry.getValue());
             }
 
         usageStatPrintStream.println();
@@ -101,9 +103,11 @@ public final class I18nPrepHelper
         notUsePrintStream.println( "### not use list ###" );
 
         for( Map.Entry<String,String> entry : notUseCollector ) {
-            notUsePrintStream.println(
-                "### not use ["  + entry.getKey() + '=' + entry.getValue() + ']'
-                );
+            notUsePrintStream.print("### not use [");
+            notUsePrintStream.print(entry.getKey());
+            notUsePrintStream.print('=');
+            notUsePrintStream.print(entry.getValue());
+            notUsePrintStream.println(']');
             }
 
         notUsePrintStream.println( "### Done" );

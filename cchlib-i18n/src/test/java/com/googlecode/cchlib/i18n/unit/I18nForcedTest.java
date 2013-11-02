@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit;
 
 import com.googlecode.cchlib.i18n.annotation.I18n;
@@ -22,7 +23,7 @@ import javax.swing.border.TitledBorder;
 public class I18nForcedTest extends JPanel implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( I18nForcedTest.class );
+    private static final Logger logger = Logger.getLogger( I18nForcedTest.class );
 
     private static final String INIT_myJLabel = "my JLabel text";
     private static final String DEFAULT_BUNDLE_myJLabel = "OK(myJLabel)";
@@ -135,7 +136,7 @@ public class I18nForcedTest extends JPanel implements I18nAutoCoreUpdatable, Run
 
         //logger.info( "getToolTipText; " + localised );
     }
-    
+
     @Override
     public void afterPrepTest()
     {

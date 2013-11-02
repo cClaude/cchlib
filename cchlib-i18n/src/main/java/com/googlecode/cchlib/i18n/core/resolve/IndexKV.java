@@ -18,7 +18,7 @@ abstract /*not public*/ class IndexKV implements Serializable, Iterable<String>
     public abstract String get( int index );
     public abstract int size();
   
-    final
+    
     @Override
     public Iterator<String> iterator()
     {

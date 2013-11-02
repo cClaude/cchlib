@@ -11,10 +11,10 @@ import org.junit.Ignore;
 
 public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private final static Logger logger = Logger.getLogger( AutoI18nBasicInterfaceTest.class );
+    private static final Logger logger = Logger.getLogger( AutoI18nBasicInterfaceTest.class );
 
-    private final static String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
-    private final static String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
+    private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
+    private static final String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
     
     private MyAutoI18nBasicInterface myAutoI18nBasicInterface;
 

@@ -1,11 +1,6 @@
+// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.i18n.sample.full;
 
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,16 +11,24 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+
 import org.apache.log4j.Logger;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  *
@@ -35,7 +38,6 @@ public class FakePanel
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    @SuppressWarnings("unused")
     private static final Logger logger = Logger.getLogger( FakePanel.class );
 
     private TitledBorder panelTitleBorder;
@@ -85,7 +87,7 @@ public class FakePanel
 
    // @I18n private Object crash1 = null;
 
-    /**
+    /** // $codepro.audit.disable blockDepth
      *
      */
     public FakePanel()
@@ -328,6 +330,7 @@ public class FakePanel
     @Override // I18nAutoCoreUpdatable
     public void performeI18n( AutoI18nCore autoI18n )
     {
+        logger.info( "performeI18n" );
         autoI18n.performeI18n( this, this.getClass() );
     }
 }

@@ -20,13 +20,13 @@ public class I18nResourceBundle implements I18nInterface
      *  need a {@link #resourceBundleFullBaseName} information
      *  to restore it during serialization process.
      */
-    protected transient ResourceBundle resourceBundle;
+    private transient ResourceBundle resourceBundle;
 
     /**
     * This field is use to restore {@link #resourceBundle} during
     *  serialization process.
     */
-    protected String resourceBundleFullBaseName;
+    private String resourceBundleFullBaseName;
 
     /**
      * Provide a non initialized object for inherit class
@@ -34,7 +34,7 @@ public class I18nResourceBundle implements I18nInterface
      * and {@link #resourceBundleFullBaseName}).
      */
     protected I18nResourceBundle()
-    { //Empty 
+    { //Empty
     }
 
     /**
@@ -45,7 +45,7 @@ public class I18nResourceBundle implements I18nInterface
     protected I18nResourceBundle( final String resourceBundleFullBaseName )
     {
         this.resourceBundleFullBaseName = resourceBundleFullBaseName;
-        
+
         if( resourceBundleFullBaseName == null ) {
             throw new IllegalArgumentException(
                 new NullPointerException( "resourceBundleFullBaseName is null" )
@@ -119,5 +119,15 @@ public class I18nResourceBundle implements I18nInterface
 
         // Build a new ResourceBundle
         resourceBundle = ResourceBundle.getBundle( resourceBundleFullBaseName, locale );
+    }
+
+    protected void setResourceBundle( ResourceBundle resourceBundle )
+    {
+        this.resourceBundle = resourceBundle;
+    }
+
+    protected String getResourceBundleFullBaseName()
+    {
+        return resourceBundleFullBaseName;
     }
 }

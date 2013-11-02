@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.i18n;
 
 import java.awt.Window;
+import java.util.EnumSet;
+import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
@@ -41,14 +43,40 @@ public enum AutoI18nConfig
      * Disable internalization process, could be also done
      * using {@link AutoI18n#DISABLE_PROPERTIES}.
      */
-    DISABLE, 
-    
+    DISABLE,
+
     /**
      * TODOC
      */
     PRINT_STACKTRACE_IN_LOGS,
-    
+
     /*
      * TODO : HANDLE_ONLY_FIELDS_WITH_ANNOTATION
      */
+    ;
+
+    public static EnumSet<AutoI18nConfig> newAutoI18nConfig()
+    {
+        return EnumSet.noneOf( AutoI18nConfig.class );
+    }
+
+    public static EnumSet<AutoI18nConfig> newAutoI18nConfig(
+        final AutoI18nConfig first,
+        final AutoI18nConfig...rest
+        )
+    {
+        return EnumSet.of( first, rest );
+    }
+
+    public static EnumSet<AutoI18nConfig> newAutoI18nConfig(
+        final Set<AutoI18nConfig> userConfig
+        )
+    {
+        if( userConfig == null ) {
+            return newAutoI18nConfig();
+            }
+        else {
+            return EnumSet.copyOf( userConfig );
+            }
+    }
 }

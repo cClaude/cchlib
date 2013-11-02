@@ -13,12 +13,13 @@ public class I18nSimpleResourceBundle
     extends I18nResourceBundle
 {
     private static final long serialVersionUID = 2L;
-    private transient static Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
+    private static transient Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
+
     /** @serial */
     private Locale currentLocale;
 
     /**
-     * 
+     *
      * @param locale
      * @param resourceBundleName
      */
@@ -45,7 +46,7 @@ public class I18nSimpleResourceBundle
         if( locale == null ) {
             throw new NullPointerException( "Locale is null" );
             }
-        
+
         setLocale( locale );
     }
 
@@ -54,7 +55,7 @@ public class I18nSimpleResourceBundle
       this.currentLocale = locale;
 
       if( logger.isTraceEnabled() ) {
-          logger.trace( "setLocale() - resourceBundleFullBaseName= " + resourceBundleFullBaseName );
+          logger.trace( "setLocale() - resourceBundleFullBaseName= " + getResourceBundleFullBaseName() );
           logger.trace( "setLocale() - currentLocale= " + currentLocale );
           logger.trace( "setLocale() - getLocale() = " + getLocale() );
 
@@ -64,26 +65,25 @@ public class I18nSimpleResourceBundle
           }
 
       try {
-          super.resourceBundle
-              = ResourceBundle.getBundle(
-                  resourceBundleFullBaseName,
-                  getLocale()
-                  );
+          super.setResourceBundle( ResourceBundle.getBundle(
+              getResourceBundleFullBaseName(),
+              getLocale()
+              ) );
           }
       catch( java.util.MissingResourceException e ) {
           logger.error(
               "Error while trying to open default resource bundle for: "
-                  + resourceBundleFullBaseName
+                  + getResourceBundleFullBaseName()
               );
           throw e; // FIXME : throw new MissingResourceBundleException !!!
           }
 
       if( logger.isTraceEnabled() ) {
-          if( ! resourceBundle.getLocale().equals(currentLocale) ) {
+          if( ! getResourceBundle().getLocale().equals(currentLocale) ) {
               logger.error( "resourceBundle.getLocale() != currentLocale" );
               }
-          logger.trace( "resourceBundle.getLocale() = " + resourceBundle.getLocale() );
-          logger.trace( "ResourceBundle = " + resourceBundle );
+          logger.trace( "resourceBundle.getLocale() = " + getResourceBundle().getLocale() );
+          logger.trace( "ResourceBundle = " + getResourceBundle() );
           }
     }
 

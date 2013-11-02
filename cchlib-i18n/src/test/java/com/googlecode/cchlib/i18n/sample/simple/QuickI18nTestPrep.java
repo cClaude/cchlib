@@ -1,12 +1,11 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.i18n.sample.simple;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-//import com.googlecode.cchlib.i18n.config.I18nAutoUpdatable;
-//import com.googlecode.cchlib.i18n.config.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
@@ -42,7 +41,7 @@ public class QuickI18nTestPrep
         //            frame,
         //            otherFrames
         //            );
-        EnumSet<AutoI18nConfig> config                   = null;
+        Set<AutoI18nConfig>         config                   = AutoI18nConfig.newAutoI18nConfig();
         String                      messageBundleBaseName    = frame.getClass().getSimpleName();
         Package                     packageMessageBundleBase = frame.getClass().getPackage();
         I18nResourceBundleName      i18nResourceBundleName   = new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);

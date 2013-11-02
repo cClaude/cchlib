@@ -2,8 +2,8 @@ package com.googlecode.cchlib.i18n.sample.full;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
@@ -17,9 +17,9 @@ public abstract class AbstractMessageBundleBaseName
     {
     }
 
-    public void start( 
+    public void start(
         I18nAutoCoreUpdatable[]       i18nConteners
-        ) throws IOException
+        ) throws IOException // $codepro.audit.disable unnecessaryExceptions
     {
         // Default language !
         Locale locale = Locale.ENGLISH;
@@ -31,7 +31,7 @@ public abstract class AbstractMessageBundleBaseName
         // Other frames,panel,... if any
 
         {
-        EnumSet<AutoI18nConfig> config                   = null;
+        Set<AutoI18nConfig>     config                   = AutoI18nConfig.newAutoI18nConfig();
         I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
         I18nPrep                autoI18n                 = I18nPrepHelper.createAutoI18nCore( config, i18nResourceBundleName, locale );
 
@@ -41,10 +41,10 @@ public abstract class AbstractMessageBundleBaseName
         //    notUsePrintStream,
         //    i18nConteners
         //    );
-        Result r = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
+        Result result = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
         }
     }
 

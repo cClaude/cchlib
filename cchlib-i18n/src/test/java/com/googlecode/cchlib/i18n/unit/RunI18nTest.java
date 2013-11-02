@@ -18,7 +18,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 
 public class RunI18nTest
 {
-    private final static Logger logger = Logger.getLogger( RunI18nTest.class );
+    private static final Logger logger = Logger.getLogger( RunI18nTest.class );
 
     @Ignore
     private static RunI18nTestInterface[] getTests()

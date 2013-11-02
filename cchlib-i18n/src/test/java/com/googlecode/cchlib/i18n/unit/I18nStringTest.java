@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit;
 
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
@@ -13,22 +14,22 @@ import org.junit.Ignore;
 
 public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private final static Logger logger = Logger.getLogger( I18nStringTest.class );
+    private static final Logger logger = Logger.getLogger( I18nStringTest.class );
 
-    private final static String INIT_myString = "my string text 1";
-    private final static String DEFAULT_BUNDLE_myString = "OK(myString)";
+    private static final String INIT_myString = "my string text 1";
+    private static final String DEFAULT_BUNDLE_myString = "OK(myString)";
     @I18nString private String myString = INIT_myString;
 
     @I18nString @I18nIgnore private String myStringIgnore = INIT_myString;
     @I18nString private Object thisNotAString1;
     @I18nString private JButton thisNotAString2;
 
-    private final static String INIT_myGlobalStringID1 = "my Global string 1 text";
-    private final static String DEFAULT_BUNDLE_myGlobalStringID1 = "OK(GlobalStringID)";
+    private static final String INIT_myGlobalStringID1 = "my Global string 1 text";
+    private static final String DEFAULT_BUNDLE_myGlobalStringID1 = "OK(GlobalStringID)";
     @I18nString(id="GlobalStringID") private String myGlobalStringID = INIT_myGlobalStringID1;
 
-    private final static String INIT_myGlobalStringIDMethod1 = "my Global string 2 text";
-    private final static String DEFAULT_BUNDLE_myGlobalStringIDMethod1 = "OK(myGlobalStringIDMethod1)";
+    private static final String INIT_myGlobalStringIDMethod1 = "my Global string 2 text";
+    private static final String DEFAULT_BUNDLE_myGlobalStringIDMethod1 = "OK(myGlobalStringIDMethod1)";
     @I18nString(id="GlobalStringID",method="customizeString1") private String myGlobalStringIDMethod1 = INIT_myGlobalStringIDMethod1;
 
     public void customizeString1()
@@ -36,8 +37,8 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
         myGlobalStringIDMethod1 = DEFAULT_BUNDLE_myGlobalStringIDMethod1;
     }
 
-    private final static String INIT_myGlobalStringIDMethod2 = "my Global string 3 text";
-    private final static String DEFAULT_BUNDLE_myGlobalStringIDMethod2 = "OK(myGlobalStringIDMethod2)";
+    private static final String INIT_myGlobalStringIDMethod2 = "my Global string 3 text";
+    private static final String DEFAULT_BUNDLE_myGlobalStringIDMethod2 = "OK(myGlobalStringIDMethod2)";
     @I18nString(method="customizeString2") private String myGlobalStringIDMethod2 = INIT_myGlobalStringIDMethod2;
 
     public void customizeString2()
@@ -62,7 +63,7 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
     {
         TestUtils.preparePrepTest( prepTest, this );
    }
-    
+
     @Override
     public void afterPrepTest()
     {
@@ -70,7 +71,7 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
         Assert.assertEquals( INIT_myString, this.myStringIgnore );
 
         Assert.assertEquals( INIT_myGlobalStringID1, this.myGlobalStringID );
-        // These values change (always resolve) 
+        // These values change (always resolve)
         // Assert.assertEquals( INIT_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );
         // Assert.assertEquals( INIT_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
     }
@@ -79,7 +80,7 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
     public void runPerformeI18nTest()
     {
         afterPrepTest();
-        
+
         // Also verify values using custom methods
         Assert.assertEquals( INIT_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );
         Assert.assertEquals( INIT_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
@@ -92,10 +93,10 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
 
         logger.info( "TEST RESULT: this.myGlobalStringID = " + this.myGlobalStringID );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringID1, this.myGlobalStringID );
-        
+
         logger.info( "TEST RESULT: this.myGlobalStringIDMethod1 = " + this.myGlobalStringIDMethod1 );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );
-        
+
         logger.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
     }

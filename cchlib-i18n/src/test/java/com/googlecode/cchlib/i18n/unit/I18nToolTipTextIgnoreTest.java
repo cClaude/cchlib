@@ -12,11 +12,11 @@ import org.junit.Assert;
 
 public class I18nToolTipTextIgnoreTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private final static Logger logger = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
-    private final static String TOOLTIPTEXT_INIT = "my tool tip text 1";
-    private final static String TOOLTIPTEXT_DEFAULT_BUNDLE = "OK(ToolTipText)";
+    private static final Logger logger = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
+    private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";
+    private static final String TOOLTIPTEXT_DEFAULT_BUNDLE = "OK(ToolTipText)";
 
-    private final static String TEXT_INIT = "my button with tool tip text 1";
+    private static final String TEXT_INIT = "my button with tool tip text 1";
     
     @I18nToolTipText @I18nIgnore private JButton myButtonWithToolTipText1;
 

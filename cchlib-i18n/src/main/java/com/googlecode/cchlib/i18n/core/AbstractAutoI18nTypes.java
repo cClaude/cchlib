@@ -10,7 +10,7 @@ import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 
 /* not public */ abstract class AbstractAutoI18nTypes implements AutoI18nTypeLookup, Iterable<AutoI18nType>
-{    
+{
     private static final long serialVersionUID = 1L;
     /** @serial */
     private ArrayList<AutoI18nType> types;
@@ -21,22 +21,27 @@ import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 
         final Method[] methods = getClass().getMethods();
 
-        for( Method m:methods ) {
-            if( AutoI18nType.class.isAssignableFrom( m.getReturnType() ) ) {
-                if( m.getParameterTypes().length == 0 ) {
-                    try {
-                        AutoI18nType t = AutoI18nType.class.cast( m.invoke( AbstractAutoI18nTypes.this ) );
-
-                        types.add( t );
-                        }
-                    catch( Exception shouldNotOccur ) {
-                        throw new RuntimeException( shouldNotOccur );
-                        }
+        for( Method method : methods ) {
+            if( AutoI18nType.class.isAssignableFrom( method.getReturnType() ) ) {
+                if( method.getParameterTypes().length == 0 ) {
+                    addType( method );
                     }
                 }
             }
     }
-    
+
+    private void addType( final Method method )
+    {
+        try {
+            AutoI18nType type = AutoI18nType.class.cast( method.invoke( AbstractAutoI18nTypes.this ) );
+
+            types.add( type );
+            }
+        catch( Exception shouldNotOccur ) {
+            throw new RuntimeException( shouldNotOccur );
+            }
+    }
+
     /**
      * Returns collection of AutoI18nTypes.Type supported
      * by this AutoI18nTypes
@@ -65,7 +70,7 @@ import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
             }
         return null;
     }
-    
+
     @Override
     public String toString()
     {

@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
@@ -38,7 +39,7 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 public class I18nPrep
 {
-    private final static Logger logger = Logger.getLogger( I18nPrep.class );
+    private static final Logger logger = Logger.getLogger( I18nPrep.class );
 
     private EnumSet<AutoI18nConfig> config;
     private AutoI18nTypeLookup      defaultAutoI18nTypes;
@@ -53,13 +54,13 @@ public class I18nPrep
     private File resourceBundleOutputFile;
 
     public I18nPrep(
-        final EnumSet<AutoI18nConfig> config,
+        final Set<AutoI18nConfig>     config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
         final Locale                  locale,
         final I18nResourceBundleName  resourceBundleName
         )
     {
-        this.config                   = config;
+        this.config                   = EnumSet.copyOf( config );
         this.defaultAutoI18nTypes     = defaultAutoI18nTypes;
         this.resourceBundleName       = resourceBundleName;
         this.i18nResourceBundle = new I18nSimpleResourceBundle( locale, resourceBundleName );
@@ -95,11 +96,11 @@ public class I18nPrep
                         assert i18nField.getMethods() == null;
 
                         try {
-                            I18nResolver r    = i18nField.createI18nResolver( objectToI18n, i18nInterface );
-                            Keys         keys = r.getKeys();
+                            I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
+                            Keys         keys     = resolver.getKeys();
 
-                            I18nResolvedFieldGetter g = r.getI18nResolvedFieldGetter();
-                            Values values = g.getValues( keys );
+                            I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
+                            Values values = getter.getValues( keys );
 
                             assert keys.size() == values.size();
                             assert keys.size() > 0;

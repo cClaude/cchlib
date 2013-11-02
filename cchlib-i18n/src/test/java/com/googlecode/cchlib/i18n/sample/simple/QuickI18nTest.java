@@ -2,14 +2,15 @@ package com.googlecode.cchlib.i18n.sample.simple;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import javax.swing.JButton;
 
 public class QuickI18nTest extends JFrame implements I18nAutoCoreUpdatable
 {

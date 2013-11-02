@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit;
 
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -18,7 +19,7 @@ import javax.swing.border.TitledBorder;
 public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( I18nDefaultTest.class );
+    private static final Logger logger = Logger.getLogger( I18nDefaultTest.class );
 
     private static final String INIT_myJLabel = "my JLabel text";
     private static final String DEFAULT_BUNDLE_myJLabel = "OK(myJLabel)";

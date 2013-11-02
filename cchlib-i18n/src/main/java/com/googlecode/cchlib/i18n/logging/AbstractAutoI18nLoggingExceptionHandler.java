@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n.logging;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -24,9 +25,9 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     private static final long serialVersionUID = 1L;
     private EnumSet<AutoI18nConfig> config;
 
-    public AbstractAutoI18nLoggingExceptionHandler( EnumSet<AutoI18nConfig> config )
+    public AbstractAutoI18nLoggingExceptionHandler( Set<AutoI18nConfig> userConfig )
     {
-        this.config = config == null ? EnumSet.noneOf( AutoI18nConfig.class ) : config;
+        this.config = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
     }
 
     protected abstract void doHandle( String msg, Throwable e );
@@ -90,7 +91,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     {
         doHandleForField( "IllegalArgumentException", cause, i18nField );
     }
-    
+
 //    @Override
 //    public void handleInvocationTargetException( InvocationTargetException e )
 //    {
@@ -157,7 +158,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     {
         doHandleForField( "SecurityException", cause, (I18nField)null );
     }
-    
+
     @Override
     public void handleSecurityException( SecurityException cause, I18nField i18nField )
     {

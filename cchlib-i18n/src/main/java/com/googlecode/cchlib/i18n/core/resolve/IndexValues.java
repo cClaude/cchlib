@@ -23,12 +23,6 @@ public class IndexValues extends IndexKV implements Values, Serializable
     @Override
     public String get( int index )
     {
-//        if( index < 0 ) {
-//            throw new IndexOutOfBoundsException( "index=" + index + " must getter than 0" );
-//            }
-//        if( index >= values.length ) {
-//            throw new IndexOutOfBoundsException( "index=" + index + " less than " + values.length );
-//            }
         return values[ index ];
     }
 
@@ -41,6 +35,6 @@ public class IndexValues extends IndexKV implements Values, Serializable
     @Override
     public String[] toArray()
     {
-        return values;
+        return values.clone();
     }
 }

@@ -28,7 +28,7 @@ public class DefaultI18nBundleFactory
                             @Override
                             public String getName()
                             {
-                                return prep.getMessagesBundleForI18nPrepHelper();
+                                return prep.getMessagesBundleForI18nPrepHelper(); // $codepro.audit.disable deprecatedMethod
                             }}
                         )
                 );

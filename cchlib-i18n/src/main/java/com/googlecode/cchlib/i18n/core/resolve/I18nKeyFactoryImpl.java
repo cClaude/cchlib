@@ -30,7 +30,7 @@ public class I18nKeyFactoryImpl implements I18nKeyFactory
     public String getKeyBase( Field field, String keyIdValue )
     {
         if( i18nNameValue == null ) {
-            if( keyIdValue != null && !keyIdValue.isEmpty() ) {
+            if( (keyIdValue != null) && !keyIdValue.isEmpty() ) {
                 return keyIdValue;
                 }
             else {
@@ -38,7 +38,7 @@ public class I18nKeyFactoryImpl implements I18nKeyFactory
                 }
             }
         else {
-            if( keyIdValue != null && !keyIdValue.isEmpty() ) {
+            if( (keyIdValue != null) && !keyIdValue.isEmpty() ) {
                 assert ! keyIdValue.isEmpty();
                 
                 return this.i18nNameValue + '.' + keyIdValue;

@@ -1,3 +1,4 @@
+// $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit;
 
 import javax.swing.Icon;
@@ -14,7 +15,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 public class I18nToolTipText_for_JTabbedPaneTest
     implements RunI18nTestInterface
 {
-    private final static Logger logger = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
+    private static final Logger logger = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
 
     @I18nIgnore private static final String TIP1 = "Tool tip text 1";
     @I18nIgnore private static final String TIP2 = "Tool tip text 2";
@@ -80,7 +81,7 @@ public class I18nToolTipText_for_JTabbedPaneTest
     public void runPerformeI18nTest()
     {
         afterPrepTest();
-        
+
         for( int i = 0; i<4; i++ ) {
             logger.info( "before contentJTabbedPane.getTitleAt( " + i + " ) =" + myJTabbedPane.getTitleAt( i ) );
             logger.info( "before contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
@@ -99,7 +100,7 @@ public class I18nToolTipText_for_JTabbedPaneTest
         Assertions.assertThat( myJTabbedPane.getTitleAt( 1 ) ).isEqualTo( TITLE2_I18N );
         Assertions.assertThat( myJTabbedPane.getTitleAt( 2 ) ).isEqualTo( TITLE3_I18N );
         Assertions.assertThat( myJTabbedPane.getTitleAt( 3 ) ).isEqualTo( TITLE4_I18N );
-        
+
         Assertions.assertThat( myJTabbedPane.getToolTipTextAt( 0 ) ).isEqualTo( TIP1_I18N );
         Assertions.assertThat( myJTabbedPane.getToolTipTextAt( 1 ) ).isEqualTo( TIP2_I18N );
         Assertions.assertThat( myJTabbedPane.getToolTipTextAt( 2 ) ).isEqualTo( TIP3_I18N );
