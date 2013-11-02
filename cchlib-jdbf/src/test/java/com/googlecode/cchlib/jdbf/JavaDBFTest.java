@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation, reusableImmutables
 package com.googlecode.cchlib.jdbf;
 
 import java.io.File;

@@ -37,7 +37,7 @@ final class DBFEntryImpl implements DBFEntry
         throws DBFEntryException
     {
         if( value == null ) {
-            return 0;
+            return Integer.valueOf( 0 );
             }
 
         try {
@@ -47,11 +47,11 @@ final class DBFEntryImpl implements DBFEntry
             String s = value.toString().trim();
 
             if( s.length() == 0 ) {
-                return 0;
+                return Integer.valueOf( 0 );
                 }
 
             try {
-                Constructor<T> m = clazz.getConstructor( String.class );
+                Constructor<T> m = clazz.getConstructor( String.class ); // $codepro.audit.disable questionableName
                 return m.newInstance( value.toString().trim() );
                 }
             catch( NoSuchMethodException e1 ) {
@@ -99,7 +99,7 @@ final class DBFEntryImpl implements DBFEntry
     public boolean getBoolean() throws DBFEntryException
     {
         if( value instanceof Boolean ) {
-            return Boolean.class.cast( value );
+            return Boolean.class.cast( value ).booleanValue();
             }
         else {
             return Boolean.parseBoolean( value.toString().trim() );

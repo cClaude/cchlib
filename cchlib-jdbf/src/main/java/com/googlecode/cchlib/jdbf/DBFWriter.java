@@ -282,7 +282,7 @@ public class DBFWriter extends DBFBase
 
                 case 'L':
                     if( objectArray[j] != null) {
-                        if( (Boolean)objectArray[j] == Boolean.TRUE) {
+                        if( ((Boolean)objectArray[j]).booleanValue() ) {
                             dataOutput.write( (byte)'T');
                         }
                         else {

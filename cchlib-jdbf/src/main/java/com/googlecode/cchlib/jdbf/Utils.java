@@ -106,7 +106,7 @@ import java.util.Arrays;
             return text.substring( 0, length).getBytes( characterSetName);
             }
 
-        final byte byte_array[] = new byte[ length];
+        final byte[] byte_array = new byte[ length];
         Arrays.fill( byte_array, paddingByte);
 
         switch( alignment) {
@@ -146,7 +146,7 @@ import java.util.Arrays;
         return textPadding( df.format( doubleNum.doubleValue()).toString(), characterSetName, fieldLength, ALIGN_RIGHT);
     }
 
-    public static boolean contains( byte[] arr, byte value)
+    public static boolean contains( byte[] arr, byte value) // $codepro.audit.disable booleanMethodNamingConvention
     {
         boolean found = false;
 

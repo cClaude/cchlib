@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidInstantiationInLoops
 package com.googlecode.cchlib.jdbf;
 
 import java.io.DataInputStream;
@@ -149,7 +150,7 @@ public class DBFReader extends DBFBase
         for( int i = 0; i<indexMax; i++ ) {
             this.fieldsNamesMap.put(
                 this.header.fieldArray[ i ].getName(),
-                i
+                Integer.valueOf( i )
                 );
             }
     }
@@ -246,7 +247,7 @@ public class DBFReader extends DBFBase
             throw new DBFClosedException( "Source is not open" );
             }
 
-        Object recordObjects[] = new Object[ this.header.fieldArray.length];
+        Object[] recordObjects = new Object[ this.header.fieldArray.length];
 
         try {
             boolean isDeleted = false;
@@ -258,7 +259,7 @@ public class DBFReader extends DBFBase
 
                 int t_byte = dataInputStream.readByte();
                 if( t_byte == END_OF_DATA) {
-                    return null;
+                    return null; // $codepro.audit.disable returnValue
                     }
 
                 isDeleted = (  t_byte == '*');
@@ -269,19 +270,19 @@ public class DBFReader extends DBFBase
                 switch( this.header.fieldArray[i].getDataType()) {
                     case 'C':
 
-                        byte b_array[] = new byte[ this.header.fieldArray[i].getFieldLength()];
+                        byte[] b_array = new byte[ this.header.fieldArray[i].getFieldLength()];
                         dataInputStream.read( b_array);
                         recordObjects[i] = new String( b_array, characterSetName);
                         break;
 
                     case 'D':
-                        byte t_byte_year[] = new byte[ 4];
+                        byte[] t_byte_year = new byte[ 4];
                         dataInputStream.read( t_byte_year);
 
-                        byte t_byte_month[] = new byte[ 2];
+                        byte[] t_byte_month = new byte[ 2];
                         dataInputStream.read( t_byte_month);
 
-                        byte t_byte_day[] = new byte[ 2];
+                        byte[] t_byte_day = new byte[ 2];
                         dataInputStream.read( t_byte_day);
 
                         try {
@@ -289,10 +290,10 @@ public class DBFReader extends DBFBase
                                 Integer.parseInt( new String( t_byte_year) ),
                                 Integer.parseInt( new String( t_byte_month) ) - 1,
                                 Integer.parseInt( new String( t_byte_day) )
-                            	);
+                                );
 
                             recordObjects[i] = calendar.getTime();
-                        	}
+                            }
                         catch( NumberFormatException e ) { // $codepro.audit.disable logExceptions
                             /* this field may be empty or may have improper value set */
                             recordObjects[i] = null;
@@ -301,7 +302,7 @@ public class DBFReader extends DBFBase
 
                     case 'F':
                         try {
-                            byte t_float[] = new byte[ this.header.fieldArray[i].getFieldLength()];
+                            byte[] t_float = new byte[ this.header.fieldArray[i].getFieldLength()];
                             dataInputStream.read( t_float);
                             t_float = Utils.trimLeftSpaces( t_float);
                             if( t_float.length > 0 && !Utils.contains( t_float, (byte)'?')) {
@@ -320,7 +321,7 @@ public class DBFReader extends DBFBase
                     case 'N':
                         try {
 
-                            byte t_numeric[] = new byte[ this.header.fieldArray[i].getFieldLength()];
+                            byte[] t_numeric = new byte[ this.header.fieldArray[i].getFieldLength()];
                             dataInputStream.read( t_numeric);
                             t_numeric = Utils.trimLeftSpaces( t_numeric);
 
@@ -357,7 +358,7 @@ public class DBFReader extends DBFBase
             }
         }
         catch( EOFException e) { // $codepro.audit.disable logExceptions
-            return null;
+            return null; // $codepro.audit.disable returnValue
             }
         catch( IOException e) {
             throw new DBFException( e );
