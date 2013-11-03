@@ -37,7 +37,10 @@ class FormattedCustomProperties extends AbstractCustomProperties
                 defaults,
                 formattedPropertiesStore
                 );
+    }
 
+    public void load() throws FileNotFoundException, IOException
+    {
         InputStream is = new FileInputStream( this.fileObject.getFile() );
         try {
             this.properties.load( is );

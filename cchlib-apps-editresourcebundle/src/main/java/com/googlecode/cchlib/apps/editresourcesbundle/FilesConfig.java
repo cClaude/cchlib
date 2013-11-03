@@ -292,11 +292,12 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        CustomProperties cprop = new FormattedCustomProperties(
+        FormattedCustomProperties cprop = new FormattedCustomProperties(
                 this.getFileObject( index ),
                 defaults,
                 formattedPropertiesStore
                 );
+        cprop.load();
     }
 
     //Serializable
