@@ -1,4 +1,4 @@
-// $codepro.audit.disable largeNumberOfFields, constantNamingConvention
+// $codepro.audit.disable largeNumberOfFields, constantNamingConvention, numericLiterals
 package com.googlecode.cchlib.i18n.unit;
 
 import javax.swing.Icon;

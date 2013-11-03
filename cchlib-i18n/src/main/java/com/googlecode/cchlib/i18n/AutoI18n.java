@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n; // $codepro.audit.disable packageNamingConvention
+package com.googlecode.cchlib.i18n; // $codepro.audit.disable packageNamingConvention, com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.useInterfacesOnlyToDefineTypes
 
 public interface AutoI18n 
 {

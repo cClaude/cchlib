@@ -14,7 +14,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( AutoI18nCoreImpl.class );
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nCoreImpl.class );
 
     private Map<Class<?>,I18nClass<?>> map = new HashMap<Class<?>,I18nClass<?>>();
     /** @serial */
@@ -42,8 +42,8 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             return;
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "I18n handle class " + clazz + " on " + objectToI18n );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "I18n handle class " + clazz + " on " + objectToI18n );
             }
 
         @SuppressWarnings("unchecked")

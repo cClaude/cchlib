@@ -18,7 +18,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 
 public class RunI18nTest
 {
-    private static final Logger logger = Logger.getLogger( RunI18nTest.class );
+    private static final Logger LOGGER = Logger.getLogger( RunI18nTest.class );
 
     @Ignore
     private static RunI18nTestInterface[] getTests()
@@ -64,16 +64,16 @@ public class RunI18nTest
 
         AutoI18nExceptionCollector collector = prepTest.getAutoI18nExceptionHandlerCollector();
 
-        logger.info( "I18nSyntaxeException = " + collector.getI18nSyntaxeExceptionCollector().size() );
-        logger.info( "IllegalAccessException = " + collector.getIllegalAccessExceptionCollector().size() );
-        logger.info( "IllegalArgumentException = " + collector.getIllegalArgumentExceptionCollector().size() );
-        logger.info( "InvocationTargetException = " + collector.getInvocationTargetExceptionCollector().size() );
-        logger.info( "MissingKeyException = " + collector.getMissingKeyExceptionCollector().size() );
-        logger.info( "MissingResourceException = " + collector.getMissingResourceExceptionCollector().size() );
-        logger.info( "NoSuchMethodException = " + collector.getNoSuchMethodExceptionCollector().size() );
-        logger.info( "MethodProviderSecurityException = " + collector.getMethodProviderSecurityExceptionCollector().size() );
-        logger.info( "SecurityException = " + collector.getSecurityExceptionCollector().size() );
-        logger.info( "SetFieldException = " + collector.getSetFieldExceptionCollector().size() );
+        LOGGER.info( "I18nSyntaxeException = " + collector.getI18nSyntaxeExceptionCollector().size() );
+        LOGGER.info( "IllegalAccessException = " + collector.getIllegalAccessExceptionCollector().size() );
+        LOGGER.info( "IllegalArgumentException = " + collector.getIllegalArgumentExceptionCollector().size() );
+        LOGGER.info( "InvocationTargetException = " + collector.getInvocationTargetExceptionCollector().size() );
+        LOGGER.info( "MissingKeyException = " + collector.getMissingKeyExceptionCollector().size() );
+        LOGGER.info( "MissingResourceException = " + collector.getMissingResourceExceptionCollector().size() );
+        LOGGER.info( "NoSuchMethodException = " + collector.getNoSuchMethodExceptionCollector().size() );
+        LOGGER.info( "MethodProviderSecurityException = " + collector.getMethodProviderSecurityExceptionCollector().size() );
+        LOGGER.info( "SecurityException = " + collector.getSecurityExceptionCollector().size() );
+        LOGGER.info( "SetFieldException = " + collector.getSetFieldExceptionCollector().size() );
 
         Assert.assertEquals( syntaxeExceptionCount , collector.getI18nSyntaxeExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getIllegalAccessExceptionCollector().size() );
@@ -91,7 +91,7 @@ public class RunI18nTest
             final ResourceBundle validMessageBundleResource = TestUtils.validMessageBundle.createResourceBundle( Locale.ENGLISH );
 
             existingSize= validMessageBundleResource.keySet().size();
-            logger.info( "existingSize = " + existingSize );
+            LOGGER.info( "existingSize = " + existingSize );
             
             Assert.assertTrue( existingSize > 0 );
        }
@@ -112,7 +112,7 @@ public class RunI18nTest
 
         Assert.assertEquals( existingSize, createdSize );
 
-        logger.info( "ALL runPrepTest() done" );
+        LOGGER.info( "ALL runPrepTest() done" );
      }
 
     @Test
@@ -123,6 +123,6 @@ public class RunI18nTest
         for( RunI18nTestInterface test : tests ) {
             test.runPerformeI18nTest();
             }
-        logger.info( "ALL runPerformeI18nTest() done"  );
+        LOGGER.info( "ALL runPerformeI18nTest() done"  );
     }
 }

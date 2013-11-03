@@ -13,7 +13,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 
 public class I18nToolTipTextTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private static final Logger logger = Logger.getLogger( I18nToolTipTextTest.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextTest.class );
     private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";
     private static final String TOOLTIPTEXT_DEFAULT_BUNDLE = "OK(ToolTipText)";
 
@@ -58,12 +58,12 @@ public class I18nToolTipTextTest implements I18nAutoCoreUpdatable, RunI18nTestIn
 
         final String toolTipText = this.myButtonWithToolTipText1.getToolTipText();
 
-        logger.info( "TEST RESULT: getToolTipText() " + toolTipText );
+        LOGGER.info( "TEST RESULT: getToolTipText() " + toolTipText );
         Assert.assertEquals( TOOLTIPTEXT_DEFAULT_BUNDLE, toolTipText );
 
         final String text = this.myButtonWithToolTipText1.getText();
 
-        logger.info( "TEST RESULT: getText() " + text );
+        LOGGER.info( "TEST RESULT: getText() " + text );
         Assert.assertEquals( TEXT_DEFAULT_BUNDLE, text );
     }
 

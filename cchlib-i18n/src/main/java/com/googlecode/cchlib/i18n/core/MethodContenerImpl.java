@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Method;
+import com.googlecode.cchlib.lang.Classes;
 
 class MethodContenerImpl implements MethodContener
 {
     private static final long serialVersionUID = 1L;
-    private static final Class<?>[] EMPTY_ARRAY = new Class<?>[0];
 
     private Class<?> clazz;
     private String methodName;
@@ -39,7 +39,7 @@ class MethodContenerImpl implements MethodContener
     {
         final String fullMethodName = getInvokeMethodName();
 
-        Method m = getMethodForClass( clazz, fullMethodName, EMPTY_ARRAY );
+        Method m = getMethodForClass( clazz, fullMethodName, Classes.emptyArray() );
 
         if( m.getReturnType().equals( void.class ) ) {
             return m;

@@ -1,4 +1,4 @@
-// $codepro.audit.disable largeNumberOfFields
+// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
 import java.awt.GridBagConstraints;
@@ -38,7 +38,7 @@ public class FakePanel
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FakePanel.class );
+    private static final Logger LOGGER = Logger.getLogger( FakePanel.class );
 
     private TitledBorder panelTitleBorder;
     private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
@@ -76,7 +76,7 @@ public class FakePanel
     private enum Test {A,B,C};
     @SuppressWarnings("unused") private Test test;
     @SuppressWarnings("unused") private EnumSet<Test> testSet;
-    
+
     private JMenuBar menuBar;
     private JMenu menu1;
     private JMenu menu2;
@@ -93,7 +93,7 @@ public class FakePanel
     public FakePanel()
     {
         this.panelTitleBorder = new TitledBorder(null, "TitleBorder", TitledBorder.LEADING, TitledBorder.TOP, null, null);
-        
+
         setBorder( panelTitleBorder );
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{80, 0, 0, 50, 0, 0};
@@ -326,11 +326,11 @@ public class FakePanel
     {
         this.refreshButton.setText( this.refreshButtonText );
     }
-    
+
     @Override // I18nAutoCoreUpdatable
     public void performeI18n( AutoI18nCore autoI18n )
     {
-        logger.info( "performeI18n" );
+        LOGGER.info( "performeI18n" );
         autoI18n.performeI18n( this, this.getClass() );
     }
 }

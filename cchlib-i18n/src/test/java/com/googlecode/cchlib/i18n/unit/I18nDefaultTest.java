@@ -1,25 +1,27 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit;
 
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.utils.RunI18nTestInterface;
-import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.border.TitledBorder;
+
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
-import javax.swing.border.TitledBorder;
+
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.unit.utils.RunI18nTestInterface;
+import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 
 public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( I18nDefaultTest.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nDefaultTest.class );
 
     private static final String INIT_myJLabel = "my JLabel text";
     private static final String DEFAULT_BUNDLE_myJLabel = "OK(myJLabel)";
@@ -112,17 +114,17 @@ public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, Ru
 
         {
             final String r = this.myJLabel.getText();
-            logger.info( "TEST RESULT: this.myJLabel.getText() = " + r );
+            LOGGER.info( "TEST RESULT: this.myJLabel.getText() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myJLabel, r );
         }
         {
             final String r = this.myJButton.getText();
-            logger.info( "TEST RESULT: this.myJButton.getText() = " + r );
+            LOGGER.info( "TEST RESULT: this.myJButton.getText() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myJButton, r );
         }
         {
             final String r = this.myJCheckBox.getText();
-            logger.info( "TEST RESULT: this.myJCheckBox.getText() = " + r );
+            LOGGER.info( "TEST RESULT: this.myJCheckBox.getText() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myJCheckBox, r );
         }
         {
@@ -132,7 +134,7 @@ public class I18nDefaultTest extends JPanel implements I18nAutoCoreUpdatable, Ru
         }
         {
             final String r = this.myTitledBorder.getTitle();
-            logger.info( "TEST RESULT: this.myTitledBorder.getTitle() = " + r );
+            LOGGER.info( "TEST RESULT: this.myTitledBorder.getTitle() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myTitledBorder, r );
         }
     }

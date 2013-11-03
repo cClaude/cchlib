@@ -1,3 +1,4 @@
+// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.utils;
 
 import java.io.PrintStream;

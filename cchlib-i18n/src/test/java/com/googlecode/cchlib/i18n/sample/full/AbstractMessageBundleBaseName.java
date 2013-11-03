@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
+
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 public abstract class AbstractMessageBundleBaseName
 {
@@ -41,7 +41,7 @@ public abstract class AbstractMessageBundleBaseName
         //    notUsePrintStream,
         //    i18nConteners
         //    );
-        Result result = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
+        I18nPrepHelper.Result result = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );

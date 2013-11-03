@@ -1,21 +1,21 @@
 package com.googlecode.cchlib.i18n.unit;
 
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
+
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.utils.RunI18nTestInterface;
 import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 
 public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private static final Logger logger = Logger.getLogger( AutoI18nBasicInterfaceTest.class );
-
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nBasicInterfaceTest.class );
     private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
     private static final String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
-    
+
     private MyAutoI18nBasicInterface myAutoI18nBasicInterface;
 
     public AutoI18nBasicInterfaceTest()
@@ -35,7 +35,7 @@ public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
-    
+
     @Override
     public void afterPrepTest()
     {
@@ -51,15 +51,15 @@ public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18
 
         {
             final String text = this.myAutoI18nBasicInterface.getI18nString();
-            logger.info( "TEST RESULT: this.myAutoI18nBasicInterface.getI18nString() = " + text );
+            LOGGER.info( "TEST RESULT: this.myAutoI18nBasicInterface.getI18nString() = " + text );
             Assert.assertEquals( DEFAULT_BUNDLE_TEXT, text );
         }
     }
-    
+
     private static class MyAutoI18nBasicInterface implements AutoI18nBasicInterface
     {
         private String i18nString;
-        
+
         public MyAutoI18nBasicInterface( String i18nString )
         {
             this.i18nString = i18nString;
@@ -74,7 +74,7 @@ public class AutoI18nBasicInterfaceTest implements I18nAutoCoreUpdatable, RunI18
         @Override
         public void setI18nString( String localString )
         {
-            this.i18nString = localString;  
+            this.i18nString = localString;
         }
     }
 

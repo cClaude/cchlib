@@ -5,13 +5,13 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 public class MethodProviderFactory
 {
-    private static MethodProvider methodProvider;
+    private static MethodProvider methodProvider; // $codepro.audit.disable staticFieldNamingConvention
 
     public static MethodProvider getMethodProvider( I18nDelegator i18nDelegator )
     {
         return getMethodProvider( i18nDelegator.getConfig() );
     }
-    
+
     public static MethodProvider getMethodProvider( EnumSet<AutoI18nConfig> config )
     {
         if( MethodProviderFactory.methodProvider == null ) {

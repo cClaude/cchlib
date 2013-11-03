@@ -1,16 +1,18 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit;
 
+import javax.swing.JButton;
+
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
+
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.utils.RunI18nTestInterface;
 import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
-import javax.swing.JButton;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 
 public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {

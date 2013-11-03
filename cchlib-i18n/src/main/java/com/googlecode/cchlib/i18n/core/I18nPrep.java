@@ -39,7 +39,7 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 public class I18nPrep
 {
-    private static final Logger logger = Logger.getLogger( I18nPrep.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nPrep.class );
 
     private EnumSet<AutoI18nConfig> config;
     private AutoI18nTypeLookup      defaultAutoI18nTypes;
@@ -130,16 +130,16 @@ public class I18nPrep
                 @Override
                 public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
                 {
-                    if( logger.isDebugEnabled() ) {
-                        logger.debug( "ignoredField: " + key + " - field: " + f );
+                    if( LOGGER.isDebugEnabled() ) {
+                        LOGGER.debug( "ignoredField: " + key + " - field: " + f );
                         }
                     incForKey( key );
                 }
                 @Override
                 public void localizedField( Field f, String key )
                 {
-                    if( logger.isDebugEnabled() ) {
-                        logger.debug( "localizedField: " + key );
+                    if( LOGGER.isDebugEnabled() ) {
+                        LOGGER.debug( "localizedField: " + key );
                         }
                     incForKey( key );
                 }} );
@@ -204,14 +204,14 @@ public class I18nPrep
 
         OutputStream os = getResourceBundleOutputStream();
 
-        logger.info( "saveValues(): found (key,value) count  = " + keyUsageCountMap.size() );
-        logger.info( "saveValues(): know (key,value) count  = " + getResourceBundleMap().size() );
-        logger.info( "saveValues(): unknow (key,value) count = " + properties.size() );
+        LOGGER.info( "saveValues(): found (key,value) count  = " + keyUsageCountMap.size() );
+        LOGGER.info( "saveValues(): know (key,value) count  = " + getResourceBundleMap().size() );
+        LOGGER.info( "saveValues(): unknow (key,value) count = " + properties.size() );
 
         //properties.putAll( getProperties() );
 
         if( os == null ) {
-            logger.warn( "Can't open resource bundle for writing !" );
+            LOGGER.warn( "Can't open resource bundle for writing !" );
             }
         else {
             try {

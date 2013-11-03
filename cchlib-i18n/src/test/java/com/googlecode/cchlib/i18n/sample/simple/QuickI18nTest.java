@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.i18n.sample.simple;
 
 import java.awt.BorderLayout;

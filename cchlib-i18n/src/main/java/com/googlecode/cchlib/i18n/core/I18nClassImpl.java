@@ -30,7 +30,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 class I18nClassImpl<T> implements I18nClass<T>, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( I18nClassImpl.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nClassImpl.class );
 
     /** Array well know std API classes : do not use reflexion on theses classes */
     static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
@@ -94,59 +94,8 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 fields = currentClass.getDeclaredFields();
                 }
 
-            for( Field f : fields ) {
-                if( f.isSynthetic() ) {
-                    continue; // ignore member that was introduced by the compiler.
-                    }
-                Class<?> ftype = f.getType();
+            handleFields( i18nDelegator, fields );
 
-                if( ftype.isAnnotation() ) {
-                    i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null);
-                    continue; // ignore annotations
-                    }
-                if( ftype.isPrimitive() ) {
-                    i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_PRIMITIVE, null );
-                    continue; // ignore primitive (numbers)
-                    }
-
-                boolean skip = false;
-                for( Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
-                    if( notHandleClass.isAssignableFrom( ftype ) ) {
-                        i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
-                        skip = true;
-                        break;
-                        }
-                    }
-                if( skip ) {
-                    continue; // ignore numbers
-                    }
-
-                // Special handle for tool tip text
-                I18nToolTipText toolTipText = f.getAnnotation( I18nToolTipText.class );
-
-                if( toolTipText != null ) {
-                    // Customize tool tip text of this field (if possible)
-                    try {
-                        addValueToCustomizeForToolTipText( f, toolTipText.id(), toolTipText.method() );
-                        }
-                    catch( MethodProviderSecurityException e ) {
-                        i18nDelegator.handleSecurityException( e, f );
-                        }
-                    catch( MethodProviderNoSuchMethodException e ) {
-                        i18nDelegator.handleNoSuchMethodException( e, f );
-                        }
-                     }
-                // Field mark has ignore (except for tool tip text)
-                I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
-
-                if( ignoreIt != null ) {
-                    i18nDelegator.fireIgnoreField( f, null, EventCause.ANNOTATION_I18N_IGNORE_DEFINE, null );
-                    continue;
-                    }
-
-                // Add field (if possible)
-                addValueToCustomize( f );
-                }
             if( i18nDelegator.getConfig().contains( AutoI18nConfig.DO_DEEP_SCAN )) {
                 currentClass = currentClass.getSuperclass();
                 }
@@ -155,6 +104,63 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 }
             }
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
+    }
+
+    private void handleFields( final I18nDelegator i18nDelegator, Field[] fields )
+    {
+        for( Field f : fields ) {
+            if( f.isSynthetic() ) {
+                continue; // ignore member that was introduced by the compiler.
+                }
+            Class<?> ftype = f.getType();
+
+            if( ftype.isAnnotation() ) {
+                i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null);
+                continue; // ignore annotations
+                }
+            if( ftype.isPrimitive() ) {
+                i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_PRIMITIVE, null );
+                continue; // ignore primitive (numbers)
+                }
+
+            boolean skip = false;
+            for( Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
+                if( notHandleClass.isAssignableFrom( ftype ) ) {
+                    i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
+                    skip = true;
+                    break;
+                    }
+                }
+            if( skip ) {
+                continue; // ignore numbers
+                }
+
+            // Special handle for tool tip text
+            I18nToolTipText toolTipText = f.getAnnotation( I18nToolTipText.class );
+
+            if( toolTipText != null ) {
+                // Customize tool tip text of this field (if possible)
+                try {
+                    addValueToCustomizeForToolTipText( f, toolTipText.id(), toolTipText.method() );
+                    }
+                catch( MethodProviderSecurityException e ) {
+                    i18nDelegator.handleSecurityException( e, f );
+                    }
+                catch( MethodProviderNoSuchMethodException e ) {
+                    i18nDelegator.handleNoSuchMethodException( e, f );
+                    }
+                 }
+            // Field mark has ignore (except for tool tip text)
+            I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
+
+            if( ignoreIt != null ) {
+                i18nDelegator.fireIgnoreField( f, null, EventCause.ANNOTATION_I18N_IGNORE_DEFINE, null );
+                continue;
+                }
+
+            // Add field (if possible)
+            addValueToCustomize( f );
+            }
     }
 
     @Override
@@ -263,11 +269,11 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         // Check if field is a String
         if( !String.class.isAssignableFrom( f.getType() ) && !String[].class.isAssignableFrom( f.getType() ) ) {
 
-            if( logger.isTraceEnabled() ) {
+            if( LOGGER.isTraceEnabled() ) {
                 boolean res1  = String.class.isAssignableFrom( f.getType() );
                 boolean res2  = String[].class.isAssignableFrom( f.getType() );
 
-                logger.trace( "*** Syntaxe error " + f.getType()
+                LOGGER.trace( "*** Syntaxe error " + f.getType()
                         + " : res1 = " + res1
                         + " * res2 = " + res2,
                         new Exception()

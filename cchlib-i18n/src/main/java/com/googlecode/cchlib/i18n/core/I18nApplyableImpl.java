@@ -16,7 +16,8 @@ import com.googlecode.cchlib.lang.Objects;
 
 /*not public*/ class I18nApplyableImpl<T> implements I18nApplyable<T>
 {
-    private static final Logger logger = Logger.getLogger( I18nApplyableImpl.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nApplyableImpl.class );
+    
     private I18nClass<T> i18nClass;
     private I18nDelegator i18nDelegator;
 
@@ -51,7 +52,7 @@ import com.googlecode.cchlib.lang.Objects;
             this.i18nInterface = i18nInterface;
         }
 
-        public void performeI18n( final I18nField field ) 
+        public void performeI18n( final I18nField field )
         {
             if( field.getMethods() != null ) {
                 invokeOnObjectToI18n( field );
@@ -63,34 +64,34 @@ import com.googlecode.cchlib.lang.Objects;
 
         private void useResolverOn( final I18nField field )
         {
-            final I18nResolver r = field.createI18nResolver( objectToI18n, i18nInterface );
+            final I18nResolver resolver = field.createI18nResolver( objectToI18n, i18nInterface );
 
             try {
-                Keys keys = r.getKeys();
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "keys = " + keys + " for " + field );
+                Keys keys = resolver.getKeys();
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "keys = " + keys + " for " + field );
                     }
 
                 Values values = new ValuesFromKeys( i18nInterface, keys );
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "values = " + values );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "values = " + values );
                     }
 
                 try {
-                    if( logger.isTraceEnabled() ) {
-                        logger.trace( "I18nResolver.getI18nResolvedFieldSetter() = " + r.getI18nResolvedFieldSetter() );
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "I18nResolver.getI18nResolvedFieldSetter() = " + resolver.getI18nResolvedFieldSetter() );
                         }
-                    r.getI18nResolvedFieldSetter().setValues( keys, values );
+                    resolver.getI18nResolvedFieldSetter().setValues( keys, values );
                     }
                 catch( SetFieldException e ) {
-                    i18nDelegator.handleSetFieldException( e, field, r );
+                    i18nDelegator.handleSetFieldException( e, field, resolver );
                     }
                 }
             catch( MissingResourceException e ) {
                 i18nDelegator.handleMissingResourceException( e, field, objectToI18n, i18nInterface );
                 }
             catch( MissingKeyException e ) {
-                i18nDelegator.handleMissingKeyException( e, field, r );
+                i18nDelegator.handleMissingKeyException( e, field, resolver );
                 }
         }
 

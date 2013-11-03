@@ -7,7 +7,7 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 public class ValuesFromKeys extends IndexValues
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( ValuesFromKeys.class );
+    private static final Logger LOGGER = Logger.getLogger( ValuesFromKeys.class );
 
     public ValuesFromKeys( I18nInterface i18nInterface, Keys keys )
         throws MissingResourceException
@@ -24,14 +24,14 @@ public class ValuesFromKeys extends IndexValues
         int      index  = 0;
 
         for( String key : keys ) {
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "try key = " + key );
-            }
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "try key = " + key );
+                }
             
             values[ index++ ] = i18nInterface.getString( key );
             
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "value for key = " + key + " is: " + values[ index-1 ] );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "value for key = " + key + " is: " + values[ index-1 ] );
                 }
             }
 
