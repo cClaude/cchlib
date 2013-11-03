@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.mappable.DefaultMappableBuilderFactory;
 import com.googlecode.cchlib.util.mappable.Mappable;
 import com.googlecode.cchlib.util.mappable.MappableBuilder;
+import com.googlecode.cchlib.util.mappable.MappableItem;
 
 /**
  * Collect informations on {@link DatabaseMetaData} and put then into a
@@ -103,7 +104,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     new DefaultMappableBuilderFactory()
                         .setMethodesNamePattern( ".*" )
                         .add( Object.class )
-                        .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
+                        .add( MappableItem.MAPPABLE_ITEM_SHOW_ALL )
                     );
 
             map.putAll( mb.toMap( databaseMetaData ) );
