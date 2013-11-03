@@ -22,7 +22,7 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
     {
         this.pathList.add( entry );
 
-        return TRASH.equals( entry.getFileName() );
+        return entry.getFileName().equals( TRASH );
     }
 
     @Override

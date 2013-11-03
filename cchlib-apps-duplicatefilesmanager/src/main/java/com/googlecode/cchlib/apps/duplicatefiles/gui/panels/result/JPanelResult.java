@@ -53,11 +53,9 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                 throw new IllegalArgumentException( "selectedIndices is null - Illegal value" );
                 }
             if( selectedIndices.length <= 0 ) {
-                throw new IllegalArgumentException( "Illegal value for selectedIndices: " + selectedIndices );
+                throw new IllegalArgumentException( "Illegal value for selectedIndices: " + selectedIndices.length );
                 }
 
-            //this.listModel       = listModel;
-            //this.selectedIndices = selectedIndices;
             this.selectedList    = new ArrayList<>();
 
             for( int index : selectedIndices ) {
