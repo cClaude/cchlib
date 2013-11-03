@@ -10,10 +10,11 @@ import java.util.regex.Pattern;
 /**
  * Default implementation of {@link MappableBuilderFactory}
  */
-public class DefaultMappableBuilderFactory
+public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumberOfFields
     implements MappableBuilderFactory, Serializable
 {
     private static final long serialVersionUID = 1L;
+
     /** value: {@value} */
     public static final String DEFAULT_TO_STRING_NULL_VALUE = "NULL";
     /** value: {@value} */

@@ -57,7 +57,7 @@ public class ArrayIterator<T>
             final int len
             )
     {
-        this.array = array;
+        this.array = array; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
         this.index = offset;
         this.len   = offset + len;
     }

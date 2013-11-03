@@ -38,7 +38,7 @@ public class ArrayIterable<T> implements Iterable<T>
         int len
         )
     {
-        this.array  = array;
+        this.array  = array; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
         this.offset = offset;
         this.len    = len;
     }

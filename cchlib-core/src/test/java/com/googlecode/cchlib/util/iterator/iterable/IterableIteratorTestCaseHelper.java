@@ -16,7 +16,7 @@ import org.junit.Assert;
 //public
 abstract class IterableIteratorTestCaseHelper
 {
-    private static final Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
+    private static final Logger LOGGER = Logger.getLogger(IterableIteratorTestCaseHelper.class);
 
   /**
    * Build an unmodifiable collection with giving values
@@ -119,7 +119,7 @@ abstract class IterableIteratorTestCaseHelper
             Assert.fail( "Should crash");
             }
         catch( NullPointerException e ) { // $codepro.audit.disable logExceptions
-            slogger.info( "Crash ok" );
+            LOGGER.info( "Crash ok" );
             }
     }
 
@@ -131,7 +131,7 @@ abstract class IterableIteratorTestCaseHelper
             Assert.fail( "Should crash");
             }
         catch( NullPointerException e ) { // $codepro.audit.disable logExceptions
-            slogger.info( "Crash ok" );
+            LOGGER.info( "Crash ok" );
             }
     }
 

@@ -1,4 +1,4 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals, fullyParenthesizeExpressions, synchronizedMethod
 package cx.ath.choisnet.util;
 
 import java.io.BufferedReader;
@@ -106,7 +106,7 @@ public class FormattedProperties
      * @param storeOptions Configure how store operation will be
      *                     handle, see {@link Store}.
      */
-    public FormattedProperties(EnumSet<Store> storeOptions)
+    public FormattedProperties( final EnumSet<Store> storeOptions )
     {
         this(null,storeOptions);
     }
@@ -118,7 +118,7 @@ public class FormattedProperties
      *
      * @param defaults
      */
-    public FormattedProperties(Properties defaults)
+    public FormattedProperties( final Properties defaults )
     {
         this(defaults,null);
     }
@@ -132,9 +132,9 @@ public class FormattedProperties
      *                     handle, see {@link Store}.
      */
     public FormattedProperties(
-            Properties     defaults,
-            EnumSet<Store> storeOptions
-            )
+        final Properties     defaults,
+        final EnumSet<Store> storeOptions
+        )
     {
         super(defaults);
         this.storeOptions = storeOptions;
@@ -151,7 +151,7 @@ public class FormattedProperties
      * @see #load(Reader)
      */
     @Override
-    public synchronized void load(InputStream in) throws IOException
+    public synchronized void load( final InputStream in) throws IOException
     {
         // The specifications says that the file must
         // be encoded using ISO-8859-1.
@@ -173,7 +173,7 @@ public class FormattedProperties
      * @param aReader The Reader to read.
      */
     @Override
-    public synchronized void load( Reader aReader ) throws IOException
+    public synchronized void load( final Reader aReader ) throws IOException
     {
         @SuppressWarnings("resource")
         BufferedReader  reader = toBufferedReader( aReader );
@@ -526,11 +526,11 @@ public class FormattedProperties
      *                  handle, see {@link Store}.
      */
     protected void formatForOutput(
-            final String            str,
-            final StringBuilder     buffer,
-            final boolean           isKey,
-            final EnumSet<Store>    config
-            )
+        final String            str,
+        final StringBuilder     buffer,
+        final boolean           isKey,
+        final EnumSet<Store>    config
+        )
     {
         if( isKey ) {
             buffer.setLength(0);
@@ -1230,7 +1230,7 @@ public class FormattedProperties
         {
             Iterator<Line> iter = lines.iterator();
 
-            while( iter.hasNext() ) {
+            while( iter.hasNext() ) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
                 Line line = iter.next();
 
                 if( ! line.isComment ) {

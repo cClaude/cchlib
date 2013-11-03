@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class MappableHelperTest
 {
-    private static final Logger logger = Logger.getLogger( MappableHelperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MappableHelperTest.class );
 
     @Test
     public void tstMappableJLabel()
@@ -19,7 +19,7 @@ public class MappableHelperTest
         Map<String, String> map     = MappableHelper.toMap( object );
 
         for( Map.Entry<String,String> e : map.entrySet() ) {
-            logger.info(
+            LOGGER.info(
                 object.getClass().getSimpleName()
                 + "."
                 + e.getKey()

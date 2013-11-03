@@ -69,15 +69,15 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     }
 
     @Override
-    public boolean contains( Object o )
+    public boolean contains( final Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return set.contains( unwrapper.wrap( r ) );
+        final R value = (R)o; // $codepro.audit.disable unnecessaryCast
+        return set.contains( unwrapper.wrap( value ) );
     }
 
     @Override
-    public boolean containsAll( Collection<?> c )
+    public boolean containsAll( final Collection<?> c )
     {
         for( Object o : c ) {
             if( ! contains( o ) ) {
@@ -100,15 +100,15 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     }
 
     @Override
-    public boolean remove( Object o )
+    public boolean remove( final Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o; // $codepro.audit.disable unnecessaryCast
-        return set.remove( unwrapper.wrap( r ) );
+        final R value = (R)o; // $codepro.audit.disable unnecessaryCast
+        return set.remove( unwrapper.wrap( value ) );
     }
 
     @Override
-    public boolean removeAll( Collection<?> c )
+    public boolean removeAll( final Collection<?> c )
     {
         boolean setChange = false;
 
@@ -130,7 +130,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     }
 
     @Override
-    public boolean retainAll( Collection<?> c )
+    public boolean retainAll( final Collection<?> c )
     {
         boolean setChange = false;
 
@@ -161,15 +161,15 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     }
 
     @Override
-    public <T> T[] toArray( T[] a )
+    public <T> T[] toArray( final T[] a )
     {
         if( a.length >= set.size() ) {
             int i = 0;
 
-            for( R e : this ) {
+            for( final R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e; // $codepro.audit.disable unnecessaryCast
-                a[ i++ ] = t;
+                final T value = (T)e; // $codepro.audit.disable unnecessaryCast
+                a[ i++ ] = value;
                 }
 
             return a;
@@ -177,13 +177,13 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
         else {
             List<T> list = new ArrayList<T>( set.size() );
 
-            for( R e : this ) {
+            for( final R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e; // $codepro.audit.disable unnecessaryCast
-                list.add( t );
+                final T value = (T)e; // $codepro.audit.disable unnecessaryCast
+                list.add( value );
                 }
 
-            return list.toArray(a);
+            return list.toArray( a );
             }
     }
 }

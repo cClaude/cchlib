@@ -20,14 +20,15 @@ import cx.ath.choisnet.xml.XMLParserException;
  */
 public class XMLFileParserDOMImplTest
 {
-    private static final Logger slogger = Logger.getLogger( XMLFileParserDOMImplTest.class );
+    private static final Logger LOGGER = Logger.getLogger( XMLFileParserDOMImplTest.class );
+
     private File xmlFile;
     private File dtdFile;
 
     @Before
     public void setUpClass() throws Exception
     {
-        this.xmlFile = File.createTempFile( "~XMLParser_", ".xml" );
+        this.xmlFile = File.createTempFile( "~XMLParser_", ".xml" ); // $codepro.audit.disable deleteTemporaryFiles
         InputStream s = XMLParser.class.getResourceAsStream( "survey-sample.xml" );
         IOHelper.copy( s, this.xmlFile );
         s.close();
@@ -37,9 +38,9 @@ public class XMLFileParserDOMImplTest
         IOHelper.copy( s, this.dtdFile );
         s.close();
 
-        slogger.info( "XML File is " + this.xmlFile );
+        LOGGER.info( "XML File is " + this.xmlFile );
         //slogger.info( "XML File: " + FileHelper.toString( this.xmlFile ) );
-        slogger.info( "DTD File is " + this.dtdFile );
+        LOGGER.info( "DTD File is " + this.dtdFile );
         //slogger.info( "DTD File: " + FileHelper.toString( this.dtdFile ) );
     }
 
@@ -48,11 +49,11 @@ public class XMLFileParserDOMImplTest
     {
         if( xmlFile != null ) {
             boolean deleted = xmlFile.delete();
-            slogger.info( "XML File delete? " + deleted );
+            LOGGER.info( "XML File delete? " + deleted );
             }
         if( xmlFile != null ) {
             boolean deleted = xmlFile.delete();
-            slogger.info( "DTD File delete? " + deleted );
+            LOGGER.info( "DTD File delete? " + deleted );
             }
     }
 

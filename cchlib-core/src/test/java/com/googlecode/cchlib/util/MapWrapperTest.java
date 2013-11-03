@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util;
 
 import java.util.HashMap;
@@ -12,7 +13,8 @@ import org.junit.Test;
  */
 public class MapWrapperTest
 {
-    private static final Logger logger = Logger.getLogger( MapWrapperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MapWrapperTest.class );
+
     private Map<String,MyType>   map;
     private Map<String,Integer>  wrapped;
 
@@ -82,9 +84,11 @@ public class MapWrapperTest
     public void testsize3()
     {
         final int expectedSize = 30;
+
         for( int i = 0; i<expectedSize; i++ ) {
             addOnMap( i );
             }
+
         Assert.assertFalse( map.isEmpty() );
         Assert.assertFalse( wrapped.isEmpty() );
         Assert.assertEquals( expectedSize, map.size() );
@@ -105,7 +109,7 @@ public class MapWrapperTest
 
         int count = 0;
         for( Map.Entry<String,Integer> e : wrapped.entrySet() ) {
-            logger.info( "e = " + e );
+            LOGGER.info( "e = " + e );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );
@@ -113,7 +117,7 @@ public class MapWrapperTest
 
         count = 0;
         for( Integer v : wrapped.values() ) {
-            logger.info( "v = " + v );
+            LOGGER.info( "v = " + v );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );
@@ -122,7 +126,7 @@ public class MapWrapperTest
         count = 0;
         for( String k : wrapped.keySet() ) {
             Integer v = wrapped.get( k );
-            logger.info( "k = " + k + " - v = " + v );
+            LOGGER.info( "k = " + k + " - v = " + v );
             Assert.assertNotNull( v );
             count++;
             }

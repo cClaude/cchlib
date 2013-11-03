@@ -179,7 +179,7 @@ public class MapWrapper<K,VS,VR>
             @Override
             public int hashCode()
             {
-                final int prime = 31;
+                final int prime = 31; // $codepro.audit.disable
                 int result = 1;
                 result = (prime * result) + getOuterType().hashCode();
                 result = (prime * result) + ((o == null) ? 0 : o.hashCode());

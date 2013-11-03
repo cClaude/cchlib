@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.iterable;
 
 import java.util.Collection;
@@ -32,7 +33,7 @@ class IterablesTestFactory
             }
         };
     }
-    
+
     public static Selectable<String> createFilterRemoveEntryIfStringEndWithZero()
     {
         return new Selectable<String>() {

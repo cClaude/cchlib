@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 class PPStrangeClass implements PopulatorContener
@@ -32,7 +33,7 @@ class PPStrangeClass implements PopulatorContener
     }
 
     @Override
-    public int hashCode() 
+    public int hashCode()
     {
         final int prime = 31;
         int result = 1;
@@ -44,7 +45,7 @@ class PPStrangeClass implements PopulatorContener
     }
 
     @Override
-    public boolean equals(Object obj) 
+    public boolean equals(Object obj)
     {
         if (this == obj) {
             return true;

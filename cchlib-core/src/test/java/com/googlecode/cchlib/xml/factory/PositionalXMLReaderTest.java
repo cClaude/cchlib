@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xml.factory;
 
 
@@ -35,30 +36,31 @@ import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
 {
-    private static final Logger logger = Logger.getLogger( PositionalXMLReaderTest.class );
+    private static final Logger LOGGER = Logger.getLogger( PositionalXMLReaderTest.class );
+
     private Map<String,Position> checker;
 
     @BeforeClass
-    public static void setUpBeforeClass() throws Exception
+    public static void setUpBeforeClass()
     {}
 
     @AfterClass
-    public static void tearDownAfterClass() throws Exception
+    public static void tearDownAfterClass()
     {}
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {}
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {}
 
     @Test
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()
             throws XMLReaderException, SAXException, IOException, TransformerException
     {
-        logger.info( "# testReadXMLSAXParserFactoryDocumentBuilderInputStream()" );
+        LOGGER.info( "# testReadXMLSAXParserFactoryDocumentBuilderInputStream()" );
 
         final String xmlString;
 
@@ -78,7 +80,7 @@ public class PositionalXMLReaderTest
             is.close();
         }
 
-        logger.info( "---NEW XML---\n" + xmlString + "\n---" );
+        LOGGER.info( "---NEW XML---\n" + xmlString + "\n---" );
 
         final byte[] expecteds;
         {
@@ -89,21 +91,21 @@ public class PositionalXMLReaderTest
             is.close();
         }
 
-        logger.info( "---EXPECTED XML---\n" + new String( expecteds ) + "\n---" );
+        LOGGER.info( "---EXPECTED XML---\n" + new String( expecteds ) + "\n---" );
 
         final byte[] actuals = xmlString.getBytes();
 
         byte[] expecteds2 = skipHeader( expecteds );
         byte[] actuals2   = skipHeader( actuals );
 
-        logger.info( "---expecteds2 XML - length= " + expecteds2.length );
-        logger.info( "---actuals2 XML - length= " + actuals2.length );
-        logger.info( "---expecteds2 XML---\n" + new String( expecteds2 ) + "\n---" );
-        logger.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
+        LOGGER.info( "---expecteds2 XML - length= " + expecteds2.length );
+        LOGGER.info( "---actuals2 XML - length= " + actuals2.length );
+        LOGGER.info( "---expecteds2 XML---\n" + new String( expecteds2 ) + "\n---" );
+        LOGGER.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
 
         Assertions.assertThat( actuals2 ).isEqualTo( expecteds2 );
 
-        logger.info( "Done" );
+        LOGGER.info( "Done" );
     }
 
     private InputStream createXMLInputStream()
@@ -176,7 +178,7 @@ public class PositionalXMLReaderTest
     @Test
     public void testPositon() throws XMLReaderException, SAXException, IOException
     {
-        logger.info( "# testPositon()" );
+        LOGGER.info( "# testPositon()" );
 
         final Document document;
 
@@ -207,7 +209,7 @@ public class PositionalXMLReaderTest
 
         doRec( nl );
 
-        logger.info( "Done" );
+        LOGGER.info( "Done" );
     }
 
     private void doRec( final NodeList nl )
@@ -215,27 +217,27 @@ public class PositionalXMLReaderTest
         final int length = nl.getLength();
 
         for( int index = 0; index<length ; index++ ) {
-            final Node n = nl.item( index );
+            final Node node = nl.item( index );
 
-            if( n instanceof Element ) {
-                final Element element = Element.class.cast( n );
+            if( node instanceof Element ) {
+                final Element element = Element.class.cast( node );
 
                 final int bLine = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME )).intValue();
                 final int bCol  = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME )).intValue();
                 final int eLine = ((Integer)element.getUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME )).intValue();
                 final int eCol  = ((Integer)element.getUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME )).intValue();
 
-                logger.info(
+                LOGGER.info(
                     String.format( "Element: %s @ (%d,%d)/(%d/%d)", element, bLine, bCol, eLine, eCol ) // $codepro.audit.disable avoidAutoBoxing
                     );
 
                 doCheck( element, bLine, bCol, eLine, eCol );
                 }
             else {
-                logger.info( "not Element:" + n );
+                LOGGER.info( "not Element:" + node );
                 }
 
-            doRec( n.getChildNodes() );
+            doRec( node.getChildNodes() );
             }
     }
 

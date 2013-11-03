@@ -1,4 +1,4 @@
-// $codepro.audit.disable numericLiterals
+// $codepro.audit.disable numericLiterals, fullyParenthesizeExpressions
 package com.googlecode.cchlib.util.base64;
 
 import java.io.CharArrayReader;

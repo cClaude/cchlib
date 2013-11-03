@@ -27,7 +27,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     implements Comparator<O>
 {
     /** Some logs */
-    private static final Logger sLog = Logger.getLogger(Introspection.class);
+    private static final Logger LOGGER = Logger.getLogger(Introspection.class);
 
     /**
      *
@@ -117,12 +117,12 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             return compareWithException( o1, o2 );
             }
         catch( IntrospectionCompareException e ) {
-            sLog.info( "Compare diff found using: " + e.getMethod(), e );
+            LOGGER.info( "Compare diff found using: " + e.getMethod(), e );
 
             return e.getCompareValue();
             }
         catch( IntrospectionInvokeException e ) {
-            sLog.warn( "Exception while compare: " + e.getMethod(), e );
+            LOGGER.warn( "Exception while compare: " + e.getMethod(), e );
 
             return Integer.MIN_VALUE - 1;
             }

@@ -714,7 +714,14 @@ public abstract class BytesAccess implements Cloneable
     * @param leftRot
     * @param value
     */
-    protected void setUInteger( final int offset, final byte mask0, final int rightRot, final byte mask1, final int leftRot, final int value )
+    protected void setUInteger( // $codepro.audit.disable largeNumberOfParameters
+        final int offset,
+        final byte mask0,
+        final int rightRot,
+        final byte mask1,
+        final int leftRot,
+        final int value
+        )
    {
        int leftPart  = (value >> rightRot) & mask0;
        setUInteger( offset    , mask0, 0, leftPart );

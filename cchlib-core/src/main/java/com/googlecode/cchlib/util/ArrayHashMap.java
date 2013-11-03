@@ -17,16 +17,16 @@ import com.googlecode.cchlib.Beta;
 public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private LinkedHashMap<K,V> delegator; // TODO: Change this ! 
-    
+    private LinkedHashMap<K,V> delegator; // TODO: Change this !
+
     /**
-     * 
+     *
      */
     public ArrayHashMap()
     {
         delegator = new LinkedHashMap<K,V>();
     }
-    
+
     public ArrayHashMap( int initialCapacity )
     {
         delegator = new LinkedHashMap<K,V>( initialCapacity );
@@ -41,7 +41,7 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
     {
         delegator = new LinkedHashMap<K,V>( initialCapacity, loadFactor );
     }
-    
+
     @Override
     public int size()
     {
@@ -136,10 +136,10 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
         // TODO
         Iterator<Map.Entry<K,V>> iter  = entrySet().iterator();
         int                      count = 0;
-        
-        while( iter.hasNext() ) {
+
+        while( iter.hasNext() ) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
             Map.Entry<K,V> entry = iter.next();
-            
+
             if( count == index ) {
                 return entry;
                 }
@@ -147,12 +147,12 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
             }
         throw new ArrayIndexOutOfBoundsException( index );
     }
-    
+
     public K getKey( final int index )
     {
         return get( index ).getKey();
     }
-    
+
     public V getValue( final int index )
     {
         return get( index ).getValue();

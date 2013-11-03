@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class SortedListTest
 {
-    private static final Logger logger = Logger.getLogger( SortedListTest.class );
+    private static final Logger LOGGER = Logger.getLogger( SortedListTest.class );
 
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -61,7 +61,7 @@ public class SortedListTest
                 int v1 = test1Iter.next().getContent();
                 int v2 = test2Iter.next().getContent();
 
-                logger.info( "entry: " + v1 );
+                LOGGER.info( "entry: " + v1 );
                 assertEquals( v1, v2 );
                 assertTrue( v1 > prev );
                 prev = v1;
@@ -77,7 +77,7 @@ public class SortedListTest
         boolean notExist = test1.containsElement( new MyType( 3 ) );
         assertFalse( notExist );
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 
     private void add(

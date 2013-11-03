@@ -6,7 +6,8 @@ import java.util.Comparator;
 class MyType implements Comparable<MyType>, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static Comparator<MyType> comparator = new MyTypeComparator();
+    private static Comparator<MyType> COMPARATOR = new MyTypeComparator();
+    
     private int content;
 
     MyType( final int content )
@@ -28,7 +29,7 @@ class MyType implements Comparable<MyType>, Serializable
     @Override
     public int compareTo( final MyType o )
     {
-    	return comparator.compare( this, o );
+    	return COMPARATOR.compare( this, o );
     }
 }
 

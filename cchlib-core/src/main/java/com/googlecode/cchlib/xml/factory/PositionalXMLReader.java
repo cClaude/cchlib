@@ -38,7 +38,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PositionalXMLReader
 {
-    private static final Logger logger = Logger.getLogger( PositionalXMLReader.class );
+    private static final Logger LOGGER = Logger.getLogger( PositionalXMLReader.class );
 
     /**
      * Attribute name to identify line for the beginning of current element : {@value}
@@ -165,8 +165,8 @@ public class PositionalXMLReader
                 final Attributes attributes
                 ) throws SAXException
             {
-                if(logger.isTraceEnabled() ) {
-                    logger.trace( "startElement: [" + qName + "]");
+                if(LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "startElement: [" + qName + "]");
                     }
                 addTextIfNeeded();
 
@@ -194,8 +194,8 @@ public class PositionalXMLReader
                 final String qName
                 )
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "endElement: [" + qName + "]");
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "endElement: [" + qName + "]");
                     }
 
                 addTextIfNeeded();
@@ -215,8 +215,8 @@ public class PositionalXMLReader
             @Override
             public void startEntity(String name) throws SAXException
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "startEntity: [" + name + "]");
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "startEntity: [" + name + "]");
                     }
                 //addTextOrCommentIfNeeded(3);
             }
@@ -224,8 +224,8 @@ public class PositionalXMLReader
             @Override
             public void endEntity(String name) throws SAXException
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "endEntity: [" + name + "]");
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "endEntity: [" + name + "]");
                     }
                 //addTextOrCommentIfNeeded(4);
             }
@@ -233,8 +233,8 @@ public class PositionalXMLReader
             @Override
             public void startCDATA()
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "startCDATA" );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "startCDATA" );
                     }
                 //addTextOrCommentIfNeeded(5);
             }
@@ -242,8 +242,8 @@ public class PositionalXMLReader
             @Override
             public void endCDATA()
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "endCDATA" );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "endCDATA" );
                     }
                 //addTextOrCommentIfNeeded(6);
             }
@@ -255,8 +255,8 @@ public class PositionalXMLReader
                 final int    length
                 ) throws SAXException
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "characters: [" + new String(ch,start,length) + "]" + length );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "characters: [" + new String(ch,start,length) + "]" + length );
                     }
 
                 textBuffer.append( ch, start, length );
@@ -271,8 +271,8 @@ public class PositionalXMLReader
                 final int    length
                 ) throws SAXException
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "comment: [" + new String(ch,start,length) + "]" + length );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "comment: [" + new String(ch,start,length) + "]" + length );
                     }
 
                 addTextIfNeeded();

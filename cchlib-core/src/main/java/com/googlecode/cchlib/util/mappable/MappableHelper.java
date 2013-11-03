@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.util.mappable;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
+
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -24,9 +24,9 @@ public class MappableHelper
      *
      * @see MappableBuilder#toMap(Object)
      */
-    public static Map<String,String> toMap(final Object object)
+    public static Map<String,String> toMap( final Object object )
     {
-        MappableBuilder mb = MappableBuilder.createMappableBuilder();
+        final MappableBuilder mb = MappableBuilder.createMappableBuilder();
 
         return mb.toMap( object );
     }
@@ -39,8 +39,11 @@ public class MappableHelper
      * @param map
      * @throws IOException if any
      */
-    public static void toXML( Appendable out, Class<?> clazz, Map<String,String> map )
-        throws IOException
+    public static void toXML(
+        final Appendable            out,
+        final Class<?>              clazz,
+        final Map<String,String>    map
+        ) throws IOException
     {
         if( map == null ) {
             out.append( "<class name=\"" )
@@ -57,11 +60,7 @@ public class MappableHelper
                .append( clazz.getName() )
                .append( "\">\n" );
 
-            for(
-                    Iterator<String> i$ = map.keySet().iterator();
-                    i$.hasNext();
-                    ) {
-                String name = i$.next();
+            for( final String name : map.keySet() ) {
                 out.append("  <value name=\"" )
                    .append( name ).append("\">" )
                    .append( map.get( name ) )
@@ -69,7 +68,7 @@ public class MappableHelper
                 }
 
             out.append("</class>\n");
-        }
+            }
     }
 
     /**
@@ -80,10 +79,17 @@ public class MappableHelper
      * @param aMappableObject
      * @throws IOException if any
      */
-    public static void toXML( Appendable out, Class<?> clazz, Mappable aMappableObject )
-        throws IOException
+    public static void toXML(
+        final Appendable out,
+        final Class<?>   clazz,
+        final Mappable   aMappableObject
+        ) throws IOException
     {
-        MappableHelper.toXML(out, clazz, (aMappableObject != null) ? aMappableObject.toMap() : null);
+        MappableHelper.toXML(
+            out,
+            clazz,
+            (aMappableObject != null) ? aMappableObject.toMap() : null
+            );
     }
 
     /**
@@ -93,7 +99,7 @@ public class MappableHelper
      * @param aMappableObject
      * @throws IOException if any
      */
-    public static void toXML( Appendable out, Mappable aMappableObject )
+    public static void toXML( final Appendable out, final Mappable aMappableObject )
         throws IOException
     {
         MappableHelper.toXML( out, aMappableObject.getClass(), aMappableObject );
@@ -106,9 +112,9 @@ public class MappableHelper
      * @param aMappableObject TODOC
      * @return {@link Mappable} object as XML
      */
-    public static String toXML( Class<?> clazz, Mappable aMappableObject )
+    public static String toXML( final Class<?> clazz, final Mappable aMappableObject )
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         try {
             MappableHelper.toXML( sb, clazz, aMappableObject);
@@ -126,7 +132,7 @@ public class MappableHelper
      * @param aMappableObject TODOC
      * @return {@link Mappable} object as XML
      */
-    public static String toXML( Mappable aMappableObject )
+    public static String toXML( final Mappable aMappableObject )
     {
         return MappableHelper.toXML( aMappableObject.getClass(), aMappableObject );
     }

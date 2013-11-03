@@ -1,4 +1,4 @@
-// $codepro.audit.disable avoidAutoBoxing, unnecessaryExceptions, importOrder
+// $codepro.audit.disable avoidAutoBoxing, unnecessaryExceptions, importOrder, numericLiterals
 package com.googlecode.cchlib.lang.reflect;
 
 import static org.junit.Assert.assertNotNull;
@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class InvokerByNameTest
 {
-    private static final Logger logger = Logger.getLogger( InvokerByNameTest.class );
+    private static final Logger LOGGER = Logger.getLogger( InvokerByNameTest.class );
 
     /**
      * Run the InvokerByName(Class<? extends T>,String) constructor test.
@@ -61,12 +61,12 @@ public class InvokerByNameTest
     {
         InvokerByName<?> result = InvokerByName.forName( InvokerByNameFactory.className, InvokerByNameFactory.methodName);
 
-        logger.info( "resullt = " + result );
+        LOGGER.info( "resullt = " + result );
 
         // add additional test code here
         assertNotNull(result);
 
-        logger.info( "result.getClass() = " + result.getClass() );
+        LOGGER.info( "result.getClass() = " + result.getClass() );
     }
 
     /**

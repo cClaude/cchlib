@@ -1,4 +1,4 @@
-// $codepro.audit.disable numericLiterals
+// $codepro.audit.disable numericLiterals, reusableImmutables
 package com.googlecode.cchlib.util;
 
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import org.junit.Test;
  */
 public class CollectionWrapperTest
 {
-    private static final Logger logger = Logger.getLogger( CollectionWrapperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( CollectionWrapperTest.class );
+
     private Collection<Integer> collection;
     private Collection<String>  wrapped;
 
@@ -98,40 +99,40 @@ public class CollectionWrapperTest
 
         int count = 0;
         for( String k : wrapped ) {
-            logger.info( "k = " + k );
+            LOGGER.info( "k = " + k );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );
         Assert.assertEquals( expectedSize, count );
 
         // remove entry on mkw : will be removed in map has well
-        Assert.assertTrue( collection.contains( new Integer( 5 ) ) );
+        Assert.assertTrue( collection.contains( Integer.valueOf( 5 ) ) );
         Assert.assertTrue( wrapped.contains( "-5" ) );
         wrapped.remove( "-5" );
 
         Assert.assertEquals( expectedSize - 1, wrapped.size() );
         Assert.assertEquals( collection.size(), wrapped.size() );
-        Assert.assertFalse( collection.contains( new Integer( 5 ) ) );
+        Assert.assertFalse( collection.contains( Integer.valueOf( 5 ) ) );
         Assert.assertFalse( wrapped.contains( "-5" ) );
 
         // remove entry on collection : will be removed in mkw has well
-        Assert.assertTrue( collection.contains( new Integer( 8 ) ) );
+        Assert.assertTrue( collection.contains( Integer.valueOf( 8 ) ) );
         Assert.assertTrue( wrapped.contains( "-8" ) );
-        collection.remove( new Integer( 8 ) );
+        collection.remove( Integer.valueOf( 8 ) );
 
         Assert.assertEquals( expectedSize - 2, wrapped.size() );
         Assert.assertEquals( collection.size(), wrapped.size() );
-        Assert.assertFalse( collection.contains( new Integer( 8 ) ) );
+        Assert.assertFalse( collection.contains( Integer.valueOf( 8 ) ) );
         Assert.assertFalse( wrapped.contains( "-8" ) );
 
         // add entry on mkv : will be added in collection has well
-        Assert.assertFalse( collection.contains( new Integer( 1000 ) ) );
+        Assert.assertFalse( collection.contains( Integer.valueOf( 1000 ) ) );
         Assert.assertFalse( wrapped.contains( "-1000" ) );
         addOnCollectionWrapper( 1000 );
 
         Assert.assertEquals( expectedSize - 1, wrapped.size() );
         Assert.assertEquals( collection.size(), wrapped.size() );
-        Assert.assertTrue( collection.contains( new Integer( 1000 ) ) );
+        Assert.assertTrue( collection.contains( Integer.valueOf( 1000 ) ) );
         Assert.assertTrue( wrapped.contains( "-1000" ) );
     }
 

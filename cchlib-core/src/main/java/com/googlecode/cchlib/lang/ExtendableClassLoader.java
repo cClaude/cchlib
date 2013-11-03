@@ -248,7 +248,7 @@ public class ExtendableClassLoader extends ClassLoader
     }
 
     @Override
-    public synchronized Class<?> loadClass(
+    public synchronized Class<?> loadClass( // $codepro.audit.disable synchronizedMethod
             final String    className,
             final boolean   resolveIt
             )

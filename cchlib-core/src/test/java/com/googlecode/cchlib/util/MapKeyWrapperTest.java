@@ -13,7 +13,8 @@ import org.junit.Test;
  */
 public class MapKeyWrapperTest
 {
-    private static final Logger logger = Logger.getLogger( MapKeyWrapperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MapKeyWrapperTest.class );
+
     private Map<Integer,MyType> map;
     private Map<String,MyType>  wrapped;
 
@@ -105,7 +106,7 @@ public class MapKeyWrapperTest
 
         int count = 0;
         for( Map.Entry<String,MyType> e : wrapped.entrySet() ) {
-            logger.info( "e = " + e );
+            LOGGER.info( "e = " + e );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );
@@ -113,7 +114,7 @@ public class MapKeyWrapperTest
 
         count = 0;
         for( MyType v : wrapped.values() ) {
-            logger.info( "v = " + v );
+            LOGGER.info( "v = " + v );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );
@@ -122,7 +123,7 @@ public class MapKeyWrapperTest
         count = 0;
         for( String k : wrapped.keySet() ) {
             MyType v = wrapped.get( k );
-            logger.info( "k = " + k + " - v = " + v );
+            LOGGER.info( "k = " + k + " - v = " + v );
             Assert.assertNotNull( v );
             count++;
             }
@@ -130,33 +131,33 @@ public class MapKeyWrapperTest
         Assert.assertEquals( expectedSize, count );
 
         // remove entry on mkw : will be removed in map has well
-        Assert.assertTrue( map.containsKey( new Integer( 5 ) ) );
+        Assert.assertTrue( map.containsKey( Integer.valueOf( 5 ) ) );
         Assert.assertTrue( wrapped.containsKey( "-5" ) );
         wrapped.remove( "-5" );
 
         Assert.assertEquals( expectedSize - 1, wrapped.size() );
         Assert.assertEquals( map.size(), wrapped.size() );
-        Assert.assertFalse( map.containsKey( new Integer( 5 ) ) );
+        Assert.assertFalse( map.containsKey( Integer.valueOf( 5 ) ) );
         Assert.assertFalse( wrapped.containsKey( "-5" ) );
 
         // remove entry on map : will be removed in mkw has well
-        Assert.assertTrue( map.containsKey( new Integer( 8 ) ) );
+        Assert.assertTrue( map.containsKey( Integer.valueOf( 8 ) ) );
         Assert.assertTrue( wrapped.containsKey( "-8" ) );
-        map.remove( new Integer( 8 ) );
+        map.remove( Integer.valueOf( 8 ) );
 
         Assert.assertEquals( expectedSize - 2, wrapped.size() );
         Assert.assertEquals( map.size(), wrapped.size() );
-        Assert.assertFalse( map.containsKey( new Integer( 8 ) ) );
+        Assert.assertFalse( map.containsKey( Integer.valueOf( 8 ) ) );
         Assert.assertFalse( wrapped.containsKey( "-8" ) );
 
         // add entry on mkv : will be added in map has well
-        Assert.assertFalse( map.containsKey( new Integer( 1000 ) ) );
+        Assert.assertFalse( map.containsKey( Integer.valueOf( 1000 ) ) );
         Assert.assertFalse( wrapped.containsKey( "-1000" ) );
         addOnMapKeyWrapper( 1000 );
 
         Assert.assertEquals( expectedSize - 1, wrapped.size() );
         Assert.assertEquals( map.size(), wrapped.size() );
-        Assert.assertTrue( map.containsKey( new Integer( 1000 ) ) );
+        Assert.assertTrue( map.containsKey( Integer.valueOf( 1000 ) ) );
         Assert.assertTrue( wrapped.containsKey( "-1000" ) );
     }
 

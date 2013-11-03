@@ -1,4 +1,4 @@
-// $codepro.audit.disable importOrder
+// $codepro.audit.disable importOrder, numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class PropertiesPopulatorTest
 {
-    private static final Logger logger = Logger.getLogger( PropertiesPopulatorTest.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorTest.class );
 
     @Test
     public void test_PropertiesPopulator0() throws PopulatorException
@@ -41,8 +41,8 @@ public class PropertiesPopulatorTest
             PPSimpleBean copy = new PPSimpleBean();
             pp.populateBean(properties, copy);
 
-            logger.info( "expected : [" + bean + "]" );
-            logger.info( "actual   : [" + copy + "]" );
+            LOGGER.info( "expected : [" + bean + "]" );
+            LOGGER.info( "actual   : [" + copy + "]" );
 
             assertEquals("Must be equal", bean.aString, copy.aString);
             //assertEquals("Must be equal", bean, copy);
@@ -74,8 +74,8 @@ public class PropertiesPopulatorTest
             PPSimpleBean copy = new PPSimpleBean();
             pp.populateBean( prefix, properties, copy );
 
-            logger.info( "expected : [" + bean + "]" );
-            logger.info( "actual   : [" + copy + "]" );
+            LOGGER.info( "expected : [" + bean + "]" );
+            LOGGER.info( "actual   : [" + copy + "]" );
 
            // assertEquals("Must be equal", bean, copy);
             assertTrue("Must be equal", bean.compareTo( copy ) == 0);
@@ -107,8 +107,8 @@ public class PropertiesPopulatorTest
             PPSimpleBean copy = new PPSimpleBean();
             pp.populateBean( prefix, properties, copy );
 
-            logger.info( "expected : [" + bean + "]" );
-            logger.info( "actual   : [" + copy + "]" );
+            LOGGER.info( "expected : [" + bean + "]" );
+            LOGGER.info( "actual   : [" + copy + "]" );
 
            // assertEquals("Must be equal", bean, copy);
             assertTrue("Must be equal", bean.compareTo( copy ) == 0);
@@ -141,8 +141,8 @@ public class PropertiesPopulatorTest
 //        logger.info( "copy.strangeClassContener.get()=" + copy.strangeClassContener.get() );
 //        logger.info( "copy.strangeClassContener.get().content=" + copy.strangeClassContener.get().realContent );
 
-        logger.info( "expected : [" + bean + "]" );
-        logger.info( "actual   : [" + copy + "]" );
+        LOGGER.info( "expected : [" + bean + "]" );
+        LOGGER.info( "actual   : [" + copy + "]" );
 
         assertEquals("Must be equal", bean, copy);
     }
@@ -167,9 +167,9 @@ public class PropertiesPopulatorTest
 
         final PPSimpleBean copy = PropertiesPopulator.loadProperties( file, new PPSimpleBean(), PPSimpleBean.class );
 
-        logger.info( "File = [" + file + "]" );
-        logger.info( "expected : [" + bean + "]" );
-        logger.info( "actual   : [" + copy + "]" );
+        LOGGER.info( "File = [" + file + "]" );
+        LOGGER.info( "expected : [" + bean + "]" );
+        LOGGER.info( "actual   : [" + copy + "]" );
 
         assertTrue("Must be equal", bean.compareTo( copy ) == 0);
         file.delete();
@@ -184,6 +184,6 @@ public class PropertiesPopulatorTest
         for( String s : properties.stringPropertyNames() ) {
             sb.append("\n\t(").append(s).append(',').append(properties.getProperty( s )).append(')');
             }
-        logger.info( sb.toString() );
+        LOGGER.info( sb.toString() );
     }
 }

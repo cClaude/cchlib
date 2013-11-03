@@ -337,10 +337,15 @@ public class PropertiesPopulator<E>
                 }
             }
     }
-    private void handleNonArray( final Properties properties,
-            final StringBuilder prefix, final int prefixLength,
-            final Entry<Field, PropertiesPopulatorAnnotation<E>> entry,
-            final Field field, final Object o )
+
+    private void handleNonArray(
+        final Properties properties,
+        final StringBuilder prefix,
+        final int prefixLength,
+        final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
+        final Field field,
+        final Object o
+        )
     {
         // Handle non arrays
         if( prefixLength == 0 ) {
@@ -378,7 +383,7 @@ public class PropertiesPopulator<E>
     private void handleArray( final Properties properties,
         final StringBuilder prefix,
         final int prefixLength,
-        final Entry<Field, PropertiesPopulatorAnnotation<E>> entry,
+        final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
         final Field field,
         final Object o
         )

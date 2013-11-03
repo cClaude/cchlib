@@ -1,4 +1,4 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity, com.instantiations.assist.eclipse.analysis.mutabilityOfArrays, largeNumberOfParameters
 package com.googlecode.cchlib.util.properties;
 
 import java.util.Arrays;

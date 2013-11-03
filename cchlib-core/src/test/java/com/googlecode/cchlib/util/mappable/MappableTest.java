@@ -11,13 +11,13 @@ public class MappableTest
             new DefaultMappableBuilderFactory()
                 .setMethodesNamePattern( "(is|get|allows).*" )
                 .add( MappableTypes.CLASSES_STANDARDS_TYPES )
-                .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
+                .add( MappableItem.MAPPABLE_ITEM_SHOW_ALL )
                 );
     private MappableBuilder mb2 = new MappableBuilder(
             new DefaultMappableBuilderFactory()
                 .setMethodesNamePattern( ".*" )
                 .add( MappableTypes.CLASSES_SHOW_ALL )
-                .add( MappableBuilder.MAPPABLE_ITEM_SHOW_ALL )
+                .add( MappableItem.MAPPABLE_ITEM_SHOW_ALL )
                 );
 
     @Test

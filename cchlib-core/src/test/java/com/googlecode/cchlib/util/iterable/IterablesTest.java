@@ -1,4 +1,4 @@
-// $codepro.audit.disable importOrder
+// $codepro.audit.disable importOrder, numericLiterals
 package com.googlecode.cchlib.util.iterable;
 
 import static org.fest.assertions.Assertions.assertThat;

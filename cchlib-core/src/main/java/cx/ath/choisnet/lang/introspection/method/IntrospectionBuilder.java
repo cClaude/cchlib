@@ -1,7 +1,4 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
+// $codepro.audit.disable numericLiterals
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
@@ -20,7 +17,7 @@ public class IntrospectionBuilder<O>
 {
 
     /** Some logs */
-    private static final Logger sLog = Logger.getLogger(IntrospectionBuilder.class);
+    private static final Logger LOGGER = Logger.getLogger(IntrospectionBuilder.class);
 
     /** Getter Methods list */
     private Map<String,Method> getterMethodsMap = new TreeMap<String,Method>();
@@ -97,8 +94,8 @@ public class IntrospectionBuilder<O>
                     sLog.debug( "* (>1)Ignore this Method: " + m );
                 }*/
             } // if( getThis )
-            else if( sLog.isDebugEnabled() ) {
-                sLog.debug( "* (out of scope) Ignore this Method: " + m );
+            else if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "* (out of scope) Ignore this Method: " + m );
             }
         }
     }
@@ -123,7 +120,7 @@ public class IntrospectionBuilder<O>
 
         // Verify than method does not already exist in Map !
         if( previous != null ) {
-             sLog.error( "*** " + beanName + " already in Map: " + previous.getName() + " - " + method.getName() );
+             LOGGER.error( "*** " + beanName + " already in Map: " + previous.getName() + " - " + method.getName() );
             }
         else {
             // All ok !

@@ -1,4 +1,4 @@
-// $codepro.audit.disable avoidAutoBoxing
+// $codepro.audit.disable avoidAutoBoxing, questionableName, numericLiterals
 package cx.ath.choisnet.util;
 
 import java.io.File;
@@ -458,7 +458,7 @@ public class FormattedPropertiesTest
 
     public File getTmpFile(String tag) throws IOException
     {
-        File f = File.createTempFile( getClass().getSimpleName(), tag );
+        File f = File.createTempFile( getClass().getSimpleName(), tag ); // $codepro.audit.disable deleteTemporaryFiles
         //f.deleteOnExit();
 
         return f;

@@ -1,4 +1,4 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity, numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 class PPBeanWithPopulatorContener

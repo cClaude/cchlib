@@ -57,10 +57,11 @@ public class HashMapSetTest
         int         size = 0;
         Iterator<?> iter = hms.iterator();
 
-        while(iter.hasNext()) {
+        while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
             iter.next();
             size++;
-        }
+            }
+
         return size;
     }
 

@@ -1,4 +1,4 @@
-// $codepro.audit.disable numericLiterals
+// $codepro.audit.disable numericLiterals, reusableImmutables
 package com.googlecode.cchlib.util;
 
 import java.util.HashSet;
@@ -13,7 +13,8 @@ import org.junit.Test;
  */
 public class SetWrapperTest
 {
-    private static final Logger logger = Logger.getLogger( SetWrapperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( SetWrapperTest.class );
+
     private Set<Integer> set;
     private Set<String>  wrapped;
 
@@ -98,7 +99,7 @@ public class SetWrapperTest
 
         int count = 0;
         for( String k : wrapped ) {
-            logger.info( "k = " + k );
+            LOGGER.info( "k = " + k );
             count++;
             }
         Assert.assertEquals( expectedSize, wrapped.size() );

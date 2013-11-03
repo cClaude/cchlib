@@ -2,6 +2,7 @@ package com.googlecode.cchlib.lang.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import com.googlecode.cchlib.lang.Classes;
 
 
 /**
@@ -49,7 +50,7 @@ public class InvokerByName<T> extends Invoker<T>
         if( (params == null) || (params.length == 0) ) {
             assert getMethodName() != null;
             
-            Method method = getClazz().getMethod( getMethodName(), new Class<?>[0] );
+            Method method = getClazz().getMethod( getMethodName(), Classes.emptyArray() );
             
             assert method != null;
             

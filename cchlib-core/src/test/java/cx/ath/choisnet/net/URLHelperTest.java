@@ -6,16 +6,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -23,17 +22,18 @@ import com.googlecode.cchlib.io.IOHelper;
  */
 public class URLHelperTest
 {
-    private static final Logger logger = Logger.getLogger( URLHelperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( URLHelperTest.class );
+
     private URL testURL;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp() throws MalformedURLException
     {
         testURL = new URL( "https://code.google.com/p/cchlib/" );
     }
 
     @After
-    public void tearDown() throws Exception
+    public void tearDown()
     {}
 
     /**
@@ -42,7 +42,7 @@ public class URLHelperTest
      */
     private boolean isInternetAccessAllowed()
     {
-        logger.warn( "Checking Internet connection using: " + testURL );
+        LOGGER.warn( "Checking Internet connection using: " + testURL );
 
         try {
             InputStream is = testURL.openStream();
@@ -51,7 +51,7 @@ public class URLHelperTest
             return true;
             }
         catch( IOException e ) {
-            logger.warn( "NO INTERNET: " + e.getMessage() );
+            LOGGER.warn( "NO INTERNET: " + e.getMessage() );
             return false;
             }
     }
@@ -99,7 +99,7 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        File file = File.createTempFile( "testCopyURLFile", "tmp" );
+        File file = File.createTempFile( "testCopyURLFile", "tmp" ); // $codepro.audit.disable deleteTemporaryFiles
         URLHelper.copy( testURL, file );
 
         String s = IOHelper.toString( file );
@@ -117,10 +117,11 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        CharArrayWriter w = new CharArrayWriter();
-        URLHelper.copy( testURL, w );
+        final CharArrayWriter writer = new CharArrayWriter();
 
-        String s = w.toString();
+        URLHelper.copy( testURL, writer );
+
+        final String s = writer.toString();
 
         Assert.assertNotNull( s );
     }
@@ -136,12 +137,13 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        CharArrayWriter w = new CharArrayWriter();
-        URLHelper.copy( testURL, w, Charset.defaultCharset().displayName() );
+        CharArrayWriter writer = new CharArrayWriter();
 
-        String s = w.toString();
+        URLHelper.copy( testURL, writer, Charset.defaultCharset().displayName() );
 
-        Assert.assertNotNull( s );
+        final String str = writer.toString();
+
+        Assert.assertNotNull( str );
     }
 
     @Test

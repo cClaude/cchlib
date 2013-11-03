@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.lang;
 
+import java.lang.reflect.Array;
+
 /**
  *
  */
@@ -11,9 +13,15 @@ public final class Objects
     {
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T[] emptyArray()
+    public static Object[] emptyArray()
     {
-        return (T[])EMPTY_ARRAY;
+        return EMPTY_ARRAY;
+    }
+
+    public static <T> T[] emptyArray( final Class<T> clazz )
+    {
+        @SuppressWarnings("unchecked")
+        final T[] array = (T[])Array.newInstance(clazz,0);
+        return array;
     }
 }

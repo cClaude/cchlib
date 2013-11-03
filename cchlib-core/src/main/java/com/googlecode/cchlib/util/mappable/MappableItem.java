@@ -1,7 +1,10 @@
 package com.googlecode.cchlib.util.mappable;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Attributes for {@link MappableBuilder}
@@ -53,5 +56,24 @@ public enum MappableItem
     /**
      * Try to include protected methods result into map
      */
-    TRY_PROTECTED_METHODS
+    TRY_PROTECTED_METHODS;
+
+    /**
+     * TODOC
+     */
+    public static final Set<MappableItem> MAPPABLE_ITEM_DEFAULT_CONFIG = Collections.unmodifiableSet( // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutableConstantField
+        EnumSet.of(
+            ALL_PRIMITIVE_TYPE,
+            DO_ARRAYS
+            )
+        );
+
+    /**
+     * Add all primitives types in map.
+     */
+    public static final  Set<MappableItem> MAPPABLE_ITEM_SHOW_ALL =  Collections.unmodifiableSet( // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutableConstantField
+        EnumSet.of(
+            ALL_PRIMITIVE_TYPE
+            )
+        );
 }

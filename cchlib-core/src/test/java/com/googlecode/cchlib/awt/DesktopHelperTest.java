@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class DesktopHelperTest
 {
-    private static final Logger logger = Logger.getLogger(DesktopHelperTest.class);
+    private static final Logger LOGGER = Logger.getLogger(DesktopHelperTest.class);
 
     @Test
     @Deprecated
@@ -16,7 +16,7 @@ public class DesktopHelperTest
         try {
             DesktopHelper.isNativeDesktopSupported();
         } catch (PlateformeDesktopNotSupportedException e) {
-            logger.info( e.getMessage() );
+            LOGGER.info( e.getMessage() );
         }
     }
 

@@ -71,7 +71,7 @@ public class HashMapSet<K,V>
      * initial capacity and the default load factor (0.75).
      * @param initialCapacity the initial capacity.
      */
-    public HashMapSet(int initialCapacity)
+    public HashMapSet( final int initialCapacity )
     {
         super(initialCapacity);
     }
@@ -86,7 +86,7 @@ public class HashMapSet<K,V>
      * @param m the map whose mappings are to be
      *          placed in this map
      */
-    public HashMapSet( Map<? extends K,? extends Set<V>> m )
+    public HashMapSet( final Map<? extends K,? extends Set<V>> m )
     {
         super(m);
     }
@@ -98,7 +98,7 @@ public class HashMapSet<K,V>
      * @param initialCapacity the initial capacity
      * @param loadFactor the load factor
      */
-    public HashMapSet( int initialCapacity, float loadFactor )
+    public HashMapSet( final int initialCapacity, final float loadFactor )
     {
         super( initialCapacity, loadFactor );
     }
@@ -177,7 +177,7 @@ public class HashMapSet<K,V>
      * @throws UnsupportedOperationException
      */
     @Override // Map
-    public boolean containsValue( Object value )
+    public boolean containsValue( final Object value )
     {
         throw new UnsupportedOperationException();
     }
@@ -197,7 +197,7 @@ public class HashMapSet<K,V>
      * @return true if Set associated with the specified key
      *         did not already contain the specified value
      */
-    public boolean add( K key, V value )
+    public boolean add( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         Set<V> s = get(key);
 
@@ -206,7 +206,7 @@ public class HashMapSet<K,V>
 
             super.put(key,s);
             }
-        
+
         return s.add( value );
     }
 
@@ -218,17 +218,17 @@ public class HashMapSet<K,V>
      * @return number of values add in HashMapSet.
      * @see #add(Object, Object) add(Object, Object) for more details
      */
-    public int addAll(Map<K,V> m)
+    public int addAll( final Map<K,V> m )
     {
-        int r = 0;
+        int addCount = 0;
 
-        for(Map.Entry<K,V> e:m.entrySet()) {
+        for( Map.Entry<K,V> e : m.entrySet() ) {
            if( add( e.getKey(), e.getValue() ) ) {
-               r++;
+               addCount++;
                }
             }
 
-       return r;
+       return addCount;
     }
 
     /**
@@ -242,24 +242,24 @@ public class HashMapSet<K,V>
      *
      * @return number of values add in HashMapSet.
      */
-    public int addAll(K key, Collection<V> values)
+    public int addAll( final K key, final Collection<V> values)
     {
-        int     r = 0;
-        Set<V>  s = get(key);
+        int     addCount = 0;
+        Set<V>  set      = get(key);
 
-        if( s == null ) {
-            s = new HashSet<V>();
+        if( set == null ) {
+            set = new HashSet<V>();
 
-            super.put(key,s);
+            super.put(key,set);
             }
 
         for(V v:values) {
-           if( s.add( v ) ) {
-               r++;
+           if( set.add( v ) ) {
+               addCount++;
                }
             }
 
-       return r;
+       return addCount;
     }
 
     /**
@@ -271,13 +271,14 @@ public class HashMapSet<K,V>
      *
      * @return if this set HashMapSet the specified key-value
      */
-    public boolean remove(K key, V value)
+    public boolean remove( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
-        Set<V> s = super.get( key );
+        Set<V> set = super.get( key );
 
-        if( s != null ) {
-            return s.remove( value );
+        if( set != null ) {
+            return set.remove( value );
             }
+
         return false;
     }
 
@@ -294,11 +295,12 @@ public class HashMapSet<K,V>
      */
     public boolean contains( V value )
     {// from Collection<V>
-        for(Set<? extends V> s:super.values()) {
+        for( final Set<? extends V> s : super.values() ) {
             if( s.contains( value )) {
                 return true;
                 }
             }
+
         return false;
     }
 
@@ -313,7 +315,7 @@ public class HashMapSet<K,V>
      */
     public boolean containsAll( Collection<? extends V> c )
     {// from Collection<V>
-        for(V v:c) {
+        for( final V v : c) {
             if( !contains(v) ) {
                 return false;
                 }
@@ -350,11 +352,11 @@ public class HashMapSet<K,V>
      * @param minSetSize minimum size for Sets to be
      *        keep in HashMapSet
      */
-    public void purge(int minSetSize)
+    public void purge( final int minSetSize )
     {
-        Iterator<Map.Entry<K, Set<V>>> iter = super.entrySet().iterator();
+        final Iterator<Map.Entry<K, Set<V>>> iter = super.entrySet().iterator();
 
-        while(iter.hasNext()) {
+        while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
            Map.Entry<K, Set<V>> e = iter.next();
            Set<V>               s = e.getValue();
 
@@ -433,9 +435,9 @@ public class HashMapSet<K,V>
      */
     public void addAll( ComputeKeyIterable<K,V> iterable )
     {
-        Iterator<V> i = iterable.iterator();
+        final Iterator<V> i = iterable.iterator();
 
-        while(i.hasNext()) {
+        while(i.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
             V v = i.next();
             K k = iterable.computeKey( v );
             add(k,v);
@@ -450,7 +452,7 @@ public class HashMapSet<K,V>
      */
     public void addAll( ComputeKeyIterator<K,V> iterator )
     {
-        while(iterator.hasNext()) {
+        while( iterator.hasNext() ) {
             V v = iterator.next();
             K k = iterator.computeKey( v );
             add(k,v);
