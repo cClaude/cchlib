@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.FileNotFoundException;
@@ -6,17 +7,19 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Properties;
+
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.DefaultCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+
 import cx.ath.choisnet.util.FormattedProperties;
 
 /**
  *
  */
-public class FilesConfig implements Serializable
+public class FilesConfig implements Serializable // $codepro.audit.disable largeNumberOfMethods
 {
     private static final long serialVersionUID = 2L;
     //private static final Logger logger = Logger.getLogger( FilesConfig.class );
@@ -39,19 +42,11 @@ public class FilesConfig implements Serializable
         FORMATTED_PROPERTIES
         }
 
-//    private FilesConfig( final int numberOfFiles )
-//    {
-//        this.numberOfFiles = numberOfFiles;
-//
-//        clear();
-//    }
-
     /**
      * Build default {@link FilesConfig} (no file selected yet)
      */
     public FilesConfig( Preferences preferences )
     {
-        //this( preferences.getNumberOfFiles() );
         setNumberOfFiles( preferences.getNumberOfFiles() );
      }
 
@@ -63,7 +58,6 @@ public class FilesConfig implements Serializable
      */
     public FilesConfig( final FilesConfig filesConfig )
     {
-        //this( filesConfig.numberOfFiles );
         setNumberOfFiles( filesConfig.numberOfFiles );
 
         this.fileObjects              = Arrays.copyOf( filesConfig.fileObjects, numberOfFiles );
@@ -83,13 +77,14 @@ public class FilesConfig implements Serializable
         else {
             FileObject[] oldArray = this.fileObjects;
 
-            this.fileObjects   = new FileObject[ numberOfFiles ];
+            this.fileObjects = new FileObject[ numberOfFiles ];
 
-            int min = (numberOfFiles > oldArray.length) ? oldArray.length : numberOfFiles;
+            final int min = (numberOfFiles > oldArray.length) ? oldArray.length : numberOfFiles;
 
-            for( int i = 0; i<min; i++ ) {
-                this.fileObjects[ i ] = oldArray[ i ];
-                }
+//            for( int i = 0; i<min; i++ ) {
+//                this.fileObjects[ i ] = oldArray[ i ];
+//                }
+            System.arraycopy( oldArray, 0, fileObjects, 0, min );
             }
     }
 
@@ -336,7 +331,7 @@ public class FilesConfig implements Serializable
     }
 
     @Override
-    public boolean equals( Object obj )
+    public boolean equals( Object obj ) // $codepro.audit.disable cyclomaticComplexity
     {
         if( this == obj ) return true;
         if( obj == null ) return false;

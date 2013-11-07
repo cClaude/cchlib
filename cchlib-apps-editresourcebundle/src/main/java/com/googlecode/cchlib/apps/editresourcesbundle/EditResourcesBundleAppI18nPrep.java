@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
  */
 public class EditResourcesBundleAppI18nPrep implements Runnable
 {
-    private final static Logger logger = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
+    private final static Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
 
     public static void main( String[] args ) throws IOException
     {
@@ -39,7 +40,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         Locale                      defaultLocale           = Locale.ENGLISH;
 
-        try { Thread.sleep( 1_000 ); } catch( InterruptedException e ) {}
+        try { Thread.sleep( 1_000 ); } catch( InterruptedException e ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
         I18nAutoCoreUpdatable[] i18nConteners = {
             mainFrame,
@@ -64,6 +65,6 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
         System.err.flush();
         System.out.flush();
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 }

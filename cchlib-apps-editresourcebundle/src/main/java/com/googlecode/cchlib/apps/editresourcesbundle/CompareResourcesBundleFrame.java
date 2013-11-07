@@ -36,18 +36,18 @@ import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccesso
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
-import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 
 /**
  *
  */
 @I18nName("CompareResourcesBundleFrame")
-public class CompareResourcesBundleFrame
+public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOfFields
     extends CompareResourcesBundleFrameWB
         implements I18nAutoCoreUpdatable //I18nPrepHelperAutoUpdatable //I18nPrepAutoUpdatable
 {
-    private static final Logger logger = Logger.getLogger(CompareResourcesBundleFrame.class);
+    private static final Logger LOGGER = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
+
     /* @serial */
     private FilesConfig filesConfig;
     /* @serial */
@@ -88,17 +88,16 @@ public class CompareResourcesBundleFrame
      * Build main frame using giving preferences
      * @param prefs preferences to use
      */
-    public CompareResourcesBundleFrame( Preferences prefs )
+    public CompareResourcesBundleFrame( final Preferences prefs )
     {
         super( prefs.getNumberOfFiles() ); // initComponents();
 
         this.preferences = prefs;
         this.filesConfig = new FilesConfig( this.preferences );
 
-        //setSize(640, 440);
         setSize( this.preferences.getWindowDimension() );
 
-        WindowListener wl = new WindowAdapter()
+        final WindowListener wl = new WindowAdapter()
         {
             @Override
             public void windowClosing( final WindowEvent event )
@@ -112,59 +111,24 @@ public class CompareResourcesBundleFrame
         };
         super.addWindowListener( wl );
 
-        //setIconImage( getImage( "icon.png" ) );
-
-        // initDynComponents
-        new LookAndFeelMenu( this ).buildMenu( jMenuLookAndFeel );
+        // initialize dynamic components
+        super.buildLookAndFeelMenu();
 
         updateDisplay();
 
-        //lastSelectedFilesAccessoryDefaultConfigurator.getLastSelectedFiles();
-
         // Init i18n
-        Locale locale = this.preferences.getLocale();
+        final Locale locale = this.preferences.getLocale();
 
-        if( logger.isTraceEnabled() ) {
-            logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
-            logger.info( "I18n Init: locale = " + locale );
-            //logger.info( "I18n Init: getMessagesBundle() = " + this.getMessagesBundleForI18nPrepHelper() );
-            logger.info( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
+            LOGGER.info( "I18n Init: locale = " + locale );
+            LOGGER.info( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
-        //this.autoI18n = DefaultI18nBundleFactory.createDefaultI18nBundle( locale, this ).getAutoI18n();
+
         autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
-//        ResourceBundle resourceBundle;
-//        if( locale == null ) {
-//            resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle() );
-//            }
-//        else {
-//            resourceBundle = ResourceBundle.getBundle(this.getMessagesBundle(), locale );
-//            }
-//        logger.info( "TEST: resourceBundle = " + resourceBundle );
-//        logger.info( "TEST: resourceBundle.getLocale() = " + resourceBundle.getLocale() );
-
-//        // Init menu according to locale
-//        Enumeration<AbstractButton> enumeration = getButtonGroupLanguage().getElements();
-//
-//        while( enumeration.hasMoreElements() ) {
-//            AbstractButton  button       = enumeration.nextElement();
-//            Locale          buttonLocale = Locale.class.cast( button.getClientProperty( Locale.class ) );
-//
-//            if( buttonLocale == null ) {
-//                if( locale == null ) {
-//                    button.setSelected( true );
-//                    break;
-//                    }
-//                }
-//            else if( buttonLocale.equals( locale ) ) {
-//                button.setSelected( true );
-//                break;
-//                }
-//        }
-
-        //logger.info( "Locale use by I18n: " + this.autoI18n.setI18n( i18n ) );
 
         // Apply i18n !
         performeI18n( autoI18n );
@@ -187,27 +151,15 @@ public class CompareResourcesBundleFrame
         final URL url = CompareResourcesBundleFrame.class.getResource( name );
 
         if( url == null ) {
-            logger.warn( "Could not find resource: " + name );
+            LOGGER.warn( "Could not find resource: " + name );
             }
 
         return url;
     }
 
-//    private static final Image getImage( final String image )
-//    {
-//        URL url = getResource( image );
-//
-//        if( url != null ) {
-//            return Toolkit.getDefaultToolkit().getImage( url );
-//            }
-//
-//        logger.error( "Could create image: " + image );
-//        return null;
-//    }
-
     public static void main(/* String[] args*/)
     {
-        logger.info( "started" );
+        LOGGER.info( "started" );
 
         final Preferences prefs = Preferences.createPreferences();
 
@@ -229,7 +181,7 @@ public class CompareResourcesBundleFrame
                     frame.getJFileChooserInitializer();
                     }
                 catch( Exception e ) {
-                    logger.error( "Error while building main frame", e );
+                    LOGGER.error( "Error while building main frame", e );
                     DialogHelper.showMessageExceptionDialog( null, "Fatal error", e );
                     }
             }
@@ -238,20 +190,19 @@ public class CompareResourcesBundleFrame
 
     protected void updateDisplay()
     {
-        if( logger.isInfoEnabled() ) {
-
+        if( LOGGER.isInfoEnabled() ) {
             for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
-                logger.info( "F[" + i + "]:" + filesConfig.getFileObject( i ) );
+                LOGGER.info( "F[" + i + "]:" + filesConfig.getFileObject( i ) );
                 }
             }
 
         if( filesConfig.getLeftFileObject() != null ) {
-            jMenuItemSaveLeftFile.setEnabled(
+            getjMenuItemSaveLeftFile().setEnabled(
                 !filesConfig.getLeftFileObject().isReadOnly()
                 );
             }
         else {
-            jMenuItemSaveLeftFile.setEnabled( true );
+            getjMenuItemSaveLeftFile().setEnabled( true );
             }
 
         if( this.filesConfig.isFilesExists() ) {
@@ -259,18 +210,18 @@ public class CompareResourcesBundleFrame
                     this.filesConfig,
                     this.autoI18n
                     );
-            jTableProperties = this.tableModel.getJTable();
-            jScrollPaneProperties.setViewportView( jTableProperties );
-            jTableProperties.setModel(this.tableModel);
-            jTableProperties.setAutoCreateRowSorter(true);
-            this.tableModel.setColumnWidth(jTableProperties);
+            setjTableProperties( this.tableModel.getJTable() );
+            getjScrollPaneProperties().setViewportView( getjTableProperties() );
+            getjTableProperties().setModel(this.tableModel);
+            getjTableProperties().setAutoCreateRowSorter(true);
+            this.tableModel.setColumnWidth(getjTableProperties());
         }
     }
 
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( jFileChooserInitializer == null ) {
-            DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
+            final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
                 @Override
@@ -322,12 +273,10 @@ public class CompareResourcesBundleFrame
         final FileObject        fileObject;
         final CustomProperties  customProperties;
 
-        logger.info( "request to save index: " + index + " filesConfig = " + filesConfig );
+        LOGGER.info( "request to save index: " + index + " filesConfig = " + filesConfig );
 
         if( index == 0 ) {
             saveFileTypeMsg     = saveLeftFileTypeMsg;
-//            fileObject          = filesConfig.getLeftFileObject();
-//            customProperties    = tableModel.getLeftCustomProperties();
             }
         else {
             saveFileTypeMsg     = saveRightFileTypeMsg;
@@ -335,17 +284,17 @@ public class CompareResourcesBundleFrame
         fileObject          = filesConfig.getFileObject( index );
         customProperties    = tableModel.getCustomProperties( index );
 
-        logger.info( "request to save: " + saveFileTypeMsg );
+        LOGGER.info( "request to save: " + saveFileTypeMsg );
 
         if( fileObject.isReadOnly() ) {
-            logger.info( "read only file (cancel): " + fileObject );
+            LOGGER.info( "read only file (cancel): " + fileObject );
             }
         else if( !customProperties.isEdited() ) {
-            logger.info( "Content not change for: " + fileObject );
+            LOGGER.info( "Content not change for: " + fileObject );
             }
         else {
             //Confirm to save
-            int n = JOptionPane.showConfirmDialog(
+            final int boutonNumber = JOptionPane.showConfirmDialog(
                       this,
                       String.format(
                               fileSaveNowQuestionMsg,
@@ -355,7 +304,7 @@ public class CompareResourcesBundleFrame
                       JOptionPane.YES_NO_OPTION
                       );
 
-            if( n == 1 ) {
+            if( boutonNumber == 1 ) {
                 return; // save canceled
                 }
 
@@ -372,7 +321,7 @@ public class CompareResourcesBundleFrame
                     }
                 }
             catch( IOException e ) {
-                logger.error( e );
+                LOGGER.error( e );
                 DialogHelper.showMessageExceptionDialog(
                     this,
                     String.format( fileSaveIOException, fileObject.getDisplayName( txtNoFile ) ),
@@ -426,46 +375,43 @@ public class CompareResourcesBundleFrame
         @Override
         public void actionPerformed( ActionEvent event )
         {
-            final String c = event.getActionCommand();
+            final String  actionCommandString = event.getActionCommand();
+            final Integer index               = CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_RIGHT_PREFIX.getIndex( actionCommandString );
 
-            if( ACTIONCMD_PREFS.equals( c ) ) {
-                openPreferences();
+            if( index != null ) {
+                saveFile( index.intValue() + 1 );
                 }
-//            if( ACTIONCMD_SAVE_PREFS.equals( c ) ) {
-//                saveCurrentPreferences();
-//                }
-            else if( ACTIONCMD_OPEN.equals( c ) ) {
-                jMenuItem_Open();
-                }
-            else if( ACTIONCMD_QUIT.equals( c ) ) {
-                dispose();
-                }
-            else if( ACTIONCMD_SAVE_ALL.equals( c ) ) {
-                for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
-                    saveFile( i );
-                    }
-                }
-//            else if( ACTIONCMD_DEFAULT_LOCAL.equals( c ) ) {
-//                setGuiLocale( null );
-//                }
-//            else if( ACTIONCMD_ENGLISH.equals( c ) ) {
-//                setGuiLocale( Locale.ENGLISH );
-//                }
-//            else if( ACTIONCMD_FRENCH.equals( c ) ) {
-//                setGuiLocale( Locale.FRENCH );
-//                }
-            else if( ACTIONCMD_SAVE_LEFT.equals( c ) ) {
-                saveFile( 0 );
-                }
-            //else if( ACTIONCMD_SAVE_RIGHT.equals( c ) ) {
-            //    saveFile( false /*isLeft*/ );
-            //    }
-            else if( c.startsWith( ACTIONCMD_SAVE_RIGHT_PREFIX ) ) {
-                // FIXME
-                int index = Integer.parseInt( c.substring( ACTIONCMD_SAVE_RIGHT_PREFIX.length() ) );
+            else {
+                final CompareResourcesBundleFrameAction action = CompareResourcesBundleFrameAction.valueOf( actionCommandString );
 
-                saveFile( index + 1 );
+                switch( action ) {
+                    case ACTIONCMD_OPEN:
+                        jMenuItem_Open();
+                        break;
+
+                    case ACTIONCMD_PREFS:
+                        openPreferences();
+                        break;
+
+                    case ACTIONCMD_QUIT:
+                        dispose();
+                        break;
+
+                    case ACTIONCMD_SAVE_ALL:
+                        for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                            saveFile( i );
+                            }
+                        break;
+
+                    case ACTIONCMD_SAVE_LEFT:
+                        saveFile( 0 );
+                        break;
+
+                    case ACTIONCMD_SAVE_RIGHT_PREFIX:
+                        // should not occur
+                        break;
                 }
+            }
         }
     }
 
@@ -564,7 +510,7 @@ public class CompareResourcesBundleFrame
 
     private void savePreferences()
     {
-        logger.info( "Save prefs: " + preferences );
+        LOGGER.info( "Save prefs: " + preferences );
         try {
             preferences.save();
             }

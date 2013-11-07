@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,6 +13,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import cx.ath.choisnet.util.FormattedProperties;
+import cx.ath.choisnet.util.FormattedPropertiesLine;
 
 /**
  * Use OutputStream
@@ -21,9 +23,10 @@ public
 class FormattedCustomProperties extends AbstractCustomProperties
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FormattedCustomProperties.class );
-    private FileObject          fileObject;
-    private FormattedProperties properties;
+    private static final Logger LOGGER = Logger.getLogger( FormattedCustomProperties.class );
+
+    private FileObject              fileObject;
+    private FormattedProperties     properties;
     private HashMap<String,Integer> linesNumbers;
 
     public FormattedCustomProperties(
@@ -41,15 +44,11 @@ class FormattedCustomProperties extends AbstractCustomProperties
 
     public void load() throws FileNotFoundException, IOException
     {
-        InputStream is = new FileInputStream( this.fileObject.getFile() );
-        try {
+        try( InputStream is = new FileInputStream( this.fileObject.getFile() ) ) {
             this.properties.load( is );
             }
-        finally {
-            is.close();
-            }
 
-        this.linesNumbers   = new HashMap<String,Integer>();
+        this.linesNumbers = new HashMap<String,Integer>();
 
         refreshLinesNumber();
 
@@ -67,7 +66,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
         throws FileNotFoundException, IOException
     {
         if( fileObject.isReadOnly() ) {
-            logger.warn( "Can't save (readOnly): " + fileObject );
+            LOGGER.warn( "Can't save (readOnly): " + fileObject );
 
             return false;
             }
@@ -77,7 +76,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
             properties.store( os, StringHelper.EMPTY );
 
             os.close();
-            logger.info( "Save : " + fileObject );
+            LOGGER.info( "Save : " + fileObject );
 
             setEdited( false );
             return true;
@@ -96,28 +95,28 @@ class FormattedCustomProperties extends AbstractCustomProperties
     }
 
     @Override
-    public String getProperty( String key )
+    public String getProperty( final String key )
     {
         return properties.getProperty( key );
     }
 
     @Override
-    public void setProperty( String key, String value )
+    public void setProperty( final String key, final String value )
     {
         setEdited( true );
         properties.setProperty( key, value );
     }
 
     @Override
-    public boolean handleLinesNumbers()
+    public boolean isLinesNumberHandle()
     {
         return true;
     }
 
     @Override
-    public int getLineNumber( String key )
+    public int getLineNumber( final String key )
     {
-        Integer v = this.linesNumbers.get( key );
+        final Integer v = this.linesNumbers.get( key );
 
         if( v != null ) {
             return v.intValue();
@@ -130,11 +129,12 @@ class FormattedCustomProperties extends AbstractCustomProperties
     private void refreshLinesNumber()
     {
         this.linesNumbers.clear();
+
         int lineNumber = 1;
 
-        for( FormattedProperties.Line line:properties.getLines() ) {
+        for( FormattedPropertiesLine line : properties.getLines() ) {
             if( ! line.isComment() ) {
-                this.linesNumbers.put( line.getKey(), lineNumber );
+                this.linesNumbers.put( line.getContent(), lineNumber ); // $codepro.audit.disable avoidAutoBoxing
                 }
             lineNumber++;
             }

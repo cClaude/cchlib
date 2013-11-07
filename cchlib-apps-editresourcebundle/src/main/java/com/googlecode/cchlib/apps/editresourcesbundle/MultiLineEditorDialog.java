@@ -3,6 +3,9 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -14,21 +17,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 import org.apache.log4j.Logger;
 
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 /**
  *
  */
 final
-public class MultiLineEditorDialog
+public class MultiLineEditorDialog // $codepro.audit.disable largeNumberOfFields
     extends JDialog
         implements I18nAutoCoreUpdatable
 {
@@ -38,7 +39,8 @@ public class MultiLineEditorDialog
     }
 
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( MultiLineEditorDialog.class );
+    private static final Logger LOGGER = Logger.getLogger( MultiLineEditorDialog.class );
+
     private static final String ACTIONCMD_OK  = "ACTIONCMD_OK";
     private static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
     private static final String ACTIONCMD_LINEWRAP = "ACTIONCMD_LINEWRAP";
@@ -67,8 +69,8 @@ public class MultiLineEditorDialog
         super( frame );
         this.frame = frame;
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "contentText=[" + contentText + "]" );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "contentText=[" + contentText + "]" );
             }
 
         setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -119,13 +121,13 @@ public class MultiLineEditorDialog
             jMenu_Options = new JMenu( "Options" );
 
             jCheckBoxMenuItem_LineWrap = new JCheckBoxMenuItem( "Line Wrap" );
-            jCheckBoxMenuItem_LineWrap.setSelected( this.frame.getPreferences().getMultiLineEditorLineWrap() );
+            jCheckBoxMenuItem_LineWrap.setSelected( this.frame.getPreferences().isMultiLineEditorLineWrap() );
             jCheckBoxMenuItem_LineWrap.setActionCommand( ACTIONCMD_LINEWRAP );
             jCheckBoxMenuItem_LineWrap.addActionListener( actionListener );
             jMenu_Options.add( jCheckBoxMenuItem_LineWrap );
 
             jCheckBoxMenuItem_WordWrap = new JCheckBoxMenuItem( "Word Wrap" );
-            jCheckBoxMenuItem_WordWrap.setSelected(  this.frame.getPreferences().getMultiLineEditorWordWrap() );
+            jCheckBoxMenuItem_WordWrap.setSelected(  this.frame.getPreferences().isMultiLineEditorWordWrap() );
             jCheckBoxMenuItem_WordWrap.setActionCommand( ACTIONCMD_WORDWRAP );
             jCheckBoxMenuItem_WordWrap.addActionListener( actionListener );
             jMenu_Options.add( jCheckBoxMenuItem_WordWrap );
@@ -143,8 +145,8 @@ public class MultiLineEditorDialog
 
         jTextArea = new JTextArea( contentText );
         JScrollPane jScrollPane = new JScrollPane( jTextArea );
-        jTextArea.setLineWrap( this.frame.getPreferences().getMultiLineEditorLineWrap() );
-        jTextArea.setWrapStyleWord( this.frame.getPreferences().getMultiLineEditorWordWrap() );
+        jTextArea.setLineWrap( this.frame.getPreferences().isMultiLineEditorLineWrap() );
+        jTextArea.setWrapStyleWord( this.frame.getPreferences().isMultiLineEditorWordWrap() );
 
         GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
         gbc_jScrollPane.gridwidth = 4;

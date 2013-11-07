@@ -1,37 +1,37 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class PreferencesJPanel extends JPanel
+public class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
 
-    private JLabel     numberOfFilesJLabel;
-    private JTextField numberOfFilesJTextField;
-    private JSlider    numberOfFilesJSlider;
-    private JLabel            languageJLabel;
-    private JComboBox<String> languageJComboBox;
-    private JLabel    saveWindowSizeJLabel;
-    private JCheckBox saveWindowSizeJCheckBox;
     private JButton btnCancel;
     private JButton btnSave;
-    private JLabel saveLookAndFeelJLabel;
     private JCheckBox saveLookAndFeelJCheckBox;
+    private JCheckBox saveWindowSizeJCheckBox;
+    private JComboBox<String> languageJComboBox;
+    private JLabel            languageJLabel;
+    private JLabel            numberOfFilesJLabel;
+    private JLabel            saveWindowSizeJLabel;
+    private JLabel            saveLookAndFeelJLabel;
+    private JSlider           numberOfFilesJSlider;
+    private JTextField        numberOfFilesJTextField;
 
     public interface Action
     {

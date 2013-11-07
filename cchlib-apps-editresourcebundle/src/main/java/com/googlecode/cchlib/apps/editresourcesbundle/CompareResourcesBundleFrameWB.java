@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JFrame;
@@ -9,46 +10,30 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.Toolkit;
+import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 
 /**
  *
  */
-public abstract class CompareResourcesBundleFrameWB extends JFrame
+public abstract class CompareResourcesBundleFrameWB extends JFrame // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 3L;
-    //public static final String ACTIONCMD_SAVE_PREFS = "ACTIONCMD_SAVE_PREFS";
-    public static final String ACTIONCMD_OPEN = "ACTIONCMD_OPEN";
-    public static final String ACTIONCMD_QUIT = "ACTIONCMD_QUIT";
-    public static final String ACTIONCMD_SAVE_ALL = "ACTIONCMD_SAVE_ALL";
-    //public static final String ACTIONCMD_SAVE_RIGHT = "ACTIONCMD_SAVE_RIGHT";
-    public static final String ACTIONCMD_SAVE_RIGHT_PREFIX = "ACTIONCMD_SAVE_RIGHT_";
-    public static final String ACTIONCMD_SAVE_LEFT = "ACTIONCMD_SAVE_LEFT";
-    public static final String ACTIONCMD_PREFS = "ACTIONCMD_PREFS";
-    //public static final String ACTIONCMD_DEFAULT_LOCAL = "ACTIONCMD_DEFAULT_LOCAL";
-    //public static final String ACTIONCMD_ENGLISH = "ACTIONCMD_ENGLISH";
-    //public static final String ACTIONCMD_FRENCH = "ACTIONCMD_FRENCH";
 
-    protected JMenuBar           jMenuBarFrame;
-    private JMenu                jMenuFile;
-    private JMenu                jMenuOptions;
-    //private JMenuItem            jMenuItemSaveCurrentPrefs;
-    private JMenuItem            jMenuItemOpen;
-    private JMenuItem            jMenuItemQuit;
-    private JMenuItem            jMenuItemSaveAll;
-    private JMenu                jMenuSave;
-    private JMenuItem[]          jMenuItemSaveRightFile;
-    //private JMenu                jMenuItemLanguage;
-    protected JMenu              jMenuLookAndFeel;
-    protected JMenuItem          jMenuItemSaveLeftFile;
-    //private JRadioButtonMenuItem jRadioButtonMenuItemDefaultLocale;
-
-    protected JScrollPane  jScrollPaneProperties;
-    protected JTable       jTableProperties;
-
-    //private final ButtonGroup buttonGroupLanguage = new ButtonGroup();
     private int numberOfFiles;
-    private JMenuItem preferencesJMenuItem;
+
+    private JMenuBar     jMenuBarFrame;
+    private JMenu        jMenuFile;
+    private JMenu        jMenuOptions;
+    private JMenuItem    jMenuItemOpen;
+    private JMenuItem    jMenuItemQuit;
+    private JMenuItem    jMenuItemSaveAll;
+    private JMenu        jMenuSave;
+    private JMenuItem[]  jMenuItemSaveRightFile;
+    private JMenu        jMenuLookAndFeel;
+    private JMenuItem    jMenuItemSaveLeftFile;
+    private JScrollPane  jScrollPaneProperties;
+    private JTable       jTableProperties;
+    private JMenuItem    preferencesJMenuItem;
 
     public CompareResourcesBundleFrameWB( final int numberOfFiles )
     {
@@ -57,16 +42,11 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         setIconImage(Toolkit.getDefaultToolkit().getImage(CompareResourcesBundleFrameWB.class.getResource("icon.png")));
         jScrollPaneProperties = new JScrollPane();
         jTableProperties = new JTable();
-        jScrollPaneProperties.setViewportView( jTableProperties );
-        getContentPane().add(jScrollPaneProperties, BorderLayout.CENTER);
+        jScrollPaneProperties.setViewportView( getjTableProperties() );
+        getContentPane().add(getjScrollPaneProperties(), BorderLayout.CENTER);
 
         updateJMenuBar();
     }
-
-//    protected ButtonGroup getButtonGroupLanguage()
-//    {
-//        return this.buttonGroupLanguage;
-//    }
 
     protected void updateJMenuBar()
     {
@@ -79,7 +59,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuFile = new JMenu( "File" );
 
         jMenuItemOpen = new JMenuItem( "Open..." );
-        jMenuItemOpen.setActionCommand( ACTIONCMD_OPEN );
+        jMenuItemOpen.setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_OPEN.name() );
         jMenuItemOpen.addActionListener( getActionListener() );
         jMenuFile.add( jMenuItemOpen );
 
@@ -87,7 +67,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
 
         // Left file
         jMenuItemSaveLeftFile = new JMenuItem( "Save left" );
-        jMenuItemSaveLeftFile.setActionCommand( ACTIONCMD_SAVE_LEFT );
+        jMenuItemSaveLeftFile.setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_LEFT.name() );
         jMenuItemSaveLeftFile.addActionListener( getActionListener() );
 
         jMenuSave.add( jMenuItemSaveLeftFile );
@@ -96,8 +76,8 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuItemSaveRightFile = new JMenuItem[ this.numberOfFiles - 1 ];
 
         for( int i = 0; i<jMenuItemSaveRightFile.length; i++ ) {
-            jMenuItemSaveRightFile[ i ] = new JMenuItem( "Save right" );
-            jMenuItemSaveRightFile[ i ].setActionCommand( ACTIONCMD_SAVE_RIGHT_PREFIX + i );
+            jMenuItemSaveRightFile[ i ] = new JMenuItem( "Save right" ); // $codepro.audit.disable avoidInstantiationInLoops
+            jMenuItemSaveRightFile[ i ].setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_RIGHT_PREFIX.getActionCommand( i ) );
             jMenuItemSaveRightFile[ i ].addActionListener( getActionListener() );
 
             jMenuSave.add( jMenuItemSaveRightFile[ i ] );
@@ -105,12 +85,12 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
         jMenuFile.add( jMenuSave );
 
         jMenuItemSaveAll = new JMenuItem( "Save all" );
-        jMenuItemSaveAll.setActionCommand( ACTIONCMD_SAVE_ALL );
+        jMenuItemSaveAll.setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_ALL.name() );
         jMenuItemSaveAll.addActionListener( getActionListener() );
         jMenuFile.add( jMenuItemSaveAll );
 
         jMenuItemQuit = new JMenuItem("Quit");
-        jMenuItemQuit.setActionCommand( ACTIONCMD_QUIT );
+        jMenuItemQuit.setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_QUIT.name() );
         jMenuItemQuit.addActionListener( getActionListener() );
         jMenuFile.add( jMenuItemQuit );
 
@@ -119,45 +99,12 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
 
         jMenuOptions = new JMenu();
         jMenuOptions.setText("Options");
-/*
-        jMenuItemLanguage = new JMenu("Language");
 
-        jRadioButtonMenuItemDefaultLocale = new JRadioButtonMenuItem("Default Locale");
-        buttonGroupLanguage.add(jRadioButtonMenuItemDefaultLocale);
-        jRadioButtonMenuItemDefaultLocale.setSelected(true);
-        jRadioButtonMenuItemDefaultLocale.setActionCommand( ACTIONCMD_DEFAULT_LOCAL );
-        jRadioButtonMenuItemDefaultLocale.addActionListener( getActionListener() );
-        jRadioButtonMenuItemDefaultLocale.putClientProperty( Locale.class, null );
-        jMenuItemLanguage.add( jRadioButtonMenuItemDefaultLocale );
-
-        JRadioButtonMenuItem jRadioButtonMenuItemEnglish = new JRadioButtonMenuItem( Locale.ENGLISH.getDisplayLanguage() );
-        buttonGroupLanguage.add( jRadioButtonMenuItemEnglish );
-        jRadioButtonMenuItemEnglish.setActionCommand( ACTIONCMD_ENGLISH );
-        jRadioButtonMenuItemEnglish.addActionListener( getActionListener() );
-        jRadioButtonMenuItemEnglish.putClientProperty( Locale.class, Locale.ENGLISH );
-        jMenuItemLanguage.add( jRadioButtonMenuItemEnglish );
-
-        JRadioButtonMenuItem jRadioButtonMenuItemFrench = new JRadioButtonMenuItem( Locale.FRENCH.getDisplayLanguage() );
-        buttonGroupLanguage.add( jRadioButtonMenuItemFrench );
-        jRadioButtonMenuItemFrench.setActionCommand( ACTIONCMD_FRENCH );
-        jRadioButtonMenuItemFrench.addActionListener( getActionListener() );
-        jRadioButtonMenuItemFrench.putClientProperty( Locale.class, Locale.FRENCH );
-        jMenuItemLanguage.add( jRadioButtonMenuItemFrench );
-
-        jMenuOptions.add( jMenuItemLanguage );
-*/        
         preferencesJMenuItem = new JMenuItem("Prerences");
-        preferencesJMenuItem.setActionCommand( ACTIONCMD_PREFS );
+        preferencesJMenuItem.setActionCommand( CompareResourcesBundleFrameAction.ACTIONCMD_PREFS.name() );
         preferencesJMenuItem.addActionListener( getActionListener() );
         jMenuOptions.add(preferencesJMenuItem);
-/*        
-        jMenuOptions.addSeparator();
 
-        jMenuItemSaveCurrentPrefs = new JMenuItem( "Save preferences" );
-        jMenuItemSaveCurrentPrefs.setActionCommand( ACTIONCMD_SAVE_PREFS );
-        jMenuItemSaveCurrentPrefs.addActionListener( getActionListener() );
-        jMenuOptions.add( jMenuItemSaveCurrentPrefs );
-*/
         jMenuBarFrame.add( jMenuOptions );
         setJMenuBar( jMenuBarFrame );
 
@@ -167,4 +114,30 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame
     }
 
     protected abstract ActionListener getActionListener();
+
+    protected void buildLookAndFeelMenu()
+    {
+        new LookAndFeelMenu( this ).buildMenu( jMenuLookAndFeel );
+    }
+
+    protected JMenuItem getjMenuItemSaveLeftFile()
+    {
+        return jMenuItemSaveLeftFile;
+    }
+
+    protected JTable getjTableProperties()
+    {
+        return jTableProperties;
+    }
+
+    protected void setjTableProperties( final JTable jTableProperties )
+    {
+        this.jTableProperties = jTableProperties;
+    }
+
+    protected JScrollPane getjScrollPaneProperties()
+    {
+        return jScrollPaneProperties;
+    }
+
 }

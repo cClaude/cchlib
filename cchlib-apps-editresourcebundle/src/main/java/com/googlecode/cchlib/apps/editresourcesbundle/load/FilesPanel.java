@@ -1,13 +1,14 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
-import javax.swing.JPanel;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import javax.swing.JPanel;
 
 public class FilesPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private FileEntryPanel[] panelFiles;
     private String msgStringLeft;
     private String msgStringFmt;
@@ -50,11 +51,11 @@ public class FilesPanel extends JPanel
         return panelFiles.length;
     }
 
-    public FileEntryPanel getPanelFile( int index )
+    public FileEntryPanel getPanelFile( final int index )
     {
         if( panelFiles[ index ] == null ) {
-            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, index );
-            final String actionCommand = LoadDialogWB.ACTIONCMD_SELECT_PREFIX + index;
+            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, index ); // $codepro.audit.disable avoidAutoBoxing
+            final String actionCommand = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.name() + index;
 
             panelFiles[ index ] = new FileEntryPanel( msgString, msgButton, actionCommand , actionListener );
             }

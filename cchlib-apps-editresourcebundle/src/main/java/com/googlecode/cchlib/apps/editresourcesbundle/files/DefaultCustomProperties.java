@@ -20,7 +20,8 @@ class DefaultCustomProperties
     extends AbstractCustomProperties
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( DefaultCustomProperties.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultCustomProperties.class );
+
     private Properties properties;
     private FileObject fileObject;
 
@@ -33,14 +34,14 @@ class DefaultCustomProperties
         this.properties = new Properties( defaults );
 
         InputStream is = new FileInputStream( fileObject.getFile() );
-        
+
         try {
             properties.load( is );
             }
         finally {
             is.close();
             }
-        
+
         this.fileObject.setCustomProperties( this );
     }
 
@@ -58,7 +59,7 @@ class DefaultCustomProperties
         throws FileNotFoundException, IOException
     {
         if( fileObject.isReadOnly() ) {
-            slogger.warn( "Can't save (readOnly): " + fileObject );
+            LOGGER.warn( "Can't save (readOnly): " + fileObject );
 
             return false;
        }
@@ -74,7 +75,7 @@ class DefaultCustomProperties
                     + comment
                 );
             os.close();
-            slogger.info( "Save : " + fileObject );
+            LOGGER.info( "Save : " + fileObject );
 
             return true;
         }
@@ -105,7 +106,7 @@ class DefaultCustomProperties
     }
 
     @Override
-    public boolean handleLinesNumbers()
+    public boolean isLinesNumberHandle()
     {
         return false;
     }

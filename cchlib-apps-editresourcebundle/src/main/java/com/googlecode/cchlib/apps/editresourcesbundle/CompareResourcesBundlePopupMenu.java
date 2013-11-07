@@ -19,11 +19,11 @@ import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
-	private static final long serialVersionUID = 1L;
-	//
+    private static final long serialVersionUID = 1L;
+    //
     // http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
     //
-    private final static transient Logger logger = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
+    private final static transient Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
     private AbstractTableModel  abstractTableModel;
     /** @serial */
@@ -83,7 +83,7 @@ class CompareResourcesBundlePopupMenu
             final int   columnIndex
             )
     {
-        if( columnIndex == colunms.colunmKey) {
+        if( columnIndex == colunms.getColunmKey()) {
             return;
             }
 //        else if( columnIndex == colunms.colunmLeftLine ) {
@@ -127,7 +127,7 @@ class CompareResourcesBundlePopupMenu
             final int   columnIndex
             )
     {
-        if( columnIndex == colunms.colunmKey ) {
+        if( columnIndex == colunms.getColunmKey() ) {
             return;
             }
 //        else if( columnIndex == colunms.colunmLeftLine ) {
@@ -170,29 +170,25 @@ class CompareResourcesBundlePopupMenu
             final int       columnIndex
             )
     {
-        if( logger.isTraceEnabled() ) {
-            logger.trace(
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace(
                     String.format(
                         "openMultiLineEditor @(%d;%d)\n",
-                        rowIndex,
-                        columnIndex
+                        rowIndex, // $codepro.audit.disable
+                        columnIndex // $codepro.audit.disable
                         )
                     );
             }
 
-        MultiLineEditorDialog.StoreResult storeResult = new MultiLineEditorDialog.StoreResult()
+        final MultiLineEditorDialog.StoreResult storeResult = new MultiLineEditorDialog.StoreResult()
         {
             @Override
-            public void storeResult( String text )
+            public void storeResult( final String text )
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace(
-                            String.format(
-                                "Update value @(%d;%d)\n",
-                                rowIndex,
-                                columnIndex
-                                )
-                            );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace(
+                        String.format( "Update value @(%d;%d)\n", rowIndex, columnIndex ) // $codepro.audit.disable
+                        );
                     }
 
                 setValueAt(text, rowIndex, columnIndex);
@@ -201,14 +197,10 @@ class CompareResourcesBundlePopupMenu
                 int row = getJTable().convertRowIndexToModel( rowIndex );
                 int col = getJTable().convertColumnIndexToModel( columnIndex );
 
-                if( logger.isTraceEnabled() ) {
-                    logger.trace(
-                            String.format(
-                                "Update display @(%d;%d)\n",
-                                row,
-                                col
-                                )
-                            );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace(
+                        String.format( "Update display @(%d;%d)\n", row, col ) // $codepro.audit.disable
+                        );
                     }
 
                 abstractTableModel.fireTableCellUpdated(
@@ -217,7 +209,8 @@ class CompareResourcesBundlePopupMenu
                         );
             }
         };
-        MultiLineEditorDialog d = new MultiLineEditorDialog(
+
+        final MultiLineEditorDialog d = new MultiLineEditorDialog(
             getFrame(),
             storeResult , txtEditLines,
             contentText
@@ -238,18 +231,18 @@ class CompareResourcesBundlePopupMenu
                         frame = CompareResourcesBundleFrame.class.cast( c );
                         }
                     else {
-                        logger.fatal( "Found a frame but not expected one !" + c );
+                        LOGGER.fatal( "Found a frame but not expected one !" + c );
                         }
                     break;
                     }
-                
+
                 c = c.getParent();
                 }
-            
+
             if( frame == null ) {
-                logger.fatal( "Parent frame not found" );
-            	}
-        	}
+                LOGGER.fatal( "Parent frame not found" );
+                }
+            }
 
         return frame;
     }

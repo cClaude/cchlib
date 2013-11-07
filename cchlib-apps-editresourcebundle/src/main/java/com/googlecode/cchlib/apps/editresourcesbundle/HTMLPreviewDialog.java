@@ -3,39 +3,37 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
 
 /**
  *
  */
+@I18nName("HTMLPreviewDialog")
 public class HTMLPreviewDialog
     extends JDialog
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private static final String ACTIONCMD_W3C_LENGTH_UNITS = "ACTIONCMD_W3C_LENGTH_UNITS";
-    private static final String ACTIONCMD_HONOR_DISPLAY_PROPERTIES = "ACTIONCMD_HONOR_DISPLAY_PROPERTIES";
 
     private CompareResourcesBundleFrame frame;
     @I18nIgnore private JEditorPane htmlComponent;
-
-    // TODO: I18n
     private JButton jButtonClose;
     private JCheckBoxMenuItem jCheckBoxMenuItem_W3C_LENGTH_UNITS;
     private JCheckBoxMenuItem jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES;
@@ -67,7 +65,6 @@ public class HTMLPreviewDialog
         setFont(new Font("Dialog", Font.PLAIN, 12));
         setBackground(Color.white);
         setForeground(Color.black);
-        //setSize(600, 400);
         setSize( frame.getPreferences().getHTMLPreviewDimension() );
 
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -80,20 +77,27 @@ public class HTMLPreviewDialog
             @Override
             public void actionPerformed( ActionEvent event )
             {
-                final String c = event.getActionCommand();
+                final HTMLPreviewDialogAction action = HTMLPreviewDialogAction.valueOf( HTMLPreviewDialogAction.class,  event.getActionCommand() );
 
-                if( ACTIONCMD_W3C_LENGTH_UNITS.equals( c ) ) {
-                    Boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
+                switch( action ) {
+                    case ACTIONCMD_HONOR_DISPLAY_PROPERTIES:
+                    {
+                        final boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
 
-                    htmlComponent.putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b );
-                    frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
+                        htmlComponent.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b ); // $codepro.audit.disable avoidAutoBoxing
+                        frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
                     }
-                else if( ACTIONCMD_HONOR_DISPLAY_PROPERTIES.equals( c ) ) {
-                    Boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
+                    break;
 
-                    htmlComponent.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b );
-                    frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
+                    case ACTIONCMD_W3C_LENGTH_UNITS:
+                    {
+                        final boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
+
+                        htmlComponent.putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b ); // $codepro.audit.disable avoidAutoBoxing
+                        frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
                     }
+                    break;
+                }
             }
         };
 
@@ -111,11 +115,11 @@ public class HTMLPreviewDialog
             htmlComponent.setText( html.toString() );
             htmlComponent.putClientProperty(
                 JEditorPane.W3C_LENGTH_UNITS,
-                frame.getPreferences().getHTMLPreview_W3C_LENGTH_UNITS()
+                frame.getPreferences().isHTMLPreview_W3C_LENGTH_UNITS() // $codepro.audit.disable avoidAutoBoxing
                 );
             htmlComponent.putClientProperty(
                 JEditorPane.HONOR_DISPLAY_PROPERTIES,
-                frame.getPreferences().getHTMLPreview_HONOR_DISPLAY_PROPERTIES()
+                frame.getPreferences().isHTMLPreview_HONOR_DISPLAY_PROPERTIES() // $codepro.audit.disable avoidAutoBoxing
                 );
 
             JScrollPane jScrollPane = new JScrollPane(htmlComponent);
@@ -159,12 +163,12 @@ public class HTMLPreviewDialog
         jMenuBar.add(jMenuOptions);
 
         jCheckBoxMenuItem_W3C_LENGTH_UNITS = new JCheckBoxMenuItem("W3C_LENGTH_UNITS");
-        jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( ACTIONCMD_W3C_LENGTH_UNITS );
+        jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_W3C_LENGTH_UNITS.name() );
         jCheckBoxMenuItem_W3C_LENGTH_UNITS.addActionListener( actionListener );
         jMenuOptions.add( jCheckBoxMenuItem_W3C_LENGTH_UNITS );
 
         jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES = new JCheckBoxMenuItem("HONOR_DISPLAY_PROPERTIES");
-        jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( ACTIONCMD_HONOR_DISPLAY_PROPERTIES );
+        jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_HONOR_DISPLAY_PROPERTIES.name() );
         jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.addActionListener( actionListener );
         jMenuOptions.add( jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES );
 

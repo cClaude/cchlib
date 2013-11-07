@@ -23,7 +23,7 @@ interface CustomProperties
      * @return true if current object handle lines numbers,
      * false otherwise.
      */
-    public boolean handleLinesNumbers();
+    public boolean isLinesNumberHandle();
 
     /**
      * Get line number for giving property

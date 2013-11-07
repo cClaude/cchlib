@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
@@ -32,17 +33,22 @@ import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 class CompareResourcesBundleTableModel
     extends AbstractTableModel
 {
-    private static Logger logger = Logger.getLogger(CompareResourcesBundleTableModel.class);
+    private static Logger LOGGER = Logger.getLogger(CompareResourcesBundleTableModel.class);
     private static final long serialVersionUID = 3L;
 
-    public class Colunms implements Serializable
+    public static class Colunms implements Serializable
     {
-        private static final long serialVersionUID = 2L;
-        int   colunmCount;
-        int   colunmKey;   // column number for key
-        int[] colunmLine;  // column number for line number or -1 if hidden
-        int[] colunmValue; // column number for value
+        private static final long serialVersionUID = 3L;
 
+        private int   colunmCount;
+        private int   colunmKey;   // column number for key
+        private int[] colunmLine;  // column number for line number or -1 if hidden
+        private int[] colunmValue; // column number for value
+
+        protected int getColunmKey()
+        {
+            return colunmKey;
+        }
         int getColunmLineIndex( final int column )
         {//column == colunms.colunmRightLine
             for( int i = 0; i<colunmLine.length; i++ ) {
@@ -135,7 +141,7 @@ class CompareResourcesBundleTableModel
 
             customProperties[ i ].addChangeListener( cpChangeLstener );
 
-            logger.info( "CP[" + i + "]=" + customProperties[ i ] );
+            LOGGER.info( "CP[" + i + "]=" + customProperties[ i ] );
             }
 
         boolean showLineNumberIfPossible = filesConfig.isShowLineNumbers();
@@ -179,8 +185,8 @@ class CompareResourcesBundleTableModel
 
         SortedSet<String> keyBuilderSet = new TreeSet<String>();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "colunms = " + colunms );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "colunms = " + colunms );
             }
 
         for( int index = 0; index<customProperties.length; index++ ) {
@@ -192,8 +198,8 @@ class CompareResourcesBundleTableModel
             }
         keyBuilderSet.clear();
 
-        logger.info("keys:" + keyList.size());
-        logger.info("this:" + this );
+        LOGGER.info("keys:" + keyList.size());
+        LOGGER.info("this:" + this );
     }
 
     @Override
@@ -297,7 +303,7 @@ class CompareResourcesBundleTableModel
             return key;
             }
         else if( (computedIndex = colunms.getColunmLineIndex( columnIndex )) != -1 ) {
-            return customProperties[ computedIndex ].getLineNumber( key );
+            return customProperties[ computedIndex ].getLineNumber( key ); // $codepro.audit.disable avoidAutoBoxing
             }
         else if( (computedIndex = colunms.getColunmValueIndex( columnIndex )) != -1 ) {
             return customProperties[ computedIndex ].getProperty( key );

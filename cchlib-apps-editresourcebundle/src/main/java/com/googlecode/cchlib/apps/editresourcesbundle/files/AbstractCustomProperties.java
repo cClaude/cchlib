@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 import javax.swing.event.ChangeEvent;

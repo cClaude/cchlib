@@ -1,7 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
-import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,13 +8,16 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
+import org.junit.Assert;
 import org.junit.Test;
+
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
+
 import cx.ath.choisnet.util.FormattedProperties.Store;
 
 /**
@@ -62,7 +64,7 @@ public class FilesConfigTest
         fc.setFileObject( leftFileObject, 0 );
 
         for( int i = 1; i<fc.getNumberOfFiles(); i++ ) {
-            FileObject rightFileObject = new FileObject( files.next(), true );
+            FileObject rightFileObject = new FileObject( files.next(), true ); // $codepro.audit.disable avoidInstantiationInLoops
 
             fc.setFileObject( rightFileObject, i  );
             }
@@ -72,16 +74,16 @@ public class FilesConfigTest
         FilesConfig fcCopy = new FilesConfig(fc);
 
 //        assertEquals("Must be equals",fc,fcCopy);
-        assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcCopy )==0);
+        Assert.assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcCopy )==0);
 
         FilesConfig fcClone = SerializableTestCaseHelper.cloneOverSerialization( fc );
 
 //        assertEquals("Must be equals",fc,fcClone);
-        assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcClone )==0);
+        Assert.assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcClone )==0);
     }
 
     private final FilesConfigComparator fcc = new FilesConfigComparator();
-    class FilesConfigComparator implements Comparator<FilesConfig>
+    static class FilesConfigComparator implements Comparator<FilesConfig>
     {
         Comparator<FileObject> foComparator = new Comparator<FileObject>()
         {
