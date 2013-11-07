@@ -231,32 +231,32 @@ public class FormattedPropertiesTest
     @Ignore//FIXME
     public void test_getLines() throws FileNotFoundException, IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
-        List<FormattedProperties.Line> lines = prop.getLines();
-        int         i  = 1;
-        PrintStream ps = System.out;
+        final List<FormattedPropertiesLine> lines = prop.getLines();
+        int                                 i  = 1;
+        final PrintStream                   ps = System.out;
 
-        for(FormattedProperties.Line line:lines) {
+        for( FormattedPropertiesLine line : lines ) {
             if( line.isComment() ) {
-                ps.printf( "%d - %s\n", i, line.getComment() );
-            }
+                ps.printf( "%d - %s\n", i, line.getContent() );
+                }
             else {
+                final String key = line.getContent();
+
                 ps.printf(
                         "%d - %s=%s\n",
                         i,
-                        line.getKey(),
-                        prop.getProperty(
-                                line.getKey()
-                                )
+                        key,
+                        prop.getProperty( key )
                         );
-            }
+                }
             i++;
-        }
+            }
 
-        delete(copy);
+        delete( copy );
     }
 
     @SuppressWarnings("resource")
@@ -337,13 +337,13 @@ public class FormattedPropertiesTest
 
         FormattedProperties clone = (FormattedProperties)prop.clone();
 
-        List<FormattedProperties.Line> lines  = prop.getLines();
-        List<FormattedProperties.Line> clines = clone.getLines();
+        List<FormattedPropertiesLine> lines  = prop.getLines();
+        List<FormattedPropertiesLine> clines = clone.getLines();
         final int linesSize  = lines.size();
         final int clinesSize = clines.size();
         final int size = Math.max(linesSize,clinesSize);
-        FormattedProperties.Line l;
-        FormattedProperties.Line cl;
+        FormattedPropertiesLine l;
+        FormattedPropertiesLine cl;
 
         for(int i=0; i<size;i++) {
             l = cl = null;

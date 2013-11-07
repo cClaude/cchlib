@@ -9,14 +9,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -33,7 +30,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  * <br/>
  * Written for Java version 1.5
  */
-public class FormattedProperties
+public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
     extends Properties
 {
     private static final long serialVersionUID = 1L;
@@ -44,7 +41,7 @@ public class FormattedProperties
     protected static final Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
     protected static final Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*[^\\n]</[pP]>",Pattern.DOTALL);
     /** @serial */
-    private Lines lines = new Lines();
+    private FormattedPropertiesLines lines = new FormattedPropertiesLines(this);
     /** @serial */
     private EnumSet<Store> storeOptions;
 
@@ -176,8 +173,8 @@ public class FormattedProperties
     public synchronized void load( final Reader aReader ) throws IOException
     {
         @SuppressWarnings("resource")
-        BufferedReader  reader = toBufferedReader( aReader );
-        String          line;
+        final BufferedReader reader = toBufferedReader( aReader );
+        String               line;
 
         while ((line = reader.readLine()) != null) {
             char    c   = 0;
@@ -283,66 +280,79 @@ public class FormattedProperties
             // Short-circuit if no escape chars found.
             if( !needsEscape ) {
                 this.put( keyString, line.substring(pos) );
-                continue;
                 }
+            else {
+                // Escape char found so iterate through the rest of the line.
+                StringBuilder element = handleEscapeChar( reader, line, pos );
 
-            // Escape char found so iterate through the rest of the line.
-            StringBuilder element = new StringBuilder(line.length() - pos); // $codepro.audit.disable avoidInstantiationInLoops
-            while (pos < line.length()) {
-                c = line.charAt(pos++);
-                if (c == '\\') {
-                    if (pos == line.length()) {
-                        // The line continues on the next line.
-                        line = reader.readLine();
+                this.put(keyString, element.toString());
+            }
+        }
+    }
 
-                        // We might have seen a backslash at the end of
-                        // the file.  The JDK ignores the backslash in
-                        // this case, so we follow for compatibility.
-                        if (line == null) {
-                            break;
-                            }
+    private StringBuilder handleEscapeChar(
+        final BufferedReader reader,
+        String               line,
+        int                  pos
+        ) throws IOException
+    {
+        char c;
+        // Escape char found so iterate through the rest of the line.
+        StringBuilder element = new StringBuilder(line.length() - pos); // $codepro.audit.disable avoidInstantiationInLoops
+        while (pos < line.length()) {
+            c = line.charAt(pos++);
+            if (c == '\\') {
+                if (pos == line.length()) {
+                    // The line continues on the next line.
+                    line = reader.readLine();
 
-                        pos = 0;
-                        while ( pos < line.length()
-                                && Character.isWhitespace(c = line.charAt(pos))) {
-                            pos++;
-                            }
-                        element.ensureCapacity(line.length() - pos +
-                                               element.length());
+                    // We might have seen a backslash at the end of
+                    // the file.  The JDK ignores the backslash in
+                    // this case, so we follow for compatibility.
+                    if (line == null) {
+                        break;
                         }
-                    else {
-                        c = line.charAt(pos++);
-                        switch (c) {
-                            case 'n':
-                                element.append('\n');
-                                break;
-                            case 't':
-                                element.append('\t');
-                                break;
-                            case 'r':
-                                element.append('\r');
-                                break;
-                            case 'u':
-                                if( pos + 4 <= line.length() ) {
-                                    char uni = (char) Integer.parseInt
-                                               (line.substring(pos, pos + 4), 16);
-                                    element.append(uni);
-                                    pos += 4;
-                                    }
-                                // else throw exception?
-                                break;
-                            default:
-                                element.append(c);
-                                break;
-                            }
+
+                    pos = 0;
+                    while ( pos < line.length()
+                            && Character.isWhitespace(c = line.charAt(pos))) {
+                        pos++;
                         }
+                    element.ensureCapacity(line.length() - pos +
+                                           element.length());
                     }
                 else {
-                    element.append(c);
+                    c = line.charAt(pos++);
+                    switch (c) {
+                        case 'n':
+                            element.append('\n');
+                            break;
+                        case 't':
+                            element.append('\t');
+                            break;
+                        case 'r':
+                            element.append('\r');
+                            break;
+                        case 'u':
+                            if( pos + 4 <= line.length() ) {
+                                char uni = (char) Integer.parseInt
+                                           (line.substring(pos, pos + 4), 16);
+                                element.append(uni);
+                                pos += 4;
+                                }
+                            // else throw exception?
+                            break;
+                        default:
+                            element.append(c);
+                            break;
+                        }
                     }
                 }
-            this.put(keyString, element.toString());
-        }
+            else {
+                element.append(c);
+                }
+            }
+        return element;
     }
 
     /**
@@ -471,15 +481,15 @@ public class FormattedProperties
         // header...
         StringBuilder sb = new StringBuilder();
 
-        for( Line line:lines ) {
-            if( line.isComment ) {
+        for( FormattedPropertiesLine line : lines ) {
+            if( line.isComment() ) {
                 // was a blank or comment line, so just restore it
-                writer.println(line.content);
+                writer.println(line.getContent());
                 }
             else {
                 // This is a 'property' line, so rebuild it
                 formatForOutput(
-                        line.content,
+                        line.getContent(),
                         sb,
                         true,
                         null
@@ -487,7 +497,7 @@ public class FormattedProperties
                 sb.append ('=');
                 formatForOutput(
                         String.class.cast(
-                                get(line.content)
+                                get(line.getContent())
                                 ),
                         sb,
                         false,
@@ -790,30 +800,11 @@ public class FormattedProperties
     /**
      * @return an unmodifiable {@link List} of {@link Line}
      */
-    public List<Line> getLines()
+    public List<FormattedPropertiesLine> getLines()
     {
-        return Collections.unmodifiableList( lines.lines );
+        return Collections.unmodifiableList( lines.getLines() );
     }
     // ---------------------------------------------
-    // ---------------------------------------------
-
-//    /**
-//     * @see Properties#list(PrintStream)
-//     */
-//    @Override
-//    public void list( PrintStream out )
-//    {
-//        super.list( out );
-//    }
-
-//    /**
-//     * @see Properties#list(PrintWriter)
-//     */
-//    @Override
-//    public void list( PrintWriter out )
-//    {
-//        super.list( out );
-//    }
 
     /**
      * Same has {@link #put(Object,Object)}
@@ -939,7 +930,7 @@ public class FormattedProperties
     public synchronized Object remove( Object key )
     {
         if( super.containsKey( key ) ) {
-            Line   line = lines.remove(key);
+            FormattedPropertiesLine   line = lines.remove(key);
             Object prev = super.remove( key );
 
             if( line == null ) {
@@ -1040,21 +1031,35 @@ public class FormattedProperties
     @Override
     public synchronized Object clone()
     {
-        FormattedProperties clone = new FormattedProperties(
-                super.defaults,
-                this.storeOptions
-                );
+        return newFormattedProperties( this );
+    }
 
-        for( Line line:lines ) {
-            if( line.isComment ) {
-                clone.addCommentLine( line.content );
-                }
-            else {
-                clone.put(
-                        line.content,
-                        this.getProperty( line.content )
-                        );
-                }
+    /**
+     * @return
+     */
+    public static FormattedProperties newFormattedProperties(
+        final FormattedProperties source
+        )
+    {
+        final FormattedProperties clone;
+
+        synchronized( source ) {
+            clone = new FormattedProperties(
+                    source.defaults,
+                    source.storeOptions
+                    );
+
+                for( final FormattedPropertiesLine line : source.lines ) {
+                    if( line.isComment() ) {
+                        clone.addCommentLine( line.getContent() );
+                        }
+                    else {
+                        clone.put(
+                            line.getContent(),
+                            source.getProperty( line.getContent() )
+                            );
+                        }
+                    }
             }
 
         return clone;
@@ -1063,237 +1068,4 @@ public class FormattedProperties
     // ---------------------------------------------
     // ---------------------------------------------
 
-    // ---------------------------------------------
-    /**
-     * Line structure
-     */
-    public class Line implements Serializable
-    {
-        private static final long serialVersionUID = 1L;
-        /**
-         * true if line is a Comment
-         * @serial
-         */
-        private boolean isComment;
-        /**
-         * Full comment line or key if not a comment
-         * @serial
-         */
-        private String content;
-
-        private Line()
-        { // Can't build line outside this class
-        }
-
-        /**
-         * @return true if Line is a comment, false otherwise
-         */
-        public boolean isComment()
-        {
-            return isComment;
-        }
-        /**
-         * @return the comment if Line is a comment,
-         *         null otherwise
-         */
-        public String getComment()
-        {
-            if( isComment ) {
-                return content;
-                }
-            return null;
-        }
-        /**
-         * @return null if Line is a Comment,
-         *         return the key property if Line otherwise
-         */
-        public String getKey()
-        {
-            if( !isComment ) {
-                return content;
-                }
-            return null;
-        }
-
-        /**
-         *
-         */
-        @Override
-        public String toString()
-        {
-            if( isComment ) {
-                return content;
-                }
-            else {
-                //TODO: encode?
-                return content + '=' + getProperty(content);
-                }
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode()
-        {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + super.hashCode();
-            result = prime * result
-                    + ((content == null) ? 0 : content.hashCode());
-            result = prime * result + (isComment ? 1231 : 1237);
-            return result;
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
-        @Override
-        public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
-        {
-            if( this == obj ) {
-                return true;
-                }
-            if( obj == null ) {
-                return false;
-                }
-            if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
-                return false;
-                }
-            Line other = (Line)obj;
-            if( content == null ) {
-                if( other.content != null ) {
-                    return false;
-                    }
-                }
-            else if( !content.equals( other.content ) ) {
-                return false;
-                }
-            if( isComment != other.isComment ) {
-                return false;
-                }
-            return true;
-        }
-    }
-    // ---------------------------------------------
-
-    // ---------------------------------------------
-    class Lines implements Iterable<Line>,
-                           Serializable
-    {
-        private static final long serialVersionUID = 1L;
-        private ArrayList<Line> lines = new ArrayList<Line> ();
-
-        private Lines()
-        { // Can't build lines outside this class
-        }
-
-        private Line buildCommentLine(String comment)
-        {
-            Line line = new Line();
-            line.isComment = true;
-            line.content = comment;
-            return line;
-        }
-
-        private Line buildPropertiesLine(String key)
-        {
-            Line line = new Line();
-            line.isComment = false;
-            line.content = key;
-            return line;
-        }
-
-        public void addKey(String key)
-        {
-            lines.add( buildPropertiesLine( key ) );
-        }
-
-        public void addCommentLine(String comment)
-        {
-            lines.add( buildCommentLine( comment ) );
-        }
-
-        public boolean contains(Object key)
-        {
-            for(Line line:lines) {
-                if( ! line.isComment ) {
-                    if( line.content.equals( key )) {
-                        return true;
-                        }
-                    }
-                }
-            return false;
-        }
-
-        public Line remove(Object key)
-        {
-            Iterator<Line> iter = lines.iterator();
-
-            while( iter.hasNext() ) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-                Line line = iter.next();
-
-                if( ! line.isComment ) {
-                    if( line.content.equals( key )) {
-                        iter.remove();
-                        return line;
-                        }
-                    }
-                }
-            return null;
-        }
-        @Override
-        public Iterator<Line> iterator()
-        {
-            return lines.iterator();
-        }
-
-        public void clear()
-        {
-            lines.clear();
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode()
-        {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + super.hashCode();
-            result = prime * result + ((lines == null) ? 0 : lines.hashCode());
-            return result;
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#equals(java.lang.Object)
-         */
-        @Override
-        public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
-        {
-            if( this == obj ) {
-                return true;
-                }
-            if( obj == null ) {
-                return false;
-                }
-            if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
-                return false;
-                }
-            Lines other = (Lines)obj;
-
-            if( lines == null ) {
-                if( other.lines != null ) {
-                    return false;
-                    }
-                }
-            else if( !lines.equals( other.lines ) ) {
-                return false;
-                }
-
-            return true;
-        }
-    }
-    // ---------------------------------------------
 }
