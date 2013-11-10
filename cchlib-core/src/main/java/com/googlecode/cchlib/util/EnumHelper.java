@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.EnumSet;
 import javax.annotation.Nullable;
 
+/**
+ *
+ * @since.1.4.8
+ */
 public final class EnumHelper
 {
     private EnumHelper(){}
@@ -26,6 +30,13 @@ public final class EnumHelper
             }
     }
 
+    /**
+     * TODOC
+     * 
+     * @param enumValue
+     * @param stringValue
+     * @return
+     */
     public static <T extends Enum<T>> String getSuffix(
         final T      enumValue,
         final String stringValue

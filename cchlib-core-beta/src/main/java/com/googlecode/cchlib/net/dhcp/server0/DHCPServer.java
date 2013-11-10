@@ -54,12 +54,12 @@ public class DHCPServer {
 //        readConfigFile( config );
 //        new DHCPServer( servePort );
 //    }
-    
+
     public DHCPServer()
     {
          this( DHCP.SERVER_PORT );
     }
-    
+
     public DHCPServer( int servePort )
     {
         if( servePort > 0 ) {
@@ -204,7 +204,7 @@ public class DHCPServer {
             {
                 System.out.println( "+ " + entry );
             }
-            
+
         };
         server.startDeamon( model );
     }
@@ -295,7 +295,7 @@ public class DHCPServer {
 //            }
 //        }
         DHCPTableEntry entry = dhcp.findMac( request.getCHAddr() );
-        
+
 //        assert (row >= 0) : "mac address not matching";
         assert entry != null : "mac address not matching";
 
@@ -430,18 +430,17 @@ public class DHCPServer {
         Date logTime = new Date( System.currentTimeMillis() );
         String data = new String( logTime.toString() + " - " + printUpTime()
                 + NL + transcript + NL );
+
         System.out.println( data );
-        try {
-            BufferedWriter outputStream = new BufferedWriter( new FileWriter(
-                    fileName, true ) );
+
+        try( BufferedWriter outputStream = new BufferedWriter( new FileWriter( fileName, true ) ) ) {
             outputStream.write( data );
             outputStream.flush();
-        }
+            }
         catch( IOException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-
+            }
     }
 
     public void setRouter( byte[] router )
@@ -476,7 +475,7 @@ public class DHCPServer {
 
     /*
      * public static void showTable() { //dhcpTable.repaint();
-     * 
+     *
      * } */
 
 //    private void createTable()
