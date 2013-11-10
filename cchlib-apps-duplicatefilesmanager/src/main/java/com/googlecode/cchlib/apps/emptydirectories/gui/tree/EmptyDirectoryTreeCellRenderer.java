@@ -6,7 +6,6 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
@@ -22,176 +21,118 @@ class EmptyDirectoryTreeCellRenderer
         implements TreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( EmptyDirectoryTreeCellRenderer.class );
 
-    private final FolderTreeModelable model;
+    private Icon nodeLeafIcon;
+    private Icon nodeLeafSelectedIcon;
+    private Icon nodeLeafSelectedByUserIcon;
+    private Icon nodeLeafSelectedAndSelectedByUserIcon;
 
-    private Icon nodeLeafRendererIcon;
-    private Icon nodeLeafRendererIconSelected;
-    private Icon nodeLeafEmptyRendererIcon;
-    private Icon nodeLeafEmptyRendererIconSelected;
+    private Icon nodeLeafEmptyIcon;
+    private Icon nodeLeafEmptySelectedIcon;
+    private Icon nodeLeafEmptySelectedByUserIcon;
+    private Icon nodeLeafEmptySelectedAndSelectedByUserIcon;
 
     public EmptyDirectoryTreeCellRenderer( final FolderTreeModelable model )
     {
-        this.model=model;
+        this.nodeLeafIcon                          = MyStaticResources.getEmptyIcon();
+        this.nodeLeafSelectedIcon                  = MyStaticResources.getEmptySelectedIcon();
+        this.nodeLeafSelectedByUserIcon            = MyStaticResources.getEmptySelectedByUserIcon();
+        this.nodeLeafSelectedAndSelectedByUserIcon = MyStaticResources.getEmptySelectedAndSelectedByUserIcon();
 
-        this.nodeLeafRendererIcon              = MyStaticResources.getEmptyIcon();
-        this.nodeLeafRendererIconSelected      = MyStaticResources.getEmptySelectedIcon();
-        this.nodeLeafEmptyRendererIcon         = MyStaticResources.getEmptyLeafIcon();
-        this.nodeLeafEmptyRendererIconSelected = MyStaticResources.getEmptyLeafSelectedIcon();
-        
-        
-//        this.setDisabledIcon( disabledIcon );
-//        this.setLeafIcon( leafIcon );
-//        this.setOpenIcon( openIcon );
-//        this.setDisabledIcon( MyStaticResources.getDuplicateFilesPanelIcon() );
-//        this.setLeafIcon( MyStaticResources.getRemoveEmptyDirectoriesPanelIcon() );
-//        this.setOpenIcon( MyStaticResources.getDeletedFileIcon() );
-
+        this.nodeLeafEmptyIcon                          = MyStaticResources.getEmptyLeafIcon();
+        this.nodeLeafEmptySelectedIcon                  = MyStaticResources.getEmptyLeafSelectedIcon();
+        this.nodeLeafEmptySelectedByUserIcon            = MyStaticResources.getEmptyLeafSelectedByUserIcon();
+        this.nodeLeafEmptySelectedAndSelectedByUserIcon = MyStaticResources.getEmptyLeafSelectedAndSelectedByUserIcon();
     }
-/*
+
     @Override
     public Component getTreeCellRendererComponent(
             final JTree   tree,
-            final Object  _value_,
-            final boolean selected,
+            final Object  objectValue,
+            final boolean selectedByUser,
             final boolean expanded,
             final boolean leaf,
             final int     row,
             final boolean hasFocus
             )
     {
-        String name;
+        final String    name            = computeText( objectValue );
+        final Component cellEditorValue = super.getTreeCellRendererComponent(
+                tree,
+                (name == null) ? objectValue : name,
+                selectedByUser,
+                expanded,
+                leaf,
+                row,
+                hasFocus
+                );
 
-        if( _value_ instanceof FolderTreeNode ) {
-            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
-            Folder        folder    = nodeValue.getFolder();
-            File          nodeFile  = folder.getPath().toFile();
+        if( objectValue instanceof FolderTreeNode ) {
+            customizeIcon(
+                leaf,
+                FolderTreeNode.class.cast( objectValue ),
+                selectedByUser
+                );
+            }
 
-            name = nodeFile.getName();
+        return cellEditorValue;
+    }
 
-            if( name.isEmpty() ) {
-                // Root file
-                name = nodeFile.getPath();
+    private void customizeIcon(
+        final boolean        leaf,
+        final FolderTreeNode nodeValue,
+        final boolean        selectedByUser
+        )
+    {
+        final Folder folder = nodeValue.getFolder();
+        final File   file  = folder.getPath().toFile();
+
+        super.setToolTipText( file.getPath() );
+
+        if( folder instanceof EmptyFolder ) {
+            final boolean selected = nodeValue.isSelected();
+
+            if( leaf ) {
+                super.setIcon( getNodeLeafEmptyRendererIcon( selected, selectedByUser ) );
                 }
-
-            if( folder instanceof EmptyFolder ) {
-                EmptyFolder ef = EmptyFolder.class.cast( folder );
-
-                if( leaf ) {
-                    if( ! ef.isEmpty() ) {
-                        logger.error( "leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
-                        }
-
-                    // Build display
-                    String stringValue = tree.convertValueToText(
-                            name,
-                            selected,
-                            expanded,
-                            leaf,
-                            row,
-                            false
-                            );
-                    this.nodeLeafRenderer.setText( stringValue );
-//                    this.nodeLeafRenderer.setSelected( false );
-                    this.nodeLeafRenderer.setEnabled( tree.isEnabled() );
-
-//                    if (selected) {
-//                        this.nodeLeafRenderer.setForeground( this.selectionForeground );
-//                        this.nodeLeafRenderer.setBackground( this.selectionBackground );
-//                        }
-//                    else {
-//                        this.nodeLeafRenderer.setForeground( this.textForeground );
-//                        this.nodeLeafRenderer.setBackground( this.textBackground );
-//                        }
-
-                    this.currentValue = nodeValue;
-//                    this.nodeLeafRenderer.setSelected( this.model.isSelected( nodeValue ) );
-                    this.nodeLeafRenderer.setIcon( this.model.isSelected( nodeValue ) ? this.nodeLeafRendererIconSelected : this.nodeLeafRendererIcon );
-//                    this.nodeLeafRenderer.setEnabled( nodeValue.isLeaf() );
-
-
-                    this.cellEditorValue = this.nodeLeafRenderer;
-                    return this.nodeLeafRenderer;
-                    }
-                else {
-                    if( ef.isEmpty() ) {
-                        logger.error( "not a leaf EmptyFolder.isEmpty() = " + ef.isEmpty() );
-                        }
-
-                    // Build display
-                    String stringValue = tree.convertValueToText(
-                            name,
-                            selected,
-                            expanded,
-                            leaf,
-                            row,
-                            false
-                            );
-                    this.nonLeafEmptyRenderer.setText( stringValue );
-                    //this.nonLeafEmptyRenderer.setSelected( false );
-//                    this.nonLeafEmptyRenderer.setEnabled( tree.isEnabled() );
-
-//                    if (selected) {
-//                        this.nonLeafEmptyRenderer.setForeground( this.selectionForeground );
-//                        this.nonLeafEmptyRenderer.setBackground( this.selectionBackground );
-//                        }
-//                    else {
-//                        this.nonLeafEmptyRenderer.setForeground( this.textForeground );
-//                        this.nonLeafEmptyRenderer.setBackground( this.textBackground );
-//                        }
-
-                    this.currentValue = nodeValue;
-                    //this.nonLeafEmptyRenderer.setSelected( this.model.isSelected( nodeValue ) );
-                    this.nonLeafEmptyRenderer.setIcon( this.model.isSelected( nodeValue ) ? this.nodeLeafEmptyRendererIconSelected : this.nodeLeafEmptyRendererIcon );
-//                    this.nonLeafEmptyRenderer.setEnabled( !nodeValue.isLeaf() );
-
-                    this.cellEditorValue = this.nonLeafEmptyRenderer;
-                    return this.nonLeafEmptyRenderer;
-                    }
+            else {
+                super.setIcon( getNodeLeafIconSelected( selected, selectedByUser ) );
                 }
-            else { // !(folder instanceof EmptyFolder)
-                //logger.info( "node (not EmptyFolder) of type: " + folder );
-                if( leaf ) {
-                    throw new IllegalStateException( "Found leaf on a no empty folder: " + folder );
-                    }
-                }
+            }
+    }
+
+    private Icon getNodeLeafIconSelected(
+        final boolean selected,
+        final boolean selectedByUser
+        )
+    {
+        if( selectedByUser ) {
+            return selected ?  nodeLeafSelectedAndSelectedByUserIcon : nodeLeafSelectedByUserIcon;
+           }
+        else {
+            return selected ?  nodeLeafSelectedIcon : nodeLeafIcon;
+            }
+    }
+
+    private Icon getNodeLeafEmptyRendererIcon(
+        final boolean selected,
+        final boolean selectedByUser
+        )
+    {
+        if( selectedByUser ) {
+            return selected ?  nodeLeafEmptySelectedAndSelectedByUserIcon : nodeLeafEmptySelectedByUserIcon;
             }
         else {
-            name = null;
+            return selected ?  nodeLeafEmptySelectedIcon : nodeLeafEmptyIcon;
             }
-
-        Object defValue = name == null ? _value_ : name;
-
-        // use default display
-        this.cellEditorValue = this.nonLeafNotEmptyRenderer.getTreeCellRendererComponent(
-                    tree,
-                    defValue /* name or _value* /,
-                    selected,
-                    expanded,
-                    leaf,
-                    row,
-                    hasFocus
-                    );
-        return this.cellEditorValue;
     }
-*/
 
-    @Override
-    public Component getTreeCellRendererComponent(
-            final JTree   tree,
-            final Object  _value_, // $codepro.audit.disable methodParameterNamingConvention, localVariableNamingConvention
-            final boolean _selected_, // $codepro.audit.disable methodParameterNamingConvention, localVariableNamingConvention
-            final boolean expanded,
-            final boolean leaf,
-            final int     row,
-            final boolean hasFocus
-            )
+    private String computeText( final Object objectValue )
     {
         final String name;
 
-        if( _value_ instanceof FolderTreeNode ) {
-            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
+        if( objectValue instanceof FolderTreeNode ) {
+            FolderTreeNode nodeValue = FolderTreeNode.class.cast( objectValue );
             Folder         folder    = nodeValue.getFolder();
             File           file      = folder.getPath().toFile();
 
@@ -199,67 +140,9 @@ class EmptyDirectoryTreeCellRenderer
             }
         else {
             // handle hidden root node
-            name = null;
+            name = "ROOT";
             }
 
-        Component cellEditorValue = super.getTreeCellRendererComponent(
-                tree,
-                (name == null) ? _value_ : name,
-                _selected_,
-                expanded,
-                leaf,
-                row,
-                hasFocus
-                );
-
-        if( _value_ instanceof FolderTreeNode ) {
-            FolderTreeNode nodeValue = FolderTreeNode.class.cast( _value_ );
-            Folder         folder    = nodeValue.getFolder();
-            File           file      = folder.getPath().toFile();
-
-            super.setToolTipText( file.getPath() );
-
-            if( folder instanceof EmptyFolder ) {
-                boolean selected = nodeValue.isSelected();
-                //EmptyFolder ef = EmptyFolder.class.cast( folder );
-
-
-                //checkBox.setText( file.getName() );
-                //checkBox.setSelected( selected );
-
-                if( leaf ) {
-                    //super.set
-                    super.setIcon( selected ?  nodeLeafEmptyRendererIconSelected : nodeLeafEmptyRendererIcon );
-                    }
-                else {
-                    super.setIcon( selected ?  nodeLeafRendererIconSelected : nodeLeafRendererIcon );
-                    }
-
-                //value = checkBox;
-                }
-            }
-
-        return cellEditorValue;
+        return name;
     }
-
-//    @Override
-//    public void setIcon( Icon icon )
-//    {
-//        logger.info( "icon = " + icon );
-//
-//        if( icon instanceof ImageIcon ) {
-//            File file = new File( icon.toString() );
-//            try {
-//                Images.saveTo( (ImageIcon)icon, file, BufferedImage.TYPE_INT_ARGB );
-//                }
-//            catch( IOException e ) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//                }
-//            super.setIcon( icon );
-//            }
-//
-//        new Exception().printStackTrace();
-//    }
-
 }

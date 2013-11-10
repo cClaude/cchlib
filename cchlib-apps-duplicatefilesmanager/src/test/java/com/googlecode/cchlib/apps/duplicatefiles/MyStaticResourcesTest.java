@@ -23,11 +23,11 @@ public class MyStaticResourcesTest
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( Method m : methodList ) {
-            LOGGER.info( "m: " + m );
-            Object o = m.invoke( null, Objects.emptyArray() );
+        for( Method method : methodList ) {
+            LOGGER.info( "m: " + method );
+            Object o = method.invoke( null, Objects.emptyArray() );
 
-            LOGGER.info( "m: " + m + " => " + o );
+            LOGGER.info( "m: " + method + " => " + o );
             Icon result = (Icon)o;
 
             // add additional test code here
