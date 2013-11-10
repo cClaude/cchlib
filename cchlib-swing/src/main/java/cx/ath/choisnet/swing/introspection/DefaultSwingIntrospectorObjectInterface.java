@@ -3,6 +3,7 @@ package cx.ath.choisnet.swing.introspection;
 import java.util.EnumSet;
 import java.util.Map;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
+import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospection;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
@@ -47,8 +48,8 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
                 new DefaultIntrospection<OBJECT>(
                         objectClass,
                         EnumSet.of(
-                                Introspection.Attrib.ONLY_PUBLIC, 
-                                Introspection.Attrib.NO_DEPRECATED
+                                IntrospectionParameters.ONLY_PUBLIC, 
+                                IntrospectionParameters.NO_DEPRECATED
                                 )
                         )
                 );
