@@ -40,25 +40,34 @@ public class ToStringBuilder<T>
         for( final Method method : ms ) {
             // No parameters
             if( method.getParameterTypes().length == 0 ) {
-                // No void !
-                Class<?> returnType = method.getReturnType();
+                 if( shouldIgnoreByResult( method ) ) {
+                    final String name = method.getName();
 
-                if( returnType.equals( Void.class ) ) {
-                    continue;
-                    }
-                if( returnType.equals( Void.TYPE ) ) {
-                    continue;
-                    }
-                String name = method.getName();
-
-                for(String ignoreName:IGNORE_METHODS) {
-                    if( name.equals( ignoreName )) {
-                        continue;
+                    if( ! shouldIgnoreByName( name ) ) {
+                        methods.add( method );
                         }
                     }
-                methods.add( method );
                 }
-             }
+         }
+    }
+
+    private boolean shouldIgnoreByResult( final Method method )
+    {
+        // No void !
+        final Class<?> returnType = method.getReturnType();
+
+        return ! returnType.equals( Void.class ) && ! returnType.equals( Void.TYPE );
+    }
+
+    private boolean shouldIgnoreByName( final String name )
+    {
+        for( String ignoreName:IGNORE_METHODS ) {
+            if( name.equals( ignoreName )) {
+                return true;
+                }
+            }
+
+        return false;
     }
 
     /**

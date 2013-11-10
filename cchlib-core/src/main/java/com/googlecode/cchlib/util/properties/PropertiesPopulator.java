@@ -240,6 +240,7 @@ public class PropertiesPopulator<E>
                 }
             }
     }
+
     /**
      * Store fields annotate with {@link Populator} from bean
      * to properties
@@ -255,19 +256,6 @@ public class PropertiesPopulator<E>
     {
         populateProperties( null, bean, properties );
     }
-
-//    /**
-//     * @deprecated use {@link #populateProperties(String, Object, Properties)} instead
-//     */
-//    @Deprecated
-//    public void populateProperties(
-//        final E          bean,
-//        final Properties properties,
-//        final String     propertiesPrefix
-//        ) throws PropertiesPopulatorException
-//    {
-//        populateProperties( propertiesPrefix, bean, properties );
-//    }
 
     /**
      * Store fields annotate with {@link Populator} from bean
@@ -298,6 +286,16 @@ public class PropertiesPopulator<E>
             prefixLength = prefix.length();
             }
 
+        loadData( bean, properties, prefix, prefixLength );
+    }
+
+    private void loadData(
+        final E             bean,
+        final Properties    properties,
+        final StringBuilder prefix,
+        final int           prefixLength
+        )
+    {
         for( final Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
             final Field field = entry.getKey();
 
@@ -495,80 +493,88 @@ public class PropertiesPopulator<E>
         public void populate() throws PropertiesPopulatorException
         {
             for( Entry<Field,PropertiesPopulatorAnnotation<E>> entry : keyFieldMap.entrySet() ) {
-                final Field     f    = entry.getKey();
-                final Class<?>  type = f.getType();
+                final Field     field = entry.getKey();
+                final Class<?>  type  = field.getType();
 
                 //logger.info( "Populate field: " + f + " - " + type );
 
                 if( type.isArray() ) {
-                    //handleArray( f, type, prefix, prefixLength );
                     handleArray( entry, prefix, prefixLength );
                     }
                 else {
-                    final String strValue;
-                    final String defaultValue;
+                    handleNonArray( entry, field, type );
+                    }
+                }
+        }
 
-                    if( entry.getValue().isDefaultValueNull() ) {
-                        defaultValue = null;
+        private void handleNonArray(
+            final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
+            final Field                                         field,
+            final Class<?>                                      type
+            )
+        {
+            final String strValue;
+            final String defaultValue;
+
+            if( entry.getValue().isDefaultValueNull() ) {
+                defaultValue = null;
+                }
+            else {
+                defaultValue = entry.getValue().defaultValue();
+                }
+
+            if( prefixLength == 0 ) {
+                strValue = properties.getProperty( field.getName(), defaultValue );
+                }
+            else {
+                prefix.setLength( prefixLength );
+                prefix.append( field.getName() );
+                strValue = properties.getProperty( prefix.toString(), defaultValue );
+                }
+
+            //logger.info( "VALUE field: " + f + " is " + strValue + " default=" + defaultValue );
+
+            field.setAccessible( true );
+
+            try {
+                //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
+                //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
+
+                if( PopulatorContener.class.isAssignableFrom( type ) ) {
+                    Object o = field.get( bean );
+
+                    if( o == null ) {
+                        throw new PopulatorException( "Can't handle null for PopulatorContener field", field, field.getType() );
                         }
-                    else {
-                        defaultValue = entry.getValue().defaultValue();
-                        }
+                    PopulatorContener contener = PopulatorContener.class.cast( o );
 
-                    if( prefixLength == 0 ) {
-                        strValue = properties.getProperty( f.getName(), defaultValue );
-                        }
-                    else {
-                        prefix.setLength( prefixLength );
-                        prefix.append( f.getName() );
-                        strValue = properties.getProperty( prefix.toString(), defaultValue );
-                        }
-
-                    //logger.info( "VALUE field: " + f + " is " + strValue + " default=" + defaultValue );
-
-                    f.setAccessible( true );
-
+                    contener.setConvertToString( strValue );
+                    }
+                else {
                     try {
-                        //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
-                        //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
-
-                        if( PopulatorContener.class.isAssignableFrom( type ) ) {
-                            Object o = f.get( bean );
-
-                            if( o == null ) {
-                                throw new PopulatorException( "Can't handle null for PopulatorContener field", f, f.getType() );
-                                }
-                            PopulatorContener contener = PopulatorContener.class.cast( o );
-
-                            contener.setConvertToString( strValue );
-                            }
-                        else {
-                            try {
-                                //Object o = convertStringToObject( strValue, type );
-                                //f.set( bean, o );
-                                entry.getValue().setValue( f, bean, strValue, type );
-                                //logger.info( "_SET_ field: " + f + " to [" + o + ']' );
-                                }
-                            catch( ConvertCantNotHandleTypeException e ) {
-                                throw new PopulatorException( "Bad type for field", f, f.getType() );
-                                }
-                            }
+                        //Object o = convertStringToObject( strValue, type );
+                        //f.set( bean, o );
+                        entry.getValue().setValue( field, bean, strValue, type );
+                        //logger.info( "_SET_ field: " + f + " to [" + o + ']' );
                         }
-                    catch( NumberFormatException e ) {
-                        LOGGER.warn( "Cannot set field:" + f, e );
-                        }
-                    catch( IllegalArgumentException e ) {
-                        // ignore !
-                        LOGGER.warn( "Cannot set field:" + f, e );
-                        }
-                    catch( IllegalAccessException e ) {
-                        // ignore !
-                        LOGGER.error( "Cannot set field:" + f, e );
-                        }
-                    finally {
-                        f.setAccessible( false );
+                    catch( ConvertCantNotHandleTypeException e ) {
+                        throw new PopulatorException( "Bad type for field", field, field.getType() );
                         }
                     }
+                }
+            catch( NumberFormatException e ) {
+                LOGGER.warn( "Cannot set field:" + field, e );
+                }
+            catch( IllegalArgumentException e ) {
+                // ignore !
+                LOGGER.warn( "Cannot set field:" + field, e );
+                }
+            catch( IllegalAccessException e ) {
+                // ignore !
+                LOGGER.error( "Cannot set field:" + field, e );
+                }
+            finally {
+                field.setAccessible( false );
                 }
         }
 

@@ -5,8 +5,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.EnumHelper;
 
 /**
  *
@@ -15,7 +17,6 @@ import org.apache.log4j.Logger;
  */
 public class IntrospectionBuilder<O>
 {
-
     /** Some logs */
     private static final Logger LOGGER = Logger.getLogger(IntrospectionBuilder.class);
 
@@ -34,35 +35,33 @@ public class IntrospectionBuilder<O>
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
     public IntrospectionBuilder(
-            Class<O>                        inpectClass,
-            EnumSet<Introspection.Attrib>   attribSet
-            )
+        final Class<O>                     inpectClass,
+        final Set<IntrospectionParameters> parameters
+        )
     {
-        if( attribSet == null ) {
-            attribSet = EnumSet.noneOf( Introspection.Attrib.class );
-        }
+        final EnumSet<IntrospectionParameters> safeParameters = getSafeParameters( parameters );
 
         // Construit la liste des observateurs
         final Method[] methods = inpectClass.getMethods();
 
-        for( Method m : methods ) {
+        for( final Method method : methods ) {
             boolean getThis = true;
 
-            if( attribSet.contains( Introspection.Attrib.ONLY_PUBLIC ) ) {
-                getThis = Modifier.isPublic( m.getModifiers() );
-            }
-            if( getThis ) {
-                if( attribSet.contains( Introspection.Attrib.NO_DEPRECATED ) ) {
-                    getThis = ! m.isAnnotationPresent( Deprecated.class );
+            if( safeParameters.contains( IntrospectionParameters.ONLY_PUBLIC ) ) {
+                getThis = Modifier.isPublic( method.getModifiers() );
                 }
-            }
             if( getThis ) {
-                getThis = ! m.isAnnotationPresent( IVIgnore.class );
-            }
+                if( safeParameters.contains( IntrospectionParameters.NO_DEPRECATED ) ) {
+                    getThis = ! method.isAnnotationPresent( Deprecated.class );
+                    }
+                }
+            if( getThis ) {
+                getThis = ! method.isAnnotationPresent( IVIgnore.class );
+                }
 
             if( getThis ) {
-                if( m.getParameterTypes().length == 0 ) {
-                    final String methodName = m.getName();
+                if( method.getParameterTypes().length == 0 ) {
+                    final String methodName = method.getName();
 
                     //TODO: check if return something !
 
@@ -70,34 +69,34 @@ public class IntrospectionBuilder<O>
                         // ignore privateSLog.trace( "Ignored Method: " + m );
                         }
                     else if( methodName.startsWith( "is" ) ) {
-                        addGetter( methodName.substring( 2 ), m );
+                        addGetter( methodName.substring( 2 ), method );
                         }
                     else if( methodName.startsWith( "get" ) ) {
-                        addGetter( methodName.substring( 3 ), m );
+                        addGetter( methodName.substring( 3 ), method );
                         }
-                    /*else if( sLog.isDebugEnabled() ) {
-                        sLog.debug( "* (0)Ignore this Method: " + m );
-                    } */
                     }
-                else if( m.getParameterTypes().length == 1 ) {
-                    final String methodName = m.getName();
+                else if( method.getParameterTypes().length == 1 ) {
+                    final String methodName = method.getName();
 
                     if( methodName.startsWith( "is" ) ) {
                         // for some set method witch have name like isSomeThing
-                        addSetter( methodName.substring( 2 ), m );
+                        addSetter( methodName.substring( 2 ), method );
                     } else if( methodName.startsWith( "set" ) ) {
-                        addSetter( methodName.substring( 3 ), m );
-                    } /*else if( sLog.isDebugEnabled() ) {
-                        sLog.debug( "* (1)Ignore this Method: " + m );
-                    }*/
-                } /*else if( sLog.isDebugEnabled() ) {
-                    sLog.debug( "* (>1)Ignore this Method: " + m );
-                }*/
+                        addSetter( methodName.substring( 3 ), method );
+                    }
+                }
             } // if( getThis )
             else if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "* (out of scope) Ignore this Method: " + m );
+                LOGGER.debug( "* (out of scope) Ignore this Method: " + method );
             }
         }
+    }
+
+    protected static EnumSet<IntrospectionParameters> getSafeParameters(
+        final Set<IntrospectionParameters> parameters
+        )
+    {
+        return EnumHelper.getSafeEnumSet( parameters, IntrospectionParameters.class );
     }
 
     private final void addGetter( final String beanName, final Method method )
@@ -111,10 +110,10 @@ public class IntrospectionBuilder<O>
     }
 
     private void addMethod(
-            final Map<String,Method>    methodsMap,
-            final String                beanName,
-            final Method                method
-            )
+        final Map<String,Method>    methodsMap,
+        final String                beanName,
+        final Method                method
+        )
     {
         Method previous = methodsMap.put( beanName, method );
 

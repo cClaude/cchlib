@@ -29,15 +29,6 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     /** Some logs */
     private static final Logger LOGGER = Logger.getLogger(Introspection.class);
 
-    /**
-     *
-     * @author CC
-     */
-    public enum Attrib{
-        ONLY_PUBLIC,
-        NO_DEPRECATED
-        };
-
     /** Getter/Setter Methods list */
     private Map<String,I> itemsMap = null;
     private IntrospectionItemFactory<IntrospectionItem<O>> itemFactory;
@@ -50,24 +41,22 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
     public Introspection(
-            Class<O>                                        inpectClass,
-            IntrospectionItemFactory<IntrospectionItem<O>>  itemFactory,
-            EnumSet<Attrib>                                 attribSet
-            )
+        final Class<O>                                        inpectClass,
+        final IntrospectionItemFactory<IntrospectionItem<O>>  itemFactory,
+        final EnumSet<IntrospectionParameters>                parameters
+        )
     {
-        if( attribSet == null ) {
-            attribSet = EnumSet.noneOf( Attrib.class );
-            }
+        final EnumSet<IntrospectionParameters> safeParameters = IntrospectionBuilder.getSafeParameters( parameters );
 
         // get generic class !
         this.itemFactory    = itemFactory;
         this.itemsMap       = new TreeMap<String,I>();
 
-        IntrospectionBuilder<O> builder = new IntrospectionBuilder<O>(inpectClass, attribSet);
+        final IntrospectionBuilder<O> builder = new IntrospectionBuilder<O>(inpectClass, safeParameters);
 
         for( Map.Entry<String,Method> entry : builder.getGetterMethodsMap().entrySet() ) {
-            String beanName = entry.getKey();
-            Method setter   = builder.getSetterMethodsMap().get( beanName );
+            final String beanName = entry.getKey();
+            final Method setter   = builder.getSetterMethodsMap().get( beanName );
 
             if( setter != null ) {
                 //final I methodInfo =
@@ -181,8 +170,11 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             }
     }
 
-    private void compareWithExceptionArrays( final Object a1, final Object a2, final Method m )
-        throws IntrospectionCompareException
+    private void compareWithExceptionArrays( // $codepro.audit.disable blockDepth
+        final Object a1,
+        final Object a2,
+        final Method m
+        ) throws IntrospectionCompareException
     {
         final int len = Array.getLength( a1 );
 
@@ -194,8 +186,8 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             }
         else {
             for( int i = 0; i<len; i++ ) {
-                Object av1 = Array.get( a1, 0 );
-                Object av2 = Array.get( a2, 0 );
+                final Object av1 = Array.get( a1, 0 );
+                final Object av2 = Array.get( a2, 0 );
 
                 if( av1 == null ) {
                     if( av2 == null ) {

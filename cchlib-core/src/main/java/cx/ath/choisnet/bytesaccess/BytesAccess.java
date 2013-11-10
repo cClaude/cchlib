@@ -1,4 +1,4 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals, constantNamingConvention
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -60,11 +60,7 @@ public abstract class BytesAccess implements Cloneable
         if( offset < 0 ) {
             throw new IllegalArgumentException("offset can't be negative");
         }
-//        this.bytes = new byte[ length ];
-//
-//        for( int i = 0; i<length; i++ ) {
-//            this.bytes[ i ] = bytes[ offset + i ];
-//        }
+
         this.bytes = ArrayHelper.cloneArray( bytes, offset, 0, length );
     }
 
@@ -108,9 +104,6 @@ public abstract class BytesAccess implements Cloneable
         try {
             len = is.read( bytes );
             }
-//        catch( IOException e ) {
-//            len = -1;
-//            }
         finally {
             is.close();
             }
@@ -140,18 +133,12 @@ public abstract class BytesAccess implements Cloneable
         return this.bytes.length;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
         return Arrays.hashCode(bytes);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
@@ -187,7 +174,13 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long CMP_MASK_BYTE0_VALUE = 0x000000000000FF00;
+    public static final long CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00;
+
+    /**
+     * @see #compare(byte[], byte[])
+     * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
+     */
+    public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
 
     /**
      * @see #compare(byte[], byte[])
@@ -197,7 +190,13 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long CMP_MASK_BYTE1_VALUE = 0x00000000000000FFL;
+    public static final long CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
+
+    /**
+     * @see #compare(byte[], byte[])
+     * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
+     */
+    public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
 
     /**
      * @see #compare(byte[], byte[])
@@ -226,13 +225,10 @@ public abstract class BytesAccess implements Cloneable
     {
         if( bytes0.length != bytes1.length ) {
             throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
-        }
+            }
 
         for( int i=0; i<bytes0.length; i++ ) {
             if( bytes0[ i ] != bytes1[ i ] ) {
-//Logger slogger = Logger.getLogger(BytesAccess.class);
-//i = bytes0.length - 1;
-//slogger.info( String.format("diff found at %1$d (%1$02X)", i) );
                 long offset = i<<CMP_MASK_ROT_OFFSET;
 
                 if( (i & CMP_MASK_OFFSET_LOW) != i ) {
@@ -242,27 +238,19 @@ public abstract class BytesAccess implements Cloneable
                     // here just to try to deal with all cases
                     // and perhaps some Java evolution ;)
                     offset = CMP_MASK_OFFSET;
-                }
+                    }
                 else {
                     offset = i<<CMP_MASK_ROT_OFFSET;
-                }
-//slogger.info( String.format("offset %1$016X", offset) );
-//slogger.info( String.format("CMP_MASK_OFFSET        %1$016X", CMP_MASK_OFFSET) );
-////slogger.info( String.format("cmpMask                %1$016X", cmpMask) );
-//slogger.info( String.format("CMP_MASK_ROT_OFFSET    %1$d", CMP_MASK_ROT_OFFSET) );
-//slogger.info( String.format("i<<CMP_MASK_ROT_OFFSET %1$016X", (i<<CMP_MASK_ROT_OFFSET)) );
-//slogger.info( String.format("bytes0[ i ] %1$08X", bytes0[ i ]) );
-//slogger.info( String.format("bytes1[ i ] %1$08X", bytes1[ i ]) );
-
+                    }
+                
                 // 0xFFFFFFFF FFFF0000 - offset of difference
                 // 0x00000000 0000FF00 - first  byte value
                 // 0x00000000 000000FF - second byte value
-
                 return offset
-                    | ( ((bytes0[ i ])<<CMP_MASK_ROT_BYTE0_VALUE) & CMP_MASK_BYTE0_VALUE)
-                    | ( ((bytes1[ i ])<<CMP_MASK_ROT_BYTE1_VALUE) & CMP_MASK_BYTE1_VALUE);
+                    | ( ((bytes0[ i ])<<CMP_MASK_ROT_BYTE0_VALUE) & CMP_FF00_MASK_BYTE_VALUE)
+                    | ( ((bytes1[ i ])<<CMP_MASK_ROT_BYTE1_VALUE) & CMP_00FF_MASK_BYTE_VALUE);
+                }
             }
-        }
 
         return 0;
     }
@@ -304,7 +292,7 @@ public abstract class BytesAccess implements Cloneable
             // So we can't remember offset.
 
             // Remove bad informations
-            l &= (CMP_MASK_BYTE0_VALUE|CMP_MASK_BYTE1_VALUE);
+            l &= (CMP_FF00_MASK_BYTE_VALUE|CMP_00FF_MASK_BYTE_VALUE);
 
             //set offset to 0xFF (255)
             l ^= (0x00FFL<<CMP_MASK_ROT_OFFSET);
@@ -416,9 +404,6 @@ public abstract class BytesAccess implements Cloneable
     {
         byte[] cpy = new byte[ this.bytes.length ];
 
-//        for( int i = 0; i< this.bytes.length; i++ ) {
-//            cpy[ i ] = this.bytes[ i ];
-//        }
         System.arraycopy(this.bytes, 0, cpy, 0, this.bytes.length);
 
         return cpy;
@@ -432,7 +417,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public byte[] xorOperator( BytesAccess anOtherInstance )
+    public byte[] xorOperator( final BytesAccess anOtherInstance )
         throws IllegalArgumentException
     {
         return xorOperator( this.bytes, anOtherInstance.bytes );
@@ -446,7 +431,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public byte[] xorOperator( byte[] someBytes )
+    public byte[] xorOperator( final byte[] someBytes )
         throws IllegalArgumentException
     {
         return xorOperator( this.bytes, someBytes );

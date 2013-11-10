@@ -18,7 +18,7 @@ public class DefaultIntrospection<O>
      */
     public DefaultIntrospection(
             Class<O>                        inpectClass,
-            EnumSet<Introspection.Attrib>   attribSet
+            EnumSet<IntrospectionParameters>   attribSet
             )
     {
         super(

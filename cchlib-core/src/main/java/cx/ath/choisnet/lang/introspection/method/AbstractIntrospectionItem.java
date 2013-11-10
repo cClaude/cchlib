@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +24,6 @@ public abstract class AbstractIntrospectionItem<O>
         this.setterMethod = setterMethod;
     }
 
-
     /**
      * @return the getterMethod
      */
@@ -49,8 +44,10 @@ public abstract class AbstractIntrospectionItem<O>
 
     @Override
     public abstract Object getMinValue();
+
     @Override
     public abstract Object getDefaultValue();
+
     @Override
     public abstract Object getMaxValue();
 
@@ -72,16 +69,16 @@ public abstract class AbstractIntrospectionItem<O>
             this.getterMethod.setAccessible(true);
 
             return this.getterMethod.invoke( object, (Object[])null );
-        }
+            }
         catch( IllegalArgumentException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod );
-        }
+            }
         catch( IllegalAccessException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod );
-        }
+            }
         catch( InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod );
-        }
+            }
     }
 
     public int getIntegerValue( final O object )
@@ -89,18 +86,18 @@ public abstract class AbstractIntrospectionItem<O>
     {
         try {
             return Integer.class.cast( getObjectValue( object ) ).intValue();
-        }
+            }
         catch( ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
     }
 
-    public boolean getBooleanValue( final O object )
+    public boolean getBooleanValue( final O object ) // $codepro.audit.disable booleanMethodNamingConvention
             throws IntrospectionInvokeException, IntrospectionClassCastException
     {
         try {
             return Boolean.class.cast( getObjectValue( object ) ).booleanValue();
-        }
+            }
         catch( ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
@@ -111,7 +108,7 @@ public abstract class AbstractIntrospectionItem<O>
     {
         try {
             return String.class.cast( getObjectValue( object ) ).trim();
-        }
+            }
         catch( ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
@@ -128,24 +125,23 @@ public abstract class AbstractIntrospectionItem<O>
     public void setObjectValue( final O object, final Object value )
         throws IntrospectionInvokeException
     {
-        final Object[] params = new Object[ 1 ];
-        params[ 0 ] = value;
+        final Object[] params = new Object[] { value };
 
         try {
             //workaround for bug:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957
             this.setterMethod.setAccessible(true);
             this.setterMethod.invoke( object, params );
-        }
+            }
         catch( IllegalArgumentException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
-        }
+            }
         catch( IllegalAccessException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
-        }
+            }
         catch( InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
-        }
+            }
     }
 
     /**
