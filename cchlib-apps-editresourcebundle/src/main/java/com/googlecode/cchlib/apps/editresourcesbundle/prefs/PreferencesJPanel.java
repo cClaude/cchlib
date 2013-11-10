@@ -33,34 +33,12 @@ public class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNum
     private JSlider           numberOfFilesJSlider;
     private JTextField        numberOfFilesJTextField;
 
-    public interface Action
-    {
-        public void onCancel();
-        public void onSave( SaveParams saveParams );
-    }
-
-    public interface InitParams
-    {
-        public int getNumberOfFiles();
-        public String[] getLanguages();
-        public int getSelectedLanguageIndex();
-        public boolean isSaveWindowSize();
-    }
-
-    public interface SaveParams
-    {
-        public int getNumberOfFiles();
-        public int getSelectedLanguageIndex();
-        public boolean isSaveWindowSize();
-        public boolean isSaveLookAndFeel();
-    }
-
     /**
      * Create the panel.
      */
     public PreferencesJPanel(
-        final InitParams initParams,
-        final Action     action
+        final PreferencesDefaultsParametersValues initParams,
+        final PreferencesAction     action
         )
     {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -188,7 +166,7 @@ public class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNum
             btnSave.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    action.onSave(new SaveParams() {
+                    action.onSave(new PreferencesCurentSaveParameters() {
                         @Override
                         public int getNumberOfFiles()
                         {

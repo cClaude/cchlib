@@ -28,8 +28,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 /**
  *
  */
-final
-public class MultiLineEditorDialog // $codepro.audit.disable largeNumberOfFields
+public final class MultiLineEditorDialog // $codepro.audit.disable largeNumberOfFields
     extends JDialog
         implements I18nAutoCoreUpdatable
 {

@@ -2,6 +2,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -32,11 +34,13 @@ public class HTMLPreviewDialog
 {
     private static final long serialVersionUID = 1L;
 
-    private CompareResourcesBundleFrame frame;
+    private Preferences preferences;
+
     @I18nIgnore private JEditorPane htmlComponent;
     private JButton jButtonClose;
     private JCheckBoxMenuItem jCheckBoxMenuItem_W3C_LENGTH_UNITS;
     private JCheckBoxMenuItem jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES;
+
 
     /**
      *
@@ -48,7 +52,8 @@ public class HTMLPreviewDialog
         )
     {
         super( frame );
-        this.frame = frame;
+
+        this.preferences = frame.getPreferences();
 
         // clean up content
         String          htmlCmp = htmlSource.trim().toLowerCase();
@@ -179,8 +184,13 @@ public class HTMLPreviewDialog
     @Override
     public void dispose()
     {
-        // TODO something better !!! (size is store every time windows is closed)
-        frame.getPreferences().setHTMLPreviewDimension( getSize() );
+        // TODO something better !!! (size is store every time windows size is changed -> need to be optionnal)
+        final Dimension frameSize = getSize();
+
+        if( ! frameSize.equals( preferences.getHTMLPreviewDimension() )) {
+            preferences.setHTMLPreviewDimension( getSize() );
+            }
+        
         super.dispose();
     }
 

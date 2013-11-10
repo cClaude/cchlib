@@ -13,13 +13,17 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.AbstractPreferencesAction;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesCurentSaveParameters;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesDefaultsParametersValues;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJDialog;
-import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -457,7 +461,50 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
             selectedLanguageIndex = selected;
         }
 
-        PreferencesJPanel.InitParams initParams = new PreferencesJPanel.InitParams()
+        final PreferencesDefaultsParametersValues initParams = newPreferencesDefaultsParametersValues(
+                languages,
+                selectedLanguageIndex
+                );
+        final AbstractPreferencesAction action = newPreferencesAction( locales );
+
+        PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
+        dialog.setVisible( true );
+    }
+
+    private AbstractPreferencesAction newPreferencesAction( final Locale[] locales )
+    {
+        final AbstractPreferencesAction action = new AbstractPreferencesAction()
+        {
+            @Override
+            public void onSave( PreferencesCurentSaveParameters saveParams )
+            {
+                Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
+                preferences.setLocale( locale );
+
+                if( saveParams.isSaveWindowSize() ) {
+                    preferences.setWindowDimension( getSize() );
+                    }
+
+                preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
+
+                if( saveParams.isSaveLookAndFeel() ) {
+                    preferences.setLookAndFeelClassName();
+                    }
+
+                savePreferences();
+
+                this.dispose();
+            }
+        };
+        return action;
+    }
+
+    private PreferencesDefaultsParametersValues newPreferencesDefaultsParametersValues(
+            final String[] languages,
+            final int      selectedLanguageIndex
+            )
+    {
+        PreferencesDefaultsParametersValues initParams = new PreferencesDefaultsParametersValues()
         {
             @Override
             public int getNumberOfFiles()
@@ -480,32 +527,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
                 return false; // FIXME ??
             }
         };
-        PreferencesJDialog.AbstractAction action = new PreferencesJDialog.AbstractAction()
-        {
-            @Override
-            public void onSave( PreferencesJPanel.SaveParams saveParams )
-            {
-                Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
-                preferences.setLocale( locale );
-
-                if( saveParams.isSaveWindowSize() ) {
-                    preferences.setWindowDimension( getSize() );
-                    }
-
-                preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
-
-                if( saveParams.isSaveLookAndFeel() ) {
-                    preferences.setLookAndFeelClassName();
-                    }
-
-                savePreferences();
-
-                this.dispose();
-            }
-        };
-
-        PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
-        dialog.setVisible( true );
+        return initParams;
     }
 
     private void savePreferences()

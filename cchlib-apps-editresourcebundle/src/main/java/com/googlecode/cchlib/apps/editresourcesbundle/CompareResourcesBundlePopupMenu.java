@@ -23,7 +23,7 @@ class CompareResourcesBundlePopupMenu
     //
     // http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
     //
-    private final static transient Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
+    private static final transient Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
     private AbstractTableModel  abstractTableModel;
     /** @serial */
@@ -223,20 +223,15 @@ class CompareResourcesBundlePopupMenu
     private CompareResourcesBundleFrame getFrame()
     {
         if( frame == null ) {
-            Container c = getJTable();
-
-            while( c != null ) {
-                if( c instanceof Frame ) {
-                    if( c instanceof CompareResourcesBundleFrame ) {
-                        frame = CompareResourcesBundleFrame.class.cast( c );
-                        }
-                    else {
-                        LOGGER.fatal( "Found a frame but not expected one !" + c );
-                        }
+            for( Container c = getJTable(); c != null; c = c.getParent() ) {
+                if( c instanceof CompareResourcesBundleFrame ) {
+                    frame = CompareResourcesBundleFrame.class.cast( c );
                     break;
                     }
-
-                c = c.getParent();
+                else if( c instanceof Frame ) {
+                    LOGGER.fatal( "Found a frame but not expected one !" + c );
+                    break;
+                   }
                 }
 
             if( frame == null ) {

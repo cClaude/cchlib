@@ -144,20 +144,42 @@ class CompareResourcesBundleTableModel
             LOGGER.info( "CP[" + i + "]=" + customProperties[ i ] );
             }
 
+        showLineNumberIfPossible( filesConfig );
+
+        SortedSet<String> keyBuilderSet = new TreeSet<String>();
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "colunms = " + colunms );
+            }
+
+        for( int index = 0; index<customProperties.length; index++ ) {
+            keyBuilderSet.addAll( customProperties[ index ].stringPropertyNames() );
+            }
+
+        for( String s : keyBuilderSet ) {
+            keyList.add( s );
+            }
+        keyBuilderSet.clear();
+
+        LOGGER.info( "keys:" + keyList.size()) ;
+        LOGGER.info( "this:" + this  );
+    }
+
+    private void showLineNumberIfPossible( final FilesConfig filesConfig )
+    {
         boolean showLineNumberIfPossible = filesConfig.isShowLineNumbers();
 
         if( showLineNumberIfPossible ) {
-            boolean cantShowLineNumber = true;
+            boolean canNotShowLineNumber = true;
 
             for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
-                //if( filesConfig.getFormattedProperties( i ) == null ) {
                 if( customProperties[ i ] instanceof FormattedCustomProperties ) {
-                    cantShowLineNumber = false;
+                    canNotShowLineNumber = false;
                     break;
                     }
                 }
 
-            showLineNumberIfPossible = cantShowLineNumber;
+            showLineNumberIfPossible = canNotShowLineNumber;
             }
 
         if( showLineNumberIfPossible ) {
@@ -182,24 +204,6 @@ class CompareResourcesBundleTableModel
                 colunms.colunmValue[ i ] = 1 + i;
                 }
             }
-
-        SortedSet<String> keyBuilderSet = new TreeSet<String>();
-
-        if( LOGGER.isDebugEnabled() ) {
-            LOGGER.debug( "colunms = " + colunms );
-            }
-
-        for( int index = 0; index<customProperties.length; index++ ) {
-            keyBuilderSet.addAll( customProperties[ index ].stringPropertyNames() );
-            }
-
-        for( String s : keyBuilderSet ) {
-            keyList.add( s );
-            }
-        keyBuilderSet.clear();
-
-        LOGGER.info("keys:" + keyList.size());
-        LOGGER.info("this:" + this );
     }
 
     @Override
@@ -417,7 +421,6 @@ class CompareResourcesBundleTableModel
                         setBackground( Color.LIGHT_GRAY );
                         }
 
-                    //slogger.info( "value = " + value );
                     setText( str );
 
                     return this;
@@ -448,17 +451,17 @@ class CompareResourcesBundleTableModel
         return this.customProperties[ index ];
     }
 
-    public void setColumnWidth( final JTable table )
+    public void setColumnWidth( final JTable table ) // $codepro.audit.disable blockDepth
     {//Not Override
-        Font        font    = table.getFont();
-        FontMetrics fm      = table.getFontMetrics( font );
+        final Font        font    = table.getFont();
+        final FontMetrics fm      = table.getFontMetrics( font );
 
         for( int ci = 0; ci < getColumnCount(); ci++ ) {
             int maxWidth = 0;
 
             // Find max for this column
             for( int ri = 0; ri < keyList.size(); ri++ ) {
-                Object content = getValueAt( ri, ci );
+                final Object content = getValueAt( ri, ci );
 
                 if( content instanceof String ) {
                     String s = String.class.cast( content );
@@ -471,7 +474,7 @@ class CompareResourcesBundleTableModel
                     }
                 }
 
-            TableColumn column = table.getColumnModel().getColumn( ci );
+            final TableColumn column = table.getColumnModel().getColumn( ci );
             column.setPreferredWidth( maxWidth );
             }
     }

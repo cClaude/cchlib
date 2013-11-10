@@ -25,18 +25,21 @@ import cx.ath.choisnet.util.FormattedProperties;
  *
  */
 @I18nName("LoadDialog")
-public class LoadDialog
+public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     extends LoadDialogWB
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
-    private final static Logger LOGGER = Logger.getLogger( LoadDialog.class );
+    private static final Logger LOGGER = Logger.getLogger( LoadDialog.class );
 
     private JFileChooserInitializer jFileChooserInitializer = new JFileChooserInitializer();
     private FilesConfig filesConfig;
 
-    private final static int PROPERTIES = 1;
-    private final static int FORMATTED_PROPERTIES = 2;
+    private static final int PROPERTIES = 1;
+    private static final int FORMATTED_PROPERTIES = 2;
+
+    private static final int LOAD_DIALOG_MINIMUM_WIDTH = 400;
+    private static final int LOAD_DIALOG_MINIMUM_HEIGHT = 250;
 
     @I18nString private String strMsgTitle = "Load...";
     @I18nString private String strMsg_ErrorWhileLoading = "Error while loading files";
@@ -99,7 +102,7 @@ public class LoadDialog
         getContentPane().setPreferredSize( this.getSize() );
         pack();
 
-        Windows.handleMinimumSize( this, 400, 250 );
+        Windows.handleMinimumSize( this, LOAD_DIALOG_MINIMUM_WIDTH, LOAD_DIALOG_MINIMUM_HEIGHT );
     }
 
     public void initFixComponents()

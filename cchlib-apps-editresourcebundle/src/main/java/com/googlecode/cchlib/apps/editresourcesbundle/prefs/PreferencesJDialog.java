@@ -2,7 +2,6 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.BorderLayout;
-import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JDialog;
@@ -13,33 +12,14 @@ public class PreferencesJDialog extends JDialog
     private static final long serialVersionUID = 1L;
     private final PreferencesJPanel contentPanel;
 
-    public static abstract class AbstractAction implements PreferencesJPanel.Action
-    {
-        private Window window;
-
-        final void setWindow( final Window window )
-        {
-            this.window = window;
-        }
-        @Override
-        public final void onCancel()
-        {
-            window.dispose();
-        }
-        public final void dispose()
-        {
-            window.dispose();
-        }
-    }
-
     /**
      * Create the dialog.
      * @param action
      * @param initParams
      */
     public PreferencesJDialog(
-       final PreferencesJPanel.InitParams initParams,
-       final AbstractAction               action
+       final PreferencesDefaultsParametersValues initParams,
+       final AbstractPreferencesAction           action
        )
     {
         setBounds( 100, 100, 450, 300 );

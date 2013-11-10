@@ -18,7 +18,7 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
  */
 public class EditResourcesBundleAppI18nPrep implements Runnable
 {
-    private final static Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
+    private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
 
     public static void main( String[] args ) throws IOException
     {

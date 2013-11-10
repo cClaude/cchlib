@@ -83,9 +83,9 @@ public class FilesConfigTest
     }
 
     private final FilesConfigComparator fcc = new FilesConfigComparator();
-    static class FilesConfigComparator implements Comparator<FilesConfig>
+    private static final class FilesConfigComparator implements Comparator<FilesConfig>
     {
-        Comparator<FileObject> foComparator = new Comparator<FileObject>()
+        private static final Comparator<FileObject> FILE_OBJECT_COMPARATOR = new Comparator<FileObject>()
         {
             @Override
             public int compare( FileObject o1, FileObject o2 )
@@ -99,7 +99,7 @@ public class FilesConfigTest
                 return o1.getFile().compareTo( o2.getFile() );
             }
         };
-        Comparator<CustomProperties> cpComparator = new Comparator<CustomProperties>()
+        private static final Comparator<CustomProperties> CUSTOM_PROPERTIES_COMPARATOR = new Comparator<CustomProperties>()
         {
             @Override
             public int compare( CustomProperties o1, CustomProperties o2 )
@@ -160,14 +160,14 @@ public class FilesConfigTest
                 }
 
             for( int i = 0; i<o1.getNumberOfFiles(); i++ ) {
-                res = foComparator.compare( o1.getFileObject( i ), o2.getFileObject( i ) );
+                res = FILE_OBJECT_COMPARATOR.compare( o1.getFileObject( i ), o2.getFileObject( i ) );
                 if( res != 0 ) {
                     return res;
                     }
                 }
 
             for( int i = 0; i<o1.getNumberOfFiles(); i++ ) {
-                res = cpComparator.compare( o1.getCustomProperties( i ), o2.getCustomProperties( i ) );
+                res = CUSTOM_PROPERTIES_COMPARATOR.compare( o1.getCustomProperties( i ), o2.getCustomProperties( i ) );
                 if( res != 0 ) {
                     return res;
                     }

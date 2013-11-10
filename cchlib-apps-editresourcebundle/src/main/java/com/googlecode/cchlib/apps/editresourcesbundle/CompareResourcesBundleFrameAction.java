@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
+import com.googlecode.cchlib.util.EnumHelper;
+
 enum CompareResourcesBundleFrameAction {
     ACTIONCMD_OPEN,
     ACTIONCMD_SAVE_LEFT,
@@ -17,15 +19,12 @@ enum CompareResourcesBundleFrameAction {
         throw new IllegalStateException();
     }
 
-    private boolean isPrefixOf( final String value )
-    {
-        return value.startsWith( name() );
-    }
-
     public Integer getIndex( final String value )
     {
-        if( isPrefixOf( value ) ) {
-            return Integer.valueOf( value.substring( name().length() ) );
+        final String suffix = EnumHelper.getSuffix( this, value );
+
+        if( suffix != null ) {
+            return Integer.valueOf( suffix );
             }
         else {
             return null;

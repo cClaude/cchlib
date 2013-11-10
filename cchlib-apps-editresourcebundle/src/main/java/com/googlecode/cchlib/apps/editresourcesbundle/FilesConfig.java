@@ -22,7 +22,6 @@ import cx.ath.choisnet.util.FormattedProperties;
 public class FilesConfig implements Serializable // $codepro.audit.disable largeNumberOfMethods
 {
     private static final long serialVersionUID = 2L;
-    //private static final Logger logger = Logger.getLogger( FilesConfig.class );
 
     private FileObject[] fileObjects;
 
