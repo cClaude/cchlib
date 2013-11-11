@@ -8,7 +8,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
@@ -78,23 +80,19 @@ class CompareResourcesBundlePopupMenu
     }
 
     protected void addShowHTMLMenuItem(
-            JPopupMenu  contextMenu,
-            final int   rowIndex,
-            final int   columnIndex
+            final JPopupMenu  contextMenu,
+            final int         rowIndex,
+            final int         columnIndex
             )
     {
         if( columnIndex == colunms.getColunmKey()) {
             return;
             }
-//        else if( columnIndex == colunms.colunmLeftLine ) {
-//            return;
-//            }
-        //else if( columnIndex == colunms.colunmRightLine ) {
         else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
-        JMenuItem previewMenu = new JMenuItem();
+        final JMenuItem previewMenu = new JMenuItem();
 
         previewMenu.setText( txtHTMLPreview );
         previewMenu.addActionListener(
@@ -117,28 +115,23 @@ class CompareResourcesBundlePopupMenu
                     }
                 });
 
-        //contextMenu.addSeparator();
         contextMenu.add( previewMenu );
     }
 
     protected void addEditMultiLineMenuItem(
-            JPopupMenu  contextMenu,
-            final int   rowIndex,
-            final int   columnIndex
-            )
+        final JPopupMenu  contextMenu,
+        final int         rowIndex,
+        final int         columnIndex
+        )
     {
         if( columnIndex == colunms.getColunmKey() ) {
             return;
             }
-//        else if( columnIndex == colunms.colunmLeftLine ) {
-//            return;
-//            }
-        //else if( columnIndex == colunms.colunmRightLine ) {
         else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
-        JMenuItem copyMenu = new JMenuItem();
+        final JMenuItem copyMenu = new JMenuItem();
 
         copyMenu.setText( txtEditLines );
         copyMenu.addActionListener(
@@ -165,10 +158,10 @@ class CompareResourcesBundlePopupMenu
     }
 
     protected void openMultiLineEditor(
-            final String    contentText,
-            final int       rowIndex,
-            final int       columnIndex
-            )
+        final String    contentText,
+        final int       rowIndex,
+        final int       columnIndex
+        )
     {
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace(
@@ -194,8 +187,8 @@ class CompareResourcesBundlePopupMenu
                 setValueAt(text, rowIndex, columnIndex);
 
                 // Update display
-                int row = getJTable().convertRowIndexToModel( rowIndex );
-                int col = getJTable().convertColumnIndexToModel( columnIndex );
+                final int row = getJTable().convertRowIndexToModel( rowIndex );
+                final int col = getJTable().convertColumnIndexToModel( columnIndex );
 
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace(

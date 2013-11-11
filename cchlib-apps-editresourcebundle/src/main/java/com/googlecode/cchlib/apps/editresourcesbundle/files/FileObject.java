@@ -12,8 +12,8 @@ public class FileObject implements Serializable
 
     public FileObject( final File file, final boolean readOnly )
     {
-        this.file             = file;
-        this.readOnly         = readOnly;
+        this.file       = file;
+        this.readOnly   = readOnly;
     }
 
     /**
@@ -42,7 +42,7 @@ public class FileObject implements Serializable
         if( customProperties == null ) {
             throw new IllegalStateException( "CustomProperties not initialized" );
             }
-        
+
         return customProperties;
     }
 
@@ -59,7 +59,7 @@ public class FileObject implements Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "FileObject [file=" );
         builder.append( file );
         builder.append( ", readOnly=" );

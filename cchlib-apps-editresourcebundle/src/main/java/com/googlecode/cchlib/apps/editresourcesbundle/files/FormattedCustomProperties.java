@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,10 +31,10 @@ class FormattedCustomProperties extends AbstractCustomProperties
     private HashMap<String,Integer> linesNumbers;
 
     public FormattedCustomProperties(
-            final FileObject                            fileObject,
-            final FormattedProperties                   defaults,
-            final EnumSet<FormattedProperties.Store>    formattedPropertiesStore
-            ) throws FileNotFoundException, IOException
+        final FileObject                            fileObject,
+        final FormattedProperties                   defaults,
+        final EnumSet<FormattedProperties.Store>    formattedPropertiesStore
+        ) throws FileNotFoundException, IOException
     {
         this.fileObject     = fileObject;
         this.properties     = new FormattedProperties(
@@ -71,17 +72,24 @@ class FormattedCustomProperties extends AbstractCustomProperties
             return false;
             }
         else {
-            OutputStream os = new FileOutputStream( fileObject.getFile() );
-
-            properties.store( os, StringHelper.EMPTY );
-
-            os.close();
-            LOGGER.info( "Save : " + fileObject );
-
-            setEdited( false );
-            return true;
+            return storeAs( fileObject.getFile() );
             }
     }
+
+    @Override
+    public boolean storeAs( final File file ) throws FileNotFoundException, IOException
+    {
+        try( final OutputStream os = new FileOutputStream( file ) ) {
+            properties.store( os, StringHelper.EMPTY );
+            }
+
+        LOGGER.info( "Save : " + file );
+
+        setEdited( false );
+
+        return true;
+    }
+
 
     @Override
     public FileObject getFileObject()
@@ -143,7 +151,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "FormattedCustomProperties [fileObject=" );
         builder.append( fileObject );
         builder.append( ", properties=" );

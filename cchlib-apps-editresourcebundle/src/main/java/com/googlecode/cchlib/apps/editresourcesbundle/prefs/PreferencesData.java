@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.properties.Populator;
 
-public class PreferencesData implements Serializable // $codepro.audit.disable largeNumberOfMethods, largeNumberOfFields
+/* not public */ class PreferencesData implements Serializable // $codepro.audit.disable largeNumberOfMethods, largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesData.class );

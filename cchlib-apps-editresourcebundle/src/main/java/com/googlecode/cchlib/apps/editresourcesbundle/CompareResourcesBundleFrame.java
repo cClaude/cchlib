@@ -13,17 +13,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
-import com.googlecode.cchlib.apps.editresourcesbundle.prefs.AbstractPreferencesAction;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
-import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesCurentSaveParameters;
-import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesDefaultsParametersValues;
-import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJDialog;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesOpener;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -47,7 +42,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 @I18nName("CompareResourcesBundleFrame")
 public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOfFields
     extends CompareResourcesBundleFrameWB
-        implements I18nAutoCoreUpdatable //I18nPrepHelperAutoUpdatable //I18nPrepAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final Logger LOGGER = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
@@ -76,9 +71,8 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private String msgStringAlertLocaleTitle = "Change language";
     @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
-    @I18nString private String msgStringSavePrefsExceptionTitle = "Error while saving preferences";
-    @I18nString private String msgStringDefaultLocale = "default system";
     @I18nString private String txtNoFile = "<<NoFile>>";
+    private PreferencesOpener preferencesOpener;
 
     /**
      * For I18n only
@@ -133,6 +127,8 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
+
+        preferencesOpener = new PreferencesOpener( this, preferences );
 
         // Apply i18n !
         performeI18n( autoI18n );
@@ -428,121 +424,12 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
     public void performeI18n( AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
-    }
+        autoI18n.performeI18n(this.preferencesOpener,this.preferencesOpener.getClass());
+           }
 
     public void openPreferences()
     {
-        final Locale[] locales = {
-            null, // System,
-            Locale.ENGLISH,
-            Locale.FRENCH
-            };
-        final String[] languages = {
-            msgStringDefaultLocale,
-            locales[1].getDisplayLanguage(),
-            locales[2].getDisplayLanguage()
-            };
-        final int selectedLanguageIndex;
-        {
-            Locale pLocale  = preferences.getLocale();
-            int    selected = 0;
-
-            if( pLocale == null ) {
-                selected = 0;
-                }
-            else {
-                for( int i = 1; i<locales.length; i++ ) {
-                    if( pLocale.equals( locales[ i ] ) ) {
-                        selected = i;
-                        break;
-                        }
-                    }
-                }
-            selectedLanguageIndex = selected;
-        }
-
-        final PreferencesDefaultsParametersValues initParams = newPreferencesDefaultsParametersValues(
-                languages,
-                selectedLanguageIndex
-                );
-        final AbstractPreferencesAction action = newPreferencesAction( locales );
-
-        PreferencesJDialog dialog =  new PreferencesJDialog( initParams, action );
-        dialog.setVisible( true );
-    }
-
-    private AbstractPreferencesAction newPreferencesAction( final Locale[] locales )
-    {
-        final AbstractPreferencesAction action = new AbstractPreferencesAction()
-        {
-            @Override
-            public void onSave( PreferencesCurentSaveParameters saveParams )
-            {
-                Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
-                preferences.setLocale( locale );
-
-                if( saveParams.isSaveWindowSize() ) {
-                    preferences.setWindowDimension( getSize() );
-                    }
-
-                preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
-
-                if( saveParams.isSaveLookAndFeel() ) {
-                    preferences.setLookAndFeelClassName();
-                    }
-
-                savePreferences();
-
-                this.dispose();
-            }
-        };
-        return action;
-    }
-
-    private PreferencesDefaultsParametersValues newPreferencesDefaultsParametersValues(
-            final String[] languages,
-            final int      selectedLanguageIndex
-            )
-    {
-        PreferencesDefaultsParametersValues initParams = new PreferencesDefaultsParametersValues()
-        {
-            @Override
-            public int getNumberOfFiles()
-            {
-                return preferences.getNumberOfFiles();
-            }
-            @Override
-            public String[] getLanguages()
-            {
-                return languages;
-            }
-            @Override
-            public int getSelectedLanguageIndex()
-            {
-                return selectedLanguageIndex;
-            }
-            @Override
-            public boolean isSaveWindowSize()
-            {
-                return false; // FIXME ??
-            }
-        };
-        return initParams;
-    }
-
-    private void savePreferences()
-    {
-        LOGGER.info( "Save prefs: " + preferences );
-        try {
-            preferences.save();
-            }
-        catch( IOException e ) {
-            DialogHelper.showMessageExceptionDialog(
-                CompareResourcesBundleFrame.this,
-                msgStringSavePrefsExceptionTitle,
-                e
-                );
-            }
+        preferencesOpener.open();
     }
 
     public Preferences getPreferences()

@@ -77,36 +77,9 @@ public class HTMLPreviewDialog
         setLocationRelativeTo( frame );
         getContentPane().setPreferredSize( getSize() );
 
-        ActionListener actionListener = new ActionListener()
-        {
-            @Override
-            public void actionPerformed( ActionEvent event )
-            {
-                final HTMLPreviewDialogAction action = HTMLPreviewDialogAction.valueOf( HTMLPreviewDialogAction.class,  event.getActionCommand() );
+        final ActionListener actionListener = newActionListener( frame );
 
-                switch( action ) {
-                    case ACTIONCMD_HONOR_DISPLAY_PROPERTIES:
-                    {
-                        final boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
-
-                        htmlComponent.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b ); // $codepro.audit.disable avoidAutoBoxing
-                        frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
-                    }
-                    break;
-
-                    case ACTIONCMD_W3C_LENGTH_UNITS:
-                    {
-                        final boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
-
-                        htmlComponent.putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b ); // $codepro.audit.disable avoidAutoBoxing
-                        frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
-                    }
-                    break;
-                }
-            }
-        };
-
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -127,8 +100,8 @@ public class HTMLPreviewDialog
                 frame.getPreferences().isHTMLPreview_HONOR_DISPLAY_PROPERTIES() // $codepro.audit.disable avoidAutoBoxing
                 );
 
-            JScrollPane jScrollPane = new JScrollPane(htmlComponent);
-            GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
+            final JScrollPane jScrollPane = new JScrollPane(htmlComponent);
+            final GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
             gbc_jScrollPane.gridwidth = 3;
             gbc_jScrollPane.fill = GridBagConstraints.BOTH;
             gbc_jScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -158,27 +131,59 @@ public class HTMLPreviewDialog
         }
 
         {
-        JMenuBar jMenuBar = new JMenuBar();
-        GridBagConstraints gbc_jMenuBar = new GridBagConstraints();
-        gbc_jMenuBar.gridx = 2;
-        gbc_jMenuBar.gridy = 1;
-        getContentPane().add(jMenuBar, gbc_jMenuBar);
+            final JMenuBar jMenuBar = new JMenuBar();
+            final GridBagConstraints gbc_jMenuBar = new GridBagConstraints();
+            gbc_jMenuBar.gridx = 2;
+            gbc_jMenuBar.gridy = 1;
+            getContentPane().add(jMenuBar, gbc_jMenuBar);
 
-        JMenu jMenuOptions = new JMenu("Options");
-        jMenuBar.add(jMenuOptions);
+            final JMenu jMenuOptions = new JMenu("Options");
+            jMenuBar.add(jMenuOptions);
 
-        jCheckBoxMenuItem_W3C_LENGTH_UNITS = new JCheckBoxMenuItem("W3C_LENGTH_UNITS");
-        jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_W3C_LENGTH_UNITS.name() );
-        jCheckBoxMenuItem_W3C_LENGTH_UNITS.addActionListener( actionListener );
-        jMenuOptions.add( jCheckBoxMenuItem_W3C_LENGTH_UNITS );
+            jCheckBoxMenuItem_W3C_LENGTH_UNITS = new JCheckBoxMenuItem("W3C_LENGTH_UNITS");
+            jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_W3C_LENGTH_UNITS.name() );
+            jCheckBoxMenuItem_W3C_LENGTH_UNITS.addActionListener( actionListener );
+            jMenuOptions.add( jCheckBoxMenuItem_W3C_LENGTH_UNITS );
 
-        jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES = new JCheckBoxMenuItem("HONOR_DISPLAY_PROPERTIES");
-        jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_HONOR_DISPLAY_PROPERTIES.name() );
-        jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.addActionListener( actionListener );
-        jMenuOptions.add( jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES );
+            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES = new JCheckBoxMenuItem("HONOR_DISPLAY_PROPERTIES");
+            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_HONOR_DISPLAY_PROPERTIES.name() );
+            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.addActionListener( actionListener );
+            jMenuOptions.add( jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES );
 
-        super.setJMenuBar( jMenuBar );
+            super.setJMenuBar( jMenuBar );
         }
+    }
+
+    private ActionListener newActionListener(
+            final CompareResourcesBundleFrame frame )
+    {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed( ActionEvent event )
+            {
+                final HTMLPreviewDialogAction action = HTMLPreviewDialogAction.valueOf( HTMLPreviewDialogAction.class,  event.getActionCommand() );
+
+                switch( action ) {
+                    case ACTIONCMD_HONOR_DISPLAY_PROPERTIES:
+                    {
+                        final boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
+
+                        htmlComponent.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b ); // $codepro.audit.disable avoidAutoBoxing
+                        frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
+                    }
+                    break;
+
+                    case ACTIONCMD_W3C_LENGTH_UNITS:
+                    {
+                        final boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
+
+                        htmlComponent.putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b ); // $codepro.audit.disable avoidAutoBoxing
+                        frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
+                    }
+                    break;
+                }
+            }
+        };
     }
 
     @Override
@@ -190,7 +195,7 @@ public class HTMLPreviewDialog
         if( ! frameSize.equals( preferences.getHTMLPreviewDimension() )) {
             preferences.setHTMLPreviewDimension( getSize() );
             }
-        
+
         super.dispose();
     }
 

@@ -55,7 +55,7 @@ public class FilesPanel extends JPanel
     {
         if( panelFiles[ index ] == null ) {
             final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, index ); // $codepro.audit.disable avoidAutoBoxing
-            final String actionCommand = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.name() + index;
+            final String actionCommand = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.getActionCommand( index );
 
             panelFiles[ index ] = new FileEntryPanel( msgString, msgButton, actionCommand , actionListener );
             }

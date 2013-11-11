@@ -1,10 +1,8 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-//import org.apache.log4j.Logger;
 
 /**
  * TODOC
@@ -12,7 +10,6 @@ import javax.swing.event.EventListenerList;
 public abstract class AbstractCustomProperties
     implements CustomProperties
 {
-    //private static Logger logger = Logger.getLogger(AbstractCustomProperties.class);
     private static final long serialVersionUID = 1L;
     /** The listeners waiting for object changes. */
     private EventListenerList listenerList = new EventListenerList();
@@ -33,22 +30,18 @@ public abstract class AbstractCustomProperties
      * TODOC
      * @param isEdited
      */
-    protected void setEdited( boolean isEdited )
+    protected void setEdited( final boolean isEdited )
     {
-        //logger.info( "setEdited: " + isEdited );
-
         if( this.hasChanged != isEdited ) {
             this.hasChanged = isEdited;
 
-            ChangeEvent event     = new ChangeEvent( this );
-            Object[]    listeners = listenerList.getListenerList();
+            final ChangeEvent event     = new ChangeEvent( this );
+            final Object[]    listeners = listenerList.getListenerList();
 
-            //logger.info( "setEdited: prepare notification: " + listeners.length );
 
-            for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+            for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
                 if( listeners[i] == ChangeListener.class ) { // $codepro.audit.disable useEquals
                     ((ChangeListener)listeners[i + 1]).stateChanged( event );
-                    //logger.info( "setEdited: notification sent: " + listeners[i + 1] );
                     }
                 }
             }
@@ -60,9 +53,8 @@ public abstract class AbstractCustomProperties
      * @param l the {@link ChangeListener} to add
      */
     @Override
-    public void addChangeListener(ChangeListener l)
+    public void addChangeListener( final ChangeListener l )
     {
-        //logger.info( "addChangeListener: " + l );
         listenerList.add( ChangeListener.class, l );
     }
 
@@ -72,7 +64,7 @@ public abstract class AbstractCustomProperties
      * @param l the {@link ChangeListener} to remove
      */
     @Override
-    public void removeChangeListener(ChangeListener l)
+    public void removeChangeListener( final ChangeListener l )
     {
         listenerList.remove( ChangeListener.class, l );
     }

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,10 +14,8 @@ import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFram
 
 /**
  * Use standard Properties
- *
  */
-public
-class DefaultCustomProperties
+public class DefaultCustomProperties
     extends AbstractCustomProperties
 {
     private static final long serialVersionUID = 1L;
@@ -51,34 +50,37 @@ class DefaultCustomProperties
         return properties.stringPropertyNames();
     }
 
-    /* (non-Javadoc)
-     * @see cx.ath.choisnet.tools.i18n.PropertiesInOut#store(cx.ath.choisnet.tools.i18n.FileObject)
-     */
     @Override
-    public boolean store()
-        throws FileNotFoundException, IOException
+    public boolean store() throws FileNotFoundException, IOException
     {
         if( fileObject.isReadOnly() ) {
             LOGGER.warn( "Can't save (readOnly): " + fileObject );
 
             return false;
-       }
+            }
         else {
-            String              comment = fileObject.getFile().getPath();
-            FileOutputStream    os      = new FileOutputStream(fileObject.getFile());
+            return storeAs( fileObject.getFile() );
+            }
+    }
 
+    @Override
+    public boolean storeAs( final File file ) throws FileNotFoundException, IOException
+    {
+        final String comment = file.getPath();
+
+        try( final FileOutputStream os = new FileOutputStream( file ) ) {
             properties.store(
-                os,
-                "Creat by "
-                    + CompareResourcesBundleFrame.class
-                    + " :"
-                    + comment
-                );
-            os.close();
-            LOGGER.info( "Save : " + fileObject );
+                    os,
+                    "Created by "
+                        + CompareResourcesBundleFrame.class
+                        + " :"
+                        + comment
+                    );
+            }
 
-            return true;
-        }
+        LOGGER.info( "Save : " + file );
+
+        return true;
     }
 
     @Override
@@ -93,13 +95,13 @@ class DefaultCustomProperties
     }
 
     @Override
-    public String getProperty( String key )
+    public String getProperty( final String key )
     {
         return properties.getProperty( key );
     }
 
     @Override
-    public void setProperty( String key, String value )
+    public void setProperty( final String key, final String value )
     {
         setEdited( true );
         properties.setProperty( key, value );
@@ -112,8 +114,8 @@ class DefaultCustomProperties
     }
 
     @Override
-    public int getLineNumber( String key )
+    public int getLineNumber( final String key )
     {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 }

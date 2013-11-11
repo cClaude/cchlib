@@ -21,14 +21,7 @@ enum CompareResourcesBundleFrameAction {
 
     public Integer getIndex( final String value )
     {
-        final String suffix = EnumHelper.getSuffix( this, value );
-
-        if( suffix != null ) {
-            return Integer.valueOf( suffix );
-            }
-        else {
-            return null;
-            }
+        return EnumHelper.getSuffixInteger( this, value );
     }
 
 }

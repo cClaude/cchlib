@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
+import com.googlecode.cchlib.util.EnumHelper;
+
 /*not public*/
 enum LoadDialogAction
 {
@@ -16,5 +18,19 @@ enum LoadDialogAction
     ACTION_Change_CUT_LINE_AFTER_HTML_END_P,
     ACTION_Change_CUT_LINE_AFTER_NEW_LINE,
     ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P,
-    ACTION_Change_CUT_LINE_BEFORE_HTML_BR
+    ACTION_Change_CUT_LINE_BEFORE_HTML_BR;
+
+    public String getActionCommand( final int index )
+    {
+        if( this == ACTIONCMD_SELECT_PREFIX ) {
+            return name() + index;
+            }
+
+        throw new IllegalStateException();
+    }
+
+    public Integer getIndex( final String value )
+    {
+        return EnumHelper.getSuffixInteger( this, value );
+    }
 }

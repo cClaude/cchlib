@@ -15,7 +15,7 @@ public class EditResourcesBundleApp
     /**
     * Launch application
     */
-    public static void main(String[] args)
+    public static void main( final String[] args )
     {
         CompareResourcesBundleFrame.main(/* args */);
     }
@@ -25,7 +25,7 @@ public class EditResourcesBundleApp
         return new DefaultI18nResourceBundleName( EditResourcesBundleApp.class.getPackage() );
     }
 
-    public static I18nSimpleResourceBundle getI18nSimpleResourceBundle(Locale locale)
+    public static I18nSimpleResourceBundle getI18nSimpleResourceBundle( Locale locale )
     {
         if( locale == null ) {
             locale = Locale.getDefault();

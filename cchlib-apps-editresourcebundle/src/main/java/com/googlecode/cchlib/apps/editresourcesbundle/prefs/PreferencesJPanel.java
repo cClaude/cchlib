@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
+/* not public */ class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
 

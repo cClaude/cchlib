@@ -1,17 +1,17 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Set;
-
 import javax.swing.event.ChangeListener;
 
 /**
  *
  */
 public
-interface CustomProperties 
+interface CustomProperties
     extends Serializable
 {
     /**
@@ -52,16 +52,6 @@ interface CustomProperties
      */
     public Set<String> stringPropertyNames();
 
-//    /**
-//     * Load from fileObject
-//     * @param keyBuilderSet
-//     *
-//     * @throws FileNotFoundException
-//     * @throws IOException
-//     */
-//    public void load(Set<String> keyBuilderSet)
-//        throws FileNotFoundException, IOException;
-
     /**
      * Save from fileObject
      *
@@ -70,11 +60,11 @@ interface CustomProperties
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public boolean store()
+    public boolean store() // $codepro.audit.disable booleanMethodNamingConvention
         throws FileNotFoundException, IOException;
-/* TODO: public boolean storeAs(File file)
+
+    public boolean storeAs( final File file )
         throws FileNotFoundException, IOException;
-        */
 
     /**
      * Returns false if content has not been edited.

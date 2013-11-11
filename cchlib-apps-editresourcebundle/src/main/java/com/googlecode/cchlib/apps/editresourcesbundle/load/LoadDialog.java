@@ -354,16 +354,16 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
 
     private void actionPerform( final String actionCommandString )
     {
-        if( actionCommandString.startsWith( LoadDialogAction.ACTIONCMD_SELECT_PREFIX.name() ) ) {
-            final int index = Integer.parseInt( actionCommandString.substring( LoadDialogAction.ACTIONCMD_SELECT_PREFIX.name().length() ) );
+        final Integer index = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.getIndex( actionCommandString );
 
-            jButtonSelectedPressed( index );
+        if( index != null ) {
+            jButtonSelectedPressed( index.intValue() );
             }
         else {
             final LoadDialogAction action = LoadDialogAction.valueOf( actionCommandString );
 
             actionPerform( action );
-        }
+            }
     }
 
     private void actionPerform( final LoadDialogAction action ) // $codepro.audit.disable cyclomaticComplexity

@@ -7,7 +7,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 import javax.swing.border.EmptyBorder;
 
-public class PreferencesJDialog extends JDialog
+/* not public */ class PreferencesJDialog extends JDialog
 {
     private static final long serialVersionUID = 1L;
     private final PreferencesJPanel contentPanel;

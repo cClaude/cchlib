@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.Window;
 
-public abstract class AbstractPreferencesAction implements PreferencesAction
+/* not public */ abstract class AbstractPreferencesAction implements PreferencesAction
 {
     private Window window;
 

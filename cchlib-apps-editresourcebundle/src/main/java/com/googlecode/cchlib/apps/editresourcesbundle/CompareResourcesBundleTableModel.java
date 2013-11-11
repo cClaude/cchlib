@@ -18,7 +18,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -49,7 +51,7 @@ class CompareResourcesBundleTableModel
         {
             return colunmKey;
         }
-        int getColunmLineIndex( final int column )
+        final int getColunmLineIndex( final int column )
         {//column == colunms.colunmRightLine
             for( int i = 0; i<colunmLine.length; i++ ) {
                 if( column == colunmLine[ i ] ) {
@@ -58,7 +60,7 @@ class CompareResourcesBundleTableModel
                 }
             return -1;
         }
-        int getColunmValueIndex( final int column )
+        final int getColunmValueIndex( final int column )
         {//column == colunms.colunmRightValue
             for( int i = 0; i<colunmValue.length; i++ ) {
                 if( column == colunmValue[ i ] ) {
@@ -97,7 +99,7 @@ class CompareResourcesBundleTableModel
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "CompareResourcesBundleTableModel [getColumnCount()=" );
         builder.append( getColumnCount() );
         builder.append( ", getRowCount()=" );
@@ -124,7 +126,7 @@ class CompareResourcesBundleTableModel
         final ChangeListener cpChangeLstener = new ChangeListener()
         {
             @Override
-            public void stateChanged(ChangeEvent e)
+            public void stateChanged(final ChangeEvent e)
             {
                 fireTableStructureChanged();
             }
@@ -146,7 +148,7 @@ class CompareResourcesBundleTableModel
 
         showLineNumberIfPossible( filesConfig );
 
-        SortedSet<String> keyBuilderSet = new TreeSet<String>();
+        final SortedSet<String> keyBuilderSet = new TreeSet<String>();
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "colunms = " + colunms );
@@ -215,7 +217,7 @@ class CompareResourcesBundleTableModel
     @Override
     public String getColumnName( final int column )
     {
-        int computedIndex;
+        final int computedIndex;
 
         if( column == colunms.colunmKey ) {
             return this.columnKeyNames;
@@ -256,7 +258,7 @@ class CompareResourcesBundleTableModel
     @Override
     public boolean isCellEditable( final int rowIndex, final int columnIndex )
     {
-        int computedIndex;
+        final int computedIndex;
 
         if( columnIndex == colunms.colunmKey ) {
             return false;
@@ -277,7 +279,7 @@ class CompareResourcesBundleTableModel
         return false;
     }
 
-    private boolean isStringEditable(String str)
+    private boolean isStringEditable( final String str )
     {
         if( str == null ) {
             return true;
@@ -300,8 +302,8 @@ class CompareResourcesBundleTableModel
     @Override
     public Object getValueAt( final int rowIndex, final int columnIndex)
     {
-        String key           = keyList.get( rowIndex );
-        int    computedIndex;
+        final String key = keyList.get( rowIndex );
+        int          computedIndex;
 
         if( columnIndex == colunms.colunmKey ) {
             return key;
@@ -326,9 +328,9 @@ class CompareResourcesBundleTableModel
             return;
             }
 
-        String key           = keyList.get( rowIndex );
-        String value         = String.class.cast( aValue );
-        int    computedIndex;
+        final String key           = keyList.get( rowIndex );
+        final String value         = String.class.cast( aValue );
+        final int    computedIndex;
 
         if( (computedIndex = colunms.getColunmValueIndex( columnIndex )) != -1 ) {
             customProperties[ computedIndex ].setProperty( key, value );
@@ -337,7 +339,7 @@ class CompareResourcesBundleTableModel
 
     public JTable getJTable()
     {
-        JTable jTable = new JTable(CompareResourcesBundleTableModel.this)
+        final JTable jTable = new JTable(CompareResourcesBundleTableModel.this)
         {
             private static final long serialVersionUID = 1L;
             final MyJLabel myJLabel = new MyJLabel();
@@ -433,7 +435,7 @@ class CompareResourcesBundleTableModel
             }
         };
 
-        CompareResourcesBundlePopupMenu popupMenu
+        final CompareResourcesBundlePopupMenu popupMenu
             = new CompareResourcesBundlePopupMenu(
                     jTable,
                     this,
