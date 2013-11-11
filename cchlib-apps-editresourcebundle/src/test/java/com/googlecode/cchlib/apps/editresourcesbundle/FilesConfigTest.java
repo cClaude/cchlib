@@ -124,11 +124,13 @@ public class FilesConfigTest
                         }
                     }
 
-                for( String key : l1 ) {
-                    int res = o1.getLineNumber( key ) - o2.getLineNumber( key );
+                if( o1.isLinesNumberHandle() && o2.isLinesNumberHandle() ) {
+                    for( String key : l1 ) {
+                        int res = o1.getLineNumber( key ) - o2.getLineNumber( key );
 
-                    if( res != 0 ) {
-                        return res;
+                        if( res != 0 ) {
+                            return res;
+                            }
                         }
                     }
 
