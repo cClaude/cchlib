@@ -57,9 +57,6 @@ private final Iterator<Iterator<T>> metaIterator;
 /** */
 private Iterator<T> currentIterator = null;
 
-/** */
-private T nextObject = null;
-
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur iterateurs ({@link Iterator}),

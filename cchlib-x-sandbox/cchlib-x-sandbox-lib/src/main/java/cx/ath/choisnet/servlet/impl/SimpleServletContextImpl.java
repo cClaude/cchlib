@@ -103,7 +103,7 @@ public Map<String,String> getInitParameters() // --------------------------
 
     synchronized( this ) {
         final Map<String,String> map = new HashMap<String,String>();
-        final Enumeration        en  = this.servletContext.getInitParameterNames();
+        final Enumeration<?>     en  = this.servletContext.getInitParameterNames();
 
         while( en.hasMoreElements() ) {
             final String name = en.nextElement().toString();

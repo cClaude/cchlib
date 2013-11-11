@@ -109,7 +109,7 @@ public ResultSet executeQuery( final String query ) // --------------------
 **
 ** @throws java.sql.SQLException
 */
-public static List translateResultSetToStringList( // --------------------
+public static List<String> translateResultSetToStringList( // --------------------
     ResultSet rset
     )
     throws java.sql.SQLException
@@ -135,18 +135,11 @@ public static String[] translateResultSetToStringArray( // ----------------
     )
     throws java.sql.SQLException
 {
-/*
- java.util.List list = new java.util.LinkedList();
-
- while( rset.next() ) {
-    list.add( rset.getString( 1 ) );
-    }
-*/
- final List list    = translateResultSetToStringList( rset );
+ final List<String> list    = translateResultSetToStringList( rset );
  String[]   strings = new String[ list.size() ];
  int        i       = 0;
 
- for( java.util.Iterator iter = list.iterator(); iter.hasNext(); ) {
+ for( java.util.Iterator<String> iter = list.iterator(); iter.hasNext(); ) {
     strings[ i++ ] = (String)iter.next();
     }
 

@@ -18,6 +18,7 @@ import cx.ath.choisnet.io.FileIterator;
 import cx.ath.choisnet.util.Wrappable;
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -226,31 +227,31 @@ public void addFolder( final File folderFile ) // -------------------------
 }
 */
 
-/**
-** java -cp build/classes cx.ath.choisnet.zip.SimpleZip <sourcefolder> <zipfile>
-**
-*/
-public static void main( String[] arg ) // --------------------------------
-    throws java.io.IOException
-// %JAVA_1_5_HOME%\bin\java -cp build/classes cx.ath.choisnet.zip.SimpleZip D:/ProcParm c:\testzip.zip
-{
- final File         source      = new File( arg[ 0 ] );
- final SimpleZip    instance    = new SimpleZip( new java.io.FileOutputStream( arg[ 1 ] ) );
+    /**
+    ** java -cp build/classes cx.ath.choisnet.zip.SimpleZip <sourcefolder> <zipfile>
+    **
+    */
+    public static void main( String[] arg ) // --------------------------------
+        throws java.io.IOException
+    // %JAVA_1_5_HOME%\bin\java -cp build/classes cx.ath.choisnet.zip.SimpleZip D:/ProcParm c:\testzip.zip
+    {
+     final File source = new File( arg[ 0 ] );
 
- instance.addFolder(
-        source,
-        new cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl( source )
-            {
-                @Override
-                public SimpleZipEntry wrappe( File file )
-                {
-                    System.out.println( "add: " + file );
+     try( final SimpleZip instance = new SimpleZip( new FileOutputStream( arg[ 1 ] ) ) ) {
+         instance.addFolder(
+                 source,
+                 new cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl( source )
+                     {
+                         @Override
+                         public SimpleZipEntry wrappe( File file )
+                         {
+                             System.out.println( "add: " + file );
 
-                    return super.wrappe( file );
-                }
-            }
-        );
- instance.close();
-}
+                             return super.wrappe( file );
+                         }
+                     }
+                 );
+         }
+    }
 
 } // class

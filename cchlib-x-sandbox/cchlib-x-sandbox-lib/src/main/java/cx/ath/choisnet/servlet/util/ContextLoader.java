@@ -91,8 +91,8 @@ public static <T> T getContext( // ----------------------------------------
 ** @see ContextInitializable#getServletContextName()
 */
 public static ServletContext getServletContext( // --------------------------------
-    final HttpServletRequest    request,
-    final ContextInitializable  aContextInitializator
+    final HttpServletRequest      request,
+    final ContextInitializable<?> aContextInitializator
     )
 {
  final String servletContextName = aContextInitializator.getServletContextName();

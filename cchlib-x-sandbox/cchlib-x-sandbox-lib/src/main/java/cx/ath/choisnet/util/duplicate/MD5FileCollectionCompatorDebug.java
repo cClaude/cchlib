@@ -19,7 +19,11 @@ package cx.ath.choisnet.util.duplicate;
 import cx.ath.choisnet.util.duplicate.tasks.DefaultFileTasksFactory;
 import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionBridgeImpl;
 import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionFactory;
+import cx.ath.choisnet.xml.XMLParserErrorHandler;
+import cx.ath.choisnet.xml.impl.XMLParserDOM2Impl;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.StringWriter;
 
 /**
 ** Classe r�serv�e au d�buggage de {@link MD5CollectionCompator}
@@ -170,28 +174,14 @@ private static MD5FileCollection getMD5FileCollection( // -----------------
 public static MD5FileCollection loadFromXML( final File file ) // ---------
     throws Exception
 {
- java.io.StringWriter   sw      = new java.io.StringWriter();
+ StringWriter sw = new StringWriter();
 
-// MD5CollectionXML instance
-//        = new MD5CollectionXML(
-//                new cx.ath.choisnet.xml.XMLParserDOM2(
-//                    new java.io.FileInputStream( file ),
-//                    false,  //  boolean validation,
-//                    false,  //  boolean ignoreWhitespace,
-//                    false,  //  boolean ignoreComments,
-//                    false,  //  boolean putCDATAIntoText,
-//                    false,  // boolean createEntityRefs,
-//                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
-//                        new java.io.PrintWriter( sw )
-//                        )
-//                    )
-//                );
  MD5CollectionXML instance
         = new MD5CollectionXML(
-                new cx.ath.choisnet.xml.impl.XMLParserDOM2Impl(
-                    new java.io.FileInputStream( file ),
-                    cx.ath.choisnet.xml.impl.XMLParserDOM2Impl.DEFAULT_ATTRIBUTS,
-                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
+                new XMLParserDOM2Impl(
+                    new FileInputStream( file ),
+                    XMLParserDOM2Impl.DEFAULT_ATTRIBUTS,
+                    new XMLParserErrorHandler(
                         new java.io.PrintWriter( sw )
                         )
                     )

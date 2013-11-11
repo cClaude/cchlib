@@ -32,6 +32,7 @@ import cx.ath.choisnet.io.EmptyInputStream;
 import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -329,7 +330,7 @@ public final static int run( // -------------------------------------------
     procInThread.cancel();
     procErrThread.cancel();
     }
- catch( java.io.IOException e ) {
+ catch( IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e

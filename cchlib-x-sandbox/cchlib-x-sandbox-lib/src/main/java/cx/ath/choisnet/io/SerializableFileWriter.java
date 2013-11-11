@@ -13,6 +13,7 @@
 package cx.ath.choisnet.io;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Writer;
 
 /**
@@ -61,7 +62,7 @@ public SerializableFileWriter( // -----------------------------------------
     throws
         java.io.FileNotFoundException,
         java.io.UnsupportedEncodingException,
-        java.io.IOException
+        IOException
 {
  this( file, encoding, false );
 }
@@ -80,7 +81,7 @@ public SerializableFileWriter( // -----------------------------------------
     throws
         java.io.FileNotFoundException,
         java.io.UnsupportedEncodingException,
-        java.io.IOException
+        IOException
 {
  this.serOutput = new SerializableFileOutputStream( file, append );
  this.encoding  = encoding;
@@ -102,7 +103,7 @@ private void open() // ----------------------------------------------------
 */
 @Override
 public void close() // ----------------------------------------------------
-    throws java.io.IOException
+    throws IOException
 {
  output.close();
 }
@@ -112,7 +113,7 @@ public void close() // ----------------------------------------------------
 */
 @Override
 public void flush() // ----------------------------------------------------
-    throws java.io.IOException
+    throws IOException
 {
  output.flush();
 }
@@ -122,7 +123,7 @@ public void flush() // ----------------------------------------------------
 */
 @Override
 public void write( char[] array, int offset, int len ) // -----------------
-    throws java.io.IOException
+    throws IOException
 {
  output.write( array, offset, len );
 }
@@ -131,7 +132,7 @@ public void write( char[] array, int offset, int len ) // -----------------
 ** java.io.Serializable
 */
 private void writeObject( java.io.ObjectOutputStream stream ) // ----------
-    throws java.io.IOException
+    throws IOException
 {
  output.flush();
  output.close();
@@ -143,7 +144,7 @@ private void writeObject( java.io.ObjectOutputStream stream ) // ----------
 ** java.io.Serializable
 */
 private void readObject( java.io.ObjectInputStream stream ) // ------------
-    throws java.io.IOException, ClassNotFoundException
+    throws IOException, ClassNotFoundException
 {
  stream.defaultReadObject();
 

@@ -213,8 +213,8 @@ private InfosServletDisplay getRequest_getHeaderNames() // ----------------
                                             );
 
  while( enum0.hasMoreElements() ) {
-    String      name    = enum0.nextElement();
-    Enumeration enum2   = request.getHeaders( name );
+    String         name    = enum0.nextElement();
+    Enumeration<?> enum2   = request.getHeaders( name );
 
     value.setLength( 0 );
 

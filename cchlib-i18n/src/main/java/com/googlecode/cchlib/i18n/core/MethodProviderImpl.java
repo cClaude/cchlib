@@ -1,21 +1,21 @@
 package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
-import java.util.EnumSet;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 class MethodProviderImpl implements MethodProvider
 {
     private static final long serialVersionUID = 1L;
-    private EnumSet<AutoI18nConfig> config;
+    //private EnumSet<AutoI18nConfig> config;
     
-    public MethodProviderImpl( EnumSet<AutoI18nConfig> config )
+    public MethodProviderImpl( final Set<AutoI18nConfig> config )
     {
-        this.config = config;
+        //this.config = config;
     }
     
     @Override
-    public MethodContener getMethods( Class<?> clazz, Field f, String methodName )
+    public MethodContener getMethods( final Class<?> clazz, final Field f, final String methodName )
             throws MethodProviderNoSuchMethodException, MethodProviderSecurityException
     {
         // FIXME look for f.getDeclaringClass() up to clazz (when enable access to not public methods)

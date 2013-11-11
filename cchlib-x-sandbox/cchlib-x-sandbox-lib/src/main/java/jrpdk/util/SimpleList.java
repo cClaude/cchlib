@@ -3,6 +3,8 @@
 */
 package jrpdk.util;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.AbstractSequentialList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -598,7 +600,7 @@ public Object clone() // --------------------------------------------------
 **         contains) is emitted (int), followed by all of its
 **          elements (each an Object) in the proper order.
 */
-private synchronized void writeObject( java.io.ObjectOutputStream s ) // --
+private synchronized void writeObject( ObjectOutputStream s ) // --
     throws java.io.IOException
 {
  // Write out any hidden serialization magic
@@ -617,7 +619,7 @@ private synchronized void writeObject( java.io.ObjectOutputStream s ) // --
 ** Reconstitute this <tt>SimpleList</tt> instance from a stream
 ** (that is deserialize it).
 */
-private synchronized void readObject( java.io.ObjectInputStream s ) // ----
+private synchronized void readObject( ObjectInputStream s ) // ----
     throws java.io.IOException, ClassNotFoundException
 {
  // Read in any hidden serialization magic
@@ -634,6 +636,7 @@ private synchronized void readObject( java.io.ObjectInputStream s ) // ----
 
  // Read in all elements in the proper order.
  for( int i=0; i<size; i++ ) {
+    @SuppressWarnings("unchecked")
     E e = (E)(s.readObject());
     add( e );
     }

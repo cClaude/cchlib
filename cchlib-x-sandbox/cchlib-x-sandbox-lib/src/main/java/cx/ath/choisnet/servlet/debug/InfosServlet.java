@@ -81,7 +81,7 @@ public void init() throws ServletException // -----------------------------
  System.err.println( "print on System.err from " + this );
 
  // Retrieve and display the init arguments for this servlet
- Enumeration names = getServletConfig().getInitParameterNames();
+ Enumeration<?> names = getServletConfig().getInitParameterNames();
 
 if( names != null ) {
     while ( names.hasMoreElements() ) {

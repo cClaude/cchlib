@@ -16,6 +16,7 @@ import cx.ath.choisnet.io.InputStreamHelper;
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -34,78 +35,80 @@ import java.io.OutputStream;
 public abstract class DefaultTask
     implements Task
 {
-/**
-** Fichier local sur lequel sera effectu� le traitement.
-*/
-protected File destinationAbsoluteFile;
+    private static final long serialVersionUID = 1L;
 
-/**
-** Fichier local sur lequel sera effectu� le traitement.
-*/
-private Boolean firstime = Boolean.TRUE;
+    /**
+    ** Fichier local sur lequel sera effectu� le traitement.
+    */
+    protected File destinationAbsoluteFile;
 
-/**
-**
-*/
-private String actionName;
+    /**
+    ** Fichier local sur lequel sera effectu� le traitement.
+    */
+    private Boolean firstime = Boolean.TRUE;
 
-/**
-**
-*/
-protected DefaultTask( // -------------------------------------------------
-    final String    actionName,
-    final File      destinationAbsoluteFile
-    )
-{
- this.actionName                = actionName;
- this.destinationAbsoluteFile   = destinationAbsoluteFile;
-}
+    /**
+    **
+    */
+    private String actionName;
 
-/**
-** Gestion du traitement des nouvelles tentatives.
-*/
-@Override
-public void doJob() // ----------------------------------------------------
-    throws
-        TaskFailException,
-        TaskRetryLaterException
-{
- try {
-    doIOJob();
+    /**
+    **
+    */
+    protected DefaultTask( // -------------------------------------------------
+        final String    actionName,
+        final File      destinationAbsoluteFile
+        )
+    {
+     this.actionName                = actionName;
+     this.destinationAbsoluteFile   = destinationAbsoluteFile;
     }
- catch( java.io.IOException e ) {
-    if( firstime ) {
-        firstime = Boolean.FALSE;
 
-        throw new TaskRetryLaterException( e );
+    /**
+    ** Gestion du traitement des nouvelles tentatives.
+    */
+    @Override
+    public void doJob() // ----------------------------------------------------
+        throws
+            TaskFailException,
+            TaskRetryLaterException
+    {
+     try {
+        doIOJob();
         }
-    else {
-        throw new TaskFailException( e );
+     catch( IOException e ) {
+        if( firstime ) {
+            firstime = Boolean.FALSE;
+
+            throw new TaskRetryLaterException( e );
+            }
+        else {
+            throw new TaskFailException( e );
+            }
         }
     }
-}
 
-/**
-**
-*/
-@Override
-public String toString() // -----------------------------------------------
-{
- return this.actionName + ":[" + destinationAbsoluteFile + "]";
-}
+    /**
+    **
+    */
+    @Override
+    public String toString() // -----------------------------------------------
+    {
+     return this.actionName + ":[" + destinationAbsoluteFile + "]";
+    }
 
-/**
-** Action d'IO � traiter
-*/
-abstract public void doIOJob() // -----------------------------------------
-    throws
-        java.io.IOException,
-        TaskFailException,
-        TaskRetryLaterException;
+    /**
+    ** Action d'IO à traiter
+    */
+    abstract public void doIOJob() // -----------------------------------------
+        throws
+            IOException,
+            TaskFailException,
+            TaskRetryLaterException;
 
     /**
     ** <p>
-    ** Action par d�faut pour la suppression d'un fichier.
+    ** Action par défaut pour la suppression d'un fichier.
     ** </p>
     */
     public static class ActionLocalDeleteFile extends DefaultTask
@@ -115,7 +118,7 @@ abstract public void doIOJob() // -----------------------------------------
 
         /**
         ** <p>
-        ** Action par d�faut pour la suppression d'un fichier.
+        ** Action par défaut pour la suppression d'un fichier.
         ** </p>
         **
         ** @param destinationAbsoluteFile object File � supprimer
@@ -171,7 +174,7 @@ abstract public void doIOJob() // -----------------------------------------
         **
         */
         @Override
-        public void doIOJob() throws java.io.IOException
+        public void doIOJob() throws IOException
         {
             if( ! destinationAbsoluteFile.isDirectory() ) {
                 final boolean res = destinationAbsoluteFile.mkdirs();
@@ -180,7 +183,7 @@ abstract public void doIOJob() // -----------------------------------------
                     System.out.println( "OK: actionLocalCreateFolder:" + destinationAbsoluteFile  );
                     }
                 else {
-                    throw new java.io.IOException( "can't create folder ["
+                    throw new IOException( "can't create folder ["
                         + destinationAbsoluteFile
                         + "]"
                         );
@@ -286,7 +289,7 @@ abstract public void doIOJob() // -----------------------------------------
             try {
                 InputStreamHelper.copy( sourceAbsoluteFile, destinationAbsoluteFile );
                 }
-            catch( java.io.IOException e ) {
+            catch( IOException e ) {
                 throw new cx.ath.choisnet.io.FileCopyException(
                         "actionLocalCopyFile ["
                             + sourceAbsoluteFile + "] to ["
@@ -306,7 +309,7 @@ abstract public void doIOJob() // -----------------------------------------
         private static final long serialVersionUID = 1L;
 
         /** */
-        private TasksFactory tasksFactory;
+        private TasksFactory<?> tasksFactory;
 
         /** */
         private MD5TreeEntry sourceFileDigest;
@@ -315,10 +318,10 @@ abstract public void doIOJob() // -----------------------------------------
         **
         */
         public ActionCopyFileFromSource(
-                    final TasksFactory  tasksFactory,
-                    final MD5TreeEntry  sourceFileDigest,
-                    final File          destinationAbsoluteFile
-                    )
+            final TasksFactory<?> tasksFactory,
+            final MD5TreeEntry    sourceFileDigest,
+            final File            destinationAbsoluteFile
+            )
         {
             super( "ActionCopyFileFromSource", destinationAbsoluteFile );
 
@@ -330,7 +333,7 @@ abstract public void doIOJob() // -----------------------------------------
         **
         */
         @Override
-        public void doIOJob() throws java.io.IOException
+        public void doIOJob() throws IOException
         {
             final InputStream   input   = this.tasksFactory.getInputStreamFromSource( sourceFileDigest );
             final OutputStream  output  = new FileOutputStream( this.destinationAbsoluteFile );
@@ -338,7 +341,7 @@ abstract public void doIOJob() // -----------------------------------------
             try {
                 InputStreamHelper.copy( input, output );
                 }
-            catch( java.io.IOException e ) {
+            catch( IOException e ) {
                 throw new cx.ath.choisnet.io.FileCopyException(
                         "actionCopyFileFromSource ["
                             + sourceFileDigest + "] to ["
