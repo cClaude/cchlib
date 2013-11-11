@@ -32,7 +32,7 @@ public final class EnumHelper
 
     /**
      * TODOC
-     * 
+     *
      * @param enumValue
      * @param stringValue
      * @return
@@ -58,5 +58,19 @@ public final class EnumHelper
         return stringValue.startsWith( enumValue.name() );
     }
 
+    public static <T extends Enum<T>> Integer getSuffixInteger(
+        final T      enumValue,
+        final String stringValue
+        )
+    {
+        final String suffix = getSuffix( enumValue, stringValue );
+
+        if( suffix != null ) {
+            return Integer.valueOf( suffix );
+            }
+        else {
+            return null;
+            }
+    }
 
 }

@@ -180,6 +180,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #compare(byte[], byte[])
      * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
      */
+    @Deprecated
     public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
 
     /**
@@ -196,6 +197,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #compare(byte[], byte[])
      * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
      */
+    @Deprecated
     public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
 
     /**
