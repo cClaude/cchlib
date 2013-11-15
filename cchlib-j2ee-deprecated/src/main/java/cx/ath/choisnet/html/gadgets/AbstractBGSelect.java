@@ -33,7 +33,7 @@ public abstract class AbstractBGSelect
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
-        String javascriptString = javascript == null ? null : javascript.toInLineJavascript();
+        String javascriptString = (javascript == null) ? null : javascript.toInLineJavascript();
 
         out.write(
                 AbstractBGSelect.build(
@@ -56,7 +56,7 @@ public abstract class AbstractBGSelect
         String valueTxt;
         
         if(optionValue != null) {
-            valueTxt = optionValue[optionSelected <= 0 ? 0 : optionSelected];
+            valueTxt = optionValue[(optionSelected <= 0) ? 0 : optionSelected];
         } 
         else {
             valueTxt = String.valueOf(optionSelected);
@@ -117,7 +117,7 @@ public abstract class AbstractBGSelect
 
         int optionLen = optionDatas.length;
 
-        if(optionValue != null && optionLen != optionValue.length) {
+        if((optionValue != null) && (optionLen != optionValue.length)) {
             throw new BGSelectException("optionValue.length != optionDatas.length");
         }
         

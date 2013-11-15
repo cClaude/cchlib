@@ -15,10 +15,10 @@ public class BGInputRadio extends AbstractBG
     private AbstractJavascript[] javascript;
 
     public BGInputRadio(
-            String                  gadgetName, 
-            String[]                optionValue, 
-            String[]                optionDatas, 
-            int                     optionSelected, 
+            String                  gadgetName,
+            String[]                optionValue,
+            String[]                optionDatas,
+            int                     optionSelected,
             AbstractJavascript[]    javascript
             )
         throws HTMLDocumentException
@@ -27,11 +27,11 @@ public class BGInputRadio extends AbstractBG
     }
 
     public BGInputRadio(
-            String      gadgetName, 
-            String[]    optionValue, 
+            String      gadgetName,
+            String[]    optionValue,
             String[]    optionDatas,
             int         optionSelected,
-            boolean     lineLayout, 
+            boolean     lineLayout,
             AbstractJavascript[] javascript
             )
         throws HTMLDocumentException
@@ -109,7 +109,7 @@ public class BGInputRadio extends AbstractBG
 
     public String[] getRawHTML()
     {
-        String rawHTML[] = new String[optionDatas.length];
+        String[] rawHTML = new String[optionDatas.length];
     //    0    0:aload_0
     //    1    1:getfield        #4   <Field String[] cx.ath.choisnet.html.gadgets.BGInputRadio.optionDatas>
     //    2    4:arraylength
@@ -229,7 +229,7 @@ public class BGInputRadio extends AbstractBG
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
-        String rawHTML[] = getRawHTML();
+        String[] rawHTML = getRawHTML();
     //    0    0:aload_0
     //    1    1:invokevirtual   #18  <Method String[] cx.ath.choisnet.html.gadgets.BGInputRadio.getRawHTML()>
     //    2    4:astore_2

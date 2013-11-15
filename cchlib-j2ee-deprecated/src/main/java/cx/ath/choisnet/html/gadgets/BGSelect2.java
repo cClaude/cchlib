@@ -8,16 +8,16 @@ import cx.ath.choisnet.html.javascript.AbstractJavascript;
 public class BGSelect2 extends AbstractBGSelect
 {
 
-    protected String optionValue[];
-    protected String optionDatas[];
+    protected String[] optionValue;
+    protected String[] optionDatas;
     protected int optionSelected;
 
     public BGSelect2(
             String gadgetName,
-            String[] optionValue, 
-            String[] optionDatas, 
+            String[] optionValue,
+            String[] optionDatas,
             int optionSelected,
-            Integer size, 
+            Integer size,
             AbstractJavascript javascript
             )
     {

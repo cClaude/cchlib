@@ -9,14 +9,14 @@ import cx.ath.choisnet.html.javascript.AbstractJavascript;
 
 public class SelectMonth extends AbstractBGSelect
 {
-    protected String optionValue[];
+    protected String[] optionValue;
     protected int optionSelected;
     protected java.util.Locale locale;
 
     public SelectMonth(
-            String gadgetName, 
-            int monthToSelect, 
-            Integer size, 
+            String gadgetName,
+            int monthToSelect,
+            Integer size,
             AbstractJavascript javascript
             )
         throws HTMLDocumentException
@@ -124,7 +124,7 @@ public class SelectMonth extends AbstractBGSelect
     @Override
     public String[] getOptionDatas()
     {
-        String optionDatas[] = new String[12];
+        String[] optionDatas = new String[12];
     //    0    0:bipush          12
     //    1    2:anewarray       String[]
     //    2    5:astore_1

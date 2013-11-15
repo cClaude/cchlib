@@ -68,7 +68,7 @@ public class ValidationForm extends Form
     protected void addTools_HTMLBuilder_BasicGadgets()
         throws HTMLDocumentException
     {
-        String radioValue[] = {
+        String[] radioValue = {
             "BGInputRadio 1", "BGInputRadio 2", "BGInputRadio 3"
         };
 

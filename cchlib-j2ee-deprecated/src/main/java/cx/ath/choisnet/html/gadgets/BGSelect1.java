@@ -8,16 +8,16 @@ public class BGSelect1 extends AbstractBGSelect
     protected int fromValue;
     protected int toValue;
     protected int seletedValue;
-    protected String optionValue[];
-    protected String optionDatas[];
+    protected String[] optionValue;
+    protected String[] optionDatas;
     protected int optionSelected;
 
     public BGSelect1(
-            String gadgetName, 
+            String gadgetName,
             int fromValue,
-            int toValue, 
-            int seletedValue, 
-            Integer size, 
+            int toValue,
+            int seletedValue,
+            Integer size,
             AbstractJavascript javascript
             )
     {

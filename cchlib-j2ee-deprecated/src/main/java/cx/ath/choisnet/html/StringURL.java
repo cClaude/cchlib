@@ -21,7 +21,7 @@ public class StringURL
 
     public StringURL append(String paramName, String paramValue)
     {
-        String entry[] = {
+        String[] entry = {
             paramName, paramValue
         };
 
@@ -55,10 +55,10 @@ public class StringURL
             first = false;
         }
         StringBuilder sb = new StringBuilder(baseURL);
-        String param[];
+        String[] param;
         for(Iterator<String[]> i$ = params.iterator(); i$.hasNext(); sb.append(URLEncoder.encode(param[1], charsetName))) {
             param = i$.next();
-            
+
             if(first) {
                 first = false;
                 sb.append('?');
