@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidUnsafeArrayDeclaration
 package cx.ath.choisnet.lang.reflect;
 
 import java.io.File;
