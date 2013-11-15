@@ -62,7 +62,7 @@ public class ChildClass extends LegacyParentClass
             }
 
         System.out.println( "***********" );
-        int aProtectedAbstractMethod = this.parentAcces.silentCall( this, Integer.class, "aProtectedAbstractMethod" );
+        int aProtectedAbstractMethod = this.parentAcces.silentCall( this, Integer.class, "aProtectedAbstractMethod" ).intValue();
         System.out.println( "aProtectedAbstractMethod()=" + aProtectedAbstractMethod );
 
         System.out.println( "***********" );
