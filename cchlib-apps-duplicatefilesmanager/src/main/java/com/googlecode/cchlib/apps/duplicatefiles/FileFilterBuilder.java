@@ -5,6 +5,6 @@ import java.util.regex.Pattern;
 
 public interface FileFilterBuilder
 {
-    public Collection<String> getNamePart();
-    public Pattern getRegExp();
+    Collection<String> getNamePart();
+    Pattern getRegExp();
 }

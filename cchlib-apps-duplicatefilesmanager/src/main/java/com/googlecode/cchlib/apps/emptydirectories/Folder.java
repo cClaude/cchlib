@@ -6,6 +6,6 @@ import java.nio.file.Path;
 
 public interface Folder extends Serializable, Comparable<Folder>
 {
-    public Path getPath();
-    public File getFile();
+    Path getPath();
+    File getFile();
 }

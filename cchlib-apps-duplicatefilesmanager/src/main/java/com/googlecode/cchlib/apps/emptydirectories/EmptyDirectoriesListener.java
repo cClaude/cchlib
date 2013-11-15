@@ -13,24 +13,22 @@ public interface EmptyDirectoriesListener
      * Returns true to cancel scan
      * @return true to cancel scan
      */
-    public boolean isCancel();
+    boolean isCancel();
 
     /**
      *
      * @param folder
      */
-    //public void newEntry( File emptyDirectoryFile );
-    public void newEntry( EmptyFolder folder );
-
+    void newEntry( EmptyFolder folder );
 
     /**
      *
      */
-    public void findStarted();
+    void findStarted();
 
     /**
      *
      */
-    public void findDone();
+    void findDone();
 
 }

@@ -11,7 +11,7 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
  */
 public class LocaleList implements ListContener<Locale>
 {
-    private Locale[] locales = {
+    private Locale[] locales = { // TODO Should be computed !
         null,
         Locale.ENGLISH,
         Locale.FRENCH
@@ -29,7 +29,7 @@ public class LocaleList implements ListContener<Locale>
     @Override
     public Iterator<ListInfo<Locale>> iterator()
     {
-        Iterator<Locale> ci = getContentIterator();
+        final Iterator<Locale> ci = getContentIterator();
 
         return new AbstractIteratorWrapper<Locale,ListInfo<Locale>>( ci )
             {
@@ -68,8 +68,7 @@ public class LocaleList implements ListContener<Locale>
     @Override
     public Iterable<Locale> getContentIterable()
     {
-        return new Iterable<Locale>()
-            {
+        return new Iterable<Locale>() {
                 @Override
                 public Iterator<Locale> iterator()
                 {

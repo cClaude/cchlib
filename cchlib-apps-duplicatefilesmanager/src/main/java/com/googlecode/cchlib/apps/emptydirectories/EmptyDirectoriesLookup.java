@@ -12,31 +12,31 @@ public interface EmptyDirectoriesLookup
      * (should be call at least once)
      *
      * @throws CancelRequestException
-     * @throws ScanIOException 
+     * @throws ScanIOException
      */
-    public void lookup() throws CancelRequestException, ScanIOException;
+    void lookup() throws CancelRequestException, ScanIOException;
 
     /**
      * Clear previous list and compute current list of empty directories
      *
      * @param excludeDirectoriesFile {@link FolderFilter} to identify directories <b>to exclude</b>.
      * @throws CancelRequestException
-     * @throws ScanIOException 
+     * @throws ScanIOException
      */
-    public void lookup( FolderFilter excludeDirectoriesFile )
+    void lookup( FolderFilter excludeDirectoriesFile )
             throws CancelRequestException, ScanIOException;
 
     /**
      * TODOC
      * @param listener
      */
-    public void addListener( EmptyDirectoriesListener listener );
+    void addListener( EmptyDirectoriesListener listener );
 
     /**
      * TODOC
      * @param listener
      */
-    public void removeListener( EmptyDirectoriesListener listener );
+    void removeListener( EmptyDirectoriesListener listener );
 
 
 }

@@ -20,23 +20,23 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  */
 public interface DFToolKit extends Serializable
 {
-    public void initJFileChooser();
+    void initJFileChooser();
 
-    public JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, Component refComponent );
-    public JFileChooser getJFileChooser( Window parentWindow, Component refComponent );
-    
-    public void beep();
-    public void openDesktop( File file );
-    public Locale getValidLocale();
-    public void sleep(long ms);
-    public Preferences getPreferences();
-    public Frame getMainFrame();
-    public void setEnabledJButtonCancel( boolean b );
-    public boolean isEnabledJButtonCancel();
-    public void initComponentsJPanelConfirm();
-    public Resources getResources();
-    public List<File> getRootDirectoriesList();
+    JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, Component refComponent );
+    JFileChooser getJFileChooser( Window parentWindow, Component refComponent );
 
-    public Set<AutoI18nConfig> getAutoI18nConfig();
-    public I18nResourceBundleName getI18nResourceBundleName();
+    void beep();
+    void openDesktop( File file );
+    Locale getValidLocale();
+    void sleep(long ms);
+    Preferences getPreferences();
+    Frame getMainFrame();
+    void setEnabledJButtonCancel( boolean b );
+    boolean isEnabledJButtonCancel();
+    void initComponentsJPanelConfirm();
+    Resources getResources();
+    List<File> getRootDirectoriesList();
+
+    Set<AutoI18nConfig> getAutoI18nConfig();
+    I18nResourceBundleName getI18nResourceBundleName();
 }

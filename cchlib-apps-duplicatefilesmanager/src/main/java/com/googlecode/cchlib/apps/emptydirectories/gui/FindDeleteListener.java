@@ -9,6 +9,6 @@ public interface FindDeleteListener
      *
      * @param isCancel
      */
-    public void findTaskDone( boolean isCancel );
+    void findTaskDone( boolean isCancel );
 
 }

@@ -12,10 +12,10 @@ public interface RootFile extends Serializable
      * Returns {@link File} for this RootFile
      * @return {@link File} for this RootFile
      */
-    public File getFile();
+    File getFile();
     /**
      * Returns {@link RootFileAction} for this RootFile
      * @return {@link RootFileAction} for this RootFile
      */
-    public RootFileAction getRootFileAction();
+    RootFileAction getRootFileAction();
 }

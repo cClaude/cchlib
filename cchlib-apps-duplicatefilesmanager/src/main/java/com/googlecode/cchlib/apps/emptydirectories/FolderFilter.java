@@ -6,6 +6,6 @@ import java.nio.file.Path;
 
 public interface FolderFilter
 {
-    public DirectoryStream.Filter<Path> toFilter();
-    public FileFilter toFileFilter();
+    DirectoryStream.Filter<Path> toFilter();
+    FileFilter toFileFilter();
 }

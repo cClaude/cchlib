@@ -8,5 +8,5 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
  */
 interface KeyFileStateListModel extends ListModel<KeyFileState>
 {
-    public KeyFileState remove( int index );
+    KeyFileState remove( int index );
 }

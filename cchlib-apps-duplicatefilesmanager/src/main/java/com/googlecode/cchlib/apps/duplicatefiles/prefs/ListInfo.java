@@ -5,12 +5,12 @@ public interface ListInfo<T>
     /**
      * @return content object
      */
-    public T getContent();
+    T getContent();
 
     /**
      * @return display String for UI
      */
     @Override
-    public String toString();
+    String toString();
 
 }

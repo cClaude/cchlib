@@ -10,31 +10,31 @@ import javax.swing.Icon;
  */
 public interface Resources
 {
-    public Icon getAddIcon();
-    public Icon getAppIcon();
-    public Icon getContinueIcon();
-    public Icon getDeselectAllIcon();
-    public Icon getFileIcon();
-    public Icon getFolderImportIcon();
-    public Icon getFolderRemoveIcon();
-    public Icon getFolderSelectIcon();
-    public Icon getLogoIcon();
-    public Icon getNextIcon();
-    public Icon getPrevIcon();
-    public Icon getRefreshIcon();
-    public Icon getRestartIcon();
-    public Icon getSelectAllIcon();
-    public Icon getSmallKOIcon();
-    public Icon getSmallOKButOKIcon();
-    public Icon getSmallOKIcon();
+    Icon getAddIcon();
+    Icon getAppIcon();
+    Icon getContinueIcon();
+    Icon getDeselectAllIcon();
+    Icon getFileIcon();
+    Icon getFolderImportIcon();
+    Icon getFolderRemoveIcon();
+    Icon getFolderSelectIcon();
+    Icon getLogoIcon();
+    Icon getNextIcon();
+    Icon getPrevIcon();
+    Icon getRefreshIcon();
+    Icon getRestartIcon();
+    Icon getSelectAllIcon();
+    Icon getSmallKOIcon();
+    Icon getSmallOKButOKIcon();
+    Icon getSmallOKIcon();
 
-    public Image getAppImage();
+    Image getAppImage();
 
-    public Properties getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
+    Properties getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
 
-    public String getAboutVersion();
-    public String getAboutVersionDate();
-    public String getAuthorName();
+    String getAboutVersion();
+    String getAboutVersionDate();
+    String getAuthorName();
 
-    public URI getSiteURI();
+    URI getSiteURI();
 }
