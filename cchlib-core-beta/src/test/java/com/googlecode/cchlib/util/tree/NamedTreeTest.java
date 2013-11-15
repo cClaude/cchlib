@@ -14,7 +14,7 @@ import com.googlecode.cchlib.util.Visitor;
  */
 public class NamedTreeTest
 {
-    private final static Logger slogger = Logger.getLogger( NamedTreeTest.class );
+    private static final Logger slogger = Logger.getLogger( NamedTreeTest.class );
     private int count;
 
     @Test
