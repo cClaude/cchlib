@@ -144,7 +144,7 @@ public class DuplicateLayer implements java.io.Serializable
             int size = currentSelectList.size();
 
             if(size > 0) {
-                if(selectAllAllowed || size < filesList.size()) {
+                if(selectAllAllowed || (size < filesList.size())) {
                     result.addAll(currentSelectList);
                 }
                 currentSelectList.clear();

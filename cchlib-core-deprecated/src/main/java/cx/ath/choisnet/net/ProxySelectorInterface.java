@@ -9,5 +9,5 @@ import java.net.URL;
 @Deprecated // Don't remember usage
 public interface ProxySelectorInterface
 {
-    public abstract Proxy select(URL url);
+    Proxy select(URL url);
 }

@@ -10,7 +10,7 @@ import java.util.Map;
  * @see MappableBuilder
  * @see MappableBuilderFactory
  * @see MappableHelper
- * @deprecated use {@link com.googlecode.cchlib.util.mappable.Mappable} instead 
+ * @deprecated use {@link com.googlecode.cchlib.util.mappable.Mappable} instead
  */
 @Deprecated
 public interface Mappable
@@ -23,5 +23,5 @@ public interface Mappable
      * </p>
      * @return a Map of attributes for this object.
      */
-    public abstract Map<String,String> toMap();
+    Map<String,String> toMap();
 }

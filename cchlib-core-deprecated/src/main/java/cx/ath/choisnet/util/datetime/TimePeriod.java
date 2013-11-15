@@ -72,7 +72,7 @@ public class TimePeriod implements Serializable, Cloneable, Comparable<TimePerio
     {
         validateFields();
 
-        int array[] = { lastDays, lastHours, lastMins, lastSecs, lastMilli };
+        int[] array = { lastDays, lastHours, lastMins, lastSecs, lastMilli };
 
         return array;
     }
@@ -81,7 +81,7 @@ public class TimePeriod implements Serializable, Cloneable, Comparable<TimePerio
     {
         validateFields();
 
-        Integer array[] = {
+        Integer[] array = {
             new Integer(lastDays), new Integer(lastHours), new Integer(lastMins), new Integer(lastSecs), new Integer(lastMilli)
         };
 

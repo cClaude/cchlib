@@ -14,7 +14,7 @@ import java.io.Writer;
 @Deprecated
 public final class ReaderHelper
 {
-    private final static int DEFAULT_BUFFER_SIZE = 4096;
+    private static final int DEFAULT_BUFFER_SIZE = 4096;
 
     /** All static */
     private ReaderHelper()

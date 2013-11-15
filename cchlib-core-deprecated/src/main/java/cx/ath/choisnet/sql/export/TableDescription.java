@@ -17,12 +17,12 @@ public interface TableDescription
      * Returns the name of the table to export
      * @return the table name
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns the SQL where clause condition to select values to export.
      * @return the SQL where condition
      */
-    public String getWhereCondition();
+    String getWhereCondition();
 
 }

@@ -1,35 +1,35 @@
 package cx.ath.choisnet.util.datetime;
 
 /**
- * 
+ *
  */
 public interface DateInterface
     extends DateTimeInterface, Comparable<DateInterface>
 {
     /**
-     * 
+     *
      */
-    public abstract boolean isBefore(DateInterface date);
+    boolean isBefore(DateInterface date);
 
     /**
-     * 
+     *
      */
-    public abstract boolean isAfter(DateInterface date);
+    boolean isAfter(DateInterface date);
 
     /**
-     * 
+     *
      */
-    public abstract DateInterface add(DateInterface date)
-        throws BasicDateTimeException;
-
-    /**
-     * 
-     */
-    public abstract DateInterface sub(DateInterface date)
+    DateInterface add(DateInterface date)
         throws BasicDateTimeException;
 
     /**
      *
      */
-    public abstract boolean equals(DateInterface date); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    DateInterface sub(DateInterface date)
+        throws BasicDateTimeException;
+
+    /**
+     *
+     */
+    boolean equals(DateInterface date);
 }

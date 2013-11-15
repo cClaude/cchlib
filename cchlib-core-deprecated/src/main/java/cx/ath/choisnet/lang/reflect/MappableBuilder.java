@@ -19,7 +19,7 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 /**
- * @deprecated use {@link com.googlecode.cchlib.util.mappable.MappableBuilder} instead 
+ * @deprecated use {@link com.googlecode.cchlib.util.mappable.MappableBuilder} instead
  */
 @Deprecated
 public class MappableBuilder
@@ -295,7 +295,7 @@ public class MappableBuilder
             int     max
             )
     {
-        String params[] = {
+        String[] params = {
             methodeName, Integer.toString(index), Integer.toString(max)
         };
 
@@ -360,7 +360,7 @@ public class MappableBuilder
             }
 
         for(Class<?> c = clazz.getSuperclass(); c != null; c = c.getSuperclass()) {
-            Method arr1$[] = c.getDeclaredMethods();
+            Method[] arr1$ = c.getDeclaredMethods();
             int len1$ = arr1$.length;
             for(int i$ = 0; i$ < len1$; i$++) {
                 Method m = arr1$[i$];

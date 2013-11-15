@@ -4,9 +4,9 @@ import java.io.InputStream;
 
 public class IO
 {
-    public final static String PNG_FILE = "test.png";
+    public static final String PNG_FILE = "test.png";
 
-    public final static InputStream getPNGFile()
+    public static final InputStream getPNGFile()
     {
         return IO.class.getResourceAsStream( PNG_FILE );
     }

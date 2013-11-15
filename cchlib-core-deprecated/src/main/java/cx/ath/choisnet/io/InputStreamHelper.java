@@ -159,7 +159,7 @@ public final class InputStreamHelper
     @Deprecated
     public static InputStream concat(InputStream is1, InputStream is2)
     {
-        InputStream is[] = { is1, is2 };
+        InputStream[] is = { is1, is2 };
 
         return InputStreamHelper.concat(is);
     }
@@ -174,7 +174,7 @@ public final class InputStreamHelper
      * @throws IOException if any IO error occur.
      * @since 4.1.5
      */
-    public final static boolean isEquals( InputStream is1, InputStream is2 )
+    public static final boolean isEquals( InputStream is1, InputStream is2 )
         throws IOException
     {
         for(;;) {
@@ -207,7 +207,7 @@ public final class InputStreamHelper
 
         for(;;) {
             int c1 = is.read();
-            int c2 = index < bytes.length ? (0x00FF & bytes[ index++ ]) : -1;
+            int c2 = (index < bytes.length) ? (0x00FF & bytes[ index++ ]) : -1;
 
             if( c1 != c2 ) {
                 return false;

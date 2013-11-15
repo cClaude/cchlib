@@ -53,7 +53,7 @@ public class ArrayIteratorTest
         Integer                firstValue = null;
 
         while( iter.hasNext() ) {
-            int v = iter.next();
+            int v = iter.next().intValue();
 
             if( firstValue == null ) {
                 firstValue = v;

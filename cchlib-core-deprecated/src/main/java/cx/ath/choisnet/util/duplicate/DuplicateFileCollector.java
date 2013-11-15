@@ -297,12 +297,12 @@ public class DuplicateFileCollector
          * Returns numbers of files need to be read by pass2
          * @return numbers of files need to be read by pass2
          */
-        public int getPass2Files();
+        int getPass2Files();
 
         /**
          * Returns numbers of bytes need to be read by pass2
          * @return numbers of bytes need to be read by pass2
          */
-        public long getPass2Bytes();
+        long getPass2Bytes();
     }
 }

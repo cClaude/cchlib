@@ -15,20 +15,20 @@ import java.util.zip.ZipInputStream;
  * @deprecated use {@link com.googlecode.cchlib.util.zip.SimpleUnZip} instead
  */
 @Deprecated
-public class SimpleUnZip 
-    implements  Closeable, 
+public class SimpleUnZip
+    implements  Closeable,
                 ZipListener
 {
-    private List<ZipEventListener> postProcessingListeners 
+    private List<ZipEventListener> postProcessingListeners
             = new ArrayList<ZipEventListener>();
-    private List<ZipEventListener> processingListeners 
+    private List<ZipEventListener> processingListeners
             = new ArrayList<ZipEventListener>();
     private ZipInputStream zis;
     private byte[] buffer;
     private int fileCount;
 
     /**
-     * 
+     *
      * @param input
      * @throws java.io.IOException
      */
@@ -39,7 +39,7 @@ public class SimpleUnZip
     }
 
     /**
-     * 
+     *
      * @param input
      * @param bufferSize
      * @throws java.io.IOException
@@ -60,14 +60,14 @@ public class SimpleUnZip
     }
 
     @Override
-    protected void finalize() throws Throwable
+    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         close();
         super.finalize();
     }
 
     /**
-     * 
+     *
      * @param folderFile
      * @return File object for this new file, or null
      * if no more entry in zip.
@@ -119,12 +119,12 @@ public class SimpleUnZip
         for(ZipEventListener l:processingListeners) {
             l.newFile( zipEntry );
         }
-        
+
         return file;
     }
 
     /**
-     * 
+     *
      * @param folderFile
      * @throws java.io.IOException
      */
@@ -142,7 +142,7 @@ public class SimpleUnZip
     {
         return fileCount;
     }
-    
+
     @Override
     public void addPostProcessingListener( ZipEventListener listener )
     {

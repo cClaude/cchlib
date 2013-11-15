@@ -98,7 +98,7 @@ public final class StreamHelper
             InputStream is2
             )
     {
-        InputStream is[] = { is1, is2 };
+        InputStream[] is = { is1, is2 };
 
         return concat(is);
     }

@@ -14,14 +14,14 @@ import junit.framework.TestCase;
 @Deprecated
 public abstract class IterableIteratorTestCaseHelper extends TestCase
 {
-    final private static Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
+    private static final Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
 
   /**
    * Build an unmodifiable collection with giving values
    * @param values values to add in Collection
    * @return a Collection populate with values
    */
-    public final static <T> Collection<T> buildCollection(T[] values)
+    public static final <T> Collection<T> buildCollection(T[] values)
     {
         List<T> c = new ArrayList<T>(values.length);
 
@@ -36,7 +36,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
    * Build an empty collection of integers
    * @return an empty Collection of Integer
    */
-    public final static <T> Collection<T> buildEmptyCollection()
+    public static final <T> Collection<T> buildEmptyCollection()
     {
         return Collections.emptyList();
     }
@@ -57,7 +57,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      * Default implementation for {@link #buildCollection1()}
      * @return a Collection of Integer
      */
-    public final static Collection<Integer> buildDefaultIntegerCollection1()
+    public static final Collection<Integer> buildDefaultIntegerCollection1()
     {
         //return buildCollection( 0, 1, 2, 3 );
         return buildCollection( new Integer[]{ 0, 1, 2, 3 });
@@ -67,7 +67,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
      * Default implementation for {@link #buildCollection2()}
      * @return a Collection of Integer
      */
-    public final static Collection<Integer> buildDefaultIntegerCollection2()
+    public static final Collection<Integer> buildDefaultIntegerCollection2()
     {
         //return buildCollection( 4, 5, 6 );
         return buildCollection( new Integer[]{ 4, 5, 6 });
@@ -122,7 +122,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
       final Collection<T> c2
       );
 
-    final public void test_crash1()
+    public final void test_crash1()
     {
         try {
           buildIterableIterator( null, buildEmptyCollection() );
@@ -133,7 +133,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
             slogger.info( "Crash ok" );
         }
     }
-    final public void test_crash2()
+    public final void test_crash2()
     {
         try {
           buildIterableIterator( buildEmptyCollection(), null );
@@ -145,12 +145,12 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
         }
     }
 
-    final public void test1()
+    public final void test1()
     {
         test( buildIterableIterator( buildEmptyCollection(), buildEmptyCollection() ), 0 );
     }
 
-    final public void test2()
+    public final void test2()
     {
         Collection<Integer> c1 = buildDefaultIntegerCollection1();
         Collection<Integer> c2 = buildDefaultIntegerCollection2();

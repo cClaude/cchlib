@@ -17,7 +17,7 @@ public interface DigestEventListener
      *
      * @param file the file
      */
-    public void computeDigest(File file);
+    void computeDigest(File file);
 
     /**
      * Invoked during computing digest for this file,
@@ -26,7 +26,7 @@ public interface DigestEventListener
      * @param file the file
      * @param length the length actually computed
      */
-    public void computeDigest(File file, long length);
+    void computeDigest(File file, long length);
 
     /**
      * Invoked if any {@link IOException} occur.
@@ -34,12 +34,12 @@ public interface DigestEventListener
      * @param e     exception that append.
      * @param file  current file.
      */
-    public void ioError(IOException e, File file);
+    void ioError(IOException e, File file);
 
     /**
      * Invoked to check if process should be cancel.
      *
      * @return true if process should be stop.
      */
-    public boolean isCancel();
+    boolean isCancel();
 }

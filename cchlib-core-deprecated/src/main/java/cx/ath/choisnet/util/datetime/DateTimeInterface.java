@@ -8,12 +8,12 @@ import java.text.Format;
 public interface DateTimeInterface
 {
     /**
-     * 
+     *
      */
-    public abstract String toString(Format format);
+    String toString(Format format);
 
     /**
-     * 
+     *
      */
-    public abstract long longValue();
+    long longValue();
 }

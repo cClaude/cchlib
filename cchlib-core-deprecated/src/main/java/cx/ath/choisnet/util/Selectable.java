@@ -19,5 +19,5 @@ public interface Selectable<T> extends com.googlecode.cchlib.util.iterator.Selec
      *         false otherwise
      */
     @Override
-    public abstract boolean isSelected(T obj);
+    boolean isSelected(T obj);
 }

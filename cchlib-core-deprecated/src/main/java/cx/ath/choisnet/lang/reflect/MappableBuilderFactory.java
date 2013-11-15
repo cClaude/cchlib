@@ -16,41 +16,41 @@ public interface MappableBuilderFactory extends Serializable
      * Returns {@link String} representation of null
      * @return {@link String} representation of null
      */
-    public String getStringNullValue();
+    String getStringNullValue();
 
     /**
      */
-    public String getMessageFormatIteratorEntry();
+    String getMessageFormatIteratorEntry();
 
     /**
      */
-    public String getMessageFormatIterableEntry();
+    String getMessageFormatIterableEntry();
 
     /**
      */
-    public String getMessageFormatEnumerationEntry();
+    String getMessageFormatEnumerationEntry();
 
     /**
      */
-    public String getMessageFormatArrayEntry();
+    String getMessageFormatArrayEntry();
 
     /**
      */
-    public String getMessageFormatMethodName();
+    String getMessageFormatMethodName();
 
     /**
      */
-    public Set<Class<?>> getClasses();
+    Set<Class<?>> getClasses();
 
     /**
      * Returns an unmodifiable {@link Set} of {@link MappableItem}
      * describe how to select item to add in the final map.
      * @return an unmodifiable {@link Set} of {@link MappableItem}
      */
-    public Set<MappableItem> getMappableItemSet();
+    Set<MappableItem> getMappableItemSet();
 
     /**
      * {@link Pattern} use to select method names to add into map result
      */
-    public Pattern getMethodesNamePattern();
+    Pattern getMethodesNamePattern();
 }

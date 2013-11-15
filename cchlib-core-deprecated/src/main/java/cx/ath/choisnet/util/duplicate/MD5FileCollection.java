@@ -10,13 +10,6 @@ import java.util.Set;
  */
 @Deprecated
 public interface MD5FileCollection
-//    extends java.io.Serializable
 {
-//    public abstract Set<File> getFolderFiles();
-
-    public abstract Map<byte[],? extends Set<File>> getMap();
-
-//    public abstract Set<File> getEntryFiles(MD5TreeEntry md5treeentry);
-
-//    public abstract int getEntryCount();
+    Map<byte[],? extends Set<File>> getMap();
 }
