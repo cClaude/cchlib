@@ -474,7 +474,7 @@ public class HashMapSet<K,V>
          * @param value
          * @return key for current value.
          */
-        public K computeKey(V value);
+        K computeKey(V value);
     }
 
     /**

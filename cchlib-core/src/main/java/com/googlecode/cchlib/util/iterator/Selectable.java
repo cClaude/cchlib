@@ -17,5 +17,5 @@ public interface Selectable<T>
      * @return true if object should be selected,
      *         false otherwise
      */
-    public abstract boolean isSelected(T obj);
+    boolean isSelected(T obj);
 }

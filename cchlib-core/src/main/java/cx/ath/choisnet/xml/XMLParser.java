@@ -12,5 +12,5 @@ public interface XMLParser
      *
      * @return a {@link org.w3c.dom.Document} object.
      */
-    public abstract Document getDocument();
+    Document getDocument();
 }

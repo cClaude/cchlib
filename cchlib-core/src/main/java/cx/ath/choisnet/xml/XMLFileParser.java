@@ -13,5 +13,5 @@ public interface XMLFileParser extends XMLParser
      * Returns {@link File} object for this XML file
      * @return {@link File} object for this XML file
      */
-    public abstract File getFile();
+    File getFile();
 }

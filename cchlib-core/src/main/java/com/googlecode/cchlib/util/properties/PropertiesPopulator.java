@@ -47,15 +47,15 @@ public class PropertiesPopulator<E>
         /**
          * Return annotation value
          */
-        public boolean isDefaultValueNull();
+        boolean isDefaultValueNull();
         /**
          * Return annotation value
          */
-        public String defaultValue();
+        String defaultValue();
         /**
          * Return object value has a String
          */
-        public String toString( Object o ) throws PropertiesPopulatorException;
+        String toString( Object o ) throws PropertiesPopulatorException;
         /**
          *
          * @param f
@@ -67,7 +67,7 @@ public class PropertiesPopulator<E>
          * @throws ConvertCantNotHandleTypeException
          * @throws PropertiesPopulatorException
          */
-        public void setValue( Field f, E bean, String strValue, Class<?> type)
+        void setValue( Field f, E bean, String strValue, Class<?> type)
             throws IllegalArgumentException,
                    IllegalAccessException,
                    ConvertCantNotHandleTypeException,
@@ -84,7 +84,7 @@ public class PropertiesPopulator<E>
          * @throws ConvertCantNotHandleTypeException
          * @throws PropertiesPopulatorException
          */
-        public void setArrayEntry( Field f, Object array, int index, String strValue, Class<?> type )
+        void setArrayEntry( Field f, Object array, int index, String strValue, Class<?> type )
             throws ArrayIndexOutOfBoundsException,
                    IllegalArgumentException,
                    ConvertCantNotHandleTypeException,

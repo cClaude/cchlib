@@ -7,5 +7,5 @@ import com.googlecode.cchlib.util.iterator.Selectable;
 public interface MethodFilter extends Selectable<Method>, Serializable
 {
     @Override
-    public boolean isSelected( Method method );
+    boolean isSelected( Method method );
 }

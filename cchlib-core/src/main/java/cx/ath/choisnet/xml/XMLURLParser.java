@@ -14,5 +14,5 @@ public interface XMLURLParser extends XMLParser
      *
      * @return a {@link java.net.URL} object.
      */
-    public abstract URL getURL();
+    URL getURL();
 }
