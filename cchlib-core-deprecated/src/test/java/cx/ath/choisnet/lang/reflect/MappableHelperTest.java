@@ -11,7 +11,7 @@ import org.junit.Test;
 @Deprecated
 public class MappableHelperTest
 {
-    private final static Logger logger = Logger.getLogger( MappableHelperTest.class );
+    private static final Logger logger = Logger.getLogger( MappableHelperTest.class );
 
     @Test
     public void tstMappableJLabel()

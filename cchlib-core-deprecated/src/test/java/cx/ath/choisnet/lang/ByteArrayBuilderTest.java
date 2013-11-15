@@ -17,9 +17,9 @@ import com.googlecode.cchlib.test.ArrayAssert;
 @Deprecated
 public class ByteArrayBuilderTest
 {
-    private final static byte[] BYTES = {'a','b','c','d','e','f'};
-    private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
-    private final static int    BIG_CAPACITY = 2048 * 100;
+    private static final byte[] BYTES = {'a','b','c','d','e','f'};
+    private static final byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
+    private static final int    BIG_CAPACITY = 2048 * 100;
 
     @Test
     public void testConstructor1()

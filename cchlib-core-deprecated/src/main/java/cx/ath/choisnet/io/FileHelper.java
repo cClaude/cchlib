@@ -27,7 +27,7 @@ import com.googlecode.cchlib.io.exceptions.FileDeleteException;
 @Deprecated
 public final class FileHelper
 {
-    private final static int DEFAULT_BUFFER_SIZE = 4096;
+    private static final int DEFAULT_BUFFER_SIZE = 4096;
 
     private FileHelper()
     {
