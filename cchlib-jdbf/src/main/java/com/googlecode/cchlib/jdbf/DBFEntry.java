@@ -11,46 +11,46 @@ public interface DBFEntry
      * Returns {@link DBFField} for this entry
      * @return {@link DBFField} for this entry
      */
-    public DBFField getDBFField();
+    DBFField getDBFField();
 
     /**
      * Returns row value for this cell.
      * @return row value for this cell.
      */
-    public Object getValue();
+    Object getValue();
 
     /**
      * Returns value as a {@link String} for this cell
      * @return value as a {@link String} for this cell
      * @throws DBFEntryException if value can't be convert to {@link String}
      */
-    public String getString() throws DBFEntryException;
+    String getString() throws DBFEntryException;
 
     /**
      * Returns value as a integer for this cell
      * @return value as a integer for this cell
      * @throws DBFEntryException if value can't be convert to integer
      */
-    public int getInt() throws DBFEntryException;
+    int getInt() throws DBFEntryException;
 
     /**
      * Returns value as a boolean for this cell
      * @return value as a boolean for this cell
      * @throws DBFEntryException if value can't be convert to boolean
      */
-    public boolean getBoolean() throws DBFEntryException;
+    boolean getBoolean() throws DBFEntryException;
 
     /**
      * Returns value as a double for this cell
      * @return value as a double for this cell
      * @throws DBFEntryException if value can't be convert to double
      */
-    public double getDouble() throws DBFEntryException;
+    double getDouble() throws DBFEntryException;
 
     /**
      * Returns value as a {@link Date} for this cell
      * @return value as a {@link Date} for this cell
      * @throws DBFEntryException if value can't be convert to {@link Date}
      */
-    public Date getDate() throws DBFEntryException;
+    Date getDate() throws DBFEntryException;
 }
