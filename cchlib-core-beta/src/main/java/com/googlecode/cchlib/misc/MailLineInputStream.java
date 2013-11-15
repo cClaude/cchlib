@@ -47,7 +47,7 @@ class MailLineInputStream extends InputStream
             } while( !isEOL() );
 
         if( length == 0 ) {
-            return null;
+            return null; // $codepro.audit.disable returnValue
             }
         else { // shadow buffer
             byte[] shadow = new byte[ length ];
