@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class PingerTest
 {
-    private final static Logger logger = Logger.getLogger( PingerTest.class );
+    private static final Logger logger = Logger.getLogger( PingerTest.class );
 /*
     private static String localhostIp = "127.0.0.1";
     private static String localhost = "localhost";

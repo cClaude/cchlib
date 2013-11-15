@@ -13,17 +13,17 @@ public interface BinaryTreeNode<T> extends Serializable
      * Returns data content for this node
      * @return data content for this node
      */
-    public T getData();
+    T getData();
 
     /**
      * Returns left subtree
      * @return left subtree
      */
-    public BinaryTreeNode<T> getLeftNode();
+    BinaryTreeNode<T> getLeftNode();
 
     /**
      * Returns right subtree
      * @return right subtree
      */
-    public BinaryTreeNode<T> getRightNode();
+    BinaryTreeNode<T> getRightNode();
 }

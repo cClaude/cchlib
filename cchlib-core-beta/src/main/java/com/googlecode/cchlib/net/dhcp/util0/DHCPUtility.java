@@ -196,10 +196,10 @@ public class DHCPUtility {
             String[] ip   = m.group(1).split("\\.");
             byte[]   baIP = new byte[4];
 
-            baIP[0] = new Byte((byte) Integer.parseInt(ip[0]));
-            baIP[1] = new Byte((byte) Integer.parseInt(ip[1]));
-            baIP[2] = new Byte((byte) Integer.parseInt(ip[2]));
-            baIP[3] = new Byte((byte) Integer.parseInt(ip[3]));
+            baIP[0] = Byte.parseByte(ip[0]);
+            baIP[1] = Byte.parseByte(ip[1]);
+            baIP[2] = Byte.parseByte(ip[2]);
+            baIP[3] = Byte.parseByte(ip[3]);
             assert(DHCPUtility.ip4ToString(baIP).compareTo(m.group(1)) == 0) :
                     "IP conversion incorrect: " + m.group(1) +
                     " conversion: " + DHCPUtility.ip4ToString(baIP);

@@ -29,7 +29,7 @@ public interface MapCollection<K,V>
      * @param value value to be associated with the specified key
      * @return true if value has been added (could depend of implementation)
      */
-    public boolean add(K key, V value);
+    boolean add(K key, V value);
 
     /**
      * Returns the Collection to which the specified key is mapped, or null
@@ -39,7 +39,7 @@ public interface MapCollection<K,V>
      * @return the value to which the specified key is mapped, or null
      *         if this MapCollection contains no mapping for the key
      */
-    public Collection<V> getCollection(K key);
+    Collection<V> getCollection(K key);
 
     /**
      * Add all values with same key in this MapCollection.
@@ -48,7 +48,7 @@ public interface MapCollection<K,V>
      * @param values    values to add
      * @return number of values add in MapCollection
      */
-    public int addAll(K key, Collection<V> values);
+    int addAll(K key, Collection<V> values);
 
     /**
      * Add all couples of key value in MapCollection.
@@ -56,7 +56,7 @@ public interface MapCollection<K,V>
      * @param m map to add
      * @return number of values added
      */
-    public int addAll(Map<K,V> m);
+    int addAll(Map<K,V> m);
 
     /**
      * Returns true if MapCollection contains the specified element.
@@ -67,7 +67,7 @@ public interface MapCollection<K,V>
      * @param value element whose presence in MapCollection is to be tested
      * @return true if MapCollection contains the specified element.
      */
-    public boolean containsValue(V value);
+    boolean containsValue(V value);
 
     /**
      * Returns true if MapCollection contains all of the elements
@@ -77,34 +77,34 @@ public interface MapCollection<K,V>
      * @return true if MapCollection contains all of the elements
      *  in the specified collection
      */
-    public boolean containsAll(Collection<? extends V> c);
+    boolean containsAll(Collection<? extends V> c);
 
     /**
      * Returns true if MapCollection contains the specified key.
      * @param key key whose presence in MapCollection is to be tested
      * @return true if MapCollection contains the specified key.
      */
-    public boolean containsKey( K key );
+    boolean containsKey( K key );
 
     /**
      * Removes all of the mappings from this MapCollection.
      * The MapCollection will be empty after this call returns.
      */
-    public void clear();
+    void clear();
 
     /**
      * Removes all of the mappings from this MapCollection,
      * but also perform a Collection.clear() on each set of values.
      * The MapCollection will be empty after this call returns.
      */
-    public void deepClear();
+    void deepClear();
 
     /**
      * Returns an iterator over the values in this MapCollection.
      * @return an iterator over the values in this MapCollection.
      */
     @Override
-    public Iterator<V> iterator();
+    Iterator<V> iterator();
 
 //    void   purge()
 //             Remove key-Set<V> pair for null or empty Set<V> Invoke purge(1)
@@ -118,7 +118,7 @@ public interface MapCollection<K,V>
      * @param value value to be associated with the specified key
      * @return true if the specified key-value could be removed from MapCollection
      */
-    public boolean remove(K key, V value);
+    boolean remove(K key, V value);
 
     /**
      * Removes the specified key from this MapCollection if it is present,
@@ -128,37 +128,37 @@ public interface MapCollection<K,V>
      * @return previous Collection of values for this key, or null if
      * key could not be found in MapCollection
      */
-    public Collection<V> remove(K key);
+    Collection<V> remove(K key);
 
     /**
      * Returns a Collection view of V according to MapCollection.
      * @return a Collection view of V according to MapCollection.
      */
-    public Collection<V> valuesCollection();
+    Collection<V> valuesCollection();
 
     /**
      * Returns the number of key in this MapCollection.
      * @return the number of key in this MapCollection.
      */
-    public int keySize();
+    int keySize();
 
     /**
      * Returns the number of value in this MapCollection.
      * @return the number of value in this MapCollection.
      */
-    public int valuesSize();
+    int valuesSize();
 
     /**
      * Returns true if this {@link MapCollection} is empty
      * @return true if this {@link MapCollection} is empty
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
-     * Returns {@link Set} for this {@link MapCollection} 
+     * Returns {@link Set} for this {@link MapCollection}
      * @return {@link Set} for this {@link MapCollection}
      */
-    public Set<Map.Entry<K,Collection<V>>> entrySet();
+    Set<Map.Entry<K,Collection<V>>> entrySet();
     //,*/ get, isEmpty, keySet, put, putAll, remove, size, values
 
 
@@ -184,7 +184,7 @@ public interface MapCollection<K,V>
      * @return true if the specified object is equal to this MapCollection
      */
     @Override
-    public boolean equals( Object o );
+    boolean equals( Object o );
 
     /**
      * Returns a shallow copy of this AbstractMapCollection instance: the keys and
@@ -193,7 +193,7 @@ public interface MapCollection<K,V>
      * @return a shallow copy of this AbstractMapCollection
      * @see Cloneable
      */
-    public Object clone();
+    Object clone();
 
     //hashCode,
     //toString

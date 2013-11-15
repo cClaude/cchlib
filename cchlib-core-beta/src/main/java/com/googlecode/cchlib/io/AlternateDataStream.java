@@ -89,9 +89,9 @@ public class AlternateDataStream
 
             ads.getStreamSupportFile().delete();
 
-            this.isSupported = isSupported;
+            this.isSupported = Boolean.valueOf( isSupported );
         }
 
-        return this.isSupported;
+        return this.isSupported.booleanValue();
     }
 }

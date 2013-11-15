@@ -11,5 +11,5 @@ public interface Walkable<T>
      *
      * @param visitor
      */
-    public void walk(Visitor<T> visitor);
+    void walk(Visitor<T> visitor);
 }

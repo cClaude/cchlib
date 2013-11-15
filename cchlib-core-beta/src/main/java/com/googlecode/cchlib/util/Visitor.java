@@ -11,5 +11,5 @@ public interface Visitor<T>
      * @param entry current entry
      * @return the visit result
      */
-    public VisitResult visite(T entry);
+    VisitResult visite(T entry);
 }
