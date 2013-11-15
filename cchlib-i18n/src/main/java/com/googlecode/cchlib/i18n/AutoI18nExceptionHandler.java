@@ -21,7 +21,7 @@ public interface AutoI18nExceptionHandler
      * @param cause
      * @param field
      */
-    public void handleI18nSyntaxeException( I18nSyntaxeException cause, Field field );
+    void handleI18nSyntaxeException( I18nSyntaxeException cause, Field field );
 
     /**
      * Invoke when an {@link IllegalAccessException} occurred
@@ -29,7 +29,7 @@ public interface AutoI18nExceptionHandler
      * @param cause The exception to handle
      * @param i18nField
      */
-    public void handleIllegalAccessException( IllegalAccessException cause, I18nField i18nField );
+    void handleIllegalAccessException( IllegalAccessException cause, I18nField i18nField );
 
     /**
      * Invoke when an {@link IllegalArgumentException} occurred
@@ -37,7 +37,7 @@ public interface AutoI18nExceptionHandler
      * @param cause The exception to handle
      * @param i18nField
      */
-    public void handleIllegalArgumentException( IllegalArgumentException cause, I18nField i18nField );
+    void handleIllegalArgumentException( IllegalArgumentException cause, I18nField i18nField );
 
     /**
      * Invoke when an {@link InvocationTargetException} occur
@@ -45,7 +45,7 @@ public interface AutoI18nExceptionHandler
      * @param cause The exception to handle
      * @param i18nField
      */
-    public void handleInvocationTargetException( InvocationTargetException cause, I18nField i18nField );
+    void handleInvocationTargetException( InvocationTargetException cause, I18nField i18nField );
 
     /**
      *
@@ -53,7 +53,7 @@ public interface AutoI18nExceptionHandler
      * @param i18nField
      * @param i18nResolver
      */
-    public void handleMissingKeyException( MissingKeyException cause, I18nField i18nField, I18nResolver i18nResolver );
+    void handleMissingKeyException( MissingKeyException cause, I18nField i18nField, I18nResolver i18nResolver );
 
     /**
      * Invoke when an {@link MissingResourceException} occurred
@@ -63,14 +63,14 @@ public interface AutoI18nExceptionHandler
      * @param objectToI18n  Object to I18n that contain field.
      * @param i18nInterface TODOC
      */
-    public <T> void handleMissingResourceException( MissingResourceException cause, I18nField i18nField, T objectToI18n, I18nInterface i18nInterface );
+    <T> void handleMissingResourceException( MissingResourceException cause, I18nField i18nField, T objectToI18n, I18nInterface i18nInterface );
 
     /**
      *
      * @param cause
      * @param field
      */
-    public void handleNoSuchMethodException( NoSuchMethodException cause, Field field );
+    void handleNoSuchMethodException( NoSuchMethodException cause, Field field );
 
     /**
      * Invoke when an {@link NoSuchMethodException} occurred
@@ -78,14 +78,14 @@ public interface AutoI18nExceptionHandler
      * @param cause The exception to handle
      * @param i18nField
      */
-    public void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField );
+    void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField );
 
     /**
-     * 
+     *
      * @param cause
      * @param field
      */
-    public void handleSecurityException( MethodProviderSecurityException cause, Field field );
+    void handleSecurityException( MethodProviderSecurityException cause, Field field );
 
     /**
      * Invoke when an {@link SecurityException} occurred
@@ -93,7 +93,7 @@ public interface AutoI18nExceptionHandler
      * @param cause The exception to handle
      * @param i18nField
      */
-    public void handleSecurityException( SecurityException cause, I18nField i18nField );
+    void handleSecurityException( SecurityException cause, I18nField i18nField );
 
     /**
      *
@@ -101,5 +101,5 @@ public interface AutoI18nExceptionHandler
      * @param i18nField
      * @param i18nResolver
      */
-    public void handleSetFieldException( SetFieldException cause, I18nField i18nField, I18nResolver i18nResolver );
+    void handleSetFieldException( SetFieldException cause, I18nField i18nField, I18nResolver i18nResolver );
 }

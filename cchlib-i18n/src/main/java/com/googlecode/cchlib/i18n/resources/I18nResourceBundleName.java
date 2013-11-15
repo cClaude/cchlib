@@ -8,5 +8,5 @@ import com.googlecode.cchlib.NeedDoc;
 @NeedDoc
 public interface I18nResourceBundleName
 {
-    public String getName();
+    String getName();
 }

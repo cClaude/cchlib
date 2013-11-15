@@ -32,9 +32,9 @@ public final class I18nPrepHelper
     @NeedDoc
     public interface Result
     {
-        public PrepCollector<Integer> getUsageStatCollector();
-        public PrepCollector<String> getNotUseCollector();
-        public File getOutputFile();
+        PrepCollector<Integer> getUsageStatCollector();
+        PrepCollector<String> getNotUseCollector();
+        File getOutputFile();
     }
 
     private I18nPrepHelper()

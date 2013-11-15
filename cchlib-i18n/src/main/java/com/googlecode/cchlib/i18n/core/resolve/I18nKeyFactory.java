@@ -10,5 +10,5 @@ import com.googlecode.cchlib.NeedDoc;
 @NeedDoc
 public interface I18nKeyFactory extends Serializable
 {
-    public String getKeyBase( Field field, String keyIdValue );
+    String getKeyBase( Field field, String keyIdValue );
 }

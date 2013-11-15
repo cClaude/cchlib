@@ -33,28 +33,28 @@ public interface I18nField extends Serializable
     /**
      * @return the reflexion {@link Field} for this I18nField
      */
-    public Field getField();
+    Field getField();
 
     /**
      * @return key for this I18nField, warning this is the key base name, could
      * be different than the final key in resource bundle, specially for multiple values
      * support.
      */
-    public String getKeyBase();
+    String getKeyBase();
 
     /**
      * @return {@link MethodContener} object for this field, if custom getter/setter define,
      * return null otherwise
      */
-    public MethodContener getMethods();
+    MethodContener getMethods();
 
-    public FieldType getFieldType();
+    FieldType getFieldType();
 
     /**
      * @return {@link AutoI18nType} for this I18nField, if supported. Returns null otherwise.
      */
-    public AutoI18nType getAutoI18nTypes();
+    AutoI18nType getAutoI18nTypes();
 
     @NeedDoc
-    public <T> I18nResolver createI18nResolver( T objectToI18n, I18nInterface i18nInterface );
+    <T> I18nResolver createI18nResolver( T objectToI18n, I18nInterface i18nInterface );
 }

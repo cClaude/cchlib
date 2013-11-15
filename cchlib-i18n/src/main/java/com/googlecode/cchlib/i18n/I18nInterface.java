@@ -5,9 +5,9 @@ import java.util.Locale;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /**
- * Resolve value ({@link String}) from a string key ({@link String}) 
+ * Resolve value ({@link String}) from a string key ({@link String})
  * according to current {@link Locale}
- * 
+ *
  * @see AutoI18n
  */
 public interface I18nInterface extends Serializable
@@ -19,6 +19,6 @@ public interface I18nInterface extends Serializable
      * @return String for giving key
      * @throws MissingResourceException if key not found
      */
-    public String getString(String key)
+    String getString(String key)
         throws MissingResourceException;
 }

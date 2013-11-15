@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-public interface Values extends Iterable<String> 
+public interface Values extends Iterable<String>
 {
-    public String get( int i );
-    public int size();
-    public String[] toArray();
+    String get( int i );
+    int size();
+    String[] toArray();
 }

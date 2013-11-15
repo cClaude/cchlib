@@ -18,12 +18,12 @@ public interface AutoI18nEventHandler
      * @param eventCause {@link EventCause} qualification
      * @param causeDecription Optional cause description (could be null)
      */
-    public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription );
+    void ignoredField( Field f, String key, EventCause eventCause, String causeDecription );
 
     /**
      * Call when a Field is localized
      *
      * @param f localized Field
      */
-    public void localizedField( Field f, String key );
+    void localizedField( Field f, String key );
 }

@@ -16,7 +16,7 @@ public interface AutoI18nType extends Serializable
      * Returns class handled by this Type
      * @return class handled by this Type
      */
-    public Class<?> getType();
+    Class<?> getType();
 
     /**
      * Set localized text
@@ -24,15 +24,15 @@ public interface AutoI18nType extends Serializable
      * @param toI18n object to localize
      * @param values TODOC
      */
-    public void setText(Object toI18n, Values values);
+    void setText(Object toI18n, Values values);
 
     /**
      * Returns current text string for this object
-     * 
+     *
      * @param toI18n object to localize
      * @return TODOC
-     */ 
-    public Values getText(Object toI18n);
+     */
+    Values getText(Object toI18n);
 
     /**
      * TODOC
@@ -40,5 +40,5 @@ public interface AutoI18nType extends Serializable
      * @param keyBaseName
      * @return TODOC
      */
-    public Keys getKeys( Object toI18n, String keyBaseName );
+    Keys getKeys( Object toI18n, String keyBaseName );
 }

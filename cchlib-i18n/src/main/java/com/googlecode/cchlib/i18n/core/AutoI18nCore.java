@@ -17,5 +17,5 @@ public interface AutoI18nCore
      * @param objectToI18n Object to internationalize
      * @param clazz        Class to use for internationalization
      */
-    public <T> void performeI18n( T objectToI18n, Class<? extends T> clazz );
+    <T> void performeI18n( T objectToI18n, Class<? extends T> clazz );
 }

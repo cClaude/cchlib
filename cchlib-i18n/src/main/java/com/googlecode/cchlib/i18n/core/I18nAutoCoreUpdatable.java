@@ -15,5 +15,5 @@ public interface I18nAutoCoreUpdatable
      *
      * @param autoI18n The {@link AutoI18nCore} for current user.
      */
-    public void performeI18n(AutoI18nCore autoI18n);
+    void performeI18n(AutoI18nCore autoI18n);
 }

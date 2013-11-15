@@ -8,5 +8,5 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 @Deprecated
 public interface I18nPrepHelperAutoUpdatable extends I18nAutoCoreUpdatable {
     @Deprecated
-    public String getMessagesBundleForI18nPrepHelper();
+    String getMessagesBundleForI18nPrepHelper();
 }
