@@ -246,10 +246,4 @@ public class DebugHttpServletResponseWrapper
         logger.debug( "setStatus(" + sc + ","  + sm + ")" );
         this.response.setStatus(sc,sm);
     }
-
-    @Override
-    public void finalize() throws Throwable
-    {
-        super.finalize();
-    }
 }

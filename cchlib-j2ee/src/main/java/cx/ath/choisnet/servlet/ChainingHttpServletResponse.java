@@ -14,5 +14,5 @@ public interface ChainingHttpServletResponse extends HttpServletResponse
      * Finish a response.
      * @throws IOException
      */
-    public void finishResponse() throws IOException;
+    void finishResponse() throws IOException;
 }

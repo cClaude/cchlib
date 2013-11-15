@@ -43,7 +43,7 @@ public final class PasswordService
         throw new SystemUnavailableException(e.getMessage());
         }
 
-    byte raw[] = md.digest();
+    byte[] raw = md.digest();
     //String hash = (new sun.misc.BASE64Encoder()).encode(raw);
     String hash;
     try {

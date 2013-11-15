@@ -6,22 +6,22 @@ package cx.ath.choisnet.servlet;
  */
 public interface SimpleServletContext
 {
-	/**
-	 * TODOC
-	 * 
-	 * @param s
-	 * @return TODOC
-	 * @throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException
-	 */
-    public abstract String getInitParameter(String s)
+    /**
+    * TODOC
+    *
+    * @param s
+    * @return TODOC
+    * @throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException
+    */
+    String getInitParameter(String s)
         throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException;
 
     /**
-	 * TODOC
-     * 
+    * TODOC
+     *
      * @param s
      * @param s1
      * @return TODOC
      */
-    public abstract String getInitParameter(String s, String s1);
+    String getInitParameter(String s, String s1);
 }

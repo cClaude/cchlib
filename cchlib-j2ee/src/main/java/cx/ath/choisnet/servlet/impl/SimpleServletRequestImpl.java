@@ -314,7 +314,7 @@ public class SimpleServletRequestImpl
     {
         initCookiesIfNeeded();
 
-        Cookie arr$[] = cookies;
+        Cookie[] arr$ = cookies;
         int len$ = arr$.length;
 
         for(int i$ = 0; i$ < len$; i$++) {

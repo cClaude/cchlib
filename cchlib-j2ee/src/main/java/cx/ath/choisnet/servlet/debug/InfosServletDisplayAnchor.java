@@ -9,11 +9,11 @@ public interface InfosServletDisplayAnchor
      * TODOC
      * @return TODOC
      */
-    public abstract String getId();
+    String getId();
 
     /**
      * TODOC
      * @return TODOC
      */
-    public abstract String getDisplay();
+    String getDisplay();
 }

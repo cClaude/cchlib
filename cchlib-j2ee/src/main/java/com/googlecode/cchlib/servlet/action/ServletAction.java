@@ -22,7 +22,7 @@ public interface ServletAction
      * @return {@link Action} describing what
      * {@link ActionServlet} should do after running doAction() method.
      */
-    public ActionServlet.Action doAction(
+    ActionServlet.Action doAction(
             final HttpServletRequest    request,
             final HttpServletResponse   response,
             final ServletContext        context

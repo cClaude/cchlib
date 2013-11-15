@@ -281,7 +281,7 @@ public class InfosServletDisplayerImpl
 
             value.setLength(0);
 
-            String arr$[] = values;
+            String[] arr$ = values;
             int len$ = arr$.length;
 
             for(int i$ = 0; i$ < len$; i$++) {

@@ -13,5 +13,5 @@ public interface InfosServletDisplayer
      *
      * @param appendable
      */
-    public abstract void appendHTML(Appendable appendable) throws IOException;
+    void appendHTML(Appendable appendable) throws IOException;
 }
