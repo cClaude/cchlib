@@ -42,7 +42,7 @@ public class I18nSimpleStatsResourceBundle extends I18nSimpleResourceBundle
             map.put( key, 1 );
             }
         else {
-            map.put( key, count + 1 );
+            map.put( key, count.intValue() + 1 );
             }
 
         return super.getString( key );

@@ -17,7 +17,7 @@ public class AutoI18nLog4JEventHandler
     implements AutoI18nEventHandler
 {
     private static final long serialVersionUID = 1L;
-    private transient static final Logger slogger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
+    private static final transient Logger slogger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
     /** @serial */
     private Level levelIgnoredField;
     /** @serial */

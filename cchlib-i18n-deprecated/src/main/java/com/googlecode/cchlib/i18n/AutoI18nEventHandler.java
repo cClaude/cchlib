@@ -9,8 +9,8 @@ import java.lang.reflect.Field;
 public interface AutoI18nEventHandler
     extends Serializable
 {
-    /** 
-     * 
+    /**
+     *
      */
     enum Cause {
         ANNOTATION,
@@ -27,12 +27,12 @@ public interface AutoI18nEventHandler
      * @param f ignored Field
      * @param cause Cause
      */
-    public void ignoredField(Field f,Cause cause);
+    void ignoredField(Field f,Cause cause);
 
     /**
      * Call when a Field is localized
      *
      * @param f localized Field
      */
-    public void localizedField( Field f );
+    void localizedField( Field f );
 }

@@ -67,8 +67,8 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 public class AutoI18n implements Serializable
 {
     private static final long serialVersionUID = 1L;
-	private static final Logger logger = Logger.getLogger( AutoI18n.class );
-	
+    private static final Logger logger = Logger.getLogger( AutoI18n.class );
+
     private transient Object      objectToI18n;
     private transient Class<?>    objectToI18nClass;
     private transient String      objectToI18nClassNamePrefix;
@@ -102,7 +102,7 @@ public class AutoI18n implements Serializable
     private AutoI18nTypes defaultTypes;
     /** @serial */
     private AutoI18nTypes forceTypes;
-    
+
     /**
      * How to select Fields:
      * <p>
@@ -140,7 +140,7 @@ public class AutoI18n implements Serializable
          */
         DISABLE,
     }
-    
+
     /**
      * Create an AutoI18n object using {@link I18nInterface},
      *
@@ -159,7 +159,7 @@ public class AutoI18n implements Serializable
             EnumSet<Attribute>          attributes
             )
     {
-    	this(i18n, null, null, exceptionHandler, eventHandler, attributes);
+        this(i18n, null, null, exceptionHandler, eventHandler, attributes);
     }
 
     /**
@@ -235,8 +235,8 @@ public class AutoI18n implements Serializable
      *
      * @param handler {@link AutoI18nExceptionHandler} to use
      */
-    public void setAutoI18nExceptionHandler( 
-        final AutoI18nExceptionHandler handler 
+    public void setAutoI18nExceptionHandler(
+        final AutoI18nExceptionHandler handler
         )
     {
         if( handler == null ) {
@@ -388,11 +388,11 @@ public class AutoI18n implements Serializable
 
         try {
             I18n        annoI18n        = f.getAnnotation( I18n.class );
-            
+
             if( annoI18n != null ) {
                 // Get methods
                 methods = getCustomMethodsFromCurrentObject(f, annoI18n.method() );
-                
+
                 if( methods == null ) {
                     @SuppressWarnings("deprecation")
                     Method[] methodsSuppressWarnings = getCustomMethodsFromCurrentObject(f, annoI18n.methodSuffixName() );
@@ -401,7 +401,7 @@ public class AutoI18n implements Serializable
 
                 // Get key
                 key = annoI18n.id();
-                
+
                 if( key.length() == 0 ) {
                     @SuppressWarnings("deprecation")
                     String keySuppressWarnings = annoI18n.keyName();
@@ -512,7 +512,7 @@ public class AutoI18n implements Serializable
         else { // Not a String
             if( f.getAnnotation( I18nString.class ) != null ) {
                 // But annotation
-            	logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
+                logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
 //                if( eventHandler!=null ) {
 //                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
 //                }
@@ -536,14 +536,14 @@ public class AutoI18n implements Serializable
         Key key = new Key( k );
 
         try {
-        	AutoI18nTypes types;
-        	
-			if( f.getAnnotation( I18nForce.class ) != null ) {
-        		types = this.forceTypes;
-        		}
-        	else {
-        		types = this.defaultTypes;
-        		}
+            AutoI18nTypes types;
+
+            if( f.getAnnotation( I18nForce.class ) != null ) {
+                types = this.forceTypes;
+                }
+            else {
+                types = this.defaultTypes;
+                }
             for(AutoI18nTypes.Type t:types) {
                 if( t.getType().isAssignableFrom( fclass ) ) {
                     f.setAccessible( true );
@@ -571,19 +571,16 @@ public class AutoI18n implements Serializable
 
     /**
      * Find get/set method to retrieve or update I18n value
-     * 
+     *
      * @param f_notuse
      * @param suffixName
      * @return null or 2 methods (m[0]=set, m[1]=get]
      */
     private Method[] getCustomMethodsFromCurrentObject(
-        final Field     f_notuse, 
-        final String    suffixName 
+        final Field     f_notuse,
+        final String    suffixName
         )
-    //private Method[] getMethods( final Field f, final I18n i18n )
     {
-        //final String suffixName = i18n.methodSuffixName();
-
         if( suffixName.length() > 0 ) {
             Method[] methods = new Method[2];
 
@@ -596,6 +593,7 @@ public class AutoI18n implements Serializable
             catch( NoSuchMethodException e ) {
                 this.exceptionHandler.handleNoSuchMethodException(e);
                 }
+
             try {
                 methods[1] = this.objectToI18nClass.getMethod( "get"+ suffixName );
 
@@ -610,14 +608,15 @@ public class AutoI18n implements Serializable
 
             return methods;
             }
-        return null;
+
+        return null; // $codepro.audit.disable returnValue
     }
-    
+
     private static void checkIfReturnTypeIsString( final Method m )
         throws NoSuchMethodException
     {
         if( ! m.getReturnType().equals( String.class ) ) {
-            throw new NoSuchMethodException( 
+            throw new NoSuchMethodException(
                 "Method " + m + " must return a String"
                 );
             }

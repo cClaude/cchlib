@@ -15,6 +15,6 @@ public interface I18nInterface extends Serializable
      * @return String for giving key
      * @throws java.util.MissingResourceException if key not found
      */
-    public String getString(String key)
+    String getString(String key)
         throws java.util.MissingResourceException;
 }

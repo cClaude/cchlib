@@ -17,35 +17,35 @@ public interface AutoI18nExceptionHandler
      *
      * @param e The exception to handle
      */
-    public void handleInvocationTargetException( InvocationTargetException e );
+    void handleInvocationTargetException( InvocationTargetException e );
 
     /**
      * Invoke when an {@link IllegalAccessException} occurred
      *
      * @param e The exception to handle
      */
-    public void handleIllegalAccessException( IllegalAccessException e );
+    void handleIllegalAccessException( IllegalAccessException e );
 
     /**
      * Invoke when an {@link IllegalArgumentException} occurred
      *
      * @param e The exception to handle
      */
-    public void handleIllegalArgumentException( IllegalArgumentException e );
+    void handleIllegalArgumentException( IllegalArgumentException e );
 
     /**
      * Invoke when an {@link NoSuchMethodException} occurred
      *
      * @param e The exception to handle
      */
-    public void handleNoSuchMethodException( NoSuchMethodException e );
+    void handleNoSuchMethodException( NoSuchMethodException e );
 
     /**
      * Invoke when an {@link SecurityException} occurred
      *
      * @param e The exception to handle
      */
-    public void handleSecurityException( SecurityException e );
+    void handleSecurityException( SecurityException e );
 
     /**
      * Invoke when an {@link MissingResourceException} occurred
@@ -55,7 +55,7 @@ public interface AutoI18nExceptionHandler
      * @param key       The key ({@link String}) to use for translation
      * @param methods   Array of {@link Method}, array of 2 methods (setter and getter).
      */
-    public void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
+    void handleMissingResourceException( MissingResourceException e, Field field, String key, Method[] methods);
 
     /**
      * Invoke when an {@link MissingResourceException} occurred
@@ -64,7 +64,7 @@ public interface AutoI18nExceptionHandler
      * @param field The {@link Field} concern by the exception
      * @param key   The key ({@link String}) to use for translation
      */
-    public void handleMissingResourceException( MissingResourceException e, Field field, String key);
+    void handleMissingResourceException( MissingResourceException e, Field field, String key);
 
     /**
      * Invoke when an {@link MissingResourceException} occur
@@ -73,5 +73,5 @@ public interface AutoI18nExceptionHandler
      * @param field The {@link Field} concern by the exception
      * @param key   The key ({@link AutoI18n.Key}) to use for translation
      */
-    public void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
+    void handleMissingResourceException( MissingResourceException e, Field field, AutoI18n.Key key);
 }
