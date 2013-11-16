@@ -13,11 +13,11 @@ public interface JFileChooserInitializerListener extends EventListener
      *
      * @param event
      */
-    public void jFileChooserIsReady(JFileChooserInitializerEvent event);
+    void jFileChooserIsReady(JFileChooserInitializerEvent event);
 
     /**
      *
      * @param event
      */
-    public void jFileChooserInitializationError(JFileChooserInitializerEvent event);
+    void jFileChooserInitializationError(JFileChooserInitializerEvent event);
 }

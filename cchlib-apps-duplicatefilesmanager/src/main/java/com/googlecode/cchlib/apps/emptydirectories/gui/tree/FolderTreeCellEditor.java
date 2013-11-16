@@ -20,7 +20,7 @@ class FolderTreeCellEditor
         implements TreeCellEditor
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FolderTreeCellEditor.class );
+    private static final Logger LOGGER = Logger.getLogger( FolderTreeCellEditor.class );
 
     final EmptyDirectoryTreeCellRenderer renderer;
     final FolderTreeModelable            model;

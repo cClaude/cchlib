@@ -53,11 +53,11 @@ public abstract class AbstractContact implements Contact
         final ContactValueType type
         )
     {
-        Collection<Integer> indexes	= this.contactProperties.getTypeCollection( type );
-        ArrayList<String>   vList	= new ArrayList<String>();
+        Collection<Integer> indexes    = this.contactProperties.getTypeCollection( type );
+        ArrayList<String>   vList    = new ArrayList<String>();
 
         for( Integer index : indexes ) {
-            vList.add( getValue( index ) );
+            vList.add( getValue( index.intValue() ) );
             }
 
         return vList;

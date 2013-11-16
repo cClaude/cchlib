@@ -17,7 +17,7 @@ public final class FolderTreeNode
         implements Iterable<FolderTreeNode>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FolderTreeNode.class );
+    private static final Logger LOGGER = Logger.getLogger( FolderTreeNode.class );
 
     private Folder              folder;
     private boolean             selected;
@@ -145,8 +145,8 @@ public final class FolderTreeNode
 
     public static FolderTreeNode createRootFolderFor( final Path path, final FolderTreeModelable model )
     {
-        logger.trace( "path = " + path );
-        logger.trace( "path.getRoot() = " + path.getRoot() );
+        LOGGER.trace( "path = " + path );
+        LOGGER.trace( "path.getRoot() = " + path.getRoot() );
 
         return new FolderTreeNode( Folders.createFolder( path.getRoot() ), model );
     }

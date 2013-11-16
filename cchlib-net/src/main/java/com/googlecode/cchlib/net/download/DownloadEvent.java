@@ -11,17 +11,17 @@ public interface DownloadEvent
      *
      * @param dURL
      */
-    public void downloadStart( final DownloadURL dURL );
+    void downloadStart( final DownloadURL dURL );
 
     /**
      *
      * @param dURL
      */
-    public void downloadDone( final DownloadURL dURL );
+    void downloadDone( final DownloadURL dURL );
 
     /**
      *
      * @param dioe
      */
-    public void downloadFail( final DownloadIOException dioe );
+    void downloadFail( final DownloadIOException dioe );
 }

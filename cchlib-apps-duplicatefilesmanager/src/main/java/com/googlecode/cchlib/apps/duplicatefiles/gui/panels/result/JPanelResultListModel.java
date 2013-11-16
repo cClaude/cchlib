@@ -7,15 +7,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.util.HashMapSet;
@@ -27,7 +26,8 @@ public class JPanelResultListModel
     extends AbstractListModel<KeyFiles>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( JPanelResultListModel.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelResultListModel.class );
+    
     private HashMapSet<String,KeyFileState> duplicateFiles; // $codepro.audit.disable declareAsInterface
 
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
@@ -190,7 +190,7 @@ public class JPanelResultListModel
                 Collections.sort( duplicatesFileCacheList, cmp );
                 }
             catch( IllegalArgumentException e ) {
-                logger.error( "Can not sort : sortMode = " + sortMode, e );
+                LOGGER.error( "Can not sort : sortMode = " + sortMode, e );
                 }
             }
 
@@ -340,8 +340,8 @@ public class JPanelResultListModel
         final Set<KeyFileState> s
         )
     {
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "setKeepDelete: " + s );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setKeepDelete: " + s );
             }
         this.key = key;
 
@@ -398,7 +398,7 @@ public class JPanelResultListModel
         int index0 = -1;
         int index1 = -1;
 
-        logger.info( "duplicateFiles.size() = " + getDuplicateFiles().size() );
+        LOGGER.info( "duplicateFiles.size() = " + getDuplicateFiles().size() );
 
         while( mainIterator.hasNext() ) {
             Entry<String,Set<KeyFileState>> entry       = mainIterator.next();
@@ -410,12 +410,12 @@ public class JPanelResultListModel
 
                 if( ! kfs.getFile().exists() ) {
                     // File no more exist (delete by an other process)
-                    logger.info( "File \"" + kfs + "\" no more exist" );
+                    LOGGER.info( "File \"" + kfs + "\" no more exist" );
                     kfsIterator.remove();
                     }
                 }
 
-            logger.info( "kfsSet.size() = " + kfsSet.size() );
+            LOGGER.info( "kfsSet.size() = " + kfsSet.size() );
 
             if( kfsSet.size() < 2 ) {
                 // No more duplicate here !
@@ -430,7 +430,7 @@ public class JPanelResultListModel
             index++;
             }
 
-        logger.info( "duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
+        LOGGER.info( "duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
 
         if( index0 >= 0 ) {
             updateCache();

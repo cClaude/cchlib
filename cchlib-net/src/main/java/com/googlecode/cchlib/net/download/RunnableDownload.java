@@ -11,5 +11,5 @@ public interface RunnableDownload extends Runnable
      * Returns {@link DownloadURL} of this download task
      * @return {@link DownloadURL} of this download task
      */
-    public DownloadURL getDownloadURL();
+    DownloadURL getDownloadURL();
 }

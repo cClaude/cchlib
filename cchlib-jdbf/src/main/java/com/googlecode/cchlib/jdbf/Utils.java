@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.jdbf;
 
 import java.io.DataInput;
@@ -33,7 +34,7 @@ import java.util.Arrays;
         int low = in.readUnsignedByte() & 0xff;
         int high = in.readUnsignedByte();
 
-        return (short )(high << 8 | low);
+        return (short )((high << 8) | low);
     }
 
     public static byte[] trimLeftSpaces( final byte[] arr )
@@ -126,7 +127,7 @@ import java.util.Arrays;
     public static byte[] doubleFormating( Double doubleNum, String characterSetName, int fieldLength, int sizeDecimalPart )
         throws java.io.UnsupportedEncodingException
     {
-        final int sizeWholePart = fieldLength - (sizeDecimalPart>0?( sizeDecimalPart + 1):0);
+        final int sizeWholePart = fieldLength - ((sizeDecimalPart>0)?( sizeDecimalPart + 1):0);
         final StringBuilder format = new StringBuilder( fieldLength );
 
         for( int i=0; i<sizeWholePart; i++) {

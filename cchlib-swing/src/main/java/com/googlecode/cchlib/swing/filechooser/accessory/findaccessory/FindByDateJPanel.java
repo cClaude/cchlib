@@ -21,17 +21,20 @@ import javax.swing.SwingConstants;
  */
 class FindByDateJPanel extends JPanel implements FindFilterFactory
 {
+    private static final long ONE_DAY_IN_MS = 24L*3600L*1000L;
     private static final long serialVersionUID = 1L;
-    public static String    THE_BIG_BANG = "The Big Bang";
-    public static String    THE_BIG_CRUNCH = "The Big Crunch";
-    public static String    YESTERDAY = "Yesterday";
-    public static String    TODAY = "Today";
-    public static String    NOW = "Now";
+    //private static final int ONE_DAY_IN_MS = 24*60*60*1000;
 
-    public static String    MODIFIED_LABEL = "Modified";
-    public static String    FORMAT_LABEL = "mm/dd/yyyy";
-    public static String    FROM_DATE_LABEL = "between start of";
-    public static String    TO_DATE_LABEL = "and end of";
+    public static final String    THE_BIG_BANG = "The Big Bang";
+    public static final String    THE_BIG_CRUNCH = "The Big Crunch";
+    public static final String    YESTERDAY = "Yesterday";
+    public static final String    TODAY = "Today";
+    public static final String    NOW = "Now";
+
+    public static final String    MODIFIED_LABEL = "Modified";
+    public static final String    FORMAT_LABEL = "mm/dd/yyyy";
+    public static final String    FROM_DATE_LABEL = "between start of";
+    public static final String    TO_DATE_LABEL = "and end of";
 
     protected JComboBox<String>     fromDateField = null;
     protected JComboBox<String>     toDateField = null;
@@ -42,7 +45,7 @@ class FindByDateJPanel extends JPanel implements FindFilterFactory
     FindByDateJPanel()
     {
         super();
-        
+
         setLayout(new BorderLayout());
 
         Font font = new Font("Helvetica",Font.PLAIN,10);
@@ -130,7 +133,7 @@ class FindByDateJPanel extends JPanel implements FindFilterFactory
             else if (s.equalsIgnoreCase(YESTERDAY))
             {
                 String yesterday = formatter.format(
-                        new Date(new Date().getTime() - 24*60*60*1000));
+                        new Date(new Date().getTime() - ONE_DAY_IN_MS));
                 d = formatter.parse(yesterday,new ParsePosition(0));
             }
             else if (s.equalsIgnoreCase(THE_BIG_BANG))
@@ -167,16 +170,16 @@ class FindByDateJPanel extends JPanel implements FindFilterFactory
                 String today = dateFormatter.format(new Date());
                 d = dateFormatter.parse(today,new ParsePosition(0));
                 if (d != null) {
-                    time = d.getTime() + (24L*3600L*1000L);
+                    time = d.getTime() + ONE_DAY_IN_MS;
                 }
             }
             else if (s.equalsIgnoreCase(YESTERDAY))
             {
                 String yesterday = dateFormatter.format(
-                    new Date(new Date().getTime() - 24*60*60*1000));
+                    new Date(new Date().getTime() - ONE_DAY_IN_MS));
                 d = dateFormatter.parse(yesterday,new ParsePosition(0));
                 if (d != null) {
-                    time = d.getTime() + (24L*3600L*1000L);
+                    time = d.getTime() + ONE_DAY_IN_MS;
                 }
             }
             else if (s.equalsIgnoreCase(NOW))
@@ -195,7 +198,7 @@ class FindByDateJPanel extends JPanel implements FindFilterFactory
         {
             // Valid date. Now add 24 hours to make sure that the
             // date is inclusive
-            time = d.getTime() + (24L*3600L*1000L);
+            time = d.getTime() + ONE_DAY_IN_MS;
         }
 
         return time;
@@ -204,7 +207,7 @@ class FindByDateJPanel extends JPanel implements FindFilterFactory
     /**
         Filter object for selecting files by the date range specified by the UI.
     */
-    class DateFilter implements FindFilter
+    static class DateFilter implements FindFilter
     {
         protected long  startTime = -1;
         protected long  endTime = -1;

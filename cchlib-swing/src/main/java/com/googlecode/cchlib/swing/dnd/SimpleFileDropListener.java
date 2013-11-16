@@ -25,5 +25,5 @@ public interface SimpleFileDropListener
      *
      * @param files A list of <tt>File</tt>s that were dropped.
      */
-    public abstract void filesDropped( List<File> files );
+    void filesDropped( List<File> files );
 }

@@ -15,7 +15,7 @@ public class I18nSimpleResourceBundle
         implements I18nAutoUpdateInterface
 {
     private static final long serialVersionUID = 2L;
-    private transient static Logger  logger = Logger.getLogger(I18nSimpleResourceBundle.class);
+    private transient static Logger LOGGER = Logger.getLogger(I18nSimpleResourceBundle.class);
     /** @serial */
     private Locale currentLocale;
 
@@ -53,13 +53,13 @@ public class I18nSimpleResourceBundle
     {
         this.currentLocale = locale;
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
-            logger.trace( "setLocale() - currentLocale= " + currentLocale );
-            logger.trace( "setLocale() - getLocale() = " + getLocale() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setLocale() - resourceBundleBaseName= " + resourceBundleBaseName );
+            LOGGER.trace( "setLocale() - currentLocale= " + currentLocale );
+            LOGGER.trace( "setLocale() - getLocale() = " + getLocale() );
 
             if( ! getLocale().equals(currentLocale) ) {
-                logger.error( "getLocale() != currentLocale" );
+                LOGGER.error( "getLocale() != currentLocale" );
                 }
             }
 
@@ -71,19 +71,19 @@ public class I18nSimpleResourceBundle
                     );
             }
         catch( MissingResourceException e ) {
-            logger.error(
+            LOGGER.error(
                 "Error while trying to open default resource bundle for: "
                     + resourceBundleBaseName
                 );
             throw e;
             }
 
-        if( logger.isTraceEnabled() ) {
+        if( LOGGER.isTraceEnabled() ) {
             if( ! resourceBundle.getLocale().equals(currentLocale) ) {
-                logger.error( "resourceBundle.getLocale() != currentLocale" );
+                LOGGER.error( "resourceBundle.getLocale() != currentLocale" );
                 }
-            logger.trace( "resourceBundle.getLocale() = " + resourceBundle.getLocale() );
-            logger.trace( "ResourceBundle = " + resourceBundle );
+            LOGGER.trace( "resourceBundle.getLocale() = " + resourceBundle.getLocale() );
+            LOGGER.trace( "ResourceBundle = " + resourceBundle );
             }
     }
 

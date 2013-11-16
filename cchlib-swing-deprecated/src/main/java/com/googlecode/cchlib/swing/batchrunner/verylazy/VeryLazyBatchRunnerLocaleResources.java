@@ -14,16 +14,16 @@ public interface VeryLazyBatchRunnerLocaleResources
     /**
      * @return localized text for question if file already exist
      */
-    public String getTextFileExistShouldReplaceIt_FMT();
+    String getTextFileExistShouldReplaceIt_FMT();
 
     /**
      * @return localized text for question title if file already exist
      */
-    public String getTextFileExistTitle();
+    String getTextFileExistTitle();
 
     /**
      * @return localized text for response buttons if file already exist
      */
-    public String[] getTextFileExistChoices();
+    String[] getTextFileExistChoices();
 
 }

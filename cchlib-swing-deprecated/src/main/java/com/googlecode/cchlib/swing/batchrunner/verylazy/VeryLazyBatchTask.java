@@ -24,7 +24,7 @@ public interface VeryLazyBatchTask
      * @throws IOException if any I/O occurred (This error is shown to the user)
      * @throws BatchRunnerInterruptedException if batch should be cancel
      */
-    public void runTask(
+    void runTask(
         InputStream inputStream,
         OutputStream outputStream
         ) throws IOException, BatchRunnerInterruptedException;

@@ -19,8 +19,8 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
  */
 public final class MyResourcesLoader
 {
-    private static final Logger logger = Logger.getLogger( MyResourcesLoader.class );
-    private static Resources resources;
+    private static final Logger LOGGER = Logger.getLogger( MyResourcesLoader.class );
+    private static Resources RESOURCES;
 
     private MyResourcesLoader()
     {
@@ -52,7 +52,7 @@ public final class MyResourcesLoader
             return ResourcesLoader.getImageIcon( MyResourcesLoader.class, name );
             }
         catch( ResourcesLoaderException e ) {
-            logger.error( "Can't load Icon: " + name, e );
+            LOGGER.error( "Can't load Icon: " + name, e );
 
             return null;
             }
@@ -69,7 +69,7 @@ public final class MyResourcesLoader
             return ResourcesLoader.getImage( MyResourcesLoader.class, name );
             }
         catch( ResourcesLoaderException e ) {
-            logger.error( "Can't load Image: " + name, e );
+            LOGGER.error( "Can't load Image: " + name, e );
 
             return null;
             }
@@ -94,7 +94,7 @@ public final class MyResourcesLoader
                 }
             }
         catch( IOException | ResourcesLoaderException e ) {
-            logger.error( "Can't load properties: " + name, e );
+            LOGGER.error( "Can't load properties: " + name, e );
             }
 
         return prop;
@@ -102,7 +102,7 @@ public final class MyResourcesLoader
 
     public static Resources getResources()
     {
-        if( resources == null ) {
+        if( RESOURCES == null ) {
             final URI siteURI;
 
             try {
@@ -121,9 +121,9 @@ public final class MyResourcesLoader
                 throw new RuntimeException( e );
                 }
 
-            resources = newResources( siteURI, version );
+            RESOURCES = newResources( siteURI, version );
             }
-        return resources;
+        return RESOURCES;
     }
 
     private static Resources newResources( final URI siteURI, final Version version )

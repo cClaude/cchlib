@@ -11,25 +11,26 @@ import javax.swing.JViewport;
 /**
  * TODOC
  */
-public class LeftDotListCellRenderer extends DefaultListCellRenderer
-{
-    private static final long serialVersionUID = 1L;
-    private static final String DOTS = "...";
-    private Container container;
+public class LeftDotListCellRenderer extends DefaultListCellRenderer {
+    private static final long   serialVersionUID = 1L;
+    private static final String DOTS             = "...";
+
+    private Container           container;
 
     /**
-     * Create a LeftDotListCellRenderer using JList or JScrollPane
-     * to compute width of JList
+     * Create a LeftDotListCellRenderer using JList or JScrollPane to compute
+     * width of JList
      *
-     * @param jList	JList to customize.
-     * @param useParentJScrollPane if true, look for parent JScrollPane
-     * that view port is the giving jList to use to compute text size. If
-     * false or if JScrollPane is not found use JList to compute that size.
+     * @param jList
+     *            JList to customize.
+     * @param useParentJScrollPane
+     *            if true, look for parent JScrollPane that view port is the
+     *            giving jList to use to compute text size. If false or if
+     *            JScrollPane is not found use JList to compute that size.
      */
     public LeftDotListCellRenderer(
             final JList<?> jList,
-            final boolean  useParentJScrollPane
-            )
+            final boolean useParentJScrollPane )
     {
         if( useParentJScrollPane ) {
             Container c = jList.getParent();
@@ -39,25 +40,23 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
                 if( c instanceof JScrollPane ) {
                     this.container = c;
-                    }
-                else {
+                } else {
                     this.container = jList;
-                    }
                 }
-            else {
+            } else {
                 this.container = jList;
-                }
             }
-        else {
+        } else {
             this.container = jList;
-            }
+        }
     }
 
     /**
-     * Create a LeftDotListCellRenderer using giving JScrollPane to
-     * compute size of JList
+     * Create a LeftDotListCellRenderer using giving JScrollPane to compute size
+     * of JList
      *
-     * @param jScrollPane JScrollPane to use to compute text size.
+     * @param jScrollPane
+     *            JScrollPane to use to compute text size.
      */
     public LeftDotListCellRenderer( final JScrollPane jScrollPane )
     {
@@ -66,34 +65,34 @@ public class LeftDotListCellRenderer extends DefaultListCellRenderer
 
     @Override
     public Component getListCellRendererComponent(
-            final JList<?>	list,
-            final Object 	value,
-            final int 		index,
-            final boolean 	isSelected,
-            final boolean 	cellHasFocus
-            )
+            final JList<?> list,
+            final Object value,
+            final int index,
+            final boolean isSelected,
+            final boolean cellHasFocus )
     {
-        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        super.getListCellRendererComponent( list, value, index, isSelected,
+                cellHasFocus );
 
-        final int			availableWidth = this.container.getWidth();
-        final String 		text 		= getText();
-        final FontMetrics 	fm 			= getFontMetrics( getFont() );
-        final int   		dotsWidth 	= fm.stringWidth( DOTS );
+        final int availableWidth = this.container.getWidth();
+        final String text = getText();
+        final FontMetrics fm = getFontMetrics( getFont() );
+        final int dotsWidth = fm.stringWidth( DOTS );
 
         if( fm.stringWidth( text ) > availableWidth ) {
-            int textWidth 	= dotsWidth;
-            int nChars 		= text.length() - 1;
+            int textWidth = dotsWidth;
+            int nChars = text.length() - 1;
 
-            for(; nChars > 0; nChars--) {
-                textWidth += fm.charWidth( text.charAt(nChars) );
+            for( ; nChars > 0; nChars-- ) {
+                textWidth += fm.charWidth( text.charAt( nChars ) );
 
                 if( textWidth > availableWidth ) {
                     break;
-                    }
                 }
-
-            setText( DOTS + text.substring(nChars + 1) );
             }
+
+            setText( DOTS + text.substring( nChars + 1 ) );
+        }
 
         // Add full text on ToolTip
         setToolTipText( text );

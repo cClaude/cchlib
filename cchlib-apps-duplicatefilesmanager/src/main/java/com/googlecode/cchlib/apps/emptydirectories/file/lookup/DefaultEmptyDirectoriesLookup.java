@@ -1,12 +1,13 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -25,7 +26,8 @@ public class DefaultEmptyDirectoriesLookup
     implements EmptyDirectoriesLookup, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
+
     private List<File> rootFilesForScan;
     private FileFilter excludeDirectoriesFile;
     private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
@@ -38,7 +40,7 @@ public class DefaultEmptyDirectoriesLookup
      *
      * @param rootFiles Array of root {@link File} objects
      */
-    public DefaultEmptyDirectoriesLookup( File...rootFiles )
+    public DefaultEmptyDirectoriesLookup( final File...rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>( rootFiles.length );
 
@@ -52,7 +54,7 @@ public class DefaultEmptyDirectoriesLookup
      *
      * @param rootFiles {@link Enumerable} of root {@link File} objects
      */
-    public DefaultEmptyDirectoriesLookup( Enumerable<File> rootFiles )
+    public DefaultEmptyDirectoriesLookup( final Enumerable<File> rootFiles )
     {
         this.rootFilesForScan = new ArrayList<File>();
 
@@ -63,7 +65,7 @@ public class DefaultEmptyDirectoriesLookup
             }
     }
 
-    public DefaultEmptyDirectoriesLookup( Path...rootPaths )
+    public DefaultEmptyDirectoriesLookup( final Path...rootPaths )
     {
         this.rootFilesForScan = new ArrayList<File>( rootPaths.length );
 
@@ -81,7 +83,6 @@ public class DefaultEmptyDirectoriesLookup
     @Override
     public void lookup() throws CancelRequestException, ScanIOException
     {
-        //lookup( FileFilterHelper.falseFileFilter() );
         lookup( FolderFilterHelper.falseFileFilter() );
     }
 
@@ -117,7 +118,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     private void doScan( File folder ) throws CancelRequestException
     {
-        logger.debug( "doScan:" + folder );
+        LOGGER.debug( "doScan:" + folder );
 
         if( folder.isDirectory() ) {
             isEmpty( folder );

@@ -1,109 +1,55 @@
 package cx.ath.choisnet.servlet;
 
-//import cx.ath.choisnet.util.IteratorFilter;
-import java.util.Iterator;
-//import cx.ath.choisnet.util.Selectable;
-
 public class HTMLParameterHelper
 {
-    /*
-    public static class XSelectable<T>
-        implements cx.ath.choisnet.util.Selectable<T>
-    {
-        private final int hashCodes[];
+    private static final String ID = "ID";
 
-        public boolean isSelected(T o)
-        {
-            int oHashCode = o.hashCode();
-            int arr$[] = hashCodes;
-            int len$ = arr$.length;
-
-            for(int i$ = 0; i$ < len$; i$++) {
-                int hashCode = arr$[i$];
-
-                if(hashCode == oHashCode) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public XSelectable(int[] hashCodes)
-        {
-            this.hashCodes = hashCodes;
-        }
-
-        public XSelectable(String[] htmlIDs)
-        {
-            this(HTMLParameterHelper.getHashCodes(htmlIDs));
-        }
-    }
-    */
     public HTMLParameterHelper()
     {
     }
 
     public static final String getHTMLID(Object object)
     {
-        return "ID" + Integer.toHexString(object.hashCode()).toUpperCase();
+        return ID + Integer.toHexString(object.hashCode()).toUpperCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
     }
 
-    public static final int getHashCode(String htmlID)
+    public static final int getHashCode( final String htmlID )
     {
-        if( htmlID.startsWith("ID") ) {
-            return Integer.parseInt(htmlID.substring(2), 16);
-        }
+        if( htmlID.startsWith( ID ) ) {
+            return Integer.parseInt( htmlID.substring(2), 16 );
+            }
         else {
             return 0;
-        }
+            }
     }
 
-    public static final int[] getHashCodes(String[] htmlIDs)
+    public static final int[] getHashCodes( final String[] htmlIDs )
     {
-        int[] hashCodes = new int[htmlIDs.length];
-        int   i = 0;
+        final int[] hashCodes = new int[htmlIDs.length];
+        int         i         = 0;
 
-        for(String htmlID : htmlIDs ) {
+        for( final String htmlID : htmlIDs ) {
             hashCodes[i++] = HTMLParameterHelper.getHashCode(htmlID);
-        }
+            }
 
         return hashCodes;
     }
 
-    public static final int[] getHashCodes(ParameterValue aParameterValue)
+    public static final int[] getHashCodes( final ParameterValue aParameterValue )
     {
         return HTMLParameterHelper.getHashCodes(aParameterValue.toArray());
     }
 
-    public static final Object getEntry(Iterable<?> collection, String htmlID)
+    public static final Object getEntry( final Iterable<?> collection, final String htmlID )
     {
-        int hashCode = HTMLParameterHelper.getHashCode(htmlID);
+        final int hashCode = HTMLParameterHelper.getHashCode(htmlID);
 
-        for(Iterator<?> i$ = collection.iterator(); i$.hasNext();) {
-            Object item = i$.next();
-
-            if(item.hashCode() == hashCode) {
+        for( final Object item : collection ) {
+            if( item.hashCode() == hashCode ) {
                 return item;
+                }
             }
-        }
 
         return null;
     }
-
-//    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, String[] htmlIDs)
-//    {
-//        return new IteratorFilter<T>(
-//                    iter,
-//                    new Selectable<T>(htmlIDs)
-//                    );
-//    }
-//
-//    public static final <T> Iterator<T> NOTUSE_select(Iterator<T> iter, int[] hashCodes)
-//    {
-//        return new IteratorFilter<T>(
-//                    iter,
-//                    new Selectable<T>(hashCodes)
-//                    );
-//    }
 }

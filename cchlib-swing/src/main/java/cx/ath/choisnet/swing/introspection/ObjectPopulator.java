@@ -6,15 +6,15 @@ public interface ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY>
 {
     /**
      * Populate object from frame
-     * @param entry 
-     * @param rootItem 
-     * @throws IntrospectionException 
-     * @throws SwingIntrospectorException 
+     * @param entry
+     * @param rootItem
+     * @throws IntrospectionException
+     * @throws SwingIntrospectorException
      */
-    public void populateObject(
-            OBJECT_ENTRY                entry, 
+    void populateObject(
+            OBJECT_ENTRY                entry,
             SwingIntrospectorRootItem<FRAME>   rootItem
             )
-    throws  SwingIntrospectorException, 
+    throws  SwingIntrospectorException,
             IntrospectionException;
 }

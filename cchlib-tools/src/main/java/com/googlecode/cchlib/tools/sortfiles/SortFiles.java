@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.tools.sortfiles;
 
-import static java.nio.file.FileVisitResult.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
@@ -78,7 +76,7 @@ public class SortFiles
                             Path                dir,
                             BasicFileAttributes attrs ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
@@ -90,25 +88,25 @@ public class SortFiles
                         for( FileType fileType : FileType.values() ) {
                             if( fileType.getFileFilter().accept( fileFile ) ) {
                                 moveTo( file, baseOuputPath, fileType );
-                                return CONTINUE;
+                                return FileVisitResult.CONTINUE;
                                 }
                             }
 
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
                     public FileVisitResult visitFileFailed( Path file,
                             IOException exc ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
                     public FileVisitResult postVisitDirectory( Path dir,
                             IOException exc ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }});
     }
 
@@ -128,7 +126,7 @@ public class SortFiles
                             Path                dir,
                             BasicFileAttributes attrs ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
@@ -144,21 +142,21 @@ public class SortFiles
                             extensions.add( ext );
                             }
 
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
                     public FileVisitResult visitFileFailed( Path file,
                             IOException exc ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }
 
                     @Override
                     public FileVisitResult postVisitDirectory( Path dir,
                             IOException exc ) throws IOException
                     {
-                        return CONTINUE;
+                        return FileVisitResult.CONTINUE;
                     }});
 
         for( String ext : extensions ) {

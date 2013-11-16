@@ -206,7 +206,7 @@ public class DHCPUtility {
             return baIP;
             }
         else {
-            return null;
+            return new byte[0];
             }
     }
 

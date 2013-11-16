@@ -19,14 +19,11 @@ import org.apache.log4j.Logger;
  */
 public class CustomJSlider
     extends JSlider
-        //implements AutoI18nBasicInterface
 {
     private static transient final Logger logger = Logger.getLogger( CustomJSlider.class );
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_NUMBER_FMT_STR = "{0,number,integer}";
-    // Custom title
-    ///** @serial */
-    //private String customTitle = "customTitle {0,number,###}";
+
     private String customTitle;
     private TitledBorder titledBorder;
 
@@ -134,8 +131,6 @@ public class CustomJSlider
                 };
         // check ! mf.getFormats().length
         return mf.format( objs );
-
-        //return getCustomTitle() + Integer.toString( super.getValue() )
     }
 
     private void refreshCustomTitle()
@@ -166,18 +161,18 @@ public class CustomJSlider
         if( customTitle == null || customTitle.isEmpty() ) {
             return DEFAULT_NUMBER_FMT_STR;
             }
-        
+
         if( customTitle.contains( "{" ) ) {
             return customTitle;
             }
 
         return customTitle + ' ' + DEFAULT_NUMBER_FMT_STR;
     }
-    
+
     public void setCustomTitle( String customTitle )
     {
         this.customTitle = formatCustomTitle( customTitle );
-        
+
         refreshCustomTitle();
     }
 
@@ -213,54 +208,12 @@ public class CustomJSlider
         refreshCustomTitle();
     }
 
-    class CustomJSliderListener
-        implements  ChangeListener//,
-                    //MouseMotionListener,
-                    //MouseListener
+    class CustomJSliderListener implements ChangeListener
     {
-//        private JLabel lblPop = new JLabel(Const.EMPTY_STRING,SwingConstants.CENTER);
-//        public void setPop(MouseEvent me)
-//        {
-//          lblPop.setText( Integer.toString( CustomJSlider.this.getValue() ) );
-//          pop.setLocation(
-//              parent.getX() + CustomJSlider.this..getX()  +me.getX() - 10,
-//              parent.getY() + CustomJSlider.this..getY()
-//              );
-//        }
         @Override
         public void stateChanged(ChangeEvent event)
         {
             refreshCustomTitle();
         }
-//        @Override
-//        public void mouseClicked(MouseEvent event){}
-//        @Override
-//        public void mouseEntered(MouseEvent event){}
-//        @Override
-//        public void mouseExited(MouseEvent event){}
-//        @Override
-//        public void mousePressed(MouseEvent event){}
-//        @Override
-//        public void mouseReleased(MouseEvent event){}
-//        @Override
-//        public void mouseDragged(MouseEvent event)
-//        {
-//            refreshCustomTitle();
-//        }
-//        @Override
-//        public void mouseMoved(MouseEvent event){}
     }
-
-//    @Override
-//    public void setI18nString( String localString )
-//    {
-//        setCustomTitle( localString );
-//    }
-//
-//    @Override
-//    public String getI18nString()
-//    {
-//        return getCustomTitle();
-//    }
-
 }

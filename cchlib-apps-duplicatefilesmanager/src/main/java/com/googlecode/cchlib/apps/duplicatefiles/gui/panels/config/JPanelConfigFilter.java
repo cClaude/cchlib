@@ -31,12 +31,13 @@ import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 //
 public
 class JPanelConfigFilter
-    extends JPanel//ConfigFilterWB
+    extends JPanel
         implements Iterable<FileTypeCheckBox>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( JPanelConfigFilter.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelConfigFilter.class );
     private static final  Color ERRORCOLOR = Color.RED;
+
     /** @serial */
     private Map<Integer,FileTypeCheckBox> fileTypeCheckBoxMap
         = new HashMap<Integer,FileTypeCheckBox>();
@@ -145,10 +146,10 @@ class JPanelConfigFilter
                 jPanelCheckBox.add( box.getJCheckBox() );
                 }
             else {
-                logger.info( "Can't find :" +  descKey );
-                logger.info( "or         :" +  dataKey );
-                logger.info( "desc :" + desc );
-                logger.info( "data :" + data );
+                LOGGER.info( "Can't find :" +  descKey );
+                LOGGER.info( "or         :" +  dataKey );
+                LOGGER.info( "desc :" + desc );
+                LOGGER.info( "data :" + data );
                 break;
                 }
             }

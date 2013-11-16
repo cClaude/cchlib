@@ -8,20 +8,20 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
  * TODOC
  *
  */
-public interface DownloadFilterInputStreamBuilder 
+public interface DownloadFilterInputStreamBuilder
 {
     /**
      * TODOC
      * @param is
      * @return TODOC
      */
-    public FilterInputStream createFilterInputStream( InputStream is );
+    FilterInputStream createFilterInputStream( InputStream is );
 
     /**
      * TODOC
      * @param filter
      * @param dURL
      */
-    public void storeFilterResult( FilterInputStream filter, DownloadFileURL dURL );
+    void storeFilterResult( FilterInputStream filter, DownloadFileURL dURL );
 
 }

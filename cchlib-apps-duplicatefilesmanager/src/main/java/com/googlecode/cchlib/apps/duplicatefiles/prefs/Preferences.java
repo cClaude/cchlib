@@ -18,8 +18,8 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  *
@@ -29,7 +29,7 @@ public final class Preferences implements Serializable
     private static final long serialVersionUID = 1L;
 
     private static final String DEFAULT_PREFS_FILE = '.' + Preferences.class.getName() + ".properties";
-    private static final transient Logger logger = Logger.getLogger( Preferences.class );
+    private static final Logger LOGGER = Logger.getLogger( Preferences.class );
 
     private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
@@ -120,13 +120,13 @@ public final class Preferences implements Serializable
         catch( FileNotFoundException fileNotFoundException ) { // $codepro.audit.disable logExceptions
             properties = new Properties();
 
-            logger.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
+            LOGGER.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
         catch( IOException e ) {
             properties = new Properties();
 
             final String msg = "Cannot load preferences: " + preferencesFile;
-            logger.warn( msg, e );
+            LOGGER.warn( msg, e );
 
             DialogHelper.showMessageExceptionDialog( null, msg, e );
             }
@@ -193,7 +193,7 @@ public final class Preferences implements Serializable
                 UIManager.setLookAndFeel( cn );
                 }
             catch( Exception e ) {
-                logger.warn( "Cant set LookAndFeel: " + cn, e );
+                LOGGER.warn( "Cant set LookAndFeel: " + cn, e );
                 }
             }
 
@@ -204,7 +204,7 @@ public final class Preferences implements Serializable
                 UIManager.setLookAndFeel( cn );
                 }
             catch( Exception e ) {
-                logger.error( "Cant set LookAndFeel: " + cn, e );
+                LOGGER.error( "Cant set LookAndFeel: " + cn, e );
                 }
             }
     }
@@ -215,17 +215,17 @@ public final class Preferences implements Serializable
         // Store name has well, if class not found
         this.lookAndFeelName = lafi.getName();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "setLookAndFeelInfo: " + lafi );
-            logger.trace( "lookAndFeelClassName: " + this.lookAndFeelClassName );
-            logger.trace( "lookAndFeelName: " + this.lookAndFeelName );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setLookAndFeelInfo: " + lafi );
+            LOGGER.trace( "lookAndFeelClassName: " + this.lookAndFeelClassName );
+            LOGGER.trace( "lookAndFeelName: " + this.lookAndFeelName );
             }
 
     }
 
     public Locale getLocale()
     {
-        logger.info( "localeLanguage = " + this.localeLanguage );
+        LOGGER.info( "localeLanguage = " + this.localeLanguage );
 
         if( (this.localeLanguage == null) || this.localeLanguage.isEmpty() ) {
             return null;
@@ -348,7 +348,7 @@ public final class Preferences implements Serializable
 
         File prefs = getPreferencesFile();
         PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
-        logger.info( "Preferences saved in " + prefs );
+        LOGGER.info( "Preferences saved in " + prefs );
     }
 
     @Override

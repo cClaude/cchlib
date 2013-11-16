@@ -22,6 +22,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 public class SimpleZip
     implements  Closeable
 {
+    private static final int BUFFER_SIZE = 4096;
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private ZipOutputStream zos;
@@ -35,7 +36,7 @@ public class SimpleZip
      */
     public SimpleZip( final OutputStream output ) throws IOException
     {
-        this( output, 4096 );
+        this( output, BUFFER_SIZE );
     }
 
     /**

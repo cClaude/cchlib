@@ -22,18 +22,18 @@ public interface LazyBatchRunnable
      *         can not be created
      * @see com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerApp#getOutputFolderFile()
      */
-    public File buildOuputFile( File sourceFile )
+    File buildOuputFile( File sourceFile )
        throws com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 
     /**
      * Invoke when user call start batch action
      */
-    public void initializeBath();
+    void initializeBath();
 
     /**
      * Invoke when batch is finish
      *
      * @param isCancelled true if batch has been cancelled, false otherwise
      */
-    public void finalizeBath( boolean isCancelled );
+    void finalizeBath( boolean isCancelled );
 }

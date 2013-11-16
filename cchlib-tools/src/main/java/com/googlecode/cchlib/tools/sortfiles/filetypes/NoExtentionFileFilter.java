@@ -17,7 +17,7 @@ public class NoExtentionFileFilter extends AbstractXFileFilter implements XFileF
     @Override
     public boolean accept( File file )
     {
-        return file.isFile() && file.getName().indexOf( '.' ) == -1;
+        return file.isFile() && (file.getName().indexOf( '.' ) == -1);
     }
 
     @Override

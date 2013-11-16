@@ -11,23 +11,17 @@ public interface FileCollectorVisitor
      *
      * @param directoryFile
      */
-    public void openRootDirectory(File rootDirectoryFile);
-    
+    void openRootDirectory(File rootDirectoryFile);
+
     /**
      *
      * @param directoryFile
      */
-    public void openDirectory(File directoryFile);
+    void openDirectory(File directoryFile);
 
     /**
      *
      * @param file
      */
-    public void discoverFile(File file);
-
-//    /**
-//     *
-//     * @param directoryFile
-//     */
-//    public void closeDirectory(/*File directoryFile*/);
+    void discoverFile(File file);
 }

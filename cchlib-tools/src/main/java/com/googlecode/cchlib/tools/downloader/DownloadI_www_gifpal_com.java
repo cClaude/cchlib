@@ -110,7 +110,7 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }

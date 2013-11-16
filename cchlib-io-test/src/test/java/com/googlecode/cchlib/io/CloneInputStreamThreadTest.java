@@ -92,12 +92,12 @@ public class CloneInputStreamThreadTest
 
     interface TestRunnable extends Runnable
     {
-        public boolean isReady();
-        public byte[] getInputStreamAsBytes() throws IOException;
-        public IOException IOException();
+        boolean isReady();
+        byte[] getInputStreamAsBytes() throws IOException;
+        IOException IOException();
     }
 
-    class TestRunner implements TestRunnable
+    static class TestRunner implements TestRunnable
     {
         private final InputStream   is;
         private byte[]              bytes;

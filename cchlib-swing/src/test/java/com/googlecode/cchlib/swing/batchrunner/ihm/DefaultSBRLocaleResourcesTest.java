@@ -3,8 +3,8 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import org.apache.log4j.Logger;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The class <code>DefaultSBRLocaleResourcesTest</code> contains tests for the
@@ -14,8 +14,8 @@ import static org.junit.Assert.*;
  */
 public class DefaultSBRLocaleResourcesTest
 {
-    private final static Logger logger = Logger.getLogger( DefaultSBRLocaleResourcesTest.class );
-    
+    private final static Logger LOGGER = Logger.getLogger( DefaultSBRLocaleResourcesTest.class );
+
     private static class SBRLocaleResourcesEN implements BRPanelLocaleResources
     {
         @Override public String getTextAddSourceFile() { return "Select source files to add";  }
@@ -77,7 +77,7 @@ public class DefaultSBRLocaleResourcesTest
 
         doAssert( new SBRLocaleResourcesFR(), result );
     }
-    
+
     private void doAssert( BRPanelLocaleResources ref, BRPanelLocaleResources result ) throws Exception
     {
         Method[] methods = BRPanelLocaleResources.class.getDeclaredMethods();
@@ -85,10 +85,10 @@ public class DefaultSBRLocaleResourcesTest
         for( Method m : methods ) {
             Object valueRef = m.invoke( ref, (Object[])null );
             Object valueRes = m.invoke( result, (Object[])null );
-            
-            logger.info( m + " => " + valueRes );
-            
-            assertEquals( m.getName(), valueRef, valueRes );
-        }
+
+            LOGGER.info( m + " => " + valueRes );
+
+            Assert.assertEquals( m.getName(), valueRef, valueRes );
+            }
     }
 }

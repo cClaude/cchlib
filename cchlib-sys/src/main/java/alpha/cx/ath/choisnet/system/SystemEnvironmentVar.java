@@ -8,20 +8,11 @@ import java.io.Serializable;
  */
 public interface SystemEnvironmentVar
 {
-//    /**
-//     * Returns a unmodifiable Map of all environments String.
-//     * <p />
-//     * Optional
-//     * @return a Map of all environments String
-//     */
-//    public Map<String,String> getEnvMap()
-//        throws UnsupportedOperationException;
-
-    public String getVar(String name);
-    public void setVar(String name, String value);
+    String getVar(String name);
+    void setVar(String name, String value);
     
-    public Serializable getVarObject(Serializable key);
-    public void setVarObject(Serializable key, Serializable value);
+    Serializable getVarObject(Serializable key);
+    void setVarObject(Serializable key, Serializable value);
 
     /**
      * Delete environment variable (Optional)
@@ -29,10 +20,10 @@ public interface SystemEnvironmentVar
      * @param varname name of variable
      * @throws UnsupportedOperationException
      */
-    public abstract void deleteVar(String varname)
+    abstract void deleteVar(String varname)
         throws UnsupportedOperationException;
     
-    public abstract void deleteVarObject(Serializable key)
+    abstract void deleteVarObject(Serializable key)
         throws UnsupportedOperationException;
 
     /**
@@ -41,9 +32,9 @@ public interface SystemEnvironmentVar
      * @return an unmodifiable collection of names.
      * @throws UnsupportedOperationException
      */
-    public abstract Iterable<String> getVarNames()
+    abstract Iterable<String> getVarNames()
         throws UnsupportedOperationException;
     
-    public abstract Iterable<Serializable> getVarObjectKeys()
+    abstract Iterable<Serializable> getVarObjectKeys()
         throws UnsupportedOperationException;
 }

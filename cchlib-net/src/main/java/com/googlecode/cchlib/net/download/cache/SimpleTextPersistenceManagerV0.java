@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Map.Entry;
@@ -20,7 +22,7 @@ import org.apache.log4j.Logger;
  */
 // Not public
 class SimpleTextPersistenceManagerV0
-    implements URLCachePersistenceManager
+    implements URICachePersistenceManager
 {
     private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV0.class );
 
@@ -31,15 +33,13 @@ class SimpleTextPersistenceManagerV0
     {
     }
 
-    /* (non-Javadoc) */
     @Override
-    public void store( final File cacheFile, final CacheContent cache )
-        throws IOException
+    public void store( File cacheFile, CacheContent cache ) throws IOException
     {
         // store cache using simple text file.
         Writer w = new BufferedWriter( new FileWriter( cacheFile ) ); // $codepro.audit.disable questionableName
 
-        for( Entry<URL,URLDataCacheEntry> entry : cache ) {
+        for( Entry<URI,URIDataCacheEntry> entry : cache ) {
             final String contentHashCode = entry.getValue().getContentHashCode();
 
             if( contentHashCode != null ) {
@@ -48,7 +48,7 @@ class SimpleTextPersistenceManagerV0
             else {
                 w.append( '\n' );
                 }
-            w.append( entry.getKey().toExternalForm() ).append( '\n' );
+            w.append( entry.getKey().toASCIIString() ).append( '\n' );
             w.append( Long.toString( entry.getValue().getDate().getTime() ) ).append( '\n' );
             w.append( entry.getValue().getRelativeFilename() ).append( '\n' );
             }
@@ -75,21 +75,28 @@ class SimpleTextPersistenceManagerV0
                     hashCode = null; // No hash code
                     }
 
-                URL    url;
+                URI    uri;
                 String line = reader.readLine();
                 if( line == null ) {
-                    throw new PersistenceFileBadFormatException( "Expected url found EOF" );
+                    throw new PersistenceFileBadFormatException( "Expected URI found EOF" );
                     }
 
                 try {
-                    url = new URL( line );
+                    uri = new URL( line ).toURI();
                     }
-                catch ( MalformedURLException e ) {
-                    logger.error( "Bad URL format (ignore) in URLCache file : " + cacheFile
+                catch( MalformedURLException e ) {
+                    logger.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
-                    url = null;
+                    uri = null;
+                    }
+                catch( URISyntaxException e ) {
+                    logger.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
+                            + " value = [" + line + "]",
+                            e
+                            );
+                    uri = null;
                     }
 
                 Date   date;
@@ -115,9 +122,9 @@ class SimpleTextPersistenceManagerV0
                     throw new PersistenceFileBadFormatException( "Expected file name found EOF" );
                     }
 
-                if( url != null ) {
+                if( uri != null ) {
                     // Skip entry with no URL !
-                    cache.put( url, new DefaultURLCacheEntry( date, hashCode, filename ) );
+                    cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) );
                     }
                 }
             }
@@ -127,4 +134,6 @@ class SimpleTextPersistenceManagerV0
                 }
             }
     }
+
+
 }

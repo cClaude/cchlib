@@ -2,20 +2,20 @@ package com.googlecode.cchlib.net.download;
 
 /**
  * a {@link DownloadURL} with a result into {@link String}
- * 
+ *
  * @since 4.1.7
  */
-public interface DownloadStringURL extends DownloadURL 
+public interface DownloadStringURL extends DownloadURL
 {
     /**
      * Returns {@link DownloadURL} result stored in string
-     * @return {@link String} with content of this {@link DownloadURL} 
+     * @return {@link String} with content of this {@link DownloadURL}
      */
-    public abstract String getResultAsString();
+    String getResultAsString();
 
     /**
      * Set {@link String} for this {@link DownloadURL}
      * @param string with download content
      */
-    public abstract void setResultAsString( String string );
+    void setResultAsString( String string );
 }

@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadURL;
-import com.googlecode.cchlib.net.download.cache.URLCache;
+import com.googlecode.cchlib.net.download.cache.URICache;
 import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
 
 /**
@@ -34,7 +35,7 @@ public class GenericDownloader
 {
     private final Logger logger = Logger.getLogger( GenericDownloader.class );
     private Object lock = new Object();
-    private final URLCache cache;
+    private final URICache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
     private final LoggerListener loggerListener;
@@ -75,10 +76,10 @@ public class GenericDownloader
         if( logger.isDebugEnabled() ) {
             logger.debug( "destinationDirectoryFile = " + destinationDirectoryFile );
             }
-        
+
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
-        this.cache = new URLCache( destinationDirectoryFile, cacheIndexFile );
+        this.cache = new URICache( destinationDirectoryFile, cacheIndexFile );
         this.cache.setAutoStorage( true );
 
         try  {
@@ -97,13 +98,13 @@ public class GenericDownloader
      * must be implement by parent class.
      * @return an {@link Iterable} object of {@link DownloadFileURL}s to download
      * @throws IOException
-     * @throws DownloadConfigurationException 
-     * @throws RejectedExecutionException 
-     * @throws URISyntaxException 
+     * @throws DownloadConfigurationException
+     * @throws RejectedExecutionException
+     * @throws URISyntaxException
      */
     final
-    protected Collection<DownloadFileURL> collectDownloadURLs() 
-        throws  IOException, 
+    protected Collection<DownloadFileURL> collectDownloadURLs()
+        throws  IOException,
                 RejectedExecutionException,
                 DownloadConfigurationException, URISyntaxException
     {
@@ -124,15 +125,15 @@ public class GenericDownloader
      * @param urls {@link Iterable} object of {@link URL}s to parses
      * @return  a list of String with content of all URLS download content.
      * @throws IOException if any
-     * @throws DownloadConfigurationException 
-     * @throws RejectedExecutionException 
+     * @throws DownloadConfigurationException
+     * @throws RejectedExecutionException
      */
     protected List<DownloadStringURL> loads( final Collection<DownloadStringURL> urls ) throws IOException, RejectedExecutionException, DownloadConfigurationException
     {
         //final List<String>      result              = new ArrayList<String>();
         final List<DownloadStringURL>   result              = new ArrayList<DownloadStringURL>();
         final DownloadExecutor          downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
-        
+
         loggerListener.downloadStateInit( new DownloadStateEvent() {
             @Override
             public int getDownloadListSize()
@@ -175,22 +176,22 @@ public class GenericDownloader
     /**
      *
      * @throws IOException
-     * @throws DownloadConfigurationException 
-     * @throws RejectedExecutionException 
-     * @throws URISyntaxException 
+     * @throws DownloadConfigurationException
+     * @throws RejectedExecutionException
+     * @throws URISyntaxException
      */
     public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException, URISyntaxException
     {
         final Collection<DownloadFileURL>   urls                = collectDownloadURLs();
-        final DownloadExecutor              downloadExecutor    = new DownloadExecutor( 
-                downloadMaxThread, 
-//                new MD5FilterInputStreamBuilder() 
+        final DownloadExecutor              downloadExecutor    = new DownloadExecutor(
+                downloadMaxThread,
+//                new MD5FilterInputStreamBuilder()
                 new DefaultFilterInputStreamBuilder()
                 );
 
         final DownloadFileEvent eventHandler = new DownloadFileEvent()
         {
-            int size = 0; 
+            int size = 0;
 
             private void updateDisplay()
             {
@@ -198,11 +199,11 @@ public class GenericDownloader
                     size++;
                     }
 
-                logger.info( 
-                    "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount() 
-                    + " * downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize() 
-                    + " * size = " + size 
-                    + " * size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() ) 
+                logger.info(
+                    "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount()
+                    + " * downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize()
+                    + " * size = " + size
+                    + " * size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() )
                     );
 
                 loggerListener.downloadStateChange( new DownloadStateEvent() {
@@ -235,13 +236,13 @@ public class GenericDownloader
             public void downloadDone( DownloadURL dURL )
             {
                 final DownloadFileURL   dfURL       = DownloadFileURL.class.cast( dURL );
-                final String            hashString  = (String)dfURL.getProperty( 
-                        DefaultFilterInputStreamBuilder.HASH_CODE 
+                final String            hashString  = (String)dfURL.getProperty(
+                        DefaultFilterInputStreamBuilder.HASH_CODE
                         );
 
-                URL u = cache.findURL( hashString );
-                
-                if( u != null ) {
+                URI uri = cache.findURI( hashString );
+
+                if( uri != null ) {
                     // Already downloaded
                     alreadyDownloaded( dfURL );
                     }
@@ -252,7 +253,7 @@ public class GenericDownloader
 
                 updateDisplay();
             }
-            
+
 
 
             @Override
@@ -307,37 +308,37 @@ public class GenericDownloader
             throw ioe;
             }
     }
-    
+
     private void alreadyDownloaded( final DownloadFileURL dfURL )
     {
         final File file = dfURL.getResultAsFile();
 
         // Remove this file !
         file.delete();
-        
+
         if( logger.isTraceEnabled() ) {
             logger.trace( "Already downloaded (deleted): " + file );
             }
     }
-    
-    private void newFileDownloaded( final DownloadFileURL dfURL ) 
+
+    private void newFileDownloaded( final DownloadFileURL dfURL )
     {
         final File file = dfURL.getResultAsFile();
 
         if( ! isFileValidAccordingToConstraints( dfURL ) ) {
             // out of constraints : remove this file
             file.delete();
-            
+
             loggerListener.oufOfConstraints( dfURL );
-            
+
             return;
             }
         final String    hashString  = (String)dfURL.getProperty( "HashCode" );
-        
+
         // Identify file content to generate extension
         FileDataTypeDescription type;
         String                  extension;
-        
+
         try {
             type = FileDataTypes.findDataTypeDescription( file );
             }
@@ -353,9 +354,9 @@ public class GenericDownloader
             }
 
         // Create new file name
-        File ffile = new File( 
+        File ffile = new File(
                 destinationDirectoryFile,
-                hashString + extension 
+                hashString + extension
                 );
 
         // Rename file
@@ -364,13 +365,13 @@ public class GenericDownloader
         if( isRename ) {
             // Set new name for this file.
             dfURL.setResultAsFile( ffile );
-            
+
             // Notify
             loggerListener.downloadStored( dfURL );
-            
+
             // Add to cache
             Date date = new Date(); // TODO get date of end of download ?
-            cache.add( dfURL.getURL(), date, hashString, ffile.getName() );
+            cache.add( dfURL.getURI(), date, hashString, ffile.getName() );
             }
         else {
             File file2;
@@ -385,7 +386,7 @@ public class GenericDownloader
             if( file.renameTo( file2 ) ) {
                 // Rename to something better
                 dfURL.setResultAsFile( file2 );
-                
+
                 loggerListener.downloadCantRename( dfURL, file, file2 );
                 }
             else {
@@ -394,29 +395,29 @@ public class GenericDownloader
                 }
             }
     }
-    
+
     // is file valid according to constrains
-    private boolean isFileValidAccordingToConstraints( 
-        final DownloadFileURL dfURL 
+    private boolean isFileValidAccordingToConstraints(
+        final DownloadFileURL dfURL
         )
     {
         final Dimension dimension   = (Dimension)dfURL.getProperty( DefaultFilterInputStreamBuilder.DIMENSION );
         final String    formatName  = (String)dfURL.getProperty( DefaultFilterInputStreamBuilder.FORMAT_NAME );
-        
+
         if( dimension != null ) {
             if( dimension.width < 100 || dimension.height < 100 ) {
                 return false;
                 }
-            
+
             if( (dimension.getWidth() * dimension.getHeight()) < (450 * 450) ) {
                 return false;
                 }
             }
-        
+
         return true;
     }
-    
-//    private String computeHashString( final File file ) 
+
+//    private String computeHashString( final File file )
 //        throws NoSuchAlgorithmException, IOException
 //    {
 //        // Compute MD5 hash code
@@ -425,7 +426,7 @@ public class GenericDownloader
 //
 //        return MessageDigestFile.computeDigestKeyString( digestKey );
 //    }
-    
+
     public void onClickStopDownload()
     {
         // TODO Auto-generated method stub

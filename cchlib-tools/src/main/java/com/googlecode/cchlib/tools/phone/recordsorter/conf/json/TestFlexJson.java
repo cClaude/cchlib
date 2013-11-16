@@ -11,10 +11,7 @@ public class TestFlexJson {
       ProductInfo p2 = new ProductInfo(2, "Overflow");
       List<ProductInfo> infos = Arrays.asList(p1, p2);
       String s = new JSONSerializer()
-          .exclude("*.class", "description")
-          //.include("productId", "name")
-          // EDIT: the "include" call is irrelevant for this example.
-          .serialize(infos);
+          .exclude("*.class", "description").serialize(infos);
       System.out.println(s);
       // => [{"name":"Stack","productId":1},{"name":"Overflow","productId":2}]
       List<ProductInfo> ls = new JSONDeserializer<List<ProductInfo>>().deserialize(s);

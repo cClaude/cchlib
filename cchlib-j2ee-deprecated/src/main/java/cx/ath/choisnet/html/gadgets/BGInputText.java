@@ -49,7 +49,7 @@ public class BGInputText extends AbstractBG
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
-        String javascriptString = javascript == null ? null : javascript.toInLineJavascript();
+        String javascriptString = (javascript == null) ? null : javascript.toInLineJavascript();
     //    0    0:aload_0
     //    1    1:getfield        #5   <Field cx.ath.choisnet.html.javascript.AbstractJavascript cx.ath.choisnet.html.gadgets.BGInputText.javascript>
     //    2    4:ifnull          17

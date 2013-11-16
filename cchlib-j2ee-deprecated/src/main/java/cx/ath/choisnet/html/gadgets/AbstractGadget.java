@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package cx.ath.choisnet.html.gadgets;
 
 import javax.servlet.ServletRequest;
@@ -63,7 +64,7 @@ public abstract class AbstractGadget
 
         if(values == null) {
             throw new HTMLGadgetNotFoundException(gadgetName);
-        } 
+        }
         else {
             return values;
         }

@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package cx.ath.choisnet.sql;
 
 import java.io.Closeable;

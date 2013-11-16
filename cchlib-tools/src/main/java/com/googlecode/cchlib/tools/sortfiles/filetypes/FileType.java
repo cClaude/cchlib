@@ -440,7 +440,7 @@ public enum FileType
 
     private FileType( final Path folder, final XFileFilter fileFilter )
     {
-        this.folder     = folder == null ? Paths.get( name() ) : folder;
+        this.folder     = (folder == null) ? Paths.get( name() ) : folder;
         this.fileFilter = fileFilter;
         this.fileFilter.setFileType( this );
     }
@@ -479,7 +479,7 @@ public enum FileType
         return sb.toString();
     }
 
-    public final static void check()
+    public static final void check()
     {
         final Map<String,FileType> map = new HashMap<>();
 

@@ -7,11 +7,10 @@ import java.util.LinkedList;
  * AbstractContact try to unify all contact's formats
  *
  */
-public abstract class AbstratContact
-    implements 	Contact,
-                Serializable
+public abstract class AbstratContact implements Contact, Serializable
 {
     private static final long serialVersionUID = 1L;
+
     private ContactProperties contactProperties;
     private LinkedList<String> values;
 
@@ -46,8 +45,8 @@ public abstract class AbstratContact
 
     @Override
     public void setValue(
-        final int 		index,
-        final String	value
+        final int       index,
+        final String    value
         )
     {
         this.contactProperties.checkIndex( index );

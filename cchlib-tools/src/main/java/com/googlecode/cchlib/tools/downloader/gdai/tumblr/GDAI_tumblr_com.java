@@ -3,6 +3,7 @@ package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 import java.awt.Frame;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
-	private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
+    private static final long serialVersionUID = 1L;
+    private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
     /*
      * http://[NAME].tumblr.com
      */
@@ -50,20 +51,20 @@ public abstract class GDAI_tumblr_com
      */
     static final String SITE_NAME_FMT = "%s.tumblr.com";
     static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
-    
+
     /** number of pages to explore */
     final static int DEFAULT_MAX_PAGES_BLOGS = 32;
     //private final static int DEFAULT_MAX_PAGES_ALL = 16;
-    
+
     private final static  int[] TUMBLR_COM_KNOWN_SIZES = {
-            1280, 
+            1280,
              500,
              400,
              250,
              100
            };
 
-    protected GDAI_tumblr_com( 
+    protected GDAI_tumblr_com(
         final String displaySiteName,
         final int    maxPages
         )
@@ -86,7 +87,7 @@ public abstract class GDAI_tumblr_com
 
 
     protected abstract String getCurrentHostName();
-    
+
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
@@ -106,11 +107,11 @@ public abstract class GDAI_tumblr_com
 
         return sb.toString();
     }
-    
+
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults   gdauir, 
-            DownloadStringURL               content2Parse 
+            GenericDownloaderAppUIResults   gdauir,
+            DownloadStringURL               content2Parse
             )
             throws MalformedURLException
     {
@@ -120,9 +121,9 @@ public abstract class GDAI_tumblr_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( 
-        final String src, 
-        final int    regexpIndex 
+    public DownloadFileURL getDownloadURLFrom(
+        final String src,
+        final int    regexpIndex
         ) throws MalformedURLException, URISyntaxException
     {
         {
@@ -138,18 +139,18 @@ public abstract class GDAI_tumblr_com
 
         // Find extension.
         int pos = src.lastIndexOf( '.' );
-        
+
         if( pos < 0 ) {
             // <0  - No extension: Try to download any way.
             return new DefaultDownloadFileURL( src, null, getProxy() );
             }
-        
+
         final String extension = src.substring( pos );
         final String prefix1   = src.substring( 0, pos );
-        
+
         // Find picture size
         pos = prefix1.lastIndexOf( '_' );
-        
+
         if( pos < 0 ) {
             // Unknown format: Try to download any way.
             return new DefaultDownloadFileURL( src, null, getProxy() );
@@ -158,7 +159,7 @@ public abstract class GDAI_tumblr_com
         final int size;
         try {
             final String sizeStr = prefix1.substring( pos + 1 );
-            
+
             size = Integer.parseInt( sizeStr );
             }
         catch( Exception e ) {
@@ -169,7 +170,7 @@ public abstract class GDAI_tumblr_com
         final String prefix2 = prefix1.substring( 0, pos + 1 );
 
         final URL       defaultURL;
-        final List<URL> alternateURL = new ArrayList<URL>();
+        final List<URI> alternateURI = new ArrayList<URI>();
         {
             // Build list of URL
             final List<String> urls = new ArrayList<String>();
@@ -178,42 +179,42 @@ public abstract class GDAI_tumblr_com
                 if( size >= TUMBLR_COM_KNOWN_SIZES[ i ] ) {
                     break;
                     }
-                urls.add( 
+                urls.add(
                     prefix2 + TUMBLR_COM_KNOWN_SIZES[ i ] + extension
                     );
                 }
-            
-            urls.add( 
+
+            urls.add(
                 prefix2 + size + extension
                 );
-            
+
             boolean first       = true;
             String  firstURLStr = null;
-            
+
             for( String urlStr : urls ) {
                 if( first ) {
                     firstURLStr = urlStr;
                     first       = false;
                     }
                 else {
-                    alternateURL.add( new URL( urlStr ) );
+                    alternateURI.add( new URL( urlStr ).toURI() );
                     }
                 }
-            
+
             defaultURL = new URL( firstURLStr );
         }
-        
-        return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURL, src );
+
+        return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURI, src );
     }
-    
-    public final static GDAI_tumblr_com createForHost( 
+
+    public final static GDAI_tumblr_com createForHost(
         final Frame     ownerFrame,
-        final String    hostname 
+        final String    hostname
         )
     {
         return new GDAI_tumblr_com_ForHost( ownerFrame, hostname );
     }
-    
+
     public final static GDAI_tumblr_com createAllEntries(
         final Frame ownerFrame
         )
@@ -223,7 +224,7 @@ public abstract class GDAI_tumblr_com
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         {
             Collection<GDAI_tumblr_com_Config.Entry> entries = config.getEntriesCollection();
-            
+
             blogNames        = new String[ entries.size() ];
             blogDescriptions = new String[ entries.size() ];
 
@@ -235,7 +236,7 @@ public abstract class GDAI_tumblr_com
 
             logger.info( "Found " + entries.size() + " count." );
         }
-        
+
         return new GDAI_tumblr_com_ForHost(
                 ownerFrame,
                 new DefaultComboBoxConfig(
@@ -246,7 +247,7 @@ public abstract class GDAI_tumblr_com
                 config
                 );
     }
-    
+
     static DownloadStringURL getDownloadStringURL(
             final String    hostname,
             final int       pageNumber,
@@ -255,7 +256,7 @@ public abstract class GDAI_tumblr_com
             throws MalformedURLException, URISyntaxException
     {
         final String fmt;
-        
+
         if( pageNumber == 1 ) {
             fmt = HTML_URL_BASE1_FMT;
             }
@@ -271,6 +272,6 @@ public abstract class GDAI_tumblr_com
                 null,
                 proxy
                 );
-    }   
+    }
 
 }

@@ -141,7 +141,7 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }

@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidInstantiationInLoops
 package cx.ath.choisnet.html.gadgets;
 
 import javax.servlet.ServletRequest;
@@ -69,7 +70,7 @@ public class BGInputRadio extends AbstractBG
     //   30   52:aload_0
     //   31   53:aload           6
     //   32   55:putfield        #7   <Field cx.ath.choisnet.html.javascript.AbstractJavascript[] cx.ath.choisnet.html.gadgets.BGInputRadio.javascript>
-        if(optionValue != null && optionValue.length != optionDatas.length)
+        if((optionValue != null) && (optionValue.length != optionDatas.length))
     //*  33   58:aload_2
     //*  34   59:ifnull          79
     //*  35   62:aload_2
@@ -85,7 +86,7 @@ public class BGInputRadio extends AbstractBG
     //   43   75:invokespecial   #10  <Method void HTMLDocumentException(String)>
     //   44   78:athrow
         }
-        if(javascript != null && javascript.length != optionDatas.length)
+        if((javascript != null) && (javascript.length != optionDatas.length))
     //*  45   79:aload           6
     //*  46   81:ifnull          102
     //*  47   84:aload           6
@@ -125,7 +126,7 @@ public class BGInputRadio extends AbstractBG
     //*  11   17:icmpge          105
         {
             String javascriptString;
-            if(javascript != null && javascript[i] != null)
+            if((javascript != null) && (javascript[i] != null))
     //*  12   20:aload_0
     //*  13   21:getfield        #7   <Field cx.ath.choisnet.html.javascript.AbstractJavascript[] cx.ath.choisnet.html.gadgets.BGInputRadio.javascript>
     //*  14   24:ifnull          49
@@ -149,7 +150,7 @@ public class BGInputRadio extends AbstractBG
     //   27   49:aconst_null
     //   28   50:astore_3
             }
-            rawHTML[i] = BGInputRadio.build(gadgetName, i, optionValue == null ? null : optionValue[i], optionDatas[i], optionSelected == i, javascriptString);
+            rawHTML[i] = BGInputRadio.build(gadgetName, i, (optionValue == null) ? null : optionValue[i], optionDatas[i], optionSelected == i, javascriptString);
     //   29   51:aload_1
     //   30   52:iload_2
     //   31   53:aload_0
@@ -196,7 +197,7 @@ public class BGInputRadio extends AbstractBG
     //*   1    1:getfield        #3   <Field String[] cx.ath.choisnet.html.gadgets.BGInputRadio.optionValue>
     //*   2    4:ifnull          31
         {
-            valueTxt = optionValue[optionSelected <= 0 ? 0 : optionSelected];
+            valueTxt = optionValue[(optionSelected <= 0) ? 0 : optionSelected];
     //    3    7:aload_0
     //    4    8:getfield        #3   <Field String[] cx.ath.choisnet.html.gadgets.BGInputRadio.optionValue>
     //    5   11:aload_0

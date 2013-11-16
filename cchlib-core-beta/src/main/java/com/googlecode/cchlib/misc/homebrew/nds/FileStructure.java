@@ -32,7 +32,7 @@ public abstract class FileStructure
             this.length = length;
             this.type   = type;
 
-            assert start - end == length;
+            assert (start - end) == length;
         }
 
         public String getField()
@@ -104,13 +104,11 @@ public abstract class FileStructure
         return nameIndexMap.get( fieldname );
     }
 
-    final
-    public String getFieldName( int i ) {
+    public final String getFieldName( int i ) {
         return getFieldInfo( i ).getField();
     }
 
-    final
-    public byte[] getBytes( int i ) {
+    public final byte[] getBytes( int i ) {
         F   f      = getFieldInfo( i );
         int start  = f.getStart();
         int length = f.getLength();

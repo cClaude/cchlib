@@ -29,7 +29,7 @@ public interface MapCollection<K,V>
      * @param value value to be associated with the specified key
      * @return true if value has been added (could depend of implementation)
      */
-    boolean add(K key, V value);
+    boolean add(K key, V value); // $codepro.audit.disable booleanMethodNamingConvention
 
     /**
      * Returns the Collection to which the specified key is mapped, or null

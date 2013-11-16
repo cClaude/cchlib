@@ -198,7 +198,7 @@ public class HashMapSet<K,V>
      * @return true if Set associated with the specified key
      *         did not already contain the specified value
      */
-    public boolean add( K key, V value )
+    public boolean add( K key, V value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         Set<V> s = get(key);
 
@@ -272,7 +272,7 @@ public class HashMapSet<K,V>
      *
      * @return if this set HashMapSet the specified key-value
      */
-    public boolean remove(K key, V value)
+    public boolean remove(K key, V value) // $codepro.audit.disable booleanMethodNamingConvention
     {
         Set<V> s = super.get( key );
 

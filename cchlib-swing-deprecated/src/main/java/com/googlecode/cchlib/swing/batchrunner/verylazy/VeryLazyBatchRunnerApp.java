@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.swing.batchrunner.verylazy;
 
 import java.io.File;
@@ -16,7 +17,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
         implements  VeryLazyBatchRunnerLocaleResources,
                     VeryLazyBatchRunner
 {
-    private static final Logger logger = Logger.getLogger( VeryLazyBatchRunnerApp.class );
+    private static final Logger LOG = Logger.getLogger( VeryLazyBatchRunnerApp.class );
 
     /**
      * Create a VeryLazyBatchRunnerApp, using default ResourceBundle
@@ -80,7 +81,7 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
         this.batchInstance   = buildTask();
         this.beginTimeMillis = System.currentTimeMillis();
 
-        logger.info( "start: " + this.beginTimeMillis );
+        LOG.info( "start: " + this.beginTimeMillis );
     }
 
     @Override//LazyBatchRunner
@@ -239,9 +240,9 @@ public abstract class VeryLazyBatchRunnerApp<TASK extends VeryLazyBatchTask>
         long millis = endTimeMillis - beginTimeMillis;
         String msg = String.format( "Conversion terminée en %s ms", millis );
 
-        logger.info( "isCancelled = " + isCancelled );
-        logger.info( "end: " + endTimeMillis );
-        logger.info( "millis: " + millis );
+        LOG.info( "isCancelled = " + isCancelled );
+        LOG.info( "end: " + endTimeMillis );
+        LOG.info( "millis: " + millis );
 
         super.setCurrentMessage( msg );
     }

@@ -606,8 +606,7 @@ public class RegExpBuilderFrame
                 // Capturing parenthesis are numbered 1..groupCount()
                 // group number zero is the entire regex match
                 for( int i = 1; i <= regexMatcher.groupCount(); i++ ) {
-                    String groupLabel = new String( "Group "
-                            + Integer.toString( i ) );
+                    String groupLabel ="Group " + Integer.toString( i );
                     if( regexMatcher.start( i ) < 0 ) {
                         textResults
                                 .append( groupLabel
@@ -795,7 +794,7 @@ public class RegExpBuilderFrame
                     // with the contents of the corresponding capturing
                     // parenthesis just like replaceAll()
                     regexMatcher.appendReplacement( replaceResult, regexMatcher
-                            .group().toUpperCase() );
+                            .group().toUpperCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
                 catch( IllegalStateException ex ) { // $codepro.audit.disable logExceptions
                     // appendReplacement() was called without a preceding

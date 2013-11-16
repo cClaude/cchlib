@@ -33,7 +33,7 @@ public interface LazyBatchRunnerCustomJPanelFactory
      * @return a new custom {@link JPanel}, could return null if no
      *         custom panel is needed.
      */
-    public JPanel createCustomJPanel();
+    JPanel createCustomJPanel();
 
     /**
      * Returns a {@link BorderLayoutConstraints} according to desired
@@ -42,11 +42,11 @@ public interface LazyBatchRunnerCustomJPanelFactory
      *         positioning, could return null if no custom panel is
      *         needed.
      */
-    public BorderLayoutConstraints getCustomJPanelLayoutConstraints();
+    BorderLayoutConstraints getCustomJPanelLayoutConstraints();
 
     /**
      * Returns a valid EnableListener for custom panel
      * @return a valid EnableListener for custom panel
      */
-    public EnableListener getEnableListener();
+    EnableListener getEnableListener();
 }

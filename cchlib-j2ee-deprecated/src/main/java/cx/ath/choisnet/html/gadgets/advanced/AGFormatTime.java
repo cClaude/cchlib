@@ -1,7 +1,5 @@
 package cx.ath.choisnet.html.gadgets.advanced;
 
-import cx.ath.choisnet.util.datetime.BasicDateTimeException;
-import cx.ath.choisnet.util.datetime.BasicTime;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletRequest;
 import cx.ath.choisnet.html.HTMLDocumentException;
@@ -9,15 +7,17 @@ import cx.ath.choisnet.html.HTMLFormException;
 import cx.ath.choisnet.html.gadgets.BGSelect;
 import cx.ath.choisnet.html.gadgets.formaters.AGFormatTimeFormater;
 import cx.ath.choisnet.html.javascript.AbstractJavascript;
+import cx.ath.choisnet.util.datetime.BasicDateTimeException;
+import cx.ath.choisnet.util.datetime.BasicTime;
 
 public class AGFormatTime extends BGSelect
 {
     public AGFormatTime(
-            String              gadgetName, 
-            SimpleDateFormat    formatter, 
+            String              gadgetName,
+            SimpleDateFormat    formatter,
             BasicTime           from,
-            BasicTime           to, 
-            BasicTime           timeToSelect, 
+            BasicTime           to,
+            BasicTime           timeToSelect,
             Integer             minutesStep,
             AbstractJavascript javascript
             )
@@ -26,7 +26,7 @@ public class AGFormatTime extends BGSelect
         super(
                 gadgetName,
                 new AGFormatTimeFormater(formatter, from, to, timeToSelect, minutesStep),
-                null, 
+                null,
                 javascript
                 );
     }

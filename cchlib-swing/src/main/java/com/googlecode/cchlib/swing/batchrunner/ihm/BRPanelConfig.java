@@ -17,31 +17,31 @@ public interface BRPanelConfig
      *
      * @return TODOC
      */
-    public FileFilter getSourceFileFilter();
+    FileFilter getSourceFileFilter();
 
     /**
      *
      * @return TODOC
      * @see JFileChooser#setFileSelectionMode(int)
      */
-    public int getSourceFilesFileSelectionMode();
+    int getSourceFilesFileSelectionMode();
 
     /**
      *
      * @return TODOC
      * @see JFileChooser#setFileSelectionMode(int)
      */
-    public int getDestinationFolderFileSelectionMode();
+    int getDestinationFolderFileSelectionMode();
 
     /**
      *
      * @return TODOC
      */
-    public File getDefaultSourceDirectoryFile();
+    File getDefaultSourceDirectoryFile();
 
     /**
      *
      * @return TODOC
      */
-    public File getDefaultDestinationDirectoryFile();
+    File getDefaultDestinationDirectoryFile();
 }

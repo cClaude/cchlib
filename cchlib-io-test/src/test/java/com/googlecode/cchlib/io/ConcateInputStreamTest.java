@@ -69,8 +69,8 @@ public class ConcateInputStreamTest
         final byte[] ba2 = { 4, 5, 6, 7, 8, 9 };
         //final byte[] ba3 = { 10, 11, 12, 13, 14, 14, 16 };
 
-        final byte[] 	res 	= new byte[ ba1.length + ba2.length ];
-        int				count 	= 0;
+        final byte[]     res     = new byte[ ba1.length + ba2.length ];
+        int                count     = 0;
 
         for( byte b : ba1 ) {
             res[ count++ ] = b;
@@ -84,7 +84,7 @@ public class ConcateInputStreamTest
         //InputStream is3 = new ByteArrayInputStream( ba3  );
 
         ConcateInputStream  cis = new ConcateInputStream( is1, is2 );
-        int					c;
+        int                    c;
 
         count = 0;
 

@@ -1,25 +1,25 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.util.HashMapSet;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("JPanelResult.SelectBySameFolder")
 public class SelectBySameFolder extends SelectorPanel
@@ -106,7 +106,7 @@ public class SelectBySameFolder extends SelectorPanel
     }
 
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( SelectBySameFolder.class );
+    private static final Logger LOGGER = Logger.getLogger( SelectBySameFolder.class );
 
     private DuplicateData duplicateData;
 
@@ -183,8 +183,8 @@ public class SelectBySameFolder extends SelectorPanel
 
     private void onApply(final Action action, final Mode mode)
     {
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "onApply : " + action + " : " + mode );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "onApply : " + action + " : " + mode );
             }
         final HashMapSet<File,KeyFileState> byFolderMapSet = new HashMapSet<>();
 

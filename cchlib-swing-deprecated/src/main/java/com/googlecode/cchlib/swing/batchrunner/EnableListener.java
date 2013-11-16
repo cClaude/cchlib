@@ -3,8 +3,8 @@ package com.googlecode.cchlib.swing.batchrunner;
 import java.util.EventListener;
 
 /**
- * An {@link EventListener} event gets fired whenever a bean changes 
- * on panel. 
+ * An {@link EventListener} event gets fired whenever a bean changes
+ * on panel.
  * You can register an {@link EnableListener} to disable your custom
  * commands when defaults commands are disabled.
  *
@@ -17,5 +17,5 @@ public interface EnableListener extends EventListener
      *
      * @param enable true if this component should be enabled, false otherwise
      */
-    public void setEnabled( boolean enable );
+    void setEnabled( boolean enable );
 }

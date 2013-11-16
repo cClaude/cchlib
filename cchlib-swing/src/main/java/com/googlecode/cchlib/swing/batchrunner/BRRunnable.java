@@ -13,14 +13,14 @@ public interface BRRunnable
      *
      * @param destinationFolderFile
      */
-    public void initializeBath( File destinationFolderFile );
+    void initializeBath( File destinationFolderFile );
 
     /**
      * Invoke when batch is finish
      *
      * @param isCancelled true if batch has been cancelled, false otherwise
      */
-    public void finalizeBath(boolean isCancelled);
+    void finalizeBath(boolean isCancelled);
 
     /**
      * Returns output {@link File} object for giving sourceFile
@@ -30,7 +30,7 @@ public interface BRRunnable
      * @throws BatchRunnerInterruptedException if output {@link File}
      *         can not be created
      */
-    public File buildOutputFile( File sourceFile ) throws BRInterruptedException;
+    File buildOutputFile( File sourceFile ) throws BRInterruptedException;
 
     /**
      * Invoke for each file
@@ -40,5 +40,5 @@ public interface BRRunnable
      * @throws BRUserCancelException if {@link BRExecutionEvent} trap an user cancel.
      * @throws BRExecutionException if batch should be cancel, for any reason.
      */
-    public void execute( BRExecutionEvent event ) throws BRUserCancelException, BRExecutionException;
+    void execute( BRExecutionEvent event ) throws BRUserCancelException, BRExecutionException;
 }

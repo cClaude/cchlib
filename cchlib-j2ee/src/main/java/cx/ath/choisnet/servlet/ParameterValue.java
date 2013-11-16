@@ -4,8 +4,8 @@ public interface ParameterValue
 {
     String[] toArray();
     String toString(String s);
-    boolean booleanValue();
-    boolean booleanValue(boolean flag);
+    boolean booleanValue(); // $codepro.audit.disable booleanMethodNamingConvention
+    boolean booleanValue(boolean flag); // $codepro.audit.disable booleanMethodNamingConvention
     int intValue();
     int intValue(int i);
     long longValue();

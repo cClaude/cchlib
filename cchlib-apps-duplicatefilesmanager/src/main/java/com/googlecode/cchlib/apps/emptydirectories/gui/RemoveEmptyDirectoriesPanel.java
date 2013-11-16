@@ -40,7 +40,7 @@ public class RemoveEmptyDirectoriesPanel
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
 
     private ActionListener actionListener;
     private DFToolKit dfToolKit;
@@ -133,7 +133,7 @@ public class RemoveEmptyDirectoriesPanel
             @Override
             public void findTaskDone( final boolean isCancel )
             {
-                logger.info( "find thread done" );
+                LOGGER.info( "find thread done" );
                 // Bad workaround !!!!
                 // TODO: find a better solution to expand tree
                 // during build.
@@ -163,7 +163,7 @@ public class RemoveEmptyDirectoriesPanel
         // Prepare JFileChooser
         /*frame.*/getWaitingJFileChooserInitializer();
 
-        logger.info( "init() done" );
+        LOGGER.info( "init() done" );
     }
 
     protected DFToolKit getDFToolKit()
@@ -173,7 +173,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onRemoveRootDirectory()
     {
-        logger.info( "onRemoveRootDirectory()" );
+        LOGGER.info( "onRemoveRootDirectory()" );
 
         if( super.isButtonRemoveRootDirectoryEnabled() ) {
             JList<File>             rootList        = super.getJListRootDirectories();
@@ -192,7 +192,7 @@ public class RemoveEmptyDirectoriesPanel
     private void onFindEmptyDirectories()
     {
         if( super.isButtonStartScanEnabled() ) {
-            logger.info( "onFindEmptyDirectories()" );
+            LOGGER.info( "onFindEmptyDirectories()" );
 
             findBegin(); // Launch a thread
             }
@@ -200,21 +200,21 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onCancel()
     {
-        logger.info( "onCancel()" );
+        LOGGER.info( "onCancel()" );
 
         if( super.getBtnCancel().isEnabled() ) {
             findDeleteAdapter.cancel();
-            logger.info( "Cancel!" );
+            LOGGER.info( "Cancel!" );
             }
     }
 
     private void onSelectAll( final boolean onlyLeaf )
     {
         if( super.isBtnSelectAllEnabled() ) {
-            logger.info( "onSelectAll() : onlyLeaf=" + onlyLeaf );
+            LOGGER.info( "onSelectAll() : onlyLeaf=" + onlyLeaf );
 
             treeModel.setSelectAll( onlyLeaf, true );
-            logger.info( "onSelectAll() : size=" + treeModel.getSelectedEmptyFoldersSize() );
+            LOGGER.info( "onSelectAll() : size=" + treeModel.getSelectedEmptyFoldersSize() );
 
             treeModel.expandAllRows();
             }
@@ -223,7 +223,7 @@ public class RemoveEmptyDirectoriesPanel
     private void onUnselectAll()
     {
         if( super.isBtnUnselectAllEnabled() ) {
-            logger.info( "onUnselectAll()" );
+            LOGGER.info( "onUnselectAll()" );
 
             treeModel.setSelectAll( false, false );
             //treeModel.setSelectAllLeaf( false );
@@ -233,7 +233,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onStartDelete()
     {
-        logger.info( "onStartDelete()" );
+        LOGGER.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
             Runnable r = new Runnable()
@@ -287,7 +287,7 @@ public class RemoveEmptyDirectoriesPanel
                         onStartDelete();
                         }
                     else {
-                        logger.warn( "Action not handled : " + cmd );
+                        LOGGER.warn( "Action not handled : " + cmd );
                         }
                 }
             };
@@ -297,7 +297,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onAddRootDirectory()
     {
-        logger.info( "btnAddRootDirectory()" );
+        LOGGER.info( "btnAddRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
             Runnable r = new Runnable()
@@ -309,7 +309,7 @@ public class RemoveEmptyDirectoriesPanel
                 }
             };
            new Thread( r, "onAddRootDirectory()" ).start();
-           logger.info( "btnAddRootDirectory() done" );
+           LOGGER.info( "btnAddRootDirectory() done" );
         }
     }
 
@@ -326,10 +326,10 @@ public class RemoveEmptyDirectoriesPanel
         for( File f: files ) {
             if( f.isDirectory() ) {
                 model.addElement( f );
-                logger.info( "add drop dir:" + f );
+                LOGGER.info( "add drop dir:" + f );
                 }
             else {
-                logger.warn( "Ignore drop : " + f );
+                LOGGER.warn( "Ignore drop : " + f );
                 }
             }
 
@@ -338,7 +338,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void onImportDirectories()
     {
-        logger.info( "btnImportDirectories()" );
+        LOGGER.info( "btnImportDirectories()" );
 
         if( super.isButtonImportDirectoriesEnabled() ) {
             Runnable r = new Runnable()
@@ -348,7 +348,7 @@ public class RemoveEmptyDirectoriesPanel
                 {
                     List<File> dirs = getDFToolKit().getRootDirectoriesList();
                     addRootDirectory( dirs );
-                    logger.info( "btnImportDirectories() done" );
+                    LOGGER.info( "btnImportDirectories() done" );
                 }
             };
             new Thread( r, "onImportDirectories()" ).start();
@@ -357,12 +357,12 @@ public class RemoveEmptyDirectoriesPanel
 
     private void addRootDirectory()
     {
-        logger.info( "addRootDirectory()" );
+        LOGGER.info( "addRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
             JFileChooser jfc = getJFileChooser();
 
-            logger.info( "getJFileChooser() done" );
+            LOGGER.info( "getJFileChooser() done" );
 
             jfc.setMultiSelectionEnabled( true );
             int returnVal = jfc.showOpenDialog( this );
@@ -372,7 +372,7 @@ public class RemoveEmptyDirectoriesPanel
 
                 addRootDirectory( files );
                 }
-            logger.info( "addRootDirectory() done" );
+            LOGGER.info( "addRootDirectory() done" );
         }
     }
 
@@ -403,7 +403,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void findBegin()
     {
-        logger.info( "find thread started" );
+        LOGGER.info( "find thread started" );
 
         final JProgressBar pBar = getProgressBar();
         pBar.setString( txtProgressBarComputing );
@@ -448,7 +448,7 @@ public class RemoveEmptyDirectoriesPanel
 
     private void startDelete()
     {
-        logger.info( "DELETE Thread started" );
+        LOGGER.info( "DELETE Thread started" );
 
         enable_startDelete();
 
@@ -467,10 +467,10 @@ public class RemoveEmptyDirectoriesPanel
                     findDeleteAdapter.doDelete();
                     }
                 catch( Exception e ) {
-                    logger.warn( "doDelete()", e );
+                    LOGGER.warn( "doDelete()", e );
                     }
                 catch( Error e ) {
-                    logger.fatal( "doDelete()", e );
+                    LOGGER.fatal( "doDelete()", e );
                     }
                 finally {
                     getBtnStartDelete().setEnabled( true );
@@ -482,7 +482,7 @@ public class RemoveEmptyDirectoriesPanel
                     findBegin();
                     }
 
-                logger.info( "DELETE Thread done" );
+                LOGGER.info( "DELETE Thread done" );
             }
         }, "startDelete()").start();
     }

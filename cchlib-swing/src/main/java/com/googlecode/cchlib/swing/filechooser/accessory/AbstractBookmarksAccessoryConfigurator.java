@@ -30,7 +30,7 @@ public abstract class AbstractBookmarksAccessoryConfigurator
      * @param file File to add
      * @return true if file has been added
      */
-    protected abstract boolean add( File file );
+    protected abstract boolean add( File file ); // $codepro.audit.disable booleanMethodNamingConvention
 
     @Override
     public boolean addBookmarkFile( final File file )

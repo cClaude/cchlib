@@ -25,7 +25,7 @@ public class DownloadI_www_gifmash_com
     private static final String SITE_NAME = "www.gifmash.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
     private static final int DEFAULT_MAX_PAGES = 100;
-    private ComboBoxConfig mainComboBoxConfig;
+    private GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
     protected DownloadI_www_gifmash_com()
     {
@@ -84,7 +84,7 @@ public class DownloadI_www_gifmash_com
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }

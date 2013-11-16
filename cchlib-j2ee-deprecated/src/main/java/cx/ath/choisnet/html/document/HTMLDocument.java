@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package cx.ath.choisnet.html.document;
 
 import cx.ath.choisnet.html.HTMLDocumentException;

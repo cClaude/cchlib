@@ -45,67 +45,6 @@ public class DownloadI_www_bloggif_com
             );
     }
 
-    /* *
-     * Start Sample here !
-     * /
-    public static void main( String...args )
-        throws IOException, NoSuchAlgorithmException, ClassNotFoundException
-    {
-        File destinationFolderFile = new File( new File(".").getAbsoluteFile(), "output" ).getCanonicalFile();
-        destinationFolderFile.mkdirs();
-
-        final DownloaderSample1 downloadConfig = new DownloaderSample1();
-        downloadConfig.setProxy( PROXY );
-
-        final LoggerListener mylogger = new MyLoggerListener( logger );
-        final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
-        {
-            @Override
-            public int getDownloadThreadCount()
-            {
-                return DOWNLOAD_THREAD;
-            }
-            @Override
-            public LoggerListener getAbstractLogger()
-            {
-                return mylogger;
-            }
-        };
-
-        GenericDownloader instance
-            = new GenericDownloader(downloadConfig, gdauir
-//                destinationFolderFile,
-//                downloadConfig.getCacheRelativeDirectoryCacheName(),
-//                gdauir.getDownloadThreadCount(), //DOWNLOAD_THREAD,
-//                mylogger
-                )/*
-        {
-            @Override
-            protected Collection<FileDownloadURL> collectDownloadURLs() throws IOException
-            {
-                String allContent;
-                {
-                    List<String>    contentList = loads( downloadConfig.getURLDownloadAndParseCollection() );
-                    StringBuilder   sb          = new StringBuilder();
-
-                    for( String s: contentList ) {
-                        sb.append( s );
-                        }
-
-                    allContent = sb.toString();
-                    contentList.clear();
-                    sb.setLength( 0 );
-                }
-
-                  return downloadConfig.getURLToDownloadCollection( gdauir, allContent );
-            }
-        }* /;
-
-        mylogger.info( "destinationFolderFile = " + destinationFolderFile );
-        instance.downloadAll();
-        mylogger.info( "done" );
-    }*/
-
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
@@ -178,7 +117,7 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }
@@ -187,6 +126,5 @@ public class DownloadI_www_bloggif_com
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-
     }
 }

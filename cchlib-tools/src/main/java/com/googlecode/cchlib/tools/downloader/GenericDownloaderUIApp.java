@@ -50,7 +50,7 @@ import javax.swing.JTable;
 public class GenericDownloaderUIApp extends JFrame
 {
     private static final long serialVersionUID = 2L;
-    private static final Logger logger = Logger.getLogger( GenericDownloaderUIApp.class );
+    private static final Logger LOGGER = Logger.getLogger( GenericDownloaderUIApp.class );
 
     protected static final String APP_NAME = "Downloader";
 
@@ -59,7 +59,7 @@ public class GenericDownloaderUIApp extends JFrame
     private static final String ACTION_QUIT = "ACTION_QUIT";
     private static final String ACTION_STOP = "ACTION_STOP";
     private static final String ACTION_START = "ACTION_START";
-    
+
     private GenericDownloader genericDownloader_useLock;
     /** lock for genericDownloader access */
     private Object genericDownloaderLock = new Object();
@@ -103,7 +103,7 @@ public class GenericDownloaderUIApp extends JFrame
                         | IllegalAccessException
                         | UnsupportedLookAndFeelException e ) {
 
-                    logger.fatal( "Can not set LookAndFeel", e );
+                    LOGGER.fatal( "Can not set LookAndFeel", e );
                     }
 
                 try {
@@ -114,16 +114,16 @@ public class GenericDownloaderUIApp extends JFrame
                     frame.setTitle( APP_NAME );
                     }
                 catch( Exception e ) {
-                    logger.fatal( "main() exception", e ); // FIXME
+                    LOGGER.fatal( "main() exception", e ); // FIXME
 
-					final String title = "GenericDownloaderUIApp";
-					
-					DialogHelper.showMessageExceptionDialog( title , e );
+                    final String title = "GenericDownloaderUIApp";
+
+                    DialogHelper.showMessageExceptionDialog( title , e );
                     }
             }
         } );
     }
- 
+
 
     private void init()
     {
@@ -165,20 +165,20 @@ public class GenericDownloaderUIApp extends JFrame
         this.setVisible( true );
         this.addWindowListener( getWindowListener() );
     }
-    
+
     private ActionListener getActionListener()
     {
         if( actionListener == null ) {
-            actionListener = new ActionListener() 
+            actionListener = new ActionListener()
             {
                 @Override
-                public void actionPerformed( final ActionEvent event ) 
+                public void actionPerformed( final ActionEvent event )
                 {
                     final String cmd = event.getActionCommand();
-                    
+
                     if( ACTION_QUIT.equals( cmd ) ) {
                         // Simulate call to windows close !
-                        
+
                         if( windowClosing() ) {
                             windowClosed();
                             }
@@ -194,7 +194,7 @@ public class GenericDownloaderUIApp extends JFrame
                             }
                         }
                     else {
-                        logger.warn( "Unknown ActionCommand " + cmd );
+                        LOGGER.warn( "Unknown ActionCommand " + cmd );
                         }
                 }
             };
@@ -206,27 +206,27 @@ public class GenericDownloaderUIApp extends JFrame
     private WindowListener getWindowListener()
     {
         if( windowListener == null ) {
-            windowListener = new WindowListener() 
+            windowListener = new WindowListener()
             {
                 @Override
-                public void windowClosed(final WindowEvent event) 
+                public void windowClosed(final WindowEvent event)
                 {
-                    logger.info("Window close event occur");
+                    LOGGER.info("Window close event occur");
                     GenericDownloaderUIApp.this.windowClosed();
                 }
                 @Override
-                public void windowActivated(final WindowEvent event) 
+                public void windowActivated(final WindowEvent event)
                 {
                     //logger.info("Window Activated");
                 }
                 @Override
-                public void windowClosing(final WindowEvent event) 
+                public void windowClosing(final WindowEvent event)
                 {
                     //Called in response to a user request for the listened-to window
                     //to be closed. To actually close the window,
                     //the listener should invoke the window's dispose
                     //or setVisible(false) method
-                    logger.info("Window Closing");
+                    LOGGER.info("Window Closing");
                     GenericDownloaderUIApp.this.windowClosing();
                 }
                 @Override
@@ -240,14 +240,14 @@ public class GenericDownloaderUIApp extends JFrame
                     //logger.info("Window Deiconified");
                 }
                 @Override
-                public void windowIconified(final WindowEvent event) 
+                public void windowIconified(final WindowEvent event)
                 {
                     //logger.info("Window Iconified");
                 }
                 @Override
                 public void windowOpened(final WindowEvent event)
                 {
-                    logger.info("Window Opened");
+                    LOGGER.info("Window Opened");
                 }
             };
         }
@@ -258,8 +258,8 @@ public class GenericDownloaderUIApp extends JFrame
     {
         synchronized( genericDownloaderLock ) {
             if( genericDownloader_useLock != null ) {
-                logger.error( "windowClosing() - Already running !" );
-                
+                LOGGER.error( "windowClosing() - Already running !" );
+
                 //FIXME ASK USER !
                 return false;
                 }
@@ -477,10 +477,10 @@ public class GenericDownloaderUIApp extends JFrame
         for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
             pannel.setEnabledAllComponents( false );
             }
-        
+
         synchronized( genericDownloaderLock ) {
             if( genericDownloader_useLock != null ) {
-                logger.error( "Already running !" );
+                LOGGER.error( "Already running !" );
                 return;
                 }
             }
@@ -498,11 +498,11 @@ public class GenericDownloaderUIApp extends JFrame
         final Proxy proxy = proxyComboBoxModel.getElementAt( proxyJComboBox.getSelectedIndex() ).getProxy();
         final int downloadThreadNumber = this.downloadThreadNumberSpinnerModel.getNumber().intValue();
 
-        logger.info( "proxy: " + proxy.toString() );
-        logger.info( "downloadThreadNumber: " + downloadThreadNumber );
-        logger.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
-        logger.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
-        logger.info( "GenericDownloaderAppInterface: " + gdai );
+        LOGGER.info( "proxy: " + proxy.toString() );
+        LOGGER.info( "downloadThreadNumber: " + downloadThreadNumber );
+        LOGGER.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
+        LOGGER.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
+        LOGGER.info( "GenericDownloaderAppInterface: " + gdai );
 
         gdai.setProxy( proxy );
         // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel
@@ -536,10 +536,10 @@ public class GenericDownloaderUIApp extends JFrame
                     synchronized( genericDownloaderLock ) {
                         genericDownloader_useLock = null;
                         }
-                    logger.info( "done" );
+                    LOGGER.info( "done" );
                     }
                 catch( Exception e ) {
-                    logger.fatal( "fatal", e );
+                    LOGGER.fatal( "fatal", e );
                     }
 
                 startJButton.setEnabled( true );
@@ -552,7 +552,7 @@ public class GenericDownloaderUIApp extends JFrame
                 for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
                     pannel.setEnabledAllComponents( true );
                     }
-                
+
                 displayJProgressBar.setIndeterminate( false );
                 displayJProgressBar.setEnabled( false );
                 displayJProgressBar.setString( "Ready." );
@@ -568,7 +568,7 @@ public class GenericDownloaderUIApp extends JFrame
 
         return l;
     }
-    
+
     private final DisplayTableModel displayTableModel = new DisplayTableModel()
     {
         private static final long serialVersionUID = 1L;
@@ -576,7 +576,7 @@ public class GenericDownloaderUIApp extends JFrame
         @Override
         public void error( final URL url, File file, final Throwable cause )
         {
-            logger .error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
+            LOGGER.error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
         }
         @Override
         public void downloadStateInit( DownloadStateEvent event )
@@ -590,7 +590,7 @@ public class GenericDownloaderUIApp extends JFrame
             displayJProgressBar.setStringPainted( true );
             //TODO
 
-            logger.info( "init :" + event.getDownloadListSize() );
+            LOGGER.info( "init :" + event.getDownloadListSize() );
         }
         @Override
         public void downloadStateChange( DownloadStateEvent event )
@@ -600,19 +600,19 @@ public class GenericDownloaderUIApp extends JFrame
             displayJProgressBar.setString( "loading " + event.getDownloadListSize() );
             //TODO
 
-            logger.info( "downloadStateChange :" + event.getDownloadListSize() );
+            LOGGER.info( "downloadStateChange :" + event.getDownloadListSize() );
         }
     };
-    
+
     /**
      * @wbp.factory
      * @wbp.factory.parameter.source displayTableModel displayTableModel
      */
-    //Needed for WindowsBuilder: static 
+    //Needed for WindowsBuilder: static
     public JTable createJTable()
     {
         DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
-        
+
         return builder.getJTable();
     }
 }

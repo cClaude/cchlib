@@ -7,23 +7,23 @@ import java.io.OutputStream;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * 
+ *
  * @since 4.1.8
  * @see BRUserCancelException
  */
 @NeedDoc
-public interface BRExecutionEvent 
+public interface BRExecutionEvent
 {
     /**
      * Returns current source {@link File} object
      * @return current source file.
      */
-    public File getSourceFile();
-    
+    File getSourceFile();
+
     /**
-     * Returns current source file {@link InputStream}. {@link InputStream} methods 
+     * Returns current source file {@link InputStream}. {@link InputStream} methods
      * could generate a {@link BRUserCancelException} to handle user cancel action.
-     * 
+     *
      * @return current source file {@link InputStream}.
      * @throws FileNotFoundException if the file does not exist, is a directory rather than
      *         a regular file, or for some other reason cannot be opened for reading.
@@ -31,22 +31,22 @@ public interface BRExecutionEvent
      *         method denies read access to the file.
      * @throws BRUserCancelException if an user cancel action occur
      */
-    public InputStream getInputStream() throws FileNotFoundException, BRUserCancelException, SecurityException;
+    InputStream getInputStream() throws FileNotFoundException, BRUserCancelException, SecurityException;
 
     /**
      * Returns current destination {@link File} object
      * @return current destination file.
      */
-    public File getDestinationFile();
-    
+    File getDestinationFile();
+
     /**
      * Returns current destination file {@link InputStream}.
      * @return current destination file {@link InputStream}.
      * @throws FileNotFoundException if the file exists but is a directory rather than
-     *         a regular file, does not exist but cannot be created, or cannot be opened 
+     *         a regular file, does not exist but cannot be created, or cannot be opened
      *         for any other reason
-     * @throws SecurityException if a security manager exists and its checkWrite method 
+     * @throws SecurityException if a security manager exists and its checkWrite method
      *         denies write access to the file.
      */
-    public OutputStream getOutputStream() throws FileNotFoundException;
+    OutputStream getOutputStream() throws FileNotFoundException;
 }

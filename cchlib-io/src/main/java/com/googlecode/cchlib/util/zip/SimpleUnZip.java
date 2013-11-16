@@ -186,7 +186,7 @@ public class SimpleUnZip
         UnZipEvent event     = new UnZipEvent( zipEntry, file );
         Object[]   listeners = listenerList.getListenerList();
 
-        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == UnZipListener.class ) {
                 ((UnZipListener)listeners[i + 1]).entryPostProcessing( event );
                 }
@@ -206,7 +206,7 @@ public class SimpleUnZip
         UnZipEvent event     = new UnZipEvent( zipEntry, file );
         Object[]   listeners = listenerList.getListenerList();
 
-        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == UnZipListener.class ) {
                 ((UnZipListener)listeners[i + 1]).entryAdded( event );
                 }

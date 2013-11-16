@@ -203,7 +203,7 @@ public class BookmarksAccessory
                             final int index = Integer.class.cast(
                                     JMenuItem.class.cast( event.getSource() )
                                         .getClientProperty( ACTION_OBJECT )
-                                    );
+                                    ).intValue();
                             doRemove( new int[]{ index } );
                             }
                         }

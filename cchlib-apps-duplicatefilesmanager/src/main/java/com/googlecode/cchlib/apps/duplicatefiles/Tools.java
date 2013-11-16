@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
  */
 public class Tools
 {
-    private static final Logger logger = Logger.getLogger( Tools.class );
+    private static final Logger LOGGER = Logger.getLogger( Tools.class );
 
     /**
      * Launch task in a new thread and log errors
@@ -24,7 +24,7 @@ public class Tools
                     runner.run();
                     }
                 catch( Exception e ) {
-                    logger.warn( "Unexpected error", e );
+                    LOGGER.warn( "Unexpected error", e );
                     }
             }
         }, threadName).start();

@@ -14,8 +14,7 @@ import com.googlecode.cchlib.apps.emptydirectories.Folders;
 //not public
 final class FolderTreeBuilder
 {
-    private static final Logger logger = Logger.getLogger( FolderTreeBuilder.class );
-    //private List<FolderTreeNode> rootNodes = new ArrayList<FolderTreeNode>();
+    private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilder.class );
 
     // TODO use ArrayHashMap instead !
     private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>(); // $codepro.audit.disable declareAsInterface
@@ -42,8 +41,8 @@ final class FolderTreeBuilder
         FolderTreeNode bestParentFolderTreeNode = findBestParent( emptyFolderRootFolderTreeNode, emptyFolderPath );
         Path           bestParentPath           = bestParentFolderTreeNode.getFolder().getPath();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( String.format( "Add (%s) bestParentPath (%s)", emptyFolder, bestParentPath ) );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( String.format( "Add (%s) bestParentPath (%s)", emptyFolder, bestParentPath ) );
             }
 
         // Create nested nodes
@@ -58,8 +57,8 @@ final class FolderTreeBuilder
             // Alreay exist, juste change type
             bestParentFolderTreeNode.setFolder( emptyFolder );
 
-            if( logger.isDebugEnabled() ) {
-                logger.debug( String.format( "Add (%s) already exist (fix type if needed)", emptyFolder ) );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( String.format( "Add (%s) already exist (fix type if needed)", emptyFolder ) );
                 }
             }
         else {

@@ -7,5 +7,5 @@ specified by its user interface.
 */
 interface FindFilterFactory
 {
-    public FindFilter createFindFilter();
+    FindFilter createFindFilter();
 }

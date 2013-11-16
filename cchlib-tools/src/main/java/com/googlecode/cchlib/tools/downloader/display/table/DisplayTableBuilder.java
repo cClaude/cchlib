@@ -19,7 +19,7 @@ import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
  */
 public class DisplayTableBuilder
 {
-    private static final Logger logger = Logger.getLogger( DisplayTableBuilder.class );
+    private static final Logger LOGGER = Logger.getLogger( DisplayTableBuilder.class );
     private static final Object CLIENT_PROPERTY_KEY = DisplayTableModelEntry.class;
     private static final String ACTION_DO_OPEN_SOURCE_URL = "ACTION_DO_OPEN_SOURCE_URL";
     private static final String ACTION_DO_OPEN_LOCAL_FILE = "ACTION_DO_OPEN_LOCAL_FILE";
@@ -67,7 +67,7 @@ public class DisplayTableBuilder
                     }
 
                 else {
-                    logger.error( "Action command not handle: " + cmd );
+                    LOGGER.error( "Action command not handle: " + cmd );
                     }
             }
         };
@@ -164,7 +164,7 @@ public class DisplayTableBuilder
                 public void run()
                 {
                     try {
-                        logger .info( "trying to open: " + file );
+                        LOGGER.info( "trying to open: " + file );
                         desktop.open( file );
                         }
                     catch( Exception e ) {
@@ -190,7 +190,7 @@ public class DisplayTableBuilder
             public void run()
             {
                 try {
-                    logger .info( "trying to open: " + url );
+                    LOGGER.info( "trying to open: " + url );
                     desktop.browse( url.toURI() );
                     }
                 catch( Exception e ) {

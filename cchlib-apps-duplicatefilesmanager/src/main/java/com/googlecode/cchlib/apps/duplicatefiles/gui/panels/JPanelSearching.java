@@ -44,7 +44,7 @@ import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 public class JPanelSearching extends JPanel//SearchingWB
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger slogger = Logger.getLogger( JPanelSearching.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelSearching.class );
     private transient DFToolKit dFToolKit; // Serialization !
     private DuplicateFileCollector  duplicateFC;
     private DefaultTableModel   tableModelErrorList;
@@ -230,7 +230,7 @@ public class JPanelSearching extends JPanel//SearchingWB
             )
     {
         displayPass = 1;
-        slogger.info( "doScanPass1: init()" );
+        LOGGER.info( "doScanPass1: init()" );
 
         // FileFilter and Listener for pass 1
         FileFilter dirFilter = createDirectoriesFileFilter(
@@ -254,7 +254,7 @@ public class JPanelSearching extends JPanel//SearchingWB
             @Override
             public void ioError( IOException e, File file )
             {
-                slogger.warn(
+                LOGGER.warn(
                     String.format(
                         "IOException %s : %s\n",
                         file,
@@ -296,12 +296,12 @@ public class JPanelSearching extends JPanel//SearchingWB
 //                }
 //                slogger.info( "files_:" + files.size() );
 
-                slogger.info( "doScanPass1: examin:" + f );
+                LOGGER.info( "doScanPass1: examin:" + f );
 
                 duplicateFC.pass1Add( files );
                 }
             else {
-                slogger.info( "doScanPass1: examin file:" + f );
+                LOGGER.info( "doScanPass1: examin file:" + f );
 
                 List<File> fContener = new ArrayList<File>();
                 fContener.add( f );
@@ -313,10 +313,10 @@ public class JPanelSearching extends JPanel//SearchingWB
         pass1CountFile = stats.getPass2Files();
         pass1BytesCount = stats.getPass2Bytes();
 
-        slogger.info( "pass1CountFile = " + pass1CountFile );
-        slogger.info( "pass1BytesCount = " + pass1BytesCount );
+        LOGGER.info( "pass1CountFile = " + pass1CountFile );
+        LOGGER.info( "pass1BytesCount = " + pass1BytesCount );
 
-        slogger.info( "doScanPass1: done" );
+        LOGGER.info( "doScanPass1: done" );
     }
 
     private void doScanPass2()
@@ -459,14 +459,14 @@ public class JPanelSearching extends JPanel//SearchingWB
             HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
             )
     {
-        slogger.info( "pass1" );
+        LOGGER.info( "pass1" );
         duplicateFiles.clear();
         doScanPass1(
                 entriesToScans,
                 entriesToIgnore,
                 fileFilterBuilders
                 );
-        slogger.info( "pass1 done" );
+        LOGGER.info( "pass1 done" );
 
         //jProgressBarFiles.setStringPainted( true );
         jProgressBarFiles.setIndeterminate( false );
@@ -474,11 +474,11 @@ public class JPanelSearching extends JPanel//SearchingWB
         jLabelCurrentFile.setText( txtCurrentFile );
         jTextFieldCurrentFile.setText( "" );
 
-        slogger.info( "pass2" );
+        LOGGER.info( "pass2" );
         displayFile = null;
         displayPass = 2;
         doScanPass2();
-        slogger.info( "pass2 done" );
+        LOGGER.info( "pass2 done" );
 
         //
         // Populate duplicateFiles
@@ -525,19 +525,19 @@ public class JPanelSearching extends JPanel//SearchingWB
         final boolean skipReadOnly = fbs.isIgnoreReadOnlyFiles();
 
         FileFilterBuilder includeFilesFileFilterBuilder = fbs.getIncludeFiles();
-        slogger.info( "includeFilesFileFilterBuilder="+includeFilesFileFilterBuilder);
+        LOGGER.info( "includeFilesFileFilterBuilder="+includeFilesFileFilterBuilder);
 
         if( includeFilesFileFilterBuilder != null ) {
             final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
             final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
             final int      fileExtsL    = fileExts.length;
 
-            slogger.info( "createFilesFileFilter: case1");
-            slogger.info( "files regex=" + regex );
-            slogger.info( "files skipHidden=" + skipHidden );
-            slogger.info( "files skipReadOnly=" + skipReadOnly );
-            slogger.info( "fileExtsL=" + fileExtsL);
-            slogger.info( "fileExts=" + includeFilesFileFilterBuilder.getNamePart() );
+            LOGGER.info( "createFilesFileFilter: case1");
+            LOGGER.info( "files regex=" + regex );
+            LOGGER.info( "files skipHidden=" + skipHidden );
+            LOGGER.info( "files skipReadOnly=" + skipReadOnly );
+            LOGGER.info( "fileExtsL=" + fileExtsL);
+            LOGGER.info( "fileExts=" + includeFilesFileFilterBuilder.getNamePart() );
 
             FileFilter ff = new FileFilter() {
                 @Override
@@ -556,7 +556,6 @@ public class JPanelSearching extends JPanel//SearchingWB
                         // ReadOnly files
                         if( skipReadOnly ) {
                             if( !f.canWrite() ) {
-                                //slogger.debug( "f:" + f + " -> false2" );
                                 return false;
                                 }
                             }
@@ -566,34 +565,26 @@ public class JPanelSearching extends JPanel//SearchingWB
                             if( regex.matcher(f.getName()).matches() ) {
                                 pass1CountFile++;
                                 pass1BytesCount += f.length();
-                                //slogger.debug( "f:" + f + " -> (true regex match)" );
                                 return true;
                                 }
                             }
 
                         // Extensions
-                        String name = f.getName().toLowerCase();
+                        String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 
                         for(int i=0;i<fileExtsL;i++) {
                             if(name.endsWith( fileExts[i] )) {
                                 pass1CountFile++;
                                 pass1BytesCount += f.length();
-                                //slogger.debug( "f:" + f + " -> (true endsWith match)" );
                                 return true;
                                 }
                             }
 
-                        //slogger.debug( "f:" + f + " -> false4" );
                         return false;
                     }
-                    //slogger.debug( "f:" + f + " -> false5 (not a file)" );
                     return false;
                 }
             };
-//            File f = new File( "C:\\toto.reg" );
-//            slogger.info( "fileTst toto.reg=" + regex.matcher( "toto.reg" ).matches() );
-//            slogger.info( "fileTst " + f.getName() + "=" + regex.matcher( f.getName() ).matches() );
-//            slogger.info( "fileTst " + f + "=" + ff.accept( f ) );
 
             return ff;
         }
@@ -606,12 +597,12 @@ public class JPanelSearching extends JPanel//SearchingWB
                 final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
                 final int      fileExtsL = fileExts.length;
 
-                slogger.info( "createFilesFileFilter: case2");
-                slogger.info( "files regex=" + regex );
-                slogger.info( "files skipHidden=" + skipHidden );
-                slogger.info( "files skipReadOnly=" + skipReadOnly );
-                slogger.info( "fileExtsL=" + fileExtsL);
-                slogger.info( "fileExts=" + excludeFilesFileFilterBuilder.getNamePart() );
+                LOGGER.info( "createFilesFileFilter: case2");
+                LOGGER.info( "files regex=" + regex );
+                LOGGER.info( "files skipHidden=" + skipHidden );
+                LOGGER.info( "files skipReadOnly=" + skipReadOnly );
+                LOGGER.info( "fileExtsL=" + fileExtsL);
+                LOGGER.info( "fileExts=" + excludeFilesFileFilterBuilder.getNamePart() );
 
                 return new FileFilter() {
                     @Override
@@ -636,7 +627,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                                 }
                             }
                             // Extensions
-                            String name = f.getName().toLowerCase();
+                            String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 
                             for(int i=0;i<fileExtsL;i++) {
                                 if(name.endsWith( fileExts[i] )) {
@@ -652,7 +643,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                 };
             }
             else {
-                slogger.info( "createFilesFileFilter: case3");
+                LOGGER.info( "createFilesFileFilter: case3");
                 // Minimum file filter
                 return new FileFilter() {
                     @Override
@@ -697,11 +688,11 @@ public class JPanelSearching extends JPanel//SearchingWB
             final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
             final int      dirNamesL = dirNames.length;
 
-            slogger.info( "dirs regex=" + regex );
-            slogger.info( "dirs skipHidden=" + skipHidden );
+            LOGGER.info( "dirs regex=" + regex );
+            LOGGER.info( "dirs skipHidden=" + skipHidden );
             //slogger.info( "dirs skipReadOnly=" + skipReadOnly );
-            slogger.info( "dirNamesL=" + dirNamesL );
-            slogger.info( "dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
+            LOGGER.info( "dirNamesL=" + dirNamesL );
+            LOGGER.info( "dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
 
             return new FileFilter() {
                 @Override
@@ -720,7 +711,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                         }
                     }
                     // Test names ?
-                    String name = f.getName().toLowerCase();
+                    String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 
                     for(int i=0;i<dirNamesL;i++) {
                         if(name.equals( dirNames[i] )) {
@@ -744,10 +735,10 @@ public class JPanelSearching extends JPanel//SearchingWB
                 final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
                 final int      dirNamesL = dirNames.length;
 
-                slogger.info( "dirs regex=" + regex );
-                slogger.info( "dirs skipHidden=" + skipHidden );
-                slogger.info( "dirNamesL=" + dirNamesL );
-                slogger.info( "dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
+                LOGGER.info( "dirs regex=" + regex );
+                LOGGER.info( "dirs skipHidden=" + skipHidden );
+                LOGGER.info( "dirNamesL=" + dirNamesL );
+                LOGGER.info( "dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
 
                 return new FileFilter() {
                     @Override
@@ -766,7 +757,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                             }
                         }
                         // Test names ?
-                        String name = f.getName().toLowerCase();
+                        String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 
                         for(int i=0;i<dirNamesL;i++) {
                             if(name.equals( dirNames[i] )) {
@@ -779,7 +770,7 @@ public class JPanelSearching extends JPanel//SearchingWB
                 };
             }
             else {
-                slogger.info( "dirs skipHidden=" + skipHidden );
+                LOGGER.info( "dirs skipHidden=" + skipHidden );
 
                 return new FileFilter() {
                     @Override

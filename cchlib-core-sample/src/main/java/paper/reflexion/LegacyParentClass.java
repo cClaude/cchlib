@@ -5,7 +5,7 @@ package paper.reflexion;
  */
 public abstract class LegacyParentClass
 {
-    public final static String aPublicFinalStaticField = "**aPublicFinalStaticField**";
+    public static final String aPublicFinalStaticField = "**aPublicFinalStaticField**";
     protected final String aProtectedFinalField = "**aProtectedFinalField**";
     protected String aProtectedField = "**aProtectedField**";
     private Long aLong;

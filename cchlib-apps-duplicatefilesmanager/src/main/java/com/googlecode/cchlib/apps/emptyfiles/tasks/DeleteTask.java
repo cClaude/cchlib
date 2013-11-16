@@ -9,7 +9,8 @@ import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class DeleteTask implements Runnable
 {
-    private static final Logger logger = Logger.getLogger( DeleteTask.class );
+    private static final Logger LOGGER = Logger.getLogger( DeleteTask.class );
+    
     private WorkingTableModel tableModel;
     private JProgressBar progressBar;
     private int progressBarValue;
@@ -42,10 +43,10 @@ public class DeleteTask implements Runnable
                     }
                 }
             
-            logger.info( "All process started" );
+            LOGGER.info( "All process started" );
         }
         catch( InvocationTargetException | InterruptedException e ) {
-            logger.warn( "Can't stark all process", e );
+            LOGGER.warn( "Can't stark all process", e );
         } 
 
         workingJPanel.deleteDone();

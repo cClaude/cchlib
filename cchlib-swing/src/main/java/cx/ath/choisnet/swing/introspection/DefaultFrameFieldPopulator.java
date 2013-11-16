@@ -18,7 +18,7 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 public class DefaultFrameFieldPopulator<FRAME, OBJECT>
     implements FrameFieldPopulator<FRAME, OBJECT>
 {
-    private static Logger slogger = Logger.getLogger(DefaultFrameFieldPopulator.class);
+    private static Logger LOGGER = Logger.getLogger(DefaultFrameFieldPopulator.class);
     private FRAME frame;
     private OBJECT object;
 
@@ -82,7 +82,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
         }
         else {
             //TODO: handle error ?
-            slogger.fatal( "Don't kwown how to handle type:" + iItemValue.getClass() );
+            LOGGER.fatal( "Don't kwown how to handle type:" + iItemValue.getClass() );
         }
     }
 
@@ -127,7 +127,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
             }
             else {
                 //TODO: handle case ?
-                slogger.fatal( "String: Don't kwown how to Component handle type:" + obj.getClass() );
+                LOGGER.fatal( "String: Don't kwown how to Component handle type:" + obj.getClass() );
             }
         }
     }
@@ -151,32 +151,32 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
 
             // set iItemBoolean on first item
             // set !iItemBoolean on all others items
-            Boolean setValue;
+            boolean setValue;
 
             if( first ) {
-                setValue = iItemBoolean;
+                setValue = iItemBoolean.booleanValue();
                 first    = false;
-            }
+                }
             else {
-                setValue = !iItemBoolean;
-            }
+                setValue = !iItemBoolean.booleanValue();
+                }
 
             if( obj instanceof JTextComponent ) {
                 JTextComponent c = JTextComponent.class.cast( obj );
-                c.setText( setValue.toString() );
-            }
+                c.setText( Boolean.toString( setValue ) );
+                }
             else if( obj instanceof JLabel ) {
                 JLabel c = JLabel.class.cast( obj );
-                c.setText( setValue.toString() );
-            }
+                c.setText( Boolean.toString( setValue) );
+                }
             else if( obj instanceof JCheckBox ) {
                 JCheckBox c = JCheckBox.class.cast( obj );
                 c.setSelected( setValue );
-            }
+                }
             else {
                 //TODO: handle case ?
-                slogger.fatal( "Boolean: Don't kwown how to Component handle type:" + obj.getClass() );
-            }
+                LOGGER.fatal( "Boolean: Don't kwown how to Component handle type:" + obj.getClass() );
+                }
         }
     }
 
@@ -201,27 +201,27 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
             if( obj instanceof JTextComponent ) {
                 JTextComponent jtf = JTextComponent.class.cast( obj );
                 jtf.setText( iItemInteger.toString() );
-            }
+                }
             else if( obj instanceof JLabel ) {
                 JLabel c = JLabel.class.cast( obj );
                 c.setText( iItemInteger.toString() );
-            }
+                }
             else if( obj instanceof JComboBox ) {
                 JComboBox<?> c = JComboBox.class.cast( obj );
-                int index = iItemInteger - Integer.class.cast( iItem.getMinValue() );
+                int index = iItemInteger.intValue() - Integer.class.cast( iItem.getMinValue() ).intValue();
                 c.setSelectedIndex( index );
-            }
+                }
             else if( obj instanceof JSlider ) {
                 JSlider c = JSlider.class.cast( obj );
-                c.setValue( iItemInteger );
-            }
+                c.setValue( iItemInteger.intValue() );
+                }
             else if( obj instanceof JSpinner ) {
                 JSpinner c = JSpinner.class.cast( obj );
                 c.setValue( iItemInteger );
-            }
+                }
             else {
                 //TODO: handle case ?
-                slogger.fatal( "Integer: Don't kwown how to Component handle type:" + obj.getClass() );
-            }
+                LOGGER.fatal( "Integer: Don't kwown how to Component handle type:" + obj.getClass() );
+                }
         }
     }}

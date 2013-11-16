@@ -31,7 +31,7 @@ public class MyImpl implements MyInterface, Serializable, MyInterfaceSerializabl
         return a;
     }
 
-    final public void setA( int a )
+    public final void setA( int a )
     {
         this.a = a;
     }
@@ -60,8 +60,8 @@ public class MyImpl implements MyInterface, Serializable, MyInterfaceSerializabl
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + a;
-        result = prime * result + ((b == null) ? 0 : b.hashCode());
+        result = (prime * result) + a;
+        result = (prime * result) + ((b == null) ? 0 : b.hashCode());
         return result;
     }
 

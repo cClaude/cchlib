@@ -26,7 +26,11 @@ public abstract class LazyBatchRunnerApp
     implements  com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyBatchRunnable,
                 LazyBatchRunnerLocaleResources
 {
-    private final static Logger logger = Logger.getLogger( LazyBatchRunnerApp.class );
+    private static final Logger LOG = Logger.getLogger( LazyBatchRunnerApp.class );
+    /**
+     * @deprecated Use {@link #LOG} instead
+     */
+    private static final Logger logger = LOG;
     private DefaultBatchRunnerJFrame frame;
     protected final ResourceBundle resourceBundle;
     private final LazyBatchRunnerCustomJPanelFactory customJPanelFactory;
@@ -154,7 +158,7 @@ public abstract class LazyBatchRunnerApp
                     }
                 catch( Exception e ) {
                     final String message = getTextFrameTitle();
-                    logger.error( message, e );
+                    LOG.error( message, e );
                     DialogHelper.showMessageExceptionDialog( message, e );
                     }
             }

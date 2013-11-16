@@ -15,7 +15,7 @@ public interface EnvArc
      * @return variable value
      * @throws EnvArcException
      */
-    public abstract String getVar(String varname)
+    String getVar(String varname)
         throws EnvArcException;
 
     /**
@@ -26,7 +26,7 @@ public interface EnvArc
      * @throws EnvArcException
      * @throws UnsupportedOperationException
      */
-    public abstract void setVar(String varname, String varvalue)
+    void setVar(String varname, String varvalue)
         throws EnvArcException, UnsupportedOperationException;
 
     /**
@@ -36,7 +36,7 @@ public interface EnvArc
      * @throws EnvArcException
      * @throws UnsupportedOperationException
      */
-    public abstract void deleteVar(String varname)
+    void deleteVar(String varname)
         throws EnvArcException, UnsupportedOperationException;
 
     /**
@@ -46,6 +46,6 @@ public interface EnvArc
      * @throws EnvArcException
      * @throws UnsupportedOperationException
      */
-    public abstract Collection<String> getVarNameList()
+    Collection<String> getVarNameList()
         throws EnvArcException, UnsupportedOperationException;
 }

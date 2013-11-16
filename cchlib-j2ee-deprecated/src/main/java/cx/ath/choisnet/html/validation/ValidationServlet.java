@@ -1,6 +1,5 @@
 package cx.ath.choisnet.html.validation;
 
-import cx.ath.choisnet.io.HTMLWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import cx.ath.choisnet.html.HTMLDocumentException;
+import cx.ath.choisnet.io.HTMLWriter;
 
 public class ValidationServlet extends HttpServlet
 {
@@ -19,7 +19,7 @@ public class ValidationServlet extends HttpServlet
 
     @Override
     public void service(
-            HttpServletRequest request, 
+            HttpServletRequest request,
             HttpServletResponse response
             )
         throws IOException

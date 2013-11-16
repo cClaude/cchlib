@@ -27,7 +27,11 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger( BatchRunnerPanel.class );
+    private static final transient Logger LOG = Logger.getLogger( BatchRunnerPanel.class );
+    /**
+     * @deprecated Use {@link #LOG} instead
+     */
+    private static final transient Logger logger = LOG;
 
     private WaitingJFileChooserInitializer jFileChooserInitializer;
     private ActionListener myActionListener;
@@ -79,8 +83,8 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                                     break;
 
                                 default :
-                                    logger.warn( "Unknown event action command: " + c );
-                                    logger.warn( "Event : " + event );
+                                    LOG.warn( "Unknown event action command: " + c );
+                                    LOG.warn( "Event : " + event );
                                     break;
                                 }
                         }
@@ -143,7 +147,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                                 String.format( localeResources.getTextWorkingOn_FMT(), sourceFile.getPath() )
                                 );
 
-                        logger.info( "Working on " + sourceFile );
+                        LOG.info( "Working on " + sourceFile );
                         runTask( sourceFile, destinationFile );
                         }
                     setCurrentTaskNumber( i );
@@ -155,7 +159,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                     finalizeBath( true );
                     }
                 catch( Exception e ) {
-                    logger.fatal( "Unexpected error", e );
+                    LOG.fatal( "Unexpected error", e );
 
                     DialogHelper.showMessageExceptionDialog(
                         getTopLevelWindow(),
@@ -211,7 +215,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
             File[] files = jfc.getSelectedFiles();
 
             for( File f:files ) {
-                logger.info( "selected file:" + f );
+                LOG.info( "selected file:" + f );
                 addSourceFile( f );
                 }
             }
@@ -230,7 +234,7 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
         if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
             File file = jfc.getSelectedFile();
 
-            logger.info( "selected folder:" + file );
+            LOG.info( "selected folder:" + file );
             this.setDestinationFolderFile( file );
             }
     }

@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 public class SelectByRegExp extends SelectorPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger  = Logger.getLogger( SelectByRegExp.class );
+    private static final Logger LOGGER  = Logger.getLogger( SelectByRegExp.class );
 
     @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
@@ -141,7 +141,7 @@ public class SelectByRegExp extends SelectorPanel
 
         for( KeyFileState f : this.duplicateData.getListModelDuplicatesFiles().getAllDuplicates() ) {
             if( !f.isSelectedToDelete() ) {
-                logger.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
+                LOGGER.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
                 if( p.matcher( f.getFile().getPath() ).matches() ) {
                     if( keepOne ) {
                         String            k = f.getKey();
@@ -153,7 +153,7 @@ public class SelectByRegExp extends SelectorPanel
                                 c++;
                                 }
                             }
-                        logger.info( "count=" + c );
+                        LOGGER.info( "count=" + c );
                         if( c > 1 ) {
                             f.setSelectedToDelete( true );
                             }

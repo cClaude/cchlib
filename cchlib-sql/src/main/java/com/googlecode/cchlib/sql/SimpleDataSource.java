@@ -145,7 +145,7 @@ public class SimpleDataSource
         Connection  conn    = null;
         int         count   = 0;
 
-        while( conn == null || conn.isClosed() ) {
+        while( (conn == null) || conn.isClosed() ) {
             if( userPass == null ) {
                 conn = ds.getConnection();
                 }
@@ -153,7 +153,7 @@ public class SimpleDataSource
                 conn = ds.getConnection(userPass[0], userPass[1]);
                 }
 
-            if( conn.isClosed() && ++count > 10 ) {
+            if( conn.isClosed() && (++count > 10) ) {
                 throw new SQLException("can't getConnection() - connection is closed");
                 }
             }

@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.io.checksum;
 
 import java.io.BufferedInputStream;
@@ -19,9 +20,9 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
-public class MD5FilterInputStreamTest 
+public class MD5FilterInputStreamTest
 {
-    private final static Logger logger = Logger.getLogger( MD5FilterInputStreamTest.class );
+    private final static Logger LOGGER = Logger.getLogger( MD5FilterInputStreamTest.class );
     private MessageDigestFile mdf;
     private List<File> fileList;
     private byte[] buffer = new byte[ 1024 ];
@@ -37,7 +38,7 @@ public class MD5FilterInputStreamTest
     @Before
     public void setUp() throws Exception
     {
-        this.mdf        = new MessageDigestFile( "MD5" );        
+        this.mdf        = new MessageDigestFile( "MD5" );
         this.fileList   = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
     }
 
@@ -47,37 +48,37 @@ public class MD5FilterInputStreamTest
 
     @Test
     public void test() throws IOException
-    {        
+    {
         for( File f : fileList ) {
             try {
                 test( f );
                 }
             catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
-            }   
+            }
     }
-    
+
     private void test( File f ) throws FileNotFoundException, IOException
     {
         final String hashString1;
         final String hashString2;
-        
+
         {
             InputStream          is   = new BufferedInputStream( new FileInputStream( f ) );
             MD5FilterInputStream mfis = new MD5FilterInputStream( is );
-            
+
             while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
                 // do nothing !
                 }
             is.close();
             mfis.close();
-            
+
             hashString1 = mfis.getHashString().toUpperCase();
         }
         {
             byte[] digestKey = mdf.compute( f );
             hashString2 = MessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
         }
-        logger .info( "F:" + f + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
+        LOGGER.info( "F:" + f + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
         Assert.assertEquals( hashString2, hashString1 );
     }
 

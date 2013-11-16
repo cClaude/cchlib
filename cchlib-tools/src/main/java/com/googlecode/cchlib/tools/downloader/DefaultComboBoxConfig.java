@@ -7,13 +7,13 @@ import java.util.List;
  *
  */
 public class DefaultComboBoxConfig
-    implements GenericDownloaderAppInterface.ComboBoxConfig
+    implements GenericDownloaderAppComboBoxConfig
 {
     private String labelString;
     private int selectedIndex;
     private List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
 
-    private class Item implements GenericDownloaderUIPanelEntry.Item
+    private static class Item implements GenericDownloaderUIPanelEntry.Item
     {
         private String jComboBoxText;
         private String selectedDescription;

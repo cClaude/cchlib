@@ -22,7 +22,7 @@ public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {
     private static final long serialVersionUID = 2L;
-    private transient static final Logger logger = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
+    private static final transient Logger logger = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
     /** @serial */
     private File configFileProperties;
     /** @serial */

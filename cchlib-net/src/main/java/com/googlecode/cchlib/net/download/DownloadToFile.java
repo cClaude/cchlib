@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
@@ -15,7 +14,6 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  */
 public class DownloadToFile extends AbstractDownload
 {
-    //private final static transient Logger logger = Logger.getLogger( DownloadToFile.class );
     private DownloadFilterInputStreamBuilder downloadFilterBuilder;
 
     /**

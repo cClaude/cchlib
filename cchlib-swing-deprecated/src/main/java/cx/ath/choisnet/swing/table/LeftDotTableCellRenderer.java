@@ -39,25 +39,25 @@ public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
         availableWidth -= table.getIntercellSpacing().getWidth();
         Insets borderInsets = getBorder().getBorderInsets(/*(Component)*/this);
         availableWidth -= (borderInsets.left + borderInsets.right);
-        
-        final String 		cellText 	= getText();
-        final FontMetrics 	fm 			= getFontMetrics( getFont() );
-        final int 			dotWidth 	= fm.stringWidth( DOTS );
+
+        final String         cellText     = getText();
+        final FontMetrics    fm           = getFontMetrics( getFont() );
+        final int            dotWidth     = fm.stringWidth( DOTS );
 
         if( fm.stringWidth( cellText ) > availableWidth ) {
-            int textWidth 	= dotWidth;
-            int nChars 		= cellText.length() - 1;
-            
+            int textWidth     = dotWidth;
+            int nChars         = cellText.length() - 1;
+
             for(; nChars > 0; nChars--) {
                 textWidth += fm.charWidth(cellText.charAt(nChars));
 
                 if( textWidth > availableWidth ) {
                     break;
-                	}
-            	}
+                    }
+                }
 
             setText( DOTS + cellText.substring(nChars + 1) );
-        	}
+            }
 
         return this;
     }

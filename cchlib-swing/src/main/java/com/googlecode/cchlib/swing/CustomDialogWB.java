@@ -117,7 +117,7 @@ class CustomDialogWB extends JDialog
                 {
                     if( ACTION_CMD_COMPONENT.equals( e.getActionCommand() ) ) {
                         AbstractButton b = AbstractButton.class.cast( e.getSource() );
-                        selectedButtonIndex = Integer.class.cast( b.getClientProperty( CLIENT_PROPERTY_INDEX ) );
+                        selectedButtonIndex = Integer.class.cast( b.getClientProperty( CLIENT_PROPERTY_INDEX ) ).intValue();
 
                         closeDisposeDialog();
                         }

@@ -24,7 +24,7 @@ public class DefaultAutoI18nTypes implements AutoI18nTypes
     /**
      *
      */
-    public abstract class AbstractType<T> implements AutoI18nTypes.Type
+    public static abstract class AbstractType<T> implements AutoI18nTypes.Type
     {
         private static final long serialVersionUID = 1L;
 

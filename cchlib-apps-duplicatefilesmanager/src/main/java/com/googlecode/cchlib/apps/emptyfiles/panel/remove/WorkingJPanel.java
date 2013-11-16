@@ -1,31 +1,32 @@
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import javax.swing.JProgressBar;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import org.apache.log4j.Logger;
 
 @I18nName("emptyfiles.WorkingJPanel")
 public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( WorkingJPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( WorkingJPanel.class );
+
     private JTable table;
     private JTableColumnsAutoSizer autoSizer;
     private JPanel panel;
@@ -90,8 +91,8 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
                     @Override
                     public void tableChanged( TableModelEvent event )
                     {
-                        if( logger.isTraceEnabled() ) {
-                            logger.trace( "tableChanged :" + event.getSource() );
+                        if( LOGGER.isTraceEnabled() ) {
+                            LOGGER.trace( "tableChanged :" + event.getSource() );
                             }
 
                         //fixDisplay();

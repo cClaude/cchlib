@@ -1,14 +1,12 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream; // $codepro.audit.disable unnecessaryImport
 import java.nio.file.Files; // $codepro.audit.disable unnecessaryImport
 import java.nio.file.Path;
 import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,7 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.nio.file.FilterHelper; // $codepro.audit.disable unnecessaryImport
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -44,7 +41,7 @@ public class EmptyDirectoriesFinderTest
     public void tearDown()
     {
     }
-    
+
     @Test
     public void testFindDirNoCheckDebug()
     {
@@ -81,17 +78,17 @@ public class EmptyDirectoriesFinderTest
 
         {
             Set<Path> pathSet = filter.createPathSet();
-            
+
             logger.info( "filter.createPathSet().size() = " + pathSet.size() );
-            
+
             assertEquals( filter.getPathList().size(), pathSet.size() );
 
             for( Path p : filter.getPathList() ) {
                 logger.info( "p = " + p );
                 }
         }
-        
-        
+
+
         logger.info( "#################################" );
         logger.info( "testFindDir() - done" );
         logger.info( "NEWVersion getNewIsEmptyList()     = " + listener.getIsEmptyList().size() );
@@ -119,9 +116,9 @@ public class EmptyDirectoriesFinderTest
 //        = new com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup( rootDirs );
 //
 //        oldEmptyDirs.addListener( listener );
-//        
+//
 //        MyExcludeDirectoriesFilter filter = new MyExcludeDirectoriesFilter();
-//        
+//
 //        try {
 //            oldEmptyDirs.lookup( filter );
 //            }
@@ -148,20 +145,20 @@ public class EmptyDirectoriesFinderTest
 //        {
 //            Set<Path> pathSet = filter.createPathSet();
 //            Set<File> fileSet = filter.createFileSet();
-//            
+//
 //            logger.info( "filter.createPathSet().size() = " + pathSet.size() );
 //            logger.info( "filter.createFileSet().size() = " + fileSet.size() );
-//            
+//
 //            assertEquals( filter.getPathList().size(), pathSet.size() );
 //            assertEquals( filter.getFileList().size(), fileSet.size() );
-//            
-//            
+//
+//
 //            for( Path p : filter.getPathList() ) {
 //                logger.info( "p = " + p );
 //                }
 //        }
-//        
-//        
+//
+//
 //        logger.info( "#################################" );
 //        logger.info( "testFindDir() - done" );
 //        logger.info( "NEWVersion getNewIsEmptyList()     = " + listener.getNewIsEmptyList().size() );
@@ -169,8 +166,8 @@ public class EmptyDirectoriesFinderTest
 //        logger.info( "OLDVersion size= " + listener.getOldList().size() );
 //        logger.info( "#################################" );
 //
-//        
-//        
+//
+//
 //        assertEquals( "Sizes does not match", listener.getOldList().size(), listener.getNewIsEmptyList().size() );
 //
 //        Map<File,EmptyFolder> newVersionMap = new HashMap<>();
@@ -232,6 +229,6 @@ public class EmptyDirectoriesFinderTest
             logger.error( "IOException", e );
             }
     }
-    
+
     @Test public void testFake(){}
 }

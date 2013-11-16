@@ -6,22 +6,16 @@ public class IgnoreCaseExtensionsFileFilter extends AbstractExtensionsFileFilter
 {
     private static final long serialVersionUID = 1L;
 
-    public IgnoreCaseExtensionsFileFilter( String extension, String...others )
+    public IgnoreCaseExtensionsFileFilter( final String extension, final String...others )
     {
         super( extension, others );
-//        
-//        String[] endsWiths = getEndsWiths();
-//        
-//        for( int i = 0; i<getEndsWiths().length; i++ ) {
-//            endsWiths[ i ] = endsWiths[ i ].toLowerCase();
-//            }
     }
 
     @Override
-    public boolean accept( File file )
+    public boolean accept( final File file )
     {
         if( file.isFile() ) {
-            final String name = file.getName().toLowerCase();
+            final String name = file.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
             
             for( String endsWith : getEndsWiths() ) {
                 if( name.endsWith( endsWith ) ) {
@@ -34,8 +28,8 @@ public class IgnoreCaseExtensionsFileFilter extends AbstractExtensionsFileFilter
     }
 
     @Override
-    protected String customiseExtension( String extension )
+    protected String customiseExtension( final String extension )
     {
-        return "." + extension.toLowerCase();
+        return "." + extension.toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
     }
 }

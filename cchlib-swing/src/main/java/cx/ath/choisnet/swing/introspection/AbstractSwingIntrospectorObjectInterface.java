@@ -18,7 +18,7 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY extends IntrospectionItem<OBJECT>>
     implements SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
 {
-    private static Logger slogger = Logger.getLogger(AbstractSwingIntrospectorObjectInterface.class);
+    private static Logger LOGGER = Logger.getLogger(AbstractSwingIntrospectorObjectInterface.class);
 
     private Class<FRAME> frameClass;
     private Introspection<OBJECT,OBJECT_ENTRY> introspection;
@@ -109,7 +109,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
                 }
                 else {
                     // TODO some exception !!
-                    slogger.fatal( "*** Not InspectionItem for: " + beanname );
+                    LOGGER.fatal( "*** Not InspectionItem for: " + beanname );
                 }
             }
 

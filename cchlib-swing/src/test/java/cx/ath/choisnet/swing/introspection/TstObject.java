@@ -14,27 +14,27 @@ import cx.ath.choisnet.lang.introspection.method.IVInt;
 class TstObject implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private Random rand = new Random();
+    private Random rand = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
 
     private boolean         testBoolean;
     private int             testIntegerJComboBox;
-    public final static int testIntegerJComboBoxMin = 10;
-    public final static int testIntegerJComboBoxDef = 15;
-    public final static int testIntegerJComboBoxMax = 20;
+    public static final int testIntegerJComboBoxMin = 10;
+    public static final int testIntegerJComboBoxDef = 15;
+    public static final int testIntegerJComboBoxMax = 20;
     private String          testFMTString;
     private int             testIntegerJSlider;
-    public final static int testIntegerJSliderMin = 20;
-    public final static int testIntegerJSliderDef = 25;
-    public final static int testIntegerJSliderMax = 30;
+    public static final int testIntegerJSliderMin = 20;
+    public static final int testIntegerJSliderDef = 25;
+    public static final int testIntegerJSliderMax = 30;
     private String          testString;
     private int             testIntegerLimitedIntegerJTextField;
-    public final static int testIntegerLimitedIntegerJTextFieldMin = 30;
-    public final static int testIntegerLimitedIntegerJTextFieldDef = 35;
-    public final static int testIntegerLimitedIntegerJTextFieldMax = 40;
+    public static final int testIntegerLimitedIntegerJTextFieldMin = 30;
+    public static final int testIntegerLimitedIntegerJTextFieldDef = 35;
+    public static final int testIntegerLimitedIntegerJTextFieldMax = 40;
     private int             testIntegerJSpinner;
-    public final static int testIntegerJSpinnerMin = 40;
-    public final static int testIntegerJSpinnerDef = 45;
-    public final static int testIntegerJSpinnerMax = 50;
+    public static final int testIntegerJSpinnerMin = 40;
+    public static final int testIntegerJSpinnerDef = 45;
+    public static final int testIntegerJSpinnerMax = 50;
 
     public TstObject()
     {
@@ -129,7 +129,7 @@ class TstObject implements Serializable
     @IVIgnore
     private int getRandom(int min,int max)
     {
-       return rand.nextInt( max - min + 1 ) + min;
+       return rand.nextInt( (max - min) + 1 ) + min;
     }
 
     @IVIgnore

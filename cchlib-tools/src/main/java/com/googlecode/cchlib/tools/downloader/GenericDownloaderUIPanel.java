@@ -103,7 +103,7 @@ public class GenericDownloaderUIPanel
 
         int lineNumber = 0;
         // $hide>>$
-        for( final GenericDownloaderAppInterface.ComboBoxConfig entry : config.getComboBoxConfigCollection() )
+        for( final GenericDownloaderAppComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
             final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( new ActionListener() {
@@ -183,7 +183,7 @@ public class GenericDownloaderUIPanel
         } // for(...)*/
 
         // $hide>>$
-        final GenericDownloaderAppInterface.Button button = config.getButtonConfig();
+        final GenericDownloaderAppButton button = config.getButtonConfig();
         if( button != null )
         // $hide<<$
         {

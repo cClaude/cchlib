@@ -1,3 +1,4 @@
+// $codepro.audit.disable deleteTemporaryFiles
 package com.googlecode.cchlib.io;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class FileRollingOutputStreamTest
         os.write( BUFFER, BUFFER_OFFSET, LEN );
         l += LEN;
         Assert.assertEquals( assertMsgPrefix, l, os.length() );
- 
+
         os.flush();
 
         logger.info(

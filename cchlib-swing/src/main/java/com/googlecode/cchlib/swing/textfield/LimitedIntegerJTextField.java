@@ -14,7 +14,7 @@ import javax.swing.text.DocumentFilter;
 public class LimitedIntegerJTextField extends JTextField
 {
     private static final long serialVersionUID = 1L;
-    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(LimitedIntegerJTextField.class);
+    private static org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(LimitedIntegerJTextField.class);
 
     /** @serial */
     private int maxValue;
@@ -99,7 +99,7 @@ public class LimitedIntegerJTextField extends JTextField
             // greater than maxValue or negative
             }
             catch( NumberFormatException e ) {
-                logger.warn( "set new value error - restore to last valid value", e );
+                LOGGER.warn( "set new value error - restore to last valid value", e );
                 // No more and Integer, out of range !
             }
 
@@ -184,8 +184,8 @@ public class LimitedIntegerJTextField extends JTextField
             }
         catch( NumberFormatException ignore ) {
             // continue
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "Text: " + super.getText(), ignore );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "Text: " + super.getText(), ignore );
                 }
             }
 

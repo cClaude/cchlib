@@ -122,7 +122,7 @@ public class SimpleQuery
 
     /**
      * Free all resources
-     * @throws SQLException 
+     * @throws SQLException
      */
     protected void closeConnection() throws SQLException
     {
@@ -133,25 +133,25 @@ public class SimpleQuery
             privateCloseConnection();
             }
     }
-    
+
     private void privateCloseStatement() throws SQLException
     {
         if( stmt != null ) {
-            try { 
-                stmt.close(); 
-                } 
+            try {
+                stmt.close();
+                }
             finally {
                 stmt = null;
                 }
             }
     }
-    
+
     private void privateCloseConnection() throws SQLException
     {
         if( conn != null ) {
-            try { 
-                conn.close(); 
-                } 
+            try {
+                conn.close();
+                }
             finally {
                 conn = null;
                 }
@@ -183,7 +183,7 @@ public class SimpleQuery
     }
 
     @Override
-    protected void finalize() throws Throwable
+    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         closeConnection();
 

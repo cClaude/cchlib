@@ -28,7 +28,7 @@ public final class Tools
      * @see HttpServletRequest#getParameter(String)
      * @see #getParameterValues(HttpServletRequest, String)
      */
-    public final static String getParameter(
+    public static final String getParameter(
             final HttpServletRequest request,
             final String             name
             )
@@ -52,7 +52,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if the value is not an integer
      */
-    public final static int getIntParameter(
+    public static final int getIntParameter(
             final HttpServletRequest request,
             final String             name
             )
@@ -80,7 +80,7 @@ public final class Tools
      * @see HttpServletRequest#getParameter(String)
      * @see #getParameter(HttpServletRequest, String)
      */
-    public final static String[] getParameterValues(
+    public static final String[] getParameterValues(
             final HttpServletRequest request,
             final String             name
             )
@@ -105,7 +105,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if at least one value is not an integer
      */
-    public final static int[] getIntParameterValues(
+    public static final int[] getIntParameterValues(
             final HttpServletRequest request,
             final String             name
             )
@@ -125,7 +125,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException
      * @throws RequestParameterNumberFormatException
      */
-    public final static int getIntAttributeOrParameter(
+    public static final int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name
             )
@@ -159,7 +159,7 @@ public final class Tools
      * @param defaultValue
      * @return TODOC
      */
-    public final static int getIntAttributeOrParameter(
+    public static final int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name,
             final int                defaultValue

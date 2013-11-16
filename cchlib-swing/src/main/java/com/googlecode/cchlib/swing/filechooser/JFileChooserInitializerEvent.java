@@ -10,5 +10,5 @@ public interface JFileChooserInitializerEvent
     /**
      * @return true when JFileChooser has been initialized
      */
-    public boolean isJFileChooserReady();
+    boolean isJFileChooserReady();
 }

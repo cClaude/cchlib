@@ -20,10 +20,10 @@ import org.apache.log4j.Logger;
  */
 public class DefaultHexEditorModel implements HexEditorModel
 {
-    private final static Logger logger = Logger.getLogger( DefaultHexEditorModel.class );
-    private final static Font customFont=new Font("Monospaced",0,12);
-    private final static int BORDER_DEFAULT = 2;
-    private final static int border = BORDER_DEFAULT;
+    private static final Logger logger = Logger.getLogger( DefaultHexEditorModel.class );
+    private static final Font customFont=new Font("Monospaced",0,12);
+    private static final int BORDER_DEFAULT = 2;
+    private static final int border = BORDER_DEFAULT;
     private JComponent rootComponent;
     private int displayLinesCount = 10;
     private int introduction;// inicio
@@ -86,7 +86,7 @@ public class DefaultHexEditorModel implements HexEditorModel
         if(n<introduction) {
             introduction=n;
             }
-        else if(n>=introduction+displayLinesCount) {
+        else if(n>=(introduction+displayLinesCount)) {
             introduction=n-(displayLinesCount-1);
             }
 
@@ -256,7 +256,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     {
         introduction += (event.getUnitsToScroll());
 
-        if( (introduction + displayLinesCount ) >= arrayAccess.getLength()/16 ) {
+        if( (introduction + displayLinesCount ) >= (arrayAccess.getLength()/16) ) {
             introduction=(arrayAccess.getLength()/16)-displayLinesCount;
             }
 

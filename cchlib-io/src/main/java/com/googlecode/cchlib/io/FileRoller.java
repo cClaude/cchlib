@@ -13,5 +13,5 @@ public interface FileRoller
      * Returns new {@link File} object for next file
      * @return a new {@link File} object for next file
      */
-    public File createNewRollFile();
+    File createNewRollFile();
 }

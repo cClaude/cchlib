@@ -14,18 +14,18 @@ import org.apache.log4j.Logger;
  */
 class DefaultDirectoryFilter implements FileFilter
 {
-    private final static Logger logger = Logger.getLogger( DefaultDirectoryFilter.class );
+    private static final Logger logger = Logger.getLogger( DefaultDirectoryFilter.class );
     private final FileResultFormater    frf = new FileResultFormater();
     private final Writer                writerIgnore;
 
     //
     // Full path matching
     //
-    private final static String[] DIR_PATH_TO_IGNORE_FROM_ENV = {
+    private static final String[] DIR_PATH_TO_IGNORE_FROM_ENV = {
             "ProgramFiles",     // Typically C:\Program Files
             "SystemRoot"        // Typically C:\WINDOWS
             };
-    private final static String[] DIR_PATH_TO_IGNORE = {
+    private static final String[] DIR_PATH_TO_IGNORE = {
             };
     /** Exclude directory matching with this full path */
     private final String[] dirPathToIgnore;
@@ -82,7 +82,7 @@ class DefaultDirectoryFilter implements FileFilter
     //
     // Full path RegExp matching
     //
-    private final static String[] PATH_REGEXP_TO_IGNORE = {
+    private static final String[] PATH_REGEXP_TO_IGNORE = {
         ".:\\\\System Volume Information", // NTFS/FAT32 (under root)
         ".:\\\\Recycler", // NTFS (under root)
         ".:\\\\Recycled", // FAT32 (under root)
@@ -98,7 +98,7 @@ class DefaultDirectoryFilter implements FileFilter
     //
     // Name matching
     //
-    private final static String[] DIR_NAME_TO_IGNORE = {
+    private static final String[] DIR_NAME_TO_IGNORE = {
         // Windows
         "temporary internet files",
 
@@ -119,7 +119,7 @@ class DefaultDirectoryFilter implements FileFilter
     //
     // Name RegExp matching
     //
-    private final static String[] NAME_REX_EXP_TO_IGNORE = {
+    private static final String[] NAME_REX_EXP_TO_IGNORE = {
         "apache-tomcat-.*",
         "apache-ant-.*,"
         };

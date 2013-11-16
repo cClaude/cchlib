@@ -18,7 +18,7 @@ public interface DigestFileCollector
      * to this unique Id.
      * @return Map
      */
-    public Map<String,Set<File>> getFiles();
+    Map<String,Set<File>> getFiles();
 
     /**
      * Remove duplicate files in collection, and
@@ -30,7 +30,7 @@ public interface DigestFileCollector
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
-    public int removeDuplicate()
+    int removeDuplicate()
         throws UnsupportedOperationException;
 
     /**
@@ -43,14 +43,14 @@ public interface DigestFileCollector
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
-    public int removeNonDuplicate()
+    int removeNonDuplicate()
         throws UnsupportedOperationException;
 
     /**
      * Removes all of the mappings. The map will
      * be empty after this call returns.
      */
-    public void clear();
+    void clear();
 
     /**
      * Return count of Set that contain more than
@@ -59,7 +59,7 @@ public interface DigestFileCollector
      * @return count of Set that contain more than
      * on file.
      */
-    public int getDuplicateSetsCount();
+    int getDuplicateSetsCount();
 
     /**
      * Return count of File in a Set that contain
@@ -68,19 +68,19 @@ public interface DigestFileCollector
      * @return count of File in a Set that contain
      * more than on file
      */
-    public int getDuplicateFilesCount();
+    int getDuplicateFilesCount();
 
     /**
      * Add a DigestEventListener to this DigestFileCollector
      *
      * @param listener the listener to add
      */
-    public void addDigestEventListener(DigestEventListener listener);
+    void addDigestEventListener(DigestEventListener listener);
 
     /**
      * Remove a DigestEventListener to this DigestFileCollector
      *
      * @param listener the listener to remove
      */
-    public void removeDigestEventListener(DigestEventListener listener);
+    void removeDigestEventListener(DigestEventListener listener);
     }

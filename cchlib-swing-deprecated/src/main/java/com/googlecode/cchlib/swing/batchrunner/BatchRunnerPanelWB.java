@@ -1,23 +1,24 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.swing.batchrunner;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException; // $codepro.audit.disable unnecessaryImport
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.batchrunner.lazy.DefaultBatchRunnerJFrame;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
@@ -34,7 +35,7 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 public abstract class BatchRunnerPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( BatchRunnerPanelWB.class );
+    private static final Logger LOG = Logger.getLogger( BatchRunnerPanelWB.class );
     public static final String ACTIONCMD_SELECT_SOURCE_FILES = "ACTIONCMD_SELECT_SOURCE_FILES";
     public static final String ACTIONCMD_SELECT_DESTINATION_FOLDER = "ACTIONCMD_SELECT_DESTINATION_FOLDER";
     public static final String ACTIONCMD_DO_ACTION = "ACTIONCMD_DO_ACTION";
@@ -109,7 +110,7 @@ public abstract class BatchRunnerPanelWB extends JPanel
                     } ).addDropTargetListener();
                 }
             catch( HeadlessException | TooManyListenersException e ) {
-                logger.error( "No Drag and Drop support", e );
+                LOG.error( "No Drag and Drop support", e );
                 }
             // $hide<<$
         }

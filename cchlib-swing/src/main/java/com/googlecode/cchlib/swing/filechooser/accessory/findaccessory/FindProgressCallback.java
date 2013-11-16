@@ -14,5 +14,5 @@ interface FindProgressCallback
         @param total maximum value
         @return true if search should continue, false to abort
     */
-    public boolean reportProgress( FindFilter filter, File file, long current, long total);
+    boolean reportProgress( FindFilter filter, File file, long current, long total);
 }

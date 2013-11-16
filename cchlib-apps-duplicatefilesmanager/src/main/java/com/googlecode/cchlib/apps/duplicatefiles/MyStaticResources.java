@@ -1,3 +1,4 @@
+// $codepro.audit.disable staticFieldNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.Icon;

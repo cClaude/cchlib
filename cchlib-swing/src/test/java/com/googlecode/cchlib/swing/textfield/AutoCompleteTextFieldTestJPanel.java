@@ -49,7 +49,7 @@ public class AutoCompleteTextFieldTestJPanel extends JPanel
 
     public interface Params
     {
-        public List<String> getDataList();
+        List<String> getDataList();
     }
     /**
      * Create the panel.

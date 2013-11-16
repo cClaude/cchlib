@@ -4,7 +4,7 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 
 public interface XFileFilter extends SerializableFileFilter
 {
-    public String toDisplay();
-    public FileType getFileType();
-    public void setFileType( FileType fileType );
+    String toDisplay();
+    FileType getFileType();
+    void setFileType( FileType fileType );
 }

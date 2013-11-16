@@ -25,7 +25,7 @@ public class DownloadI_www_gifgirl_org
     extends AbstractDownloaderAppInterface
 {
 	private static final long serialVersionUID = 1L;
-	private final static String URL_PATTERN
+	private static final String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
     private static final String SITE_NAME = "www.gifgirl.org";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 50; // FIXME
@@ -37,8 +37,8 @@ public class DownloadI_www_gifgirl_org
         // int:start
         // String(boolean):sort?
         //="http://www.gifgirl.org/search?updated-max=2012-05-29T23:59:00-05:00&max-results=4&start=44&by-date=false";
-    private ComboBoxConfig configMaxResults;
-    private ComboBoxConfig configStart;
+    private GenericDownloaderAppComboBoxConfig configMaxResults;
+    private GenericDownloaderAppComboBoxConfig configStart;
     private final Map<String, String> requestPropertyMap;
 
     /**
@@ -64,7 +64,7 @@ public class DownloadI_www_gifgirl_org
                 99,             // max
                 "'start' parameter value" // labelStrings
                 );
-        ComboBoxConfig config2 = new DefaultComboBoxConfig(
+        GenericDownloaderAppComboBoxConfig config2 = new DefaultComboBoxConfig(
                 "labelString",  //labelString
                 new String[]{ "A" }, // comboBoxValues
                 new String[]{ "a" }  // labelStrings
@@ -213,7 +213,7 @@ public class DownloadI_www_gifgirl_org
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }

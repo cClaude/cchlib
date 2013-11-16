@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.swing.batchrunner.lazy;
 
 import java.awt.BorderLayout;

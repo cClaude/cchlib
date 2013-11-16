@@ -36,7 +36,7 @@ public final class StreamHelper
             int len;
 
             while((len = is.read(buffer)) != -1) {
-                sb.append(new String(buffer, 0, len));
+                sb.append(new String(buffer, 0, len)); // $codepro.audit.disable avoidInstantiationInLoops
             }
         }
         finally {

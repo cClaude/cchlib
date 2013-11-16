@@ -13,11 +13,11 @@ public interface ZipListener
      * Invoke before compressing zipEntry
      * @param zipEntry that will be compress
      */
-    public void entryPostProcessing( ZipEntry zipEntry );
+    void entryPostProcessing( ZipEntry zipEntry );
 
     /**
      * Invoke after having compress zipEntry
      * @param zipEntry that has been compress
      */
-    public void entryAdded( ZipEntry zipEntry );
+    void entryAdded( ZipEntry zipEntry );
 }

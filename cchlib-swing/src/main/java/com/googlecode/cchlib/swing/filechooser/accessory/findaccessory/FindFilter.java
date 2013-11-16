@@ -12,5 +12,5 @@ import java.io.File;
  * */
 interface FindFilter
 {
-    public boolean accept( File f, FindProgressCallback monitor );
+    boolean accept( File f, FindProgressCallback monitor );
 }

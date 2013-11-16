@@ -12,17 +12,17 @@ public interface ContactPropertiesBuilder
      *
      * @return TODOC
      */
-    public Collection<? extends String> getNames();
+    Collection<? extends String> getNames();
 
     /**
      *
      * @return TODOC
      */
-    public Collection<? extends ContactValueType> getTypes();
+    Collection<? extends ContactValueType> getTypes();
 
     /**
      *
      * @return TODOC
      */
-    public Collection<? extends String> getDefaultValues();
+    Collection<? extends String> getDefaultValues();
 }

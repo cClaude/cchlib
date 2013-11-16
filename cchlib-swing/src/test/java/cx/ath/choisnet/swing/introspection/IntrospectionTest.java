@@ -15,14 +15,14 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
  */
 public class IntrospectionTest
 {
-    private static Logger slogger = Logger.getLogger(IntrospectionTest.class);
+    private static Logger LOGGER = Logger.getLogger(IntrospectionTest.class);
     private TstFrame tstFrame;
     private SwingIntrospector<TstFrame, TstObject, DefaultIntrospectionItem<TstObject>> swingIntrospector;
 
     @Before
     public void setUp() throws Exception
     {
-        slogger.info( "-- setUp()" );
+        LOGGER.info( "-- setUp()" );
         
         this.tstFrame = new TstFrame();
         this.swingIntrospector = tstFrame.getSwingIntrospector();
@@ -31,7 +31,7 @@ public class IntrospectionTest
     @Test
     public void test_SwingIntrospector()
     {
-        slogger.info( "-- test_SwingIntrospector()" );
+        LOGGER.info( "-- test_SwingIntrospector()" );
         Map<String, SwingIntrospectorRootItem<TstFrame>> map = this.swingIntrospector.getItemMap();
 
         Assert.assertEquals("Bad SwingIntrospectorRootItem count !", 7, map.size());
@@ -44,7 +44,7 @@ public class IntrospectionTest
         throws  SwingIntrospectorIllegalAccessException,
                 SwingIntrospectorException
     {
-        slogger.info( "-- test_initComponentsWithException()" );
+        LOGGER.info( "-- test_initComponentsWithException()" );
         tstFrame.initComponentsWithException();
         //TODO: need some extra check !
     }
@@ -55,13 +55,13 @@ public class IntrospectionTest
                 IntrospectionException,
                 ParseException
     {
-        slogger.info( "-- test_populateObject()" );
+        LOGGER.info( "-- test_populateObject()" );
         tstFrame.initComponentsWithException();
 
         tstFrame.randomObject();
-        slogger.info( "RND :" + tstFrame.getTstObject() );
+        LOGGER.info( "RND :" + tstFrame.getTstObject() );
         tstFrame.populateObject();
-        slogger.info( "F=>O:" + tstFrame.getTstObject() );
+        LOGGER.info( "F=>O:" + tstFrame.getTstObject() );
 
         //need some extra check ?
         compareFrameObject( tstFrame );
@@ -73,13 +73,13 @@ public class IntrospectionTest
                 SwingIntrospectorException,
                 ParseException
     {
-        slogger.info( "-- test_populateFrame()" );
+        LOGGER.info( "-- test_populateFrame()" );
         tstFrame.initComponentsWithException();
 
         tstFrame.randomObject();
-        slogger.info( "RND :" + tstFrame.getTstObject() );
+        LOGGER.info( "RND :" + tstFrame.getTstObject() );
         tstFrame.populateFrame();
-        slogger.info( "O=>F" );
+        LOGGER.info( "O=>F" );
 
         //need some extra check ?
         compareFrameObject( tstFrame );

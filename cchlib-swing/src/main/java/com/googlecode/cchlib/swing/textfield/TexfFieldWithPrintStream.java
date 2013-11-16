@@ -124,13 +124,13 @@ public class TexfFieldWithPrintStream extends JTextArea
     {
         super.setText( str );
 
-        totalLength = str == null ? 0 : str.length();
+        totalLength = (str == null) ? 0 : str.length();
     }
 
     public AbstractAction getClearAction()
     {
         if( actionClear == null ) {
-            actionClear = new actionClearClass();
+            actionClear = new ActionClearClass();
             }
 
         return actionClear;
@@ -220,7 +220,7 @@ public class TexfFieldWithPrintStream extends JTextArea
         }
     }
 
-    private class actionClearClass extends AbstractAction
+    private class ActionClearClass extends AbstractAction
     {
         private static final long serialVersionUID = 1L;
 

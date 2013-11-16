@@ -5,8 +5,10 @@ import java.io.Serializable;
 import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The class <code>SystemEnvironmentVarTest</code> contains tests for the class <code>{@link SystemEnvironmentVar}</code>.
@@ -15,20 +17,20 @@ import static org.junit.Assert.*;
  */
 public class SystemEnvironmentVarTest
 {
-    private final static Logger logger = Logger.getLogger( SystemEnvironmentVarTest.class );
+    private static final Logger LOGGER = Logger.getLogger( SystemEnvironmentVarTest.class );
     private SystemEnvironmentVar javaSysEnv;
 
     private static void logStrings( Iterable<String> iter )
     {
         for( String name : iter ) {
-            logger.info( "name = " + name );
+            LOGGER.info( "name = " + name );
             }
     }
 
     private static void logSerializable( Iterable<Serializable> iter )
     {
         for( Serializable serializable : iter ) {
-            logger.info( "serializable = " + serializable.toString() + " = " + serializable );
+            LOGGER.info( "serializable = " + serializable.toString() + " = " + serializable );
             }
      }
 
@@ -50,8 +52,8 @@ public class SystemEnvironmentVarTest
 
         logStrings( iter );
 
-        assertTrue( true ); // No exception !
-        logger.info( "done" );
+        Assert.assertTrue( true ); // No exception !
+        LOGGER.info( "done" );
     }
 
     @Test
@@ -86,7 +88,7 @@ public class SystemEnvironmentVarTest
         String nValue2 = javaSysEnv.getVar( name );
         Assertions.assertThat( nValue2 ).isNull();
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 
     @Test
@@ -96,8 +98,8 @@ public class SystemEnvironmentVarTest
 
         logSerializable( iter );
 
-        assertTrue( true ); // No exception !
-        logger.info( "done" );
+        Assert.assertTrue( true ); // No exception !
+        LOGGER.info( "done" );
     }
 
     @Test
@@ -132,7 +134,7 @@ public class SystemEnvironmentVarTest
         Serializable nValue2 = javaSysEnv.getVarObject( key );
         Assertions.assertThat( nValue2 ).isNull();
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
     
     @Test
@@ -166,7 +168,7 @@ public class SystemEnvironmentVarTest
         Serializable nValue2 = javaSysEnv.getVarObject( key );
         Assertions.assertThat( nValue2 ).isNull();
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 
     /**

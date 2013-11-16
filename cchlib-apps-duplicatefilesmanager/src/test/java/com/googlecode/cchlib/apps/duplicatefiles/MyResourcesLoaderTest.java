@@ -3,8 +3,8 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import org.fest.assertions.Assertions;
 import org.apache.log4j.Logger;
+import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import com.googlecode.cchlib.lang.reflect.Methods;
 
 public class MyResourcesLoaderTest
 {
-    private static final Logger logger = Logger.getLogger( MyResourcesLoaderTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MyResourcesLoaderTest.class );
 
     private List<Method> methodList;
 
@@ -49,13 +49,13 @@ public class MyResourcesLoaderTest
         for( Method m : methods ) {
             Object result = m.invoke( resources, (Object[])null );
 
-            logger.info( "getResources() - m: " + m + " => " + result );
+            LOGGER.info( "getResources() - m: " + m + " => " + result );
 
             // add additional test code here
             Assertions.assertThat( result ).isNotNull();
             }
 
-        logger.info( "All resources found" );
+        LOGGER.info( "All resources found" );
     }
 
     @Test
@@ -64,7 +64,7 @@ public class MyResourcesLoaderTest
         for( Method m : methodList ) {
             Object result = m.invoke( null, Objects.emptyArray() );
 
-            logger.info( "m: " + m + " => " + result );
+            LOGGER.info( "m: " + m + " => " + result );
 
             // add additional test code here
             Assertions.assertThat( result ).isNotNull();

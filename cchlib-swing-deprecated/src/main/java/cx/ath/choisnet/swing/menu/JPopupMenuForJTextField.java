@@ -33,8 +33,7 @@ public abstract class JPopupMenuForJTextField
      * Returns {@link JTextField} for this menu
      * @return {@link JTextField} for this menu
      */
-    final
-    protected JTextField getJTextField()
+    protected final JTextField getJTextField()
     {
         return this.jTextField;
     }
@@ -43,8 +42,7 @@ public abstract class JPopupMenuForJTextField
      * Returns value from Model
      * @return value from Model
      */
-    final
-    protected String getValue()
+    protected final String getValue()
     {
         return this.jTextField.getText();
     }
@@ -55,8 +53,7 @@ public abstract class JPopupMenuForJTextField
      *
      * @param aValue the new value
      */
-    final
-    protected void setValue( final String aValue )
+    protected final void setValue( final String aValue )
     {
         this.jTextField.setText( aValue );
     }
@@ -77,8 +74,8 @@ public abstract class JPopupMenuForJTextField
             JPopupMenu contextMenu = createContextMenu();
 
             // ... and show it
-            if( contextMenu != null
-                    && contextMenu.getComponentCount() > 0 ) {
+            if( (contextMenu != null)
+                    && (contextMenu.getComponentCount() > 0) ) {
                 contextMenu.show( jTextField, p.x, p.y );
                 }
             }
@@ -121,8 +118,7 @@ public abstract class JPopupMenuForJTextField
      * @param textForCopy
      * @return TODOC
      */
-    final
-    public JMenuItem addCopyMenuItem(
+    public final JMenuItem addCopyMenuItem(
         final JPopupMenu contextMenu,
         final String     textForCopy
         )
@@ -140,8 +136,7 @@ public abstract class JPopupMenuForJTextField
      * @param textForCopy
      * @return TODOC
      */
-    final
-    protected JMenuItem buildCopyJMenuItem( final String textForCopy )
+    protected final JMenuItem buildCopyJMenuItem( final String textForCopy )
     {
         JMenuItem m = new JMenuItem(textForCopy);
         m.addActionListener(
@@ -156,8 +151,7 @@ public abstract class JPopupMenuForJTextField
      *
      * @return an ActionListener
      */
-    final
-    protected ActionListener copyActionListener()
+    protected final ActionListener copyActionListener()
     {
         return new ActionListener()
         {
@@ -165,7 +159,7 @@ public abstract class JPopupMenuForJTextField
             public void actionPerformed( ActionEvent e )
             {
                 String value = getValue();
-                setClipboardContents( value == null ? "" : value );
+                setClipboardContents( (value == null) ? "" : value );
             }
         };
     }
@@ -185,8 +179,7 @@ public abstract class JPopupMenuForJTextField
      * @param contextMenu
      * @return TODOC
      */
-    final
-    protected JMenuItem addPasteMenuItem(
+    protected final JMenuItem addPasteMenuItem(
         final JPopupMenu contextMenu,
         final String     textForPaste
         )

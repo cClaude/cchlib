@@ -38,7 +38,7 @@ public abstract class AbstractI18nResourceAutoUpdate
         ADD_ONLY_NEEDED_KEY
         };
 
-    private transient static Logger slogger = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
+    private static transient Logger LOGGER = Logger.getLogger(AbstractI18nResourceAutoUpdate.class);
     /** @serial */
     private HashMap<String,String> keysValues = new HashMap<String,String>();
     /** @serial */
@@ -315,7 +315,7 @@ public abstract class AbstractI18nResourceAutoUpdate
             loadKnowValue();
             }
 
-        slogger.info( "Entries to add count: " + keysValues.size() );
+        LOGGER.info( "Entries to add count: " + keysValues.size() );
 
         saveValues();
 

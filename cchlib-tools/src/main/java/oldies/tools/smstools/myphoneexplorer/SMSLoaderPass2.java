@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  */
 public class SMSLoaderPass2 
 {
-    private final static Logger slogger = Logger.getLogger(SMSLoaderPass2.class);
+    private static final Logger slogger = Logger.getLogger(SMSLoaderPass2.class);
 
     private SMSLoaderPass2()
     {

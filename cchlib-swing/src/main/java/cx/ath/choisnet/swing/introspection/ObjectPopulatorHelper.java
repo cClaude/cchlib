@@ -104,17 +104,17 @@ public class ObjectPopulatorHelper
         if( fieldObject instanceof LimitedIntegerJTextField ) {
             LimitedIntegerJTextField f = LimitedIntegerJTextField.class.cast( fieldObject );
             value = new Integer( f.getValue() );
-        	}
+            }
         else if( fieldObject instanceof JFormattedTextField ) {
             JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
             //TODO: did not work !!!!!!
 
             try {
                 f.commitEdit();
-            	}
+                }
             catch( ParseException e ) {
                 throw new SwingIntrospectorParseException( e );
-            	}
+                }
             value = f.getValue();
         }
         else if( fieldObject instanceof JCheckBox ) {
@@ -129,7 +129,7 @@ public class ObjectPopulatorHelper
 
             if( min instanceof Integer ) {
                 // Value should be modify if (min != 0)
-                index += Integer.class.cast( min );
+                index += Integer.class.cast( min ).intValue();
             }
 
             value = new Integer( index );

@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class SMSLoaderPass1
 {
-    private final static Logger slogger = Logger.getLogger(SMSLoaderPass1.class);
+    private static final Logger slogger = Logger.getLogger(SMSLoaderPass1.class);
 
     private SMSLoaderPass1()
     {

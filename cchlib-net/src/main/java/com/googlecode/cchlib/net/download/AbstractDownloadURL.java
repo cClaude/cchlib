@@ -24,6 +24,7 @@ public abstract class AbstractDownloadURL
     private static final long serialVersionUID = 2L;
     private static final transient Logger logger = Logger.getLogger( AbstractDownloadURL.class );
 
+    private       URI                   uri;
     private       URL                   url;
     private final Map<String,String>    requestPropertyMap;
     private final Proxy                 proxy;
@@ -44,11 +45,8 @@ public abstract class AbstractDownloadURL
         final Proxy                 proxy
         ) throws URISyntaxException // $codepro.audit.disable unnecessaryExceptions
     {
-        if( url == null ) {
-            throw new NullPointerException();
-            }
+        setURL( url );
 
-        this.url                = url;
         this.requestPropertyMap = requestPropertyMap;
         this.proxy              = proxy;
     }
@@ -72,7 +70,8 @@ public abstract class AbstractDownloadURL
         final Proxy                 proxy
         ) throws MalformedURLException
     {
-        this.url                = uri.toURL();
+        setURI( uri );
+
         this.requestPropertyMap = requestPropertyMap;
         this.proxy              = proxy;
     }
@@ -81,19 +80,45 @@ public abstract class AbstractDownloadURL
      * Set the url.
      *
      * @param url {@link URL} to set
+     * @throws URISyntaxException
      * @throws NullPointerException if url is null
      */
-    protected void setURL( final URL url )
+    final protected void setURL( final URL url ) throws URISyntaxException
     {
         if( url == null ) {
             throw new NullPointerException();
             }
 
         this.url = url;
+        this.uri = url.toURI();
+    }
+
+    /**
+     * Set the uri.
+     *
+     * @param uri {@link URI} to set
+     * @throws MalformedURLException
+     *
+     * @throws NullPointerException if uri is null
+     */
+    final protected void setURI( final URI uri ) throws MalformedURLException
+    {
+        if( uri == null ) {
+            throw new NullPointerException();
+            }
+
+        this.uri = uri;
+        this.url = uri.toURL();
     }
 
     @Override
-    public URL getURL()
+    final public URI getURI()
+    {
+        return uri;
+    }
+
+    @Override
+    final public URL getURL()
     {
         return url;
     }

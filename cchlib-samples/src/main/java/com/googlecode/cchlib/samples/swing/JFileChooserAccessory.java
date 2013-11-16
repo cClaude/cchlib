@@ -443,33 +443,6 @@ public class JFileChooserAccessory extends JFrame
     private JFileChooserInitializerCustomize createJFileChooserInitializerConfigurator()
     {
         return new LasyJFCCustomizer()
-//            {
-//                private static final long serialVersionUID = 1L;
-//                public void perfomeConfig(JFileChooser jfc)
-//                {
-//                    super.perfomeConfig( jfc );
-//
-//                    HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
-//                    TabbedAccessory tabAcc = new TabbedAccessory()
-//                    .addTabbedAccessory(
-//                        new BookmarksAccessory(
-//                            jfc,
-//                            new DefaultBookmarksAccessoryConfigurator()
-//                            )
-//                        )
-//                     .addTabbedAccessory(
-//                         new LastSelectedFilesAccessory(
-//                             jfc,
-//                             lSFAConf
-//                             )
-//                         )
-//                     .addTabbedAccessory( hexAcc );
-//
-//                    tabAcc.setPreferredSize( hexAcc.getMinimumSize() );
-//
-//                    jfc.setAccessory( tabAcc );
-//                }
-//            }
             .setFileFilter(
                 new FileNameExtensionFilter(
                     "Properties",

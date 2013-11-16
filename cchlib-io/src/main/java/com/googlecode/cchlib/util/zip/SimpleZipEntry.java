@@ -14,12 +14,12 @@ public interface SimpleZipEntry extends Serializable
      * Returns ZipEntry for current file
      * @return ZipEntry for current file
      */
-    public ZipEntry getZipEntry();
+    ZipEntry getZipEntry();
 
     /**
      * Returns InputStream for current file
      * @return InputStream for current file
      * @throws IOException if any I/O error occur.
      */
-    public InputStream createInputStream() throws IOException;
+    InputStream createInputStream() throws IOException;
 }

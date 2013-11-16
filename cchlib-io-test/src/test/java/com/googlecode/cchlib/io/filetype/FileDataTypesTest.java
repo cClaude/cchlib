@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.io.filetype;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class FileDataTypesTest
             "cchlib-core-sample/output/XXX"
             //"cchlib-core-sample/output/com.tumblr.www/XXX"
             );
- 
+
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
     {}
@@ -41,8 +42,8 @@ public class FileDataTypesTest
 
     /**
      * Test method for {@link com.googlecode.cchlib.io.filetype.FileDataTypes#findDataTypeDescription(java.io.File)}.
-     * @throws IOException 
-     * @throws FileNotFoundException 
+     * @throws IOException
+     * @throws FileNotFoundException
      */
     @Test
     public void testFindDataTypeDescription() throws FileNotFoundException, IOException
@@ -85,7 +86,7 @@ public class FileDataTypesTest
             logger.info( "identify:" + identify + " rename:" + rename + " on " + files.length );
             }
     }
-    
+
     @Test
     public void testFindExtendedFileDataTypeDescription() throws IOException
     {

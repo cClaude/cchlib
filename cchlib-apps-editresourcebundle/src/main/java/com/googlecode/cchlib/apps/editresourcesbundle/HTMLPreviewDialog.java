@@ -41,7 +41,6 @@ public class HTMLPreviewDialog
     private JCheckBoxMenuItem jCheckBoxMenuItem_W3C_LENGTH_UNITS;
     private JCheckBoxMenuItem jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES;
 
-
     /**
      *
      */

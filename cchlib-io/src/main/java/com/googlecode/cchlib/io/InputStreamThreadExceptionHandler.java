@@ -9,16 +9,16 @@ public interface InputStreamThreadExceptionHandler
 {
     /**
      * TODOC
-     * 
+     *
      * @param e
      */
-    public void handleReadingIOException( IOException e );
+    void handleReadingIOException( IOException e );
 
     /**
      * TODOC
-     * 
+     *
      * @param e
      */
-    public void handleWritingIOException( IOException e );
+    void handleWritingIOException( IOException e );
 
 }

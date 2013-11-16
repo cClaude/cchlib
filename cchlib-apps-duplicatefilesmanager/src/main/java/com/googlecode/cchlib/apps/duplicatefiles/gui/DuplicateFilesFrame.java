@@ -47,7 +47,8 @@ final public class DuplicateFilesFrame
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
-    static final Logger logger = Logger.getLogger( DuplicateFilesFrame.class );
+    private static final Logger LOGGER = Logger.getLogger( DuplicateFilesFrame.class );
+
     private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
 
@@ -123,11 +124,11 @@ final public class DuplicateFilesFrame
         }
 
         // Init i18n
-        if( logger.isTraceEnabled() ) {
-            logger.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
-            logger.info( "I18n Init: locale = " + locale );
-            logger.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
-            logger.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
+            LOGGER.info( "I18n Init: locale = " + locale );
+            LOGGER.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
+            LOGGER.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
             }
 
         // Apply i18n !
@@ -145,7 +146,7 @@ final public class DuplicateFilesFrame
         // Init display
         initFixComponents();
         updateDisplayAccordingState();
-        logger.info( "DuplicateFilesFrame() done." );
+        LOGGER.info( "DuplicateFilesFrame() done." );
     }
 
     @Override // I18nPrepHelperAutoUpdatable
@@ -215,7 +216,7 @@ final public class DuplicateFilesFrame
             {
                 applyConfigMode();
 
-                logger.debug( "updateDisplayAccordState: " + state );
+                LOGGER.debug( "updateDisplayAccordState: " + state );
 
                 getDuplicateFilesMainPanel().selectedPanel( state );
 
@@ -253,7 +254,7 @@ final public class DuplicateFilesFrame
                                 );
                         }
                     catch( NoSuchAlgorithmException ignore ) {
-                        logger.error( ignore );
+                        LOGGER.error( ignore );
                         }
 
                     new Thread( new Runnable()
@@ -310,7 +311,7 @@ final public class DuplicateFilesFrame
     private void jButtonNextStep_ActionPerformed()
     {
         if( getDuplicateFilesMainPanel().getJButtonNextStep().isEnabled() ) {
-            logger.info( "Next: " + state );
+            LOGGER.info( "Next: " + state );
             getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
 
             if( state == STATE_SELECT_DIRS ) {
@@ -319,7 +320,7 @@ final public class DuplicateFilesFrame
                     }
                 else {
                     getDFToolKit().beep();
-                    logger.info( "No dir selected" );
+                    LOGGER.info( "No dir selected" );
                     // TODO: Show alert
                     }
                 }
@@ -413,7 +414,7 @@ final public class DuplicateFilesFrame
                         case ACTIONCMD_SET_MODE :
                             {
                             AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
-                            logger.debug( "source: " + sourceConfigMode );
+                            LOGGER.debug( "source: " + sourceConfigMode );
 
                             getDFToolKit().getPreferences().setConfigMode(
                                 ConfigMode.class.cast(
@@ -444,7 +445,7 @@ final public class DuplicateFilesFrame
                             break;
 
                         default:
-                            logger.warn( "Undefined ActionCommand: " + event.getActionCommand() );
+                            LOGGER.warn( "Undefined ActionCommand: " + event.getActionCommand() );
                             break;
                     }
                 }
@@ -456,7 +457,7 @@ final public class DuplicateFilesFrame
     protected void applyConfigMode()
     {
         ConfigMode mode = getDFToolKit().getPreferences().getConfigMode();
-        logger.debug( "ConfigMode:" + mode );
+        LOGGER.debug( "ConfigMode:" + mode );
 
         getDuplicateFilesMainPanel().getJPanel1Config().updateDisplay( true );
         getDuplicateFilesMainPanel().getJPanel3Result().updateDisplay();
@@ -480,7 +481,7 @@ final public class DuplicateFilesFrame
 
     private void openPreferences()
     {
-        logger.info( "openPreferences() : " + getDFToolKit().getPreferences() );
+        LOGGER.info( "openPreferences() : " + getDFToolKit().getPreferences() );
 
         final Preferences preferences = getDFToolKit().getPreferences();
         PreferencesDialogWB dialog = new PreferencesDialogWB(
@@ -492,14 +493,14 @@ final public class DuplicateFilesFrame
 
         JFrames.handleMinimumSize(dialog, preferences.getMinimumPreferenceDimension());
 
-        logger.info( "openPreferences done : " + getDFToolKit().getPreferences() );
+        LOGGER.info( "openPreferences done : " + getDFToolKit().getPreferences() );
     }
 
     public void openAbout()
     {
         AboutDialog.open( getDFToolKit(), this.autoI18n );
 
-        logger.info( "openAbout done" );
+        LOGGER.info( "openAbout done" );
     }
 
     public void initComponentsJPanelConfirm()
@@ -511,19 +512,19 @@ final public class DuplicateFilesFrame
             @Override
             public void run()
             {
-                logger.info( "initComponentsJPanelConfirm begin" );
+                LOGGER.info( "initComponentsJPanelConfirm begin" );
 
                 try {
                     Thread.sleep( 1000 );
                     }
                 catch( InterruptedException e ) {
-                    logger.warn( "Interrupted", e );
+                    LOGGER.warn( "Interrupted", e );
                     }
 
-                logger.info( "initComponentsJPanelConfirm start" );
+                LOGGER.info( "initComponentsJPanelConfirm start" );
                 getDuplicateFilesMainPanel().getJPanel3Result().populate( DuplicateFilesFrame.this.duplicateFiles );
                 getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                logger.info( "initComponentsJPanelConfirm done" );
+                LOGGER.info( "initComponentsJPanelConfirm done" );
             }
         };
         new Thread( r, "initComponentsJPanelConfirm()" ).start();

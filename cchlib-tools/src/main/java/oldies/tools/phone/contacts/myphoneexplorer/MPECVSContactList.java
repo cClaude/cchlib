@@ -39,9 +39,9 @@ public class MPECVSContactList
      * @throws BadFileFormatException
      */
     public MPECVSContactList(
-            final File 		myPhoneExplorerCVSFile,
-            final String	charsetName,
-            final char 		cvsSeparator
+            final File         myPhoneExplorerCVSFile,
+            final String    charsetName,
+            final char         cvsSeparator
             )
             throws IOException, BadFileFormatException
     {
@@ -61,9 +61,9 @@ public class MPECVSContactList
      */
     @SuppressWarnings("resource")
     public MPECVSContactList(
-        final File 		myPhoneExplorerCVSFile,
-        final Charset	charset,
-        final char 		cvsSeparator
+        final File         myPhoneExplorerCVSFile,
+        final Charset    charset,
+        final char         cvsSeparator
         )
         throws IOException, BadFileFormatException
     {

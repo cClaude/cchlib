@@ -26,7 +26,7 @@ public class TestConfigurationHelper
     /**
      *
      */
-    public class Config
+    public static class Config
     {
         @Populator private String[] existingMACAddr;
 
@@ -44,7 +44,7 @@ public class TestConfigurationHelper
                 return new ArrayCollection<String>( existingMACAddr );
                 }
         }
-        
+
         /**
          * Set a collection of existing MAC Address accessible by current computer.
          */
@@ -58,7 +58,7 @@ public class TestConfigurationHelper
                 this.existingMACAddr[ i++ ] = macAddr;
                 }
         }
-        
+
         /**
          * Set a collection of existing MAC Address accessible by current computer.
          */

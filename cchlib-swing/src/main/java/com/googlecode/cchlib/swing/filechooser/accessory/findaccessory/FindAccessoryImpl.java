@@ -53,22 +53,22 @@ public class FindAccessoryImpl
     /**
     Label for this accessory.
     */
-    static public final String  ACCESSORY_NAME = " Find ";
+    public static final String  ACCESSORY_NAME = " Find ";
 
     /**
     Default max number of found items. Prevents overloading results list.
     */
-    static public final int     DEFAULT_MAX_SEARCH_HITS = 500;
+    public static final int     DEFAULT_MAX_SEARCH_HITS = 500;
 
     /**
     Find start action name
     */
-    static public final String  ACTION_START = "Start";
+    public static final String  ACTION_START = "Start";
 
     /**
     Find stop action name
     */
-    static public final String  ACTION_STOP = "Stop";
+    public static final String  ACTION_STOP = "Stop";
 
     /**
     Parent JFileChooser component
@@ -533,6 +533,7 @@ public class FindAccessoryImpl
         if (searchTabs != null) {
             return searchTabs.newFind();
             }
+
         return null;
     }
 

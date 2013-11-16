@@ -126,12 +126,12 @@ public class DataSourceFactory
                 Connection conn = null;
 
                 do {
-                    if(conn != null && !conn.isClosed()) {
+                    if((conn != null) && !conn.isClosed()) {
                         break;
                         }
                     conn = DriverManager.getConnection( url, username, password );
 
-                    if( conn.isClosed() && dsLogger != null ) {
+                    if( conn.isClosed() && (dsLogger != null) ) {
                         dsLogger.log(
                             Level.WARNING,
                             "*** Connection is closed !"
@@ -231,12 +231,12 @@ public class DataSourceFactory
                 Connection conn = null;
 
                 do {
-                    if(conn != null && !conn.isClosed()) {
+                    if((conn != null) && !conn.isClosed()) {
                         break;
                         }
                     conn = DriverManager.getConnection( url, username, password );
 
-                    if( conn.isClosed() && pw != null ) {
+                    if( conn.isClosed() && (pw != null) ) {
                         pw.println( "*** Connection is closed !" );
                         }
                     } while(true);

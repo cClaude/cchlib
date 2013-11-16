@@ -26,7 +26,7 @@ public class AGFormatTimeFormater
 
         try
         {
-            BasicTime           timeStep = minutesStep != null ? new BasicTime(minutesStep.intValue() * 60) : new BasicTime(60L);
+            BasicTime           timeStep = (minutesStep != null) ? new BasicTime(minutesStep.intValue() * 60) : new BasicTime(60L);
             LinkedList<String>  value    = new LinkedList<String>();
             LinkedList<String>  datas    = new LinkedList<String>();
             int                 index    = 0;

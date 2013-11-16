@@ -1,7 +1,5 @@
 package cx.ath.choisnet.html.gadgets.advanced;
 
-import cx.ath.choisnet.util.datetime.BasicTime;
-import cx.ath.choisnet.util.datetime.BasicTimeException;
 import java.util.Locale;
 import javax.servlet.ServletRequest;
 import cx.ath.choisnet.html.AbstractFormHTML;
@@ -13,6 +11,8 @@ import cx.ath.choisnet.html.gadgets.BGSelect;
 import cx.ath.choisnet.html.gadgets.advanced.items.SelectDay;
 import cx.ath.choisnet.html.gadgets.formaters.SelectMinutesFormater;
 import cx.ath.choisnet.html.javascript.AbstractJavascript;
+import cx.ath.choisnet.util.datetime.BasicTime;
+import cx.ath.choisnet.util.datetime.BasicTimeException;
 
 public class AGTime extends AbstractGadget
     implements AbstractFormHTML
@@ -28,10 +28,10 @@ public class AGTime extends AbstractGadget
     protected AbstractJavascript javascriptHours;
 
     public AGTime(
-            String              gadgetName, 
-            int                 fromHour, 
-            int                 toHour, 
-            BasicTime           timeToSelect, 
+            String              gadgetName,
+            int                 fromHour,
+            int                 toHour,
+            BasicTime           timeToSelect,
             Integer             minutesStep,
             AbstractJavascript  javascriptHours,
             AbstractJavascript javascriptMinutes
@@ -45,16 +45,16 @@ public class AGTime extends AbstractGadget
 
         int hourToSelect = -1;
         int minuteToSelect = -1;
-        
+
         if(timeToSelect != null) {
             int timeToSelectHour = timeToSelect.getHours();
 
-            if(fromHour <= timeToSelectHour && toHour >= timeToSelectHour) {
+            if((fromHour <= timeToSelectHour) && (toHour >= timeToSelectHour)) {
                 hourToSelect = timeToSelect.getHours();
                 minuteToSelect = timeToSelect.getMinutes();
             }
         }
-        
+
         this.minutesStep = minutesStep;
         this.minuteToSelect = minuteToSelect;
         this.javascriptMinutes = javascriptMinutes;
@@ -100,8 +100,8 @@ public class AGTime extends AbstractGadget
 
     protected BGSelect buildGadgetSelectMinutes(java.util.Locale locale)
     {
-        SelectMinutesFormater minsFmt = new SelectMinutesFormater(locale, 0, 59, minutesStep != null ? minutesStep.intValue() : 1, minuteToSelect);
- 
+        SelectMinutesFormater minsFmt = new SelectMinutesFormater(locale, 0, 59, (minutesStep != null) ? minutesStep.intValue() : 1, minuteToSelect);
+
         return new BGSelect((new StringBuilder()).append("MINS_").append(gadgetName).toString(), minsFmt, null, javascriptMinutes);
     }
 
@@ -114,7 +114,7 @@ public class AGTime extends AbstractGadget
         try {
             int hours = (int)gadgetSelectHours.getLongValue(request);
             int minutes = (int)gadgetSelectMinutes.getLongValue(request);
-            int seconds = gadgetSelectSeconds != null ? (int)gadgetSelectSeconds.getLongValue(request) : 0;
+            int seconds = (gadgetSelectSeconds != null) ? (int)gadgetSelectSeconds.getLongValue(request) : 0;
 
             if(gadgetSelectAmPm___ != null) {
                 int amPmFactor = (int)gadgetSelectAmPm___.getLongValue(request);
@@ -123,7 +123,7 @@ public class AGTime extends AbstractGadget
                     hours += 12;
                 }
             }
-            
+
             return new BasicTime(hours, minutes, seconds);
         }
         catch(BasicTimeException e) {

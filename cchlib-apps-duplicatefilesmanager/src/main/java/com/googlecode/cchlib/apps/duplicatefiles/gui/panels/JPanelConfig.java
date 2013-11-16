@@ -37,7 +37,8 @@ public class JPanelConfig
         implements LookAndFeelListener
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( JPanelConfig.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelConfig.class );
+
     private DFToolKit dfToolKit;
     private ActionListener actionListener;
     private ConfigMode mode;
@@ -176,7 +177,7 @@ private Scanner s;
         final ConfigMode prevMode   = this.mode;
         this.mode                   = this.dfToolKit.getPreferences().getConfigMode();
 
-        logger.debug( "updateDisplayMode()"
+        LOGGER.debug( "updateDisplayMode()"
             + prevMode
             + " -> "
             + mode
@@ -269,14 +270,14 @@ private Scanner s;
 
             if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_INCLUDE ) {
                 jp.add( jPanelIncFilesFilter );
-                logger.debug( "Display jPanelIncFilesFilter" );
+                LOGGER.debug( "Display jPanelIncFilesFilter" );
                 }
             else if( getJComboBoxFilesFilters().getSelectedIndex() == FILES_FILTER_EXCLUDE ) {
                 jp.add( jPanelExcFilesFilter );
-                logger.debug( "Display jPanelExcFilesFilter" );
+                LOGGER.debug( "Display jPanelExcFilesFilter" );
                 }
             else { // FILES_FILTER_DISABLED
-                logger.debug(
+                LOGGER.debug(
                     "No Display getJComboBoxFilesFilters()="
                         + getJComboBoxFilesFilters().getSelectedIndex()
                     );
@@ -284,14 +285,14 @@ private Scanner s;
 
             if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_INCLUDE ) {
                 jp.add( jPanelIncDirsFilter );
-                logger.debug( "Display jPanelIncDirsFilter" );
+                LOGGER.debug( "Display jPanelIncDirsFilter" );
                 }
             else if( getJComboBoxDirsFilters().getSelectedIndex() == DIRS_FILTER_EXCLUDE ) {
                 jp.add( jPanelExcDirsFilter );
-                logger.debug( "Display jPanelExcDirsFilter" );
+                LOGGER.debug( "Display jPanelExcDirsFilter" );
                 }
             else { // DIRS_FILTER_DISABLED
-                logger.debug( "No Display" );
+                LOGGER.debug( "No Display" );
                 }
 
             if( doRepaint ) {
@@ -300,7 +301,7 @@ private Scanner s;
               //repaint a JFrame jframe in this case
                 dfToolKit.getMainFrame().repaint();
 
-                logger.debug( "repaint MainWindow" );
+                LOGGER.debug( "repaint MainWindow" );
                 }
         }
     }
@@ -315,14 +316,14 @@ private Scanner s;
     }
 
     private static final void addExtIf(
-            Collection<String>                  c,
-            FileTypeCheckBox ft
-            )
+        final Collection<String> c,
+        final FileTypeCheckBox   ft
+        )
     {
         if( ft.getJCheckBox().isSelected() ) {
             for(String s:ft.getData().split( "," )) {
                 if(s.length()>0) {
-                    c.add( "." + s.toLowerCase() );
+                    c.add( "." + s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
             }
         }
@@ -349,7 +350,7 @@ private Scanner s;
                     pattern = jPanelIncFilesFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
-                    logger.error( ignore );
+                    LOGGER.error( ignore );
                     }
                 }
             }
@@ -396,7 +397,7 @@ private Scanner s;
                     pattern = jPanelExcFilesFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
-                    logger.error( ignore );
+                    LOGGER.error( ignore );
                     }
                 }
         }
@@ -430,7 +431,7 @@ private Scanner s;
         if( ft.getJCheckBox().isSelected() ) {
             for(String s:ft.getData().split( "," )) {
                 if( s.length() > 0 ) {
-                    c.add( s.toLowerCase() );
+                    c.add( s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
             }
         }
@@ -458,7 +459,7 @@ private Scanner s;
                     pattern = jPanelIncDirsFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ) {
-                    logger.error( ignore );
+                    LOGGER.error( ignore );
                     }
                 }
             }
@@ -506,7 +507,7 @@ private Scanner s;
                     pattern = jPanelExcDirsFilter.getSelectedPattern();
                     }
                 catch( Exception ignore ){
-                    logger.error( ignore );
+                    LOGGER.error( ignore );
                     }
                 }
             }
@@ -538,8 +539,8 @@ private Scanner s;
         final int   FFtype  = getJComboBoxFilesFilters().getSelectedIndex();
         final int   EFtype  = getJComboBoxDirsFilters().getSelectedIndex();
 
-        logger.info( "FFtype = " + FFtype );
-        logger.info( "EFtype = " + EFtype);
+        LOGGER.info( "FFtype = " + FFtype );
+        LOGGER.info( "EFtype = " + EFtype);
 
         // Special cases
         final boolean ignoreEmptyFiles      = jCheckBoxIgnoreEmptyFiles.isSelected();
@@ -547,10 +548,10 @@ private Scanner s;
         final boolean ignoreReadOnlyFiles   = jCheckBoxIgnoreReadOnlyFiles.isSelected();
         final boolean ignoreHiddedDirs      = jCheckBoxFDIgnoreHidden.isSelected();
 
-        logger.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
-        logger.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);
-        logger.info( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
-        logger.info( "ignoreHiddedDirs = " + ignoreHiddedDirs);
+        LOGGER.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
+        LOGGER.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);
+        LOGGER.info( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
+        LOGGER.info( "ignoreHiddedDirs = " + ignoreHiddedDirs);
 
         return new FileFilterBuilders()
         {

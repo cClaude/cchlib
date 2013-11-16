@@ -112,7 +112,7 @@ public class FileCollector
         final LinkedList<File> rootList = new LinkedList<File>( this.rootDirectoriesList );
         final LinkedList<File> dirsList = new LinkedList<File>( this.rootDirectoriesList );
 
-        while( rootList.size() > 0 || dirsList.size() > 0 ) {
+        while( (rootList.size() > 0) || (dirsList.size() > 0) ) {
             final File dir;
 
             if( dirsList.size() > 0 ) {
@@ -174,7 +174,7 @@ public class FileCollector
      *
      *
      */
-    public class CancelState implements Serializable
+    public static class CancelState implements Serializable
     {
         private static final long serialVersionUID = 1L;
         private LinkedList<File> rootList;

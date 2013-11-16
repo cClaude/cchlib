@@ -114,7 +114,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
     public AbstractAction getClearAction()
     {
         if( actionClear == null ) {
-            actionClear = new actionClearClass();
+            actionClear = new ActionClearClass();
             }
 
         return actionClear;
@@ -192,7 +192,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
         }
     }
 
-    private class actionClearClass extends AbstractAction
+    private class ActionClearClass extends AbstractAction
     {
         private static final long serialVersionUID = 1L;
 

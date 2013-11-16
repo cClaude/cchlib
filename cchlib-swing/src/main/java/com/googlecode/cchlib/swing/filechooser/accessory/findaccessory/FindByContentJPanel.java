@@ -82,7 +82,7 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
     /**
         Implements a simple content filter.
     */
-    class ContentFilter implements FindFilter
+    static class ContentFilter implements FindFilter
     {
         protected String    content = null;
         protected boolean   ignoreCase = true;

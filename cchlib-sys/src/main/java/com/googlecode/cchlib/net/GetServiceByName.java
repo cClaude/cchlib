@@ -71,7 +71,7 @@ public class GetServiceByName
      * @return A port number for a TCP or UDP service (depending on tcpipClass).
      *         Return -1 on error.
      */
-    static private int parseServicesLine(
+    private static int parseServicesLine(
             final String line,
             final String tcpipService,
             final String tcpipClass
@@ -106,7 +106,7 @@ public class GetServiceByName
         // Return port number, if name on this line matches:
         if( name.equals( tcpipService ) ) {
             try { // Convert the port number string to integer
-                return (Integer.parseInt( portValue ));
+                return Integer.parseInt( portValue );
                 }
             catch( NumberFormatException nfe ) {
                 // Ignore corrupt /etc/services lines:

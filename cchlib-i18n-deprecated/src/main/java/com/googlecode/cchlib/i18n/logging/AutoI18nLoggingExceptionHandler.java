@@ -15,7 +15,7 @@ public class AutoI18nLoggingExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private transient static final Logger logger = Logger.getLogger(AutoI18nLoggingExceptionHandler.class.getName());
+    private static final transient Logger logger = Logger.getLogger(AutoI18nLoggingExceptionHandler.class.getName());
     /** @serial */
     private final Level  level;
 

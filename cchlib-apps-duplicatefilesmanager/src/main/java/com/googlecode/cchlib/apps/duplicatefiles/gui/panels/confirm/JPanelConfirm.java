@@ -34,7 +34,7 @@ import com.googlecode.cchlib.util.HashMapSet;
 public class JPanelConfirm extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger(JPanelConfirm.class);
+    private static final Logger LOGGER = Logger.getLogger(JPanelConfirm.class);
     public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
 
     private DFToolKit dfToolKit;
@@ -63,9 +63,9 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtIconKo = "File already exist";
     @I18nString private String txtIconKoButDelete = "File does not exist";
 
-    public JPanelConfirm( DFToolKit dfToolKit )
+    public JPanelConfirm( final DFToolKit dfToolKit )
     {
-        this.dfToolKit          = dfToolKit;
+        this.dfToolKit = dfToolKit;
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
@@ -73,56 +73,60 @@ public class JPanelConfirm extends JPanel
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
-        jLabelTitle = new JLabel("Files selected to be deleted");
-        GridBagConstraints gbc_jLabelTitle = new GridBagConstraints();
-        gbc_jLabelTitle.insets = new Insets(0, 0, 5, 0);
-        gbc_jLabelTitle.gridx = 0;
-        gbc_jLabelTitle.gridy = 0;
-        add(jLabelTitle, gbc_jLabelTitle);
-        GridBagConstraints gbc_jScrollPaneFiles2Delete = new GridBagConstraints();
-        gbc_jScrollPaneFiles2Delete.fill = GridBagConstraints.BOTH;
-        gbc_jScrollPaneFiles2Delete.insets = new Insets(0, 0, 5, 0);
-        gbc_jScrollPaneFiles2Delete.gridx = 0;
-        gbc_jScrollPaneFiles2Delete.gridy = 1;
-        JScrollPane jScrollPaneFiles2Delete = new JScrollPane();
-        jTableFiles2Delete = new JTable();
-        jScrollPaneFiles2Delete.setViewportView( jTableFiles2Delete );
-        add( jScrollPaneFiles2Delete, gbc_jScrollPaneFiles2Delete );
+        {
+            jLabelTitle = new JLabel("Files selected to be deleted");
+            GridBagConstraints gbc_jLabelTitle = new GridBagConstraints();
+            gbc_jLabelTitle.insets = new Insets(0, 0, 5, 0);
+            gbc_jLabelTitle.gridx = 0;
+            gbc_jLabelTitle.gridy = 0;
+            add(jLabelTitle, gbc_jLabelTitle);
+        }
+        {
+            GridBagConstraints gbc_jScrollPaneFiles2Delete = new GridBagConstraints();
+            gbc_jScrollPaneFiles2Delete.fill = GridBagConstraints.BOTH;
+            gbc_jScrollPaneFiles2Delete.insets = new Insets(0, 0, 5, 0);
+            gbc_jScrollPaneFiles2Delete.gridx = 0;
+            gbc_jScrollPaneFiles2Delete.gridy = 1;
+            JScrollPane jScrollPaneFiles2Delete = new JScrollPane();
+            jTableFiles2Delete = new JTable();
+            jScrollPaneFiles2Delete.setViewportView( jTableFiles2Delete );
+            add( jScrollPaneFiles2Delete, gbc_jScrollPaneFiles2Delete );
+        }
+        {
+            JPanel jPanelBottom = new JPanel();
+            jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
+            GridBagConstraints gbc_jProgressBarDeleteProcess = new GridBagConstraints();
+            gbc_jProgressBarDeleteProcess.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jProgressBarDeleteProcess.insets = new Insets(0, 0, 5, 0);
+            gbc_jProgressBarDeleteProcess.gridx = 0;
+            gbc_jProgressBarDeleteProcess.gridy = 2;
+            jProgressBarDeleteProcess = new JProgressBar();
+            add( jProgressBarDeleteProcess, gbc_jProgressBarDeleteProcess);
+        }
+        {
+            GridBagConstraints gbc_jButtonDoScript = new GridBagConstraints();
+            gbc_jButtonDoScript.gridx = 0;
+            gbc_jButtonDoScript.gridy = 3;
+            jButtonDoScript = new JButton("Create script");
+            jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
+            jButtonDoScript.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+            add( jButtonDoScript, gbc_jButtonDoScript);
 
-        setSize(320, 240);
+            // TODO: NOT YET IMPLEMENTED
+            // $hide>>$
+            jButtonDoScript.setVisible(false);
+            // $hide<<$
+        }
 
-        JPanel jPanelBottom = new JPanel();
-        jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
-        GridBagConstraints gbc_jProgressBarDeleteProcess = new GridBagConstraints();
-        gbc_jProgressBarDeleteProcess.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jProgressBarDeleteProcess.insets = new Insets(0, 0, 5, 0);
-        gbc_jProgressBarDeleteProcess.gridx = 0;
-        gbc_jProgressBarDeleteProcess.gridy = 2;
-        jProgressBarDeleteProcess = new JProgressBar();
-        add( jProgressBarDeleteProcess, gbc_jProgressBarDeleteProcess);
-        GridBagConstraints gbc_jButtonDoScript = new GridBagConstraints();
-        gbc_jButtonDoScript.gridx = 0;
-        gbc_jButtonDoScript.gridy = 3;
-        jButtonDoScript = new JButton("Create script");
-        jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
-        jButtonDoScript.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        add( jButtonDoScript, gbc_jButtonDoScript);
-
-        // TODO: NOT YET IMPLEMENTED
-        // $hide>>$
-        jButtonDoScript.setVisible(false);
-        // $hide<<$
-
-        //iconOk = ResourcesLoader.getImageIcon( "ok.12x12.png" );
-        //iconKo = ResourcesLoader.getImageIcon( "ko.12x12.png" );
-        //iconKoButDelete = ResourcesLoader.getImageIcon( "ko_but_ok.12x12.png" );
         iconOk          = dfToolKit.getResources().getSmallOKIcon();
         iconKo          = dfToolKit.getResources().getSmallKOIcon();
         iconKoButDelete = dfToolKit.getResources().getSmallOKButOKIcon();
+
+        setSize(320, 240);
     }
 
     public void populate(
@@ -130,11 +134,11 @@ public class JPanelConfirm extends JPanel
             )
     {
         //clear();
-        logger.info( "populate: Duplicate count: " + dupFiles.size() );
+        LOGGER.info( "populate: Duplicate count: " + dupFiles.size() );
 
         tableDts_toDelete = new JPanelConfirmModel( dupFiles );
 
-        logger.info( "populate: Selected count: " + tableDts_toDelete.size() );
+        LOGGER.info( "populate: Selected count: " + tableDts_toDelete.size() );
 
         DefaultTableCellRenderer render = new DefaultTableCellRenderer()
         {
@@ -328,7 +332,7 @@ public class JPanelConfirm extends JPanel
                     private_doDelete( duplicateFiles );
                     }
                 catch( Exception e ) {
-                    logger.fatal( "*** Error catched while delete files", e );
+                    LOGGER.fatal( "*** Error catched while delete files", e );
                     DialogHelper.showMessageExceptionDialog(
                             dfToolKit.getMainFrame(), //.getMainWindow(),
                             msgStr_doDeleteExceptiontitle,
@@ -353,7 +357,7 @@ public class JPanelConfirm extends JPanel
                     :
                     0;
 
-        logger.info( "private_doDelete: Selected count: " + tableDts_toDelete.size() );
+        LOGGER.info( "private_doDelete: Selected count: " + tableDts_toDelete.size() );
 
         for( int i=0; i<size; i++ ) {
             KeyFileState kf = tableDts_toDelete.get( i );
@@ -364,8 +368,8 @@ public class JPanelConfirm extends JPanel
             // Delete file
             boolean isDel = kf.getFile().delete();
 
-            if( logger.isTraceEnabled() ) {
-                logger.trace("Delete=" + isDel + ':' + kf + " - i=" + i);
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace("Delete=" + isDel + ':' + kf + " - i=" + i);
                 }
 
             // Store result
@@ -386,7 +390,7 @@ public class JPanelConfirm extends JPanel
                             );
                         }
                     catch( Exception e ) {
-                        logger.warn( "Swing error:", e );
+                        LOGGER.warn( "Swing error:", e );
                         }
                 }
             });
@@ -403,8 +407,8 @@ public class JPanelConfirm extends JPanel
 
         updateProgressBar(deleteCount,txtMsgDone);
 
-        logger.info( "deleteCount= " + deleteCount  );
-        logger.info( "keepCount= " + keepCount );
+        LOGGER.info( "deleteCount= " + deleteCount  );
+        LOGGER.info( "keepCount= " + keepCount );
 
         // Remove files that can't be found on file system
         Iterator<KeyFileState> iter = duplicateFiles.iterator();
@@ -423,6 +427,6 @@ public class JPanelConfirm extends JPanel
 
         int newDupCount = duplicateFiles.valuesSize();
 
-        logger.info( "newDupCount= " + newDupCount );
+        LOGGER.info( "newDupCount= " + newDupCount );
         }
 }

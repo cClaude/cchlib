@@ -73,7 +73,7 @@ public interface DBFRecord extends Iterable<DBFEntry>
      * @throws DBFEntryException if any
      * @see DBFEntry#getInt()
      */
-    boolean getBoolean( int columnNumber ) throws DBFEntryException;
+    boolean getBoolean( int columnNumber ) throws DBFEntryException; // $codepro.audit.disable booleanMethodNamingConvention
 
     /**
      * Returns value as a boolean for this column/field
@@ -82,7 +82,7 @@ public interface DBFRecord extends Iterable<DBFEntry>
      * @throws DBFEntryException if any
      * @see DBFEntry#getInt()
      */
-    boolean getBoolean( String columnName )
+    boolean getBoolean( String columnName ) // $codepro.audit.disable booleanMethodNamingConvention
         throws DBFUnknownFieldNameException, DBFEntryException;
 
     /**

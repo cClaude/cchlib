@@ -503,7 +503,7 @@ public class MD5
             buf.append( Integer.toHexString( intVal ) );
             }
 
-        return buf.toString().toUpperCase();
+        return buf.toString().toUpperCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
     }
 
     private static int FF( int a, int b, int c, int d, int x, int s, int ac )

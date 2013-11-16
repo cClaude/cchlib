@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.lookup;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -13,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
@@ -28,9 +28,9 @@ public class DefaultEmptyDirectoriesLookup
     implements EmptyDirectoriesLookup, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
+    
     private List<Path> rootFilesForScan;
-    //private DirectoryStream.Filter<Path> directoriesFilter;
     private DirectoryStream.Filter<Path> excludeDirectoriesFile;
     private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
     private LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
@@ -153,8 +153,8 @@ public class DefaultEmptyDirectoriesLookup
 //            }
 
         for( Path p : this.rootFilesForScan ) {
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "lookup start from : " + p );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "lookup start from : " + p );
                 }
 
             //if( f.isDirectory() ) {
@@ -180,8 +180,8 @@ public class DefaultEmptyDirectoriesLookup
             throw new IllegalStateException( "Not a directory: " + folderPath );
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "doScan:" + folderPath );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "doScan:" + folderPath );
             }
 
         canBeEmpty( folderPath );
@@ -211,8 +211,8 @@ public class DefaultEmptyDirectoriesLookup
         if( excludeDirectoriesFile != null ) {
             try {
                 if( excludeDirectoriesFile.accept( folder ) ) {
-                    if( logger.isDebugEnabled() ) {
-                        logger.debug( "Ignore: " + folder );
+                    if( LOGGER.isDebugEnabled() ) {
+                        LOGGER.debug( "Ignore: " + folder );
                         }
                     // Ignore this directory
                     return false;
@@ -234,8 +234,8 @@ public class DefaultEmptyDirectoriesLookup
 
         try( DirectoryStream<Path> stream = Files.newDirectoryStream( folder/*, this.directoriesFilter*/ ) ) {
 
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "check if empty: " + folder );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "check if empty: " + folder );
                 }
 
             for( Path entryPath : stream ) {
@@ -276,23 +276,23 @@ public class DefaultEmptyDirectoriesLookup
                 }
             }
         catch( NotDirectoryException e ) {
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "Not a directory : " + folder, e );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Not a directory : " + folder, e );
                 }
 
             return false;
             }
         catch( AccessDeniedException e ) {
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "Denied access: " + folder, e );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Denied access: " + folder, e );
                 }
 
             return false;
             }
         catch( IOException e ) { // stream.close()
             // I/O error encounted during the iteration, the cause is an IOException
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "Can not read: " + folder, e );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Can not read: " + folder, e );
                 }
 
             return false;

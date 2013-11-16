@@ -1,11 +1,11 @@
 package cx.ath.choisnet.html.gadgets.advanced.items;
 
-import cx.ath.choisnet.util.datetime.BasicDate;
 import java.text.SimpleDateFormat;
 import cx.ath.choisnet.html.HTMLDocumentException;
 import cx.ath.choisnet.html.HTMLDocumentWriter;
 import cx.ath.choisnet.html.gadgets.AbstractBGSelect;
 import cx.ath.choisnet.html.javascript.AbstractJavascript;
+import cx.ath.choisnet.util.datetime.BasicDate;
 
 public class SelectMonth extends AbstractBGSelect
 {
@@ -35,7 +35,7 @@ public class SelectMonth extends AbstractBGSelect
     //    8   13:aload_0
     //    9   14:aconst_null
     //   10   15:putfield        #3   <Field java.util.Locale cx.ath.choisnet.html.gadgets.advanced.items.SelectMonth.locale>
-        optionSelected = monthToSelect != -1 ? monthToSelect - 1 : -1;
+        optionSelected = (monthToSelect != -1) ? monthToSelect - 1 : -1;
     //   11   18:aload_0
     //   12   19:iload_2
     //   13   20:iconst_m1

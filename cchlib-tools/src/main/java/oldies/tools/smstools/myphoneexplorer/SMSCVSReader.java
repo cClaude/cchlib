@@ -19,12 +19,12 @@ import au.com.bytecode.opencsv.CSVReader;
 public class SMSCVSReader
     implements Closeable
 {
-    private final static Logger slogger = Logger.getLogger(SMSCVSReader.class);
+    private static final Logger slogger = Logger.getLogger(SMSCVSReader.class);
 
     /**
       * CVS Separator value.
       */
-     public final static char CSV_SEPARATOR = ';';
+     public static final char CSV_SEPARATOR = ';';
 
      private CSVReader csvr;
      private File srcFile;
@@ -64,7 +64,7 @@ public class SMSCVSReader
             return false; // eof
             }
 
-        if( line.length != 6 && line.length != 8) {
+        if( (line.length != 6) && (line.length != 8)) {
             throw new IOException(
                 "Can't read entry #" + (smsList.size() + 1)
                 );

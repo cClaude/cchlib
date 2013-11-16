@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
@@ -158,17 +159,17 @@ public class MessageDigestFileTest
                 IOException
     {
         FileInputStream  fis = new FileInputStream( input );
-        
+
         try {
             ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
 
             bab.append( fis );
 
             return getMD5(bab.array());
-        	}
+            }
         finally {
-        	fis.close();
-        	}
+            fis.close();
+            }
     }
 
 }

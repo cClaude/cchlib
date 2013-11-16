@@ -29,7 +29,7 @@ public class AboutDialog
 //        }
 //    }
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( AboutDialog.class );
+    private static final Logger LOGGER = Logger.getLogger( AboutDialog.class );
     private /*final*/ AboutPanel contentPanel;
     //private /*final*/ DFToolKit dfToolKit;
 
@@ -49,7 +49,7 @@ public class AboutDialog
             dialog.setVisible( true );
             }
         catch( Exception e ) {
-            logger.error( "showDialog", e );
+            LOGGER.error( "showDialog", e );
             }
     }
      

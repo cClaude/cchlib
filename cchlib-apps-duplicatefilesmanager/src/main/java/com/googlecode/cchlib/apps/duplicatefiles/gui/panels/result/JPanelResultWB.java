@@ -38,7 +38,8 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 public abstract class JPanelResultWB extends JPanel implements DuplicateData
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( JPanelResultWB.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelResultWB.class );
+
     private Resources resources;
 
     private JTextField jTextFieldFileInfo;
@@ -121,7 +122,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
                     @Override
                     public void valueChanged( ListSelectionEvent event )
                     {
-                        logger.info( "valueChanged: " + event );
+                        LOGGER.info( "valueChanged: " + event );
 
                         if( ! event.getValueIsAdjusting() ) {
                             int i = jListDuplicatesFiles.getSelectedIndex();

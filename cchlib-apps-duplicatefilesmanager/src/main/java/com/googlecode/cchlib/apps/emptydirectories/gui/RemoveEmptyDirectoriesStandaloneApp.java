@@ -22,7 +22,8 @@ public class RemoveEmptyDirectoriesStandaloneApp
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 2L;
-    private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
+    private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
+
     private AutoI18nCore autoI18n;
     private DFToolKit dfToolKit;
     private RemoveEmptyDirectoriesPanel _contentPane;
@@ -114,7 +115,7 @@ public class RemoveEmptyDirectoriesStandaloneApp
             }
         } );
 
-        logger.fatal( "Running in a thread" );
+        LOGGER.fatal( "Running in a thread" );
     }
 
     /**

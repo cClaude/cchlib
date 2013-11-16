@@ -13,19 +13,19 @@ public interface ForceColumnWidthModel
      * @param columnIndex the index of the desired column
      * @return true if column have is own algorithm to compute width
      */
-    public boolean isWidthFor( int columnIndex );
+    boolean isWidthFor( int columnIndex );
 
     /**
      * Returns width for column
      * @param columnIndex the index of the desired column
      * @return width for column
      */
-    public int getWidthFor( int columnIndex );
+    int getWidthFor( int columnIndex );
 
     /**
      * Returns index of column that should receive remaining space from table,
-     * if return value is not a valid column index, remaining space (if any) is not used 
+     * if return value is not a valid column index, remaining space (if any) is not used
      * @return index of column that should receive remaining space from table or -1
      */
-    public int getRemainingColumnIndex();
+    int getRemainingColumnIndex();
 }

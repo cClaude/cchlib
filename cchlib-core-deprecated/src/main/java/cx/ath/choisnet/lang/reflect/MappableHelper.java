@@ -62,7 +62,7 @@ public class MappableHelper
     public static void toXML( Appendable out, Class<?> clazz, Mappable aMappableObject )
         throws IOException
     {
-        MappableHelper.toXML(out, clazz, aMappableObject != null ? aMappableObject.toMap() : null);
+        MappableHelper.toXML(out, clazz, (aMappableObject != null) ? aMappableObject.toMap() : null);
     }
 
     /**

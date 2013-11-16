@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package cx.ath.choisnet.html.document;
 
 import cx.ath.choisnet.html.HTMLDocumentException;
@@ -10,12 +11,12 @@ public class Header extends AbstractHTML
     protected boolean nocache;
     protected String extraDatas;
 
-    public Header(String title)
+    public Header(final String title)
     {
         this(title, false, null);
     }
 
-    public Header(String title, boolean noCache)
+    public Header(final String title, final boolean noCache)
     {
         this(title, noCache, null);
     }

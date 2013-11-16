@@ -17,13 +17,13 @@ interface CustomProperties
     /**
      * @return FileObject use by the CustomProperties
      */
-    public FileObject getFileObject();
+    FileObject getFileObject();
 
     /**
      * @return true if current object handle lines numbers,
      * false otherwise.
      */
-    public boolean isLinesNumberHandle();
+    boolean isLinesNumberHandle();
 
     /**
      * Get line number for giving property
@@ -31,7 +31,7 @@ interface CustomProperties
      * @return line number of property,
      *         0 if not found (should not occur)
      */
-    public int getLineNumber(String key);
+    int getLineNumber(String key);
 
     /**
      * Get value for giving property
@@ -39,18 +39,18 @@ interface CustomProperties
      * @return value of property,
      *         null if not exist (should not occur)
      */
-    public String getProperty( String key );
+    String getProperty( String key );
 
     /**
      * @param key property to set
      * @param value for this property
      */
-    public void setProperty( String key, String value );
+    void setProperty( String key, String value );
 
     /**
      * @return a set of String keys
      */
-    public Set<String> stringPropertyNames();
+    Set<String> stringPropertyNames();
 
     /**
      * Save from fileObject
@@ -60,28 +60,28 @@ interface CustomProperties
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public boolean store() // $codepro.audit.disable booleanMethodNamingConvention
+    boolean store() // $codepro.audit.disable booleanMethodNamingConvention
         throws FileNotFoundException, IOException;
 
-    public boolean storeAs( final File file )
+    boolean storeAs( final File file ) // $codepro.audit.disable booleanMethodNamingConvention
         throws FileNotFoundException, IOException;
 
     /**
      * Returns false if content has not been edited.
      * @return false if content has not been edited.
      */
-    public boolean isEdited();
+    boolean isEdited();
 
     /**
      * Adds a {@link ChangeListener}
      * @param listener the {@link ChangeListener} to add
      */
-    public void addChangeListener(ChangeListener listener );
+    void addChangeListener(ChangeListener listener );
 
     /**
      * Removes a {@link ChangeListener}
      * @param listener the {@link ChangeListener} to remove
      */
-    public void removeChangeListener(ChangeListener listener );
+    void removeChangeListener(ChangeListener listener );
 
 }

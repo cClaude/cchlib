@@ -1,3 +1,4 @@
+// $codepro.audit.disable cloneWithoutCloneable
 package cx.ath.choisnet.io;
 
 import java.io.File;

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class SMSLoader 
 {
-    private final static Logger slogger = Logger.getLogger(SMSLoader.class);
+    private static final Logger slogger = Logger.getLogger(SMSLoader.class);
     private List<SMS> smsList = new ArrayList<SMS>();
 
     public SMSLoader()

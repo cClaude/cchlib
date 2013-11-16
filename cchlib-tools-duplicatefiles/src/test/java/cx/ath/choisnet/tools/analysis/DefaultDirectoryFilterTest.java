@@ -79,7 +79,7 @@ public class DefaultDirectoryFilterTest
             boolean accept = defaultDirectoryFilter.accept( dirFile );
 
             logger.info( "Res:" + accept + " File: " + dirFile );
-            
+
             Assert.assertFalse(
                     "File not matching (should be ignored): " + dirFile,
                     accept
@@ -90,7 +90,7 @@ public class DefaultDirectoryFilterTest
     }
 
 
-    class WriterWrapper extends Writer
+    static class WriterWrapper extends Writer
     {
         private PrintStream stream;
         private Charset charset;

@@ -6,7 +6,7 @@ package cx.ath.choisnet.tools.analysis.view;
  */
 public interface XLogger
 {
-    public void info( String message );
+    void info( String message );
 
-    public void error( String message, Exception e );
+    void error( String message, Exception e );
 }

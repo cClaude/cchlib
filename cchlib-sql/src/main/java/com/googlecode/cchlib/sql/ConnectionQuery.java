@@ -131,21 +131,21 @@ public class ConnectionQuery implements Closeable
     }
 
     /**
-     * Call {@link #close()} but hide {@link IOException}, 
+     * Call {@link #close()} but hide {@link IOException},
      * by creating a {@link RuntimeException} if any {@link IOException} occur
      */
     public void quietClose()
     {
-        try { 
-            close(); 
-            } 
-        catch( IOException ignore ) { 
+        try {
+            close();
+            }
+        catch( IOException ignore ) {
             throw new RuntimeException( ignore );
             }
     }
 
     @Override
-    protected void finalize() throws Throwable
+    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         closeStatement();
 

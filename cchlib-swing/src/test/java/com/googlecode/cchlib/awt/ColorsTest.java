@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.awt;
 
 import java.awt.Color;
@@ -5,8 +6,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * The class <code>ColorsTest</code> contains tests for the class <code>{@link Colors}</code>.
@@ -29,14 +32,14 @@ public class ColorsTest
         Color result = fixture.toColor();
 
         // add additional test code here
-        assertNotNull(result);
-        assertEquals("java.awt.Color[r=240,g=248,b=255]", result.toString());
-        assertEquals(255, result.getAlpha());
-        assertEquals(240, result.getRed());
-        assertEquals(255, result.getBlue());
-        assertEquals(248, result.getGreen());
-        assertEquals(-984833, result.getRGB());
-        assertEquals(1, result.getTransparency());
+        Assert.assertNotNull(result);
+        Assert.assertEquals("java.awt.Color[r=240,g=248,b=255]", result.toString());
+        Assert.assertEquals(255, result.getAlpha());
+        Assert.assertEquals(240, result.getRed());
+        Assert.assertEquals(255, result.getBlue());
+        Assert.assertEquals(248, result.getGreen());
+        Assert.assertEquals(-984833, result.getRGB());
+        Assert.assertEquals(1, result.getTransparency());
     }
 
 

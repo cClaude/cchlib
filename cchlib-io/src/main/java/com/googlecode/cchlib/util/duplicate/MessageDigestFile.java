@@ -256,7 +256,7 @@ public class MessageDigestFile
         throws NumberFormatException
     {
         final int slen = digestHexKey.length();
-        final int len   = slen / 2;
+        final int len   = slen / 2; // $codepro.audit.disable numericLiterals
 
         if((len * 2) != slen ) {
             throw new NumberFormatException("key error * bad length()");

@@ -28,7 +28,7 @@ public abstract class AbstractDownloaderAppInterface
     private int     numberOfPicturesByPage;
     private int     pageCount;
     private Proxy   proxy;
-    private List<GenericDownloaderAppInterface.ComboBoxConfig> comboBoxConfigList;
+    private List<GenericDownloaderAppComboBoxConfig> comboBoxConfigList;
 
     /**
      * @param siteName
@@ -96,7 +96,7 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    abstract public DownloadStringURL getDownloadStringURL( final int pageNumber )
+    public abstract DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException;
 
     /**
@@ -126,8 +126,7 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    abstract
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public abstract DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException, URISyntaxException;
 
     public interface RegExgSplitter
@@ -136,7 +135,7 @@ public abstract class AbstractDownloaderAppInterface
         public char getLastChar();
     }
 
-    public class DefaultRegExgSplitter implements RegExgSplitter
+    public static class DefaultRegExgSplitter implements RegExgSplitter
     {
         private String beginRegExg;
         private char lastChar;
@@ -150,7 +149,7 @@ public abstract class AbstractDownloaderAppInterface
         @Override
         public char getLastChar() { return lastChar; }
     }
-    
+
     /*
      * Default implementation of {@link GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)},
      * that use {@link AbstractDownloadInterface#getDownloadURLFrom(String, int)}
@@ -164,14 +163,13 @@ public abstract class AbstractDownloaderAppInterface
      */
     /**
      * TODOC
-     * 
+     *
      * @param gdauir
      * @param content2Parse
      * @param regexps
      * @return a {@link Collection} of {@link DownloadFileURL}
      */
-    final//FIXME remove this
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    public final Collection<DownloadFileURL> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
         final DownloadStringURL             content2Parse,
         final RegExgSplitter[]              regexps
@@ -226,7 +224,7 @@ public abstract class AbstractDownloaderAppInterface
      *
      * @param entry
      */
-    protected void addComboBoxConfig( final GenericDownloaderAppInterface.ComboBoxConfig entry )
+    protected void addComboBoxConfig( final GenericDownloaderAppComboBoxConfig entry )
     {
         if( this.comboBoxConfigList == null ) {
             this.comboBoxConfigList = new ArrayList<>();
@@ -239,7 +237,7 @@ public abstract class AbstractDownloaderAppInterface
      * @see DefaultComboBoxConfig
      */
     @Override// GenericDownloaderAppInterface
-    public Collection<GenericDownloaderAppInterface.ComboBoxConfig> getComboBoxConfigCollection()
+    public Collection<GenericDownloaderAppComboBoxConfig> getComboBoxConfigCollection()
     {
         if( this.comboBoxConfigList == null ) {
             return Collections.emptyList();

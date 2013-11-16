@@ -62,8 +62,7 @@ public class BGSelect1 extends AbstractBGSelect
         optionDatas = new String[len];
 
         for(int i = 0; i < len; i++) {
-            Integer tmpInteger = new Integer(i + fromValue);
-            String tmpValue = tmpInteger.toString();
+            String tmpValue = Integer.toString( i + fromValue );
 
             optionValue[i] = tmpValue;
             optionDatas[i] = tmpValue;

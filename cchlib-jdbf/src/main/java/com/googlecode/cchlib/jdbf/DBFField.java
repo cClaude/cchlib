@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.jdbf;
 
 import java.io.DataInput;
@@ -79,12 +80,11 @@ public class DBFField
      * @return the created DBFField object.
      * @throws IOException If any stream reading problems occurs.
      */
-    protected static DBFField createField( DataInput in)
+    protected static DBFField createField( final DataInput in )
         throws IOException
     {
-        DBFField field = new DBFField();
-
-        byte t_byte = in.readByte(); /* 0 */
+        final DBFField field  = new DBFField();
+        final byte     t_byte = in.readByte(); /* 0 */
 
         if( t_byte == (byte)0x0d ) {
             return null;
@@ -121,8 +121,7 @@ public class DBFField
      * @param output OutputStream
      * @throws IOException if any stream related issues occur.
      */
-    protected void write( final DataOutput output )
-        throws IOException
+    protected void write( final DataOutput output ) throws IOException
     {
         // Field Name
         output.write( fieldName);        /* 0-10 */
@@ -214,7 +213,7 @@ public class DBFField
         switch( value ) {
             case FIELD_TYPE_D:
                 this.fieldLength = 8; /* fall through */
-            case FIELD_TYPE_C:
+            case FIELD_TYPE_C: // $codepro.audit.disable nonTerminatedCaseClause
             case FIELD_TYPE_L:
             case FIELD_TYPE_N:
             case FIELD_TYPE_F:

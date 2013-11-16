@@ -11,31 +11,25 @@ import com.googlecode.cchlib.net.download.DownloadURL;
  */
 public interface LoggerListener extends DownloadEvent
 {
-//    /**
-//     * 
-//     * @param msg
-//     */
-//    public void warn( String msg );
-
     /**
      * 
      * @param url
      * @param file
      * @param cause
      */
-    public void error( URL url, File file, Throwable cause );
+    void error( URL url, File file, Throwable cause );
 
     /**
      * 
      * @param event
      */
-    public void downloadStateInit( DownloadStateEvent event );
+    void downloadStateInit( DownloadStateEvent event );
     
     /**
      * 
      * @param event
      */
-    public void downloadStateChange( DownloadStateEvent event );
+    void downloadStateChange( DownloadStateEvent event );
 
     /**
      * 
@@ -43,18 +37,18 @@ public interface LoggerListener extends DownloadEvent
      * @param tmpFile
      * @param expectedCacheFile
      */
-    public void downloadCantRename( DownloadURL dURL, File tmpFile, File expectedCacheFile );
+    void downloadCantRename( DownloadURL dURL, File tmpFile, File expectedCacheFile );
     
     /**
      * 
      * @param dURL
      */
-    public void downloadStored( DownloadURL dURL );
+    void downloadStored( DownloadURL dURL );
 
     /**
      * Invoke when a download file is out of constraints
      * 
      * @param dfURL
      */
-    public void oufOfConstraints( DownloadFileURL dfURL );
+    void oufOfConstraints( DownloadFileURL dfURL );
 }

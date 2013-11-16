@@ -20,9 +20,9 @@ import java.util.NoSuchElementException;
 import javax.swing.JTextField;
 
 /**
- * 
+ *
  */
-public class TestLocalConfigPanel 
+public class TestLocalConfigPanel
     extends JPanel
         implements ActionListener
 {
@@ -31,10 +31,10 @@ public class TestLocalConfigPanel
     private WindowListener windowListener;
     private TestConfigurationHelper testLocal;
     private TestConfigurationHelper.Config config;
-    
+
     private static final String ACTION_QUIT = "ACTION_QUIT";
     private static final String ACTION_SAVE = "ACTION_SAVE";
-    
+
     private DefaultListModel<String> model_existingMACAddr = new DefaultListModel<String>();
     private JTextField textField_;
 
@@ -52,7 +52,7 @@ public class TestLocalConfigPanel
             logger.error( "Can not load config", e );
             }
         this.config = testLocal.getConfig();
-        
+
         {
             GridBagLayout gridBagLayout = new GridBagLayout();
             gridBagLayout.columnWidths = new int[]{25, 0, 25, 0};
@@ -101,7 +101,7 @@ public class TestLocalConfigPanel
             gbc_btnQuit.gridy = 2;
             add(btnQuit, gbc_btnQuit);
         }
-        
+
         for( String macAddress : config.getExistingMACAddressCollection() ) {
             model_existingMACAddr.addElement( macAddress );
             }
@@ -113,14 +113,14 @@ public class TestLocalConfigPanel
     public void actionPerformed( ActionEvent event )
     {
         final String cmd = event.getActionCommand();
-        
+
         if( ACTION_QUIT.equals( cmd ) ) {
             this.windowListener.windowClosed( null );
             }
         else if( ACTION_SAVE.equals( cmd ) ) {
             final TestConfigurationHelper.Config config = this.testLocal.getConfig();
-            
-            config.setExistingMACAddressCollection( 
+
+            config.setExistingMACAddressCollection(
                 new ListModelCollection<String>( model_existingMACAddr )
                 );
 
@@ -129,11 +129,11 @@ public class TestLocalConfigPanel
             //TODO
             //TODO
             //TODO
-            
-            
+
+
             try {
                 this.testLocal.save();
-                
+
                 logger.info( "Config saved" );
                 }
             catch( IOException e ) {
@@ -141,8 +141,8 @@ public class TestLocalConfigPanel
                 }
             }
     }
-    
-    class ListModelCollection<E> extends AbstractCollection<E>
+
+    static class ListModelCollection<E> extends AbstractCollection<E>
     {
         private ListModel<E> model;
 
@@ -165,7 +165,7 @@ public class TestLocalConfigPanel
             return new Iterator<E>()
             {
                 int i = 0;
-                
+
                 @Override
                 public boolean hasNext()
                 {

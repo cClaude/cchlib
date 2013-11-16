@@ -6,15 +6,15 @@ public interface FramePopulator<FRAME,OBJECT>
 {
     /**
      * Populate frame for this rootItem using giving bean name
-     * 
+     *
      * @param rootItem SwingIntrospectorRootItem to populate
      * @param beanname bean name to use for identify value from OBJECT
      * @throws SwingIntrospectorException
-     * @throws IntrospectionInvokeException 
+     * @throws IntrospectionInvokeException
      */
-    public void populateFrame( 
+    void populateFrame(
             SwingIntrospectorRootItem<FRAME>    rootItem,
-            String                              beanname 
+            String                              beanname
             )
     throws SwingIntrospectorException,
            IntrospectionInvokeException;

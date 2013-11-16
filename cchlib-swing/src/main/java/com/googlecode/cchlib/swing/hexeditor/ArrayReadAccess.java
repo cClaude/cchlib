@@ -11,19 +11,19 @@ public interface ArrayReadAccess extends Closeable
 	 * TODOC
 	 * @return TODOC
 	 */
-    public int getLength();
+    int getLength();
     
     /**
      * TODOC
      * @param index
      * @return TODOC
      */
-    public byte getByte(int index);
+    byte getByte(int index);
     
     /**
      * TODOC
      * @param index
      * @return TODOC
      */
-    public char getChar(int index);
+    char getChar(int index);
 }

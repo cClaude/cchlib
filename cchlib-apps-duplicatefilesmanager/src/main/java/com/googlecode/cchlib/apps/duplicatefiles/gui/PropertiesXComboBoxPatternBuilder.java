@@ -18,7 +18,8 @@ public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
+
     private PropertiesFileLock propertiesFile; // $codepro.audit.disable declareAsInterface
     private String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;
@@ -40,7 +41,7 @@ public class PropertiesXComboBoxPatternBuilder
             final String key     = keyPrefix + "." + i;
             final String value    = propertiesFile.getProperty( key );
 
-            logger.info("add k=" + key + " v=" + value );
+            LOGGER.info("add k=" + key + " v=" + value );
 
             if( value == null ) {
                 break;
@@ -74,13 +75,13 @@ public class PropertiesXComboBoxPatternBuilder
     protected void save()
         throws FileNotFoundException, IOException
     {
-        logger.info("save count=" + this.xComboBoxPattern.getItemCount() );
+        LOGGER.info("save count=" + this.xComboBoxPattern.getItemCount() );
 
         for( int i = 0; i<this.xComboBoxPattern.getItemCount(); i++ ) {
             final String key     = keyPrefix + "." + i;
             final String value    = this.xComboBoxPattern.getItemAt( i );
 
-            logger.info("save k=" + key + " v=" + value );
+            LOGGER.info("save k=" + key + " v=" + value );
 
             this.propertiesFile.setProperty( key, value );
             }

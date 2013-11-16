@@ -29,23 +29,23 @@ import com.googlecode.cchlib.i18n.I18nInterface;
 public class I18nPropertyResourceBundleAutoUpdate
     extends AbstractI18nPropertiesResourceAutoUpdate
 {
-	private static final long serialVersionUID = 1L;
-    private transient static Logger slogger = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
+    private static final long serialVersionUID = 1L;
+    private transient static Logger LOGGER = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
     /** @serial */
     private File outputFile;
 
     public I18nPropertyResourceBundleAutoUpdate(
-			I18nAutoUpdateInterface i18nAutoUpdateInterface,
-			AutoI18nTypes autoI18nDefaultTypes,
-			AutoI18nTypes autoI18nForceTypes,
-			AutoI18nExceptionHandler handler,
-			AutoI18nEventHandler eventHandler,
-			EnumSet<com.googlecode.cchlib.i18n.AutoI18n.Attribute> autoI18nAttributes,
-			EnumSet<Attribute> bundleAttributes) 
+        I18nAutoUpdateInterface i18nAutoUpdateInterface,
+        AutoI18nTypes autoI18nDefaultTypes,
+        AutoI18nTypes autoI18nForceTypes,
+        AutoI18nExceptionHandler handler,
+        AutoI18nEventHandler eventHandler,
+        EnumSet<com.googlecode.cchlib.i18n.AutoI18n.Attribute> autoI18nAttributes,
+        EnumSet<Attribute> bundleAttributes)
     {
-		super(i18nAutoUpdateInterface, autoI18nDefaultTypes, autoI18nForceTypes,
-				handler, eventHandler, autoI18nAttributes, bundleAttributes);
-	}
+        super(i18nAutoUpdateInterface, autoI18nDefaultTypes, autoI18nForceTypes,
+                handler, eventHandler, autoI18nAttributes, bundleAttributes);
+    }
 
     /**
      * Support only {@link I18nAutoUpdateInterface}
@@ -77,7 +77,7 @@ public class I18nPropertyResourceBundleAutoUpdate
     {
         URL url = getResourceBundleBaseNameURL();
 
-        slogger.info( "getResourceBundleInputStream() read from: " + url );
+        LOGGER.info( "getResourceBundleInputStream() read from: " + url );
 
         return url.openStream();
     }
@@ -110,7 +110,7 @@ public class I18nPropertyResourceBundleAutoUpdate
             file = outputFile;
         }
 
-        slogger.info( "getResourceBundleOutputStream() write to: " + file );
+        LOGGER.info( "getResourceBundleOutputStream() write to: " + file );
 
         return new FileOutputStream( file );
     }

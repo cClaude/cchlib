@@ -39,7 +39,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public boolean containsKey( Object key )
@@ -51,7 +51,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public boolean containsValue( Object value )
@@ -71,7 +71,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public V get( Object key )
@@ -95,7 +95,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public V put( KR key, V value )
@@ -105,7 +105,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void putAll( Map<? extends KR, ? extends V> m )
@@ -117,7 +117,7 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     /**
-     * 
+     *
      */
     @Override
     public V remove( Object key )
@@ -144,7 +144,7 @@ public class MapKeyWrapper<KS,KR,V>
      * @deprecated
      */
     @Deprecated
-    private class EntryWrapper<EK0,EK1,EV>
+    private static class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
     {
         private final Wrappable<EK0,EK1> ewrapper;
@@ -176,8 +176,8 @@ public class MapKeyWrapper<KS,KR,V>
                 @Override
                 public int hashCode()
                 {
-                    return (getKey()==null   ? 0 : getKey().hashCode()) ^
-                           (getValue()==null ? 0 : getValue().hashCode());
+                    return ((getKey()==null)   ? 0 : getKey().hashCode()) ^
+                           ((getValue()==null) ? 0 : getValue().hashCode());
                  }
 
                 @Override

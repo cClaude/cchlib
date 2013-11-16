@@ -1,3 +1,4 @@
+// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 package cx.ath.choisnet.html.gadgets.advanced;
 
 import java.util.Locale;
@@ -23,10 +24,10 @@ public class AGDate extends AbstractGadget
     protected SelectDay gadgetSelectDay__;
 
     public AGDate(
-            String gadgetName, 
+            String gadgetName,
             int fromYear,
             int toYear,
-            BasicDate dateToSelect, 
+            BasicDate dateToSelect,
             AbstractJavascript javascriptYear,
             AbstractJavascript javascriptMonth,
             AbstractJavascript javascriptDay
@@ -45,13 +46,13 @@ public class AGDate extends AbstractGadget
         if(dateToSelect != null) {
             int dateToSelectYear = dateToSelect.getYear();
 
-            if(fromYear <= dateToSelectYear && toYear >= dateToSelectYear) {
+            if((fromYear <= dateToSelectYear) && (toYear >= dateToSelectYear)) {
                 yearToSelect = dateToSelect.getYear();
                 monthToSelect = dateToSelect.getMonth();
                 dayToSelect = dateToSelect.getDay();
             }
         }
-        
+
         gadgetSelectYear_ = new SelectYear((new StringBuilder()).append("YEAR_").append(gadgetName).toString(), fromYear, toYear, yearToSelect, null, javascriptYear);
         gadgetSelectMonth = new SelectMonth((new StringBuilder()).append("MONTH_").append(gadgetName).toString(), monthToSelect, null, javascriptMonth);
         gadgetSelectDay__ = new SelectDay((new StringBuilder()).append("DAY_").append(gadgetName).toString(), 1, 31, dayToSelect, null, javascriptDay);

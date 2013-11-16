@@ -43,7 +43,7 @@ public class LimitedTextField extends JTextField
         public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
             throws BadLocationException
         {
-            int newLength = fb.getDocument().getLength() - length + str.length();
+            int newLength = (fb.getDocument().getLength() - length) + str.length();
 
             if (newLength <= maxLength) {
                 fb.replace(offset, length, str, attrs);

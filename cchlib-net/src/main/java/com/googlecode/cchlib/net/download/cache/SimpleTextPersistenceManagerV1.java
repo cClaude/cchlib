@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Map;
@@ -21,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 //Not public
 class SimpleTextPersistenceManagerV1
-    implements URLCachePersistenceManager
+    implements URICachePersistenceManager
 {
     private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV1.class );
     private static final String VERSION_STR = "V:1";
@@ -36,7 +38,7 @@ class SimpleTextPersistenceManagerV1
         try {
             w.append( VERSION_STR ).append( '\n' );
 
-            for( Entry<URL,URLDataCacheEntry> entry : cache ) {
+            for( Entry<URI,URIDataCacheEntry> entry : cache ) {
                 storeEntry( w, entry );
                 }
 
@@ -49,14 +51,14 @@ class SimpleTextPersistenceManagerV1
 
     private void storeEntry(
             final Writer                           w,
-            final Map.Entry<URL,URLDataCacheEntry> entry
+            final Map.Entry<URI,URIDataCacheEntry> entry
             ) throws IOException
     {
         // First line is a valid URL
         // Can not be null (use of toExternalForm())
-        w.append( entry.getKey().toExternalForm() ).append( '\n' );
+        w.append( entry.getKey().toASCIIString() ).append( '\n' );
 
-        final URLDataCacheEntry cacheEntry = entry.getValue();
+        final URIDataCacheEntry cacheEntry = entry.getValue();
 
         // Second line must be a valid Long
         // Can not be null (use of getTime())
@@ -97,7 +99,7 @@ class SimpleTextPersistenceManagerV1
 
             for(;;) {
                 // First line
-                URL    url;
+                URI    uri;
                 String line = r.readLine();
                 if( line == null ) {
                     // EOF
@@ -105,15 +107,23 @@ class SimpleTextPersistenceManagerV1
                     }
 
                 try {
-                    url = new URL( line );
+                    uri = new URL( line ).toURI();
                     }
-                catch ( MalformedURLException e ) {
-                    logger.error( "Bad URL format (try next line) in URLCache file : " + cacheFile
+                catch( MalformedURLException e ) {
+                    logger.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
-                    continue;
+                    uri = null;
                     }
+                catch( URISyntaxException e ) {
+                    logger.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
+                            + " value = [" + line + "]",
+                            e
+                            );
+                    uri = null;
+                    }
+
 
                 // Second line
                 Date date;
@@ -150,7 +160,7 @@ class SimpleTextPersistenceManagerV1
                     break; // EOF (ignore entry)
                     }
                 // Add entry !
-                cache.put( url, new DefaultURLCacheEntry( date, hashCode, filename ) );
+                cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) );
                 }
             }
         finally {

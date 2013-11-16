@@ -12,7 +12,7 @@ public interface ComponentInitializer
      * @see DefaultComponentInitializer
      * @see DefaultComponentInitializer#initComponent(Object, cx.ath.choisnet.lang.introspection.method.IntrospectionItem, String)
      */
-    public void initComponent(
+    void initComponent(
             Object  componentToInit,
             String  beanname
             ) throws SwingIntrospectorException;

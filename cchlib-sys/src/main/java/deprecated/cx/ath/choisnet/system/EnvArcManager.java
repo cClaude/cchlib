@@ -1,3 +1,4 @@
+// $codepro.audit.disable staticFieldNamingConvention
 package deprecated.cx.ath.choisnet.system;
 
 import java.util.Collection;

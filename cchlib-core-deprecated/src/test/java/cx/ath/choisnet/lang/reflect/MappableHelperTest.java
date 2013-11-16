@@ -16,8 +16,8 @@ public class MappableHelperTest
     @Test
     public void tstMappableJLabel()
     {
-        JLabel				object 	= new JLabel( "testString" );
-        Map<String, String> map 	= MappableHelper.toMap( object );
+        JLabel                object     = new JLabel( "testString" );
+        Map<String, String> map     = MappableHelper.toMap( object );
 
         for( Map.Entry<String,String> e : map.entrySet() ) {
             logger.info(

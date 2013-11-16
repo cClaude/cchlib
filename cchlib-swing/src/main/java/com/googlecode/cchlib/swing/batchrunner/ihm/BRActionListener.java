@@ -25,7 +25,7 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 @NeedDoc
 public class BRActionListener extends AbstractBRActionListener
 {
-    private final static Logger logger = Logger.getLogger( BRActionListener.class );
+    private static final Logger logger = Logger.getLogger( BRActionListener.class );
 
     private JFileChooserInitializer jFileChooserInitializer;
 

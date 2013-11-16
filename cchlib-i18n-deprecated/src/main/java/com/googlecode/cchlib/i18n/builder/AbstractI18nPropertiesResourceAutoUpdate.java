@@ -19,7 +19,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     extends AbstractI18nResourceAutoUpdate
 {
     private static final long serialVersionUID = 1L;
-    private transient static Logger slogger = Logger.getLogger(AbstractI18nPropertiesResourceAutoUpdate.class);
+    private transient static Logger LOGGER = Logger.getLogger(AbstractI18nPropertiesResourceAutoUpdate.class);
     /** @serial */
     private Properties properties = new Properties();
 
@@ -54,7 +54,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
             InputStream is = getResourceBundleInputStream();
 
             if( is == null ) {
-                slogger.warn( "Can't open resource bundle for reading !" );
+                LOGGER.warn( "Can't open resource bundle for reading !" );
             }
             else {
                 properties.load( is );
@@ -62,10 +62,10 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
             }
         }
         catch( IOException e ) {
-            slogger.warn( "Can't read resource bundle", e );
+            LOGGER.warn( "Can't read resource bundle", e );
         }
 
-        slogger.info( "Resource bundle entries count: " + properties.size() );
+        LOGGER.info( "Resource bundle entries count: " + properties.size() );
     }
 
     @Override
@@ -73,13 +73,13 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
     {
         OutputStream os = getResourceBundleOutputStream();
 
-        slogger.info( "saveValues(): know values = " + properties.size() );
-        slogger.info( "saveValues(): unknow values = " + getProperties().size() );
+        LOGGER.info( "saveValues(): know values = " + properties.size() );
+        LOGGER.info( "saveValues(): unknow values = " + getProperties().size() );
 
         properties.putAll( getProperties() );
 
         if( os == null ) {
-            slogger.warn( "Can't open resource bundle for writing !" );
+            LOGGER.warn( "Can't open resource bundle for writing !" );
         }
         else {
             properties.store( os, "Creat by :" + getClass().getName() );
@@ -94,7 +94,7 @@ public abstract class AbstractI18nPropertiesResourceAutoUpdate
 
         super.close();
 
-        slogger.info( "New Resource bundle entries count: " + properties.size() );
+        LOGGER.info( "New Resource bundle entries count: " + properties.size() );
 
         properties.clear(); // free some memory ;)
     }

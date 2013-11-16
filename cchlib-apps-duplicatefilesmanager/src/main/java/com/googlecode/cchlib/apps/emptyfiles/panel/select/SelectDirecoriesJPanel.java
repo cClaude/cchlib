@@ -1,13 +1,22 @@
 package com.googlecode.cchlib.apps.emptyfiles.panel.select;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
-import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -17,20 +26,12 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
-import java.awt.BorderLayout;
-import java.io.File;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
 
 @I18nName("emptyfiles.SelectDirecoriesJPanel")
 public class SelectDirecoriesJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private JPanel panel;
     private JList<File> list;
     private JButton addButton;
@@ -144,7 +145,7 @@ public class SelectDirecoriesJPanel extends JPanel
                 }
             });
             this.removeButton.setEnabled(false);
-            
+
             GridBagConstraints gbc_removeButton = new GridBagConstraints();
             gbc_removeButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_removeButton.insets = new Insets(0, 0, 5, 0);
@@ -162,7 +163,7 @@ public class SelectDirecoriesJPanel extends JPanel
                     doImport( removeEmptyFilesJPanel );
                 }
             });
-            
+
             GridBagConstraints gbc_importButton = new GridBagConstraints();
             gbc_importButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_importButton.insets = new Insets(0, 0, 5, 0);

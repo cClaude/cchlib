@@ -9,15 +9,15 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
-import java.nio.file.attribute.BasicFileAttributes;
 
 public class FindTask
 {
-    private static final Logger logger = Logger.getLogger( FindTask.class );
+    private static final Logger LOGGER = Logger.getLogger( FindTask.class );
 
     private WorkingTableModel tableModel;
     private Set<FileVisitOption> fileVisitOption;
@@ -44,7 +44,7 @@ public class FindTask
                 findFiles( directoryFile.toPath() );
                 }
             catch( IOException e ) {
-                logger.error( "FindTask.start(): " + directoryFile, e );
+                LOGGER.error( "FindTask.start(): " + directoryFile, e );
                 }
             }
     }
@@ -76,9 +76,9 @@ public class FindTask
                 throws IOException
             {
                 if( exc instanceof AccessDeniedException ) {
-                    logger.warn( "visitFileFailed : " + exc.getMessage() );
+                    LOGGER.warn( "visitFileFailed : " + exc.getMessage() );
                 } else {
-                    logger.error( "visitFileFailed", exc );
+                    LOGGER.error( "visitFileFailed", exc );
                 }
 
                 return FileVisitResult.CONTINUE;

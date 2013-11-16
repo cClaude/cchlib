@@ -23,12 +23,11 @@ public interface FrameFieldPopulator<FRAME,OBJECT>
      * @throws IntrospectionInvokeException
      *
      */
-    public void populateFields(
-            final SwingIntrospectorRootItem<FRAME> rootItem,
-            final IntrospectionItem<OBJECT>        iItem
-            )
-            throws SwingIntrospectorIllegalAccessException,
-                   SwingIntrospectorIllegalArgumentException,
-                   IntrospectionInvokeException;
+    void populateFields(
+        final SwingIntrospectorRootItem<FRAME> rootItem,
+        final IntrospectionItem<OBJECT>        iItem
+        ) throws SwingIntrospectorIllegalAccessException,
+               SwingIntrospectorIllegalArgumentException,
+               IntrospectionInvokeException;
 
 }

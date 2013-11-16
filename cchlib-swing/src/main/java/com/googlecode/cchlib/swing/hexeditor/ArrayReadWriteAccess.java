@@ -11,5 +11,5 @@ public interface ArrayReadWriteAccess extends ArrayReadAccess
      * @param index
      * @param b
      */
-    public void setByte(int index, byte b);
+    void setByte(int index, byte b);
 }

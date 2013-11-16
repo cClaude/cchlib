@@ -20,7 +20,7 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends IntrospectionItem<OBJECT>>
     implements ComponentInitializer
 {
-    private static Logger slogger = Logger.getLogger(DefaultComponentInitializer.class);
+    private static Logger LOGGER = Logger.getLogger(DefaultComponentInitializer.class);
     private Introspection<OBJECT,OBJECT_ENTRY> introspection;
 
     public DefaultComponentInitializer(
@@ -59,7 +59,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
         if( componentToInit instanceof JComboBox ) {
             JComboBox<?> c = JComboBox.class.cast( componentToInit );
 
-            int maxValue  = Integer.class.cast( iItem.getMaxValue() );
+            int maxValue  = Integer.class.cast( iItem.getMaxValue() ).intValue();
             int maxLength = (int)Math.log10( maxValue );
 
             setModel( c, iItem, maxLength, true );
@@ -83,7 +83,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
         }
         // else if( xx instanceof JTextField ) --> column ?
         else {// Dont't Know how to handle initialization for:
-            slogger.info( "Dont't Know how to handle initialization for:" + componentToInit.getClass() );
+            LOGGER.info( "Dont't Know how to handle initialization for:" + componentToInit.getClass() );
         }
     }
 
@@ -107,9 +107,9 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
             throw new SwingIntrospectorNoMaxValueException( beanname, iItem );
         }
 
-        js.setMaximum( Integer.class.cast( maxValue ) );
+        js.setMaximum( Integer.class.cast( maxValue ).intValue() );
 
-        int minValue = Integer.class.cast( iItem.getMinValue() );
+        int minValue = Integer.class.cast( iItem.getMinValue() ).intValue();
         js.setMinimum( minValue );
 
         int defaultValue;
@@ -118,7 +118,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
             defaultValue = minValue;
         }
         else {
-            defaultValue = Integer.class.cast( iItem.getDefaultValue() );
+            defaultValue = Integer.class.cast( iItem.getDefaultValue() ).intValue();
         }
 
         js.setValue( defaultValue );
@@ -143,7 +143,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
         if( maxValue == null ) {
             throw new SwingIntrospectorNoMaxValueException( beanname, iItem );
         }
-        lijtf.setMaxValue( Integer.class.cast( maxValue ) );
+        lijtf.setMaxValue( Integer.class.cast( maxValue ).intValue() );
 
         Object defaultValue = iItem.getDefaultValue();
         int    defaultValueInt;
@@ -152,7 +152,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
             defaultValueInt = 0;
         }
         else {
-            defaultValueInt = Integer.class.cast( defaultValue );
+            defaultValueInt = Integer.class.cast( defaultValue ).intValue();
         }
 
         lijtf.setValue( defaultValueInt );
@@ -165,14 +165,14 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
      * @param isRightAligned
      */
     public <E> void setModel(
-            final JComboBox<E>			combo,
+            final JComboBox<E>            combo,
             final IntrospectionItem<?>  iItem,
             final int                   minLength,
             final boolean               isRightAligned
             )
     {
-        int minValue = Integer.class.cast( iItem.getMinValue() );
-        int maxValue = Integer.class.cast( iItem.getMaxValue() );
+        int minValue = Integer.class.cast( iItem.getMinValue() ).intValue();
+        int maxValue = Integer.class.cast( iItem.getMaxValue() ).intValue();
 
         ComboBoxModel<String> model = new DefaultComboBoxModel<String>(
                 //DeprecatedSwingHelpers.initObjectArray( minValue, maxValue, minLength, true )
@@ -193,9 +193,9 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
             String                  beanname
             )
     {
-        int minValue = Integer.class.cast( iItem.getMinValue() );
-        int defValue = Integer.class.cast( iItem.getDefaultValue() );
-        int maxValue = Integer.class.cast( iItem.getMaxValue() );
+        int minValue = Integer.class.cast( iItem.getMinValue() ).intValue();
+        int defValue = Integer.class.cast( iItem.getDefaultValue() ).intValue();
+        int maxValue = Integer.class.cast( iItem.getMaxValue() ).intValue();
 
         jSpinner.setModel(
                 new SpinnerNumberModel(defValue,minValue,maxValue,1)
@@ -210,7 +210,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
     * @param isRightAligned - should right align String content?
     * @return an Object array within String Objects
     */
-   public final static String[] initStringArray(
+   public static final String[] initStringArray(
           final int       min,
           final int       max,
           final int       minLength,
@@ -227,7 +227,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
 
       final String padStr = padding.toString();
 
-      final int      len     = max - min + 1;
+      final int      len     = (max - min) + 1;
       final String[] strings = new String[ len ];
 
       for( int i = 0; i<len; i++ ) {
@@ -274,7 +274,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
 
        final String padStr = padding.toString();
 
-       final int      len = max - min + 1;
+       final int      len = (max - min) + 1;
        final Object[] object = new Object[ len ];
 
        for( int i = 0; i<len; i++ ) {

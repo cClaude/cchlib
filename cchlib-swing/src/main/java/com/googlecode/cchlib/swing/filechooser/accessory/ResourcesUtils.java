@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.io.Serializable;
@@ -21,7 +22,7 @@ final class ResourcesUtils implements Serializable
 
     public enum ID {
         BOOKMARK_REMOVE,
-        BOOKMARK_ADD, 
+        BOOKMARK_ADD,
         BOOKMARK_UPDATE,
         COPY,
         IMAGE_ICON
@@ -34,11 +35,11 @@ final class ResourcesUtils implements Serializable
     {
         this( null );
     }
-    
-    
+
+
     /**
      * Create a ResourcesUtils
-     * 
+     *
      * @param locale Locale to use for this ResourcesUtils
      */
     public ResourcesUtils( final Locale locale )
@@ -71,7 +72,7 @@ final class ResourcesUtils implements Serializable
             throw new ResourcesUtilsException( "Can not find : [" + resourceName + "]" );
             }
     }
-    
+
     private URL getResource( final ResourcesUtils.ID resourceId )
         throws ResourcesUtilsException
     {
@@ -84,14 +85,14 @@ final class ResourcesUtils implements Serializable
                 return getResource( "reload.gif" );
             case COPY:
                 throw new ResourcesUtilsException( "ResourcesUtils.ID not not handle : [" + resourceId + "]" );
-            case IMAGE_ICON: 
+            case IMAGE_ICON:
                 return getResource( "picture.png" );
             }
         throw new ResourcesUtilsException( "ResourcesUtils.ID not not handle : [" + resourceId + "]" );
     }
-    
+
     /**
-     * 
+     *
      * @param resourceId
      * @return
      */
@@ -106,9 +107,9 @@ final class ResourcesUtils implements Serializable
             return createOnePixelImageIcon();
             }
     }
-    
+
     /**
-     * 
+     *
      * @param resourceId
      * @return
      */
@@ -127,7 +128,7 @@ final class ResourcesUtils implements Serializable
             }
     }
 
-    private ResourceBundle getResourceBundle() 
+    private ResourceBundle getResourceBundle()
         throws ResourcesUtilsException
     {
         if( resourceBundle == null ) {
@@ -143,9 +144,9 @@ final class ResourcesUtils implements Serializable
             }
         return resourceBundle;
     }
-    
+
     /**
-     * 
+     *
      * @param resourceId
      * @return
      */
@@ -153,21 +154,21 @@ final class ResourcesUtils implements Serializable
     {
         try {
             final ResourceBundle rb = getResourceBundle();
-            
+
             return rb.getString( resourceId.name() );
             }
         catch( MissingResourceException e ) { // $codepro.audit.disable logExceptions
             logger.error( "Text resource not found for " + resourceId );
- 
-            return resourceId.name(); 
+
+            return resourceId.name();
             }
         catch( ResourcesUtilsException e ) {
             logger.error( "Can not load resources for " + resourceId, e );
-            
-            return resourceId.name(); 
+
+            return resourceId.name();
         }
     }
-    
+
     /**
      *
      * @param resourceName

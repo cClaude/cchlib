@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * Events while downloading.
- * 
+ *
  * @since 4.1.7
  */
 public interface DownloadFileEvent extends DownloadEvent
@@ -15,5 +15,5 @@ public interface DownloadFileEvent extends DownloadEvent
      * @return a new empty {@link File}
      * @throws IOException If a file could not be created
      */
-    public File createDownloadTmpFile() throws IOException;
+    File createDownloadTmpFile() throws IOException;
 }

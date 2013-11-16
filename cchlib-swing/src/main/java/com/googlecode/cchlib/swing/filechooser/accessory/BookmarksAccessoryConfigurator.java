@@ -13,17 +13,17 @@ public interface BookmarksAccessoryConfigurator extends Serializable
      * @return list of already know bookmarks, must
      * be a list of existing directory File object.
      */
-    public Collection<File> getBookmarks();
+    Collection<File> getBookmarks();
 
     /**
      * @param file File to add to bookmarks Collection
      * @return true if file have been had.
      */
-    public boolean addBookmarkFile(File file);
+    boolean addBookmarkFile(File file);
 
     /**
      * @param file File to remove to bookmark Collection
      * @return true if file have been removed.
      */
-    public boolean removeBookmark(File file);
+    boolean removeBookmark(File file);
   }

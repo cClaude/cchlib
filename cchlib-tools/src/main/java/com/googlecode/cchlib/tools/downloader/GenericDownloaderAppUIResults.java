@@ -9,11 +9,11 @@ public interface GenericDownloaderAppUIResults
      *
      * @return TODOC
      */
-    public int getDownloadThreadCount();
+    int getDownloadThreadCount();
 
     /**
      *
      * @return TODOC
      */
-    public LoggerListener getAbstractLogger();
+    LoggerListener getAbstractLogger();
 }

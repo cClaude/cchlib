@@ -51,7 +51,7 @@ import com.googlecode.cchlib.util.iterable.CascadingIterable;
 public class JPanelSelectFoldersOrFiles extends JPanel
 {
     private static final long serialVersionUID = 4L;
-    private static transient Logger logger = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
+    private static Logger LOGGER = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
 
     private JTable jTableSelectedFoldersOrFiles;
     private XTextField jTextFieldCurrentDir;
@@ -219,7 +219,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             public void filesDropped( List<File> files )
             {
                 for( File f:files ) {
-                    logger.info( "add drop file:" + f );
+                    LOGGER.info( "add drop file:" + f );
                     addEntry( f, false );
                     }
             }
@@ -329,7 +329,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     File[] files = jfc.getSelectedFiles();
 
                     for(File f:files) {
-                        logger.info( "selected dir:" + f );
+                        LOGGER.info( "selected dir:" + f );
                         addEntry( f, false );
                         }
                     }
@@ -354,7 +354,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     File[] files = jfc.getSelectedFiles();
 
                     for(File f:files) {
-                        logger.info( "selected file:" + f );
+                        LOGGER.info( "selected file:" + f );
                         addEntry( f, false );
                         }
                     }
@@ -421,7 +421,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                     }
 //                filesList.add( new FileOrFolder( f, ignore ) );
                 tableModelSelectedFoldersOrFiles.fireTableDataChanged();
-                logger.info( "add: " + f );
+                LOGGER.info( "add: " + f );
 //                slogger.info( "size: " + filesList.size() );
 
                 jButtonRemEntry.setEnabled( true );
@@ -429,7 +429,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 }
             else {
                 // TODO: Explain reason in a dialog
-                logger.warn( "Value already exist: " + f );
+                LOGGER.warn( "Value already exist: " + f );
                 }
             }
 

@@ -17,17 +17,17 @@ public interface BRXLocaleResources
      *
      * @return TODOC
      */
-    public String getProgressMonitorMessage();
+    String getProgressMonitorMessage();
 
     /**
      * Returns values use for Frame title
      * @return Frame title
      */
-    public String getFrameTitle();
+    String getFrameTitle();
 
     /**
      * Returns values use for Frame icon
      * @return Frame icon
      */
-    public Image getFrameIconImage();
+    Image getFrameIconImage();
 }

@@ -32,7 +32,7 @@ public class WorkingTableModel
         implements TableModel, Serializable, ForceColumnWidthModel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( WorkingTableModel.class );
+    private static final Logger LOGGER = Logger.getLogger( WorkingTableModel.class );
 
     private enum Columns {
         FILE_ICON( 16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN),
@@ -167,8 +167,8 @@ public class WorkingTableModel
 
             getFileInfo( file ).setSelected( ((Boolean)aValue).booleanValue() );
 
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "selection is " + aValue + " for " + file );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "selection is " + aValue + " for " + file );
                 }
 
             super.fireTableCellUpdated( rowIndex, columnIndex );
@@ -243,7 +243,7 @@ public class WorkingTableModel
         FileInfo value = getFileInfo( file );
 
         if( value.isSelected() ) {
-            logger.info( "doDelete: " + file );
+            LOGGER.info( "doDelete: " + file );
 
             boolean deleted = file.delete();
 
@@ -256,7 +256,7 @@ public class WorkingTableModel
                 }
             else {
                 // Not deleted
-                logger.warn( "Can't delete : " + file );
+                LOGGER.warn( "Can't delete : " + file );
                 }
             }
 

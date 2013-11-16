@@ -20,68 +20,68 @@ public interface HexEditorModel //extends Closeable
      * TODOC
      * @return TODOC
      */
-    public int getIntroduction();
+    int getIntroduction();
 
     /**
      * TODOC
      * @return TODOC
      */
-    public int getCursorPos();
+    int getCursorPos();
 
     /**
      *
      */
-    public void incCursorPos();
+    void incCursorPos();
 
     /**
      *
      * @param index
      */
-    public void setCursorPos( int index );
+    void setCursorPos( int index );
 
     /**
      * TODOC
      * @return TODOC
      */
-    public ArrayReadAccess getBuffer();
+    ArrayReadAccess getBuffer();
 
     /**
      * TODOC
      * @return TODOC
      */
-    public ArrayReadWriteAccess getBufferRW();
+    ArrayReadWriteAccess getBufferRW();
 
     /**
      * TODOC
      * @return TODOC
      */
-    public int getDisplayLinesCount();
+    int getDisplayLinesCount();
 
-    public Font getFont();
+    Font getFont();
 
-    public int getBorderWidth();
+    int getBorderWidth();
 
-    public void drawTable(Graphics g, int i, int y, int j);
+    void drawTable(Graphics g, int i, int y, int j);
 
-    public void printString(Graphics g, String s, int i, int j);
+    void printString(Graphics g, String s, int i, int j);
 
-    public void drawBackground(Graphics g, int x, int y, int i);
+    void drawBackground(Graphics g, int x, int y, int i);
 
-    public void keyPressed(KeyEvent e);
+    void keyPressed(KeyEvent e);
 
-    public void repaintAll();
+    void repaintAll();
 
-    public FontMetrics getFontMetrics();
+    FontMetrics getFontMetrics();
 
-    public void adjustmentValueChanged(AdjustmentEvent event);
+    void adjustmentValueChanged(AdjustmentEvent event);
 
-    public void mouseWheelMoved(MouseWheelEvent event);
+    void mouseWheelMoved(MouseWheelEvent event);
 
-    public void adjustingScrollBarValues(Rectangle rec);
+    void adjustingScrollBarValues(Rectangle rec);
 
-    public void setRootComponent(JComponent rootComponent);
+    void setRootComponent(JComponent rootComponent);
 
-    public void updateCursor();
+    void updateCursor();
 
-    public void close() throws IOException;
+    void close() throws IOException;
 }

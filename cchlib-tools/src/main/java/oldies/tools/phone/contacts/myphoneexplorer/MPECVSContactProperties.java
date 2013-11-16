@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 import oldies.tools.phone.BadFileFormatException;
 import oldies.tools.phone.contacts.ContactProperties;
 import oldies.tools.phone.contacts.DefaultContactProperties;
-
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -19,28 +18,6 @@ public class MPECVSContactProperties
 {
     private static final long serialVersionUID = 1L;
 
-    /* *
-     *
-     * @param myPhoneExplorerCVSFile
-     * @param charset
-     * @param cvsSeparator
-     * @throws BadFileFormatException
-     * @throws IOException
-     * /
-    public MPECVSContactProperties(
-        final File 		myPhoneExplorerCVSFile,
-        final Charset 	charset,
-        final char 		cvsSeparator
-        )
-        throws IOException, BadFileFormatException
-    {
-        super( new MPECVSContactPropertiesBuilder(
-                myPhoneExplorerCVSFile,
-                charset,
-                cvsSeparator
-                ) );
-    }*/
-
     /**
      *
      * @param csvReader
@@ -51,13 +28,12 @@ public class MPECVSContactProperties
      * @throws BadFileFormatException
      */
     public MPECVSContactProperties(
-        final CSVReader	csvReader,
-        final File 		cvsFile,
-        final Charset 	charset,
-        final char 		cvsSeparator
+        final CSVReader csvReader,
+        final File      cvsFile,
+        final Charset   charset,
+        final char      cvsSeparator
         )
-        throws 	BadFileFormatException,
-                IOException
+        throws BadFileFormatException, IOException
     {
         super( new MPECVSContactPropertiesBuilder(
                 csvReader,

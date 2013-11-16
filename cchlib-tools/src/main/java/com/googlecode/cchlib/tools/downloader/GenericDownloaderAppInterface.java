@@ -16,96 +16,41 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 public interface GenericDownloaderAppInterface
 {
     /**
-     * TODOC
-     *
-     */
-    public interface Button 
-    {
-        /**
-         * 
-         * @return TODOC
-         */
-        public String getLabel();
-
-        /**
-         * TODOC
-         */
-        public void onClick();
-    }
-
-    /**
-     * TODOC
-     *
-     */
-    public interface ComboBoxConfig
-    {
-       /**
-        *
-        * @return TODOC
-        */
-       public int getSelectedIndex();
-
-       /**
-        *
-        * @param selectedIndex
-        */
-       public void setSelectedIndex( int selectedIndex );
-
-       /**
-        *
-        * @return TODOC
-        */
-       public String getComboBoxSelectedValue();
-       
-       /**
-       *
-       * @return TODOC
-       */
-       public String getDescription();
-       
-       /**
-       *
-       * @return TODOC
-       */
-       public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry();
-    }
-
-    /**
      * Returns the site name (for UI)
      * @return the site name
      */
-    public String getSiteName();
+    String getSiteName();
 
     /**
      * Returns average pictures by page (for UI)
      * @return average pictures by page.
      */
-    public int getNumberOfPicturesByPage();
+    int getNumberOfPicturesByPage();
 
     /**
      * Returns number of page to download (for UI). Value must be greater than 0 and
      * less or equal than value return by {@link #getMaxPageCount()}.
      * @return number of page to download
      */
-    public int getPageCount();
+    int getPageCount();
 
     /**
      * Set number of page to download
      * @see #getPageCount()
      */
-    public void setPageCount( int pageCount );
+    void setPageCount( int pageCount );
 
     /**
      * Returns max number of page to download (for UI)
      * @return max number of page to download
      */
-    public int getMaxPageCount();
+    int getMaxPageCount();
 
     /**
      *
      * @return relative directory cache name
      */
-    public String getCacheRelativeDirectoryCacheName();
+    String getCacheRelativeDirectoryCacheName();
 
     /**
      * Returns a list of {@link DownloadStringURL} to parse
@@ -113,7 +58,7 @@ public interface GenericDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException 
      */
-    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+    Collection<DownloadStringURL> getURLDownloadAndParseCollection()
         throws MalformedURLException, URISyntaxException;
 
     /**
@@ -124,7 +69,7 @@ public interface GenericDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException 
      */
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    Collection<DownloadFileURL> getURLToDownloadCollection(
         GenericDownloaderAppUIResults   gdauir,
         DownloadStringURL               content2Parse
         ) throws MalformedURLException, URISyntaxException;
@@ -133,25 +78,25 @@ public interface GenericDownloaderAppInterface
      *
      * @return TODOC
      */
-    public Collection<ComboBoxConfig> getComboBoxConfigCollection();
+    Collection<GenericDownloaderAppComboBoxConfig> getComboBoxConfigCollection();
 
     /**
      *
      * @return TODOC
      */
-    public Proxy getProxy();
+    Proxy getProxy();
 
     /**
      *
      * @param proxy
      */
-    public void setProxy( Proxy proxy );
+    void setProxy( Proxy proxy );
 
     /**
      *
      * @return TODOC
      */
-    public Button getButtonConfig();
+    GenericDownloaderAppButton getButtonConfig();
 
-    public void setSelectedItems( List<Item> selectedItems );
+    void setSelectedItems( List<Item> selectedItems );
 }

@@ -25,10 +25,12 @@ public class TestTree {
                 boolean isLeaf, int row, boolean focused) {
             Component c = super.getTreeCellRendererComponent(tree, value,
                     selected, expanded, isLeaf, row, focused);
-            if (selected)
+            if (selected) {
                 setIcon(loadIcon);
-            else
+                }
+            else {
                 setIcon(saveIcon);
+                }
             return c;
         }
     }

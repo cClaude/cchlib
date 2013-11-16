@@ -3,8 +3,11 @@ package com.googlecode.cchlib.tools.downloader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Proxy;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
@@ -17,37 +20,38 @@ public class PolyURLDownloadFileURL extends DefaultDownloadFileURL
 {
     private static final long serialVersionUID = 1L;
     private static final String INITIAL_VALUE_PROPERTY = "initialValue";
-    private final List<URL> nextURLs;
-    private int             nextURLIndex = 0;
+    private final List<URI> nextURIs;
+    private int             nextURIIndex = 0;
 
     /**
      * TODOC
-     * 
+     *
      * @param defaultURL
-     * @param requestPropertyMap 
+     * @param requestPropertyMap
      * @param proxy
      * @param nextURLs
      * @param initialValue
-     * 
-     * @throws URISyntaxException 
+     *
+     * @throws URISyntaxException
      */
     public PolyURLDownloadFileURL(
-        final URL                   defaultURL, 
+        final URL                   defaultURL,
         final Map<String,String>    requestPropertyMap,
         final Proxy                 proxy,
-        final List<URL>             nextURLs,
-        final String                initialValue 
+        final Collection<URI>       nextURIs,
+        final String                initialValue
         ) throws URISyntaxException
     {
         super( defaultURL, requestPropertyMap, proxy );
-        
-        this.nextURLs = nextURLs;
-        
+
+        this.nextURIs = new ArrayList<>( nextURIs );
+
         setProperty( INITIAL_VALUE_PROPERTY, initialValue );
     }
-    
+
     /**
      * TODOC
+     * @throws URISyntaxException
      */
     @Override
     public InputStream getInputStream() throws IOException
@@ -57,8 +61,8 @@ public class PolyURLDownloadFileURL extends DefaultDownloadFileURL
                 return super.getInputStream();
                 }
             catch( IOException ioe ) {
-                if( nextURLIndex < nextURLs.size() ) {
-                    super.setURL( nextURLs.get( nextURLIndex++ ) );
+                if( nextURIIndex < nextURIs.size() ) {
+                    super.setURI( nextURIs.get( nextURIIndex++ ) );
                     }
                 else {
                     throw ioe;

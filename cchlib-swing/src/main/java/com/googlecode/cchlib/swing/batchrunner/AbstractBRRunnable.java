@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractBRRunnable implements BRRunnable
 {
-    protected final static Logger logger = Logger.getLogger( AbstractBRRunnable.class );
+    protected static final Logger logger = Logger.getLogger( AbstractBRRunnable.class );
 
     private File destinationFolderFile;
 

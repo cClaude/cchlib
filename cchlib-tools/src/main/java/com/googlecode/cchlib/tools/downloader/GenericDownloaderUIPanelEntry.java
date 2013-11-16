@@ -28,8 +28,8 @@ public class GenericDownloaderUIPanelEntry extends JPanel
      */
     public interface Item
     {
-        public String getJComboBoxText();
-        public String getSelectedDescription();
+        String getJComboBoxText();
+        String getSelectedDescription();
     }
 
     /**

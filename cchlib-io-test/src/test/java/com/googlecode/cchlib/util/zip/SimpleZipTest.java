@@ -16,14 +16,14 @@ import org.junit.Assert;
  */
 public class SimpleZipTest
 {
-    final private static Logger slogger = Logger.getLogger(SimpleZipTest.class);
+    private static final Logger slogger = Logger.getLogger(SimpleZipTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File ZIP_SOURCE_DIR_FILE = new File( new File("."), "src" );
     public static final File ZIP_DESTINATION_ZIP = new File( TEMP_DIR_FILE, "mysrc.zip" );
 
-    public final static String UNZIP_ZIP_FILENAME  = "../metadata/lib/registry.jar";
-    public final static File   UNZIP_DEST_DIR_FILE = new File( TEMP_DIR_FILE, "registry.jar" );
+    public static final String UNZIP_ZIP_FILENAME  = "../metadata/lib/registry.jar";
+    public static final File   UNZIP_DEST_DIR_FILE = new File( TEMP_DIR_FILE, "registry.jar" );
 
     @Test
     public void test_SimpleZip() throws IOException

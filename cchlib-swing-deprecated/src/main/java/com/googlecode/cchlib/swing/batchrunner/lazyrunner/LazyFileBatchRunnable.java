@@ -19,7 +19,7 @@ public interface LazyFileBatchRunnable extends LazyBatchRunnable
      * @throws IOException if any I/O occurred (This error is shown to the user)
      * @throws BatchRunnerInterruptedException if batch should be cancel
      */
-    public void runTask(
+    void runTask(
         final File inputFile,
         final File outputFile
         )

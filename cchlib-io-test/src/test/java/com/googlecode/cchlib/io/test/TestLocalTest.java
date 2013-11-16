@@ -14,7 +14,7 @@ import com.googlecode.cchlib.test.TestConfigurationHelper;
  */
 public class TestLocalTest
 {
-    private final static Logger logger = Logger.getLogger( TestLocalTest.class );
+    private static final Logger logger = Logger.getLogger( TestLocalTest.class );
 
     @Test
     public void testTestLocal() throws IOException

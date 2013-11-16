@@ -13,9 +13,9 @@ public interface ContactList
      * Returns {@link ContactProperties} for this contact
      * @return contact properties for this contact
      */
-    public ContactProperties getContactProperties();
+    ContactProperties getContactProperties();
 
-    public void add( Contact contact );
-    public boolean remove( Contact contact );
-    public int size();
+    void add( Contact contact );
+    boolean remove( Contact contact );
+    int size();
 }

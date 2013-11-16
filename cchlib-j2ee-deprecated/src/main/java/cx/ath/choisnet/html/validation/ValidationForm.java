@@ -1,8 +1,5 @@
 package cx.ath.choisnet.html.validation;
 
-import cx.ath.choisnet.util.datetime.BasicDate;
-import cx.ath.choisnet.util.datetime.BasicDateTimeException;
-import cx.ath.choisnet.util.datetime.BasicTime;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import cx.ath.choisnet.html.HTMLDocumentException;
@@ -14,6 +11,9 @@ import cx.ath.choisnet.html.gadgets.BGInputText;
 import cx.ath.choisnet.html.gadgets.advanced.AGDate;
 import cx.ath.choisnet.html.gadgets.advanced.AGFormatTime;
 import cx.ath.choisnet.html.gadgets.advanced.AGTime;
+import cx.ath.choisnet.util.datetime.BasicDate;
+import cx.ath.choisnet.util.datetime.BasicDateTimeException;
+import cx.ath.choisnet.util.datetime.BasicTime;
 
 public class ValidationForm extends Form
 {

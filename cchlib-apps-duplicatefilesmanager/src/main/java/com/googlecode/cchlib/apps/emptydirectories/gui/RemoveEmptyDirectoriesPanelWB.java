@@ -1,29 +1,29 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import java.awt.HeadlessException;
-import javax.swing.JPanel;
-import javax.swing.ListModel;
-import java.awt.GridBagLayout;
-import javax.swing.JList;
 import java.awt.GridBagConstraints;
-import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 import java.util.TooManyListenersException; // $codepro.audit.disable unnecessaryImport
-import javax.swing.JTree;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTree;
+import javax.swing.ListModel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.SoftBevelBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
-import javax.swing.JScrollPane;
-import javax.swing.border.Border;
-import java.awt.event.ActionListener;
 
 /**
  * Handle layout
@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( RemoveEmptyDirectoriesPanelWB.class );
+    private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanelWB.class );
 
     protected static final String ACTION_IMPORT_DIRS = "ACTION_IMPORT_DIRS";
     protected static final String ACTION_ADD_DIRS = "ACTION_ADD_DIRS";
@@ -393,7 +393,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
             scrollPaneJListSimpleFileDrop.addDropTargetListener();
             }
         catch( HeadlessException | TooManyListenersException e ) {
-            logger.error( "Can not create Drop Listener", e );
+            LOGGER.error( "Can not create Drop Listener", e );
             }
 
         btnAddRootDirectory.setEnabled( true );

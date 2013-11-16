@@ -35,7 +35,8 @@ public final class DefaultDFToolKit
     implements DFToolKit, I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( DefaultDFToolKit.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultDFToolKit.class );
+
     private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
     private final Preferences preferences;
     private DuplicateFilesFrame mainWindow;
@@ -162,7 +163,7 @@ public final class DefaultDFToolKit
         java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
         try {
-            logger.info( "trying to open: " + file );
+            LOGGER.info( "trying to open: " + file );
             desktop.open( file );
             }
         catch( IOException e ) {
@@ -203,7 +204,7 @@ public final class DefaultDFToolKit
                 }
             catch( Exception e ) {
                 locale = null;
-                logger.warn( "Can not use main window to set Locale", e );
+                LOGGER.warn( "Can not use main window to set Locale", e );
                 }
 
             if( locale == null ) {

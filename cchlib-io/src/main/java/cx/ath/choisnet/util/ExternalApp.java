@@ -49,9 +49,9 @@ public class ExternalApp
 
     public static interface Output
     {
-        public abstract byte[] getStdOut();
-        public abstract byte[] getStdErr();
-        public abstract int getReturnCode();
+        byte[] getStdOut();
+        byte[] getStdErr();
+        int getReturnCode();
     }
 
     private ExternalApp()
@@ -140,7 +140,7 @@ public class ExternalApp
         throws ExternalAppException
     {
         final InputStream empty = new EmptyInputStream();
-        
+
         try {
             return ExternalApp.execute(command, empty , stdout, stderr);
             }
@@ -187,7 +187,7 @@ public class ExternalApp
         throws ExternalAppException
     {
         final InputStream empty = new EmptyInputStream();
-        
+
         try {
             return ExternalApp.execute( command, empty );
             }

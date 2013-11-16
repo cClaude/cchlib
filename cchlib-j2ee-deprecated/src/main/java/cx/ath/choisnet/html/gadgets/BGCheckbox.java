@@ -31,7 +31,7 @@ public class BGCheckbox extends AbstractBG
     public void writeHTML(HTMLDocumentWriter out)
         throws HTMLDocumentException
     {
-        String javascriptString = javascript == null ? null : javascript.toInLineJavascript();
+        String javascriptString = (javascript == null) ? null : javascript.toInLineJavascript();
 
         if(deprecatedDatas == null) {
             out.write(BGCheckbox.build(gadgetName, checked, javascriptString));

@@ -16,8 +16,8 @@ import java.io.BufferedOutputStream;
 @Deprecated
 public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask
 {
-    public final static char REPLACEMENT_CHAR = '#';
-    public final static int DEFAULT_LINE_SIZE = 128;
+    public static final char REPLACEMENT_CHAR = '#';
+    public static final int DEFAULT_LINE_SIZE = 128;
     private int remplacementChar;
     private boolean useRemplacementChar;
     private int maxLinePos;
@@ -41,7 +41,7 @@ public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.
                 this.useMaxLinePos = false;
                 }
             else {
-                this.maxLinePos = ligneSize;
+                this.maxLinePos = ligneSize.intValue();
                 this.useMaxLinePos = true;
                 }
         }
@@ -119,7 +119,7 @@ public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.
 
         while( (c = in.read()) > -1 ) {
             // Eg. C / isalnum() Unix
-            if( Character.isLetterOrDigit( c ) && (c < 128) || !useRemplacementChar ) {
+            if( (Character.isLetterOrDigit( c ) && (c < 128)) || !useRemplacementChar ) {
                 out.write( c );
                 }
             else {
@@ -139,7 +139,7 @@ public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.
                 }
             linePos++;
 
-            if( linePos >= this.maxLinePos && this.useMaxLinePos ) {
+            if( (linePos >= this.maxLinePos) && this.useMaxLinePos ) {
                 out.write( '\n' );
                 linePos = 0;
                 }
@@ -200,9 +200,9 @@ public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.
             exit( -1 );
             }
     }
-    
+
     private static void exit( int error )
     {
-    	System.exit( error );
+        System.exit( error );
     }
 }

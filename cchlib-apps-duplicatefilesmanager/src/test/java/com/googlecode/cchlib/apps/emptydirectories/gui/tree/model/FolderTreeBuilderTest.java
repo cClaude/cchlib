@@ -1,8 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
+//import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class FolderTreeBuilderTest
     private static final String TAB = "  ";
 
     @BeforeClass
-    public static void setUpBeforeClass() 
+    public static void setUpBeforeClass()
     {}
 
     @AfterClass
@@ -60,7 +59,7 @@ public class FolderTreeBuilderTest
 
         Map<Path,FolderTreeNode> map = folderTreeBuilder.getRootNodesMap();
 
-        assertEquals( 1, map.size() );
+        Assert.assertEquals( 1, map.size() );
         FolderTreeNode rootFolderTreeNode =  map.values().iterator().next();
         logger.info( "rootFolderTreeNode = " + rootFolderTreeNode );
         //assertEquals( 0, rootFolderTreeNode.g );
@@ -71,7 +70,7 @@ public class FolderTreeBuilderTest
 
         logger.info( "############## emptyFolder2 = " + emptyFolder2 );
         folderTreeBuilder.add( emptyFolder2 );
-        assertEquals( 1, map.size() );
+        Assert.assertEquals( 1, map.size() );
 
         Path        cbEmptyPath3   = Files.createTempDirectory( getClass().getSimpleName() );
         Path        emptyPath3     = cbEmptyPath3.resolve( "empty3" );
@@ -81,11 +80,11 @@ public class FolderTreeBuilderTest
 
         logger.info( "############## emptyFolder3 = " + emptyFolder3 );
         folderTreeBuilder.add( emptyFolder3 );
-        assertEquals( 1, map.size() );
+        Assert.assertEquals( 1, map.size() );
 
         logger.info( "############## cbEmptyFolder3 = " + cbEmptyFolder3 );
         folderTreeBuilder.add( cbEmptyFolder3 );
-        assertEquals( 1, map.size() );/* */
+        Assert.assertEquals( 1, map.size() );/* */
 
         for( FolderTreeNode rootNode : map.values() ) {
             displayTree( rootNode, StringHelper.EMPTY );
@@ -106,10 +105,10 @@ public class FolderTreeBuilderTest
             Path           name  = path.getFileName();
 
             logger.info( "checkIfNoDoubleOnNode: " + node + " = " + name );
-            assertFalse( list.contains( name ) );
+            Assert.assertFalse( list.contains( name ) );
             list.add( name );
 
-            assertFalse( globalList.contains( path ) );
+            Assert.assertFalse( globalList.contains( path ) );
             globalList.add( path );
 
             checkIfNoDoubleOnNode( child );

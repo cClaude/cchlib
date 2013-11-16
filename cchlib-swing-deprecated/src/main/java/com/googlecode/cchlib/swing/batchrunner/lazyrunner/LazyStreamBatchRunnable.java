@@ -13,7 +13,7 @@ import com.googlecode.cchlib.swing.batchrunner.BatchRunnerInterruptedException;
 @Deprecated
 public interface LazyStreamBatchRunnable extends LazyBatchRunnable
 {
-    
+
     /**
      * Invoke for each file
      *
@@ -22,7 +22,7 @@ public interface LazyStreamBatchRunnable extends LazyBatchRunnable
      * @throws IOException if any I/O occurred (This error is shown to the user)
      * @throws BatchRunnerInterruptedException if batch should be cancel
      */
-    public void runTask(
+    void runTask(
         final InputStream  inputStream,
         final OutputStream outputStream
         )

@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package com.googlecode.cchlib.swing.hexeditor;
 
 import javax.swing.*;

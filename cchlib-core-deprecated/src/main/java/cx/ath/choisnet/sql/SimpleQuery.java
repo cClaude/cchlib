@@ -1,3 +1,4 @@
+// $codepro.audit.disable statementCreation
 package cx.ath.choisnet.sql;
 
 import java.io.Flushable;

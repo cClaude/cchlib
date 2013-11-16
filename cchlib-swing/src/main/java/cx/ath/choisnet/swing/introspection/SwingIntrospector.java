@@ -30,7 +30,7 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
  */
 public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 {
-    private static Logger logger = Logger.getLogger(SwingIntrospector.class);
+    private static Logger LOGGER = Logger.getLogger(SwingIntrospector.class);
 
     private final Map<String,SwingIntrospectorRootItem<FRAME>> itemsMap = new TreeMap<String,SwingIntrospectorRootItem<FRAME>>();
     private final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface;
@@ -102,8 +102,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 }
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "bean found: " + map.size() + " for: " + clazz );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "bean found: " + map.size() + " for: " + clazz );
             }
 
         for( Map.Entry<String,List<SwingIntrospectorItem<FRAME>>> entry : map.entrySet() ) {
@@ -119,12 +119,12 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 this.itemsMap.put( beanName, rootItem );
                 }
             else {
-                logger.warn( "* Igore (no $root): " + rootItem.getItemsCollection() );
+                LOGGER.warn( "* Igore (no $root): " + rootItem.getItemsCollection() );
                 }
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "$root found: " + this.itemsMap.size() + " for: " + clazz );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "$root found: " + this.itemsMap.size() + " for: " + clazz );
             }
 
         //TODO: if size == 0 : exception ?? or error on System.err ??
@@ -147,8 +147,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             }
 
         //
-        if( logger.isDebugEnabled() ) {
-            logger.debug( clazz.getName() + " # fields = " + fields.length );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( clazz.getName() + " # fields = " + fields.length );
             }
 
         for( Field f : fields ) {
@@ -173,8 +173,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                     }
                 catch( IllegalArgumentException ignoreBadFieldName ) {
                     // Ignore this field
-                    if( logger.isDebugEnabled() ) {
-                        logger.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
+                    if( LOGGER.isDebugEnabled() ) {
+                        LOGGER.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
                         }
                     }
                 }
@@ -278,14 +278,14 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                     fp.populateFrame(rootItem, beanName);
                     }
                 catch( SwingIntrospectorException e ) {
-                    logger.warn( "*** SwingIntrospectorException for: " + beanName, e );
+                    LOGGER.warn( "*** SwingIntrospectorException for: " + beanName, e );
                     }
                 catch( IntrospectionInvokeException e ) {
-                    logger.warn( "*** IntrospectionInvokeException for: " + beanName, e );
+                    LOGGER.warn( "*** IntrospectionInvokeException for: " + beanName, e );
                     }
                 }
             else {
-                logger.fatal( "*** Not SwingIntrospectorRootItem for: " + beanName );
+                LOGGER.fatal( "*** Not SwingIntrospectorRootItem for: " + beanName );
                 }
             }
     }
@@ -339,26 +339,26 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
 
             if( rootItem == null ) {
-                logger.fatal( "NoRootItemException: " + beanName );
+                LOGGER.fatal( "NoRootItemException: " + beanName );
                 }
 
             try {
                 op.populateObject( item.getValue(), rootItem );
                 }
             catch( SwingIntrospectorException e ) {
-                if( logger.isDebugEnabled() ) {
-                    logger.debug( "SwingIntrospectorException for: " + beanName,e  );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "SwingIntrospectorException for: " + beanName,e  );
                     }
                 else {
-                    logger.warn( "SwingIntrospectorException for: " + beanName );
+                    LOGGER.warn( "SwingIntrospectorException for: " + beanName );
                     }
                 }
             catch( IntrospectionException e ) {
-                if( logger.isDebugEnabled() ) {
-                    logger.debug( "IntrospectionException for: " + beanName, e );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "IntrospectionException for: " + beanName, e );
                     }
                 else {
-                    logger.warn( "IntrospectionException for: " + beanName );
+                    LOGGER.warn( "IntrospectionException for: " + beanName );
                     }
                 }
         }
@@ -380,7 +380,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                     initComponents( populateObject, entry, fd );
                     }
                 catch( SwingIntrospectorException e ) {
-                    logger.warn( "initComponents()", e );
+                    LOGGER.warn( "initComponents()", e );
                     }
             }
         }

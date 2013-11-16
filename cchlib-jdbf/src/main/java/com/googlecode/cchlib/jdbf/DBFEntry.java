@@ -38,7 +38,7 @@ public interface DBFEntry
      * @return value as a boolean for this cell
      * @throws DBFEntryException if value can't be convert to boolean
      */
-    boolean getBoolean() throws DBFEntryException;
+    boolean getBoolean() throws DBFEntryException; // $codepro.audit.disable booleanMethodNamingConvention
 
     /**
      * Returns value as a double for this cell

@@ -28,7 +28,7 @@ class JHexEditorASCII
         )
     {
         this.model = hexEditorModel;
-        
+
         addMouseListener(this);
         addKeyListener(this);
         addFocusListener( focusListener );
@@ -83,16 +83,22 @@ class JHexEditorASCII
         {
             if(n==model.getCursorPos()) {
                 g.setColor(Color.blue);
+
                 if( hasFocus() ) {
                     model.drawBackground(g,x,y,1); }
                 else {
                     model.drawTable(g,x,y,1);
                     }
-                if(hasFocus()) g.setColor(Color.white); else g.setColor(Color.black);
-            } else
-            {
+                if( hasFocus() ) {
+                    g.setColor(Color.white);
+                    }
+                else {
+                    g.setColor(Color.black);
+                    }
+                }
+            else {
                 g.setColor(Color.black);
-            }
+                }
 
             String s = (new Character(model.getBuffer().getChar( n ))).toString();
             if((model.getBuffer().getByte( n )<20)||(model.getBuffer().getByte( n )>126)) {
@@ -193,7 +199,7 @@ class JHexEditorASCII
     {
         return true;
     }
-    
+
     @Override
     public boolean isFocusable()
     {

@@ -15,10 +15,10 @@ public interface JFileChooserInitializerCustomize extends Serializable
      * ready.
      * @param jFileChooser
      */
-    public void perfomeConfig(JFileChooser jFileChooser);
+    void perfomeConfig(JFileChooser jFileChooser);
 
     /**
      * @param currentDirectory the currentDirectory to set
      */
-    public void restoreCurrentDirectory( File currentDirectory );
+    void restoreCurrentDirectory( File currentDirectory );
 }

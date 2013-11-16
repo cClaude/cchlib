@@ -21,7 +21,8 @@ import org.apache.log4j.Logger;
 class PropertiesFileLock extends Properties
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( PropertiesFileLock.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesFileLock.class );
+
     private File file;
     private FileLock fileLock;
 
@@ -69,7 +70,7 @@ class PropertiesFileLock extends Properties
                     }
                 catch( OverlappingFileLockException ignore ) {
                     // File is already locked in this thread or virtual machine
-                    logger.warn( "init()", ignore );
+                    LOGGER.warn( "init()", ignore );
                     }
 
                 // Release the lock
@@ -83,7 +84,7 @@ class PropertiesFileLock extends Properties
                 }
             }
         catch( Exception e ) {
-            logger.warn( "init()", e );
+            LOGGER.warn( "init()", e );
             }
     }
 

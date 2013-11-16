@@ -22,7 +22,7 @@ public class DownloadI_senorgif
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 5;
     private static final int DEFAULT_MAX_PAGES = 15;
 
-    private ComboBoxConfig mainComboBoxConfig;
+    private GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
     protected DownloadI_senorgif()
     {
@@ -83,7 +83,7 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public Button getButtonConfig()
+    public GenericDownloaderAppButton getButtonConfig()
     {
         return null;
     }

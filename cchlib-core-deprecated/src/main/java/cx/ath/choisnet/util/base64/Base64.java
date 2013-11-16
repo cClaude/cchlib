@@ -1,3 +1,4 @@
+// $codepro.audit.disable characterComparison
 package cx.ath.choisnet.util.base64;
 
 /**

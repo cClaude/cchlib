@@ -32,7 +32,7 @@ import java.awt.CardLayout;
 public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( RemoveEmptyFilesJPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( RemoveEmptyFilesJPanel.class );
 
     private JPanel                mainJPanel;
     private CardLayout            cardLayout;
@@ -154,7 +154,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     public void doImport( final DefaultListModel<File> directoriesJListModel )
     {
-        logger.info( "doImport()" );
+        LOGGER.info( "doImport()" );
 
         Runnable importDirectories = new Runnable() {
             @Override
@@ -166,7 +166,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
                     directoriesJListModel.addElement( file );
                     }
 
-                logger.info( "doImport() done" );
+                LOGGER.info( "doImport() done" );
             }
         };
         new Thread( importDirectories, "doImport():importDirectories" ).start();

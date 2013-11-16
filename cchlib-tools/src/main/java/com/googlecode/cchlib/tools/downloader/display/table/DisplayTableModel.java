@@ -24,7 +24,7 @@ public abstract class DisplayTableModel
         implements LoggerListener
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger( DisplayTableModel.class );
+    private static final transient Logger LOGGER = Logger.getLogger( DisplayTableModel.class );
     // Note: use ConcurrentHashMap to avoid java.util.ConcurrentModificationException
     private ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
     private JTable jTable;
@@ -63,11 +63,11 @@ public abstract class DisplayTableModel
     {
         for( Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
             if( entry.getValue().getURL().equals( url ) ) {
-                return entry.getKey();
+                return entry.getKey().intValue();
                 }
             }
 
-        logger.error( "NoSuchElement: " + url.toExternalForm() );
+        LOGGER.error( "NoSuchElement: " + url.toExternalForm() );
 
         return -1; // not found
     }
@@ -145,7 +145,7 @@ public abstract class DisplayTableModel
         final int index = findEntryIndex( dURL.getURL() );
 
         if( index == -1 ) {
-            logger .fatal( "URL not in list: " + dURL );
+            LOGGER.fatal( "URL not in list: " + dURL );
             }
         else {
             list.get( index ).setState( state );
@@ -197,7 +197,7 @@ public abstract class DisplayTableModel
 
         updateDisplay( dURL, DisplayTableModelEntryState.DOWNLOAD_ERROR );
 
-        logger.warn( "DownloadFail", dioe );
+        LOGGER.warn( "DownloadFail", dioe );
     }
 
 }
