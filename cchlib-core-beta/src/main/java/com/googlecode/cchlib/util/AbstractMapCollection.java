@@ -36,7 +36,7 @@ public abstract class AbstractMapCollection<K,V>
      * initial capacity and the default load factor (0.75).
      * @param initialCapacity the initial capacity.
      */
-    public AbstractMapCollection(int initialCapacity)
+    public AbstractMapCollection( final int initialCapacity )
     {
         map = new LinkedHashMap<K,Collection<V>>(initialCapacity);
     }
@@ -51,7 +51,7 @@ public abstract class AbstractMapCollection<K,V>
      * @param m the map whose mappings are to be
      *          placed in this map
      */
-    public AbstractMapCollection( Map<? extends K,? extends Collection<V>> m )
+    public AbstractMapCollection( final Map<? extends K,? extends Collection<V>> m )
     {
         map = new LinkedHashMap<K,Collection<V>>( m );
     }
@@ -63,7 +63,7 @@ public abstract class AbstractMapCollection<K,V>
      * @param initialCapacity the initial capacity
      * @param loadFactor the load factor
      */
-    public AbstractMapCollection( int initialCapacity, float loadFactor )
+    public AbstractMapCollection( final int initialCapacity, final float loadFactor )
     {
         map = new LinkedHashMap<K,Collection<V>>(initialCapacity,loadFactor);
     }
@@ -75,57 +75,57 @@ public abstract class AbstractMapCollection<K,V>
     public abstract Collection<V> newCollection();
 
     @Override
-    public boolean add(K key, V value)
+    public boolean add( final K key, final V value)
     {
-        Collection<V> c = getCollection( key );
+        Collection<V> collection = getCollection( key );
 
-        if( c == null ) {
-            c = newCollection();
-            map.put( key, c );
-        }
+        if( collection == null ) {
+            collection = newCollection();
+            map.put( key, collection );
+            }
 
-        return c.add( value );
+        return collection.add( value );
     }
 
     @Override
-    public int addAll(K key, Collection<V> values)
+    public int addAll( final K key, final Collection<V> values)
     {
-        int             r = 0;
-        Collection<V>   c = map.get(key);
+        int             result     = 0;
+        Collection<V>   collection = map.get(key);
 
-        if( c == null ) {
-            c = newCollection();
+        if( collection == null ) {
+            collection = newCollection();
 
-            map.put(key,c);
+            map.put(key,collection);
             }
 
-        for(V v:values) {
-           if( c.add( v ) ) {
-               r++;
+        for( final V value : values ) {
+           if( collection.add( value ) ) {
+               result++;
                }
             }
 
-       return r;
+       return result;
    }
 
     @Override
-    public int addAll(Map<K,V> m)
+    public int addAll( final Map<K,V> map )
     {
-        int r = 0;
+        int result = 0;
 
-        for( Map.Entry<K,V> e:m.entrySet() ) {
+        for( final Map.Entry<K,V> e:map .entrySet() ) {
            if( add( e.getKey(), e.getValue() ) ) {
-               r++;
+               result++;
                }
             }
 
-       return r;
+       return result;
    }
 
     @Override
-    public boolean containsValue(V value)
+    public boolean containsValue( final V value )
     {
-        for( Collection<? extends V> c : map.values() ) {
+        for( final Collection<? extends V> c : map.values() ) {
             if( c.contains( value ) ) {
                 return true;
                 }
@@ -135,10 +135,10 @@ public abstract class AbstractMapCollection<K,V>
     }
 
     @Override
-    public boolean containsAll(Collection<? extends V> c)
+    public boolean containsAll( final Collection<? extends V> colletion )
     {
-        for(V v:c) {
-            if( !containsValue( v ) ) {
+        for( V value : colletion ) {
+            if( !containsValue( value ) ) {
                 return false;
                 }
             }
@@ -147,7 +147,7 @@ public abstract class AbstractMapCollection<K,V>
     }
 
     @Override
-    public boolean containsKey( K key )
+    public boolean containsKey( final K key )
     {
         return map.containsKey( key );
     }
@@ -161,7 +161,7 @@ public abstract class AbstractMapCollection<K,V>
     @Override
     public void deepClear()
     {
-        for( Collection<V> c:map.values() ) {
+        for( final Collection<V> c : map.values() ) {
             c.clear();
             }
 
@@ -177,7 +177,7 @@ public abstract class AbstractMapCollection<K,V>
     }
 
     @Override
-    public boolean remove(K key, V value)
+    public boolean remove( final K key, final V value)
     {
         final Collection<V> c = map.get( key );
 
@@ -189,7 +189,7 @@ public abstract class AbstractMapCollection<K,V>
     }
 
     @Override
-    public Collection<V> remove(K key)
+    public Collection<V> remove( final K key )
     {
         return map.remove( key );
     }
@@ -313,7 +313,7 @@ public abstract class AbstractMapCollection<K,V>
 
         return false;
     }
-    
+
     @Override
     public int hashCode()
     {

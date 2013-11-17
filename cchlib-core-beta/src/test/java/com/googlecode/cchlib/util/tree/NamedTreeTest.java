@@ -1,10 +1,8 @@
 package com.googlecode.cchlib.util.tree;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.util.Iterator;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.util.VisitResult;
 import com.googlecode.cchlib.util.Visitor;
@@ -14,7 +12,7 @@ import com.googlecode.cchlib.util.Visitor;
  */
 public class NamedTreeTest
 {
-    private static final Logger slogger = Logger.getLogger( NamedTreeTest.class );
+    private static final Logger LOGGER = Logger.getLogger( NamedTreeTest.class );
     private int count;
 
     @Test
@@ -25,13 +23,13 @@ public class NamedTreeTest
         try {
             //Should crash
             tree.put( 1, (String[])null );
-            fail();
+            Assert.fail();
             }
         catch( NullPointerException ok ) {
             //Ok
             }
         catch( BadRootNameException e ) {
-            fail();
+            Assert.fail();
             }
     }
 
@@ -50,9 +48,9 @@ public class NamedTreeTest
 
         // Replace value (so size should not change)
         tree.put( 40, "root", "pane1", "panel1-1" );
-        assertEquals("Size should not change",size,tree.size());
+        Assert.assertEquals("Size should not change",size,tree.size());
 
-        slogger.info( "tree.walk()" );
+        LOGGER.info( "tree.walk()" );
         count = 0;
         tree.walk(
             new Visitor<NamedTreeNode<Integer>>()
@@ -65,9 +63,9 @@ public class NamedTreeTest
                     return VisitResult.CONTINUE;
                 }
             });
-        assertEquals("bad count",size,count);
+        Assert.assertEquals("bad count",size,count);
 
-        slogger.info( "createInOrderIterator()" );
+        LOGGER.info( "createInOrderIterator()" );
         count = 0;
         Iterator<BinaryTreeNode<Integer>> iter = BinaryTree.createInOrderIterator( tree.getRoot() );
 
@@ -76,9 +74,9 @@ public class NamedTreeTest
             displayNode( entry );
             count++;
             }
-        assertEquals("bad count",size,count);
+        Assert.assertEquals("bad count",size,count);
 
-        slogger.info( "createPostOrderIterator()" );
+        LOGGER.info( "createPostOrderIterator()" );
         count = 0;
         iter = BinaryTree.createPostOrderIterator( tree.getRoot() );
 
@@ -87,9 +85,9 @@ public class NamedTreeTest
             displayNode( entry );
             count++;
             }
-        assertEquals("bad count",size,count);
+        Assert.assertEquals("bad count",size,count);
 
-        slogger.info( "createPreOrderIterator()" );
+        LOGGER.info( "createPreOrderIterator()" );
         count = 0;
         iter = BinaryTree.createPreOrderIterator( tree.getRoot() );
 
@@ -98,9 +96,9 @@ public class NamedTreeTest
             displayNode( entry );
             count++;
             }
-        assertEquals("bad count",size,count);
+        Assert.assertEquals("bad count",size,count);
 
-        slogger.info( "walkDepthFirst()" );
+        LOGGER.info( "walkDepthFirst()" );
         count = 0;
         tree.walkDepthFirst(
                 new Visitor<NamedTreeNode<Integer>>()
@@ -113,7 +111,7 @@ public class NamedTreeTest
                         return VisitResult.CONTINUE;
                     }
                 });
-        assertEquals("bad count",size,count);
+        Assert.assertEquals("bad count",size,count);
 
         count = 0;
     }
@@ -129,6 +127,6 @@ public class NamedTreeTest
         sb.append( " - path:" );
         sb.append( n.getPath() );
 
-        slogger.info( sb.toString() );
+        LOGGER.info( sb.toString() );
     }
 }

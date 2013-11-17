@@ -10,7 +10,8 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 // already exist
 public class MapWrapper2<S,R> implements Collection<R>,Serializable
 {
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+
     private Collection<S>  collection;
     private Wrappable<S,R> wrapper;
     private Wrappable<R,S> unwrapper;
@@ -27,17 +28,17 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean add( R e )
+    public boolean add( final R e )
     {
         return collection.add( unwrapper.wrap( e ) );
     }
 
     @Override
-    public boolean addAll( Collection<? extends R> c )
+    public boolean addAll( final Collection<? extends R> c )
     {
         boolean setChange = false;
 
-        for( R e : c ) {
+        for( final R e : c ) {
             boolean res = add( e );
 
             if( res ) {
@@ -55,15 +56,15 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean contains( Object o )
+    public boolean contains( final Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o;
-        return collection.contains( unwrapper.wrap( r ) );
+        R rO = (R)o;
+        return collection.contains( unwrapper.wrap( rO ) );
     }
 
     @Override
-    public boolean containsAll( Collection<?> c )
+    public boolean containsAll( final Collection<?> c )
     {
         for( Object o : c ) {
             if( ! contains( o ) ) {
@@ -86,11 +87,11 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean remove( Object o )
+    public boolean remove( final Object o )
     {
         @SuppressWarnings("unchecked")
-        R r = (R)o;
-        return collection.remove( unwrapper.wrap( r ) );
+        R rO = (R)o;
+        return collection.remove( unwrapper.wrap( rO ) );
     }
 
     @Override
@@ -98,7 +99,7 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
+        for( final Object e : c ) {
             boolean res = remove( e );
 
             if( res ) {
@@ -120,7 +121,7 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
+        for( final Object e : c ) {
             if( contains( e ) ) {
                 boolean res = remove( e );
 
@@ -136,8 +137,8 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
     @Override
     public Object[] toArray()
     {
-        Object[] array = new Object[ collection.size() ];
-        int      i     = 0;
+        final Object[] array = new Object[ collection.size() ];
+        int            i     = 0;
 
         for( R e : this ) {
             array[ i++ ] = e;
@@ -152,24 +153,24 @@ public class MapWrapper2<S,R> implements Collection<R>,Serializable
         if( a.length >= collection.size() ) {
             int i = 0;
 
-            for( R e : this ) {
+            for( final R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e;
-                a[ i++ ] = t;
+                T tE = (T)e;
+                a[ i++ ] = tE;
                 }
 
             return a;
             }
         else {
-            List<T> list = new ArrayList<T>( collection.size() );
+            final List<T> list = new ArrayList<T>( collection.size() );
 
-            for( R e : this ) {
+            for( final R e : this ) {
                 @SuppressWarnings("unchecked")
-                T t = (T)e;
-                list.add( t );
+                T tE = (T)e;
+                list.add( tE );
                 }
 
-            return list.toArray(a);
+            return list.toArray( a );
             }
     }
 }

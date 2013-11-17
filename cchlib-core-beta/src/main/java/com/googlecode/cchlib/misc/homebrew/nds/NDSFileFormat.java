@@ -102,46 +102,46 @@ import java.io.IOException;
  */
 public class NDSFileFormat extends FileStructure
 {
-    private static F[] structure = {
-        new F("Game title"                        , 0x000,   0x00B,   12 , T.STRING ), // "FIRST HUNT "
-        new F("Game code"                         , 0x00C,   0x00F,   4  , T.STRING ), // "AMFE"
-        new F("Maker code"                        , 0x010,   0x011,   2  , T.STRING ), // "01" (Nintendo)
-        new F("Unit code"                         , 0x012,   0x012,   1  , T.HEX    ), // 0x00
-        new F("Device code"                       , 0x013,   0x013,   1  , T.HEX    ), // 0x00
-        new F("Card size"                         , 0x014,   0x014,   1  ), // 0x07 (2^(20 + 7) = 128Mb = 16 MB)
-        new F("Card info"                         , 0x015,   0x01E,   10 ), // 0x00's
-        new F("Flags"                             , 0x01F,   0x01F,   1  , T.HEX    ), // 0x00
-        new F("ARM9 source (ROM)"                 , 0x020,   0x023,   4  , T.HEX    ), // 0x00004000 (must be 4 KB aligned)
-        new F("ARM9 execute addr"                 , 0x024,   0x027,   4  , T.HEX    ), // 0x02004800
-        new F("ARM9 copy to addr"                 , 0x028,   0x02B,   4  , T.HEX    ), // 0x02004000
-        new F("ARM9 binary size"                  , 0x02C,   0x02F,   4  , T.HEX    ), // 0x00081D58
-        new F("ARM7 source (ROM)"                 , 0x030,   0x033,   4  , T.HEX    ), // 0x000B3000
-        new F("ARM7 execute addr"                 , 0x034,   0x037,   4  , T.HEX    ), // 0x02380000
-        new F("ARM7 copy to addr"                 , 0x038,   0x03B,   4  , T.HEX    ), // 0x02380000
-        new F("ARM7 binary size"                  , 0x03C,   0x03F,   4  , T.HEX    ), // 0x00026494
-        new F("Filename table offset (ROM)"       , 0x040,   0x043,   4  , T.HEX    ), // 0x000D9600
-        new F("Filename table size"               , 0x044,   0x047,   4  , T.HEX    ), // 0x11B6
-        new F("FAT offset (ROM)"                  , 0x048,   0x04B,   4  , T.HEX    ), // 0x000DA800
-        new F("FAT size"                          , 0x04C,   0x04F,   4  , T.HEX    ), // 0x678
-        new F("ARM9 overlay src (ROM)"            , 0x050,   0x053,   4  , T.HEX    ), // 0x00085E00
-        new F("ARM9 overlay size"                 , 0x054,   0x057,   4  , T.HEX    ), // 0x60
-        new F("ARM7 overlay src (ROM)"            , 0x058,   0x05B,   4  ), // 0
-        new F("ARM7 overlay size"                 , 0x05C,   0x05F,   4  ), // 0
-        new F("Control register flags for read"   , 0x060,   0x063,   4  , T.HEX    ), // 0x00586000
-        new F("Control register flags for init"   , 0x064,   0x067,   4  , T.HEX    ), // 0x001808F8
-        new F("Icon+titles (ROM)"                 , 0x068,   0x06B,   4  , T.HEX    ), // 0x000DB000
-        new F("Secure CRC16"                      , 0x06C,   0x06D,   2  , T.HEX    ), // 0xC44D
-        new F("ROM timeout"                       , 0x06E,   0x06F,   2  , T.HEX    ), // 0x051E
-        new F("ARM9 unk addr"                     , 0x070,   0x073,   4  , T.HEX    ), // 0x020049EC
-        new F("ARM7 unk addr"                     , 0x074,   0x077,   4  , T.HEX    ), // 0x02380110
-        new F("Magic number for unencrypted mode" , 0x078,   0x07F,   8  ), // 0x00's
-        new F("ROM size"                          , 0x080,   0x083,   4  , T.HEX    ), // 0x00EE3E44
-        new F("Header size"                       , 0x084,   0x087,   4  , T.HEX    ), // 0x4000
-        new F("Unknown 5"                         , 0x088,   0x0BF,   56 ), // 0x00's
-        new F("GBA logo"                          , 0x0C0,   0x15B,   156), // data
-        new F("Logo CRC16"                        , 0x15C,   0x15D,   2  , T.HEX    ), // 0xCF56
-        new F("Header CRC16"                      , 0x15E,   0x15F,   2  , T.HEX    ), // 0x00F8
-        new F("Reserved"                          , 0x160,   0x1FF,   160), // 0x00's
+    private static FSField[] structure = {
+        new FSField("Game title"                        , 0x000,   0x00B,   12 , FSType.STRING ), // "FIRST HUNT "
+        new FSField("Game code"                         , 0x00C,   0x00F,   4  , FSType.STRING ), // "AMFE"
+        new FSField("Maker code"                        , 0x010,   0x011,   2  , FSType.STRING ), // "01" (Nintendo)
+        new FSField("Unit code"                         , 0x012,   0x012,   1  , FSType.HEX    ), // 0x00
+        new FSField("Device code"                       , 0x013,   0x013,   1  , FSType.HEX    ), // 0x00
+        new FSField("Card size"                         , 0x014,   0x014,   1  ), // 0x07 (2^(20 + 7) = 128Mb = 16 MB)
+        new FSField("Card info"                         , 0x015,   0x01E,   10 ), // 0x00's
+        new FSField("Flags"                             , 0x01F,   0x01F,   1  , FSType.HEX    ), // 0x00
+        new FSField("ARM9 source (ROM)"                 , 0x020,   0x023,   4  , FSType.HEX    ), // 0x00004000 (must be 4 KB aligned)
+        new FSField("ARM9 execute addr"                 , 0x024,   0x027,   4  , FSType.HEX    ), // 0x02004800
+        new FSField("ARM9 copy to addr"                 , 0x028,   0x02B,   4  , FSType.HEX    ), // 0x02004000
+        new FSField("ARM9 binary size"                  , 0x02C,   0x02F,   4  , FSType.HEX    ), // 0x00081D58
+        new FSField("ARM7 source (ROM)"                 , 0x030,   0x033,   4  , FSType.HEX    ), // 0x000B3000
+        new FSField("ARM7 execute addr"                 , 0x034,   0x037,   4  , FSType.HEX    ), // 0x02380000
+        new FSField("ARM7 copy to addr"                 , 0x038,   0x03B,   4  , FSType.HEX    ), // 0x02380000
+        new FSField("ARM7 binary size"                  , 0x03C,   0x03F,   4  , FSType.HEX    ), // 0x00026494
+        new FSField("Filename table offset (ROM)"       , 0x040,   0x043,   4  , FSType.HEX    ), // 0x000D9600
+        new FSField("Filename table size"               , 0x044,   0x047,   4  , FSType.HEX    ), // 0x11B6
+        new FSField("FAT offset (ROM)"                  , 0x048,   0x04B,   4  , FSType.HEX    ), // 0x000DA800
+        new FSField("FAT size"                          , 0x04C,   0x04F,   4  , FSType.HEX    ), // 0x678
+        new FSField("ARM9 overlay src (ROM)"            , 0x050,   0x053,   4  , FSType.HEX    ), // 0x00085E00
+        new FSField("ARM9 overlay size"                 , 0x054,   0x057,   4  , FSType.HEX    ), // 0x60
+        new FSField("ARM7 overlay src (ROM)"            , 0x058,   0x05B,   4  ), // 0
+        new FSField("ARM7 overlay size"                 , 0x05C,   0x05F,   4  ), // 0
+        new FSField("Control register flags for read"   , 0x060,   0x063,   4  , FSType.HEX    ), // 0x00586000
+        new FSField("Control register flags for init"   , 0x064,   0x067,   4  , FSType.HEX    ), // 0x001808F8
+        new FSField("Icon+titles (ROM)"                 , 0x068,   0x06B,   4  , FSType.HEX    ), // 0x000DB000
+        new FSField("Secure CRC16"                      , 0x06C,   0x06D,   2  , FSType.HEX    ), // 0xC44D
+        new FSField("ROM timeout"                       , 0x06E,   0x06F,   2  , FSType.HEX    ), // 0x051E
+        new FSField("ARM9 unk addr"                     , 0x070,   0x073,   4  , FSType.HEX    ), // 0x020049EC
+        new FSField("ARM7 unk addr"                     , 0x074,   0x077,   4  , FSType.HEX    ), // 0x02380110
+        new FSField("Magic number for unencrypted mode" , 0x078,   0x07F,   8  ), // 0x00's
+        new FSField("ROM size"                          , 0x080,   0x083,   4  , FSType.HEX    ), // 0x00EE3E44
+        new FSField("Header size"                       , 0x084,   0x087,   4  , FSType.HEX    ), // 0x4000
+        new FSField("Unknown 5"                         , 0x088,   0x0BF,   56 ), // 0x00's
+        new FSField("GBA logo"                          , 0x0C0,   0x15B,   156), // data
+        new FSField("Logo CRC16"                        , 0x15C,   0x15D,   2  , FSType.HEX    ), // 0xCF56
+        new FSField("Header CRC16"                      , 0x15E,   0x15F,   2  , FSType.HEX    ), // 0x00F8
+        new FSField("Reserved"                          , 0x160,   0x1FF,   160), // 0x00's
         };
 
     public NDSFileFormat(byte[] file)
@@ -150,7 +150,7 @@ public class NDSFileFormat extends FileStructure
     }
 
     @Override
-    protected F getFieldInfo( int i )
+    protected FSField getFieldInfo( int i )
     {
         return structure[ i ];
     }
@@ -194,7 +194,7 @@ public class NDSFileFormat extends FileStructure
         String gameTitle= nds.getFieldAsString( "Game title" );
 
         for( int i = 0; i<nds.getFieldCount(); i++ ) {
-            F f    = nds.getFieldInfo( i );
+            FSField f    = nds.getFieldInfo( i );
 
             switch( f.getType() ) {
                 case STRING:
@@ -212,7 +212,7 @@ public class NDSFileFormat extends FileStructure
         }
     }
 
-    private static void printField( F f, String value )
+    private static void printField( FSField f, String value )
     {
         System.out.println( f.getField() + " = " + value );
     }

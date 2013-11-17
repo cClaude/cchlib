@@ -8,85 +8,11 @@ import org.junit.Test;
  */
 public class PingerTest
 {
-    private static final Logger logger = Logger.getLogger( PingerTest.class );
-/*
-    private static String localhostIp = "127.0.0.1";
-    private static String localhost = "localhost";
-*/
+    private static final Logger LOGGER = Logger.getLogger( PingerTest.class );
+
     @Test
     public void test_fake()
     {
-        logger.info( "PingerTest disabled" );
+        LOGGER.info( "PingerTest disabled" );
     }
-
-//    private static String externhost = "google.com";
-
-    // ------------ helloPing ----------------
-//    private void tst_helloPing( String host )
-//        throws PingerException
-//    {
-//        slogger.info( "try helloPing on [" + host + "]" );
-//        boolean result = Pinger.helloPing( host );
-//
-//        slogger.info( "helloPing on [" + host + "] :" + result );
-//        assertTrue("Can't ping " + host, result);
-//    }
-/*
-    public void test_helloPing_LocalHostIp()
-        throws PingerException
-    {
-        tst_helloPing( localhostIp );
-    }
-
-    public void test_helloPing_LocalHost()
-        throws PingerException
-    {
-        tst_helloPing( localhost );
-    }
-
-    public void test_helloPing_externHost()
-        throws PingerException
-    {
-        tst_helloPing( externhost );
-    }
-*/
-    // ------------ ping (static) ----------------
-    /*
-    private void tst_ping(String host)
-        //throws UnknownHostException, IOException
-    {
-        slogger.info( "try ping on [" + host + "]" );
-        boolean result;
-
-        try {
-            result = Pinger.ping( host, Pinger.DEFAULT_TIMEOUT );
-
-            slogger.info( "ping on [" + host + "] :" + result );
-            assertTrue("Can't ping " + host, result);
-            }
-        catch( UnknownHostException e ) {
-            slogger.warn( "ping error on [" + host + "]", e );
-            }
-        catch( IOException e ) {
-            slogger.warn( "ping error on [" + host + "]", e );
-            }
-    }
-
-    public void test_ping_LocalHostIP()
-        //throws UnknownHostException, IOException
-    {
-        tst_ping( localhostIp );
-    }
-
-    public void test_ping_LocalHost()
-        //throws UnknownHostException, IOException
-    {
-        tst_ping( localhost );
-    }*/
-
-//    public void test_ping_externHost()
-//        throws UnknownHostException, IOException
-//    {
-//        tst_ping( externhost );
-//    }
 }

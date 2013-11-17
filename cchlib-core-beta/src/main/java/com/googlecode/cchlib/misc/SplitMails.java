@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
-//import org.apache.log4j.Logger;
 
 /**
  * com.googlecode.cchlib.apps.sample2.Sample2
@@ -16,7 +15,7 @@ public class SplitMails implements Iterable<InputStream>
 {
     public final static String TESTINFILE_REL_FROM_USERHOME = "Bureau/jup60/jup60.mails2";
     public final static String TESTOUTDIR = "C:/temp/";
-    //private final static Logger logger = Logger.getLogger( SplitMails.class );
+
     private MailLineInputStream thunderbirdMails;
 
     /**
@@ -48,8 +47,8 @@ public class SplitMails implements Iterable<InputStream>
         final File inFile        = new File( TESTINFILE );
         final File outputDirFile = new File( TESTOUTDIR );
 
-        logger.info( "In File: " + inFile );
-        logger.info( "Out Dir: " + outputDirFile );
+        p.info( "In File: " + inFile );
+        p.info( "Out Dir: " + outputDirFile );
 
         SplitMails instance  = new SplitMails( inFile );
         int        mailCount = 0;
@@ -57,7 +56,7 @@ public class SplitMails implements Iterable<InputStream>
 
         for( InputStream in : instance ) {
             File outFile = new File( outputDirFile, Integer.toString( mailCount++ ) );
-            logger.info( "out File: " + outFile );
+            p.info( "out File: " + outFile );
 
 //            OutputStream out = new BufferedOutputStream(
 //                new FileOutputStream( outFile )
@@ -71,7 +70,7 @@ public class SplitMails implements Iterable<InputStream>
                 buffer[ index++ ] = (byte)c;
                 }
 
-            logger.info(
+            p.info(
                     String.format(
                         "MSG (%d - %d):",
                         index,
@@ -81,7 +80,7 @@ public class SplitMails implements Iterable<InputStream>
                     );
             }
 
-        logger.info( "Done : mail count = " + mailCount );
+        p.info( "Done : mail count = " + mailCount );
         //DialogHelper.showMessageExceptionDialog( "OK", new Exception( "OK") );
     }*/
 

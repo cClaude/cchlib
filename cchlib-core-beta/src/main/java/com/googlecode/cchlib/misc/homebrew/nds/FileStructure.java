@@ -8,23 +8,28 @@ import java.util.Map;
  */
 public abstract class FileStructure
 {
-    public enum T {
+    public enum FSType {
         STRING, HEX, UNKNOWN
     }
 
-    protected static class F {
+    protected static class FSField {
         private String field;
         private int    start;
         private int    end;
         private int    length;
-        private T      type;
+        private FSType type;
 
-        public F( String field, int start, int end, int length )
+        public FSField( final String field, final int start, final int end, final int length )
         {
-            this( field, start, end, length, T.UNKNOWN );
+            this( field, start, end, length, FSType.UNKNOWN );
         }
 
-        public F( String field, int start, int end, int length, T type )
+        public FSField(
+            final String field,
+            final int    start,
+            final int    end,
+            final int    length,
+            final FSType type )
         {
             this.field  = field;
             this.start  = start;
@@ -55,7 +60,7 @@ public abstract class FileStructure
             return length;
         }
 
-        public T getType()
+        public FSType getType()
         {
             return type;
         }
@@ -63,7 +68,7 @@ public abstract class FileStructure
         @Override
         public String toString()
         {
-            StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder();
             builder.append( getClass().getSimpleName() );
             builder.append( " [field=" );
             builder.append( field );
@@ -83,15 +88,15 @@ public abstract class FileStructure
     private byte[] bytes;
     private Map<String,Integer> nameIndexMap;
 
-    public FileStructure(byte[] bytes)
+    public FileStructure( final byte[] bytes )
     {
         this.bytes = bytes;
     }
 
-    protected abstract F   getFieldInfo( int i );
+    protected abstract FSField   getFieldInfo( int i );
     protected abstract int getFieldCount();
 
-    protected Integer getNameIndex( String fieldname )
+    protected Integer getNameIndex( final String fieldname )
     {
         if( nameIndexMap == null ) {
             nameIndexMap = new HashMap<>();
@@ -104,12 +109,12 @@ public abstract class FileStructure
         return nameIndexMap.get( fieldname );
     }
 
-    public final String getFieldName( int i ) {
+    public final String getFieldName( final int i ) {
         return getFieldInfo( i ).getField();
     }
 
-    public final byte[] getBytes( int i ) {
-        F   f      = getFieldInfo( i );
+    public final byte[] getBytes( final int i ) {
+        FSField   f      = getFieldInfo( i );
         int start  = f.getStart();
         int length = f.getLength();
 
@@ -118,12 +123,12 @@ public abstract class FileStructure
        return b;
     }
 
-    public String getFieldAsString( String fieldname )
+    public String getFieldAsString( final String fieldname )
     {
         return getFieldAsString( getNameIndex( fieldname ).intValue() );
     }
 
-    public String getFieldAsString( int i ) {
+    public String getFieldAsString( final int i ) {
         return new String( getBytes( i ) );
     }
 
