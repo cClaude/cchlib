@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 public class FileRollingWriter
     extends Writer
 {
-    private static final Logger logger = Logger.getLogger( FileRollingWriter.class );
+    private static final Logger LOGGER = Logger.getLogger( FileRollingWriter.class );
 
     private final FileRoller    fileRoller;
     private final List<File>    fileList    = new ArrayList<File>();;
@@ -71,8 +71,8 @@ public class FileRollingWriter
                     )
                 );
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Open new file: " + this.currentFile );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Open new file: " + this.currentFile );
             }
     }
 
@@ -82,8 +82,8 @@ public class FileRollingWriter
         this.currentOutput.close();
         this.currentOutput = null;
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Close file: " + this.currentFile.length() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Close file: " + this.currentFile.length() );
             }
 
         this.fileList.add( this.currentFile );

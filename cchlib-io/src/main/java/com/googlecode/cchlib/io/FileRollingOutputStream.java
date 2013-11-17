@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 public class FileRollingOutputStream
     extends OutputStream
 {
-    private static final Logger logger = Logger.getLogger( FileRollingOutputStream.class );
+    private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
 
     private final List<File>    fileList    = new ArrayList<File>();;
     private FileRoller          fileRoller;
@@ -71,8 +71,8 @@ public class FileRollingOutputStream
                 new FileOutputStream( this.currentFile )
                 );
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Open new file: " + this.currentFile );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Open new file: " + this.currentFile );
             }
     }
 
@@ -82,8 +82,8 @@ public class FileRollingOutputStream
         this.currentOutput.close();
         this.currentOutput = null;
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Close file: " + this.currentFile.length() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Close file: " + this.currentFile.length() );
             }
 
         this.fileList.add( this.currentFile );
