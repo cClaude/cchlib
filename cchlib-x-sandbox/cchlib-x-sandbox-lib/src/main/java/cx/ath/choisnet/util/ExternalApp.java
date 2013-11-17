@@ -32,9 +32,14 @@ import cx.ath.choisnet.io.EmptyInputStream;
 import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
 ** <p>Version simplifi�e de la m�thode {@link Runtime#exec(String)}</p>
@@ -92,7 +97,7 @@ public final static int execute( // ---------------------------------------
         procOut.flush();
         procOut.close();
         }
-    catch( java.io.IOException e ) {
+    catch( IOException e ) {
         exception = new ExternalAppException(
             "IOException while running extern application",
             e
@@ -119,14 +124,12 @@ public final static int execute( // ---------------------------------------
 
     exitValue = process.exitValue();
     }
- catch( java.io.IOException e ) {
+ catch( IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e
         );
     }
-
-// logger.info( "ExternalApp.execute : exitValue  [" + exitValue + "]" );
 
  return exitValue;
 }
@@ -249,8 +252,8 @@ public final static Output execute( // ------------------------------------
     )
     throws ExternalAppException
 {
- final java.io.ByteArrayOutputStream stdout = new java.io.ByteArrayOutputStream();
- final java.io.ByteArrayOutputStream stderr = new java.io.ByteArrayOutputStream();
+ final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+ final ByteArrayOutputStream stderr = new ByteArrayOutputStream();
 
  final int result = execute( command, input, stdout, stderr );
 
@@ -408,35 +411,22 @@ public final static int run( // -------------------------------------------
 @Deprecated
 public final static int execute( // ---------------------------------------
     final String    command,
-    final java.io.Reader    input,
+    final Reader    input,
     final String    inputCharsetName,
-    final java.io.Writer    stdout,
+    final Writer    stdout,
     final String    stdoutCharsetName,
-    final java.io.Writer    stderr,
+    final Writer    stderr,
     final String    stderrCharsetName
     )
     throws ExternalAppException
 {
  int exitValue;
 
-// logger.info( "ExternalApp.execute : command [" + command + "]" );
-// logger.info( "ExternalApp.execute : in      [" + input + "]" );
-// logger.info( "ExternalApp.execute : stdout  [" + stdout + "]" );
-// logger.info( "ExternalApp.execute : stderr  [" + stderr + "]" );
-
-// System.out.println( "ExternalApp.execute : command [" + command + "]" );
-// System.out.println( "ExternalApp.execute : in      [" + input + "]" );
-// System.out.println( "ExternalApp.execute : stdout  [" + stdout + "]" );
-// System.out.println( "ExternalApp.execute : stderr  [" + stderr + "]" );
-
  try {
     Process process = Runtime.getRuntime().exec( command );
-//    Writer  procOut = new BufferedWriter( new OutputStreamWriter( process.getOutputStream() , inputCharsetName  ) );
-//    Reader  procIn  = new BufferedReader( new InputStreamReader(  process.getInputStream()  , stdoutCharsetName ) );
-//    Reader  procErr = new BufferedReader( new InputStreamReader(  process.getErrorStream()  , stderrCharsetName ) );
-    java.io.Writer  procOut = new java.io.OutputStreamWriter( process.getOutputStream() , inputCharsetName  );
-    java.io.Reader  procIn  = new java.io.InputStreamReader(  process.getInputStream()  , stdoutCharsetName );
-    java.io.Reader  procErr = new java.io.InputStreamReader(  process.getErrorStream()  , stderrCharsetName );
+    Writer  procOut = new OutputStreamWriter( process.getOutputStream() , inputCharsetName  );
+    Reader  procIn  = new InputStreamReader(  process.getInputStream()  , stdoutCharsetName );
+    Reader  procErr = new InputStreamReader(  process.getErrorStream()  , stderrCharsetName );
 
     ExternalAppException exception = null;
     int             c;
@@ -449,7 +439,7 @@ public final static int execute( // ---------------------------------------
         procOut.flush();
         procOut.close();
         }
-    catch( java.io.IOException e ) {
+    catch( IOException e ) {
         exception = new ExternalAppException(
             "IOException while running extern application",
             e
@@ -476,14 +466,12 @@ public final static int execute( // ---------------------------------------
 
     exitValue = process.exitValue();
     }
- catch( java.io.IOException e ) {
+ catch( IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e
         );
     }
-
-// logger.info( "ExternalApp.execute : exitValue  [" + exitValue + "]" );
 
  return exitValue;
 }
@@ -503,13 +491,10 @@ public final static int execute( // ---------------------------------------
 ** @deprecated use execute(String,InputStream,OutputStream,OutputStream)
 */
 @Deprecated
-// ** @see EmptyReader
-// ** @deprecated use execute( String command, new EmptyReader(), String inputCharsetName, Writer stdout, String stdoutCharsetName, Writer stderr, String stderrCharsetName) instead
-// ** ex: execute( command, new cx.ath.choisnet.io.EmptyReader(), "Cp850", stdout, "Cp850", stderr, "Cp850" )
 public final static int execute( // ---------------------------------------
     final String    command,
-    final java.io.Writer    stdout,
-    final java.io.Writer    stderr
+    final Writer    stdout,
+    final Writer    stderr
     )
     throws ExternalAppException
 {

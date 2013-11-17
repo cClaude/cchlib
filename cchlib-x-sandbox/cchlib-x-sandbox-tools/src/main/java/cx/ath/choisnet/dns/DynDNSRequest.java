@@ -31,7 +31,7 @@ import com.googlecode.cchlib.util.base64.Base64Encoder;
 public class DynDNSRequest
     implements DNSRequestInterface
 {
-private final static Logger logger = Logger.getLogger( DynDNSRequest.class );
+private final static Logger LOGGER = Logger.getLogger( DynDNSRequest.class );
 
 /** statdns|dyndns */
 private final String system;
@@ -74,15 +74,15 @@ public DynDNSRequest( // --------------------------------------------------
  this.usernamePass  = encodeBase64( username + ":" + password );
  this.hostCount     = hostnameList.split( "," ).length;
 
- logger.info( " **INIT***********************************" );
- logger.info( " * traceFile      = [" + traceFile + "]" );
- logger.info( " * system         = [" + system + "]" );
- logger.info( " * hostnameList   = [" + hostnameList + "]" );
- logger.info( " * hostCount      = [" + hostCount + "]" );
- logger.info( " * wildcard       = [" + wildcard + "]" );
- logger.info( " * username       = [" + username + "]" );
- logger.info( " * password       = [" + password + "]" );
- logger.info( " *****************************************" );
+ LOGGER.info( " **INIT***********************************" );
+ LOGGER.info( " * traceFile      = [" + traceFile + "]" );
+ LOGGER.info( " * system         = [" + system + "]" );
+ LOGGER.info( " * hostnameList   = [" + hostnameList + "]" );
+ LOGGER.info( " * hostCount      = [" + hostCount + "]" );
+ LOGGER.info( " * wildcard       = [" + wildcard + "]" );
+ LOGGER.info( " * username       = [" + username + "]" );
+ LOGGER.info( " * password       = [" + password + "]" );
+ LOGGER.info( " *****************************************" );
 }
 
 /**
@@ -141,7 +141,7 @@ public InputStream getInputStream( String ip ) // -------------------------
     // sb.append( "&" );
     // sb.append( "offline=NO" );
 
-    logger.debug( " URL = [" + sb + "]" );
+    LOGGER.debug( " URL = [" + sb + "]" );
 
     url = new URL( sb.toString() );
 
@@ -155,7 +155,7 @@ public InputStream getInputStream( String ip ) // -------------------------
     return conn.getInputStream();
     }
  catch( java.net.MalformedURLException e ) {
-    logger.error( "MalformedURLException [" + sb + "]" );
+    LOGGER.error( "MalformedURLException [" + sb + "]" );
 
     throw e;
     }
@@ -170,13 +170,13 @@ public boolean updateIP( String ip ) // -----------------------------------
  try {
     String[] results = private_updateIP( getInputStream( ip ) );
 
-    logger.info( "----- updateIP result -----" );
+    LOGGER.info( "----- updateIP result -----" );
 
     for( int i=0; i<results.length; i++ ) {
-        logger.info( "(" + i + "):" + results[ i ] );
+        LOGGER.info( "(" + i + "):" + results[ i ] );
         }
 
-    logger.info( "------------------" );
+    LOGGER.info( "------------------" );
 
     final boolean result = checkReturnCode( results, this.hostCount );
 
@@ -197,7 +197,7 @@ public boolean updateIP( String ip ) // -----------------------------------
             }
         }
     catch( java.io.IOException e ) {
-        logger.fatal(
+        LOGGER.fatal(
             "Probleme lors de la mise a jour de : "
                 + traceFile + " : " + traceMsg,
             e

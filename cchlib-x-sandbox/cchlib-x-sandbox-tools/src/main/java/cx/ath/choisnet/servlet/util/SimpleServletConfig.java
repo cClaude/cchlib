@@ -56,12 +56,8 @@ public String getRequiredParameter( final String name ) // ----------------
 {
  String value = httpServlet.getInitParameter( name );
 
- // logger.info( "httpServlet.getInitParameter:" + name + " = " + value );
-
  if( value == null ) {
     value = servletContext.getInitParameter( name );
-
-    // logger.info( "servletContext.getInitParameter:" + name + " = " + value );
     }
 
  if( value == null ) {

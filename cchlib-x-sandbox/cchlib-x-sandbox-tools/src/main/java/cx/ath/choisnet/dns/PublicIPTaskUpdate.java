@@ -14,6 +14,8 @@ package cx.ath.choisnet.dns;
 import java.util.StringTokenizer;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import org.apache.log4j.Logger;
+import cx.ath.choisnet.tools.servlets.InitServletTaskInterface;
 
 /**
 **
@@ -21,15 +23,13 @@ import javax.servlet.ServletException;
 ** @version 1.0
 */
 public class PublicIPTaskUpdate
-    implements
-        cx.ath.choisnet.tools.servlets.InitServletTaskInterface
+    implements InitServletTaskInterface
 
 {
 /**
 ** Gestion des traces
 */
-final org.apache.commons.logging.Log logger
-    = org.apache.commons.logging.LogFactory.getLog( this.getClass() );
+private final static Logger LOGGER = Logger.getLogger( PublicIPTaskUpdate.class );
 
 /** */
 private boolean continueRunning = true;
@@ -62,9 +62,9 @@ private static String removeQuotes( final String str ) // -----------------
 public void init( ServletConfig servletConfig ) // ------------------------
     throws ServletException
 {
- logger.debug( " *****************************************" );
- logger.debug( " * " + this.getClass() /* + ".init[" + initParamValue + "]" */ );
- logger.debug( " *****************************************" );
+ LOGGER.debug( " *****************************************" );
+ LOGGER.debug( " * " + this.getClass() /* + ".init[" + initParamValue + "]" */ );
+ LOGGER.debug( " *****************************************" );
 
  String system      = null;
  String login       = null;
@@ -93,12 +93,12 @@ public void init( ServletConfig servletConfig ) // ------------------------
         }
     }
 
- logger.debug( " *****************************************" );
- logger.debug( " * system   = [" + system + "]" );
- logger.debug( " * login    = [" + login + "]" );
- logger.debug( " * password = [" + password + "]" );
- logger.debug( " * hostname = [" + hostname + "]" );
- logger.debug( " *****************************************" );
+ LOGGER.debug( " *****************************************" );
+ LOGGER.debug( " * system   = [" + system + "]" );
+ LOGGER.debug( " * login    = [" + login + "]" );
+ LOGGER.debug( " * password = [" + password + "]" );
+ LOGGER.debug( " * hostname = [" + hostname + "]" );
+ LOGGER.debug( " *****************************************" );
 
  if( system == null ) {
     system = "dyndns";
@@ -133,46 +133,37 @@ public void init( ServletConfig servletConfig ) // ------------------------
 public void run() // ------------------------------------------------------
 {
  if( continueRunning ) {
-    // System.out.println( " *****************************************" );
-    // System.out.println( " * " + this.getClass() + ".run()" );
-    // System.out.println( " *****************************************" );
 
     try {
         String currentIP    = this.publicIP.getCurrentPublicIP();
         String previousIP   = this.publicIP.getPreviousPublicIP();
 
-        logger.debug( "IP previous: "
+        LOGGER.debug( "IP previous: "
                                 + previousIP
                                 + " * current: "
                                 + currentIP
                                 );
 
         if( this.publicIP.hasChange() ) {
-            // String currentIP    = this.publicIP.getCurrentPublicIP();
-            // String previousIP   = this.publicIP.getPreviousPublicIP();
-
             log( " publicIP.hasChange{} "
                                 + previousIP
                                 + " => "
                                 + currentIP
                                 );
 
-            // String request = this.dnsRequest.getHTTPRequest( ipAddress );
-            // System.out.println( request );
-
             continueRunning = this.dnsRequest.updateIP( currentIP );
 
-            logger.info( "updateIP{} OK ? continueRunning " + continueRunning );
+            LOGGER.info( "updateIP{} OK ? continueRunning " + continueRunning );
             }
         else {
-            logger.debug( " + Pas de changement d'@ IP Publique : " + this.publicIP.getCurrentPublicIP() );
+            LOGGER.debug( " + Pas de changement d'@ IP Publique : " + this.publicIP.getCurrentPublicIP() );
             }
         }
     catch( PublicIPException e ) {
-        logger.info( "No internet connection", e );
+        LOGGER.info( "No internet connection", e );
         }
     catch( java.io.IOException e ) {
-        logger.error( "Can't update IP", e );
+        LOGGER.error( "Can't update IP", e );
         }
     catch( NullPointerException e ) {
         final String msg = "Erreur innatendue";
@@ -181,7 +172,7 @@ public void run() // ------------------------------------------------------
 
         e.printStackTrace( System.err );
 
-        logger.error( msg, e );
+        LOGGER.error( msg, e );
         }
     }
 }
@@ -211,7 +202,7 @@ public boolean continueRunning() // ---------------------------------------
 @Override
 public void log( String message ) // --------------------------------------
 {
- logger.trace( message );
+ LOGGER.trace( message );
 }
 
 } // class

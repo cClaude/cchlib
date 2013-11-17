@@ -30,9 +30,10 @@ import java.awt.event.ActionEvent;
 public class BuildAppTest extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( BuildAppTest.class );
+    private final static Logger LOGGER = Logger.getLogger( BuildAppTest.class );
     private static final int DIFF_FILES_COUNT = 50;
     private static final int DUPLICATE_FILES_COUNT = 3;
+
     private JPanel contentPane;
     private LimitedIntegerJTextField diffFilesCount;
     private LimitedIntegerJTextField duplicateFilesCount;
@@ -63,7 +64,7 @@ public class BuildAppTest extends JFrame
     {
         LF5Appender swingLogger = new LF5Appender();
 
-        logger.addAppender( swingLogger );
+        LOGGER.addAppender( swingLogger );
 
         setTitle("BuildAppTest");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,7 +173,7 @@ public class BuildAppTest extends JFrame
         //final String[] strings = new String[ DIFF_FILES_COUNT ];
         final String[] strings = new String[ diffFilesCount ];
 
-        logger.info( "BuildAppTest in: " + tstRootFolder );
+        LOGGER.info( "BuildAppTest in: " + tstRootFolder );
 
         {
             final File refDir = new File( tstRootFolder, "REF" );
@@ -186,7 +187,7 @@ public class BuildAppTest extends JFrame
                 IOHelper.toFile( strings[ i ], file );
                 }
 
-            logger.info( "BuildAppTest ref done" );
+            LOGGER.info( "BuildAppTest ref done" );
         }
 
         final File toDelDir = new File( tstRootFolder, "DEL" );
@@ -206,10 +207,10 @@ public class BuildAppTest extends JFrame
                 IOHelper.toFile( strings[ i ], file );
                 }
 
-            logger.info( "BuildAppTest pass " + d + " done" );
+            LOGGER.info( "BuildAppTest pass " + d + " done" );
            }
 
-        logger.info( "BuildAppTest done" );
+        LOGGER.info( "BuildAppTest done" );
     }
 
 }

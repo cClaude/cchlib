@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
  */
 public class SetAccessibleTst
 {
-    private static final Logger logger = Logger.getLogger( SetAccessibleTst.class );
+    private static final Logger LOGGER = Logger.getLogger( SetAccessibleTst.class );
 
     private SetAccessibleTst() {}
 
@@ -17,7 +17,7 @@ public class SetAccessibleTst
         {
             TstRunnable instance0 = new TstRunnable( 0, 0 );
             instance0.testLog();
-            logger.info( "New value is :" + instance0.testAttribute );
+            LOGGER.info( "New value is :" + instance0.testAttribute );
         }
 
         new Thread( new TstRunnable(     0,   50 ) ).start();
@@ -47,7 +47,7 @@ public class SetAccessibleTst
             for( int i=0; i<100; i++ ) {
                 testLog();
 
-                logger.info( "New value is :" + testAttribute );
+                LOGGER.info( "New value is :" + testAttribute );
                 }
         }
 
@@ -92,7 +92,7 @@ public class SetAccessibleTst
 
             assert accessible == false;
             f.setAccessible( true ); // Try to restore ! (need to handle concurrent access)
-            logger.info( "F->T" );
+            LOGGER.info( "F->T" );
             Object value = f.get( this ); // Well, this is a test ;)
 
             int typedValue = ((Integer)value).intValue();
@@ -107,7 +107,7 @@ public class SetAccessibleTst
 
             assert accessible == true;
             f.setAccessible( accessible ); // Restore previous value
-            logger.info( "T->F" );
+            LOGGER.info( "T->F" );
         }
     }
 }
