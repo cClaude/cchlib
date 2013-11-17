@@ -111,9 +111,6 @@ final public class DuplicateFilesFrame
                 AbstractButton  entry   = localEntriesEnum.nextElement();
                 Object          l       = entry.getClientProperty( Locale.class );
 
-                //logger.info( "getButtonGroupLanguage() : entry=" + entry );
-                //logger.info( "getButtonGroupLanguage() : l=" + l );
-
                 if( locale == null ) {
                     entry.setSelected( l == null );
                     }
@@ -397,20 +394,6 @@ final public class DuplicateFilesFrame
                                 }
                             break;
 
-//                        case ACTIONCMD_SET_LOCALE :
-//                            {
-//                            AbstractButton sourceLocale = AbstractButton.class.cast( event.getSource() );
-//                            logger.debug( "source: " + sourceLocale );
-//
-//                            Locale locale = Locale.class.cast( sourceLocale.getClientProperty( Locale.class ) );
-//                            logger.debug( "locale: " + locale );
-//
-//                            getDFToolKit().getPreferences().setLocale( locale );
-//
-//                            setGuiLocale( locale );
-//                            }
-//                            break;
-
                         case ACTIONCMD_SET_MODE :
                             {
                             AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
@@ -507,7 +490,7 @@ final public class DuplicateFilesFrame
     {
         getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
 
-        Runnable r = new Runnable()
+        Runnable task = new Runnable()
         {
             @Override
             public void run()
@@ -527,7 +510,7 @@ final public class DuplicateFilesFrame
                 LOGGER.info( "initComponentsJPanelConfirm done" );
             }
         };
-        new Thread( r, "initComponentsJPanelConfirm()" ).start();
+        new Thread( task, "initComponentsJPanelConfirm()" ).start();
     }
 
     public void setJButtonCancelEnabled( boolean b )

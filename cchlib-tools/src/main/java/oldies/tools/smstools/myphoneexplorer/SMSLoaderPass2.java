@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
  */
 public class SMSLoaderPass2 
 {
-    private static final Logger slogger = Logger.getLogger(SMSLoaderPass2.class);
+    private static final Logger LOGGER = Logger.getLogger(SMSLoaderPass2.class);
 
     private SMSLoaderPass2()
     {
@@ -25,7 +25,7 @@ public class SMSLoaderPass2
      */
     public static void main( String[] args ) throws IOException, ParseException, InconsistantSMSException
     {
-        slogger.info( "starting" );
+        LOGGER.info( "starting" );
 
         String[] inFiles = {
             "outputPass1.csv"
@@ -40,7 +40,7 @@ public class SMSLoaderPass2
         for( String fn : inFiles ) {
             File            f = new File( fn );
 
-            slogger.info( "reading: " + f );
+            LOGGER.info( "reading: " + f );
 
             loader.addFile( f );
         }

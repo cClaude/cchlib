@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class DirectoryIteratorTest 
 {
-    final private static Logger slogger = Logger.getLogger(DirectoryIteratorTest.class);
+    final private static Logger LOGGER = Logger.getLogger(DirectoryIteratorTest.class);
 
     public static final File TEMP_DIR_FILE    = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
@@ -37,14 +37,14 @@ public class DirectoryIteratorTest
                     .append( iter.next() )
                     .append( "' should not exist..." );
 
-            slogger.error( msg );
+            LOGGER.error( msg );
             fail(msg.toString());
         }
 
         if( iter.hasNext() ) {
             String msg = "*** error: this Iterator should be empty";
 
-            slogger.error( (new StringBuilder())
+            LOGGER.error( (new StringBuilder())
                     .append( "*** error: " )
                     .append( iter.next() )
                     .toString()
@@ -63,23 +63,23 @@ public class DirectoryIteratorTest
 
         long end = System.currentTimeMillis();
 
-        slogger.info( "---------------------" );
-        slogger.info( "Root    : "  + rootFile );
-        slogger.info( "ms      : "  + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "Root    : "  + rootFile );
+        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "---------------------" );
 
         begin  = System.currentTimeMillis();
         for( File dirFile : dirsIterator ) {
             fCount++;
-            slogger.info( "dir "  + dirFile );
+            LOGGER.info( "dir "  + dirFile );
             assertTrue( "Is not a directory : " + dirFile, dirFile.isDirectory() );
         }
         end = System.currentTimeMillis();
 
-        slogger.info( "---------------------" );
-        slogger.info( "Count   : "  + fCount );
-        slogger.info( "ms      : "  + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "Count   : "  + fCount );
+        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "---------------------" );
     }
 
     @Test
@@ -137,12 +137,12 @@ public class DirectoryIteratorTest
             assertTrue( "File should not be here: " + f, oldFound);
         }
 
-        slogger.info( "allFiles # " + allFiles.size() );
-        slogger.info( "foundInFileIterator # " + foundInFileIterator.size() );
-        slogger.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
+        LOGGER.info( "allFiles # " + allFiles.size() );
+        LOGGER.info( "foundInFileIterator # " + foundInFileIterator.size() );
+        LOGGER.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
 
         for( File f : notFoundInFileIterator ) {
-            slogger.info( "  > not found by Iterator: " + f );
+            LOGGER.info( "  > not found by Iterator: " + f );
         }
 
         assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());

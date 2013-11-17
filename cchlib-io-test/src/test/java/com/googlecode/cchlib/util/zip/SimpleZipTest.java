@@ -16,7 +16,7 @@ import org.junit.Assert;
  */
 public class SimpleZipTest
 {
-    private static final Logger slogger = Logger.getLogger(SimpleZipTest.class);
+    private static final Logger LOGGER = Logger.getLogger(SimpleZipTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File ZIP_SOURCE_DIR_FILE = new File( new File("."), "src" );
@@ -37,12 +37,12 @@ public class SimpleZipTest
                     @Override
                     public void entryPostProcessing(ZipEntry zipEntry)
                     {
-                        slogger.info("ZipListener>entryPostProcessing: " + zipEntry.getName() );
+                        LOGGER.info("ZipListener>entryPostProcessing: " + zipEntry.getName() );
                     }
                     @Override
                     public void entryAdded(ZipEntry zipentry)
                     {
-                        slogger.info("ZipListener>entryAdded: " + zipentry.getName() );
+                        LOGGER.info("ZipListener>entryAdded: " + zipentry.getName() );
                     }
                 };
 
@@ -86,7 +86,7 @@ public class SimpleZipTest
                     final String   zename     = ze.getName();
                     final File     outputFile = event.getFile();
 
-                    slogger.info(
+                    LOGGER.info(
                         "UnZipListener>entryPostProcessing: "
                             + zename
                             + " -> "
@@ -96,7 +96,7 @@ public class SimpleZipTest
                 @Override
                 public void entryAdded(UnZipEvent event)
                 {
-                    slogger.info(
+                    LOGGER.info(
                             "UnZipListener>entryAdded: "
                                 + event.getZipEntry().getName()
                                 + " -> "
@@ -111,7 +111,7 @@ public class SimpleZipTest
 
             int count = instance.getFileCount();
 
-            slogger.info( "Unzip file count:" + count );
+            LOGGER.info( "Unzip file count:" + count );
 
             Assert.assertTrue( "No file to unzip: ", count > 0 );
             }

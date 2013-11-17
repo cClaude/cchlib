@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.FileFilterHelper;
  */
 public class FileDataTypesTest
 {
-    private final static Logger logger = Logger.getLogger( FileDataTypesTest.class );
+    private final static Logger LOGGER = Logger.getLogger( FileDataTypesTest.class );
     private final File dirFile = new File(
             new File( "." ).getAbsoluteFile().getParentFile().getParentFile(),
             "cchlib-core-sample/output/XXX"
@@ -48,27 +48,27 @@ public class FileDataTypesTest
     @Test
     public void testFindDataTypeDescription() throws FileNotFoundException, IOException
     {
-        logger.info( "check: " + dirFile );
+        LOGGER.info( "check: " + dirFile );
 
         File[] files = dirFile.listFiles( FileFilterHelper.fileFileFilter() );
 
         if( files == null ) {
-            logger.info( "No files for test (dir not found)" );
+            LOGGER.info( "No files for test (dir not found)" );
             }
         else {
             int identify = 0;
             int rename   = 0;
 
-            logger.info( "found " + files.length + " for test" );
+            LOGGER.info( "found " + files.length + " for test" );
 
             for( File file : files ) {
                 FileDataTypeDescription desc = FileDataTypes.findDataTypeDescription( file );
 
                 if( desc == null ) {
-                    logger.warn( "can find type of file: " + file );
+                    LOGGER.warn( "can find type of file: " + file );
                     }
                 else {
-                    logger.info( "file: " + file + " is " + desc.getExtension() );
+                    LOGGER.info( "file: " + file + " is " + desc.getExtension() );
                     identify++;
 
                     if( file.getName().toLowerCase().endsWith( ".xxx" ) || (file.getName().indexOf( '.' ) == -1) ) {
@@ -83,39 +83,39 @@ public class FileDataTypesTest
                     }
                 }
 
-            logger.info( "identify:" + identify + " rename:" + rename + " on " + files.length );
+            LOGGER.info( "identify:" + identify + " rename:" + rename + " on " + files.length );
             }
     }
 
     @Test
     public void testFindExtendedFileDataTypeDescription() throws IOException
     {
-        logger.info( "check: " + dirFile );
+        LOGGER.info( "check: " + dirFile );
 
         File[] files = dirFile.listFiles( FileFilterHelper.fileFileFilter() );
 
         if( files == null ) {
-            logger.info( "No files for test (dir not found)" );
+            LOGGER.info( "No files for test (dir not found)" );
             }
         else {
             int identify = 0;
 
-            logger.info( "found " + files.length + " for test" );
+            LOGGER.info( "found " + files.length + " for test" );
 
             for( File file : files ) {
                 ExtendedFileDataTypeDescription desc = FileDataTypes.findExtendedFileDataTypeDescription( file );
 
                 if( desc == null ) {
-                    logger.warn( "can find type of file: " + file );
+                    LOGGER.warn( "can find type of file: " + file );
                     }
                 else {
-                    logger.info( "file: " + file + " is " + desc );
+                    LOGGER.info( "file: " + file + " is " + desc );
 
                     identify++;
                     }
                 }
 
-            logger.info( "identify:" + identify + " on " + files.length );
+            LOGGER.info( "identify:" + identify + " on " + files.length );
             }
     }
 

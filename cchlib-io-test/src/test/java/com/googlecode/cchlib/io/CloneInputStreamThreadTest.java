@@ -14,7 +14,7 @@ import org.junit.Test;
  */
 public class CloneInputStreamThreadTest
 {
-    final private static Logger logger = Logger.getLogger( CloneInputStreamThreadTest.class );
+    final private static Logger LOGGER = Logger.getLogger( CloneInputStreamThreadTest.class );
 
     @Before
     public void setup() throws FileNotFoundException
@@ -41,12 +41,12 @@ public class CloneInputStreamThreadTest
 
             runs[ i ]= new TestRunner( is );
 
-            logger.info( "start( " + i + " )" );
+            LOGGER.info( "start( " + i + " )" );
             new Thread( runs[ i ], "testCloneInputStreamThread" ).start();
             }
 
         threadIS.start();
-        logger.info( "start()" );
+        LOGGER.info( "start()" );
 
         final byte[] source = IO.createPNG();
 
@@ -58,7 +58,7 @@ public class CloneInputStreamThreadTest
 
         sourceIS0.close();
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 
     private InputStreamThreadExceptionHandler[] createExceptionHandlers()
@@ -80,12 +80,12 @@ public class CloneInputStreamThreadTest
             @Override
             public void handleReadingIOException( IOException e )
             {
-                logger.warn( "handleReadingIOException", e );
+                LOGGER.warn( "handleReadingIOException", e );
             }
             @Override
             public void handleWritingIOException( IOException e )
             {
-                logger.warn( "handleWritingIOException", e );
+                LOGGER.warn( "handleWritingIOException", e );
             }
         };
     }

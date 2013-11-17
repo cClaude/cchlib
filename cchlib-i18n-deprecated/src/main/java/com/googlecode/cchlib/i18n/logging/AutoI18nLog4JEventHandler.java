@@ -17,7 +17,7 @@ public class AutoI18nLog4JEventHandler
     implements AutoI18nEventHandler
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger slogger = Logger.getLogger( AutoI18nLog4JEventHandler.class );
+    private static final transient Logger LOGGER = Logger.getLogger( AutoI18nLog4JEventHandler.class );
     /** @serial */
     private Level levelIgnoredField;
     /** @serial */
@@ -65,7 +65,7 @@ public class AutoI18nLog4JEventHandler
     @Override
     public void ignoredField( Field f, Cause cause )
     {
-        slogger.log(
+        LOGGER.log(
                 levelIgnoredField,
                 String.format(
                     "Ignore field: %s (%s) [%s] - %s",
@@ -80,7 +80,7 @@ public class AutoI18nLog4JEventHandler
     @Override
     public void localizedField( Field f )
     {
-        slogger.log(
+        LOGGER.log(
                 levelLocalizedField,
                 String.format(
                     "Localized field: %s (%s) - %s",

@@ -17,7 +17,7 @@ import com.googlecode.cchlib.sql.SQLTools;
  */
 public abstract class AbstractServletAction implements ServletAction
 {
-    private final static Logger slogger = Logger.getLogger( AbstractServletAction.class );
+    private final static Logger LOGGER = Logger.getLogger( AbstractServletAction.class );
 
     private HttpServletRequest  request;
     private HttpServletResponse response;
@@ -231,7 +231,7 @@ public abstract class AbstractServletAction implements ServletAction
             }
 
         getServletContext().log( message );
-        slogger.info( message );
+        LOGGER.info( message );
     }
 
     /**
@@ -246,7 +246,7 @@ public abstract class AbstractServletAction implements ServletAction
             }
 
         getServletContext().log( message, throwable );
-        slogger.info( message, throwable );
+        LOGGER.info( message, throwable );
     }
 
     /**

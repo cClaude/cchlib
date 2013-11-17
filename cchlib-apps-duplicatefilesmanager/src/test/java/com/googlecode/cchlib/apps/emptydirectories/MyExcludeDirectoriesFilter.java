@@ -12,7 +12,6 @@ import java.util.Set;
 
 final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, FileFilter
 {
-    //private final static Logger logger = Logger.getLogger( MyExcludeDirectoriesFilter.class );
     private static final String TRASH = "$Recycle.Bin";
     private List<Path> pathList = new ArrayList<Path>();
     private List<File> fileList = new ArrayList<File>();

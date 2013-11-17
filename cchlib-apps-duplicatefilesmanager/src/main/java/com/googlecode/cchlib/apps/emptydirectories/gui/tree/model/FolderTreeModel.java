@@ -33,9 +33,9 @@ class FolderTreeModel
         implements FolderTreeModelable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FolderTreeModel.class );
+    private static final Logger LOGGER = Logger.getLogger( FolderTreeModel.class );
+
     private FolderTreeBuilder folderTreeBuilder;
-    //private final Set<FolderTreeNode> selectedNodes = new HashSet<>();
     private final Set<EmptyFolder> selectedNodes = new HashSet<>();
     private final JTree jTree;
     private final Object lock = new Object();
@@ -104,7 +104,7 @@ class FolderTreeModel
             }
 
         if( newRoot != null ) {
-            logger.debug( "notify JTree that a newRoot has been added: " + newRoot );
+            LOGGER.debug( "notify JTree that a newRoot has been added: " + newRoot );
 
 //            // Try to notify.
 //            TreePath path = getPath( newRoot.getParent() );
@@ -112,27 +112,14 @@ class FolderTreeModel
 //            this.jTree.collapsePath( path );
 //
             //super.nodeChanged( root );
-//            fireTreeNodesInserted(
-//                    this,
-//                    new Object[]{root},
-//                    new int[]{ root.getChildCount() - 1},
-//                    new Object[]{ newRoot });
-//            this.jTree.validate();
             fireStructureChanged();
             //this.jTree.expandPath( path );
-            //FIXME: logger.debug( "try to expandPath " + n + " path: " + path );
 
             //jTree.scrollPathToVisible(new TreePath(getRootNode().getLastLeaf().getPath()));
-//            try {
-//                jTree.scrollPathToVisible(new TreePath(getRootNode().getLastLeaf().getPath()));
-//                }
-//            catch( Exception e ) {
-//                logger.error(  "scrollPathToVisible", e );
-//                }
             }
-
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "try to add: " + emptyFolder );
+        
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "try to add: " + emptyFolder );
             }
     }
 
@@ -143,8 +130,8 @@ class FolderTreeModel
      */
     protected final void clearSelected()
     {
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "Clear selection" );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "Clear selection" );
             }
         //this.modifiedCheckState.clear();
 
@@ -162,7 +149,6 @@ class FolderTreeModel
                 FolderTreeNode node = FolderTreeNode.class.cast( value );
 
                 return node.getFolder() instanceof EmptyFolder;
-                //return node.isLeaf();
                 }
             }
 
@@ -178,18 +164,18 @@ class FolderTreeModel
                 final Iterator<FolderTreeNode> iter = nodeIterator();
 
                 while( iter.hasNext() ) {
-                    final FolderTreeNode n = iter.next();
+                    final FolderTreeNode node = iter.next();
                     final boolean        changeState;
 
                     if( onlyLeaf ) {
-                        changeState = n.isLeaf();
+                        changeState = node.isLeaf();
                         }
                     else {
-                        changeState = (n.getFolder() instanceof EmptyFolder);
+                        changeState = (node.getFolder() instanceof EmptyFolder);
                         }
 
                     if( changeState ) {
-                        n.setSelected( selected );
+                        node.setSelected( selected );
                         }
                     }
                 }
@@ -222,7 +208,7 @@ class FolderTreeModel
     protected final void fireTreeStructureChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
-            logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
+            LOGGER.warn( "no TreePath while invoke fireTreeStructureChanged()" );
             return;
             }
 
@@ -243,7 +229,7 @@ class FolderTreeModel
                 }
             }
         catch( RuntimeException e ) {
-            logger.error( "UI Error : parentPath=" + parentPath, e );
+            LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
 
@@ -253,7 +239,7 @@ class FolderTreeModel
     protected final void treeNodesChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
-            logger.warn( "no TreePath while invoke fireTreeStructureChanged()" );
+            LOGGER.warn( "no TreePath while invoke fireTreeStructureChanged()" );
             return;
             }
 
@@ -274,7 +260,7 @@ class FolderTreeModel
                 }
             }
         catch( RuntimeException e ) {
-            logger.error( "UI Error : parentPath=" + parentPath, e );
+            LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
 
@@ -357,14 +343,14 @@ class FolderTreeModel
     {
         int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "#### synchronizedAdd = " + emptyFolder );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "#### synchronizedAdd = " + emptyFolder );
             }
 
         this.folderTreeBuilder.add( emptyFolder );
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "#### rootCount = " + rootCount + " - " + this.folderTreeBuilder.getRootNodesMap().size() );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "#### rootCount = " + rootCount + " - " + this.folderTreeBuilder.getRootNodesMap().size() );
             }
 
         if( this.folderTreeBuilder.getRootNodesMap().size() > rootCount ) {
@@ -376,8 +362,8 @@ class FolderTreeModel
                 last = iter.next();
                 }
 
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "Add a new root node :" +  last );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Add a new root node :" +  last );
                 }
 
             return last;
@@ -474,12 +460,12 @@ class FolderTreeModel
                         jTreeDir.expandRow( i );
                         }
                     catch( Exception e ) {
-                        logger.error( "expandRow( " + i + " )", e );
+                        LOGGER.error( "expandRow( " + i + " )", e );
                         }
                      }
                 }
             catch( Exception e ) {
-                logger.error( "expandAllRows()", e );
+                LOGGER.error( "expandAllRows()", e );
                 }
             }
     }

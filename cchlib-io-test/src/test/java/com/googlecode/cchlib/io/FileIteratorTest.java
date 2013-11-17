@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class FileIteratorTest
 {
-    final private static Logger slogger = Logger.getLogger(FileIteratorTest.class);
+    final private static Logger LOGGER = Logger.getLogger(FileIteratorTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     //public static final File ROOT_FILE = new File( "C:/" );
@@ -47,38 +47,11 @@ public class FileIteratorTest
             fail( "Should crash here" );
             }
         catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
-            slogger.info( "Ok: does not exist" );
+            LOGGER.info( "Ok: does not exist" );
         }
     }
-    /* OLD VERSION
-    public void testNotExist()
-    {
-        Iterator<File> iter = new FileIterator( NOT_EXIST_FILE );
 
-        if( iter.hasNext() ) {
-            StringBuilder msg = new StringBuilder()
-                    .append( "Hum! : File '" )
-                    .append( NOT_EXIST_FILE )
-                    .append( " should not exist, so file: " )
-                    .append( iter.next() )
-                    .append( "' should not exist..." );
 
-            slogger.error( msg );
-            fail(msg.toString());
-        }
-
-        if( iter.hasNext() ) {
-            String msg = "*** error: this Iterator should be empty";
-
-            slogger.error( (new StringBuilder())
-                    .append( "*** error: " )
-                    .append( iter.next() )
-                    .toString()
-                    );
-            fail( msg );
-        }
-    }
-    */
     @Test
     public void testFileIteratorCounter()
     {
@@ -90,16 +63,16 @@ public class FileIteratorTest
         final int displayMax = 5;
         int displayCount = 0;
 
-        slogger.info( "---------------------" );
-        slogger.info( rootFile );
-        slogger.info( "* testFileIteratorCounter( <<no filter>> )" );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( rootFile );
+        LOGGER.info( "* testFileIteratorCounter( <<no filter>> )" );
+        LOGGER.info( "---------------------" );
         long begin  = System.currentTimeMillis();
         
         while( fi.hasNext() ) {
             File f = fi.next();
             if( displayCount++<displayMax ) {
-                slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
+                LOGGER.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
             if( f.isFile() ) {
                 countFile++;
@@ -109,17 +82,17 @@ public class FileIteratorTest
             }
             else {
                 countOther++; // well
-                slogger.info( "unkown file type: " + f );
+                LOGGER.info( "unkown file type: " + f );
             }
         }
         long end = System.currentTimeMillis();
-        slogger.info( "---------------------" );
-        slogger.info( "dir        : " + rootFile );
-        slogger.info( "file  count: " + countFile );
-        slogger.info( "dir   count: " + countDir );
-        slogger.info( "other count: " + countOther );
-        slogger.info( "ms         : " + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "dir        : " + rootFile );
+        LOGGER.info( "file  count: " + countFile );
+        LOGGER.info( "dir   count: " + countDir );
+        LOGGER.info( "other count: " + countOther );
+        LOGGER.info( "ms         : " + (end-begin) );
+        LOGGER.info( "---------------------" );
     }
 
     @Test
@@ -140,16 +113,16 @@ public class FileIteratorTest
         final int displayMax = 5;
         int displayCount = 0;
 
-        slogger.info( "---------------------" );
-        slogger.info( rootFile );
-        slogger.info( "* testFileIteratorFileFilter( *.java )" );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( rootFile );
+        LOGGER.info( "* testFileIteratorFileFilter( *.java )" );
+        LOGGER.info( "---------------------" );
         long begin  = System.currentTimeMillis();
         
         while( fi.hasNext() ) {
             File f = fi.next();
             if( displayCount++<displayMax ) {
-                slogger.info( String.format( "f %d:%s\n", displayCount, f ) );
+                LOGGER.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
 
             assertTrue( "file should be a java file :" + f, fileFilter.accept( f ) );
@@ -162,17 +135,17 @@ public class FileIteratorTest
             }
             else {
                 countOther++; // well
-                slogger.info( "unkown file type: " + f );
+                LOGGER.info( "unkown file type: " + f );
             }
         }
         long end = System.currentTimeMillis();
-        slogger.info( "---------------------" );
-        slogger.info( "dir        : " + rootFile );
-        slogger.info( "file  count: " + countFile );
-        slogger.info( "dir   count: " + countDir );
-        slogger.info( "other count: " + countOther );
-        slogger.info( "ms         : " + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "dir        : " + rootFile );
+        LOGGER.info( "file  count: " + countFile );
+        LOGGER.info( "dir   count: " + countDir );
+        LOGGER.info( "other count: " + countOther );
+        LOGGER.info( "ms         : " + (end-begin) );
+        LOGGER.info( "---------------------" );
 
     }
 
@@ -232,12 +205,12 @@ public class FileIteratorTest
             assertTrue( "File should not be here: " + f, oldFound);
         }
 
-        slogger.info( "allFiles # " + allFiles.size() );
-        slogger.info( "foundInFileIterator # " + foundInFileIterator.size() );
-        slogger.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
+        LOGGER.info( "allFiles # " + allFiles.size() );
+        LOGGER.info( "foundInFileIterator # " + foundInFileIterator.size() );
+        LOGGER.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
 
         for( File f : notFoundInFileIterator ) {
-            slogger.info( "  > not found by Iterator: " + f );
+            LOGGER.info( "  > not found by Iterator: " + f );
         }
 
         assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());

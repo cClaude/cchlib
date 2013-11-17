@@ -21,7 +21,7 @@ import com.googlecode.cchlib.test.ArrayAssert;
  */
 public class ByteArrayBuilderTest
 {
-    private final static Logger logger = Logger.getLogger( ByteArrayBuilderTest.class );
+    private final static Logger LOGGER = Logger.getLogger( ByteArrayBuilderTest.class );
 
     private final static byte[] BYTES = {'a','b','c','d','e','f'};
     private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
@@ -357,13 +357,13 @@ public class ByteArrayBuilderTest
     {
         ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
-        logger.info( "bab0 = " + new String(bab0.array()) );
+        LOGGER.info( "bab0 = " + new String(bab0.array()) );
 
         ByteArrayBuilder bab1 = bab0.replaceAll( _SHARP_160_, _SHARP_160_ENCODED_ );
-        logger.info( "bab1 = " + new String(bab1.array()) );
+        LOGGER.info( "bab1 = " + new String(bab1.array()) );
 
         ByteArrayBuilder bab2 = bab1.replaceAll( _SHARP_160_ENCODED_, _SHARP_160_ );
-        logger.info( "bab2 = " + new String(bab2.array()) );
+        LOGGER.info( "bab2 = " + new String(bab2.array()) );
 
         int cmp1 = bab0.compareTo( bab2 );
         int cmp2 = bab2.compareTo( bab0 );
@@ -377,7 +377,7 @@ public class ByteArrayBuilderTest
     {
         ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
-        logger.info( "test_createInputStream(): bab0 = " + new String(bab0.array()) );
+        LOGGER.info( "test_createInputStream(): bab0 = " + new String(bab0.array()) );
 
         InputStream is = bab0.createInputStream();
         ByteArrayBuilder bab1 = new ByteArrayBuilder();
@@ -389,7 +389,7 @@ public class ByteArrayBuilderTest
             is.close();
             }
 
-        logger.info( "test_createInputStream(): bab1 = " + new String(bab1.array()) );
+        LOGGER.info( "test_createInputStream(): bab1 = " + new String(bab1.array()) );
 
         int cmp0 = bab0.compareTo( bab1 );
         int cmp1 = bab0.compareTo( bab0 );
@@ -403,7 +403,7 @@ public class ByteArrayBuilderTest
     {
         ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
-        logger.info( "test_copyTo(): bab0 = " + new String(bab0.array()) );
+        LOGGER.info( "test_copyTo(): bab0 = " + new String(bab0.array()) );
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -416,7 +416,7 @@ public class ByteArrayBuilderTest
         
         ByteArrayBuilder bab1 = new ByteArrayBuilder();
         bab1.append( out.toByteArray() );
-        logger.info( "test_copyTo(): bab1 = " + new String(bab1.array()) );
+        LOGGER.info( "test_copyTo(): bab1 = " + new String(bab1.array()) );
 
         int cmp0 = bab0.compareTo( bab1 );
         int cmp1 = bab0.compareTo( bab0 );

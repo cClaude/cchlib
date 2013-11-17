@@ -236,7 +236,7 @@ public class RemoveEmptyDirectoriesPanel
         LOGGER.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
-            Runnable r = new Runnable()
+            Runnable task = new Runnable()
             {
                 @Override
                 public void run()
@@ -244,7 +244,7 @@ public class RemoveEmptyDirectoriesPanel
                     startDelete();
                 }
             };
-            new Thread( r, "onStartDelete()" ).start();
+            new Thread( task, "onStartDelete()" ).start();
             // NOTE: do not use of SwingUtilities.invokeLater( r );
         }
     }
@@ -300,7 +300,7 @@ public class RemoveEmptyDirectoriesPanel
         LOGGER.info( "btnAddRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
-            Runnable r = new Runnable()
+            Runnable task = new Runnable()
             {
                 @Override
                 public void run()
@@ -308,7 +308,7 @@ public class RemoveEmptyDirectoriesPanel
                     addRootDirectory();
                 }
             };
-           new Thread( r, "onAddRootDirectory()" ).start();
+           new Thread( task, "onAddRootDirectory()" ).start();
            LOGGER.info( "btnAddRootDirectory() done" );
         }
     }
@@ -341,7 +341,7 @@ public class RemoveEmptyDirectoriesPanel
         LOGGER.info( "btnImportDirectories()" );
 
         if( super.isButtonImportDirectoriesEnabled() ) {
-            Runnable r = new Runnable()
+            Runnable note = new Runnable()
             {
                 @Override
                 public void run()
@@ -351,7 +351,7 @@ public class RemoveEmptyDirectoriesPanel
                     LOGGER.info( "btnImportDirectories() done" );
                 }
             };
-            new Thread( r, "onImportDirectories()" ).start();
+            new Thread( note, "onImportDirectories()" ).start();
             }
     }
 
@@ -425,26 +425,6 @@ public class RemoveEmptyDirectoriesPanel
         // KO Lock UI SwingUtilities.invokeLater( doRun );
         new Thread( doRun, "findBegin()" ).start();
     }
-
-//    protected void _expandAllRows()
-//    {
-//        try {
-//            final JTree jTreeDir = getJTreeEmptyDirectories();
-//
-//            //Expend all nodes
-//            for (int i = 0; i < jTreeDir.getRowCount(); i++) {
-//                try {
-//                    jTreeDir.expandRow( i );
-//                    }
-//                catch( Exception e ) {
-//                    logger.error( "expandRow( " + i + " )", e );
-//                    }
-//                 }
-//            }
-//        catch( Exception e ) {
-//            logger.error( "expandAllRows()", e );
-//            }
-//    }
 
     private void startDelete()
     {

@@ -22,8 +22,10 @@ public abstract class AbstractDownloaderAppInterface
     implements GenericDownloaderAppInterface, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger( AbstractDownloaderAppInterface.class );
+    private static final transient Logger LOGGER = Logger.getLogger( AbstractDownloaderAppInterface.class );
+
     public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
+
     private String  siteName;
     private int     numberOfPicturesByPage;
     private int     pageCount;
@@ -180,8 +182,8 @@ public abstract class AbstractDownloaderAppInterface
         for( RegExgSplitter regexp : regexps ) {
             final String[] strs = content2Parse.getResultAsString().split( regexp.getBeginRegExp() );
 
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "> img founds = " + (strs.length - 1));
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "> img founds = " + (strs.length - 1));
                 }
 
             for( int i=1; i<strs.length; i++ ) {
@@ -199,13 +201,13 @@ public abstract class AbstractDownloaderAppInterface
                     }
                 catch( MalformedURLException | URISyntaxException e ) {
                     // TODO Auto-generated catch block
-                    logger.warn( "URL Exception src = [" + src + "]" );
-                    logger.warn( "URL Exception", e );
-                    logger.warn( "URL Exception strPart:\n------->>\n"
+                    LOGGER.warn( "URL Exception src = [" + src + "]" );
+                    LOGGER.warn( "URL Exception", e );
+                    LOGGER.warn( "URL Exception strPart:\n------->>\n"
                             + strPart
                             + "\n<<-------"
                             );
-                    logger.warn( "URL Exception content2Parse:\n------->>\n"
+                    LOGGER.warn( "URL Exception content2Parse:\n------->>\n"
                             + content2Parse.getResultAsString()
                             + "\n<<-------"
                             );
@@ -213,8 +215,8 @@ public abstract class AbstractDownloaderAppInterface
                 }
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "> URL founds = " + imagesURLCollection.size() );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "> URL founds = " + imagesURLCollection.size() );
             }
 
         return imagesURLCollection;

@@ -27,7 +27,7 @@ public class JPanelResultListModel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultListModel.class );
-    
+
     private HashMapSet<String,KeyFileState> duplicateFiles; // $codepro.audit.disable declareAsInterface
 
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
@@ -368,7 +368,6 @@ public class JPanelResultListModel
 
     public void clearSelected()
     {
-        //logger.info( "clearSelected() start" );
         //
         // Update global list
         //
@@ -387,8 +386,6 @@ public class JPanelResultListModel
         // else no values
 
         // TODO: update display ??
-
-        //logger.info( "clearSelected() done" );
     }
 
     public void refreshList()

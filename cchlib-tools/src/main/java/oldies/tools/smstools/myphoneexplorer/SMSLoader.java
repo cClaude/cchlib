@@ -15,9 +15,10 @@ import org.apache.log4j.Logger;
 /**
  *
  */
-public class SMSLoader 
+public class SMSLoader
 {
-    private static final Logger slogger = Logger.getLogger(SMSLoader.class);
+    private static final Logger LOGGER = Logger.getLogger(SMSLoader.class);
+
     private List<SMS> smsList = new ArrayList<SMS>();
 
     public SMSLoader()
@@ -27,47 +28,47 @@ public class SMSLoader
 
     /**
      * @param f SMS File (CVS formated)
-     * @throws IOException 
-     * @throws ParseException 
+     * @throws IOException
+     * @throws ParseException
      */
     public void addFile( File f ) throws IOException, ParseException
     {
         load( f );
 
-        slogger.info( "SMS count: " + smsList.size() );
+        LOGGER.info( "SMS count: " + smsList.size() );
     }
 
     private void load(final File f) throws IOException, ParseException
     {
-        slogger.info( "reading: " + f );
+        LOGGER.info( "reading: " + f );
 
         SMSCVSReader r = new SMSCVSReader( f );
-            
+
         smsList.addAll( r.getSMSList() );
-        
+
         r.close();
     }
 
     /**
      * Remove clone SMS from list
-     * 
-     * @throws InconsistantSMSException 
+     *
+     * @throws InconsistantSMSException
      */
     public void removeClones() throws InconsistantSMSException
     {
-        slogger.info( "removeClones()" );
+        LOGGER.info( "removeClones()" );
 
         // Remove clone
         HashMap<String,SMS> map             = new HashMap<String,SMS>();
         ArrayList<SMS>      badClonesList   = new ArrayList<SMS>();
-        
+
         for(SMS sms:smsList) {
             String  pdu = sms.getPdu();
             SMS     old = map.get( pdu );
-            
+
             if( old != null ) {
                 //already a SMS with this PDU
-                
+
                 if( ! old.getFrom().equals( sms.getFrom() ) ) {
                     throw new InconsistantSMSException( "From", old, sms );
                 }
@@ -79,7 +80,7 @@ public class SMSLoader
                 }
                 if( ! old.getTime().equals( sms.getTime() ) ) {
                     //throw new InconsistantSMSException( "Time", old, sms );
-                    slogger.warn(
+                    LOGGER.warn(
                         "** Inconsistant 'Time' :"
                             + old.getTime()
                             + " / "
@@ -101,7 +102,7 @@ public class SMSLoader
         }
 
         smsList.clear();
-        slogger.info( "SMS (no clone) count: " + map.size() );
+        LOGGER.info( "SMS (no clone) count: " + map.size() );
 
         smsList.addAll( badClonesList );
         badClonesList.clear();
@@ -114,7 +115,7 @@ public class SMSLoader
     }
 
     /**
-     * 
+     *
      */
     public void sort()
     {
@@ -123,12 +124,12 @@ public class SMSLoader
         //
         Collections.sort( smsList, new SMSDateComparator() );
 
-        slogger.info( "SMS (sorted list) count: " + smsList.size() );
+        LOGGER.info( "SMS (sorted list) count: " + smsList.size() );
     }
 
     /**
      * Save SMS to file
-     * 
+     *
      * @param outputFile output File
      * @throws IOException
      */

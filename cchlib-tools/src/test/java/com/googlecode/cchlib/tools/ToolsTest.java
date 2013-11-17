@@ -6,8 +6,6 @@ import org.junit.Test;
 
 public class ToolsTest
 {
-    //private final static Logger logger = Logger.getLogger( ToolsTest.class );
-
     @Test
     public void testToolsIconImage()
     {

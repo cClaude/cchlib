@@ -22,7 +22,7 @@ public class BookmarksAccessoryDefaultConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {
     private static final long serialVersionUID = 2L;
-    private static final transient Logger logger = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger( BookmarksAccessoryDefaultConfigurator.class.getName() );
     /** @serial */
     private File configFileProperties;
     /** @serial */
@@ -78,7 +78,7 @@ public class BookmarksAccessoryDefaultConfigurator
             is.close();
             }
         catch( IOException e ) {
-            logger.warning( "File error : " + configFileProperties + " - " + e );
+            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
             }
 
         Set<String> keys = properties.stringPropertyNames();
@@ -109,7 +109,7 @@ public class BookmarksAccessoryDefaultConfigurator
             writer.close();
             }
         catch( IOException e ) {
-            logger.warning( "File error : " + configFileProperties + " - " + e );
+            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
             }
     }
 

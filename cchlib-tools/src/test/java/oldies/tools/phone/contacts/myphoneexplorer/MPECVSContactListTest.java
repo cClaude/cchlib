@@ -11,9 +11,9 @@ import com.googlecode.cchlib.io.FileHelper;
 
 public class MPECVSContactListTest
 {
-    private final static Logger logger = Logger.getLogger( MPECVSContactListTest.class );
+    private final static Logger LOGGER = Logger.getLogger( MPECVSContactListTest.class );
 
-    public static void main(String[]args) throws IOException, BadFileFormatException
+    public static void main( final String[] args ) throws IOException, BadFileFormatException
     {
         //
         String filename = "2011-12-10_Tel-Concats.csv";
@@ -32,7 +32,7 @@ public class MPECVSContactListTest
         ContactProperties cp = contactList.getContactProperties();
 
         for( int i = 0; i<cp.size(); i++ ) {
-            logger.info(
+            LOGGER.info(
                 "H[" + i + "]=\"" + cp.getName( i ) + "\""
                     + " - " + cp.getType( i )
                     + " d=\"" + cp.getDefault( i ) + "\""
@@ -41,7 +41,7 @@ public class MPECVSContactListTest
 
         for( Contact contact : contactList ) {
             for( int i = 0; i<cp.size(); i++ ) {
-                logger.info(
+                LOGGER.info(
                     "C[" + i + "]: "
                         + cp.getName( i )
                         + " = "
@@ -50,8 +50,8 @@ public class MPECVSContactListTest
                 }
             }
 
-        logger.info( "size = " + contactList.size() );
+        LOGGER.info( "size = " + contactList.size() );
 
-        logger.info( "done." );
+        LOGGER.info( "done." );
     }
 }

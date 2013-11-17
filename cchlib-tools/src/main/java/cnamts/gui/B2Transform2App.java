@@ -12,7 +12,7 @@ import com.googlecode.cchlib.swing.DialogHelper;
 public class B2Transform2App
     extends CNAMVeryLazyBatchRunnerApp<cnamts.DelNonAlphaChar>
 {
-    private static final Logger logger = Logger.getLogger( B2Transform2App.class );
+    private static final Logger LOGGER = Logger.getLogger( B2Transform2App.class );
 
     private B2Transform2App(
         final com.googlecode.cchlib.swing.batchrunner.lazy.LazyBatchRunnerCustomJPanelFactory customJPanelFactory
@@ -32,7 +32,7 @@ public class B2Transform2App
             instance.start();
             }
         catch( Exception e ) {
-            logger.fatal( "FATAL Error", e );
+            LOGGER.fatal( "FATAL Error", e );
             DialogHelper.showMessageExceptionDialog( B2Transform2App.class.getName(), e );
             }
     }
@@ -58,8 +58,8 @@ public class B2Transform2App
         Character rCharacter    = panel.getReplacementChar();
         Integer   lineLength    = panel.getLineLength();
 
-        logger.info( "User getReplacementChar() = " + rCharacter );
-        logger.info( "User getLineLength() = " + lineLength );
+        LOGGER.info( "User getReplacementChar() = " + rCharacter );
+        LOGGER.info( "User getLineLength() = " + lineLength );
 
         return new cnamts.DelNonAlphaChar( rCharacter, lineLength );
     }
@@ -70,7 +70,7 @@ public class B2Transform2App
         CustomJPanelB2Transform panel = getCustomJPanelB2Transform();
 
         String fileExtension  = panel.getFileExtension();
-        logger.info( "User getFileExtension() = " + fileExtension );
+        LOGGER.info( "User getFileExtension() = " + fileExtension );
 
         return new File(
                 destinationFolderFile,

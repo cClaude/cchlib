@@ -111,7 +111,6 @@ private Scanner s;
                 @Override//ActionListener
                 public void actionPerformed( ActionEvent e )
                 {
-                    //logger.debug( "actionPerformed" );
                     SafeSwingUtilities.invokeLater( new Runnable() {
                         @Override
                         public void run()

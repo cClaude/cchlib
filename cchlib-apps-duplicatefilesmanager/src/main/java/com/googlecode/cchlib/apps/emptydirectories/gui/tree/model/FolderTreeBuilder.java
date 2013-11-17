@@ -71,7 +71,6 @@ final class FolderTreeBuilder
             final Path           emptyFolderPath
             )
     {
-        //logger.info( "> findBestParent emptyFolderPath :" + emptyFolderPath );
         return findBestParentRec( parentFolderTreeNode, emptyFolderPath, 0 );
     }
 

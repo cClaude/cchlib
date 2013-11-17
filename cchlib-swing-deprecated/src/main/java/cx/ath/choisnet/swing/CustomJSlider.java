@@ -20,8 +20,8 @@ import org.apache.log4j.Logger;
 public class CustomJSlider
     extends JSlider
 {
-    private static transient final Logger logger = Logger.getLogger( CustomJSlider.class );
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger( CustomJSlider.class );
     private static final String DEFAULT_NUMBER_FMT_STR = "{0,number,integer}";
 
     private String customTitle;
@@ -135,7 +135,7 @@ public class CustomJSlider
 
     private void refreshCustomTitle()
     {
-        logger.info( "refreshCustomTitle()" );
+        LOGGER.info( "refreshCustomTitle()" );
         new Thread( new Runnable() {
             @Override
             public void run() {
@@ -184,7 +184,7 @@ public class CustomJSlider
             }
 
         if( !(b instanceof TitledBorder) ) {
-            logger.warn( "* Border = " + b.getClass() + " - " + b );
+            LOGGER.warn( "* Border = " + b.getClass() + " - " + b );
             //throw new IllegalArgumentException( "Can handle only TitledBorder" );
             }
         else {

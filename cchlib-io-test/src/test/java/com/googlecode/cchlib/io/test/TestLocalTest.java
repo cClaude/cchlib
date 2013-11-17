@@ -14,7 +14,7 @@ import com.googlecode.cchlib.test.TestConfigurationHelper;
  */
 public class TestLocalTest
 {
-    private static final Logger logger = Logger.getLogger( TestLocalTest.class );
+    private static final Logger LOGGER = Logger.getLogger( TestLocalTest.class );
 
     @Test
     public void testTestLocal() throws IOException
@@ -25,15 +25,15 @@ public class TestLocalTest
             local.load();
             }
         catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
-            logger.warn( "No local config" );
+            LOGGER.warn( "No local config" );
             }
         
         TestConfigurationHelper.Config config = local.getConfig();
         
-        logger.info( "-- TestLocal.Config --" );
+        LOGGER.info( "-- TestLocal.Config --" );
         for( String entry : config.getExistingMACAddressCollection() ) {
-            logger.info( "MAC Addr: [" + entry + "]" );
+            LOGGER.info( "MAC Addr: [" + entry + "]" );
             }
-        logger.info( "----------------------" );
+        LOGGER.info( "----------------------" );
     }
 }

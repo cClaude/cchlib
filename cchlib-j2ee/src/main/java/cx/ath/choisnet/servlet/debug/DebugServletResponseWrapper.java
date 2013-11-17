@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class DebugServletResponseWrapper implements ServletResponse
 {
-    private final static Logger logger = Logger.getLogger( DebugServletResponseWrapper.class );
+    private final static Logger LOGGER = Logger.getLogger( DebugServletResponseWrapper.class );
     private final ServletResponse response;
 
     /**
@@ -38,7 +38,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void flushBuffer() throws IOException
     {
-        logger.debug( "flushBuffer()" );
+        LOGGER.debug( "flushBuffer()" );
         this.response.flushBuffer();
     }
 
@@ -48,7 +48,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public int getBufferSize()
     {
-        logger.debug( "getBufferSize()" );
+        LOGGER.debug( "getBufferSize()" );
         return this.response.getBufferSize();
     }
 
@@ -58,7 +58,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public String getCharacterEncoding()
     {
-        logger.debug( "getCharacterEncoding()" );
+        LOGGER.debug( "getCharacterEncoding()" );
         return this.response.getCharacterEncoding();
     }
 
@@ -68,7 +68,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public String getContentType()
     {
-        logger.debug( "getContentType()" );
+        LOGGER.debug( "getContentType()" );
         return this.response.getContentType();
     }
 
@@ -78,7 +78,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public Locale getLocale()
     {
-        logger.debug( "getLocale()" );
+        LOGGER.debug( "getLocale()" );
         return this.response.getLocale();
     }
 
@@ -88,7 +88,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public ServletOutputStream getOutputStream() throws IOException
     {
-        logger.debug( "getOutputStream()" );
+        LOGGER.debug( "getOutputStream()" );
         return this.response.getOutputStream();
     }
 
@@ -98,7 +98,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public PrintWriter getWriter() throws IOException
     {
-        logger.debug( "getWriter()" );
+        LOGGER.debug( "getWriter()" );
         return this.response.getWriter();
     }
 
@@ -108,7 +108,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public boolean isCommitted()
     {
-        logger.debug( "isCommitted()" );
+        LOGGER.debug( "isCommitted()" );
         return this.response.isCommitted();
     }
 
@@ -118,7 +118,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void reset()
     {
-        logger.debug( "reset()" );
+        LOGGER.debug( "reset()" );
         this.response.reset();
     }
 
@@ -128,7 +128,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void resetBuffer()
     {
-        logger.debug( "resetBuffer()" );
+        LOGGER.debug( "resetBuffer()" );
         this.response.resetBuffer();
     }
 
@@ -138,7 +138,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void setBufferSize( int size )
     {
-        logger.debug( "setBufferSize(" + size + ")" );
+        LOGGER.debug( "setBufferSize(" + size + ")" );
         this.response.setBufferSize(size);
     }
 
@@ -148,7 +148,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void setCharacterEncoding( String charset )
     {
-        logger.debug( "setCharacterEncoding(" + charset + ")" );
+        LOGGER.debug( "setCharacterEncoding(" + charset + ")" );
         this.response.setCharacterEncoding(charset);
     }
 
@@ -158,7 +158,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void setContentLength( int len )
     {
-        logger.debug( "setContentLength(" + len + ")" );
+        LOGGER.debug( "setContentLength(" + len + ")" );
         this.response.setContentLength(len);
     }
 
@@ -168,7 +168,7 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void setContentType( String type )
     {
-        logger.debug( "setContentType(" + type + ")" );
+        LOGGER.debug( "setContentType(" + type + ")" );
         this.response.setContentType(type);
     }
 
@@ -178,14 +178,14 @@ public class DebugServletResponseWrapper implements ServletResponse
     @Override
     public void setLocale( Locale locale )
     {
-        logger.debug( "setLocale(" + locale + ")" );
+        LOGGER.debug( "setLocale(" + locale + ")" );
         this.response.setLocale(locale);
     }
 
     @Override
     public void setContentLengthLong( long length )
     {
-        logger.debug( "setContentLengthLong(" + length + ")" );
+        LOGGER.debug( "setContentLengthLong(" + length + ")" );
         this.response.setContentLengthLong( length );
     }
 }

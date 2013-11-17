@@ -23,7 +23,7 @@ public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( DownloadI_www_bloggif_com.class );
+    private final static Logger LOGGER = Logger.getLogger( DownloadI_www_bloggif_com.class );
 
     /** number of pages to explore */
     private final static int DEFAULT_MAX_PAGES = 25;
@@ -81,8 +81,8 @@ public class DownloadI_www_bloggif_com
         for( String regexp : regexps ) {
             String[] strs = content2Parse.toString().split( regexp );
 
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "> img founds = " + (strs.length - 1));
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "> img founds = " + (strs.length - 1));
                 }
 
             for( int i=1; i<strs.length; i++ ) {
@@ -95,8 +95,8 @@ public class DownloadI_www_bloggif_com
                 }
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "> URL founds = " + imagesURLCollection.size() );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "> URL founds = " + imagesURLCollection.size() );
             }
 
         return imagesURLCollection;

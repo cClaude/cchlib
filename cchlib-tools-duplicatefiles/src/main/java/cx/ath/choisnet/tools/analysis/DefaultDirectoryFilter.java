@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  */
 class DefaultDirectoryFilter implements FileFilter
 {
-    private static final Logger logger = Logger.getLogger( DefaultDirectoryFilter.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultDirectoryFilter.class );
     private final FileResultFormater    frf = new FileResultFormater();
     private final Writer                writerIgnore;
 
@@ -141,12 +141,12 @@ class DefaultDirectoryFilter implements FileFilter
             String value = System.getenv( envname ); // $codepro.audit.disable environmentVariableAccess
 
             if( value == null ) {
-                logger.warn( "Var not found: " + envname );
+                LOGGER.warn( "Var not found: " + envname );
                 }
             else {
                 tmpList.add( value.toLowerCase() );
 
-                logger.trace( "Var: " + envname + " = " + value );
+                LOGGER.trace( "Var: " + envname + " = " + value );
                 }
             }
         for( String path : DIR_PATH_TO_IGNORE ) {
@@ -156,7 +156,7 @@ class DefaultDirectoryFilter implements FileFilter
         dirPathToIgnore = tmpList.toArray( new String[ tmpList.size() ]);
 
         for( String p2i : dirPathToIgnore ) {
-            logger.debug( "dirPathToIgnore (env & static): " + p2i );
+            LOGGER.debug( "dirPathToIgnore (env & static): " + p2i );
             }
 
         // Path RegExp filter
@@ -166,21 +166,21 @@ class DefaultDirectoryFilter implements FileFilter
                                     Pattern.CASE_INSENSITIVE
                                     );
 
-            logger.debug( "pathRexExpToIgnore[" + i + "]: " + pathRexExpToIgnore[ i ] );
+            LOGGER.debug( "pathRexExpToIgnore[" + i + "]: " + pathRexExpToIgnore[ i ] );
             }
 
         // full path endWith to ignore
         for( int i = 0; i<DIR_PATH_END_WITH_TO_IGNORE.length; i++ ) {
             pathEndWithToIgnore[ i ] = DIR_PATH_END_WITH_TO_IGNORE[ i ].toLowerCase();
 
-            logger.debug( "pathEndWithToIgnore[" + i + "]: " + pathEndWithToIgnore[ i ] );
+            LOGGER.debug( "pathEndWithToIgnore[" + i + "]: " + pathEndWithToIgnore[ i ] );
             }
 
         // Name to ignore
         for( int i = 0; i<DIR_NAME_TO_IGNORE.length; i++ ) {
             dirNameToIgnore[ i ] = DIR_NAME_TO_IGNORE[ i ].toLowerCase();
 
-            logger.debug( "dirNameToIgnore[" + i + "]: " + dirNameToIgnore[ i ] );
+            LOGGER.debug( "dirNameToIgnore[" + i + "]: " + dirNameToIgnore[ i ] );
             }
 
 
@@ -191,7 +191,7 @@ class DefaultDirectoryFilter implements FileFilter
                             Pattern.CASE_INSENSITIVE
                             );
 
-            logger.debug( "nameRexExpToIgnore[" + i + "]: " + nameRexExpToIgnore[ i ] );
+            LOGGER.debug( "nameRexExpToIgnore[" + i + "]: " + nameRexExpToIgnore[ i ] );
             }
     }
 
@@ -215,7 +215,7 @@ class DefaultDirectoryFilter implements FileFilter
                     this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( fmt, e );
+                    LOGGER.error( fmt, e );
                     }
 
                 return false;
@@ -231,7 +231,7 @@ class DefaultDirectoryFilter implements FileFilter
                     this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( fmt, e );
+                    LOGGER.error( fmt, e );
                     }
 
                 return false;
@@ -247,7 +247,7 @@ class DefaultDirectoryFilter implements FileFilter
                     this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( fmt, e );
+                    LOGGER.error( fmt, e );
                     }
 
                 return false;
@@ -263,7 +263,7 @@ class DefaultDirectoryFilter implements FileFilter
                     this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( fmt, e );
+                    LOGGER.error( fmt, e );
                     }
 
                 return false;
@@ -279,7 +279,7 @@ class DefaultDirectoryFilter implements FileFilter
                     this.writerIgnore.write( fmt );
                     }
                 catch( IOException e ) {
-                    logger.error( fmt, e );
+                    LOGGER.error( fmt, e );
                     }
 
                 return false;

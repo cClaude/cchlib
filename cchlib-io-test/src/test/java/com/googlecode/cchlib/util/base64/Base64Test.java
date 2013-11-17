@@ -30,7 +30,7 @@ import com.googlecode.cchlib.test.ArrayAssert;
  */
 public class Base64Test
 {
-    final private static Logger logger = Logger.getLogger(Base64Test.class);
+    final private static Logger LOGGER = Logger.getLogger(Base64Test.class);
 
     private final static String TEST_STRING = "This is a dummy message for this stupid test case!";
 
@@ -82,7 +82,7 @@ public class Base64Test
             toEncodeBytes[ i ] = (byte)('A' + i);
 
             char[] enc   = Base64Encoder.encodeToChar( toEncodeBytes, 0, i );
-            logger.info( "encode " + i + " Character String res = [" + new String( enc ) + ']' + enc.length );
+            LOGGER.info( "encode " + i + " Character String res = [" + new String( enc ) + ']' + enc.length );
 
             byte[] decBytes = Base64Decoder.decode( enc, 0, enc.length );
 
@@ -93,7 +93,7 @@ public class Base64Test
                     break;
                 }
             }
-            logger.info( "dec = [" + new String(decBytes) + ']' + decBytes.length );
+            LOGGER.info( "dec = [" + new String(decBytes) + ']' + decBytes.length );
 
             assertTrue( "encoding to decoding mismatch !", eg );
             }
@@ -118,11 +118,11 @@ public class Base64Test
             encodeCharSB.append( Character.valueOf( (char)('A' + i) ) );
             String s     = encodeCharSB.toString();
             String enc   = Base64Encoder.encode( s );
-            logger.info( "encode " + s.length() + " Character String res = [" + enc + "] " + enc.length() );
+            LOGGER.info( "encode " + s.length() + " Character String res = [" + enc + "] " + enc.length() );
 
             String decStr = Base64Decoder.decode( enc );
             //String decStr    = new String( decBytes, "UTF8" );
-            logger.info( "dec = [" + decStr + "] " + decStr.length() );
+            LOGGER.info( "dec = [" + decStr + "] " + decStr.length() );
 
             assertTrue( "encoding to decoding mismatch !", s.equals(decStr) );
             }
@@ -131,15 +131,15 @@ public class Base64Test
     @Test
     public void testBasic() throws UnsupportedEncodingException
     {
-        logger.info( "Encode => " + TEST_STRING );
+        LOGGER.info( "Encode => " + TEST_STRING );
 
         String encodedStr = Base64Encoder.encode( TEST_STRING );
-        logger.info( "encode result => " + encodedStr );
+        LOGGER.info( "encode result => " + encodedStr );
 
         byte[] decodedBytes = Base64Decoder.decode( encodedStr.toCharArray(), 0, encodedStr.length() );
         String decodedStr = new String( decodedBytes );
 
-        logger.info( "decoded result => " + decodedStr );
+        LOGGER.info( "decoded result => " + decodedStr );
 
         assertTrue( "testBasic() encoding to decoding mismatch !", TEST_STRING.equals(decodedStr) );
     }
@@ -152,14 +152,14 @@ public class Base64Test
         for( int currentByte = Byte.MIN_VALUE; currentByte<= Byte.MAX_VALUE; currentByte++ ) {
             bytes[ 0 ] = (byte)(0x00FF | currentByte);
 
-            logger.info( "Encode byte = " + new String( bytes ) );
+            LOGGER.info( "Encode byte = " + new String( bytes ) );
 
             char[] encodedChars = Base64Encoder.encodeToChar( bytes );
-            logger.info( "encode result => " + new String( encodedChars ) );
+            LOGGER.info( "encode result => " + new String( encodedChars ) );
 
             byte[] decodedBytes = Base64Decoder.decode( encodedChars );
 
-            logger.info( "decoded result => " +  new String( decodedBytes ) );
+            LOGGER.info( "decoded result => " +  new String( decodedBytes ) );
 
             assertArrayEquals(
                 "testBasic1Char() encoding to decoding mismatch !",
@@ -179,14 +179,8 @@ public class Base64Test
                 bytes[ currentByte ] = (byte)(0x00FF | currentByte);
                 }
 
-           // logger.info( "Encode byte(" + len + ") = " + new String( bytes ) );
-
             char[] encodedChars = Base64Encoder.encodeToChar( bytes );
-            //logger.info( "encode result(" + encodedChars.length + ")=> " + new String( encodedChars ) );
-
             byte[] decodedBytes = Base64Decoder.decode( encodedChars );
-
-            //logger.info( "decoded result(" + decodedBytes.length + ") => " +  new String( decodedBytes ) );
 
             assertArrayEquals(
                 "testBasic1Char() encoding to decoding mismatch !",
@@ -201,7 +195,7 @@ public class Base64Test
         throws Base64FormatException, IOException
     {
         String emptyEncodedStr = Base64Encoder.encode( StringHelper.EMPTY );
-        logger.info( "encode empty String res = [" + emptyEncodedStr + ']' );
+        LOGGER.info( "encode empty String res = [" + emptyEncodedStr + ']' );
 
         assertTrue( "emptyEncodedStr should length of 0", emptyEncodedStr.length() == 0);
     }
@@ -254,7 +248,7 @@ public class Base64Test
         byte[] dec   = out.toByteArray();
         String decStr = new String( dec );
 
-        logger.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + ']' );
+        LOGGER.info( "testDecodeInputStreamOutputStream() - dec = [" + decStr + ']' );
         assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(decStr) );
     }
 
@@ -265,7 +259,7 @@ public class Base64Test
         String encodedStr = Base64Encoder.encode( TEST_STRING );
         String res        = staticTestDecodeUsingOutputStream( encodedStr );
 
-        logger.info( "testDecodeUsingOutputStream() [" + res + ']' );
+        LOGGER.info( "testDecodeUsingOutputStream() [" + res + ']' );
         assertTrue( "encoding to decoding mismatch !", TEST_STRING.equals(res) );
     }
 
@@ -278,8 +272,8 @@ public class Base64Test
 
         String encodedString = Base64Encoder.encode( array );
 
-        logger.info( "Encoded: " + encodedString );
-        logger.info( "Encoded length=" + encodedString.length() );
+        LOGGER.info( "Encoded: " + encodedString );
+        LOGGER.info( "Encoded length=" + encodedString.length() );
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -313,7 +307,7 @@ public class Base64Test
         )
         throws Base64FormatException, IOException
     {
-        logger.info(
+        LOGGER.info(
             "Current Base64Encoder bufferSize : "
                 + encoderBufferSize
                 );
@@ -357,13 +351,13 @@ public class Base64Test
             strResult2 = new String( charsResult2 );
         }
 
-        logger.info( "ref len = " + strResultRef.length() );
-        logger.info( "v1  len = " + strResult1.length()   );
-        logger.info( "V2  len = " + strResult2.length()   );
+        LOGGER.info( "ref len = " + strResultRef.length() );
+        LOGGER.info( "v1  len = " + strResult1.length()   );
+        LOGGER.info( "V2  len = " + strResult2.length()   );
 
-        logger.info( "ref = " + strResultRef );
-        logger.info( "v1  = " + strResult1   );
-        logger.info( "V2  = " + strResult2   );
+        LOGGER.info( "ref = " + strResultRef );
+        LOGGER.info( "v1  = " + strResult1   );
+        LOGGER.info( "V2  = " + strResult2   );
 
         assertEquals( "error encode1", strResultRef, strResult1 );
         assertEquals( "error encode2", strResultRef, strResult2 );
@@ -420,9 +414,9 @@ public class Base64Test
             in.close();
             }
 
-        logger.info( "chars len = " + encodedPNGFileInB64CharArray.length );
-        logger.info( "chars = " + new String( encodedPNGFileInB64CharArray ) );
-        logger.info( "chars = " + new String( encodedPNGFileInB64CharArray ).substring( 0, 344 ) );
+        LOGGER.info( "chars len = " + encodedPNGFileInB64CharArray.length );
+        LOGGER.info( "chars = " + new String( encodedPNGFileInB64CharArray ) );
+        LOGGER.info( "chars = " + new String( encodedPNGFileInB64CharArray ).substring( 0, 344 ) );
 
         // DECODE using SUN Version
         {
@@ -432,7 +426,7 @@ public class Base64Test
             try {
                 boolean same        = IOHelper.isEquals( pngIS, sunDecode );
 
-                logger.info( "decode with sun - R=" + same );
+                LOGGER.info( "decode with sun - R=" + same );
 
                 assertTrue( "Error while decoding using SUN B64 classes", same );
                 }

@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class DefaultDirectoryFilterTest
 {
-    private final static Logger logger = Logger.getLogger( DefaultDirectoryFilterTest.class );
+    private final static Logger LOGGER = Logger.getLogger( DefaultDirectoryFilterTest.class );
     private final static String[] FULL_PATH_TO_TEST = {
         "C:\\System Volume Information",
         "C:\\Recycled",
@@ -60,7 +60,7 @@ public class DefaultDirectoryFilterTest
                 this.fullPathToTestList.add( new File( fp ) );
                 }
             else {
-                logger.warn( "Directory File not found: " + f );
+                LOGGER.warn( "Directory File not found: " + f );
                 }
             }
     }
@@ -78,7 +78,7 @@ public class DefaultDirectoryFilterTest
         for( File dirFile : this.fullPathToTestList ) {
             boolean accept = defaultDirectoryFilter.accept( dirFile );
 
-            logger.info( "Res:" + accept + " File: " + dirFile );
+            LOGGER.info( "Res:" + accept + " File: " + dirFile );
 
             Assert.assertFalse(
                     "File not matching (should be ignored): " + dirFile,
@@ -86,7 +86,7 @@ public class DefaultDirectoryFilterTest
                     );
             }
 
-        logger.info( "####" );
+        LOGGER.info( "####" );
     }
 
 

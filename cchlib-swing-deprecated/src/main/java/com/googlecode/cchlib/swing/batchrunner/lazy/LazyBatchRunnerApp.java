@@ -27,10 +27,7 @@ public abstract class LazyBatchRunnerApp
                 LazyBatchRunnerLocaleResources
 {
     private static final Logger LOG = Logger.getLogger( LazyBatchRunnerApp.class );
-    /**
-     * @deprecated Use {@link #LOG} instead
-     */
-    private static final Logger logger = LOG;
+
     private DefaultBatchRunnerJFrame frame;
     protected final ResourceBundle resourceBundle;
     private final LazyBatchRunnerCustomJPanelFactory customJPanelFactory;

@@ -19,7 +19,7 @@ import au.com.bytecode.opencsv.CSVReader;
 public class SMSCVSReader
     implements Closeable
 {
-    private static final Logger slogger = Logger.getLogger(SMSCVSReader.class);
+    private static final Logger LOGGER = Logger.getLogger(SMSCVSReader.class);
 
     /**
       * CVS Separator value.
@@ -58,7 +58,7 @@ public class SMSCVSReader
     {
         String[] line = csvr.readNext();
 
-        slogger.trace( "line:" + line );
+        LOGGER.trace( "line:" + line );
 
         if( line == null ) {
             return false; // eof
@@ -104,7 +104,7 @@ public class SMSCVSReader
             count++;
         }
 
-        slogger.info( "readAll:" + count );
+        LOGGER.info( "readAll:" + count );
 
         return count;
     }

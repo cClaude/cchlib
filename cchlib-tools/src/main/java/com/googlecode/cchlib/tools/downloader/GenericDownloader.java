@@ -33,7 +33,8 @@ import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
  */
 public class GenericDownloader
 {
-    private final Logger logger = Logger.getLogger( GenericDownloader.class );
+    private final Logger LOGGER = Logger.getLogger( GenericDownloader.class );
+
     private Object lock = new Object();
     private final URICache cache;
     private final File  destinationDirectoryFile;
@@ -73,8 +74,8 @@ public class GenericDownloader
         this.downloadMaxThread          = gdauir.getDownloadThreadCount();
         this.loggerListener             = gdauir.getAbstractLogger();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "destinationDirectoryFile = " + destinationDirectoryFile );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "destinationDirectoryFile = " + destinationDirectoryFile );
             }
 
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
@@ -86,10 +87,10 @@ public class GenericDownloader
             this.cache.load();
             }
         catch( FileNotFoundException ignore ) {
-            logger.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
+            LOGGER.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
         catch( Exception ignore ) {
-            logger.warn( "* warn: can't load cache file : " + ignore.getMessage() );
+            LOGGER.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
     }
 
@@ -152,8 +153,8 @@ public class GenericDownloader
             @Override
             public void downloadDone( DownloadURL dURL )
             {
-                if( logger.isDebugEnabled() ) {
-                    logger.debug( "downloadDone: dURL= " + dURL );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "downloadDone: dURL= " + dURL );
                     }
 
                 result.add( DownloadStringURL.class.cast( dURL ) );
@@ -199,7 +200,7 @@ public class GenericDownloader
                     size++;
                     }
 
-                logger.info(
+                LOGGER.info(
                     "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount()
                     + " * downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize()
                     + " * size = " + size
@@ -263,7 +264,7 @@ public class GenericDownloader
                     return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
                     }
                 catch( IOException e ) {
-                    logger.error(
+                    LOGGER.error(
                         "createTempFile Error: cache.getTempDirectoryFile() = " + cache.getTempDirectoryFile(),
                         e
                         );
@@ -272,8 +273,8 @@ public class GenericDownloader
             }
         };
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Cache content: " + cache );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Cache content: " + cache );
             }
 
         final int statsAskedDownload = urls.size();
@@ -282,8 +283,8 @@ public class GenericDownloader
         for( DownloadFileURL du: urls ) {
             if( cache.isInCacheIndex( du.getURL() ) ) {
                 // skip this entry !
-                if( logger.isDebugEnabled() ) {
-                    logger.debug( "Already in cache (Skip): " + du.getURL() );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Already in cache (Skip): " + du.getURL() );
                     }
                 }
             else {
@@ -294,16 +295,16 @@ public class GenericDownloader
 
         downloadExecutor.waitClose();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "statsAskedDownload = " + statsAskedDownload );
-            logger.debug( "statsLauchedDownload = " + statsLauchedDownload );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "statsAskedDownload = " + statsAskedDownload );
+            LOGGER.debug( "statsLauchedDownload = " + statsLauchedDownload );
             }
 
         try {
             this.cache.store();
             }
         catch( IOException ioe ) {
-            logger.error( "Error while storing cache index", ioe );
+            LOGGER.error( "Error while storing cache index", ioe );
 
             throw ioe;
             }
@@ -316,8 +317,8 @@ public class GenericDownloader
         // Remove this file !
         file.delete();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Already downloaded (deleted): " + file );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Already downloaded (deleted): " + file );
             }
     }
 
@@ -430,26 +431,26 @@ public class GenericDownloader
     public void onClickStopDownload()
     {
         // TODO Auto-generated method stub
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
-        logger.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
+        LOGGER.info( "stopDownload() not implemented !" );
     }
 
 }

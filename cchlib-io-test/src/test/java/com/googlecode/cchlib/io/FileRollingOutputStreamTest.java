@@ -14,7 +14,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  */
 public class FileRollingOutputStreamTest
 {
-    private final static Logger logger = Logger.getLogger( FileRollingOutputStreamTest.class );
+    private final static Logger LOGGER = Logger.getLogger( FileRollingOutputStreamTest.class );
 
     final static byte[] BUFFER          = new byte[ 30 ];
     final static int    BUFFER_OFFSET   = BUFFER.length / 3;
@@ -57,8 +57,8 @@ public class FileRollingOutputStreamTest
                 );
         final FileRoller fileRoller = new DefaultFileRoller( file );
 
-        logger.info( "work with " + file );
-        logger.info( "maxsize " + maxsize );
+        LOGGER.info( "work with " + file );
+        LOGGER.info( "maxsize " + maxsize );
 
         FileRollingOutputStream os = new FileRollingOutputStream( fileRoller, maxsize );
 
@@ -76,7 +76,7 @@ public class FileRollingOutputStreamTest
 
         os.flush();
 
-        logger.info(
+        LOGGER.info(
             assertMsgPrefix
                 + "os.length() after flush = "
                 + os.length()
@@ -88,7 +88,7 @@ public class FileRollingOutputStreamTest
         int filelen = 0;
 
         for( File f : os.getFileList() ) {
-            logger.info(
+            LOGGER.info(
                 assertMsgPrefix
                     + "result in " + f
                     + " (" + f.length() + ")"
@@ -96,7 +96,7 @@ public class FileRollingOutputStreamTest
             filelen += f.length();
 
             if( f.length() > maxsize ) {
-                logger.warn(
+                LOGGER.warn(
                     assertMsgPrefix
                         + " length found is " + f.length()
                         );

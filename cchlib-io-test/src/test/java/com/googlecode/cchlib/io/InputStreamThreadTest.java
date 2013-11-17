@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class InputStreamThreadTest 
 {
-    final private static Logger logger = Logger.getLogger( InputStreamThreadTest.class );
+    final private static Logger LOGGER = Logger.getLogger( InputStreamThreadTest.class );
     
     @Before
     public void setup() throws FileNotFoundException
@@ -44,7 +44,7 @@ public class InputStreamThreadTest
         copy.close();
         sourceIS0.close();
         
-        logger.info( "Done" );
+        LOGGER.info( "Done" );
     }
 
     private InputStreamThreadExceptionHandler getExceptionHandler()
@@ -54,12 +54,12 @@ public class InputStreamThreadTest
             @Override
             public void handleReadingIOException( IOException e )
             {
-                logger.warn( "handleReadingIOException", e );
+                LOGGER.warn( "handleReadingIOException", e );
             }
             @Override
             public void handleWritingIOException( IOException e )
             {
-                logger.warn( "handleWritingIOException", e );
+                LOGGER.warn( "handleWritingIOException", e );
             }
         };
     }

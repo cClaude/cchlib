@@ -217,7 +217,6 @@ public class GenericDownloaderUIApp extends JFrame
                 @Override
                 public void windowActivated(final WindowEvent event)
                 {
-                    //logger.info("Window Activated");
                 }
                 @Override
                 public void windowClosing(final WindowEvent event)
@@ -232,17 +231,14 @@ public class GenericDownloaderUIApp extends JFrame
                 @Override
                 public void windowDeactivated(final WindowEvent event)
                 {
-                    //logger.info("Window Deactivated");
                 }
                 @Override
                 public void windowDeiconified(final WindowEvent event)
                 {
-                    //logger.info("Window Deiconified");
                 }
                 @Override
                 public void windowIconified(final WindowEvent event)
                 {
-                    //logger.info("Window Iconified");
                 }
                 @Override
                 public void windowOpened(final WindowEvent event)

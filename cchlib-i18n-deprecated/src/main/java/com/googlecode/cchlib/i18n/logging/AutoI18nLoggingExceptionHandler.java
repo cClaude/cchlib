@@ -15,7 +15,8 @@ public class AutoI18nLoggingExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger(AutoI18nLoggingExceptionHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nLoggingExceptionHandler.class.getName() );
+
     /** @serial */
     private final Level  level;
 
@@ -51,7 +52,7 @@ public class AutoI18nLoggingExceptionHandler
     @Override
     public void defaultHandle(Exception e )
     {
-        logger.log( level, "AutoI18n error", e );
+        LOGGER.log( level, "AutoI18n error", e );
     }
 
     @Override
@@ -61,7 +62,7 @@ public class AutoI18nLoggingExceptionHandler
             String                      key
             )
     {
-        logger.log(
+        LOGGER.log(
                 level,
                 "* MissingResourceException for:"
                     + key
@@ -89,7 +90,7 @@ public class AutoI18nLoggingExceptionHandler
             Method[]                    methods
             )
     {
-        logger.log(
+        LOGGER.log(
             level,
             String.format(
                 "* MissingResourceException for: %s using [%s] - %s\n",

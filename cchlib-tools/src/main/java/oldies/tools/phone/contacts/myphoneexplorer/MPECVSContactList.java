@@ -24,9 +24,11 @@ public class MPECVSContactList
     implements ContactList
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( MPECVSContactList.class );
+    private static final Logger LOGGER = Logger.getLogger( MPECVSContactList.class );
+
     public static final char CSV_SEPARATOR = ',';
     public static final String CHARSET="UTF8";
+
     private MPECVSContactProperties contactProperties;
     private List<Contact> contactList = new ArrayList<>();
 
@@ -67,10 +69,10 @@ public class MPECVSContactList
         )
         throws IOException, BadFileFormatException
     {
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "File :" + myPhoneExplorerCVSFile );
-            logger.trace( "charset :" + charset );
-            logger.trace( "cvsSeparator :" + cvsSeparator );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "File :" + myPhoneExplorerCVSFile );
+            LOGGER.trace( "charset :" + charset );
+            LOGGER.trace( "cvsSeparator :" + cvsSeparator );
             }
         final CSVReader csvr = new CSVReader(
                 new BufferedReader(
@@ -93,7 +95,7 @@ public class MPECVSContactList
             // Expecting header definition on first line
             // Skip header
             String[] line = csvr.readNext();
-            logger.trace( "line: " + line );
+            LOGGER.trace( "line: " + line );
 
             if( line == null ) {
                 throw new BadFileFormatException( myPhoneExplorerCVSFile, 1 );

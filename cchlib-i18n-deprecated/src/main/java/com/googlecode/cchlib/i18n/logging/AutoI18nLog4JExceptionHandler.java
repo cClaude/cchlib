@@ -16,7 +16,8 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private static final transient Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private static final Logger LOGGER = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+
     /** @serial */
     private Level level;
 
@@ -51,7 +52,7 @@ public class AutoI18nLog4JExceptionHandler
     @Override
     public void defaultHandle(Exception e )
     {
-        logger.log( level, "AutoI18n error", e );
+        LOGGER.log( level, "AutoI18n error", e );
     }
 
     @Override
@@ -66,11 +67,11 @@ public class AutoI18nLog4JExceptionHandler
                     + " - "
                     + e.getLocalizedMessage();
 
-        if( logger.isDebugEnabled() ) {
-            logger.error( msg, e );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.error( msg, e );
             }
         else {
-            logger.warn( msg );
+            LOGGER.warn( msg );
             }
     }
 
@@ -99,11 +100,11 @@ public class AutoI18nLog4JExceptionHandler
                     e.getLocalizedMessage()
                     );
 
-        if( logger.isDebugEnabled() ) {
-            logger.error( msg, e );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.error( msg, e );
             }
         else {
-            logger.warn( msg );
+            LOGGER.warn( msg );
             }
     }
 }

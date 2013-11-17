@@ -21,7 +21,7 @@ public class DebugHttpServletResponseWrapper
     extends DebugServletResponseWrapper
         implements HttpServletResponse
 {
-    private final static Logger logger = Logger.getLogger( DebugHttpServletResponseWrapper.class );
+    private final static Logger LOGGER = Logger.getLogger( DebugHttpServletResponseWrapper.class );
     private final HttpServletResponse response;
 
     /**
@@ -40,7 +40,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void addCookie( Cookie cookie )
     {
-        logger.debug( "addCookie(" + cookie + ")" );
+        LOGGER.debug( "addCookie(" + cookie + ")" );
         this.response.addCookie(cookie);
     }
 
@@ -50,7 +50,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void addDateHeader( String name, long date )
     {
-        logger.debug( "addDateHeader(" + name + "," + date + ")" );
+        LOGGER.debug( "addDateHeader(" + name + "," + date + ")" );
         this.response.addDateHeader(name,date);
     }
 
@@ -60,7 +60,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void addHeader( String name, String value )
     {
-        logger.debug( "addHeader(" + name + "," + value + ")" );
+        LOGGER.debug( "addHeader(" + name + "," + value + ")" );
         this.response.addHeader(name,value);
     }
 
@@ -70,7 +70,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void addIntHeader( String name, int value )
     {
-        logger.debug( "addIntHeader(" + name + "," + value + ")" );
+        LOGGER.debug( "addIntHeader(" + name + "," + value + ")" );
         this.response.addIntHeader(name,value);
     }
 
@@ -80,7 +80,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public boolean containsHeader( String name )
     {
-        logger.debug( "containsHeader(" + name + ")" );
+        LOGGER.debug( "containsHeader(" + name + ")" );
         return this.response.containsHeader(name);
     }
 
@@ -90,7 +90,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public String encodeRedirectURL( String url )
     {
-        logger.debug( "encodeRedirectURL(" + url + ")" );
+        LOGGER.debug( "encodeRedirectURL(" + url + ")" );
         return this.response.encodeRedirectURL(url);
     }
 
@@ -101,7 +101,7 @@ public class DebugHttpServletResponseWrapper
     @Deprecated
     public String encodeRedirectUrl( String url )
     {
-        logger.debug( "encodeRedirectUrl(" + url + ")" );
+        LOGGER.debug( "encodeRedirectUrl(" + url + ")" );
         return this.response.encodeRedirectURL(url);
     }
 
@@ -111,7 +111,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public String encodeURL( String url )
     {
-        logger.debug( "encodeURL(" + url + ")" );
+        LOGGER.debug( "encodeURL(" + url + ")" );
         return this.response.encodeURL(url);
     }
 
@@ -122,7 +122,7 @@ public class DebugHttpServletResponseWrapper
     @Deprecated
     public String encodeUrl( String url )
     {
-        logger.debug( "encodeUrl(" + url + ")" );
+        LOGGER.debug( "encodeUrl(" + url + ")" );
         return this.response.encodeURL(url);
     }
 
@@ -132,7 +132,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public String getHeader( String name )
     {
-        logger.debug( "getHeader(" + name + ")" );
+        LOGGER.debug( "getHeader(" + name + ")" );
         return this.response.getHeader(name);
     }
 
@@ -142,7 +142,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public Collection<String> getHeaderNames()
     {
-        logger.debug( "getHeaderNames()" );
+        LOGGER.debug( "getHeaderNames()" );
         return this.response.getHeaderNames();
     }
 
@@ -152,7 +152,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public Collection<String> getHeaders( String name )
     {
-        logger.debug( "getHeaders(" + name + ")" );
+        LOGGER.debug( "getHeaders(" + name + ")" );
         return this.response.getHeaders(name);
     }
 
@@ -162,7 +162,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public int getStatus()
     {
-        logger.debug( "getStatus()" );
+        LOGGER.debug( "getStatus()" );
         return this.response.getStatus();
     }
 
@@ -172,7 +172,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void sendError( int sc ) throws IOException
     {
-        logger.debug( "sendError(" + sc + ")" );
+        LOGGER.debug( "sendError(" + sc + ")" );
         this.response.sendError(sc);
     }
 
@@ -182,7 +182,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void sendError( int sc, String msg ) throws IOException
     {
-        logger.debug( "sendError(" + sc + ","  + msg + ")" );
+        LOGGER.debug( "sendError(" + sc + ","  + msg + ")" );
         this.response.sendError(sc,msg);
     }
 
@@ -192,7 +192,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void sendRedirect( String location ) throws IOException
     {
-        logger.debug( "sendRedirect(" + location + ")" );
+        LOGGER.debug( "sendRedirect(" + location + ")" );
         this.response.sendRedirect(location);
     }
 
@@ -202,7 +202,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void setDateHeader( String name, long date )
     {
-        logger.debug( "setDateHeader(" + name + ","  + date + ")" );
+        LOGGER.debug( "setDateHeader(" + name + ","  + date + ")" );
         this.response.setDateHeader(name,date);
     }
 
@@ -212,7 +212,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void setHeader( String name, String value )
     {
-        logger.debug( "setHeader(" + name + ","  + value + ")" );
+        LOGGER.debug( "setHeader(" + name + ","  + value + ")" );
         this.response.setHeader(name,value);
     }
 
@@ -222,7 +222,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void setIntHeader( String name, int value )
     {
-        logger.debug( "setIntHeader(" + name + ","  + value + ")" );
+        LOGGER.debug( "setIntHeader(" + name + ","  + value + ")" );
         this.response.setIntHeader(name,value);
     }
 
@@ -232,7 +232,7 @@ public class DebugHttpServletResponseWrapper
     @Override
     public void setStatus( int sc )
     {
-        logger.debug( "setStatus(" + sc + ")" );
+        LOGGER.debug( "setStatus(" + sc + ")" );
         this.response.setStatus(sc);
     }
 
@@ -243,7 +243,7 @@ public class DebugHttpServletResponseWrapper
     @Deprecated
     public void setStatus( int sc, String sm )
     {
-        logger.debug( "setStatus(" + sc + ","  + sm + ")" );
+        LOGGER.debug( "setStatus(" + sc + ","  + sm + ")" );
         this.response.setStatus(sc,sm);
     }
 }

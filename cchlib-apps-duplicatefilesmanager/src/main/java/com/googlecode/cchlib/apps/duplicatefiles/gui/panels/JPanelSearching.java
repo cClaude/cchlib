@@ -279,7 +279,6 @@ public class JPanelSearching extends JPanel//SearchingWB
             }
         } );
 
-        //for(File f:directories) {
         for(File f : entriesToScans ) {
 
             if( f.isDirectory() ) {
@@ -288,13 +287,6 @@ public class JPanelSearching extends JPanel//SearchingWB
                         fileFilter,
                         dirFilter
                         );
-//                List<File> files = new ArrayList<File>();
-//                Iterator<File> iter0 = files0.iterator();
-//                while( iter0.hasNext()) {
-//                    File f0 = iter0.next();
-//                    files.add( f0 );
-//                }
-//                slogger.info( "files_:" + files.size() );
 
                 LOGGER.info( "doScanPass1: examin:" + f );
 
@@ -548,7 +540,6 @@ public class JPanelSearching extends JPanel//SearchingWB
                         // Hidden files
                         if( skipHidden ) {
                             if( f.isHidden() ) {
-                                //slogger.debug( "f:" + f + " -> false1" );
                                 return false;
                                 }
                             }
@@ -690,7 +681,6 @@ public class JPanelSearching extends JPanel//SearchingWB
 
             LOGGER.info( "dirs regex=" + regex );
             LOGGER.info( "dirs skipHidden=" + skipHidden );
-            //slogger.info( "dirs skipReadOnly=" + skipReadOnly );
             LOGGER.info( "dirNamesL=" + dirNamesL );
             LOGGER.info( "dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
 

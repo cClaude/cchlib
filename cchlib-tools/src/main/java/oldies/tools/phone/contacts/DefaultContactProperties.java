@@ -20,7 +20,7 @@ public class DefaultContactProperties
                 Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( DefaultContactProperties.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultContactProperties.class );
 
     private final String[]                 names;
     private final ContactValueType[]    types;
@@ -54,7 +54,7 @@ public class DefaultContactProperties
             final ContactValueType   type = iterType.next();
             final String             def  = iterDefaults.next();
 
-            logger.info( "Prop[" + index + "]=\"" + name + "\" (" + type + ")/\"" + def + "\"" );
+            LOGGER.info( "Prop[" + index + "]=\"" + name + "\" (" + type + ")/\"" + def + "\"" );
 
             this.names[ index ]         = name;
             this.types[ index ]         = type;
@@ -63,7 +63,7 @@ public class DefaultContactProperties
             index++;
             }
 
-        logger.info( "Number of properties: " + names.length );
+        LOGGER.info( "Number of properties: " + names.length );
     }
 
     @Override

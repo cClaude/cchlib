@@ -19,7 +19,6 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  */
 public class TestConfigurationHelper
 {
-    //private final static Logger logger = Logger.getLogger( TestConfigurationHelper.class );
     private PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
     private Config config;
 

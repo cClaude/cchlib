@@ -38,44 +38,10 @@ import org.apache.log4j.Logger;
 public class MboxFile
     implements Closeable
 {
-    private final static Logger slogger = Logger.getLogger( MboxFile.class );
+    private final static Logger LOGGER = Logger.getLogger( MboxFile.class );
     
-//    public static final class BufferStrategy extends java.lang.Enum
-//    {
-//
-//        public static final net.fortuna.mstor.data.BufferStrategy DEFAULT;
-//        public static final net.fortuna.mstor.data.BufferStrategy MAPPED;
-//        public static final net.fortuna.mstor.data.BufferStrategy DIRECT;
-//        private static final net.fortuna.mstor.data.BufferStrategy $VALUES[];
-//
-//        public static net.fortuna.mstor.data.BufferStrategy[] values()
-//        {
-//            return (net.fortuna.mstor.data.BufferStrategy[])VALUES.clone();
-//        }
-//
-//        public static net.fortuna.mstor.data.BufferStrategy valueOf(java.lang.String name)
-//        {
-//            return (net.fortuna.mstor.data.BufferStrategy)java.lang.Enum.valueOf(net/fortuna/mstor/data/MboxFile$BufferStrategy, name);
-//
-//        }
-//
-//        static
-//        {
-//            DEFAULT = new BufferStrategy("DEFAULT", 0);
-//            MAPPED = new BufferStrategy("MAPPED", 1);
-//            DIRECT = new BufferStrategy("DIRECT", 2);
-//            VALUES = (new net.fortuna.mstor.data.BufferStrategy[] {
-//                DEFAULT, MAPPED, DIRECT
-//            });
-//        }
-//
-//        private BufferStrategy(java.lang.String s, int i)
-//        {
-//            super(s, i);
-//
-//        }
-//    }
-//    public static final String KEY_BUFFER_STRATEGY = "mstor.mbox.bufferStrategy";
+
+
     public static final String READ_ONLY = "r";
     public static final String READ_WRITE = "rw";
 //    private static final String TEMP_FILE_EXTENSION = ".tmp";
@@ -162,7 +128,7 @@ public class MboxFile
 //            }
         }
         catch(java.io.IOException ioe) {
-            slogger.warn("Error reading bytes using nio", ioe);
+            LOGGER.warn("Error reading bytes using nio", ioe);
 
             getRaf().seek(position);
             
@@ -182,7 +148,7 @@ public class MboxFile
         if(messagePositions == null) {
             List<Long> posList = new ArrayList<Long>();
             
-            slogger.debug( "Channel size [" + getChannel().size() + "] bytes" );
+            LOGGER.debug( "Channel size [" + getChannel().size() + "] bytes" );
 
             int bufferSize = (int)Math.min(getChannel().size(), DEFAULT_BUFFER_SIZE);
 
@@ -192,7 +158,7 @@ public class MboxFile
 
             cs = decoder.decode(buffer);
 
-            slogger.debug( "Buffer [" + cs + "]" );
+            LOGGER.debug( "Buffer [" + cs + "]" );
 
             long offset = 0L;
 
@@ -206,7 +172,7 @@ public class MboxFile
 //                }
 
                 for(; matcher.find(); posList.add(new Long(offset + (long)matcher.start()))) {
-                    slogger.debug( "Found match at [" + (offset + (long)matcher.start()) + "]" );
+                    LOGGER.debug( "Found match at [" + (offset + (long)matcher.start()) + "]" );
                 }
 
                 if(offset + (long)bufferSize >= getChannel().size()) {
@@ -424,7 +390,7 @@ public class MboxFile
             line   = reader.readLine();
         }
         catch( IOException e ) {
-            slogger.info(
+            LOGGER.info(
                 "Not a valid mbox file [" + file + "]",
                 e
                 );
@@ -437,7 +403,7 @@ public class MboxFile
                 reader.close();
             }
             catch(java.io.IOException ioe) {
-                slogger.info(
+                LOGGER.info(
                     "Error closing stream ["
                         + file 
                         + "]", 

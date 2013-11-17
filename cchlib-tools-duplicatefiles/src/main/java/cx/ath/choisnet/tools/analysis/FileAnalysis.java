@@ -17,7 +17,6 @@ import cx.ath.choisnet.tools.analysis.view.XLogger;
  */
 public class FileAnalysis
 {
-    //static final Logger logger = Logger.getLogger( FileAnalysis.class );
     private final XLogger logger;
     private Writer writerFile;
     private Writer writerDirs;

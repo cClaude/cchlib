@@ -260,7 +260,6 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             @Override
             public int getRowCount()
             {
-                //slogger.info( "getRowCount(): " + filesList.size() );
                 return includeFileList.size() + ingoreFileList.size();
             }
             @Override
@@ -419,10 +418,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 else {
                     includeFileList.add( f );
                     }
-//                filesList.add( new FileOrFolder( f, ignore ) );
                 tableModelSelectedFoldersOrFiles.fireTableDataChanged();
                 LOGGER.info( "add: " + f );
-//                slogger.info( "size: " + filesList.size() );
 
                 jButtonRemEntry.setEnabled( true );
                 return true;

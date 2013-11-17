@@ -28,10 +28,6 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger LOG = Logger.getLogger( BatchRunnerPanel.class );
-    /**
-     * @deprecated Use {@link #LOG} instead
-     */
-    private static final transient Logger logger = LOG;
 
     private WaitingJFileChooserInitializer jFileChooserInitializer;
     private ActionListener myActionListener;
@@ -155,7 +151,6 @@ public abstract class BatchRunnerPanel extends BatchRunnerPanelWB
                     finalizeBath( false );
                     }
                 catch( BatchRunnerInterruptedException e ) {
-                    //logger.info( "BatchRunnerInterruptedException", e );
                     finalizeBath( true );
                     }
                 catch( Exception e ) {

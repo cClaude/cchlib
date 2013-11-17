@@ -34,8 +34,9 @@ import com.googlecode.cchlib.swing.batchrunner.lazyrunner.LazyStreamBatchRunnabl
 @Deprecated
 public class DefaultBatchRunnerJFrame extends JFrame
 {
-    private static final transient Logger logger = Logger.getLogger( DefaultBatchRunnerJFrame.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultBatchRunnerJFrame.class );
     private static final long serialVersionUID = 1L;
+
     private JPanel contentPane;
     private BatchRunnerPanel batchRunnerPanel;
     private LazyBatchRunnable lazyBatchRunnable;
@@ -164,17 +165,17 @@ public class DefaultBatchRunnerJFrame extends JFrame
                     localeResources.getTextEndOfBatch()
                     );
 
-            logger.info( "Task done for: " + sourceFile );
+            LOGGER.info( "Task done for: " + sourceFile );
             }
         catch( InterruptedIOException e ) {
-            logger.warn( "User cancel batch in: " + sourceFile );
+            LOGGER.warn( "User cancel batch in: " + sourceFile );
 
             throw new BatchRunnerInterruptedException( e );
             }
         catch( IOException e ) {
             final String title =  this.localeResources.getTextIOExceptionDuringBatch();
 
-            logger.error( title, e );
+            LOGGER.error( title, e );
             this.batchRunnerPanel.setCurrentMessage( title );
 
             String[] buttonsText = this.localeResources.getTextIOExceptionDuringBatchButtons();

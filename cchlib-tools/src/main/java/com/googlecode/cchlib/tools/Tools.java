@@ -8,9 +8,10 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
 /**
  * Just here to get {@link Tools}.class
  */
-public class Tools 
+public final class Tools
 {
-    private final static Logger logger = Logger.getLogger( Tools.class );
+    private final static Logger LOGGER = Logger.getLogger( Tools.class );
+
     private Tools() {} // All static
 
     public static Image getToolsIconImage()
@@ -19,7 +20,7 @@ public class Tools
             return ResourcesLoader.getImage( Tools.class, "tools.png" );
             }
         catch( ResourcesLoaderException e ) {
-            logger.error( "Can't load 'tools.png'", e );
+            LOGGER.error( "Can't load 'tools.png'", e );
             return null;
             }
    }

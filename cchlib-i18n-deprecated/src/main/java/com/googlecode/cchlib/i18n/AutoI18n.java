@@ -67,7 +67,7 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 public class AutoI18n implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( AutoI18n.class );
+    private static final Logger LOGGER = Logger.getLogger( AutoI18n.class );
 
     private transient Object      objectToI18n;
     private transient Class<?>    objectToI18nClass;
@@ -512,7 +512,7 @@ public class AutoI18n implements Serializable
         else { // Not a String
             if( f.getAnnotation( I18nString.class ) != null ) {
                 // But annotation
-                logger.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
+                LOGGER.warn( "Annotation: @" + I18nString.class + " found on field (Not a String)" );
 //                if( eventHandler!=null ) {
 //                    eventHandler.warnOnField( f, AutoI18nEventHandler.Warning.ANNOTATION_I18nString_BUT_NOT_A_String );
 //                }
@@ -558,7 +558,7 @@ public class AutoI18n implements Serializable
                     return;//done
                     }
                 }
-            logger.warn( "Type (" + fclass + ") not handle for field: " + f );
+            LOGGER.warn( "Type (" + fclass + ") not handle for field: " + f );
             }
         catch( MissingResourceException e ) {
             this.exceptionHandler.handleMissingResourceException( e, f, key );

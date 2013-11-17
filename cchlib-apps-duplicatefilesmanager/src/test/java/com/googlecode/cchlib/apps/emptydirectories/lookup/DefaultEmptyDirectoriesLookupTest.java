@@ -30,7 +30,7 @@ import org.junit.Test;
 
 public class DefaultEmptyDirectoriesLookupTest
 {
-    private static final Logger logger = Logger.getLogger( DefaultEmptyDirectoriesLookupTest.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookupTest.class );
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -110,10 +110,10 @@ public class DefaultEmptyDirectoriesLookupTest
         edl.lookup();
 
         for( Path p : isEmptyList ) {
-            logger.trace( "isEmptyList: " + p );
+            LOGGER.trace( "isEmptyList: " + p );
             }
         for( Path p : couldBeEmptyList ) {
-            logger.trace( "couldBeEmptyList: " + p );
+            LOGGER.trace( "couldBeEmptyList: " + p );
             }
 
         Iterator<EmptyFolder> iter =  emptyDirectoriesListener.getEmptyFolderList().iterator();
@@ -122,7 +122,7 @@ public class DefaultEmptyDirectoriesLookupTest
             final EmptyFolder ef   = iter.next();
             final Path        path = ef.getPath();
 
-            logger.info( "check pass1: " + ef + " : path=" + path );
+            LOGGER.info( "check pass1: " + ef + " : path=" + path );
 
             if( isEmptyList.contains( path ) ) {
                 assertTrue( ef.isEmpty() );
@@ -133,13 +133,13 @@ public class DefaultEmptyDirectoriesLookupTest
                 assertFalse( ef.isEmpty() );
                 }
             else {
-                logger.warn( "Unexpected entry: " + ef );
+                LOGGER.warn( "Unexpected entry: " + ef );
 
                 File[] subFiles = ef.getFile().listFiles();
-                logger.warn( "subFiles=" + subFiles );
+                LOGGER.warn( "subFiles=" + subFiles );
 
                 if( subFiles != null ) {
-                    logger.warn( "subFiles.length=" + subFiles.length );
+                    LOGGER.warn( "subFiles.length=" + subFiles.length );
                     }
 
                 fail( "Unexpected entry: " + ef );
@@ -152,7 +152,7 @@ public class DefaultEmptyDirectoriesLookupTest
             EmptyFolder ef   = iter.next();
             Path        path = ef.getPath();
 
-            logger.info( "check pass2: " + ef );
+            LOGGER.info( "check pass2: " + ef );
 
             if( isEmptyList.contains( path ) ) {
                 fail( "Should be delete: " + ef );
@@ -172,7 +172,7 @@ public class DefaultEmptyDirectoriesLookupTest
 
         assertEquals( 0, emptyDirectoriesListener.getEmptyFolderList().size() );
 
-        logger.info( "done" );
+        LOGGER.info( "done" );
     }
 
     private static class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
@@ -193,7 +193,7 @@ public class DefaultEmptyDirectoriesLookupTest
         @Override
         public void newEntry( EmptyFolder emptyFolder )
         {
-            logger.info( "emptyFolder: " + emptyFolder );
+            LOGGER.info( "emptyFolder: " + emptyFolder );
 
             File f = emptyFolder.getPath().toFile();
             assertTrue( "Not a directory", f.isDirectory() );
@@ -202,10 +202,10 @@ public class DefaultEmptyDirectoriesLookupTest
             assertNotNull( "Not a valid directory", files );
 
             if( emptyFolder.isEmpty() ) {
-                logger.warn( "Warn found " + files.length + " file(s)" );
+                LOGGER.warn( "Warn found " + files.length + " file(s)" );
 
                 for( File file : files ) {
-                    logger.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
+                    LOGGER.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
                     }
                 assertEquals( "Not empty: " + emptyFolder, 0, files.length );
                 }
@@ -223,13 +223,13 @@ public class DefaultEmptyDirectoriesLookupTest
         @Override
         public void findStarted()
         {
-            logger.info( "findStarted()" );
+            LOGGER.info( "findStarted()" );
         }
 
         @Override
         public void findDone()
         {
-            logger.info( "findDone()" );
+            LOGGER.info( "findDone()" );
         }
     }
 

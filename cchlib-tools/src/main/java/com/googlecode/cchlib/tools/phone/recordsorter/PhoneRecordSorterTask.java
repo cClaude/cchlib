@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.io.filefilter.FileFileFilter;
 import com.googlecode.cchlib.swing.batchrunner.AbstractBRRunnable;
@@ -21,6 +22,8 @@ import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
  */
 public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRRunnable 
 {
+    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterTask.class );
+    
     private final ConfigFactory configFactory;
     private final Pattern       filenamePattern;
     
@@ -36,7 +39,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
       File sourceFile      = event.getSourceFile();
       File destinationFile = event.getDestinationFile();
 
-      logger.info( "DO execute() : " + sourceFile + " -> " + destinationFile );
+      LOGGER.info( "DO execute() : " + sourceFile + " -> " + destinationFile );
       
       try {
           CurrentTask task = new CurrentTask( destinationFile );
@@ -48,7 +51,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
           // TODO Auto-generated catch block
           e.printStackTrace();
           }
-      logger.info( "DONE execute() : " + sourceFile + " -> " + destinationFile );
+      LOGGER.info( "DONE execute() : " + sourceFile + " -> " + destinationFile );
     }
     
     @Override

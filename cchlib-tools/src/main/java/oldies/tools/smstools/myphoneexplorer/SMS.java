@@ -12,13 +12,15 @@ import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * SMS content
- * 
+ *
  */
 public class SMS implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final static transient Logger slogger = Logger.getLogger( SMS.class );
+    private final static Logger LOGGER = Logger.getLogger( SMS.class );
+
     public static final String DATE_FORMAT_ISO = "yyyy-MM-dd.HH-mm-ss";
+
     /** for entries with no date */
     private static long fakeDate = 1;
 
@@ -124,7 +126,7 @@ public class SMS implements Serializable
         if( computedTimeDate == null ) {
             // time should not be null !
             if( time == null ) {
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "Field 'time' is null"
                     );
             }
@@ -150,18 +152,11 @@ public class SMS implements Serializable
                 c.set( year, month-1, day, hourOfDay, minute, second );
 
                 computedTimeDate = c.getTime();
-                
-//              SimpleDateFormat sd = new SimpleDateFormat( DATE_FORMAT_ISO );
-
-//                slogger.debug( "->" );
-//                slogger.debug( sd.format( computedTimeDate ) );
-//                slogger.debug( time );
-//                slogger.debug( "<-" );
             }
             else if( "Time".equals( time )){
                 //Header!
                 computedTimeDate = new Date(0);
-                
+
                 //Remove source
                 this.setXtraSource( StringHelper.EMPTY );
             }
@@ -174,8 +169,8 @@ public class SMS implements Serializable
 
         return computedTimeDate;
     }
-    
-    
+
+
     /**
      * @return the storage
      */
@@ -239,10 +234,10 @@ public class SMS implements Serializable
     {
         this.xtraDate = xtraDate;
     }
-    
+
     /**
      * @param xtraDate the xtraDate to set
-     * @throws ParseException 
+     * @throws ParseException
      */
     public void setXtraDate( String xtraDate )
         throws ParseException
@@ -254,7 +249,7 @@ public class SMS implements Serializable
 
     /**
      * Just for sorting process
-     * 
+     *
      * @return the computedDate
      */
     public Date getComputedDate()
@@ -272,14 +267,14 @@ public class SMS implements Serializable
         // Try to use 'time' field
         if( getComputedTimeDate() != null ) {
             //Date cTimeDate = getComputedTimeDate();
-            
+
             if( SMSConfig.isDateValid( this ) ) {
                 computedDate = getComputedTimeDate();
                 }
             }
 
         if( computedDate == null ) {
-            slogger.warn( "'time' not valid [" + time + "] - generate fake date" );
+            LOGGER.warn( "'time' not valid [" + time + "] - generate fake date" );
 
             xtraDate = computedDate = getFakeDate();
             }
@@ -289,7 +284,7 @@ public class SMS implements Serializable
 
     /**
      * Build fake unique date for sorting process
-     * @return fake unique date for sorting process 
+     * @return fake unique date for sorting process
      */
     private synchronized static Date getFakeDate()
     {
@@ -315,7 +310,7 @@ public class SMS implements Serializable
 
         return builder.toString();
     }
-    
+
     public void appendEntry( Appendable a ) throws IOException
     {
 //        final DateFormat df0 = new SimpleDateFormat( DATE_FORMAT_ISO );
@@ -337,7 +332,7 @@ public class SMS implements Serializable
         a.append( storage );
         a.append( "\";\"" );
         a.append( pdu );
-        
+
         a.append( "\";\"" );
         final Date d = getXtraDate();
 

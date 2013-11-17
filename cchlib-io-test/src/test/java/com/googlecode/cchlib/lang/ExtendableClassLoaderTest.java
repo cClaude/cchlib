@@ -22,7 +22,8 @@ import com.googlecode.cchlib.io.IOHelper;
 
 public class ExtendableClassLoaderTest
 {
-    private final static Logger logger = Logger.getLogger( ExtendableClassLoaderTest.class );
+    private final static Logger LOGGER = Logger.getLogger( ExtendableClassLoaderTest.class );
+
     private static String compiledClassName;
     private static File compiledDirectoryFile;
     private static File compiledClassFile;
@@ -46,7 +47,7 @@ public class ExtendableClassLoaderTest
         final File sourceFile = new File( dirFile, filename );
 
         if( is == null ) {
-            logger.error( "Resource not found:" + sourceFile );
+            LOGGER.error( "Resource not found:" + sourceFile );
             }
         try {
             IOHelper.copy( is, sourceFile );
@@ -55,22 +56,22 @@ public class ExtendableClassLoaderTest
             is.close();
             }
 
-        logger.info( "sourceFile = " + sourceFile );
+        LOGGER.info( "sourceFile = " + sourceFile );
         assertTrue( sourceFile.isFile() );
 
         compile( sourceFile );
 
         File targetFile = new File(dirFile,  basename + ".class" );
-        logger.info( "targetFile = " + targetFile );
+        LOGGER.info( "targetFile = " + targetFile );
         assertTrue( targetFile.isFile() );
 
         compiledDirectoryFile  = tmpDirFile;
         compiledClassFile      = targetFile;
         compiledClassName      = packagename + '.' + basename;
 
-        logger.info( "compiledClassFile (ok) = " + compiledClassFile );
-        logger.info( "compiledDirectoryFile = " + compiledDirectoryFile );
-        logger.info( "compiledClassName = " + compiledClassName );
+        LOGGER.info( "compiledClassFile (ok) = " + compiledClassFile );
+        LOGGER.info( "compiledDirectoryFile = " + compiledDirectoryFile );
+        LOGGER.info( "compiledClassName = " + compiledClassName );
     }
 
     @AfterClass
@@ -93,7 +94,7 @@ public class ExtendableClassLoaderTest
         ecl.addClassPath( compiledDirectoryFile );
 
         Class<?> clazz = ecl.loadClass( compiledClassName );
-        logger.info( "clazz = " + clazz );
+        LOGGER.info( "clazz = " + clazz );
 
         assertNotNull( clazz );
     }

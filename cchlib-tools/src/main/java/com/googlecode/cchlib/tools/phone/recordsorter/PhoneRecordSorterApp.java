@@ -29,8 +29,8 @@ public class PhoneRecordSorterApp implements Runnable
         final File sourceFolderFile   = args.length > 0 ? new File( args[ 0 ] ) : null;
         final File destinationFolders = args.length > 1 ? new File( args[ 1 ] ) : null;
 
-        logger.info( "sourceFolderFile    = " + sourceFolderFile );
-        logger.info( "destinationFolders  = " + destinationFolders );
+        LOGGER.info( "sourceFolderFile    = " + sourceFolderFile );
+        LOGGER.info( "destinationFolders  = " + destinationFolders );
         
         final BRPanelConfig              ihmConfig                  = new PhoneRecordSorterConfig( sourceFolderFile, destinationFolders );
         final BRLocaleResourcesAgregator phoneRecordSorterResources = new PhoneRecordSorterResources();
@@ -44,7 +44,7 @@ public class PhoneRecordSorterApp implements Runnable
         EventQueue.invokeLater( app );
     }
 
-    private final static Logger logger = Logger.getLogger( PhoneRecordSorterApp.class );
+    private final static Logger LOGGER = Logger.getLogger( PhoneRecordSorterApp.class );
 
     private ConfigFactory configFactory;
     private BRPanelConfig ihmConfig;
@@ -80,7 +80,7 @@ public class PhoneRecordSorterApp implements Runnable
             frame.setVisible( true );
             }
         catch( Exception e ) {
-            logger.fatal( "Can not start", e );
+            LOGGER.fatal( "Can not start", e );
 
             DialogHelper.showMessageExceptionDialog( localeResources.getFrameTitle(), e );
             }

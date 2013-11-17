@@ -25,7 +25,8 @@ import com.googlecode.cchlib.util.CancelRequestException;
  */
 public class FindDeleteAdapter
 {
-    private static final Logger logger = Logger.getLogger( FindDeleteAdapter.class );
+    private static final Logger LOGGER = Logger.getLogger( FindDeleteAdapter.class );
+
     private MyDefaultListModel<File> listModel;
     private FolderTreeModelable treeModel;
     private FindDeleteListener listener;
@@ -69,7 +70,7 @@ public class FindDeleteAdapter
      */
     public void doFind()
     {
-        logger.info( "doFind() thread started" );
+        LOGGER.info( "doFind() thread started" );
 
         this.isCancel = false;
         final DefaultEmptyDirectoriesLookup emptyDirs   = new DefaultEmptyDirectoriesLookup( listModel );
@@ -85,12 +86,12 @@ public class FindDeleteAdapter
                 try {
                     emptyDirs.lookup();
 
-                    logger.info(
+                    LOGGER.info(
                         "treeModel.size(): " + ((treeModel == null) ? null : Integer.valueOf( treeModel.size()) )
                         );
                     }
                 catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
-                    logger.info( "Cancel received" );
+                    LOGGER.info( "Cancel received" );
 
                     // Call done, to cleanup layout.
                     listener.findDone();
@@ -132,7 +133,7 @@ public class FindDeleteAdapter
         @Override
         public void findStarted()
         {
-            logger.info( "findStarted()" );
+            LOGGER.info( "findStarted()" );
 
             try {
                 SwingUtilities.invokeAndWait(
@@ -146,7 +147,7 @@ public class FindDeleteAdapter
                         });
                 }
             catch( InvocationTargetException | InterruptedException e ) {
-                logger.error( "findStarted() *** ERROR", e );
+                LOGGER.error( "findStarted() *** ERROR", e );
                 }
         }
         @Override
@@ -154,7 +155,7 @@ public class FindDeleteAdapter
         {
             listener.findTaskDone( isCancel );
 
-            logger.info( "findDone()" );
+            LOGGER.info( "findDone()" );
         }
     }
 
@@ -167,7 +168,7 @@ public class FindDeleteAdapter
             selectedPaths.add( ef.getPath() );
             }
 
-        logger.info( "doDelete() : selected files count = " + selectedPaths.size() );
+        LOGGER.info( "doDelete() : selected files count = " + selectedPaths.size() );
 
         assert selectedPaths.size() > 0;
 
@@ -185,21 +186,21 @@ public class FindDeleteAdapter
             try {
                 boolean res = Files.deleteIfExists( path );
 
-                if( logger.isDebugEnabled() ) {
-                    logger.debug( "DIR delete [" + path + "] => " + res );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "DIR delete [" + path + "] => " + res );
                     }
                 }
             catch( AccessDeniedException e ) { // $codepro.audit.disable logExceptions
-                logger.warn( "delete AccessDeniedException  [" + path + "]" );
+                LOGGER.warn( "delete AccessDeniedException  [" + path + "]" );
                 }
             catch( DirectoryNotEmptyException e ) { // $codepro.audit.disable logExceptions
-                logger.warn( "delete DirectoryNotEmptyException [" + path + "]" );
+                LOGGER.warn( "delete DirectoryNotEmptyException [" + path + "]" );
 
                 String[] files = path.toFile().list();
-                logger.warn( "cause content : [" + Arrays.toString( files ) + "]" );
+                LOGGER.warn( "cause content : [" + Arrays.toString( files ) + "]" );
                 }
             catch( Exception e ) {
-                logger.error( "delete [" + path + "]", e );
+                LOGGER.error( "delete [" + path + "]", e );
                 }
             }
     }

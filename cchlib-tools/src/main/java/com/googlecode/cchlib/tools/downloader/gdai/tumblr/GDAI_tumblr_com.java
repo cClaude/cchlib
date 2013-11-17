@@ -30,7 +30,8 @@ public abstract class GDAI_tumblr_com
         implements GenericDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( GDAI_tumblr_com.class );
+    private final static Logger LOGGER = Logger.getLogger( GDAI_tumblr_com.class );
+
     /*
      * http://[NAME].tumblr.com
      */
@@ -163,7 +164,7 @@ public abstract class GDAI_tumblr_com
             size = Integer.parseInt( sizeStr );
             }
         catch( Exception e ) {
-            logger.warn( "size of " + src, e );
+            LOGGER.warn( "size of " + src, e );
             // Can not find picture size: Try to download any way.
             return new DefaultDownloadFileURL( src, null, getProxy() );
             }
@@ -234,7 +235,7 @@ public abstract class GDAI_tumblr_com
                 blogDescriptions[ i++ ] = entry.getDescription();
                 }
 
-            logger.info( "Found " + entries.size() + " count." );
+            LOGGER.info( "Found " + entries.size() + " count." );
         }
 
         return new GDAI_tumblr_com_ForHost(

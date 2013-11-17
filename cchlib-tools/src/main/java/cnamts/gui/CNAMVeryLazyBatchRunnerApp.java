@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask>
     extends com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchRunnerApp<TASK>
 {
-    private static final Logger logger = Logger.getLogger( CNAMVeryLazyBatchRunnerApp.class );
+    private static final Logger LOGGER = Logger.getLogger( CNAMVeryLazyBatchRunnerApp.class );
     private URL iconURL;
 
     /**
@@ -49,7 +49,7 @@ public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends com.googlecode.cch
     {
         this.iconURL = getCNAMIcon();
 
-        logger.info( "iconURL = " + iconURL );
+        LOGGER.info( "iconURL = " + iconURL );
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,9 +18,10 @@ import com.googlecode.cchlib.util.CancelRequestException;
  */
 public class DefaultDigestFileCollectorTest
 {
-    private static final Logger logger = Logger.getLogger( DefaultDigestFileCollectorTest.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultDigestFileCollectorTest.class );
+
     private static final int MAX_FILES_COUNT = 150;
-	private static final long FILE_MAX_SIZE = 5 * 1024 * 1024;
+    private static final long FILE_MAX_SIZE = 5 * 1024 * 1024;
 
     @Test
     public void test_Base()
@@ -47,35 +48,35 @@ public class DefaultDigestFileCollectorTest
                     }
                 });
 
-        logger.info( "adding... : " + root );
+        LOGGER.info( "adding... : " + root );
 
         try {
             instance.add( files );
             }
         catch( CancelRequestException e ) {
-            logger.info( "CancelRequestException: " + e /* Not a error, e */ );
+            LOGGER.info( "CancelRequestException: " + e /* Not a error, e */ );
             }
 
         int dsc = instance.getDuplicateSetsCount();
         int dfc = instance.getDuplicateFilesCount();
 
-        logger.info("getDuplicateSetsCount: "+dsc);
-        logger.info("getDuplicateFilesCount: "+dfc);
+        LOGGER.info("getDuplicateSetsCount: "+dsc);
+        LOGGER.info("getDuplicateFilesCount: "+dfc);
 
-        logger.info("compute duplicate count");
+        LOGGER.info("compute duplicate count");
         instance.computeDuplicateCount();
 
-        logger.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
-        logger.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
+        LOGGER.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
+        LOGGER.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
 
-        assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
-        assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
+        Assert.assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
+        Assert.assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        logger.info("remove non duplicate");
+        LOGGER.info("remove non duplicate");
         instance.removeNonDuplicate();
 
-        assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
-        assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
+        Assert.assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
+        Assert.assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
         Map<String, Set<File>> map = instance.getFiles();
 
@@ -83,13 +84,13 @@ public class DefaultDigestFileCollectorTest
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
 
-            logger.info( k + " : " + s.size() );
+            LOGGER.info( k + " : " + s.size() );
             for( File f:s ) {
-                logger.info( f );
+                LOGGER.info( f );
                 }
             }
 
-        logger.info( "done." );
+        LOGGER.info( "done." );
     }
 
     private static DigestEventListener getDigestEventListener()
@@ -101,18 +102,17 @@ public class DefaultDigestFileCollectorTest
             @Override
             public void computeDigest( final File file )
             {
-                logger.info( "computeDigest[" + file + "]" );
+                LOGGER.info( "computeDigest[" + file + "]" );
                 countFile++;
             }
             @Override
             public void computeDigest( File file, long length )
             {//Partial compute
-//                logger.info( "computeDigest["+file+"] length=" + length );
             }
             @Override
             public void ioError( IOException e, File file )
             {
-                logger.warn( "ioError file=" + file + " OK[" + e + "]" /*, e OK JUST WARN */ );
+                LOGGER.warn( "ioError file=" + file + " OK[" + e + "]" /*, e OK JUST WARN */ );
             }
             @Override
             public boolean isCancel()

@@ -158,7 +158,7 @@ public class JPanelConfirm extends JPanel
                     setText( f.getFile().getPath() );
 
                     Boolean b = tableDts_toDelete.getDeleted( row );
-                    
+
                     if( b != null ) {
                         setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -324,7 +324,7 @@ public class JPanelConfirm extends JPanel
         final HashMapSet<String,KeyFileState>   duplicateFiles // $codepro.audit.disable declareAsInterface
         )
     {
-        Runnable r = new Runnable() {
+        Runnable task = new Runnable() {
             @Override
             public void run()
             {
@@ -342,7 +342,7 @@ public class JPanelConfirm extends JPanel
             }
         };
 
-        new Thread( r, "doDelete()" ).start();
+        new Thread( task, "doDelete()" ).start();
     }
 
     private void private_doDelete(

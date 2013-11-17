@@ -15,7 +15,8 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  */
 class GDAI_tumblr_com_ConfigLoader
 {
-    private final static Logger logger = Logger.getLogger( GDAI_tumblr_com_ConfigLoader.class );
+    private final static Logger LOGGER = Logger.getLogger( GDAI_tumblr_com_ConfigLoader.class );
+    
     private PropertiesPopulator<GDAI_tumblr_com_ConfigLoader> pp = new PropertiesPopulator<GDAI_tumblr_com_ConfigLoader>( this.getClass() );
     
     @Populator
@@ -31,7 +32,7 @@ class GDAI_tumblr_com_ConfigLoader
             loadConfig();
             }
         catch( IOException e ) {
-            logger.error( "Can't load config - ignore", e );
+            LOGGER.error( "Can't load config - ignore", e );
             }
     }
 
@@ -94,7 +95,7 @@ class GDAI_tumblr_com_ConfigLoader
             pp.populateBean( properties , this );
             }
         catch( IOException e ) {
-            logger.warn( "Can't load config", e );
+            LOGGER.warn( "Can't load config", e );
             throw e;
             }
         finally {

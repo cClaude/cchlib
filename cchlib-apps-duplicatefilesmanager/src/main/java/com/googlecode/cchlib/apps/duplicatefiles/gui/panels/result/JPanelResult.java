@@ -87,7 +87,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( JPanelResult.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelResult.class );
 
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
@@ -303,7 +303,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     @Override
     protected void updateDisplayKeptDelete( int index )
     {
-        logger.info( "updateDisplayKeptDelete: index = " + index );
+        LOGGER.info( "updateDisplayKeptDelete: index = " + index );
 
         if( index < 0 ) {
             return;
@@ -317,7 +317,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
     private void updateDisplayKeptDelete( final String key )
     {
-        logger.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
+        LOGGER.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
 
         displayFileInfo( null );
         Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
@@ -325,7 +325,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
             getListModelDuplicatesFiles().setKeepDelete( key, s );
             }
         else {
-            logger.error( "updateDisplayKeptDelete() * Missing key:" + key );
+            LOGGER.error( "updateDisplayKeptDelete() * Missing key:" + key );
             }
     }
 
@@ -440,7 +440,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
     private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList_ )
     {
-        final JPopupMenuForJList<KeyFileState> m = new JPopupMenuForJList<KeyFileState>( jList_ )
+        final JPopupMenuForJList<KeyFileState> menu = new JPopupMenuForJList<KeyFileState>( jList_ )
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -546,7 +546,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                 return cm;
             }
         };
-        m.setMenu();
+        menu.setMenu();
     }
 
 
@@ -563,7 +563,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     //final KeyFileState kf         = (KeyFileState)sourceItem.getClientProperty(ACTION_OBJECT);
                     final String       cmd        = sourceItem.getActionCommand();
 
-                    logger.info( "cmd:" + cmd + " - " + actionObject );
+                    LOGGER.info( "cmd:" + cmd + " - " + actionObject );
 
                     if( ACTION_COMMAND_DeleteTheseFiles.equals( cmd ) ) {
                         onDeleteTheseFiles( actionObject );
@@ -590,7 +590,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                         onDeleteAllInDir( actionObject );
                         }
                     else {
-                        logger.error("Don't known how to handle: " + cmd);
+                        LOGGER.error("Don't known how to handle: " + cmd);
                         }
                     }
             };
@@ -788,7 +788,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     getListModelDuplicatesFiles().clearSelected();
                     }
                 catch( Exception e ) {
-                    logger.error( "clearSelected()", e );
+                    LOGGER.error( "clearSelected()", e );
                     }
                 finally {
                     enableAllWidgets();
@@ -813,7 +813,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     @Override
     protected void onRefresh()
     {
-        logger.info( "onRefresh() - start" );
+        LOGGER.info( "onRefresh() - start" );
 
         disableAllWidgets();
         new Thread( new Runnable()
@@ -825,12 +825,12 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     getListModelDuplicatesFiles().refreshList();
                     }
                 catch( Exception e ) {
-                    logger.error( "onRefresh()", e );
+                    LOGGER.error( "onRefresh()", e );
                     }
                 finally {
                     enableAllWidgets();
 
-                    logger.info( "onRefresh() - done" );
+                    LOGGER.info( "onRefresh() - done" );
                     }
             }
         }, "onRefresh()" ).start();

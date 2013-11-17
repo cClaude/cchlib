@@ -11,7 +11,8 @@ import com.googlecode.cchlib.swing.DialogHelper;
 public class B2TransformApp
     extends CNAMVeryLazyBatchRunnerApp<cnamts.DelNonAlphaChar>
 {
-    private static final Logger logger = Logger.getLogger( B2TransformApp.class );
+    private static final Logger LOGGER = Logger.getLogger( B2TransformApp.class );
+
     private B2TransformApp() {}
 
     /**
@@ -25,7 +26,7 @@ public class B2TransformApp
             instance.start();
             }
         catch( Exception e ) {
-            logger.fatal( "FATAL Error", e );
+            LOGGER.fatal( "FATAL Error", e );
             DialogHelper.showMessageExceptionDialog( B2TransformApp.class.getName(), e );
             }
     }
