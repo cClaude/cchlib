@@ -1,9 +1,7 @@
 package com.googlecode.cchlib.swing.textfield;
 
 import java.util.Locale;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.i18n.SwingAutoI18nCoreFactory;

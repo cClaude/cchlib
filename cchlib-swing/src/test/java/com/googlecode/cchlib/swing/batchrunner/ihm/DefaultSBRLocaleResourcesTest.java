@@ -14,7 +14,7 @@ import org.junit.Test;
  */
 public class DefaultSBRLocaleResourcesTest
 {
-    private final static Logger LOGGER = Logger.getLogger( DefaultSBRLocaleResourcesTest.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultSBRLocaleResourcesTest.class );
 
     private static class SBRLocaleResourcesEN implements BRPanelLocaleResources
     {
