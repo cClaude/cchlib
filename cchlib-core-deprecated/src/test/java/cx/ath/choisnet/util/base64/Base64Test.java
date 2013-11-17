@@ -72,7 +72,7 @@ public class Base64Test
             toEncodeBytes[ i ] = (byte)('A' + i);
 
             char[] enc   = Base64Encoder.encodeToChar( toEncodeBytes, 0, i );
-            LOGGER.info( "encode " + i + " Character String res = [" + new String( enc ) + ']' + enc.length );
+            LOGGER.info( "encode " + i + " Character String res = [" + toString( enc ) + ']' + enc.length );
 
             byte[] decBytes = Base64Decoder.decode( enc, 0, enc.length );
 
@@ -83,10 +83,20 @@ public class Base64Test
                     break;
                 }
             }
-            LOGGER.info( "dec = [" + new String(decBytes) + ']' + decBytes.length );
+            LOGGER.info( "dec = [" + toString( decBytes ) + ']' + decBytes.length );
 
-            org.junit.Assert.assertTrue( "encoding to decoding mismatch !", eg );
+            Assert.assertTrue( "encoding to decoding mismatch !", eg );
             }
+    }
+
+    private String toString( final byte[] bytes )
+    {
+        return new String( bytes );
+    }
+
+    private String toString( final char[] chars )
+    {
+        return new String( chars );
     }
 
     @Test
