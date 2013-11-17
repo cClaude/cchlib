@@ -133,14 +133,6 @@ public class PropertiesPopulatorTest
 
         logProperties( properties );
 
-//        logger.info( "bean.strangeClassContener=" + bean.strangeClassContener );
-//        logger.info( "bean.strangeClassContener.get()=" + bean.strangeClassContener.get() );
-//        logger.info( "bean.strangeClassContener.get().content=" + bean.strangeClassContener.get().realContent );
-//
-//        logger.info( "copy.strangeClassContener=" + copy.strangeClassContener );
-//        logger.info( "copy.strangeClassContener.get()=" + copy.strangeClassContener.get() );
-//        logger.info( "copy.strangeClassContener.get().content=" + copy.strangeClassContener.get().realContent );
-
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 

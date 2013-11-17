@@ -1,4 +1,3 @@
-// $codepro.audit.disable
 package cx.ath.choisnet.bytesaccess.testcase;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +16,7 @@ import cx.ath.choisnet.bytesaccess.BytesAccessException;
 
 public class BytesAccessTest
 {
-    private static Logger slogger = Logger.getLogger(BytesAccessTest.class);
+    private static Logger LOGGER = Logger.getLogger(BytesAccessTest.class);
     private static Object nullObject = null;
     private static final Random random = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
     private static final byte[] BYTES = {
@@ -83,7 +82,7 @@ public class BytesAccessTest
         int           bytesLength = 100;
         BytesAccess[] tests       = buildBytesAccessArray( bytesLength );
 
-        slogger.info( "testCompareTo() - step 1 : cmpToCount=" + tests.length );
+        LOGGER.info( "testCompareTo() - step 1 : cmpToCount=" + tests.length );
         for( BytesAccess ba : tests ) {
             TstOnlyBytesAccess baCopy = new TstOnlyBytesAccess( ba );
 
@@ -94,12 +93,12 @@ public class BytesAccessTest
             testEquals( ba, getConstantBytesAccess() );
             }
 
-        slogger.info( "testCompareTo() - step 2" );
+        LOGGER.info( "testCompareTo() - step 2" );
         testCompareTo(
                 new TstOnlyBytesAccess( BYTES, 0, BYTES.length ),
                 getConstantBytesAccess()
                 );
-        slogger.info( "testCompareTo() - step 3" );
+        LOGGER.info( "testCompareTo() - step 3" );
         testCompareTo( // not equal !
                 new TstOnlyBytesAccess( BYTES, 0, BYTES.length ),
                 new TstOnlyBytesAccess( getRandomInputStream(BYTES.length), BYTES.length )
@@ -145,16 +144,16 @@ public class BytesAccessTest
         for( Byte b : ba.getBytesCopy()) {
             debug.append( String.format( "%1$02X ", b ) );
             }
-        slogger.info( debug );
+        LOGGER.info( debug );
         debug.setLength( 0 );
         debug.append( "ba2:" );
         for( Byte b : compareToBytes) {
             debug.append( String.format( "%1$02X ", b ) );
             }
-        slogger.info( debug );
+        LOGGER.info( debug );
 
-        slogger.info( "r1: " + r1  );
-        slogger.info( "r2: " + r2  );
+        LOGGER.info( "r1: " + r1  );
+        LOGGER.info( "r2: " + r2  );
 
         // Verify than r(n) give similar result
         assertTrue( "mismatch advanceCompareTo(BytesAccess)=" + r1
@@ -191,9 +190,9 @@ public class BytesAccessTest
         int    r3 = ba.compareTo( compareTo );
         int    r4 = ba.compareTo( compareToBytes );
         long   r5 = BytesAccess.compare( ba.getBytesCopy(), compareToBytes );
-        slogger.info( String.format( "r3: %1$08X", r3) );
-        slogger.info( String.format( "r4: %1$08X", r4) );
-        slogger.info( String.format( "r5: %1$016X", r5) );
+        LOGGER.info( String.format( "r3: %1$08X", r3) );
+        LOGGER.info( String.format( "r4: %1$08X", r4) );
+        LOGGER.info( String.format( "r5: %1$016X", r5) );
 
         assertTrue( "mismatch compareTo(BytesAccess)=" + r3
                     + " compareTo(byte[])=" + r4,

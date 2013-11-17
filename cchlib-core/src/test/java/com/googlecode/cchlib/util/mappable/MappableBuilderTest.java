@@ -53,7 +53,7 @@ public class MappableBuilderTest
                 }
 
             if( nodiff ) {
-//                logger.info( "no diff: " + key );
+                LOGGER.trace( "no diff: " + key );
                 }
             else {
                 LOGGER.info(

@@ -39,9 +39,7 @@ public class XMLFileParserDOMImplTest
         s.close();
 
         LOGGER.info( "XML File is " + this.xmlFile );
-        //slogger.info( "XML File: " + FileHelper.toString( this.xmlFile ) );
         LOGGER.info( "DTD File is " + this.dtdFile );
-        //slogger.info( "DTD File: " + FileHelper.toString( this.dtdFile ) );
     }
 
     @After

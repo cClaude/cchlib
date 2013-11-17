@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class SerializableHelperTest
 {
-    private static final Logger logger = Logger.getLogger( SerializableHelperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( SerializableHelperTest.class );
 
     /**
      * Run the Serializable clone(T,Class<? extends T>) method test.
@@ -168,7 +168,7 @@ public class SerializableHelperTest
     {
             byte[] result = SerializableHelper.toByteArray(null);
 
-            logger.info( "result not null = " + (result!=null) );
+            LOGGER.info( "result not null = " + (result!=null) );
 
             // add additional test code here
             assertNotNull(result);

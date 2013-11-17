@@ -496,8 +496,6 @@ public class PropertiesPopulator<E>
                 final Field     field = entry.getKey();
                 final Class<?>  type  = field.getType();
 
-                //logger.info( "Populate field: " + f + " - " + type );
-
                 if( type.isArray() ) {
                     handleArray( entry, prefix, prefixLength );
                     }
@@ -532,14 +530,9 @@ public class PropertiesPopulator<E>
                 strValue = properties.getProperty( prefix.toString(), defaultValue );
                 }
 
-            //logger.info( "VALUE field: " + f + " is " + strValue + " default=" + defaultValue );
-
             field.setAccessible( true );
 
             try {
-                //logger .trace( "F:" + f.getName() + " * getType()=" + f.getType() );
-                //logger .trace( "F:" + f.getName() + " * toGenericString()=" + f.toGenericString() );
-
                 if( PopulatorContener.class.isAssignableFrom( type ) ) {
                     Object o = field.get( bean );
 
@@ -555,7 +548,6 @@ public class PropertiesPopulator<E>
                         //Object o = convertStringToObject( strValue, type );
                         //f.set( bean, o );
                         entry.getValue().setValue( field, bean, strValue, type );
-                        //logger.info( "_SET_ field: " + f + " to [" + o + ']' );
                         }
                     catch( ConvertCantNotHandleTypeException e ) {
                         throw new PopulatorException( "Bad type for field", field, field.getType() );
