@@ -57,28 +57,4 @@ public class XTextFieldTest
         final String pasteText = xTextField.getTextForPaste();
         Assert.assertEquals( "Coller", pasteText );
     }
-
-    /**
-     * Perform pre-test initialization
-     *
-     * @throws Exception
-     *
-     * @see TestCase#setUp()
-     */
-    @Before
-    protected void setUp() throws Exception
-    {
-    }
-
-    /**
-     * Perform post-test clean up
-     *
-     * @throws Exception
-     *
-     * @see TestCase#tearDown()
-     */
-    @After
-    protected void tearDown() throws Exception
-    {
-    }
 }

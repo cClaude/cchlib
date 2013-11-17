@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 class FindJTabbedPane extends JTabbedPane
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FindJTabbedPane.class );
+    private static final Logger LOGGER = Logger.getLogger( FindJTabbedPane.class );
     
     protected String            TAB_NAME = "Name";
     protected String            TAB_DATE = "Date";
@@ -118,7 +118,7 @@ class FindJTabbedPane extends JTabbedPane
             }
             catch (Throwable e) {
                 // The FindResults pane does not implement FindFilterFactory
-                logger.warn( "The FindResults pane does not implement FindFilterFactory", e );
+                LOGGER.warn( "The FindResults pane does not implement FindFilterFactory", e );
             }
         }
         if( filters.isEmpty() ) {

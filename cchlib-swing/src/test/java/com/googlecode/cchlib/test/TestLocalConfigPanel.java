@@ -27,7 +27,8 @@ public class TestLocalConfigPanel
         implements ActionListener
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( TestLocalConfigPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( TestLocalConfigPanel.class );
+
     private WindowListener windowListener;
     private TestConfigurationHelper testLocal;
     private TestConfigurationHelper.Config config;
@@ -46,10 +47,10 @@ public class TestLocalConfigPanel
             this.testLocal.load();
             }
         catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
-            logger.warn( "No config to load : " + e.getMessage() );
+            LOGGER.warn( "No config to load : " + e.getMessage() );
             }
         catch( IOException e ) {
-            logger.error( "Can not load config", e );
+            LOGGER.error( "Can not load config", e );
             }
         this.config = testLocal.getConfig();
 
@@ -134,10 +135,10 @@ public class TestLocalConfigPanel
             try {
                 this.testLocal.save();
 
-                logger.info( "Config saved" );
+                LOGGER.info( "Config saved" );
                 }
             catch( IOException e ) {
-                logger.error( "Can not save config", e );
+                LOGGER.error( "Can not save config", e );
                 }
             }
     }

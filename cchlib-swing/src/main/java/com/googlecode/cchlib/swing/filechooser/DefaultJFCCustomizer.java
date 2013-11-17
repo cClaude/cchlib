@@ -14,7 +14,8 @@ public class DefaultJFCCustomizer
     implements JFileChooserInitializerCustomize
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger logger = Logger.getLogger( DefaultJFCCustomizer.class );
+    private final static Logger LOGGER = Logger.getLogger( DefaultJFCCustomizer.class );
+
     /** @serial */
     private File currentDirectory;
     /** @serial */
@@ -61,10 +62,10 @@ public class DefaultJFCCustomizer
     @Override
     public void perfomeConfig( final JFileChooser jfc )
     {
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "perfomeConfig" );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "perfomeConfig" );
             }
-        
+
         if( attributes.contains( JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
             // workaround:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
@@ -94,15 +95,15 @@ public class DefaultJFCCustomizer
             jfc.setAccessory( accessory );
             }
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "setFileSelectionMode: " + mode );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setFileSelectionMode: " + mode );
             }
         if( mode != null ) {
             jfc.setFileSelectionMode( mode.intValue() );
             }
-        
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "setMultiSelectionEnabled: " + isMultiSelectionEnabled );
+
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setMultiSelectionEnabled: " + isMultiSelectionEnabled );
             }
         if( isMultiSelectionEnabled != null ) {
             jfc.setMultiSelectionEnabled(

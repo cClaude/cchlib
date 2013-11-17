@@ -19,13 +19,13 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /***
  * TODOC
- * 
+ *
  * @since 4.1.8
  */
 @NeedDoc
 public class BRActionListener extends AbstractBRActionListener
 {
-    private static final Logger logger = Logger.getLogger( BRActionListener.class );
+    private static final Logger LOGGER = Logger.getLogger( BRActionListener.class );
 
     private JFileChooserInitializer jFileChooserInitializer;
 
@@ -78,18 +78,18 @@ public class BRActionListener extends AbstractBRActionListener
                 // otherwise use value on config.
                 // otherwise use default from JFileChooser.
                 File currentDirectory = _destinationFolderCurrentDirectory;
-                
+
                 if( currentDirectory == null ) {
                     currentDirectory = config.getDefaultDestinationDirectoryFile();
                     }
                 if( currentDirectory != null ) {
                     jfc.setCurrentDirectory( currentDirectory );
                     }
-                
+
                 if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
                     File file = jfc.getSelectedFile();
 
-                    logger.info( "selected folder:" + file );
+                    LOGGER.info( "selected folder:" + file );
                     setDestinationFolderFile( file );
                     }
 
@@ -141,7 +141,7 @@ public class BRActionListener extends AbstractBRActionListener
                                 String.format( getSBRLocaleResources().getTextWorkingOn_FMT(), sourceFile.getPath() )
                                 );
 
-                        logger.info( "Working on " + sourceFile );
+                        LOGGER.info( "Working on " + sourceFile );
 
                         runTask( sourceFile, destinationFile );
                         }
@@ -150,12 +150,12 @@ public class BRActionListener extends AbstractBRActionListener
                     task.finalizeBath( false );
                     }
                 catch( BRInterruptedException e ) {
-                    logger.warn( "BatchRunnerInterruptedException", e );
+                    LOGGER.warn( "BatchRunnerInterruptedException", e );
 
                     task.finalizeBath( true );
                     }
                 catch( Exception e ) {
-                    logger.fatal( "Unexpected error", e );
+                    LOGGER.fatal( "Unexpected error", e );
 
                     DialogHelper.showMessageExceptionDialog(
                         getTopLevelWindow(),
@@ -189,38 +189,38 @@ public class BRActionListener extends AbstractBRActionListener
 
                 jfc.setFileSelectionMode( config.getSourceFilesFileSelectionMode() );
                 jfc.setMultiSelectionEnabled( true );
-                
+
                 // Set current dir :
                 // Use last value if exist
                 // otherwise use value on config.
                 // otherwise use default from JFileChooser.
                 File currentDirectory = _sourceFilesCurrentDirectory;
-                
+
                 if( currentDirectory == null ) {
                     currentDirectory = config.getDefaultSourceDirectoryFile();
                     }
                 if( currentDirectory != null ) {
                     if( currentDirectory.isDirectory() ) {
-                        if( logger.isDebugEnabled() ) {
-                            logger.debug( "setCurrentDirectory: " + currentDirectory );
+                        if( LOGGER.isDebugEnabled() ) {
+                            LOGGER.debug( "setCurrentDirectory: " + currentDirectory );
                             }
                         jfc.setCurrentDirectory( currentDirectory );
                         }
                     else {
-                        logger.warn( "not a directory: " + currentDirectory );
+                        LOGGER.warn( "not a directory: " + currentDirectory );
                         }
                     }
-                
+
                 if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
                     File[] files = jfc.getSelectedFiles();
 
                     for( File f:files ) {
-                        logger.info( "selectSourceFiles() file = " + f );
+                        LOGGER.info( "selectSourceFiles() file = " + f );
 
                         addSourceFile( f );
                         }
                     }
-                _sourceFilesCurrentDirectory = jfc.getCurrentDirectory();                
+                _sourceFilesCurrentDirectory = jfc.getCurrentDirectory();
             }} );
     }
 
@@ -270,7 +270,7 @@ public class BRActionListener extends AbstractBRActionListener
     {
         return running;
     }
-    
+
     /**
      * @return last directory use to select a source {@link File}
      */
@@ -278,7 +278,7 @@ public class BRActionListener extends AbstractBRActionListener
     {
         return _sourceFilesCurrentDirectory;
     }
-    
+
     /**
      * @return last directory use to select destination {@link File}
      */

@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class DialogHelperTest
 {
-    private final static Logger logger = Logger.getLogger( DialogHelperTest.class );
+    private final static Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception
@@ -70,7 +70,7 @@ public class DialogHelperTest
                     buttons
                     );
 
-                logger.info( "selected index: " + selectedIndex );
+                LOGGER.info( "selected index: " + selectedIndex );
             }
         });
     }
@@ -94,7 +94,7 @@ public class DialogHelperTest
                         openExceptionDialog.showMessageExceptionDialog( exception );
                         }
                     catch( Exception e ) {
-                        logger.fatal( "showMessageExceptionDialog Real ERROR!!!", e );
+                        LOGGER.fatal( "showMessageExceptionDialog Real ERROR!!!", e );
                         }
                 }
             },"test").start();

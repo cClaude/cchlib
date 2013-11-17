@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package cx.ath.choisnet.swing.introspection;
 
@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 /**
  * <p>TODOC: Documentation, and some examples.</p>
- * 
+ *
  * <p>
  * Field name must use following syntax:
  * <i>beanPrefix</i><b>_</b><i>beanName</i>[<b>$root</b>[<b>$</b>[<i>index</i>]]
@@ -48,7 +48,7 @@ import org.apache.log4j.Logger;
  * <td>a tag to define main field, field where data
  * will be read (optional, but need ONE item for each beanName)</td>
  * <td>{@link #isRoot()}</td>
- * <td>if true {@link SwingIntrospector} create a 
+ * <td>if true {@link SwingIntrospector} create a
  * {@link SwingIntrospectorRootItem} otherwise it create a
  * {@link SwingIntrospectorItem}</td>
  * </tr>
@@ -63,17 +63,15 @@ import org.apache.log4j.Logger;
  * <br/>
  * @author CC
  */
-public class Bean implements Serializable 
+public class Bean implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(Bean.class);
 
     protected final static String SEPARATOR = "_";
     protected final static String ROOT_TAG = "$root";
     protected final static String INDEX_TAG = "$";
-    
-    /** Some logs */
-    private transient static final Logger slogger = Logger.getLogger(Bean.class);
-    
+
     /** @serial */
     private final String fieldName;
     /** @serial */
@@ -93,21 +91,19 @@ public class Bean implements Serializable
     public Bean( Field f ) throws IllegalArgumentException
     {
         this.fieldName = f.getName();
-        
+
         final int begin = this.fieldName.indexOf( SEPARATOR );
 
         if( begin <= 0 ) {
-            slogger.warn( "Not bean: " + f.getName()  );
+            LOGGER.warn( "Not bean: " + f.getName()  );
             throw new IllegalArgumentException( f.getName() );
         }
-        else { // if( begin > 0 ) 
+        else { // if( begin > 0 )
             this.namePrefix = this.fieldName.substring( 0, begin );
             String endName  = this.fieldName.substring( begin + 1 );
 
-            //slogger.trace( "endName: " + endName + " - prefix: " + this.namePrefix );
-
             int endBeanName = endName.indexOf( ROOT_TAG );
-            
+
             if( endBeanName < 0 ) {
                 // No $root !
                 this.name = endName;
@@ -116,9 +112,9 @@ public class Bean implements Serializable
                 // It's a root item !
                 this.name       = endName.substring( 0, endBeanName );
                 this.nameSuffix = endName.substring( endBeanName );
-                
+
                 String eos = endName.substring( endBeanName + ROOT_TAG.length() );
-                
+
                 if( eos.length() == 0 ) {
                     // OK, no more infos
                 }
@@ -126,12 +122,12 @@ public class Bean implements Serializable
                     this.index = Integer.parseInt( eos.substring( 1 ) );
                 }
                 else {
-                    slogger.warn( "Don't kown how to handle: eos(" + eos + ") for " + f );
+                    LOGGER.warn( "Don't kown how to handle: eos(" + eos + ") for " + f );
                 }
             }
         }
     }
-    
+
     /**
      * @return the fieldName
      */
@@ -171,7 +167,7 @@ public class Bean implements Serializable
     {
         return index;
     }
-    
+
     public boolean isIndexed()
     {
         return this.index >= 0;
@@ -189,7 +185,7 @@ public class Bean implements Serializable
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        
+
         builder.append( "Bean [fieldName=" );
         builder.append( fieldName );
         builder.append( ", namePrefix=" );
@@ -201,7 +197,7 @@ public class Bean implements Serializable
         builder.append( ", index=" );
         builder.append( index );
         builder.append( ']' );
-        
+
         return builder.toString();
     }
 

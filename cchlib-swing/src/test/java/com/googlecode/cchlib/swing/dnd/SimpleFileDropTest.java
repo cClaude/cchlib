@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class SimpleFileDropTest
 {
-    private static final Logger logger = Logger.getLogger( SimpleFileDropTest.class );
+    private static final Logger LOGGER = Logger.getLogger( SimpleFileDropTest.class );
 
     @Test
     public void simpleFileDropTest()
@@ -40,10 +40,10 @@ public class SimpleFileDropTest
             @Override
             public void filesDropped( List<File> files )
             {
-                logger.info( "filesDropped" );
+                LOGGER.info( "filesDropped" );
 
                 for( File f : files ) {
-                    logger.info( "add: " + f );
+                    LOGGER.info( "add: " + f );
                     model_files.addElement( f );
                     }
             }
@@ -54,17 +54,17 @@ public class SimpleFileDropTest
 
         // enabled listener
         simpleFileDrop.addDropTargetListener();
-        logger.info( "SimpleFileDrop() wait for files" );
+        LOGGER.info( "SimpleFileDrop() wait for files" );
 
         try {
             Thread.sleep( 5 * 1000);
             }
         catch( InterruptedException e ) { // $codepro.audit.disable logExceptions
-            logger.warn( "InterruptedException" );
+            LOGGER.warn( "InterruptedException" );
             }
 
         // disabled listener
         simpleFileDrop.remove();
-        logger.info( "SimpleFileDrop() exit" );
+        LOGGER.info( "SimpleFileDrop() exit" );
     }
 }

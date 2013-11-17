@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 // not public
 abstract class AbstractBRActionListener  implements ActionListener
 {
-    private final static Logger logger = Logger.getLogger( AbstractBRActionListener.class );
+    private final static Logger LOGGER = Logger.getLogger( AbstractBRActionListener.class );
 
     private BRPanel panel;
 
@@ -88,8 +88,8 @@ abstract class AbstractBRActionListener  implements ActionListener
     {
         final String c = event.getActionCommand();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "ActionCommand = " + c );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "ActionCommand = " + c );
             }
 
         new Thread( new Runnable()
@@ -111,8 +111,8 @@ abstract class AbstractBRActionListener  implements ActionListener
                         break;
 
                     default :
-                        logger.warn( "Unknown event action command: " + c );
-                        logger.warn( "Event : " + event );
+                        LOGGER.warn( "Unknown event action command: " + c );
+                        LOGGER.warn( "Event : " + event );
                         break;
                     }
             }

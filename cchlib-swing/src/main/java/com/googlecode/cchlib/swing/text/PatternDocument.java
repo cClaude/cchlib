@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 public class PatternDocument extends PlainDocument
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( PatternDocument.class );
+    private static final Logger LOGGER = Logger.getLogger( PatternDocument.class );
 
     /** @serial */
     private JTextField jtf;
@@ -124,14 +124,14 @@ public class PatternDocument extends PlainDocument
         catch(PatternSyntaxException e) {
             jtf.setBackground( errorColor );
 
-            if( logger.isDebugEnabled() ) {
-                logger.debug( "Bad partern: " + jtf.getText(), e );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Bad partern: " + jtf.getText(), e );
                 }
             }
         catch(Exception e) {
             jtf.setBackground( errorColor );
 
-            logger.warn( "check error", e );
+            LOGGER.warn( "check error", e );
             }
     }
 

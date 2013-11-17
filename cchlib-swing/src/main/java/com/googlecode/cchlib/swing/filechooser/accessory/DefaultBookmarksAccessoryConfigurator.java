@@ -26,7 +26,8 @@ public class DefaultBookmarksAccessoryConfigurator
     extends AbstractBookmarksAccessoryConfigurator
 {
     private static final long serialVersionUID = 2L;
-    private transient static final Logger logger = Logger.getLogger( DefaultBookmarksAccessoryConfigurator.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger( DefaultBookmarksAccessoryConfigurator.class.getName() );
+
     /** @serial */
     private File configFileProperties;
     /** @serial */
@@ -67,7 +68,7 @@ public class DefaultBookmarksAccessoryConfigurator
                 obsoleteConfigFilePropertiesFile.renameTo(defaultConfigFilePropertiesFile);
                 }
             }
-        
+
         return defaultConfigFilePropertiesFile;
     }
 
@@ -105,10 +106,10 @@ public class DefaultBookmarksAccessoryConfigurator
                 }
             }
         catch( FileNotFoundException e ) {
-            logger.warning( "Config file not found : " + configFileProperties + " - " + e );
+            LOGGER.warning( "Config file not found : " + configFileProperties + " - " + e );
             }
         catch( IOException e ) {
-            logger.warning( "File error : " + configFileProperties + " - " + e );
+            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
             }
 
         return properties;
@@ -159,7 +160,7 @@ public class DefaultBookmarksAccessoryConfigurator
                 }
             }
         catch( IOException e ) {
-            logger.warning( "File error : " + configFileProperties + " - " + e );
+            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
             }
     }
 

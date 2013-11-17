@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
  */
 public class SafeSwingUtilities
 {
-    private static final Logger logger = Logger.getLogger( SafeSwingUtilities.class );
+    private static final Logger LOGGER = Logger.getLogger( SafeSwingUtilities.class );
     
     private SafeSwingUtilities()
     {
@@ -31,7 +31,7 @@ public class SafeSwingUtilities
                     SwingUtilities.invokeLater( safeRunner );
                     }
                 catch( Exception e ) {
-                    logger.warn( "Unexpected error", e );
+                    LOGGER.warn( "Unexpected error", e );
                     }
             }
         }, threadName ).start();

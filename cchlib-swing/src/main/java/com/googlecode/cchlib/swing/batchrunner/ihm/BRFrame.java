@@ -21,7 +21,7 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 public class BRFrame extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( BRFrame.class );
+    private static final Logger LOGGER = Logger.getLogger( BRFrame.class );
 
     private BRPanelLocaleResources panelLocaleResources;
     private JPanel  contentPane;
@@ -137,7 +137,7 @@ public class BRFrame extends JFrame
         @Override
         public void windowClosing( WindowEvent event )
         {
-            logger.info( "windowClosing: " + event );
+            LOGGER.info( "windowClosing: " + event );
 
             handleWindowClosing( event );
         }

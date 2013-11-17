@@ -152,8 +152,6 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             }
 
         for( Field f : fields ) {
-            // slogger.info( "  > f = " + f + " : " + f.getType() );
-
             if( isSubClass( f.getType(), Component.class ) ) {
                 try {
                     final Bean bean = new Bean( f );
@@ -248,7 +246,6 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 fp.populateFrame(rootItem, beanName);
             }
             else {
-                //slogger.fatal( "*** Not SwingIntrospectorRootItem for: " + beanName );
                 throw new SwingIntrospectorNoRootItemException(beanName);
             }
         }

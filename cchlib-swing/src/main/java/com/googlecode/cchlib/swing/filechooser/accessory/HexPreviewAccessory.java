@@ -22,9 +22,9 @@ public class HexPreviewAccessory
         implements  PropertyChangeListener,
                     TabbedAccessoryInterface
 {
-    private static final Logger logger = Logger.getLogger( HexPreviewAccessory.class );
     private static final long serialVersionUID = 1L;
-    private final static EmptyArray emptyArray = new EmptyArray();
+    private static final Logger LOGGER = Logger.getLogger( HexPreviewAccessory.class );
+    private static final EmptyArray emptyArray = new EmptyArray();
 
     /**
      * Create a new HexPreviewAccessory
@@ -63,7 +63,7 @@ public class HexPreviewAccessory
                     model.setArrayAccess( new ArrayReadAccessFile( file ) );
                     }
                 catch( FileNotFoundException e ) {
-                    logger.error( "FileNotFound", e );
+                    LOGGER.error( "FileNotFound", e );
                     }
                 }
             else {

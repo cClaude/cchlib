@@ -25,8 +25,9 @@ public class JHexEditor
                    AdjustmentListener,
                    MouseWheelListener
 {
-    private static final Logger logger = Logger.getLogger( JHexEditor.class );
     private static final long serialVersionUID = 2L;
+    private static final Logger LOGGER = Logger.getLogger( JHexEditor.class );
+
     private JScrollBar sb;
     private RowPanel rows;
     private final HexEditorModel model;
@@ -157,7 +158,7 @@ public class JHexEditor
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        logger.info( "mouseWheelMoved" );
+        LOGGER.info( "mouseWheelMoved" );
 //        inicio+=(e.getUnitsToScroll());
 //        if((inicio+displayLinesCount)>=arrayAccess.getLength()/16) {
 //            inicio=(arrayAccess.getLength()/16)-displayLinesCount;

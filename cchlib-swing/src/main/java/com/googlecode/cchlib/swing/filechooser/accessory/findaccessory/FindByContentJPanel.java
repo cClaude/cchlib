@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 class FindByContentJPanel extends JPanel implements FindFilterFactory
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( FindByContentJPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( FindByContentJPanel.class );
 
     /**
      * Find for the first occurrence of the text in this field.
@@ -152,7 +152,7 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 result = true;
                 }
             catch (Throwable e) {
-                logger.warn( "ContentFilter error", e );
+                LOGGER.warn( "ContentFilter error", e );
                 }
             finally {
                 try { if (locator != null) { locator.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions

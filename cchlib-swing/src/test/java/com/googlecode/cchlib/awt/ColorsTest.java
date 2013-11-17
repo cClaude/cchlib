@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class ColorsTest
 {
-    private static final Logger logger = Logger.getLogger( ColorsTest.class );
+    private static final Logger LOGGER = Logger.getLogger( ColorsTest.class );
 
     /**
      * Run the Color toColor() method test.
@@ -60,7 +60,7 @@ public class ColorsTest
                     Colors c     = Colors.find( color );
                     String hex   = c == null ? "#??????" : c.toHexString();
 
-                    logger.info( "color " + color + " is " + f.getName() + " *** Colors is " + c + " -> " + hex );
+                    LOGGER.info( "color " + color + " is " + f.getName() + " *** Colors is " + c + " -> " + hex );
 
                     checkColorByRGB( color, f.getName() );
                     checkColorByName( color, f.getName() );

@@ -23,7 +23,7 @@ import com.googlecode.cchlib.swing.batchrunner.BRUserCancelException;
 //not public
 class BRExecutionEventImpl implements BRExecutionEvent
 {
-    private final static Logger logger = Logger.getLogger( BRExecutionEventImpl.class );
+    private final static Logger LOGGER = Logger.getLogger( BRExecutionEventImpl.class );
 
     private File sourceFile;
     private File destinationFile;
@@ -60,8 +60,8 @@ class BRExecutionEventImpl implements BRExecutionEvent
     {
         final File file = getSourceFile();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "getInputStream() for " + file );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "getInputStream() for " + file );
             }
 
         // Create progress monitor.
@@ -116,8 +116,8 @@ class BRExecutionEventImpl implements BRExecutionEvent
     {
         final File file = getDestinationFile();
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "getOutputStream() for " + file );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "getOutputStream() for " + file );
             }
 
         return new FileOutputStream( file );

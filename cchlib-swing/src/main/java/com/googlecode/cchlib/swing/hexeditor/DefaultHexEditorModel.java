@@ -20,10 +20,11 @@ import org.apache.log4j.Logger;
  */
 public class DefaultHexEditorModel implements HexEditorModel
 {
-    private static final Logger logger = Logger.getLogger( DefaultHexEditorModel.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultHexEditorModel.class );
     private static final Font customFont=new Font("Monospaced",0,12);
     private static final int BORDER_DEFAULT = 2;
     private static final int border = BORDER_DEFAULT;
+
     private JComponent rootComponent;
     private int displayLinesCount = 10;
     private int introduction;// inicio
@@ -56,7 +57,7 @@ public class DefaultHexEditorModel implements HexEditorModel
         final ArrayReadAccess arrayAccess
         )
     {
-        logger.trace( "setArrayAccess: " + arrayAccess );
+        LOGGER.trace( "setArrayAccess: " + arrayAccess );
 
         if( arrayAccess instanceof ArrayReadWriteAccess ) {
             this.arrayAccessRW = (ArrayReadWriteAccess) arrayAccess;
@@ -279,7 +280,7 @@ public class DefaultHexEditorModel implements HexEditorModel
             introduction      = 0;
             }
     }
-    
+
     @Override
     public void close() throws IOException
     {

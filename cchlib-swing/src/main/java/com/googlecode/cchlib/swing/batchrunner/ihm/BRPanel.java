@@ -32,7 +32,7 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 public class BRPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( BRPanel.class );
+    private static final Logger LOGGER = Logger.getLogger( BRPanel.class );
     public static final String ACTIONCMD_SELECT_SOURCE_FILES = "ACTIONCMD_SELECT_SOURCE_FILES";
     public static final String ACTIONCMD_SELECT_DESTINATION_FOLDER = "ACTIONCMD_SELECT_DESTINATION_FOLDER";
     public static final String ACTIONCMD_DO_ACTION = "ACTIONCMD_DO_ACTION";
@@ -116,7 +116,7 @@ public class BRPanel extends JPanel
                     } ).addDropTargetListener();
                 }
             catch( /*TooManyListeners*/Exception e ) {
-                logger.error( "No Drag and Drop support", e );
+                LOGGER.error( "No Drag and Drop support", e );
                 }
         }
         {
@@ -207,12 +207,12 @@ public class BRPanel extends JPanel
     protected void addSourceFile( final File file )
     {
         if( ! actionListener.getSBRConfig().getSourceFileFilter().accept( file ) ) {
-            logger.info( "ignore addSourceFile( " + file + " );" );
+            LOGGER.info( "ignore addSourceFile( " + file + " );" );
             return;
             }
 
-        if( logger.isDebugEnabled() ) {
-            logger.debug( "addSourceFile( " + file + " );" );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "addSourceFile( " + file + " );" );
             }
 
         SafeSwingUtilities.invokeLater( new Runnable() {

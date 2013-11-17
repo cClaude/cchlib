@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  */
 public class LookAndFeelMenu
 {
-    private static final Logger logger = Logger.getLogger( LookAndFeelMenu.class );
+    private static final Logger LOGGER = Logger.getLogger( LookAndFeelMenu.class );
     private static final String NIMBUS_LNF = "Nimbus";
 
     /** The listeners waiting for object changes. */
@@ -153,7 +153,7 @@ public class LookAndFeelMenu
                             fireLookAndFeelChanging( cname );
                             }
                         catch( Exception e ) {
-                            logger.error( "Apply LookAndFeel: " + cname, e );
+                            LOGGER.error( "Apply LookAndFeel: " + cname, e );
                             }
                     }
                 };

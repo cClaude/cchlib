@@ -18,7 +18,8 @@ public class WaitingJFileChooserInitializer
     extends JFileChooserInitializer
 {
     private static final long serialVersionUID = 2L;
-    private final static Logger logger = Logger.getLogger( WaitingJFileChooserInitializer.class );
+    private final static Logger LOGGER = Logger.getLogger( WaitingJFileChooserInitializer.class );
+
     private Object lock = new Object();
     private Window parentWindow;
     private WaitingJDialogWB dialog;
@@ -53,8 +54,8 @@ public class WaitingJFileChooserInitializer
                     JFileChooserInitializerEvent event
                     )
             {
-                if( logger.isTraceEnabled() ) {
-                    logger.trace( "jFileChooserIsReady: " + event.isJFileChooserReady() );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "jFileChooserIsReady: " + event.isJFileChooserReady() );
                     }
 
                 synchronized( lock ) {
@@ -69,7 +70,7 @@ public class WaitingJFileChooserInitializer
                     JFileChooserInitializerEvent event
                     )
             {
-                logger.error( "JFileChooser initialization error" );
+                LOGGER.error( "JFileChooser initialization error" );
             }
         };
 
@@ -122,13 +123,13 @@ public class WaitingJFileChooserInitializer
                 SwingUtilities.invokeAndWait( doRun );
                 }
             catch( InvocationTargetException e ) {
-                logger.error(
+                LOGGER.error(
                         "Run InvocationTargetException - target exception",
                         e.getTargetException()
                         );
                 }
             catch( InterruptedException e ) {
-                logger.error( "Run InterruptedException", e );
+                LOGGER.error( "Run InterruptedException", e );
                 }
             }
 

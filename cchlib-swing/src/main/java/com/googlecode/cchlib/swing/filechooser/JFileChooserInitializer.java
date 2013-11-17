@@ -25,7 +25,7 @@ public class JFileChooserInitializer
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(JFileChooserInitializer.class);
+    private static final Logger LOGGER = Logger.getLogger(JFileChooserInitializer.class);
 
     /** @serial */
     private JFileChooser jFileChooser;
@@ -361,7 +361,7 @@ public class JFileChooserInitializer
 
                         fireJFileChooserInitializerJFileChooserReady();
                     } catch( Throwable e ) {
-                        logger.fatal("JFileChooserInitializer.init0()",e);
+                        LOGGER.fatal("JFileChooserInitializer.init0()",e);
                     }
                 }
             };

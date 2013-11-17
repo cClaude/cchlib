@@ -38,23 +38,6 @@ public class LimitedIntegerJTextField extends JTextField
             // Empty
         }
 
-//        public void remove(
-//                DocumentFilter.FilterBypass fb,
-//                int offset,
-//                int length
-//                )
-//            throws BadLocationException
-//        {
-//            slogger.info( "remove: offset=" + offset + ", length=" + length );
-//            Document doc  = fb.getDocument();
-//            Document rdoc = doc.getDefaultRootElement().getDocument();
-//            slogger.info( "remove before rdoc: [" + rdoc.getText( 0, rdoc.getLength() ) + "]" );
-//            slogger.info( "remove before doc: [" + doc.getText( 0, doc.getLength() ) + "]" );
-//            super.remove( fb, offset, length );
-//            slogger.info( "remove after rdoc: [" + rdoc.getText( 0, rdoc.getLength() ) + "]" );
-//            slogger.info( "remove after doc: [" + doc.getText( 0, doc.getLength() ) + "]" );
-//        }
-
         @Override
         public void insertString(
                 DocumentFilter.FilterBypass fb,
@@ -246,13 +229,12 @@ public class LimitedIntegerJTextField extends JTextField
     private void checkValue( int value ) throws IllegalArgumentException
     {
         if( value > this.maxValue ) {
-            //slogger.warn( "Checking: " + value );
             throw new IllegalArgumentException(
                 String.format( "need a value(%d) less than %d ",value, this.maxValue)
                 );
             }
+
         if( value < 0 ) {
-            //slogger.warn( "Checking: " + value );
             throw new IllegalArgumentException(
                 String.format( "need a value(%d) greater than: 0 ", value )
                 );

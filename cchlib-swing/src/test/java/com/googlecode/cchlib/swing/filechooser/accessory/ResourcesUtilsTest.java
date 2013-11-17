@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class ResourcesUtilsTest
 {
-    private static final Logger logger = Logger.getLogger( ResourcesUtilsTest.class );
+    private static final Logger LOGGER = Logger.getLogger( ResourcesUtilsTest.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception
@@ -54,7 +54,7 @@ public class ResourcesUtilsTest
         frame.setVisible(true);
         //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        logger.info( "myTestJButton() done" );
+        LOGGER.info( "myTestJButton() done" );
         try {
             Thread.sleep( 3 * 1000);
             }
@@ -80,10 +80,10 @@ public class ResourcesUtilsTest
         for( ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
             String txt = resourcesUtils.getText( id );
 
-            logger.info( "Text for: " + id + " is [" + txt + "]" );
+            LOGGER.info( "Text for: " + id + " is [" + txt + "]" );
             }
 
-        logger.info( "testText() done for " + locale );
+        LOGGER.info( "testText() done for " + locale );
     }
 
     static abstract class TstFrame extends JFrame

@@ -16,7 +16,8 @@ import org.apache.log4j.Logger;
 final class ResourcesUtils implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( ResourcesUtils.class );
+    private static final Logger LOGGER = Logger.getLogger( ResourcesUtils.class );
+
     private final Locale locale;
     private ResourceBundle resourceBundle;;
 
@@ -158,12 +159,12 @@ final class ResourcesUtils implements Serializable
             return rb.getString( resourceId.name() );
             }
         catch( MissingResourceException e ) { // $codepro.audit.disable logExceptions
-            logger.error( "Text resource not found for " + resourceId );
+            LOGGER.error( "Text resource not found for " + resourceId );
 
             return resourceId.name();
             }
         catch( ResourcesUtilsException e ) {
-            logger.error( "Can not load resources for " + resourceId, e );
+            LOGGER.error( "Can not load resources for " + resourceId, e );
 
             return resourceId.name();
         }
