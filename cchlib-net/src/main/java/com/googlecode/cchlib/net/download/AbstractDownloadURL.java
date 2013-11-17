@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 public abstract class AbstractDownloadURL
     implements DownloadURL, Serializable
 {
-    private static final long serialVersionUID = 2L;
-    private static final transient Logger logger = Logger.getLogger( AbstractDownloadURL.class );
+    private static final long serialVersionUID = 3L;
+    private static final Logger LOGGER = Logger.getLogger( AbstractDownloadURL.class );
 
     private       URI                   uri;
     private       URL                   url;
@@ -150,15 +150,15 @@ public abstract class AbstractDownloadURL
                 }
             }
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "URLConnection: " + uc );
-            logger.trace( "URLConnection.getHeaderFields() " );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "URLConnection: " + uc );
+            LOGGER.trace( "URLConnection.getHeaderFields() " );
 
             for( Map.Entry<String,List<String>> entry : uc.getHeaderFields().entrySet() ) {
-                logger.trace( "Header name:" + entry.getKey() );
+                LOGGER.trace( "Header name:" + entry.getKey() );
 
                 for( String v : entry.getValue() ) {
-                    logger.trace( "Header value:" + v );
+                    LOGGER.trace( "Header value:" + v );
                     }
                 }
             }

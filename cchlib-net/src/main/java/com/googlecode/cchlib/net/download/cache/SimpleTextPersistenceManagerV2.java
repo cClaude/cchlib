@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 
 public class SimpleTextPersistenceManagerV2 implements URICachePersistenceManager
 {
-    private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV2.class );
+    private static final Logger LOGGER = Logger.getLogger( SimpleTextPersistenceManagerV2.class );
     private static final String VERSION_STR = "V:2";
 
     @Override
@@ -102,14 +102,14 @@ public class SimpleTextPersistenceManagerV2 implements URICachePersistenceManage
                     uri = new URL( line ).toURI();
                     }
                 catch( MalformedURLException e ) {
-                    logger.error( "Bad URL format (try next line) in URICache file : " + cacheFile
+                    LOGGER.error( "Bad URL format (try next line) in URICache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
                     continue;
                     }
                 catch( URISyntaxException e ) {
-                    logger.error( "Bad URI syntaxe (try next line) in URICache file : " + cacheFile
+                    LOGGER.error( "Bad URI syntaxe (try next line) in URICache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
@@ -128,7 +128,7 @@ public class SimpleTextPersistenceManagerV2 implements URICachePersistenceManage
                     date = new Date( Long.parseLong( line ) );
                     }
                 catch( NumberFormatException e ) {
-                    logger.error( "Bad DATE format (use 0) in URICache file : " + cacheFile
+                    LOGGER.error( "Bad DATE format (use 0) in URICache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );

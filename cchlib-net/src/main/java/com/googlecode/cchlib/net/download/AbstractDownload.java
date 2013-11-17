@@ -12,7 +12,8 @@ import org.apache.log4j.Logger;
 //NOT public
 abstract class AbstractDownload implements RunnableDownload
 {
-    private static final Logger logger = Logger.getLogger( AbstractDownload.class );
+    private static final Logger LOGGER = Logger.getLogger( AbstractDownload.class );
+
     // Use getDownloadURL() to access to this object
     private final DownloadURL downloadURL;
     // Use getDownloadEvent() to access to this object
@@ -67,7 +68,7 @@ abstract class AbstractDownload implements RunnableDownload
                 }
             }
         catch( Exception e ) {
-            logger.fatal( "Unhandled exception", e );
+            LOGGER.fatal( "Unhandled exception", e );
             }
     }
 
@@ -90,8 +91,8 @@ abstract class AbstractDownload implements RunnableDownload
      * Returns {@link DownloadEvent} for this {@link AbstractDownload}
      * @return {@link DownloadEvent} for this {@link AbstractDownload}
      */
-    protected final DownloadEvent getDownloadEvent() 
+    protected final DownloadEvent getDownloadEvent()
     {
-        return event; 
+        return event;
     }
 }

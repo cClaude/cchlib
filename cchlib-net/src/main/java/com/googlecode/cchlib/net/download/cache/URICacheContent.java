@@ -18,7 +18,7 @@ final class URICacheContent
     implements Serializable, CacheContent
 {
     private static final long serialVersionUID = 5L;
-    private static final Logger logger = Logger.getLogger( CacheContent.class );
+    private static final Logger LOGGER = Logger.getLogger( CacheContent.class );
 
     private Map<URI,URIDataCacheEntry> dataCache = new HashMap<URI,URIDataCacheEntry>();
     private Map<String,URI>            hashcache = new HashMap<String,URI>();
@@ -43,7 +43,7 @@ final class URICacheContent
         final int hashCacheSize = hashcache.size();
 
         if( dataCacheSize != hashCacheSize ) {
-            logger.error( "CacheContent : cache size error * data:"
+            LOGGER.error( "CacheContent : cache size error * data:"
                 + dataCacheSize
                 + " hash:"
                 + hashCacheSize

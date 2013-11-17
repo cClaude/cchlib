@@ -14,7 +14,8 @@ import com.googlecode.cchlib.test.TestConfigurationHelper;
 
 public class WakeOnLanTest
 {
-    private static final Logger logger = Logger.getLogger( WakeOnLanTest.class );
+    private static final Logger LOGGER = Logger.getLogger( WakeOnLanTest.class );
+
     private TestConfigurationHelper.Config config;
 
     @Before
@@ -26,11 +27,11 @@ public class WakeOnLanTest
             testLocal.load();
             }
         catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
-            logger.warn( "No config to load" );
+            LOGGER.warn( "No config to load" );
             }
         config = testLocal.getConfig();
 
-        logger.warn( "setup() done" );
+        LOGGER.warn( "setup() done" );
     }
 
     @Test
@@ -39,10 +40,10 @@ public class WakeOnLanTest
         final WakeOnLan          wol                  = new WakeOnLan();
         final Collection<String> macAddressCollection = config.getExistingMACAddressCollection();
 
-        logger.warn( "macAddressCollection = " + macAddressCollection.size() );
+        LOGGER.warn( "macAddressCollection = " + macAddressCollection.size() );
 
         for( String macAddress : macAddressCollection ) {
-            logger.warn( "notify macAddress = " + macAddress );
+            LOGGER.warn( "notify macAddress = " + macAddress );
             wol.notify( macAddress );
             }
     }

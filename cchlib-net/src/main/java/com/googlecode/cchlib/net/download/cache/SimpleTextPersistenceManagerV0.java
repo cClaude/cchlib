@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 class SimpleTextPersistenceManagerV0
     implements URICachePersistenceManager
 {
-    private static final Logger logger = Logger.getLogger( SimpleTextPersistenceManagerV0.class );
+    private static final Logger LOGGER = Logger.getLogger( SimpleTextPersistenceManagerV0.class );
 
     /**
     * Create an URLCachePersistenceManager
@@ -85,14 +85,14 @@ class SimpleTextPersistenceManagerV0
                     uri = new URL( line ).toURI();
                     }
                 catch( MalformedURLException e ) {
-                    logger.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
+                    LOGGER.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
                     uri = null;
                     }
                 catch( URISyntaxException e ) {
-                    logger.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
+                    LOGGER.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
@@ -109,7 +109,7 @@ class SimpleTextPersistenceManagerV0
                     date = new Date( Long.parseLong( line ) );
                     }
                 catch( NumberFormatException e ) {
-                    logger.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
+                    LOGGER.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );

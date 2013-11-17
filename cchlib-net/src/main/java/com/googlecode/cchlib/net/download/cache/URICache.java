@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URI;
 import java.net.URL;
@@ -21,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class URICache implements Closeable // $codepro.audit.disable largeNumberOfMethods
 {
-    private static final Logger logger = Logger.getLogger( URICache.class );
+    private static final Logger LOGGER = Logger.getLogger( URICache.class );
 
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
@@ -386,7 +385,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
                 new SimpleTextPersistenceManagerV0().load( getCacheFile(), _cache_ );
                 }
             catch( IOException retry ) {
-                logger.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
+                LOGGER.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
 
                 try {
                     persistenceManager.load( getBackupCacheFile(), _cache_ );
@@ -411,8 +410,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
         final File cacheFile     = getCacheFile();
         final File backupFile    = getBackupCacheFile();
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Try to store: " + cacheFile );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Try to store: " + cacheFile );
             }
 
         if( cacheFile.isFile() ) {
@@ -423,12 +422,12 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             // Rename previous version of cache file to backup file.
             boolean b = cacheFile.renameTo( backupFile );
 
-            if( logger.isTraceEnabled() ) {
-                logger.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
                 }
 
             if( ! b ) {
-                logger.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+                LOGGER.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
                 }
             }
 
@@ -443,7 +442,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
 
         if( cacheFile.length() < backupFile.length() ) {
             // Loose data in cache !
-            logger.warn( "Loose data append previous file" );
+            LOGGER.warn( "Loose data append previous file" );
 
             CacheContent tmpCache = new URICacheContent();
 
@@ -473,8 +472,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
 
             }
 
-        if( logger.isTraceEnabled() ) {
-            logger.trace( "Cache stored successfully " );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Cache stored successfully " );
             }
     }
 
