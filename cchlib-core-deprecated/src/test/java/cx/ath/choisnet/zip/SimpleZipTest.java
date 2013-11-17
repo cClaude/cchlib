@@ -18,7 +18,7 @@ import com.googlecode.cchlib.io.IOHelper;
 @Deprecated
 public class SimpleZipTest
 {
-    final private static Logger slogger = Logger.getLogger(SimpleZipTest.class);
+    final private static Logger LOGGER = Logger.getLogger(SimpleZipTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File ZIP_SOURCE_DIR_FILE = new File( new File("."), "src" );
@@ -43,7 +43,7 @@ public class SimpleZipTest
                         @Override
                         public void newFile( ZipEntry zipentry )
                         {
-                            slogger.info("PP>add: " + zipentry.getName() );
+                            LOGGER.info("PP>add: " + zipentry.getName() );
                         }
                     });
             instance.addProcessingListener(
@@ -52,7 +52,7 @@ public class SimpleZipTest
                         @Override
                         public void newFile( ZipEntry zipentry )
                         {
-                            slogger.info("P>add: " + zipentry.getName() );
+                            LOGGER.info("P>add: " + zipentry.getName() );
                         }
                     });
             instance.addFolder(
@@ -63,7 +63,7 @@ public class SimpleZipTest
                         public SimpleZipEntry wrappe(File file)
                         {
                             SimpleZipEntry sze = super.wrappe(file);
-                            slogger.info("add: " + file + " -> " + sze.getZipEntry().getName() );
+                            LOGGER.info("add: " + file + " -> " + sze.getZipEntry().getName() );
                             return sze;
                         }
                     });
@@ -91,7 +91,7 @@ public class SimpleZipTest
                         @Override
                         public void newFile( ZipEntry zipentry )
                         {
-                            slogger.info("PP>ext: " + zipentry.getName() );
+                            LOGGER.info("PP>ext: " + zipentry.getName() );
                         }
                     });
             instance.addProcessingListener(
@@ -100,7 +100,7 @@ public class SimpleZipTest
                         @Override
                         public void newFile( ZipEntry zipentry )
                         {
-                            slogger.info("P>ext: " + zipentry.getName() );
+                            LOGGER.info("P>ext: " + zipentry.getName() );
                         }
                     });
             instance.saveAll( UNZIP_DEST_DIR_FILE );
@@ -108,7 +108,7 @@ public class SimpleZipTest
             
             int count = instance.getFileCount();
 
-            slogger.info( "Unzip file count:" + count );
+            LOGGER.info( "Unzip file count:" + count );
 
             Assert.assertTrue( "No file to unzip: ", count > 0 );
        } finally {

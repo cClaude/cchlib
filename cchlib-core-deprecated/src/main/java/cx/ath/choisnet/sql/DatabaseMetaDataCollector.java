@@ -31,7 +31,7 @@ import com.googlecode.cchlib.util.mappable.MappableItem;
 public class DatabaseMetaDataCollector implements Mappable, Serializable
 {
     private static final long serialVersionUID = 2L;
-    private static final transient Logger slogger = Logger.getLogger( DatabaseMetaDataCollector.class );
+    private static final transient Logger LOGGER = Logger.getLogger( DatabaseMetaDataCollector.class );
 
     /** @serial */
     private DatabaseMetaData databaseMetaData;
@@ -269,15 +269,15 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
             return m.invoke( databaseMetaData );
             }
         catch( IllegalArgumentException e ) {
-            slogger.warn( "Error while invoke " + m, e );
+            LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
         catch( IllegalAccessException e ) {
-            slogger.warn( "Error while invoke " + m, e );
+            LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
         catch( InvocationTargetException e ) {
-            slogger.warn( "Error while invoke " + m, e );
+            LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
     }
@@ -383,7 +383,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                         }
                     }
                 catch( SQLException e ) {
-                    slogger.warn( "Error while reading ResultSetMetaData return by " + m, e );
+                    LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
 
                     values.put(
                         String.format( "%s ResultSetMetaData[SQLException]", m.getName() ),
@@ -414,7 +414,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     }
                 }
                 catch( SQLException e ) {
-                    slogger.warn( "Error while reading ResultSet return by " + m, e );
+                    LOGGER.warn( "Error while reading ResultSet return by " + m, e );
 
                     values.put(
                         String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), row ),

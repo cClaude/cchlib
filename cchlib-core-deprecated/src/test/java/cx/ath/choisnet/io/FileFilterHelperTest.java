@@ -14,13 +14,13 @@ import com.googlecode.cchlib.io.IOHelper;
 @Deprecated
 public class FileFilterHelperTest
 {
-    final private static Logger logger = Logger.getLogger(FileFilterHelperTest.class);
+    private static final Logger LOGGER = Logger.getLogger(FileFilterHelperTest.class);
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
 
     @Test
     public void test_directoryFileFilter()
     {
-        logger.info( "test_directoryFileFilter()" );
+        LOGGER.info( "test_directoryFileFilter()" );
         File        dir = new File( TEMP_DIR_FILE, this.getClass().getSimpleName() );
         boolean     isDirCreated = dir.mkdir();
         Assert.assertTrue( isDirCreated );

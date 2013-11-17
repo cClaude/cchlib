@@ -33,7 +33,6 @@ public class FileIteratorBuilder
                         if( f.isFile() ) {
                             if( f.length() < fileMaxLength ) {
                                 if( fileCount++ < fileMaxCount ) {
-                                    //logger.info( "Working on: " + f );
                                     return true;
                                     }
                                 }

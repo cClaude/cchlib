@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 @Deprecated
 public abstract class IterableIteratorTestCaseHelper extends TestCase
 {
-    private static final Logger slogger = Logger.getLogger(IterableIteratorTestCaseHelper.class);
+    private static final Logger LOGGER = Logger.getLogger(IterableIteratorTestCaseHelper.class);
 
   /**
    * Build an unmodifiable collection with giving values
@@ -130,7 +130,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
             super.fail( "Should crash");
         }
         catch( NullPointerException e ) {
-            slogger.info( "Crash ok" );
+            LOGGER.info( "Crash ok" );
         }
     }
     public final void test_crash2()
@@ -141,7 +141,7 @@ public abstract class IterableIteratorTestCaseHelper extends TestCase
             super.fail( "Should crash");
         }
         catch( NullPointerException e ) {
-            slogger.info( "Crash ok" );
+            LOGGER.info( "Crash ok" );
         }
     }
 

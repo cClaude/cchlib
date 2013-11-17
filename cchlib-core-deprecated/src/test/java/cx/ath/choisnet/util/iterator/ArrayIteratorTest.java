@@ -17,7 +17,7 @@ import org.junit.Test;
 @Deprecated
 public class ArrayIteratorTest
 {
-    final private static Logger slogger = Logger.getLogger(ArrayIteratorTest.class);
+    final private static Logger LOGGER = Logger.getLogger(ArrayIteratorTest.class);
 
     private final static Integer[] ARRAY_INT = {
         1,2,3,4,5,6
@@ -130,7 +130,7 @@ public class ArrayIteratorTest
         while( iter.hasNext() ) {
             T item = iter.next();
             count++;
-            slogger.info( "T class: " + item.getClass() + " value: " + item);
+            LOGGER.info( "T class: " + item.getClass() + " value: " + item);
 
             assertTrue("Type look bad!", clazz.isAssignableFrom( item.getClass() ) );
         }

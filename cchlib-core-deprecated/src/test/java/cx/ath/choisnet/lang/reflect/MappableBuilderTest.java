@@ -11,7 +11,7 @@ import org.junit.Test;
 @Deprecated
 public class MappableBuilderTest
 {
-    private final static Logger logger = Logger.getLogger( MappableHelperTest.class );
+    private final static Logger LOGGER = Logger.getLogger( MappableHelperTest.class );
 
     @Test
     public void tstMappableJLabel()
@@ -28,7 +28,7 @@ public class MappableBuilderTest
         final JLabel                    object2 = new JLabel( "testString2" );
         final Map<String, String> map2     = builder.toMap( object2 );
 
-        logger.info( ".entrySet().size(): " + map2.entrySet().size() );
+        LOGGER.info( ".entrySet().size(): " + map2.entrySet().size() );
 
         for( Map.Entry<String,String> e : map2.entrySet() ) {
             final String key    = e.getKey();
@@ -54,10 +54,10 @@ public class MappableBuilderTest
                 }
 
             if( nodiff ) {
-//                logger.info( "no diff: " + key );
+                LOGGER.trace( "no diff: " + key );
                 }
             else {
-                logger.info(
+                LOGGER.info(
                         "DIFF ."
                         + key
                         + " = "

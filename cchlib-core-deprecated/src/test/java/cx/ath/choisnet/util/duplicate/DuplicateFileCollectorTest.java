@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.FileHelper;
 @Deprecated
 public class DuplicateFileCollectorTest
 {
-    private static final Logger logger = Logger.getLogger( DuplicateFileCollectorTest.class );
+    private static final Logger LOGGER = Logger.getLogger( DuplicateFileCollectorTest.class );
     private static final int MAX_FILES_COUNT = 25;
     private static final long FILE_MAX_LENGTH = 1 * 1024 * 1024;
 
@@ -48,14 +48,14 @@ public class DuplicateFileCollectorTest
                             assertEquals("Bad cumul size!",currentFileLength,cumul);
                         }
 
-                        logger.info( "ComputeD:"+file);
+                        LOGGER.info( "ComputeD:"+file);
                         currentFileLength = file.length();
                         cumul = 0;
                     }
                     @Override
                     public void ioError( IOException e, File file )
                     {
-                        logger.warn( "IOException "+file+" : "+e/*,e JUST A WARNING*/);
+                        LOGGER.warn( "IOException "+file+" : "+e/*,e JUST A WARNING*/);
                         canNotCheckCumulSinceALeastOneFileLocked = true;
                     }
                     @Override
@@ -72,26 +72,26 @@ public class DuplicateFileCollectorTest
                     }
                 });
 
-        logger.info( "adding... : "+root );
+        LOGGER.info( "adding... : "+root );
         instance.pass1Add( files );
         instance.pass2();
 
         int dsc = instance.getDuplicateSetsCount();
         int dfc = instance.getDuplicateFilesCount();
 
-        logger.info("getDuplicateSetsCount: "+dsc);
-        logger.info("getDuplicateFilesCount: "+dfc);
+        LOGGER.info("getDuplicateSetsCount: "+dsc);
+        LOGGER.info("getDuplicateFilesCount: "+dfc);
 
-        logger.info("compute duplicate count");
+        LOGGER.info("compute duplicate count");
         instance.computeDuplicateCount();
 
-        logger.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
-        logger.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
+        LOGGER.info("getDuplicateSetsCount: "+instance.getDuplicateSetsCount());
+        LOGGER.info("getDuplicateFilesCount: "+instance.getDuplicateFilesCount());
 
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        logger.info("remove non duplicate");
+        LOGGER.info("remove non duplicate");
         instance.removeNonDuplicate();
 
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
@@ -103,12 +103,12 @@ public class DuplicateFileCollectorTest
             String      k = entry.getKey();
             Set<File>   s = entry.getValue();
 
-            logger.info( "'"+k+" : "+ s.size() );
+            LOGGER.info( "'"+k+" : "+ s.size() );
             for(File f:s) {
-                logger.info( f );
+                LOGGER.info( f );
                 }
             }
 
-        logger.info( "done." );
+        LOGGER.info( "done." );
     }
 }

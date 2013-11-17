@@ -1,15 +1,13 @@
 package cx.ath.choisnet.sql;
 
 import java.io.IOException;
-//import cx.ath.choisnet.util.StringHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Conversions tools for create SQL requests.
  */
-public class SQLTools
+public final class SQLTools
 {
-    //private static Logger slogger = Logger.getLogger( SQLTools.class );
     /**
      * (Expected String,Replace String)
      */
@@ -104,33 +102,12 @@ public class SQLTools
             a.append( value );
             return;
             }
+        
         if( value.length() == 0 ) {
             return;
             }
-/*
-//        //slogger.info( "'value' = " + value );
-//
-//        final StringTokenizer st = new StringTokenizer(value, REMPLACEPHRASE[idx][0]);
-//
-//        //slogger.info( "> S = " + REMPLACEPHRASE[idx][0] );
-//        //slogger.info( "> R = " + REMPLACEPHRASE[idx][1] );
-//        //slogger.info( "> st = " + st.countTokens() );
-//        //slogger.info( ">A["+idx+"] = " + a );
-//
-//         private_parseFieldValue( a, st.nextToken(), idx + 1 );
-//
-//         //slogger.info( ">B["+idx+"] = " + a );
-//
-//         while( st.hasMoreTokens() ) {
-//             a.append( REMPLACEPHRASE[idx][1] );
-//
-//            private_parseFieldValue( a, st.nextToken(), idx + 1 );
-//            //slogger.info( ">C["+idx+"] = " + a );
-//            }
-//
-//         //slogger.info( ">D["+idx+"] = " + a );
-*/
-         String[] parts = StringHelper.split( value, REMPLACEPHRASE[idx][0] );
+
+         final String[] parts = StringHelper.split( value, REMPLACEPHRASE[idx][0] );
 
          for(int pi = 0; pi<parts.length; pi++ ) {
              private_parseFieldValue( a, parts[ pi ], idx + 1 );
@@ -139,6 +116,5 @@ public class SQLTools
                  a.append( REMPLACEPHRASE[idx][1] );
                  }
              }
-
     }
 }

@@ -16,8 +16,6 @@ import org.junit.Test;
 @Deprecated
 public class ConcateInputStreamTest
 {
-    //private final static Logger logger = Logger.getLogger( ConcateInputStreamTest.class );
-
     @BeforeClass
     public static void setUpClass() throws Exception
     {

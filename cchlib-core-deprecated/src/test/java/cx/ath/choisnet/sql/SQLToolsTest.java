@@ -10,7 +10,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  */
 public class SQLToolsTest
 {
-    private static Logger slogger = Logger.getLogger( SQLToolsTest.class );
+    private static Logger LOGGER = Logger.getLogger( SQLToolsTest.class );
 
     @Test
     public void test_parseFieldValue1()
@@ -123,9 +123,9 @@ public class SQLToolsTest
     {
         String r = SQLTools.parseFieldValue( s );
 
-        slogger.info( "s      = [" + s + "]" );
-        slogger.info( "r      = [" + r + "]" );
-        slogger.info( "expStr = [" + expStr + "]" );
+        LOGGER.info( "s      = [" + s + "]" );
+        LOGGER.info( "r      = [" + r + "]" );
+        LOGGER.info( "expStr = [" + expStr + "]" );
 
         assertEquals("Bad result for: [" + s + "]",expStr,r);
     }

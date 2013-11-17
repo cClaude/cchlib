@@ -1,9 +1,5 @@
 package cx.ath.choisnet.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -11,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 
@@ -20,7 +17,7 @@ import com.googlecode.cchlib.io.IOHelper;
 @Deprecated
 public class DirectoryIteratorTest
 {
-    final private static Logger slogger = Logger.getLogger(DirectoryIteratorTest.class);
+    final private static Logger LOGGER = Logger.getLogger(DirectoryIteratorTest.class);
 
     public static final File TEMP_DIR_FILE    = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
@@ -39,19 +36,19 @@ public class DirectoryIteratorTest
                     .append( iter.next() )
                     .append( "' should not exist..." );
 
-            slogger.error( msg );
-            fail(msg.toString());
+            LOGGER.error( msg );
+            Assert.fail(msg.toString());
         }
 
         if( iter.hasNext() ) {
             String msg = "*** error: this Iterator should be empty";
 
-            slogger.error( (new StringBuilder())
+            LOGGER.error( (new StringBuilder())
                     .append( "*** error: " )
                     .append( iter.next() )
                     .toString()
                     );
-            fail( msg );
+            Assert.fail( msg );
         }
     }
 
@@ -65,23 +62,23 @@ public class DirectoryIteratorTest
 
         long end = System.currentTimeMillis();
 
-        slogger.info( "---------------------" );
-        slogger.info( "Root    : "  + rootFile );
-        slogger.info( "ms      : "  + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "Root    : "  + rootFile );
+        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "---------------------" );
 
         begin  = System.currentTimeMillis();
         for( File dirFile : dirsIterator ) {
             fCount++;
-            slogger.info( "dir "  + dirFile );
-            assertTrue( "Is not a directory : " + dirFile, dirFile.isDirectory() );
+            LOGGER.info( "dir "  + dirFile );
+            Assert.assertTrue( "Is not a directory : " + dirFile, dirFile.isDirectory() );
         }
         end = System.currentTimeMillis();
 
-        slogger.info( "---------------------" );
-        slogger.info( "Count   : "  + fCount );
-        slogger.info( "ms      : "  + (end-begin) );
-        slogger.info( "---------------------" );
+        LOGGER.info( "---------------------" );
+        LOGGER.info( "Count   : "  + fCount );
+        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "---------------------" );
     }
 
     @Test
@@ -92,10 +89,10 @@ public class DirectoryIteratorTest
         IOHelper.deleteTree(dirRootFile);
 
         boolean res = dirRootFile.exists();
-        assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
+        Assert.assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
 
         res = dirRootFile.mkdirs();
-        assertTrue( "Can't mkdirs(): " + dirRootFile, res);
+        Assert.assertTrue( "Can't mkdirs(): " + dirRootFile, res);
 
         File[] dirs = {
                 new File(dirRootFile, "dir1"),
@@ -117,7 +114,7 @@ public class DirectoryIteratorTest
 
         for( File d : dirs ) {
             res = d.mkdirs();
-            assertTrue( "Can't mkdirs(): " + d, res);
+            Assert.assertTrue( "Can't mkdirs(): " + d, res);
             allFiles.add(d);
         }
         for( File f : files ) {
@@ -130,23 +127,23 @@ public class DirectoryIteratorTest
         DirectoryIterator di = new DirectoryIterator( dirRootFile );
 
         for( File f : di ) {
-            assertTrue( "Is not a directory : " + f, f.isDirectory() );
+            Assert.assertTrue( "Is not a directory : " + f, f.isDirectory() );
             foundInFileIterator.add( f );
 
             boolean oldFound = notFoundInFileIterator.remove( f );
-            assertTrue( "File should not be here: " + f, oldFound);
+            Assert.assertTrue( "File should not be here: " + f, oldFound);
         }
 
-        slogger.info( "allFiles # " + allFiles.size() );
-        slogger.info( "foundInFileIterator # " + foundInFileIterator.size() );
-        slogger.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
+        LOGGER.info( "allFiles # " + allFiles.size() );
+        LOGGER.info( "foundInFileIterator # " + foundInFileIterator.size() );
+        LOGGER.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
 
         for( File f : notFoundInFileIterator ) {
-            slogger.info( "  > not found by Iterator: " + f );
+            LOGGER.info( "  > not found by Iterator: " + f );
         }
 
-        assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
-        assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
+        Assert.assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
+        Assert.assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
 
         //
         // Test FileFilter !
@@ -169,12 +166,12 @@ public class DirectoryIteratorTest
             System.out.printf(">%s\n",f);
             diFFcount++;
         }
-        assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
+        Assert.assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
 
         // cleanup !
         IOHelper.deleteTree(dirRootFile);
 
         res = dirRootFile.exists();
-        assertFalse( "Can't delete(): " + dirRootFile, res);
+        Assert.assertFalse( "Can't delete(): " + dirRootFile, res);
     }
 }
