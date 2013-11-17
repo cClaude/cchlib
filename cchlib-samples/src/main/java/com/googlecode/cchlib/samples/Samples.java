@@ -8,9 +8,10 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
 /**
  * Default resources for samples
  */
-public class Samples 
+public class Samples
 {
-    private final static Logger logger = Logger.getLogger( Samples.class );
+    private final static Logger LOGGER = Logger.getLogger( Samples.class );
+
     private Samples() {} // All static
 
     public static Image getSampleIconImage()
@@ -19,7 +20,7 @@ public class Samples
             return ResourcesLoader.getImage( Samples.class, "sample.png" );
             }
         catch( ResourcesLoaderException e ) {
-            logger.error( "Can't load 'sample.png'", e );
+            LOGGER.error( "Can't load 'sample.png'", e );
             return null;
             }
    }

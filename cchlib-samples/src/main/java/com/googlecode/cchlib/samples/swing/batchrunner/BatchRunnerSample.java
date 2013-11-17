@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 public class BatchRunnerSample extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( BatchRunnerSample.class );
+    private static final Logger LOGGER = Logger.getLogger( BatchRunnerSample.class );
     
     private BRRunnable taskDelegator = new Task();
     private JComboBox<TaskList> comboBox;
@@ -93,7 +93,7 @@ public class BatchRunnerSample extends JPanel
 
     private void execute_CopyFile( BRExecutionEvent event ) throws BRExecutionException
     {
-        logger.info( "DO execute_CopyFile()" );
+        LOGGER.info( "DO execute_CopyFile()" );
 
         try( InputStream is = event.getInputStream() ) {
             try( OutputStream os = event.getOutputStream() ) {
@@ -112,7 +112,7 @@ public class BatchRunnerSample extends JPanel
             throw new BRExecutionException( e );
             }
 
-        logger.info( "DONE execute_CopyFile()" );
+        LOGGER.info( "DONE execute_CopyFile()" );
     }
 
     private static void sleep( int millis )
@@ -125,9 +125,9 @@ public class BatchRunnerSample extends JPanel
         File sourceFile      = event.getSourceFile();
         File destinationFile = event.getDestinationFile();
 
-        logger.info( "DO execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
+        LOGGER.info( "DO execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
         sleep( 10 * 1000 );
-        logger.info( "DONE execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
+        LOGGER.info( "DONE execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
     };
 
     private enum TaskList
@@ -161,7 +161,7 @@ public class BatchRunnerSample extends JPanel
         {            
             TaskList task = (TaskList)comboBox.getSelectedItem();
             
-            logger.info( "task = " + task );
+            LOGGER.info( "task = " + task );
             
             switch( task ) {
                 case CopySelectFiles:

@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream; // $codepro.audit.disable unnecessaryImport
 import java.io.OutputStream; // $codepro.audit.disable unnecessaryImport
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.samples.Samples;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.AbstractBRRunnable;
@@ -39,6 +40,8 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
  */
 public class SimpleBatchRunnerSample extends AbstractBRRunnable
 {
+    private static final Logger LOGGER = Logger.getLogger( SimpleBatchRunnerSample.class );
+    
     /**
      * Launch the application.
      */
@@ -92,10 +95,10 @@ public class SimpleBatchRunnerSample extends AbstractBRRunnable
     public void execute( BRExecutionEvent event )
         throws BRUserCancelException, BRExecutionException
     {
-        logger.info( "DO execute()" );
+        LOGGER.info( "DO execute()" );
 
         if( event.getDestinationFile().exists() ) {
-            logger.warn( "Destination File already exist : " + event.getDestinationFile() );
+            LOGGER.warn( "Destination File already exist : " + event.getDestinationFile() );
         } else {
             try( InputStream is = event.getInputStream() ) {
                 try( OutputStream os = event.getOutputStream() ) {
@@ -113,7 +116,7 @@ public class SimpleBatchRunnerSample extends AbstractBRRunnable
             catch( IOException e ) {
                 throw new BRExecutionException( e );
                 }
-            logger.info( "DONE" );
+            LOGGER.info( "DONE" );
         }
     }
 }
