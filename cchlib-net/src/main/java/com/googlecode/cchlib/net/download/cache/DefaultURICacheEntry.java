@@ -56,7 +56,7 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int prime = 31; // $codepro.audit.disable numericLiterals
         int result = 1;
         result = (prime * result) + ((date == null) ? 0 : date.hashCode());
         result = (prime * result)

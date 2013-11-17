@@ -2,10 +2,11 @@ package com.googlecode.cchlib.net.download;
 
 /**
  * @see DownloadExecutor
- * 
+ *
  * @since 4.1.7
  */
-public class BadDownloadURLException extends DownloadConfigurationException 
+public class BadDownloadURLException // $codepro.audit.disable serializableUsage
+    extends DownloadConfigurationException
 {
     private static final long serialVersionUID = 1L;
     /**

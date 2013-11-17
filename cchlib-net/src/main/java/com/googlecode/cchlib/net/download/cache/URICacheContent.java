@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  * @since 4.1.8
  */
 // Not public
-final class URICacheContent
+final class URICacheContent // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotImplementSerializable
     implements Serializable, CacheContent
 {
     private static final long serialVersionUID = 5L;

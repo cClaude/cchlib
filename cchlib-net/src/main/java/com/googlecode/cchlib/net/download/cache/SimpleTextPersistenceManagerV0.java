@@ -58,7 +58,7 @@ class SimpleTextPersistenceManagerV0
 
     /* (non-Javadoc) */
     @Override
-    public void load( File cacheFile, CacheContent cache )
+    public void load( File cacheFile, CacheContent cache ) // $codepro.audit.disable cyclomaticComplexity
             throws FileNotFoundException, IOException
     {
         BufferedReader reader = null; // $codepro.audit.disable questionableName
@@ -82,7 +82,7 @@ class SimpleTextPersistenceManagerV0
                     }
 
                 try {
-                    uri = new URL( line ).toURI();
+                    uri = new URL( line ).toURI(); // $codepro.audit.disable avoidInstantiationInLoops
                     }
                 catch( MalformedURLException e ) {
                     LOGGER.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
@@ -106,7 +106,7 @@ class SimpleTextPersistenceManagerV0
                     }
 
                 try {
-                    date = new Date( Long.parseLong( line ) );
+                    date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
                     }
                 catch( NumberFormatException e ) {
                     LOGGER.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
@@ -124,7 +124,7 @@ class SimpleTextPersistenceManagerV0
 
                 if( uri != null ) {
                     // Skip entry with no URL !
-                    cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) );
+                    cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) ); // $codepro.audit.disable avoidInstantiationInLoops
                     }
                 }
             }

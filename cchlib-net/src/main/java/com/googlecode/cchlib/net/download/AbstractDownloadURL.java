@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.7
  */
-public abstract class AbstractDownloadURL
+public abstract class AbstractDownloadURL // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotImplementSerializable
     implements DownloadURL, Serializable
 {
     private static final long serialVersionUID = 3L;
@@ -83,7 +83,7 @@ public abstract class AbstractDownloadURL
      * @throws URISyntaxException
      * @throws NullPointerException if url is null
      */
-    final protected void setURL( final URL url ) throws URISyntaxException
+    protected final void setURL( final URL url ) throws URISyntaxException
     {
         if( url == null ) {
             throw new NullPointerException();
@@ -101,7 +101,7 @@ public abstract class AbstractDownloadURL
      *
      * @throws NullPointerException if uri is null
      */
-    final protected void setURI( final URI uri ) throws MalformedURLException
+    protected final void setURI( final URI uri ) throws MalformedURLException
     {
         if( uri == null ) {
             throw new NullPointerException();
