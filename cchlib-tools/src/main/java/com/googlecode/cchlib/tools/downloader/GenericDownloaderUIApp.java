@@ -572,7 +572,7 @@ public class GenericDownloaderUIApp extends JFrame
         @Override
         public void error( final URL url, File file, final Throwable cause )
         {
-            LOGGER.error(  "*** ERROR: " + "Error while download: " + url + " to file: " + file, cause );
+            LOGGER.error(  ("*** ERROR: " + "Error while download: ") + url + " to file: " + file, cause );
         }
         @Override
         public void downloadStateInit( DownloadStateEvent event )

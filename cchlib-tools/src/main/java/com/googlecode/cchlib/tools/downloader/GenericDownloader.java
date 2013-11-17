@@ -59,8 +59,6 @@ public class GenericDownloader
         this.gdai   = gdai;
         this.gdauir = gdauir;
 
-//logger.setLevel( Level.INFO ); // FIXME: remove this
-
         final File rootCacheDirectoryFile =
                 new File(
                     new File(".").getAbsoluteFile(),
