@@ -3,7 +3,6 @@ package com.googlecode.cchlib.util.base64;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayReader;
@@ -82,7 +81,7 @@ public class Base64Test
             toEncodeBytes[ i ] = (byte)('A' + i);
 
             char[] enc   = Base64Encoder.encodeToChar( toEncodeBytes, 0, i );
-            LOGGER.info( "encode " + i + " Character String res = [" + new String( enc ) + ']' + enc.length );
+            LOGGER.info( "encode " + i + " Character String res = [" + toString( enc ) + ']' + enc.length );
 
             byte[] decBytes = Base64Decoder.decode( enc, 0, enc.length );
 
@@ -93,10 +92,20 @@ public class Base64Test
                     break;
                 }
             }
-            LOGGER.info( "dec = [" + new String(decBytes) + ']' + decBytes.length );
+            LOGGER.info( "dec = [" + toString(decBytes) + ']' + decBytes.length );
 
             assertTrue( "encoding to decoding mismatch !", eg );
             }
+    }
+
+    private String toString( byte[] bytes )
+    {
+        return new String( bytes );
+    }
+
+    private String toString( char[] chars )
+    {
+        return new String( chars );
     }
 
     @Test
@@ -152,14 +161,14 @@ public class Base64Test
         for( int currentByte = Byte.MIN_VALUE; currentByte<= Byte.MAX_VALUE; currentByte++ ) {
             bytes[ 0 ] = (byte)(0x00FF | currentByte);
 
-            LOGGER.info( "Encode byte = " + new String( bytes ) );
+            LOGGER.info( "Encode byte = " + toString( bytes ) );
 
             char[] encodedChars = Base64Encoder.encodeToChar( bytes );
-            LOGGER.info( "encode result => " + new String( encodedChars ) );
+            LOGGER.info( "encode result => " + toString( encodedChars ) );
 
             byte[] decodedBytes = Base64Decoder.decode( encodedChars );
 
-            LOGGER.info( "decoded result => " +  new String( decodedBytes ) );
+            LOGGER.info( "decoded result => " +  toString( decodedBytes ) );
 
             assertArrayEquals(
                 "testBasic1Char() encoding to decoding mismatch !",
@@ -173,7 +182,7 @@ public class Base64Test
     public void testBasicNChars() throws UnsupportedEncodingException
     {
         for( int len = 0; len<256; len++ ) {
-            byte[] bytes = new byte[ len ];
+            byte[] bytes = new byte[ len ]; // $codepro.audit.disable avoidInstantiationInLoops
 
             for( int currentByte = 0; currentByte<len; currentByte++ ) {
                 bytes[ currentByte ] = (byte)(0x00FF | currentByte);

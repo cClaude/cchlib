@@ -138,20 +138,22 @@ public class MessageDigestFileTest
     private static String getMD5(byte[] input)
         throws NoSuchAlgorithmException
     {
-            MessageDigest md            = MessageDigest.getInstance("MD5");
-            byte[]        messageDigest = md.digest(input);
-            BigInteger    number        = new BigInteger(1, messageDigest);
-            String        hashtext      = number.toString(16);
+        final StringBuilder sb = new StringBuilder(); 
+        final MessageDigest md            = MessageDigest.getInstance("MD5");
+        final byte[]        messageDigest = md.digest(input);
+        final BigInteger    number        = new BigInteger(1, messageDigest);
+        
+        String  hashtext = number.toString(16);
 
-            // Now we need to zero pad it if you actually want the full 32 chars.
-            while (hashtext.length() < 32) {
-                StringBuilder sb = new StringBuilder("0");
-                sb.append( hashtext );
-                hashtext = sb.toString();
-                //hashtext = "0" + hashtext;
-                }
+        // Now we need to zero pad it if you actually want the full 32 chars.
+        while (hashtext.length() < 32) {
+            sb.setLength( 0 );
+            sb.append( '0' ); 
+            sb.append( hashtext );
+            hashtext = sb.toString();
+            }
 
-            return hashtext.toUpperCase();
+        return hashtext.toUpperCase();
     }
 
     private static String getMD5( final File input )
