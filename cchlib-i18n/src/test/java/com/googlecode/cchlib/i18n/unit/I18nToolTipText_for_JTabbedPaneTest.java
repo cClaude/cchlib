@@ -15,7 +15,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 public class I18nToolTipText_for_JTabbedPaneTest
     implements RunI18nTestInterface
 {
-    private static final Logger logger = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextIgnoreTest.class );
 
     @I18nIgnore private static final String TIP1 = "Tool tip text 1";
     @I18nIgnore private static final String TIP2 = "Tool tip text 2";
@@ -83,8 +83,8 @@ public class I18nToolTipText_for_JTabbedPaneTest
         afterPrepTest();
 
         for( int i = 0; i<4; i++ ) {
-            logger.info( "before contentJTabbedPane.getTitleAt( " + i + " ) =" + myJTabbedPane.getTitleAt( i ) );
-            logger.info( "before contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
+            LOGGER.info( "before contentJTabbedPane.getTitleAt( " + i + " ) =" + myJTabbedPane.getTitleAt( i ) );
+            LOGGER.info( "before contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
             }
 
         TestUtils.runPerformeI18nTest( this );
@@ -92,8 +92,8 @@ public class I18nToolTipText_for_JTabbedPaneTest
         Assertions.assertThat( myJTabbedPane.getTabCount() ).isEqualTo( 4 );
 
         for( int i = 0; i<4; i++ ) {
-            logger.info( "after contentJTabbedPane.getTitleAt( " + i + " ) =" + myJTabbedPane.getTitleAt( i ) );
-            logger.info( "after contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
+            LOGGER.info( "after contentJTabbedPane.getTitleAt( " + i + " ) =" + myJTabbedPane.getTitleAt( i ) );
+            LOGGER.info( "after contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
             }
 
         Assertions.assertThat( myJTabbedPane.getTitleAt( 0 ) ).isEqualTo( TITLE1_I18N );

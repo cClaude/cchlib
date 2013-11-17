@@ -13,7 +13,8 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private final transient Logger logger = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private final transient Logger LOGGER = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+
     /** @serial */
     private Level level;
 
@@ -47,10 +48,10 @@ public class AutoI18nLog4JExceptionHandler
     protected void doHandle( String msg, Throwable e )
     {
         if( getConfig().contains( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS ) ) {
-            logger.log( level, msg, e );
+            LOGGER.log( level, msg, e );
             }
         else {
-            logger.log( level, msg + " : " + e.getMessage() );
+            LOGGER.log( level, msg + " : " + e.getMessage() );
             }
     }
 }

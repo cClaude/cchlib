@@ -133,10 +133,6 @@ public class I18nForcedTest extends JPanel implements I18nAutoCoreUpdatable, Run
     public void beforePrepTest(PrepTest prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
-
-        //String localised = this.myButtonWithToolTipText1.getToolTipText();
-
-        //logger.info( "getToolTipText; " + localised );
     }
 
     @Override

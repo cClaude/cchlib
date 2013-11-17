@@ -16,10 +16,10 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 
 public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
-    private static final Logger logger = Logger.getLogger( I18nStringTest.class );
-
+    private static final Logger LOGGER = Logger.getLogger( I18nStringTest.class );
     private static final String INIT_myString = "my string text 1";
     private static final String DEFAULT_BUNDLE_myString = "OK(myString)";
+
     @I18nString private String myString = INIT_myString;
 
     @I18nString @I18nIgnore private String myStringIgnore = INIT_myString;
@@ -89,17 +89,17 @@ public class I18nStringTest implements I18nAutoCoreUpdatable, RunI18nTestInterfa
 
         TestUtils.runPerformeI18nTest( this );
 
-        logger.info( "TEST RESULT: this.myString = " + this.myString );
+        LOGGER.info( "TEST RESULT: this.myString = " + this.myString );
         Assert.assertEquals( DEFAULT_BUNDLE_myString, this.myString );
         Assert.assertEquals( INIT_myString, this.myStringIgnore );
 
-        logger.info( "TEST RESULT: this.myGlobalStringID = " + this.myGlobalStringID );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringID = " + this.myGlobalStringID );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringID1, this.myGlobalStringID );
 
-        logger.info( "TEST RESULT: this.myGlobalStringIDMethod1 = " + this.myGlobalStringIDMethod1 );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod1 = " + this.myGlobalStringIDMethod1 );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );
 
-        logger.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
         Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
     }
 

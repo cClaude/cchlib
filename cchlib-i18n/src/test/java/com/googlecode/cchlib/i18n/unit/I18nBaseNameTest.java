@@ -17,7 +17,7 @@ import com.googlecode.cchlib.i18n.unit.utils.TestUtils;
 public class I18nBaseNameTest extends JPanel implements I18nAutoCoreUpdatable, RunI18nTestInterface
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger( I18nBaseNameTest.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nBaseNameTest.class );
 
     private static final String INIT_myString1 = "this is my String 1";
     private static final String DEFAULT_BUNDLE_myString1 = "OK(myString1)";
@@ -78,12 +78,12 @@ public class I18nBaseNameTest extends JPanel implements I18nAutoCoreUpdatable, R
         Assert.assertEquals( DEFAULT_BUNDLE_myString2, this.myString2 );
         {
             final String r = this.myJLabel1.getText();
-            logger.info( "TEST RESULT: this.myJLabel1.getText() = " + r );
+            LOGGER.info( "TEST RESULT: this.myJLabel1.getText() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myJLabel1, r );
         }
         {
             final String r = this.myJLabel2.getText();
-            logger.info( "TEST RESULT: this.myJLabel2.getText() = " + r );
+            LOGGER.info( "TEST RESULT: this.myJLabel2.getText() = " + r );
             Assert.assertEquals( DEFAULT_BUNDLE_myJLabel2, r );
         }
     }
