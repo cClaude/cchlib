@@ -10,9 +10,9 @@ import com.googlecode.cchlib.lang.OperatingSystem;
  */
 public class Services
 {
-    private final static String UNIX_SERVICES_FILENAME = "/etc/services";
-    private final static String WIN32_SYSTEM_VARNAME = "SystemRoot";
-    private final static String WIN32_SERVICES_FILENAME = "system32\\drivers\\etc\\services";
+    private static final String UNIX_SERVICES_FILENAME = "/etc/services";
+    private static final String WIN32_SYSTEM_VARNAME = "SystemRoot";
+    private static final String WIN32_SERVICES_FILENAME = "system32\\drivers\\etc\\services";
     private File servicesFile;
 
     public Services() throws ServicesFileNotFoundException

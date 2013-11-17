@@ -17,7 +17,7 @@ import alpha.cx.ath.choisnet.system.SystemEnvironmentVar;
  */
 public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentVar
 {
-    private final static char SEPARATOR = '\0';
+    private static final char SEPARATOR = '\0';
 
     private Wrappable<String,Serializable>         toSerializable = new StringToSerializable();
     private Selectable<Serializable>               filterString   = new SelectString();
