@@ -16,6 +16,7 @@ import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
@@ -23,7 +24,11 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public final class I18nPrepHelper
 {
-    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = "MessagesBundle";
+    /**
+     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
+     */
+    @Deprecated
+    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
 
     /**
      * TODOC

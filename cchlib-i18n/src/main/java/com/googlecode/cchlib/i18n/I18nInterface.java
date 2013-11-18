@@ -17,8 +17,8 @@ public interface I18nInterface extends Serializable
      *
      * @param key Key to lookup for localization
      * @return String for giving key
+     *
      * @throws MissingResourceException if key not found
      */
-    String getString(String key)
-        throws MissingResourceException;
+    String getString( String key ) throws MissingResourceException;
 }

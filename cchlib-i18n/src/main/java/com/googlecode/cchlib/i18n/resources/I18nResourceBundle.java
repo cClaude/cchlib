@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n.resources;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -11,7 +12,7 @@ import com.googlecode.cchlib.i18n.I18nInterface;
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nInterface}
  */
-public class I18nResourceBundle implements I18nInterface
+public class I18nResourceBundle implements I18nInterface, Serializable
 {
     private static final long serialVersionUID = 3L;
 
@@ -29,48 +30,56 @@ public class I18nResourceBundle implements I18nInterface
     private String resourceBundleFullBaseName;
 
     /**
-     * Provide a non initialized object for inherit class
-     * that must initialize ResourceBundle object ({@link #resourceBundle}
-     * and {@link #resourceBundleFullBaseName}).
-     */
-    protected I18nResourceBundle()
-    { //Empty
-    }
-
-    /**
+     * Build I18nResourceBundle for locale
      *
      * @param resourceBundleFullBaseName
+     * @param locale
      * @throws IllegalArgumentException if <code>resourceBundleFullBaseName</code> is null
      */
-    protected I18nResourceBundle( final String resourceBundleFullBaseName )
+    protected I18nResourceBundle( //
+        final String resourceBundleFullBaseName,
+        final Locale locale
+        )
     {
+        if( resourceBundleFullBaseName == null ) {
+            throw newIllegalArgumentException( "resourceBundleFullBaseName is null" );
+            }
+
+        if( locale == null ) {
+            throw newIllegalArgumentException( "locale is null" );
+            }
+
         this.resourceBundleFullBaseName = resourceBundleFullBaseName;
 
-        if( resourceBundleFullBaseName == null ) {
-            throw new IllegalArgumentException(
-                new NullPointerException( "resourceBundleFullBaseName is null" )
-                );
-            }
+        buildResourceBundle( locale );
+    }
+
+    private IllegalArgumentException newIllegalArgumentException( final String message )
+    {
+        return new IllegalArgumentException(
+            new NullPointerException( message )
+            );
     }
 
     /**
      * Create I18nResourceBundle using giving
      * resource bundle and resource bundle baseName
      *
-     * @param resourceBundle            ResourceBundle to use
-     * @param resourceBundleBaseName    base name for this resource bundle
+     * @param resourceBundle             ResourceBundle to use
+     * @param resourceBundleFullBaseName base name for this resource bundle
      */
     public I18nResourceBundle(
-            final ResourceBundle    resourceBundle,
-            final String            resourceBundleBaseName
+            final ResourceBundle resourceBundle,
+            final String         resourceBundleFullBaseName
             )
     {
-        this( resourceBundleBaseName );
+        this( resourceBundleFullBaseName, resourceBundle.getLocale() );
+
         this.resourceBundle = resourceBundle;
     }
 
     @Override // I18nInterface
-    public String getString(String key)
+    public String getString( final String key )
         throws MissingResourceException
     {
         try {
@@ -100,7 +109,7 @@ public class I18nResourceBundle implements I18nInterface
      * @param out where to write the serialized stream
      * @throws IOException if any
      */
-    private void writeObject( ObjectOutputStream out ) throws IOException
+    private void writeObject( final ObjectOutputStream out ) throws IOException
     {
         // Default serialization process (store baseName for this resourceBundle)
         out.defaultWriteObject();
@@ -109,7 +118,7 @@ public class I18nResourceBundle implements I18nInterface
         out.writeObject( resourceBundle.getLocale() );
     }
 
-    private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException
+    private void readObject( final ObjectInputStream in ) throws IOException, ClassNotFoundException
     {
         // Default serialization process  (restore baseName for this resourceBundle)
         in.defaultReadObject();
@@ -118,12 +127,21 @@ public class I18nResourceBundle implements I18nInterface
         Locale locale = Locale.class.cast( in.readObject() );
 
         // Build a new ResourceBundle
+        buildResourceBundle( locale );
+    }
+
+    private void buildResourceBundle( final Locale locale )
+    {
         resourceBundle = ResourceBundle.getBundle( resourceBundleFullBaseName, locale );
     }
 
-    protected void setResourceBundle( ResourceBundle resourceBundle )
+    protected void setResourceBundle( //
+        final ResourceBundle resourceBundle, //
+        final String resourceBundleFullBaseName //
+        )
     {
         this.resourceBundle = resourceBundle;
+        this.resourceBundleFullBaseName = resourceBundleFullBaseName;
     }
 
     protected String getResourceBundleFullBaseName()
