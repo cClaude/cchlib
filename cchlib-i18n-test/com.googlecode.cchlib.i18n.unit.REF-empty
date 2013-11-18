@@ -1,0 +1,35 @@
+#Create by :com.googlecode.cchlib.i18n.core.I18nPrep
+#Mon Nov 18 16:00:43 CET 2013
+com.googlecode.cchlib.i18n.unit.I18nStringTest.myString=my string text 1
+com.googlecode.cchlib.i18n.unit.I18nToolTipTextTest.myButtonWithToolTipText1=my button with tool tip text 1
+I18nBaseNameTest.MyString2ID=this is my String 2
+com.googlecode.cchlib.i18n.unit.I18nToolTipTextTest.myButtonWithToolTipText1.ToolTipText=my tool tip text 1
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJTextArea=this is my JTextArea text
+I18nBaseNameTest.myJLabel1=my JLabel 1 text
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJCheckBox=my JCheckBox text
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myJButton=my JButton text
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.ToolTipText.3=Tool tip text 4
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.ToolTipText.2=Tool tip text 3
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.ToolTipText.1=Tool tip text 2
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJTextField=this is my JTextField text
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.ToolTipText.0=Tool tip text 1
+GlobalStringID=my Global string 1 text
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myJCheckBox=my JCheckBox text
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJLabel=my JLabel text
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.3=Title 4
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.2=Title 3
+com.googlecode.cchlib.i18n.unit.I18nToolTipTextIgnoreTest.myButtonWithToolTipText1.ToolTipText=my tool tip text 1
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.1=Title 2
+com.googlecode.cchlib.i18n.unit.I18nToolTipText_for_JTabbedPaneTest.myJTabbedPane.0=Title 1
+I18nBaseNameTest.myString1=this is my String 1
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myTitledBorder=my myTitledBorder text
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myTitledBorder=my myTitledBorder text
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJEditorPane=this is my JEditorPane text
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myJLabel=my JLabel text
+I18nBaseNameTest.MyJLabel2ID=my JLabel 2 text
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myJTabbedPane.1=my JTabbedPane panel2
+com.googlecode.cchlib.i18n.unit.I18nDefaultTest.myJTabbedPane.0=my JTabbedPane panel1
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJTabbedPane.1=my JTabbedPane panel2
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJTabbedPane.0=my JTabbedPane panel1
+com.googlecode.cchlib.i18n.unit.I18nForcedTest.myJButton=my JButton text
+com.googlecode.cchlib.i18n.unit.AutoI18nBasicInterfaceTest.myAutoI18nBasicInterface=my MyAutoI18nBasicInterface text 1
