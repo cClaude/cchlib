@@ -20,7 +20,6 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -64,7 +63,7 @@ public final class DefaultDFToolKit
     {
         return new DefaultI18nResourceBundleName(
                 MyResourcesLoader.class,
-                I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME
+                DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }
 
