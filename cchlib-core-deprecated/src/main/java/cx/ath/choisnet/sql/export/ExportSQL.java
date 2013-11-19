@@ -316,7 +316,12 @@ public class ExportSQL  implements Closeable
     @Override
     public void close()
     {
-        try { if(_exporter != null) _exporter.close(); } catch(Exception e) {}
+        try {
+            if( _exporter != null ) {
+                _exporter.close();
+                }
+            }
+        catch(Exception ignore) {}
     }
 
 }

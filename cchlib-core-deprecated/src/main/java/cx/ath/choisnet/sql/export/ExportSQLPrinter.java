@@ -183,7 +183,10 @@ final class ExportSQLPrinter implements Closeable
     @Override
     public void close()
     {
-        try { if(s != null) s.close(); } catch(Exception e) {}
+        try {
+            if(s != null) { s.close(); }
+            }
+        catch(Exception e) {}
     }
 
 }

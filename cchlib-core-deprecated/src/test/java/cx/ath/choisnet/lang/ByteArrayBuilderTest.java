@@ -245,7 +245,7 @@ public class ByteArrayBuilderTest
         for(int i = 0;i<100;i++) {
             bab.append( OTHERBYTES );
             }
-        
+
         bab.append( BYTES );
 
         boolean sw0 = bab.endsWith( new ByteArrayBuilder(BYTES) );
@@ -261,7 +261,7 @@ public class ByteArrayBuilderTest
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         assertEquals("Should be equals",0,bab.compareTo( new ByteArrayBuilder(BYTES) ));
-        assertTrue("Should be diffents",0!=bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ));
+        assertTrue("Should be diffents",bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ) != 0);
     }
 
     @Test

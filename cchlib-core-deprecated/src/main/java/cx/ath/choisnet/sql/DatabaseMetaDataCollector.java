@@ -1,3 +1,4 @@
+// $codepro.audit.disable emptyCatchClause, com.instantiations.assist.eclipse.analysis.doNotImplementSerializable
 package cx.ath.choisnet.sql;
 
 import java.io.Serializable;

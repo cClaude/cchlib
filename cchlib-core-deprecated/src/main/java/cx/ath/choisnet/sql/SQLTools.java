@@ -11,7 +11,7 @@ public final class SQLTools
     /**
      * (Expected String,Replace String)
      */
-    private final static String[][] REMPLACEPHRASE = {
+    private static final String[][] REMPLACEPHRASE = {
             {"'", "\\'"},
             {"\\", "\\\\"}
         };
@@ -112,7 +112,7 @@ public final class SQLTools
          for(int pi = 0; pi<parts.length; pi++ ) {
              private_parseFieldValue( a, parts[ pi ], idx + 1 );
 
-             if( pi < parts.length - 1 ) {
+             if( pi < (parts.length - 1) ) {
                  a.append( REMPLACEPHRASE[idx][1] );
                  }
              }

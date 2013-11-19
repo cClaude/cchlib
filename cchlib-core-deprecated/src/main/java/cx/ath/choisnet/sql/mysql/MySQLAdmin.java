@@ -1,3 +1,4 @@
+// $codepro.audit.disable emptyCatchClause
 package cx.ath.choisnet.sql.mysql;
 
 import cx.ath.choisnet.io.ParallelOutputStream;

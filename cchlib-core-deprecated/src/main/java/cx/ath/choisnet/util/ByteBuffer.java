@@ -86,7 +86,7 @@ public class ByteBuffer
             int newLength;
 
             for(newLength = buffer.length; newLength < minimumCapacity; ) {
-                newLength = newLength + 1 << 1;
+                newLength = (newLength + 1) << 1;
             }
             byte[] newBuffer = new byte[newLength];
 
@@ -205,7 +205,7 @@ public class ByteBuffer
     @Override
     public int compareTo(ByteBuffer aByteBuffer)
     {
-        int length = lastPos >= aByteBuffer.lastPos ? aByteBuffer.lastPos : lastPos;
+        int length = (lastPos >= aByteBuffer.lastPos) ? aByteBuffer.lastPos : lastPos;
 
         for(int i = 0; i < length; i++) {
             int cmp = buffer[i] - aByteBuffer.buffer[i];

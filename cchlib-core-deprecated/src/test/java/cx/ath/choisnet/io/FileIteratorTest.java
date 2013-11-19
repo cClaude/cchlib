@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.IOHelper;
 @Deprecated
 public class FileIteratorTest
 {
-    final private static Logger LOGGER = Logger.getLogger(FileIteratorTest.class);
+    private static final Logger LOGGER = Logger.getLogger(FileIteratorTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
     public static final File ROOT_FILE = TEMP_DIR_FILE;

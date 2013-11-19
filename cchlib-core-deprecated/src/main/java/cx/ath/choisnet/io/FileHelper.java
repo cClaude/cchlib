@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package cx.ath.choisnet.io;
 
 import java.io.BufferedInputStream;
@@ -177,16 +178,16 @@ public final class FileHelper
      * @return content of File
      * @throws IOException  if any error occur
      */
-    public static String toString( File file )
+    public static String toString( final File file )
         throws IOException
     {
-        Reader r = new FileReader( file );
+        final Reader reader = new FileReader( file );
 
         try {
-            return ReaderHelper.toString( r );
+            return ReaderHelper.toString( reader );
             }
         finally {
-            r.close();
+            reader.close();
             }
     }
 

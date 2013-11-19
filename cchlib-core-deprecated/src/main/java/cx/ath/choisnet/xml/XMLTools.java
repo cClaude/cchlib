@@ -1,3 +1,4 @@
+// $codepro.audit.disable
 package cx.ath.choisnet.xml;
 
 import org.w3c.dom.Node;
@@ -46,7 +47,7 @@ public class XMLTools
                         .append("}\n")
                         .toString()
                         );
-        } 
+        }
         else {
             NodeList nodeList = aNode.getChildNodes();
             int      len      = nodeList.getLength();
@@ -75,15 +76,15 @@ public class XMLTools
     }
 
     private static void nodeToStringBuffer(
-            StringBuffer    sb, 
-            NodeList        nodeList, 
+            StringBuffer    sb,
+            NodeList        nodeList,
             String          tabulation
             )
     {
         int len = nodeList.getLength();
 
         for(int i = 0; i < len; i++) {
-            XMLTools.nodeToStringBuffer(sb, 
+            XMLTools.nodeToStringBuffer(sb,
                     nodeList.item(i),
                     (new StringBuilder())
                         .append(tabulation)

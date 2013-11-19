@@ -1,3 +1,4 @@
+// $codepro.audit.disable emptyCatchClause, numericLiterals
 package cx.ath.choisnet.io;
 
 import java.io.BufferedInputStream;

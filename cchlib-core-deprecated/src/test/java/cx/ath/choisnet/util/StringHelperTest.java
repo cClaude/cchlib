@@ -1,3 +1,4 @@
+// $codepro.audit.disable concatenationInAppend
 package cx.ath.choisnet.util;
 
 import org.junit.After;
