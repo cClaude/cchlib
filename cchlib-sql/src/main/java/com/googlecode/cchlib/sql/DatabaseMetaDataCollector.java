@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidInstantiationInLoops
 package com.googlecode.cchlib.sql;
 
 import java.io.Serializable;
@@ -124,7 +125,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
      * @return list of table name for current schema
      * @throws SQLException if a database access error occurs
      */
-    public List<String> getTableList(final String...tableTypes) 
+    public List<String> getTableList(final String...tableTypes)
         throws SQLException
     {
         final List<String>  values      = new ArrayList<String>();

@@ -129,7 +129,7 @@ public class DataSourceFactory
                     if((conn != null) && !conn.isClosed()) {
                         break;
                         }
-                    conn = DriverManager.getConnection( url, username, password );
+                    conn = getDriverManagerConnection( url, username, password );
 
                     if( conn.isClosed() && (dsLogger != null) ) {
                         dsLogger.log(
@@ -234,7 +234,7 @@ public class DataSourceFactory
                     if((conn != null) && !conn.isClosed()) {
                         break;
                         }
-                    conn = DriverManager.getConnection( url, username, password );
+                    conn = getDriverManagerConnection( url, username, password );
 
                     if( conn.isClosed() && (pw != null) ) {
                         pw.println( "*** Connection is closed !" );
@@ -243,6 +243,7 @@ public class DataSourceFactory
 
                 return conn;
             }
+
             @Override
             public int getLoginTimeout()
             {
@@ -285,66 +286,11 @@ public class DataSourceFactory
         };
     }
 
-//    /**
-//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,PrintWriter)
-//     */
-//    @D eprecated
-//    public static DataSource buildMySQLDataSource(
-//            String url,
-//            String username,
-//            String password
-//            )
-//        throws ClassNotFoundException
-//    {
-//        return MySQLDataSourceFactory.buildMySQLDataSource(
-//                url,
-//                username,
-//                password,
-//                new PrintWriter( System.err )
-//                );
-//    }
-
-//    /**
-//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,String,String,String,PrintWriter)
-//     */
-//    @D eprecated
-//    public static DataSource buildMySQLDataSource(
-//            String dbHostName,
-//            String dbName,
-//            String username,
-//            String password
-//            )
-//        throws ClassNotFoundException
-//    {
-//        return MySQLDataSourceFactory.buildMySQLDataSource(
-//                dbHostName,
-//                dbName,
-//                username,
-//                password,
-//                new PrintWriter( System.err )
-//                );
-//    }
-
-//    /**
-//     * @ see MySQLDataSourceFactory#buildMySQLDataSource(String,int,String,String,String,PrintWriter)
-//     */
-//    @D eprecated
-//    public static DataSource buildMySQLDataSource(
-//            String      dbHostName,
-//            int         dbPort,
-//            String      dbName,
-//            String      username,
-//            String      password
-//            )
-//        throws ClassNotFoundException
-//    {
-//        return MySQLDataSourceFactory.buildMySQLDataSource(
-//            dbHostName,
-//            dbPort,
-//            dbName,
-//            username,
-//            password,
-//            new PrintWriter( System.err )
-//            );
-//    }
+    private static Connection getDriverManagerConnection( //
+        final String url, //
+        final String username, //
+        final String password ) throws SQLException
+    {
+        return DriverManager.getConnection( url, username, password );
+    }
 }

@@ -19,8 +19,8 @@ public class TestBean implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((aString == null) ? 0 : aString.hashCode());
-        result = prime * result + anInt;
+        result = (prime * result) + ((aString == null) ? 0 : aString.hashCode());
+        result = (prime * result) + anInt;
         return result;
     }
 
