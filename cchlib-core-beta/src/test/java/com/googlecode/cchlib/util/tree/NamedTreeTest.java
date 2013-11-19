@@ -15,36 +15,27 @@ public class NamedTreeTest
     private static final Logger LOGGER = Logger.getLogger( NamedTreeTest.class );
     private int count;
 
-    @Test
-    public void test_errors()
+    @Test(expected = NullPointerException.class)
+    public void test_errors() throws BadRootNameException
     {
-        NamedTree<Integer> tree = new NamedTree<Integer>();
+        final NamedTree<Integer> tree = new NamedTree<Integer>();
 
-        try {
-            //Should crash
-            tree.put( 1, (String[])null );
-            Assert.fail();
-            }
-        catch( NullPointerException ok ) {
-            //Ok
-            }
-        catch( BadRootNameException e ) {
-            Assert.fail();
-            }
+        tree.put( 1, (String[])null );
     }
 
     @Test
     public void test_add() throws BadRootNameException
     {
-        NamedTree<Integer> tree = new NamedTree<Integer>();
+        final NamedTree<Integer> tree = new NamedTree<Integer>();
 
         tree.put( 1, "root", "pane1" );
         tree.put( 0, "root" );
         tree.put( 2, "root.pane2".split( "\\." ) );
         tree.put( 3, "root", "pane3" );
         tree.put( 4, "root", "pane1", "panel1-1" );
+
         //Count of tree node.
-        int size = tree.size();
+        final int size = tree.size();
 
         // Replace value (so size should not change)
         tree.put( 40, "root", "pane1", "panel1-1" );
@@ -56,7 +47,7 @@ public class NamedTreeTest
             new Visitor<NamedTreeNode<Integer>>()
             {
                 @Override
-                public VisitResult visite( NamedTreeNode<Integer> entry )
+                public VisitResult visite( final NamedTreeNode<Integer> entry )
                 {
                     count++;
                     displayNode( entry );
@@ -70,7 +61,8 @@ public class NamedTreeTest
         Iterator<BinaryTreeNode<Integer>> iter = BinaryTree.createInOrderIterator( tree.getRoot() );
 
         while( iter.hasNext() ) {
-            NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+            final NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+
             displayNode( entry );
             count++;
             }
@@ -81,7 +73,8 @@ public class NamedTreeTest
         iter = BinaryTree.createPostOrderIterator( tree.getRoot() );
 
         while( iter.hasNext() ) {
-            NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+            final NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+
             displayNode( entry );
             count++;
             }
@@ -92,7 +85,8 @@ public class NamedTreeTest
         iter = BinaryTree.createPreOrderIterator( tree.getRoot() );
 
         while( iter.hasNext() ) {
-            NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+            final NamedTreeNode<Integer> entry = (NamedTreeNode<Integer>)iter.next();
+
             displayNode( entry );
             count++;
             }
@@ -104,7 +98,7 @@ public class NamedTreeTest
                 new Visitor<NamedTreeNode<Integer>>()
                 {
                     @Override
-                    public VisitResult visite( NamedTreeNode<Integer> entry )
+                    public VisitResult visite( final NamedTreeNode<Integer> entry )
                     {
                         displayNode( entry );
                         count++;
@@ -116,16 +110,16 @@ public class NamedTreeTest
         count = 0;
     }
 
-    private void displayNode( NamedTreeNode<Integer> n )
+    private void displayNode( final NamedTreeNode<Integer> node )
     {
         StringBuilder sb = new StringBuilder();
 
         sb.append( "node:" );
-        sb.append( n.getName() );
+        sb.append( node.getName() );
         sb.append( " - content:" );
-        sb.append( n.getData() );
+        sb.append( node.getData() );
         sb.append( " - path:" );
-        sb.append( n.getPath() );
+        sb.append( node.getPath() );
 
         LOGGER.info( sb.toString() );
     }

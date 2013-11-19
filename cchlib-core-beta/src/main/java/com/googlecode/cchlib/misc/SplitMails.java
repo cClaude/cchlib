@@ -13,8 +13,8 @@ import java.util.Iterator;
  */
 public class SplitMails implements Iterable<InputStream>
 {
-    public final static String TESTINFILE_REL_FROM_USERHOME = "Bureau/jup60/jup60.mails2";
-    public final static String TESTOUTDIR = "C:/temp/";
+    public static final String TESTINFILE_REL_FROM_USERHOME = "Bureau/jup60/jup60.mails2";
+    public static final String TESTOUTDIR = "C:/temp/";
 
     private MailLineInputStream thunderbirdMails;
 
