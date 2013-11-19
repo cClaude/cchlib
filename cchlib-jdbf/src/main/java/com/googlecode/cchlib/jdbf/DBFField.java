@@ -194,7 +194,7 @@ public class DBFField
             throw new IllegalArgumentException( "Field name cannot be null" );
             }
 
-        if( name.length() == 0 || name.length() > 10) {
+        if( (name.length() == 0) || (name.length() > 10)) {
             throw new IllegalArgumentException( "Field name should be of length 0-10" );
             }
 
