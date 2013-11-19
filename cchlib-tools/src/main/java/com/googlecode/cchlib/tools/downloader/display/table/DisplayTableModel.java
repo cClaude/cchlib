@@ -2,6 +2,8 @@ package com.googlecode.cchlib.tools.downloader.display.table;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +11,6 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadIOException;
@@ -59,10 +60,12 @@ public abstract class DisplayTableModel
         super.fireTableDataChanged();
     }
 
-    private int findEntryIndex( final URL url )
+    private int findEntryIndex( final URL url ) throws URISyntaxException
     {
+        final URI uri = url.toURI();
+
         for( Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
-            if( entry.getValue().getURL().equals( url ) ) {
+            if( entry.getValue().getURL().toURI().equals( uri ) ) {
                 return entry.getKey().intValue();
                 }
             }
@@ -142,15 +145,20 @@ public abstract class DisplayTableModel
         final DisplayTableModelEntryState state
         )
     {
-        final int index = findEntryIndex( dURL.getURL() );
+        try {
+            final int index = findEntryIndex( dURL.getURL() );
 
-        if( index == -1 ) {
-            LOGGER.fatal( "URL not in list: " + dURL );
+            if( index == -1 ) {
+                LOGGER.fatal( "URL not in list: " + dURL );
+                }
+            else {
+                list.get( index ).setState( state );
+
+                super.fireTableRowsUpdated( index, index );
+                }
             }
-        else {
-            list.get( index ).setState( state );
-
-            super.fireTableRowsUpdated( index, index );
+        catch( URISyntaxException e ) {
+            LOGGER.fatal( "updateDisplay : ", e );
             }
     }
 

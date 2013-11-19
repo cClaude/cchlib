@@ -15,7 +15,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  */
 class GDAI_tumblr_com_ConfigLoader
 {
-    private final static Logger LOGGER = Logger.getLogger( GDAI_tumblr_com_ConfigLoader.class );
+    private static final Logger LOGGER = Logger.getLogger( GDAI_tumblr_com_ConfigLoader.class );
     
     private PropertiesPopulator<GDAI_tumblr_com_ConfigLoader> pp = new PropertiesPopulator<GDAI_tumblr_com_ConfigLoader>( this.getClass() );
     

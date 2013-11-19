@@ -27,7 +27,7 @@ public class Message
      * @param mis
      * @throws IOException
      */
-    public Message(MessageInputStream mis)
+    public Message( final MessageInputStream mis )
         throws IOException
     {
         final byte[]            buffer   = new byte[ 8192 ];
@@ -116,10 +116,11 @@ public class Message
         return Collections.unmodifiableList( this.headerList );
     }
 
-    public String[] getHeaderValues(String name)
+    public String[] getHeaderValues( final String name )
     {
         return null;
     }
+
     /**
      * Returns body message
      * @return body message in a String
@@ -128,25 +129,5 @@ public class Message
     {
         return body;
     }
-/**
-    From
-    X-grid-version: 0000
-    Date: Fri, 22 Jan 2010 20:13:08 +0100 (CET)
-    From: 0623494949@sfr.fr
-    Reply-To: CHOISNET Elisabeth <null>
-    To: CHOISNET Elisabeth <null>
-    Message-ID: <15534218.96631264187588882.JavaMail.www@wsfrf0123>
-    Subject: Appel-moi lorsque tu...
-    MIME-Version: 1.0
-    Content-Type: text/plain
-    Content-Transfer-Encoding: quoted-printable
-    Message-Context: pager-message
-    X-WUM-FROM: |~|
-    X-WUM-TO: "CHOISNET Elisabeth" <0610397422>|~|
-    X-WUM-REPLYTO: "CHOISNET Elisabeth" <0610397422>|~|
-    X-Wum-Nature: SMS-NATURE
-
-    Appel-moi lorsque tu est rentr=C3=A9e. Merci.
-*/
 }
 

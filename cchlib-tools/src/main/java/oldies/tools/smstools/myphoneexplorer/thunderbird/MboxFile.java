@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 public class MboxFile
     implements Closeable
 {
-    private final static Logger LOGGER = Logger.getLogger( MboxFile.class );
+    private static final Logger LOGGER = Logger.getLogger( MboxFile.class );
     
 
 
@@ -175,7 +175,7 @@ public class MboxFile
                     LOGGER.debug( "Found match at [" + (offset + (long)matcher.start()) + "]" );
                 }
 
-                if(offset + (long)bufferSize >= getChannel().size()) {
+                if((offset + (long)bufferSize) >= getChannel().size()) {
                     break;
                 }
 
@@ -227,7 +227,7 @@ public class MboxFile
             long position = getMessagePositions()[index].longValue();
             long size;
             
-            if(index < getMessagePositions().length - 1) {
+            if(index < (getMessagePositions().length - 1)) {
                 size = getMessagePositions()[index + 1].longValue() - getMessagePositions()[index].longValue();
             } 
             else {
@@ -396,7 +396,7 @@ public class MboxFile
                 );
             return false;
         }
-        boolean flag = line == null || VALID_MBOX_PATTERN.matcher(line).matches();
+        boolean flag = (line == null) || VALID_MBOX_PATTERN.matcher(line).matches();
 
         if(reader != null) {
             try {

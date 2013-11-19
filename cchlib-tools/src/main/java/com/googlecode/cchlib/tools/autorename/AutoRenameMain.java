@@ -18,8 +18,8 @@ public class AutoRenameMain {
             );
     
    private File homeDir;
-   private final static FileFilter dirFileFilter    = new DirFileFilter();
-   private final static FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
+   private static final FileFilter dirFileFilter    = new DirFileFilter();
+   private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
 //    //private final static Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
 //    private final static String  pLevel1Str      =  "\\d\\d\\d\\d\\.";
 //    private final static Pattern pLevel1         = Pattern.compile( pLevel1Str + ".*" );

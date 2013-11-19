@@ -33,7 +33,7 @@ import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
  */
 public class GenericDownloader
 {
-    private final Logger LOGGER = Logger.getLogger( GenericDownloader.class );
+    private final static Logger LOGGER = Logger.getLogger( GenericDownloader.class );
 
     private Object lock = new Object();
     private final URICache cache;
@@ -252,8 +252,6 @@ public class GenericDownloader
 
                 updateDisplay();
             }
-
-
 
             @Override
             public File createDownloadTmpFile() throws IOException

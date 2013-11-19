@@ -1,6 +1,4 @@
-/**
- *
- */
+// $codepro.audit.disable blockDepth
 package com.googlecode.cchlib.tools.autorename;
 
 import java.io.File;
@@ -45,11 +43,10 @@ public class AutoRenameStep1Main {
 
     public void doJobLevel1( final File dirFile )
     {
-        File[] dirs = dirFile.listFiles( dirFileFilter );
+        final File[] dirs = dirFile.listFiles( dirFileFilter );
 
         if( dirs != null ) {
             for( File d : dirs ) {
-//                renameIfMatchLevel1( dir );
                 String  name = d.getName();
                 Matcher m1   = pLevel1.matcher( name );
 
@@ -73,7 +70,10 @@ public class AutoRenameStep1Main {
                                 dd = "00";
                             }
 
-                            File newFile = new File( dirFile, yyyy + "-" + mm + "-" + dd + "." + end );
+                            File newFile = new File(
+                                    dirFile,
+                                    yyyy + "-" + mm + "-" + dd + "." + end
+                                    );
 
 //                            System.out.println( "Found (case" + i + "): " + d +" ==> : " + newFile );
 
@@ -81,10 +81,10 @@ public class AutoRenameStep1Main {
 
                             if( res ) {
                                 doJobLevel2( newFile );
-                            }
+                                }
                             else {
                                 System.err.println( "Can't rename [" + d + "] to [" + newFile + "]" );
-                            }
+                                }
                             break;
                         }
                     }
@@ -98,7 +98,7 @@ public class AutoRenameStep1Main {
 
     public void doJobLevel2( final File dirFile )
     {
-        File[] dirs = dirFile.listFiles( level2FileFilter );
+        final File[] dirs = dirFile.listFiles( level2FileFilter );
 
         if( dirs != null ) {
             for( File d : dirs ) {
@@ -109,7 +109,7 @@ public class AutoRenameStep1Main {
 
     public void doJobLevel3( final File dirFile )
     {
-        File[] dirs = dirFile.listFiles( dirFileFilter );
+        final File[] dirs = dirFile.listFiles( dirFileFilter );
 
         if( dirs != null ) {
             for( File d : dirs ) {

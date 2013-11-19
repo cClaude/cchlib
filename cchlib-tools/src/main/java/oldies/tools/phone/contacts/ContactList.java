@@ -16,6 +16,6 @@ public interface ContactList
     ContactProperties getContactProperties();
 
     void add( Contact contact );
-    boolean remove( Contact contact );
+    boolean remove( Contact contact ); // $codepro.audit.disable booleanMethodNamingConvention
     int size();
 }

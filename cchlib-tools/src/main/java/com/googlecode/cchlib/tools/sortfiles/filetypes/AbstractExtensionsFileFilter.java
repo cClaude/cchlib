@@ -29,14 +29,12 @@ public abstract class AbstractExtensionsFileFilter extends AbstractXFileFilter i
 
     protected abstract String customiseExtension( final String extension );
     
-    final
-    public String[] getEndsWiths()
+    public final String[] getEndsWiths()
     {
         return endsWiths;
     }
     
-    final
-    public List<String> getEndsWithsList()
+    public final List<String> getEndsWithsList()
     {
         return Arrays.asList( getEndsWiths() );
     }

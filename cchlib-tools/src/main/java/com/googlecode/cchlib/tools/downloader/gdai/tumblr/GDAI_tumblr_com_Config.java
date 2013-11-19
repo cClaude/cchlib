@@ -113,7 +113,7 @@ class GDAI_tumblr_com_Config
 
             DefaultEntry entry = new DefaultEntry(
                 StringHelper.nullToEmpty( name.toString() ),
-                StringHelper.nullToEmpty( desc ==  null ? null : desc.toString() )
+                StringHelper.nullToEmpty( (desc ==  null) ? null : desc.toString() )
                 );
 
             entries.add( entry );

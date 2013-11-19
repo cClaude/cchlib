@@ -28,7 +28,7 @@ enum DisplayTableModelEntryState {
 class DisplayTableModelEntry implements Serializable
 {
     private static final long serialVersionUID = 2L;
-    public final static int ENTRY_COLUMN_COUNT = 3;
+    public static final int ENTRY_COLUMN_COUNT = 3;
     private DownloadURL dURL;
     private DisplayTableModelEntryState state;
 
