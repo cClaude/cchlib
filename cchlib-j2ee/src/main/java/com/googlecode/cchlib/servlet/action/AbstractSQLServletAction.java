@@ -89,8 +89,8 @@ public abstract class AbstractSQLServletAction
             throw new ServletActionException( e );
             }
         finally {
-            if( connection != null ) { try{ connection.close(); } catch(Exception ignore) {}}
             if( statement  != null ) { try{ statement.close();  } catch(Exception ignore) {}}
+            if( connection != null ) { try{ connection.close(); } catch(Exception ignore) {}}
             }
 
         return nextAction;

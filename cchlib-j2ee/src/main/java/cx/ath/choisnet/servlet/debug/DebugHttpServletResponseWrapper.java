@@ -21,7 +21,7 @@ public class DebugHttpServletResponseWrapper
     extends DebugServletResponseWrapper
         implements HttpServletResponse
 {
-    private final static Logger LOGGER = Logger.getLogger( DebugHttpServletResponseWrapper.class );
+    private static final Logger LOGGER = Logger.getLogger( DebugHttpServletResponseWrapper.class );
     private final HttpServletResponse response;
 
     /**
