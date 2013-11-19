@@ -173,7 +173,7 @@ public class SimpleFileDrop
         {
             private Border normalBorder;
             @Override
-            public void dragEnter( DropTargetDragEvent evt )
+            public void dragEnter( final DropTargetDragEvent evt )
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "dragEnter event." );
@@ -210,14 +210,14 @@ public class SimpleFileDrop
             }
 
             @Override
-            public void dragOver( DropTargetDragEvent evt )
+            public void dragOver( final DropTargetDragEvent evt )
             {
                 // This is called continually as long as the mouse is
                 // over the drag target.
             }
 
             @Override
-            public void drop( DropTargetDropEvent evt )
+            public void drop( final DropTargetDropEvent evt )
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "drop event." );
@@ -228,73 +228,13 @@ public class SimpleFileDrop
 
                     // Is it a file list?
                     if( tr.isDataFlavorSupported( DataFlavor.javaFileListFlavor ) ) {
-                        evt.acceptDrop( DnDConstants.ACTION_COPY );
-
-                        if( LOGGER.isTraceEnabled() ) {
-                            LOGGER.trace( "file list accepted." );
-                            }
-
-                        // Get a useful list
-                        @SuppressWarnings("unchecked")
-                        List<File> fileList = (List<File>)tr.getTransferData( DataFlavor.javaFileListFlavor );
-
-                        // Alert listener to drop.
-                        if( fileDropListener != null ) {
-                            fileDropListener.filesDropped( fileList );
-                            }
-
-                        // Mark that drop is completed.
-                        evt.getDropTargetContext().dropComplete( true );
-                        if( LOGGER.isTraceEnabled() ) {
-                            LOGGER.trace( "drop complete." );
-                            }
+                        handleJavaFileListFlavor( evt, tr );
                         }
-                    else { // this section will check for a reader flavor.
-                        // Thanks, Nathan!
-                        // BEGIN 2007-09-12 Nathan Blomquist -- Linux
-                        // (KDE/Gnome) support added.
-                        DataFlavor[] flavors = tr.getTransferDataFlavors();
-                        boolean      handled = false;
-
-                        for( int zz = 0; zz < flavors.length; zz++ ) {
-                            if( flavors[ zz ].isRepresentationClassReader() ) {
-                                evt.acceptDrop( DnDConstants.ACTION_COPY );
-
-                                if( LOGGER.isTraceEnabled() ) {
-                                    LOGGER.trace( "reader accepted." );
-                                    }
-
-                                Reader reader = flavors[ zz ].getReaderForText( tr );
-                                BufferedReader br = new BufferedReader( reader );
-
-                                if( fileDropListener != null ) {
-                                    try {
-                                        fileDropListener.filesDropped( createFileList( br ) );
-                                        }
-                                    catch( URISyntaxException e ) {
-                                        // TODO: add an Exception listener
-                                        LOGGER.error( StringHelper.EMPTY, e );
-                                        }
-                                    }
-
-                                // Mark that drop is completed.
-                                evt.getDropTargetContext().dropComplete( true );
-
-                                if( LOGGER.isTraceEnabled() ) {
-                                    LOGGER.trace( "drop complete." );
-                                    }
-                                handled = true;
-                                break;
-                                }
-                            }
-
-                        if( !handled ) {
-                            LOGGER.info( "not a file list or reader - abort." );
-                            evt.rejectDrop();
-                            }
-                        // END 2007-09-12 Nathan Blomquist -- Linux
-                        // (KDE/Gnome) support added.
-                    } // else: not a file list
+                    else {
+                        // this section will check for a reader flavor.
+                        handleReaderFlavor( evt, tr );
+                        }
+                    // else: not a file list
                 }
                 catch( IOException io ) {
                     LOGGER.error( "*** IOException - abort:", io );
@@ -317,8 +257,87 @@ public class SimpleFileDrop
                     }
             }
 
+            // this section will check for a reader flavor.
+            private void handleReaderFlavor( //
+                final DropTargetDropEvent evt,
+                final Transferable        tr //
+                ) throws UnsupportedFlavorException, IOException
+            {
+                // Thanks, Nathan!
+                // BEGIN 2007-09-12 Nathan Blomquist -- Linux
+                // (KDE/Gnome) support added.
+                DataFlavor[] flavors = tr.getTransferDataFlavors();
+                boolean      handled = false;
+
+                for( int zz = 0; zz < flavors.length; zz++ ) {
+                    if( flavors[ zz ].isRepresentationClassReader() ) {
+                        evt.acceptDrop( DnDConstants.ACTION_COPY );
+
+                        if( LOGGER.isTraceEnabled() ) {
+                            LOGGER.trace( "reader accepted." );
+                            }
+
+                        Reader reader = flavors[ zz ].getReaderForText( tr );
+                        BufferedReader br = new BufferedReader( reader );
+
+                        if( fileDropListener != null ) {
+                            try {
+                                fileDropListener.filesDropped( createFileList( br ) );
+                                }
+                            catch( URISyntaxException e ) {
+                                // TODO: add an Exception listener
+                                LOGGER.error( StringHelper.EMPTY, e );
+                                }
+                            }
+
+                        // Mark that drop is completed.
+                        evt.getDropTargetContext().dropComplete( true );
+
+                        if( LOGGER.isTraceEnabled() ) {
+                            LOGGER.trace( "drop complete." );
+                            }
+                        handled = true;
+                        break;
+                        }
+                    }
+
+                if( !handled ) {
+                    LOGGER.info( "not a file list or reader - abort." );
+                    evt.rejectDrop();
+                    }
+                // END 2007-09-12 Nathan Blomquist -- Linux
+                // (KDE/Gnome) support added.
+            }
+
+            private void handleJavaFileListFlavor( //
+                final DropTargetDropEvent evt, //
+                final Transferable        tr //
+                ) throws UnsupportedFlavorException, IOException
+            {
+                evt.acceptDrop( DnDConstants.ACTION_COPY );
+
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "file list accepted." );
+                    }
+
+                // Get a useful list
+                @SuppressWarnings("unchecked")
+                final List<File> fileList = (List<File>)tr.getTransferData( DataFlavor.javaFileListFlavor );
+
+                // Alert listener to drop.
+                if( fileDropListener != null ) {
+                    fileDropListener.filesDropped( fileList );
+                    }
+
+                // Mark that drop is completed.
+                evt.getDropTargetContext().dropComplete( true );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "drop complete." );
+                    }
+            }
+
             @Override
-            public void dragExit( DropTargetEvent evt )
+            public void dragExit( final DropTargetEvent evt )
             {
                 LOGGER.info( "FileDrop: dragExit event." );
                 // If it's a Swing component, reset its border
@@ -333,7 +352,7 @@ public class SimpleFileDrop
             }
 
             @Override
-            public void dropActionChanged( DropTargetDragEvent evt )
+            public void dropActionChanged( final DropTargetDragEvent evt )
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "FileDrop: dropActionChanged event." );
@@ -364,11 +383,11 @@ public class SimpleFileDrop
     // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
     private static String ZERO_CHAR_STRING =  Character.toString( (char)0 );
 
-    private static List<File> createFileList( BufferedReader bReader )
+    private static List<File> createFileList( final BufferedReader bReader )
             throws IOException, URISyntaxException
     {
-        List<File> list = new ArrayList<File>();
-        String line;
+        final List<File> list = new ArrayList<File>();
+        String           line;
 
         while( (line = bReader.readLine()) != null ) {
             // kde seems to append a 0 char to the end of the reader
@@ -396,15 +415,17 @@ public class SimpleFileDrop
         // parent gets cleared out.
         component.addHierarchyListener( new HierarchyListener() {
             @Override
-            public void hierarchyChanged( HierarchyEvent evt )
+            public void hierarchyChanged( final HierarchyEvent evt )
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "FileDrop: Hierarchy changed." );
                     }
 
-                Component parent = component.getParent();
+                final Component parent = component.getParent();
+
                 if( parent == null ) {
                     component.setDropTarget( null );
+
                     if( LOGGER.isTraceEnabled() ) {
                         LOGGER.trace( "Drop target cleared from component." );
                         }
@@ -429,7 +450,7 @@ public class SimpleFileDrop
             Container container = (Container)component;
 
             // Get it's components
-            Component[] subComponents = container.getComponents();
+            final Component[] subComponents = container.getComponents();
 
             // Set it's components as listeners also
             for( int i = 0; i < subComponents.length; i++ ) {
@@ -453,11 +474,11 @@ public class SimpleFileDrop
             }
 
         // Get data flavors being dragged
-        DataFlavor[] flavors = evt.getCurrentDataFlavors();
+        final DataFlavor[] flavors = evt.getCurrentDataFlavors();
 
         // See if any of the flavors are a file list
         int i = 0;
-        while( !ok && i < flavors.length ) {
+        while( !ok && (i < flavors.length) ) {
             // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support
             // added.
             // Is the flavor a file list?
@@ -507,12 +528,12 @@ public class SimpleFileDrop
      * @param c  The component to unregister
      * @param recursive Recursively unregister components within a container
      */
-    private static void remove( Component c, boolean recursive )
+    private static void remove( final Component c, final boolean recursive )
     {
         c.setDropTarget( null );
 
         if( recursive && (c instanceof Container) ) {
-            Component[] comps = ((Container)c).getComponents();
+            final Component[] comps = ((Container)c).getComponents();
 
             for( int i = 0; i < comps.length; i++ ) {
                 remove( comps[ i ], recursive );
@@ -534,7 +555,7 @@ public class SimpleFileDrop
         final SimpleFileDropListener    fileDropListener
         )
     {
-        SimpleFileDrop instance = new SimpleFileDrop( dropTarget, fileDropListener );
+        final SimpleFileDrop instance = new SimpleFileDrop( dropTarget, fileDropListener );
 
         try {
             instance.addDropTargetListener();
@@ -567,14 +588,9 @@ public class SimpleFileDrop
     {
         return createSimpleFileDrop( jList, new SimpleFileDropListener() {
             @Override
-            public void filesDropped( List<File> files )
+            public void filesDropped( final List<File> files )
             {
                 for( File file : files ) {
-//                    if( ! selectionMode.contains( SelectionMode.DUPLICATE_ENTRIES_ALLOWED ) ) {
-//                        if( jListModel.contains( file ) ) {
-//                            continue;
-//                            }
-//                        }
                     switch( selectionFilter ) {
                         case DIRECTORIES_ONLY:
                             if( file.isDirectory() ) {
@@ -584,9 +600,11 @@ public class SimpleFileDrop
                                 LOGGER.info( "Ignore '" + file + "' not a directory." );
                                 }
                             break;
+
                         case FILES_AND_DIRECTORIES:
                             jListModel.addElement( file );
                             break;
+
                         case FILES_ONLY:
                             if( file.isFile() ) {
                                 jListModel.addElement( file );
