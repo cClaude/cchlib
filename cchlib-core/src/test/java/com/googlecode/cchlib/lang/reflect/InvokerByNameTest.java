@@ -147,8 +147,9 @@ public class InvokerByNameTest
         InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
         Object[] params = new Object[] {};
 
-        @SuppressWarnings("unused")
         Object result = fixture.invoke(null, params); // No method like these
+
+        Assertions.assertThat( result ).isNotNull();
     }
 
     /**
@@ -161,9 +162,9 @@ public class InvokerByNameTest
         InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
         Object[] params = new Object[] {}; // No params
 
-        @SuppressWarnings("unused")
         Object result = fixture.invoke(null, params); // No 'static' method like these
-        // -> class.invoke returns NullPointerException
+
+        Assertions.assertThat( result ).isNotNull();
     }
 
     /**
@@ -176,9 +177,9 @@ public class InvokerByNameTest
         InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
         Object[] params = new Object[] { "A" };
 
-        @SuppressWarnings("unused")
         Object result = fixture.invoke(null, params); // No 'static' method like these
-        // -> class.invoke returns NullPointerException
+
+        Assertions.assertThat( result ).isNotNull();
     }
 
     /**

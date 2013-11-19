@@ -214,10 +214,10 @@ public class Base64Decoder extends Base64
                     );
                 }
 
-            int b0 = map2[i0];
-            int b1 = map2[i1];
-            int b2 = map2[i2];
-            int b3 = map2[i3];
+            int b0 = MAP2[i0];
+            int b1 = MAP2[i1];
+            int b2 = MAP2[i2];
+            int b3 = MAP2[i3];
 
             if( b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ) {
                 throw new IllegalArgumentException(

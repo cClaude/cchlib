@@ -1,4 +1,4 @@
-// $codepro.audit.disable characterComparison, packageNamingConvention, numericLiterals
+// $codepro.audit.disable characterComparison, packageNamingConvention, numericLiterals, constantNamingConvention
 package com.googlecode.cchlib.util.base64;
 
 /**
@@ -20,30 +20,34 @@ abstract class Base64
     };
 
     // Mapping table from 6-bit nibbles to Base64 characters.
-    protected static final char[] map1 = new char[64];
+    protected static final char[] MAP1 = new char[64];
+
+    // Mapping table from 6-bit nibbles to Base64 characters.
     static {
         int i=0;
         for(char c='A'; c<='Z'; c++) {
-            map1[i++] = c;
+            MAP1[i++] = c;
             }
         for(char c='a'; c<='z'; c++) {
-            map1[i++] = c;
+            MAP1[i++] = c;
             }
         for(char c='0'; c<='9'; c++) {
-            map1[i++] = c;
+            MAP1[i++] = c;
             }
-        map1[i++] = '+';
-        map1[i++] = '/';
+        MAP1[i++] = '+';
+        MAP1[i++] = '/';
     }
 
     // Mapping table from Base64 characters to 6-bit nibbles.
-    protected static byte[] map2 = new byte[128];
+    protected static final byte[] MAP2 = new byte[128];
+
+    // Mapping table from Base64 characters to 6-bit nibbles.
     static {
-        for (int i=0; i<map2.length; i++) {
-            map2[i] = -1;
+        for (int i=0; i<MAP2.length; i++) {
+            MAP2[i] = -1;
             }
         for (int i=0; i<64; i++) {
-            map2[map1[i]] = (byte)i;
+            MAP2[MAP1[i]] = (byte)i;
             }
     }
 

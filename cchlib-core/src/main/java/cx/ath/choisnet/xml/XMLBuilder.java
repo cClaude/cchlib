@@ -31,7 +31,7 @@ public class XMLBuilder
      *
      * @param a An {@link Appendable} object
      */
-    public XMLBuilder(Appendable a)
+    public XMLBuilder(final Appendable a)
     {
         this(a, StringHelper.EMPTY, DEFAULT_TABULATION);
     }
@@ -44,10 +44,10 @@ public class XMLBuilder
      * @param incTabulation  Others levels tabulation string
      */
     public XMLBuilder(
-            Appendable  a,
-            String      initTabulation,
-            String      incTabulation
-            )
+        final Appendable  a,
+        final String      initTabulation,
+        final String      incTabulation
+        )
     {
         this.anAppendableObject = a;
      // TODO: this.initTabulation     = initTabulation;
@@ -61,9 +61,9 @@ public class XMLBuilder
      * @return this object for chaining initialization
      * @throws IOException
      */
-    public XMLBuilder append( Node aNode ) throws IOException
+    public XMLBuilder append( final Node aNode ) throws IOException
     {
-        if(aNode.getNodeType() == 3) {
+        if( aNode.getNodeType() == Node.TEXT_NODE ) {
             anAppendableObject.append(incTabulation)
                               .append('{')
                               .append(aNode.getTextContent())
@@ -98,7 +98,7 @@ public class XMLBuilder
      * @return this object for chaining initialization
      * @throws IOException
      */
-    public XMLBuilder append( NodeList nodeList )
+    public XMLBuilder append( final NodeList nodeList )
         throws IOException
     {
         final int   len             = nodeList.getLength();
@@ -129,9 +129,9 @@ public class XMLBuilder
      * @param aNode
      * @return TODOC
      */
-    public static String toString( Node aNode )
+    public static String toString( final Node aNode )
     {
-        XMLBuilder builder = new XMLBuilder(new StringBuilder());
+        final XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
         try { builder.append(aNode); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
@@ -144,10 +144,10 @@ public class XMLBuilder
      * @param nodeList
      * @return TODOC
      */
-    public static String toString( NodeList nodeList )
+    public static String toString( final NodeList nodeList )
     {
-        StringBuilder   sb      = new StringBuilder();
-        XMLBuilder      builder = new XMLBuilder(sb);
+        final StringBuilder   sb      = new StringBuilder();
+        final XMLBuilder      builder = new XMLBuilder(sb);
 
         sb.append("--------------------\n");
 

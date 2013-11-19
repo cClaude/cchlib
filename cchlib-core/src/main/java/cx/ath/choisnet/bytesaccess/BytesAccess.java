@@ -566,7 +566,10 @@ public abstract class BytesAccess implements Cloneable
     * @param mask
     * @return boolean value for given offset/mask
     */
-    protected boolean getBoolean( final int offset, final byte mask )
+    protected boolean getBoolean( // $codepro.audit.disable booleanMethodNamingConvention
+        final int offset,
+        final byte mask 
+        )
     {
         return (mask & this.bytes[ offset ]) != 0;
     }

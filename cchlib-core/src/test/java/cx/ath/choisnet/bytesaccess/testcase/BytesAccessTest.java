@@ -1,9 +1,6 @@
+// $codepro.audit.disable numericLiterals
 package cx.ath.choisnet.bytesaccess.testcase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,12 +10,13 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import cx.ath.choisnet.bytesaccess.BytesAccess;
 import cx.ath.choisnet.bytesaccess.BytesAccessException;
+import org.junit.Assert;
 
 public class BytesAccessTest
 {
-    private static Logger LOGGER = Logger.getLogger(BytesAccessTest.class);
-    private static Object nullObject = null;
-    private static final Random random = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
+    private static final Logger LOGGER = Logger.getLogger(BytesAccessTest.class);
+    private static final Object NULL_OBJECT = null;
+    private static final Random RND = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
     private static final byte[] BYTES = {
             (byte)0xDE, (byte)0xAD,
             (byte)0xBE, (byte)0xFF,
@@ -31,7 +29,7 @@ public class BytesAccessTest
     public void testFileConstructor() throws IOException
     {
         // Create a File
-        File f = File.createTempFile( '~' + getClass().getName(), ".tmp" );
+        final File f = File.createTempFile( '~' + getClass().getName(), ".tmp" );
 
         // Fill it
         final int         length = 50;
@@ -53,18 +51,18 @@ public class BytesAccessTest
         finally {
             is.close();
             }
-        assertEquals( "File Bad length!", length, f.length() );
+        Assert.assertEquals( "File Bad length!", length, f.length() );
 
         //
         BytesAccess ba = new TstOnlyBytesAccess( f, length );
-        assertEquals( "Bad length!", length, ba.getBytesCopy().length );
+        Assert.assertEquals( "Bad length!", length, ba.getBytesCopy().length );
 
         ba = new TstOnlyBytesAccess( f, length / 2 );
-        assertEquals( "Bad length!", length/2, ba.getBytesCopy().length );
+        Assert.assertEquals( "Bad length!", length/2, ba.getBytesCopy().length );
 
         try {
             ba = new TstOnlyBytesAccess( f, length * 2 );
-            fail( "Should fail here !" );
+            Assert.fail( "Should fail here !" );
             }
         catch( BytesAccessException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
             // OK
@@ -73,7 +71,7 @@ public class BytesAccessTest
         // It there any lock ?
         boolean isDelete = f.delete();
 
-        assertTrue( "Can't delete file [" + f + ']', isDelete );
+        Assert.assertTrue( "Can't delete file [" + f + ']', isDelete );
     }
 
     @Test
@@ -156,7 +154,7 @@ public class BytesAccessTest
         LOGGER.info( "r2: " + r2  );
 
         // Verify than r(n) give similar result
-        assertTrue( "mismatch advanceCompareTo(BytesAccess)=" + r1
+        Assert.assertTrue( "mismatch advanceCompareTo(BytesAccess)=" + r1
                     + " advanceCompareTo(byte[])=" + r2,
                 (r1==null)?
                         ((r2==null)?true:r2.equals( r1 ))
@@ -168,19 +166,19 @@ public class BytesAccessTest
             // Can't Continue !
             try {
                 int  r3 = ba.compareTo( compareTo );
-                fail("Should fail here : r3 = ba.compareTo( compareTo ): " + r3 );
+                Assert.fail("Should fail here : r3 = ba.compareTo( compareTo ): " + r3 );
                 }
             catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
             try {
                 int r4 = ba.compareTo( compareToBytes );
-                fail("Should fail here : r4 = ba.compareTo( compareToBytes ): " + r4 );
+                Assert.fail("Should fail here : r4 = ba.compareTo( compareToBytes ): " + r4 );
                 }
             catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
             try {
                 long r5 =BytesAccess.compare( ba.getBytesCopy(), compareToBytes );
-                fail("Should fail here : r5 = BytesAccess.compare( ba.getBytesCopy(), compareToBytes ): " + r5);
+                Assert.fail("Should fail here : r5 = BytesAccess.compare( ba.getBytesCopy(), compareToBytes ): " + r5);
                 }
             catch( IllegalArgumentException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
@@ -194,7 +192,7 @@ public class BytesAccessTest
         LOGGER.info( String.format( "r4: %1$08X", r4) );
         LOGGER.info( String.format( "r5: %1$016X", r5) );
 
-        assertTrue( "mismatch compareTo(BytesAccess)=" + r3
+        Assert.assertTrue( "mismatch compareTo(BytesAccess)=" + r3
                     + " compareTo(byte[])=" + r4,
                 r3==r4
                 );
@@ -207,7 +205,7 @@ public class BytesAccessTest
             r5int = (int)(r5 & 0x000000000000FFFFL);
             cmpCanNotStoreOffsetInInteger = true;
 
-            assertEquals(
+            Assert.assertEquals(
                     "compareTo(byte[]) bad value:",
                     r3int | 0xFFFF0000,
                     r3
@@ -219,14 +217,14 @@ public class BytesAccessTest
             cmpCanNotStoreOffsetInInteger = false;
             }
 
-        assertEquals(
+        Assert.assertEquals(
                 String.format(
                         "cmpCanNotStoreOffsetInInteger not valid(1) %1$X - %2$X", r3, r5
                         ),
                 (r5 & 0xFFFFFFFFFFFF0000L) != 0,
                 cmpCanNotStoreOffsetInInteger
                 );
-        assertEquals(
+        Assert.assertEquals(
                 String.format(
                         "cmpCanNotStoreOffsetInInteger not valid(2) %1$X - %2$X", r3, r5
                         ),
@@ -235,7 +233,7 @@ public class BytesAccessTest
                 );
 
 
-        assertEquals( "mismatch compareTo(BytesAccess)="
+        Assert.assertEquals( "mismatch compareTo(BytesAccess)="
                     + r3 + " (" + r3int + ')'
                     + " compareTo(byte[],byte[])=" + r5 + " (" + r5int + ')',
                 r3int,
@@ -243,9 +241,9 @@ public class BytesAccessTest
                 );
 
         if( r1 == null ) { // Inconsistent
-            assertTrue( "advanceCompareTo(BytesAccess), compareTo(BytesAccess) inconsistent ! null != " + r3, r3==0);
-            assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[]) inconsistent ! null != " + r4, r4==0);
-            assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[],byte[]) inconsistent ! null != " + r4, r4==0);
+            Assert.assertTrue( "advanceCompareTo(BytesAccess), compareTo(BytesAccess) inconsistent ! null != " + r3, r3==0);
+            Assert.assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[]) inconsistent ! null != " + r4, r4==0);
+            Assert.assertTrue( "advanceCompareTo(BytesAccess), compareTo(byte[],byte[]) inconsistent ! null != " + r4, r4==0);
             }
         else {
             // TODO: build a "long" from r1 (not urgent)
@@ -263,10 +261,10 @@ public class BytesAccessTest
     {
         boolean res = ba.equals( getAnyObjectForFailTest() );
 
-        assertFalse( "BytesAccess should not be equals to a String", res );
+        Assert.assertFalse( "BytesAccess should not be equals to a String", res );
 
         ba.equals( compareTo );
-        ba.equals( nullObject );
+        ba.equals( NULL_OBJECT );
     }
 
     private static void _test_todo_Or( BytesAccess ba, BytesAccess orBytesAccess )
@@ -277,8 +275,8 @@ public class BytesAccessTest
         byte[] r2 = ba.orOperator( orSomeBytes );
         byte[] r3 = BytesAccess.orOperator( ba.getBytesCopy(), orSomeBytes );
 
-        assertEquals( "or r1r2", 0, BytesAccess.compare( r1, r2 ));
-        assertEquals( "or r1r3", 0, BytesAccess.compare( r1, r3 ));
+        Assert.assertEquals( "or r1r2", 0, BytesAccess.compare( r1, r2 ));
+        Assert.assertEquals( "or r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
     private static void _test_todo_And( BytesAccess ba, BytesAccess andBytesAccess )
@@ -289,8 +287,8 @@ public class BytesAccessTest
         byte[] r2 = ba.andOperator( andSomeBytes );
         byte[] r3 = BytesAccess.andOperator( ba.getBytesCopy(), andSomeBytes );
 
-        assertEquals( "and r1r2", 0, BytesAccess.compare( r1, r2 ));
-        assertEquals( "and r1r3", 0, BytesAccess.compare( r1, r3 ));
+        Assert.assertEquals( "and r1r2", 0, BytesAccess.compare( r1, r2 ));
+        Assert.assertEquals( "and r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
     private static void _test_todo_Xor( BytesAccess ba, BytesAccess xorBytesAccess )
@@ -301,8 +299,8 @@ public class BytesAccessTest
         byte[] r2 = ba.xorOperator( xorSomeBytes );
         byte[] r3 = BytesAccess.xorOperator( ba.getBytesCopy(), xorSomeBytes );
 
-        assertEquals( "xor r1r2", 0, BytesAccess.compare( r1, r2 ));
-        assertEquals( "xor r1r3", 0, BytesAccess.compare( r1, r3 ));
+        Assert.assertEquals( "xor r1r2", 0, BytesAccess.compare( r1, r2 ));
+        Assert.assertEquals( "xor r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
     private static void _test_todo_Basic( BytesAccess ba )
@@ -341,7 +339,7 @@ public class BytesAccessTest
             public int read() throws IOException
             {
                 if( c++ < maxLen ) {
-                    random.nextBytes( byte1 );
+                    RND.nextBytes( byte1 );
                     return 0x00FF & byte1[0];
                     }
 

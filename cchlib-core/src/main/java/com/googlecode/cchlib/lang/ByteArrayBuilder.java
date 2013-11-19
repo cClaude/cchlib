@@ -30,6 +30,7 @@ public class ByteArrayBuilder
 {
     private static final long serialVersionUID = 1L;
     private static final int DEFAULT_SIZE = 2048;
+
     private transient byte[] buffer;
     private transient int    lastPos;
 
@@ -285,14 +286,16 @@ public class ByteArrayBuilder
      * @return caller for initialization chaining
      * @throws IOException if any I/O occurs
      */
-    public ByteArrayBuilder append(@Nonnull final ReadableByteChannel channel, @Nonnegative final int bufferSize)
+    public ByteArrayBuilder append( //
+        @Nonnull     final ReadableByteChannel channel, //
+        @Nonnegative final int                 bufferSize)
         throws IOException
     {
-        byte[] byteBuffer = new byte[bufferSize];
-
-        ByteBuffer bbuffer = ByteBuffer.wrap(byteBuffer);
+        final byte[]     byteBuffer = new byte[bufferSize];
+        final ByteBuffer bbuffer    = ByteBuffer.wrap(byteBuffer);
 
         int len;
+
         while((len = channel.read(bbuffer)) != -1) {
             bbuffer.flip();
 
@@ -309,7 +312,7 @@ public class ByteArrayBuilder
      */
     public byte[] array()
     {
-        byte[] bufferCopy = new byte[lastPos];
+        final byte[] bufferCopy = new byte[lastPos];
 
         System.arraycopy(buffer, 0, bufferCopy, 0, bufferCopy.length);
 
@@ -459,7 +462,7 @@ public class ByteArrayBuilder
      *
      * @return a string representing the data in this sequence.
      */
-    public String toString(Charset charset)
+    public String toString( final Charset charset )
     {
         return new String(buffer, 0, lastPos, charset);
     }
@@ -468,10 +471,11 @@ public class ByteArrayBuilder
     public ByteArrayBuilder clone()
         throws CloneNotSupportedException
     {
-        ByteArrayBuilder newByteBuffer = (ByteArrayBuilder)super.clone();
+        final ByteArrayBuilder newByteBuffer = (ByteArrayBuilder)super.clone();
 
         newByteBuffer.buffer = new byte[buffer.length];
-        int max = lastPos;
+
+        final int max = lastPos;
         newByteBuffer.lastPos = max;
 
         System.arraycopy(buffer, 0, newByteBuffer.buffer, 0, max);
