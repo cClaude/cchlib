@@ -184,38 +184,10 @@ public class DuplicateFileCollector
             return;
         }
 
-        for(Set<File> s:mapLengthFiles.values()) {
-            if( s.size() > 1 ) {
-                for(File f:s) {
-                    notify( f );
-
-                    try {
-                        mdf.compute( f, listeners );
-
-                        String    k = mdf.digestString();
-                        Set<File> c = super.mapHashFile.get( k );
-
-                        if( c == null ) {
-                            c = new HashSet<File>();
-                            super.mapHashFile.put( k, c );
-                        }
-                        else {
-                            if( c.size() < 2 ) {
-                                this.duplicateSetsCount++;
-                                this.duplicateFilesCount += 2;
-                                }
-                            else {
-                                this.duplicateFilesCount++;
-                                }
-                            }
-                        c.add( f );
-                        }
-                    catch(IOException e) {
-                        notify(e,f);
-                        }
-                    catch( CancelRequestException e ) { // $codepro.audit.disable logExceptions
-                        setCancelProcess( true );
-                        }
+        for( final Set<File> set : mapLengthFiles.values() ) {
+            if( set.size() > 1 ) {
+                for( final File file : set ) {
+                    handlePass2ForFile( file );
 
                     // Done with current file (or cancel)
                     // Check cancel state
@@ -229,6 +201,39 @@ public class DuplicateFileCollector
 
         mapLengthFiles.clear();
         super.removeNonDuplicate();
+    }
+
+    private void handlePass2ForFile( final File f )
+    {
+        notify( f );
+
+        try {
+            mdf.compute( f, listeners );
+
+            final String key = mdf.digestString();
+            Set<File>    set = super.mapHashFile.get( key );
+
+            if( set == null ) {
+                   set = new HashSet<File>();
+                super.mapHashFile.put( key, set );
+                }
+            else {
+                if( set.size() < 2 ) {
+                    this.duplicateSetsCount++;
+                    this.duplicateFilesCount += 2;
+                    }
+                else {
+                    this.duplicateFilesCount++;
+                    }
+                }
+               set.add( f );
+            }
+        catch(IOException e) {
+            notify(e,f);
+            }
+        catch( CancelRequestException e ) { // $codepro.audit.disable logExceptions
+            setCancelProcess( true );
+            }
     }
 
     /**
