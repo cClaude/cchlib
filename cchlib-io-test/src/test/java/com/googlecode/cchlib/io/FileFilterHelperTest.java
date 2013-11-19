@@ -12,7 +12,7 @@ import org.junit.Test;
 */
 public class FileFilterHelperTest
 {
-    final private static Logger LOGGER = Logger.getLogger(FileFilterHelperTest.class);
+    private static final Logger LOGGER = Logger.getLogger(FileFilterHelperTest.class);
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
 
     @Test

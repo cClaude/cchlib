@@ -14,7 +14,8 @@ import org.junit.Test;
  */
 public class CloneInputStreamThreadTest
 {
-    final private static Logger LOGGER = Logger.getLogger( CloneInputStreamThreadTest.class );
+    private static final int BUFFER_SIZE = 16;
+    private static final Logger LOGGER = Logger.getLogger( CloneInputStreamThreadTest.class );
 
     @Before
     public void setup() throws FileNotFoundException
@@ -28,7 +29,7 @@ public class CloneInputStreamThreadTest
         CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
             getClass().getName(),
             sourceIS0,
-            16,
+            BUFFER_SIZE,
             createExceptionHandlers()
             );
 
@@ -39,10 +40,10 @@ public class CloneInputStreamThreadTest
             @SuppressWarnings("resource")
             final InputStream is = threadIS.getInputStream( i );
 
-            runs[ i ]= new TestRunner( is );
+            runs[ i ]= new TestRunner( is ); // $codepro.audit.disable avoidInstantiationInLoops
 
             LOGGER.info( "start( " + i + " )" );
-            new Thread( runs[ i ], "testCloneInputStreamThread" ).start();
+            launchTask( runs[ i ] );
             }
 
         threadIS.start();
@@ -59,6 +60,11 @@ public class CloneInputStreamThreadTest
         sourceIS0.close();
 
         LOGGER.info( "done" );
+    }
+
+    private void launchTask( final TestRunnable task )
+    {
+        new Thread( task, "testCloneInputStreamThread" ).start();
     }
 
     private InputStreamThreadExceptionHandler[] createExceptionHandlers()

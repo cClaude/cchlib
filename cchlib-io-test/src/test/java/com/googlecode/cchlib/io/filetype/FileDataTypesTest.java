@@ -17,7 +17,7 @@ import com.googlecode.cchlib.io.FileFilterHelper;
  */
 public class FileDataTypesTest
 {
-    private final static Logger LOGGER = Logger.getLogger( FileDataTypesTest.class );
+    private static final Logger LOGGER = Logger.getLogger( FileDataTypesTest.class );
     private final File dirFile = new File(
             new File( "." ).getAbsoluteFile().getParentFile().getParentFile(),
             "cchlib-core-sample/output/XXX"

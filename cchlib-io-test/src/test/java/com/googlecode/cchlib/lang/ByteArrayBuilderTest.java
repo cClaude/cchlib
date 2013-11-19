@@ -21,14 +21,14 @@ import com.googlecode.cchlib.test.ArrayAssert;
  */
 public class ByteArrayBuilderTest
 {
-    private final static Logger LOGGER = Logger.getLogger( ByteArrayBuilderTest.class );
+    private static final Logger LOGGER = Logger.getLogger( ByteArrayBuilderTest.class );
 
-    private final static byte[] BYTES = {'a','b','c','d','e','f'};
-    private final static byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
-    private final static int    BIG_CAPACITY = 2048 * 100;
+    private static final byte[] BYTES = {'a','b','c','d','e','f'};
+    private static final byte[] OTHERBYTES = {'A','B','C','D','E','F', 'G'};
+    private static final int    BIG_CAPACITY = 2048 * 100;
 
-    private final static byte[] _SHARP_160_         = { '&', '#', '1', '6', '0', ';' };
-    private final static byte[] _SHARP_160_ENCODED_ = { '$', '#', '1', '6', '0', ';' };
+    private static final byte[] _SHARP_160_         = { '&', '#', '1', '6', '0', ';' };
+    private static final byte[] _SHARP_160_ENCODED_ = { '$', '#', '1', '6', '0', ';' };
 
     @Test
     public void testConstructor1()
@@ -209,7 +209,7 @@ public class ByteArrayBuilderTest
 
         try {
             ReadableByteChannel fileChannel = fis.getChannel();
-            
+
             try {
                  bab.append( fileChannel );
                 }
@@ -282,7 +282,7 @@ public class ByteArrayBuilderTest
         ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         assertEquals("Should be equals",0,bab.compareTo( new ByteArrayBuilder(BYTES) ));
-        assertTrue("Should be diffents",0!=bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ));
+        assertTrue("Should be diffents",bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ) != 0);
     }
 
     @Test
@@ -397,7 +397,7 @@ public class ByteArrayBuilderTest
         assertEquals( 0, cmp1 );
         assertEquals( 0, cmp0 );
     }
-    
+
     @Test
     public void test_copyTo() throws IOException
     {
@@ -413,7 +413,7 @@ public class ByteArrayBuilderTest
         finally {
             out.close();
             }
-        
+
         ByteArrayBuilder bab1 = new ByteArrayBuilder();
         bab1.append( out.toByteArray() );
         LOGGER.info( "test_copyTo(): bab1 = " + new String(bab1.array()) );

@@ -29,9 +29,9 @@ import com.googlecode.cchlib.test.ArrayAssert;
  */
 public class Base64Test
 {
-    final private static Logger LOGGER = Logger.getLogger(Base64Test.class);
+    private static final Logger LOGGER = Logger.getLogger(Base64Test.class);
 
-    private final static String TEST_STRING = "This is a dummy message for this stupid test case!";
+    private static final String TEST_STRING = "This is a dummy message for this stupid test case!";
 
     private static final int TEST_BUFFER_SIZE = 1024;
     private final String bigTestString;
