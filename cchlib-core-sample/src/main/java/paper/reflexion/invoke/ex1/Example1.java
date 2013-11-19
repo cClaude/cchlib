@@ -1,3 +1,4 @@
+// $codepro.audit.disable concatenationInAppend
 package paper.reflexion.invoke.ex1;
 
 import java.lang.reflect.InvocationTargetException;

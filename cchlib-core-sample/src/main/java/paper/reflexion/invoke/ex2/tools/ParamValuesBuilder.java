@@ -20,7 +20,7 @@ class ParamValuesBuilder
         return firstParam;
     }
 
-    final public Iterable<ParamValues> toParamValues()
+    public final Iterable<ParamValues> toParamValues()
     {
         return new Iterable<ParamValues>() {
             @Override

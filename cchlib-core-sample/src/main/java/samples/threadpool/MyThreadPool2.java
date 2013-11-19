@@ -1,3 +1,4 @@
+// $codepro.audit.disable concatenationInAppend
 package samples.threadpool;
 
 import java.util.concurrent.ArrayBlockingQueue;
