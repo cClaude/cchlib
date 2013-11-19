@@ -381,12 +381,9 @@ public class RegExpBuilderFrame
     }
 
     /** Show the results of splitting a string. */
-    void printSplitArray( String[] array )
+    void printSplitArray( final String[] array )
     {
-//        final JTextArea textReplaceResults     = getTextReplaceResults();
-//        final JTextArea textSubject         = getTextSubject();
-//        final JTextArea textRegex             = getTextRegExp();
-        final JTextArea textResults         = getTextResults();
+        final JTextArea textResults = getTextResults();
 
         textResults.setText( null );
 
