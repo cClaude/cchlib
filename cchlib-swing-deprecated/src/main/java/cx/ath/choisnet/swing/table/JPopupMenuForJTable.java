@@ -37,8 +37,7 @@ public abstract class JPopupMenuForJTable
      * Returns {@link JTable} concern by this menu
      * @return {@link JTable} concern by this menu
      */
-    final
-    protected JTable getJTable()
+    protected final JTable getJTable()
     {
         return jTable;
     }
@@ -47,8 +46,7 @@ public abstract class JPopupMenuForJTable
      * Returns {@link TableModel} use by {@link JTable}
      * @return {@link TableModel} use by {@link JTable}
      */
-    final
-    protected TableModel getTableModel()
+    protected final TableModel getTableModel()
     {
         return jTable.getModel();
     }
@@ -60,8 +58,7 @@ public abstract class JPopupMenuForJTable
      * @param columnIndex columnIndex according to view
      * @return value from Model
      */
-    final
-    protected Object getValueAt( final int rowIndex, final int columnIndex )
+    protected final Object getValueAt( final int rowIndex, final int columnIndex )
     {
         final int row = getJTable().convertRowIndexToModel( rowIndex );
         final int col = getJTable().convertColumnIndexToModel( columnIndex );
@@ -77,8 +74,7 @@ public abstract class JPopupMenuForJTable
      * @param rowIndex    rowIndex according to view
      * @param columnIndex columnIndex according to view
      */
-    final
-    protected void setValueAt(
+    protected final void setValueAt(
             final Object    aValue,
             final int       rowIndex,
             final int       columnIndex
@@ -109,15 +105,15 @@ public abstract class JPopupMenuForJTable
                 .getColumn( jTable.getColumnName( col ) )
                 .getModelIndex();
 
-            if( row >= 0 && row < jTable.getRowCount() ) {
+            if( (row >= 0) && (row < jTable.getRowCount()) ) {
                 cancelCellEditing();
 
                 // create popup menu...
                 JPopupMenu contextMenu = createContextMenu( row, mcol );
 
                 // ... and show it
-                if( contextMenu != null
-                        && contextMenu.getComponentCount() > 0 ) {
+                if( (contextMenu != null)
+                        && (contextMenu.getComponentCount() > 0) ) {
                     contextMenu.show( jTable, p.x, p.y );
                     }
                 }
@@ -173,8 +169,7 @@ public abstract class JPopupMenuForJTable
     /**
      * TODOC
      */
-    final
-    private void cancelCellEditing()
+    private final void cancelCellEditing()
     {
         CellEditor ce = jTable.getCellEditor();
 
@@ -235,8 +230,7 @@ public abstract class JPopupMenuForJTable
      * @param rowIndex
      * @param columnIndex
      */
-    final
-    public void addCopyMenuItem(
+    public final void addCopyMenuItem(
             final JPopupMenu    contextMenu,
             final String        textForCopy,
             final int           rowIndex,
@@ -257,8 +251,7 @@ public abstract class JPopupMenuForJTable
      * @param columnIndex
      * @return TODOC
      */
-    final
-    protected JMenuItem buildCopyJMenuItem(
+    protected final JMenuItem buildCopyJMenuItem(
             final String    textForCopy,
             final int       rowIndex,
             final int       columnIndex
@@ -279,8 +272,7 @@ public abstract class JPopupMenuForJTable
      * @param columnIndex column index of cell to copy text content
      * @return an ActionListener
      */
-    final
-    protected ActionListener copyActionListener(
+    protected final ActionListener copyActionListener(
             final int   rowIndex,
             final int   columnIndex
             )
@@ -293,7 +285,7 @@ public abstract class JPopupMenuForJTable
                 Object value = getTableModel()
                     .getValueAt( rowIndex, columnIndex );
 
-                setClipboardContents( value == null ? StringHelper.EMPTY : value.toString() );
+                setClipboardContents( (value == null) ? StringHelper.EMPTY : value.toString() );
             }
         };
     }
@@ -320,8 +312,7 @@ public abstract class JPopupMenuForJTable
      * @param rowIndex
      * @param columnIndex
      */
-    final
-    protected void addPasteMenuItem(
+    protected final void addPasteMenuItem(
             final JPopupMenu    contextMenu,
             final String        txtForPaste,
             final int           rowIndex,

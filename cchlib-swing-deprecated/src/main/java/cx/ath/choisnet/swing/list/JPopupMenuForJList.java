@@ -81,8 +81,8 @@ public abstract class JPopupMenuForJList<E>
                 JPopupMenu contextMenu = createContextMenu( row );
 
                 // ... and show it
-                if( contextMenu != null
-                        && contextMenu.getComponentCount() > 0 ) {
+                if( (contextMenu != null)
+                        && (contextMenu.getComponentCount() > 0) ) {
                     contextMenu.show( jList, p.x, p.y );
                     }
                 }
@@ -189,7 +189,7 @@ public abstract class JPopupMenuForJList<E>
                 Object value = getListModel().getElementAt( rowIndex );
 
                 setClipboardContents(
-                        value == null ? StringHelper.EMPTY : value.toString()
+                        (value == null) ? StringHelper.EMPTY : value.toString()
                         );
             }
         };
