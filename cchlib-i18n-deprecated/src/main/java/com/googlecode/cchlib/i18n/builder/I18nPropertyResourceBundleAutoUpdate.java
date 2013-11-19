@@ -30,7 +30,7 @@ public class I18nPropertyResourceBundleAutoUpdate
     extends AbstractI18nPropertiesResourceAutoUpdate
 {
     private static final long serialVersionUID = 1L;
-    private transient static Logger LOGGER = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
+    private static transient Logger LOGGER = Logger.getLogger(I18nPropertyResourceBundleAutoUpdate.class);
     /** @serial */
     private File outputFile;
 

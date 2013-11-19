@@ -80,7 +80,7 @@ public class AutoI18n implements Serializable
     private AutoI18nExceptionHandler exceptionHandler;
     /** @serial */
     private EnumSet<Attribute> config;
-    private final static Class<?>[] ignoredClasses = {
+    private static final Class<?>[] ignoredClasses = {
         Object.class,
         JFrame.class,
         JDialog.class,
@@ -279,7 +279,7 @@ public class AutoI18n implements Serializable
      * @see AutoI18nCustomInterface
      * @see AutoI18nCustomInterface#getI18n(I18nInterface)
      */
-    synchronized public <T> void performeI18n(
+    public synchronized <T> void performeI18n(
             final T                     objectToI18n,
             final Class<? extends T>    clazz
             )

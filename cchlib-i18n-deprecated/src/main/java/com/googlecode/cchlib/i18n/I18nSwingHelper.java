@@ -13,7 +13,7 @@ public final class I18nSwingHelper
     {//All static
     }
 
-    private final static TitledBorder getTitledBorder(JComponent c)
+    private static final TitledBorder getTitledBorder(JComponent c)
     {
         Border b = c.getBorder();
         
@@ -32,7 +32,7 @@ public final class I18nSwingHelper
      * @param c JComponent to find TitledBorder
      * @param title new title to set
      */
-    public final static void setTitledBorderTitle(
+    public static final void setTitledBorderTitle(
         final JComponent    c, 
         final String        title
         )
@@ -53,7 +53,7 @@ public final class I18nSwingHelper
      * @return current title of TitledBorder, null if
      * no Border or not a TitledBorder.
      */
-    public final static String getTitledBorderTitle(JComponent c)
+    public static final String getTitledBorderTitle(JComponent c)
     {
         TitledBorder b = getTitledBorder( c );
         
