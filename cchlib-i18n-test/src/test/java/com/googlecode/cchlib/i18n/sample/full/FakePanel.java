@@ -328,7 +328,7 @@ public class FakePanel
     }
 
     @Override // I18nAutoCoreUpdatable
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         LOGGER.info( "performeI18n" );
         autoI18n.performeI18n( this, this.getClass() );

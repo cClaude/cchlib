@@ -25,7 +25,7 @@ public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPa
 
     @Ignore
     @Override // I18nAutoCoreUpdatable
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
