@@ -8,8 +8,10 @@ import java.util.ArrayList;
  */
 public final class StringHelper
 {
-    private StringHelper() {} // ALl static
     public static final String EMPTY = "";
+    public static final String[] EMPTY_ARRAY = new String[0];
+
+    private StringHelper() {} // ALl static
 
     /**
      * Returns the given string if it is non-null; the empty string otherwise

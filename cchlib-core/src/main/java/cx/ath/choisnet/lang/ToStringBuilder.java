@@ -30,7 +30,7 @@ public class ToStringBuilder<T>
      * @param clazz Class (or interface) to use to
      *        build toString()
      */
-    public ToStringBuilder( final Class<T> clazz )
+    public ToStringBuilder( final Class<T> clazz ) // $codepro.audit.disable blockDepth
     {
         this.clazz = clazz;
 

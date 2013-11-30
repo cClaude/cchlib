@@ -27,7 +27,7 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 
-public class FormattedPropertiesTest
+public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMethods
 {
     private static final String REF = "tstref.properties";
     private Properties refPropertiesStream;

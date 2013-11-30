@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import cx.ath.choisnet.bytesaccess.BytesAccess;
 import cx.ath.choisnet.bytesaccess.BytesAccessException;
-import org.junit.Assert;
 
 public class BytesAccessTest
 {

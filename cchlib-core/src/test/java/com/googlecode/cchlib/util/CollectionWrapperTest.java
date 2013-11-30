@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *
@@ -59,7 +60,7 @@ public class CollectionWrapperTest
         Assert.assertEquals( 0, collection.size() );
         Assert.assertEquals( 0, wrapped.size() );
         Assert.assertEquals( 0, wrapped.toArray().length );
-        Assert.assertEquals( 0, wrapped.toArray( new String[0] ).length );
+        Assert.assertEquals( 0, wrapped.toArray( StringHelper.EMPTY_ARRAY ).length );
     }
     @Test
     public void testsize2()
@@ -71,7 +72,7 @@ public class CollectionWrapperTest
         Assert.assertEquals( expectedSize, collection.size() );
         Assert.assertEquals( expectedSize, wrapped.size() );
         Assert.assertEquals( expectedSize, wrapped.toArray().length );
-        Assert.assertEquals( expectedSize, wrapped.toArray( new String[0] ).length );
+        Assert.assertEquals( expectedSize, wrapped.toArray( StringHelper.EMPTY_ARRAY ).length );
     }
 
     @Test
@@ -86,7 +87,7 @@ public class CollectionWrapperTest
         Assert.assertEquals( expectedSize, collection.size() );
         Assert.assertEquals( expectedSize, wrapped.size() );
         Assert.assertEquals( expectedSize, wrapped.toArray().length );
-        Assert.assertEquals( expectedSize, wrapped.toArray( new String[0] ).length );
+        Assert.assertEquals( expectedSize, wrapped.toArray( StringHelper.EMPTY_ARRAY ).length );
     }
 
     @Test

@@ -13,8 +13,17 @@ import com.googlecode.cchlib.NeedDoc;
  * @since 4.1.8
  */
 @NeedDoc
-public class Methods
+public final class Methods
 {
+    private static class MethodComparator implements Comparator<Method>
+    {
+        @Override
+        public int compare( Method o1, Method o2 )
+        {
+            return o1.getName().compareTo( o2.getName() );
+        }
+    }
+
     private Methods(){}
 
     public static List<Method> getStaticMethods( final Class<?> clazz )
@@ -27,13 +36,29 @@ public class Methods
                 }
             }
 
-        Collections.sort( methods, new Comparator<Method>() {
-            @Override
-            public int compare( Method o1, Method o2 ) {
-                return o1.getName().compareTo( o2.getName() );
-            } });
+        Collections.sort( methods, newMethodComparator() );
 
         return Collections.unmodifiableList(methods);
+    }
+
+    public static List<Method> getPublicMethods( final Class<?> clazz )
+    {
+        final List<Method> methods = new ArrayList<Method>();
+
+        for( Method method : clazz.getMethods() ) {
+            if( Modifier.isPublic( method.getModifiers() ) ) {
+                methods.add( method );
+                }
+            }
+
+        Collections.sort( methods, newMethodComparator() );
+
+        return Collections.unmodifiableList(methods);
+    }
+
+    private static Comparator<Method> newMethodComparator()
+    {
+        return new MethodComparator();
     }
 
 }

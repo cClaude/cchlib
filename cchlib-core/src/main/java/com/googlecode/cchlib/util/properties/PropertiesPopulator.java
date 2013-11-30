@@ -10,11 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * <p>PropertiesPopulator is a simple way to store values in a properties
@@ -42,171 +38,6 @@ public class PropertiesPopulator<E>
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
     private Map<Field,PropertiesPopulatorAnnotation<E>> keyFieldMap;
 
-    private interface PropertiesPopulatorAnnotation<E>
-    {
-        /**
-         * Return annotation value
-         */
-        boolean isDefaultValueNull();
-        /**
-         * Return annotation value
-         */
-        String defaultValue();
-        /**
-         * Return object value has a String
-         */
-        String toString( Object o ) throws PropertiesPopulatorException;
-        /**
-         *
-         * @param f
-         * @param bean
-         * @param strValue
-         * @param type
-         * @throws IllegalArgumentException
-         * @throws IllegalAccessException
-         * @throws ConvertCantNotHandleTypeException
-         * @throws PropertiesPopulatorException
-         */
-        void setValue( Field f, E bean, String strValue, Class<?> type)
-            throws IllegalArgumentException,
-                   IllegalAccessException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException;
-        /**
-         *
-         * @param f
-         * @param array
-         * @param index
-         * @param strValue
-         * @param type
-         * @throws ArrayIndexOutOfBoundsException
-         * @throws IllegalArgumentException
-         * @throws ConvertCantNotHandleTypeException
-         * @throws PropertiesPopulatorException
-         */
-        void setArrayEntry( Field f, Object array, int index, String strValue, Class<?> type )
-            throws ArrayIndexOutOfBoundsException,
-                   IllegalArgumentException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException;
-    }
-
-    private class PopulatorAnnotation implements PropertiesPopulatorAnnotation<E>
-    {
-        private Populator populator;
-
-        PopulatorAnnotation( Populator populator )
-        {
-            this.populator = populator;
-        }
-        @Override
-        public boolean isDefaultValueNull()
-        {
-            return populator.defaultValueIsNull();
-        }
-        @Override
-        public String defaultValue()
-        {
-            return populator.defaultValue();
-        }
-        @Override
-        public String toString( final Object o )
-        {
-            return o.toString();
-        }
-        @Override
-        public void setValue( final Field f, final E bean, final String strValue, final Class<?> type )
-            throws IllegalArgumentException,
-                   IllegalAccessException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException
-        {
-            f.set( bean, private_convertStringToObject( strValue, type ) );
-        }
-        @Override
-        public void setArrayEntry( final Field f, final Object array, final int index, final String strValue, final Class<?> type)
-            throws ArrayIndexOutOfBoundsException,
-                   IllegalArgumentException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException
-        {
-            Array.set( array, index, private_convertStringToObject( strValue, type ) );
-        }
-    }
-
-    private class PersistentAnnotation implements PropertiesPopulatorAnnotation<E>
-    {
-        private Persistent persistent;
-
-        PersistentAnnotation( Persistent persistent )
-        {
-            this.persistent = persistent;
-        }
-        @Override
-        public boolean isDefaultValueNull()
-        {
-            return false;
-        }
-        @Override
-        public String defaultValue()
-        {
-            return persistent.defaultValue();
-        }
-        @Override
-        public String toString( final Object o ) throws PropertiesPopulatorException
-        {
-            if( o instanceof JTextField ) {
-                return JTextField.class.cast( o ).getText();
-                }
-            else if( o instanceof JCheckBox ) {
-                return Boolean.toString( JCheckBox.class.cast( o ).isSelected() );
-                }
-            else if( o instanceof JComboBox ) {
-                JComboBox jc    = JComboBox.class.cast( o );
-                int       index = jc.getSelectedIndex(); // Store only selected index
-
-                return Integer.toString( index );
-                }
-            else {
-                throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
-                }
-        }
-        @Override
-        public void setValue( final Field f, final E bean, final String strValue, final Class<?> type )
-            throws IllegalArgumentException,
-                   IllegalAccessException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException
-        {
-            Object o = f.get( bean );
-
-            if( o instanceof JTextField ) {
-                JTextField.class.cast( o ).setText( strValue );
-                }
-            else if( o instanceof JCheckBox ) {
-                JCheckBox.class.cast( o ).setSelected( Boolean.parseBoolean( strValue ) );
-                }
-            else if( o instanceof JComboBox ) {
-                final JComboBox jc    = JComboBox.class.cast( o );
-                final int       index = Integer.parseInt( strValue );
-
-                jc.setSelectedIndex( index );
-                }
-            else {
-                throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
-                }
-        }
-        @Override
-        public void setArrayEntry( final Field f, final Object array, final int index, final String strValue, final Class<?> type)
-            throws ArrayIndexOutOfBoundsException,
-                   IllegalArgumentException,
-                   ConvertCantNotHandleTypeException,
-                   PropertiesPopulatorException
-        {
-            throw new PersistentException( "@Persistent does not handle array" );
-        }
-    }
-
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
      *
@@ -222,13 +53,13 @@ public class PropertiesPopulator<E>
             Populator populator = f.getAnnotation( Populator.class );
 
             if( populator != null ) {
-                this.keyFieldMap.put( f, new PopulatorAnnotation( populator ) );
+                this.keyFieldMap.put( f, new PopulatorAnnotation<E>( populator ) );
                 }
 
             Persistent persistent = f.getAnnotation( Persistent.class );
 
             if( persistent != null ) {
-                this.keyFieldMap.put( f, new PersistentAnnotation( persistent ) );
+                this.keyFieldMap.put( f, new PersistentAnnotation<E>( persistent ) );
                 }
             }
 
@@ -274,141 +105,10 @@ public class PropertiesPopulator<E>
         final Properties properties
         ) throws PropertiesPopulatorException
     {
-        final StringBuilder prefix;
-        final int           prefixLength;
+        final PropertiesPopulatorLoader<E> loader //
+        = new PropertiesPopulatorLoader<E>( keyFieldMap, bean, properties, propertiesPrefix );
 
-        if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
-            prefix       = new StringBuilder();
-            prefixLength = 0;
-            }
-        else {
-            prefix       = new StringBuilder( propertiesPrefix );
-            prefixLength = prefix.length();
-            }
-
-        loadData( bean, properties, prefix, prefixLength );
-    }
-
-    private void loadData(
-        final E             bean,
-        final Properties    properties,
-        final StringBuilder prefix,
-        final int           prefixLength
-        )
-    {
-        for( final Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
-            final Field field = entry.getKey();
-
-            field.setAccessible( true );
-
-            try {
-                final Object o = field.get( bean );
-
-                if( o != null ) {
-                    if( field.getType().isArray() ) {
-                        handleArray( properties, prefix, prefixLength, entry, field, o );
-                        }
-                    else if( PopulatorContener.class.isAssignableFrom( field.getType() ) ) {
-                        handlePopulatorContener( properties, prefix, prefixLength, field, o );
-                        }
-                    else {
-                        handleNonArray( properties, prefix, prefixLength, entry, field, o );
-                        }
-                    }
-                else {
-                    // Ignore null entries
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "Ignore null value from field " + field );
-                        }
-                    }
-                }
-            catch( IllegalArgumentException e ) {
-                // ignore !
-                LOGGER.warn( "Cannot read field:" + field, e );
-                }
-            catch( IllegalAccessException e ) {
-                // ignore !
-                LOGGER.warn( "Cannot read field:" + field, e );
-                }
-            finally {
-                field.setAccessible( false );
-                }
-            }
-    }
-
-    private void handleNonArray(
-        final Properties properties,
-        final StringBuilder prefix,
-        final int prefixLength,
-        final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
-        final Field field,
-        final Object o
-        )
-    {
-        // Handle non arrays
-        if( prefixLength == 0 ) {
-            //properties.put( f.getName(), o.toString() );
-            properties.put( field.getName(), entry.getValue().toString( o ) );
-            }
-        else {
-            prefix.setLength( prefixLength );
-            prefix.append( field.getName() );
-            //properties.put( prefix.toString(), o.toString() );
-            properties.put( prefix.toString(), entry.getValue().toString( o ) );
-            }
-    }
-
-    private void handlePopulatorContener(
-        final Properties properties,
-        final StringBuilder prefix,
-        final int prefixLength,
-        final Field field,
-        final Object o
-        )
-    {
-        String strValue = PopulatorContener.class.cast( o ).getConvertToString();
-
-        if( prefixLength == 0 ) {
-            properties.put( field.getName(), strValue );
-            }
-        else {
-            prefix.setLength( prefixLength );
-            prefix.append( field.getName() );
-            properties.put( prefix.toString(), strValue );
-            }
-    }
-
-    private void handleArray( final Properties properties,
-        final StringBuilder prefix,
-        final int prefixLength,
-        final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
-        final Field field,
-        final Object o
-        )
-    {
-        // Handle Arrays
-        final int length = Array.getLength( o );
-
-        for( int i = 0; i < length; i ++ ) {
-            Object arrayElement = Array.get( o, i );
-
-            prefix.setLength( prefixLength );
-            prefix.append( field.getName() );
-            prefix.append( '.' );
-            prefix.append( i );
-
-            if( arrayElement == null ) {
-                properties.put( prefix.toString(), StringHelper.EMPTY );
-                }
-            else {
-                // FIXME for Persistent !!!
-                properties.put(
-                    prefix.toString(),
-                    // arrayElement.toString()
-                    entry.getValue().toString( arrayElement )
-                    );
-                }
-            }
+        loader.load();
     }
 
     /**
@@ -426,19 +126,6 @@ public class PropertiesPopulator<E>
     {
         populateBean( null, properties, bean );
     }
-
-//    /**
-//     * @deprecated use {@link #populateBean(String, Properties, Object)} instead
-//     */
-//    @Deprecated
-//    public void populateBean(
-//        final Properties properties,
-//        final String     propertiesPrefix,
-//        final E          bean
-//        ) throws PropertiesPopulatorException
-//    {
-//        populateBean(propertiesPrefix, properties, bean);
-//    }
 
     /**
      * Set fields annotate with {@link Populator} from properties
@@ -648,62 +335,7 @@ public class PropertiesPopulator<E>
                 }
         }
 
-    }//class PopulateBean
-
-
-    private static Object private_convertStringToObject(
-        final String    strValue,
-        final Class<?>  type
-        ) throws ConvertCantNotHandleTypeException
-    {
-        if( strValue == null ) {
-            // No value.
-            return null;
-            }
-
-        if( String.class.isAssignableFrom( type ) ) {
-            return strValue;
-            }
-        else if( boolean.class.isAssignableFrom( type ) ) {
-            return Boolean.valueOf( strValue );
-            }
-        else if( Boolean.class.isAssignableFrom( type ) ) {
-            return Boolean.valueOf( strValue );
-            }
-        else if( int.class.isAssignableFrom( type ) ) {
-            return Integer.valueOf( strValue );
-            }
-        else if( Integer.class.isAssignableFrom( type ) ) {
-            return Integer.valueOf( strValue );
-            }
-        else if( short.class.isAssignableFrom( type ) ) {
-            return Short.valueOf( strValue );
-            }
-        else if( Short.class.isAssignableFrom( type ) ) {
-            return Short.valueOf( strValue );
-            }
-        else if( byte.class.isAssignableFrom( type ) ) {
-            return Byte.valueOf( strValue );
-            }
-        else if( Byte.class.isAssignableFrom( type ) ) {
-            return Byte.valueOf( strValue );
-            }
-        else if( long.class.isAssignableFrom( type ) ) {
-            return Long.valueOf( strValue );
-            }
-        else if( Long.class.isAssignableFrom( type ) ) {
-            return Long.valueOf( strValue );
-            }
-        else if( float.class.isAssignableFrom( type ) ) {
-            return Float.valueOf( strValue );
-            }
-        else if( Float.class.isAssignableFrom( type ) ) {
-            return Float.valueOf( strValue );
-            }
-        else {
-            throw new ConvertCantNotHandleTypeException();
-            }
-    }
+    } //class PopulateBean
 
     /**
      * Initialize a bean from a properties file.

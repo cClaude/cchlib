@@ -180,7 +180,7 @@ public class Base64Decoder extends Base64
      * @param length    Number of char to read in array (must be divisible by 4)
      * @return an array of bytes
      */
-    public static byte[] decode(
+    public static byte[] decode( // $codepro.audit.disable cyclomaticComplexity
         final char[]    in,
         final int       offset,
         int             length
