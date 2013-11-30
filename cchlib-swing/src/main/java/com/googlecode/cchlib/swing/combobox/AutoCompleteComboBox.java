@@ -6,7 +6,6 @@ import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
-
 import com.googlecode.cchlib.swing.AutoComplete;
 
 /**
@@ -96,7 +95,7 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
     {
         autoTextFieldEditor.getEditor().setDataList( dataList );
 
-        String[] array = dataList.toArray( new String[0] );
+        final String[] array = dataList.toArray( new String[ dataList.size() ] );
 
         setModel( new DefaultComboBoxModel<String>( array ) );
     }
