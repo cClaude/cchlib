@@ -199,7 +199,7 @@ public class HTMLPreviewDialog
     }
 
     @Override
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
