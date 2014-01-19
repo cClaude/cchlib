@@ -3,6 +3,7 @@ package com.googlecode.cchlib.util;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -103,9 +104,9 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
     }
 
     @Override
-    public /* TODO should be List<V>*/ Collection<V> values()
+    public Collection<V> values()
     {
-        return delegator.values();
+        return Collections.unmodifiableCollection( delegator.values() );
     }
 
     @Override
