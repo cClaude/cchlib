@@ -73,7 +73,7 @@ public static String parseFieldValue( final String input ) // -------------
  //
  // http://access1.sun.com/FAQSets/javaprogfaq.html#6
  //
- final Iterator entryIt = replacePhrases.entrySet().iterator();
+ final Iterator<Map.Entry<String,String>> entryIt = replacePhrases.entrySet().iterator();
 
  //Each problem character is used as a delimiter
  //If the problem character is present in input string>
@@ -82,8 +82,8 @@ public static String parseFieldValue( final String input ) // -------------
  StringBuilder output = null;
 
  while( entryIt.hasNext() ) {
-    Map.Entry       entry   = (Map.Entry) entryIt.next();
-    StringTokenizer s       = new StringTokenizer(input, (String)entry.getKey());
+    Map.Entry<String,String> entry   = entryIt.next();
+    StringTokenizer          s       = new StringTokenizer(input, entry.getKey());
 
     //If string tokenized, take the token before the problem
     //character, concat with the replacement character and then
@@ -93,8 +93,7 @@ public static String parseFieldValue( final String input ) // -------------
         output = new StringBuilder( s.nextToken() );
 
         while( s.hasMoreTokens() ) {
-            // output += (String)entry.getValue() + s.nextToken();
-            output.append( ((String)entry.getValue()) + s.nextToken() );
+            output.append( entry.getValue() + s.nextToken() );
             }
         }
     }

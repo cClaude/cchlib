@@ -483,7 +483,7 @@ Count: delais             : 9437 ms
 public static void main( String[] args ) // -------------------------------
     throws Exception
 {
- Iterator iter = new FileIterator( new File( "doesNotExists" ) );
+ Iterator<File> iter = new FileIterator( new File( "doesNotExists" ) );
 
  if( iter.hasNext() ) {
     System.out.println( "ok: this file '" + iter.next() + "' should not exist..." );
@@ -532,7 +532,7 @@ public static void main( String[] args ) // -------------------------------
     FileIterator fi = new FileIterator( rootFile );
 
     while( fi.hasNext() ) {
-        File file = fi.next();
+        /*File file =*/ fi.next();
         fCount++;
         }
     }

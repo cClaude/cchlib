@@ -126,7 +126,7 @@ public static Selectable<File> wrappe( // ---------------------------------
 **
 ** @since 1.53.002
 */
-public static String toString( Iterator iterator, String separator ) // ---
+public static String toString( final Iterator<?> iterator, final String separator ) // ---
 {
  final StringBuilder sb = new StringBuilder();
 

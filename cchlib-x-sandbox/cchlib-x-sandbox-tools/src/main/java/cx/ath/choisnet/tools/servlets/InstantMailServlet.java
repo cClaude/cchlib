@@ -132,18 +132,18 @@ final String findUser( final String nickName ) // -------------------------
  try {
     simpleQuery = new SimpleQuery( "jdbc/tools-resource" );
 
-    List list = SimpleQuery.translateResultSetToStringList( simpleQuery.executeQuery( query ) );
+    List<String> list = SimpleQuery.translateResultSetToStringList( simpleQuery.executeQuery( query ) );
 
     switch( list.size() ) {
-        case 0 : // Non trouv�
+        case 0 : // Non trouvé
             result = null;
             break;
 
-        case 1 : // Trouv�, c'est le 1er �lement
-            result = (String)list.get(0);
+        case 1 : // Trouvé, c'est le 1er élément
+            result = list.get(0);
             break;
 
-        default : // Trouv� plusieurs, impossible !
+        default : // Trouvé plusieurs, impossible !
             throw new RuntimeException( "more than one user with same name" );
         }
     }

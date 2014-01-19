@@ -73,30 +73,26 @@ public class MapEntry<K,V>
             return false;
             }
 
-        MapEntry anOtherMapEntry;
+        if( o instanceof MapEntry ) {
+            MapEntry<?,?> anOtherMapEntry = MapEntry.class.cast( o );
 
-        try {
-            anOtherMapEntry = MapEntry.class.cast( o );
-            }
-        catch( Exception e ) {
+            return
+                    (
+                        this.getKey() == null ?
+                            anOtherMapEntry.getKey() == null
+                            :
+                            this.getKey().equals( anOtherMapEntry.getKey() )
+                    )
+                    &&
+                    (
+                        this.getValue() == null ?
+                            anOtherMapEntry.getValue() == null
+                            :
+                            this.getValue().equals( anOtherMapEntry.getValue() )
+                    );            }
+        else {
             return false;
             }
-
-        return
-            (
-                this.getKey() == null ?
-                    anOtherMapEntry.getKey() == null
-                    :
-                    this.getKey().equals( anOtherMapEntry.getKey() )
-            )
-            &&
-            (
-                this.getValue() == null ?
-                    anOtherMapEntry.getValue() == null
-                    :
-                    this.getValue().equals( anOtherMapEntry.getValue() )
-            );
-
     }
 
     /**
