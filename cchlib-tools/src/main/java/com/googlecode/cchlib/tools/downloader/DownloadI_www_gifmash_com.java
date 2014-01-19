@@ -14,7 +14,6 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 /**
  * http://www.gifmash.com/
  *
- * TODO:
  * http://picasion.com/gallery/24151868/
  * 4gifs.com
  */
