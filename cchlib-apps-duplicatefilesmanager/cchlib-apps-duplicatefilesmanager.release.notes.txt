@@ -76,7 +76,9 @@ To add:
    + Add editor for advance users able to chooser order of
      filters, type of filter (on name, on path, on properties /
      begin, end, regexp,...). Also able to do some OR or AND
- operation on filters.
+     operation on filters.
+   + Add a preserve filter : for example, exclude file if extension
+     is something well know, or if file is in a specific directory
 ---------------------------------------------------------------------
 Nice to have:
  - Move files to Recycle Bin or delete duplicate files permanently
