@@ -112,7 +112,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
 
                 return contextMenu;
             }
-        }.setMenu();
+        }.addMenu();
     }
 
     /**

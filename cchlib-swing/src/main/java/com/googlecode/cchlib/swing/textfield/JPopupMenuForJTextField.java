@@ -38,7 +38,7 @@ public abstract class JPopupMenuForJTextField
     final
     protected JTextField getJTextField()
     {
-        return this.jTextField;
+        return jTextField;
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class JPopupMenuForJTextField
     final
     protected String getValue()
     {
-        return this.jTextField.getText();
+        return jTextField.getText();
     }
 
     /**
@@ -60,13 +60,19 @@ public abstract class JPopupMenuForJTextField
     final
     protected void setValue( final String aValue )
     {
-        this.jTextField.setText( aValue );
+        jTextField.setText( aValue );
     }
 
     @Override
     protected void addMouseListener( MouseListener l )
     {
-        this.jTextField.addMouseListener( l );
+        jTextField.addMouseListener( l );
+    }
+
+    @Override
+    protected void removeMouseListener( final MouseListener l )
+    {
+        jTextField.removeMouseListener( l );
     }
 
     @Override

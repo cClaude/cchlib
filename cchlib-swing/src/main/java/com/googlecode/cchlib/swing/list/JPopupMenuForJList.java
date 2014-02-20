@@ -148,6 +148,12 @@ public abstract class JPopupMenuForJList<E>
     {
         jList.addMouseListener( l );
     }
+    
+    @Override
+    protected void removeMouseListener( final MouseListener l )
+    {
+        jList.removeMouseListener( l );
+    }
 
     @Override
     protected void maybeShowPopup( final MouseEvent e )

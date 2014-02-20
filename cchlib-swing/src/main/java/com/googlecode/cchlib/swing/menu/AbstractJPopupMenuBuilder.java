@@ -23,6 +23,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
+    private transient MouseListener menuMouseListener;
+
     /**
      * Add a {@link JMenuItem} on a {@link JPopupMenu}
      *
@@ -1132,9 +1134,22 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     protected abstract void addMouseListener(MouseListener l);
 
     /**
+     * remove previous {@link MouseListener}
+     */
+    protected abstract void removeMouseListener( MouseListener l );
+
+    /**
      * Must implement display or hide of menu
      */
     protected abstract void maybeShowPopup(MouseEvent e);
+
+    /**
+     * @deprecated Use {@link #addMenu()} instead
+     */
+    @Deprecated final public void setMenu()
+    {
+        addMenu();
+    }
 
     /**
      * Install context menu for specified object.
@@ -1143,22 +1158,30 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see #maybeShowPopup(MouseEvent)
      */
     final
-    public void setMenu()
+    public void addMenu()
     {
-        addMouseListener(
-            new MouseAdapter()
+        if( menuMouseListener != null ) {
+            removeMouseListener( menuMouseListener );
+            }
+        menuMouseListener = newMenu();
+        addMouseListener( menuMouseListener );
+    }
+
+    private MouseAdapter newMenu()
+    {
+        return new MouseAdapter()
+        {
+            @Override
+            public void mousePressed( final MouseEvent e )
             {
-                @Override
-                public void mousePressed( final MouseEvent e )
-                {
-                    maybeShowPopup( e );
-                }
-                @Override
-                public void mouseReleased( final MouseEvent e )
-                {
-                    maybeShowPopup( e );
-                }
-            } );
+                maybeShowPopup( e );
+            }
+            @Override
+            public void mouseReleased( final MouseEvent e )
+            {
+                maybeShowPopup( e );
+            }
+        };
     }
 
     ///
@@ -1262,4 +1285,5 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 
         return null;
     }
+
 }

@@ -177,7 +177,7 @@ public class BookmarksAccessory
             }
         };
 
-        popupMenu.setMenu();
+        popupMenu.addMenu();
     }
 
     private ActionListener getActionListener()
