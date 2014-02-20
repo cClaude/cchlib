@@ -18,7 +18,7 @@
   <!-- Global properties -->
   <properties>
     <java.source.version>1.6</java.source.version>
-    <project.javadoc.source.version>1.6</project.javadoc.source.version>
+    <project.java.source.version>1.6</project.java.source.version>
   </properties>
 
   <dependencies>
@@ -89,8 +89,8 @@
             <!-- link>http://download.oracle.com/javaee/6/api/</link -->
           </links>
           <show>protected</show>
-          <source>${project.javadoc.source.version}</source>
-          <target>${project.javadoc.source.version}</target>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.source.version}</target>
       </configuration>
       </plugin>
     </plugins>
