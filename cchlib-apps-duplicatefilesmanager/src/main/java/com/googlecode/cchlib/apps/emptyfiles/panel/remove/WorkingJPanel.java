@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
 import java.awt.BorderLayout;
@@ -215,7 +216,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         this.progressBar.setMaximum( this.tableModel.getSelectedRowCount() );
         this.progressBar.setEnabled( true );
 
-        new Thread( new DeleteTask( this, tableModel, progressBar ) ).start();
+        new Thread( new DeleteTask( this, tableModel, progressBar ), "doDelete()" ).start();
     }
 
     private void setEnabledAll( boolean b )

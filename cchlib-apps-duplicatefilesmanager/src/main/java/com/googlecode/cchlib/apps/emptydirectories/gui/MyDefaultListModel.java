@@ -9,8 +9,8 @@ import com.googlecode.cchlib.lang.Enumerable;
  * @see Enumerable
  */
 public class MyDefaultListModel<E>
-    extends DefaultListModel<E> 
-        implements Enumerable<E> 
+    extends DefaultListModel<E>
+        implements Enumerable<E>
 {
     private static final long serialVersionUID = 1L;
 
@@ -22,15 +22,11 @@ public class MyDefaultListModel<E>
         super();
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.lang.Enumerable#enumeration()
-     */
     @Override
     public Enumeration<E> enumeration()
     {
         return elements();
     }
-
 
     /**
      * Adds the specified component to the end of this list if this element
@@ -39,8 +35,8 @@ public class MyDefaultListModel<E>
     @Override
     public void addElement( final E element )
     {
-    	if( indexOf( element ) == -1 ) {
-        	super.addElement( element );
-    		}
+        if( indexOf( element ) == -1 ) {
+            super.addElement( element );
+            }
     }
 }

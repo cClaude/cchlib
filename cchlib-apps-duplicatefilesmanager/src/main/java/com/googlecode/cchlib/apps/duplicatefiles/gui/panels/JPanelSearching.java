@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -22,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
@@ -31,6 +31,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
@@ -41,7 +42,7 @@ import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
  *
  */
 @I18nName("duplicatefiles.JPanelSearching")
-public class JPanelSearching extends JPanel//SearchingWB
+public class JPanelSearching extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearching.class );
@@ -57,10 +58,10 @@ public class JPanelSearching extends JPanel//SearchingWB
     private int  displayPass;
     private boolean displayRunning;
 
-    @I18nString private String txtDuplicateSetsFound = "Duplicate sets found: %d";
-    @I18nString private String txtDuplicateFilesFound = "Duplicate files found: %d";
-    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %d";
-    @I18nString private String txtOctectsToCheck = "Octects to check: %d";
+    @I18nString private String txtDuplicateSetsFound = "Duplicate sets found: %,d";
+    @I18nString private String txtDuplicateFilesFound = "Duplicate files found: %,d";
+    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %,d";
+    @I18nString private String txtOctectsToCheck = "Octects to check: %,d";
     //@I18nString private String txtBytesReadFromDisk = "Bytes read from disk: %d bytes";
     @I18nString private String txtCurrentFile = "Current File :";
     @I18nString private String txtCurrentDir = "Current directory :";
@@ -190,21 +191,6 @@ public class JPanelSearching extends JPanel//SearchingWB
     public void initFixComponents( DFToolKit dFToolKit )
     {
         this.dFToolKit = dFToolKit;
-//        this.dFToolKit.getJButtonCancel().addMouseListener(
-//            new MouseAdapter()
-//            {
-//                @Override
-//                public void mouseClicked( final MouseEvent e )
-//                {
-//                if( JPanelSearching.this.dFToolKit.isEnabledJButtonCancel() ) {
-//                    JPanelSearching.this.dFToolKit.setEnabledJButtonCancel( false );
-//
-//                    if( duplicateFC != null ) {
-//                        duplicateFC.setCancelProcess( true );
-//                        }
-//                    }
-//                }
-//            });
 
          tableModelErrorList = new DefaultTableModel() {
             private static final long serialVersionUID = 1L;
@@ -224,10 +210,10 @@ public class JPanelSearching extends JPanel//SearchingWB
     }
 
     private void doScanPass1(
-            Iterable<File>      entriesToScans,
-            Iterable<File>      entriesToIgnore,
-            FileFilterBuilders  fileFilterBuilders
-            )
+        final Iterable<File>      entriesToScans,
+        final Iterable<File>      entriesToIgnore,
+        final FileFilterBuilders  fileFilterBuilders
+        )
     {
         displayPass = 1;
         LOGGER.info( "doScanPass1: init()" );
@@ -360,14 +346,18 @@ public class JPanelSearching extends JPanel//SearchingWB
         else {
             jTextFieldCurrentFile.setText( "" );
         }
+        final Locale locale = dFToolKit.getValidLocale();
+
         jLabelDuplicateSetsFoundValue.setText(
                 String.format(
+                    locale,
                     txtDuplicateSetsFound,
                     Integer.valueOf( duplicateFC.getDuplicateSetsCount() )
                     )
                 );
         jLabelDuplicateFilesFoundValue.setText(
                 String.format(
+                    locale,
                     txtDuplicateFilesFound,
                     Integer.valueOf( duplicateFC.getDuplicateFilesCount() )
                     )
@@ -376,12 +366,14 @@ public class JPanelSearching extends JPanel//SearchingWB
         if( displayPass == 1 ) {
             jProgressBarFiles.setString(
                     String.format(
+                        locale,
                         txtNumberOfFilesProcessed,
                         Integer.valueOf( pass1CountFile )
                         )
                     );
             jProgressBarOctets.setString(
                 String.format(
+                    locale,
                     txtOctectsToCheck,
                     Long.valueOf( pass1BytesCount )
                     )
@@ -395,10 +387,10 @@ public class JPanelSearching extends JPanel//SearchingWB
 //                    )
 //                );
             jProgressBarFiles.setValue( pass2CountFile );
-            jProgressBarFiles.setString( String.format( "%d / %d", Integer.valueOf( pass2CountFile ), Integer.valueOf( pass1CountFile ) ) );
+            jProgressBarFiles.setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2CountFile ), Integer.valueOf( pass1CountFile ) ) );
             //jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
             jProgressBarOctets.setValue( (int)( pass2BytesCount/1024 ) );
-            jProgressBarOctets.setString( String.format( "%d / %d", Long.valueOf( pass2BytesCount), Long.valueOf( pass1BytesCount ) ) );
+            jProgressBarOctets.setString( String.format( locale, "%,d / %,d", Long.valueOf( pass2BytesCount), Long.valueOf( pass1BytesCount ) ) );
         }
     }
 
@@ -421,9 +413,9 @@ public class JPanelSearching extends JPanel//SearchingWB
     }
 
     public void prepareScan(
-            MessageDigestFile   messageDigestFile,
-            boolean             ignoreEmptyFiles
-            )
+        final MessageDigestFile   messageDigestFile,
+        final boolean             ignoreEmptyFiles
+        )
     {
         clear();
 
@@ -480,7 +472,7 @@ public class JPanelSearching extends JPanel//SearchingWB
         for(Map.Entry<String,Set<File>> e:filesMap.entrySet()) {
             String              k    = e.getKey();
             Set<File>           sf   = e.getValue();
-            Set<KeyFileState>   skfs = new HashSet<KeyFileState>();
+            Set<KeyFileState>   skfs = new HashSet<>();
 
             for(File f:sf) {
                 skfs.add( new KeyFileState(k,f) );
@@ -499,10 +491,8 @@ public class JPanelSearching extends JPanel//SearchingWB
 
         duplicateFC.deepClear();
         duplicateFC = null;
-        //jButtonCancelScan.setEnabled( false );
-        //this.dFToolKit.getJButtonCancel().setEnabled( false );
+
         this.dFToolKit.setEnabledJButtonCancel( false );
-        //jLabelStateWorking.setIcon( null );
 
         // Populate next panel now !!
         dFToolKit.initComponentsJPanelConfirm();
@@ -510,8 +500,8 @@ public class JPanelSearching extends JPanel//SearchingWB
 
 
     private FileFilter createFilesFileFilter(
-            FileFilterBuilders   fbs
-            )
+        final FileFilterBuilders   fbs
+        )
     {
         final boolean skipHidden   = fbs.isIgnoreHiddenFiles();
         final boolean skipReadOnly = fbs.isIgnoreReadOnlyFiles();
@@ -521,7 +511,7 @@ public class JPanelSearching extends JPanel//SearchingWB
 
         if( includeFilesFileFilterBuilder != null ) {
             final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
-            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
+            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
             final int      fileExtsL    = fileExts.length;
 
             LOGGER.info( "createFilesFileFilter: case1");
@@ -585,7 +575,7 @@ public class JPanelSearching extends JPanel//SearchingWB
             if( excludeFilesFileFilterBuilder != null ) {
                 final Pattern regex        = excludeFilesFileFilterBuilder.getRegExp();
 
-                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( new String[0] );
+                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
                 final int      fileExtsL = fileExts.length;
 
                 LOGGER.info( "createFilesFileFilter: case2");
@@ -676,7 +666,7 @@ public class JPanelSearching extends JPanel//SearchingWB
 
             //TODO: construire un automate pour tester
             //      une chaîne par rapport à un groupe de motif
-            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
+            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
             final int      dirNamesL = dirNames.length;
 
             LOGGER.info( "dirs regex=" + regex );
@@ -722,7 +712,7 @@ public class JPanelSearching extends JPanel//SearchingWB
 
                 //TODO: construire un automate pour tester
                 //      une chaîne par rapport à un groupe de motif
-                final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( new String[0] );
+                final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
                 final int      dirNamesL = dirNames.length;
 
                 LOGGER.info( "dirs regex=" + regex );

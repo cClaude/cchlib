@@ -24,7 +24,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 /**
  *
  */
-public final class Preferences implements Serializable
+public final class Preferences implements Serializable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
 
@@ -225,9 +225,10 @@ public final class Preferences implements Serializable
 
     public Locale getLocale()
     {
-        LOGGER.info( "localeLanguage = " + this.localeLanguage );
-
         if( (this.localeLanguage == null) || this.localeLanguage.isEmpty() ) {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "localeLanguage = (not defined) [" + this.localeLanguage + ']');
+                }
             return null;
             }
         else {

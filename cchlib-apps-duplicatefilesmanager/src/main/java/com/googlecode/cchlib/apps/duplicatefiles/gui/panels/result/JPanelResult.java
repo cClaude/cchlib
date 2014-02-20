@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -52,11 +50,11 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
             if( selectedIndices == null ) {
                 throw new IllegalArgumentException( "selectedIndices is null - Illegal value" );
                 }
-            if( selectedIndices.length <= 0 ) {
+            if( selectedIndices.length < 0 ) {
                 throw new IllegalArgumentException( "Illegal value for selectedIndices: " + selectedIndices.length );
                 }
 
-            this.selectedList    = new ArrayList<>();
+            this.selectedList = new ArrayList<>( selectedIndices.length );
 
             for( int index : selectedIndices ) {
                 this.selectedList.add( listModel.getElementAt( index ) );
@@ -76,9 +74,9 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
         public List<File> toFileList()
         {
-            List<File> list = new ArrayList<>();
+            final List<File> list = new ArrayList<>();
 
-            for( KeyFileState kf : this ) {
+            for( final KeyFileState kf : this ) {
                 list.add( kf.getFile() );
                 }
 
@@ -91,6 +89,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
     // TODO: Must be restore by parent !
     private transient DFToolKit dFToolKit;
+    private DuplicateSetListContextualMenu duplicateSetListContextualMenu;
 
     private ActionListener      actionListenerContextSubMenu;
     private static final String ACTION_OBJECT                            = "KeyFile";
@@ -119,17 +118,6 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     @I18nString private String txtCanWriteFirstLetter = "W";
     @I18nString private String txtCanReadFirstLetter = "R";
 
-    @I18nString private String txtMenuSortList  = "Sort by";
-    @I18nString private String txtMenuSortBySize = "Size";
-    @I18nString private String txtMenuSortByName = "Filename";
-    @I18nString private String txtMenuSortByPath = "File path";
-    @I18nString private String txtMenuSortByDepth = "File depth";
-    @I18nString private String txtMenuSortFirstFile = "Select first file";
-    @I18nString private String txtMenuSortByNumberOfDuplicate = "Number of duplicate";
-    @I18nString private String txtMenuFirstFileRandom = "Quick";
-    @I18nString private String txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
-    @I18nString private String txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
-
     public JPanelResult(
         final DFToolKit dFToolKit
         )
@@ -138,6 +126,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
         this.dFToolKit = dFToolKit;
 
+        duplicateSetListContextualMenu = new DuplicateSetListContextualMenu( this );
         createPopupMenus();
 
         SwingUtilities.invokeLater( new Runnable() {
@@ -363,79 +352,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
         createKeyFileStatePopupMenu( getJListKeptIntact() );
         createKeyFileStatePopupMenu( getJListWillBeDeleted() );
 
-        new JPopupMenuForJList<KeyFiles>( getJListDuplicatesFiles() )
-            {
-                private static final long serialVersionUID = 1L;
-                @Override
-                protected JPopupMenu createContextMenu( final int rowIndex )
-                {
-                    JPopupMenu cm = new JPopupMenu();
-
-                    {
-                        JMenu sortListMenu = addJMenu( cm, txtMenuSortList );
-
-                        ActionListener sortByListener = new ActionListener()
-                        {
-                            @Override
-                            public void actionPerformed( ActionEvent event )
-                            {
-                                JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-                                SortMode sortMode = SortMode.class.cast(
-                                        menu.getClientProperty( SortMode.class )
-                                        );
-                                getListModelDuplicatesFiles().updateCache( sortMode );
-                            }
-                        };
-                        SortMode    sortMode = getListModelDuplicatesFiles().getSortMode();
-                        ButtonGroup gb       = new ButtonGroup();
-
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortBySize , gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName , gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath , gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
-                        addJCheckBoxMenuItem( sortListMenu, txtMenuSortByNumberOfDuplicate, gb, sortByListener, SortMode.class, SortMode.NUMBER_OF_DUPLICATE, sortMode );
-                    }
-                    {
-                        JMenu sortFirstFileMenu = addJMenu( cm, txtMenuSortFirstFile );
-
-                        ActionListener sortByListener = new ActionListener()
-                        {
-                            @Override
-                            public void actionPerformed( ActionEvent event )
-                            {
-                                JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-                                SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
-                                        menu.getClientProperty( SelectFirstMode.class )
-                                        );
-                                getListModelDuplicatesFiles().updateCache( selectFirstMode );
-                            }
-                        };
-                        SelectFirstMode sortMode = getListModelDuplicatesFiles().getSelectFirstMode();
-                        ButtonGroup gb           = new ButtonGroup();
-
-                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileRandom, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.QUICK, sortMode );
-                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthAscendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_ASCENDING_ORDER, sortMode );
-                        addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthDescendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_DESCENDING_ORDER, sortMode );
-                    }
-                    return cm;
-                }
-
-                private <E> void addJCheckBoxMenuItem( // $codepro.audit.disable largeNumberOfParameters
-                    JMenu          sortMenu,
-                    String         txt,
-                    ButtonGroup    gb,
-                    ActionListener listener,
-                    Class<E>       clientPropertyKey,
-                    E              clientPropertyValue,
-                    E              currentValue
-                    )
-                {
-                    JCheckBoxMenuItem jcbmiMenuSortBySize = new JCheckBoxMenuItem( txt );
-                    jcbmiMenuSortBySize.setSelected( currentValue.equals( clientPropertyValue ) );
-                    gb.add( jcbmiMenuSortBySize );
-                    addJMenuItem( sortMenu, jcbmiMenuSortBySize, listener, clientPropertyKey, clientPropertyValue );
-                }
-            }.setMenu();
+        duplicateSetListContextualMenu.setPopupMenu();
    }
 
     private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList_ )
@@ -475,7 +392,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                     kf = null;
                     }
 
-                if( getJList() == getJListKeptIntact() ) {
+                if( getJList() == getJListKeptIntact() ) { // $codepro.audit.disable useEquals
                     // ONLY: jListKeptIntact
                     addContextSubMenuActionCommand(
                         this,
@@ -546,7 +463,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
                 return cm;
             }
         };
-        menu.setMenu();
+        menu.addMenu();
     }
 
 
@@ -840,6 +757,8 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );
+        autoI18n.performeI18n( duplicateSetListContextualMenu, DuplicateSetListContextualMenu.class );
+        duplicateSetListContextualMenu.setPopupMenu();
 
         super.getSelectorsJPanel().performeI18n( autoI18n );
     }

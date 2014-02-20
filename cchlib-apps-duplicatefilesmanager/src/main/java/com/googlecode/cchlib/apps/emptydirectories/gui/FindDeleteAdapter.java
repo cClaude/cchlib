@@ -17,7 +17,7 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.ScanIOException; // $codepro.audit.disable unnecessaryImport
 import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
 import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
@@ -28,7 +28,7 @@ public class FindDeleteAdapter
     private static final Logger LOGGER = Logger.getLogger( FindDeleteAdapter.class );
 
     private MyDefaultListModel<File> listModel;
-    private FolderTreeModelable treeModel;
+    private FolderTreeModelable1 treeModel;
     private FindDeleteListener listener;
     private boolean isCancel;
 
@@ -37,7 +37,7 @@ public class FindDeleteAdapter
      */
     public FindDeleteAdapter(
         final MyDefaultListModel<File>  listModel,
-        final FolderTreeModelable       treeModel,
+        final FolderTreeModelable1      treeModel,
         final FindDeleteListener        listener
         )
     {
@@ -162,9 +162,9 @@ public class FindDeleteAdapter
     public void doDelete()
     {
         // Get selected list of paths
-        List<Path> selectedPaths = new ArrayList<>();
+        final List<Path> selectedPaths = new ArrayList<>();
 
-        for( EmptyFolder ef : treeModel.getSelectedEmptyFolders() ) {
+        for( final EmptyFolder ef : treeModel.getSelectedEmptyFolders() ) {
             selectedPaths.add( ef.getPath() );
             }
 
@@ -182,9 +182,9 @@ public class FindDeleteAdapter
         });
 
         // Delete deepest paths firsts
-        for( Path path : selectedPaths ) {
+        for( final Path path : selectedPaths ) {
             try {
-                boolean res = Files.deleteIfExists( path );
+                final boolean res = Files.deleteIfExists( path );
 
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "DIR delete [" + path + "] => " + res );

@@ -129,7 +129,6 @@ public class DefaultEmptyDirectoriesLookup
     /**
      * Returns true if folder has no file
      * @param folder Folder to examine
-     * @return TODOC
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     private boolean isEmpty( final File folder ) throws CancelRequestException

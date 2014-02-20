@@ -93,8 +93,7 @@ public class FakeDFToolKit implements DFToolKit
     @Override
     public Frame getMainFrame()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return null; // fake
     }
 
     @Override
@@ -106,8 +105,7 @@ public class FakeDFToolKit implements DFToolKit
     @Override
     public boolean isEnabledJButtonCancel()
     {
-        // fake
-        return false;
+        return false; // fake
     }
 
     @Override

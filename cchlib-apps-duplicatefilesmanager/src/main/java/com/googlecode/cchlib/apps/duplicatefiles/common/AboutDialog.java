@@ -13,10 +13,10 @@ public class AboutDialog
     extends JDialog
         implements I18nAutoCoreUpdatable, AboutPanelAction
 {
-//    private final class Panel extends AboutPanel 
+//    private final class Panel extends AboutPanel
 //    {
 //        private static final long serialVersionUID = 1L;
-//        
+//
 //        private Panel( Resources resources )
 //        {
 //            super( resources );
@@ -36,14 +36,14 @@ public class AboutDialog
     /**
      * Launch the application.
      */
-    public static void open( 
-        final DFToolKit     dfToolKit, 
+    public static void open(
+        final DFToolKit     dfToolKit,
         final AutoI18nCore  autoI18n
         )
     {
         try {
             AboutDialog dialog = new AboutDialog( dfToolKit );
-            
+
             dialog.performeI18n( autoI18n );
             dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
             dialog.setVisible( true );
@@ -52,13 +52,13 @@ public class AboutDialog
             LOGGER.error( "showDialog", e );
             }
     }
-     
+
     /**
      * Create the dialog.
-     * 
+     *
      * @param dfToolKit
      */
-    public AboutDialog( 
+    public AboutDialog(
         final DFToolKit dfToolKit
         )
     {
@@ -66,13 +66,13 @@ public class AboutDialog
 
         //this.dfToolKit    = dfToolKit;
         this.contentPanel = new AboutPanel( dfToolKit.getResources(), this );
-        
+
         super.setContentPane( contentPanel );
         super.setSize( 500, 350 ); // $codepro.audit.disable numericLiterals
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
     }

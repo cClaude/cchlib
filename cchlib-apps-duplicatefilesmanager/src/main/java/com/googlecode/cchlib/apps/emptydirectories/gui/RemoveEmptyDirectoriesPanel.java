@@ -20,7 +20,7 @@ import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -35,7 +35,7 @@ import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
  *
  */
 @I18nName("RemoveEmptyDirectoriesPanel")
-public class RemoveEmptyDirectoriesPanel
+public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOfFields
     extends RemoveEmptyDirectoriesPanelWB
         implements I18nAutoCoreUpdatable
 {
@@ -45,7 +45,7 @@ public class RemoveEmptyDirectoriesPanel
     private ActionListener actionListener;
     private DFToolKit dfToolKit;
     private Window mainWindow;
-    private FolderTreeModelable treeModel;
+    private FolderTreeModelable1 treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
@@ -75,37 +75,56 @@ public class RemoveEmptyDirectoriesPanel
 
     private void init()
     {
-        JProgressBar pBar = super.getProgressBar();
-        pBar.setStringPainted( true );
-        pBar.setString( txtSelectDirToScan );
-        pBar.setIndeterminate( false );
+        initProgressBar();
 
-        // Create a JTree and tell it to display our model
-        final JTree jTreeDir = super.getJTreeEmptyDirectories();
-        treeModel = new FolderTreeModel( jTreeDir );
-        jTreeDir.setModel( treeModel );
-
-        jTreeDir.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent event)
-            {
-                Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
-
-                if( currentSelectedNodeModel instanceof FolderTreeNode ) {
-                    FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
-
-                    if( selectedNode.getFolder() instanceof EmptyFolder ) {
-                        treeModel.toggleSelected( selectedNode );
-                    } // else click on a none empty folder => ignore
-                 }
-            }});
-        EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
-        jTreeDir.setCellRenderer( cellRenderer );
-        jTreeDir.setCellEditor( new FolderTreeCellEditor( treeModel, cellRenderer ) );
-        jTreeDir.setEditable( true );
+        initTreeEmptyDirectories();
 
         enable_findTaskDone();
 
+        initListRootDirectories();
+
+        // Init Adapter
+        final FindDeleteListener findDeleteListener = new FindDeleteListener()
+        {
+            @Override
+            public void findTaskDone( final boolean isCancel )
+            {
+                LOGGER.info( "find thread done" );
+                // Bad workaround !!!!
+                // TODO: find a better solution to expand tree
+                // during build.
+
+                treeModel.expandAllRows();
+
+                enable_findTaskDone();
+
+                final JProgressBar pBar = getProgressBar();
+
+                pBar.setIndeterminate( false );
+
+                if( isCancel ) {
+                    pBar.setString( txtProgressBarScanCancel );
+                    }
+                else {
+                    pBar.setString( txtProgressBarSelectFileToDelete );
+                    }
+            }
+        };
+
+        findDeleteAdapter = new FindDeleteAdapter(
+                getJListRootDirectoriesModel(),
+                treeModel,
+                findDeleteListener
+                );
+
+        // Prepare (in background) JFileChooser (avoid waiting under windows)
+        getWaitingJFileChooserInitializer();
+
+        LOGGER.info( "init() done" );
+    }
+
+    private void initListRootDirectories()
+    {
         final LeftDotListCellRenderer leftListCellRenderer = new LeftDotListCellRenderer( super.getJListRootDirectories(), true );
         super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
 
@@ -126,44 +145,44 @@ public class RemoveEmptyDirectoriesPanel
                         }
                 }
             });
+    }
 
-        // Init Adapter
-        FindDeleteListener findDeleteListener = new FindDeleteListener()
-        {
+    private void initTreeEmptyDirectories()
+    {
+        // Create a JTree and tell it to display our model
+        final JTree jTreeDir = super.getJTreeEmptyDirectories();
+        treeModel = new FolderTreeModel( jTreeDir );
+        jTreeDir.setModel( treeModel );
+
+        jTreeDir.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
-            public void findTaskDone( final boolean isCancel )
+            public void valueChanged( final TreeSelectionEvent event )
             {
-                LOGGER.info( "find thread done" );
-                // Bad workaround !!!!
-                // TODO: find a better solution to expand tree
-                // during build.
+                final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
 
-                treeModel.expandAllRows();
+                if( currentSelectedNodeModel instanceof FolderTreeNode ) {
+                    FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
 
-                enable_findTaskDone();
+                    if( selectedNode.getFolder() instanceof EmptyFolder ) {
+                        treeModel.toggleSelected( selectedNode );
+                    } // else click on a none empty folder => ignore
+                 }
+            }});
 
-                JProgressBar pBar = getProgressBar();
-                pBar.setIndeterminate( false );
+        final EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
 
-                if( isCancel ) {
-                    pBar.setString( txtProgressBarScanCancel );
-                    }
-                else {
-                    pBar.setString( txtProgressBarSelectFileToDelete );
-                    }
-            }
-        };
+        jTreeDir.setCellRenderer( cellRenderer );
+        jTreeDir.setCellEditor( new FolderTreeCellEditor( treeModel, cellRenderer ) );
+        jTreeDir.setEditable( true );
+    }
 
-        findDeleteAdapter = new FindDeleteAdapter(
-                getJListRootDirectoriesModel(),
-                treeModel,
-                findDeleteListener
-                );
+    private void initProgressBar()
+    {
+        final JProgressBar pBar = super.getProgressBar();
 
-        // Prepare JFileChooser
-        /*frame.*/getWaitingJFileChooserInitializer();
-
-        LOGGER.info( "init() done" );
+        pBar.setStringPainted( true );
+        pBar.setString( txtSelectDirToScan );
+        pBar.setIndeterminate( false );
     }
 
     protected DFToolKit getDFToolKit()
@@ -226,7 +245,6 @@ public class RemoveEmptyDirectoriesPanel
             LOGGER.info( "onUnselectAll()" );
 
             treeModel.setSelectAll( false, false );
-            //treeModel.setSelectAllLeaf( false );
             treeModel.expandAllRows();
             }
     }
@@ -245,7 +263,7 @@ public class RemoveEmptyDirectoriesPanel
                 }
             };
             new Thread( task, "onStartDelete()" ).start();
-            // NOTE: do not use of SwingUtilities.invokeLater( r );
+            // NOTE: do not use of SwingUtilities.invokeLater( task );
         }
     }
     @Override
@@ -468,7 +486,7 @@ public class RemoveEmptyDirectoriesPanel
     }
 
     @Override//I18nAutoUpdatable
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

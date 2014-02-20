@@ -504,10 +504,13 @@ final public class DuplicateFilesFrame
                     LOGGER.warn( "Interrupted", e );
                     }
 
-                LOGGER.info( "initComponentsJPanelConfirm start" );
-                getDuplicateFilesMainPanel().getJPanel3Result().populate( DuplicateFilesFrame.this.duplicateFiles );
-                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                LOGGER.info( "initComponentsJPanelConfirm done" );
+                try {
+                    LOGGER.info( "initComponentsJPanelConfirm start" );
+                    getDuplicateFilesMainPanel().getJPanel3Result().populate( DuplicateFilesFrame.this.duplicateFiles );
+                } finally {
+                    getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
+                    LOGGER.info( "initComponentsJPanelConfirm done" );
+                }
             }
         };
         new Thread( task, "initComponentsJPanelConfirm()" ).start();

@@ -18,7 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
@@ -30,13 +29,53 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 
 /**
  *
  */
 @I18nName("JPanelResult")
-public abstract class JPanelResultWB extends JPanel implements DuplicateData
+public abstract class JPanelResultWB extends JPanel implements DuplicateData // $codepro.audit.disable largeNumberOfFields
 {
+    private abstract class ClickedOnFileListsMouseAdapter extends MouseAdapter {
+        private final KeyFileStateListModel fromJListModel;
+
+        private ClickedOnFileListsMouseAdapter(
+            final KeyFileStateListModel fromJListModel
+            )
+        {
+            this.fromJListModel = fromJListModel;
+        }
+
+        @Override
+        public void mouseClicked( final MouseEvent event )
+        {
+            if( event.getClickCount() > 0 ) {
+                getToJList().clearSelection();
+                int index = getFromJList().locationToIndex( event.getPoint() );
+
+                if( index >= 0 ) {
+                    KeyFileState kf = fromJListModel.getElementAt( index );
+
+                    displayFileInfo( kf );
+                    }
+                }
+            if( event.getClickCount() == 2 ) { // Double-click
+                int index = getFromJList().locationToIndex( event.getPoint() );
+
+                if( index >= 0 ) {
+                    KeyFileState kf = fromJListModel.remove( index );
+
+                    //onKeepThisFile( kf, true );
+                    doAction( kf, true );
+                    }
+                }
+        }
+
+        abstract JList<KeyFileState> getFromJList();
+        abstract JList<KeyFileState> getToJList();
+        abstract void doAction( KeyFileState kf, boolean b );
+    }
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultWB.class );
 
@@ -52,7 +91,6 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
     @I18nIgnore @I18nToolTipText private JButton jButtonPrevSet;
     @I18nIgnore @I18nToolTipText private JButton refreshButton;
     @I18nIgnore @I18nToolTipText private JButton jButtonNextSet;
-    //private SelectorComboBox jComboBoxSelectMode;
     private SelectorsJPanel selectorsJPanel;
 
     /**
@@ -60,7 +98,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
      * @param dfToolKit
      *
      */
-    public JPanelResultWB( /*final AutoI18nBasicInterface autoI18n,*/ final DFToolKit dfToolKit )
+    public JPanelResultWB( final DFToolKit dfToolKit )
     {
         this.resources = dfToolKit.getResources();
 
@@ -129,13 +167,6 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
 
                             updateDisplayKeptDelete( i );
                             }
-//                        if( i >= 0 ) {
-//                            //KeyFiles kf = (KeyFiles)listModelDuplicatesFiles.get( i );
-//                            KeyFiles kf = listModelDuplicatesFiles.getElementAt( i );
-//                            String   k = kf.getKey();
-    //
-//                            updateDisplayKeptDelete( k );
-//                            }
                     }
                 } );
         }
@@ -145,26 +176,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
     {
         return jTextFieldFileInfo;
     }
-//    protected JToggleButton getJToggleButtonSelectByRegEx()
-//    {
-//        return jToggleButtonSelectByRegEx;
-//    }
-//    private XComboBoxPattern getXComboBoxPatternRegEx()
-//    {
-//        return xComboBoxPatternRegEx;
-//    }
-//    private JCheckBox getJCheckBoxKeepOne()
-//    {
-//        return jCheckBoxKeepOne;
-//    }
-//    private JButton getJButtonRegExDelete()
-//    {
-//        return jButtonRegExDelete;
-//    }
-//    private JButton getJButtonRegExKeep()
-//    {
-//        return jButtonRegExKeep;
-//    }
+
     protected JList<KeyFileState> getJListKeptIntact()
     {
         return jListKeptIntact;
@@ -267,31 +279,23 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
             jListKeptIntact.setModel( jListKeptIntactListModel );
             jListKeptIntact.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
 
-            jListKeptIntact.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mouseClicked( MouseEvent e )
-                {
-                    if( e.getClickCount() > 0 ) {
-                        jListWillBeDeleted.clearSelection();
-                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            KeyFileState kf = jListKeptIntactListModel.getElementAt( index );
-
-                            displayFileInfo( kf );
-                            }
-                        }
-                    if( e.getClickCount() == 2 ) { // Double-click
-                        int index = jListKeptIntact.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            KeyFileState kf = jListKeptIntactListModel.remove( index );
-
-                            onDeleteThisFile( kf, true );
-                            }
-                        }
-                }
-            } );
+            jListKeptIntact.addMouseListener(
+                new ClickedOnFileListsMouseAdapter( jListKeptIntactListModel ) {
+                    @Override
+                    void doAction( KeyFileState kf, boolean b )
+                    {
+                        onDeleteThisFile( kf, true );
+                    }
+                    @Override
+                    JList<KeyFileState> getToJList()
+                    {
+                        return jListWillBeDeleted;
+                    }
+                    @Override
+                    JList<KeyFileState> getFromJList()
+                    {
+                        return jListKeptIntact;
+                    }} );
             jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
             jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
 
@@ -302,31 +306,23 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
             final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
             jListWillBeDeleted.setModel( jListWillBeDeletedListModel );
             jListWillBeDeleted.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
-            jListWillBeDeleted.addMouseListener( new MouseAdapter() {
-                @Override
-                public void mouseClicked( MouseEvent e )
-                {
-                    if( e.getClickCount() > 0 ) {
-                        jListKeptIntact.clearSelection();
-                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            KeyFileState kf = jListWillBeDeletedListModel.getElementAt( index );
-
-                            displayFileInfo( kf );
-                            }
-                        }
-                    if( e.getClickCount() == 2 ) { // Double-click
-                        int index = jListWillBeDeleted.locationToIndex( e.getPoint() );
-
-                        if( index >= 0 ) {
-                            KeyFileState kf = jListWillBeDeletedListModel.remove( index );
-
+            jListWillBeDeleted.addMouseListener(
+                    new ClickedOnFileListsMouseAdapter( jListWillBeDeletedListModel ) {
+                        @Override
+                        void doAction( KeyFileState kf, boolean b )
+                        {
                             onKeepThisFile( kf, true );
-                            }
                         }
-                }
-            });
+                        @Override
+                        JList<KeyFileState> getToJList()
+                        {
+                            return jListKeptIntact;
+                        }
+                        @Override
+                        JList<KeyFileState> getFromJList()
+                        {
+                            return jListWillBeDeleted;
+                        }});
             jScrollPaneWillBeDeleted.setViewportView( jListWillBeDeleted );
             jSplitPaneResultRight.setBottomComponent( jScrollPaneWillBeDeleted );
             }
@@ -364,7 +360,8 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
             this.jSplitPaneResultMain.setDividerLocation( mainDividerLocation.intValue() );
             }
         else {
-            jSplitPaneResultMain.setDividerLocation( 0.10 ); // Proportional
+            //jSplitPaneResultMain.setDividerLocation( 0.10 ); // Proportional
+            JSplitPanes.setJSplitPaneDividerLocation( jSplitPaneResultMain, 0.10 ); // Proportional
             }
 
         Integer rightDividerLocation = dividersLocation.getRightDividerLocation();
@@ -372,14 +369,11 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData
             this.jSplitPaneResultRight.setDividerLocation( rightDividerLocation.intValue() );
             }
         else {
-            jSplitPaneResultRight.setDividerLocation( 0.50 ); // Proportional
+            //jSplitPaneResultRight.setDividerLocation( 0.50 ); // Proportional
+            JSplitPanes.setJSplitPaneDividerLocation( jSplitPaneResultRight, 0.50 );// Proportional
             }
     }
 
-//    protected SelectorComboBox _getSelectorComboBox()
-//    {
-//        return this.jComboBoxSelectMode;
-//    }
 
     protected SelectorsJPanel getSelectorsJPanel()
     {

@@ -73,12 +73,10 @@ public class PropertiesXComboBoxPatternBuilderTstFrameWB extends JFrame
             comboBoxPattern = builder.createXComboBoxPattern();
             }
         catch( FileNotFoundException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(); // Warning
             }
         catch( IOException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(); // Warning
             }
 
         if( comboBoxPattern == null ) {
@@ -103,8 +101,7 @@ public class PropertiesXComboBoxPatternBuilderTstFrameWB extends JFrame
             comboBoxPattern = builder.createXComboBoxPattern();
             }
         catch( IOException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace(); // Warning
             }
 
         if( comboBoxPattern == null ) {

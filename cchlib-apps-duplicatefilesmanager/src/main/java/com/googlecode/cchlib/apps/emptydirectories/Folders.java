@@ -6,35 +6,35 @@ import com.googlecode.cchlib.apps.emptydirectories.file.folder.FileFolderFactory
 
 public class Folders
 {
-    private static FolderFactory factory = new FileFolderFactory();
+    private static FolderFactory INSTANCE = new FileFolderFactory();
 
     public static Folder createFolder( File file )
     {
-        return factory.createFolder( file );
+        return INSTANCE.createFolder( file );
     }
 
     public static EmptyFolder createEmptyFolder( File file )
     {
-        return factory.createEmptyFolder( file );
+        return INSTANCE.createEmptyFolder( file );
     }
-    
+
     public static Folder createFolder( Path path )
     {
-        return factory.createFolder( path );
+        return INSTANCE.createFolder( path );
     }
 
     public static EmptyFolder createEmptyFolder( Path path )
     {
-        return factory.createEmptyFolder( path );
+        return INSTANCE.createEmptyFolder( path );
     }
 
     public static EmptyFolder createCouldBeEmptyFolder( Path path )
     {
-        return factory.createCouldBeEmptyFolder( path );
+        return INSTANCE.createCouldBeEmptyFolder( path );
     }
-    
+
     public static EmptyFolder createCouldBeEmptyFolder( File file )
     {
-        return factory.createCouldBeEmptyFolder( file );
+        return INSTANCE.createCouldBeEmptyFolder( file );
     }
 }

@@ -26,17 +26,6 @@ public interface EmptyDirectoriesLookup
     void lookup( FolderFilter excludeDirectoriesFile )
             throws CancelRequestException, ScanIOException;
 
-    /**
-     * TODOC
-     * @param listener
-     */
     void addListener( EmptyDirectoriesListener listener );
-
-    /**
-     * TODOC
-     * @param listener
-     */
     void removeListener( EmptyDirectoriesListener listener );
-
-
 }

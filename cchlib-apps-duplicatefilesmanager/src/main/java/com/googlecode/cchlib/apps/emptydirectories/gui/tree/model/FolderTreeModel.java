@@ -24,20 +24,16 @@ import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterable.Iterables;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
-/**
- *
- */
-public final
-class FolderTreeModel
+public final class FolderTreeModel
     extends DefaultTreeModel
-        implements FolderTreeModelable
+        implements FolderTreeModelable1
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FolderTreeModel.class );
 
     private FolderTreeBuilder folderTreeBuilder;
     private final Set<EmptyFolder> selectedNodes = new HashSet<>();
-    private final JTree jTree;
+    @Deprecated private final JTree jTree;
     private final Object lock = new Object();
 
     /**
@@ -117,7 +113,7 @@ class FolderTreeModel
 
             //jTree.scrollPathToVisible(new TreePath(getRootNode().getLastLeaf().getPath()));
             }
-        
+
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "try to add: " + emptyFolder );
             }
@@ -189,6 +185,7 @@ class FolderTreeModel
         fireStructureChanged();
     }
 
+    @Deprecated
     protected final void fireStructureChanged()
     {
         Object root = getRoot();
@@ -205,6 +202,7 @@ class FolderTreeModel
     /**
      * Call when the tree structure below the path has completely changed.
      */
+    @Deprecated
     protected final void fireTreeStructureChanged(final TreePath parentPath)
     {
         if( parentPath == null ) {
@@ -295,12 +293,6 @@ class FolderTreeModel
     final
     public Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
-//        return Iterables.wrap( selectedNodes, new Wrappable<FolderTreeNode,EmptyFolder>(){
-//            @Override
-//            public EmptyFolder wrap( FolderTreeNode node ) throws WrapperException
-//            {
-//                return EmptyFolder.class.cast( node.getFolder() );
-//            }} );
         return Collections.unmodifiableSet( this.selectedNodes );
     }
 
@@ -315,9 +307,6 @@ class FolderTreeModel
         return DefaultMutableTreeNode.class.cast( super.getRoot() );
     }
 
-    /**
-     *
-     */
     public Iterable<FolderTreeNode> rootNodes()
     {
         @SuppressWarnings("unchecked")
@@ -341,7 +330,7 @@ class FolderTreeModel
     //@Override
     protected final FolderTreeNode synchronizedAdd( final EmptyFolder emptyFolder )
     {
-        int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
+        final int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
 
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "#### synchronizedAdd = " + emptyFolder );
@@ -354,9 +343,9 @@ class FolderTreeModel
             }
 
         if( this.folderTreeBuilder.getRootNodesMap().size() > rootCount ) {
-            Collection<FolderTreeNode> values = this.folderTreeBuilder.getRootNodesMap().values();
-            Iterator<FolderTreeNode>   iter   = values.iterator();
-            FolderTreeNode             last   = null;
+            final Collection<FolderTreeNode> values = this.folderTreeBuilder.getRootNodesMap().values();
+            final Iterator<FolderTreeNode>   iter   = values.iterator();
+            FolderTreeNode                   last   = null;
 
             while( iter.hasNext() ) {
                 last = iter.next();
@@ -385,10 +374,10 @@ class FolderTreeModel
             @Override
             public boolean hasNext()
             {
-                Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
+                final Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
 
                 while( globalIterator.hasNext() ) {
-                    Iterator<FolderTreeNode> current = globalIterator.next();
+                    final Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
                         return true;
@@ -401,10 +390,10 @@ class FolderTreeModel
             public FolderTreeNode next()
             {
                 // Find next non empty iterator.
-                Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
+                final Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
 
                 while( globalIterator.hasNext() ) {
-                    Iterator<FolderTreeNode> current = globalIterator.next();
+                    final Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
                         FolderTreeNode n = current.next();

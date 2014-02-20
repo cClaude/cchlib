@@ -7,10 +7,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
-/**
- *
- *
- */
 //not public
 final class FolderTreeBuilder
 {
@@ -99,7 +95,7 @@ final class FolderTreeBuilder
         return parentFolderTreeNode;
     }
 
-    private FolderTreeNode findRootFolderTreeNode( EmptyFolder emptyFolder )
+    private FolderTreeNode findRootFolderTreeNode( final EmptyFolder emptyFolder )
     {
         final Path emptyFolderRootPath = emptyFolder.getPath().getRoot();
 

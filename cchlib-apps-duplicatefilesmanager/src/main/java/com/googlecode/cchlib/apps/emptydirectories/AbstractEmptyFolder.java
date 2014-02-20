@@ -56,7 +56,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
                 return /*((Folder)this).*/compareTo( aEmptyFolder );
                 }
             else {
-                return -2;
+                return -2; // $codepro.audit.disable numericLiterals
                 }
             }
         else {

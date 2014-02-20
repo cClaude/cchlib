@@ -12,7 +12,7 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
 import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -63,8 +63,9 @@ public class WorkingTableModel
     private boolean             selectedDefaultState = true; // FIXME : should be configurable
 
     private FileInfoFormater fileInfoFormater;
-    private Icon deletedFileIcon = MyStaticResources.getDeletedFileIcon();
-    private Icon fileIcon = MyStaticResources.getFileIcon();
+//    private Icon deletedFileIcon = IconResources.getDeletedFileIcon();
+//    private Icon fileIcon = IconResources.getFileIcon();
+    private IconResources iconResources = IconResources.getInstance();
 
     /**
      *
@@ -138,8 +139,9 @@ public class WorkingTableModel
             case FILE_ICON:
             {
                 FileInfo fi = getFileInfo( file );
-
-                return fi.isDeleted() ? deletedFileIcon : fileIcon;
+                
+                //return fi.isDeleted() ? deletedFileIcon : fileIcon;
+                return fi.isDeleted() ? iconResources.getDeletedFileIcon() : iconResources.getFileIcon();
             }
             case FILE_SELECTED :
                 {

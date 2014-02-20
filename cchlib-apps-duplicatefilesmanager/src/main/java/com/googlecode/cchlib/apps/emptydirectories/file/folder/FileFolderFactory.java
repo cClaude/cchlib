@@ -8,7 +8,7 @@ import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.FolderFactory;
 
 /**
- * TODOC
+ * Create a Folder or an EmptyFolder base on {@link Path} or on a {@link File}
  */
 public class FileFolderFactory implements FolderFactory
 {

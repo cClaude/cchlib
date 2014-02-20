@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream; // $codepro.audit.disable unnecessaryImport
@@ -10,6 +9,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -81,7 +81,7 @@ public class EmptyDirectoriesFinderTest
 
             LOGGER.info( "filter.createPathSet().size() = " + pathSet.size() );
 
-            assertEquals( filter.getPathList().size(), pathSet.size() );
+            Assert.assertEquals( filter.getPathList().size(), pathSet.size() );
 
             for( Path p : filter.getPathList() ) {
                 LOGGER.info( "p = " + p );

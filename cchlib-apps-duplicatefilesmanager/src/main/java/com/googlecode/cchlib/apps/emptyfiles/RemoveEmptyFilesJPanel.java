@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.emptyfiles;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.io.File;
 import java.nio.file.FileVisitOption;
 import java.nio.file.LinkOption;
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
@@ -24,9 +27,6 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import java.awt.BorderLayout;
-import org.apache.log4j.Logger;
-import java.awt.CardLayout;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
 public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
@@ -178,7 +178,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     }
 
     @Override
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
 

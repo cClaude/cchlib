@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import com.googlecode.cchlib.apps.duplicatefiles.MyStaticResources;
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
@@ -22,27 +22,28 @@ class EmptyDirectoryTreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
 
-    private Icon nodeLeafIcon;
-    private Icon nodeLeafSelectedIcon;
-    private Icon nodeLeafSelectedByUserIcon;
-    private Icon nodeLeafSelectedAndSelectedByUserIcon;
+    private IconResources iconResources = IconResources.getInstance();
+//    private Icon nodeLeafIcon;
+//    private Icon nodeLeafSelectedIcon;
+//    private Icon nodeLeafSelectedByUserIcon;
+//    private Icon nodeLeafSelectedAndSelectedByUserIcon;
 
-    private Icon nodeLeafEmptyIcon;
-    private Icon nodeLeafEmptySelectedIcon;
-    private Icon nodeLeafEmptySelectedByUserIcon;
-    private Icon nodeLeafEmptySelectedAndSelectedByUserIcon;
+//    private Icon nodeLeafEmptyIcon;
+//    private Icon nodeLeafEmptySelectedIcon;
+//    private Icon nodeLeafEmptySelectedByUserIcon;
+//    private Icon nodeLeafEmptySelectedAndSelectedByUserIcon;
 
     public EmptyDirectoryTreeCellRenderer( final FolderTreeModelable model )
     {
-        this.nodeLeafIcon                          = MyStaticResources.getEmptyIcon();
-        this.nodeLeafSelectedIcon                  = MyStaticResources.getEmptySelectedIcon();
-        this.nodeLeafSelectedByUserIcon            = MyStaticResources.getEmptySelectedByUserIcon();
-        this.nodeLeafSelectedAndSelectedByUserIcon = MyStaticResources.getEmptySelectedAndSelectedByUserIcon();
+//        this.nodeLeafIcon                          = IconResources.getEmptyIcon();
+//        this.nodeLeafSelectedIcon                  = IconResources.getEmptySelectedIcon();
+//        this.nodeLeafSelectedByUserIcon            = IconResources.getEmptySelectedByUserIcon();
+//        this.nodeLeafSelectedAndSelectedByUserIcon = IconResources.getEmptySelectedAndSelectedByUserIcon();
 
-        this.nodeLeafEmptyIcon                          = MyStaticResources.getEmptyLeafIcon();
-        this.nodeLeafEmptySelectedIcon                  = MyStaticResources.getEmptyLeafSelectedIcon();
-        this.nodeLeafEmptySelectedByUserIcon            = MyStaticResources.getEmptyLeafSelectedByUserIcon();
-        this.nodeLeafEmptySelectedAndSelectedByUserIcon = MyStaticResources.getEmptyLeafSelectedAndSelectedByUserIcon();
+//        this.nodeLeafEmptyIcon                          = IconResources.getEmptyLeafIcon();
+//        this.nodeLeafEmptySelectedIcon                  = IconResources.getEmptyLeafSelectedIcon();
+//        this.nodeLeafEmptySelectedByUserIcon            = IconResources.getEmptyLeafSelectedByUserIcon();
+//        this.nodeLeafEmptySelectedAndSelectedByUserIcon = IconResources.getEmptyLeafSelectedAndSelectedByUserIcon();
     }
 
     @Override
@@ -107,10 +108,12 @@ class EmptyDirectoryTreeCellRenderer
         )
     {
         if( selectedByUser ) {
-            return selected ?  nodeLeafSelectedAndSelectedByUserIcon : nodeLeafSelectedByUserIcon;
+            //return selected ?  nodeLeafSelectedAndSelectedByUserIcon : nodeLeafSelectedByUserIcon;
+            return selected ?  iconResources.getEmptySelectedAndSelectedByUserIcon() : iconResources.getEmptySelectedByUserIcon();
            }
         else {
-            return selected ?  nodeLeafSelectedIcon : nodeLeafIcon;
+            //return selected ?  nodeLeafSelectedIcon : nodeLeafIcon;
+            return selected ?  iconResources.getEmptySelectedIcon() : iconResources.getEmptyIcon();
             }
     }
 
@@ -120,10 +123,12 @@ class EmptyDirectoryTreeCellRenderer
         )
     {
         if( selectedByUser ) {
-            return selected ?  nodeLeafEmptySelectedAndSelectedByUserIcon : nodeLeafEmptySelectedByUserIcon;
+            //return selected ?  nodeLeafEmptySelectedAndSelectedByUserIcon : nodeLeafEmptySelectedByUserIcon;
+            return selected ?  iconResources.getEmptyLeafSelectedAndSelectedByUserIcon() : iconResources.getEmptyLeafSelectedByUserIcon();
             }
         else {
-            return selected ?  nodeLeafEmptySelectedIcon : nodeLeafEmptyIcon;
+            //return selected ?  nodeLeafEmptySelectedIcon : nodeLeafEmptyIcon;
+            return selected ?  iconResources.getEmptyLeafSelectedIcon() : iconResources.getEmptyLeafIcon();
             }
     }
 

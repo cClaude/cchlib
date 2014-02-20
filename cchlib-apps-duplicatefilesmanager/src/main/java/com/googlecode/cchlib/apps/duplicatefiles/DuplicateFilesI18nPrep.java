@@ -50,8 +50,8 @@ public class DuplicateFilesI18nPrep
 
         Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
 
         for( I18nAutoCoreUpdatable contener : i18nConteners ) {
             if( contener instanceof Window ) {

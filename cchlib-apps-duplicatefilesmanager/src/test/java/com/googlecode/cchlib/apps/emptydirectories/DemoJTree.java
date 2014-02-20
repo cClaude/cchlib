@@ -11,20 +11,26 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
-
-public class TestTree {
-
-    private static final class TestTreeCellRenderer extends DefaultTreeCellRenderer {
+public class DemoJTree
+{
+    private static final class TestTreeCellRenderer extends DefaultTreeCellRenderer
+    {
         private static final long serialVersionUID = 1L;
         private Icon loadIcon = UIManager.getIcon("OptionPane.errorIcon");
         private Icon saveIcon = UIManager.getIcon("OptionPane.informationIcon");
 
         @Override
-        public Component getTreeCellRendererComponent(JTree tree,
-                Object value, boolean selected, boolean expanded,
-                boolean isLeaf, int row, boolean focused) {
-            Component c = super.getTreeCellRendererComponent(tree, value,
-                    selected, expanded, isLeaf, row, focused);
+        public Component getTreeCellRendererComponent(//
+                final JTree tree,
+                final Object value, //
+                final boolean selected, //
+                final boolean expanded,
+                final boolean isLeaf, //
+                final int row, //
+                final  boolean focused//
+                ) {
+            final Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
+
             if (selected) {
                 setIcon(loadIcon);
                 }

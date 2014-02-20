@@ -3,27 +3,36 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.Icon;
 
-public class MyStaticResources
+public class IconResources
 {
-    private static Icon emptyIcon;
-    private static Icon emptySelectedIcon;
-    private static Icon emptySelectedByUserIcon;
-    private static Icon emptySelectedAndSelectedByUserIcon;
+    private static IconResources instance;
 
-    private static Icon emptyLeafIcon;
-    private static Icon emptyLeafSelectedIcon;
-    private static Icon emptyLeafSelectedByUserIcon;
-    private static Icon emptyLeafSelectedAndSelectedByUserIcon;
+    private Icon emptyIcon;
+    private Icon emptySelectedIcon;
+    @Deprecated private Icon emptySelectedByUserIcon;
+    @Deprecated private Icon emptySelectedAndSelectedByUserIcon;
 
-    private static Icon duplicateFilesPanelIcon;
-    private static Icon removeEmptyDirectoriesPanelIcon;
-    private static Icon deleteEmptyFilesPanelIcon;
-    private static Icon deletedFileIcon;
-    private static Icon fileIcon;
+    private Icon emptyLeafIcon;
+    private Icon emptyLeafSelectedIcon;
+    @Deprecated private Icon emptyLeafSelectedByUserIcon;
+    @Deprecated private Icon emptyLeafSelectedAndSelectedByUserIcon;
 
-    private MyStaticResources() {}
+    private Icon duplicateFilesPanelIcon;
+    private Icon removeEmptyDirectoriesPanelIcon;
+    private Icon deleteEmptyFilesPanelIcon;
+    private Icon deletedFileIcon;
+    private Icon fileIcon;
 
-    public static Icon getEmptyIcon()
+    private IconResources() {}
+
+    public static IconResources getInstance() {
+        if( instance == null ) {
+            instance = new IconResources();
+            }
+        return instance;
+    }
+
+    public Icon getEmptyIcon()
     {
         if( emptyIcon == null ) {
             emptyIcon = MyResourcesLoader.getImageIcon( "emptyIcon.png" );
@@ -31,7 +40,7 @@ public class MyStaticResources
         return emptyIcon;
     }
 
-    public static Icon getEmptySelectedIcon()
+    public Icon getEmptySelectedIcon()
     {
         if( emptySelectedIcon == null ) {
             emptySelectedIcon = MyResourcesLoader.getImageIcon( "emptySelectedIcon.png" );
@@ -39,7 +48,7 @@ public class MyStaticResources
         return emptySelectedIcon;
     }
 
-    public static Icon getEmptyLeafIcon()
+    public Icon getEmptyLeafIcon()
     {
         if( emptyLeafIcon == null ) {
             emptyLeafIcon = MyResourcesLoader.getImageIcon( "emptyLeafIcon.png" );
@@ -47,7 +56,7 @@ public class MyStaticResources
         return emptyLeafIcon;
     }
 
-    public static Icon getEmptyLeafSelectedIcon()
+    public Icon getEmptyLeafSelectedIcon()
     {
         if( emptyLeafSelectedIcon == null ) {
             emptyLeafSelectedIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedIcon.png" );
@@ -55,7 +64,7 @@ public class MyStaticResources
         return emptyLeafSelectedIcon;
     }
 
-    public static Icon getDuplicateFilesPanelIcon()
+    public Icon getDuplicateFilesPanelIcon()
     {
         if( duplicateFilesPanelIcon == null ) {
             duplicateFilesPanelIcon = MyResourcesLoader.getImageIcon( "duplicateFilesPanelIcon.png" );
@@ -63,7 +72,7 @@ public class MyStaticResources
         return duplicateFilesPanelIcon;
     }
 
-    public static Icon getRemoveEmptyDirectoriesPanelIcon()
+    public Icon getRemoveEmptyDirectoriesPanelIcon()
     {
         if( removeEmptyDirectoriesPanelIcon == null ) {
             removeEmptyDirectoriesPanelIcon = MyResourcesLoader.getImageIcon( "removeEmptyDirectoriesPanelIcon.png" );
@@ -71,7 +80,7 @@ public class MyStaticResources
         return removeEmptyDirectoriesPanelIcon;
     }
 
-    public static Icon getDeleteEmptyFilesPanelIcon()
+    public Icon getDeleteEmptyFilesPanelIcon()
     {
         if( deleteEmptyFilesPanelIcon == null ) {
             deleteEmptyFilesPanelIcon = MyResourcesLoader.getImageIcon( "deleteEmptyFilesPanelIcon.png" );
@@ -79,7 +88,7 @@ public class MyStaticResources
         return deleteEmptyFilesPanelIcon;
     }
 
-    public static Icon getDeletedFileIcon()
+    public Icon getDeletedFileIcon()
     {
         if( deletedFileIcon == null ) {
             deletedFileIcon = MyResourcesLoader.getImageIcon( "deletedFileIcon.png" );
@@ -87,7 +96,7 @@ public class MyStaticResources
         return deletedFileIcon;
     }
 
-    public static Icon getFileIcon()
+    public Icon getFileIcon()
     {
         if( fileIcon == null ) {
             fileIcon = MyResourcesLoader.getImageIcon( "fileIcon.png" );
@@ -95,7 +104,8 @@ public class MyStaticResources
         return fileIcon;
     }
 
-    public static Icon getEmptySelectedByUserIcon()
+    @Deprecated
+    public Icon getEmptySelectedByUserIcon()
     {
         if( emptySelectedByUserIcon == null ) {
             emptySelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedByUserIcon.png" );
@@ -103,7 +113,8 @@ public class MyStaticResources
         return emptySelectedByUserIcon;
     }
 
-    public static Icon getEmptySelectedAndSelectedByUserIcon()
+    @Deprecated
+    public Icon getEmptySelectedAndSelectedByUserIcon()
     {
         if( emptySelectedAndSelectedByUserIcon == null ) {
             emptySelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedAndSelectedByUserIcon.png" );
@@ -111,7 +122,8 @@ public class MyStaticResources
         return emptySelectedAndSelectedByUserIcon;
     }
 
-    public static Icon getEmptyLeafSelectedByUserIcon()
+    @Deprecated
+    public Icon getEmptyLeafSelectedByUserIcon()
     {
         if( emptyLeafSelectedByUserIcon == null ) {
             emptyLeafSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedByUserIcon.png" );
@@ -119,7 +131,8 @@ public class MyStaticResources
         return emptyLeafSelectedByUserIcon;
     }
 
-    public static Icon getEmptyLeafSelectedAndSelectedByUserIcon()
+    @Deprecated
+    public Icon getEmptyLeafSelectedAndSelectedByUserIcon()
     {
         if( emptyLeafSelectedAndSelectedByUserIcon == null ) {
             emptyLeafSelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedAndSelectedByUserIcon.png" );

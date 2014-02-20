@@ -12,7 +12,7 @@ public class SelectByDisabled extends SelectorPanel
     }
 
     @Override // I18nAutoCoreUpdatable
-    public void performeI18n( AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
     }
 }

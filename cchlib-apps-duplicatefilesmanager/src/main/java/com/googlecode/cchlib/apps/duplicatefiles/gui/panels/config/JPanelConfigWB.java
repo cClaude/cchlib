@@ -1,4 +1,3 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
 import javax.swing.JPanel;
@@ -30,15 +29,12 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
     protected JCheckBox jCheckBoxIgnoreEmptyFiles;
     private JPanel jPanelFilters;
 
-    //@I18n(method="I18nTileUseFilesFilters")
     private JPanel jPanelFilesFilers;
     private TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    //@I18n(method="I18nTileUseDirsFilters")
     private JPanel jPanelDirectoryFilters;
     private Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    //@I18n(method="I18nTileIgnore")
     private JPanel jPanelIgnore;
     private TitledBorder jPanelIgnoreTitledBorder = new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
@@ -165,36 +161,6 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
     }
 
     protected abstract ActionListener getActionListener();
-
-//    public void setI18nTileUseFilesFilters(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( getJPanelFilesFilers(), localText );
-//    }
-//
-//    public String getI18nTileUseFilesFilters()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( getJPanelFilesFilers() );
-//    }
-//
-//    public void setI18nTileUseDirsFilters(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( getJPanelDirectoryFilters(), localText );
-//    }
-//
-//    public String getI18nTileUseDirsFilters()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( getJPanelDirectoryFilters() );
-//    }
-//
-//    public void setI18nTileIgnore(String localText)
-//    {
-//        I18nSwingHelper.setTitledBorderTitle( getJPanelIgnore(), localText );
-//    }
-//
-//    public String getI18nTileIgnore()
-//    {
-//        return I18nSwingHelper.getTitledBorderTitle( getJPanelIgnore() );
-//    }
 
     /**
      * @wbp.factory

@@ -264,7 +264,7 @@ public class JPanelConfirm extends JPanel
                 return contextMenu;
             }
         };
-        popupMenu.setMenu();
+        popupMenu.addMenu();
 
         jProgressBarDeleteProcess.setMinimum( 0 );
         jProgressBarDeleteProcess.setValue( 0 );

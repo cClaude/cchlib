@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -39,9 +38,6 @@ public interface FolderTreeModelable extends TreeModel
      * @param selected
      */
     void setSelectAll( boolean onlyLeaf, boolean selected );
-    void clear();
-    void expandAllRows();
-    JTree getJTree();
     void toggleSelected( FolderTreeNode selectedNode );
     void updateState( FolderTreeNode aNode );
 }

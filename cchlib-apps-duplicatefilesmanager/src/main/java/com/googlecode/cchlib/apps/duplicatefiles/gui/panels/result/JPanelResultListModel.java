@@ -131,7 +131,7 @@ public class JPanelResultListModel
 
                 case FILEDEPTH_ASCENDING_ORDER :
                     {
-                    List<KeyFileState> l = new ArrayList<KeyFileState>( files );
+                    List<KeyFileState> l = new ArrayList<>( files );
                     Collections.sort( l, fileDepthAscendingComparator );
 
                     files = l;
@@ -141,7 +141,7 @@ public class JPanelResultListModel
 
                 case FILEDEPTH_DESCENDING_ORDER :
                     {
-                    List<KeyFileState> l = new ArrayList<KeyFileState>( files );
+                    List<KeyFileState> l = new ArrayList<>( files );
                     Collections.sort( l, fileDepthDescendingComparator );
 
                     files = l;
@@ -414,7 +414,7 @@ public class JPanelResultListModel
 
             LOGGER.info( "kfsSet.size() = " + kfsSet.size() );
 
-            if( kfsSet.size() < 2 ) {
+            if( kfsSet.size() < 2 ) { // $codepro.audit.disable numericLiterals
                 // No more duplicate here !
                 mainIterator.remove();
 

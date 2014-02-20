@@ -1,4 +1,4 @@
-// $codepro.audit.disable questionableName
+// $codepro.audit.disable questionableName, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
 import java.awt.Component;
@@ -34,10 +34,14 @@ import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
  *
  */
 @I18nName("PreferencesDialogWB")
-public class PreferencesDialogWB
+public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
     extends JDialog
         implements I18nAutoCoreUpdatable
 {
+    private static final int DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE = 16384;
+    private static final int DEFAULT_DELETE_DELAIS = 100;
+    private static final int DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 50;
+
     private static final long serialVersionUID = 3L;
 
     @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
@@ -86,9 +90,9 @@ public class PreferencesDialogWB
     {
         autoI18n.performeI18n( this, this.getClass() );
 
-        this.jLabelDefaultMessageDigestBufferSize.setText( String.format( txtJLabelDefaultMessageDigestBufferSize, 16384 ) );
-        this.jLabelDefaultDeleteDelais.setText( String.format( txtJLabelDefaultDeleteDelais, 100 ) );
-        this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( String.format( txtJLabelDefaultDeleteSleepDisplayMaxEntries, 50 ) );
+        this.jLabelDefaultMessageDigestBufferSize.setText( String.format( txtJLabelDefaultMessageDigestBufferSize, DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE ) );
+        this.jLabelDefaultDeleteDelais.setText( String.format( txtJLabelDefaultDeleteDelais, DEFAULT_DELETE_DELAIS ) );
+        this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( String.format( txtJLabelDefaultDeleteSleepDisplayMaxEntries, DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES ) );
 
         //------------------
         {

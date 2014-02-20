@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptyfiles.panel.select;
 
 import java.awt.BorderLayout;
@@ -28,8 +29,10 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
 
 @I18nName("emptyfiles.SelectDirecoriesJPanel")
-public class SelectDirecoriesJPanel extends JPanel
+public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
+    private static final int[] EMPTY_SELECTION = new int[0];
+
     private static final long serialVersionUID = 1L;
 
     private JPanel panel;
@@ -177,29 +180,9 @@ public class SelectDirecoriesJPanel extends JPanel
             this.startButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed( ActionEvent e ) {
-                    final Collection<File> directoriesFiles = new HashSet<>();
-
-                    {
-                        Enumeration<File> enumeration = directoriesJListModel.elements();
-
-                        while( enumeration.hasMoreElements() ) {
-                            directoriesFiles.add( enumeration.nextElement() );
-                            }
-                    }
-
-                    list.setEnabled( false );
-                    addButton.setEnabled( false );
-                    removeButton.setEnabled( false );
-                    startButton.setEnabled( false );
-                    importButton.setEnabled( false );
-
-                    new Thread( new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            removeEmptyFilesJPanel.doFindFiles( directoriesFiles, progressBar );
-                        }} ).start();
+                    doStart( removeEmptyFilesJPanel );
                 }
+
             });
             {
                 this.progressBar = new JProgressBar();
@@ -220,7 +203,35 @@ public class SelectDirecoriesJPanel extends JPanel
         }
     }
 
-    protected void doRemove()
+    private void doStart(
+        final RemoveEmptyFilesJPanel removeEmptyFilesJPanel
+        )
+    {
+        final Collection<File> directoriesFiles = new HashSet<>();
+
+        {
+            Enumeration<File> enumeration = directoriesJListModel.elements();
+
+            while( enumeration.hasMoreElements() ) {
+                directoriesFiles.add( enumeration.nextElement() );
+                }
+        }
+
+        list.setEnabled( false );
+        addButton.setEnabled( false );
+        removeButton.setEnabled( false );
+        startButton.setEnabled( false );
+        importButton.setEnabled( false );
+
+        new Thread( new Runnable() {
+            @Override
+            public void run()
+            {
+                removeEmptyFilesJPanel.doFindFiles( directoriesFiles, progressBar );
+            }}, "doStart()" ).start();
+    }
+
+    private void doRemove()
     {
         int[] selecteds = this.list.getSelectedIndices();
 
@@ -231,12 +242,12 @@ public class SelectDirecoriesJPanel extends JPanel
             }
     }
 
-    protected void doImport( RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
+    private void doImport( RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
     {
         removeEmptyFilesJPanel.doImport( this.directoriesJListModel );
     }
 
-    protected void doAdd( final RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
+    private void doAdd( final RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
     {
         new Thread( new Runnable() {
             @Override
@@ -256,13 +267,13 @@ public class SelectDirecoriesJPanel extends JPanel
                         SelectDirecoriesJPanel.this.directoriesJListModel.addElement( file );
                         }
                     }
-            }} ).start();
+            }}, "doAdd()" ).start();
     }
 
     public void autoSetEnabled()
     {
         this.list.setEnabled( true );
-        this.list.setSelectedIndices( new int[0] );
+        this.list.setSelectedIndices( EMPTY_SELECTION );
 
         this.addButton.setEnabled( true );
         this.removeButton.setEnabled( false );

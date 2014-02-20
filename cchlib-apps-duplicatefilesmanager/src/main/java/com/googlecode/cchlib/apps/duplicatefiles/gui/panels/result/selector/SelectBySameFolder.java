@@ -75,11 +75,13 @@ public class SelectBySameFolder extends SelectorPanel
 
     public static final ActionPerform DELETE_ACTION = new ActionPerform(){
         @Override
-        public void perform( Set<KeyFileState> set, KeyFileState selected )
+        public void perform(
+            final Set<KeyFileState> set,
+            final KeyFileState      selected )
         {
             // if delete -> select others for delete
             for( KeyFileState f : set ) {
-                selected.setSelectedToDelete( f != selected );
+                selected.setSelectedToDelete( f != selected ); // $codepro.audit.disable useEquals
                 }
         }};
     public static final ActionPerform RESTORE_ACTION = new ActionPerform(){
@@ -250,11 +252,4 @@ public class SelectBySameFolder extends SelectorPanel
         }
         return max;
     }
-
-//    @Override
-//    public void performeI18n( AutoI18nCore autoI18n )
-//    {
-//        // TODO Auto-generated method stub
-//
-//    }
 }

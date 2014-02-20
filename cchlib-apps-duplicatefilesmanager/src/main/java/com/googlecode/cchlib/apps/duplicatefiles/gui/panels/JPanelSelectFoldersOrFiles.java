@@ -111,7 +111,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonAddEntry.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    jButtonAddDirMouseMousePressed( e );
+                    onAddEntry();
                     }
                 });
 
@@ -363,9 +363,9 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         new Thread( doJob, "onJButtonSelectFile()" ).start();
    }
 
-    private void jButtonAddDirMouseMousePressed( MouseEvent event )
+    private void onAddEntry()
     {
-        File f = new File( jTextFieldCurrentDir.getText() );
+        final File f = new File( jTextFieldCurrentDir.getText() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
 
         addEntry( f, false );
     }
@@ -376,7 +376,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
         for( int i = selecteds.length - 1; i>=0; i-- ) {
             int selected = selecteds[ i ];
-            //listModelDirectoryFiles.remove( selected );
+
             removeEntry( selected );
         }
         tableModelSelectedFoldersOrFiles.fireTableDataChanged();

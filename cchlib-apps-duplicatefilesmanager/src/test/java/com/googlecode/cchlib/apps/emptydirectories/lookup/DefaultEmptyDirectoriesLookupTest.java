@@ -1,17 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.lookup;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -24,9 +12,16 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 public class DefaultEmptyDirectoriesLookupTest
 {
@@ -125,12 +120,12 @@ public class DefaultEmptyDirectoriesLookupTest
             LOGGER.info( "check pass1: " + ef + " : path=" + path );
 
             if( isEmptyList.contains( path ) ) {
-                assertTrue( ef.isEmpty() );
+                Assert.assertTrue( ef.isEmpty() );
                 Files.delete( path );
                 iter.remove();
                 }
             else if( couldBeEmptyList.contains( path ) ) {
-                assertFalse( ef.isEmpty() );
+                Assert.assertFalse( ef.isEmpty() );
                 }
             else {
                 LOGGER.warn( "Unexpected entry: " + ef );
@@ -142,7 +137,7 @@ public class DefaultEmptyDirectoriesLookupTest
                     LOGGER.warn( "subFiles.length=" + subFiles.length );
                     }
 
-                fail( "Unexpected entry: " + ef );
+                Assert.fail( "Unexpected entry: " + ef );
                 }
             }
 
@@ -155,22 +150,22 @@ public class DefaultEmptyDirectoriesLookupTest
             LOGGER.info( "check pass2: " + ef );
 
             if( isEmptyList.contains( path ) ) {
-                fail( "Should be delete: " + ef );
+                Assert.fail( "Should be delete: " + ef );
                 }
             else if( couldBeEmptyList.contains( path ) ) {
-                assertFalse( ef.isEmpty() );
+                Assert.assertFalse( ef.isEmpty() );
                 ef.check();
-                assertTrue( ef.isEmpty() );
+                Assert.assertTrue( ef.isEmpty() );
 
                 Files.delete( path );
                 iter.remove();
                 }
             else {
-                fail( "Unexpected entry: " + ef );
+                Assert.fail( "Unexpected entry: " + ef );
                 }
             }
 
-        assertEquals( 0, emptyDirectoriesListener.getEmptyFolderList().size() );
+        Assert.assertEquals( 0, emptyDirectoriesListener.getEmptyFolderList().size() );
 
         LOGGER.info( "done" );
     }
@@ -196,10 +191,10 @@ public class DefaultEmptyDirectoriesLookupTest
             LOGGER.info( "emptyFolder: " + emptyFolder );
 
             File f = emptyFolder.getPath().toFile();
-            assertTrue( "Not a directory", f.isDirectory() );
+            Assert.assertTrue( "Not a directory", f.isDirectory() );
 
             File[] files = f.listFiles();
-            assertNotNull( "Not a valid directory", files );
+            Assert.assertNotNull( "Not a valid directory", files );
 
             if( emptyFolder.isEmpty() ) {
                 LOGGER.warn( "Warn found " + files.length + " file(s)" );
@@ -207,13 +202,13 @@ public class DefaultEmptyDirectoriesLookupTest
                 for( File file : files ) {
                     LOGGER.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
                     }
-                assertEquals( "Not empty: " + emptyFolder, 0, files.length );
+                Assert.assertEquals( "Not empty: " + emptyFolder, 0, files.length );
                 }
             else {
-                assertTrue( "Is empty", files.length > 0);
+                Assert.assertTrue( "Is empty", files.length > 0);
 
                 for( File file : files ) {
-                    assertTrue( "found a none directory object: " + file, file.isDirectory() );
+                    Assert.assertTrue( "found a none directory object: " + file, file.isDirectory() );
                     }
                 }
 
