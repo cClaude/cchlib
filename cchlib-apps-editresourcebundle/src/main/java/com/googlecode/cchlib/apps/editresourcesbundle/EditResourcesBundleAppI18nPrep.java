@@ -59,8 +59,8 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
         PrintStream                 usageStatPrintStream    = System.err;
         PrintStream                 notUsePrintStream       = System.out;
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
 
         System.err.flush();
         System.out.flush();

@@ -443,7 +443,7 @@ class CompareResourcesBundleTableModel
                     autoI18n
                     );
 
-        popupMenu.setMenu();
+        popupMenu.addMenu();
 
         return jTable;
     }
