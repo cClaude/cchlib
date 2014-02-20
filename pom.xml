@@ -15,8 +15,8 @@
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.javadoc.source.version>1.6</project.javadoc.source.version>
-    <project.javadoc.target.version>1.6</project.javadoc.target.version>
+    <project.java.source.version>1.6</project.java.source.version>
+    <project.java.target.version>1.6</project.java.target.version>
   </properties>
 
   <prerequisites>
@@ -98,8 +98,8 @@
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <source>${project.javadoc.source.version}</source>
-          <target>${project.javadoc.target.version}</target>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
@@ -119,8 +119,24 @@
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
           </links>
           <show>protected</show>
-          <source>${project.javadoc.source.version}</source>
+          <source>${project.java.source.version}</source>
       </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.6</version>
+        <!--
+            By default the Failsafe Maven Plugin looks for integration tests matching
+            the patterns */IT.java, **/IT.java and */*ITCase.java.
+         -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

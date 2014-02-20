@@ -17,7 +17,7 @@
   <!-- Global properties -->
   <properties>
     <java.source.version>1.6</java.source.version>
-    <project.javadoc.source.version>1.6</project.javadoc.source.version>
+    <project.java.source.version>1.6</project.java.source.version>
   </properties>
 
   <dependencies>
