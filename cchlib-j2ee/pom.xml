@@ -20,7 +20,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.source.version>1.6</java.source.version>
-    <project.javadoc.source.version>1.6</project.javadoc.source.version>
+    <project.java.source.version>1.6</project.java.source.version>
   </properties>
 
   <!-- Project description -->
@@ -83,8 +83,8 @@
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <source>${project.javadoc.source.version}</source>
-          <target>${project.javadoc.target.version}</target>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -101,7 +101,7 @@
             <link>http://download.oracle.com/javaee/6/api/</link>
           </links>
           <show>protected</show>
-          <source>${project.javadoc.source.version}</source>
+          <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
     </plugins>

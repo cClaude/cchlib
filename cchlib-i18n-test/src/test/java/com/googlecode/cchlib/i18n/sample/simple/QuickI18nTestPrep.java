@@ -48,7 +48,7 @@ public class QuickI18nTestPrep
         //        );
         Result r = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r );
     }
 }

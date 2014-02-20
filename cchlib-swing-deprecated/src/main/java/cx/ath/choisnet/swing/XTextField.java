@@ -108,7 +108,7 @@ public class XTextField extends JTextField
 
                 return contextMenu;
             }
-        }.setMenu();
+        }.addMenu();
     }
 
     public String getTextForCopy()

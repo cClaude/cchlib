@@ -36,8 +36,8 @@ public abstract class AbstractMessageBundleBaseName
 
         I18nPrepHelper.Result result = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
         }
     }
 

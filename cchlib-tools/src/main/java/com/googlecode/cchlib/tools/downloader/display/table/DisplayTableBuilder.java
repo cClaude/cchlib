@@ -137,7 +137,7 @@ public class DisplayTableBuilder
                 }
             };
 
-            popupMenu.setMenu();
+            popupMenu.addMenu();
             }
         return jTable;
     }

@@ -23,8 +23,8 @@
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.javadoc.source.version>1.7</project.javadoc.source.version>
-    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+    <project.java.source.version>1.7</project.java.source.version>
+    <project.java.target.version>1.7</project.java.target.version>
   </properties>
 
   <repositories>
@@ -124,8 +124,8 @@
           <optimize>true</optimize>
           <showWarnings>true</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <source>${project.javadoc.source.version}</source>
-          <target>${project.javadoc.target.version}</target>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
@@ -145,7 +145,7 @@
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
           </links>
           <show>protected</show>
-          <source>${project.javadoc.source.version}</source>
+          <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
     </plugins>

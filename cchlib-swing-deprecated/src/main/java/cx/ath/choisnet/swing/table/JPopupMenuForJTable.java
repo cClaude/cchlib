@@ -93,6 +93,12 @@ public abstract class JPopupMenuForJTable
     }
 
     @Override
+    protected void removeMouseListener( final MouseListener l )
+    {
+        jTable.removeMouseListener( l );
+    }
+
+    @Override
     protected void maybeShowPopup( final MouseEvent e )
     {
         if( e.isPopupTrigger() && jTable.isEnabled() ) {

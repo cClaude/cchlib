@@ -98,8 +98,8 @@ public class TestUtils
     {
         final Result result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
 
-        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result );
+        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result );
 
         return result;
     }

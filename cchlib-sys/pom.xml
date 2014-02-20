@@ -31,8 +31,8 @@
   <!-- Global properties -->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.javadoc.source.version>1.7</project.javadoc.source.version>
-    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+    <project.java.source.version>1.7</project.java.source.version>
+    <project.java.target.version>1.7</project.java.target.version>
   </properties>
 
   <dependencies>
@@ -87,7 +87,7 @@
             <link>http://download.oracle.com/javaee/6/api/</link>
           </links>
           <show>protected</show>
-          <source>${project.javadoc.source.version}</source>
+          <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
     </plugins>
