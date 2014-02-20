@@ -60,10 +60,10 @@ public class I18nPrep
         final I18nResourceBundleName  resourceBundleName
         )
     {
-        this.config                   = EnumSet.copyOf( config );
-        this.defaultAutoI18nTypes     = defaultAutoI18nTypes;
-        this.resourceBundleName       = resourceBundleName;
-        this.i18nResourceBundle = new I18nSimpleResourceBundle( locale, resourceBundleName );
+        this.config                 = EnumSet.copyOf( config );
+        this.defaultAutoI18nTypes   = defaultAutoI18nTypes;
+        this.resourceBundleName     = resourceBundleName;
+        this.i18nResourceBundle     = new I18nSimpleResourceBundle( locale, resourceBundleName );
      }
 
     public I18nResourceBundleName getI18nResourceBundleName()
@@ -113,11 +113,11 @@ public class I18nPrep
                                 }
                             }
                         catch( MissingKeyException e ) {
-                            // TODO Auto-generated catch block
+                            // TODO Auto-generated catch block : improve this
                             e.printStackTrace();
                              }
                         catch( GetFieldException e ) {
-                            // TODO Auto-generated catch block
+                            // TODO Auto-generated catch block : improve this
                             e.printStackTrace();
                             }
 
@@ -130,16 +130,16 @@ public class I18nPrep
                 @Override
                 public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
                 {
-                    if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "ignoredField: " + key + " - field: " + f );
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
                         }
-                    incForKey( key );
+                    // incForKey( key ); // not use, should not increment value !
                 }
                 @Override
                 public void localizedField( Field f, String key )
                 {
                     if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "localizedField: " + key );
+                        LOGGER.debug( "I18nPrep.localizedField: " + key );
                         }
                     incForKey( key );
                 }} );
@@ -204,9 +204,9 @@ public class I18nPrep
 
         OutputStream os = getResourceBundleOutputStream();
 
-        LOGGER.info( "saveValues(): found (key,value) count  = " + keyUsageCountMap.size() );
-        LOGGER.info( "saveValues(): know (key,value) count  = " + getResourceBundleMap().size() );
-        LOGGER.info( "saveValues(): unknow (key,value) count = " + properties.size() );
+        LOGGER.info( "closeOutputFile(): found (key,value) count  = " + keyUsageCountMap.size() );
+        LOGGER.info( "closeOutputFile(): know (key,value) count  = " + getResourceBundleMap().size() );
+        LOGGER.info( "closeOutputFile(): unknow (key,value) count = " + properties.size() );
 
         //properties.putAll( getProperties() );
 
@@ -229,8 +229,10 @@ public class I18nPrep
         return new FileOutputStream( resourceBundleOutputFile );
     }
 
-    private void incForKey( String key )
+    private void incForKey( final String key )
     {
+        assert key != null : "Key is null";
+
         final Integer countInteger = keyUsageCountMap.get( key );
         final int     count;
 

@@ -30,15 +30,52 @@ public final class I18nPrepHelper
     @Deprecated
     public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
 
+    private static final class DefaultResult implements Result {
+        private final PrepCollector<String>  notUseCollector;
+        private final File                   outputFile;
+        private final PrepCollector<Integer> usageStatCollector;
+
+        private DefaultResult(
+                final PrepCollector<String>  notUseCollector,
+                final File                   outputFile,
+                final PrepCollector<Integer> usageStatCollector
+                )
+        {
+            this.notUseCollector = notUseCollector;
+            this.outputFile = outputFile;
+            this.usageStatCollector = usageStatCollector;
+        }
+
+        @Override
+        public PrepCollector<Integer> getUsageStatCollector()
+        {
+            return usageStatCollector;
+        }
+
+        @Override
+        public PrepCollector<String> getNotUseCollector()
+        {
+            return notUseCollector;
+        }
+
+        @Override
+        public File getOutputFile()
+        {
+            return outputFile;
+        }
+    }
+
     /**
-     * TODOC
-     *
+     * Results for {@link I18nPrepHelper}
      */
     @NeedDoc
     public interface Result
     {
+        /** TODOC */
         PrepCollector<Integer> getUsageStatCollector();
+        /** TODOC */
         PrepCollector<String> getNotUseCollector();
+        /** TODOC */
         File getOutputFile();
     }
 
@@ -82,63 +119,34 @@ public final class I18nPrepHelper
     }
 
     public static void fmtUsageStatCollector(
-        PrintStream            usageStatPrintStream,
-        PrepCollector<Integer> usageStatCollector
+        final PrintStream usageStatPrintStream,
+        final Result      result
         )
     {
-        usageStatPrintStream.flush();
+        final PrepCollector<Integer> usageStatCollector = result.getUsageStatCollector();
 
-        for( Map.Entry<String,Integer> entry : usageStatCollector ) {
-            usageStatPrintStream.print("K=");
-            usageStatPrintStream.print(entry.getKey());
-            usageStatPrintStream.print(" Usage= ");
-            usageStatPrintStream.println(entry.getValue());
+        for( final Map.Entry<String,Integer> entry : usageStatCollector ) {
+            usageStatPrintStream.println("K="+entry.getKey()+" Usage= "+entry.getValue());
             }
 
         usageStatPrintStream.println();
-        usageStatPrintStream.flush();
     }
 
     public static void fmtNotUseCollector(
-        PrintStream           notUsePrintStream,
-        PrepCollector<String> notUseCollector
+        final PrintStream notUsePrintStream,
+        final Result      result
         )
     {
-        notUsePrintStream.flush();
+        PrepCollector<String> notUseCollector = result.getNotUseCollector();
+
         notUsePrintStream.println( "### not use list ###" );
 
-        for( Map.Entry<String,String> entry : notUseCollector ) {
-            notUsePrintStream.print("### not use [");
-            notUsePrintStream.print(entry.getKey());
-            notUsePrintStream.print('=');
-            notUsePrintStream.print(entry.getValue());
-            notUsePrintStream.println(']');
+         for( Map.Entry<String,String> entry : notUseCollector ) {
+            notUsePrintStream.println("### not use ["+entry.getKey()+'='+entry.getValue()+']');
             }
 
         notUsePrintStream.println( "### Done" );
         notUsePrintStream.println();
-        notUsePrintStream.flush();
-    }
-
-    /**
-     * @deprecated use {@link #defaultPrep(I18nPrep, I18nAutoCoreUpdatable...)} instead,
-     * and build output using {@link #fmtUsageStatCollector(PrintStream, PrepCollector)}
-     * and {@link #fmtNotUseCollector(PrintStream, PrepCollector)}
-     */
-    @Deprecated
-    public static Result defaultPrep(
-            final I18nPrep                 i18nPrep,
-            final PrintStream              usageStatPrintStream,
-            final PrintStream              notUsePrintStream,
-            final I18nAutoCoreUpdatable... i18nConteners
-            )
-    {
-        Result r = defaultPrep( i18nPrep, i18nConteners);
-
-        fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
-
-        return r;
     }
 
     public static Result defaultPrep(
@@ -168,6 +176,9 @@ public final class I18nPrepHelper
 
             while( enu.hasMoreElements() ) {
                 final String k = enu.nextElement();
+                
+                assert k != null : "Key is null";
+                
                 knowKeyMap.put( k, rb.getString( k ) );
                 }
 
@@ -187,27 +198,10 @@ public final class I18nPrepHelper
                 i18nPrep.closeOutputFile();
                 }
             catch( IOException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new RuntimeException( e ); // Not handled
                 }
             }
 
-        return new Result() {
-            @Override
-            public PrepCollector<Integer> getUsageStatCollector()
-            {
-                return usageStatCollector;
-            }
-            @Override
-            public PrepCollector<String> getNotUseCollector()
-            {
-                return notUseCollector;
-            }
-            @Override
-            public File getOutputFile()
-            {
-                return outputFile;
-            }
-        };
+        return new DefaultResult( notUseCollector, outputFile, usageStatCollector );
     }
 }

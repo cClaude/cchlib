@@ -31,12 +31,12 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         this.locale        = Locale.getDefault();
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.AutoI18n#performeI18n(java.lang.Object, java.lang.Class)
-     */
     @Override
-    public <T> void performeI18n( T objectToI18n, Class<? extends T> clazz )
+    public <T> void performeI18n( final T objectToI18n, final Class<? extends T> clazz )
     {
+        assert objectToI18n != null : "Object to I18n is null";
+        assert clazz != null : "Class of object to I18n is null";
+
         if( this.i18nDelegator.getConfig().contains( AutoI18nConfig.DISABLE ) ) {
             // Internalization is disabled.
             return;
@@ -55,7 +55,7 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             this.map.put( clazz, i18nClass );
             }
 
-        I18nApplyable<T> apply = new I18nApplyableImpl<T>( i18nClass, this.i18nDelegator );
+        final I18nApplyable<T> apply = new I18nApplyableImpl<T>( i18nClass, this.i18nDelegator );
 
         apply.performeI18n( objectToI18n, locale );
     }

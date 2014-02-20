@@ -33,7 +33,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     private static final Logger LOGGER = Logger.getLogger( I18nClassImpl.class );
 
     /** Array well know std API classes : do not use reflexion on theses classes */
-    static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
+    /*package*/ static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
         JFrame.class,
         JDialog.class,
@@ -64,7 +64,6 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         this.i18nDelegator     = i18nDelegator;
         this.i18nKeyFactory    = new I18nKeyFactoryImpl( objectToI18nClass.getAnnotation( I18nName.class ) );
 
-        //setObjectToI18n(objectToI18n,clazz);
         Class<?> currentClass = objectToI18nClass;
 
         while( currentClass != null ) {
