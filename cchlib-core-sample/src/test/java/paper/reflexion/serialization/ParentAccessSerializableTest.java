@@ -1,4 +1,4 @@
-package paper.serialization;
+package paper.reflexion.serialization;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import paper.reflexion.LegacyParentClass;
+import paper.reflexion.serialization.ParentAccessSerializable;
 
 /**
  *
