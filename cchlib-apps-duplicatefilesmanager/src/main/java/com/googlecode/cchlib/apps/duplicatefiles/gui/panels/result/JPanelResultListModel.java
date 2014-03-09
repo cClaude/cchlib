@@ -1,10 +1,8 @@
-// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +20,9 @@ import com.googlecode.cchlib.util.HashMapSet;
 /**
  *
  */
-public class JPanelResultListModel
-    extends AbstractListModel<KeyFiles>
+public class JPanelResultListModel extends AbstractListModel<KeyFiles>
 {
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultListModel.class );
 
@@ -33,73 +31,10 @@ public class JPanelResultListModel
     private List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
 
     private SortMode sortMode;
-    private Comparator<? super KeyFiles> filenameComparator;
-    private Comparator<? super KeyFiles> pathComparator;
-    private Comparator<? super KeyFiles> sizeComparator;
-    private Comparator<? super KeyFiles> numberOfDuplicateComparator;
-    private Comparator<? super KeyFiles> depthComparator;
-
     private SelectFirstMode selectFirstMode;
-    private Comparator<? super KeyFileState> fileDepthAscendingComparator;
-    private Comparator<? super KeyFileState> fileDepthDescendingComparator;
 
     public JPanelResultListModel()
     {
-        filenameComparator = new Comparator<KeyFiles>() {
-                @Override
-                public int compare( KeyFiles o1, KeyFiles o2 )
-                {
-                    return o1.toString().compareTo( o2.toString() );
-                }
-            };
-        pathComparator = new Comparator<KeyFiles>() {
-                @Override
-                public int compare( KeyFiles o1, KeyFiles o2 )
-                {
-                    return o1.getFirstFile().getPath().compareTo(
-                            o2.getFirstFile().getPath()
-                            );
-                }
-            };
-        sizeComparator = new Comparator<KeyFiles>() {
-                @Override
-                public int compare( KeyFiles o1, KeyFiles o2 )
-                {
-                    return (int)(
-                        o1.getFirstFile().length() -
-                            o2.getFirstFile().length()
-                            );
-                }
-            };
-        numberOfDuplicateComparator = new Comparator<KeyFiles>() {
-                @Override
-                public int compare( KeyFiles o1, KeyFiles o2 )
-                {
-                    return o1.getFiles().size() - o2.getFiles().size();
-                }
-            };
-        depthComparator = new Comparator<KeyFiles>() {
-                @Override
-                public int compare( KeyFiles o1, KeyFiles o2 )
-                {
-                    return o1.getDepth() - o2.getDepth();
-                }
-            };
-        fileDepthAscendingComparator = new Comparator<KeyFileState>() {
-                @Override
-                public int compare(KeyFileState o1, KeyFileState o2)
-                {
-                    return o1.getDepth() - o2.getDepth();
-                }
-            };
-        fileDepthDescendingComparator = new Comparator<KeyFileState>() {
-                @Override
-                public int compare(KeyFileState o1, KeyFileState o2)
-                {
-                    return o1.getDepth() - o2.getDepth();
-                }
-            };
-
         updateCache(
             new HashMapSet<String,KeyFileState>(),
             SortMode.FILESIZE,
@@ -121,73 +56,17 @@ public class JPanelResultListModel
         duplicatesFileCacheList.clear();
 
         for( Map.Entry<String,Set<KeyFileState>> e : getDuplicateFiles().entrySet() ) {
-            Collection<KeyFileState> files = e.getValue();
-            final KeyFileState       firstFile;
-
-            switch( this.selectFirstMode ) {
-                case QUICK :
-                    firstFile = files.iterator().next();
-                    break;
-
-                case FILEDEPTH_ASCENDING_ORDER :
-                    {
-                    List<KeyFileState> l = new ArrayList<>( files );
-                    Collections.sort( l, fileDepthAscendingComparator );
-
-                    files = l;
-                    firstFile = l.get( 0 );
-                    }
-                    break;
-
-                case FILEDEPTH_DESCENDING_ORDER :
-                    {
-                    List<KeyFileState> l = new ArrayList<>( files );
-                    Collections.sort( l, fileDepthDescendingComparator );
-
-                    files = l;
-                    firstFile = l.get( 0 );
-                    }
-                    break;
-
-                default :
-                    throw new UnsupportedOperationException(
-                        "SelectFirstMode: " + this.selectFirstMode
-                        );
-                    //break;
-                }
+            final Collection<KeyFileState> files     = this.selectFirstMode.sort( e.getValue() );
+            final KeyFileState             firstFile = this.selectFirstMode.getFileToDisplay( files );
 
             duplicatesFileCacheList.add(
                 new DefaultKeyFiles( e.getKey(), files, firstFile )
                 );
             }
 
-        Comparator<? super KeyFiles> cmp = null;
-
-        switch( sortMode ) {
-            case FIRST_FILENAME :
-                cmp = this.filenameComparator;
-                break;
-
-            case FIRST_FILEPATH :
-                cmp = this.pathComparator;
-                break;
-
-            case FILESIZE :
-                cmp = this.sizeComparator;
-                break;
-
-            case FIRST_FILEDEPTH :
-                cmp = this.depthComparator;
-                break;
-
-            case NUMBER_OF_DUPLICATE:
-                cmp = this.numberOfDuplicateComparator;
-                break;
-            }
-
-        if( cmp != null ) {
+        if( sortMode != null ) {
             try {
-                Collections.sort( duplicatesFileCacheList, cmp );
+                Collections.sort( duplicatesFileCacheList, sortMode );
                 }
             catch( IllegalArgumentException e ) {
                 LOGGER.error( "Can not sort : sortMode = " + sortMode, e );

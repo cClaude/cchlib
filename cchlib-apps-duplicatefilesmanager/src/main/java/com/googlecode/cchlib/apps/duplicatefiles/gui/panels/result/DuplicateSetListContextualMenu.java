@@ -70,14 +70,24 @@ final class DuplicateSetListContextualMenu implements Serializable
                 @Override
                 public void actionPerformed( final ActionEvent event )
                 {
-                    final KeyFiles element = jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
-                    final String   setKey  = element.getKey();
-                    final HashMapSet<String, KeyFileState> hashMap = jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
+                    Runnable task = new Runnable() {
 
-                    hashMap.remove( setKey );
+                        @Override
+                        public void run()
+                        {
+                            try {
+                                doIgnoreThisSetOfFiles( rowIndex );
+                            } finally {
+                                jPanelResult.lockGUI( false );
+                            }
+                        }
 
-                    jPanelResult.getListModelDuplicatesFiles().updateCache();
-                }
+                    };
+
+                    jPanelResult.lockGUI( true );
+                    new Thread( task, "doIgnoreThisSetOfFiles" ).start();
+                 }
+
             } );
         }
 
@@ -146,6 +156,17 @@ final class DuplicateSetListContextualMenu implements Serializable
             gb.add( jcbmiMenuSortBySize );
             addJMenuItem( sortMenu, jcbmiMenuSortBySize, listener, clientPropertyKey, clientPropertyValue );
         }
+    }
+
+    private void doIgnoreThisSetOfFiles( final int rowIndex )
+    {
+        final KeyFiles element = jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
+        final String   setKey  = element.getKey();
+        final HashMapSet<String, KeyFileState> hashMap = jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
+
+        hashMap.remove( setKey );
+
+        jPanelResult.getListModelDuplicatesFiles().updateCache();
     }
 
     public void setPopupMenu()

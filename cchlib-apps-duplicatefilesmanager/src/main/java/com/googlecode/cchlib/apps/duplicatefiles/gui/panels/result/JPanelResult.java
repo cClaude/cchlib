@@ -762,4 +762,13 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
         super.getSelectorsJPanel().performeI18n( autoI18n );
     }
+
+    public void lockGUI( final boolean lock )
+    {
+        if( lock ) {
+            disableAllWidgets();
+        } else {
+            enableAllWidgets();
+        }
+    }
 }

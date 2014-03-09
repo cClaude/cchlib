@@ -46,19 +46,15 @@ public class JPanelConfig
     private PathMatcher tryToUseThis; // TODO - http://docs.oracle.com/javase/tutorial/essential/io/find.html
 private Scanner s;
 
-    //@I18n( methodSuffixName="I18nTileIncFilesFilter")
     private JPanelConfigFilter jPanelIncFilesFilter;
     @I18nString private String jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
     @I18nString private String jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
-    //@I18n( methodSuffixName="I18nTileExcFilesFilter")
     private JPanelConfigFilter jPanelExcFilesFilter;
     @I18nString private String jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
     @I18nString private String jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
-    //@I18n( methodSuffixName="I18nTileIncDirsFilter")
     private JPanelConfigFilter jPanelIncDirsFilter;
     @I18nString private String jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
     @I18nString private String jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
-    //@I18n( methodSuffixName="I18nTileExcDirsFilter")
     private JPanelConfigFilter jPanelExcDirsFilter;
     @I18nString private String jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
     @I18nString private String jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
