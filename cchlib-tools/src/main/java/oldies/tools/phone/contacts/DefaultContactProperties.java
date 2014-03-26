@@ -22,10 +22,10 @@ public class DefaultContactProperties
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultContactProperties.class );
 
-    private final String[]                 names;
+    private final String[]              names;
     private final ContactValueType[]    types;
-    private final String[]                defaultValues;
-    private final List<String>            defaultValueList;
+    private final String[]              defaultValues;
+    private final List<String>          defaultValueList;
 
     private Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
 
