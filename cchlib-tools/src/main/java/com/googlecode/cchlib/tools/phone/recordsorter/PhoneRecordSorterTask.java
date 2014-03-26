@@ -12,21 +12,22 @@ import com.googlecode.cchlib.swing.batchrunner.AbstractBRRunnable;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEvent;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionException;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
-import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigDebug;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.util.ConfigDebug;
 import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
 
 /**
- * 
+ *
  *
  */
-public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRRunnable 
+@Deprecated
+public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRRunnable
 {
     private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterTask.class );
-    
+
     private final ConfigFactory configFactory;
     private final Pattern       filenamePattern;
-    
+
     public PhoneRecordSorterTask( final ConfigFactory configFactory )
     {
         this.configFactory   = configFactory;
@@ -40,10 +41,10 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
       File destinationFile = event.getDestinationFile();
 
       LOGGER.info( "DO execute() : " + sourceFile + " -> " + destinationFile );
-      
+
       try {
           CurrentTask task = new CurrentTask( destinationFile );
-          
+
           task.sortDirectoryRec( sourceFile );
           task.saveConf();
           }
@@ -53,7 +54,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
           }
       LOGGER.info( "DONE execute() : " + sourceFile + " -> " + destinationFile );
     }
-    
+
     @Override
     public File buildOutputFile( final File sourceFile )
     {
@@ -74,26 +75,26 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
         public CurrentTask( final File destinationFolderFile) throws IOException
         {
             this.configFile     = new File( destinationFolderFile, "config.json" );
-            this.config         = configFactory.decodeFromFile( configFile );
+            this.config         = configFactory.load( configFile );
 
             ConfigDebug.debug( config, System.err );
-            
+
             this.destinationFolders = new DestinationFolders( config, destinationFolderFile );
 
             log( "DEST  :" + destinationFolderFile );
             log( "DEST.exists()  :" + destinationFolderFile.exists() );
         }
-        
+
         public void saveConf() throws FileNotFoundException, IOException
         {
             configFactory.encodeToFile( config, configFile );
         }
-        
+
         public void sortDirectoryRec( final File sourceFolderFile )
         {
             log( "SOURCE:" + sourceFolderFile );
             log( "SOURCE.exists():" + sourceFolderFile.exists() );
-            
+
             FileIterator iter = new FileIterator( sourceFolderFile, new FileFileFilter() );
 
             log( "Explore:" + sourceFolderFile );
@@ -108,7 +109,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
             final String filename = file.getName();
 
             Matcher m = filenamePattern.matcher( filename );
-            
+
             if( m.find() ) {
                 String number = filename.substring( 17 );
                 number = number.substring( 0, number.indexOf( '_' ) );
@@ -135,7 +136,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
                 }
             else {
                 log( "ERR: bad filename [" + filename + ']' );
-                }        
+                }
         }
 
         private void moveFileTo( final File source, final File destinationFolder )

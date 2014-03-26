@@ -1,0 +1,59 @@
+{
+    "addresses":[
+
+    ],
+    "additionalNameYomi":null,
+    "events":[
+
+    ],
+    "shortName":null,
+    "relations":[
+
+    ],
+    "familyNameYomi":null,
+    "phones":[
+
+    ],
+    "namePrefix":null,
+    "websites":[
+
+    ],
+    "directoryServer":null,
+    "initials":null,
+    "iMs":[
+
+    ],
+    "groupMembership":"[Move Solution] ::: * My Contacts",
+    "location":null,
+    "priority":null,
+    "name":null,
+    "givenName":null,
+    "birthday":null,
+    "sensitivity":null,
+    "nickname":null,
+    "gender":null,
+    "billingInformation":null,
+    "organizations":[
+
+    ],
+    "emails":[
+        {
+            "value":"malleron.vincent@gmail.com",
+            "type":"* Work"
+        }
+    ],
+    "occupation":null,
+    "notes":"Vincent Malleron ",
+    "additionalName":null,
+    "yomiName":null,
+    "givenNameYomi":null,
+    "nameSuffix":null,
+    "hobby":null,
+    "customFields":[
+
+    ],
+    "maidenName":null,
+    "mileage":null,
+    "subject":null,
+    "familyName":null
+}

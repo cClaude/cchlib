@@ -57,3 +57,4 @@ cchlib-j2ee-deprecated/target/
 cchlib-io/target/
 cchlib-io-test/target/
 cchlib-i18n/target/
+*.java!

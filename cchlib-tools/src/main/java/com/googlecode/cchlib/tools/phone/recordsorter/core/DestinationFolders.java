@@ -9,7 +9,7 @@ public class DestinationFolders
     private Config config;
     private File destinationFolderFile;
 
-    public DestinationFolders( Config config, File destinationFolderFile )
+    public DestinationFolders( final Config config, final File destinationFolderFile )
     {
         assert destinationFolderFile != null;
 
@@ -17,7 +17,7 @@ public class DestinationFolders
         this.destinationFolderFile = destinationFolderFile;
     }
 
-    public File getFolder( String number )
+    public File getFolder( final String number )
     {
         Contact person = this.config.findContactByNumber( number );
 
@@ -35,7 +35,11 @@ public class DestinationFolders
         assert person == null;
 
         if( person == null ) {
-            person = this.config.addContact( "!NEW!" + number, number );
+            final Contact contact = this.config.newContact();
+
+            contact.setName( "!NEW!" + number ).addNumber( number );
+
+            person = this.config.addContact( contact );
         }
 
         assert person != null;

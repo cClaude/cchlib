@@ -13,7 +13,7 @@ import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrame;
 import com.googlecode.cchlib.swing.batchrunner.impl.BRExecutionEventFactoryImpl;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
-import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.ConfigJSONFactory;
+import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.JSONConfigFactory;
 
 /**
  *
@@ -36,7 +36,7 @@ public class PhoneRecordSorterApp implements Runnable
         final BRLocaleResourcesAgregator phoneRecordSorterResources = new PhoneRecordSorterResources();
 
         final PhoneRecordSorterApp app       = new PhoneRecordSorterApp(
-                ConfigJSONFactory.getInstance(),
+                JSONConfigFactory.getInstance(),
                 ihmConfig,
                 phoneRecordSorterResources
                 );

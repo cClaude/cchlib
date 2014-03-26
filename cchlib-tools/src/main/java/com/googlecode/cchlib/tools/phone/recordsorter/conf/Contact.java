@@ -1,17 +1,21 @@
 package com.googlecode.cchlib.tools.phone.recordsorter.conf;
 
+import java.util.Comparator;
+
 /**
  *
  */
 public interface Contact extends Comparable<Contact>
 {
     String getName();
-    void setName( String name );
+    Contact setName( String name );
 
     boolean isBackup();
-    void setBackup( boolean backup );
+    Contact setBackup( boolean backup );
 
     boolean contains( String number );
     boolean addNumber( String number );
     Iterable<String> getNumbers();
+
+    Comparator<Contact> getByNameComparator();
 }
