@@ -239,6 +239,7 @@ public class JPanelResultListModel extends AbstractListModel<KeyFiles>
               listModelKeptIntact.private_add( sf );
               }
           }
+      
       listModelWillBeDeleted.private_fireAddedAll();
       listModelKeptIntact.private_fireAddedAll();
 

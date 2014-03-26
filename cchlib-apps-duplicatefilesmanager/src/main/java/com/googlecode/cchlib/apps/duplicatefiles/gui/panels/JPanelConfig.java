@@ -70,8 +70,8 @@ private Scanner s;
     @I18nString private String txtExcludeDirsFilters = "Exclude filters";
     @I18nString private String txtIncludeDirsFilters = "Include filters";
     //private final static int DIRS_FILTER_DISABLED   = 0;
-    private static final int DIRS_FILTER_EXCLUDE    = 2;
-    private static final int DIRS_FILTER_INCLUDE    = 1;
+    private static final int DIRS_FILTER_EXCLUDE    = 1;
+    private static final int DIRS_FILTER_INCLUDE    = 2;
 
 
     public JPanelConfig( final DFToolKit dfToolKit )
