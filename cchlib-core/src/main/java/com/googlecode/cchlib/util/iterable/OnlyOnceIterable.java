@@ -16,7 +16,7 @@ class OnlyOnceIterable<T> implements Iterable<T>
      *
      * @param iterator
      */
-    public OnlyOnceIterable( Iterator<T> iterator )
+    public OnlyOnceIterable( final Iterator<T> iterator )
     {
         this.iterator = iterator;
     }

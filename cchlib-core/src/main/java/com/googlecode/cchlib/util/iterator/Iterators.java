@@ -161,4 +161,14 @@ public final class Iterators
             return iterator.next();
         }
     }
+
+    public static <T> Iterator<T> create( final T[] array )
+    {
+        return new ArrayIterator<T>( array );
+    }
+    
+    public static <T> Iterator<T> create( final T[] array, final int offset, final int len )
+    {
+        return new ArrayIterator<T>( array, offset, len );
+    }
 }

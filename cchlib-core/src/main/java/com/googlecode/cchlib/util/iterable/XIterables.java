@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.iterable;
 
+import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
@@ -57,6 +58,16 @@ public final class XIterables
     }
 
     /**
+     * Create an {@link XIterable} from an {@link Iterator}
+     * <P><B>Warn:</B>This {@link XIterable} object could be use only once</P>
+     * @see XIterable#toList()
+     */
+    public static <T> XIterable<T> create( final Iterator<T> iterator )
+    {
+        return new XIterableImpl<T>( Iterables.create( iterator ) );
+    }
+
+    /**
      *
      * @param iterable
      * @return TODOC
@@ -65,4 +76,5 @@ public final class XIterables
     {
         return Iterables.newList( iterable );
     }
+
 }

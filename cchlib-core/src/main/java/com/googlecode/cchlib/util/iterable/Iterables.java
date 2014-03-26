@@ -25,12 +25,20 @@ public class Iterables
 {
     private Iterables() {}
 
-    public static <T> Iterable<T> create( Enumeration<T> enumeration )
+    /**
+     * Create an {@link Iterable} from an {@link Enumeration}
+     * <P><B>Warn:</B>This {@link Iterable} object could be use only once</P>
+     */
+    public static <T> Iterable<T> create( final Enumeration<T> enumeration )
     {
         return new OnlyOnceIterable<T>( new EnumerationIterator<T>( enumeration ) );
     }
 
-    public static <T> Iterable<T> create( Iterator<T> iterator )
+    /**
+     * Create an {@link Iterable} from an {@link Iterator}
+     * <P><B>Warn:</B>This {@link Iterable} object could be use only once</P>
+     */
+    public static <T> Iterable<T> create( final Iterator<T> iterator )
     {
         return new OnlyOnceIterable<T>( iterator );
     }
@@ -38,11 +46,22 @@ public class Iterables
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Iterator} objects
      */
-    public static <S,R> Iterable<R> wrap(Iterator<S> iterator, Wrappable<? super S,? extends R> wrapper )
+    public static <S,R> Iterable<R> wrap(
+            final Iterator<S> iterator, 
+            final Wrappable<? super S,? extends R> wrapper 
+            )
         throws WrapperException
     {
         return wrap( Iterables.create( iterator ), wrapper );
     }
+    
+//    public static <S,R> Iterable<R> wrap(
+//            final S[] array, 
+//            final Wrappable<? super S,? extends R> wrapper )
+//        throws WrapperException
+//    {
+//        return wrap( Iterables.create( iterator ), wrapper );
+//    }
 
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Enumeration} objects
@@ -132,14 +151,36 @@ public class Iterables
      * @param iterable
      * @return TODOC
      */
-    public static <T> List<T> newList( Iterable<T> iterable )
+    public static <T> List<T> newList( final Iterable<T> iterable )
     {
-        ArrayList<T> list = new ArrayList<T>();
+        final ArrayList<T> list = new ArrayList<T>();
 
-        for( T entry : iterable ) {
+        for( final T entry : iterable ) {
             list.add( entry );
             }
 
         return list;
     }
+
+    public static <T> T find( final List<T> iterable, final Selectable<T> filter )
+    {
+        for( final T element : iterable ) {
+            if( filter.isSelected( element ) ) {
+                return element;
+            }
+        }
+        return null;
+    }
+
+//    public static <T> Iterable<T> allOf( final Iterable<T>[] iterables )
+//    {
+//        Iterator<Iterator<T>> iterators = Iterables.wrap( iterables, new Wrappable<Iterable<T>,Iterator<T>>() {
+//            @Override
+//            public Iterator<T> wrap( Iterable<T> obj ) throws WrapperException
+//            {
+//                // TODO Auto-generated method stub
+//                return null;
+//            }} );
+//        return create( new MultiIterator<T>( iterators  ) );
+//    }
 }
