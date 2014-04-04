@@ -16,7 +16,7 @@ import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 
 /**
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public class CustomJPanelB2Transform

@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.xutil.google.googlecontact.GoogleContactFactory;
 import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAnalyserException;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;

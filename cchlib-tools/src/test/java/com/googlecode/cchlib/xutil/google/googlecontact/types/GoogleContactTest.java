@@ -68,6 +68,7 @@ public class GoogleContactTest {
     @Test(expected=RuntimeException.class)
     public void test_newGoogleContactType_GoogleContact_Error()
     {
-        GoogleContact.newGoogleContactType( GoogleContact.class );
+        GoogleContact.newGoogleContactType( new GoogleContactType(){
+            private static final long serialVersionUID = 1L;}.getClass() );
     }
 }

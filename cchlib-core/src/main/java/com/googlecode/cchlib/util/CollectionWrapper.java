@@ -17,6 +17,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 public class CollectionWrapper<S,R> implements Collection<R>,Serializable
 {
     static final long serialVersionUID = 1L;
+
     private Collection<S>  collection;
     private Wrappable<S,R> wrapper;
     private Wrappable<R,S> unwrapper;

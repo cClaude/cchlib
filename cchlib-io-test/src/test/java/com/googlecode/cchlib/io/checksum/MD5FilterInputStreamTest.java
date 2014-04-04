@@ -47,17 +47,17 @@ public class MD5FilterInputStreamTest
     {}
 
     @Test
-    public void test() throws IOException
+    public void testMD5FilterInputStream() throws IOException
     {
         for( File f : fileList ) {
             try {
-                test( f );
+                testMD5FilterInputStream( f );
                 }
             catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 
-    private void test( File f ) throws FileNotFoundException, IOException
+    private void testMD5FilterInputStream( File f ) throws FileNotFoundException, IOException
     {
         final String hashString1;
         final String hashString2;

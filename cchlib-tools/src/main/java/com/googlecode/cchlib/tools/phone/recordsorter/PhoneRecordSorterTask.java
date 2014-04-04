@@ -17,8 +17,7 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.util.ConfigDebug;
 import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
 
 /**
- *
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRRunnable

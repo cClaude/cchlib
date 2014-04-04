@@ -269,6 +269,8 @@ cchlib-sql
 cchlib-swing
 cchlib-swing-deprecated
 cchlib-sys
+cchlib-unit
+cchlib-x-googlecontact
 cchlib-tools"
 
 PROJECTS_WITH_DOC="cchlib-core
@@ -280,7 +282,9 @@ cchlib-net
 cchlib-nio
 cchlib-sql
 cchlib-swing
-cchlib-sys"
+cchlib-sys
+cchlib-unit
+cchlib-x-googlecontact"
 
 # XXXXX-.*-javadoc.jar
 REMOVE_THESES_DOCS="cchlib-apps-regexpbuilder

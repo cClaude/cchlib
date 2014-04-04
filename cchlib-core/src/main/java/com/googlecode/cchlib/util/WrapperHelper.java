@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util;
 
+import java.util.Collection;
 import java.util.Enumeration;
 
 /**
@@ -59,5 +60,14 @@ public final class WrapperHelper<T,O>
                  return wrapper.wrap( enumeration.nextElement() );
             }
         };
+    }
+
+    public static <S,R> Collection<R> toCollection( 
+        final Collection<S>   collection,
+        final Wrappable<S,R>  wrapper,
+        final Wrappable<R,S>  unwrapper  
+        )
+    {
+        return new CollectionWrapper<S, R>( collection, wrapper, unwrapper );
     }
 }

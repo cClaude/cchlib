@@ -11,7 +11,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 
 /**
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public class DelNonAlphaChar implements com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask

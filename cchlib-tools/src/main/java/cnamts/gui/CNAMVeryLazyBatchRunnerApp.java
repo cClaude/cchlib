@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
 /**
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public abstract class CNAMVeryLazyBatchRunnerApp<TASK extends com.googlecode.cchlib.swing.batchrunner.verylazy.VeryLazyBatchTask>

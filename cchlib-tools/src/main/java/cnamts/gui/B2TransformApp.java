@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 /**
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public class B2TransformApp

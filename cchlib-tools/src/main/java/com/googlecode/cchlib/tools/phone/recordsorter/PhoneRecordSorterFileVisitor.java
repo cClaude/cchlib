@@ -9,7 +9,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
-import org.fest.util.VisibleForTesting;
+import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 

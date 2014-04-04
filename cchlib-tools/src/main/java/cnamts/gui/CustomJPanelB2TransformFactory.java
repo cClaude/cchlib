@@ -3,7 +3,7 @@ package cnamts.gui;
 import javax.swing.JPanel;
 
 /**
- *
+ * @deprecated no replacement
  */
 @Deprecated
 public class CustomJPanelB2TransformFactory

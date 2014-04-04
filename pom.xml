@@ -229,6 +229,7 @@
     <module>cchlib-sys</module>
     <module>cchlib-unit</module>
     <module>cchlib-nio</module>
+    <module>cchlib-x-googlecontact</module>
 
     <!-- should not be include in maven repository -->
     <!-- Applications -->
