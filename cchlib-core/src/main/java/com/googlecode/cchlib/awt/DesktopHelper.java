@@ -17,49 +17,49 @@ public final class DesktopHelper
         // All Static
     }
 
-    /**
-     * @deprecated use {@link Desktop#isDesktopSupported()} instead
-     */
-    @Deprecated
-    public static boolean isNativeDesktopSupported()
-        throws PlateformeDesktopNotSupportedException // $codepro.audit.disable unnecessaryExceptions
-    {
-        return Desktop.isDesktopSupported();
-    }
+//    /**
+//     * @deprecated use {@link Desktop#isDesktopSupported()} instead
+//     */
+//    @Deprecated
+//    public static boolean isNativeDesktopSupported()
+//        throws PlatformDesktopNotSupportedException // $codepro.audit.disable unnecessaryExceptions
+//    {
+//        return Desktop.isDesktopSupported();
+//    }
 
     /**
-     * TODOC
+     * Launches the default browser to display a URL
      *
-     * @param url
-     * @throws PlateformeDesktopNotSupportedException
+     * @param url URL to browse
+     * @throws PlatformDesktopNotSupportedException if platform did not support Desktop
      */
     public static void browse( final URL url )
-        throws PlateformeDesktopNotSupportedException
+        throws PlatformDesktopNotSupportedException
     {
-        if( isNativeDesktopSupported() ) {
+        if( Desktop.isDesktopSupported() ) {
             try {
                 browseNative( url );
                 }
             catch( Exception e ) {
-                throw new PlateformeDesktopNotSupportedException( e );
+                throw new PlatformDesktopNotSupportedException( e );
                 }
             }
         else {
             // N2H: Try to run using "start <url>" under windows.
-            throw new PlateformeDesktopNotSupportedException(
+            throw new PlatformDesktopNotSupportedException(
                     "Error on browse action (fatal):" + url
                     );
             }
     }
 
-    private static void browseNative( final URL url ) throws PlateformeDesktopNotSupportedException, IOException, URISyntaxException
+    private static void browseNative( final URL url ) throws PlatformDesktopNotSupportedException, IOException, URISyntaxException
     {
         Desktop desktop     = Desktop.getDesktop();
         boolean isSupported = desktop.isSupported( Desktop.Action.BROWSE );
 
         if( ! isSupported ) {
             // Should not occur, should be tested before using this method
-            throw new PlateformeDesktopNotSupportedException(
+            throw new PlatformDesktopNotSupportedException(
                     "Desktop doesn't support the browse action (fatal)"
                     );
             }

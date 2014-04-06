@@ -1,7 +1,7 @@
 /**
  * Provide some extra Enumeration, most based
  * on other Enumeration.
- * <BR/>
+ * <BR>
  * These Enumeration is design to avoid copy of
  * Collections in memory and to generate result
  * in the flow.

@@ -1,3 +1,8 @@
+*.java!
+*/dependency-reduced-pom.xml
+*/pom.xml.versionsBackup
+*/target
+.classpath
 .logs/.mvn.logs
 .logs/.mvn.logs.compilation
 .logs/.mvn.logs.compilation.WARNING
@@ -5,10 +10,8 @@
 .logs/.mvn.logs.javadoc.WARNING.others
 .logs/.mvn.logs.javadoc.WARNING.returntag
 .project
-.settings/
-*.java!
 .releases/
-*/target
+.settings/
 cchlib-apps-duplicatefilesmanager/.classpath
 cchlib-apps-duplicatefilesmanager/target/
 cchlib-apps-editresourcebundle/.classpath
@@ -61,6 +64,6 @@ cchlib-unit/.classpath
 cchlib-unit/target/
 cchlib-x-googlecontact/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-lib/.classpath
-cchlib-x-sandbox/cchlib-x-sandbox-tools/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-lib/target/
+cchlib-x-sandbox/cchlib-x-sandbox-tools/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-tools/target/

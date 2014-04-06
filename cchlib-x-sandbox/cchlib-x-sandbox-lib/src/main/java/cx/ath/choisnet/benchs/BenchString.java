@@ -57,7 +57,7 @@ public final static void benchStringBuffer() // ---------------------------
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -76,7 +76,7 @@ public final static void benchStringBuilder() // --------------------------
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -90,7 +90,7 @@ public final static void benchStringBuilder() // --------------------------
 */
 public final static void printDot() // ------------------------------------
 {
- System.out.print( "." );
+ System.out.print( '.' );
  System.out.flush();
 }
 

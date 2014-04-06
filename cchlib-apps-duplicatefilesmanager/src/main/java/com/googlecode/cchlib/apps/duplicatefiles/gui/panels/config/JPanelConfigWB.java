@@ -50,20 +50,22 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        jPanelFilesFilers = new JPanel();
-        jPanelFilesFilers.setBorder( jPanelFilesFilersTitledBorder );
-        GridBagConstraints gbc_jPanelFilesFilers = new GridBagConstraints();
-        gbc_jPanelFilesFilers.fill = GridBagConstraints.BOTH;
-        gbc_jPanelFilesFilers.insets = new Insets(0, 0, 5, 5);
-        gbc_jPanelFilesFilers.gridx = 0;
-        gbc_jPanelFilesFilers.gridy = 0;
-        add(jPanelFilesFilers, gbc_jPanelFilesFilers);
-        GridBagLayout gbl_jPanelFilesFilers = new GridBagLayout();
-        gbl_jPanelFilesFilers.columnWidths = new int[]{0, 0};
-        gbl_jPanelFilesFilers.rowHeights = new int[]{0, 0};
-        gbl_jPanelFilesFilers.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-        gbl_jPanelFilesFilers.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-        jPanelFilesFilers.setLayout(gbl_jPanelFilesFilers);
+        {
+            jPanelFilesFilers = new JPanel();
+            jPanelFilesFilers.setBorder( jPanelFilesFilersTitledBorder );
+            GridBagConstraints gbc_jPanelFilesFilers = new GridBagConstraints();
+            gbc_jPanelFilesFilers.fill = GridBagConstraints.BOTH;
+            gbc_jPanelFilesFilers.insets = new Insets(0, 0, 5, 5);
+            gbc_jPanelFilesFilers.gridx = 0;
+            gbc_jPanelFilesFilers.gridy = 0;
+            add(jPanelFilesFilers, gbc_jPanelFilesFilers);
+            GridBagLayout gbl_jPanelFilesFilers = new GridBagLayout();
+            gbl_jPanelFilesFilers.columnWidths = new int[]{0, 0};
+            gbl_jPanelFilesFilers.rowHeights = new int[]{0, 0};
+            gbl_jPanelFilesFilers.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+            gbl_jPanelFilesFilers.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+            jPanelFilesFilers.setLayout(gbl_jPanelFilesFilers);
+        }
 
         jComboBoxFilesFilters = createJComboBoxString();
         jComboBoxFilesFilters.addActionListener( getActionListener() );

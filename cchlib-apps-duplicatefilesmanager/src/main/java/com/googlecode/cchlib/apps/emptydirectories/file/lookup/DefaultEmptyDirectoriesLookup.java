@@ -34,7 +34,7 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
-     * <br/>
+     * <br>
      * Does not start search of empty directories, you must
      * call {@link #lookup()} to start this task.
      *

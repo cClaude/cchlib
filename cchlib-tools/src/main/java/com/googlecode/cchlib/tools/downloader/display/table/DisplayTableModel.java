@@ -43,8 +43,7 @@ public abstract class DisplayTableModel
         //empty !
     }
 
-    final
-    public void setJTable( final JTable jTable )
+    public final void setJTable( final JTable jTable )
     {
         this.jTable = jTable;
     }
@@ -52,8 +51,7 @@ public abstract class DisplayTableModel
     /**
      * Removes all of the elements from this model. The model will be empty after this call returns.
      */
-    final
-    public synchronized void clear()
+    public final synchronized void clear()
     {
         list.clear();
 
@@ -140,7 +138,7 @@ public abstract class DisplayTableModel
         });
     }
 
-    final private synchronized void updateDisplay(
+    private final synchronized void updateDisplay(
         final DownloadURL                 dURL,
         final DisplayTableModelEntryState state
         )

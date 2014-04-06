@@ -23,9 +23,9 @@ import java.util.TreeMap;
 
 /**
  * Keeps structured command line parameters for ContactsExample program.
- * 
- * 
- * 
+ *
+ *
+ *
  */
 
 public class ContactsExampleParameters {
@@ -55,10 +55,10 @@ public class ContactsExampleParameters {
   /**
    * List of command line parameters likely to be the description of an
    * element.
-   * Those parameters are added to the list, what are not recognized as a valid 
+   * Those parameters are added to the list, what are not recognized as a valid
    * command line argument (nor an action or option).
-   * These parameters are later parsed by {@link ElementParser} and processed by 
-   * {@link ElementHelper}. 
+   * These parameters are later parsed by {@link ElementParser} and processed by
+   * {@link ElementHelper}.
    */
   private List<String> elementDesc = new LinkedList<String>();
 
@@ -124,7 +124,7 @@ public class ContactsExampleParameters {
 
   /**
    * Parse arguments.
-   * 
+   *
    * @param arguments arguments in form of array
    */
   private void fillFromArguments(String[] arguments) {
@@ -133,7 +133,7 @@ public class ContactsExampleParameters {
         throw new IllegalArgumentException("illegal parameter: " + string);
       }
       String param = string.substring(2);
-      String params[] = param.split("=", 2);
+      String[] params = param.split("=", 2);
       boolean found = false;
       for (ParameterNames parameterName : ParameterNames.values()) {
         String name = parameterName.getParameterName().toLowerCase();
@@ -151,7 +151,7 @@ public class ContactsExampleParameters {
         elementDesc.add(string);
       }
     }
-    verifyAllParameters();    
+    verifyAllParameters();
   }
 
   /**
@@ -175,7 +175,7 @@ public class ContactsExampleParameters {
     throw new IllegalArgumentException(
         "Parameter " + name + " is not correct.");
   }
-  
+
   String getParameter(ParameterNames parameters) {
     return parameterValueMap.get(parameters.getParameterName());
   }
@@ -207,7 +207,7 @@ public class ContactsExampleParameters {
   String getPassword() {
     return getParameter(ParameterNames.PASSWORD);
   }
-  
+
   boolean isContactFeed() {
     return getParameter(ParameterNames.CONTACTFEED) != null;
   }
@@ -215,7 +215,7 @@ public class ContactsExampleParameters {
   boolean isGroupFeed() {
     return getParameter(ParameterNames.GROUPFEED) != null;
   }
-  
+
   boolean isShowDeleted() {
     return getParameter(ParameterNames.SHOWDELETED) != null;
   }
@@ -277,7 +277,7 @@ public class ContactsExampleParameters {
   void setId(String id) {
     parameterValueMap.put(ParameterNames.ID.getParameterName(), id);
   }
-  
+
   String getProjection() {
     String projection = getParameter(ParameterNames.PROJECTION);
     if (projection == null) {
@@ -285,7 +285,7 @@ public class ContactsExampleParameters {
     }
     return projection;
   }
-  
+
   String getGroup() {
     return getParameter(ParameterNames.GROUP);
   }
@@ -293,7 +293,7 @@ public class ContactsExampleParameters {
   List<String> getElementDesc() {
     return elementDesc;
   }
-  
+
   int numberOfParameters() {
     return parameterValueMap.size();
   }

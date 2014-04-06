@@ -72,8 +72,8 @@ public class AddCheckBoxToTree {
         // is path1 descendant of path2
         private boolean isDescendant( TreePath path1, TreePath path2 )
         {
-            Object obj1[] = path1.getPath();
-            Object obj2[] = path2.getPath();
+            Object[] obj1 = path1.getPath();
+            Object[] obj2 = path2.getPath();
             for( int i = 0; i < obj2.length; i++ ) {
                 if( obj1[ i ] != obj2[ i ] ) return false;
             }

@@ -25,15 +25,15 @@ public class ActionServlet extends HttpServlet
     /**
      * Default value : {@value}
      */
-    public final static String DEFAULT_ACTION_PARAMETER_NAME = "$ACTION";
+    public static final String DEFAULT_ACTION_PARAMETER_NAME = "$ACTION";
     /**
      * Default value : {@value}
      */
-    public final static String DEFAULT_NEXTURL_PARAMETER_NAME = "$NEXTURL";
+    public static final String DEFAULT_NEXTURL_PARAMETER_NAME = "$NEXTURL";
     /**
      * Default value : {@value}
      */
-    public final static String DEFAULT_ERROR_PARAMETER_NAME = "$ERROR";
+    public static final String DEFAULT_ERROR_PARAMETER_NAME = "$ERROR";
 
     /**
      * Servlet name :

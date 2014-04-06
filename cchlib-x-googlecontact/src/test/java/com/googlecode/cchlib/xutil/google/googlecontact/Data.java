@@ -1,6 +1,8 @@
+// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
-public interface Data {
+// NOT public
+class Data {
 
     static final String[] HEADERS_BASIC = {
         "Name",

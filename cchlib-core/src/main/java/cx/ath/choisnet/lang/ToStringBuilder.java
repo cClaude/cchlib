@@ -30,28 +30,38 @@ public class ToStringBuilder<T>
      * @param clazz Class (or interface) to use to
      *        build toString()
      */
-    public ToStringBuilder( final Class<T> clazz ) // $codepro.audit.disable blockDepth
+    public ToStringBuilder( final Class<T> clazz )
     {
         this.clazz = clazz;
 
+        addMethodsWithoutParameters( methods, clazz );
+    }
+
+    private static <T> void addMethodsWithoutParameters( final Collection<Method> methods , final Class<T> clazz )
+    {
         // Only methods define by this class (or interface) !
         final Method[] ms = clazz.getDeclaredMethods();
 
         for( final Method method : ms ) {
             // No parameters
             if( method.getParameterTypes().length == 0 ) {
-                 if( shouldIgnoreByResult( method ) ) {
-                    final String name = method.getName();
-
-                    if( ! shouldIgnoreByName( name ) ) {
-                        methods.add( method );
-                        }
-                    }
+                 addMethodWithoutParameters( methods, method );
                 }
          }
     }
 
-    private boolean shouldIgnoreByResult( final Method method )
+    private static void addMethodWithoutParameters( final Collection<Method> methods, final Method method )
+    {
+        if( shouldIgnoreByResult( method ) ) {
+            final String name = method.getName();
+
+            if( ! shouldIgnoreByName( name ) ) {
+                methods.add( method );
+                }
+            }
+    }
+
+    private static boolean shouldIgnoreByResult( final Method method )
     {
         // No void !
         final Class<?> returnType = method.getReturnType();
@@ -59,7 +69,7 @@ public class ToStringBuilder<T>
         return ! returnType.equals( Void.class ) && ! returnType.equals( Void.TYPE );
     }
 
-    private boolean shouldIgnoreByName( final String name )
+    private static boolean shouldIgnoreByName( final String name )
     {
         for( String ignoreName:IGNORE_METHODS ) {
             if( name.equals( ignoreName )) {

@@ -263,17 +263,32 @@ public class HashMapSet<K,V>
     }
 
     /**
-     * Removes the specified key-value from this HashMapSet
-     * if it is present.
+     * Removes the specified key-value from this HashMapSet if it is present, same has
+     * {@link #remove(Object, Object)} but this version use generics.
      *
      * @param key  key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      *
-     * @return if this set HashMapSet the specified key-value
+     * @return if this set HashMapSet the specified key-value and if the value was removed
      */
-    public boolean remove( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean removeInSet( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
-        Set<V> set = super.get( key );
+        return remove( key, value );
+    }
+
+    /**
+     * Removes the specified key-value from this HashMapSet if it is present.
+     * <p><b>Change erasure of this method to be compliant with new Java 8 API</b></p>
+     *
+     * @param key  key with which the specified value is to be associated
+     * @param value value to be associated with the specified key
+     *
+     * @return if this set HashMapSet the specified key-value and if the value was removed
+     * @see #removeInSet(Object, Object)
+     */
+    public boolean remove( final Object key, final Object value )  // $codepro.audit.disable booleanMethodNamingConvention
+    {
+        final Set<V> set = super.get( key );
 
         if( set != null ) {
             return set.remove( value );
@@ -281,7 +296,15 @@ public class HashMapSet<K,V>
 
         return false;
     }
-
+//Description copied from interface: Map
+//Removes the entry for the specified key only if it is currently mapped to the specified value.
+//Specified by:
+//remove in interface Map<K,V>
+//Parameters:
+//key - key with which the specified value is associated
+//value - value expected to be associated with the specified key
+//Returns:
+//true if the value was removed
     /**
      * Returns true if this HashMapSet contains the specified
      * element. More formally, returns true if and only if

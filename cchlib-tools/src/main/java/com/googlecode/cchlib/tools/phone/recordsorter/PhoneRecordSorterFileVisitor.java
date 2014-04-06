@@ -24,6 +24,7 @@ public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
 //    private final static Pattern FILEPATTERN_ok = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_In\\.3gp");
 //    private final static Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_(\\w+)\\.3gp");
     private final static Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(\\w+)\\.(\\w+)");
+    private final static Pattern FILEPATTERN2 = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(In|Out)\\.(3gp)");
 
     final private Config config;
     final private NumberNormalizer numberNormalizer;

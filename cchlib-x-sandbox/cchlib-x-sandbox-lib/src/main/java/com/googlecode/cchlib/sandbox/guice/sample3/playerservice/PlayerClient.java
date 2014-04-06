@@ -13,7 +13,7 @@ public class PlayerClient
         Injector injector = Guice.createInjector(new Module[]{module});
  
         // Should FAIL if PlayerModule_FAIL 
-        @Good Player player = (Player)injector.getInstance(Player.class);
+        @Good Player player = injector.getInstance(Player.class);
         player.bat();
         player.bowl();
     }

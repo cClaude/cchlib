@@ -145,7 +145,7 @@ public class BRFrame extends JFrame
 
     public void handleWindowClosing( WindowEvent event )
     {
-        if( this.panel == null || ! this.panel.getSBRActionListener().isRunning() ) {
+        if( (this.panel == null) || ! this.panel.getSBRActionListener().isRunning() ) {
             systemExit();
             }
         else {

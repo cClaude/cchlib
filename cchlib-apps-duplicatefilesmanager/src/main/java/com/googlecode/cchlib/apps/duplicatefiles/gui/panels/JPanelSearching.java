@@ -511,7 +511,7 @@ public class JPanelSearching extends JPanel
 
         if( includeFilesFileFilterBuilder != null ) {
             final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
-            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
+            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
             final int      fileExtsL    = fileExts.length;
 
             LOGGER.info( "createFilesFileFilter: case1");
@@ -575,7 +575,7 @@ public class JPanelSearching extends JPanel
             if( excludeFilesFileFilterBuilder != null ) {
                 final Pattern regex        = excludeFilesFileFilterBuilder.getRegExp();
 
-                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
+                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
                 final int      fileExtsL = fileExts.length;
 
                 LOGGER.info( "createFilesFileFilter: case2");
@@ -666,7 +666,7 @@ public class JPanelSearching extends JPanel
 
             //TODO: construire un automate pour tester
             //      une chaîne par rapport à un groupe de motif
-            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
+            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
             final int      dirNamesL = dirNames.length;
 
             LOGGER.info( "dirs regex=" + regex );
@@ -712,7 +712,7 @@ public class JPanelSearching extends JPanel
 
                 //TODO: construire un automate pour tester
                 //      une chaîne par rapport à un groupe de motif
-                final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.EMPTY_ARRAY );
+                final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
                 final int      dirNamesL = dirNames.length;
 
                 LOGGER.info( "dirs regex=" + regex );

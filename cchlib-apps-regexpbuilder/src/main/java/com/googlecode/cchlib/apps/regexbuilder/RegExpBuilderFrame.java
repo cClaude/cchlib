@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 import com.googlecode.cchlib.awt.DesktopHelper;
-import com.googlecode.cchlib.awt.PlateformeDesktopNotSupportedException;
+import com.googlecode.cchlib.awt.PlatformDesktopNotSupportedException;
 
 /**
  *
@@ -876,7 +876,7 @@ public class RegExpBuilderFrame
             try {
                 DesktopHelper.browse( url );
                 }
-            catch( PlateformeDesktopNotSupportedException e ) {
+            catch( PlatformDesktopNotSupportedException e ) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 }

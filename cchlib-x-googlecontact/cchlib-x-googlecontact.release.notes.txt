@@ -1,7 +1,8 @@
 cchlib-x-googlecontact
-  general comment
+
+Library to handle google contact CSV file.
 
 ---------------------------------------------------------------------
-4.1.7
-  Java 1.7 required
+4.1.8
+  Java 1.8 required
 ---------------------------------------------------------------------

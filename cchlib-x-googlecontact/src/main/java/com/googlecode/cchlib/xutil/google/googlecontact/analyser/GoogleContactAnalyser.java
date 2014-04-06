@@ -17,7 +17,7 @@ import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 
 public class GoogleContactAnalyser {
 
-    private final static Logger LOGGER = Logger.getLogger( GoogleContactAnalyser.class );
+    private static final Logger LOGGER = Logger.getLogger( GoogleContactAnalyser.class );
     private final TypeInfoImpl rootTypeInfo;
 
     private final Map<Class<GoogleContactType>,TypeInfoImpl> typeInfos = new HashMap<>();
@@ -33,40 +33,47 @@ public class GoogleContactAnalyser {
         final TypeInfoImpl       typeInfo        = new TypeInfoImpl( declaredMethods );
 
         if( ! declaredMethods.isEmpty() ) {
-            for( final Method method : declaredMethods ) {
-                final String value = method.getAnnotation( Header.class ).value();
-
-                if( value.isEmpty() ) {
-                    throw new RuntimeException( "@Header has no value for : " + method );
-                }
-
-                final Class<?>[] parameterTypes = method.getParameterTypes();
-
-                if( parameterTypes.length != 1 ) {
-                    throw new RuntimeException( "Method should have (only) one parameter : " + method );
-                }
-
-                if( parameterTypes[ 0 ].equals( String.class ) ) {
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "Found String value [" + value + "] for method : " + method );
-                    }
-
-                    typeInfo.addStringMethod( value, method );
-                } else {
-                    final TypeInfoImpl subTypeInfo = getOrCreateTypeInfoFor( parameterTypes[ 0 ] );
-
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "Found value [" + value + "] for method : " + method );
-                    }
-
-                    typeInfo.addCustomTypeMethod( value, method, subTypeInfo );
-                }
-            }
+            addMethods( typeInfo, declaredMethods );
         }
 
-        assert typeInfo.getMethodForCustomType().size() + typeInfo.getMethodForStrings().size() > 1;
+        assert (typeInfo.getMethodForCustomType().size() + typeInfo.getMethodForStrings().size()) > 1;
 
         return typeInfo;
+    }
+
+    private void addMethods( //
+            final TypeInfoImpl       typeInfo,//
+            final Collection<Method> declaredMethods )
+    {
+        for( final Method method : declaredMethods ) {
+            final String value = method.getAnnotation( Header.class ).value();
+
+            if( value.isEmpty() ) {
+                throw new RuntimeException( "@Header has no value for : " + method );
+            }
+
+            final Class<?>[] parameterTypes = method.getParameterTypes();
+
+            if( parameterTypes.length != 1 ) {
+                throw new RuntimeException( "Method should have (only) one parameter : " + method );
+            }
+
+            if( parameterTypes[ 0 ].equals( String.class ) ) {
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "Found String value [" + value + "] for method : " + method );
+                }
+
+                typeInfo.addStringMethod( value, method );
+            } else {
+                final TypeInfoImpl subTypeInfo = getOrCreateTypeInfoFor( parameterTypes[ 0 ] );
+
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "Found value [" + value + "] for method : " + method );
+                }
+
+                typeInfo.addCustomTypeMethod( value, method, subTypeInfo );
+            }
+        }
     }
 
     private static Collection<Method> getHeaderMethods( final Class<?> clazz )
@@ -111,18 +118,6 @@ public class GoogleContactAnalyser {
         return rootTypeInfo;
     }
 
-//    public TypeInfo getTypeInfoFor( final GoogleContactType element ) throws GoogleContacAnalyserException
-//    {
-//        final Class<? extends GoogleContactType> clazz = element.getClass();
-//
-//        for( final Map.Entry<Class<GoogleContactType>, TypeInfoImpl> entry : typeInfos.entrySet() ) {
-//            if( clazz.isAssignableFrom( entry.getKey() ) ) {
-//                return entry.getValue();
-//            }
-//        }
-//
-//        throw new GoogleContacAnalyserException( "Can not handle class " + clazz );
-//    }
 
     public TypeInfo getTypeInfoFor( final Class<?> clazz ) throws GoogleContacAnalyserException
     {

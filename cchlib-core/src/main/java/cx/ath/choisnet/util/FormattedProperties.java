@@ -30,7 +30,7 @@ import com.googlecode.cchlib.lang.StringHelper;
  * <br/>
  * Written for Java version 1.5
  */
-public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
+public final class FormattedProperties
     extends Properties
 {
     private static final long serialVersionUID = 1L;
@@ -173,7 +173,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
     public synchronized void load( final Reader aReader ) throws IOException
     {
         @SuppressWarnings("resource")
-        final BufferedReader reader = toBufferedReader( aReader );
+        final BufferedReader reader = FormattedPropertiesHelper.toBufferedReader( aReader );
         String               line;
 
         while ((line = reader.readLine()) != null) {
@@ -283,92 +283,11 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
                 }
             else {
                 // Escape char found so iterate through the rest of the line.
-                StringBuilder element = handleEscapeChar( reader, line, pos );
+                StringBuilder element = FormattedPropertiesHelper.handleEscapeChar( reader, line, pos );
 
                 this.put(keyString, element.toString());
             }
         }
-    }
-
-    private StringBuilder handleEscapeChar(
-        final BufferedReader reader,
-        String               line,
-        int                  pos
-        ) throws IOException
-    {
-        char c;
-        // Escape char found so iterate through the rest of the line.
-        StringBuilder element = new StringBuilder(line.length() - pos); // $codepro.audit.disable avoidInstantiationInLoops
-        while (pos < line.length()) {
-            c = line.charAt(pos++);
-            if (c == '\\') {
-                if (pos == line.length()) {
-                    // The line continues on the next line.
-                    line = reader.readLine();
-
-                    // We might have seen a backslash at the end of
-                    // the file.  The JDK ignores the backslash in
-                    // this case, so we follow for compatibility.
-                    if (line == null) {
-                        break;
-                        }
-
-                    pos = 0;
-                    while ( pos < line.length()
-                            && Character.isWhitespace(c = line.charAt(pos))) {
-                        pos++;
-                        }
-                    element.ensureCapacity(line.length() - pos +
-                                           element.length());
-                    }
-                else {
-                    c = line.charAt(pos++);
-                    switch (c) {
-                        case 'n':
-                            element.append('\n');
-                            break;
-                        case 't':
-                            element.append('\t');
-                            break;
-                        case 'r':
-                            element.append('\r');
-                            break;
-                        case 'u':
-                            if( pos + 4 <= line.length() ) {
-                                char uni = (char) Integer.parseInt
-                                           (line.substring(pos, pos + 4), 16);
-                                element.append(uni);
-                                pos += 4;
-                                }
-                            // else throw exception?
-                            break;
-                        default:
-                            element.append(c);
-                            break;
-                        }
-                    }
-                }
-            else {
-                element.append(c);
-                }
-            }
-        return element;
-    }
-
-    /**
-     * Does not create a new {@link BufferedReader} if <code>aReader</code>
-     * is already a {@link BufferedReader}
-     * @param aReader {@link Reader} to convert (if needed)
-     * @return a {@link BufferedReader} based on <code>aReader</code>
-     */
-    private BufferedReader toBufferedReader( final Reader aReader )
-    {
-        if( aReader instanceof BufferedReader ) {
-            return BufferedReader.class.cast( aReader );
-            }
-        else {
-            return new BufferedReader( aReader );
-            }
     }
 
     /**
@@ -419,7 +338,6 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
             store(out,comment);
             }
         catch( IOException e ) {
-            //e.printStackTrace();
             throw new RuntimeException( e ); // Show exception to the word :)
             }
     }
@@ -436,7 +354,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      *            specified writer throws an IOException.
      */
     @Override
-    public synchronized void store( Writer out, String comment )
+    public synchronized void store( final Writer out, final String comment )
         throws IOException
     {
         store(out,this.storeOptions);
@@ -457,12 +375,11 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      *            specified writer throws an IOException.
      */
     public synchronized void store(
-            Writer          out,
-            EnumSet<Store>  config
-            )
-        throws IOException
+        final Writer          out,
+        final EnumSet<Store>  config
+        ) throws IOException
     {
-        EnumSet<Store> attribs;
+        final EnumSet<Store> attribs;
 
         if( config == null ) {
             attribs = EnumSet.noneOf( Store.class );
@@ -472,16 +389,16 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
             }
 
         @SuppressWarnings("resource")
-        PrintWriter writer = toPrintWriter( out );
+        final PrintWriter writer = FormattedPropertiesHelper.toPrintWriter( out );
 
         // We ignore the header, because if we prepend a
         // commented header then read it back in it is
         // now a comment, which will be saved and then
         // when we write again we would prepend Another
         // header...
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        for( FormattedPropertiesLine line : lines ) {
+        for( final FormattedPropertiesLine line : lines ) {
             if( line.isComment() ) {
                 // was a blank or comment line, so just restore it
                 writer.println(line.getContent());
@@ -507,22 +424,6 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
                 }
             }
         writer.flush ();
-    }
-
-    /**
-     * Does not create a new {@link PrintWriter} if <code>out</code>
-     * is already a {@link PrintWriter}
-     * @param out {@link Writer} to convert (if needed)
-     * @return a {@link PrintWriter} based on <code>out</code>
-     */
-    private PrintWriter toPrintWriter( final Writer out )
-    {
-        if( out instanceof PrintWriter ) {
-            return PrintWriter.class.cast( out );
-            }
-        else {
-            return new PrintWriter( out );
-            }
     }
 
     /**
@@ -588,12 +489,12 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
                         if( !isAlreadyFormatted ) {
                             boolean cutLine = false;
                             if( config.contains( Store.CUT_LINE_BEFORE_HTML_BR )) {
-                                if( matches(PATTERN_BR_ADD_BEFORE,str.substring( i )) ) {
+                                if( FormattedPropertiesHelper.matches(PATTERN_BR_ADD_BEFORE,str.substring( i )) ) {
                                     cutLine = true;
                                     }
                                 }
                             if( config.contains( Store.CUT_LINE_BEFORE_HTML_BEGIN_P )) {
-                                if( matches(PATTERN_P_BEGIN_ADD_BEFORE,str.substring( i )) ) {
+                                if( FormattedPropertiesHelper.matches(PATTERN_P_BEGIN_ADD_BEFORE,str.substring( i )) ) {
                                     cutLine = true;
                                     }
                                 }
@@ -604,7 +505,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
                             }
                     }
                 default: // $codepro.audit.disable nonTerminatedCaseClause
-                    if( isISO_8859_1( c ) ) {
+                    if( FormattedPropertiesHelper.isISO_8859_1( c ) ) {
                         buffer.append(c);
                         }
                     else {
@@ -618,12 +519,12 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
                             boolean cutLine = false;
 
                             if(config.contains( Store.CUT_LINE_AFTER_HTML_BR )) {
-                                if( matches(PATTERN_BR_ADD_AFTER,str.substring(0,i+1)) ) {
+                                if( FormattedPropertiesHelper.matches(PATTERN_BR_ADD_AFTER,str.substring(0,i+1)) ) {
                                     cutLine = true;
                                     }
                                 }
                             if(config.contains( Store.CUT_LINE_AFTER_HTML_END_P )) {
-                                if( matches(PATTERN_P_END_ADD_AFTER,str.substring(0,i+1)) ) {
+                                if( FormattedPropertiesHelper.matches(PATTERN_P_END_ADD_AFTER,str.substring(0,i+1)) ) {
                                     cutLine = true;
                                     }
                                 }
@@ -658,48 +559,6 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
             }
     }
 
-    /**
-     *
-     * @param p Pattern to use
-     * @param s String to test
-     * @return true if string matches with pattern
-     */
-    protected boolean matches(Pattern p,String s)
-    {
-        return p.matcher( s ).matches();
-    }
-
-    /**
-     * Determines if the specified character is reasonable
-     * value for ISO-8859-1.
-     * <br/>
-     * This method is call to choose if a character must
-     * be encoded or not.
-     * <p>
-     * White spaces are consider has non reasonable
-     * values.
-     * </p>
-     * @param c character to analyze
-     * @return true if character does not need to be encoded,
-     *         false otherwise.
-     */
-    protected boolean isISO_8859_1(char c)
-    {
-        if (c < 0x20 ) { // before space
-            return false;
-            }
-        if( c > 0x00FF ) {
-            return false;
-            }
-        if( c < 0x7F ) { // last value '~', 0x7F exclude
-            return true;
-            }
-        if( c > 0xA0 ) { // first value, 0xA0 exclude
-            return true;
-            }
-
-        return false;
-    }
 
     /**
      * If Property already define, replace value
@@ -716,10 +575,9 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      */
     @Override
     synchronized public Object put(
-            Object keyString,
-            Object valueString
-            )
-        throws IllegalArgumentException
+        final Object keyString,
+        final Object valueString
+        ) throws IllegalArgumentException
     {
         if( !(keyString instanceof String) ) {
             throw new IllegalArgumentException(
@@ -810,9 +668,9 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      * Same has {@link #put(Object,Object)}
      */
     @Override
-    public synchronized Object setProperty( String key, String value )
+    public synchronized Object setProperty( final String key, final String value )
     {
-        return this.put(key,value);
+        return this.put( key, value );
     }
 
     /**
@@ -826,9 +684,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
         lines.clear();
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Hashtable#elements()
-     */
+
     @Override
     public synchronized Enumeration<Object> elements()
     {
@@ -898,12 +754,10 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      * @see #put(Object, Object)
      */
     @Override
-    public synchronized void putAll( Map<? extends Object, ? extends Object> t )
+    public synchronized void putAll( final Map<? extends Object, ? extends Object> t )
     {
-        for(Map.Entry<? extends Object, ? extends Object> e:t.entrySet()) {
-            put(    e.getKey(),
-                    e.getValue()
-                    );
+        for( final Map.Entry<? extends Object, ? extends Object> e:t.entrySet() ) {
+            put( e.getKey(), e.getValue() );
             }
     }
 
@@ -927,11 +781,11 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      *         is null.
      */
     @Override
-    public synchronized Object remove( Object key )
+    public synchronized Object remove( final Object key )
     {
         if( super.containsKey( key ) ) {
-            FormattedPropertiesLine   line = lines.remove(key);
-            Object prev = super.remove( key );
+            final FormattedPropertiesLine line = lines.remove(key);
+            final Object                  prev = super.remove( key );
 
             if( line == null ) {
                 throw new RuntimeException(
@@ -955,22 +809,17 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
     }
 
     /**
-     * Unlike {@link java.util.Hashtable#values()}
-     * return an <b>unmodifiable</b> Collection
+     * Unlike super class {@link java.util.Hashtable#values()} return an <b>unmodifiable</b> Collection
      * @see java.util.Hashtable#values()
      */
     @Override
     public Collection<Object> values()
     {
-        // TODO must be modifiable
         return Collections.unmodifiableCollection(
                 super.values()
                 );
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     synchronized public int hashCode()
     {
@@ -990,7 +839,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
      *         to this FormattedProperties
      */
     @Override
-    synchronized public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    synchronized public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( this == obj ) {
             return true;
@@ -1035,7 +884,7 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
     }
 
     /**
-     * @return
+     * @return a new FormattedProperties cloning <code>source</code>
      */
     public static FormattedProperties newFormattedProperties(
         final FormattedProperties source

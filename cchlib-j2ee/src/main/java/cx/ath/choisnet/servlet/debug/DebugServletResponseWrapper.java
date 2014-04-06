@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class DebugServletResponseWrapper implements ServletResponse
 {
-    private final static Logger LOGGER = Logger.getLogger( DebugServletResponseWrapper.class );
+    private static final Logger LOGGER = Logger.getLogger( DebugServletResponseWrapper.class );
     private final ServletResponse response;
 
     /**

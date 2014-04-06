@@ -138,7 +138,7 @@ public final static void benchVectorString() // ---------------------------
 */
 public final static void printDot() // ------------------------------------
 {
- System.out.print( "." );
+ System.out.print( '.' );
  System.out.flush();
 }
 

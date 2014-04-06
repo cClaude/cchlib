@@ -6,11 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.Selectable;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 
 final class TypeInfoImpl implements TypeInfo {
-    private final List<Method>                          declaredMethods;
+    private final List<Method>                                  declaredMethods;
     private final Map<String,AnalyserMethodContener>            methodForStrings     = new HashMap<>();
     private final Map<String,AnalyserCustomTypeMethodContener>  methodForCustomTypes = new HashMap<>();
 
@@ -29,15 +28,21 @@ final class TypeInfoImpl implements TypeInfo {
         return this.declaredMethods.size();
     }
 
-    public Method getMethod( final String headerSuffix )
+    Method getMethod( final String headerSuffix )
     {
-        return Iterables.find( declaredMethods, new Selectable<Method>() {
-            @Override
-            public boolean isSelected( final Method method )
-            {
-                return method.getAnnotation( Header.class ) != null;
-            }} );
+        return declaredMethods.stream().findAny().filter( m -> m.getAnnotation( Header.class ) != null ).get();
     }
+
+//    public Method getMethod( final String headerSuffix )
+//    {
+//        return declaredMethods.stream().findAny().filter( m -> m.getAnnotation( Header.class ) != null );
+//        return Iterables.find( declaredMethods, new Selectable<Method>() {
+//            @Override
+//            public boolean isSelected( final Method method )
+//            {
+//                return method.getAnnotation( Header.class ) != null;
+//            }} );
+//    }
 
     @Override
     public Map<String,AnalyserMethodContener> getMethodForStrings()
@@ -60,20 +65,20 @@ final class TypeInfoImpl implements TypeInfo {
         builder.append( ", getParameterCount()=" );
         builder.append( getParameterCount() );
         builder.append( ']' );
-            return builder.toString();
-        }
+        return builder.toString();
+    }
 
-        public void addStringMethod( final String value, final Method method )
-        {
-            methodForStrings.put( value, new AnalyserMethodContenerImpl( method ) );
-        }
+    public void addStringMethod( final String value, final Method method )
+    {
+        methodForStrings.put( value, new AnalyserMethodContenerImpl( method ) );
+    }
 
-        public void addCustomTypeMethod(
-            final String       value,
-            final Method       method,
-            final TypeInfoImpl subTypeInfo
-            )
-        {
-            methodForCustomTypes.put( value, new AnalyserCustomTypeMethodContenerImpl( method, subTypeInfo ) );
-        }
-   }
+    public void addCustomTypeMethod(
+        final String       value,
+        final Method       method,
+        final TypeInfoImpl subTypeInfo
+        )
+    {
+        methodForCustomTypes.put( value, new AnalyserCustomTypeMethodContenerImpl( method, subTypeInfo ) );
+    }
+}

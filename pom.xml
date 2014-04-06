@@ -212,23 +212,20 @@
   <!-- Sub projects -->
   <modules>
     <module>cchlib-core</module>
+    <module>cchlib-core-test</module>
     <module>cchlib-core-beta</module>
-    <module>cchlib-core-deprecated</module>
-    <module>cchlib-i18n</module>
     <module>cchlib-i18n-test</module>
-    <module>cchlib-i18n-deprecated</module>
+    <module>cchlib-i18n</module>
     <module>cchlib-io</module>
     <module>cchlib-io-test</module>
     <module>cchlib-j2ee</module>
-    <module>cchlib-j2ee-deprecated</module>
     <module>cchlib-jdbf</module>
     <module>cchlib-net</module>
+    <module>cchlib-nio</module>
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
-    <module>cchlib-swing-deprecated</module>
     <module>cchlib-sys</module>
     <module>cchlib-unit</module>
-    <module>cchlib-nio</module>
     <module>cchlib-x-googlecontact</module>
 
     <!-- should not be include in maven repository -->
@@ -238,7 +235,6 @@
     <module>cchlib-apps-regexpbuilder</module>
     <module>cchlib-core-sample</module>
     <module>cchlib-samples</module>
-    <module>cchlib-tools-duplicatefiles</module>
     <module>cchlib-tools</module>
 
     <!-- Not compile by default script -->

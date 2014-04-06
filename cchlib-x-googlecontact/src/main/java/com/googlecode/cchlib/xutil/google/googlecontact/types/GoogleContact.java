@@ -6,7 +6,7 @@ import java.util.List;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.GoogleContactType;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 
-public class GoogleContact implements GoogleContactType {
+public class GoogleContact implements GoogleContactType { // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods
 
     private static final long serialVersionUID = 1L;
 
@@ -385,7 +385,7 @@ public class GoogleContact implements GoogleContactType {
     @Header("Custom Field")
     public final void addCustomField( final BasicEntry customField )
     {
-        this.customFields .add( customField );
+        this.customFields.add( customField );
     }
 
     public final Collection<BasicEntry> getRelations()
@@ -405,10 +405,10 @@ public class GoogleContact implements GoogleContactType {
     @Header("Event") // "Event 1 - Type", "Event 1 - Value"
     public final void addEvent( final BasicEntry event )
     {
-        this.events .add( event );
+        this.events.add( event );
     }
 
-    public final static GoogleContactType newGoogleContactType( final Class<?> clazz )
+    public static final GoogleContactType newGoogleContactType( final Class<?> clazz )
             throws IllegalArgumentException
     {
         if( BasicEntry.class.isAssignableFrom( clazz ) ) {

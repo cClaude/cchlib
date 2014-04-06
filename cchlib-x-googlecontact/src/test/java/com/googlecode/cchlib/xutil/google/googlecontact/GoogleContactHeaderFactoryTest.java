@@ -2,10 +2,10 @@ package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.xutil.google.googlecontact.GoogleContactHeader;
-import com.googlecode.cchlib.xutil.google.googlecontact.GoogleContactHeaderFactory;
 
-public class GoogleContactHeaderFactoryTest  implements Data {
+
+
+public class GoogleContactHeaderFactoryTest  extends Data {
 
 //    private int getMethodsForCustomTypeCount( final Map<Integer, HeaderMethodContener> map )
 //    {

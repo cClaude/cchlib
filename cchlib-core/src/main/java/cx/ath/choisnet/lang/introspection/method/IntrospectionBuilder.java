@@ -41,54 +41,69 @@ public class IntrospectionBuilder<O>
     {
         final EnumSet<IntrospectionParameters> safeParameters = getSafeParameters( parameters );
 
+        buildGetterSetterList( inpectClass, safeParameters );
+    }
+
+    private void buildGetterSetterList(
+        final Class<O>                         inpectClass,
+        final EnumSet<IntrospectionParameters> safeParameters
+        )
+    {
         // Construit la liste des observateurs
         final Method[] methods = inpectClass.getMethods();
 
         for( final Method method : methods ) {
-            boolean getThis = true;
+            addGetterOrSetter( safeParameters, method );
+        }
+    }
 
-            if( safeParameters.contains( IntrospectionParameters.ONLY_PUBLIC ) ) {
-                getThis = Modifier.isPublic( method.getModifiers() );
-                }
-            if( getThis ) {
-                if( safeParameters.contains( IntrospectionParameters.NO_DEPRECATED ) ) {
-                    getThis = ! method.isAnnotationPresent( Deprecated.class );
-                    }
-                }
-            if( getThis ) {
-                getThis = ! method.isAnnotationPresent( IVIgnore.class );
-                }
+    private void addGetterOrSetter(
+            final EnumSet<IntrospectionParameters> safeParameters,
+            final Method method )
+    {
+        boolean getThis = true;
 
-            if( getThis ) {
-                if( method.getParameterTypes().length == 0 ) {
-                    final String methodName = method.getName();
-
-                    //TODO: check if return something !
-
-                    if( methodName.equals( "getClass" ) ) {
-                        // ignore privateSLog.trace( "Ignored Method: " + m );
-                        }
-                    else if( methodName.startsWith( "is" ) ) {
-                        addGetter( methodName.substring( 2 ), method );
-                        }
-                    else if( methodName.startsWith( "get" ) ) {
-                        addGetter( methodName.substring( 3 ), method );
-                        }
-                    }
-                else if( method.getParameterTypes().length == 1 ) {
-                    final String methodName = method.getName();
-
-                    if( methodName.startsWith( "is" ) ) {
-                        // for some set method witch have name like isSomeThing
-                        addSetter( methodName.substring( 2 ), method );
-                    } else if( methodName.startsWith( "set" ) ) {
-                        addSetter( methodName.substring( 3 ), method );
-                    }
-                }
-            } // if( getThis )
-            else if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "* (out of scope) Ignore this Method: " + method );
+        if( safeParameters.contains( IntrospectionParameters.ONLY_PUBLIC ) ) {
+            getThis = Modifier.isPublic( method.getModifiers() );
             }
+        if( getThis ) {
+            if( safeParameters.contains( IntrospectionParameters.NO_DEPRECATED ) ) {
+                getThis = ! method.isAnnotationPresent( Deprecated.class );
+                }
+            }
+        if( getThis ) {
+            getThis = ! method.isAnnotationPresent( IVIgnore.class );
+            }
+
+        if( getThis ) {
+            if( method.getParameterTypes().length == 0 ) {
+                final String methodName = method.getName();
+
+                //TODO: check if return something !
+
+                if( methodName.equals( "getClass" ) ) {
+                    // ignore privateSLog.trace( "Ignored Method: " + m );
+                    }
+                else if( methodName.startsWith( "is" ) ) {
+                    addGetter( methodName.substring( 2 ), method );
+                    }
+                else if( methodName.startsWith( "get" ) ) {
+                    addGetter( methodName.substring( 3 ), method );
+                    }
+                }
+            else if( method.getParameterTypes().length == 1 ) {
+                final String methodName = method.getName();
+
+                if( methodName.startsWith( "is" ) ) {
+                    // for some set method witch have name like isSomeThing
+                    addSetter( methodName.substring( 2 ), method );
+                } else if( methodName.startsWith( "set" ) ) {
+                    addSetter( methodName.substring( 3 ), method );
+                }
+            }
+        } // if( getThis )
+        else if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "* (out of scope) Ignore this Method: " + method );
         }
     }
 

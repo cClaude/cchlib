@@ -23,7 +23,7 @@ import com.googlecode.cchlib.io.IOHelper;
  * for byte array's
  * </p>
  */
-public class ByteArrayBuilder
+public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     implements  Comparable<ByteArrayBuilder>,
                 Cloneable,
                 Serializable
@@ -47,7 +47,7 @@ public class ByteArrayBuilder
      *
      * @param capacity size of internal buffer
      */
-    public ByteArrayBuilder(int capacity)
+    public ByteArrayBuilder(final int capacity)
     {
         buffer = new byte[capacity];
         lastPos = 0;
@@ -60,7 +60,7 @@ public class ByteArrayBuilder
      *
      * @param bytes array of bytes to append to the buffer (could be null)
      */
-    public ByteArrayBuilder(@Nullable byte[] bytes)
+    public ByteArrayBuilder(@Nullable final byte[] bytes)
     {
         lastPos = 0;
 
@@ -89,7 +89,7 @@ public class ByteArrayBuilder
      * bigger than current length buffer is padding with 0
      * @throws IndexOutOfBoundsException if newLength is negative
      */
-    public void setLength(int newLength)
+    public void setLength( final int newLength )
         throws IndexOutOfBoundsException
     {
         if(newLength < 0) {
@@ -131,7 +131,7 @@ public class ByteArrayBuilder
      *
      * @param minimumCapacity minimum capacity of buffer
      */
-    public void ensureCapacity( int minimumCapacity )
+    public void ensureCapacity(final int minimumCapacity)
     {
         if(minimumCapacity > capacity()) {
             int newLength;
@@ -154,7 +154,7 @@ public class ByteArrayBuilder
      * @param bytes a valid bytes array
      * @return caller for initialization chaining
      */
-    public ByteArrayBuilder append(byte[] bytes)
+    public ByteArrayBuilder append(final byte[] bytes)
     {
         return append(bytes, 0, bytes.length);
     }
@@ -167,7 +167,7 @@ public class ByteArrayBuilder
      * @param len  length of copy
      * @return caller for initialization chaining
      */
-    public final ByteArrayBuilder append(@Nonnull byte[] bytes, int offset, int len)
+    public final ByteArrayBuilder append(@Nonnull final byte[] bytes, final int offset, final int len)
     {
         // this method is final because: use in constructor
         ensureCapacity(length() + len);
@@ -182,7 +182,7 @@ public class ByteArrayBuilder
      * @param b byte to append
      * @return caller for initialization chaining
      */
-    public ByteArrayBuilder append(byte b)
+    public ByteArrayBuilder append(final byte b)
     {
         try {
             buffer[lastPos] = b;
@@ -199,7 +199,7 @@ public class ByteArrayBuilder
 
     /**
      * Apprend content of an {@link InputStream}
-     * <br/>
+     * <br>
      * (InputStream is not close by this method)
      *
      * @param is InputStream to add
@@ -214,7 +214,7 @@ public class ByteArrayBuilder
 
     /**
      * Append content of an {@link InputStream}
-     * <br/>
+     * <br>
      * (InputStream is not close by this method)
      *
      * @param is InputStream to add
@@ -236,7 +236,7 @@ public class ByteArrayBuilder
 
     /**
      * Apprend content of an {@link InputStream}
-     * <br/>
+     * <br>
      * (InputStream is not close by this method)
      *
      * @param is {@link InputStream} to add

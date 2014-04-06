@@ -6,8 +6,8 @@ class BasicEntryImpl implements BasicEntry {
 
     private static final long serialVersionUID = 1L;
 
-    public String type;
-    public String value;
+    private String type;
+    private String value;
 
     @Override
     public final String getType()

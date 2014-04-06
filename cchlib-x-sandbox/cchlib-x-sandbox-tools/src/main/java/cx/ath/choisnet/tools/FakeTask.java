@@ -22,7 +22,7 @@ import cx.ath.choisnet.tools.servlets.InitServletTask;
  */
 public class FakeTask extends InitServletTask 
 {
-    private final static Logger LOGGER = Logger.getLogger( FakeTask.class );
+    private static final Logger LOGGER = Logger.getLogger( FakeTask.class );
 
     @Override
     public void init( // ------------------------------------------------------

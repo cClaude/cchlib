@@ -321,7 +321,7 @@ public class JFileChooserInitializer
     /**
      * Prepare to start initialization
      */
-    synchronized private void init()
+    private synchronized void init()
     {
         if(!init0Lauched ) {
             init0Lauched = true;

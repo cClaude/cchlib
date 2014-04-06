@@ -102,6 +102,7 @@ class EmptyDirectoryTreeCellRenderer
             }
     }
 
+    @SuppressWarnings("deprecation") // FIXME
     private Icon getNodeLeafIconSelected(
         final boolean selected,
         final boolean selectedByUser
@@ -117,6 +118,7 @@ class EmptyDirectoryTreeCellRenderer
             }
     }
 
+    @SuppressWarnings("deprecation") // FIXME
     private Icon getNodeLeafEmptyRendererIcon(
         final boolean selected,
         final boolean selectedByUser

@@ -10,14 +10,14 @@ public class DesktopHelperTest
     @SuppressWarnings("deprecation")
     @Test
     public void test_isNativeDesktopSupported()
-        throws PlateformeDesktopNotSupportedException
+        throws PlatformDesktopNotSupportedException
     {
         assertTrue( DesktopHelper.isNativeDesktopSupported() );
     }
     
     @Test
     public void testDesktopHelper()
-        throws PlateformeDesktopNotSupportedException, MalformedURLException
+        throws PlatformDesktopNotSupportedException, MalformedURLException
     {        
         URL url = new URL( "http://google.com/" );
         

@@ -7,7 +7,7 @@ public enum RootFileAction
 {
     /**
      * For directories include all directory content and
-     * sub-directories.<br/>
+     * sub-directories.<br>
      * For files includes only this file.
      */
     INCLUDE_ALL_FILES,

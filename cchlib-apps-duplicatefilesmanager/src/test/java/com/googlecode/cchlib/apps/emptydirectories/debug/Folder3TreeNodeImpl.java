@@ -82,7 +82,7 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
         builder.append( isSelected() );
         builder.append( ", toString()=" );
         builder.append( super.toString() );
-        builder.append( "]" );
+        builder.append( ']' );
         return builder.toString();
     }
 

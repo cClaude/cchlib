@@ -87,9 +87,9 @@ public class LogServlet extends HttpServlet
             throw new ServletException( "parameter 'X_NEXTURL' not found." );
         }
 
-        final String query = "INSERT INTO `Logger` (`AutoLogDate`,`AutoIpAddress`,`AutoComputerName`, "
+        final String query = ("INSERT INTO `Logger` (`AutoLogDate`,`AutoIpAddress`,`AutoComputerName`, "
                 + "`ComputerName`, `LogDate`, `AppName`, `Message`) "
-                + "VALUES ( NOW(),'"
+                + "VALUES ( NOW(),'")
                 + col_AutoIpAddress
                 + "','"
                 + col_AutoComputerName
@@ -129,7 +129,7 @@ public class LogServlet extends HttpServlet
                 .forward( request, response );
     }
 
-    private final static String getParameter(
+    private static final String getParameter(
             // ------------------------------
             HttpServletRequest request, String paramName1, String paramName2,
             String paramName3 )
@@ -154,7 +154,7 @@ public class LogServlet extends HttpServlet
     /**
      ** Gestion des traces
      */
-    final protected org.apache.log4j.Logger getLogger() // --------------------
+    protected final org.apache.log4j.Logger getLogger() // --------------------
     {
         return org.apache.log4j.Logger.getLogger( this.getClass() );
     }

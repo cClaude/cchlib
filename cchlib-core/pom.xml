@@ -21,15 +21,6 @@
     <project.java.source.version>1.6</project.java.source.version>
   </properties>
 
-  <dependencies>
-    <dependency>
-    	<groupId>com.google.guava</groupId>
-    	<artifactId>guava</artifactId>
-    	<version>16.0</version>
-    	<classifier>site</classifier>
-    	<scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <build>
     <resources>
@@ -60,6 +51,7 @@
         <configuration>
           <source>${java.source.version}</source>
           <target>${java.source.version}</target>
+          <compilerVersion>${java.source.version}</compilerVersion>
         </configuration>
       </plugin>
       <plugin>

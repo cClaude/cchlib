@@ -14,17 +14,19 @@ import cx.ath.choisnet.util.ArrayHelper;
 
 /**
  * <P>
- * Unlike {@link java.util.BitSet} this class work directly on bits
- * and offer some basic tools to access and modify a custom structure
- * does not come from Java (typically C).
+ * Unlike {@link java.util.BitSet} this class work directly on bits and offer
+ * some basic tools to access and modify a custom structure does not come from
+ * Java (typically C).
  * </P>
  * <BR/>
  * Supported type:
+ *
  * <pre>
  * - boolean : 1 bit
  * - UInteger: 8 bits
  * - String: depends of encoding
  * </pre>
+ *
  * @see BytesAccessComparator
  */
 public abstract class BytesAccess implements Cloneable
@@ -39,9 +41,9 @@ public abstract class BytesAccess implements Cloneable
      *
      * @param bytesLength length of byte array
      */
-    public BytesAccess( int bytesLength )
+    public BytesAccess( final int bytesLength )
     {
-        this.bytes = new byte[ bytesLength ];
+        this.bytes = new byte[bytesLength];
 
         Arrays.fill( this.bytes, (byte)0 );
     }
@@ -49,16 +51,20 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Build a *new* array of bytes from a given bytes
      *
-     * @param bytes  byte array to copy
-     * @param offset first offset to copy
-     * @param length number of bytes to copy
-     * @throws IllegalArgumentException if offset is negative
+     * @param bytes
+     *            byte array to copy
+     * @param offset
+     *            first offset to copy
+     * @param length
+     *            number of bytes to copy
+     * @throws IllegalArgumentException
+     *             if offset is negative
      */
-    public BytesAccess( byte[] bytes, final int offset, final int length )
-        throws IllegalArgumentException
+    public BytesAccess( final byte[] bytes, final int offset, final int length )
+            throws IllegalArgumentException
     {
         if( offset < 0 ) {
-            throw new IllegalArgumentException("offset can't be negative");
+            throw new IllegalArgumentException( "offset can't be negative" );
         }
 
         this.bytes = ArrayHelper.cloneArray( bytes, offset, 0, length );
@@ -66,63 +72,80 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      ** Load bytes from an InputStream
-     * @param is a valid InputStream
+     *
+     * @param is
+     *            a valid InputStream
      * @param length
-     * @throws IOException if an error occur while reading stream
-     * @throws NullPointerException if "is" is null
+     * @throws IOException
+     *             if an error occur while reading stream
+     * @throws NullPointerException
+     *             if "is" is null
      * @throws BytesAccessException
      */
     public BytesAccess( final InputStream is, final int length )
-        throws NullPointerException, BytesAccessException, IOException
+            throws NullPointerException,
+            BytesAccessException,
+            IOException
     {
         this( length );
 
         int len = is.read( bytes );
 
         if( len != bytes.length ) {
-            throw new BytesAccessException( "Can't read " + length + " bytes, only found " + len );
+            throw new BytesAccessException( "Can't read " + length
+                    + " bytes, only found " + len );
         }
     }
 
     /**
      ** Load bytes from a File
-     * @param file a valid File object
+     *
+     * @param file
+     *            a valid File object
      * @param length
-     * @throws IOException if an error occur while reading stream
-     * @throws NullPointerException if "is" is null
+     * @throws IOException
+     *             if an error occur while reading stream
+     * @throws NullPointerException
+     *             if "is" is null
      * @throws BytesAccessException
      * @throws FileNotFoundException
      */
     public BytesAccess( final File file, final int length )
-        throws NullPointerException, BytesAccessException, FileNotFoundException, IOException
+            throws NullPointerException,
+            BytesAccessException,
+            FileNotFoundException,
+            IOException
     {
         this( length );
 
         final InputStream is = new FileInputStream( file );
-        int               len;
+        int len;
 
         try {
             len = is.read( bytes );
-            }
+        }
         finally {
             is.close();
-            }
+        }
 
         if( len != bytes.length ) {
-            throw new BytesAccessException( "Can't read " + length + " bytes, only found " + len );
-            }
+            throw new BytesAccessException( "Can't read " + length
+                    + " bytes, only found " + len );
+        }
     }
 
-   /**
-    * Build an BytesAcces using an other one
-    * @param anOtherInstance
-    * @see Cloneable
-    */
+    /**
+     * Build an BytesAcces using an other one
+     *
+     * @param anOtherInstance
+     * @see Cloneable
+     */
     public BytesAccess( final BytesAccess anOtherInstance )
     {
         this( anOtherInstance.bytes.length );
 
-        System.arraycopy(anOtherInstance.bytes, 0, this.bytes, 0, this.bytes.length);
+        System.arraycopy( anOtherInstance.bytes, 0, this.bytes, 0,
+                this.bytes.length );
     }
 
     /**
@@ -136,102 +159,107 @@ public abstract class BytesAccess implements Cloneable
     @Override
     public int hashCode()
     {
-        return Arrays.hashCode(bytes);
+        return Arrays.hashCode( bytes );
     }
 
     @Override
-    public boolean equals(Object obj) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    public boolean equals( final Object obj ) // $codepro.audit.disable
     {
-        if (this == obj) {
+        if( this == obj ) {
             return true;
-            }
-        if (obj == null) {
+        }
+        if( obj == null ) {
             return false;
-            }
-        if (getClass() != obj.getClass()) { // $codepro.audit.disable useEquals
+        }
+        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
             return false;
-            }
+        }
 
         try {
             return compare( bytes, BytesAccess.class.cast( obj ).bytes ) == 0;
-            }
-        catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
+        }
+        catch( IllegalArgumentException e ) { // $codepro.audit.disable
+                                              // logExceptions
             return false;
-            }
+        }
     }
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public  static final long CMP_MASK_OFFSET     = 0xFFFFFFFFFFFF0000L;
-    private static final long CMP_MASK_OFFSET_LOW = 0x0000FFFFFFFFFFFFL;
+    public static final long  CMP_MASK_OFFSET          = 0xFFFFFFFFFFFF0000L;
+    private static final long CMP_MASK_OFFSET_LOW      = 0x0000FFFFFFFFFFFFL;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final int  CMP_MASK_ROT_OFFSET = 16; //2*8;
+    public static final int   CMP_MASK_ROT_OFFSET      = 16;                 // 2*8;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00;
+    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00;
 
-    /**
-     * @see #compare(byte[], byte[])
-     * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
-     */
-    @Deprecated
-    public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final long CMP_MASK_ROT_BYTE0_VALUE = 8; //1*8
+    // /**
+    // * @see #compare(byte[], byte[])
+    // * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
+    // */
+    // @Deprecated
+    // public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
-
-    /**
-     * @see #compare(byte[], byte[])
-     * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
-     */
-    @Deprecated
-    public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
+    public static final long  CMP_MASK_ROT_BYTE0_VALUE = 8;                  // 1*8
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final int CMP_MASK_ROT_BYTE1_VALUE = 0; //0*8
+    public static final long  CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
 
-   /**
-    * Could be use to create your own compareTo() method
-    *
-    * Result when bytes arrays are not equals :
-    * <PRE>
-    * 0xFFFFFFFFFFFFFF00 : give offset of difference
-    * 0x00000000000000F0 : give byte value for parameter bytes0
-    * 0x000000000000000F : give byte value for parameter bytes1
-    * </PRE>
-    * @param bytes0
-    * @param bytes1
-    * @return 0 if comparison match, otherwise try to give information
-    *         on difference found.
-    * @throws IllegalArgumentException if byte arrays have different length
-    * @see java.lang.Comparable#compareTo(java.lang.Object)
-    * @see BytesAccessComparator
-    */
-    public static long compare( byte[] bytes0, byte[] bytes1 )
-        throws IllegalArgumentException
+    // /**
+    // * @see #compare(byte[], byte[])
+    // * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
+    // */
+    // @Deprecated
+    // public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final int   CMP_MASK_ROT_BYTE1_VALUE = 0;                  // 0*8
+
+    /**
+     * Could be use to create your own compareTo() method
+     *
+     * Result when bytes arrays are not equals :
+     *
+     * <PRE>
+     * 0xFFFFFFFFFFFFFF00 : give offset of difference
+     * 0x00000000000000F0 : give byte value for parameter bytes0
+     * 0x000000000000000F : give byte value for parameter bytes1
+     * </PRE>
+     *
+     * @param bytes0
+     * @param bytes1
+     * @return 0 if comparison match, otherwise try to give information on
+     *         difference found.
+     * @throws IllegalArgumentException
+     *             if byte arrays have different length
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     * @see BytesAccessComparator
+     */
+    public static long compare( final byte[] bytes0, final byte[] bytes1 )
+            throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
-            }
+            throw new IllegalArgumentException( "bytes arrays not same size ("
+                    + bytes0.length + "!=" + bytes1.length + ')' );
+        }
 
-        for( int i=0; i<bytes0.length; i++ ) {
+        for( int i = 0; i < bytes0.length; i++ ) {
             if( bytes0[ i ] != bytes1[ i ] ) {
-                long offset = i<<CMP_MASK_ROT_OFFSET;
+                long offset = i << CMP_MASK_ROT_OFFSET;
 
                 if( (i & CMP_MASK_OFFSET_LOW) != i ) {
                     // Can't store offset
@@ -240,19 +268,18 @@ public abstract class BytesAccess implements Cloneable
                     // here just to try to deal with all cases
                     // and perhaps some Java evolution ;)
                     offset = CMP_MASK_OFFSET;
-                    }
-                else {
-                    offset = i<<CMP_MASK_ROT_OFFSET;
-                    }
-                
+                } else {
+                    offset = i << CMP_MASK_ROT_OFFSET;
+                }
+
                 // 0xFFFFFFFF FFFF0000 - offset of difference
-                // 0x00000000 0000FF00 - first  byte value
+                // 0x00000000 0000FF00 - first byte value
                 // 0x00000000 000000FF - second byte value
                 return offset
-                    | ( ((bytes0[ i ])<<CMP_MASK_ROT_BYTE0_VALUE) & CMP_FF00_MASK_BYTE_VALUE)
-                    | ( ((bytes1[ i ])<<CMP_MASK_ROT_BYTE1_VALUE) & CMP_00FF_MASK_BYTE_VALUE);
-                }
+                        | (((bytes0[ i ]) << CMP_MASK_ROT_BYTE0_VALUE) & CMP_FF00_MASK_BYTE_VALUE)
+                        | (((bytes1[ i ]) << CMP_MASK_ROT_BYTE1_VALUE) & CMP_00FF_MASK_BYTE_VALUE);
             }
+        }
 
         return 0;
     }
@@ -268,24 +295,20 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * Call compare(byte[], byte[]) to build is result,
-     * so have a look at compare(byte[], byte[]).
-     * <BR/>
-     * If you just want to make a basic comparison to
-     * care one return value, just compare it to 0.
-     * It's safe to use result for sorting or building
-     * something like an hash code.
-     * <br/>
-     * But you can also use result to identify difference
-     * in yours arrays. Since compare(byte[], byte[])
-     * return use a long to store informations, you may
+     * Call compare(byte[], byte[]) to build is result, so have a look at
+     * compare(byte[], byte[]). <BR/>
+     * If you just want to make a basic comparison to care one return value,
+     * just compare it to 0. It's safe to use result for sorting or building
+     * something like an hash code. <br/>
+     * But you can also use result to identify difference in yours arrays. Since
+     * compare(byte[], byte[]) return use a long to store informations, you may
      * loose offset information.
      *
      * @param someBytes
      * @return 0 if byte array have same length and same content
      * @see #compare(byte[], byte[])
      */
-    public int compareTo( byte[] someBytes )
+    public int compareTo( final byte[] someBytes )
     {
         long l = compare( bytes, someBytes );
 
@@ -294,10 +317,10 @@ public abstract class BytesAccess implements Cloneable
             // So we can't remember offset.
 
             // Remove bad informations
-            l &= (CMP_FF00_MASK_BYTE_VALUE|CMP_00FF_MASK_BYTE_VALUE);
+            l &= (CMP_FF00_MASK_BYTE_VALUE | CMP_00FF_MASK_BYTE_VALUE);
 
-            //set offset to 0xFF (255)
-            l ^= (0x00FFL<<CMP_MASK_ROT_OFFSET);
+            // set offset to 0xFF (255)
+            l ^= (0x00FFL << CMP_MASK_ROT_OFFSET);
         }
 
         return (int)l;
@@ -305,87 +328,88 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      * Compare this Object wise an other one.
+     *
      * @param anOtherInstance
      * @return null if both BytesAcces byte[] are identical.
      * @see #advanceCompareTo(byte[])
      */
-     public String advanceCompareTo( final BytesAccess anOtherInstance )
-     {
-         return advanceCompareTo( anOtherInstance.bytes );
-     }
+    public String advanceCompareTo( final BytesAccess anOtherInstance )
+    {
+        return advanceCompareTo( anOtherInstance.bytes );
+    }
 
-   /**
-    * TODOC: add documentation of result String (format and limits)
-    *
-    * @param someBytes
-    * @return null if both BytesAcces byte[] are identical
-    */
+    /**
+     * TODOC: add documentation of result String (format and limits)
+     *
+     * @param someBytes
+     * @return null if both BytesAcces byte[] are identical
+     */
     public String advanceCompareTo( final byte[] someBytes )
     {
-        for( int i=0; i<this.bytes.length; i++ ) {
+        for( int i = 0; i < this.bytes.length; i++ ) {
             if( this.bytes[ i ] != someBytes[ i ] ) {
-                byte  diff  = (byte)(this.bytes[ i ] ^ someBytes[ i ]);
+                byte diff = (byte)(this.bytes[ i ] ^ someBytes[ i ]);
 
                 return "0x"
-                    //+ BinStuffs.ubyteToHexString( i )
-                    + ubyteToHexString( i )
-                    + ':'
-                    //+ BinStuffs.toBinaryString( diff )
-                    + toBinaryString( diff )
-                    + '['
-                    //+ BinStuffs.toBinaryString( this.bytes[ i ] )
-                    + toBinaryString( this.bytes[ i ] )
-                    + '/'
-                    //+ BinStuffs.toBinaryString( someBytes[ i ] )
-                    + toBinaryString( someBytes[ i ] )
-                    + ']';
-                }
+                // + BinStuffs.ubyteToHexString( i )
+                        + ubyteToHexString( i ) + ':'
+                        // + BinStuffs.toBinaryString( diff )
+                        + toBinaryString( diff ) + '['
+                        // + BinStuffs.toBinaryString( this.bytes[ i ] )
+                        + toBinaryString( this.bytes[ i ] ) + '/'
+                        // + BinStuffs.toBinaryString( someBytes[ i ] )
+                        + toBinaryString( someBytes[ i ] ) + ']';
             }
+        }
 
         return null;
     }
 
     /**
      * @param ubyte
-     * @return a hex String formatted from a int (but only
-     *         lower 8 bytes are read has an ubyte)
+     * @return a hex String formatted from a int (but only lower 8 bytes are
+     *         read has an ubyte)
      */
     private static String ubyteToHexString( final int ubyte )
     {
-        return Integer.toHexString(  0x0000FF00 | (0x000000FF & ubyte ) ).substring( 2 ).toUpperCase();
+        return Integer.toHexString( 0x0000FF00 | (0x000000FF & ubyte) )
+                .substring( 2 ).toUpperCase();
     }
 
     /**
-     * @param b byte to convert
+     * @param b
+     *            byte to convert
      * @return a binary String formatted
      */
     private static String toBinaryString( final byte b )
     {
-        return Integer.toBinaryString( 0x0000FF00 | (0x000000FF & b) ).substring( 8 );
+        return Integer.toBinaryString( 0x0000FF00 | (0x000000FF & b) )
+                .substring( 8 );
     }
 
     /* ---------------------------------------------------------------------- */
     /* ------ saving stuffs ------------------------------------------------- */
     /* ---------------------------------------------------------------------- */
 
-   /**
-    * Copy internal byte array to a stream
-    *
-    * @param os
-    * @throws IOException
-    */
+    /**
+     * Copy internal byte array to a stream
+     *
+     * @param os
+     * @throws IOException
+     */
     public void save( final OutputStream os ) throws IOException
     {
         os.write( bytes );
     }
 
-   /**
-    * Save BytesAcces has a stream of bytes
-    *
-    * @param file destination file
-    * @throws FileNotFoundException
-    * @throws IOException
-    */
+    /**
+     * Save BytesAcces has a stream of bytes
+     *
+     * @param file
+     *            destination file
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public void save( final File file ) throws FileNotFoundException, IOException
     {
         final OutputStream os = new FileOutputStream( file );
@@ -400,13 +424,14 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      * Return a copy of internal buffer (read only)
+     *
      * @return a new byte array within copy off internal buffer
      */
     public byte[] getBytesCopy()
     {
-        byte[] cpy = new byte[ this.bytes.length ];
+        final byte[] cpy = new byte[this.bytes.length];
 
-        System.arraycopy(this.bytes, 0, cpy, 0, this.bytes.length);
+        System.arraycopy( this.bytes, 0, cpy, 0, this.bytes.length );
 
         return cpy;
     }
@@ -414,13 +439,14 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @param anOtherInstance
      * @return a byte array witch XOR mask
-     * @throws IllegalArgumentException if internal bytes buffers have different length
+     * @throws IllegalArgumentException
+     *             if internal bytes buffers have different length
      * @see #xorOperator(byte[], byte[])
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
     public byte[] xorOperator( final BytesAccess anOtherInstance )
-        throws IllegalArgumentException
+            throws IllegalArgumentException
     {
         return xorOperator( this.bytes, anOtherInstance.bytes );
     }
@@ -428,37 +454,43 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @param someBytes
      * @return a byte array witch XOR mask
-     * @throws IllegalArgumentException if internal bytes buffers have different length
+     * @throws IllegalArgumentException
+     *             if internal bytes buffers have different length
      * @see #xorOperator(byte[], byte[])
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
     public byte[] xorOperator( final byte[] someBytes )
-        throws IllegalArgumentException
+            throws IllegalArgumentException
     {
         return xorOperator( this.bytes, someBytes );
     }
 
     /**
      * Perform binary XOR (^) operator betting bytes0 and bytes1
-     * @param bytes0 first byte array to be compare
-     * @param bytes1 second byte array to be compare
+     *
+     * @param bytes0
+     *            first byte array to be compare
+     * @param bytes1
+     *            second byte array to be compare
      * @return a new byte array
-     * @throws IllegalArgumentException if byte arrays have different length
+     * @throws IllegalArgumentException
+     *             if byte arrays have different length
      * @see #xorOperator(BytesAccess)
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
     public static byte[] xorOperator( final byte[] bytes0, final byte[] bytes1 )
-        throws IllegalArgumentException
+            throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
+            throw new IllegalArgumentException( "bytes arrays not same size ("
+                    + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
-        byte[] mask = new byte[ bytes0.length ];
+        final byte[] mask = new byte[bytes0.length];
 
-        for( int i = 0; i< bytes0.length; i++ ) {
+        for( int i = 0; i < bytes0.length; i++ ) {
             mask[ i ] = (byte)(bytes0[ i ] ^ bytes1[ i ]);
         }
 
@@ -470,7 +502,7 @@ public abstract class BytesAccess implements Cloneable
      * @param someBytes
      * @return a new byte array
      */
-    public byte[] andOperator( byte[] someBytes )
+    public byte[] andOperator( final byte[] someBytes )
     {
         return andOperator( this.bytes, someBytes );
     }
@@ -480,31 +512,36 @@ public abstract class BytesAccess implements Cloneable
      * @param anOtherInstance
      * @return a new byte array
      */
-    public byte[] andOperator( BytesAccess anOtherInstance )
+    public byte[] andOperator( final BytesAccess anOtherInstance )
     {
         return andOperator( this.bytes, anOtherInstance.bytes );
     }
 
     /**
      * Perform binary AND (&) operator betting bytes0 and bytes1
-     * @param bytes0 first byte array to be compare
-     * @param bytes1 second byte array to be compare
+     *
+     * @param bytes0
+     *            first byte array to be compare
+     * @param bytes1
+     *            second byte array to be compare
      * @return a new byte array
-     * @throws IllegalArgumentException if byte arrays have different length
+     * @throws IllegalArgumentException
+     *             if byte arrays have different length
      * @see #xorOperator(BytesAccess)
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
     public static byte[] andOperator( final byte[] bytes0, final byte[] bytes1 )
-        throws IllegalArgumentException
+            throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
+            throw new IllegalArgumentException( "bytes arrays not same size ("
+                    + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
-        byte[] mask = new byte[ bytes0.length ];
+        final byte[] mask = new byte[bytes0.length];
 
-        for( int i = 0; i< bytes0.length; i++ ) {
+        for( int i = 0; i < bytes0.length; i++ ) {
             mask[ i ] = (byte)(bytes0[ i ] & bytes1[ i ]);
         }
 
@@ -516,7 +553,7 @@ public abstract class BytesAccess implements Cloneable
      * @param someBytes
      * @return a new byte array
      */
-    public byte[] orOperator( byte[] someBytes )
+    public byte[] orOperator( final byte[] someBytes )
     {
         return orOperator( this.bytes, someBytes );
     }
@@ -526,31 +563,38 @@ public abstract class BytesAccess implements Cloneable
      * @param anOtherInstance
      * @return a new byte array
      */
-    public byte[] orOperator( BytesAccess anOtherInstance )
+    public byte[] orOperator( final BytesAccess anOtherInstance )
     {
         return orOperator( this.bytes, anOtherInstance.bytes );
     }
 
     /**
      * Perform binary OR (|) operator betting bytes0 and bytes1
-     * @param bytes0 first byte array to be compare
-     * @param bytes1 second byte array to be compare
+     *
+     * @param bytes0
+     *            first byte array to be compare
+     * @param bytes1
+     *            second byte array to be compare
      * @return a new byte array
-     * @throws IllegalArgumentException if byte arrays have different length
+     * @throws IllegalArgumentException
+     *             if byte arrays have different length
      * @see #xorOperator(BytesAccess)
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
-    public static byte[] orOperator( final byte[] bytes0, final byte[] bytes1 )
+    public static byte[] orOperator( //
+        final byte[] bytes0, //
+        final byte[] bytes1 )
         throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size (" + bytes0.length + "!=" + bytes1.length + ')' );
+            throw new IllegalArgumentException( "bytes arrays not same size ("
+                    + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
-        byte[] mask = new byte[ bytes0.length ];
+        final byte[] mask = new byte[bytes0.length];
 
-        for( int i = 0; i< bytes0.length; i++ ) {
+        for( int i = 0; i < bytes0.length; i++ ) {
             mask[ i ] = (byte)(bytes0[ i ] | bytes1[ i ]);
         }
 
@@ -561,97 +605,83 @@ public abstract class BytesAccess implements Cloneable
     /* ------ Getters stuffs ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
 
-   /**
-    * @param offset
-    * @param mask
-    * @return boolean value for given offset/mask
-    */
-    protected boolean getBoolean( // $codepro.audit.disable booleanMethodNamingConvention
-        final int offset,
-        final byte mask 
-        )
+    /**
+     * @param offset
+     * @param mask
+     * @return boolean value for given offset/mask
+     */
+    protected boolean getBoolean( //
+            final int offset, //
+            final byte mask )
     {
         return (mask & this.bytes[ offset ]) != 0;
     }
 
-   /**
-    * Return an unsigned integer (i.e., always > 0)
-    *
-    * @param offset
-    * @param mask
-    * @param rightRot
-    * @return integer value from byte
-    */
+    /**
+     * Return an unsigned integer (i.e., always > 0)
+     *
+     * @param offset
+     * @param mask
+     * @param rightRot
+     * @return integer value from byte
+     */
     public int getUInteger( final int offset, final byte mask, final int rightRot )
     {
-        return (    (0x00FF & this.bytes[offset])
-                    &
-                    (0x0FF & mask)
-                )>>rightRot;
+        return ((0x00FF & this.bytes[ offset ]) & (0x0FF & mask)) >> rightRot;
     }
 
-   /**
-    * Return an unsigned integer (i.e., always > 0)
-    *
-    * @param offset
-    * @param mask0
-    * @param leftRot
-    * @param mask1
-    * @param rightRot
-    * @return an integer from 2 bytes [offset and (offset+1)].
-    */
-    public int getUInteger( final int offset, final byte mask0, final int leftRot, final byte mask1, final int rightRot )
+    /**
+     * Return an unsigned integer (i.e., always > 0)
+     *
+     * @param offset
+     * @param mask0
+     * @param leftRot
+     * @param mask1
+     * @param rightRot
+     * @return an integer from 2 bytes [offset and (offset+1)].
+     */
+    public int getUInteger( //
+        final int offset, //
+        final byte mask0, //
+        final int leftRot, //
+        final byte mask1, //
+        final int rightRot )
     {
-        return (
-                    (
-                        (0x00FF & this.bytes[offset])
-                        &
-                        (0x00FF & mask0)
-                    )
-                    <<
-                    leftRot
-                )
-              + (
-                  (
-                      (0x00FF & this.bytes[offset + 1])
-                      &
-                      (0x00FF & mask1)
-                      )
-                  >>
-                  rightRot
-                );
+        return (((0x00FF & this.bytes[ offset ]) & (0x00FF & mask0)) << leftRot)
+                + (((0x00FF & this.bytes[ offset + 1 ]) & (0x00FF & mask1)) >> rightRot);
     }
 
-  /**
-    * build a raw String using encodingCharset from an array of bytes.
-    * This String could contain any Character (\00 included)
-    *
-    * @param from
-    * @param to
-    * @param encodingCharset
-    * @return a String
-    */
-    protected  final String toString( final int from, final int to, final String encodingCharset )
+    /**
+     * build a raw String using encodingCharset from an array of bytes. This
+     * String could contain any Character (\00 included)
+     *
+     * @param from
+     * @param to
+     * @param encodingCharset
+     * @return a String
+     * @throws UnsupportedEncodingException If the named charset is not supported
+     * @throws IndexOutOfBoundsException If the offset and length arguments index
+     *         characters outside the bounds of the bytes array
+     */
+    protected final String toString( //
+        final int from, //
+        final int to, //
+        final String encodingCharset //
+        ) throws UnsupportedEncodingException, IndexOutOfBoundsException
     {
-        try {
-            return new String( bytes, from, (to - from) + 1, encodingCharset );
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException( e );
-        }
+        return new String( bytes, from, (to - from) + 1, encodingCharset );
     }
 
-   /**
-    * @param offset
-    * @param length
-    * @return a byte array copy of internal buffer starting at offset with a len of length
-    */
+    /**
+     * @param offset
+     * @param length
+     * @return a byte array copy of internal buffer starting at offset with a
+     *         len of length
+     */
     protected byte[] getBytes( final int offset, final int length )
     {
-        byte[] newBytes = new byte[ length ];
+        final byte[] newBytes = new byte[length];
 
-//        for( int i=0; i<newBytes.length; i++ ) {
-//            newBytes[ i ] = bytes[ offset + i ];
-//            }
         System.arraycopy( bytes, offset, newBytes, 0, length );
 
         return newBytes;
@@ -661,103 +691,72 @@ public abstract class BytesAccess implements Cloneable
     /* ------ Setters stuffs ------------------------------------------------ */
     /* ---------------------------------------------------------------------- */
 
-   /**
-    *
-    * @param offset
-    * @param mask
-    * @param bool
-    */
-    protected void setBoolean( final int offset, final byte mask, final boolean bool )
-   {
-       final int umask = 0x00FF & mask; // be sure only 1 byte
-       byte saveValue = (byte) (bytes[ offset ] & ~umask);
-
-       if( bool ) {
-           saveValue |= umask;
-       }
-
-       bytes[ offset ] = saveValue;
-   }
-
-
-   /**
-    * @param offset
-    * @param mask
-    * @param leftRot
-    * @param value
-    */
-    protected void setUInteger( final int offset, final byte mask, final int leftRot, final int value )
+    protected void setBoolean( //
+            final int offset, //
+            final byte mask, //
+            final boolean bool )
     {
-       final int umask = 0x00FF & mask; // be sure only 1 byte
-       byte saveValue  = (byte)(bytes[ offset ] & ~umask);
-       int  fixValue   = (value<<leftRot) & umask;
+        final int umask = 0x00FF & mask; // be sure only 1 byte
+        byte saveValue = (byte)(bytes[ offset ] & ~umask);
 
-       bytes[ offset ] = (byte)(saveValue | fixValue);
-   }
+        if( bool ) {
+            saveValue |= umask;
+        }
 
-   /**
-    *
-    * @param offset
-    * @param mask0
-    * @param rightRot
-    * @param mask1
-    * @param leftRot
-    * @param value
-    */
+        bytes[ offset ] = saveValue;
+    }
+
+    protected void setUInteger( //
+            final int offset, //
+            final byte mask, //
+            final int leftRot, //
+            final int value )
+    {
+        final int  umask     = 0x00FF & mask; // be sure only 1 byte
+        final byte saveValue = (byte)(bytes[ offset ] & ~umask);
+        final int  fixValue  = (value << leftRot) & umask;
+
+        bytes[ offset ] = (byte)(saveValue | fixValue);
+    }
+
     protected void setUInteger( // $codepro.audit.disable largeNumberOfParameters
-        final int offset,
-        final byte mask0,
-        final int rightRot,
-        final byte mask1,
-        final int leftRot,
-        final int value
-        )
-   {
-       int leftPart  = (value >> rightRot) & mask0;
-       setUInteger( offset    , mask0, 0, leftPart );
-
-       int rightPart = (value << leftRot ) & mask1;
-       setUInteger( offset + 1, mask1, 0, rightPart );
-   }
-
-    /**
-     *
-     * @param from
-     * @param to
-     * @param s
-     * @param charSet
-     */
-    protected void setString( final int from, final int to, final String s, final String charSet )
+            final int offset, //
+            final byte mask0, //
+            final int rightRot, //
+            final byte mask1, //
+            final int leftRot, //
+            final int value )
     {
-        final byte[] sBytes;
+        final int leftPart = (value >> rightRot) & mask0;
+        setUInteger( offset, mask0, 0, leftPart );
 
-        try {
-            sBytes = s.getBytes( charSet );
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new RuntimeException( e );
-        }
+        final int rightPart = (value << leftRot) & mask1;
+        setUInteger( offset + 1, mask1, 0, rightPart );
+    }
 
-        final int sBytesLen = sBytes.length - 2;
-        final int copyLen = (to - from) + 1;
+    protected void setString( //
+        final int from, //
+        final int to, //
+        final String str,//
+        final String charSet //
+        ) throws UnsupportedEncodingException
+    {
+        final byte[] sBytes    = str.getBytes( charSet );
+        final int    sBytesLen = sBytes.length - 2;
+        final int    copyLen   = (to - from) + 1;
 
-        for( int i=0; i<copyLen; i++ ) {
-            if( i<sBytesLen ) { bytes[ i + from ] = sBytes[ i + 2 ]; }
-            else { bytes[ i + from ] = 0; }
+        for( int i = 0; i < copyLen; i++ ) {
+            if( i < sBytesLen ) {
+                bytes[ i + from ] = sBytes[ i + 2 ];
+            } else {
+                bytes[ i + from ] = 0;
+            }
         }
     }
 
-    /**
-     *
-     * @param offset
-     * @param bytes
-     */
     protected void setBytes( final int offset, final byte[] bytes )
     {
-//        for( int i = 0; i<bytes.length; i++ ) {
-//            this.bytes[ offset + i ] = bytes[ i ];
-//            }
-        System.arraycopy(bytes, 0, this.bytes, offset, bytes.length);
+        System.arraycopy( bytes, 0, this.bytes, offset, bytes.length );
     }
 
 }

@@ -14,8 +14,8 @@
 
   <!-- Global properties -->
   <properties>
-    <project.java.source.version>1.7</project.java.source.version>
-    <project.java.target.version>1.7</project.java.target.version>
+    <project.java.source.version>1.8</project.java.source.version>
+    <project.java.target.version>1.8</project.java.target.version>
   </properties>
 
   <dependencies>
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>org.codehaus.groovy</groupId>
         <artifactId>groovy-json</artifactId>
-        <version>2.0.0-rc-4</version>
+        <version>2.3.0-beta-1</version>
     </dependency>
 
     <dependency>
@@ -40,9 +40,9 @@
     </dependency>
 
     <dependency>
-    	<groupId>com.googlecode.cchlib</groupId>
-    	<artifactId>cchlib-io</artifactId>
-    	<version>4.1.8-SNAPSHOT</version>
+        <groupId>com.googlecode.cchlib</groupId>
+        <artifactId>cchlib-io</artifactId>
+        <version>4.1.8-SNAPSHOT</version>
     </dependency>
   </dependencies>
 

@@ -188,19 +188,19 @@ public String toString() // -----------------------------------------------
  final StringBuilder sb = new StringBuilder( "[" );
 
  sb.append( this.getClass().getName() );
- sb.append( "[" );
+ sb.append( '[' );
  sb.append( this.currentStream );
- sb.append( "/" );
+ sb.append( '/' );
  sb.append( this.inputStreamArray.length );
- sb.append( "]" );
+ sb.append( ']' );
  sb.append( inputStreamArray[0].toString() );
 
  for( int i = 1; i<this.inputStreamArray.length; i++ ) {
-    sb.append( "," );
+    sb.append( ',' );
     sb.append( inputStreamArray[i].toString() );
     }
 
- sb.append( "]" );
+ sb.append( ']' );
 
  return sb.toString();
 }

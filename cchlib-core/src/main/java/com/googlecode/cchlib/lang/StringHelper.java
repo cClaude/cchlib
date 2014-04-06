@@ -9,9 +9,14 @@ import java.util.ArrayList;
 public final class StringHelper
 {
     public static final String EMPTY = "";
-    public static final String[] EMPTY_ARRAY = new String[0];
+    private static final String[] EMPTY_ARRAY = new String[0];
 
     private StringHelper() {} // ALl static
+
+    public static String[] emptyArray()
+    {
+        return EMPTY_ARRAY;
+    }
 
     /**
      * Returns the given string if it is non-null; the empty string otherwise

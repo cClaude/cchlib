@@ -114,25 +114,25 @@ packageLibCore()
   # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
 }
 ##########################################################
-packageLibEE()
-{
-  echo "------------------------------------------ ${PROJECTS_SUB_CCHLIB_J2EE}"
-  DDIR="${PACKAGE_DIR}/cchlib-j2ee"
-  for project in ${PROJECTS_SUB_CCHLIB_J2EE}
-  do
-    SJAR="./${project}/target/*.jar"
-
-    echo "Append sub-project ${project}"
-    echo "Copy [${SJAR}] to [${DDIR}]"
-    cp ${SJAR} ${DDIR}
-    if [ "$?" -ne "0" ]; then
-      echo "***[ERROR] Copy error" 1>&2
-      exit 1
-    fi
-  done
-  # No javadoc for these projects
-  # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
-}
+# packageLibEE()
+# {
+#   echo "------------------------------------------ ${PROJECTS_SUB_CCHLIB_J2EE}"
+#   DDIR="${PACKAGE_DIR}/cchlib-j2ee"
+#   for project in ${PROJECTS_SUB_CCHLIB_J2EE}
+#   do
+#     SJAR="./${project}/target/*.jar"
+# 
+#     echo "Append sub-project ${project}"
+#     echo "Copy [${SJAR}] to [${DDIR}]"
+#     cp ${SJAR} ${DDIR}
+#     if [ "$?" -ne "0" ]; then
+#       echo "***[ERROR] Copy error" 1>&2
+#       exit 1
+#     fi
+#   done
+#   # No javadoc for these projects
+#   # rm ${DDIR}/*-javadoc.jar ${DDIR}/*-shaded.jar ${DDIR}/original-*.jar
+# }
 ##########################################################
 packageApps()
 {
@@ -164,9 +164,28 @@ done
   rm ${DDIR}/original-*.jar
 }
 ##########################################################
+cleanDirs()
+{
+  echo "-- clean dirs ----------------------------------------"
+  # clean dirs
+  for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS} cchlib-apps
+  do
+    DDIR="${PACKAGE_DIR}/${project}"
+
+    echo "Clean: ${DDIR}"
+
+    if [ -e "${DDIR}/*-shaded.jar" ]; then
+      rm -f ${DDIR}/*-shaded.jar
+    fi
+    if [ -e "${DDIR}/original-*.jar" ]; then
+      rm -f ${DDIR}/original-*.jar
+    fi
+  done
+}
+##########################################################
 
 ##########################################################
-# BEGIN
+# MAIN ###################################################
 ##########################################################
 EXEC="./package-javadoc.sh"
 echo ${EXEC}
@@ -188,20 +207,19 @@ fi
 # #########################################################
 PROJECTS="cchlib-apps
 cchlib-core
-cchlib-core-deprecated
 cchlib-i18n
-cchlib-i18n-deprecated
 cchlib-io
 cchlib-j2ee
-cchlib-j2ee-deprecated
 cchlib-jdbf
 cchlib-net
 cchlib-nio
 cchlib-sql
 cchlib-swing
-cchlib-swing-deprecated
 cchlib-sys
-cchlib-tools"
+cchlib-unit
+cchlib-samples
+cchlib-tools
+cchlib-x-googlecontact"
 
 PROJECTS_WITH_DOC="cchlib-core
 cchlib-i18n
@@ -212,20 +230,20 @@ cchlib-net
 cchlib-nio
 cchlib-sql
 cchlib-swing
-cchlib-sys"
+cchlib-sys
+cchlib-unit
+cchlib-x-googlecontact"
 
 # XXXXX-.*-javadoc.jar
 REMOVE_THESES_DOCS="cchlib-apps-regexpbuilder
 DuplicateFilesManager
 EditResourcesBundle
 cchlib-core-beta
-cchlib-core-sample
-cchlib-j2ee-deprecated
-cchlib-swing-deprecated"
+cchlib-core-sample"
 
 PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
 
-PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
+# PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 
 PROJECTS_APPS="cchlib-apps-duplicatefilesmanager
 cchlib-apps-regexpbuilder
@@ -235,24 +253,10 @@ echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
 copyJars
 copyJavadoc
 packageLibCore
-packageLibEE
+# packageLibEE
 packageApps
+cleanDirs
 echo "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
-
-echo "-- clean dirs ----------------------------------------"
-# clean dirs
-for project in ${PROJECTS} ${PROJECTS_SUB_CCHLIB_CORE} ${PROJECTS_SUB_CCHLIB_J2EE} ${PROJECTS_APPS}
-do
-  DDIR="${PACKAGE_DIR}/${project}"
-
-  if [ -e "${DDIR}/*-shaded.jar" ]; then
-    rm -f ${DDIR}/*-shaded.jar
-  fi
-  if [ -e "${DDIR}/original-*.jar" ]; then
-    rm -f ${DDIR}/original-*.jar
-  fi
-done
-# #########################################################
 
 echo "------------------------------------------"
 

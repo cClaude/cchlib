@@ -6,6 +6,7 @@
 # #########################################################
 #
 MVN="${MAVEN_HOME}/bin/mvn"
+MVN_XPARAM=-T 1.5C
 
 LOGSDIR="${PWD}/.logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
@@ -35,11 +36,14 @@ gnome-open http://google.com/
 mvnClean()
 {
   echo "-- mvnClean() ----------------------------------------"
-  MVNPARAM="clean --offline"
+  MVNPARAM="${MVN_XPARAM} clean --offline"
   echo ${MVN} ${MVNPARAM}
   ###
   ${MVN} ${MVNPARAM}
-  if [ ! "$?" -eq "0" ];
+  MVN_EXIT="$?"
+  
+  echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
+  if [ ! "${MVN_EXIT}" -eq "0" ];
   then
     echo "[ERROR] in ${MVN} ${MVNPARAM}"
     exit 1
@@ -54,7 +58,7 @@ mvnClean()
 mvnCompile()
 {
   echo "-- mvnCompile() ----------------------------------------"
-  MVNPARAM="compile --errors --fail-fast -Dmaven.test.skip=true"
+  MVNPARAM="${MVN_XPARAM} compile --errors --fail-fast -Dmaven.test.skip=true"
   echo "${MVN} ${MVNPARAM}"
   ${MVN} ${MVNPARAM} >"${LOGS_COMPIL}"
   MVN_EXIT="$?"
@@ -80,11 +84,11 @@ mvnPackage()
 {
   echo "-- mvnPackage() ----------------------------------------"
   # install ??? TODO fix this if possible
-  MVNPARAM="install package --errors --fail-fast"
+  MVNPARAM="${MVN_XPARAM} install package --errors --fail-fast"
   echo "${MVN} ${MVNPARAM}"
   ###
   ${MVN} ${MVNPARAM}
-  if [ ! "$?" -eq "0" ];
+  if [ ! "${MVN_EXIT}" -eq "0" ];
   then
     echo "[ERROR] in ${MVN} ${MVNPARAM}"
     exit 1
@@ -100,7 +104,7 @@ mvnPackage()
 mvnJavadoc()
 {
   echo "-- mvnJavadoc() ----------------------------------------"
-  MVNPARAM=" javadoc:jar --errors -Dmaven.test.skip=true"
+  MVNPARAM="${MVN_XPARAM} javadoc:jar --errors -Dmaven.test.skip=true"
   echo ${MVN} ${MVNPARAM}
   ###
   ${MVN} ${MVNPARAM} >"${LOGS_JAVADOC}"
@@ -108,7 +112,26 @@ mvnJavadoc()
 
   cat "${LOGS_JAVADOC}"
   echo "RC=${MVN_EXIT} for ${MVN} ${MVNPARAM}"
-  if [ ! "$?" -eq "0" ];
+
+  cat "${LOGS_JAVADOC}" | sort | uniq \
+  | grep -v -F "[ERROR] Error fetching link:" \
+  | grep -v -F "@wbp.factory is an unknown tag." \
+  | grep -v -F "@wbp.factory.parameter.source is an unknown tag." \
+  | grep -F "[WARNING]
+  [ERROR]" >"${LOGS_TMP}"
+
+  cat "${LOGS_TMP}" \
+  | grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"
+
+  cat "${LOGS_TMP}" \
+  | grep ": warning: no description for @param" >"${LOGS_JAVADOC_WARNING}.noDesc@param"
+
+  cat "${LOGS_TMP}" \
+  | grep -v ": warning - @return tag has no arguments." \
+  | grep -v ": warning: no description for @param" \
+  >"${LOGS_JAVADOC_WARNING}.others"
+
+  if [ ! "${MVN_EXIT}" -eq "0" ];
   then
     echo "[ERROR] in ${MVN} ${MVNPARAM}"
     exit 1
@@ -124,6 +147,8 @@ mvnJavadoc()
 # main
 #
 ##########################################################
+java -version
+
 mvnClean
 mvnCompile
 mvnPackage
@@ -132,19 +157,6 @@ mvnJavadoc
 echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
 echo "------------------------------------------"
-
-cat "${LOGS_JAVADOC}" | sort | uniq \
-| grep -v -F "[ERROR] Error fetching link:" \
-| grep -v -F "@wbp.factory is an unknown tag." \
-| grep -v -F "@wbp.factory.parameter.source is an unknown tag." \
-| grep -F "[WARNING]
-[ERROR]" >"${LOGS_TMP}"
-
-cat "${LOGS_TMP}" \
-| grep ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.returntag"
-
-cat "${LOGS_TMP}" \
-| grep -v ": warning - @return tag has no arguments." >"${LOGS_JAVADOC_WARNING}.others"
 
 #
 # javadoc:jar

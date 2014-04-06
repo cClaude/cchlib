@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import com.googlecode.cchlib.io.FileIterable;
 
-public class FileIteratorBuilder
+//NOT public
+class FileIteratorBuilder
 {
     private final File root;
     private final long fileMaxLength;
@@ -23,7 +24,6 @@ public class FileIteratorBuilder
     }
 
     private Iterable<File> getFileIterator() {
-        // TODO Auto-generated method stub
         return new FileIterable(
                 root,
                 new FileFilter() // Filter for files

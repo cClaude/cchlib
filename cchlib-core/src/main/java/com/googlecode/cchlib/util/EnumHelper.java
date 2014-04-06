@@ -30,26 +30,6 @@ public final class EnumHelper
             }
     }
 
-    /**
-     * TODOC
-     *
-     * @param enumValue
-     * @param stringValue
-     * @return
-     */
-    public static <T extends Enum<T>> String getSuffix(
-        final T      enumValue,
-        final String stringValue
-        )
-    {
-        if( isPrefixOf( enumValue, stringValue ) ) {
-            return stringValue.substring( enumValue.name().length() );
-            }
-        else {
-            return null;
-            }
-    }
-
     private static <T extends Enum<T>> boolean isPrefixOf(
         final T      enumValue,
         final String stringValue
@@ -58,15 +38,35 @@ public final class EnumHelper
         return stringValue.startsWith( enumValue.name() );
     }
 
+    /**
+     * Extract {@link Integer} value found immediately after {@link Enum} name in <code>stringValue</code>
+     * @param enumValue
+     * @param stringValue
+     * @return {@link Integer} value found immediately after {@link Enum} name or null
+     * @throws NumberFormatException if the value cannot be parsed as an integer.
+     */
     public static <T extends Enum<T>> Integer getSuffixInteger(
         final T      enumValue,
         final String stringValue
-        )
+        ) throws NumberFormatException
     {
         final String suffix = getSuffix( enumValue, stringValue );
 
         if( suffix != null ) {
             return Integer.valueOf( suffix );
+            }
+        else {
+            return null;
+            }
+    }
+
+    private static <T extends Enum<T>> String getSuffix(
+        final T      enumValue,
+        final String stringValue
+        )
+    {
+        if( isPrefixOf( enumValue, stringValue ) ) {
+            return stringValue.substring( enumValue.name().length() );
             }
         else {
             return null;

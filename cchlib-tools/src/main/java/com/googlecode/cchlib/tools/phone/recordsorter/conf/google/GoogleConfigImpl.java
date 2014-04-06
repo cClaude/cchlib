@@ -6,7 +6,6 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.util.AbstractReadConfig;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.util.DefaultContact;
 import com.googlecode.cchlib.xutil.google.googlecontact.GoogleContacts;
-import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 
 public class GoogleConfigImpl extends AbstractReadConfig

@@ -1,32 +1,51 @@
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import java.lang.reflect.InvocationTargetException;
-import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAnalyserException;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.GoogleContactType;
 
+/**
+ * Build {@link GoogleContact}, see {@link #newGoogleContact(String[])}
+ */
 public class GoogleContactFactory {
-    //private final static Logger LOGGER = Logger.getLogger( GoogleContactFactory.class );
+    private static final Logger LOGGER = Logger.getLogger( GoogleContactFactory.class );
 
     private final GoogleContactHeader googleContactHeader;
     private final boolean ignoreEmptyCels;
+//    private final int columns;
 
     public GoogleContactFactory( final String[] headers, final boolean ignoreEmptyCels ) throws GoogleContactFactoryException
     {
         this.googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( headers );
         this.ignoreEmptyCels     = ignoreEmptyCels;
+//        this.columns             = headers.length;
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "Found " + headers.length + " columns." );
+        }
+
+        assert headers.length == googleContactHeader.getIndexMethodConteners().size();
     }
 
-    public GoogleContact newGoogleContact( final String[] entry ) throws GoogleContacAnalyserException
+    /**
+     * Create a new {@link GoogleContact}
+     * @param entry Array of strings with cell values, according to <code>headers</code> given in
+     *        factory constructor
+     * @return a non null GoogleContact
+     * @throws GoogleContactFactoryException if any error occur
+     */
+    public GoogleContact newGoogleContact( final String[] entry ) throws GoogleContactFactoryException
     {
         final GoogleContact googleContact = new GoogleContact();
 
         if( googleContactHeader.getIndexMethodConteners().size() != entry.length ) {
-            throw new GoogleContacAnalyserException(
+            throw new GoogleContactFactoryException(
                     "Bad number of entry " + entry.length
                     + " expected " + googleContactHeader.getIndexMethodConteners().size()
                     );
         }
+
 
       for( int index = 0; index < entry.length ; ) {
             final int inc = invoker( googleContact, entry, index );
@@ -42,7 +61,7 @@ public class GoogleContactFactory {
             final GoogleContact googleContact,
             final String[]      entry,
             final int           index
-            ) throws GoogleContacAnalyserException
+            ) throws GoogleContactFactoryException
     {
         final HeaderMethodContener methodContener = googleContactHeader.getIndexMethodConteners().get( Integer.valueOf( index ) );
 
@@ -95,7 +114,7 @@ public class GoogleContactFactory {
     /**
      * @return true is value has been set
      */
-    private boolean invoke(
+    private boolean invoke( // $codepro.audit.disable booleanMethodNamingConvention
         final HeaderMethodContener  methodContener,
         final String                cellContent,
         final GoogleContactType     googleContactType

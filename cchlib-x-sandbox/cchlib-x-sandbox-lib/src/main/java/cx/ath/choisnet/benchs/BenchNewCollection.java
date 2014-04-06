@@ -93,7 +93,7 @@ public final static void benchNewLinkedList() // --------------------------
 */
 public final static void printDot() // ------------------------------------
 {
- System.out.print( "." );
+ System.out.print( '.' );
  System.out.flush();
 }
 
@@ -107,7 +107,7 @@ public final static void main( final String[] args ) // -------------------
     benchNewArrayList();    printDot();
     benchNewLinkedList();   printDot();
 
-    System.out.println( " " + i + "/" + BENCH_COUNT );
+    System.out.println( ' ' + i + '/' + BENCH_COUNT );
     }
 
  System.out.println( stats );

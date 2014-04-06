@@ -141,7 +141,7 @@ public void displayOnce( // -----------------------------------------------
 
  String submitValue;
 
- if( hostName == null || hostMacAddress == null ) {
+ if( (hostName == null) || (hostMacAddress == null) ) {
     out.write( "<input type=\"TEXT\" name=\"MAC_ADDRESS\" value=\"" + this.macAddressValue + "\" size=\"17\" maxlength=\"17\" />" );
     out.write( "(ex: 00:0B:DB:3D:DE:CB)\n" );
 
@@ -160,7 +160,7 @@ public void displayOnce( // -----------------------------------------------
  out.write( "</td>\n" )
  ;
  out.write( "<td width=\"25%\">" );
- out.write( hostName == null ? "machine non identifi�e" : hostName);
+ out.write( (hostName == null) ? "machine non identifi�e" : hostName);
  out.write( "</td>\n" );
 
  out.write( "</tr>\n" );

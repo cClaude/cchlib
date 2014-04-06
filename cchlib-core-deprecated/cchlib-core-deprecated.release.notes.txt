@@ -1,7 +1,0 @@
-cchlib-core-deprecated
-  deprecated code from cchlib-core and cchlib-swing
-
----------------------------------------------------------------------
-4.1.7
-  Java 1.6 required (Java 1.7 no more needed)
----------------------------------------------------------------------

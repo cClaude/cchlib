@@ -9,18 +9,18 @@ import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.IMEntry;
 
-public class SimplifiedGoogleContact implements Serializable {
+public class SimplifiedGoogleContact implements Serializable { // $codepro.audit.disable largeNumberOfMethods
 
     private static final long serialVersionUID = 1L;
 
-    private static final Wrappable<BasicEntry,SimpifiedBasicEntry> basicEntryWrapper = new Wrappable<BasicEntry,SimpifiedBasicEntry>(){
+    private static final Wrappable<BasicEntry,SimpifiedBasicEntry> BASIC_ENTRY_WRAPPER = new Wrappable<BasicEntry,SimpifiedBasicEntry>(){
         @Override
         public SimpifiedBasicEntry wrap( final BasicEntry basicEntry ) throws WrapperException
         {
             return new SimpifiedBasicEntryImpl( basicEntry );
         }};
 
-    private static final Wrappable<SimpifiedBasicEntry,BasicEntry> simpifiedBasicEntryWrapper = new Wrappable<SimpifiedBasicEntry, BasicEntry>() {
+    private static final Wrappable<SimpifiedBasicEntry,BasicEntry> SIMPIFIED_BASIC_ENTRY_WRAPPER = new Wrappable<SimpifiedBasicEntry, BasicEntry>() {
         @Override
         public BasicEntry wrap( final SimpifiedBasicEntry simpifiedBasicEntry )
                 throws WrapperException
@@ -28,14 +28,14 @@ public class SimplifiedGoogleContact implements Serializable {
             return simpifiedBasicEntry.getBasicEntry();
         }};
 
-    private static final Wrappable<SimpifiedIMEntry, IMEntry> simpifiedIMEntryWrapper = new Wrappable<SimpifiedIMEntry, IMEntry>(){
+    private static final Wrappable<SimpifiedIMEntry, IMEntry> SIMPIFIED_IM_ENTRY_WRAPPER = new Wrappable<SimpifiedIMEntry, IMEntry>(){
         @Override
         public IMEntry wrap( final SimpifiedIMEntry simpifiedIMEntry ) throws WrapperException
         {
             return simpifiedIMEntry.getIMEntry();
         }};
 
-    private static final Wrappable<IMEntry, SimpifiedIMEntry> iMEntryWrapper = new Wrappable<IMEntry, SimpifiedIMEntry>(){
+    private static final Wrappable<IMEntry, SimpifiedIMEntry> IM_ENTRY_WRAPPER = new Wrappable<IMEntry, SimpifiedIMEntry>(){
         @Override
         public SimpifiedIMEntry wrap( final IMEntry iMEntry ) throws WrapperException
         {
@@ -384,9 +384,15 @@ public class SimplifiedGoogleContact implements Serializable {
         googleContact.addEvent( toBasicEntry( event ) );
     }
 
-    private Collection<SimpifiedBasicEntry> toSimpifiedBasicEntry( final Collection<BasicEntry> emails )
+//    private Collection<SimpifiedBasicEntry> toSimpifiedBasicEntry( final Collection<BasicEntry> entry )
+//    {
+//        Function<BasicEntry,SimpifiedBasicEntry> mapper;
+//        //return WrapperHelper.toCollection( entry, BASIC_ENTRY_WRAPPER, SIMPIFIED_BASIC_ENTRY_WRAPPER  );
+//        return entry.stream().map( mapper ).;//, BASIC_ENTRY_WRAPPER, SIMPIFIED_BASIC_ENTRY_WRAPPER  );
+//    }
+    private Collection<SimpifiedBasicEntry> toSimpifiedBasicEntry( final Collection<BasicEntry> entry )
     {
-        return WrapperHelper.toCollection( emails, basicEntryWrapper, simpifiedBasicEntryWrapper  );
+        return WrapperHelper.toCollection( entry, BASIC_ENTRY_WRAPPER, SIMPIFIED_BASIC_ENTRY_WRAPPER  );
     }
 
     private BasicEntry toBasicEntry( final SimpifiedBasicEntry simpifiedBasicEntry )
@@ -411,7 +417,7 @@ public class SimplifiedGoogleContact implements Serializable {
 
     private Collection<SimpifiedIMEntry> toSimpifiedIMEntry( final Collection<IMEntry> iMs )
     {
-        return WrapperHelper.toCollection( iMs, iMEntryWrapper, simpifiedIMEntryWrapper );
+        return WrapperHelper.toCollection( iMs, IM_ENTRY_WRAPPER, SIMPIFIED_IM_ENTRY_WRAPPER );
     }
 
 //    public final Collection<AddressEntry> getAddresses()

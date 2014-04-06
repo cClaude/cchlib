@@ -40,7 +40,7 @@ public class GoogleContactHeaderFactory {
             StringBuilder builder = new StringBuilder();
             builder.append( "HeaderMethodContenerImpl [method=" );
             builder.append( method );
-            builder.append( "]" );
+            builder.append( ']' );
             return builder.toString();
         }
     }
@@ -66,9 +66,9 @@ public class GoogleContactHeaderFactory {
             final Matcher matcher = HEADER_PATTERN.matcher( header );
 
             if( matcher.matches() ) {
-                this.prefix   = matcher.group( 1 );
-                this.position = Integer.parseInt( matcher.group( 2 ) );
-                this.suffix   = matcher.group( 3 );
+                this.prefix   = matcher.group( PREFIX_MATCHER_INDEX );
+                this.position = Integer.parseInt( matcher.group( POSITION_MATCHER_INDEX ) );
+                this.suffix   = matcher.group( SUFFIX_MATCHER_INDEX );
 
                 this.typeInfo = customTypeMethodContener.getTypeInfo();
             } else {
@@ -138,6 +138,10 @@ public class GoogleContactHeaderFactory {
         }
     }
 
+    private static final int SUFFIX_MATCHER_INDEX = 3;
+    private static final int POSITION_MATCHER_INDEX = 2;
+    private static final int PREFIX_MATCHER_INDEX = 1;
+
     private static final Logger LOGGER = Logger.getLogger( GoogleContactHeaderFactory.class );
     private static final Pattern HEADER_PATTERN = Pattern.compile( "([a-zA-Z -]+) ([0-9]+) - ([a-zA-Z \\-]+)" );
     private static final HeaderMethodContener NULL_CONTENER = new HeaderMethodContener() {
@@ -206,10 +210,9 @@ public class GoogleContactHeaderFactory {
                 throw new IllegalArgumentException( headers [ index + i ] ); // FIXME
             }
 
-            final AnalyserMethodContener mc = findAnalyserMethodContener( typeInfo, matcher.group( 3 ) );
-            //AnalyserMethodContener mc = findAnalyserMethodContener( googleContactAnalyser.getTypeInfo(), header );
+            final AnalyserMethodContener mc = findAnalyserMethodContener( typeInfo, matcher.group( SUFFIX_MATCHER_INDEX ) );
 
-            assert mc != null : "Method for [" + matcher.group( 3 ) + "] not found ! Line : " + headers [ index + i ];
+            assert mc != null : "Method for [" + matcher.group( SUFFIX_MATCHER_INDEX ) + "] not found ! Line : " + headers [ index + i ];
 
             customTypeMethodContener.put( i, newHeaderMethodContener( mc ) );
 
@@ -245,7 +248,6 @@ public class GoogleContactHeaderFactory {
         final String   header
         )
     {
-        //final TypeInfo               typeInfo       = googleContactAnalyser.getTypeInfo();
         final AnalyserMethodContener methodContener = findAnalyserMethodContener( parentTypeInfo, header );
 
         if( methodContener != null ) {
@@ -280,14 +282,13 @@ public class GoogleContactHeaderFactory {
                 throw new GoogleContactCSVException(
                         "Can not handle header = [" + header
                         + "] : prefix [" + prefix
-                        + "],number [" +  matcher.group( 2 )
-                        + "],suffix [" +  matcher.group( 3 )
+                        + "],number [" +  matcher.group( POSITION_MATCHER_INDEX )
+                        + "],suffix [" +  matcher.group( SUFFIX_MATCHER_INDEX )
                         + "] unknown on " + parentTypeInfo
                         );
             }
 
-            assert customTypeMethodContener.checkSuffix( matcher.group( 3 ) );
-            //customTypeMethodContener.setMaxEntriesDefineInHeader( Integer.parseInt( number ) );
+            assert customTypeMethodContener.isSuffixValid( matcher.group( SUFFIX_MATCHER_INDEX ) );
 
             return customTypeMethodContener;
         } else {

@@ -142,14 +142,14 @@ private String toString( // -----------------------------------------------
  for( String[] param : this.params ) {
     if( first ) {
         first = false;
-        sb.append( "?" );
+        sb.append( '?' );
         }
     else {
         sb.append( paramsSeparator );
         }
 
     sb.append( param[ 0 ] );
-    sb.append( "=" );
+    sb.append( '=' );
     sb.append( URLEncoder.encode( param[ 1 ], charsetName ) );
     }
 

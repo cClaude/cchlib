@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
-import groovy.json.JsonBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +28,7 @@ import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 import com.googlecode.jcsv.reader.internal.DefaultCSVEntryParser;
 import cx.ath.choisnet.ToDo;
 import cx.ath.choisnet.ToDo.Action;
+import groovy.json.JsonBuilder;
 
 /**
  * Handle google contact cvs files.
@@ -169,7 +169,7 @@ public class GoogleContacts {
         final String rawValue = entry.getValue();
 
         if( !rawValue.isEmpty() ) {
-            for( String singleValue : GoogleContacts.toValues( rawValue ) ) {
+            for( final String singleValue : GoogleContacts.toValues( rawValue ) ) {
                 list.add( singleValue );
             }
         }
@@ -205,6 +205,10 @@ public class GoogleContacts {
         return toJSON( contacts ).toString();
     }
 
+    /**
+     * @deprecated no replacement use java 8
+     */
+    @Deprecated
     public static Iterable<GoogleContact> all(
         final List<GoogleContact>       contacts,
         final Selectable<GoogleContact> filter

@@ -96,7 +96,7 @@ public String toString() // -----------------------------------------------
 */
  compute();
 
- sb.append( "\n" );
+ sb.append( '\n' );
  sb.append( "Mean:\n" );
 
  for( Map.Entry<Double,K> entry : this.meanMap.entrySet() ) {
@@ -110,7 +110,7 @@ public String toString() // -----------------------------------------------
 //    sb.append( "\n" );
     }
 
- sb.append( "\n" );
+ sb.append( '\n' );
  sb.append( "Standard deviation:\n" );
 
  for( Map.Entry<Double,K> entry : this.standDevMap.entrySet() ) {
@@ -132,7 +132,7 @@ public String toString() // -----------------------------------------------
 */
 public void compute() // --------------------------------------------------
 {
- if( this.standDevMap != null && this.meanMap != null ) {
+ if( (this.standDevMap != null) && (this.meanMap != null) ) {
     //
     // d�j� calcul�
     //
@@ -165,7 +165,7 @@ public void append( Appendable a ) // -------------------------------------
 /**
 ** Standard deviation - �cart type
 */
-public final static double sd( double... values ) // ----------------------
+public static final double sd( double... values ) // ----------------------
 {
  double mean = 0d;
 
@@ -192,7 +192,7 @@ public final static double sd( double... values ) // ----------------------
 /**
 ** mean - moyenne
 */
-public final static double mean( double... values ) // --------------------
+public static final double mean( double... values ) // --------------------
 {
  double mean = 0d;
 

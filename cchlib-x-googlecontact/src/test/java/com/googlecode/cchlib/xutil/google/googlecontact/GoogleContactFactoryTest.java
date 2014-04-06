@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAna
 import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 
-public class GoogleContactFactoryTest implements Data {
+public class GoogleContactFactoryTest extends Data {
 
     @Test
     public void testDataBasic()

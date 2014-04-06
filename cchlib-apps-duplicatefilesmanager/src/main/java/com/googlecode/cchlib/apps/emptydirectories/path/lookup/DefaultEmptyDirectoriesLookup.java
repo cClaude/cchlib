@@ -29,14 +29,14 @@ public class DefaultEmptyDirectoriesLookup
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
-    
+
     private List<Path> rootFilesForScan;
     private DirectoryStream.Filter<Path> excludeDirectoriesFile;
     private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
     private LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
-     * <br/>
+     * <br>
      * Does not start search of empty directories, you must
      * call {@link #lookup()} to start this task.
      *
@@ -53,7 +53,7 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
-     * <br/>
+     * <br>
      * Does not start search of empty directories, you must
      * call {@link #lookup()} to start this task.
      *

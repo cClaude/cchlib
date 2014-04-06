@@ -100,7 +100,7 @@ public static MySQLAdmin build( ServletConfig servletConfig ) // ----------
  StringBuffer       sb      = new StringBuffer();
 
  while( st.hasMoreTokens() ) {
-    sb.append( " " );
+    sb.append( ' ' );
     sb.append( st.nextToken() );
     }
 
@@ -119,7 +119,7 @@ public static MySQLAdmin build( ServletConfig servletConfig ) // ----------
  sb      = new StringBuffer();
 
  while( st.hasMoreTokens() ) {
-    sb.append( " " );
+    sb.append( ' ' );
     sb.append( st.nextToken() );
     }
 

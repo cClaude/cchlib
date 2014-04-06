@@ -26,22 +26,22 @@ import java.util.LinkedList;
 */
 public class BenchFinal
 {
-private final static int BENCH_COUNT    = 50;
-private final static int COMPUTE_COUNT  = 50000;
+private static final int BENCH_COUNT    = 50;
+private static final int COMPUTE_COUNT  = 50000;
 
-private final static Stats<String> stats = new Stats<String>();
+private static final Stats<String> stats = new Stats<String>();
 
 /**
 **
 */
-public final static void benchStringBuffer() // ---------------------------
+public static final void benchStringBuffer() // ---------------------------
 {
  StringBuffer sb = new StringBuffer();
 
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -53,14 +53,14 @@ public final static void benchStringBuffer() // ---------------------------
 /**
 **
 */
-public final static void benchFStringBuffer() // --------------------------
+public static final void benchFStringBuffer() // --------------------------
 {
  final StringBuffer sb = new StringBuffer();
 
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -72,14 +72,14 @@ public final static void benchFStringBuffer() // --------------------------
 /**
 **
 */
-public final static void benchStringBuilder() // --------------------------
+public static final void benchStringBuilder() // --------------------------
 {
  StringBuilder sb = new StringBuilder();
 
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -91,14 +91,14 @@ public final static void benchStringBuilder() // --------------------------
 /**
 **
 */
-public final static void benchFStringBuilder() // -------------------------
+public static final void benchFStringBuilder() // -------------------------
 {
  final StringBuilder sb = new StringBuilder();
 
  final long begin = System.nanoTime();
 
  for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( "a" );
+    sb.append( 'a' );
     }
 
  final long end     = System.nanoTime();
@@ -110,7 +110,7 @@ public final static void benchFStringBuilder() // -------------------------
 /**
 **
 */
-public final static void benchArrayList() // ------------------------------
+public static final void benchArrayList() // ------------------------------
 {
  ArrayList<String> sb = new ArrayList<String>();
 
@@ -129,7 +129,7 @@ public final static void benchArrayList() // ------------------------------
 /**
 **
 */
-public final static void benchFArrayList() // -----------------------------
+public static final void benchFArrayList() // -----------------------------
 {
  final ArrayList<String> sb = new ArrayList<String>();
 
@@ -147,7 +147,7 @@ public final static void benchFArrayList() // -----------------------------
 /**
 **
 */
-public final static void benchLinkedList() // ------------------------------
+public static final void benchLinkedList() // ------------------------------
 {
  LinkedList<String> sb = new LinkedList<String>();
 
@@ -166,7 +166,7 @@ public final static void benchLinkedList() // ------------------------------
 /**
 **
 */
-public final static void benchFLinkedList() // -----------------------------
+public static final void benchFLinkedList() // -----------------------------
 {
  final LinkedList<String> sb = new LinkedList<String>();
 
@@ -185,16 +185,16 @@ public final static void benchFLinkedList() // -----------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
- System.out.print( "." );
+ System.out.print( '.' );
  System.out.flush();
 }
 
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  for( int i = 0; i<BENCH_COUNT; i++ ) {
     benchStringBuffer();    printDot();

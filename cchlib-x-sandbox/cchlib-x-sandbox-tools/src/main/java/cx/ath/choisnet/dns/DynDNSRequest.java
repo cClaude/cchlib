@@ -128,11 +128,11 @@ public InputStream getInputStream( String ip ) // -------------------------
  try {
     sb.append( "http://members.dyndns.org/nic/update?" );
     sb.append( "system=" + system );
-    sb.append( "&" );
+    sb.append( '&' );
     sb.append( "hostname=" + hostnameList );
-    sb.append( "&" );
+    sb.append( '&' );
     sb.append( "myip=" + ip );
-    sb.append( "&" );
+    sb.append( '&' );
     sb.append( "wildcard=" + wildcard );
     // sb.append( "&" );
     // sb.append( "mx=mail.exchanger.ext&" );

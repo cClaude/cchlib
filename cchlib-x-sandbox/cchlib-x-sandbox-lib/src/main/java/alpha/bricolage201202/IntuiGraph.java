@@ -11,8 +11,8 @@ import java.util.StringTokenizer;
 
 public class IntuiGraph extends Applet
 {
-    private static final long serialVersionUID = 1L;
-    GraphPanel panel;
+    private static final long serialVersionUID = 1L; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.appletFieldSecurity
+    private GraphPanel panel;
 
     /*
     <applet CODE="IntuiGraph.class" width=700 height=700 BORDER=0 >Your browser does not support Java!
@@ -83,31 +83,30 @@ public class IntuiGraph extends Applet
 
         if (center != null) {
             String cPos = getParameter("cpos");
-            Node n = this.panel.getNode( this.panel.findNode(center) );
+            Node node = this.panel.getNode( this.panel.findNode(center) );
             if (cPos != null) {
                 int I = cPos.indexOf('-');
-                n.set_px((n.set_x(Double.parseDouble(cPos.substring(0, I)))));
-                n.set_py((n.set_y(Double.parseDouble(cPos.substring(I + 1)))));
-                n.set_fixed((n.set_pfixed(/* 1 */true)));
+                node.set_px((node.set_x(Double.parseDouble(cPos.substring(0, I)))));
+                node.set_py((node.set_y(Double.parseDouble(cPos.substring(I + 1)))));
+                node.set_fixed((node.set_pfixed(/* 1 */true)));
             } else {
                 System.out.println("width " + d.width + "heigth " + d.height);
-                n.set_px((n.set_x(d.width / 2 - 19.5D)));
-                n.set_py((n.set_y(d.height / 2 - 48.5D)));
-                n.set_fixed(n.set_pfixed(/* 1) */true));
+                node.set_px((node.set_x(d.width / 2 - 19.5D)));
+                node.set_py((node.set_y(d.height / 2 - 48.5D)));
+                node.set_fixed(node.set_pfixed(/* 1) */true));
             }
         }
-        for (StringTokenizer pp = new StringTokenizer(position, ","); pp
-                .hasMoreTokens();) {
-            String pos = pp.nextToken();
-            int I = pos.indexOf('-');
+        for (StringTokenizer pp = new StringTokenizer(position, ","); pp.hasMoreTokens();) {
+            final String pos = pp.nextToken();
+            final int posInt = pos.indexOf('-');
 
 //            for (int i = 0; i < this.panel.getNnodes(); i++) {
 //                Node n = this.panel.getNode( i );
             for( Node n : this.panel.getNodes() ) {
 
                 if ((!n.get_lbl().equals("Intuitec")) && (!n.is_pfixed())) {
-                    n.set_px(Double.parseDouble(pos.substring(0, I)));
-                    n.set_py(Double.parseDouble(pos.substring(I + 1)));
+                    n.set_px(Double.parseDouble(pos.substring(0, posInt)));
+                    n.set_py(Double.parseDouble(pos.substring(posInt + 1)));
 
                     if (d.width / 2 > n.get_px()) {
                         n.set_x(((n.get_px() - 20.0D) * Math.random()));

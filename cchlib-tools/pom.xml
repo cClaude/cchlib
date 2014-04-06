@@ -15,8 +15,8 @@
 
   <!-- Global properties -->
   <properties>
-    <project.java.source.version>1.7</project.java.source.version>
-    <project.java.target.version>1.7</project.java.target.version>
+    <project.java.source.version>1.8</project.java.source.version>
+    <project.java.target.version>1.8</project.java.target.version>
   </properties>
 
   <dependencies>
@@ -62,7 +62,7 @@
     <dependency>
         <groupId>net.sf.flexjson</groupId>
         <artifactId>flexjson</artifactId>
-        <version>3.1</version>
+        <version>3.2</version>
     </dependency>
 
     <dependency>

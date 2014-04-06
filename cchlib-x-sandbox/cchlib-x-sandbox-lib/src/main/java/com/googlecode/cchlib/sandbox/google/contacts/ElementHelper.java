@@ -84,11 +84,11 @@ import java.util.regex.Pattern;
 
 /**
  * Helper class to parse, update and display a contact.
- * It uses a bunch of anonymous inner classes for every kind of element to 
- * perform the actual job. It is defined as an enum to take advantage of the 
+ * It uses a bunch of anonymous inner classes for every kind of element to
+ * perform the actual job. It is defined as an enum to take advantage of the
  * automatic instantiation and constant-specific methods.
  *
- * 
+ *
  */
 public enum ElementHelper implements ElementHelperInterface {
 
@@ -120,22 +120,22 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<billing_information>";
     }
   },
-  
+
   BIRTHDAY {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Birthday birthday = new Birthday();
       birthday.setWhen(parser.get(PropertyName.VALUE));
       contact.setBirthday(birthday);
     }
-  
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasBirthday()) {
         out.println("birthday: " + contact.getBirthday().getWhen());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasBirthday()) {
@@ -148,10 +148,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "YYYY-MM-DD|--MM-DD";
     }
   },
-  
+
   CALENDAR_LINK(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       CalendarLink calendarLink = new CalendarLink();
       calendarLink.setHref(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -167,9 +167,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addCalendarLink(calendarLink);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasCalendarLinks()) {
         out.println("calendar links:");
         for (CalendarLink calendarLink : contact.getCalendarLinks()) {
@@ -186,7 +186,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasCalendarLinks()) {
@@ -204,23 +204,23 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,primary:true|false]";
     }
   },
-  
+
   DIRECTORY_SERVER {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       DirectoryServer directoryServer = new DirectoryServer();
       directoryServer.setValue(parser.get(PropertyName.VALUE));
       contact.setDirectoryServer(directoryServer);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasDirectoryServer()) {
-        out.println("directory server: " 
+        out.println("directory server: "
             + contact.getDirectoryServer().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasDirectoryServer()) {
@@ -233,10 +233,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<directory_server>";
     }
   },
-  
+
   EMAIL(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Email email = new Email();
       email.setAddress(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -250,9 +250,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addEmailAddress(email);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasEmailAddresses()) {
         out.println("email addresses:");
         for (Email email : contact.getEmailAddresses()) {
@@ -270,7 +270,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasEmailAddresses()) {
@@ -288,10 +288,10 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,primary:true|false]";
     }
   },
-  
+
   EVENT(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Event event = new Event();
       When when = new When();
       when.setStartTime(DateTime.parseDate(parser.get(PropertyName.VALUE)));
@@ -304,9 +304,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addEvent(event);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasEvents()) {
         out.println("events:");
         for (Event event : contact.getEvents()) {
@@ -321,7 +321,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasEvents()) {
@@ -338,14 +338,14 @@ public enum ElementHelper implements ElementHelperInterface {
         + "[,label:<label>]";
     }
   },
-  
+
   EXTENDED_PROPERTY(true) {
     /**
      * Reads an XmlBlob from a file.
-     * 
+     *
      * @param f the file to be readed.
      * @return the readed XmlBlog.
-     * 
+     *
      * @throws IOException in case of any IO error.
      */
     private XmlBlob readFromFile(File f) throws IOException {
@@ -366,11 +366,11 @@ public enum ElementHelper implements ElementHelperInterface {
       xmlBlob.setBlob(new String(xmlBuffer));
       return xmlBlob;
     }
-    
+
     /**
      * Parses an ExtendedProperty.
-     * 
-     * @param parser the parser used for the parsing of the description. 
+     *
+     * @param parser the parser used for the parsing of the description.
      * @return the parsed in ExtendedProperty.
      */
     private ExtendedProperty parse(ElementParser parser) {
@@ -379,7 +379,7 @@ public enum ElementHelper implements ElementHelperInterface {
       if (parser.has(PropertyName.FILE)) {
         File f = new File(parser.get(PropertyName.FILE));
         if (!f.exists()) {
-          throw new RuntimeException("No Such File:" + 
+          throw new RuntimeException("No Such File:" +
               parser.get(PropertyName.FILE));
         }
         try {
@@ -393,9 +393,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       return extendedProperty;
     }
-    
+
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       ExtendedProperty extendedProperty = parse(parser);
       contact.addExtendedProperty(extendedProperty);
     }
@@ -405,9 +405,9 @@ public enum ElementHelper implements ElementHelperInterface {
       ExtendedProperty extendedProperty = parse(parser);
       group.addExtendedProperty(extendedProperty);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasExtendedProperties()) {
         out.println("extended properties:");
         for (ExtendedProperty property : contact.getExtendedProperties()) {
@@ -421,7 +421,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasExtendedProperties()) {
@@ -437,10 +437,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<name>,text:<value>|file:<XmlFilePath>";
     }
   },
-  
+
   EXTERNAL_ID(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       ExternalId externalId = new ExternalId();
       externalId.setValue(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -451,9 +451,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addExternalId(externalId);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasExternalIds()) {
         out.println("external ids:");
         for (ExternalId externalId : contact.getExternalIds()) {
@@ -468,7 +468,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasExternalIds()) {
@@ -477,16 +477,16 @@ public enum ElementHelper implements ElementHelperInterface {
         externalIds.addAll(src.getExternalIds());
       }
     }
-    
+
     @Override
     public String getUsage() {
       return "<external_id>,rel:<rel>|label:<label>";
     }
   },
-  
+
   GENDER {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Gender gender = new Gender();
       String value = parser.get(PropertyName.VALUE);
       if (value.equals("male")) {
@@ -498,15 +498,15 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.setGender(gender);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasGender()) {
-        out.println("gender: " 
+        out.println("gender: "
             + contact.getGender().getValue().toString().toLowerCase());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasGender()) {
@@ -519,17 +519,17 @@ public enum ElementHelper implements ElementHelperInterface {
       return "male|female";
     }
   },
-  
+
   GROUP_MEMBERSHIP_INFO(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       GroupMembershipInfo groupMembershipInfo = new GroupMembershipInfo();
       groupMembershipInfo.setHref(parser.get(PropertyName.VALUE));
       contact.addGroupMembershipInfo(groupMembershipInfo);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasGroupMembershipInfos()) {
         out.println("group membership info:");
         for (GroupMembershipInfo group : contact.getGroupMembershipInfos()) {
@@ -541,11 +541,11 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasGroupMembershipInfos()) {
-        List<GroupMembershipInfo> groupMembershipInfos 
+        List<GroupMembershipInfo> groupMembershipInfos
             = dest.getGroupMembershipInfos();
         groupMembershipInfos.clear();
         groupMembershipInfos.addAll(src.getGroupMembershipInfos());
@@ -557,17 +557,17 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<url>";
     }
   },
-  
+
   HOBBY(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Hobby hobby = new Hobby();
       hobby.setValue(parser.get(PropertyName.VALUE));
       contact.addHobby(hobby);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasHobbies()) {
         out.println("hobbies:");
         for (Hobby hobby : contact.getHobbies()) {
@@ -575,7 +575,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasHobbies()) {
@@ -590,10 +590,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<hobby>";
     }
   },
-  
+
   IM(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Im im = new Im();
       im.setAddress(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -610,9 +610,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addImAddress(im);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasImAddresses()) {
         out.println("im addresses:");
         for (Im im : contact.getImAddresses()) {
@@ -632,7 +632,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasImAddresses()) {
@@ -654,19 +654,19 @@ public enum ElementHelper implements ElementHelperInterface {
 
   INITIALS {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Initials initials = new Initials();
       initials.setValue(parser.get(PropertyName.VALUE));
       contact.setInitials(initials);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasInitials()) {
         out.println("initials: " + contact.getInitials().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasInitials()) {
@@ -679,10 +679,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<initials>";
     }
   },
-  
+
   JOT(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Jot jot = new Jot();
       jot.setValue(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -690,9 +690,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addJot(jot);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasJots()) {
         out.println("jots:");
         for (Jot jot : contact.getJots()) {
@@ -704,7 +704,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasJots()) {
@@ -720,17 +720,17 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,rel:home|work|other|keywords|user]";
     }
   },
-  
+
   LANGUAGE(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Language language = new Language();
       language.setLabel(parser.get(PropertyName.VALUE));
       contact.addLanguage(language);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasLanguages()) {
         out.println("languages:");
         for (Language language : contact.getLanguages()) {
@@ -738,7 +738,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasLanguages()) {
@@ -753,20 +753,20 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<language>";
     }
   },
-  
+
   WHERE {
     @Override
     public void parse(ContactEntry contact, ElementParser parser) {
       contact.setWhere(new Where(null, null, parser.get(PropertyName.VALUE)));
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasWhere()) {
         out.println("where: " + contact.getWhere().getValueString());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasWhere()) {
@@ -779,23 +779,23 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<where>";
     }
   },
- 
-  
+
+
   MAIDEN_NAME {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       MaidenName maidenName = new MaidenName();
       maidenName.setValue(parser.get(PropertyName.VALUE));
       contact.setMaidenName(maidenName);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasMaidenName()) {
         out.println("maiden name: " + contact.getMaidenName().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasMaidenName()) {
@@ -808,22 +808,22 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<maiden_name>";
     }
   },
-    
+
   MILEAGE {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Mileage mileage = new Mileage();
       mileage.setValue(parser.get(PropertyName.VALUE));
       contact.setMileage(mileage);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasMileage()) {
         out.println("mileage: " + contact.getMileage().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasMileage()) {
@@ -836,15 +836,15 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<mileage>";
     }
   },
-  
+
   NAME {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Name name = new Name();
       name.setFullName(new FullName(parser.get(PropertyName.VALUE), null));
       if (parser.has(PropertyName.GIVEN)) {
         name.setGivenName(new GivenName(parser.get(PropertyName.GIVEN), null));
-      } 
+      }
       if (parser.has(PropertyName.FAMILY)) {
         name.setFamilyName(
             new FamilyName(parser.get(PropertyName.FAMILY), null));
@@ -866,9 +866,9 @@ public enum ElementHelper implements ElementHelperInterface {
     public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       group.setTitle(new PlainTextConstruct(parser.get(PropertyName.VALUE)));
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasName()) {
         out.println("structured name: ");
         Name name = contact.getName();
@@ -893,7 +893,7 @@ public enum ElementHelper implements ElementHelperInterface {
         out.println();
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasName()) {
@@ -903,7 +903,7 @@ public enum ElementHelper implements ElementHelperInterface {
 
     @Override
     public String getUsage() {
-      return "<name>" 
+      return "<name>"
           + "[,given:<givenName]"
           + "[,family:<familyName>]"
           + "[,additional:additionalName]"
@@ -914,19 +914,19 @@ public enum ElementHelper implements ElementHelperInterface {
 
   NICKNAME {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Nickname nickname = new Nickname();
       nickname.setValue(parser.get(PropertyName.VALUE));
       contact.setNickname(nickname);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasNickname()) {
         out.println("nickname: " + contact.getNickname().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasNickname()) {
@@ -942,19 +942,19 @@ public enum ElementHelper implements ElementHelperInterface {
 
   NOTES {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       contact.setContent(
           new PlainTextConstruct(parser.get(PropertyName.VALUE)));
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
-      if (contact.getContent() != null) { 
-        out.println("notes: " 
+    public void print(PrintStream out, ContactEntry contact) {
+      if (contact.getContent() != null) {
+        out.println("notes: "
             + contact.getTextContent().getContent().getPlainText());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.getContent() != null) {
@@ -967,23 +967,23 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<notes>";
     }
   },
-  
+
   OCCUPATION {
-    
+
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Occupation occupation = new Occupation();
       occupation.setValue(parser.get(PropertyName.VALUE));
       contact.setOccupation(occupation);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasOccupation()) {
         out.println("occupation: " + contact.getOccupation().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasOccupation()) {
@@ -1029,9 +1029,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addOrganization(org);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasOrganizations()) {
         out.println("organizations:");
         for (Organization organization : contact.getOrganizations()) {
@@ -1059,7 +1059,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasOrganizations()) {
@@ -1085,7 +1085,7 @@ public enum ElementHelper implements ElementHelperInterface {
 
   PHONE(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       PhoneNumber phone = new PhoneNumber();
       phone.setPhoneNumber(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -1102,9 +1102,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addPhoneNumber(phone);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasPhoneNumbers()) {
         out.println("phone numbers:");
         for (PhoneNumber phone : contact.getPhoneNumbers()) {
@@ -1125,7 +1125,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasPhoneNumbers()) {
@@ -1144,24 +1144,24 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,primary:true|false]";
     }
   },
-  
+
   PRIORITY {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Priority priority = new Priority();
       priority.setRel(
           Priority.Rel.valueOf(parser.get(PropertyName.VALUE).toUpperCase()));
       contact.setPriority(priority);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasPriority()) {
-        out.println("priority: " 
+        out.println("priority: "
             + contact.getPriority().getRel().toString().toLowerCase());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasPriority()) {
@@ -1174,10 +1174,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "low|normal|high";
     }
   },
-  
+
   RELATION(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Relation relation = new Relation();
       relation.setValue(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -1189,9 +1189,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addRelation(relation);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasRelations()) {
         out.println("relations:");
         for (Relation relation : contact.getRelations()) {
@@ -1205,7 +1205,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasRelations()) {
@@ -1222,26 +1222,26 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,rel:<rel>]";
     }
   },
-  
+
   SENSITIVITY {
-    
+
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Sensitivity sensitivity = new Sensitivity();
       sensitivity.setRel(
           Sensitivity.Rel.valueOf(
               parser.get(PropertyName.VALUE).toUpperCase()));
       contact.setSensitivity(sensitivity);
     }
-  
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasSensitivity()) {
-        out.println("sensitivity:" 
+        out.println("sensitivity:"
             + contact.getSensitivity().getRel().toString().toLowerCase());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasSensitivity()) {
@@ -1254,22 +1254,22 @@ public enum ElementHelper implements ElementHelperInterface {
       return "confidental|normal|personal|private";
     }
   },
-  
+
   SHORT_NAME {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       ShortName shortName = new ShortName();
       shortName.setValue(parser.get(PropertyName.VALUE));
       contact.setShortName(shortName);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasShortName()) {
         out.println("short name:" + contact.getShortName().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasShortName()) {
@@ -1282,10 +1282,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<short_name>";
     }
   },
-  
+
   POSTAL(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       StructuredPostalAddress address = new StructuredPostalAddress();
       if (parser.has(PropertyName.REL)) {
         address.setRel(parser.get(PropertyName.REL));
@@ -1325,12 +1325,12 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addStructuredPostalAddress(address);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasStructuredPostalAddresses()) {
         out.println("addresses:");
-        for (StructuredPostalAddress address 
+        for (StructuredPostalAddress address
             : contact.getStructuredPostalAddresses()) {
           out.print("  ");
           if (address.hasRel()) {
@@ -1370,11 +1370,11 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasStructuredPostalAddresses()) {
-        List<StructuredPostalAddress> structuredPostalAddresses = 
+        List<StructuredPostalAddress> structuredPostalAddresses =
             dest.getStructuredPostalAddresses();
         structuredPostalAddresses.clear();
         structuredPostalAddresses.addAll(src.getStructuredPostalAddresses());
@@ -1399,19 +1399,19 @@ public enum ElementHelper implements ElementHelperInterface {
 
   SUBJECT {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Subject subject = new Subject();
       subject.setValue(parser.get(PropertyName.VALUE));
       contact.setSubject(subject);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasSubject()) {
         out.println("subject:" + contact.getSubject().getValue());
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasSubject()) {
@@ -1424,18 +1424,18 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<subject>";
     }
   },
-  
+
   USER_DEFINED_FIELD(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       UserDefinedField userDefinedField = new UserDefinedField();
       userDefinedField.setValue(parser.get(PropertyName.VALUE));
       userDefinedField.setKey(parser.get(PropertyName.KEY));
       contact.addUserDefinedField(userDefinedField);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasUserDefinedFields()) {
         out.println("user defined fields:");
         for (UserDefinedField field : contact.getUserDefinedFields()) {
@@ -1443,7 +1443,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasUserDefinedFields()) {
@@ -1458,10 +1458,10 @@ public enum ElementHelper implements ElementHelperInterface {
       return "<value>,key:<key>";
     }
   },
-  
+
   WEBSITE(true) {
     @Override
-    public void parse(ContactEntry contact, ElementParser parser) { 
+    public void parse(ContactEntry contact, ElementParser parser) {
       Website website = new Website();
       website.setHref(parser.get(PropertyName.VALUE));
       if (parser.has(PropertyName.REL)) {
@@ -1476,9 +1476,9 @@ public enum ElementHelper implements ElementHelperInterface {
       }
       contact.addWebsite(website);
     }
-    
+
     @Override
-    public void print(PrintStream out, ContactEntry contact) { 
+    public void print(PrintStream out, ContactEntry contact) {
       if (contact.hasWebsites()) {
         out.println("websites:");
         for (Website website : contact.getWebsites()) {
@@ -1496,7 +1496,7 @@ public enum ElementHelper implements ElementHelperInterface {
         }
       }
     }
-    
+
     @Override
     public void update(ContactEntry dest, ContactEntry src) {
       if (src.hasWebsites()) {
@@ -1514,37 +1514,37 @@ public enum ElementHelper implements ElementHelperInterface {
           + "[,primary:true|false]";
     }
   };
-  
-  // Flag to indicate if the element can be repeated. 
+
+  // Flag to indicate if the element can be repeated.
   private final boolean repetable;
-  
+
   // some regexp for parameter parsing/checking
-  private final static Pattern REPEATED_ARG_PATTERN
+  private static final Pattern REPEATED_ARG_PATTERN
       = Pattern.compile("^(\\D+)\\d*$");
 
   // Constructors.
   private ElementHelper(boolean repetable) { this.repetable = repetable; }
   private ElementHelper() { this(false); }
-  
+
   /**
    * The default implementation just throws an UnsuportedOperationException, and
    * only those helpers override it, what are used in parsing groups elements.
    *
-   * @param group  the group the parsed element should be added or set. 
+   * @param group  the group the parsed element should be added or set.
    * @param parser the parser used for the parsing of the description.
-   * 
-   * @throws UnsupportedOperationException in case the specific element can not 
+   *
+   * @throws UnsupportedOperationException in case the specific element can not
    *         be set on a ContactGroupEntry.
-   * 
+   *
    * @see ElementParser
    */
   @Override
 public void parseGroup(ContactGroupEntry group, ElementParser parser) {
-    throw new UnsupportedOperationException("parseGroup not supported for" 
+    throw new UnsupportedOperationException("parseGroup not supported for"
         + this.toString().toLowerCase() + " element");
   }
-  
-  private static ElementHelper find(String name) 
+
+  private static ElementHelper find(String name)
       throws IllegalArgumentException {
     Matcher m = REPEATED_ARG_PATTERN.matcher(name);
     if (!m.matches()) {
@@ -1556,31 +1556,31 @@ public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       throw new IllegalArgumentException("unknown parameter: " + name);
     }
   }
-  
+
   /**
    * Builds a contact from the list of element descriptions.
-   * It delegates the element specific parsing to the appropriate helper 
-   * instances. The actual element type is matched by the name of the enum 
+   * It delegates the element specific parsing to the appropriate helper
+   * instances. The actual element type is matched by the name of the enum
    * instance, so the element names specified in the parameters should (almost)
    * match the name of enum instances. The exceptions are those elements what
-   * can be repeated, when the parameter format is "name<n>".* Due to this 
-   * formating convention we cannot use directly the valueOf() facility of the 
+   * can be repeated, when the parameter format is "name<n>".* Due to this
+   * formating convention we cannot use directly the valueOf() facility of the
    * enum.
-   * 
+   *
    * @param contact    the contact to build.
    * @param parameters list of element descriptions.
-   * 
+   *
    */
-  public static void buildContact(ContactEntry contact, 
+  public static void buildContact(ContactEntry contact,
       List<String> parameters) {
     for (String string : parameters) {
       if (!string.startsWith("--")) {
         throw new IllegalArgumentException("unknown argument: " + string);
       }
       String param = string.substring(2);
-      String params[] = param.split("=", 2);
+      String[] params = param.split("=", 2);
       if (params.length != 2) {
-        throw new IllegalArgumentException("badly formated argument: " 
+        throw new IllegalArgumentException("badly formated argument: "
             + string);
       }
       ElementHelper helper = find(params[0]);
@@ -1590,31 +1590,31 @@ public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       helper.parse(contact, new ElementParser(params[1]));
     }
   }
-  
+
   /**
    * Builds a group from the list of element descriptions.
-   * It delegates the element specific parsing to the appropriate helper 
-   * instances. The actual element type is matched by the name of the enum 
+   * It delegates the element specific parsing to the appropriate helper
+   * instances. The actual element type is matched by the name of the enum
    * instance, so the element names specified in the parameters should (almost)
    * match the name of enum instances. The exceptions are those elements what
-   * can be repeated, when the parameter format is "name<n>".* Due to this 
-   * formating convention we cannot use directly the valueOf() facility of the 
+   * can be repeated, when the parameter format is "name<n>".* Due to this
+   * formating convention we cannot use directly the valueOf() facility of the
    * enum.
-   * 
+   *
    * @param group      the group to build.
    * @param parameters list of element descriptions.
-   * 
+   *
    */
-  public static void buildGroup(ContactGroupEntry group, 
+  public static void buildGroup(ContactGroupEntry group,
       List<String> parameters) {
     for (String string : parameters) {
       if (!string.startsWith("--")) {
         throw new IllegalArgumentException("unknown argument: " + string);
       }
       String param = string.substring(2);
-      String params[] = param.split("=", 2);
+      String[] params = param.split("=", 2);
       if (params.length != 2) {
-        throw new IllegalArgumentException("badly formated argument: " 
+        throw new IllegalArgumentException("badly formated argument: "
             + string);
       }
       ElementHelper helper = find(params[0]);
@@ -1624,14 +1624,14 @@ public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       helper.parseGroup(group, new ElementParser(params[1]));
     }
   }
-  
+
   /**
    * Updates the elements of a contact entry based on the elements of another
    * contact entry.
    * Those elements are replaced in the destination contact entry what are
    * exists in the source contact. Those elements not contained by the source
    * contact are left unchanged on the destination contact.
-   * 
+   *
    * @param dest the destination contact to be updated.
    * @param src  the source contact
    */
@@ -1640,10 +1640,10 @@ public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       helper.update(dest, src);
     }
   }
-  
+
   /**
    * Prints the content of the contact in a human readable form.
-   * 
+   *
    * @param out     the stream to print to.
    * @param contact the contact to be printed out.
    */
@@ -1652,7 +1652,7 @@ public void parseGroup(ContactGroupEntry group, ElementParser parser) {
       helper.print(out, contact);
     }
   }
-  
+
   /**
    * Gives the usage help text of all elements.
    *
