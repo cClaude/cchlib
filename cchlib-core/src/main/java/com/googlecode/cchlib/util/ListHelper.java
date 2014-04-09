@@ -3,24 +3,57 @@ package com.googlecode.cchlib.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import javax.annotation.Nullable;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
+@NeedDoc
 public final class ListHelper
 {
     private ListHelper() {}
 
-    public static <T> List<T> unmodifiableList(final Collection<T> collection )
+    @NeedDoc
+    @NeedTestCases
+    public static <T> List<T> unmodifiableList( @Nullable final Collection<T> collection )
     {
-        List<T> list;
-
-        if( collection instanceof List ) {
-            list = (List<T>)collection;
+        if( collection == null ) {
+            return Collections.emptyList();
             }
         else {
-            list = new ArrayList<T>(collection);
-            }
+            final List<T> list;
 
-        return Collections.unmodifiableList( list );
+            if( collection instanceof List ) {
+                list = (List<T>)collection;
+                }
+            else {
+                list = new ArrayList<T>(collection);
+                }
+
+            return Collections.unmodifiableList( list );
+        }
      }
 
+    @NeedDoc
+    @NeedTestCases
+    public static <T> List<T> unmodifiableList(final Enumeration<T> enumeration )
+    {
+        return Collections.unmodifiableList( toList( enumeration ) );
+    }
+    
+    @NeedDoc
+    @NeedTestCases
+    public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
+    {
+        final List<T> list = new ArrayList<T>();
+        
+        if( enumeration != null ) {
+            while( enumeration.hasMoreElements() ) {
+                list.add( enumeration.nextElement() );
+            }
+        }
+
+        return list;
+     }
 }

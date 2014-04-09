@@ -26,8 +26,8 @@ import com.googlecode.cchlib.lang.StringHelper;
  * of {@link Properties} to allow retention of comment
  * lines and blank (whitespace only) lines in the
  * properties file.
- * <br/>
- * <br/>
+ * <BR>
+ * <BR>
  * Written for Java version 1.5
  */
 public final class FormattedProperties
@@ -51,16 +51,16 @@ public final class FormattedProperties
     public enum Store {
         /**
          * Cut line after character 0x10 (\n)
-         * <br/>
-         * <br/>
+         * <BR>
+         * <BR>
          * More formally replace 0x10 by String "\\n\\\n"
          */
         CUT_LINE_AFTER_NEW_LINE,
 
         /**
          * Cut line after &lt;br&gt; or &lt;br/&gt;
-         * <br/>
-         * <br/>
+         * <BR>
+         * <BR>
          * More formally looking for &lt;br *[/]&gt; and
          * cut line after this value
          */
@@ -68,8 +68,8 @@ public final class FormattedProperties
 
         /**
          * Cut line before &lt;br&gt; or &lt;br/&gt;
-         * <br/>
-         * <br/>
+         * <BR>
+         * <BR>
          * More formally looking for &lt;br *[/]&gt; and
          * cut line before this value
          */
@@ -177,117 +177,130 @@ public final class FormattedProperties
         String               line;
 
         while ((line = reader.readLine()) != null) {
-            char    c   = 0;
-            int     pos = 0;
-
-            // Leading whitespace must be deleted first.
-            while ( pos < line.length()
-                    && Character.isWhitespace(c = line.charAt(pos))) {
-                pos++;
-                }
-
-            // If empty line or begins with a comment character, save this line
-            // in lineData and save a "" in keyData.
-            if (    (line.length() - pos) == 0
-                    || line.charAt(pos) == '#'
-                    || line.charAt(pos) == '!') {
-                addCommentLine(line);
-                continue;
-                }
-
-            // The characters up to the next Whitespace, ':', or '='
-            // describe the key.  But look for escape sequences.
-            // Try to short-circuit when there is no escape char.
-            int     start       = pos;
-            boolean needsEscape = line.indexOf('\\', pos) != -1;
-            StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
-
-            while ( pos < line.length()
-                    && ! Character.isWhitespace(c = line.charAt(pos++))
-                    && c != '=' && c != ':') {
-                if (needsEscape && c == '\\') {
-                    if (pos == line.length()) {
-                        // The line continues on the next line.  If there
-                        // is no next line, just treat it as a key with an
-                        // empty value.
-                        line = reader.readLine();
-                        if(line == null) {
-                            line = StringHelper.EMPTY;
-                            }
-                        pos = 0;
-                        while( pos < line.length()
-                                && Character.isWhitespace(c = line.charAt(pos))) {
-                            pos++;
-                            }
-                        }
-                    else {
-                        c = line.charAt(pos++);
-                        switch(c) {
-                            case 'n':
-                                key.append('\n');
-                                break;
-                            case 't':
-                                key.append('\t');
-                                break;
-                            case 'r':
-                                key.append('\r');
-                                break;
-                            case 'u':
-                                if (pos + 4 <= line.length()) {
-                                    char uni = (char) Integer.parseInt
-                                               (line.substring(pos, pos + 4), 16);
-                                    key.append(uni);
-                                    pos += 4;
-                                    }   // else throw exception?
-                                break;
-                            default:
-                                key.append(c);
-                                break;
-                            }
-                        }
-                    }
-                else if(needsEscape) {
-                    key.append(c);
-                    }
-                }
-
-            boolean isDelim = (c == ':' || c == '=');
-            String  keyString;
-
-            if( needsEscape ) {
-                keyString = key.toString();
-                }
-            else if( isDelim || Character.isWhitespace(c) ) {
-                keyString = line.substring(start, pos - 1);
-                }
-            else {
-                keyString = line.substring(start, pos);
-                }
-
-            while ( pos < line.length()
-                    && Character.isWhitespace(c = line.charAt(pos))) {
-                pos++;
-                }
-
-            if (! isDelim && (c == ':' || c == '=')) {
-                pos++;
-                while ( pos < line.length()
-                        && Character.isWhitespace(c = line.charAt(pos))) {
-                    pos++;
-                    }
-                }
-
-            // Short-circuit if no escape chars found.
-            if( !needsEscape ) {
-                this.put( keyString, line.substring(pos) );
-                }
-            else {
-                // Escape char found so iterate through the rest of the line.
-                StringBuilder element = FormattedPropertiesHelper.handleEscapeChar( reader, line, pos );
-
-                this.put(keyString, element.toString());
-            }
+            load( line, reader );
         }
+    }
+
+    private void load( String line, final BufferedReader reader ) throws IOException
+    {
+        char    c   = 0;
+        int     pos = 0;
+
+        // Leading whitespace must be deleted first.
+        final int lineLength = line.length();
+        while ( pos < lineLength
+                && Character.isWhitespace(c = line.charAt(pos))) {
+            pos++;
+            }
+
+        // If empty line or begins with a comment character, save this line
+        // in lineData and save a "" in keyData.
+        if (    (lineLength - pos) == 0
+                || line.charAt(pos) == '#'
+                || line.charAt(pos) == '!') {
+            addCommentLine(line);
+            return;
+            }
+
+        // The characters up to the next Whitespace, ':', or '='
+        // describe the key.  But look for escape sequences.
+        // Try to short-circuit when there is no escape char.
+        int     start       = pos;
+        boolean needsEscape = line.indexOf('\\', pos) != -1;
+        StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
+
+        while ( pos < lineLength
+                && ! Character.isWhitespace(c = line.charAt(pos++))
+                && c != '=' && c != ':') {
+            if (needsEscape && c == '\\') {
+                if (pos == lineLength) {
+                    // The line continues on the next line.  If there
+                    // is no next line, just treat it as a key with an
+                    // empty value.
+                    line = readLine( reader );
+                    pos = 0;
+                    while( pos < lineLength
+                            && Character.isWhitespace(c = line.charAt(pos))) {
+                        pos++;
+                        }
+                    }
+                else {
+                    c = line.charAt(pos++);
+                    switch(c) {
+                        case 'n':
+                            key.append('\n');
+                            break;
+                        case 't':
+                            key.append('\t');
+                            break;
+                        case 'r':
+                            key.append('\r');
+                            break;
+                        case 'u':
+                            if (pos + 4 <= lineLength) {
+                                char uni = (char) Integer.parseInt
+                                           (line.substring(pos, pos + 4), 16);
+                                key.append(uni);
+                                pos += 4;
+                                }   // else throw exception?
+                            break;
+                        default:
+                            key.append(c);
+                            break;
+                        }
+                    }
+                }
+            else if(needsEscape) {
+                key.append(c);
+                }
+            }
+
+        boolean isDelim = (c == ':' || c == '=');
+        String  keyString;
+
+        if( needsEscape ) {
+            keyString = key.toString();
+            }
+        else if( isDelim || Character.isWhitespace(c) ) {
+            keyString = line.substring(start, pos - 1);
+            }
+        else {
+            keyString = line.substring(start, pos);
+            }
+
+        while ( pos < lineLength
+                && Character.isWhitespace(c = line.charAt(pos))) {
+            pos++;
+            }
+
+        if (! isDelim && (c == ':' || c == '=')) {
+            pos++;
+            while ( pos < lineLength
+                    && Character.isWhitespace(c = line.charAt(pos))) {
+                pos++;
+                }
+            }
+
+        // Short-circuit if no escape chars found.
+        if( !needsEscape ) {
+            this.put( keyString, line.substring(pos) );
+            }
+        else {
+            // Escape char found so iterate through the rest of the line.
+            StringBuilder element = FormattedPropertiesHelper.handleEscapeChar( reader, line, pos );
+
+            this.put(keyString, element.toString());
+        }
+    }
+
+    private static String readLine( final BufferedReader reader ) throws IOException
+    {
+        String line = reader.readLine();
+
+        if(line == null) {
+            line = StringHelper.EMPTY;
+            }
+        return line;
     }
 
     /**
@@ -656,7 +669,7 @@ public final class FormattedProperties
     }
 
     /**
-     * @return an unmodifiable {@link List} of {@link Line}
+     * @return an unmodifiable {@link List} of {@link FormattedPropertiesLine}
      */
     public List<FormattedPropertiesLine> getLines()
     {
@@ -868,11 +881,11 @@ public final class FormattedProperties
      * All the structure of the FormattedProperties
      * itself is copied, <b>include</b> the keys,
      * the values, and stored lines informations.
-     * <br/>
-     * <br/>
+     * <BR>
+     * <BR>
      * This break rules from {@link java.util.Hashtable#clone()}.
-     * <br/>
-     * <br/>
+     * <BR>
+     * <BR>
      *
      *
      * @return a clone of the FormattedProperties

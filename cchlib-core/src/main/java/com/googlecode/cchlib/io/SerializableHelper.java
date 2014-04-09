@@ -59,17 +59,15 @@ public final class SerializableHelper
      * using standard serialization process.
      *
      * @param <T> type of the object
-     * @param aSerializedObject
-     * @param clazz
+     * @param aSerializedObject The serialized object
+     * @param clazz             Class to use for deserialize
      * @return the object.
      *
-     * @throws ClassNotFoundException - Class of a serialized object cannot be found.
-     * @throws InvalidClassException - Something is wrong with a class used by serialization.
-     * @throws StreamCorruptedException - Control information in the stream is inconsistent.
-     * @throws OptionalDataException - Primitive data was found in the stream instead of objects.
-     * @throws IOException - Any of the usual Input/Output related exceptions.
-     *
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException Class of a serialized object cannot be found.
+     * @throws InvalidClassException Something is wrong with a class used by serialization.
+     * @throws StreamCorruptedException Control information in the stream is inconsistent.
+     * @throws OptionalDataException Primitive data was found in the stream instead of objects.
+     * @throws IOException Any of the usual Input/Output related exceptions.
      */
     public static <T extends Serializable> T toObject(
             @Nonnull final byte[]              aSerializedObject,
@@ -77,10 +75,10 @@ public final class SerializableHelper
             )
         throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException // $codepro.audit.disable unnecessaryExceptions
     {
-        ByteArrayInputStream input = new ByteArrayInputStream(aSerializedObject);
-        ObjectInputStream    ois   = new ObjectInputStream(input);
+        final ByteArrayInputStream input = new ByteArrayInputStream(aSerializedObject);
+        final ObjectInputStream    ois   = new ObjectInputStream(input);
 
-        T objectClone = clazz.cast( ois.readObject() );
+        final T objectClone = clazz.cast( ois.readObject() );
         ois.close();
 
         return objectClone;
@@ -90,11 +88,11 @@ public final class SerializableHelper
      * Clone using Serialization process
      *
      * @param <T> type of the object
-     * @param anObject
-     * @param clazz
+     * @param anObject  The object to Serialize
+     * @param clazz     The class to use for serialization
      * @return a clone of the giving object
      * @throws IOException if any I/O occurred
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException Class of a serialized object cannot be found.
      */
     public static <T extends Serializable> T clone(
             @Nullable final T                   anObject,
@@ -152,7 +150,7 @@ public final class SerializableHelper
      *
      * @param <T> type of the object
      * @param anObject Object to serialize
-     * @param aFile     {@link File} to use to store object.
+     * @param aFile    A {@link File} to use to store object.
      *
      * @throws InvalidClassException - Something is wrong with a class used by serialization.
      * @throws NotSerializableException - Some object to be serialized does not implement the {@link Serializable} interface.

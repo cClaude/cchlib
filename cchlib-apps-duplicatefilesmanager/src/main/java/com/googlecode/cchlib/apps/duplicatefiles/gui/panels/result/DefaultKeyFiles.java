@@ -14,19 +14,6 @@ final class DefaultKeyFiles extends AbstractKeyFiles
     private Collection<KeyFileState> files;
     private KeyFileState             firstFileCache;
 
-//    /**
-//    *
-//    * @param key    Key for theses files (hash code, MD5, ...)
-//    * @param files Set with at least 2 entries
-//    */
-//   public DefaultKeyFiles(
-//       final String             key,
-//       final Set<KeyFileState>  files
-//       )
-//   {
-//       this( key, files, files.iterator().next() );
-//   }
-
     /**
      *
      * @param key    Key for theses files (hash code, MD5, ...)

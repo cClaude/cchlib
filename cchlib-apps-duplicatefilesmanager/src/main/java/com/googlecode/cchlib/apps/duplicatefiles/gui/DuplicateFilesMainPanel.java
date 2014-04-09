@@ -8,7 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import javax.swing.JButton;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
@@ -28,7 +29,7 @@ public class DuplicateFilesMainPanel
         implements I18nAutoCoreUpdatable //I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
 
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
@@ -61,12 +62,11 @@ public class DuplicateFilesMainPanel
      * @throws HeadlessException
      */
     public DuplicateFilesMainPanel(
-        final DFToolKit      dfToolKit,
         final ActionListener mainActionListener
         )
         throws HeadlessException, TooManyListenersException
     {
-        this.dfToolKit          = dfToolKit;
+        this.dfToolKit          = AppToolKitService.getInstance().getAppToolKit();
         this.mainActionListener = mainActionListener;
 
         GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -190,7 +190,7 @@ public class DuplicateFilesMainPanel
                 );
     }
 
-    public DFToolKit getDFToolKit()
+    public AppToolKit getDFToolKit()
     {
         if( this.dfToolKit == null ) {
             throw new NullPointerException( "DFToolKit not initialized" );
@@ -207,7 +207,7 @@ public class DuplicateFilesMainPanel
     public JPanelSelectFoldersOrFiles createJPanel0Select()
         throws HeadlessException, TooManyListenersException
     {
-        return new JPanelSelectFoldersOrFiles( getDFToolKit() );
+        return new JPanelSelectFoldersOrFiles();
     }
 
     /**
@@ -215,7 +215,7 @@ public class DuplicateFilesMainPanel
      */
     public JPanelConfig createJPanel1Config()
     {
-        return new JPanelConfig( getDFToolKit() );
+        return new JPanelConfig();
     }
 
     /**
@@ -231,7 +231,7 @@ public class DuplicateFilesMainPanel
      */
     public JPanelResult createJPanel3Result()
     {
-        return new JPanelResult( getDFToolKit() );
+        return new JPanelResult();
     }
 
     /**
@@ -239,7 +239,7 @@ public class DuplicateFilesMainPanel
      */
     public JPanelConfirm createJPanel4Confirm()
     {
-        return new JPanelConfirm( getDFToolKit() );
+        return new JPanelConfirm();
     }
 
     @Override // I18nAutoCoreUpdatable
@@ -258,7 +258,7 @@ public class DuplicateFilesMainPanel
     {
         getJPanel0Select().initFixComponents();
         //getJPanel1Config().initFixComponents();
-        getJPanel2Searching().initFixComponents( getDFToolKit() );
+        getJPanel2Searching().initFixComponents();
         // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
     }
 }

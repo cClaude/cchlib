@@ -1,6 +1,6 @@
 /**
  * Provide some tool to access to AlternateDataStream (Alpha)
- * <BR/>
+ * <BR>
  * ADS (AlternateDataStream) is supported by some
  * file systems like:
  * <PRE>

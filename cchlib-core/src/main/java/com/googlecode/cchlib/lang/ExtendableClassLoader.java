@@ -14,12 +14,14 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.ToDo;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * A custom {@link ClassLoader} able to add extra directory or jar
  */
-@ToDo
+@NeedDoc
+@NeedTestCases
 public class ExtendableClassLoader extends ClassLoader
 {
     private static final Logger LOGGER = Logger.getLogger( ExtendableClassLoader.class );
@@ -216,7 +218,7 @@ public class ExtendableClassLoader extends ClassLoader
 
     /**
      * Put inputStream content into a array of bytes, and close the stream.
-     * @param inputStream
+     * @param inputStream An {@link InputStream} where the class should loader
      * @return a byte array with the stream content
      * @throws IOException if any
      */

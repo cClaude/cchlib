@@ -14,7 +14,6 @@ import com.googlecode.cchlib.util.iterator.Selectable;
  *   List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
  * </pre></code>
  *
- * @param <T>
  * @since 1.4.8
  * @see XIterables
  * @see Wrappable
@@ -25,16 +24,18 @@ import com.googlecode.cchlib.util.iterator.Selectable;
 public interface XIterable<T> extends Iterable<T>
 {
     /**
+     * Transform a {@link XIterable}
      *
-     * @param wrapper
+     * @param wrapper Wrapper to use
      * @return a new wrapped {@link XIterable}
-     * @throws WrapperException
+     * @throws WrapperException if wrapping fail
      */
     <R> XIterable<R> wrap( Wrappable<? super T,? extends R> wrapper ) throws WrapperException;
 
     /**
+     * Filter entries of a {@link XIterable}
      *
-     * @param filter
+     * @param filter Filter to use
      * @return a new filtered {@link XIterable}
      */
     XIterable<T> filter(Selectable<? super T> filter);

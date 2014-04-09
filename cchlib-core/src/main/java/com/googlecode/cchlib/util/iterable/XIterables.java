@@ -21,45 +21,61 @@ public final class XIterables
 
     /**
      * Guava like function for {@link #wrap(Iterable, Wrappable)}
+     *
+     * @param <F>           the class of the elements of the source {@link Iterable}
+     * @param <T>           the class of the elements of the expected {@link XIterable}
+     * @param fromIterable  Source {@link Iterable}
+     * @param function      Wrapper to use
+     * @return an {@link XIterable} that applies <code>function</code> to each element of fromIterable.
+     * @throws WrapperException if any error occurs while wrapping an element
      */
-    public static <F,T> XIterable<T> transform(Iterable<F> fromIterable, Wrappable<? super F,? extends T> function)
+    public static <F,T> XIterable<T> transform( final Iterable<F> fromIterable, final Wrappable<? super F,? extends T> function)
+        throws WrapperException
     {
         return wrap( fromIterable, function );
     }
 
 
     /**
-     * Returns an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
+     * Create an {@link XIterable} that applies <code>wrapper</code> to each element of <code>fromIterable</code>.
      * <p>
      * The returned iterable's iterator supports remove() if the provided iterator does.
-     * After a successful remove() call, <code>iterable</code> no longer contains the
+     * After a successful remove() call, <code>fromIterable</code> no longer contains the
      * corresponding element.
      * </p>
-     * @param iterable
-     * @param wrapper
+     *
+     * @param <S>           the class of the elements of the source {@link Iterable}
+     * @param <R>           the class of the elements of the expected {@link XIterable}
+     * @param fromIterable  Iterable object to wrap
+     * @param wrapper       Wrapper to use
      * @return an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
-     * @throws WrapperException if any
+     * @throws WrapperException if any error occurs while wrapping an element
      */
-    public static <S,R> XIterable<R> wrap( Iterable<S> iterable, Wrappable<? super S,? extends R> wrapper )
+    public static <S,R> XIterable<R> wrap( final Iterable<S> fromIterable, final Wrappable<? super S,? extends R> wrapper )
         throws WrapperException
     {
-        return new XIterableImpl<R>( iterable, wrapper );
+        return new XIterableImpl<R>( fromIterable, wrapper );
     }
 
     /**
+     * Create an {@link XIterable} that applies <code>filter</code> to each element of <code>fromIterable</code>.
      *
-     * @param iterable
-     * @param filter
-     * @return TODOC
+     * @param <T>           the class of the elements of the {@link Iterable}
+     * @param fromIterable  {@link Iterable} object to wrap
+     * @param filter        Filter to use
+     * @return an {@link XIterable} that applies <code>filter</code> to each element of <code>fromIterable</code>.
      */
-    public static <T> XIterable<T> filter( Iterable<T> iterable, Selectable<T> filter )
+    public static <T> XIterable<T> filter( final Iterable<T> fromIterable, final Selectable<T> filter )
     {
-        return new XIterableImpl<T>( iterable, filter );
+        return new XIterableImpl<T>( fromIterable, filter );
     }
 
     /**
      * Create an {@link XIterable} from an {@link Iterator}
      * <P><B>Warn:</B>This {@link XIterable} object could be use only once</P>
+     *
+     * @param <T>           the class of the elements of the {@link Iterable}
+     * @return a new XIterable
      * @see XIterable#toList()
      */
     public static <T> XIterable<T> create( final Iterator<T> iterator )
@@ -68,11 +84,13 @@ public final class XIterables
     }
 
     /**
+     * Create an {@link XIterable} from an {@link Iterable}
      *
-     * @param iterable
-     * @return TODOC
+     * @param <T>           the class of the elements of the {@link Iterable}
+     * @param iterable      Original {@link Iterable}
+     * @return a new List
      */
-    public static <T> List<T> newList( Iterable<T> iterable )
+    public static <T> List<T> newList( final Iterable<T> iterable )
     {
         return Iterables.newList( iterable );
     }

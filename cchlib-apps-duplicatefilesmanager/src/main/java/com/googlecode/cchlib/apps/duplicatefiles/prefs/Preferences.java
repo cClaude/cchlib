@@ -14,6 +14,8 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -415,4 +417,15 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     public Dimension getMinimumPreferenceDimension() {
         return new Dimension(minimumPreferenceWidth, minimumPreferenceHeight);
     }
+
+    public SortMode getDefaultSortMode()
+    {
+        return SortMode.FILESIZE; // FIXME get default mode from prefs
+    }
+
+    public SelectFirstMode getDefaultSelectFirstMode()
+    {
+        return SelectFirstMode.QUICK; // FIXME get default mode from prefs
+    }
 }
+

@@ -12,6 +12,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 
 /**
@@ -41,8 +42,10 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
     /**
      * Create the panel.
      */
-    public JPanelConfigWB( final Preferences prefs )
+    public JPanelConfigWB()
     {
+        final Preferences prefs = AppToolKitService.getInstance().getAppToolKit().getPreferences();
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{100, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
@@ -169,8 +172,7 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
      */
     public static JComboBox<String> createJComboBoxString()
     {
-        JComboBox<String> comboBox = new JComboBox<String>();
-        return comboBox;
+        return new JComboBox<String>();
     }
 
     protected JComboBox<String> getJComboBoxFilesFilters()

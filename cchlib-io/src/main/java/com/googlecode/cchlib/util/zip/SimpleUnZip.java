@@ -39,7 +39,7 @@ public class SimpleUnZip
 
     /**
      * Creates a new {@link SimpleUnZip} based on giving {@link InputStream}
-     * <br/>
+     * <BR>
      * The UTF-8 charset is used to decode the entry names.
      *
      * @param input {@link InputStream} that content a zip stream (typically a file)

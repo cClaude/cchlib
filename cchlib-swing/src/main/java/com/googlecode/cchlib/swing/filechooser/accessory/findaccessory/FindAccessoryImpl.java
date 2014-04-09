@@ -339,7 +339,7 @@ public class FindAccessoryImpl
     /**
      * Start a search. The path display will show the starting folder
      * of the search.
-     * <br/>
+     * <BR>
      * Finds are recursive and will span the entire folder hierarchy
      * below the base folder. The user may continue to browse with
      * JFileChooser.

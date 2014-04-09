@@ -60,8 +60,6 @@ import org.apache.log4j.Logger;
  * <td></td>
  * </tr>
  * </table>
- * <br/>
- * @author CC
  */
 public class Bean implements Serializable
 {

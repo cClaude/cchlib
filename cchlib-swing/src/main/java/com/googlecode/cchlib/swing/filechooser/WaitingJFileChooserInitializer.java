@@ -93,7 +93,7 @@ public class WaitingJFileChooserInitializer
 
     /**
      * {@inheritDoc}
-     * <br/>
+     * <BR>
      * Important: This method should not be invoke from the
      * event dispatcher thread
      */

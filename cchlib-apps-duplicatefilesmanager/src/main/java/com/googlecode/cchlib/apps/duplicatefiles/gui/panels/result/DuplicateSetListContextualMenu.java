@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import javax.swing.ButtonGroup;
@@ -65,47 +64,69 @@ final class DuplicateSetListContextualMenu implements Serializable
         {
             final JMenuItem ignoreThisSetMenuItem = addJMenuItem( cm, txtMenuIgnoreThisSetMen );
 
-            ignoreThisSetMenuItem.addActionListener( new ActionListener()
-            {
-                @Override
-                public void actionPerformed( final ActionEvent event )
-                {
-                    Runnable task = new Runnable() {
+//            ignoreThisSetMenuItem.addActionListener( new ActionListener()
+//            {
+//                @Override
+//                public void actionPerformed( final ActionEvent event )
+//                {
+//                    Runnable task = new Runnable() {
+//
+//                        @Override
+//                        public void run()
+//                        {
+//                            try {
+//                                doIgnoreThisSetOfFiles( rowIndex );
+//                            } finally {
+//                                jPanelResult.lockGUI( false );
+//                            }
+//                        }
+//
+//                    };
+//
+//                    jPanelResult.lockGUI( true );
+//                    new Thread( task, "doIgnoreThisSetOfFiles" ).start();
+//                 }
+//
+//            } );
+            ignoreThisSetMenuItem.addActionListener( event -> {
 
-                        @Override
-                        public void run()
-                        {
-                            try {
-                                doIgnoreThisSetOfFiles( rowIndex );
-                            } finally {
-                                jPanelResult.lockGUI( false );
-                            }
-                        }
-
-                    };
-
-                    jPanelResult.lockGUI( true );
-                    new Thread( task, "doIgnoreThisSetOfFiles" ).start();
-                 }
-
+                jPanelResult.lockGUI( true );
+                new Thread( ( ) -> {
+                    try {
+                        doIgnoreThisSetOfFiles( rowIndex );
+                    }
+                    finally {
+                        jPanelResult.lockGUI( false );
+                    }
+                }, "doIgnoreThisSetOfFiles" ).start();
             } );
         }
 
+        /**
+         * @param cm
+         */
         private void createSelectFirstMenu( final JPopupMenu cm )
         {
             final JMenu sortFirstFileMenu = addJMenu( cm, txtMenuSortFirstFile );
 
-            final ActionListener sortByListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( final ActionEvent event )
-                {
+//            final ActionListener sortByListener = new ActionListener()
+//            {
+//                @Override
+//                public void actionPerformed( final ActionEvent event )
+//                {
+//                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+//                    final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
+//                            menu.getClientProperty( SelectFirstMode.class )
+//                            );
+//                    jPanelResult.getListModelDuplicatesFiles().updateCache( selectFirstMode );
+//                }
+//            };
+            final ActionListener sortByListener = event -> {
                     final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
                     final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
                             menu.getClientProperty( SelectFirstMode.class )
                             );
                     jPanelResult.getListModelDuplicatesFiles().updateCache( selectFirstMode );
-                }
             };
             final SelectFirstMode sortMode = jPanelResult.getListModelDuplicatesFiles().getSelectFirstMode();
             final ButtonGroup gb           = new ButtonGroup();
@@ -119,18 +140,21 @@ final class DuplicateSetListContextualMenu implements Serializable
         {
             final JMenu sortListMenu = addJMenu( cm, txtMenuSortList );
 
-            final ActionListener sortByListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( final ActionEvent event )
-                {
-                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-                    final SortMode sortMode = SortMode.class.cast(
-                            menu.getClientProperty( SortMode.class )
-                            );
-                    jPanelResult.getListModelDuplicatesFiles().updateCache( sortMode );
-                }
-            };
+//            final ActionListener sortByListener = new ActionListener()
+//            {
+//                @Override
+//                public void actionPerformed( final ActionEvent event )
+//                {
+//                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+//                    final SortMode sortMode = SortMode.class.cast(
+//                            menu.getClientProperty( SortMode.class )
+//                            );
+//                    jPanelResult.getListModelDuplicatesFiles().updateCache( sortMode );
+//                }
+//            };
+            final ActionListener sortByListener = event -> jPanelResult.getListModelDuplicatesFiles().updateCache(
+                    SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) ) );
+
             final SortMode    sortMode = jPanelResult.getListModelDuplicatesFiles().getSortMode();
             final ButtonGroup gb       = new ButtonGroup();
 

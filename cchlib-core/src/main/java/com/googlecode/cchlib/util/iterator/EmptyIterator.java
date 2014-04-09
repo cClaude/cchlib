@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * Just a empty Iterator, could be use to deal
  * with limit cases.
  *
- * <BR/>
+ * <BR>
  * Note: This Iterator extends also {@link Iterable} interface
  * @since 4.1.7
  */

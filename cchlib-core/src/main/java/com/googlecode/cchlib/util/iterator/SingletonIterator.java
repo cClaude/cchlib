@@ -5,14 +5,14 @@ import java.util.NoSuchElementException;
 
 /**
  * Limit case, iteration on a singleton
- * <BR/>
+ * <BR>
  * Note: This Iterator extends also {@link Iterable} interface
  *
  * @param <T> content type
  * @since 4.1.7
  */
 public class SingletonIterator<T>
-    implements Iterator<T>, 
+    implements Iterator<T>,
                Iterable<T>
 {
     private boolean hasNext;
@@ -51,10 +51,10 @@ public class SingletonIterator<T>
             hasNext = false;
 
             return item;
-        	}
+            }
         else {
             throw new NoSuchElementException();
-        	}
+            }
     }
 
     /**
@@ -70,10 +70,10 @@ public class SingletonIterator<T>
     {
         if( hasNext ) {
             throw new IllegalStateException();
-        	}
+            }
         else {
             throw new UnsupportedOperationException();
-        	}
+            }
     }
 
     /**

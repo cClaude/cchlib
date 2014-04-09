@@ -29,18 +29,18 @@ public class DuplicateFilesI18nPrep
         Preferences preferences = getPreferences();
 
         // Build frame
-        DefaultDFToolKit    defaultDFToolKit_   = new DefaultDFToolKit( preferences );
-        DFToolKit           dfToolKit           = defaultDFToolKit_;
-        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame( dfToolKit );
-        defaultDFToolKit_.setMainWindow( duplicateFilesFrame );
+//        DefaultDFToolKit    defaultDFToolKit_   = new DefaultDFToolKit( preferences );
+        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame( preferences );
+        AppToolKit          dfToolKit           = AppToolKitService.getInstance().createAppToolKit( preferences, duplicateFilesFrame );
+        //defaultDFToolKit_.setMainWindow( duplicateFilesFrame );
         PrintStream         usageStatPrintStream    = System.err;
         PrintStream         notUsePrintStream       = System.out;
 
         I18nAutoCoreUpdatable[] i18nConteners = {
             duplicateFilesFrame,
-            new AboutDialog( dfToolKit ),
+            new AboutDialog(),
             new PreferencesDialogWB(),
-            new RemoveEmptyFilesJPanel( dfToolKit )
+            new RemoveEmptyFilesJPanel()
             };
 
         Set<AutoI18nConfig>     config                 = dfToolKit.getAutoI18nConfig();

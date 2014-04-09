@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals, fullyParenthesizeExpressions
 package com.googlecode.cchlib.util.base64;
 
 import java.io.CharArrayReader;
@@ -7,6 +6,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
  * Decode Base64 text
@@ -74,14 +74,7 @@ public class Base64Decoder extends Base64
 //        decode( new ByteArrayInputStream( datas ), out );
 //    }
 
-    /**
-     * TODOC
-     *
-     * @param in
-     * @param out
-     * @throws Base64FormatException
-     * @throws IOException
-     */
+    @NeedDoc
     public void decode( final Reader in, final OutputStream out )
         throws Base64FormatException, IOException
     {
@@ -90,21 +83,14 @@ public class Base64Decoder extends Base64
         while( (len = in.read( buffer )) > 0 ) {
             //System.out.println( "BUF:" + new String( buffer ) );
             //System.out.println( "LEN:" + len);
-            byte[] dec = decode( buffer, 0, len);
+            final byte[] dec = decode( buffer, 0, len);
             //System.out.println( "dLEN:" + dec.length);
 
             out.write( dec );
             }
     }
 
-    /**
-     * TODOC
-     *
-     * @param datas
-     * @param out
-     * @throws Base64FormatException
-     * @throws IOException
-     */
+    @NeedDoc
     public void decode( final char[] datas, final OutputStream out )
         throws Base64FormatException, IOException
     {
@@ -117,15 +103,16 @@ public class Base64Decoder extends Base64
      * @param str         String to decode
      * @param charsetName {@link java.nio.charset.Charset} to use to encode String
      * @return decoded String according to Charset
-     * @throws UnsupportedEncodingException
+     * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
+     * @throws UnsupportedEncodingException  If the named charset is not supported
      */
     public static String decode(
             final String str,
             final String charsetName
             )
-        throws UnsupportedEncodingException
+        throws UnsupportedEncodingException, IllegalArgumentException
     {
-        byte[] dec = decode( str.toCharArray(), 0, str.length() );
+        final byte[] dec = decode( str.toCharArray(), 0, str.length() );
 
         return new String( dec, charsetName );
     }
@@ -135,12 +122,12 @@ public class Base64Decoder extends Base64
      *
      * @param str String to decode
      * @return decoded String using default Charset
-     * @throws UnsupportedEncodingException
+     * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
      */
     public static String decode( final String str )
-        throws UnsupportedEncodingException
+        throws IllegalArgumentException
     {
-        byte[] dec = decode( str.toCharArray(), 0, str.length() );
+        final byte[] dec = decode( str.toCharArray(), 0, str.length() );
 
         return new String( dec );
     }
@@ -149,14 +136,16 @@ public class Base64Decoder extends Base64
      * Efficient decode method pour char arrays
      * @param str     String to decode
      * @param charset {@link java.nio.charset.Charset} to use to encode String
-     * @return decoded String according to CharSet
+      * @return decoded String according to CharSet
+    * @throws IllegalArgumentException if <code>str</code> can not be decoded, mainly according to size.
+     * @throws UnsupportedEncodingException  If the named charset is not supported
      */
     public static String decode(
         final String  str,
         final Charset charset
-        )
+        ) throws IllegalArgumentException, UnsupportedEncodingException
     {
-        byte[] dec = decode( str.toCharArray(), 0, str.length() );
+        final byte[] dec = decode( str.toCharArray(), 0, str.length() );
 
         return new String( dec, charset );
     }
@@ -165,9 +154,10 @@ public class Base64Decoder extends Base64
      * Efficient decode method for char arrays
      *
      * @param in Char array to decode
+     * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
      * @return an array of bytes
      */
-    public static byte[] decode( final char[] in )
+    public static byte[] decode( final char[] in ) throws IllegalArgumentException
     {
         return decode( in, 0, in.length );
     }
@@ -178,13 +168,14 @@ public class Base64Decoder extends Base64
      * @param in        Char array to decode
      * @param offset    Index of first char to use to decode
      * @param length    Number of char to read in array (must be divisible by 4)
+     * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
      * @return an array of bytes
      */
     public static byte[] decode( // $codepro.audit.disable cyclomaticComplexity
         final char[]    in,
         final int       offset,
         int             length
-        )
+        ) throws IllegalArgumentException
     {
         if( (length % 4) != 0 ) {
             throw new IllegalArgumentException(
@@ -203,10 +194,10 @@ public class Base64Decoder extends Base64
         int     op      = 0;
 
         while( ip < iEnd ) {
-            int i0 = in[ip++];
-            int i1 = in[ip++];
-            int i2 = (ip < iEnd) ? in[ip++] : 'A';
-            int i3 = (ip < iEnd) ? in[ip++] : 'A';
+            final int i0 = in[ip++];
+            final int i1 = in[ip++];
+            final int i2 = (ip < iEnd) ? in[ip++] : 'A';
+            final int i3 = (ip < iEnd) ? in[ip++] : 'A';
 
             if( (i0 > 127) || (i1 > 127) || (i2 > 127) || i3 > 127 ) {
                 throw new IllegalArgumentException(
@@ -214,10 +205,10 @@ public class Base64Decoder extends Base64
                     );
                 }
 
-            int b0 = MAP2[i0];
-            int b1 = MAP2[i1];
-            int b2 = MAP2[i2];
-            int b3 = MAP2[i3];
+            final int b0 = MAP2[i0];
+            final int b1 = MAP2[i1];
+            final int b2 = MAP2[i2];
+            final int b3 = MAP2[i3];
 
             if( b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ) {
                 throw new IllegalArgumentException(
@@ -225,9 +216,9 @@ public class Base64Decoder extends Base64
                     );
                 }
 
-            int o0 = ( b0       <<2) | (b1>>>4);
-            int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
-            int o2 = ((b2 &   3)<<6) |  b3;
+            final int o0 = ( b0       <<2) | (b1>>>4);
+            final int o1 = ((b1 & 0xf)<<4) | (b2>>>2);
+            final int o2 = ((b2 &   3)<<6) |  b3;
 
             out[op++] = (byte)o0;
 

@@ -31,7 +31,7 @@ public enum AutoI18nConfig
 
     /**
      * Also get inspect Fields from super class.
-     * <br/>
+     * <BR>
      * Recurse process into super classes since
      * super class is one of {@link Object},
      * {@link JFrame}, {@link JDialog},

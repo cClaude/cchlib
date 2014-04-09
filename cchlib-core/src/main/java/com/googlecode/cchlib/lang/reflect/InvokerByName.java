@@ -6,36 +6,37 @@ import com.googlecode.cchlib.lang.Classes;
 
 
 /**
- *
+ * An {@link Invoker} based on method name.
  */
 public class InvokerByName<T> extends Invoker<T>
 {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @param clazz 
-     * @param methodName 
-     * 
+     * Create an InvokerByName
+     *
+     * @param clazz      Class use for invocation
+     * @param methodName Name of the method
      */
-    public InvokerByName(Class<? extends T> clazz, String methodName)
+    public InvokerByName(final Class<? extends T> clazz, final String methodName)
     {
         super( clazz, new MethodFilterByName( methodName ) );
     }
 
     @Override
-    protected String formatMethodNameForException( String format )
+    protected String formatMethodNameForException( final String format )
     {
         return String.format(
-                format, 
-                getClazz().getName() + '.' + getMethodName() 
+                format,
+                getClazz().getName() + '.' + getMethodName()
                 );
     }
-    
+
     @Override
     public Object invoke(
             final T         instance,
             final Object[]  params
-            ) throws 
+            ) throws
                 NoSuchMethodException,
                 SecurityException,
                 IllegalAccessException,
@@ -43,17 +44,17 @@ public class InvokerByName<T> extends Invoker<T>
                 InvocationTargetException,
                 MethodResolutionException
     {
-        assert ( instance == null ) || 
-               ( getClazz().isAssignableFrom( instance.getClass() ) ) 
+        assert ( instance == null ) ||
+               ( getClazz().isAssignableFrom( instance.getClass() ) )
                : "intance = " + instance + " - getClazz() = " + getClazz();
 
         if( (params == null) || (params.length == 0) ) {
             assert getMethodName() != null;
-            
-            Method method = getClazz().getMethod( getMethodName(), Classes.emptyArray() );
-            
+
+            final Method method = getClazz().getMethod( getMethodName(), Classes.emptyArray() );
+
             assert method != null;
-            
+
             return method.invoke( instance, params );
             }
 

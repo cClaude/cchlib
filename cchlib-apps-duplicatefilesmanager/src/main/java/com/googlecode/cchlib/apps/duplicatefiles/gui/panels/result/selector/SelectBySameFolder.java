@@ -15,7 +15,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -122,7 +121,7 @@ public class SelectBySameFolder extends SelectorPanel
     private JButton deleteButton;
     private JButton retoreButton;
 
-    public SelectBySameFolder( DFToolKit dFToolKit, DuplicateData duplicateData )
+    public SelectBySameFolder( DuplicateData duplicateData )
     {
         assert Mode.values().length == modes.length;
 

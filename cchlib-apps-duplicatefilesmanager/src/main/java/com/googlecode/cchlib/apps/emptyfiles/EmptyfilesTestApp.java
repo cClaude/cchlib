@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.FakeDFToolKit;
 
 public class EmptyfilesTestApp extends JFrame
 {
@@ -46,8 +44,8 @@ public class EmptyfilesTestApp extends JFrame
         this.contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( this.contentPane );
 
-        DFToolKit fake = new FakeDFToolKit();
-        RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel( fake  );
+        //DFToolKit fake = new FakeDFToolKit();
+        RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel();
         this.contentPane.add( testPanel );
     }
 }

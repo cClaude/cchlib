@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
  * order of main Iterator for it's
  * results (Order is preserve).
  *
- * <BR/>
+ * <BR>
  * Note: This Iterator extends also {@link Iterable} interface
  *
  * @param <T> content type
@@ -128,19 +128,19 @@ public class MultiIterator<T> extends ComputableIterator<T>
     {
         if(currentIterator == null) {
             currentIterator = metaIterator.next();
-        	}
+            }
 
         do {
             if(currentIterator.hasNext()) {
                 return currentIterator.next();
-            	}
+                }
 
             if(metaIterator.hasNext()) {
                 currentIterator = metaIterator.next();
-            	}
+                }
             else {
                 throw new NoSuchElementException();
-            	}
-        	} while(true);
+                }
+            } while(true);
     }
 }

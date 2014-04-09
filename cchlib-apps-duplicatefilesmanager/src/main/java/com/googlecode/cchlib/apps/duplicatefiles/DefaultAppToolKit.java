@@ -30,11 +30,12 @@ import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
-public final class DefaultDFToolKit
-    implements DFToolKit, I18nAutoCoreUpdatable
+//NOT public
+final class DefaultAppToolKit
+    implements AppToolKit, I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( DefaultDFToolKit.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );
 
     private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
     private final Preferences preferences;
@@ -45,7 +46,8 @@ public final class DefaultDFToolKit
     @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
     @I18nString private String txtOpenDesktopExceptionTitle     = "Can not open file";
 
-    public DefaultDFToolKit(
+    //NOT public
+    DefaultAppToolKit(
         final Preferences preferences
         )
     {

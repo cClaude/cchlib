@@ -33,7 +33,7 @@ public class EmptyEnumeration<E>
      * Always generate NoSuchElementException according
      * to Enumeration specifications.
      *
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException if no more elements exist.
      */
     @Override
     public E nextElement() throws NoSuchElementException

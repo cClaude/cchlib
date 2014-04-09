@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import javax.annotation.Nullable;
 
 /**
  * This class is a List implementation which sorts the elements using the
  * comparator specified when constructing a new instance.
+ * <br>
+ * SortedList is design to be use when a List should be kept sorted.
  *
- * @param <T>
  * @since 4.1.7
  */
 public class SortedList<T> extends ArrayList<T>
@@ -33,9 +35,9 @@ public class SortedList<T> extends ArrayList<T>
     /**
      * Construct a new instance using the given comparator.
      *
-     * @param comparator
+     * @param comparator {@link Comparator} to use
      */
-    public SortedList( final Comparator<? super T> comparator )
+    public SortedList( @Nullable final Comparator<? super T> comparator )
     {
         this.comparator = comparator;
     }

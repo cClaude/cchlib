@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.JPanel;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
@@ -17,7 +16,6 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
     private CardLayout layout;
 
     public SelectorsJPanel(
-        final DFToolKit     dFToolKit,
         final DuplicateData duplicateData
         )
     {
@@ -25,7 +23,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
         setLayout( layout );
 
         for( Selectors s : Selectors.values() ) {
-            SelectorPanel item = s.newSelectorPanel(dFToolKit, duplicateData);
+            SelectorPanel item = s.newSelectorPanel( duplicateData );
 
             this.map.put( s, item );
 

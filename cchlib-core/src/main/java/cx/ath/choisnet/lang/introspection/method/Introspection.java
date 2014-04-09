@@ -1,7 +1,3 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Array;
@@ -18,7 +14,6 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 /**
  * Generic class to find getters/setters observers using Reflection
  *
- * @author CC
  * @param <O> Object to inspect
  * @param <I> Content objects for values, must extends IntropectionItem
  *
@@ -26,7 +21,6 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     implements Comparator<O>
 {
-    /** Some logs */
     private static final Logger LOGGER = Logger.getLogger(Introspection.class);
 
     /** Getter/Setter Methods list */
@@ -34,9 +28,9 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     private IntrospectionItemFactory<IntrospectionItem<O>> itemFactory;
 
     /**
-     * @param inpectClass
+     * @param inpectClass Class of object to analyze
      * @param itemFactory
-     * @param attribSet
+     * @param parameters  Parameters
      *
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */

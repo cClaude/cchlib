@@ -46,7 +46,7 @@ public abstract class AbstractBRRunnable implements BRRunnable
 
     /**
      * Build destination {@link File} object for current source {@link File}.
-     * <br/>
+     * <BR>
      * This implementation is design for common case where sourceFile is
      * a file (not a directory).
      *

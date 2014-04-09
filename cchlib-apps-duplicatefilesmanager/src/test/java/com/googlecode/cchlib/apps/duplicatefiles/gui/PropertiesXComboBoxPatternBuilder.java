@@ -11,9 +11,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
-/**
- *
- */
 public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder
 {
@@ -24,22 +21,17 @@ public class PropertiesXComboBoxPatternBuilder
     private String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;
 
-    /**
-     *
-     * @param propertiesFile
-     * @param keyPrefix
-     */
     public PropertiesXComboBoxPatternBuilder(
-        final PropertiesFileLock     propertiesFile,
-        final String             keyPrefix
+        final PropertiesFileLock    propertiesFile,
+        final String                keyPrefix
         )
     {
-        this.keyPrefix         = keyPrefix;
+        this.keyPrefix      = keyPrefix;
         this.propertiesFile = propertiesFile;
 
         for( int i = 0;; i++ ) {
-            final String key     = keyPrefix + "." + i;
-            final String value    = propertiesFile.getProperty( key );
+            final String key    = keyPrefix + "." + i;
+            final String value  = propertiesFile.getProperty( key );
 
             LOGGER.info("add k=" + key + " v=" + value );
 

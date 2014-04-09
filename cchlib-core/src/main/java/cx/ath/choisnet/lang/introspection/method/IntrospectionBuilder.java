@@ -28,8 +28,8 @@ public class IntrospectionBuilder<O>
 
     /**
      *
-     * @param inpectClass
-     * @param attribSet
+     * @param inpectClass Class of object to analyze
+     * @param parameters  Parameters
      * @see IVIgnore
      *
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet

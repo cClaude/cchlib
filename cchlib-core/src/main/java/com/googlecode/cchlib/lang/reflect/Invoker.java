@@ -6,7 +6,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 
+@NeedDoc
+@NeedTestCases
 public abstract class Invoker<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -53,7 +57,7 @@ public abstract class Invoker<T> implements Serializable
             throw new MethodResolutionException( "found too many anwser : " + matchingMethods );
             }
 
-        Method method = matchingMethods.get( 0 );
+        final Method method = matchingMethods.get( 0 );
 
         return method.invoke( instance, params );
     }
@@ -68,12 +72,12 @@ public abstract class Invoker<T> implements Serializable
         return clazz;
     }
 
-    private static String createTypesString( Object[] params )
+    private static String createTypesString( final Object[] params )
     {
-        StringBuilder types = new StringBuilder();
-        boolean       first = true;
+        final StringBuilder types = new StringBuilder();
+        boolean             first = true;
 
-        for( Object p : params ) {
+        for( final Object p : params ) {
             if( first ) {
                 first = false;
                 }
@@ -86,7 +90,7 @@ public abstract class Invoker<T> implements Serializable
         return types.toString();
     }
 
-    public static Class<?> getAutoboxingType( Class<?> clazz )
+    public static Class<?> getAutoboxingType( final Class<?> clazz )
     {
         if( clazz.isPrimitive() ) {
             if(      clazz == boolean.class ) { return Boolean.class; } // $codepro.audit.disable useEquals
@@ -102,8 +106,8 @@ public abstract class Invoker<T> implements Serializable
 
     private Collection<Method> lookup()
     {
-        ArrayList<Method> list     = new ArrayList<Method>();
-        Method[]          methods = clazz.getMethods();
+        final ArrayList<Method> list     = new ArrayList<Method>();
+        final Method[]          methods = clazz.getMethods();
 
         for( Method m : methods ) {
             if( methodFilter.isSelected( m ) ) {
@@ -118,11 +122,11 @@ public abstract class Invoker<T> implements Serializable
     {
         final ArrayList<Method> matchingMethods = new ArrayList<Method>();
 
-        for( Method method : methods ) {
+        for( final Method method : methods ) {
             final Class<?>[] methodParameterTypes = method.getParameterTypes();
 
             if( methodParameterTypes.length == params.length ) {
-                boolean isMatching = canParametersTypesMatch( params, methodParameterTypes );
+                final boolean isMatching = canParametersTypesMatch( params, methodParameterTypes );
 
                 if( isMatching ) {
                     matchingMethods.add( method );

@@ -70,7 +70,7 @@ public abstract class AbstractSQLServletAction
 
     /**
      * Initialize environment and call {@link #doSQL()}
-     * <br/>
+     * <BR>
      * Free resources allocated by SimpleQuery or SimpleUpdate if needed
      */
     @Override

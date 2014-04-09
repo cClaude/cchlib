@@ -6,14 +6,14 @@ import java.awt.event.MouseWheelEvent;
 /**
  * This enum is design to customized {@link XComboBox},
  * mainly to remove default extra implementations.
- * 
+ *
  * @since 4.1.6
  */
 public enum XComboBoxAttribute {
     /**
      * Don't add default MouseWheelListener for
      * this XComboBox.
-     * <BR/>
+     * <BR>
      * Current implementation handle mouse wheel only
      * when mouse is on XComboBox, if you wan't to handle
      * mouse wheel when XComboBox has focus, you must disable

@@ -6,14 +6,17 @@ import javax.annotation.Nullable;
 
 /**
  *
- * @since.1.4.8
+ * @since 1.4.8
  */
 public final class EnumHelper
 {
     private EnumHelper(){}
 
     /**
-     * @param values a {@link Collection} of values or null
+     * Build a valid {@link EnumSet} based on a {@link Collection} of {@link Enum} values.
+     *
+     * @param <T> an {@link Enum}
+     * @param values a {@link Collection} of values or null (null will be handle as if collection was empty)
      * @param valuesClass Enum class
      * @return a none null {@link EnumSet} of <code>valuesClass</code>.
      */
@@ -40,8 +43,10 @@ public final class EnumHelper
 
     /**
      * Extract {@link Integer} value found immediately after {@link Enum} name in <code>stringValue</code>
-     * @param enumValue
-     * @param stringValue
+     *
+     * @param <T> an {@link Enum}
+     * @param enumValue     Value
+     * @param stringValue   String that should begin with the {@link Enum#name()}
      * @return {@link Integer} value found immediately after {@link Enum} name or null
      * @throws NumberFormatException if the value cannot be parsed as an integer.
      */

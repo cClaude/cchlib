@@ -3,7 +3,7 @@ package com.googlecode.cchlib.io.impl.win32;
 /**
  * Provide some tool to access to AlternateDataStream
  * for NTFS (Alpha)
- * <br/>
+ * <br>
  * This class is a contender for default NTFS ADS description.
  */
 public class MSAlternateDataStreamDescriptionEntry

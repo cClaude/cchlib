@@ -36,9 +36,10 @@ public class DuplicateFilesApp
             public void run()
             {
                 try {
-                    DefaultDFToolKit    defaultDFToolKit    = new DefaultDFToolKit( preferences );
-                    DuplicateFilesFrame frame               = new DuplicateFilesFrame( defaultDFToolKit );
-                    defaultDFToolKit.setMainWindow( frame );
+//                    DefaultDFToolKit    defaultDFToolKit    = new DefaultDFToolKit( preferences );
+//                    DuplicateFilesFrame frame               = new DuplicateFilesFrame( defaultDFToolKit );
+                    DuplicateFilesFrame frame               = new DuplicateFilesFrame( preferences );
+//                    defaultDFToolKit.setMainWindow( frame );
 
                     //frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                     frame.setTitle( title );

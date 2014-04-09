@@ -24,9 +24,9 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
     /**
      * Create a {@link LastSelectedFilesAccessoryConfigurator}
      * initialized with an empty list of files limited to 10 values.
-     * <br/>
+     * <BR>
      * Double-click auto approve selection.
-     * <br/>
+     * <BR>
      * This constructor is provide to have a quick solution
      * when writing your program, but if you want that
      * the "last selected files list" persist between
@@ -42,7 +42,7 @@ public class LastSelectedFilesAccessoryDefaultConfigurator
      * Create a {@link LastSelectedFilesAccessoryConfigurator}
      * initialized with your list of files limited to
      * maxSelectedFileListSize values.
-     * <br/>
+     * <BR>
      * if list contain more than maxSelectedFileListSize
      * values, oldest extra files  are removed (presume
      * that oldest values are at the beginning of the list).

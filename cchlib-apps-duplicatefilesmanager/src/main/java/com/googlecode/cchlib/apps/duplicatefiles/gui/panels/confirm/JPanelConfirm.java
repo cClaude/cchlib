@@ -23,8 +23,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
-
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -37,7 +37,7 @@ public class JPanelConfirm extends JPanel
     private static final Logger LOGGER = Logger.getLogger(JPanelConfirm.class);
     public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
 
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
     private JTable jTableFiles2Delete;
     private JLabel jLabelTitle;
     private JProgressBar jProgressBarDeleteProcess;
@@ -63,9 +63,9 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtIconKo = "File already exist";
     @I18nString private String txtIconKoButDelete = "File does not exist";
 
-    public JPanelConfirm( final DFToolKit dfToolKit )
+    public JPanelConfirm()
     {
-        this.dfToolKit = dfToolKit;
+        this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};

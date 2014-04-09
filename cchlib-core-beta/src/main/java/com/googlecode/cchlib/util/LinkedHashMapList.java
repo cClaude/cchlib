@@ -11,8 +11,8 @@ import com.googlecode.cchlib.NeedTestCases;
  * LinkedHashMapList provide an easy and efficient way
  * to store keys-values when you need to have
  * more than one value for an unique key.
- * <br/>
- * <br/>
+ * <BR>
+ * <BR>
  * Concrete examples:
  * <p>
  * - Store File CustomObject and grouping then by date

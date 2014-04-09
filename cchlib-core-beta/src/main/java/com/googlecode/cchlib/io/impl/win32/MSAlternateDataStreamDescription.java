@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Provide some tool to access to AlternateDataStream
  * for NTFS (Alpha)
- * <br/>
+ * <br>
  * This class describe default NTFS ADS.
  */
 public class MSAlternateDataStreamDescription

@@ -21,17 +21,16 @@ import java.util.Set;
  *  Properties whose key or value is not of type
  *  String are omitted.
  * </p>
- * </p>
+ * <p>
  * - Guarantee that a key is not present in rootProperties
  * can not exist on any of the dependent properties
  * (childProperties).
- * <p>
- *
+ * </p>
  */
 public class MultiProperties implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    
+
     /** @serial */
     private Properties rootProperties;
     /** @serial */
@@ -145,7 +144,7 @@ public class MultiProperties implements Serializable
     /**
      * First resolve properties from name, if properties
      * name's is not found.
-     * <br/>
+     * <br>
      * Then searches for the property with the specified key
      * in this property list
      * @param name  child properties name
@@ -221,7 +220,7 @@ public class MultiProperties implements Serializable
         if( properties == null ) {
             throw new PropertiesDoesNotExistException(name);
             }
-        
+
         return properties.setProperty( key, value );
     }
 

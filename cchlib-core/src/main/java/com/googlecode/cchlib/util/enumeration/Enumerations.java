@@ -36,7 +36,7 @@ public class Enumerations
      * and changing type.
      * @param <T> source type content
      * @param <O> result type
-     * @param enumeration
+     * @param enumeration {@link Enumeration} to wrap
      * @return an Enumeration view for this enumeration
      */
     public static <T extends Wrappable<T,O>,O> Enumeration<O> toEnumeration(
@@ -66,8 +66,8 @@ public class Enumerations
      * and changing type using wrapper.
      * @param <T> source type content
      * @param <O> result type
-     * @param enumeration
-     * @param wrapper
+     * @param enumeration {@link Enumeration} to wrap
+     * @param wrapper     Wrapper to use
      * @return an Enumeration view for this enumeration
      */
     public static <T,O> Enumeration<O> toEnumeration(

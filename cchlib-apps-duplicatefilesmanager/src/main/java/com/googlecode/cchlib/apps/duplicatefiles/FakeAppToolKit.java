@@ -18,15 +18,15 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 /**
  * Fake class for tests
  */
-public class FakeDFToolKit implements DFToolKit
+public class FakeAppToolKit implements AppToolKit
 {
     private static final long serialVersionUID = 1L;
     private JFileChooserInitializer jFileChooserInitializer;
-    private DefaultDFToolKit delegator;
+    private DefaultAppToolKit delegator;
 
-    public FakeDFToolKit()
+    public FakeAppToolKit()
     {
-        delegator = new DefaultDFToolKit(null);
+        delegator = new DefaultAppToolKit(null);
     }
 
     @Override

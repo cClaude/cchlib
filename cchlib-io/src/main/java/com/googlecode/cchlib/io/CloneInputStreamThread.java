@@ -45,7 +45,7 @@ public class CloneInputStreamThread
 
     /**
      * Copy giving {@link InputStream} to a list of {@link InputStream}.
-     * <br/>
+     * <BR>
      * Number of produce {@link InputStream} is define by number of exceptionHandlers
      *
      * @param threadName

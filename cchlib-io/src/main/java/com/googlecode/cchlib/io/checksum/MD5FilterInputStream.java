@@ -7,18 +7,18 @@ import java.io.InputStream;
 /**
  * Implements MD5 functionality on a stream.
  * <P>
- * More information about this class is available from 
+ * More information about this class is available from
  * <a target="_top" href="http://ostermiller.org/utils/MD5.html">ostermiller.org</a>.
  * </P><P>
  * This class produces a 128-bit "fingerprint" or "message digest"
  * for all data read from this stream.
- * <BR/>
+ * <BR>
  * It is conjectured that it is computationally infeasible to produce
  * two messages having the same message digest, or to produce any
  * message having a given pre-specified target message digest. The MD5
  * algorithm is intended for digital signature applications, where a
  * large file must be "compressed" in a secure manner before being
- * encrypted with a private (secret) key under a public-key 
+ * encrypted with a private (secret) key under a public-key
  * cryptosystem such as RSA.
  * <p>
  * For more information see RFC1321.
@@ -31,7 +31,7 @@ import java.io.InputStream;
  * @author Claude CHOISNET (remove some memory leaks, provide some optimization)
  * @since 4.1.7
  */
-public class MD5FilterInputStream extends FilterInputStream 
+public class MD5FilterInputStream extends FilterInputStream
 {
     /**
      * MD5 context
@@ -40,10 +40,10 @@ public class MD5FilterInputStream extends FilterInputStream
 
     /**
      * Creates a MD5FilterInputStream
-     * 
+     *
      * @param in the underlying input stream
      */
-    public MD5FilterInputStream( final InputStream in ) 
+    public MD5FilterInputStream( final InputStream in )
     {
         super( in );
 
@@ -51,22 +51,22 @@ public class MD5FilterInputStream extends FilterInputStream
     }
 
     /**
-     * Reads the next byte of data from this input stream. The 
+     * Reads the next byte of data from this input stream. The
      * value byte is returned as an int in the range 0 to 255.
-     * If no byte is available because the end of the stream has 
+     * If no byte is available because the end of the stream has
      * been reached, the value -1 is returned.
-     * <br/>
+     * <BR>
      * This method blocks until input data is available, the end
      * of the stream is detected, or an exception is thrown.
      * <p>
      * This method simply performs in.read() and returns the result.
      *
-     * @return the next byte of data, or -1 if the end of the 
+     * @return the next byte of data, or -1 if the end of the
      *         stream is reached.
      * @throws IOException if an I/O error occurs.
      */
     @Override
-    public int read() throws IOException 
+    public int read() throws IOException
     {
         int c = in.read();
 
@@ -81,7 +81,7 @@ public class MD5FilterInputStream extends FilterInputStream
 
     /**
      * Reads up to length bytes of data from this input stream
-     * into an array of bytes. This method blocks until some input 
+     * into an array of bytes. This method blocks until some input
      * is available.
      *
      * @param bytes the buffer into which the data is read.
@@ -90,8 +90,8 @@ public class MD5FilterInputStream extends FilterInputStream
      * @throws IOException if an I/O error occurs.
      */
     @Override
-    public int read( final byte[] bytes, final int offset, final int length ) 
-        throws IOException 
+    public int read( final byte[] bytes, final int offset, final int length )
+        throws IOException
     {
         int r;
 

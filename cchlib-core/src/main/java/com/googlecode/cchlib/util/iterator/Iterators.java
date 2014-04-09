@@ -1,7 +1,9 @@
 package com.googlecode.cchlib.util.iterator;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class consists exclusively of static methods
@@ -166,9 +168,20 @@ public final class Iterators
     {
         return new ArrayIterator<T>( array );
     }
-    
+
     public static <T> Iterator<T> create( final T[] array, final int offset, final int len )
     {
         return new ArrayIterator<T>( array, offset, len );
+    }
+
+    public static <T> List<T> newList( final Iterator<T> iterator )
+    {
+        final List<T> list = new ArrayList<T>();
+
+        while( iterator.hasNext() ) {
+            list.add( iterator.next() );
+        }
+
+        return list;
     }
 }

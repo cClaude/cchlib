@@ -7,34 +7,33 @@ import javax.swing.Icon;
 /**
  * TODOC
  */
-public interface TabbedAccessoryInterface
-    extends Serializable
+public interface TabbedAccessoryInterface extends Serializable
 {
     /**
      * @return String (or null) for tab name
      */
-    public String getTabName();
+    String getTabName();
 
     /**
      * @return Icon (or null) for tab icon
      */
-    public Icon getTabIcon();
+    Icon getTabIcon();
 
     /**
      * @return Component
      */
-    public Component getComponent();
+    Component getComponent();
 
     /**
      * Register Component, to be active when tab is selected
      */
-    public void register();
+    void register();
 
     /**
      * Unregister Component, to be inactive when tab is unselected.
-     * <br/>
+     * <BR>
      * Must be work, even if Component is not register.
      */
-    public void unregister();
+    void unregister();
 
 }

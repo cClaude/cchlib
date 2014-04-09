@@ -19,7 +19,7 @@ public class ConnectionQuery implements Closeable
 
     /**
      *  Create a ConnectionQuery object from a valid {@link Connection}
-     *  <br/>
+     *  <BR>
      *  ConnectionQuery never close Connection
      *
      * @param connection Connection to use.

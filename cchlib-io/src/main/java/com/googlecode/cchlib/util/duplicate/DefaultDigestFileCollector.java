@@ -71,7 +71,7 @@ public class DefaultDigestFileCollector
      * Removes all of the mappings from this
      * DefaultDigestFileCollector, but also perform
      * a {@link Set#clear()} on each set of values.
-     * <br/>
+     * <BR>
      * The DefaultDigestFileCollector will be empty
      * after this call returns.
      */
@@ -181,7 +181,7 @@ public class DefaultDigestFileCollector
     /**
      * Update values return by {@link #getDuplicateSetsCount()}
      * and {@link #getDuplicateFilesCount()},
-     * <br/>
+     * <BR>
      * Useful, if map return by {@link #getFiles()} is
      * modify.
      */

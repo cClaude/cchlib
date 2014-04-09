@@ -16,7 +16,8 @@ import javax.swing.JProgressBar;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
@@ -47,14 +48,14 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     @I18nString private String fileAttributsDelete = "Deleted";
 
     // private JFileChooserInitializer jFileChooserInitializer;
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
 
     /**
      * Create the panel.
      */
-    public RemoveEmptyFilesJPanel( DFToolKit dfToolKit )
+    public RemoveEmptyFilesJPanel()
     {
-        this.dfToolKit = dfToolKit;
+        this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
         init();
 
         setLayout(new BorderLayout(0, 0));
@@ -142,7 +143,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         this.cardLayout.previous( this.mainJPanel );
     }
 
-    protected DFToolKit getDFToolKit()
+    protected AppToolKit getDFToolKit()
     {
         return dfToolKit;
     }

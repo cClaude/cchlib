@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
  *
  * @param <T> content type
  * @see SingletonIterator
- * @see com.googlecode.cchlib.util.iterator.iterable.ArrayIterator
  * @since 4.1.7
  */
 public class ArrayIterator<T>
@@ -156,7 +155,7 @@ public class ArrayIterator<T>
      * ArrayIterator set initially containing an arbitrary number
      * of elements, but it is likely to run slower than the constructors
      * that do not use varargs.
-     * <BR/>
+     * <BR>
      * But since Java does not allow to build an array from
      * Genetics, this solution is cleaner.
      *

@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.lang;
 
 import java.io.ByteArrayInputStream;
@@ -154,7 +153,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      * @param bytes a valid bytes array
      * @return caller for initialization chaining
      */
-    public ByteArrayBuilder append(final byte[] bytes)
+    public ByteArrayBuilder append(@Nonnull final byte[] bytes)
     {
         return append(bytes, 0, bytes.length);
     }
@@ -204,7 +203,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      *
      * @param is InputStream to add
      * @return caller for initialization chaining
-     * @throws java.io.IOException
+     * @throws java.io.IOException if any I/O occurs
      */
     public ByteArrayBuilder append(@Nonnull final InputStream is)
         throws IOException
@@ -437,9 +436,9 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     @Override
     public int hashCode()
     {
-        int hash = 3;
-        hash = (97 * hash) + Arrays.hashCode(this.buffer);
-        hash = (97 * hash) + this.lastPos;
+        int hash = 3; // $codepro.audit.disable numericLiterals
+        hash = (97 * hash) + Arrays.hashCode(this.buffer); // $codepro.audit.disable numericLiterals
+        hash = (97 * hash) + this.lastPos; // $codepro.audit.disable numericLiterals
         return hash;
     }
 
@@ -458,8 +457,9 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
 
     /**
      * Returns internal buffer as a String by decoding
-     * the internal array of bytes using the specified charset.
+     * the internal array of bytes using the specified <code>charset</code>.
      *
+     * @param charset {@link Charset} to use for encoding
      * @return a string representing the data in this sequence.
      */
     public String toString( final Charset charset )

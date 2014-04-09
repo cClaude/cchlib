@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 /**
  * This class work like {@link javax.servlet.ServletResponseWrapper} but
  * add debug traces (using log4j) of each call.
- * <br/>
+ * <BR>
  * Provides a convenient implementation of the ServletResponse interface
  * that can be subclassed by developers wishing to adapt the response from
  * a Servlet. This class implements the Wrapper or Decorator pattern.

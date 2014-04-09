@@ -40,7 +40,7 @@ public abstract class AbstractSimpleQueryServletAction
 
     /**
      * Initialize environment and call {@link #doSQL()}
-     * <br/>
+     * <BR>
      * Free resources allocated by SimpleQuery or SimpleUpdate if needed
      */
     @Override
@@ -93,7 +93,7 @@ public abstract class AbstractSimpleQueryServletAction
             }
         return simpleUpdate;
     }
-    
+
     /**
      * Execute an SQL query
      * @param sql SQL query to execute

@@ -105,8 +105,10 @@ public final class Version
 
     /**
      * Print to stdout version
+     * 
+     * @param args CLI parameters
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         try {
             Version instance = new Version();

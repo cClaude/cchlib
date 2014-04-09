@@ -15,7 +15,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor;
@@ -43,7 +44,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
 
     private ActionListener actionListener;
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
     private Window mainWindow;
     private FolderTreeModelable1 treeModel;
     private FindDeleteAdapter findDeleteAdapter;
@@ -61,13 +62,12 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
      *
      */
     public RemoveEmptyDirectoriesPanel(
-        final DFToolKit dfToolKit,
-        final Window    mainWindow
+        final Window mainWindow
         )
     {
-        super( dfToolKit.getResources() );
+        super( AppToolKitService.getInstance().getAppToolKit().getResources() );
 
-        this.dfToolKit  = dfToolKit;
+        this.dfToolKit  = AppToolKitService.getInstance().getAppToolKit();
         this.mainWindow = mainWindow;
 
         init();
@@ -185,7 +185,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         pBar.setIndeterminate( false );
     }
 
-    protected DFToolKit getDFToolKit()
+    protected AppToolKit getDFToolKit()
     {
         return dfToolKit;
     }

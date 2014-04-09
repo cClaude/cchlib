@@ -5,7 +5,6 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -20,7 +19,6 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
@@ -78,11 +76,11 @@ final public class DuplicateFilesFrame
     @I18nString private String txtClearSelection    = "Clear selection";
 
     public DuplicateFilesFrame(
-        final DFToolKit dfToolKit
+        final Preferences preferences
         )
         throws HeadlessException, TooManyListenersException
     {
-        super( dfToolKit );
+        super( preferences );
 
         //
         // Menu: configMode
@@ -176,32 +174,54 @@ final public class DuplicateFilesFrame
         lafMenu.buildMenu( getJMenuLookAndFeel() );
 
         // Handle lookAndFeel dynamics modifications.
-        UIManager.addPropertyChangeListener(
-            new PropertyChangeListener()
-            {
-                @Override
-                public void propertyChange( PropertyChangeEvent e )
-                {
-                    if( "lookAndFeel".equals( e.getPropertyName() ) ) {
-                        LookAndFeel oldLAF = LookAndFeel.class.cast( e.getOldValue() );
-                        LookAndFeel newLAF = LookAndFeel.class.cast( e.getNewValue() );
-
-                        if( ! newLAF.equals( oldLAF ) ) {
-                             //
-                             // Add extra customization here
-                             //
-
-                            if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
-                                SwingUtilities.updateComponentTreeUI(
-                                    DuplicateFilesFrame.this.removeEmptyDirectories
-                                    );
-                                }
-                            }
-                        }
+//        UIManager.addPropertyChangeListener(
+//            new PropertyChangeListener()
+//            {
+//                @Override
+//                public void propertyChange( PropertyChangeEvent event )
+//                {
+//                    if( "lookAndFeel".equals( event.getPropertyName() ) ) {
+//                        LookAndFeel oldLAF = LookAndFeel.class.cast( event.getOldValue() );
+//                        LookAndFeel newLAF = LookAndFeel.class.cast( event.getNewValue() );
+//
+//                        if( ! newLAF.equals( oldLAF ) ) {
+//                             //
+//                             // Add extra customization here
+//                             //
+//
+//                            if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
+//                                SwingUtilities.updateComponentTreeUI(
+//                                    DuplicateFilesFrame.this.removeEmptyDirectories
+//                                    );
+//                                }
+//                            }
+//                        }
+//                }
+//            });
+        UIManager.addPropertyChangeListener( event -> {
+            if( "lookAndFeel".equals( event.getPropertyName() ) ) {
+                handleLookAndFeelChange( event );
                 }
-            });
-
+        } );
         super.setSize( getDFToolKit().getPreferences().getWindowDimension() );
+    }
+
+    private void handleLookAndFeelChange( final PropertyChangeEvent event )
+    {
+        final LookAndFeel oldLAF = LookAndFeel.class.cast( event.getOldValue() );
+        final LookAndFeel newLAF = LookAndFeel.class.cast( event.getNewValue() );
+
+        if( ! newLAF.equals( oldLAF ) ) {
+             //
+             // Add extra customization here
+             //
+
+            if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
+                SwingUtilities.updateComponentTreeUI(
+                    DuplicateFilesFrame.this.removeEmptyDirectories
+                    );
+                }
+            }
     }
 
     private void updateDisplayAccordingState()
@@ -481,7 +501,7 @@ final public class DuplicateFilesFrame
 
     public void openAbout()
     {
-        AboutDialog.open( getDFToolKit(), this.autoI18n );
+        AboutDialog.open( this.autoI18n );
 
         LOGGER.info( "openAbout done" );
     }

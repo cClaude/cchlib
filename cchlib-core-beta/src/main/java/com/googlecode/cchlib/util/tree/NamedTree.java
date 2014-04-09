@@ -17,11 +17,11 @@ import com.googlecode.cchlib.util.Walkable;
  * NamedTree is a N-ary tree with named node stored in
  * a binary tree.
  * <p>
- * Implementation of N-ary tree in binary tree:<br/>
+ * Implementation of N-ary tree in binary tree:<BR>
  * {@link BinaryTreeNode#getLeftNode()} returns first child node for
  * this node, remind nodes for this nodes are stored on
  * right part {@link BinaryTreeNode#getRightNode()} of this left node.
- * <br/>
+ * <BR>
  * More details:
  * {@linkplain "http://en.wikipedia.org/wiki/Binary_tree"}
  * </p>
@@ -337,11 +337,11 @@ public class NamedTree<T>
      *
      * <p>
      * Handle only {@link VisitResult} values:
-     * <br/>
+     * <BR>
      * {@link VisitResult#TERMINATE} to stop process.
-     * <br/>
+     * <BR>
      * {@link VisitResult#CONTINUE} to continue
-     * <br/>
+     * <BR>
      * Other values are ignored, and handle as the
      * same way of {@link VisitResult#CONTINUE}
      * </p>
@@ -384,11 +384,11 @@ public class NamedTree<T>
      *
      * <p>
      * Handle only {@link VisitResult} values:
-     * <br/>
+     * <BR>
      * {@link VisitResult#TERMINATE} to stop process.
-     * <br/>
+     * <BR>
      * {@link VisitResult#CONTINUE} to continue
-     * <br/>
+     * <BR>
      * Other values are ignored, and handle as the
      * same way of {@link VisitResult#CONTINUE}
      * </p>

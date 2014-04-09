@@ -2,18 +2,19 @@ package com.googlecode.cchlib.lang.reflect;
 
 
 /**
- *
+ * An {@link Invoker} for static methods
  */
 public class InvokerOfStaticMethod<T> extends Invoker<T>
 {
     private static final long serialVersionUID = 1L;
 
     /**
-     *
-     * @param clazz
+     * Create an InvokerOfStaticMethod
+     * 
+     * @param clazz Class to use
      */
     public InvokerOfStaticMethod(
-        Class<? extends T> clazz
+        final Class<? extends T> clazz
         )
     {
         super( clazz, new StaticMethodFilter() );

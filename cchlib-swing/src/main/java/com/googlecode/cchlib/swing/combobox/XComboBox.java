@@ -15,18 +15,18 @@ import javax.swing.event.ListDataEvent;
  * e<B>X</B>tended <B>ComboBox</B> is a JComboBox with extra features...
  * </P>
  * - Unlike JComboBox, by default XComboBox is editable (could be remove using {@link #setEditable(boolean)}),
- * <BR/>
- * <BR/>
+ * <BR>
+ * <BR>
  * - XComboBox handle mouse wheel by default (could be disable or customize
  * using {@link XComboBoxAttribute#NO_MOUSE_WHEEL_LISTENER} and
  * {@link #handleMouseWheelMoved(MouseWheelEvent)},
- * <BR/>
- * <BR/>
+ * <BR>
+ * <BR>
  * - XComboBox handle insertion of <B>new</B> values by default (could be disable or customize
  * using {@link XComboBoxAttribute#NO_DEFAULT_ACTION_LISTENER} and
  * {@link #defaultActionPerformed(ActionEvent)}.
- * <BR/>
- * <BR/>
+ * <BR>
+ * <BR>
  * - XComboBox can control number of entries and limit
  * combo box list to a fixed number of elements {@link #setMaximumItem(int)},
  * you must consider overwrite {@link #removeOldestItems(int)}

@@ -28,7 +28,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
      *  Creates a new EditorPaneWithPrintStream. The document model is set to "text/html".
      *  <p>
      *  This EditorPane is readonly.
-     *  <br/>
+     *  <BR>
      *  Messages can be logged in a text file.
      *  </p>
      *
@@ -37,7 +37,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
      */
     public EditorPaneWithPrintStream( final File logFile )
     {
-    	super();
+        super();
         setContentType("text/html");
 
         this.logFile= logFile;
@@ -59,7 +59,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
      *  Returns the stream used by this gadget to write data to.
      *
      *  <p>
-     *  <b>warning</b><br/>
+     *  <b>warning</b><BR>
      *  Theoretically if you use this stream for <code>System.setErr</code>,
      *  you will create a recursion deadlock if an exception is thrown
      *  within the <code>write</code> method of the stream. This case

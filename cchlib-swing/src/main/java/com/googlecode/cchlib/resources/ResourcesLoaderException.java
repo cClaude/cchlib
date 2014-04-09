@@ -42,7 +42,7 @@ public class ResourcesLoaderException extends Exception
     /**
      * Constructs a new exception with the specified detail
      * message and cause.
-     * <br/>
+     * <BR>
      * Note that the detail message associated with cause is
      * not automatically incorporated in this exception's detail
      * message.

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterable.Iterables;
 import com.googlecode.cchlib.util.iterator.Selectable;
 import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAnalyserException;
@@ -26,8 +27,6 @@ import com.googlecode.jcsv.reader.CSVEntryParser;
 import com.googlecode.jcsv.reader.CSVReader;
 import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 import com.googlecode.jcsv.reader.internal.DefaultCSVEntryParser;
-import cx.ath.choisnet.ToDo;
-import cx.ath.choisnet.ToDo.Action;
 import groovy.json.JsonBuilder;
 
 /**
@@ -137,7 +136,7 @@ public class GoogleContacts {
         }
     }
 
-    @ToDo(action=Action.DOCUMENTATION)
+    @NeedDoc
     public static Iterable<String> getPhoneValues( final GoogleContact googleContact )
     {
         final Collection<BasicEntry> phones = googleContact.getPhones();
@@ -145,7 +144,7 @@ public class GoogleContacts {
         return getValues( phones );
     }
 
-    @ToDo(action=Action.DOCUMENTATION)
+    @NeedDoc
     public static List<String> getValues( final Collection<BasicEntry> entries )
     {
         if( entries.size() > 0 ) {
@@ -175,7 +174,7 @@ public class GoogleContacts {
         }
     }
 
-    @ToDo(action=Action.DOCUMENTATION)
+    @NeedDoc
     public static List<String> getValues( final BasicEntry entry )
     {
         final List<String> list = new ArrayList<>();

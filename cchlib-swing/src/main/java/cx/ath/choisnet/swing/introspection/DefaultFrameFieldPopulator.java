@@ -88,7 +88,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
 
     /**
      * Handle frame populate operation for String.
-     * <BR/>
+     * <BR>
      * <table class="TableCustomDescription">
      * <tr>
      * <th>Supported type</th>
@@ -99,7 +99,7 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
      * <td>Set value using {@link JTextComponent#setText(String)}</td>
      * </tr>
      * </table>
-     * <BR/>
+     * <BR>
      *
      * @param swItemIterable
      * @param iItemString

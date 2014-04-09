@@ -184,9 +184,9 @@ public final class IOHelper
     /**
      * Wrap an Iterator on a {@link File} array and apply a filter
      *
-     * @param files
-     * @param fileFilter
-     * @return a file Iterator
+     * @param files         A non null array of files (must be directories)
+     * @param fileFilter    Filter for result
+     * @return a valid file {@link Iterator}.
      */
     public static Iterator<File> toIterator(
         @Nonnull final File[]     files,

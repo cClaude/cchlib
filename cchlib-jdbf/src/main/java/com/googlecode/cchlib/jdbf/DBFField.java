@@ -71,7 +71,7 @@ public class DBFField
     /**
      * Creates a DBFField object from the data read from the
      * given DataInputStream.
-     * <br/>
+     * <BR>
      * The data in the DataInputStream object is supposed to
      * be organized correctly and the stream "pointer" is
      * supposed to be positioned properly.

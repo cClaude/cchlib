@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -20,9 +22,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -32,9 +35,6 @@ import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.iterator.Iterators;
 
-/**
- *
- */
 @I18nName("duplicatefiles.JPanelResult")
 public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
 {
@@ -42,7 +42,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     {
         private List<KeyFileState> selectedList;
 
-        public Selected(
+        Selected(
             final ListModel<KeyFileState> listModel,
             final int[]                   selectedIndices
             )
@@ -72,15 +72,26 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
             return this.selectedList.get( 0 ).getKey();
         }
 
+//        public List<File> toFileList()
+//        {
+//
+//            final List<File> list = new ArrayList<>();
+//
+//            for( final KeyFileState kf : this ) {
+//                list.add( kf.getFile() );
+//                }
+//
+//            return list;
+//        }
+
         public List<File> toFileList()
         {
-            final List<File> list = new ArrayList<>();
+            return toFiles().collect( Collectors.toList() );
+        }
 
-            for( final KeyFileState kf : this ) {
-                list.add( kf.getFile() );
-                }
-
-            return list;
+        public Stream<File> toFiles()
+        {
+            return this.selectedList.stream().map( kf -> kf.getFile() );
         }
     }
 
@@ -88,7 +99,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     private static final Logger LOGGER = Logger.getLogger( JPanelResult.class );
 
     // TODO: Must be restore by parent !
-    private transient DFToolKit dFToolKit;
+    private transient AppToolKit dFToolKit;
     private DuplicateSetListContextualMenu duplicateSetListContextualMenu;
 
     private ActionListener      actionListenerContextSubMenu;
@@ -118,32 +129,26 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     @I18nString private String txtCanWriteFirstLetter = "W";
     @I18nString private String txtCanReadFirstLetter = "R";
 
-    public JPanelResult(
-        final DFToolKit dFToolKit
-        )
+    public JPanelResult()
     {
-        super( dFToolKit );
+        super();
 
-        this.dFToolKit = dFToolKit;
+        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         duplicateSetListContextualMenu = new DuplicateSetListContextualMenu( this );
         createPopupMenus();
 
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                setDividersLocation( dFToolKit.getPreferences().getJPaneResultDividerLocations() );
-            }
-        });
+        SwingUtilities.invokeLater( () -> setDividersLocation( dFToolKit.getPreferences().getJPaneResultDividerLocations() ) );
     }
 
      public void populate(
-            final HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
-            )
+        final HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
+        )
     {
-        SortMode sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
-        SelectFirstMode selectFirstMode = SelectFirstMode.QUICK; // FIXME get default mode from prefs
+        final Preferences preferences = this.dFToolKit.getPreferences();
+
+        final SortMode        sortMode        = preferences.getDefaultSortMode();
+        final SelectFirstMode selectFirstMode = preferences.getDefaultSelectFirstMode();
 
         getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode, selectFirstMode );
         updateDisplay();
@@ -196,11 +201,11 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState>    m,
-            JMenu                               parentMenu,
-            String                              actionCommand,
-            KeyFileState                        kf
-            )
+        final JPopupMenuForJList<KeyFileState>    m,
+        final JMenu                               parentMenu,
+        final String                              actionCommand,
+        final KeyFileState                        kf
+        )
     {
         m.addJMenuItem(
             parentMenu,
@@ -213,12 +218,12 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     private void addContextSubMenuActionCommand(
-            JPopupMenuForJList<KeyFileState> m,
-            JPopupMenu                       parentMenu,
-            JMenuItem                        menu,
-            String                           actionCommand,
-            Selected                         selected
-            )
+        final JPopupMenuForJList<KeyFileState> m,
+        final JPopupMenu                       parentMenu,
+        final JMenuItem                        menu,
+        final String                           actionCommand,
+        final Selected                         selected
+        )
     {
         m.addJMenuItem(
                 parentMenu,
@@ -256,7 +261,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     @Override
-    protected void displayFileInfo( KeyFileState kf )
+    protected void displayFileInfo( final KeyFileState kf )
     {
         if( kf == null ) {
             getJTextFieldFileInfo().setText( StringHelper.EMPTY );
@@ -290,7 +295,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     @Override
-    protected void updateDisplayKeptDelete( int index )
+    protected void updateDisplayKeptDelete( final int index )
     {
         LOGGER.info( "updateDisplayKeptDelete: index = " + index );
 
@@ -298,15 +303,12 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
             return;
             }
 
-        final KeyFiles kf  = getListModelDuplicatesFiles().getElementAt( index );
-        final String   key = kf.getKey();
-
-        updateDisplayKeptDelete( key );
+        updateDisplayKeptDelete( getListModelDuplicatesFiles().getElementAt( index ).getKey() );
     }
 
     private void updateDisplayKeptDelete( final String key )
     {
-        LOGGER.info( "updateDisplayKeptDelete: " + key/*, new Exception()*/ );
+        LOGGER.info( "updateDisplayKeptDelete: " + key );
 
         displayFileInfo( null );
         Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
@@ -319,7 +321,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     }
 
     @Override
-    protected void onDeleteThisFile( KeyFileState kf, boolean updateDisplay )
+    protected void onDeleteThisFile( final KeyFileState kf, final boolean updateDisplay )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( true );
@@ -338,13 +340,7 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
 
     private ActionListener createOpenFileActionListener( final File file )
     {
-        return new ActionListener() {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    dFToolKit.openDesktop( file );
-                }
-            };
+        return e ->  dFToolKit.openDesktop( file );
     }
 
     private void createPopupMenus()
@@ -696,24 +692,18 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
     {
         disableAllWidgets();
 
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    getListModelDuplicatesFiles().clearSelected();
-                    }
-                catch( Exception e ) {
-                    LOGGER.error( "clearSelected()", e );
-                    }
-                finally {
-                    enableAllWidgets();
-
-                    dFToolKit.setEnabledJButtonCancel( true );
-                    }
+        new Thread( ( ) -> {
+            try {
+                getListModelDuplicatesFiles().clearSelected();
             }
+            catch( Exception e ) {
+                LOGGER.error( "clearSelected()", e );
+            }
+            finally {
+                enableAllWidgets();
 
+                dFToolKit.setEnabledJButtonCancel( true );
+            }
         }, "clearSelected()" ).start();
     }
 
@@ -733,22 +723,18 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
         LOGGER.info( "onRefresh() - start" );
 
         disableAllWidgets();
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    getListModelDuplicatesFiles().refreshList();
-                    }
-                catch( Exception e ) {
-                    LOGGER.error( "onRefresh()", e );
-                    }
-                finally {
-                    enableAllWidgets();
 
-                    LOGGER.info( "onRefresh() - done" );
-                    }
+        new Thread( ( ) -> {
+            try {
+                getListModelDuplicatesFiles().refreshList();
+            }
+            catch( Exception e ) {
+                LOGGER.error( "onRefresh()", e );
+            }
+            finally {
+                enableAllWidgets();
+
+                LOGGER.info( "onRefresh() - done" );
             }
         }, "onRefresh()" ).start();
     }

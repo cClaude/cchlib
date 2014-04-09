@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 //NOT public
 final class FormattedPropertiesHelper {
 
+    private static final int HEXA_LENGTH = 4;
+    private static final int HEXA_DECIMAL = 16;
     private static final int SPACE_CHAR = 0x20;
 
     /**
@@ -56,14 +58,11 @@ final class FormattedPropertiesHelper {
     }
 
     /**
-     * Determines if the specified character is reasonable
-     * value for ISO-8859-1.
-     * <br/>
-     * This method is call to choose if a character must
-     * be encoded or not.
+     * Determines if the specified character is reasonable value for ISO-8859-1.
+     * <br>
+     * This method is call to choose if a character must be encoded or not.
      * <p>
-     * White spaces are consider has non reasonable
-     * values.
+     * White spaces are consider has non reasonable values.
      * </p>
      * @param c character to analyze
      * @return true if character does not need to be encoded,
@@ -91,7 +90,7 @@ final class FormattedPropertiesHelper {
         final BufferedReader reader,
         String               line,
         int                  pos
-        ) throws IOException
+        ) throws IOException, NumberFormatException
     {
         // Escape char found so iterate through the rest of the line.
         final StringBuilder element = new StringBuilder(line.length() - pos);
@@ -130,10 +129,10 @@ final class FormattedPropertiesHelper {
                             element.append('\r');
                             break;
                         case 'u':
-                            if( (pos + 4) <= line.length() ) {
-                                char uni = (char) Integer.parseInt(line.substring(pos, pos + 4), 16);
+                            if( (pos + HEXA_LENGTH) <= line.length() ) {
+                                char uni = (char) Integer.parseInt(line.substring(pos, pos + HEXA_LENGTH), HEXA_DECIMAL);
                                 element.append(uni);
-                                pos += 4;
+                                pos += HEXA_LENGTH;
                                 }
                             // else throw exception?
                             break;

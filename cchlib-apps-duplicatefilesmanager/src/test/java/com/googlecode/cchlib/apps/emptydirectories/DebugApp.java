@@ -1,20 +1,18 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
 import java.awt.EventQueue;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.FakeDFToolKit;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 
 public class DebugApp extends DebugFrame
 {
     private static final long serialVersionUID = 1L;
 
-    private DFToolKit dfToolKit = new FakeDFToolKit();
+    //private AppToolKit dfToolKit = new FakeAppToolKit();
     private RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
 
     public DebugApp()
     {
-        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
+        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( this );
 
         addToContentPane( jPanel_RemoveEmptyDirectories );
     }

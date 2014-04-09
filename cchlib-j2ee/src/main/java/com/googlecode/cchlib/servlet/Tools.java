@@ -16,7 +16,7 @@ public final class Tools
 
     /**
      * Returns the value of a request parameter as a String.
-     * <br/>
+     * <BR>
      * You should only use this method when you are sure the parameter
      * has only one value. If the parameter might have more than one value,
      * use getParameterValues(java.lang.String).

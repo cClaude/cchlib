@@ -106,9 +106,9 @@ public class Base64Encoder extends Base64
     /**
      * Encode an array of bytes
      *
-     * @param bytes
-     * @param offset
-     * @param length
+     * @param bytes     Bytes to encodes
+     * @param offset    Index of first byte
+     * @param length    Number of bytes
      * @return Base 64 encoded array of char
      * @throws UnsupportedEncodingException if any
      */
@@ -131,7 +131,7 @@ public class Base64Encoder extends Base64
     /**
      * Encode an array of bytes
      *
-     * @param bytes
+     * @param bytes Array of bytes to encodes
      * @return Base 64 encoded array of char
      * @throws UnsupportedEncodingException if any
      */
@@ -167,10 +167,10 @@ public class Base64Encoder extends Base64
             }
 
         try {
+            final  int   length = bytes_.length;
+            final char[] ac     = new char[(length / 3) * 4 + 4];
+            final int    b      = (length / 3) * 3;
             int    k = 0;
-            int    length = bytes_.length;
-            char[] ac     = new char[(length / 3) * 4 + 4];
-            int    b      = (length / 3) * 3;
             int    i;
 
             for(i = 0; i < b; i += 3) {
@@ -187,7 +187,8 @@ public class Base64Encoder extends Base64
                 //ac[k]     = BASE64[bytes[i] >>> 2];
                 ac[k]     = BASE64[(bytes_[i] & 0x00FF)>>> 2];
                 ac[k + 3] = '=';
-                int l = ((bytes_[i] & 0x00FF) & 3) << 4;
+
+                final int l = ((bytes_[i] & 0x00FF) & 3) << 4;
                 ac[k + 1] = BASE64[l];
                 ac[k + 2] = '=';
 

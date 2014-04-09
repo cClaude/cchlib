@@ -23,8 +23,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
@@ -60,7 +60,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private JButton jButtonAddEntry;
     private JButton jButtonRemEntry;
 
-    private transient DFToolKit dFToolKit; // Serialization !!
+    private transient AppToolKit dFToolKit; // Serialization !!
     private AbstractTableModel tableModelSelectedFoldersOrFiles;
     private List<File> includeFileList  = new ArrayList<File>();
     private List<File> ingoreFileList   = new ArrayList<File>();
@@ -81,10 +81,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
      * @throws TooManyListenersException
      * @throws HeadlessException
      */
-    public JPanelSelectFoldersOrFiles( DFToolKit dFToolKit )
+    public JPanelSelectFoldersOrFiles()
         throws HeadlessException, TooManyListenersException
     {
-        this.dFToolKit = dFToolKit;
+        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};

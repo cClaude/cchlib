@@ -73,17 +73,18 @@ public final class StringHelper
      * This method differ from method {@link String#split(String)}
      * Trailing empty strings are included in the resulting array.
      * </p>
-     * <p>
+     * <br>
+     * <br>
      * The string "boo:and:foo", for example, yields the following results with these tokens:
      * <blockquote>
      * <table border="2" cellpadding="1" cellspacing="0">
+     * <caption>Example</caption>
      * <tr><th>token</th><th>Result</th></tr>
      * <tr><td>:</td><td>{"boo","and","foo"};</td></tr>
      * <tr><td>o</td><td>{"b","",":and:f","",""}</td></tr>
      * <tr><td>b</td><td>{"","oo:and:foo"}</td></tr>
      * </table>
      * </blockquote>
-     * </p>
      *
      * @param str   String to split
      * @param token Char token to use as delimiter.

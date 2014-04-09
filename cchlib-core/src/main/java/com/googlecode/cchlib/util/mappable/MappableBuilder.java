@@ -56,14 +56,14 @@ public class MappableBuilder
     /**
      * Create a default MappableBuilderFactory based
      * on {@link DefaultMappableBuilderFactory}
-     * <p>
+     * <br>
+     * <br>
      * Equivalent to invoke:
      * <pre>
      *   new DefaultMappableBuilderFactory()
      *      .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
      *      .add( CLASSES_STANDARDS_TYPES );
      * </pre>
-     * </p>
      */
     public static MappableBuilderFactory createMappableBuilderFactory()
     {

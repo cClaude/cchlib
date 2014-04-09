@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 import com.googlecode.cchlib.util.Wrappable;
 
 /**
- * Build a {@link Iterator}<O> based on an other {@link Iterator}<T>
- * or an other {@link Iterable}<T>, each object is transformed
+ * Build a {@link Iterator}&lt;O&gt; based on an other {@link Iterator}&lt;T&gt;
+ * or an other {@link Iterable}&lt;T&gt;, each object is transformed
  * before returning using giving wrapper.
  *
  * @param <T> Source type
@@ -19,7 +19,7 @@ public class IteratorWrapper<T,O>
     private Wrappable<? super T,? extends O> wrapper;
 
     /**
-     * Build a Iterator<O> based on an other Iterator<T>,
+     * Build a Iterator&lt;O&gt; based on an Iterator&lt;T&gt;,
      * each object is transformed before returning using
      * giving wrapper.
      *
@@ -37,7 +37,7 @@ public class IteratorWrapper<T,O>
     }
 
     /**
-     * Build a Iterator<O> based on an other Collection<T>,
+     * Build a Iterator&lt;O&gt; based on a Collection&lt;T&gt;,
      * each object is transformed before returning using
      * giving wrapper.
      *
@@ -78,11 +78,11 @@ public class IteratorWrapper<T,O>
 
     /**
      * Removes from the underlying collection the last element
-     * returned by the iterator. 
+     * returned by the iterator.
      * <p>
-     * remove() is supported if the provided iterator/iterable does. 
+     * remove() is supported if the provided iterator/iterable does.
      * </p>
-     * 
+     *
      * @throws UnsupportedOperationException if the remove
      *         operation is not supported by current Iterator.
      * @throws IllegalStateException if the next method has

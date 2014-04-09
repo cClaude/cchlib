@@ -37,13 +37,13 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
     /**
      * <p>
-     * LOOK_IN_SUPER_CLASSES<br/>
+     * LOOK_IN_SUPER_CLASSES<BR>
      * Introspect current class and super classes (default)
      * In all case, does not look in classes (and super classes)
      * of {@link JFrame}, {@link JDialog}, {@link Object}.
      * </p>
      * <p>
-     * ONLY_ACCESSIBLE_PUBLIC_FIELDS<br/>
+     * ONLY_ACCESSIBLE_PUBLIC_FIELDS<BR>
      * Get only public fields, if not set introspect all fields,
      * and force then to be accessible.
      * </p>

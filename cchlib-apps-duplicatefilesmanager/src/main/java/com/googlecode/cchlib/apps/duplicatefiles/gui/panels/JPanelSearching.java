@@ -23,7 +23,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
@@ -37,16 +38,12 @@ import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
-/**
- *
- *
- */
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearching extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearching.class );
-    private transient DFToolKit dFToolKit; // Serialization !
+    private transient AppToolKit dFToolKit; // Serialization !
     private DuplicateFileCollector  duplicateFC;
     private DefaultTableModel   tableModelErrorList;
     private int                 pass1CountFile;
@@ -188,9 +185,9 @@ public class JPanelSearching extends JPanel
         scrollPane.setViewportView(jTableErrorList);
     }
 
-    public void initFixComponents( DFToolKit dFToolKit )
+    public void initFixComponents()
     {
-        this.dFToolKit = dFToolKit;
+        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
          tableModelErrorList = new DefaultTableModel() {
             private static final long serialVersionUID = 1L;

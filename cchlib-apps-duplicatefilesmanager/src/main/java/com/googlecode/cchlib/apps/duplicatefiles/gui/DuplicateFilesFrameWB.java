@@ -13,10 +13,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
-
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
@@ -26,7 +27,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
 {
     private static final long serialVersionUID = 2L;
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
 
     public static final int REMOVE_EMPTY_DIRECTORIES_TAB = 1;
     public static final int DELETE_EMPTY_FILES_TAB = 2;
@@ -66,11 +67,11 @@ public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.dis
      * @param dfToolKit
      * @throws TooManyListenersException
      * @throws HeadlessException
-     */// $codepro.audit.disable sourceLength
-    public DuplicateFilesFrameWB( final DFToolKit dfToolKit )
+     */
+    public DuplicateFilesFrameWB( final Preferences preferences )
         throws HeadlessException, TooManyListenersException
     {
-        this.dfToolKit = dfToolKit;
+        this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -145,15 +146,15 @@ public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.dis
         // Workaround for WindowBuilder
         if( dfToolKit == null ) {this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel();}
         // $hide>>$
-        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( dfToolKit, getActionListener() );
+        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( getActionListener() );
         // $hide<<$
         this.contentJTabbedPane.addTab("Duplicate files", this.iconResources.getDuplicateFilesPanelIcon(), this.jPanel_DuplicateFiles, "Find and remove Duplicate files");
 
-        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( dfToolKit, this );
+        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( this );
         this.contentJTabbedPane.addTab("Remove empty directories", this.iconResources.getRemoveEmptyDirectoriesPanelIcon(), this.jPanel_RemoveEmptyDirectories, "Find and delete empty directories" );
         assert (this.contentJTabbedPane.getTabCount() - 1) == REMOVE_EMPTY_DIRECTORIES_TAB;
 
-        this.jPanel_DeleteEmptyFiles = new RemoveEmptyFilesJPanel( dfToolKit );
+        this.jPanel_DeleteEmptyFiles = new RemoveEmptyFilesJPanel();
         this.contentJTabbedPane.addTab("Remove empty files", this.iconResources.getDeleteEmptyFilesPanelIcon(), this.jPanel_DeleteEmptyFiles, "Find and delete empty files");
         assert (this.contentJTabbedPane.getTabCount() - 1) == DELETE_EMPTY_FILES_TAB;
         }
@@ -197,7 +198,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.dis
     public abstract ActionListener getActionListener();
     protected abstract void exitApplication();
 
-    public DFToolKit getDFToolKit()
+    public AppToolKit getDFToolKit()
     {
         if( this.dfToolKit == null ) {
             throw new NullPointerException( "DFToolKit not initialized" );

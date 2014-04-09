@@ -14,24 +14,25 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  * HashMapSet provide an easy and efficient way
  * to store keys-values when you need to have
  * more than one value for an unique key.
- * <br/>
- * <br/>
+ * <br>
+ * <br>
  * Concrete examples:
  * <p>
  * - Store File objects and grouping files with same
  *   size : HashMapSet&lt;Long,File&gt;
- *   <br/>
+ *   <br>
  *   Where keys are length of files, and values are
  *   File object.
  * </p>
  * <p>
  * - Store File objects and grouping files with
  *   content size : HashMapSet&lt;<i>any_hash_code</i>,File&gt;
- *   <br/>
+ *   <br>
  *   Where keys are an hash code based on content (MD5,...),
  *   and values are File object.
  * </p>
- * <p>
+ * <br>
+ * <br>
  * <b>Starting with this class:</b>
  * <pre>
  *  HashMapSet&lt;Long,File&gt; hashMapSet = HashMapSet&lt;Long,File&gt;()
@@ -43,7 +44,6 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  *
  *
  * </pre>
- * </p>
  *
  * @param <K> the type of keys maintained by this map
  * @param <V> the type of mapped values
@@ -114,7 +114,7 @@ public class HashMapSet<K,V>
      */
     public void deepClear()
     {
-        for( Set<V> s : super.values() ) {
+        for( final Set<V> s : super.values() ) {
             s.clear();
             }
 
@@ -137,7 +137,7 @@ public class HashMapSet<K,V>
     {
         int size = 0;
 
-        for(Set<? extends V> s:super.values()) {
+        for( final Set<? extends V> s:super.values() ) {
             size += s.size();
             }
 
@@ -150,7 +150,7 @@ public class HashMapSet<K,V>
 //     * <p>
 //     * If value is a Set, looking for a Set&lt;V&gt;
 //     * in HashMapSet.
-//     * <br/>
+//     * <br>
 //     * If value is not a Set, looking throws all
 //     * Set&lt;V&gt; to find at least a matching value.
 //     *
@@ -174,7 +174,7 @@ public class HashMapSet<K,V>
     /**
      * Not supported
      *
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException Operation is not supported
      */
     @Override // Map
     public boolean containsValue( final Object value )
@@ -234,7 +234,7 @@ public class HashMapSet<K,V>
     /**
      * Add all values with same key in this HashMapSet.
      * <p>
-     * Tips:<br/>
+     * Tips:<br>
      * If you want to replace a Set&lt;V&gt; for a key, use {@link #put(Object, Object)}
      * </p>
      * @param key       key to use for all values
@@ -316,7 +316,7 @@ public class HashMapSet<K,V>
      *
      * @return true if this HashMapSet contains the specified element
      */
-    public boolean contains( V value )
+    public boolean contains( final V value )
     {// from Collection<V>
         for( final Set<? extends V> s : super.values() ) {
             if( s.contains( value )) {
@@ -336,7 +336,7 @@ public class HashMapSet<K,V>
      * @return true if this HashMapSet contains all
      *         of the elements in the specified collection
      */
-    public boolean containsAll( Collection<? extends V> c )
+    public boolean containsAll( final Collection<? extends V> c )
     {// from Collection<V>
         for( final V v : c) {
             if( !contains(v) ) {
@@ -380,12 +380,12 @@ public class HashMapSet<K,V>
         final Iterator<Map.Entry<K, Set<V>>> iter = super.entrySet().iterator();
 
         while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-           Map.Entry<K, Set<V>> e = iter.next();
-           Set<V>               s = e.getValue();
+            final Map.Entry<K, Set<V>> e = iter.next();
+            final Set<V>               s = e.getValue();
 
-           if( (s==null) || (s.size()<minSetSize) ) {
-               iter.remove();
-               }
+            if( (s==null) || (s.size()<minSetSize) ) {
+                iter.remove();
+                }
             }
     }
 
@@ -428,8 +428,9 @@ public class HashMapSet<K,V>
     /**
      * Get all values on Iterable object, compute
      * their keys add add(key,values) in this HashMapSet.
-     * <p>
-     * <b>Example of use:</b><br/>
+     * <br>
+     * <br>
+     * <b>Example of use:</b><br>
      * This is probably most efficient way to use
      * {@link ComputeKeyInterface}, and easy to implements.
      * <pre>
@@ -450,13 +451,12 @@ public class HashMapSet<K,V>
      *           }
      *       });
      * </pre>
-     * </p>
      *
      * @param iterable iterable object of values, that able to
      *                 compute key for each value.
      * @see ComputeKeyInterface
      */
-    public void addAll( ComputeKeyIterable<K,V> iterable )
+    public void addAll( final ComputeKeyIterable<K,V> iterable )
     {
         final Iterator<V> i = iterable.iterator();
 
@@ -468,12 +468,12 @@ public class HashMapSet<K,V>
     }
 
     /**
-     * Add all key-value from ComputeKeyIterator<K,V> iterator
+     * Add all key-value from ComputeKeyIterator&lt;K,V&gt; iterator
      *
      * @param iterator iterator used to get values and compute
      *        theirs keys.
      */
-    public void addAll( ComputeKeyIterator<K,V> iterator )
+    public void addAll( final ComputeKeyIterator<K,V> iterator )
     {
         while( iterator.hasNext() ) {
             V v = iterator.next();
@@ -494,7 +494,7 @@ public class HashMapSet<K,V>
         /**
          * Compute key from value.
          *
-         * @param value
+         * @param value Value
          * @return key for current value.
          */
         K computeKey(V value);
@@ -547,11 +547,11 @@ public class HashMapSet<K,V>
     {
         private Iterator<V> iterator;
 
-        public AbstractComputeKeyIterator(Iterator<V> iterator)
+        public AbstractComputeKeyIterator(final Iterator<V> iterator)
         {
             this.iterator = iterator;
         }
-        public AbstractComputeKeyIterator(Iterable<V> iterable)
+        public AbstractComputeKeyIterator(final Iterable<V> iterable)
         {
             this.iterator = iterable.iterator();
         }

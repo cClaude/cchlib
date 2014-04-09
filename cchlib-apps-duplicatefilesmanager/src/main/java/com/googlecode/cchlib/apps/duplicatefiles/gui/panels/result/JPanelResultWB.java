@@ -4,8 +4,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -18,7 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.Resources;
@@ -93,14 +91,9 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
     @I18nIgnore @I18nToolTipText private JButton jButtonNextSet;
     private SelectorsJPanel selectorsJPanel;
 
-    /**
-     * @param autoI18n
-     * @param dfToolKit
-     *
-     */
-    public JPanelResultWB( final DFToolKit dfToolKit )
+    public JPanelResultWB()
     {
-        this.resources = dfToolKit.getResources();
+        this.resources = AppToolKitService.getInstance().getAppToolKit().getResources();
 
         setSize(488, 240);
 
@@ -136,7 +129,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             add(getJSplitPaneResultMain(), gbc_jSplitPaneResultMain);
         }
         {
-            this.selectorsJPanel = new SelectorsJPanel(dfToolKit, this);
+            this.selectorsJPanel = new SelectorsJPanel( this );
             GridBagConstraints gbc_selectorsJPanel = new GridBagConstraints();
             gbc_selectorsJPanel.fill = GridBagConstraints.BOTH;
             gbc_selectorsJPanel.gridx = 1;
@@ -209,23 +202,27 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
 
                 this.jButtonPrevSet = new JButton( resources.getPrevIcon() );
                 this.jButtonPrevSet.setToolTipText( "jButtonPrevSet description" );
-                this.jButtonPrevSet.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        onPrevSet();
-                    }
-                });
+//                this.jButtonPrevSet.addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        onPrevSet();
+//                    }
+//                });
+                this.jButtonPrevSet.addActionListener( e -> onPrevSet() );
+
                 leftPanel.add(this.jButtonPrevSet, gbc_jButtonPrevSet);
             }
             {
                 this.refreshButton = new JButton( resources.getRefreshIcon() );
                 this.refreshButton.setToolTipText( "Refresh file list (remove deleted entries from an other process)" );
-                this.refreshButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        onRefresh();
-                    }
-                });
+//                this.refreshButton.addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        onRefresh();
+//                    }
+//                });
+                this.refreshButton.addActionListener( e -> onRefresh() );
+
                 GridBagConstraints gbc_refreshButton = new GridBagConstraints();
                 gbc_refreshButton.fill = GridBagConstraints.BOTH;
                 gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
@@ -242,12 +239,14 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
 
                 this.jButtonNextSet = new JButton( resources.getNextIcon() );
                 this.jButtonNextSet.setToolTipText( "jButtonNextSet description" );
-                this.jButtonNextSet.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        onNextSet();
-                    }
-                });
+//                this.jButtonNextSet.addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        onNextSet();
+//                    }
+//                });
+                this.jButtonNextSet.addActionListener( e -> onNextSet() );
+
                 leftPanel.add(this.jButtonNextSet, gbc_jButtonNextSet);
             }
             {

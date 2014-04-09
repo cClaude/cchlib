@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.common;
 
 import javax.swing.JDialog;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
@@ -37,12 +37,11 @@ public class AboutDialog
      * Launch the application.
      */
     public static void open(
-        final DFToolKit     dfToolKit,
         final AutoI18nCore  autoI18n
         )
     {
         try {
-            AboutDialog dialog = new AboutDialog( dfToolKit );
+            AboutDialog dialog = new AboutDialog();
 
             dialog.performeI18n( autoI18n );
             dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
@@ -58,14 +57,12 @@ public class AboutDialog
      *
      * @param dfToolKit
      */
-    public AboutDialog(
-        final DFToolKit dfToolKit
-        )
+    public AboutDialog()
     {
-        super( dfToolKit.getMainFrame() );
+        super( AppToolKitService.getInstance().getAppToolKit().getMainFrame() );
 
         //this.dfToolKit    = dfToolKit;
-        this.contentPanel = new AboutPanel( dfToolKit.getResources(), this );
+        this.contentPanel = new AboutPanel( AppToolKitService.getInstance().getAppToolKit().getResources(), this );
 
         super.setContentPane( contentPanel );
         super.setSize( 500, 350 ); // $codepro.audit.disable numericLiterals

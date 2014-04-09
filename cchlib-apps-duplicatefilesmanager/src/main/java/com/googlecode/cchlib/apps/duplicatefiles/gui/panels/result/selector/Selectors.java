@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
-
 public enum Selectors
 {
     NONE,
@@ -10,7 +8,6 @@ public enum Selectors
     ;
 
     public SelectorPanel newSelectorPanel(
-        final DFToolKit dFToolKit, 
         final DuplicateData duplicateData
         )
     {
@@ -19,10 +16,10 @@ public enum Selectors
                 return new SelectByDisabled();
 
             case SELECT_BY_REGEXP:
-                return new SelectByRegExp( dFToolKit, duplicateData );
+                return new SelectByRegExp( duplicateData );
 
             case SELECT_BY_SAME_FOLDER:
-                return new SelectBySameFolder( dFToolKit, duplicateData );
+                return new SelectBySameFolder( duplicateData );
             }
 
         throw new IllegalStateException();

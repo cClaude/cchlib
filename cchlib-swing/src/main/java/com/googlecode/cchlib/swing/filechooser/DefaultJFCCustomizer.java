@@ -173,9 +173,9 @@ public class DefaultJFCCustomizer
      * just select directories, or select both files and directories.
      * The default is JFilesChooser.FILES_ONLY.
      *
-     * @param mode the type of files to be displayed:<br/>
-     * JFileChooser.FILES_ONLY<br/>
-     * JFileChooser.DIRECTORIES_ONLY<br/>
+     * @param mode the type of files to be displayed:<BR>
+     * JFileChooser.FILES_ONLY<BR>
+     * JFileChooser.DIRECTORIES_ONLY<BR>
      * JFileChooser.FILES_AND_DIRECTORIES
      * @return the caller. This allows for easy chaining of invocations.
      * @since 4.1.7

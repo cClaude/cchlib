@@ -12,16 +12,16 @@ import com.googlecode.cchlib.util.HashMapSet;
  * <p>
  * Do not use {@link #add(Iterable)} method if you plan
  * to call more it than one time (without clearing {@link #clear()}).
- * <br/>
+ * <BR>
  * The most efficient ways to use this object is to
  * call {@link #pass1Add(Iterable)} for each
  * Iterable<File> (directory) you need to explore, and
  * then call {@link #pass2()} once.
- * <br/>
+ * <BR>
  * If can't respect this rules, you must call
  * {@link #removeNonDuplicate()} before getting
  * duplicate list of file {@link #getFiles()}.
- * <br/>
+ * <BR>
  * To use more than one this this object, call
  * {@link #clear()}
  */
@@ -118,7 +118,7 @@ public class DuplicateFileCollector
 //     * by {@link #pass2()}. Return potential duplicate
 //     * Set.
 //     * <p>
-//     * Warning:<br/>
+//     * Warning:<BR>
 //     * This value is only valid after doing all
 //     * call to {@link #pass1Add(Iterable)} and
 //     * before calling {@link #pass2()}.
@@ -137,7 +137,7 @@ public class DuplicateFileCollector
      * informations on files that should be examined
      * by {@link #pass2()}.
      * <p>
-     * Warning:<br/>
+     * Warning:<BR>
      * This value is only valid after doing all
      * call to {@link #pass1Add(Iterable)} and
      * before calling {@link #pass2()}.

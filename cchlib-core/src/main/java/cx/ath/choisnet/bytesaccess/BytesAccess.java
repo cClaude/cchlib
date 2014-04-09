@@ -18,7 +18,7 @@ import cx.ath.choisnet.util.ArrayHelper;
  * some basic tools to access and modify a custom structure does not come from
  * Java (typically C).
  * </P>
- * <BR/>
+ * <BR>
  * Supported type:
  *
  * <pre>
@@ -296,10 +296,10 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      * Call compare(byte[], byte[]) to build is result, so have a look at
-     * compare(byte[], byte[]). <BR/>
+     * compare(byte[], byte[]). <BR>
      * If you just want to make a basic comparison to care one return value,
      * just compare it to 0. It's safe to use result for sorting or building
-     * something like an hash code. <br/>
+     * something like an hash code. <br>
      * But you can also use result to identify difference in yours arrays. Since
      * compare(byte[], byte[]) return use a long to store informations, you may
      * loose offset information.
@@ -518,7 +518,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * Perform binary AND (&) operator betting bytes0 and bytes1
+     * Perform binary AND (&amp;) operator betting bytes0 and bytes1
      *
      * @param bytes0
      *            first byte array to be compare
@@ -610,7 +610,7 @@ public abstract class BytesAccess implements Cloneable
      * @param mask
      * @return boolean value for given offset/mask
      */
-    protected boolean getBoolean( //
+    protected boolean getBoolean( // // $codepro.audit.disable booleanMethodNamingConvention
             final int offset, //
             final byte mask )
     {
@@ -618,7 +618,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * Return an unsigned integer (i.e., always > 0)
+     * Return an unsigned integer (i.e., always &gt; 0)
      *
      * @param offset
      * @param mask
@@ -631,7 +631,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * Return an unsigned integer (i.e., always > 0)
+     * Return an unsigned integer (i.e., always &gt; 0)
      *
      * @param offset
      * @param mask0

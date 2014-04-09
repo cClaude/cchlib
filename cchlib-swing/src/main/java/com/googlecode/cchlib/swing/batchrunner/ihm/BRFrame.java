@@ -15,7 +15,7 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 
 /**
  * Default scalable {@link JFrame} for {@link BRPanel}
- * 
+ *
  * @since 4.1.8
  */
 public class BRFrame extends JFrame
@@ -48,7 +48,7 @@ public class BRFrame extends JFrame
         setTitle( xLocaleResources.getFrameTitle() );
         setIconImage( xLocaleResources.getFrameIconImage() );
     }
-    
+
     /**
      * Prepare the frame.
      * *
@@ -110,7 +110,7 @@ public class BRFrame extends JFrame
 
     /**
      * This method is design to be use with a custom layout.
-     * <br/>
+     * <BR>
      * Example :
      * <pre><code>
      *   {@link #addToContentPanel}( panel, BorderLayout.WEST );
@@ -150,9 +150,9 @@ public class BRFrame extends JFrame
             }
         else {
             //Custom button text
-            Object[] options = { 
-                this.panelLocaleResources.getTextExitRequestYes(), 
-                this.panelLocaleResources.getTextExitRequestNo() 
+            Object[] options = {
+                this.panelLocaleResources.getTextExitRequestYes(),
+                this.panelLocaleResources.getTextExitRequestNo()
                 };
 
             int n = JOptionPane.showOptionDialog(

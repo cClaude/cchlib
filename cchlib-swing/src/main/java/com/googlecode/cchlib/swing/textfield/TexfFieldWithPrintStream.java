@@ -30,7 +30,7 @@ public class TexfFieldWithPrintStream extends JTextArea
      *  Constructs a new text area for logging messages.
      *  <p>
      *  The area is readonly and wraps lines as they exceed the right margin.
-     *  <br/>
+     *  <BR>
      *  Messages can be logged in a text file.
      *  </p>
      *
@@ -62,13 +62,13 @@ public class TexfFieldWithPrintStream extends JTextArea
      *  Returns the stream used by this gadget to write data to.
      *
      *  <p>
-     *  <b>warning</b><br/>
-     *  Theoretically if you use this stream for <code>System.setErr</code>, 
+     *  <b>warning</b><BR>
+     *  Theoretically if you use this stream for <code>System.setErr</code>,
      *  you will create a recursion deadlock if an exception is thrown
-     *  within the <code>write</code> method of the stream. This case 
+     *  within the <code>write</code> method of the stream. This case
      *  has never been experienced however.
      *  </p>
-     *  
+     *
      *  @return the <code>PrintStream</code>, useful
      *                      for redirecting system output to.
      *

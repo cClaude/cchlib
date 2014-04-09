@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * ToStringBuilder is an help class to create
  * {@link Object#toString()} method.
- * <br/>
+ * <br>
  * This is not a efficient way to create toString method,
  * but a dynamic way, this class is design to be use
  * for debugging only.

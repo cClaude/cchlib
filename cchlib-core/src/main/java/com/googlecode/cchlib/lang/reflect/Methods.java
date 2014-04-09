@@ -18,7 +18,7 @@ public final class Methods
     private static class MethodComparator implements Comparator<Method>
     {
         @Override
-        public int compare( Method o1, Method o2 )
+        public int compare( final Method o1, final Method o2 )
         {
             return o1.getName().compareTo( o2.getName() );
         }
@@ -30,7 +30,7 @@ public final class Methods
     {
         final List<Method> methods = new ArrayList<Method>();
 
-        for( Method method : clazz.getMethods() ) {
+        for( final Method method : clazz.getMethods() ) {
             if( Modifier.isStatic( method.getModifiers() ) ) {
                 methods.add( method );
                 }
@@ -45,7 +45,7 @@ public final class Methods
     {
         final List<Method> methods = new ArrayList<Method>();
 
-        for( Method method : clazz.getMethods() ) {
+        for( final Method method : clazz.getMethods() ) {
             if( Modifier.isPublic( method.getModifiers() ) ) {
                 methods.add( method );
                 }

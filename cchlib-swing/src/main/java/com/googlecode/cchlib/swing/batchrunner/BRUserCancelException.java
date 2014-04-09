@@ -6,16 +6,16 @@ import java.io.File;
  * {@link BRUserCancelException} could is generate by an user action.
  * <p>
  * Example:
- * <br/>{@link BRExecutionEvent} could receive a cancel notification from user,
+ * <BR>{@link BRExecutionEvent} could receive a cancel notification from user,
  * if event create a progress monitor and if user click on cancel button
  * during process.
- * <br/>
+ * <BR>
  * Result must be check by {@link BRRunnable#execute(BRExecutionEvent)}.
  * </p>
- * 
+ *
  * @since 4.1.8
  */
-public class BRUserCancelException extends RuntimeException 
+public class BRUserCancelException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
     private File file;

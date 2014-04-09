@@ -40,7 +40,7 @@ public class JFileChooserInitializer
     private int attemptDelay = 500;
     /** @serial
      *  Number of attempt before hang when waiting for JFileChooser object
-     *  <br/>
+     *  <BR>
      *  0 - never hang (default value)
      *  @since 4.1.6
      */
@@ -57,7 +57,7 @@ public class JFileChooserInitializer
     public enum Attrib {
         /**
          * Provide a workaround according to bug:
-         * <br/>
+         * <BR>
          * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
          */
         DO_NOT_USE_SHELL_FOLDER,

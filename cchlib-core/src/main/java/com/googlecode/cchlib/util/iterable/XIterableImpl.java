@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.Selectable;
@@ -14,7 +15,8 @@ import com.googlecode.cchlib.util.iterator.Selectable;
  *
  * @since 4.1.8
  */
-public class XIterableImpl<T> implements XIterable<T>
+//NOT public
+class XIterableImpl<T> implements XIterable<T>
 {
     private Iterable<T> iterable;
 
@@ -28,12 +30,7 @@ public class XIterableImpl<T> implements XIterable<T>
         this.iterable = iterable;
     }
 
-    /**
-     *
-     * @param iterable
-     * @param wrapper
-     * @throws WrapperException
-     */
+    @NeedDoc
     public <S> XIterableImpl(
         final Iterable<S>                      iterable,
         final Wrappable<? super S,? extends T> wrapper
@@ -42,14 +39,10 @@ public class XIterableImpl<T> implements XIterable<T>
         this.iterable = new IterableWrapper<S,T>( iterable, wrapper );
     }
 
-    /**
-     *
-     * @param iterable
-     * @param filter
-     */
+    @NeedDoc
     public XIterableImpl(
         final Iterable<T>           iterable,
-        final Selectable<? super T> filter 
+        final Selectable<? super T> filter
         )
     {
         this.iterable = new IterableFilter<T>( iterable, filter );

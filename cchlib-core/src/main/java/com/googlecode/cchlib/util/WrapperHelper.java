@@ -2,15 +2,14 @@ package com.googlecode.cchlib.util;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
- * TODOC
+ * Tools for {@link Wrappable}
  *
- * @param <T>
- * @param <O>
  * @since 4.1.7
  */
-public final class WrapperHelper<T,O>
+public final class WrapperHelper
 {
     private WrapperHelper()
     {//All static
@@ -62,10 +61,11 @@ public final class WrapperHelper<T,O>
         };
     }
 
-    public static <S,R> Collection<R> toCollection( 
+    @NeedDoc
+    public static <S,R> Collection<R> toCollection(
         final Collection<S>   collection,
         final Wrappable<S,R>  wrapper,
-        final Wrappable<R,S>  unwrapper  
+        final Wrappable<R,S>  unwrapper
         )
     {
         return new CollectionWrapper<S, R>( collection, wrapper, unwrapper );

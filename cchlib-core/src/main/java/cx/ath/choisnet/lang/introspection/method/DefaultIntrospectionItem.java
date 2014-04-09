@@ -6,19 +6,18 @@ import java.lang.reflect.Method;
  * <p>
  * Provide a default implementation for IntrospectionItem
  * </p>
- * <p>
+ * <br>
+ * <br>
  * This implementation use annotation to fill minValue, maxValue
  * and defaultValue.
- * <br/>
+ * <br>
  * Annotation MUST be set on setter's methods
- * <br/>
+ * <br>
  * Current supported annotation are:
  * <pre>
  *  - IVInt
  *  - IVLong
  * </pre>
- * </p>
- *
  *
  * @param <O> TODOC
  * @see IVInt

@@ -12,8 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -34,15 +35,15 @@ public class SelectByRegExp extends SelectorPanel
     private JCheckBox jCheckBoxKeepOne;
     private XComboBoxPattern xComboBoxPatternRegEx;
 
-    private DFToolKit dFToolKit;
+    private AppToolKit dFToolKit;
     private DuplicateData duplicateData;
 
     /**
      * Create the select by regular expression panel.
      */
-    public SelectByRegExp( final DFToolKit dFToolKit, final DuplicateData duplicateData )
+    public SelectByRegExp( final DuplicateData duplicateData )
     {
-        this.dFToolKit     = dFToolKit;
+        this.dFToolKit     = AppToolKitService.getInstance().getAppToolKit();
         this.duplicateData = duplicateData;
 
         final Color errorColor = Color.RED;

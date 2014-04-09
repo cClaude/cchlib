@@ -3,8 +3,9 @@ package cx.ath.choisnet.xml;
 import java.io.IOException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.lang.StringHelper;
-import cx.ath.choisnet.ToDo;
 
 /**
  * TODOC
@@ -17,8 +18,8 @@ import cx.ath.choisnet.ToDo;
  * change.
  * </p>
  */
-@ToDo
-// TODO: make a Test case !
+@NeedDoc
+@NeedTestCases
 public class XMLBuilder
 {
     private static final String DEFAULT_TABULATION = "  ";

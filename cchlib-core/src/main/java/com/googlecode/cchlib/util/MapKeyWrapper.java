@@ -10,8 +10,8 @@ import java.util.Set;
  * <p>
  * You have a <code>Map&lt;String,HashCode&gt;</code>
  * but you need to access to map values using
- * a key build on File object.<br/>
- * <code>MapKeyWrapper&ltString,File,HashCode&gt;</code> is what you need.
+ * a key build on File object.<br>
+ * <code>MapKeyWrapper&lt;String,File,HashCode&gt;</code> is what you need.
  * </p>
  * <p>
  * MapKeyWrapper will no create a copy of original {@link Map} but a view on it.

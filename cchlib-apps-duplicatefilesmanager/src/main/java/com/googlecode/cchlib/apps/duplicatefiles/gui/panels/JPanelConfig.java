@@ -1,7 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.PathMatcher;
 import java.util.Collection;
@@ -14,8 +13,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.DFToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
@@ -39,7 +39,7 @@ public class JPanelConfig
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelConfig.class );
 
-    private DFToolKit dfToolKit;
+    private AppToolKit dfToolKit;
     private ActionListener actionListener;
     private ConfigMode mode;
 
@@ -74,11 +74,11 @@ private Scanner s;
     private static final int DIRS_FILTER_INCLUDE    = 2;
 
 
-    public JPanelConfig( final DFToolKit dfToolKit )
+    public JPanelConfig()
     {
-        super( dfToolKit.getPreferences() );
+        super();
 
-        this.dfToolKit = dfToolKit;
+        this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
     }
 
     @Override//LookAndFeelListener
@@ -102,19 +102,20 @@ private Scanner s;
     protected ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-            this.actionListener = new ActionListener()
-            {
-                @Override//ActionListener
-                public void actionPerformed( ActionEvent e )
-                {
-                    SafeSwingUtilities.invokeLater( new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            updateDisplay( true );
-                        }}, "updateDisplay()");
-                }
-            };
+//            this.actionListener = new ActionListener()
+//            {
+//                @Override//ActionListener
+//                public void actionPerformed( ActionEvent e )
+//                {
+//                    SafeSwingUtilities.invokeLater( new Runnable() {
+//                        @Override
+//                        public void run()
+//                        {
+//                            updateDisplay( true );
+//                        }}, "updateDisplay()");
+//                }
+//            };
+            this.actionListener = event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
             }
         return this.actionListener;
     }
@@ -127,7 +128,6 @@ private Scanner s;
     {
         autoI18n.performeI18n(this,this.getClass());
 
-        //Properties  prop  = ResourcesLoader.getProperties( "JPanelConfig.properties" );
         Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
         Preferences prefs = dfToolKit.getPreferences();
 
@@ -139,9 +139,10 @@ private Scanner s;
                 getActionListener()
                 );
 
-        for( String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
-            jPanelIncFilesFilter.addPatternRegExp( exp );
-            }
+//        for( String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
+//            jPanelIncFilesFilter.addPatternRegExp( exp );
+//            }
+        prefs.getIncFilesFilterPatternRegExpList().stream().forEach( exp -> jPanelIncFilesFilter.addPatternRegExp( exp ) );
 
         jPanelExcFilesFilter = new JPanelConfigFilter(
                 jPanelExcFilesFilterTitle,
@@ -172,11 +173,13 @@ private Scanner s;
         final ConfigMode prevMode   = this.mode;
         this.mode                   = this.dfToolKit.getPreferences().getConfigMode();
 
-        LOGGER.debug( "updateDisplayMode()"
-            + prevMode
-            + " -> "
-            + mode
-            );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "updateDisplayMode()"
+                    + prevMode
+                    + " -> "
+                    + mode
+                    );
+        }
 
         final boolean isModeChanged = !this.mode.equals( prevMode );
 
@@ -293,7 +296,7 @@ private Scanner s;
             if( doRepaint ) {
                 jp.revalidate();
 
-              //repaint a JFrame jframe in this case
+                // repaint a JFrame jframe in this case
                 dfToolKit.getMainFrame().repaint();
 
                 LOGGER.debug( "repaint MainWindow" );

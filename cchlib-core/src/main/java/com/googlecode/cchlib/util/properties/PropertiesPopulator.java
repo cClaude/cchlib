@@ -21,17 +21,16 @@ import org.apache.log4j.Logger;
  * </p>
  * <p>
  * <i>Warn:</i>Only primitive type are supported (and standard derived object) by
- * {@link Populator}.<br/>
+ * {@link Populator}.<br>
  * See {@link PopulatorContener} if you need to support extra type.
  * </p>
- * <p>
+ * <br>
  * Swing components supported by {@link Persistent}
  * <ul>
  *   <li>{@link javax.swing.JTextField JTextField}</li>
  *   <li>{@link javax.swing.JCheckBox JCheckBox}</li>
  *   <li>{@link javax.swing.JComboBox JComboBox} (Store only selected index)</li>
  * </ul>
- * </p>
  */
 public class PropertiesPopulator<E>
 {
@@ -90,7 +89,7 @@ public class PropertiesPopulator<E>
 
     /**
      * Store fields annotate with {@link Populator} from bean
-     * to properties.<br/>
+     * to properties.<br>
      * Null entries are not stored in properties, but null entries
      * from arrays are stored.
      *

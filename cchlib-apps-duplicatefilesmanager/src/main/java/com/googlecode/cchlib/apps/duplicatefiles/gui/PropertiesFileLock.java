@@ -11,7 +11,6 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.util.Properties;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -26,14 +25,7 @@ class PropertiesFileLock extends Properties
     private File file;
     private FileLock fileLock;
 
-    /**
-     *
-     * @param file
-     * @throws IOException
-     */
-    public PropertiesFileLock(
-        final File file
-        ) throws IOException
+    public PropertiesFileLock( final File file ) throws IOException
     {
         this.file = file;
 
@@ -53,35 +45,27 @@ class PropertiesFileLock extends Properties
 
     private void init() throws IOException
     {
-        try {
-            RandomAccessFile raf = new RandomAccessFile( this.file, "rw" );
+        try ( final RandomAccessFile raf = new RandomAccessFile( this.file, "rw" ) ) {
             // Get a file channel for the file
+            @SuppressWarnings("resource")
             FileChannel channel = raf.getChannel();
 
+            // Use the file channel to create a lock on the file.
+            // This method blocks until it can retrieve the lock.
+            this.fileLock = channel.lock();
+
+            // Try acquiring the lock without blocking. This method returns
+            // null or throws an exception if the file is already locked.
             try {
-                // Use the file channel to create a lock on the file.
-                // This method blocks until it can retrieve the lock.
-                this.fileLock = channel.lock();
-
-                // Try acquiring the lock without blocking. This method returns
-                // null or throws an exception if the file is already locked.
-                try {
-                    this.fileLock = channel.tryLock();
-                    }
-                catch( OverlappingFileLockException ignore ) {
-                    // File is already locked in this thread or virtual machine
-                    LOGGER.warn( "init()", ignore );
-                    }
-
-                // Release the lock
-                this.fileLock.release();
+                this.fileLock = channel.tryLock();
                 }
-            finally {
-                // Close the file
-                raf.close();
-                // Not needed: channel.close();
-                channel.close();
+            catch( OverlappingFileLockException ignore ) {
+                // File is already locked in this thread or virtual machine
+                LOGGER.warn( "init()", ignore );
                 }
+
+            // Release the lock
+            this.fileLock.release();
             }
         catch( Exception e ) {
             LOGGER.warn( "init()", e );
@@ -99,13 +83,8 @@ class PropertiesFileLock extends Properties
      */
     public void load() throws IOException
     {
-        InputStream is = new FileInputStream( this.file );
-
-        try {
-            super.load( is  );
-            }
-        finally {
-            is.close();
+        try( final InputStream is = new FileInputStream( this.file ) ) {
+            super.load( is );
             }
     }
 
@@ -121,13 +100,8 @@ class PropertiesFileLock extends Properties
      */
     public void store( final String comments ) throws IOException
     {
-        OutputStream os = new FileOutputStream( this.file );
-
-        try {
+        try( final OutputStream os = new FileOutputStream( this.file ) ) {
             super.store( os , comments  );
-            }
-        finally {
-            os.close();
             }
     }
 }

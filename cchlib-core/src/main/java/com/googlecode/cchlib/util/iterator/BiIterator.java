@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
  * results (Order is preserve).
  *
  * @param <T> content type
- * @see com.googlecode.cchlib.util.iterator.iterable.BiIterator
  * @since 4.1.7
  */
 public class BiIterator<T>

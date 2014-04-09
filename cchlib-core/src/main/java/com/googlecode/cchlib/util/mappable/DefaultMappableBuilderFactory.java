@@ -116,7 +116,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
 
     /**
      * If internal set is empty the return a unmodifiable set
-     * within value of {@link #ALL_CLASS_SET}.
+     * within value of {@link MappableTypes#CLASSES_SHOW_ALL}.
      */
     @Override
     public Collection<Class<?>> getClasses()

@@ -18,7 +18,7 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 /**
  * Misc methods needing be most JPanels
  */
-public interface DFToolKit extends Serializable
+public interface AppToolKit extends Serializable
 {
     void initJFileChooser();
 

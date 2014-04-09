@@ -9,8 +9,8 @@ import java.util.Set;
  * <p><u>Simple example:</u></p>
  * <p>
  * You have a <code>Map&lt;HashCode,String&gt;</code>
- * but you need a File instead of a String has value.<br/>
- * <code>MapWrapper&ltHashCode,String,File&gt;</code> is what you need.
+ * but you need a File instead of a String has value.<br>
+ * <code>MapWrapper&lt;HashCode,String,File&gt;</code> is what you need.
  * </p>
  * <p>
  * HashCode will no create a copy of original {@link Map} but a view on it.

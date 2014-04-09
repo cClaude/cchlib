@@ -12,9 +12,7 @@ import javax.servlet.jsp.PageContext;
 /**
  * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},
  * {@link System#out}, {@link System#err}, {@link HttpServletResponse#getWriter()}.
- * <br/>
- *
- *
+ * <BR>
  * <p>
  *  Configuration:
  * </p>
@@ -100,7 +98,7 @@ public class InfosServlet extends HttpServlet
     /**
      * This method could be use for debugging your servlets and your
      * or your JSPs
-     * <br/>
+     * <BR>
      * Include this :
      * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, request, response );
      *
@@ -124,7 +122,7 @@ public class InfosServlet extends HttpServlet
 
     /**
      * This method could be use for debugging your JSPs
-     * <br/>
+     * <BR>
      * Include this :
      * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, pageContext );
      *

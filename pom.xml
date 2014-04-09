@@ -17,6 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.java.source.version>1.6</project.java.source.version>
     <project.java.target.version>1.6</project.java.target.version>
+    <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
   </properties>
 
   <prerequisites>
@@ -112,13 +113,14 @@
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
           <optimize>true</optimize>
-          <showWarnings>true</showWarnings>
+
+          <showWarnings>${project.javadoc.warning}</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
+          <show>protected</show>
+          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented</excludePackageNames>
           <links>
             <link>http://docs.oracle.com/javase/7/docs/api/</link>
           </links>
-          <show>protected</show>
           <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
