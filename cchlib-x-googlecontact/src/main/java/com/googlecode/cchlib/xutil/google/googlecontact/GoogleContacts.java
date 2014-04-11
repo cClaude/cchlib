@@ -205,10 +205,6 @@ public class GoogleContacts {
         return toJSON( contacts ).toString();
     }
 
-    /**
-     * @deprecated no replacement use java 8
-     */
-    @Deprecated
     public static Iterable<GoogleContact> all(
         final List<GoogleContact>       contacts,
         final Selectable<GoogleContact> filter
