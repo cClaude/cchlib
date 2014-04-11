@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.googlecode.cchlib.util.iterable.Iterables;
+import com.googlecode.cchlib.util.iterator.Selectable;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 
 final class TypeInfoImpl implements TypeInfo {
@@ -30,19 +32,13 @@ final class TypeInfoImpl implements TypeInfo {
 
     Method getMethod( final String headerSuffix )
     {
-        return declaredMethods.stream().findAny().filter( m -> m.getAnnotation( Header.class ) != null ).get();
+        return Iterables.find( declaredMethods, new Selectable<Method>() {
+            @Override
+            public boolean isSelected( final Method method )
+            {
+                return method.getAnnotation( Header.class ) != null;
+            }} );
     }
-
-//    public Method getMethod( final String headerSuffix )
-//    {
-//        return declaredMethods.stream().findAny().filter( m -> m.getAnnotation( Header.class ) != null );
-//        return Iterables.find( declaredMethods, new Selectable<Method>() {
-//            @Override
-//            public boolean isSelected( final Method method )
-//            {
-//                return method.getAnnotation( Header.class ) != null;
-//            }} );
-//    }
 
     @Override
     public Map<String,AnalyserMethodContener> getMethodForStrings()
