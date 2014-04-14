@@ -46,11 +46,12 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  * </pre>
  *
  * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @param <V> the type of values
  */
 public class HashMapSet<K,V>
     extends HashMap<K,Set<V>>
-        implements  Iterable<V>,
+        implements  MapSet<K,V>,
+                    Iterable<V>,
                     Serializable
 
 {
@@ -271,6 +272,7 @@ public class HashMapSet<K,V>
      *
      * @return if this set HashMapSet the specified key-value and if the value was removed
      */
+    @Override
     public boolean removeInSet( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         return remove( key, value );
@@ -316,7 +318,8 @@ public class HashMapSet<K,V>
      *
      * @return true if this HashMapSet contains the specified element
      */
-    public boolean contains( final V value )
+    @Override
+    public boolean containsValueInSet( final V value )
     {// from Collection<V>
         for( final Set<? extends V> s : super.values() ) {
             if( s.contains( value )) {
@@ -339,7 +342,7 @@ public class HashMapSet<K,V>
     public boolean containsAll( final Collection<? extends V> c )
     {// from Collection<V>
         for( final V v : c) {
-            if( !contains(v) ) {
+            if( !containsValueInSet( v ) ) {
                 return false;
                 }
             }
