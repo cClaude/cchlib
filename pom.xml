@@ -224,7 +224,7 @@
     <module>cchlib-j2ee</module>
     <module>cchlib-jdbf</module>
     <module>cchlib-net</module>
-    <module>cchlib-nio</module>
+    <!--module>cchlib-nio</module-->
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
     <module>cchlib-sys</module>

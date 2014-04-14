@@ -212,7 +212,6 @@ cchlib-io
 cchlib-j2ee
 cchlib-jdbf
 cchlib-net
-cchlib-nio
 cchlib-sql
 cchlib-swing
 cchlib-sys
@@ -227,7 +226,6 @@ cchlib-io
 cchlib-j2ee
 cchlib-jdbf
 cchlib-net
-cchlib-nio
 cchlib-sql
 cchlib-swing
 cchlib-sys

@@ -30,9 +30,9 @@ public class DuplicateFileCollector
 {
     private static final long serialVersionUID = 2L;
     /** @serial */
-    private HashMapSet<Long,File> mapLengthFiles;
+    private final HashMapSet<Long,File> mapLengthFiles;
     /** @serial */
-    private boolean ignoreEmptyFile;
+    private final boolean ignoreEmptyFile;
     /** @serial */
     private boolean cancelProcess;
     /** @serial */
@@ -46,11 +46,12 @@ public class DuplicateFileCollector
      * @param ignoreEmptyFile ignore empty files (length = 0) if true.
      */
     public DuplicateFileCollector(
-            MessageDigestFile   messageDigestFile,
-            boolean             ignoreEmptyFile
-            )
+        final MessageDigestFile   messageDigestFile,
+        final boolean             ignoreEmptyFile
+        )
     {
         super( messageDigestFile );
+
         this.mapLengthFiles = new HashMapSet<Long,File>();
         this.ignoreEmptyFile = ignoreEmptyFile;
         this.cancelProcess = false;
@@ -73,7 +74,7 @@ public class DuplicateFileCollector
      * @throws IllegalStateException if {@link #pass2()} already call.
     */
     @Override
-    public void add( Iterable<File> files )
+    public void add( final Iterable<File> files )
     {
         pass1Add(files);
         pass2();
@@ -92,13 +93,13 @@ public class DuplicateFileCollector
      * @throws IllegalStateException if {@link #pass2()} already call.
      * @see #pass2()
      */
-    public synchronized void pass1Add(Iterable<File> files)
+    public synchronized void pass1Add(final Iterable<File> files)
     {
         if( this.alreadyCallPass2 ) {
             throw new IllegalStateException();
         }
-        for(File f:files) {
-            long size = f.length();
+        for(final File f:files) {
+            final long size = f.length();
 
             if( ignoreEmptyFile && (size == 0) ) {
                 continue;
@@ -151,10 +152,10 @@ public class DuplicateFileCollector
         int  c = 0;
         long l = 0;
 
-        for(Set<File> s:mapLengthFiles.values()) {
+        for(final Set<File> s:mapLengthFiles.values()) {
             if( s.size() > 1 ) {
                 c += s.size();
-                for(File f:s) {
+                for(final File f:s) {
                     l += f.length();
                 }
             }
@@ -228,10 +229,10 @@ public class DuplicateFileCollector
                 }
                set.add( f );
             }
-        catch(IOException e) {
+        catch(final IOException e) {
             notify(e,f);
             }
-        catch( CancelRequestException e ) { // $codepro.audit.disable logExceptions
+        catch( final CancelRequestException e ) { // $codepro.audit.disable logExceptions
             setCancelProcess( true );
             }
     }
@@ -271,7 +272,7 @@ public class DuplicateFileCollector
      * @param cancel true, ask process to cancel.
      * @see #clear()
      */
-    public void setCancelProcess(boolean cancel)
+    public void setCancelProcess(final boolean cancel)
     {
         cancelProcess = cancel;
     }
@@ -289,10 +290,10 @@ public class DuplicateFileCollector
 
     private static final class PStats implements Stats
     {
-        private long length;
-        private int  files;
+        private final long length;
+        private final int  files;
 
-        private PStats( long length, int files )
+        private PStats( final long length, final int files )
         {
             this.length = length;
             this.files = files;
