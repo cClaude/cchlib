@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>cchlib-unit</artifactId>
@@ -22,12 +22,12 @@
   	<dependency>
   		<groupId>com.googlecode.cchlib</groupId>
   		<artifactId>cchlib-core</artifactId>
-  		<version>4.1.8-SNAPSHOT</version>
+  		<version>4.2-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>com.googlecode.cchlib</groupId>
   		<artifactId>cchlib-io</artifactId>
-  		<version>4.1.8-SNAPSHOT</version>
+  		<version>4.2-SNAPSHOT</version>
   	</dependency>
   </dependencies>
 </project>

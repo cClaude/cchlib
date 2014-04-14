@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.googlecode.cchlib</groupId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2-SNAPSHOT</version>
     <artifactId>cchlib</artifactId>
   </parent>
   <artifactId>cchlib-core-test</artifactId>
@@ -25,14 +25,14 @@
     <dependency>
     	<groupId>com.google.guava</groupId>
     	<artifactId>guava</artifactId>
-    	<version>16.0.1</version>
+    	<version>17.0-rc2</version>
     	<classifier>site</classifier>
     	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>com.googlecode.cchlib</groupId>
     	<artifactId>cchlib-core</artifactId>
-    	<version>4.1.8-SNAPSHOT</version>
+    	<version>4.2-SNAPSHOT</version>
     	<scope>test</scope>
     </dependency>
   </dependencies>

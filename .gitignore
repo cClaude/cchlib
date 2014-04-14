@@ -92,3 +92,4 @@ cchlib-x-sandbox/cchlib-x-sandbox-lib/target/
 cchlib-x-sandbox/cchlib-x-sandbox-tools/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-tools/target/
 *.tws
+pom.xml.versionsBackup

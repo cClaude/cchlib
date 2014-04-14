@@ -6,7 +6,7 @@
   <parent>
    <artifactId>cchlib</artifactId>
    <groupId>com.googlecode.cchlib</groupId>
-   <version>4.1.8-SNAPSHOT</version>
+   <version>4.2-SNAPSHOT</version>
   </parent>
   
   <artifactId>cchlib-j2ee</artifactId>
@@ -47,7 +47,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
-      <version>4.1.8-SNAPSHOT</version>
+      <version>4.2-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-sql</artifactId>
-      <version>4.1.8-SNAPSHOT</version>
+      <version>4.2-SNAPSHOT</version>
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
