@@ -1,0 +1,4 @@
+/**
+ * Some samples
+ */
+package samples;
