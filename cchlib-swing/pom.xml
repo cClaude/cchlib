@@ -17,8 +17,6 @@
 
   <!-- Global properties -->
   <properties>
-    <project.java.source.version>1.7</project.java.source.version>
-    <project.java.target.version>1.7</project.java.target.version>
   </properties>
 
   <dependencies>
@@ -97,6 +95,7 @@
           </links>
           <show>protected</show>
           <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
       </configuration>
       </plugin>
     </plugins>

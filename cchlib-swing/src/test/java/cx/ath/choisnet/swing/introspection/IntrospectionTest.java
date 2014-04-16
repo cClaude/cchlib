@@ -10,9 +10,7 @@ import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 
-/**
- *
- */
+@SuppressWarnings("boxing")
 public class IntrospectionTest
 {
     private static Logger LOGGER = Logger.getLogger(IntrospectionTest.class);
@@ -23,7 +21,7 @@ public class IntrospectionTest
     public void setUp() throws Exception
     {
         LOGGER.info( "-- setUp()" );
-        
+
         this.tstFrame = new TstFrame();
         this.swingIntrospector = tstFrame.getSwingIntrospector();
     }
@@ -32,7 +30,7 @@ public class IntrospectionTest
     public void test_SwingIntrospector()
     {
         LOGGER.info( "-- test_SwingIntrospector()" );
-        Map<String, SwingIntrospectorRootItem<TstFrame>> map = this.swingIntrospector.getItemMap();
+        final Map<String, SwingIntrospectorRootItem<TstFrame>> map = this.swingIntrospector.getItemMap();
 
         Assert.assertEquals("Bad SwingIntrospectorRootItem count !", 7, map.size());
 
@@ -85,7 +83,7 @@ public class IntrospectionTest
         compareFrameObject( tstFrame );
     }
 
-    private void compareFrameObject( TstFrame frame )
+    private void compareFrameObject( final TstFrame frame )
         throws ParseException
     {
         final TstObject object = frame.getTstObject();

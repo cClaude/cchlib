@@ -3,11 +3,13 @@ package com.googlecode.cchlib.awt;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
  *
  * @since 4.1.8
  */
+@NeedDoc
 public enum Colors {
     aliceblue                (240,248,255),     // #F0F8FF
     antiquewhite             (250,235,215),     // #FAEBD7
@@ -163,12 +165,12 @@ public enum Colors {
     private int g;
     private int b;
     private Colors ref;
-    private Colors( Colors ref ) {
+    private Colors( final Colors ref ) {
         this( ref.r, ref.g, ref.b );
         this.ref = ref;
     }
 
-    private Colors( int r, int g, int b ) {
+    private Colors( final int r, final int g, final int b ) {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -181,18 +183,14 @@ public enum Colors {
         assert b < 256;
     }
 
-    /**
-     * @return TODOC
-     */
+    @NeedDoc
     public Color toColor() {
         return new Color( r, g, b );
     }
 
-    /**
-     * @return TODOC
-     */
+    @NeedDoc
     public String toHexString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append( '#' );
         append( sb, r );
@@ -202,12 +200,12 @@ public enum Colors {
         return sb.toString().toUpperCase();
     }
 
-    private static void append( StringBuilder sb, int digit )
+    private static void append( final StringBuilder sb, final int digit )
     {
         assert digit >= 0;
         assert digit < 256;
 
-        String str = Integer.toHexString( digit );
+        final String str = Integer.toHexString( digit );
 
         assert str.length() > 0;
         assert str.length() < 3;
@@ -219,22 +217,20 @@ public enum Colors {
         sb.append( str );
     }
 
-    /**
-     *
-     * @param color
-     * @return TODOC
-     */
-    public static Colors find( Color color )
+    @NeedDoc
+    public static Colors find( final Color color )
     {
         return find( color.getRGB() );
     }
 
-    /**
-     *
-     * @param rgb
-     * @return TODOC
-     */
-    public static Colors find( int rgb )
+    @NeedDoc
+    public static Colors find( final int rgb )
+    {
+        return  find( Integer.valueOf( rgb ) );
+    }
+
+    @NeedDoc
+    public static Colors find( final Integer rgb )
     {
         if( colorMap == null ) {
             colorMap = newMap();
@@ -247,13 +243,13 @@ public enum Colors {
     {
         final HashMap<Integer,Colors> colorMap = new HashMap<Integer,Colors>();
 
-        for( Colors c : values() ) {
+        for( final Colors c : values() ) {
             if( c.ref == null ) { // Does not include alias Colors in Map
-                int _rgb_ = c.toColor().getRGB();
+                final Integer _rgb_ = Integer.valueOf( c.toColor().getRGB() );
 
                 assert ! colorMap.containsKey( _rgb_ ) : "Color " + c + '('+ c.ref +") already exist : " + colorMap.get( _rgb_ ) + '('+ colorMap.get( _rgb_ ).ref + ')';
 
-                colorMap.put( Integer.valueOf( _rgb_ ), c );
+                colorMap.put( _rgb_, c );
                 }
             }
 
@@ -265,9 +261,9 @@ public enum Colors {
      * @param colorName
      * @return TODOC
      */
-    public static Colors find( String colorName )
+    public static Colors find( final String colorName )
     {
-        for( Colors c : values() ) {
+        for( final Colors c : values() ) {
             if( c.name().equals( colorName ) ) {
                 return c;
                 }

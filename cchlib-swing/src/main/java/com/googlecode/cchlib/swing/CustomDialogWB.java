@@ -1,19 +1,18 @@
 package com.googlecode.cchlib.swing;
 
 import java.awt.BorderLayout;
-import javax.swing.AbstractButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
-import javax.swing.JLabel;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.AbstractButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
+import javax.swing.border.EmptyBorder;
 
 /* not public */
 class CustomDialogWB extends JDialog
@@ -43,7 +42,7 @@ class CustomDialogWB extends JDialog
 
         setSize( 450, 300);
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
         gridBagLayout.rowHeights = new int[]{0, 33, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -51,7 +50,7 @@ class CustomDialogWB extends JDialog
         getContentPane().setLayout(gridBagLayout);
         {
             scrollPane = new JScrollPane();
-            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
             gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
             gbc_scrollPane.gridx = 0;
@@ -67,7 +66,7 @@ class CustomDialogWB extends JDialog
         }
         {
             commandPanel = new JPanel();
-            GridBagConstraints gbc_commandPanel = new GridBagConstraints();
+            final GridBagConstraints gbc_commandPanel = new GridBagConstraints();
             gbc_commandPanel.fill = GridBagConstraints.BOTH;
             gbc_commandPanel.gridx = 0;
             gbc_commandPanel.gridy = 1;
@@ -75,9 +74,9 @@ class CustomDialogWB extends JDialog
             commandPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
             for( int i = 0; i < abstractButtons.length; i++ ) {
-                AbstractButton b = abstractButtons[ i ];
+                final AbstractButton b = abstractButtons[ i ];
                 commandPanel.add( b );
-                b.putClientProperty( CLIENT_PROPERTY_INDEX, i );
+                b.putClientProperty( CLIENT_PROPERTY_INDEX, Integer.valueOf( i ) );
                 b.setActionCommand( ACTION_CMD_COMPONENT );
                 b.addActionListener( getActionListener() );
                 }
@@ -111,17 +110,14 @@ class CustomDialogWB extends JDialog
     private ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-            this.actionListener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    if( ACTION_CMD_COMPONENT.equals( e.getActionCommand() ) ) {
-                        AbstractButton b = AbstractButton.class.cast( e.getSource() );
-                        selectedButtonIndex = Integer.class.cast( b.getClientProperty( CLIENT_PROPERTY_INDEX ) ).intValue();
+            this.actionListener = e -> {
+                if( ACTION_CMD_COMPONENT.equals( e.getActionCommand() ) ) {
+                    final AbstractButton b = AbstractButton.class.cast( e.getSource() );
+                    selectedButtonIndex = Integer.class.cast( b.getClientProperty( CLIENT_PROPERTY_INDEX ) ).intValue();
 
-                        closeDisposeDialog();
-                        }
-                }};
+                    closeDisposeDialog();
+                    }
+            };
             }
 
         return this.actionListener;

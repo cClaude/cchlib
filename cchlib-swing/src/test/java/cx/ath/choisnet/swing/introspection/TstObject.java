@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.io.Serializable;
@@ -8,13 +5,11 @@ import java.util.Random;
 import cx.ath.choisnet.lang.introspection.method.IVIgnore;
 import cx.ath.choisnet.lang.introspection.method.IVInt;
 
-/**
- * @see IntrospectionTest
- */
+@SuppressWarnings("boxing")
 class TstObject implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private Random rand = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
+    private final Random rand = new Random(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.useOfRandom
 
     private boolean         testBoolean;
     private int             testIntegerJComboBox;
@@ -50,7 +45,7 @@ class TstObject implements Serializable
     {
         return testBoolean;
     }
-    public void setTestBoolean( boolean testBoolean )
+    public void setTestBoolean( final boolean testBoolean )
     {
         this.testBoolean = testBoolean;
     }
@@ -60,7 +55,7 @@ class TstObject implements Serializable
         return testIntegerJComboBox;
     }
     @IVInt(minValue=testIntegerJComboBoxMin,maxValue=testIntegerJComboBoxMax,defaultValue=testIntegerJComboBoxDef)
-    public void setTestIntegerJComboBox( int testIntegerJComboBox )
+    public void setTestIntegerJComboBox( final int testIntegerJComboBox )
     {
         this.testIntegerJComboBox = testIntegerJComboBox;
     }
@@ -69,7 +64,7 @@ class TstObject implements Serializable
     {
         return testFMTString;
     }
-    public void setTestFMTString( String testFMTString )
+    public void setTestFMTString( final String testFMTString )
     {
         this.testFMTString = testFMTString;
     }
@@ -79,7 +74,7 @@ class TstObject implements Serializable
         return testIntegerJSlider;
     }
     @IVInt(minValue=testIntegerJSliderMin,maxValue=testIntegerJSliderMax,defaultValue=testIntegerJSliderDef)
-    public void setTestIntegerJSlider( int testIntegerJSlider )
+    public void setTestIntegerJSlider( final int testIntegerJSlider )
     {
         this.testIntegerJSlider = testIntegerJSlider;
     }
@@ -88,7 +83,7 @@ class TstObject implements Serializable
     {
         return testString;
     }
-    public void setTestString( String testString )
+    public void setTestString( final String testString )
     {
         this.testString = testString;
     }
@@ -99,7 +94,7 @@ class TstObject implements Serializable
     }
     @IVInt(minValue=testIntegerLimitedIntegerJTextFieldMin,maxValue=testIntegerLimitedIntegerJTextFieldMax,defaultValue=testIntegerLimitedIntegerJTextFieldDef)
     public void setTestIntegerLimitedIntegerJTextField(
-            int testIntegerLimitedIntegerJTextField )
+            final int testIntegerLimitedIntegerJTextField )
     {
         this.testIntegerLimitedIntegerJTextField = testIntegerLimitedIntegerJTextField;
     }
@@ -109,7 +104,7 @@ class TstObject implements Serializable
         return testIntegerJSpinner;
     }
     @IVInt(minValue=testIntegerJSpinnerMin,maxValue=testIntegerJSpinnerMax,defaultValue=testIntegerJSpinnerDef)
-    public void setTestIntegerJSpinner( int testIntegerJSpinner )
+    public void setTestIntegerJSpinner( final int testIntegerJSpinner )
     {
         this.testIntegerJSpinner = testIntegerJSpinner;
     }
@@ -127,7 +122,7 @@ class TstObject implements Serializable
     }
 
     @IVIgnore
-    private int getRandom(int min,int max)
+    private int getRandom(final int min,final int max)
     {
        return rand.nextInt( (max - min) + 1 ) + min;
     }
@@ -135,7 +130,7 @@ class TstObject implements Serializable
     @IVIgnore
    private String getRandomFMT()
     {
-        byte[] bytes = new byte[4];
+        final byte[] bytes = new byte[4];
 
         rand.nextBytes( bytes );
 
@@ -148,7 +143,7 @@ class TstObject implements Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "TstObject [testBoolean=" );
         builder.append( testBoolean );
         builder.append( ", testIntegerJComboBox=" );

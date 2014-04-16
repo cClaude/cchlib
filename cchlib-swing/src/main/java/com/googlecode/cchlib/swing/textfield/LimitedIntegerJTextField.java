@@ -40,10 +40,10 @@ public class LimitedIntegerJTextField extends JTextField
 
         @Override
         public void insertString(
-                DocumentFilter.FilterBypass fb,
-                int offset,
-                String str,
-                AttributeSet attrs
+                final DocumentFilter.FilterBypass fb,
+                final int offset,
+                final String str,
+                final AttributeSet attrs
                 )
             throws BadLocationException
         {
@@ -52,23 +52,23 @@ public class LimitedIntegerJTextField extends JTextField
 
         @Override
         public void replace(
-                DocumentFilter.FilterBypass fb,
-                int offset,
-                int length,
-                String str,
-                AttributeSet attrs
+                final DocumentFilter.FilterBypass fb,
+                final int offset,
+                final int length,
+                final String str,
+                final AttributeSet attrs
                 )
             throws BadLocationException
         {
             // Store previous value! (should be valid)
-            Document rdoc          = fb.getDocument().getDefaultRootElement().getDocument();
-            String   savePrevValue = rdoc.getText( 0, rdoc.getLength() );
+            final Document rdoc          = fb.getDocument().getDefaultRootElement().getDocument();
+            final String   savePrevValue = rdoc.getText( 0, rdoc.getLength() );
 
             // Put new value
             fb.replace(offset, length, str, attrs);
 
             // Get new value, check it
-            String   newValue = rdoc.getText( 0, rdoc.getLength() );
+            final String   newValue = rdoc.getText( 0, rdoc.getLength() );
             int      intValue;
             try {
                 intValue = Integer.parseInt( newValue, radix );
@@ -81,7 +81,7 @@ public class LimitedIntegerJTextField extends JTextField
                 }
             // greater than maxValue or negative
             }
-            catch( NumberFormatException e ) {
+            catch( final NumberFormatException e ) {
                 LOGGER.warn( "set new value error - restore to last valid value", e );
                 // No more and Integer, out of range !
             }
@@ -110,7 +110,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param maxValue maxValue for current JTextField, range [0...maxValue]
      * @throws IllegalArgumentException if maxValue is negative
      */
-    public LimitedIntegerJTextField( int maxValue )
+    public LimitedIntegerJTextField( final int maxValue )
     {
         this( maxValue, 10 );
     }
@@ -122,7 +122,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *
      */
-    public LimitedIntegerJTextField( int maxValue, int radix )
+    public LimitedIntegerJTextField( final int maxValue, final int radix )
         throws IllegalArgumentException
     {
         super();
@@ -130,7 +130,7 @@ public class LimitedIntegerJTextField extends JTextField
         setRadix(radix);
         setMaxValue( maxValue );
 
-        AbstractDocument doc = (AbstractDocument)getDocument();
+        final AbstractDocument doc = (AbstractDocument)getDocument();
         doc.setDocumentFilter(new IntegerTextLimiter());
     }
 
@@ -159,13 +159,13 @@ public class LimitedIntegerJTextField extends JTextField
     public int getValue()
     {
         try {
-            int value = Integer.parseInt( super.getText(), radix );
+            final int value = Integer.parseInt( super.getText(), radix );
 
             if( value >=0 ) {
                 return value;
                 }
             }
-        catch( NumberFormatException ignore ) {
+        catch( final NumberFormatException ignore ) {
             // continue
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "Text: " + super.getText(), ignore );
@@ -182,7 +182,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
      */
-    public void setMaxValue(int maxValue)
+    public void setMaxValue(final int maxValue)
         throws IllegalArgumentException
     {
         if( maxValue < 0 ) { // maxValue should be greater than 0
@@ -200,7 +200,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param value
      * @throws IllegalArgumentException
      */
-    public void setValue( int value ) throws IllegalArgumentException
+    public void setValue( final int value ) throws IllegalArgumentException
     {
         checkValue( value );
 
@@ -213,7 +213,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param radix
      * @throws IllegalArgumentException
      */
-    public void setRadix( int radix ) throws IllegalArgumentException
+    public void setRadix( final int radix ) throws IllegalArgumentException
     {
         this.radix = radix;
 
@@ -226,17 +226,17 @@ public class LimitedIntegerJTextField extends JTextField
      * @param value
      * @throws IllegalArgumentException
      */
-    private void checkValue( int value ) throws IllegalArgumentException
+    private void checkValue( final int value ) throws IllegalArgumentException
     {
         if( value > this.maxValue ) {
             throw new IllegalArgumentException(
-                String.format( "need a value(%d) less than %d ",value, this.maxValue)
+                String.format( "need a value(%d) less than %d ",Integer.valueOf( value ), Integer.valueOf( this.maxValue ) )
                 );
             }
 
         if( value < 0 ) {
             throw new IllegalArgumentException(
-                String.format( "need a value(%d) greater than: 0 ", value )
+                String.format( "need a value(%d) greater than: 0 ", Integer.valueOf( value ) )
                 );
             }
     }
