@@ -144,14 +144,14 @@ public class ExtendableClassLoader extends ClassLoader
         final String fileName = className.replace('.', '/') + ".class";
         byte[]       result   = null;
 
-        for( File path : this.paths ) {
-            File f = new File(path, fileName); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
+        for( final File path : this.paths ) {
+            final File f = new File(path, fileName); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
 
             if( f.exists() ) {
                 try {
                     result = toBytes( new FileInputStream( f ) );
                     }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     LOGGER.warn( "Can not read : " + f, e );
                     //Try to continue anyway
                     }
@@ -159,21 +159,25 @@ public class ExtendableClassLoader extends ClassLoader
                 }
             }
 
-        for( final Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
-            JarFile  jarFile  = entry.getValue();
-            JarEntry jarEntry = jarFile.getJarEntry( fileName );
+        for( final Map.Entry<File, JarFile> entry : this.jars.entrySet() ) {
+            try (JarFile jarFile = entry.getValue()) {
+                final JarEntry jarEntry = jarFile.getJarEntry( fileName );
 
-            if( jarEntry != null ) {
-                try {
-                    result = toBytes( jarFile.getInputStream( jarEntry ) );
+                if( jarEntry != null ) {
+                    try {
+                        result = toBytes( jarFile.getInputStream( jarEntry ) );
                     }
-                catch( IOException e ) {
-                    LOGGER.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
-                    //Try to continue anyway
+                    catch( final IOException e ) {
+                        LOGGER.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
+                        // Try to continue anyway
                     }
-                break;
+                    break;
                 }
             }
+            catch( final IOException closeIOException ) {
+                LOGGER.warn( "Can close jar file : " + entry.getValue(), closeIOException );
+            }
+        }
 
         return result;
     }
@@ -181,37 +185,42 @@ public class ExtendableClassLoader extends ClassLoader
     @Override
     public URL findResource( final String name )
     {
-        for( File path : this.paths) {
-            File f = new File( path, name );
+        for( final File path : this.paths) {
+            final File f = new File( path, name );
 
             if( f.exists() ) {
                 try {
                     @SuppressWarnings("deprecation")
+                    final
                     URL url = f.toURL();
                     return url;
                     }
-                catch( MalformedURLException ignore ) {
+                catch( final MalformedURLException ignore ) {
                     throw new RuntimeException( ignore ); // Should not occur
                     }
                 }
             }
 
-        for( Map.Entry<File,JarFile> entry : this.jars.entrySet() ) {
-            JarFile     jarFile  = entry.getValue();
-            JarEntry    jarEntry = jarFile.getJarEntry(name);
+        for( final Map.Entry<File, JarFile> entry : this.jars.entrySet() ) {
+            try (final JarFile jarFile = entry.getValue()) {
+                final JarEntry jarEntry = jarFile.getJarEntry( name );
 
-            if( jarEntry != null ) {
-                try {
-                    @SuppressWarnings("deprecation")
-                    URL jarURL = entry.getKey().toURL();
+                if( jarEntry != null ) {
+                    try {
+                        @SuppressWarnings("deprecation")
+                        final URL jarURL = entry.getKey().toURL();
 
-                    return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
+                        return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
                     }
-                catch(MalformedURLException ignore) {
-                    throw new RuntimeException( ignore ); // Should not occur
+                    catch( final MalformedURLException ignore ) {
+                        throw new RuntimeException( ignore ); // Should not occur
                     }
                 }
             }
+            catch( final IOException closeIOException ) {
+                LOGGER.warn( "Can close jar file : " + entry.getValue(), closeIOException );
+            }
+        }
 
         return null;
     }
@@ -257,13 +266,13 @@ public class ExtendableClassLoader extends ClassLoader
         throws ClassNotFoundException
     {
         if( resolveIt ) {
-            ClassLoader parent = getParent();
+            final ClassLoader parent = getParent();
 
             if( parent != null ) {
                 try {
                     return parent.loadClass( className );
                     }
-                catch( ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+                catch( final ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                     // Try again later
                     }
                 }
@@ -282,7 +291,7 @@ public class ExtendableClassLoader extends ClassLoader
 
             return classResult;
             }
-        catch( ClassNotFoundException ignore ) { // $codepro.audit.disable logExceptions
+        catch( final ClassNotFoundException ignore ) { // $codepro.audit.disable logExceptions
             classData = getClassFromAddedClassPaths( className );
             }
 

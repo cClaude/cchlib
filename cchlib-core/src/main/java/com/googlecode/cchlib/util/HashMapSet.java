@@ -223,7 +223,7 @@ public class HashMapSet<K,V>
     {
         int addCount = 0;
 
-        for( Map.Entry<K,V> e : m.entrySet() ) {
+        for( final Map.Entry<K,V> e : m.entrySet() ) {
            if( add( e.getKey(), e.getValue() ) ) {
                addCount++;
                }
@@ -254,7 +254,7 @@ public class HashMapSet<K,V>
             super.put(key,set);
             }
 
-        for(V v:values) {
+        for(final V v:values) {
            if( set.add( v ) ) {
                addCount++;
                }
@@ -288,6 +288,7 @@ public class HashMapSet<K,V>
      * @return if this set HashMapSet the specified key-value and if the value was removed
      * @see #removeInSet(Object, Object)
      */
+    @Override
     public boolean remove( final Object key, final Object value )  // $codepro.audit.disable booleanMethodNamingConvention
     {
         final Set<V> set = super.get( key );
@@ -464,8 +465,8 @@ public class HashMapSet<K,V>
         final Iterator<V> i = iterable.iterator();
 
         while(i.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-            V v = i.next();
-            K k = iterable.computeKey( v );
+            final V v = i.next();
+            final K k = iterable.computeKey( v );
             add(k,v);
             }
     }
@@ -479,8 +480,8 @@ public class HashMapSet<K,V>
     public void addAll( final ComputeKeyIterator<K,V> iterator )
     {
         while( iterator.hasNext() ) {
-            V v = iterator.next();
-            K k = iterator.computeKey( v );
+            final V v = iterator.next();
+            final K k = iterator.computeKey( v );
             add(k,v);
             }
     }
@@ -548,7 +549,7 @@ public class HashMapSet<K,V>
     public abstract static class AbstractComputeKeyIterator<K,V>
         implements ComputeKeyIterator<K,V>
     {
-        private Iterator<V> iterator;
+        private final Iterator<V> iterator;
 
         public AbstractComputeKeyIterator(final Iterator<V> iterator)
         {

@@ -2,10 +2,12 @@ package com.googlecode.cchlib.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,7 +19,6 @@ import java.io.Writer;
 import java.util.Iterator;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-
 import com.googlecode.cchlib.io.exceptions.FileDeleteException;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import com.googlecode.cchlib.util.iterator.IteratorFilter;
@@ -62,7 +63,7 @@ public final class IOHelper
     public static void copy(
             @Nonnull final File  inputFile,
             @Nonnull final File  outputFile,
-            @Nonnull byte[]      buffer
+            @Nonnull final byte[]      buffer
             )
         throws IOException
     {
@@ -90,7 +91,7 @@ public final class IOHelper
     public static void copy(
             @Nonnull final InputStream   input,
             @Nonnull final File          outputFile,
-            @Nonnull byte[]              buffer
+            @Nonnull final byte[]              buffer
             )
         throws IOException
     {
@@ -135,15 +136,33 @@ public final class IOHelper
             )
         throws IOException
     {
-        final FileWriter fos = new FileWriter( file );
 
-        try {
+        try( final Writer fos = new BufferedWriter( new FileWriter( file ) ) ) {
             fos.write( str );
             }
-        finally {
-            fos.close();
-            }
     }
+
+    /**
+     * Copy a bytes array into a File
+     *
+     * @param bytes Bytes array to store into file
+     * @param file  {@link File} to create
+     * @return original <code>file</code> parameter value
+     * @throws FileNotFoundException if the file exists but is a directory rather than a regular file,
+     *         does not exist but cannot be created, or cannot be opened for any other reason
+     * @throws IOException if an I/O error occurs.
+     */
+    public static File toFile(
+        @Nonnull final byte[] bytes,
+        @Nonnull final File   file
+        ) throws FileNotFoundException, IOException
+    {
+        try( final OutputStream out = new BufferedOutputStream( new FileOutputStream( file ) ) ) {
+            out.write( bytes );
+        }
+        return file;
+    }
+
 
     /**
      * Delete all files and folders giving folder
@@ -169,7 +188,7 @@ public final class IOHelper
             final File[] files = toDeleteFile.listFiles();
 
             if( files != null ) {
-                for(File f : files) {
+                for(final File f : files) {
                     deleteTree( f );
                     }
                 }
@@ -230,7 +249,7 @@ public final class IOHelper
     public static byte[] toByteArray( @Nonnull final InputStream input )
         throws IOException
     {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         copy( input, out );
         input.close();
@@ -249,7 +268,7 @@ public final class IOHelper
     public static void copy(
             @Nonnull final InputStream   input,
             @Nonnull final OutputStream  output,
-            @Nonnull byte[]              buffer
+            @Nonnull final byte[]              buffer
             )
         throws IOException
     {
@@ -313,8 +332,8 @@ public final class IOHelper
         throws IOException
     {
         for(;;) {
-            int c1 = expected.read();
-            int c2 = actual.read();
+            final int c1 = expected.read();
+            final int c2 = actual.read();
 
             if( c1 != c2 ) {
                 return false;
@@ -340,8 +359,8 @@ public final class IOHelper
         int index = 0;
 
         for(;;) {
-            int c1 = is.read();
-            int c2 = (index < bytes.length) ? (0x00FF & bytes[ index++ ]) : -1; // $codepro.audit.disable numericLiterals
+            final int c1 = is.read();
+            final int c2 = (index < bytes.length) ? (0x00FF & bytes[ index++ ]) : -1; // $codepro.audit.disable numericLiterals
 
             if( c1 != c2 ) {
                 return false;
@@ -432,4 +451,5 @@ public final class IOHelper
     {
         copy( input, output, DEFAULT_BUFFER_SIZE );
     }
+
 }

@@ -37,7 +37,7 @@ public class XVector<E> extends Vector<E>
      *
      * @param c {@link Collection} to use to initialize XVector
      */
-    public XVector( Collection<? extends E> c )
+    public XVector( final Collection<? extends E> c )
     {
         super( c );
     }
@@ -51,7 +51,7 @@ public class XVector<E> extends Vector<E>
      * @throws IllegalArgumentException if the specified initial capacity is
      *         negative
      */
-    public XVector( int initialCapacity, int capacityIncrement )
+    public XVector( final int initialCapacity, final int capacityIncrement )
     {
         super( initialCapacity, capacityIncrement );
     }
@@ -64,7 +64,7 @@ public class XVector<E> extends Vector<E>
      * @throws IllegalArgumentException if the specified initial capacity is
      *         negative
      */
-    public XVector( int initialCapacity )
+    public XVector( final int initialCapacity )
     {
         super( initialCapacity );
     }
@@ -74,12 +74,12 @@ public class XVector<E> extends Vector<E>
      *
      * @param elements Array of element to use to initialize XVector
      */
-    //Java 1.7 @SafeVarargs
+    @SafeVarargs
     public XVector( final E...elements )
     {
         super( elements.length );
 
-        for( E element : elements ) {
+        for( final E element : elements ) {
             add( element );
             }
     }
@@ -89,7 +89,7 @@ public class XVector<E> extends Vector<E>
      * @param element element to be inserted
      * @return this object for initialization chaining
      */
-    public XVector<E> xadd( E element )
+    public XVector<E> xadd( final E element )
     {
         super.addElement( element );
 
@@ -102,7 +102,7 @@ public class XVector<E> extends Vector<E>
      * @param element element to be inserted
      * @return this object for initialization chaining
      */
-    public XVector<E> xadd( int index, E element )
+    public XVector<E> xadd( final int index, final E element )
     {
         super.add( index, element );
 

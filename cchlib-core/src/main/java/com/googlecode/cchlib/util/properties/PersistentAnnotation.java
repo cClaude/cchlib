@@ -8,22 +8,25 @@ import javax.swing.JTextField;
 /* not public */
 class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
 {
-    private Persistent persistent;
+    private final Persistent persistent;
 
-    PersistentAnnotation( Persistent persistent )
+    PersistentAnnotation( final Persistent persistent )
     {
         this.persistent = persistent;
     }
+
     @Override
     public boolean isDefaultValueNull()
     {
         return false;
     }
+
     @Override
     public String defaultValue()
     {
         return persistent.defaultValue();
     }
+
     @Override
     public String toString( final Object o ) throws PropertiesPopulatorException
     {
@@ -34,8 +37,8 @@ class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
             return Boolean.toString( JCheckBox.class.cast( o ).isSelected() );
             }
         else if( o instanceof JComboBox ) {
-            JComboBox jc    = JComboBox.class.cast( o );
-            int       index = jc.getSelectedIndex(); // Store only selected index
+            final JComboBox<?> jc    = JComboBox.class.cast( o );
+            final int          index = jc.getSelectedIndex(); // Store only selected index
 
             return Integer.toString( index );
             }
@@ -43,6 +46,7 @@ class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
             throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
             }
     }
+
     @Override
     public void setValue( final Field f, final E bean, final String strValue, final Class<?> type )
         throws IllegalArgumentException,
@@ -50,7 +54,7 @@ class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
                ConvertCantNotHandleTypeException,
                PropertiesPopulatorException
     {
-        Object o = f.get( bean );
+        final Object o = f.get( bean );
 
         if( o instanceof JTextField ) {
             JTextField.class.cast( o ).setText( strValue );
@@ -59,8 +63,8 @@ class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
             JCheckBox.class.cast( o ).setSelected( Boolean.parseBoolean( strValue ) );
             }
         else if( o instanceof JComboBox ) {
-            final JComboBox jc    = JComboBox.class.cast( o );
-            final int       index = Integer.parseInt( strValue );
+            final JComboBox<?> jc    = JComboBox.class.cast( o );
+            final int          index = Integer.parseInt( strValue );
 
             jc.setSelectedIndex( index );
             }
@@ -68,6 +72,7 @@ class PersistentAnnotation<E> implements PropertiesPopulatorAnnotation<E>
             throw new PersistentException( "@Persistent does not handle type " + o.getClass() );
             }
     }
+
     @Override
     public void setArrayEntry( final Field f, final Object array, final int index, final String strValue, final Class<?> type)
         throws ArrayIndexOutOfBoundsException,

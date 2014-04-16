@@ -24,7 +24,7 @@ public class CascadingIterator<T>
      *
      * @param iterator an Iterator of Iterator
      */
-    public CascadingIterator(Iterator<? extends Iterable<? extends T>> iterator)
+    public CascadingIterator(final Iterator<? extends Iterable<? extends T>> iterator)
     {
         mainIterator    = iterator;
         currentIterator = null;
@@ -38,13 +38,14 @@ public class CascadingIterator<T>
      * @param iterators
      * @since 4.1.8
      */
+    @SafeVarargs
     @NeedDoc
-    public CascadingIterator( Iterable<? extends T>...iterators )
+    public CascadingIterator( final Iterable<? extends T>...iterators )
     {
         this( newIterator( iterators ) );
     }
 
-    private static <T> Iterator<? extends Iterable<? extends T>> newIterator( Iterable<? extends T>[] iterators )
+    private static <T> Iterator<? extends Iterable<? extends T>> newIterator( final Iterable<? extends T>[] iterators )
     {
         return new ArrayIterable<Iterable<? extends T>>( iterators ).iterator();
     }

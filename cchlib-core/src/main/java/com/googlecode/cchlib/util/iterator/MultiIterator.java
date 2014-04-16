@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.NeedDoc;
 
 /**
  * Build an Iterator based on an Iterator of Iterator.
@@ -25,97 +26,71 @@ public class MultiIterator<T> extends ComputableIterator<T>
     private final Iterator<? extends Iterator<? extends T>> metaIterator;
     private Iterator<? extends T>                           currentIterator;
 
-    /**
-     * TODOC
-     * @param iteratorOfIterator
-     */
-    public MultiIterator(Iterator<? extends Iterator<? extends T>> iteratorOfIterator)
+    @NeedDoc
+    public MultiIterator(final Iterator<? extends Iterator<? extends T>> iteratorOfIterator)
     {
         currentIterator = null;
         metaIterator    = iteratorOfIterator;
     }
 
-    /**
-     * TODOC
-     * @param collectionOfIterator
-     */
-    public MultiIterator(Collection<? extends Iterator<? extends T>> collectionOfIterator)
+    @NeedDoc
+    public MultiIterator(final Collection<? extends Iterator<? extends T>> collectionOfIterator)
     {
         this(collectionOfIterator.iterator());
     }
 
-    /**
-     * TODOC
-     * @param iter0
-     * @param iter1
-     */
+    @NeedDoc
     public MultiIterator(
-            Iterator<? extends T> iter0,
-            Iterator<? extends T> iter1
+            final Iterator<? extends T> iter0,
+            final Iterator<? extends T> iter1
             )
     {
         currentIterator = null;
 
-        List<Iterator<? extends T>> listOfIterator = new ArrayList<Iterator<? extends T>>();
+        final List<Iterator<? extends T>> listOfIterator = new ArrayList<Iterator<? extends T>>();
         listOfIterator.add(iter0);
         listOfIterator.add(iter1);
         metaIterator = listOfIterator.iterator();
     }
 
-    /**
-     * TODOC
-     * @param iter
-     * @param element
-     */
-    public MultiIterator(Iterator<? extends T> iter, T element)
+    @NeedDoc
+    public MultiIterator(final Iterator<? extends T> iter, final T element)
     {
         currentIterator = null;
 
-        List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
+        final List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
         listOfIterator.add( iter );
         listOfIterator.add( new SingletonIterator<T>(element) );
 
         metaIterator = listOfIterator.iterator();
     }
 
-    /**
-     * TODOC
-     * @param element
-     * @param iter
-     */
-    public MultiIterator(T element, Iterator<? extends T> iter)
+    @NeedDoc
+    public MultiIterator(final T element, final Iterator<? extends T> iter)
     {
         currentIterator = null;
 
-        List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
+        final List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
         listOfIterator.add(new SingletonIterator<T>(element));
         listOfIterator.add(iter);
 
         metaIterator = listOfIterator.iterator();
     }
 
-    /**
-     * TODOC
-     * @param arrayOfIterator
-     */
-    //Java 1.7 @SafeVarargs
+    @NeedDoc
+    @SafeVarargs
     public MultiIterator(
-            Iterator<? extends T>...arrayOfIterator
+            final Iterator<? extends T>...arrayOfIterator
             )
     {
         this(arrayOfIterator, 0, arrayOfIterator.length);
     }
 
-    /**
-     * TODOC
-     * @param arrayOfIterator
-     * @param offset
-     * @param len
-     */
+    @NeedDoc
     public MultiIterator(
-            Iterator<? extends T>[] arrayOfIterator,
-            int                     offset,
-            int                     len
+            final Iterator<? extends T>[] arrayOfIterator,
+            final int                     offset,
+            final int                     len
             )
     {
         this(

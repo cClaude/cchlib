@@ -30,6 +30,7 @@ public class ArrayIterator<T>
      *
      * @param array array of element to wrap
      */
+    @SafeVarargs
     public ArrayIterator( final T...array )
     {
         this.array = array;
@@ -66,10 +67,11 @@ public class ArrayIterator<T>
      * @param clazz
      * @param capacity
      */
-    private ArrayIterator( Class<T> clazz, int capacity)
+    private ArrayIterator( final Class<T> clazz, final int capacity)
     {
         //perhaps something better later?
         @SuppressWarnings("unchecked")
+        final
         T[] array = (T[])Array.newInstance(clazz,capacity);
         this.array = array;
         this.index = 0;
@@ -83,7 +85,7 @@ public class ArrayIterator<T>
      * @param o1    first element for Iterator
      * @param o2    second element for Iterator
      */
-    public ArrayIterator( Class<T> clazz, T o1, T o2 )
+    public ArrayIterator( final Class<T> clazz, final T o1, final T o2 )
     {
         this(clazz,2);
         this.array[0] = o1;
@@ -98,7 +100,7 @@ public class ArrayIterator<T>
      * @param o2    second element for Iterator
      * @param o3    third element for Iterator
      */
-    public ArrayIterator( Class<T> clazz, T o1, T o2, T o3 )
+    public ArrayIterator( final Class<T> clazz, final T o1, final T o2, final T o3 )
     {
         this(clazz,3);
         this.array[0] = o1;
@@ -129,8 +131,8 @@ public class ArrayIterator<T>
         try {
             return array[index++];
             }
-        catch(IndexOutOfBoundsException e) {
-            NoSuchElementException ee = new NoSuchElementException();
+        catch(final IndexOutOfBoundsException e) {
+            final NoSuchElementException ee = new NoSuchElementException();
 
             ee.initCause( e );
 
@@ -163,8 +165,8 @@ public class ArrayIterator<T>
      * @param entries
      * @return an ArrayIterator
      */
-    //Java 1.7 @SafeVarargs
-    public static <T> ArrayIterator<T> of(T...entries)
+    @SafeVarargs
+    public static <T> ArrayIterator<T> of(final T...entries)
     {
         return new ArrayIterator<T>( entries );
     }

@@ -18,23 +18,23 @@ public final class ArrayHelper
     {//All static
     }
 
-    /**
-     * Convert varargs in a Array.
-     *
-     * @param <T>       Type of array
-     * @param entries   List of entry for the array
-     * @return the varargs Array (documented as a new
-     *         arrays in previous versions)
-     * @since 4.1.5
-     * @deprecated does not check entries content, and did
-     *             not create a shadow copy given values.
-     */
-    //Java 1.7 @SafeVarargs
-    @Deprecated
-    public static <T> T[] createArray( T...entries )
-    {
-        return entries;
-    }
+//    /**
+//     * Convert varargs in a Array.
+//     *
+//     * @param <T>       Type of array
+//     * @param entries   List of entry for the array
+//     * @return the varargs Array (documented as a new
+//     *         arrays in previous versions)
+//     * @since 4.1.5
+//     * @deprecated does not check entries content, and did
+//     *             not create a shadow copy given values.
+//     */
+//    //Java 1.7 @SafeVarargs
+//    @Deprecated
+//    public static <T> T[] createArray( T...entries )
+//    {
+//        return entries;
+//    }
 
     /**
      * Create an Array from giving values
@@ -44,19 +44,11 @@ public final class ArrayHelper
      * @return the new Array
      * @since 4.1.6
      */
-    //Java 1.7 @SafeVarargs
+    @SafeVarargs
     @NeedTestCases
-    public static <T> T[] createArray( Class<T> clazz, T...entries )
+    public static <T> T[] createArray( final Class<T> clazz, final T...entries )
     {
-//        //Workaround for: T[] array = new T[ entries.length ];
-//        @SuppressWarnings("unchecked")
-//        final T[] array = (T[])Array.newInstance( clazz, entries.length );
-//
-//        for( int i = 0; i<entries.length; i++ ) {
-//            array[ i ] = entries[ i ];
-//            }
-//
-//        return array;
+        //Workaround for: T[] array = new T[ entries.length ];
         return cloneArray( clazz, entries );
     }
 
@@ -102,7 +94,8 @@ public final class ArrayHelper
     }
 
     /**
-     * TODOC
+     * Clone an array of bytes
+     *
      * @param src
      * @param srcPos
      * @param destPos
@@ -110,7 +103,7 @@ public final class ArrayHelper
      * @return TODOC
      */
     @NeedTestCases
-    public static byte[] cloneArray( byte[] src, int srcPos, int destPos, int length )
+    public static byte[] cloneArray( final byte[] src, final int srcPos, final int destPos, final int length )
     {
         final byte[] dest = new byte[ length ];
 
@@ -132,7 +125,7 @@ public final class ArrayHelper
     public static <T> Enumeration<T> toEnumeration(
             final T[] array,
             final int offset,
-            int       len
+            final int       len
             )
     {
         final int enumLen = offset + len;
@@ -169,7 +162,7 @@ public final class ArrayHelper
      * @return an {@link Enumeration} for this array
      */
     public static <T> Enumeration<T> toEnumeration(
-            T[] array
+            final T[] array
             )
     {
         if( array == null ) {
@@ -188,7 +181,7 @@ public final class ArrayHelper
      * @return an {@link Iterator} for this array
      * @see ArrayIterator
      */
-    public static <T> Iterator<T> toIterator( T[] array )
+    public static <T> Iterator<T> toIterator( final T[] array )
     {
         return new ArrayIterator<T>(array);
     }
@@ -203,7 +196,7 @@ public final class ArrayHelper
      * @return an {@link Iterator} for this array
      * @see ArrayIterator
      */
-    public static <T> Iterator<T> toIterator(T[] array, int offset, int len)
+    public static <T> Iterator<T> toIterator(final T[] array, final int offset, final int len)
     {
         return new ArrayIterator<T>(array,offset,len);
     }

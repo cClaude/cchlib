@@ -20,7 +20,8 @@ public class ArrayIterable<T> implements Iterable<T>
      *
      * @param array array of element to wrap
      */
-    public ArrayIterable(T...array)
+    @SafeVarargs
+    public ArrayIterable(final T...array)
     {
         this( array, 0, array.length );
     }
@@ -33,9 +34,9 @@ public class ArrayIterable<T> implements Iterable<T>
      * @param len    number of element to read
      */
     public ArrayIterable(
-        T[] array,
-        int offset,
-        int len
+        final T[] array,
+        final int offset,
+        final int len
         )
     {
         this.array  = array; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
