@@ -84,83 +84,84 @@ final class ExportSQLPrinter implements Closeable
         this.s.execute( q.toString() );
 
         // Get result set
-        ResultSet r = this.s.getResultSet();
-        ResultSetMetaData rm = r.getMetaData(); // call before r.next() see note 4 above in JDBC hints
+        try( ResultSet r = this.s.getResultSet() ) {
+            final ResultSetMetaData rm = r.getMetaData(); // call before r.next() see note 4 above in JDBC hints
 
-        println();
-        println( "-- ---------------------------" );
-        print( "-- Data for `"  );
-
-        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-            print( this.exportSQL.getSchemaName() ).print( "`.`" );
-            }
-
-        print( tableDesc.getName() ).println( "`" );
-        println( "-- ---------------------------" );
-
-        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_DISABLE_AUTOCOMMIT ) ) {
-            println( "SET AUTOCOMMIT=0;" );
-            }
-
-        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-            print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
-            }
-
-        println( StringHelper.EMPTY );
-        println( StringHelper.EMPTY);
-
-        while( r.next() ) {
-            print( "INSERT INTO `" );
+            println();
+            println( "-- ---------------------------" );
+            print( "-- Data for `"  );
 
             if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-                print( this.exportSQL.getSchemaName() );
-                print( "`.`" );
+                print( this.exportSQL.getSchemaName() ).print( "`.`" );
                 }
 
-            print( tableDesc.getName() );
-            print( "` (" );
-            boolean isFirst = true;
+            print( tableDesc.getName() ).println( "`" );
+            println( "-- ---------------------------" );
 
-            for(int i = 1; i <= rm.getColumnCount(); i++) {
-                if( isFirst ) {
-                    isFirst = false;
-                    }
-                else {
-                    print( "," );
-                    }
-                print( "`" );
-                print( rm.getColumnName( i ) );
-                print( "`" );
+            if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_DISABLE_AUTOCOMMIT ) ) {
+                println( "SET AUTOCOMMIT=0;" );
                 }
-            print( ") VALUES (" );
 
-            isFirst = true;
-
-            for(int i = 1; i <= rm.getColumnCount(); i++) {
-                if( isFirst ) {
-                    isFirst = false;
-                    }
-                else {
-                    print( "," );
-                    }
-                String s = r.getString( rm.getColumnName( i ) );
-
-                if( s == null ) {
-                    print( "NULL" );
-                    }
-                else {
-                    print( "'" );
-                    print( SQLTools.parseFieldValue( s ) );
-                    print( "'" );
-                    }
+            if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
+                print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
                 }
-            println( ");" );
-            }
 
-        println();
-        println( "COMMIT;" );
-        //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
-        println();
+            println( StringHelper.EMPTY );
+            println( StringHelper.EMPTY);
+
+            while( r.next() ) {
+                print( "INSERT INTO `" );
+
+                if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
+                    print( this.exportSQL.getSchemaName() );
+                    print( "`.`" );
+                    }
+
+                print( tableDesc.getName() );
+                print( "` (" );
+                boolean isFirst = true;
+
+                for(int i = 1; i <= rm.getColumnCount(); i++) {
+                    if( isFirst ) {
+                        isFirst = false;
+                        }
+                    else {
+                        print( "," );
+                        }
+                    print( "`" );
+                    print( rm.getColumnName( i ) );
+                    print( "`" );
+                    }
+                print( ") VALUES (" );
+
+                isFirst = true;
+
+                for(int i = 1; i <= rm.getColumnCount(); i++) {
+                    if( isFirst ) {
+                        isFirst = false;
+                        }
+                    else {
+                        print( "," );
+                        }
+                    final String s = r.getString( rm.getColumnName( i ) );
+
+                    if( s == null ) {
+                        print( "NULL" );
+                        }
+                    else {
+                        print( "'" );
+                        print( SQLTools.parseFieldValue( s ) );
+                        print( "'" );
+                        }
+                    }
+                println( ");" );
+                }
+
+            println();
+            println( "COMMIT;" );
+            //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
+            println();
+        }
     }
 
     public void println() throws IOException
@@ -168,13 +169,13 @@ final class ExportSQLPrinter implements Closeable
         out.write( '\n' );
      }
 
-    public ExportSQLPrinter print( String s ) throws IOException
+    public ExportSQLPrinter print( final String s ) throws IOException
     {
         out.write( s );
         return this;
     }
 
-    public void println( String s ) throws IOException
+    public void println( final String s ) throws IOException
     {
         print( s );
         println();
@@ -183,13 +184,13 @@ final class ExportSQLPrinter implements Closeable
     @Override
     public void close() throws SQLCloseException
     {
-        if(s != null) { 
+        if(s != null) {
         	try {
         		s.close();
-				} 
-        	catch ( SQLException e ) {
+				}
+        	catch ( final SQLException e ) {
 				throw new SQLCloseException( e );
-				} 
+				}
         	}
     }
 

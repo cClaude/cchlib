@@ -7,11 +7,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Create a simple {@link DataSource} based on a standard driver class object.
@@ -100,7 +100,7 @@ public class DataSourceFactory
                 {
                 }
                 @Override
-                public void write(char[] cbuf, int off, int len)
+                public void write(final char[] cbuf, final int off, final int len)
                         throws IOException
                 {
                     dsLogger.log(
@@ -120,7 +120,7 @@ public class DataSourceFactory
                 return getConnection( username, password );
             }
             @Override
-            public Connection getConnection( String username, String password )
+            public Connection getConnection( final String username, final String password )
                 throws SQLException
             {
                 Connection conn = null;
@@ -147,7 +147,7 @@ public class DataSourceFactory
                 return timeOut;
             }
             @Override
-            public void setLoginTimeout( int seconds )
+            public void setLoginTimeout( final int seconds )
             {
                 timeOut = seconds;
             }
@@ -173,8 +173,7 @@ public class DataSourceFactory
             {
                 throw new SQLException( "unwrap() not supported" );
             }
-            // 1.7 @Override
-            @SuppressWarnings("unused")
+            @Override
             public Logger getParentLogger() throws SQLFeatureNotSupportedException
             {
                 return dsLogger;
@@ -225,7 +224,7 @@ public class DataSourceFactory
                 return getConnection( username, password );
             }
             @Override
-            public Connection getConnection( String username, String password )
+            public Connection getConnection( final String username, final String password )
                 throws SQLException
             {
                 Connection conn = null;
@@ -250,7 +249,7 @@ public class DataSourceFactory
                 return timeOut;
             }
             @Override
-            public void setLoginTimeout( int seconds )
+            public void setLoginTimeout( final int seconds )
             {
                 timeOut = seconds;
             }
@@ -276,8 +275,7 @@ public class DataSourceFactory
             {
                 throw new SQLException( "unwrap() not supported" );
             }
-            // 1.7 @Override
-            @SuppressWarnings("unused")
+            @Override
             public Logger getParentLogger()
                     throws SQLFeatureNotSupportedException
             {

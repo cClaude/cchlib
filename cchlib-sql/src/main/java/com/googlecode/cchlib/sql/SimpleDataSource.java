@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 public class SimpleDataSource
     implements Closeable
 {
-    private DataSource  ds;
+    private final DataSource  ds;
     private String[]    userPass;
 
     /**
@@ -85,7 +85,7 @@ public class SimpleDataSource
     public static void quietClose( final Closeable closeable )
     {
         if( closeable != null ) {
-            try { closeable.close(); } catch( IOException ignore ) { }
+            try { closeable.close(); } catch( final IOException ignore ) { }
             }
     }
 
@@ -105,18 +105,18 @@ public class SimpleDataSource
         DataSource  ds;
 
         try {
-            Context context = new InitialContext();
+            final Context context = new InitialContext();
 
             ressource   = context.lookup(resourceName);
             ds          = DataSource.class.cast(ressource);
             }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             throw new SimpleDataSourceException(
                     "Bad ressource '" + resourceName + "' expecting DataSource, found : " + ressource,
                     e
                     );
             }
-        catch( NamingException e ) {
+        catch( final NamingException e ) {
             throw new SimpleDataSourceException(
                     "Can't create SimpleQuery for '" + resourceName + '\'',
                     e
@@ -139,6 +139,7 @@ public class SimpleDataSource
      * @return a new Connection from DataSource
      * @throws SQLException if any
      */
+    @SuppressWarnings("resource")
     public Connection createConnectionFromDataSource()
         throws SQLException
     {

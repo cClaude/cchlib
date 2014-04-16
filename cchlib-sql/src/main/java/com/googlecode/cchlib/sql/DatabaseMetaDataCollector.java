@@ -34,7 +34,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     private static final transient Logger LOGGER = Logger.getLogger( DatabaseMetaDataCollector.class );
 
     /** @serial */
-    private DatabaseMetaData databaseMetaData;
+    private final DatabaseMetaData databaseMetaData;
 
     /**
      * Build internal Map of methods names and values
@@ -111,7 +111,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         }
 
         {
-            MapBuilder builder = new MapBuilder( databaseMetaData );
+            final MapBuilder builder = new MapBuilder( databaseMetaData );
 
             map.putAll( builder.toMap() );
         }
@@ -219,7 +219,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         final Method[]      methods = DatabaseMetaData.class.getMethods();
         final List<Method>  methodsToInvoke = new ArrayList<Method>();
 
-        for(Method m:methods) {
+        for(final Method m:methods) {
             final Class<?> returnType = m.getReturnType();
 
             if( m.getParameterTypes().length == 0 ) {
@@ -240,15 +240,15 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         try {
             return m.invoke( databaseMetaData );
             }
-        catch( IllegalArgumentException e ) {
+        catch( final IllegalArgumentException e ) {
             LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
-        catch( IllegalAccessException e ) {
+        catch( final IllegalAccessException e ) {
             LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
-        catch( InvocationTargetException e ) {
+        catch( final InvocationTargetException e ) {
             LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
@@ -257,7 +257,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     private class MapBuilder implements Mappable
     {
         /** @Serial */
-        private Map<String, String> values = new LinkedHashMap<String,String>();
+        private final Map<String, String> values = new LinkedHashMap<String,String>();
 
         /**
          * Build internal Map of methods names and values
@@ -270,22 +270,14 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         {
             List<Method> methodsToInvoke;
 
-            Comparator<Method> methodComparator = new Comparator<Method>()
-            {
-                @Override
-                public int compare( Method m0, Method m1 )
-                {
-                    return m0.getName().compareTo( m1.getName() );
-                }
-
-            };
+            final Comparator<Method> methodComparator = ( m0, m1 ) -> m0.getName().compareTo( m1.getName() );
 
             methodsToInvoke = getMethodsToInvokeForResultSet();
 
             Collections.sort( methodsToInvoke, methodComparator );
             values.put( "# of methods that return a ResultSet", Integer.toString( methodsToInvoke.size() ) );
 
-            for( Method m:methodsToInvoke ) {
+            for( final Method m:methodsToInvoke ) {
                 final Object rSet  = invoke( databaseMetaData, m );
 
                 values.put( "Method that return a ResultSet", m.toString() );
@@ -293,7 +285,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                 }
         }
 
-        private void addResultSet( Method m, Object resultSet )
+        private void addResultSet( final Method m, final Object resultSet )
         {
             if( resultSet == null ) {
                 values.put(
@@ -316,7 +308,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     }
                 }
             else {
-                ResultSet rSet   = ResultSet.class.cast( resultSet );
+                final ResultSet rSet   = ResultSet.class.cast( resultSet );
                 int       cCount = 0;    // not yet populate
                 String[]  cNames = null; // not yet populate
 
@@ -327,7 +319,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     cNames = new String[ cCount + 1 ];
 
                     for( int i = 1; i<=cCount; i++ ) {
-                        String cName = metaData.getColumnName( i );
+                        final String cName = metaData.getColumnName( i );
                         cNames[ i ]  = cName;
 
 //                        values.put(
@@ -336,7 +328,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 //                            );
                         }
                     }
-                catch( SQLException e ) {
+                catch( final SQLException e ) {
                     LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
 
                     values.put(
@@ -358,25 +350,25 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                                     String.format(
                                         "%s ResultSet[%d][%s].%d",
                                         m.getName(),
-                                        i,
+                                        Integer.valueOf( i ),
                                         cNames[ i ],
-                                        row
+                                        Integer.valueOf( row )
                                         ),
                                     rSet.getString( i ) );
                             }
                         row++;
                         }
                     }
-                catch( SQLException e ) {
+                catch( final SQLException e ) {
                     LOGGER.warn( "Error while reading ResultSet return by " + m, e );
 
                     values.put(
-                        String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), row ),
+                        String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), Integer.valueOf( row ) ),
                         e.getMessage()
                         );
                     }
                 finally {
-                    try { rSet.close(); } catch( SQLException ignore ) { }
+                    try { rSet.close(); } catch( final SQLException ignore ) { }
                     }
                 }
         }
