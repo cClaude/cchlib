@@ -2,7 +2,6 @@
 package com.googlecode.cchlib.lang.reflect;
 
 import static org.junit.Assert.assertNotNull;
-
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.After;
@@ -25,16 +24,16 @@ public class InvokerByNameTest
     public void testInvokerByName_getClass()
         throws Exception
     {
-        Class<? extends Object> clazz      = Object.class;
-        String                  methodName = "getClass";
-        Object                  instance   = new Object();
-        Object[]                params     = null;
+        final Class<? extends Object> clazz      = Object.class;
+        final String                  methodName = "getClass";
+        final Object                  instance   = new Object();
+        final Object[]                params     = null;
 
-        InvokerByName<Object> test = new InvokerByName<Object>(clazz, methodName);
+        final InvokerByName<Object> test = new InvokerByName<Object>(clazz, methodName);
 
         assertNotNull( test );
 
-        Object result = test.invoke( instance, params );
+        final Object result = test.invoke( instance, params );
         Assertions.assertThat( result ).isEqualTo( Object.class );
     }
 
@@ -46,7 +45,7 @@ public class InvokerByNameTest
     public void testForName_ClassNotFoundException()
         throws Exception
     {
-        InvokerByName<?> result = InvokerByName.forName( "does.not.Exist", "does.not.Exist" );
+        final InvokerByName<?> result = InvokerByName.forName( "does.not.Exist", "does.not.Exist" );
 
         // add additional test code here
         assertNotNull(result);
@@ -59,7 +58,7 @@ public class InvokerByNameTest
     @Test
     public void testForName_OK_init() throws ClassNotFoundException
     {
-        InvokerByName<?> result = InvokerByName.forName( InvokerByNameFactory.className, InvokerByNameFactory.methodName);
+        final InvokerByName<?> result = InvokerByName.forName( InvokerByNameFactory.className, InvokerByNameFactory.methodName);
 
         LOGGER.info( "resullt = " + result );
 
@@ -76,10 +75,10 @@ public class InvokerByNameTest
     public void testFormatMethodNameForException_1()
         throws Exception
     {
-        InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
-        String           format  = "%s";
+        final InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
+        final String           format  = "%s";
 
-        String result = fixture.formatMethodNameForException(format);
+        final String result = fixture.formatMethodNameForException(format);
 
         // add additional test code here
         Assertions.assertThat( result ).isEqualTo( "com.googlecode.cchlib.lang.reflect.MyTestByName.myTest" );
@@ -92,10 +91,10 @@ public class InvokerByNameTest
     public void testInvoke_NoSuchMethodException1()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
 
-        MyTestByName instance = new MyTestByName();
-        Object result = fixture.invoke(instance, null);
+        final MyTestByName instance = new MyTestByName();
+        final Object result = fixture.invoke(instance, null);
 
         // add additional test code here
         assertNotNull(result);
@@ -108,12 +107,12 @@ public class InvokerByNameTest
     public void testInvoke_NoSuchMethodException2()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
 
-        MyTestByName   instance = new MyTestByName();
-        Object[] params   = new Object[] {};
+        final MyTestByName   instance = new MyTestByName();
+        final Object[] params   = new Object[] {};
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         assertNotNull(result);
@@ -126,12 +125,14 @@ public class InvokerByNameTest
     public void testInvoke_NoSuchMethodException3()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
 
-        MyTestByName   instance = new MyTestByName();
+        final MyTestByName   instance = new MyTestByName();
+        @SuppressWarnings("boxing")
+        final
         Object[] params   = new Object[] { "A", 1 };
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         assertNotNull(result);
@@ -144,10 +145,10 @@ public class InvokerByNameTest
     public void testInvoke_static_NoSuchMethodException1()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
-        Object[] params = new Object[] {};
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByName_NoSuchMethodException();
+        final Object[] params = new Object[] {};
 
-        Object result = fixture.invoke(null, params); // No method like these
+        final Object result = fixture.invoke(null, params); // No method like these
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -159,10 +160,10 @@ public class InvokerByNameTest
     public void testInvoke_static_NullPointerException1()
         throws Exception
     {
-        InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
-        Object[] params = new Object[] {}; // No params
+        final InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
+        final Object[] params = new Object[] {}; // No params
 
-        Object result = fixture.invoke(null, params); // No 'static' method like these
+        final Object result = fixture.invoke(null, params); // No 'static' method like these
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -174,10 +175,10 @@ public class InvokerByNameTest
     public void testInvoke_static_NullPointerException2()
         throws Exception
     {
-        InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
-        Object[] params = new Object[] { "A" };
+        final InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
+        final Object[] params = new Object[] { "A" };
 
-        Object result = fixture.invoke(null, params); // No 'static' method like these
+        final Object result = fixture.invoke(null, params); // No 'static' method like these
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -185,15 +186,16 @@ public class InvokerByNameTest
     /**
      * Run the Object invoke(T,Object[]) method test.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testInvoke_NoParam1()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
-        MyTestByName   instance = new MyTestByName();
+        final MyTestByName   instance = new MyTestByName();
 
-        Object result = fixture.invoke(instance, null);
+        final Object result = fixture.invoke(instance, null);
 
         // add additional test code here
         assertNotNull(result);
@@ -205,16 +207,17 @@ public class InvokerByNameTest
     /**
      * Run the Object invoke(T,Object[]) method test.
      */
+    @SuppressWarnings("boxing")
     @Test
     public void testInvoke_NoParam2()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
-        MyTestByName   instance = new MyTestByName();
-        Object[] params   = new Object[] {};
+        final MyTestByName   instance = new MyTestByName();
+        final Object[] params   = new Object[] {};
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         assertNotNull(result);
@@ -230,14 +233,16 @@ public class InvokerByNameTest
     public void testInvoke_OK1()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
         final int value = 128;
 
-        MyTestByName   instance = new MyTestByName();
+        final MyTestByName   instance = new MyTestByName();
+        @SuppressWarnings("boxing")
+        final
         Object[] params   = new Object[] { value };
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         Assertions.assertThat( result ).isNotNull();
@@ -252,15 +257,17 @@ public class InvokerByNameTest
     public void testInvoke_OK2()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
         final int value1 = -1;
         final int value2 = 57;
 
-        MyTestByName   instance = new MyTestByName();
+        final MyTestByName   instance = new MyTestByName();
+        @SuppressWarnings("boxing")
+        final
         Object[] params   = new Object[] { value1, value2 };
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         Assertions.assertThat( result ).isNotNull();
@@ -275,17 +282,17 @@ public class InvokerByNameTest
     public void testInvoke_OK3()
         throws Exception
     {
-        InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
+        final InvokerByName<MyTestByName> fixture = InvokerByNameFactory.createInvokerByClass();
 
         final int value1 = 876;
         final int value2 = 5;
         final int value3 = 258;
         final int[] values = { value1, value2, value3 };
 
-        MyTestByName   instance = new MyTestByName();
-        Object[] params   = new Object[] { values };
+        final MyTestByName   instance = new MyTestByName();
+        final Object[] params   = new Object[] { values };
 
-        Object result = fixture.invoke(instance, params);
+        final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
         Assertions.assertThat( result ).isNotNull();
@@ -316,7 +323,7 @@ public class InvokerByNameTest
     /**
      * Launch the test.
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         new org.junit.runner.JUnitCore().run(InvokerByNameTest.class);
     }

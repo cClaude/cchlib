@@ -1,19 +1,16 @@
 package com.googlecode.cchlib.util;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.Iterator;
 import org.junit.Test;
 
-/**
- *
- */
-public class LinkedHashMapListTest 
+@SuppressWarnings("boxing")
+public class LinkedHashMapListTest
 {
 	@Test
     public void test_StringString()
     {
-        LinkedHashMapList<String,String> hms  = new LinkedHashMapList<String,String>();
+        final LinkedHashMapList<String,String> hms  = new LinkedHashMapList<String,String>();
         final int                 keySize = 10;
 
         for(int i=0;i<keySize;i++) {
@@ -49,10 +46,10 @@ public class LinkedHashMapListTest
         assertEquals(keySize*3,sizeOfHashMapSet(hms));
     }
 
-    private int sizeOfHashMapSet(LinkedHashMapList<?,?> hms)
+    private int sizeOfHashMapSet(final LinkedHashMapList<?,?> hms)
     {
         int         size = 0;
-        Iterator<?> iter = hms.iterator();
+        final Iterator<?> iter = hms.iterator();
 
         while(iter.hasNext()) {
             iter.next();

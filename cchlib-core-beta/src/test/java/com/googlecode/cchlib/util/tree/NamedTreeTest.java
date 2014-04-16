@@ -5,11 +5,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.util.VisitResult;
-import com.googlecode.cchlib.util.Visitor;
 
-/**
- * Test cases for SimpleTree
- */
+@SuppressWarnings("boxing")
 public class NamedTreeTest
 {
     private static final Logger LOGGER = Logger.getLogger( NamedTreeTest.class );
@@ -44,15 +41,10 @@ public class NamedTreeTest
         LOGGER.info( "tree.walk()" );
         count = 0;
         tree.walk(
-            new Visitor<NamedTreeNode<Integer>>()
-            {
-                @Override
-                public VisitResult visite( final NamedTreeNode<Integer> entry )
-                {
-                    count++;
-                    displayNode( entry );
-                    return VisitResult.CONTINUE;
-                }
+            entry -> {
+                count++;
+                displayNode( entry );
+                return VisitResult.CONTINUE;
             });
         Assert.assertEquals("bad count",size,count);
 
@@ -95,15 +87,10 @@ public class NamedTreeTest
         LOGGER.info( "walkDepthFirst()" );
         count = 0;
         tree.walkDepthFirst(
-                new Visitor<NamedTreeNode<Integer>>()
-                {
-                    @Override
-                    public VisitResult visite( final NamedTreeNode<Integer> entry )
-                    {
-                        displayNode( entry );
-                        count++;
-                        return VisitResult.CONTINUE;
-                    }
+                entry -> {
+                    displayNode( entry );
+                    count++;
+                    return VisitResult.CONTINUE;
                 });
         Assert.assertEquals("bad count",size,count);
 
@@ -112,7 +99,7 @@ public class NamedTreeTest
 
     private void displayNode( final NamedTreeNode<Integer> node )
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append( "node:" );
         sb.append( node.getName() );

@@ -12,16 +12,16 @@ public class AlternateDataStreamTest
     @Test
     public void testXX() throws IOException
     {
-        File[] rootsFile = File.listRoots();
+        final File[] rootsFile = File.listRoots();
 
-        for( File r : rootsFile ) {
+        for( final File r : rootsFile ) {
             System.out.printf( "Check: %s\n", r );
-            AlternateDataStream ads = new AlternateDataStream(r,"~ThisFileShouldNotExist.tmp","Test");
+            final AlternateDataStream ads = new AlternateDataStream(r,"~ThisFileShouldNotExist.tmp","Test");
 
-            System.out.printf( "AlternateDataStream supported for %s ? %b\n", r, ads.isSupported());
+            System.out.printf( "AlternateDataStream supported for %s ? %b\n", r, Boolean.valueOf(ads.isSupported()) );
 
             if( ads.isSupported() ) {
-                FileOutputStream fos = new FileOutputStream(ads.getStreamFile());
+                final FileOutputStream fos = new FileOutputStream(ads.getStreamFile());
                 fos.write( "test".getBytes() );
                 fos.close();
                 ads.getStreamSupportFile().delete();

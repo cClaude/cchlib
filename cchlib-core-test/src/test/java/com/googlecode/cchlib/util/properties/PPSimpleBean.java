@@ -1,8 +1,6 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity, com.instantiations.assist.eclipse.analysis.mutabilityOfArrays, largeNumberOfParameters
 package com.googlecode.cchlib.util.properties;
 
 import java.util.Arrays;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
@@ -17,11 +15,11 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     @Populator public    boolean[] someBooleans;
 
     /** default text ERROR */
-    @Persistent private JTextField aJTextField;
+    @Persistent private final JTextField aJTextField;
     /** default state unselected */
-    @Persistent private JCheckBox  aJCheckBox;
+    @Persistent private final JCheckBox  aJCheckBox;
     /** With a model, but non selected value */
-    @Persistent private JComboBox  aJComboBox;
+    @Persistent private final JComboBox<String>  aJComboBox;
 
     public PPSimpleBean()
     {
@@ -31,7 +29,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
         this.aJCheckBox  = new JCheckBox();
         this.aJCheckBox.setSelected(false);
 
-        this.aJComboBox  = new JComboBox( getComboBoxModel() );
+        this.aJComboBox  = new JComboBox<String>( getComboBoxModel() );
     }
 
     public PPSimpleBean(
@@ -61,7 +59,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
         return aString;
     }
-    public final void setaString(String aString)
+    public final void setaString(final String aString)
     {
         this.aString = aString;
     }
@@ -69,7 +67,7 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
         return aInt;
     }
-    public final void setaInt(int aInt)
+    public final void setaInt(final int aInt)
     {
         this.aInt = aInt;
     }
@@ -77,24 +75,24 @@ class PPSimpleBean implements Comparable<PPSimpleBean>
     {
         return aFloat;
     }
-    public final void setaFloat(float aFloat)
+    public final void setaFloat(final float aFloat)
     {
         this.aFloat = aFloat;
     }
 
-    private static ComboBoxModel getComboBoxModel()
+    private static ComboBoxModel<String> getComboBoxModel()
     {
-        final Object[] objects = {
+        final String[] objects = {
             "Aa", "Bbb", "Ccc", "Dddd", "Eeeee",
             };
 
-        return new DefaultComboBoxModel( objects );
+        return new DefaultComboBoxModel<String>( objects );
     }
 
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("PPSimpleBean [aString=");
         builder.append(aString);
         builder.append(", aInt=");

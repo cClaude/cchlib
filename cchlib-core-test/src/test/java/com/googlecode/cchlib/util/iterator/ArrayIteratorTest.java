@@ -1,10 +1,9 @@
 // $codepro.audit.disable logExceptions, avoidAutoBoxing, importOrder, numericLiterals
 package com.googlecode.cchlib.util.iterator;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +19,7 @@ public class ArrayIteratorTest
 {
     private static final Logger LOGGER = Logger.getLogger(ArrayIteratorTest.class);
 
+    @SuppressWarnings("boxing")
     private static final Integer[] ARRAY_INT = {
         1,2,3,4,5,6
     };
@@ -33,7 +33,7 @@ public class ArrayIteratorTest
     @Test
     public void test1()
     {
-        ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT);
+        final ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT);
         int                    count = 0;
 
         while( iter.hasNext() ) {
@@ -49,12 +49,12 @@ public class ArrayIteratorTest
     {
         final int offset = 2;
         final int len    = 3;
-        ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
+        final ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
         Integer                firstValue = null;
 
         while( iter.hasNext() ) {
-            Integer v = iter.next();
+            final Integer v = iter.next();
 
             if( firstValue == null ) {
                 firstValue = v;
@@ -72,7 +72,7 @@ public class ArrayIteratorTest
     {
         final int offset = 2;
         final int len    = ARRAY_INT.length - offset;
-        ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
+        final ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
 
         while( iter.hasNext() ) {
@@ -88,7 +88,7 @@ public class ArrayIteratorTest
     {
         final int offset = 2;
         final int len    = (ARRAY_INT.length - offset) + 1;
-        ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
+        final ArrayIterator<Integer> iter  = new ArrayIterator<Integer>(ARRAY_INT,offset,len);
         int                    count = 0;
 
         try {
@@ -98,7 +98,7 @@ public class ArrayIteratorTest
             }
             fail( "Should fail" );
         }
-        catch( NoSuchElementException ignore ) { // $codepro.audit.disable emptyCatchClause
+        catch( final NoSuchElementException ignore ) { // $codepro.audit.disable emptyCatchClause
             //ok
         }
 
@@ -111,11 +111,11 @@ public class ArrayIteratorTest
         test_BuildFromItems(Integer.class,ARRAY_INT);
         test_BuildFromItems(List.class,ARRAY_LIST);
 
-        Iterator<Integer> iter = ArrayIterator.of( Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3) );
+        final Iterator<Integer> iter = ArrayIterator.of( Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3) );
         test_BuildFromItems( Integer.class, iter, 3 );
     }
 
-    public <T> void test_BuildFromItems( Class<T> clazz, T[] items)
+    public <T> void test_BuildFromItems( final Class<T> clazz, final T[] items)
     {
         ArrayIterator<T> iter = new ArrayIterator<T>(clazz, items[0], items[1]);
         test_BuildFromItems( clazz, iter, 2 );
@@ -124,12 +124,12 @@ public class ArrayIteratorTest
         test_BuildFromItems( clazz, iter, 3 );
     }
 
-    public <T> void test_BuildFromItems( Class<T> clazz, Iterator<T> iter, int xCount)
+    public <T> void test_BuildFromItems( final Class<T> clazz, final Iterator<T> iter, final int xCount)
     {
         int count = 0;
 
         while( iter.hasNext() ) {
-            T item = iter.next();
+            final T item = iter.next();
             count++;
             LOGGER.info( "T class: " + item.getClass() + " value: " + item);
 
@@ -139,9 +139,9 @@ public class ArrayIteratorTest
         assertEquals( "Bad size !", xCount, count);
     }
 
-    private static List<String> buildList(int v)
+    private static List<String> buildList(final int v)
     {
-        List<String> lst = new ArrayList<String>(v);
+        final List<String> lst = new ArrayList<String>(v);
 
         for( int i = 0;i<v;i++) {
             lst.add( Integer.toString( i ) );

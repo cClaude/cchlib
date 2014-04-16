@@ -14,10 +14,11 @@ public class HashMapSetTest
 //
 //    };
 
+    @SuppressWarnings("boxing")
     @Test
     public void test_StringString()
     {
-        HashMapSet<String,String> hms  = new HashMapSet<String,String>();
+        final HashMapSet<String,String> hms  = new HashMapSet<String,String>();
         final int                 size = 10;
 
         for(int i=0;i<size;i++) {
@@ -52,10 +53,10 @@ public class HashMapSetTest
         Assert.assertEquals(size*2,sizeOfHashMapSet(hms));
     }
 
-    private int sizeOfHashMapSet( HashMapSet<?,?> hms )
+    private int sizeOfHashMapSet( final HashMapSet<?,?> hms )
     {
         int         size = 0;
-        Iterator<?> iter = hms.iterator();
+        final Iterator<?> iter = hms.iterator();
 
         while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
             iter.next();

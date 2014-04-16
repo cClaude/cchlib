@@ -66,13 +66,13 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
     }
 
-    @SuppressWarnings("resource")
+    @SuppressWarnings({ "resource", "boxing" })
     @Test
     @Ignore//FIXME
     public void test_Reader_load_save() throws IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileReader(copy)
                 );
 
@@ -82,7 +82,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 prop
                 );
 
-        File tmpWriterFile = storeWriter(prop);
+        final File tmpWriterFile = storeWriter(prop);
         System.out.printf(
                 "Reader->store(Writer)(%d):%s\n",
                     tmpWriterFile.length(),
@@ -97,7 +97,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 prop
                 );
 
-        File tmpStreamFile = storeOutputStream(prop);
+        final File tmpStreamFile = storeOutputStream(prop);
         System.out.printf(
                 "Reader->store(Stream)(%d):%s\n",
                     tmpStreamFile.length(),
@@ -117,14 +117,14 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
+    @SuppressWarnings({ "resource", "boxing" })
     @Test
     @Ignore//FIXME
     public void test_Stream_load_save()
         throws IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
         System.out.println("->Stream");
@@ -133,7 +133,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 prop
                 );
 
-        File tmpStreamFile = storeOutputStream(prop);
+        final File tmpStreamFile = storeOutputStream(prop);
         compare(
                 refPropertiesStream,
                 tmpStreamFile
@@ -144,7 +144,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                     tmpStreamFile
                     );
 
-        File tmpWriterFile = storeWriter(prop);
+        final File tmpWriterFile = storeWriter(prop);
         compare(
                 refPropertiesStream,
                 tmpWriterFile
@@ -165,8 +165,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Ignore//FIXME
     public void test_clear() throws FileNotFoundException, IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
         prop.clear();
@@ -180,8 +180,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Ignore//FIXME
     public void test_add() throws IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
         prop.addBlankLine();
@@ -192,7 +192,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         prop.put(addKey,"tmp value");
         prop.put(addKey,addValue);
 
-        Map<String,String> map = new HashMap<String,String>();
+        final Map<String,String> map = new HashMap<String,String>();
 
         for(int i=0;i<5;i++) {
             map.put( "map.key." + i, "value-" + i );
@@ -205,7 +205,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 prop.getProperty(addKey)
                 );
 
-        for(Map.Entry<String,String> entry:map.entrySet()) {
+        for(final Map.Entry<String,String> entry:map.entrySet()) {
             Assert.assertEquals(
                     "Can't find add value",
                     entry.getValue(),
@@ -215,7 +215,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                         );
         }
 
-        File tmpWriterFile = storeWriter(prop);
+        final File tmpWriterFile = storeWriter(prop);
         compare(
                 prop,
                 tmpWriterFile
@@ -226,7 +226,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpWriterFile);
     }
 
-    @SuppressWarnings("resource")
+    @SuppressWarnings({ "resource", "boxing" })
     @Test
     @Ignore//FIXME
     public void test_getLines() throws FileNotFoundException, IOException
@@ -239,7 +239,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         int                                 i  = 1;
         final PrintStream                   ps = System.out;
 
-        for( FormattedPropertiesLine line : lines ) {
+        for( final FormattedPropertiesLine line : lines ) {
             if( line.isComment() ) {
                 ps.printf( "%d - %s\n", i, line.getContent() );
                 }
@@ -264,11 +264,11 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Ignore//FIXME
     public void test_equal() throws FileNotFoundException, IOException
     {
-        File                copy  = getCopy();
-        FormattedProperties prop1 = getFormattedProperties(
+        final File                copy  = getCopy();
+        final FormattedProperties prop1 = getFormattedProperties(
                 new FileInputStream(copy)
                 );
-        FormattedProperties prop2 = getFormattedProperties(
+        final FormattedProperties prop2 = getFormattedProperties(
                 new FileInputStream(copy)
                 );
 
@@ -330,15 +330,15 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Ignore//FIXME
     public void test_clone() throws FileNotFoundException, IOException
     {
-        File                copy = getCopy();
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
 
-        FormattedProperties clone = (FormattedProperties)prop.clone();
+        final FormattedProperties clone = (FormattedProperties)prop.clone();
 
-        List<FormattedPropertiesLine> lines  = prop.getLines();
-        List<FormattedPropertiesLine> clines = clone.getLines();
+        final List<FormattedPropertiesLine> lines  = prop.getLines();
+        final List<FormattedPropertiesLine> clines = clone.getLines();
         final int linesSize  = lines.size();
         final int clinesSize = clines.size();
         final int size = Math.max(linesSize,clinesSize);
@@ -363,7 +363,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         Assert.assertEquals("Must be same size (keys)",prop.size(),clone.size());
         Assert.assertEquals("Must be same size (lines)",prop.getLines().size(),clone.getLines().size());
 
-        boolean r = prop.equals( clone );
+        final boolean r = prop.equals( clone );
         Assert.assertTrue("Must be equals",r);
 
         delete(copy);
@@ -374,12 +374,12 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Ignore//FIXME
     public void test_store_plusplus() throws FileNotFoundException, IOException
     {
-        File                copy = getCopy();
-        File                file = getTmpFile("formatall");
-        FormattedProperties prop = getFormattedProperties(
+        final File                copy = getCopy();
+        final File                file = getTmpFile("formatall");
+        final FormattedProperties prop = getFormattedProperties(
                 new FileInputStream(copy)
                 );
-        Writer out = new FileWriter( file );
+        final Writer out = new FileWriter( file );
         prop.store(
                 out,
                 EnumSet.allOf( FormattedProperties.Store.class )
@@ -394,8 +394,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     // ---------------------------------------------------
     // ---------------------------------------------------
     public void compare(
-            Properties propRef,
-            Properties prop
+            final Properties propRef,
+            final Properties prop
             )
     {
         // Verify standard Properties
@@ -407,15 +407,15 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 prop.size()
                 );
 
-        Set<String> namesRef    = propRef.stringPropertyNames();
-        Set<String> names       = prop.stringPropertyNames();
+        final Set<String> namesRef    = propRef.stringPropertyNames();
+        final Set<String> names       = prop.stringPropertyNames();
 
         Assert.assertTrue( "missing name", namesRef.containsAll( names ));
         Assert.assertTrue( "missing name", names.containsAll( namesRef ));
 
-        for(String key:namesRef) {
-            String vRef = propRef.getProperty( key );
-            String v    = prop.getProperty( key );
+        for(final String key:namesRef) {
+            final String vRef = propRef.getProperty( key );
+            final String v    = prop.getProperty( key );
 
             Assert.assertEquals("REFs: bad value",vRef, v );
         }
@@ -423,8 +423,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     public void compare(
-            Properties  propRef,
-            File        propFile
+            final Properties  propRef,
+            final File        propFile
             )
         throws FileNotFoundException, IOException
     {
@@ -456,18 +456,18 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
     }
 
-    public File getTmpFile(String tag) throws IOException
+    public File getTmpFile(final String tag) throws IOException
     {
-        File f = File.createTempFile( getClass().getSimpleName(), tag ); // $codepro.audit.disable deleteTemporaryFiles
+        final File f = File.createTempFile( getClass().getSimpleName(), tag ); // $codepro.audit.disable deleteTemporaryFiles
         //f.deleteOnExit();
 
         return f;
     }
 
-    public File getCopy(InputStream is) throws IOException
+    public File getCopy(final InputStream is) throws IOException
     {
-        File            f       = getTmpFile("copy");
-        OutputStream    output  = new FileOutputStream( f );
+        final File            f       = getTmpFile("copy");
+        final OutputStream    output  = new FileOutputStream( f );
         IOHelper.copy( is, output );
         is.close();
         output.close();
@@ -475,75 +475,75 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         return f;
     }
 
-    public Properties getProperties(InputStream is) throws IOException
+    public Properties getProperties(final InputStream is) throws IOException
     {
-        Properties prop = new Properties();
+        final Properties prop = new Properties();
         prop.load( is );
         is.close();
 
         return prop;
     }
 
-    public Properties getProperties(Reader r) throws IOException
+    public Properties getProperties(final Reader r) throws IOException
     {
-        Properties prop = new Properties();
+        final Properties prop = new Properties();
         prop.load( r );
         r.close();
 
         return prop;
     }
 
-    public FormattedProperties getFormattedProperties(InputStream is) throws IOException
+    public FormattedProperties getFormattedProperties(final InputStream is) throws IOException
     {
-        FormattedProperties prop = new FormattedProperties();
+        final FormattedProperties prop = new FormattedProperties();
         prop.load( is );
         is.close();
 
         return prop;
     }
 
-    public FormattedProperties getFormattedProperties(Reader r) throws IOException
+    public FormattedProperties getFormattedProperties(final Reader r) throws IOException
     {
-        FormattedProperties prop = new FormattedProperties();
+        final FormattedProperties prop = new FormattedProperties();
         prop.load( r );
         r.close();
 
         return prop;
     }
 
-    public void store(Properties prop, Writer w) throws IOException
+    public void store(final Properties prop, final Writer w) throws IOException
     {
         prop.store( w, "comments" );
         w.close();
     }
 
     @SuppressWarnings("resource")
-    public File storeWriter(Properties prop) throws IOException
+    public File storeWriter(final Properties prop) throws IOException
     {
-        File        tmpFile = getTmpFile("writer");
+        final File        tmpFile = getTmpFile("writer");
         store(prop, new FileWriter(tmpFile));
 
         return tmpFile;
     }
 
-    public void store(Properties prop, OutputStream os) throws IOException
+    public void store(final Properties prop, final OutputStream os) throws IOException
     {
         prop.store( os, "comments" );
         os.close();
     }
 
     @SuppressWarnings("resource")
-    public File storeOutputStream(Properties prop) throws FileNotFoundException, IOException
+    public File storeOutputStream(final Properties prop) throws FileNotFoundException, IOException
     {
-        File        tmpFile = getTmpFile("OuputStream");
+        final File        tmpFile = getTmpFile("OuputStream");
         store(prop, new FileOutputStream(tmpFile));
 
         return tmpFile;
     }
 
-    public void delete(File f)
+    public void delete(final File f)
     {
-        boolean isDeleted = f.delete();
+        final boolean isDeleted = f.delete();
 
         Assert.assertTrue("Can't delete:" + f,isDeleted);
     }
@@ -553,9 +553,9 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         return null;
     }
 
-    protected void keepFile(File f)
+    protected void keepFile(final File f)
     {// Just for debugging!
-        File n = new File(
+        final File n = new File(
                 f.getParent(),
                 f.getName() + ".keep"
                 );
