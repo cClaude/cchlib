@@ -14,30 +14,8 @@
 
   <!-- Global properties -->
   <properties>
-    <project.java.source.version>1.6</project.java.source.version>
-    <project.java.target.version>1.6</project.java.target.version>
   </properties>
-  
-  <!-- Project description -->
-  <!-- scm>
-    <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
-    <url/>
-  </scm -->
-
-  <!-- Distribution management -->
-  <!-- distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement -->
-  
+    
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>

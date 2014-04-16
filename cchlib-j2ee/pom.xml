@@ -18,30 +18,7 @@
 
   <!-- Global properties -->
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.source.version>1.6</java.source.version>
-    <project.java.source.version>1.6</project.java.source.version>
   </properties>
-
-  <!-- Project description -->
-  <!--scm>
-    <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
-    <url/>
-  </scm -->
-
-  <!-- Distribution management -->
-  <!-- distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement -->
 
   <dependencies>
     <dependency>
@@ -102,6 +79,7 @@
           </links>
           <show>protected</show>
           <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
       </configuration>
       </plugin>
     </plugins>

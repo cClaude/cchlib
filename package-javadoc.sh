@@ -3,6 +3,7 @@
 # #########################################################
 # package-javadoc.sh
 # #########################################################
+#
 # #########################################################
 #
 MVN="${MAVEN_HOME}/bin/mvn"
@@ -145,6 +146,26 @@ mvnJavadoc()
   fi
 }
 ##########################################################
+mvnExtra()
+{
+  echo "-- mvnExtra($1) ----------------------------------------"
+  cd ${CCHLIB_HOME}/$1
+  # install ??? TODO fix this if possible
+  MVN_PARAM="${MVN_XPARAM} $2 --errors --fail-fast"
+  echo "${MVN} ${MVN_PARAM}"
+  ${MVN} ${MVN_PARAM}
+  MVN_EXIT="$?"
+  cd ${CCHLIB_HOME}
+  
+  echo "RC=${MVN_EXIT} for ${MVN} ${MVN_PARAM}"
+  if [ ! "${MVN_EXIT}" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVN_PARAM}"
+    exit 1
+  end if
+  fi
+}
+##########################################################
 
 ##########################################################
 ##########################################################
@@ -156,10 +177,22 @@ mvnJavadoc()
 ##########################################################
 java -version
 
+CCHLIB_HOME=$PWD
+
 mvnClean
+mvnExtra xcchlib-core-sample clean
+mvnExtra xcchlib-sample clean
+mvnExtra xcchlib-sandbox clean
+mvnExtra xcchlib-tools clean
+
 mvnCompile
 mvnPackage
 mvnJavadoc
+
+mvnExtra xcchlib-core-sample test
+mvnExtra xcchlib-sample test
+mvnExtra xcchlib-sandbox test
+mvnExtra xcchlib-tools test
 
 echo "------------------------------------------"
 echo "---            BUILD DONE             ----"
