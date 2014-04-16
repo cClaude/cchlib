@@ -27,7 +27,7 @@ public class MessageDigestFile
         };
     private transient MessageDigest md;
     /** @serial */
-    private byte[] buffer;
+    private final byte[] buffer;
     /** @serial */
     private byte[] lastDigest = null;
 
@@ -102,8 +102,8 @@ public class MessageDigestFile
      * @param bufferSize buffer size
      */
     private MessageDigestFile(
-            MessageDigest   messageDigest,
-            int             bufferSize
+            final MessageDigest   messageDigest,
+            final int             bufferSize
             )
     {
         this.md     = messageDigest;
@@ -184,7 +184,7 @@ public class MessageDigestFile
      * @param input
      * @see java.security.MessageDigest#update(byte)
      */
-    protected void update( byte input )
+    protected void update( final byte input )
     {
         md.update( input );
     }
@@ -195,7 +195,7 @@ public class MessageDigestFile
      * @param len
      * @see java.security.MessageDigest#update(byte[], int, int)
      */
-    public void update( byte[] input, int offset, int len )
+    public void update( final byte[] input, final int offset, final int len )
     {
         md.update( input, offset, len );
     }
@@ -204,7 +204,7 @@ public class MessageDigestFile
      * @param input
      * @see java.security.MessageDigest#update(byte[])
      */
-    protected void update( byte[] input )
+    protected void update( final byte[] input )
     {
         md.update( input );
     }
@@ -213,7 +213,7 @@ public class MessageDigestFile
      * @param input
      * @see java.security.MessageDigest#update(java.nio.ByteBuffer)
      */
-    protected final void update( ByteBuffer input )
+    protected final void update( final ByteBuffer input )
     {
         md.update( input );
     }
@@ -233,7 +233,7 @@ public class MessageDigestFile
     {
         final StringBuilder sb = new StringBuilder();
 
-        for( byte b :digestKey ) {
+        for( final byte b :digestKey ) {
             sb.append( HEX[(b & 0x00f0)>>4 ] );
             sb.append( HEX[(b & 0x000f) ] );
             }
@@ -266,8 +266,8 @@ public class MessageDigestFile
 
         for( int i = 0; i < len; i++ ) {
             // TODO: some optimizations here !
-            int     pos   = i << 1;
-            String  digit = digestHexKey.substring(pos, pos + 2);
+            final int     pos   = i << 1;
+            final String  digit = digestHexKey.substring(pos, pos + 2);
 
             mdBytes[i] = Integer.valueOf(digit, 16).byteValue();
             }
@@ -291,24 +291,24 @@ public class MessageDigestFile
     {
         reset();
 
-        FileInputStream fis = new FileInputStream(file);
-        
+        final FileInputStream fis = new FileInputStream(file);
+
         try {
-        	FileChannel fchannel = fis.getChannel();
-        	
+            final FileChannel fchannel = fis.getChannel();
+
             try {
-                for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
                         (fchannel.read(bb) != -1) || (bb.position() > 0);
                         bb.compact()
                         ) {
                     bb.flip();
                     update( bb );
                     }
-            	}
+                }
             finally {
                 fchannel.close();
-            	}
-        	}
+                }
+            }
         finally {
             fis.close();
             }
@@ -328,27 +328,27 @@ public class MessageDigestFile
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     public byte[] compute(
-            File                            file,
-            Collection<DigestEventListener> listeners
+            final File                            file,
+            final Collection<DigestEventListener> listeners
             )
         throws FileNotFoundException,
                IOException, CancelRequestException
     {
         reset();
 
-        FileInputStream fis      = new FileInputStream(file);
-        FileChannel     fchannel = fis.getChannel();
-        boolean         cancel   = false;
-        
+        final FileInputStream fis      = new FileInputStream(file);
+        final FileChannel     fchannel = fis.getChannel();
+        boolean               cancel   = false;
+
         try {
-            for( ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+            for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
                     (fchannel.read(bb) != -1) || (bb.position() > 0);
                     bb.compact()
                     ) {
                 bb.flip();
                 update(bb);
 
-                for( DigestEventListener l:listeners ) {
+                for( final DigestEventListener l:listeners ) {
                     l.computeDigest( file, bb.position() );
 
                     if( l.isCancel() ) {
@@ -357,7 +357,7 @@ public class MessageDigestFile
                         break;
                         }
                     }
-                
+
                 if( cancel ) {
                     // User ask to cancel current task
                     break;
@@ -365,7 +365,68 @@ public class MessageDigestFile
                 }
             }
         finally {
-            // Not need 
+            // Not need
+            fchannel.close(); // TODO improve try finally
+            // Need !
+            fis.close();
+            }
+
+        if( cancel ) {
+            // User ask to cancel current task
+            throw new CancelRequestException();
+            }
+
+        return digestDelegator();
+    }
+
+    /**
+     * Compute MD value for giving file
+     * (use nio {@link FileChannel})
+     *
+     * @param file File to read
+     * @param listener {@link DigestEventListener} to get results
+     * @return MD value has an array of bytes
+     * @throws FileNotFoundException could append if file is locked
+     * @throws IOException any unexpected IO error
+     * @throws CancelRequestException if any listeners ask to cancel operation
+     */
+    public byte[] compute(
+            final File                file,
+            final DigestEventListener listener
+            )
+        throws FileNotFoundException,
+               IOException, CancelRequestException
+    {
+        reset();
+
+        final FileInputStream fis      = new FileInputStream(file);
+        final FileChannel     fchannel = fis.getChannel();
+        boolean               cancel   = false;
+
+        try {
+            for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                    (fchannel.read(bb) != -1) || (bb.position() > 0);
+                    bb.compact()
+                    ) {
+                bb.flip();
+                update(bb);
+
+                listener.computeDigest( file, bb.position() );
+
+                if( listener.isCancel() ) {
+                    // User ask to cancel current task
+                    cancel = true;
+                    break;
+                    }
+
+                if( cancel ) {
+                    // User ask to cancel current task
+                    break;
+                    }
+                }
+            }
+        finally {
+            // Not need
             fchannel.close(); // TODO improve try finally
             // Need !
             fis.close();
@@ -388,13 +449,13 @@ public class MessageDigestFile
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public byte[] computeInputStream(File file)
+    public byte[] computeInputStream( final File file )
         throws FileNotFoundException,
                IOException
     {
         reset();
 
-        FileInputStream fis = new FileInputStream(file);
+        final FileInputStream fis = new FileInputStream(file);
 
         try {
             int l;
@@ -455,12 +516,12 @@ public class MessageDigestFile
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
-        String algorithm = in.readUTF();
+        final String algorithm = in.readUTF();
 
         try {
             this.md = MessageDigest.getInstance( algorithm );
             }
-        catch( NoSuchAlgorithmException e ) {
+        catch( final NoSuchAlgorithmException e ) {
             throw new ClassNotFoundException( algorithm, e );
             }
     }

@@ -4,31 +4,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import java.util.List;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
+@SuppressWarnings("boxing")
 public class FileIterableTest
 {
     final private static Logger LOGGER = Logger.getLogger(FileIterableTest.class);
 
     public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
-    //public static final File ROOT_FILE = new File( "C:/" );
     public static final File ROOT_FILE = TEMP_DIR_FILE;
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
     public static final File NOT_EXIST_FILE =  new File( "thisFileShoundNotExists" );
     private File currentFile;
-
-//    public static final int ITER_GETCOUNT = 19;
-//    public static final int ITER_XX = 20;
 
     @Before
     public void setUp() throws java.io.IOException
@@ -42,11 +36,12 @@ public class FileIterableTest
     {
         try {
             @SuppressWarnings("unused")
+            final
             FileIterable iter = new FileIterable( NOT_EXIST_FILE );
 
             fail( "Should crash here" );
             }
-        catch( IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
+        catch( final IllegalArgumentException e ) { // $codepro.audit.disable logExceptions
             LOGGER.info( "Ok: does not exist" );
         }
     }
@@ -54,8 +49,8 @@ public class FileIterableTest
     @Test
     public void testFileIterableCounter()
     {
-        File rootFile = TEMP_DIR_FILE;
-        FileIterable fi = new FileIterable( rootFile );
+        final File rootFile = TEMP_DIR_FILE;
+        final FileIterable fi = new FileIterable( rootFile );
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
@@ -66,8 +61,8 @@ public class FileIterableTest
         LOGGER.info( rootFile );
         LOGGER.info( "* testFileIterableCounter( <<no filter>> )" );
         LOGGER.info( "---------------------" );
-        long begin  = System.currentTimeMillis();
-        for( File f : fi ) {
+        final long begin  = System.currentTimeMillis();
+        for( final File f : fi ) {
             if( displayCount++<displayMax ) {
                 LOGGER.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
@@ -82,7 +77,7 @@ public class FileIterableTest
                 LOGGER.info( "unkown file type: " + f );
             }
         }
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
         LOGGER.info( "---------------------" );
         LOGGER.info( "dir        : " + rootFile );
         LOGGER.info( "file  count: " + countFile );
@@ -95,15 +90,9 @@ public class FileIterableTest
     @Test
     public void testFileIterableFileFilter()
     {
-        File rootFile = currentFile;
-        FileFilter fileFilter = new FileFilter(){
-            @Override
-            public boolean accept( File f )
-            {
-                return f.getName().endsWith( ".java" );
-            }
-        };
-        FileIterable fi = new FileIterable( rootFile, fileFilter );
+        final File rootFile = currentFile;
+        final FileFilter fileFilter = f -> f.getName().endsWith( ".java" );
+        final FileIterable fi = new FileIterable( rootFile, fileFilter );
         int countFile = 0;
         int countDir = 0;
         int countOther = 0;
@@ -114,8 +103,8 @@ public class FileIterableTest
         LOGGER.info( rootFile );
         LOGGER.info( "* testFileIterableFileFilter( *.java )" );
         LOGGER.info( "---------------------" );
-        long begin  = System.currentTimeMillis();
-        for( File f : fi ) {
+        final long begin  = System.currentTimeMillis();
+        for( final File f : fi ) {
             if( displayCount++<displayMax ) {
                 LOGGER.info( String.format( "f %d:%s\n", displayCount, f ) );
             }
@@ -133,7 +122,7 @@ public class FileIterableTest
                 LOGGER.info( "unkown file type: " + f );
             }
         }
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
         LOGGER.info( "---------------------" );
         LOGGER.info( "dir        : " + rootFile );
         LOGGER.info( "file  count: " + countFile );
@@ -147,7 +136,7 @@ public class FileIterableTest
     @Test
     public void testDirStruct() throws IOException
     {
-        File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
+        final File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
 
         IOHelper.deleteTree(dirRootFile);
 
@@ -157,45 +146,45 @@ public class FileIterableTest
         res = dirRootFile.mkdirs();
         assertTrue( "Can't mkdirs(): " + dirRootFile, res);
 
-        File[] dirs = {
+        final File[] dirs = {
                 new File(dirRootFile, "dir1"),
                 new File(dirRootFile, "dir2"),
                 new File(dirRootFile, "dir2/dir21"),
                 new File(dirRootFile, "dir2/dir22"),
                 new File(dirRootFile, "dir2/dir23"),
         };
-        File[] files = {
+        final File[] files = {
                 new File(dirRootFile, "a.txt"),
                 new File(dirRootFile, "ab"),
                 new File(dirRootFile, "dir2/dir21/b.txt"),
                 new File(dirRootFile, "dir2/dir21/b.tmp"),
         };
 
-        List<File> allFiles = new ArrayList<File>();
+        final List<File> allFiles = new ArrayList<File>();
 
         // TODO: check if it should be in iterator or not !
         // allFiles.add(dirRootFile);
 
-        for( File d : dirs ) {
+        for( final File d : dirs ) {
             res = d.mkdirs();
             assertTrue( "Can't mkdirs(): " + d, res);
             allFiles.add(d);
             }
 
-        for( File f : files ) {
+        for( final File f : files ) {
             IOHelper.toFile( f.getPath(), f );
             allFiles.add( f );
             }
 
-        List<File> notFoundInFileIterable = new ArrayList<File>(allFiles);
-        List<File> foundInFileIterable    = new ArrayList<File>();
+        final List<File> notFoundInFileIterable = new ArrayList<File>(allFiles);
+        final List<File> foundInFileIterable    = new ArrayList<File>();
 
-        FileIterable fi = new FileIterable( dirRootFile );
+        final FileIterable fi = new FileIterable( dirRootFile );
 
-        for( File f : fi ) {
+        for( final File f : fi ) {
             foundInFileIterable.add( f );
 
-            boolean oldFound = notFoundInFileIterable.remove( f );
+            final boolean oldFound = notFoundInFileIterable.remove( f );
             assertTrue( "File should not be here: " + f, oldFound);
         }
 
@@ -203,7 +192,7 @@ public class FileIterableTest
         LOGGER.info( "foundInFileIterable # " + foundInFileIterable.size() );
         LOGGER.info( "notFoundInFileIterable # " + notFoundInFileIterable.size() );
 
-        for( File f : notFoundInFileIterable ) {
+        for( final File f : notFoundInFileIterable ) {
             LOGGER.info( "  > not found by Iterator: " + f );
         }
 

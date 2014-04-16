@@ -52,7 +52,7 @@ public class DefaultDigestFileCollector
      * @param messageDigestFile
      */
     public DefaultDigestFileCollector(
-            MessageDigestFile messageDigestFile
+            final MessageDigestFile messageDigestFile
             )
     {
         this.mdf         = messageDigestFile;
@@ -98,22 +98,22 @@ public class DefaultDigestFileCollector
      */
     public void add( final Iterable<File> files ) throws CancelRequestException
     {
-        for(File f:files) {
+        for(final File f:files) {
             notify( f );
 
             try {
                 mdf.compute( f, listeners );
                 }
-            catch( FileNotFoundException e ) {
+            catch( final FileNotFoundException e ) {
                 notify( e, f );
                 continue;
             }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 notify( e, f );
                 continue;
             }
 
-            String    k = mdf.digestString();
+            final String    k = mdf.digestString();
             Set<File> c = mapHashFile.get( k );
 
             if( c == null ) {
@@ -143,10 +143,10 @@ public class DefaultDigestFileCollector
     public int removeDuplicate()
     {
         int                 count = 0;
-        Iterator<Set<File>> iter  = mapHashFile.values().iterator();
+        final Iterator<Set<File>> iter  = mapHashFile.values().iterator();
 
         while(iter.hasNext()) {
-            Set<File> s = iter.next();
+            final Set<File> s = iter.next();
 
             if( s.size() > 1 ) {
                 count += s.size();
@@ -163,19 +163,7 @@ public class DefaultDigestFileCollector
     @Override
     public int removeNonDuplicate()
     {
-        int                 count = 0;
-        Iterator<Set<File>> iter  = mapHashFile.values().iterator();
-
-        while(iter.hasNext()) {
-            Set<File> s = iter.next();
-
-            if( s.size() < 2 ) {
-                count += s.size();
-                iter.remove();
-            }
-        }
-
-        return count;
+        return DuplicateHelpers.removeNonDuplicate( mapHashFile );
     }
 
     /**
@@ -190,7 +178,7 @@ public class DefaultDigestFileCollector
         int cs = 0;
         int cf = 0;
 
-        for(Set<File> s:mapHashFile.values()) {
+        for(final Set<File> s:mapHashFile.values()) {
             if( s.size() > 1 ) {
                 cs++;
                 cf += s.size();
@@ -214,7 +202,7 @@ public class DefaultDigestFileCollector
     }
 
     @Override
-    public void addDigestEventListener( DigestEventListener listener )
+    public void addDigestEventListener( final DigestEventListener listener )
     {
         if( listener == null ) {
             throw new NullPointerException();
@@ -223,7 +211,7 @@ public class DefaultDigestFileCollector
     }
 
     @Override
-    public void removeDigestEventListener( DigestEventListener listener )
+    public void removeDigestEventListener( final DigestEventListener listener )
     {
         listeners.remove(listener);
     }
@@ -234,9 +222,9 @@ public class DefaultDigestFileCollector
      *
      * @param f The file
      */
-    protected void notify(File f)
+    protected void notify(final File f)
     {
-        for(DigestEventListener l:listeners) {
+        for(final DigestEventListener l:listeners) {
             l.computeDigest( f );
         }
     }
@@ -248,9 +236,9 @@ public class DefaultDigestFileCollector
      * @param e exception that append.
      * @param f current file.
      */
-    protected void notify(IOException e, File f)
+    protected void notify(final IOException e, final File f)
     {
-        for(DigestEventListener l:listeners) {
+        for(final DigestEventListener l:listeners) {
             l.ioError( e, f );
         }
     }

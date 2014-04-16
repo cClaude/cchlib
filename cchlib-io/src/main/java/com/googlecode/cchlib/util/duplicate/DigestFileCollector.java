@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.NeedDoc;
 
-/**
- * TODOC
- */
+@NeedDoc
 public interface DigestFileCollector
     extends Serializable
 {

@@ -278,15 +278,12 @@ public class DuplicateFileCollector
     }
 
     /**
-     * TODOC
-     *
-     * @return true if
+     * @return true if cancel was set by {@link #setCancelProcess(boolean)}
      */
     public boolean isCancelProcess()
     {
         return cancelProcess;
     }
-
 
     private static final class PStats implements Stats
     {

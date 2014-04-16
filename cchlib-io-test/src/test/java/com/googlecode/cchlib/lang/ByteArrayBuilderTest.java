@@ -19,6 +19,7 @@ import com.googlecode.cchlib.test.ArrayAssert;
 /**
  *
  */
+@SuppressWarnings("boxing")
 public class ByteArrayBuilderTest
 {
     private static final Logger LOGGER = Logger.getLogger( ByteArrayBuilderTest.class );
@@ -33,7 +34,7 @@ public class ByteArrayBuilderTest
     @Test
     public void testConstructor1()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
 
         assertEquals("bad length",0,bab.length());
         assertEquals("bad array",0,bab.array().length);
@@ -42,8 +43,8 @@ public class ByteArrayBuilderTest
     @Test
     public void testConstructor2()
     {
-        int capacity = 10;
-        ByteArrayBuilder bab = new ByteArrayBuilder(capacity);
+        final int capacity = 10;
+        final ByteArrayBuilder bab = new ByteArrayBuilder(capacity);
 
         assertEquals("bad length",0,bab.length());
         assertEquals("bad array",0,bab.array().length);
@@ -53,7 +54,7 @@ public class ByteArrayBuilderTest
     @Test
     public void testConstructor3()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         assertEquals("bad length",BYTES.length,bab.length());
 
@@ -63,7 +64,7 @@ public class ByteArrayBuilderTest
     @Test
     public void testConstructor4()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(null);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(null);
 
         assertEquals("bad length",0,bab.length());
         assertEquals("bad array",0,bab.array().length);
@@ -72,7 +73,7 @@ public class ByteArrayBuilderTest
     @Test
     public void test_reset()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         bab.reset();
 
         assertEquals("bad length",0,bab.length());
@@ -81,7 +82,7 @@ public class ByteArrayBuilderTest
 
     public void test_setLength()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         final int len = 4;
         bab.setLength( len );
 
@@ -126,7 +127,7 @@ public class ByteArrayBuilderTest
     @Test
     public void test_ensureCapacity()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
         bab.ensureCapacity(BIG_CAPACITY);
 
         assertEquals("bad length",BYTES.length,bab.length());
@@ -138,7 +139,7 @@ public class ByteArrayBuilderTest
     @Test
     public void test_append_bytes()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
 
         final int count = 1000;
         for(int i = 0; i<count; i++ ) {
@@ -152,7 +153,7 @@ public class ByteArrayBuilderTest
     @Test
     public void test_append_bytes2()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
         final int offset = 2;
         final int len = 3;
         bab.append( BYTES, offset, len );
@@ -160,7 +161,7 @@ public class ByteArrayBuilderTest
         assertEquals("bad length",len,bab.length());
         assertEquals("bad array",len,bab.array().length);
 
-        byte[] bytes = bab.array();
+        final byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
             assertEquals(
                     String.format( "bad value [%d]",i ),
@@ -173,7 +174,7 @@ public class ByteArrayBuilderTest
     @Test
     public void test_append_byte()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
 
         for(int i=0;i<BYTES.length;i++) {
             bab.append( BYTES[i] );
@@ -194,7 +195,7 @@ public class ByteArrayBuilderTest
 
         {
             //Create the File
-            FileOutputStream fos = new FileOutputStream( file );
+            final FileOutputStream fos = new FileOutputStream( file );
 
             for( int i=0; i<count; i++ ) {
                 fos.write( BYTES );
@@ -204,11 +205,11 @@ public class ByteArrayBuilderTest
         }
         assertEquals( "tmp file bad size",size,file.length());
 
-        ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
-        FileInputStream  fis = new FileInputStream(file );
+        final ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
+        final FileInputStream  fis = new FileInputStream(file );
 
         try {
-            ReadableByteChannel fileChannel = fis.getChannel();
+            final ReadableByteChannel fileChannel = fis.getChannel();
 
             try {
                  bab.append( fileChannel );
@@ -223,7 +224,7 @@ public class ByteArrayBuilderTest
 
         assertEquals("bab bad len",size,bab.length());
 
-        byte[] bytes = bab.array();
+        final byte[] bytes = bab.array();
 
         assertEquals("array bad len",size,bytes.length);
 
@@ -235,8 +236,8 @@ public class ByteArrayBuilderTest
     @Test
     public void test_AppendInputStream() throws IOException
     {
-        InputStream is = new ByteArrayInputStream( BYTES );
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final InputStream is = new ByteArrayInputStream( BYTES );
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( is );
 
         ArrayAssert.assertEquals("mitchmatch",BYTES,bab.array());
@@ -245,41 +246,41 @@ public class ByteArrayBuilderTest
     @Test
     public void test_startsWith()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
         bab.append( BYTES );
 
         for(int i = 0;i<100;i++) {
             bab.append( OTHERBYTES );
             }
 
-        boolean sw0 = bab.startsWith( new ByteArrayBuilder(BYTES) );
+        final boolean sw0 = bab.startsWith( new ByteArrayBuilder(BYTES) );
         assertTrue("Should start with !",sw0);
 
-        boolean sw1 = bab.startsWith( BYTES );
+        final boolean sw1 = bab.startsWith( BYTES );
         assertTrue("Should start with !",sw1);
     }
 
     @Test
     public void test_endsWith()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
 
         for(int i = 0;i<100;i++) {
             bab.append( OTHERBYTES );
             }
         bab.append( BYTES );
 
-        boolean sw0 = bab.endsWith( new ByteArrayBuilder(BYTES) );
+        final boolean sw0 = bab.endsWith( new ByteArrayBuilder(BYTES) );
         assertTrue("Should end with !",sw0);
 
-        boolean sw1 = bab.endsWith( BYTES );
+        final boolean sw1 = bab.endsWith( BYTES );
         assertTrue("Should end with !",sw1);
     }
 
     @Test
     public void test_compareTo()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         assertEquals("Should be equals",0,bab.compareTo( new ByteArrayBuilder(BYTES) ));
         assertTrue("Should be diffents",bab.compareTo( new ByteArrayBuilder(OTHERBYTES) ) != 0);
@@ -288,12 +289,12 @@ public class ByteArrayBuilderTest
     @Test
     public void test_equals()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         assertTrue("Should be equals",bab.equals( new ByteArrayBuilder(BYTES) ));
         assertFalse("Should be diffents",bab.equals( new ByteArrayBuilder(OTHERBYTES) ));
 
-        ByteArrayBuilder nullBab = null;
+        final ByteArrayBuilder nullBab = null;
 
         assertFalse("Should be diffents",bab.equals( nullBab ));
         assertFalse("Should be diffents",bab.equals( new Object() ));
@@ -302,12 +303,12 @@ public class ByteArrayBuilderTest
     @Test
     public void test_toString()
     {
-        ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder bab = new ByteArrayBuilder(BYTES);
 
         final byte[] bytes      = bab.array();
         final String expected   = new String( bytes );
 
-        String str = bab.toString();
+        final String str = bab.toString();
 
         assertEquals("Should be equals",expected, str);
     }
@@ -315,14 +316,14 @@ public class ByteArrayBuilderTest
     @Test
     public void test_clone() throws CloneNotSupportedException
     {
-        ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
-        ByteArrayBuilder clone  = bab.clone();
+        final ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder clone  = bab.clone();
 
         assertTrue("Should be equals",bab.equals( clone ));
         assertEquals("bad length",BYTES.length,bab.length());
         assertEquals("bad array",BYTES.length,bab.array().length);
 
-        byte[] bytes = bab.array();
+        final byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
             assertEquals(
                     String.format( "bad value [%d]",i ),
@@ -335,14 +336,14 @@ public class ByteArrayBuilderTest
     @Test
     public void test_writeObject_readObject() throws IOException, ClassNotFoundException
     {
-        ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
-        ByteArrayBuilder clone  = SerializableHelper.clone( bab, ByteArrayBuilder.class );
+        final ByteArrayBuilder bab    = new ByteArrayBuilder(BYTES);
+        final ByteArrayBuilder clone  = SerializableHelper.clone( bab, ByteArrayBuilder.class );
 
         assertTrue("Should be equals",bab.equals( clone ));
         assertEquals("bad length",BYTES.length,bab.length());
         assertEquals("bad array",BYTES.length,bab.array().length);
 
-        byte[] bytes = bab.array();
+        final byte[] bytes = bab.array();
         for( int i=0; i<bytes.length;i++) {
             assertEquals(
                     String.format( "bad value [%d]",i ),
@@ -355,18 +356,18 @@ public class ByteArrayBuilderTest
     @Test
     public void test_replaceAll()
     {
-        ByteArrayBuilder bab0 = new ByteArrayBuilder();
+        final ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
         LOGGER.info( "bab0 = " + new String(bab0.array()) );
 
-        ByteArrayBuilder bab1 = bab0.replaceAll( _SHARP_160_, _SHARP_160_ENCODED_ );
+        final ByteArrayBuilder bab1 = bab0.replaceAll( _SHARP_160_, _SHARP_160_ENCODED_ );
         LOGGER.info( "bab1 = " + new String(bab1.array()) );
 
-        ByteArrayBuilder bab2 = bab1.replaceAll( _SHARP_160_ENCODED_, _SHARP_160_ );
+        final ByteArrayBuilder bab2 = bab1.replaceAll( _SHARP_160_ENCODED_, _SHARP_160_ );
         LOGGER.info( "bab2 = " + new String(bab2.array()) );
 
-        int cmp1 = bab0.compareTo( bab2 );
-        int cmp2 = bab2.compareTo( bab0 );
+        final int cmp1 = bab0.compareTo( bab2 );
+        final int cmp2 = bab2.compareTo( bab0 );
 
         assertEquals( 0, cmp1 );
         assertEquals( 0, cmp2 );
@@ -375,12 +376,12 @@ public class ByteArrayBuilderTest
     @Test
     public void test_createInputStream() throws IOException
     {
-        ByteArrayBuilder bab0 = new ByteArrayBuilder();
+        final ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
         LOGGER.info( "test_createInputStream(): bab0 = " + new String(bab0.array()) );
 
-        InputStream is = bab0.createInputStream();
-        ByteArrayBuilder bab1 = new ByteArrayBuilder();
+        final InputStream is = bab0.createInputStream();
+        final ByteArrayBuilder bab1 = new ByteArrayBuilder();
 
         try {
             bab1.append( is );
@@ -391,8 +392,8 @@ public class ByteArrayBuilderTest
 
         LOGGER.info( "test_createInputStream(): bab1 = " + new String(bab1.array()) );
 
-        int cmp0 = bab0.compareTo( bab1 );
-        int cmp1 = bab0.compareTo( bab0 );
+        final int cmp0 = bab0.compareTo( bab1 );
+        final int cmp1 = bab0.compareTo( bab0 );
 
         assertEquals( 0, cmp1 );
         assertEquals( 0, cmp0 );
@@ -401,11 +402,11 @@ public class ByteArrayBuilderTest
     @Test
     public void test_copyTo() throws IOException
     {
-        ByteArrayBuilder bab0 = new ByteArrayBuilder();
+        final ByteArrayBuilder bab0 = new ByteArrayBuilder();
         bab0.append( createBytes() );
         LOGGER.info( "test_copyTo(): bab0 = " + new String(bab0.array()) );
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
             bab0.copyTo( out );
@@ -414,12 +415,12 @@ public class ByteArrayBuilderTest
             out.close();
             }
 
-        ByteArrayBuilder bab1 = new ByteArrayBuilder();
+        final ByteArrayBuilder bab1 = new ByteArrayBuilder();
         bab1.append( out.toByteArray() );
         LOGGER.info( "test_copyTo(): bab1 = " + new String(bab1.array()) );
 
-        int cmp0 = bab0.compareTo( bab1 );
-        int cmp1 = bab0.compareTo( bab0 );
+        final int cmp0 = bab0.compareTo( bab1 );
+        final int cmp1 = bab0.compareTo( bab0 );
 
         assertEquals( 0, cmp1 );
         assertEquals( 0, cmp0 );
