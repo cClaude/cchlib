@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>xcchlib-sandbox</artifactId>
+    <version>4.2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>xcchlib-sandbox-lib</artifactId>
+  <name>cchlib-x-sandbox-lib</name>
+  <packaging>jar</packaging>
+
+  <prerequisites>
+    <maven>3.0.0</maven>
+  </prerequisites>
+
+  <!-- Global properties -->
+  <properties>
+    <build.date>${maven.build.timestamp}</build.date>
+    <buildNumber>${maven.build.timestamp}</buildNumber>
+    <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.java.source.version>1.7</project.java.source.version>
+    <project.java.target.version>1.7</project.java.target.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>google-releases</id>
+      <name>Google Releases</name>
+      <url>https://oss.sonatype.org/content/repositories/google-releases</url>
+    </repository>
+    <repository>
+      <id>google-api-services</id>
+      <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
+    </repository>
+
+    <repository>
+      <id>Java.Net</id>
+      <url>http://download.java.net/maven/2/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-drive</artifactId>
+        <version>v2-rev102-1.17.0-rc</version>
+    </dependency>
+    <!--dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-googleapis</artifactId>
+        <version>1.4.1-beta</version>
+    </dependency-->
+    <dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-extensions</artifactId>
+        <version>1.4.1-beta</version>
+    </dependency>
+    <!--dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-googleapis-json</artifactId>
+        <version>1.2.3-alpha</version>
+    </dependency-->
+    <dependency>
+        <groupId>com.google.http-client</groupId>
+        <artifactId>google-http-client-jackson2</artifactId>
+        <version>1.17.0-rc</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.oauth-client</groupId>
+        <artifactId>google-oauth-client-jetty</artifactId>
+        <version>1.17.0-rc</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.api.client</groupId>
+        <artifactId>google-api-client-http</artifactId>
+        <version>1.2.3-alpha</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.bundles</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1_2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.google.gdata</groupId>
+        <artifactId>core</artifactId>
+        <version>1.47.1</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>7.0</version>
+   </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+      <extension><!-- maven on googlecode -->
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <verbose />
+          <optimize>true</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <charset>UTF-8</charset>
+          <docencoding>UTF-8</docencoding>
+          <docfilessubdirs>true</docfilessubdirs>
+          <optimize>true</optimize>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
+          <links>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+          </links>
+          <show>protected</show>
+          <source>${project.java.source.version}</source>
+      </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>
