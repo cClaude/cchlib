@@ -8,9 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
@@ -27,18 +25,18 @@ class CompareResourcesBundlePopupMenu
     //
     private static final transient Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
-    private AbstractTableModel  abstractTableModel;
+    private final AbstractTableModel  abstractTableModel;
     /** @serial */
-    private CompareResourcesBundleTableModel.Colunms colunms;
+    private final CompareResourcesBundleTableModel.Colunms colunms;
 
     @I18nString
-    private String txtHTMLPreview = "HTML Preview";
+    private final String txtHTMLPreview = "HTML Preview";
     @I18nString
-    private String txtEditLines = "Edit lines";
+    private final String txtEditLines = "Edit lines";
     @I18nString
-    private String txtCopy = "Copy";
+    private final String txtCopy = "Copy";
     @I18nString
-    private String txtPaste = "Paste";
+    private final String txtPaste = "Paste";
 
     /**
      * @param jTable
@@ -47,10 +45,10 @@ class CompareResourcesBundlePopupMenu
      * @param autoI18n
      */
     public CompareResourcesBundlePopupMenu(
-            JTable                                      jTable,
-            AbstractTableModel                          abstractTableModel,
-            CompareResourcesBundleTableModel.Colunms    colunms,
-            AutoI18nCore                                autoI18n
+            final JTable                                      jTable,
+            final AbstractTableModel                          abstractTableModel,
+            final CompareResourcesBundleTableModel.Colunms    colunms,
+            final AutoI18nCore                                autoI18n
             )
     {
         super( jTable );
@@ -67,7 +65,7 @@ class CompareResourcesBundlePopupMenu
             final int columnIndex
             )
     {
-        JPopupMenu contextMenu = new JPopupMenu();
+        final JPopupMenu contextMenu = new JPopupMenu();
 
         addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
         addPasteMenuItem(contextMenu, txtPaste, rowIndex, columnIndex);
@@ -99,12 +97,12 @@ class CompareResourcesBundlePopupMenu
                 new ActionListener()
                 {
                     @Override
-                    public void actionPerformed( ActionEvent e )
+                    public void actionPerformed( final ActionEvent e )
                     {
-                        Object value = getValueAt( rowIndex, columnIndex );
+                        final Object value = getValueAt( rowIndex, columnIndex );
 
                         if( value instanceof String ) {
-                            HTMLPreviewDialog d = new HTMLPreviewDialog(
+                            final HTMLPreviewDialog d = new HTMLPreviewDialog(
                                     getFrame(),
                                     txtHTMLPreview,
                                     value.toString()
@@ -138,9 +136,9 @@ class CompareResourcesBundlePopupMenu
                 new ActionListener()
                 {
                     @Override
-                    public void actionPerformed( ActionEvent e )
+                    public void actionPerformed( final ActionEvent e )
                     {
-                        Object value = getValueAt( rowIndex, columnIndex );
+                        final Object value = getValueAt( rowIndex, columnIndex );
 
                         if( value instanceof String ) {
                             openMultiLineEditor(
@@ -167,8 +165,8 @@ class CompareResourcesBundlePopupMenu
             LOGGER.trace(
                     String.format(
                         "openMultiLineEditor @(%d;%d)\n",
-                        rowIndex, // $codepro.audit.disable
-                        columnIndex // $codepro.audit.disable
+                        Integer.valueOf( rowIndex ),
+                        Integer.valueOf( columnIndex )
                         )
                     );
             }
@@ -180,7 +178,7 @@ class CompareResourcesBundlePopupMenu
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace(
-                        String.format( "Update value @(%d;%d)\n", rowIndex, columnIndex ) // $codepro.audit.disable
+                        String.format( "Update value @(%d;%d)\n", Integer.valueOf( rowIndex ), Integer.valueOf( columnIndex ) )
                         );
                     }
 
@@ -192,7 +190,7 @@ class CompareResourcesBundlePopupMenu
 
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace(
-                        String.format( "Update display @(%d;%d)\n", row, col ) // $codepro.audit.disable
+                        String.format( "Update display @(%d;%d)\n", Integer.valueOf( row ), Integer.valueOf( col ) )
                         );
                     }
 

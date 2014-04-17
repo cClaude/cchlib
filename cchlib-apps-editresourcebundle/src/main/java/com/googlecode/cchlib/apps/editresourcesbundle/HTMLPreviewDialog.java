@@ -34,7 +34,7 @@ public class HTMLPreviewDialog
 {
     private static final long serialVersionUID = 1L;
 
-    private Preferences preferences;
+    private final Preferences preferences;
 
     @I18nIgnore private JEditorPane htmlComponent;
     private JButton jButtonClose;
@@ -55,8 +55,8 @@ public class HTMLPreviewDialog
         this.preferences = frame.getPreferences();
 
         // clean up content
-        String          htmlCmp = htmlSource.trim().toLowerCase();
-        StringBuilder   html    = new StringBuilder();
+        final String          htmlCmp = htmlSource.trim().toLowerCase();
+        final StringBuilder   html    = new StringBuilder();
 
         if( !htmlCmp.startsWith( "<html>" ) ) {
             html.append( "<html>" );
@@ -90,13 +90,13 @@ public class HTMLPreviewDialog
             htmlComponent.setEditable( false );
             htmlComponent.setContentType( "text/html" );
             htmlComponent.setText( html.toString() );
-            htmlComponent.putClientProperty(
+            putClientProperty(
                 JEditorPane.W3C_LENGTH_UNITS,
-                frame.getPreferences().isHTMLPreview_W3C_LENGTH_UNITS() // $codepro.audit.disable avoidAutoBoxing
+                frame.getPreferences().isHTMLPreview_W3C_LENGTH_UNITS()
                 );
-            htmlComponent.putClientProperty(
+            putClientProperty(
                 JEditorPane.HONOR_DISPLAY_PROPERTIES,
-                frame.getPreferences().isHTMLPreview_HONOR_DISPLAY_PROPERTIES() // $codepro.audit.disable avoidAutoBoxing
+                frame.getPreferences().isHTMLPreview_HONOR_DISPLAY_PROPERTIES()
                 );
 
             final JScrollPane jScrollPane = new JScrollPane(htmlComponent);
@@ -117,11 +117,11 @@ public class HTMLPreviewDialog
                     );
             jButtonClose.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     dispose();
                 }
             });
-            GridBagConstraints gbc_jButtonOk = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonOk = new GridBagConstraints();
             gbc_jButtonOk.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonOk.insets = new Insets(0, 0, 0, 5);
             gbc_jButtonOk.gridx = 1;
@@ -153,12 +153,17 @@ public class HTMLPreviewDialog
         }
     }
 
+    private void putClientProperty( final String key, final boolean b )
+    {
+        htmlComponent.putClientProperty( key, Boolean.valueOf( b ) );
+    }
+
     private ActionListener newActionListener(
             final CompareResourcesBundleFrame frame )
     {
         return new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent event )
+            public void actionPerformed( final ActionEvent event )
             {
                 final HTMLPreviewDialogAction action = HTMLPreviewDialogAction.valueOf( HTMLPreviewDialogAction.class,  event.getActionCommand() );
 
@@ -167,7 +172,7 @@ public class HTMLPreviewDialog
                     {
                         final boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
 
-                        htmlComponent.putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b ); // $codepro.audit.disable avoidAutoBoxing
+                        putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b );
                         frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
                     }
                     break;
@@ -176,7 +181,7 @@ public class HTMLPreviewDialog
                     {
                         final boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
 
-                        htmlComponent.putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b ); // $codepro.audit.disable avoidAutoBoxing
+                        putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b );
                         frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
                     }
                     break;
