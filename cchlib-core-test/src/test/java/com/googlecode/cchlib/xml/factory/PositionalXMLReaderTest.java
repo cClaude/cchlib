@@ -17,7 +17,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.After;
@@ -31,7 +30,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
 public class PositionalXMLReaderTest
@@ -65,15 +63,15 @@ public class PositionalXMLReaderTest
         final String xmlString;
 
         {
-            SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
-            DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            InputStream             is                     = createXMLInputStream();
+            final SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
+            final DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            final InputStream             is                     = createXMLInputStream();
 
             Assert.assertNotNull( is );
 
             documentBuilderFactory.setIgnoringComments( false );
 
-            Document document = PositionalXMLReader.readXML( saxParserFactory, documentBuilderFactory, is );
+            final Document document = PositionalXMLReader.readXML( saxParserFactory, documentBuilderFactory, is );
 
             xmlString = toString( document );
 
@@ -84,7 +82,7 @@ public class PositionalXMLReaderTest
 
         final byte[] expecteds;
         {
-            InputStream is = createXMLInputStream();
+            final InputStream is = createXMLInputStream();
             Assert.assertNotNull( is );
 
             expecteds = new ByteArrayBuilder().append( is ).array();
@@ -95,8 +93,8 @@ public class PositionalXMLReaderTest
 
         final byte[] actuals = xmlString.getBytes();
 
-        byte[] expecteds2 = skipHeader( expecteds );
-        byte[] actuals2   = skipHeader( actuals );
+        final byte[] expecteds2 = skipHeader( expecteds );
+        final byte[] actuals2   = skipHeader( actuals );
 
         LOGGER.info( "---expecteds2 XML - length= " + expecteds2.length );
         LOGGER.info( "---actuals2 XML - length= " + actuals2.length );
@@ -113,7 +111,7 @@ public class PositionalXMLReaderTest
         return getClass().getResourceAsStream( "test.xml" );
     }
 
-    private byte[] skipHeader( byte[] bytes )
+    private byte[] skipHeader( final byte[] bytes )
     {
         final byte[] begging = { '<','?','x','m','l',' ' };
 
@@ -142,7 +140,7 @@ public class PositionalXMLReaderTest
             }
 
         // Remove 0X0D : 13, 10 => 10
-        ByteArrayBuilder bab = new ByteArrayBuilder();
+        final ByteArrayBuilder bab = new ByteArrayBuilder();
 
         for( int i = end; i<bytes.length; i++ ) {
             final byte b = bytes[ i ];
@@ -162,9 +160,9 @@ public class PositionalXMLReaderTest
         final Writer writer    = new StringWriter();
 
         try {
-            StreamResult       result      = new StreamResult( writer );
-            TransformerFactory tf          = TransformerFactory.newInstance();
-            Transformer        transformer = tf.newTransformer();
+            final StreamResult       result      = new StreamResult( writer );
+            final TransformerFactory tf          = TransformerFactory.newInstance();
+            final Transformer        transformer = tf.newTransformer();
 
             transformer.transform( domSource, result );
             }
@@ -183,9 +181,9 @@ public class PositionalXMLReaderTest
         final Document document;
 
         {
-            SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
-            DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            InputStream             is                     = createXMLInputStream();
+            final SAXParserFactory        saxParserFactory       = SAXParserFactory.newInstance();
+            final DocumentBuilderFactory  documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            final InputStream             is                     = createXMLInputStream();
 
             Assert.assertNotNull( is );
 
@@ -212,6 +210,7 @@ public class PositionalXMLReaderTest
         LOGGER.info( "Done" );
     }
 
+    @SuppressWarnings("boxing")
     private void doRec( final NodeList nl )
     {
         final int length = nl.getLength();
@@ -249,7 +248,7 @@ public class PositionalXMLReaderTest
         final int     eCol
         )
     {
-        Position pos = this.checker.get( element.getNodeName() );
+        final Position pos = this.checker.get( element.getNodeName() );
 
         Assert.assertNotNull( pos );
 
