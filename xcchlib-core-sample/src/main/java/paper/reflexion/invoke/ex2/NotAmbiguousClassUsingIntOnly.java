@@ -11,18 +11,18 @@ public class NotAmbiguousClassUsingIntOnly
         return "polymorphicInvoke()";
     }
 
-    public String polymorphicInvoke( int intValue )
+    public String polymorphicInvoke( final int intValue )
     {
-        return String.format( "polymorphicInvoke( int %s)", intValue );
+        return String.format( "polymorphicInvoke( int %s)", Integer.valueOf( intValue ) );
     }
 
-    public String polymorphicInvoke( int intValue, Object o1 )
+    public String polymorphicInvoke( final int intValue, final Object o1 )
     {
-        return String.format( "polymorphicInvoke( int %s %s)", intValue, o1 );
+        return String.format( "polymorphicInvoke( int %s %s)", Integer.valueOf( intValue ), o1 );
     }
 
-    public String polymorphicInvoke( int intValue, Object o1, Object o2 )
+    public String polymorphicInvoke( final int intValue, final Object o1, final Object o2 )
     {
-        return String.format( "polymorphicInvoke( int %s %s %s)", intValue, o1, o2 );
+        return String.format( "polymorphicInvoke( int %s %s %s)", Integer.valueOf( intValue ), o1, o2 );
     }
 }

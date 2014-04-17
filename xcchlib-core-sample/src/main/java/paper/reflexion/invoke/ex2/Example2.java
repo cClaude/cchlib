@@ -1,4 +1,3 @@
-// $codepro.audit.disable concatenationInAppend
 package paper.reflexion.invoke.ex2;
 
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +9,9 @@ import paper.reflexion.invoke.ex2.tools.ParamValuesBuilder;
 
 public class Example2
 {
-    public static void main(String...args) throws Exception
+    private static final Integer TEN = Integer.valueOf( 10 );
+
+    public static void main(final String...args) throws Exception
     {
         // Remark : return false !
         System.out.println( "int.class.isAssignableFrom( Integer.class ) = " + int.class.isAssignableFrom( Integer.class ) );
@@ -29,7 +30,7 @@ public class Example2
         assert clazz.isAssignableFrom( instance.getClass() );
         assert paramsTypes.length == params.length;
 
-        Method method = clazz.getMethod( "polymorphicInvoke", paramsTypes );
+        final Method method = clazz.getMethod( "polymorphicInvoke", paramsTypes );
         return method.invoke( instance, params );
     }
 
@@ -42,11 +43,11 @@ public class Example2
         )
     {
         try {
-            Object r = invokeMethod_polymorphicInvoke( clazz, instance, paramsTypes, params );
+            final Object r = invokeMethod_polymorphicInvoke( clazz, instance, paramsTypes, params );
 
             System.out.println( "r = " + r );
             }
-        catch( NoSuchMethodException e ) {
+        catch( final NoSuchMethodException e ) {
             if( shouldNotFail ) {
                 e.printStackTrace();
                 }
@@ -69,28 +70,28 @@ public class Example2
         final boolean    threeParam_shouldNotFail
         )
     {
-        ParamTypesValuesBuilder2 pb = new ParamTypesValuesBuilder2( firstParamType, firstParam, oneParam_shouldNotFail, twoParam_shouldNotFail, threeParam_shouldNotFail );
+        final ParamTypesValuesBuilder2 pb = new ParamTypesValuesBuilder2( firstParamType, firstParam, oneParam_shouldNotFail, twoParam_shouldNotFail, threeParam_shouldNotFail );
 
-        for( ParamTypesValues2 p : pb.toParamTypesValues2() ) {
+        for( final ParamTypesValues2 p : pb.toParamTypesValues2() ) {
             test_invokeMethod_polymorphicInvoke( clazz, instance, p.getTypes(), p.getValues(), p.isShouldNotFail() );
             }
     }
 
     private static void case_invoke_computed_params_types() throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        Class<?> classAmbiguousClass                    = Class.forName( "paper.reflexion2.AmbiguousClass" );
-        Class<?> classNotAmbiguousClassMixing           = Class.forName( "paper.reflexion2.NotAmbiguousClassMixing" );
-        Class<?> classNotAmbiguousClassUsingIntegerOnly = Class.forName( "paper.reflexion2.NotAmbiguousClassUsingIntegerOnly" );
-        Class<?> classNotAmbiguousClassUsingIntOnly     = Class.forName( "paper.reflexion2.NotAmbiguousClassUsingIntOnly" );
+        final Class<?> classAmbiguousClass                    = Class.forName( "paper.reflexion2.AmbiguousClass" );
+        final Class<?> classNotAmbiguousClassMixing           = Class.forName( "paper.reflexion2.NotAmbiguousClassMixing" );
+        final Class<?> classNotAmbiguousClassUsingIntegerOnly = Class.forName( "paper.reflexion2.NotAmbiguousClassUsingIntegerOnly" );
+        final Class<?> classNotAmbiguousClassUsingIntOnly     = Class.forName( "paper.reflexion2.NotAmbiguousClassUsingIntOnly" );
 
-        Object instanceAmbiguousClass                    = classAmbiguousClass.newInstance();
-        Object instanceNotAmbiguousClassMixing           = classNotAmbiguousClassMixing.newInstance();
-        Object instanceNotAmbiguousClassUsingIntegerOnly = classNotAmbiguousClassUsingIntegerOnly.newInstance();
-        Object instanceotAmbiguousClassUsingIntOnly      = classNotAmbiguousClassUsingIntOnly.newInstance();
+        final Object instanceAmbiguousClass                    = classAmbiguousClass.newInstance();
+        final Object instanceNotAmbiguousClassMixing           = classNotAmbiguousClassMixing.newInstance();
+        final Object instanceNotAmbiguousClassUsingIntegerOnly = classNotAmbiguousClassUsingIntegerOnly.newInstance();
+        final Object instanceotAmbiguousClassUsingIntOnly      = classNotAmbiguousClassUsingIntOnly.newInstance();
 
         {
-            Class<?>[] noParamTypes = new Class<?>[ 0 ];
-            Object[]   noParam      = new Object[ 0 ];
+            final Class<?>[] noParamTypes = new Class<?>[ 0 ];
+            final Object[]   noParam      = new Object[ 0 ];
 
             test_invokeMethod_polymorphicInvoke( classAmbiguousClass, instanceAmbiguousClass, noParamTypes, noParam, true );
             test_invokeMethod_polymorphicInvoke( classNotAmbiguousClassMixing, instanceNotAmbiguousClassMixing, noParamTypes, noParam, true );
@@ -99,15 +100,15 @@ public class Example2
         }
 
         {
-            Class<?> firstType  = int.class;
-            Object   firstParam = 10;
+            final Class<?> firstType  = int.class;
+            final Object   firstParam = TEN;
 
             test_invokeMethod_polymorphicInvoke( classAmbiguousClass, instanceAmbiguousClass, firstType, firstParam, true, true, true );
             test_invokeMethod_polymorphicInvoke( classNotAmbiguousClassMixing, instanceNotAmbiguousClassMixing, firstType, firstParam, false /* NotAmbiguousClassMixing.polymorphicInvoke(int) does not exist */, true, false /* NotAmbiguousClassMixing.polymorphicInvoke(int, Object, Object) does not exist */ );
             test_invokeMethod_polymorphicInvoke( classNotAmbiguousClassUsingIntegerOnly, instanceNotAmbiguousClassUsingIntegerOnly, firstType, firstParam, false /* NotAmbiguousClassMixing.polymorphicInvoke(int) does not exist */, false /* NotAmbiguousClassMixing.polymorphicInvoke(int, Object) does not exist */, false /* NotAmbiguousClassMixing.polymorphicInvoke(int, Object, Object) does not exist */ );
             test_invokeMethod_polymorphicInvoke( classNotAmbiguousClassUsingIntOnly, instanceotAmbiguousClassUsingIntOnly, firstType, firstParam, true, true, true );
 
-            ParamValuesBuilder paramBuilder = new ParamValuesBuilder( 10 );
+            final ParamValuesBuilder paramBuilder = new ParamValuesBuilder( TEN );
             test_bestMatchInvoke( instanceAmbiguousClass, "polymorphicInvoke", paramBuilder );
             test_bestMatchInvoke( instanceNotAmbiguousClassMixing, "polymorphicInvoke", paramBuilder );
             test_bestMatchInvoke( instanceNotAmbiguousClassUsingIntegerOnly, "polymorphicInvoke", paramBuilder );
@@ -115,8 +116,8 @@ public class Example2
         }
 
         {
-            Class<?> firstType  = Integer.class;
-            Object   firstParam = 10;
+            final Class<?> firstType  = Integer.class;
+            final Object   firstParam = TEN;
 
             test_invokeMethod_polymorphicInvoke( classAmbiguousClass, instanceAmbiguousClass, firstType, firstParam, true, true, true );
             test_invokeMethod_polymorphicInvoke( classNotAmbiguousClassMixing, instanceNotAmbiguousClassMixing, firstType, firstParam, true, false /* NotAmbiguousClassMixing.polymorphicInvoke(Integer, Object) does not exist */, true );
@@ -133,7 +134,7 @@ public class Example2
     {
         final Class<?> clazz = instance.getClass();
 
-        for( ParamValues p : paramBuilder.toParamValues() ) {
+        for( final ParamValues p : paramBuilder.toParamValues() ) {
             try {
                 InvokeHelper.bestMatchInvoke( clazz, instance, methodName, p.getValues() );
                 }
@@ -143,7 +144,7 @@ public class Example2
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 }
-            catch( MethodResolutionException e ) {
+            catch( final MethodResolutionException e ) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

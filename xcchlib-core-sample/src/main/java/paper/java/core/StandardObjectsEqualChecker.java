@@ -9,38 +9,40 @@ public class StandardObjectsEqualChecker {
         checkString();
     }
 
+    @SuppressWarnings("boxing")
     private static void checkInteger()
     {
-        Integer i1 = 1;
-        Integer i2 = 1;
-        Integer i3 = Integer.valueOf( 1 );
-        Integer i4 = Integer.valueOf( 1 );
-        Integer i5 = new Integer( 1 );
-        Integer i6 = new Integer( 1 );
+        final Integer i1 = 1;
+        final Integer i2 = 1;
+        final Integer i3 = Integer.valueOf( 1 );
+        final Integer i4 = Integer.valueOf( 1 );
+        final Integer i5 = new Integer( 1 );
+        final Integer i6 = new Integer( 1 );
 
         display( "Integer", i1, i2, i3, i4, i5, i6 );
     }
 
+    @SuppressWarnings("boxing")
     private static void checkDouble()
     {
-        Double i1 = 1.0;
-        Double i2 = 1.0;
-        Double i3 = Double.valueOf( 1.0 );
-        Double i4 = Double.valueOf( 1.0 );
-        Double i5 = new Double( 1.0 );
-        Double i6 = new Double( 1.0 );
+        final Double i1 = 1.0;
+        final Double i2 = 1.0;
+        final Double i3 = Double.valueOf( 1.0 );
+        final Double i4 = Double.valueOf( 1.0 );
+        final Double i5 = new Double( 1.0 );
+        final Double i6 = new Double( 1.0 );
 
         display( "Double", i1, i2, i3, i4, i5, i6 );
     }
 
     private static void checkString()
     {
-        String i1 = "1.0";
-        String i2 = "1.0";
-        String i3 = new String( "1.0" );
-        String i4 = new String( "1.0" );
-        String i5 = "1.0".intern();
-        String i6 = "1.0".intern();
+        final String i1 = "1.0";
+        final String i2 = "1.0";
+        final String i3 = new String( "1.0" );
+        final String i4 = new String( "1.0" );
+        final String i5 = "1.0".intern();
+        final String i6 = "1.0".intern();
 
         display( "String", i1, i2, i3, i4, i5, i6 );
     }

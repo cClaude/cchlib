@@ -7,16 +7,17 @@ public class DoubleVSdoubleEqualChecker {
         checkDouble();
     }
 
+    @SuppressWarnings("boxing")
     private static void checkDouble()
     {
-        double i1 = 1.0;
-        double i2 = 1.0;
-        Double i3 = Double.valueOf( 1.0 );
-        Double i4 = Double.valueOf( 1.0 );
-        Double i5 = new Double( 1.0 );
-        Double i6 = new Double( 1.0 );
-        Double i7 = 1.0;
-        Double i8 = 1.0;
+        final double i1 = 1.0;
+        final double i2 = 1.0;
+        final Double i3 = Double.valueOf( 1.0 );
+        final Double i4 = Double.valueOf( 1.0 );
+        final Double i5 = new Double( 1.0 );
+        final Double i6 = new Double( 1.0 );
+        final Double i7 = 1.0;
+        final Double i8 = 1.0;
 
         System.out.println("Double");
         System.out.println( "i1 == i2 : " + (i1 == i2) );
