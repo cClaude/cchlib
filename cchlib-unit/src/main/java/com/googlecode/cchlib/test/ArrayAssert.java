@@ -18,25 +18,25 @@ public class ArrayAssert
     }
 
     /**
-     * Asserts that two arrays are equal. If they 
+     * Asserts that two arrays are equal. If they
      * are not, an AssertionError is thrown.
-     * 
+     *
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
      */
-    public static <T> void assertEquals( 
-        final T[] expected, 
-        final T[] actual 
+    public static <T> void assertEquals(
+        final T[] expected,
+        final T[] actual
         )
     {
         assertEquals( null, expected, actual );
     }
 
     /**
-     * Asserts that two arrays are equal. If they 
-     * are not, an AssertionError is thrown with the 
+     * Asserts that two arrays are equal. If they
+     * are not, an AssertionError is thrown with the
      * given message.
-     * 
+     *
      * @param message the identifying message for the AssertionError (null okay)
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
@@ -50,28 +50,28 @@ public class ArrayAssert
         if( expected == actual ) {
             return; // Same ref.
             }
-                
+
         if( Arrays.equals( actual, expected) ) {
         	return; // Same content (quicker)
         	}
-        
+
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
-            
+
             sb.append( "expected=null actual=" );
             sb.append( actual );
 
             Assert.fail( sb.toString() );
             }
-        
+
         if( expected != null && actual == null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
@@ -85,12 +85,12 @@ public class ArrayAssert
 
         if( expected.length != actual.length ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
-            
+
             sb.append( "expected(size=");
             sb.append( expected.length );
             sb.append( ")=" );
@@ -104,55 +104,56 @@ public class ArrayAssert
             }
 
         for( int i = 0; i<expected.length; i++ ) {
-            T e = expected[ i ];
-            T a = actual[ i ];
+            final T e = expected[ i ];
+            final T a = actual[ i ];
 
             if( e == null && a == null) {
                 continue;
                 }
-            
+
             if( e != null && e.equals( a ) ) {
                 continue;
                 }
-            
+
             // Not match !
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
-            
+
             sb.append( "expected" );
             sb.append( expected );
-            
+
             sb.append( " (item[:" );
             sb.append( i );
             sb.append( "]=" );
             sb.append( e );
-            
+
             sb.append( ") actual=" );
             sb.append( actual );
-            
+
             sb.append( " (item[:" );
             sb.append( i );
             sb.append( "]=" );
             sb.append( a );
             sb.append( ')' );
-            
+
             Assert.fail( sb.toString() );
             }
     }
 
     /**
-     * Asserts that two bytes arrays are equal. If they 
-     * are not, an AssertionError is thrown with the 
+     * Asserts that two bytes arrays are equal. If they
+     * are not, an AssertionError is thrown with the
      * given message.
-     * 
+     *
      * @param message the identifying message for the AssertionError (null okay)
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
      */
+    @SuppressWarnings("boxing")
     public static void assertEquals(
             final String message,
             final byte[] expected,
@@ -162,28 +163,28 @@ public class ArrayAssert
         if( expected == actual ) {
             return; // Same ref.
             }
-        
+
         if( Arrays.equals( actual, expected) ) {
         	return; // Same content (quicker)
         	}
-        
+
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
-            
+
             sb.append( "expected=null actual=" );
             sb.append( actual );
 
             Assert.fail( sb.toString() );
             }
-        
+
         if( expected != null && actual == null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
@@ -197,12 +198,12 @@ public class ArrayAssert
             }
         else if( expected.length != actual.length ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
-            
+
             sb.append( "expected(size=");
             sb.append( expected.length );
             sb.append( ")=" );
@@ -219,16 +220,16 @@ public class ArrayAssert
                 if( expected[ i ] == actual[ i ] ) {
                     continue;
                     }
-                
+
             failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
             }
         }
     }
 
     /**
-     * Asserts that two bytes arrays are equal. If they 
+     * Asserts that two bytes arrays are equal. If they
      * are not, an AssertionError is thrown.
-     * 
+     *
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
      */
@@ -241,14 +242,15 @@ public class ArrayAssert
     }
 
     /**
-     * Asserts that two chars arrays are equal. If they 
-     * are not, an AssertionError is thrown with the 
+     * Asserts that two chars arrays are equal. If they
+     * are not, an AssertionError is thrown with the
      * given message.
-     * 
+     *
      * @param message the identifying message for the AssertionError (null okay)
      * @param expected expected chars array value.
      * @param actual actual chars array value.
      */
+    @SuppressWarnings("boxing")
     public static void assertEquals(
             final String message,
             final char[] expected,
@@ -258,26 +260,26 @@ public class ArrayAssert
         if( expected == actual ) {
             return; // Same ref.
             }
-        
+
         if( Arrays.equals( actual, expected) ) {
         	return; // Same content (quicker)
         	}
 
         if( expected == null && actual != null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
                 }
             sb.append( "expected=null actual=" );
             sb.append( actual );
-            
+
             Assert.fail( sb.toString() );
             }
         if( expected != null && actual == null ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
@@ -285,13 +287,13 @@ public class ArrayAssert
             sb.append( "expected=" );
             sb.append( expected );
             sb.append( " actual=null" );
-            
+
             Assert.fail( sb.toString() );
             }
-        
+
         if( expected.length != actual.length ) {
             final StringBuilder sb = new StringBuilder();
-            
+
             if( message != null ) {
                 sb.append( message );
                 sb.append( ' ' );
@@ -315,7 +317,7 @@ public class ArrayAssert
             failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
         }
     }
-    
+
     private static void failBadValueAtOffset(
         final String    message,
         final int       offset,
@@ -324,7 +326,7 @@ public class ArrayAssert
         )
     {
         final StringBuilder sb = new StringBuilder();
-        
+
         if( message != null ) {
             sb.append( message );
             sb.append( " - " );
@@ -335,7 +337,7 @@ public class ArrayAssert
         sb.append( expectedValueAtOffset );
         sb.append( " actual=" );
         sb.append( actualValueAtOffset );
-        
+
         Assert.fail( sb.toString() );
     }
 }
