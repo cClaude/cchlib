@@ -6,11 +6,8 @@ import java.util.Iterator;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 
-/**
- *
- *
- */
-public abstract class AbstractKeyFiles // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
+//NOT public
+abstract class AbstractKeyFiles // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
     implements KeyFiles // Serializable, Iterable<KeyFileState>
 {
     private static final long serialVersionUID = 1L;

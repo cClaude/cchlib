@@ -36,7 +36,7 @@ import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
-public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
+public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
 {
     private static class Selected implements Iterable<KeyFileState>
     {
@@ -150,7 +150,10 @@ public class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatabl
         final SortMode        sortMode        = preferences.getDefaultSortMode();
         final SelectFirstMode selectFirstMode = preferences.getDefaultSelectFirstMode();
 
-        getListModelDuplicatesFiles().updateCache( duplicateFiles, sortMode, selectFirstMode );
+        getListModelDuplicatesFiles().setDuplicateFiles( duplicateFiles );
+        getListModelDuplicatesFiles().setSortMode( sortMode );
+        getListModelDuplicatesFiles().setSelectFirstMode( selectFirstMode );
+        getListModelDuplicatesFiles().updateCache();
         updateDisplay();
     }
 

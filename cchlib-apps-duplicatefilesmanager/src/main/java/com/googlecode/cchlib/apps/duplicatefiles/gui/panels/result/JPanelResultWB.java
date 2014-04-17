@@ -29,9 +29,6 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 
-/**
- *
- */
 @I18nName("JPanelResult")
 public abstract class JPanelResultWB extends JPanel implements DuplicateData // $codepro.audit.disable largeNumberOfFields
 {
@@ -80,7 +77,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
     private Resources resources;
 
     private JTextField jTextFieldFileInfo;
-    private JPanelResultListModel listModelDuplicatesFiles;
+    private JPanelResultListModelImpl listModelDuplicatesFiles;
     private JSplitPane jSplitPaneResultMain;
     private JSplitPane jSplitPaneResultRight;
     private JList<KeyFileState> jListKeptIntact;
@@ -97,7 +94,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
 
         setSize(488, 240);
 
-        listModelDuplicatesFiles = new JPanelResultListModel();
+        listModelDuplicatesFiles = new JPanelResultListModelImpl();
 
         {
             GridBagLayout gridBagLayout = new GridBagLayout();

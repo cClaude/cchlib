@@ -21,9 +21,9 @@ public class AddCheckBoxToTree {
 
     public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
         private static final long serialVersionUID = 1;
-        private TreeModel model;
+        private final TreeModel model;
 
-        public CheckTreeSelectionModel( TreeModel model )
+        public CheckTreeSelectionModel( final TreeModel model )
         {
             this.model = model;
 
@@ -32,13 +32,13 @@ public class AddCheckBoxToTree {
 
         // tests whether there is any unselected node in the subtree of given
         // path (DONT_CARE)
-        public boolean isPartiallySelected( TreePath path )
+        public boolean isPartiallySelected( final TreePath path )
         {
             if( isPathSelected( path, true ) ) {
                 return false;
             }
 
-            TreePath[] selectionPaths = getSelectionPaths();
+            final TreePath[] selectionPaths = getSelectionPaths();
 
             if( selectionPaths == null ) {
                 return false;
@@ -56,7 +56,7 @@ public class AddCheckBoxToTree {
         // tells whether given path is selected.
         // if dig is true, then a path is assumed to be selected, if
         // one of its ancestor is selected.
-        public boolean isPathSelected( TreePath path, boolean dig )
+        public boolean isPathSelected( TreePath path, final boolean dig )
         {
             if( !dig ) {
                 return super.isPathSelected( path );
@@ -70,44 +70,46 @@ public class AddCheckBoxToTree {
         }
 
         // is path1 descendant of path2
-        private boolean isDescendant( TreePath path1, TreePath path2 )
+        private boolean isDescendant( final TreePath path1, final TreePath path2 )
         {
-            Object[] obj1 = path1.getPath();
-            Object[] obj2 = path2.getPath();
+            final Object[] obj1 = path1.getPath();
+            final Object[] obj2 = path2.getPath();
             for( int i = 0; i < obj2.length; i++ ) {
-                if( obj1[ i ] != obj2[ i ] ) return false;
+                if( obj1[ i ] != obj2[ i ] ) {
+                    return false;
+                }
             }
             return true;
         }
 
         @Override
-        public void setSelectionPaths( TreePath[] pPaths )
+        public void setSelectionPaths( final TreePath[] pPaths )
         {
             throw new UnsupportedOperationException( "not implemented yet!!!" );
         }
 
         @Override
-        public void addSelectionPaths( TreePath[] paths )
+        public void addSelectionPaths( final TreePath[] paths )
         {
 
             // unselect all descendants of paths[]
             for( int i = 0; i < paths.length; i++ ) {
-                TreePath path = paths[ i ];
+                final TreePath path = paths[ i ];
 
-                TreePath[] selectionPaths = getSelectionPaths();
+                final TreePath[] selectionPaths = getSelectionPaths();
 
                 if( selectionPaths == null ) {
                     break;
                 }
 
-                ArrayList<TreePath> toBeRemoved = new ArrayList<TreePath>();
+                final ArrayList<TreePath> toBeRemoved = new ArrayList<TreePath>();
 
                 for( int j = 0; j < selectionPaths.length; j++ ) {
                     if( isDescendant( selectionPaths[ j ], path ) ) {
                         toBeRemoved.add( selectionPaths[ j ] );
                     }
                 }
-                super.removeSelectionPaths( (TreePath[])toBeRemoved
+                super.removeSelectionPaths( toBeRemoved
                         .toArray( new TreePath[0] ) );
             }
 
@@ -146,26 +148,26 @@ public class AddCheckBoxToTree {
         }
 
         // tells whether all siblings of given path are selected.
-        private boolean areSiblingsSelected( TreePath path )
+        private boolean areSiblingsSelected( final TreePath path )
         {
-            TreePath parent = path.getParentPath();
+            final TreePath parent = path.getParentPath();
 
             if( parent == null ) {
                 return true;
             }
 
-            Object node = path.getLastPathComponent();
+            final Object node = path.getLastPathComponent();
 
-            Object parentNode = parent.getLastPathComponent();
+            final Object parentNode = parent.getLastPathComponent();
 
-            int childCount = model.getChildCount( parentNode );
+            final int childCount = model.getChildCount( parentNode );
 
-            Boolean isParameters = false;
-            Boolean isDescription = false;
+            boolean isParameters = false;
+            boolean isDescription = false;
 
             for( int i = 0; i < childCount; i++ ) {
 
-                Object childNode = model.getChild( parentNode, i );
+                final Object childNode = model.getChild( parentNode, i );
 
                 if( childNode == node ) {
                     continue;
@@ -194,14 +196,15 @@ public class AddCheckBoxToTree {
         }
 
         @Override
-        public void removeSelectionPaths( TreePath[] paths )
+        public void removeSelectionPaths( final TreePath[] paths )
         {
             for( int i = 0; i < paths.length; i++ ) {
-                TreePath path = paths[ i ];
-                if( path.getPathCount() == 1 )
+                final TreePath path = paths[ i ];
+                if( path.getPathCount() == 1 ) {
                     super.removeSelectionPaths( new TreePath[] { path } );
-                else
+                } else {
                     toggleRemoveSelection( path );
+                }
             }
         }
 
@@ -210,38 +213,38 @@ public class AddCheckBoxToTree {
          * selection all its descendants except given path and descendants.
          * otherwise just unselect the given path
          */
-        private void toggleRemoveSelection( TreePath path )
+        private void toggleRemoveSelection( final TreePath path )
         {
 
-            Stack<TreePath> stack = new Stack<TreePath>();
+            final Stack<TreePath> stack = new Stack<TreePath>();
             TreePath parent = path.getParentPath();
 
-            Boolean isParameters = false;
-            Boolean isDescription = false;
+            boolean isParameters = false;
+            boolean isDescription = false;
 
             while( parent != null && !isPathSelected( parent ) ) {
                 stack.push( parent );
                 parent = parent.getParentPath();
             }
-            if( parent != null )
+            if( parent != null ) {
                 stack.push( parent );
-            else {
+            } else {
                 super.removeSelectionPaths( new TreePath[] { path } );
                 return;
             }
 
             while( !stack.isEmpty() ) {
-                TreePath temp = (TreePath)stack.pop();
+                final TreePath temp = stack.pop();
 
-                TreePath peekPath = stack.isEmpty() ? path : (TreePath)stack
+                final TreePath peekPath = stack.isEmpty() ? path : (TreePath)stack
                         .peek();
 
-                Object node = temp.getLastPathComponent();
-                Object peekNode = peekPath.getLastPathComponent();
-                int childCount = model.getChildCount( node );
+                final Object node = temp.getLastPathComponent();
+                final Object peekNode = peekPath.getLastPathComponent();
+                final int childCount = model.getChildCount( node );
 
                 for( int i = 0; i < childCount; i++ ) {
-                    Object childNode = model.getChild( node, i );
+                    final Object childNode = model.getChild( node, i );
 
                     if( childNode.toString().equals( "parameters" )
                             && model.isLeaf( childNode ) ) {
@@ -253,9 +256,10 @@ public class AddCheckBoxToTree {
                     }
 
                     if( childNode != peekNode ) {
-                        if( !isParameters && !isDescription )
+                        if( !isParameters && !isDescription ) {
                             super.addSelectionPaths( new TreePath[] { temp
                                     .pathByAddingChild( childNode ) } );
+                        }
                     }
                 }
             }
@@ -273,13 +277,13 @@ public class AddCheckBoxToTree {
     {
         private static final long serialVersionUID = 1;
 
-        private CheckTreeSelectionModel  selectionModel;
-        private TreeCellRenderer         delegate;
-        private TristateCheckBox         checkBox         = new TristateCheckBox();
+        private final CheckTreeSelectionModel   selectionModel;
+        private final TristateCheckBox          checkBox         = new TristateCheckBox();
+        private TreeCellRenderer                delegate;
 
         public CheckTreeCellRenderer(
-                TreeCellRenderer delegate,
-                CheckTreeSelectionModel selectionModel )
+                final TreeCellRenderer delegate,
+                final CheckTreeSelectionModel selectionModel )
         {
             this.delegate = delegate;
             this.selectionModel = selectionModel;
@@ -291,14 +295,14 @@ public class AddCheckBoxToTree {
         }
 
         @Override
-        public Component getTreeCellRendererComponent( JTree tree,
-                Object value, boolean selected, boolean expanded, boolean leaf,
-                int row, boolean hasFocus )
+        public Component getTreeCellRendererComponent( final JTree tree,
+                final Object value, final boolean selected, final boolean expanded, final boolean leaf,
+                final int row, final boolean hasFocus )
         {
-            Component renderer = delegate.getTreeCellRendererComponent( tree,
+            final Component renderer = delegate.getTreeCellRendererComponent( tree,
                     value, selected, expanded, leaf, row, hasFocus );
 
-            TreePath path = tree.getPathForRow( row );
+            final TreePath path = tree.getPathForRow( row );
 
             if( path != null ) {
                 if( selectionModel.isPathSelected( path, true ) ) {
@@ -327,7 +331,7 @@ public class AddCheckBoxToTree {
             return delegate;
         }
 
-        public void setDelegate( TreeCellRenderer delegate )
+        public void setDelegate( final TreeCellRenderer delegate )
         {
             this.delegate = delegate;
         }
@@ -337,11 +341,11 @@ public class AddCheckBoxToTree {
     {
         private CheckTreeSelectionModel selectionModel;
         private JTree                   tree    = new JTree();
-        private int                     hotspot = new JCheckBox().getPreferredSize().width;
+        private final int                     hotspot = new JCheckBox().getPreferredSize().width;
 
         public CheckTreeManager(
-                JTree tree,
-                CheckTreeSelectionModel checkTreeSelectionModel )
+                final JTree tree,
+                final CheckTreeSelectionModel checkTreeSelectionModel )
         {
             this.tree = tree;
 
@@ -363,11 +367,11 @@ public class AddCheckBoxToTree {
         }
 
         @Override
-        public void mouseClicked( MouseEvent me )
+        public void mouseClicked( final MouseEvent me )
         {
             // System.out.println("start...");
 
-            TreePath path = tree.getPathForLocation( me.getX(), me.getY() );
+            final TreePath path = tree.getPathForLocation( me.getX(), me.getY() );
             // System.out.println(Arrays.asList(path));
 
             if( path == null ) {
@@ -380,7 +384,7 @@ public class AddCheckBoxToTree {
                 return;
             }
 
-            boolean selected = selectionModel.isPathSelected( path, true );
+            final boolean selected = selectionModel.isPathSelected( path, true );
             selectionModel.removeTreeSelectionListener( this );
 
             try {
@@ -404,13 +408,13 @@ public class AddCheckBoxToTree {
             return selectionModel;
         }
 
-        public void setSelectionModel( CheckTreeSelectionModel selectionModel )
+        public void setSelectionModel( final CheckTreeSelectionModel selectionModel )
         {
             this.selectionModel = selectionModel;
         }
 
         @Override
-        public void valueChanged( TreeSelectionEvent e )
+        public void valueChanged( final TreeSelectionEvent e )
         {
             tree.treeDidChange();
         }

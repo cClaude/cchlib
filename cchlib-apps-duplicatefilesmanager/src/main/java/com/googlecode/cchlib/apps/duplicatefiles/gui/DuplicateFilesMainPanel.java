@@ -1,25 +1,25 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import javax.swing.JPanel;
-import javax.swing.AbstractButton;
-import java.awt.GridBagLayout;
+import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.util.TooManyListenersException;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import java.awt.event.ActionListener;
-import java.awt.CardLayout;
-import java.util.TooManyListenersException;
 
 /**
  * Main frame layout for DuplicateFilesManager

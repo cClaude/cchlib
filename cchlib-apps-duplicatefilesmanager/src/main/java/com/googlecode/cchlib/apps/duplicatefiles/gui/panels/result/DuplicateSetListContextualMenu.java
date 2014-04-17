@@ -15,6 +15,7 @@ import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("duplicatefiles.JPanelResult.DuplicateSetContextualMenu")
+//NOT public
 final class DuplicateSetListContextualMenu implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -126,7 +127,8 @@ final class DuplicateSetListContextualMenu implements Serializable
                     final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
                             menu.getClientProperty( SelectFirstMode.class )
                             );
-                    jPanelResult.getListModelDuplicatesFiles().updateCache( selectFirstMode );
+                    jPanelResult.getListModelDuplicatesFiles().setSelectFirstMode( selectFirstMode );
+                    jPanelResult.getListModelDuplicatesFiles().updateCache();
             };
             final SelectFirstMode sortMode = jPanelResult.getListModelDuplicatesFiles().getSelectFirstMode();
             final ButtonGroup gb           = new ButtonGroup();
@@ -152,8 +154,11 @@ final class DuplicateSetListContextualMenu implements Serializable
 //                    jPanelResult.getListModelDuplicatesFiles().updateCache( sortMode );
 //                }
 //            };
-            final ActionListener sortByListener = event -> jPanelResult.getListModelDuplicatesFiles().updateCache(
-                    SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) ) );
+            final ActionListener sortByListener = event -> {
+                jPanelResult.getListModelDuplicatesFiles().setSortMode(
+                        SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) ) );
+                jPanelResult.getListModelDuplicatesFiles().updateCache();
+            };
 
             final SortMode    sortMode = jPanelResult.getListModelDuplicatesFiles().getSortMode();
             final ButtonGroup gb       = new ButtonGroup();
