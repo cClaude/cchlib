@@ -1,5 +1,13 @@
 package com.googlecode.cchlib.i18n.prep;
 
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -10,14 +18,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
@@ -154,8 +154,8 @@ public final class I18nPrepHelper
         final I18nAutoCoreUpdatable... i18nConteners
         )
     {
-        final PrepCollector<Integer> usageStatCollector = new PrepCollector<Integer>();
-        final PrepCollector<String>  notUseCollector    = new PrepCollector<String>();
+        final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
+        final PrepCollector<String>  notUseCollector    = new PrepCollector<>();
         final File                   outputFile         = new File(
             new File(".").getAbsoluteFile(),
             i18nPrep.getI18nResourceBundleName().getName()
@@ -172,7 +172,7 @@ public final class I18nPrepHelper
 
             ResourceBundle      rb          = i18nPrep.getResourceBundle();
             Enumeration<String> enu         = rb.getKeys();
-            Map<String,String>  knowKeyMap  = new HashMap<String,String>();
+            Map<String,String>  knowKeyMap  = new HashMap<>();
 
             while( enu.hasMoreElements() ) {
                 final String k = enu.nextElement();
@@ -182,7 +182,7 @@ public final class I18nPrepHelper
                 knowKeyMap.put( k, rb.getString( k ) );
                 }
 
-            Map<String,Integer> statsMap = new HashMap<String,Integer>( i18nPrep.getUsageMap() );
+            Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
 
             for( String key : statsMap.keySet() ) {
                 usageStatCollector.add( key, statsMap.get( key ) );

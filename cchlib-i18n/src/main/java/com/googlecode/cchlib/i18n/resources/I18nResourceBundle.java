@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n.resources;
 
+import com.googlecode.cchlib.i18n.I18nInterface;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}

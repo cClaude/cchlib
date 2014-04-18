@@ -12,7 +12,7 @@ import com.googlecode.cchlib.i18n.AutoI18nType;
 public abstract class AbstractType<T> implements AutoI18nType
 {
     private static final long serialVersionUID = 1L;
-    private Class<T> type;
+    private final Class<T> type;
 
     public AbstractType( Class<T> type )
     {

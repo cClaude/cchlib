@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.i18n.resources;
 
+import static org.fest.assertions.Assertions.assertThat;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import org.fest.assertions.Assertions;
@@ -7,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.io.SerializableHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 
 /**
@@ -16,6 +19,7 @@ public class I18nResourceBundleTest
 {
     private static final Locale LOCALE = Locale.ENGLISH;
     private static final String RESOURCE_BUNDLE_FULL_BASENAME = REF.class.getName();
+    private static final String KEY_TEST = "key.test";
 
     private static final String KEY = "not.use.1";
     private static final String VALUE = "should be not use and not remove !";
@@ -36,7 +40,7 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final Locale locale = LOCALE;
 
-        I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
+        final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
         Assertions.assertThat( result ).isNotNull();
         Assertions.assertThat( result.getResourceBundle() ).isNotNull();
@@ -49,7 +53,7 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = null;
         final Locale locale = LOCALE;
 
-        I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
+        final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -61,7 +65,7 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final Locale locale = null;
 
-        I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
+        final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
         Assertions.assertThat( result ).isNotNull();
      }
@@ -73,7 +77,7 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final ResourceBundle resourceBundle = newResourceBundle( resourceBundleFullBaseName, LOCALE );
 
-        I18nResourceBundle result = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
+        final I18nResourceBundle result = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -85,9 +89,9 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final ResourceBundle resourceBundle = newResourceBundle( resourceBundleFullBaseName, LOCALE );
 
-        I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
+        final I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
-        ResourceBundle result = fixture.getResourceBundle();
+        final ResourceBundle result = fixture.getResourceBundle();
 
         Assertions.assertThat( result ).isNotNull();
         Assertions.assertThat( result ).isEqualTo( resourceBundle );
@@ -100,9 +104,9 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final ResourceBundle resourceBundle = newResourceBundle( resourceBundleFullBaseName, LOCALE );
 
-        I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
+        final I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
-        String result = fixture.getResourceBundleFullBaseName();
+        final String result = fixture.getResourceBundleFullBaseName();
 
         Assertions.assertThat( result ).isNotNull();
         Assertions.assertThat( result ).isEqualTo( RESOURCE_BUNDLE_FULL_BASENAME );
@@ -115,9 +119,9 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final ResourceBundle resourceBundle = newResourceBundle( resourceBundleFullBaseName, LOCALE );
 
-        I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
+        final I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
-        String result = fixture.getString( KEY );
+        final String result = fixture.getString( KEY );
 
         Assertions.assertThat( result ).isNotNull();
         Assertions.assertThat( result ).isEqualTo( VALUE );
@@ -130,9 +134,9 @@ public class I18nResourceBundleTest
         final String resourceBundleFullBaseName = RESOURCE_BUNDLE_FULL_BASENAME;
         final ResourceBundle resourceBundle = newResourceBundle( resourceBundleFullBaseName, LOCALE );
 
-        I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
+        final I18nResourceBundle fixture = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
-        String result = fixture.getString( BAD_KEY );
+        final String result = fixture.getString( BAD_KEY );
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -167,6 +171,24 @@ public class I18nResourceBundleTest
 
         Assertions.assertThat( result ).isNotNull();
         Assertions.assertThat( result ).isEqualTo( VALUE );
+    }
+
+    @Test
+    public void testSerilization1() throws ClassNotFoundException, IOException, MissingResourceException
+    {
+        final String    resourceBundleBaseName  = I18nResourceBundleTest.class.getName();
+        final Locale    localeEn                = Locale.ENGLISH;
+
+        final ResourceBundle  resourceBundle = ResourceBundle.getBundle( resourceBundleBaseName, localeEn );
+
+        // Prepare object to test
+        final I18nResourceBundle irb = new I18nResourceBundle( resourceBundle, resourceBundleBaseName );
+
+        // Launch serialization
+        final I18nResourceBundle copy = SerializableTestCaseHelper.cloneOverSerialization( irb );
+
+        assertThat( copy.getString( KEY_TEST ) ).isEqualTo( irb.getString( KEY_TEST ) );
+
     }
 
 }

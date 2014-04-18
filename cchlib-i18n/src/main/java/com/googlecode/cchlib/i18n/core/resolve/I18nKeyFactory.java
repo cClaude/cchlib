@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
+import com.googlecode.cchlib.NeedDoc;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import com.googlecode.cchlib.NeedDoc;
 
 /**
  *

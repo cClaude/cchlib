@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.i18n.logging;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.EnumSet;
-import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -14,6 +10,10 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * {@link AutoI18nExceptionHandler} using logging
@@ -23,7 +23,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private EnumSet<AutoI18nConfig> config;
+    private final EnumSet<AutoI18nConfig> config;
 
     public AbstractAutoI18nLoggingExceptionHandler( Set<AutoI18nConfig> userConfig )
     {

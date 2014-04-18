@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.util.EnumSet;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import java.util.EnumSet;
 
 public class MethodProviderFactory
 {

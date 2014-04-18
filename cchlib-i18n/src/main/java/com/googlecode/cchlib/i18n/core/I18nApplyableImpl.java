@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Locale;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
@@ -13,13 +9,17 @@ import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.core.resolve.ValuesFromKeys;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import com.googlecode.cchlib.lang.Objects;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Locale;
+import org.apache.log4j.Logger;
 
 /*not public*/ class I18nApplyableImpl<T> implements I18nApplyable<T>
 {
     private static final Logger LOGGER = Logger.getLogger( I18nApplyableImpl.class );
     
-    private I18nClass<T> i18nClass;
-    private I18nDelegator i18nDelegator;
+    private final I18nClass<T> i18nClass;
+    private final I18nDelegator i18nDelegator;
 
     public I18nApplyableImpl( I18nClass<T> i18nClass, I18nDelegator i18nDelegator )
     {

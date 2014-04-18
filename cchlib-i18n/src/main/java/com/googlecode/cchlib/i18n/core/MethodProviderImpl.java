@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core;
 
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import java.lang.reflect.Field;
 import java.util.Set;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 class MethodProviderImpl implements MethodProvider
 {

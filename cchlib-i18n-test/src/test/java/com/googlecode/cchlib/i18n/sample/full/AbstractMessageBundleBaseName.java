@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.i18n.sample.full;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Locale;
-import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Locale;
+import java.util.Set;
 
 public abstract class AbstractMessageBundleBaseName
 {

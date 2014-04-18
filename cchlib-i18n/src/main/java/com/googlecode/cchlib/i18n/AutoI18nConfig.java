@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n;
 
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import java.awt.Window;
 import java.util.EnumSet;
 import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 
 /**
  * How to select Fields:

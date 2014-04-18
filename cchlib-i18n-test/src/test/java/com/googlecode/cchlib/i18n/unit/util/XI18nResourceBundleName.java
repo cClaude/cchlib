@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class XI18nResourceBundleName
     extends DefaultI18nResourceBundleName

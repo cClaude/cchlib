@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.sample.full;
 
-import java.io.IOException;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import java.io.IOException;
 
 public class FakePanelPrepApp extends AbstractMessageBundleBaseName
 {

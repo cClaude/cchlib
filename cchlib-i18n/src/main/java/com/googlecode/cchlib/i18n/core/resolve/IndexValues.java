@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class IndexValues extends IndexKV implements Values, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private String[] values;
+    private final String[] values;
 
     /**
      *

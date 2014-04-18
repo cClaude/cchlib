@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
 
 public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPartInterface
 {
@@ -16,7 +16,7 @@ public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPa
     private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
     private static final String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
 
-    private MyAutoI18nBasicInterface myAutoI18nBasicInterface;
+    private final MyAutoI18nBasicInterface myAutoI18nBasicInterface;
 
     public AutoI18nBasicInterfacePart()
     {

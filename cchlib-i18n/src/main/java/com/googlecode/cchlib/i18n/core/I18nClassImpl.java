@@ -1,5 +1,17 @@
 package com.googlecode.cchlib.i18n.core;
 
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.AutoI18nType;
+import com.googlecode.cchlib.i18n.EventCause;
+import com.googlecode.cchlib.i18n.I18nStringNotAStringException;
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactoryImpl;
+import com.googlecode.cchlib.lang.StringHelper;
 import java.awt.Component;
 import java.awt.Window;
 import java.io.Serializable;
@@ -14,18 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.EventCause;
-import com.googlecode.cchlib.i18n.I18nStringNotAStringException;
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
-import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactoryImpl;
-import com.googlecode.cchlib.lang.StringHelper;
 
 class I18nClassImpl<T> implements I18nClass<T>, Serializable
 {
@@ -51,7 +51,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
     /** @serial */
     private Class<? extends T> objectToI18nClass;
-    private List<I18nField> fieldList = new ArrayList<I18nField>();
+    private List<I18nField> fieldList = new ArrayList<>();
     private I18nDelegator i18nDelegator;
     private I18nKeyFactory i18nKeyFactory;
 

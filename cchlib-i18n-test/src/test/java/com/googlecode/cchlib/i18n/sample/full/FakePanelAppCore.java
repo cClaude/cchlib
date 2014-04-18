@@ -1,6 +1,11 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.EnumSet;
@@ -8,16 +13,11 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 public class FakePanelAppCore extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private final JPanel contentPane;
 
     /**
      * Launch the application.
@@ -30,19 +30,15 @@ public class FakePanelAppCore extends JFrame
 
     public static void start( final boolean doI18n )
     {
-        EventQueue.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    FakePanelAppCore frame = new FakePanelAppCore( doI18n );
-                    frame.setVisible( true );
-                    }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                    }
+        EventQueue.invokeLater( () -> {
+            try {
+                FakePanelAppCore frame = new FakePanelAppCore( doI18n );
+                frame.setVisible( true );
             }
-        } );
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**

@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import javax.swing.JButton;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -10,6 +7,9 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import javax.swing.JButton;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 
 public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestPartInterface
 {
@@ -19,7 +19,7 @@ public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestPar
 
     private static final String TEXT_INIT = "my button with tool tip text 1";
 
-    @I18nToolTipText @I18nIgnore private JButton myButtonWithToolTipText1;
+    @I18nToolTipText @I18nIgnore private final JButton myButtonWithToolTipText1;
 
     public I18nToolTipTextIgnorePart()
     {

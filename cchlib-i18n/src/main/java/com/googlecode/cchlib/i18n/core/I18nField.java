@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
+import java.io.Serializable;
+import java.lang.reflect.Field;
 
 /**
  * TODOC

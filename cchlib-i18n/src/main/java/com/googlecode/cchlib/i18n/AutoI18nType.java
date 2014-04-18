@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.i18n;
 
-import java.io.Serializable;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import java.io.Serializable;
 
 /**
  * TODOC

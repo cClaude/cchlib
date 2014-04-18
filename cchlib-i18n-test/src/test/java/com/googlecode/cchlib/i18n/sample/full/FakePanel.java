@@ -1,11 +1,16 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.EnumSet;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,15 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-
 import org.apache.log4j.Logger;
-
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  *
@@ -40,31 +37,31 @@ public class FakePanel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FakePanel.class );
 
-    private TitledBorder panelTitleBorder;
-    private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
+    private final TitledBorder panelTitleBorder;
+    private final JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 
-    @I18nIgnore private JLabel jLabelNoI18n; // No I18n
-    private JProgressBar jProgressBar; // No I18n
+    @I18nIgnore private final JLabel jLabelNoI18n; // No I18n
+    private final JProgressBar jProgressBar; // No I18n
 
-    private JCheckBox jCheckBox; // I18n default process
+    private final JCheckBox jCheckBox; // I18n default process
 
-    @I18n(id="JButtonID") private JButton jButton;
-    @I18n                 private JLabel jLabel; // annotation not needed
+    @I18n(id="JButtonID") private final JButton jButton;
+    @I18n                 private final JLabel jLabel; // annotation not needed
     //TODO @I18n(method="myI18n") private Object dummy = new Object(); // ex: declare field to apply a custom method
 
-    private JTextArea jTextAreaNoI18n;
-    @I18n private JTextArea jTextArea;
-    private JTextField  myJTextField;
-    private JEditorPane jEditorPane;
-    @I18n(id="myJTextFieldDefineWithId") private JTextField myJTextFieldDefineWithId; // use specific Id TODO
-    private JProgressBar jProgressBarToI18n; // TODO
+    private final JTextArea jTextAreaNoI18n;
+    @I18n private final JTextArea jTextArea;
+    private final JTextField  myJTextField;
+    private final JEditorPane jEditorPane;
+    @I18n(id="myJTextFieldDefineWithId") private final JTextField myJTextFieldDefineWithId; // use specific Id TODO
+    private final JProgressBar jProgressBarToI18n; // TODO
 
-    @I18nToolTipText private JButton buttonToolTipsButton; // Default process I18n on JButton and special I18n on tool tip text
-    @I18nIgnore @I18nToolTipText private JButton buttonIgnoreButton; // No I18n on JButton and special I18n on tool tip text
+    @I18nToolTipText private final JButton buttonToolTipsButton; // Default process I18n on JButton and special I18n on tool tip text
+    @I18nIgnore @I18nToolTipText private final JButton buttonIgnoreButton; // No I18n on JButton and special I18n on tool tip text
 
 
-    @I18nIgnore private JButton refreshButton;
-    @I18nString private String refreshButtonText = "Refresh (default String)";
+    @I18nIgnore private final JButton refreshButton;
+    @I18nString private final String refreshButtonText = "Refresh (default String)";
 
     /*
     // Errors (during prep process)
@@ -77,13 +74,13 @@ public class FakePanel
     @SuppressWarnings("unused") private Test test;
     @SuppressWarnings("unused") private EnumSet<Test> testSet;
 
-    private JMenuBar menuBar;
-    private JMenu menu1;
-    private JMenu menu2;
-    private JMenu menu1_1;
-    private JMenuItem rootMenuItem;
-    private JMenuItem menuItem1_1_1;
-    private JMenuItem menuItem1_1_2;
+    private final JMenuBar menuBar;
+    private final JMenu menu1;
+    private final JMenu menu2;
+    private final JMenu menu1_1;
+    private final JMenuItem rootMenuItem;
+    private final JMenuItem menuItem1_1_1;
+    private final JMenuItem menuItem1_1_2;
 
    // @I18n private Object crash1 = null;
 
@@ -271,12 +268,8 @@ public class FakePanel
         }
         {
             this.refreshButton = new JButton("Refresh (click here)");
-            this.refreshButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    doRefresh();
-                }
-
+            this.refreshButton.addActionListener((ActionEvent e) -> {
+                doRefresh();
             });
             {
                 this.menuBar = new JMenuBar();

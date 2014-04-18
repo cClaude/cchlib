@@ -1,12 +1,11 @@
 package com.googlecode.cchlib.i18n.config;
 
-import java.util.EnumSet;
-import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import java.util.EnumSet;
+import java.util.Locale;
 
 /**
  * @deprecated this class remaind for old project based on previous version of cchlib-i18n (now called cchlib-i18n-deprecated)
@@ -14,7 +13,7 @@ import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 @Deprecated
 public class DefaultI18nBundleFactory
 {
-    private AutoI18nCore autoI18n;
+    private final AutoI18nCore autoI18n;
 
     private DefaultI18nBundleFactory(Locale locale, final I18nPrepHelperAutoUpdatable prep)
     {
@@ -23,14 +22,7 @@ public class DefaultI18nBundleFactory
         autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
                 config,
                 new I18nSimpleResourceBundle(
-                        locale,
-                        new I18nResourceBundleName() {
-                            @Override
-                            public String getName()
-                            {
-                                return prep.getMessagesBundleForI18nPrepHelper(); // $codepro.audit.disable deprecatedMethod
-                            }}
-                        )
+                        locale, prep::getMessagesBundleForI18nPrepHelper)
                 );
     }
 

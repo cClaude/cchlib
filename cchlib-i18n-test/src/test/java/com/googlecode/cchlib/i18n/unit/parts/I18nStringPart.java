@@ -1,10 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import javax.swing.JButton;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -12,6 +8,10 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import javax.swing.JButton;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
 
 public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
 {
@@ -19,15 +19,15 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
     private static final String INIT_myString = "my string text 1";
     private static final String DEFAULT_BUNDLE_myString = "OK(myString)";
 
-    @I18nString private String myString = INIT_myString;
+    @I18nString private final String myString = INIT_myString;
 
-    @I18nString @I18nIgnore private String myStringIgnore = INIT_myString;
+    @I18nString @I18nIgnore private final String myStringIgnore = INIT_myString;
     @I18nString private Object thisNotAString1;
     @I18nString private JButton thisNotAString2;
 
     private static final String INIT_myGlobalStringID1 = "my Global string 1 text";
     private static final String DEFAULT_BUNDLE_myGlobalStringID1 = "OK(GlobalStringID)";
-    @I18nString(id="GlobalStringID") private String myGlobalStringID = INIT_myGlobalStringID1;
+    @I18nString(id="GlobalStringID") private final String myGlobalStringID = INIT_myGlobalStringID1;
 
     private static final String INIT_myGlobalStringIDMethod1 = "my Global string 2 text";
     private static final String DEFAULT_BUNDLE_myGlobalStringIDMethod1 = "OK(myGlobalStringIDMethod1)";

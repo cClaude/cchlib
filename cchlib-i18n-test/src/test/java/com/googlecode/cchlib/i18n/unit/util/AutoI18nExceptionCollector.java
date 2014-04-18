@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxeException;
@@ -11,21 +9,23 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
 
-    private CollectorImpl collectI18nSyntaxeException = new CollectorImpl();
-    private CollectorImpl collectIllegalAccessException = new CollectorImpl();
-    private CollectorImpl collectIllegalArgumentException = new CollectorImpl();
-    private CollectorImpl collectInvocationTargetException = new CollectorImpl();
-    private CollectorImpl collectMissingKeyException = new CollectorImpl();
-    private CollectorImpl collectMissingResourceException = new CollectorImpl();
-    private CollectorImpl collectNoSuchMethodException = new CollectorImpl();
-    private CollectorImpl collectMethodProviderSecurityException = new CollectorImpl();
-    private CollectorImpl collectSecurityException = new CollectorImpl();
-    private CollectorImpl collectSetFieldException = new CollectorImpl();
+    private final CollectorImpl collectI18nSyntaxeException = new CollectorImpl();
+    private final CollectorImpl collectIllegalAccessException = new CollectorImpl();
+    private final CollectorImpl collectIllegalArgumentException = new CollectorImpl();
+    private final CollectorImpl collectInvocationTargetException = new CollectorImpl();
+    private final CollectorImpl collectMissingKeyException = new CollectorImpl();
+    private final CollectorImpl collectMissingResourceException = new CollectorImpl();
+    private final CollectorImpl collectNoSuchMethodException = new CollectorImpl();
+    private final CollectorImpl collectMethodProviderSecurityException = new CollectorImpl();
+    private final CollectorImpl collectSecurityException = new CollectorImpl();
+    private final CollectorImpl collectSetFieldException = new CollectorImpl();
 
     @Override
     public void handleI18nSyntaxeException( I18nSyntaxeException cause, Field field )

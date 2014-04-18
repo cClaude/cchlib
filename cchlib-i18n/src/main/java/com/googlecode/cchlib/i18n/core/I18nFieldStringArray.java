@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
@@ -13,6 +12,7 @@ import com.googlecode.cchlib.i18n.core.resolve.KeyException;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import java.lang.reflect.Field;
 
 final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
 {
@@ -58,22 +58,14 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
             @Override
             public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
             {
-                return new I18nResolvedFieldGetter() {
-                    @Override
-                    public Values getValues( Keys keys ) throws GetFieldException
-                    {
-                        try {
-                            String[] values = getComponent( objectToI18n );
-
-                            return new IndexValues( values );
-                            }
-                        catch( IllegalArgumentException e ) {
-                            throw new GetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
-                            throw new GetFieldException( e );
-                            }
-                     }
+                return (Keys keys) -> {
+                    try {
+                        String[] values = getComponent( objectToI18n );
+                        
+                        return new IndexValues( values );
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                        throw new GetFieldException( e );
+                    }
                 };
             }
             @Override
@@ -91,10 +83,7 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
                             f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
                             f.set( objectToI18n, values.toArray() );
                             }
-                        catch( IllegalArgumentException e ) {
-                            throw new SetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
+                        catch( IllegalArgumentException | IllegalAccessException e ) {
                             throw new SetFieldException( e );
                             }
                     }

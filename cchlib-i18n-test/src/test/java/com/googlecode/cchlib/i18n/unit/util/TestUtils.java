@@ -1,11 +1,6 @@
 // $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.util;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
@@ -17,6 +12,11 @@ import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.REF;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
 
 public class TestUtils
 {
@@ -50,7 +50,7 @@ public class TestUtils
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
         return new PrepTestPartInterface() {
-            private List<I18nAutoCoreUpdatable> list = new ArrayList<I18nAutoCoreUpdatable>();
+            private final List<I18nAutoCoreUpdatable> list = new ArrayList<>();
             @Override
             public I18nPrep getAutoI18n()
             {

@@ -1,16 +1,5 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
@@ -22,6 +11,17 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class RunI18nTestApp
 {
@@ -106,12 +106,8 @@ public class RunI18nTestApp
         int createdSize;
         {
             Properties prop   = new Properties();
-            Reader     reader = new FileReader( result.getOutputFile() );
-
-            try {
+            try (Reader reader = new FileReader( result.getOutputFile() )) {
                 prop.load( reader );
-            } finally {
-                reader.close();
             }
 
             createdSize = prop.size();

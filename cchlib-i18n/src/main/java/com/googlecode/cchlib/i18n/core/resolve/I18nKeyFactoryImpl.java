@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
+import java.lang.reflect.Field;
 
 public class I18nKeyFactoryImpl implements I18nKeyFactory
 {
     private static final long serialVersionUID = 1L;
-    private String i18nNameValue;
+    private final String i18nNameValue;
 
     public I18nKeyFactoryImpl( final I18nName i18nName )
     {

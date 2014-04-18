@@ -1,6 +1,12 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestPartInterface;
+import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -14,12 +20,6 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
 public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestPartInterface
 {
@@ -28,40 +28,40 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
 
     private static final String INIT_myJLabel = "my JLabel text";
     private static final String DEFAULT_BUNDLE_myJLabel = "OK(myJLabel)";
-    @I18n private JLabel myJLabel;
+    @I18n private final JLabel myJLabel;
 
     private static final String INIT_myJButton = "my JButton text";
     private static final String DEFAULT_BUNDLE_myJButton = "OK(myJButton)";
-    @I18n private AbstractButton myJButton;
+    @I18n private final AbstractButton myJButton;
 
     private static final String INIT_myJCheckBox = "my JCheckBox text";
     private static final String DEFAULT_BUNDLE_myJCheckBox = "OK(myJCheckBox)";
-    @I18n private JCheckBox myJCheckBox;
+    @I18n private final JCheckBox myJCheckBox;
 
     private static final String INIT_myJTabbedPane1 =  "my JTabbedPane panel1";
     private static final String INIT_myJTabbedPane2 =  "my JTabbedPane panel2";
     private static final String DEFAULT_BUNDLE_myJTabbedPane1 = "OK(myJTabbedPane1)";
     private static final String DEFAULT_BUNDLE_myJTabbedPane2 = "OK(myJTabbedPane2)";
-    @I18n private JTabbedPane myJTabbedPane;
+    @I18n private final JTabbedPane myJTabbedPane;
 
     private static final String INIT_myTitledBorder = "my myTitledBorder text";
     private static final String DEFAULT_BUNDLE_myTitledBorder = "OK(myTitledBorder)";
-    @I18n private TitledBorder myTitledBorder;
+    @I18n private final TitledBorder myTitledBorder;
 
     private static final String INIT_myJTextArea = "this is my JTextArea text";
     private static final String DEFAULT_BUNDLE_myJTextArea = "OK(myJTextArea)";
-    @I18n private JTextArea myJTextArea;
-    private JTextArea myJTextAreaNoI18n;
+    @I18n private final JTextArea myJTextArea;
+    private final JTextArea myJTextAreaNoI18n;
 
     private static final String INIT_myJTextField = "this is my JTextField text";
     private static final String DEFAULT_BUNDLE_myJTextField = "OK(myJTextField)";
-    @I18n private JTextField myJTextField;
-    private JTextField myJTextFieldNoI18n;
+    @I18n private final JTextField myJTextField;
+    private final JTextField myJTextFieldNoI18n;
 
     private static final String INIT_myJEditorPane = "this is my JEditorPane text";
     private static final String DEFAULT_BUNDLE_myJEditorPane = "OK(myJEditorPane)";
-    @I18n private JEditorPane myJEditorPane;
-    private JEditorPane myJEditorPaneNoI18n;
+    @I18n private final JEditorPane myJEditorPane;
+    private final JEditorPane myJEditorPaneNoI18n;
 
     public I18nForcedPart()
     {

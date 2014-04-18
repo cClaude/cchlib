@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nInterface;
-import  java.util.MissingResourceException;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import  org.apache.log4j.Logger;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
