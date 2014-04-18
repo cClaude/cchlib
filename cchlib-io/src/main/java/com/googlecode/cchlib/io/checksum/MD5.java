@@ -390,19 +390,19 @@ public class MD5
      * The current state from which the hash sum
      * can be computed or updated.
      */
-    private MD5State workingState = new MD5State();
+    private final MD5State workingState = new MD5State();
 
     /**
      * Cached copy of the final MD5 hash sum.  This is created when
      * the hash is requested and it is invalidated when the hash
      * is updated.
      */
-    private MD5State finalState = new MD5State();
+    private final MD5State finalState = new MD5State();
 
     /**
      * Temporary buffer cached here for performance reasons.
      */
-    private int[] decodeBuffer = new int[16];
+    private final int[] decodeBuffer = new int[16];
 
     /**
      * 64 bytes of padding that can be added if the length

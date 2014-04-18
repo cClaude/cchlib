@@ -137,9 +137,9 @@ public class CloneInputStreamThread
                     }
                 }
             catch( IOException e ) {
-                for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
-                    exceptionHandlers[ i ].handleReadingIOException( e );
-                    }
+                for (InputStreamThreadExceptionHandler exceptionHandler : this.exceptionHandlers) {
+                    exceptionHandler.handleReadingIOException(e);
+                }
                 break;
                 }
             for( int i = 0; i<this.exceptionHandlers.length; i++ ) {

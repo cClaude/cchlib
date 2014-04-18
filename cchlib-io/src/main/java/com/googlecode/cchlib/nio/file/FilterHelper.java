@@ -58,8 +58,8 @@ public final class FilterHelper
 
     private static class OrFilter implements DirectoryStream.Filter<Path>
     {
-        private Filter<Path> f1;
-        private Filter<Path> f2;
+        private final Filter<Path> f1;
+        private final Filter<Path> f2;
 
         private OrFilter( final Filter<Path> f1, final Filter<Path> f2 )
         {
@@ -81,8 +81,8 @@ public final class FilterHelper
 
     private static class AndFilter implements DirectoryStream.Filter<Path>
     {
-        private Filter<Path> f1;
-        private Filter<Path> f2;
+        private final Filter<Path> f1;
+        private final Filter<Path> f2;
 
         private AndFilter( final Filter<Path> f1, final Filter<Path> f2 )
         {
@@ -104,7 +104,7 @@ public final class FilterHelper
     
     private static class NotFilter implements DirectoryStream.Filter<Path>
     {
-        private Filter<Path> f;
+        private final Filter<Path> f;
 
         private NotFilter( final Filter<Path> f )
         {

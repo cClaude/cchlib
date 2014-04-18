@@ -1,8 +1,8 @@
 // $codepro.audit.disable staticFieldNamingConvention
 package com.googlecode.cchlib.lang;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.io.IOHelper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +14,11 @@ import javax.tools.ToolProvider;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.IOHelper;
 
 public class ExtendableClassLoaderTest
 {
@@ -121,12 +121,10 @@ public class ExtendableClassLoaderTest
     private static void compile( File...files ) throws IOException
     {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-
-        Iterable<? extends JavaFileObject> compilationUnits1 =
-            fileManager.getJavaFileObjectsFromFiles(Arrays.asList(files));
-        compiler.getTask(null, fileManager, null, null, null, compilationUnits1).call();
-
-        fileManager.close();
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
+            Iterable<? extends JavaFileObject> compilationUnits1 =
+                    fileManager.getJavaFileObjectsFromFiles(Arrays.asList(files));
+            compiler.getTask(null, fileManager, null, null, null, compilationUnits1).call();
+        }
     }
 }

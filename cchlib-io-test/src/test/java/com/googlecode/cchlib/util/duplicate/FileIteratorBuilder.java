@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import java.io.File;
 import com.googlecode.cchlib.io.FileIterable;
+import java.io.File;
 
 //NOT public
 class FileIteratorBuilder

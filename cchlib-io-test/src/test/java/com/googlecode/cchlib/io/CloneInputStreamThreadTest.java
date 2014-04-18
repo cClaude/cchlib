@@ -25,39 +25,32 @@ public class CloneInputStreamThreadTest
     @Test
     public void testCloneInputStreamThread() throws IOException
     {
-        InputStream             sourceIS0   = IO.createPNGInputStream();
-        CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
-            getClass().getName(),
-            sourceIS0,
-            BUFFER_SIZE,
-            createExceptionHandlers()
+        try (InputStream sourceIS0 = IO.createPNGInputStream()) {
+            CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
+                    getClass().getName(),
+                    sourceIS0,
+                    BUFFER_SIZE,
+                    createExceptionHandlers()
             );
-
-        //InputStream[] copies = new InputStream[ threadIS.getSize() ];
-        TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
-
-        for( int i = 0; i<runs.length; i++ ) {
-            @SuppressWarnings("resource")
-            final InputStream is = threadIS.getInputStream( i );
-
-            runs[ i ]= new TestRunner( is ); // $codepro.audit.disable avoidInstantiationInLoops
-
-            LOGGER.info( "start( " + i + " )" );
-            launchTask( runs[ i ] );
+            //InputStream[] copies = new InputStream[ threadIS.getSize() ];
+            TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
+            for( int i = 0; i<runs.length; i++ ) {
+                @SuppressWarnings("resource")
+                final InputStream is = threadIS.getInputStream( i );
+                
+                runs[ i ]= new TestRunner( is ); // $codepro.audit.disable avoidInstantiationInLoops
+                
+                LOGGER.info( "start( " + i + " )" );
+                launchTask( runs[ i ] );
             }
-
-        threadIS.start();
-        LOGGER.info( "start()" );
-
-        final byte[] source = IO.createPNG();
-
-        for( int i = 0; i<runs.length; i++ ) {
-            byte[] bytes = runs[ i ].getInputStreamAsBytes();
-
-            Assert.assertArrayEquals( source, bytes );
+            threadIS.start();
+            LOGGER.info( "start()" );
+            final byte[] source = IO.createPNG();
+            for (TestRunnable run : runs) {
+                byte[] bytes = run.getInputStreamAsBytes();
+                Assert.assertArrayEquals( source, bytes );
             }
-
-        sourceIS0.close();
+        }
 
         LOGGER.info( "done" );
     }

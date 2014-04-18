@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.NeedDoc;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
 public interface DigestFileCollector

@@ -10,7 +10,7 @@ final class DefaultExtendedFileDataTypeDescription
 {
     private final FileDataTypeDescription typeDescription;
     private final Dimension dimension;
-    private String formatName;
+    private final String formatName;
     
     /**
      * 

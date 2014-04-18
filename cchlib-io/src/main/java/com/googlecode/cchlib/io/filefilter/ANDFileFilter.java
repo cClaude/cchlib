@@ -19,7 +19,7 @@ import java.util.List;
 public class ANDFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private List<FileFilter> filters = new ArrayList<FileFilter>();
+    private List<FileFilter> filters = new ArrayList<>();
 
     /**
      * Create an ANDFileFilter

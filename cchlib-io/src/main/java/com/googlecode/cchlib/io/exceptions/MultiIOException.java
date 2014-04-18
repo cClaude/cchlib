@@ -13,7 +13,7 @@ import java.util.List;
 public class MultiIOException extends IOException implements Iterable<IOException>
 {
     private static final long serialVersionUID = 1L;
-    private List<IOException> exceptions = new ArrayList<IOException>();
+    private final List<IOException> exceptions = new ArrayList<>();
 
     /**
      * Create a new empty MultiIOException

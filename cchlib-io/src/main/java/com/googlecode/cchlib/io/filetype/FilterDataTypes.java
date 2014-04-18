@@ -19,7 +19,7 @@ class FilterDataTypes extends FilterInputStream
     private int offset = 0;
     private boolean ready = false;
     private FileDataTypeDescription currentType = null;
-    private List<FileDataTypeMatch> fileDataTypeMatchList;
+    private final List<FileDataTypeMatch> fileDataTypeMatchList;
 
     /**
      * Create a FilterDataTypes based on giving {@link InputStream}
@@ -33,7 +33,7 @@ class FilterDataTypes extends FilterInputStream
     {
         super( in );
 
-        this.fileDataTypeMatchList = new ArrayList<FileDataTypeMatch>( fileDataTypeMatchList );
+        this.fileDataTypeMatchList = new ArrayList<>( fileDataTypeMatchList );
     }
 
     public boolean isReady()

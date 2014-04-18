@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import com.googlecode.cchlib.NeedDoc;
 import java.io.File;
 import java.util.Map;
 import java.util.Set;
-import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
 public interface PrepareDuplicateFile {

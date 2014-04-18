@@ -1,6 +1,10 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.io.checksum;
 
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,17 +19,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 public class MD5FilterInputStreamTest
 {
     private final static Logger LOGGER = Logger.getLogger( MD5FilterInputStreamTest.class );
     private MessageDigestFile mdf;
     private List<File> fileList;
-    private byte[] buffer = new byte[ 1024 ];
+    private final byte[] buffer = new byte[ 1024 ];
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
@@ -63,13 +63,13 @@ public class MD5FilterInputStreamTest
         final String hashString2;
 
         {
-            InputStream          is   = new BufferedInputStream( new FileInputStream( f ) );
-            MD5FilterInputStream mfis = new MD5FilterInputStream( is );
-
-            while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
-                // do nothing !
+            MD5FilterInputStream          mfis;
+            try (InputStream is = new BufferedInputStream( new FileInputStream( f ) )) {
+                mfis = new MD5FilterInputStream( is );
+                while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
+                    // do nothing !
                 }
-            is.close();
+            }
             mfis.close();
 
             hashString1 = mfis.getHashString().toUpperCase();

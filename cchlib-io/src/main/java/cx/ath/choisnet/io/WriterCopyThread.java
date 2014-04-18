@@ -1,9 +1,9 @@
 package cx.ath.choisnet.io;
 
+import com.googlecode.cchlib.Beta;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import com.googlecode.cchlib.Beta;
 
 /**
  * TODOC

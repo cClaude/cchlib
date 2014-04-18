@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -164,7 +164,7 @@ public class FileIteratorTest
                 new File(dirRootFile, "dir2/dir21/b.tmp"),
         };
 
-        final List<File> allFiles = new ArrayList<File>();
+        final List<File> allFiles = new ArrayList<>();
 
         // TODO: check if it should be in iterator or not !
         // allFiles.add(dirRootFile);
@@ -180,8 +180,8 @@ public class FileIteratorTest
             allFiles.add( f );
             }
 
-        final List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
-        final List<File> foundInFileIterator    = new ArrayList<File>();
+        final List<File> notFoundInFileIterator = new ArrayList<>(allFiles);
+        final List<File> foundInFileIterator    = new ArrayList<>();
 
         final FileIterator fi = new FileIterator( dirRootFile );
 

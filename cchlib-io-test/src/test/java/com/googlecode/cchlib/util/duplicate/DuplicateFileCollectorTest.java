@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import static org.junit.Assert.assertEquals;
+import com.googlecode.cchlib.io.FileHelper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
 
 /**
  *

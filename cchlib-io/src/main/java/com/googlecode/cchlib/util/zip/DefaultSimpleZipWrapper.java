@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.util.zip;
 
+import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.WrapperException;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
-import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrapperException;
 
 /**
  * {@link Wrappable} object to transform {@link File} into {@link SimpleZipEntry}

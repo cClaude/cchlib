@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.zip;
 
+import com.googlecode.cchlib.io.IOHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,9 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import org.apache.log4j.Logger;
-import org.junit.Test;
-import com.googlecode.cchlib.io.IOHelper;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test {@link SimpleZip} and {@link SimpleUnZip}
@@ -28,8 +28,7 @@ public class SimpleZipTest
     @Test
     public void test_SimpleZip() throws IOException
     {
-        FileOutputStream os = new FileOutputStream( ZIP_DESTINATION_ZIP );
-        try {
+        try (FileOutputStream os = new FileOutputStream( ZIP_DESTINATION_ZIP )) {
             SimpleZip instance = new SimpleZip( os );
             
             try {
@@ -57,9 +56,6 @@ public class SimpleZipTest
                 instance.close();
                 }
             }
-        finally {
-            os.close();
-            }
 
         boolean del = ZIP_DESTINATION_ZIP.delete();
 
@@ -72,9 +68,7 @@ public class SimpleZipTest
     @Test
     public void test_SimpleSimpleUnZip() throws IOException
     {
-        InputStream is = new FileInputStream( UNZIP_ZIP_FILENAME );
-        
-        try {
+        try (InputStream is = new FileInputStream( UNZIP_ZIP_FILENAME )) {
             SimpleUnZip instance = new SimpleUnZip( is );
 
             UnZipListener l = new UnZipListener()
@@ -114,9 +108,6 @@ public class SimpleZipTest
             LOGGER.info( "Unzip file count:" + count );
 
             Assert.assertTrue( "No file to unzip: ", count > 0 );
-            }
-        finally {
-            is.close();
             }
 
         IOHelper.deleteTree( UNZIP_DEST_DIR_FILE );

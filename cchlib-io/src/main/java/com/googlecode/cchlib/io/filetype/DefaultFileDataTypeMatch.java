@@ -6,8 +6,8 @@ package com.googlecode.cchlib.io.filetype;
  */
 class DefaultFileDataTypeMatch implements FileDataTypeMatch
 {
-    private FileDataTypeDescription typeDescription;
-    private int[] sample;
+    private final FileDataTypeDescription typeDescription;
+    private final int[] sample;
     
     /**
      * 

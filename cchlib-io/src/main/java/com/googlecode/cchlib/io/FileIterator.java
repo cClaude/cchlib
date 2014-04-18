@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 public class FileIterator implements  Iterator<File>
 {
     private DirectoryIterator directoryIterator;
-    private LinkedList<File>  currentDirFilesList = new LinkedList<File>();
+    private LinkedList<File>  currentDirFilesList = new LinkedList<>();
     private FileFilter fileFilter;
 
     /**

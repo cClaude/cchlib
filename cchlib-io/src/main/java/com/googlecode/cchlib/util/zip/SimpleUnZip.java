@@ -108,18 +108,14 @@ public class SimpleUnZip
             if( !parent.isDirectory() ) {
                 parent.mkdirs();
                 }
-            final OutputStream output = new BufferedOutputStream(
+            try (OutputStream output = new BufferedOutputStream(
                     new FileOutputStream( file )
-                    );
-            try {
+            )) {
                 int len;
 
                 while( (len = zis.read(buffer, 0, buffer.length)) != -1 ) {
                     output.write(buffer, 0, len);
                     }
-                }
-            finally {
-                output.close();
                 }
             }
 

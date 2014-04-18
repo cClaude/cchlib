@@ -1,9 +1,9 @@
 package cx.ath.choisnet.io;
 
+import com.googlecode.cchlib.io.exceptions.MultiIOException;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
-import com.googlecode.cchlib.io.exceptions.MultiIOException;
 
 /**
  * {@link Writer} able to write data into one or more stream writer at once.
@@ -47,14 +47,13 @@ public final class ParallelWriter extends Writer
     {
         MultiIOException exceptions = new MultiIOException();
 
-        for(int i = 0; i < writers.length; i++) {
+        for (Writer writer : writers) {
             try {
-                writers[i].close();
-                }
-            catch( IOException ioe ) {
+                writer.close();
+            }catch( IOException ioe ) {
                 exceptions.addIOException( ioe );
-                }
             }
+        }
 
         if( ! exceptions.isEmpty() ) {
             throw exceptions;
@@ -66,14 +65,13 @@ public final class ParallelWriter extends Writer
     {
         MultiIOException exceptions = new MultiIOException();
 
-        for(int i = 0; i < writers.length; i++) {
+        for (Writer writer : writers) {
             try {
-                writers[i].flush();
-                }
-            catch( IOException ioe ) {
+                writer.flush();
+            }catch( IOException ioe ) {
                 exceptions.addIOException( ioe );
-                }
             }
+        }
 
         if( ! exceptions.isEmpty() ) {
             throw exceptions;
@@ -83,40 +81,40 @@ public final class ParallelWriter extends Writer
     @Override
     public void write( char[] cbuf, int off, int len ) throws IOException
     {
-        for(int i = 0; i < writers.length; i++) {
-            writers[i].write( cbuf, off, len );
-            }
+        for (Writer writer : writers) {
+            writer.write(cbuf, off, len);
+        }
     }
 
     @Override
     public void write( char[] cbuf ) throws IOException
     {
-        for(int i = 0; i < writers.length; i++) {
-            writers[i].write( cbuf );
-            }
+        for (Writer writer : writers) {
+            writer.write(cbuf);
+        }
     }
 
     @Override
     public void write( String str ) throws IOException
     {
-        for(int i = 0; i < writers.length; i++) {
-            writers[i].write( str );
-            }
+        for (Writer writer : writers) {
+            writer.write(str);
+        }
     }
     
     @Override
     public void write( String str, int off, int len ) throws IOException
     {
-        for(int i = 0; i < writers.length; i++) {
-            writers[i].write( str, off, len );
-            }
+        for (Writer writer : writers) {
+            writer.write(str, off, len);
+        }
     }
     
     @Override
     public void write( int c ) throws IOException
     {
-        for(int i = 0; i < writers.length; i++) {
-            writers[i].write( c );
-            }
+        for (Writer writer : writers) {
+            writer.write(c);
+        }
     }
 }

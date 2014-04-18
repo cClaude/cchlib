@@ -1,5 +1,10 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -12,11 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Nonnull;
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
-import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @NeedDoc
 public class DuplicateFileFinder

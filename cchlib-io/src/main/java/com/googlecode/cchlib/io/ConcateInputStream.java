@@ -90,8 +90,8 @@ public class ConcateInputStream extends InputStream
     @Override
     public void close() throws IOException
     {
-        for(int i = 0; i < inputStreamArray.length; i++) {
-            inputStreamArray[i].close();
+        for (InputStream inputStreamArray1 : inputStreamArray) {
+            inputStreamArray1.close();
         }
     }
 

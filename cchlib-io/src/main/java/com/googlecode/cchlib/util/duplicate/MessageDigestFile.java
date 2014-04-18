@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Collection;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * <P>This class is not thread safe</P>
@@ -291,10 +291,8 @@ public class MessageDigestFile
     {
         reset();
 
-        final FileInputStream fis = new FileInputStream(file);
-
-        try {
-            final FileChannel fchannel = fis.getChannel();
+        try (FileInputStream fis = new FileInputStream(file)) {
+            FileChannel fchannel = fis.getChannel();
 
             try {
                 for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
@@ -308,9 +306,6 @@ public class MessageDigestFile
             finally {
                 fchannel.close();
                 }
-            }
-        finally {
-            fis.close();
             }
 
         return digestDelegator();
@@ -455,17 +450,12 @@ public class MessageDigestFile
     {
         reset();
 
-        final FileInputStream fis = new FileInputStream(file);
-
-        try {
+        try (FileInputStream fis = new FileInputStream(file)) {
             int l;
 
             while( (l = fis.read( buffer )) != -1 ) {
                 update(buffer,0,l);
                 }
-            }
-        finally {
-            fis.close();
             }
 
         return digestDelegator();

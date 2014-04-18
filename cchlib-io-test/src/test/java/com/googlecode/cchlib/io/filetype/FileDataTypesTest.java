@@ -1,6 +1,7 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.io.filetype;
 
+import com.googlecode.cchlib.io.FileFilterHelper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +11,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  *

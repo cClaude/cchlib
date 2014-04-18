@@ -63,7 +63,4 @@ final class Helper {
             }};
     }
 
-//    public static MessageDigestFileBuilder newMessageDigestFileBuilder( final String algorithm, final int bufferSize ) throws NoSuchAlgorithmException {
-//        return ( ) -> new MessageDigestFile( algorithm, bufferSize );
-//    }
 }

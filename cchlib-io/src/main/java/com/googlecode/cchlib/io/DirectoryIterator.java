@@ -53,7 +53,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
             FileFilter  directoryFilter
             )
     {
-        this.foldersList = new LinkedList<File>();
+        this.foldersList = new LinkedList<>();
 
         if( directoryFilter == null ) {
             this.directoryFileFilter = FileFilterHelper.trueFileFilter();

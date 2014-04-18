@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.util.zip;
 
+import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -9,9 +12,6 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.event.EventListenerList;
-import com.googlecode.cchlib.io.FileIterator;
-import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
 /**
  * {@link SimpleZip} is a fronted of {@link ZipOutputStream}
@@ -127,18 +127,14 @@ public class SimpleZip
         zos.putNextEntry( sze.getZipEntry() );
 
         if( !sze.getZipEntry().isDirectory() ) {
-            BufferedInputStream bis = new BufferedInputStream(
+            try (BufferedInputStream bis = new BufferedInputStream(
                     sze.createInputStream()
-                    );
-            try {
+            )) {
                 int len;
 
                 while( (len = bis.read(buffer, 0, buffer.length)) != -1 ) {
                     zos.write(buffer, 0, len);
                     }
-                }
-            finally {
-                bis.close();
                 }
             }
 
@@ -194,7 +190,7 @@ public class SimpleZip
     {
         Iterator<File> iterator = new FileIterator( folderFile );
 
-        addAll( new IteratorWrapper<File, SimpleZipEntry>( iterator, wrapper ) );
+        addAll( new IteratorWrapper<>( iterator, wrapper ) );
     }
 
     /**

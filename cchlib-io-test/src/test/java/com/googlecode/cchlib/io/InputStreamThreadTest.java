@@ -23,26 +23,26 @@ public class InputStreamThreadTest
     @Test
     public void testInputStreamThread() throws IOException
     {
-        final InputStream sourceIS0 = IO.createPNGInputStream();
-        final InputStreamThread isThread = new InputStreamThread(
-            getClass().getName(),
-            sourceIS0,
-            16,
-            getExceptionHandler()
+        try (InputStream sourceIS0 = IO.createPNGInputStream()) {
+            final InputStreamThread isThread = new InputStreamThread(
+                    getClass().getName(),
+                    sourceIS0,
+                    16,
+                    getExceptionHandler()
             );
-
-        final InputStream copy = isThread.getInputStream();
-
-        isThread.start();
-
-        final InputStream sourceIS1  = IO.createPNGInputStream();
-        final boolean     r          = IOHelper.isEquals( sourceIS1, copy );
-
-        Assert.assertTrue( r );
-
-        sourceIS1.close();
-        copy.close();
-        sourceIS0.close();
+            
+            final InputStream copy = isThread.getInputStream();
+            
+            isThread.start();
+            
+            final InputStream sourceIS1  = IO.createPNGInputStream();
+            final boolean     r          = IOHelper.isEquals( sourceIS1, copy );
+            
+            Assert.assertTrue( r );
+            
+            sourceIS1.close();
+            copy.close();
+        }
 
         LOGGER.info( "Done" );
     }

@@ -1,8 +1,8 @@
 package cx.ath.choisnet.io;
 
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import java.io.IOException;
 import org.junit.Test;
-import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 /**
  * Verify that some objects are {@link Serializable}.

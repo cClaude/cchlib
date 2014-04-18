@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.io.filefilter;
 
+import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
-import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * TODOC
@@ -11,8 +11,8 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 public final class XORFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private FileFilter firstFileFilter;
-    private FileFilter secondFileFilter;
+    private final FileFilter firstFileFilter;
+    private final FileFilter secondFileFilter;
 
     /**
      * TODOC

@@ -10,6 +10,12 @@ public final class DuplicateHelpers {
         // All static
     }
 
+    /**
+     * Remove every Set of File with less than 2 values
+     *
+     * @param mapSet Map to clean up
+     * @return number of File no more in the map.
+     */
     public static <KEY> int removeNonDuplicate( final Map<KEY, Set<File>> mapSet )
     {
         int                 count = 0;

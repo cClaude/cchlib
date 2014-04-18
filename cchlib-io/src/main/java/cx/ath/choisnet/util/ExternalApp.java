@@ -1,5 +1,6 @@
 package cx.ath.choisnet.util;
 
+import com.googlecode.cchlib.io.EmptyInputStream;
 import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -7,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.googlecode.cchlib.io.EmptyInputStream;
 
 /**
  *
@@ -17,9 +17,9 @@ public class ExternalApp
 {
     private static class OutputImpl implements Output
     {
-        private byte[] stdout;
-        private byte[] stderr;
-        private int returnCode;
+        private final byte[] stdout;
+        private final byte[] stderr;
+        private final int returnCode;
 
         @Override
         public byte[] getStdOut()

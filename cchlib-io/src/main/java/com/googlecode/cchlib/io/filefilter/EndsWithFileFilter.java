@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import java.io.File;
 import com.googlecode.cchlib.io.SerializableFileFilter;
+import java.io.File;
 
 /**
  * Case sensitive EndsWithFileFilter, Check if match with end of String giving using {@link File#getName()}
@@ -11,7 +11,7 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 public class EndsWithFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private String endsWith;
+    private final String endsWith;
 
     /**
      * Create an EndsWithFileFilter

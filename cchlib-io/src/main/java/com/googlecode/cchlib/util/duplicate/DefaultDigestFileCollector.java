@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,10 +13,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileIterator;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * TODOC
@@ -23,7 +23,7 @@ public class DefaultDigestFileCollector
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    protected ArrayList<DigestEventListener> listeners = new ArrayList<DigestEventListener>();
+    protected ArrayList<DigestEventListener> listeners = new ArrayList<>();
 
     /** @serial */
     protected MessageDigestFile mdf;
@@ -56,7 +56,7 @@ public class DefaultDigestFileCollector
             )
     {
         this.mdf         = messageDigestFile;
-        this.mapHashFile = new HashMapSet<String,File>();
+        this.mapHashFile = new HashMapSet<>();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class DefaultDigestFileCollector
             Set<File> c = mapHashFile.get( k );
 
             if( c == null ) {
-                c = new HashSet<File>();
+                c = new HashSet<>();
                 mapHashFile.put( k, c );
                 }
             else {

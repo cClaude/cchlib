@@ -1,12 +1,12 @@
 // $codepro.audit.disable deleteTemporaryFiles
 package com.googlecode.cchlib.io;
 
+import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.IOException;
-import org.junit.Assert;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *

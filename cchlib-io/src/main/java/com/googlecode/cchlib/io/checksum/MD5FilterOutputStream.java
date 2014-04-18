@@ -55,7 +55,7 @@ import java.io.OutputStream;
 public class MD5FilterOutputStream extends FilterOutputStream
 {
     /** MD5 context */
-    private MD5 md5;
+    private final MD5 md5;
  
     /**
      * Creates MD5OutputStream

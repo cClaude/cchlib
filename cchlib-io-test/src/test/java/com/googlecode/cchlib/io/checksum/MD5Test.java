@@ -1,6 +1,10 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.io.checksum;
 
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,10 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 /**
  *

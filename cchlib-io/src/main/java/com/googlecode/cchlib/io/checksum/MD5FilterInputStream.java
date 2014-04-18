@@ -36,7 +36,7 @@ public class MD5FilterInputStream extends FilterInputStream
     /**
      * MD5 context
      */
-    private MD5 md5;
+    private final MD5 md5;
 
     /**
      * Creates a MD5FilterInputStream

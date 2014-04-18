@@ -11,7 +11,7 @@ import java.io.File;
 public final class FileLengthFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private long length;
+    private final long length;
 
     /**
      * TODOC

@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.lang;
 
+import com.googlecode.cchlib.test.ArrayAssert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
  *

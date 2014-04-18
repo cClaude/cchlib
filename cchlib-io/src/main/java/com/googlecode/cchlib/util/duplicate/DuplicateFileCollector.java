@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * Perform 2 pass to check duplicate.
@@ -52,7 +52,7 @@ public class DuplicateFileCollector
     {
         super( messageDigestFile );
 
-        this.mapLengthFiles = new HashMapSet<Long,File>();
+        this.mapLengthFiles = new HashMapSet<>();
         this.ignoreEmptyFile = ignoreEmptyFile;
         this.cancelProcess = false;
         this.alreadyCallPass2 = false;
@@ -215,7 +215,7 @@ public class DuplicateFileCollector
             Set<File>    set = super.mapHashFile.get( key );
 
             if( set == null ) {
-                   set = new HashSet<File>();
+                   set = new HashSet<>();
                 super.mapHashFile.put( key, set );
                 }
             else {

@@ -1,6 +1,10 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.lang.ByteArrayBuilder;
+import com.googlecode.cchlib.test.ArrayAssert;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,10 +16,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.lang.ByteArrayBuilder;
-import com.googlecode.cchlib.test.ArrayAssert;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 public class MessageDigestFileTest
 {
@@ -160,17 +160,12 @@ public class MessageDigestFileTest
         throws  NoSuchAlgorithmException,
                 IOException
     {
-        FileInputStream  fis = new FileInputStream( input );
-
-        try {
+        try (FileInputStream fis = new FileInputStream( input )) {
             ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
 
             bab.append( fis );
 
             return getMD5(bab.array());
-            }
-        finally {
-            fis.close();
             }
     }
 

@@ -21,7 +21,7 @@ public class FileRollingOutputStream
 {
     private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
 
-    private final List<File>    fileList    = new ArrayList<File>();;
+    private final List<File>    fileList    = new ArrayList<>();;
     private FileRoller          fileRoller;
     private final int           maxLength;
 

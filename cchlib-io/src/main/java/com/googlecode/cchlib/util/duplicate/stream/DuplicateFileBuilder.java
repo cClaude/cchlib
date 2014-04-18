@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import com.googlecode.cchlib.NeedDoc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
@@ -17,7 +18,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
 public final class DuplicateFileBuilder
@@ -25,7 +25,7 @@ public final class DuplicateFileBuilder
     private final static class FileVisitorCollector<T> implements FileVisitor<T> {
 
         private final FileVisitor<T> visitor;
-        private final List<T> collector = new ArrayList<T>();
+        private final List<T> collector = new ArrayList<>();
 
         public FileVisitorCollector( final FileVisitor<T> visitor )
         {

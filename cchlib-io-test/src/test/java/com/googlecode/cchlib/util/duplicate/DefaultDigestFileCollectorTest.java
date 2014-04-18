@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import org.junit.Assert;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,10 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.FileIterable;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  *
@@ -35,18 +35,12 @@ public class DefaultDigestFileCollectorTest
 
         File            root  = FileHelper.getUserHomeDirFile();
         Iterable<File>  files = new FileIterable(
-                root,
-                new java.io.FileFilter()
-                {
-                    @Override
-                    public boolean accept( File f )
-                    {
-                        if( f.isFile() && f.length() > 0  && f.length() < FILE_MAX_SIZE ) {
-                            return true;
-                            }
-                        return false;
+                root, (File f) -> {
+                    if( f.isFile() && f.length() > 0  && f.length() < FILE_MAX_SIZE ) {
+                        return true;
                     }
-                });
+                    return false;
+        });
 
         LOGGER.info( "adding... : " + root );
 

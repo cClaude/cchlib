@@ -1,9 +1,9 @@
 package cx.ath.choisnet.io;
 
+import com.googlecode.cchlib.io.exceptions.MultiIOException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import com.googlecode.cchlib.io.exceptions.MultiIOException;
 
 /**
  * {@link OutputStream} able to write data into one or more stream ate once.
@@ -47,14 +47,13 @@ public final class ParallelOutputStream extends OutputStream
     {
         MultiIOException exceptions = new MultiIOException();
 
-        for( int i = 0; i < outputStreams.length; i++ ) {
+        for (OutputStream outputStream : outputStreams) {
             try {
-                outputStreams[i].close();
-                }
-            catch( IOException ioe ) {
+                outputStream.close();
+            }catch( IOException ioe ) {
                 exceptions.addIOException( ioe );
-                }
             }
+        }
 
         if( ! exceptions.isEmpty() ) {
             throw exceptions;
@@ -66,14 +65,13 @@ public final class ParallelOutputStream extends OutputStream
     {
         MultiIOException exceptions = new MultiIOException();
 
-        for( int i = 0; i < outputStreams.length; i++ ) {
+        for (OutputStream outputStream : outputStreams) {
             try {
-                outputStreams[i].flush();
-                }
-            catch( IOException ioe ) {
+                outputStream.flush();
+            }catch( IOException ioe ) {
                 exceptions.addIOException( ioe );
-                }
             }
+        }
 
         if( ! exceptions.isEmpty() ) {
             throw exceptions;
@@ -83,24 +81,24 @@ public final class ParallelOutputStream extends OutputStream
     @Override
     public void write( int b ) throws IOException
     {
-        for(int i = 0; i < outputStreams.length; i++) {
-            outputStreams[i].write(b);
-            }
+        for (OutputStream outputStream : outputStreams) {
+            outputStream.write(b);
+        }
     }
 
     @Override
     public void write( byte[] b, int offset, int length ) throws IOException
     {
-        for(int i = 0; i < outputStreams.length; i++) {
-            outputStreams[i].write( b, offset, length );
-            }
+        for (OutputStream outputStream : outputStreams) {
+            outputStream.write(b, offset, length);
+        }
     }
 
     @Override
     public void write( byte[] b ) throws IOException
     {
-        for(int i = 0; i < outputStreams.length; i++ ) {
-            outputStreams[i].write( b );
-            }
+        for (OutputStream outputStream : outputStreams) {
+            outputStream.write(b);
+        }
     }
 }

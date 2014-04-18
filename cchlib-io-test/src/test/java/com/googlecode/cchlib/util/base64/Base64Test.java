@@ -1,8 +1,9 @@
 package com.googlecode.cchlib.util.base64;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
+import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.test.ArrayAssert;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayReader;
@@ -16,13 +17,12 @@ import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue; // TEST CASE ONLY
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO; // TEST CASE ONLY
-import com.googlecode.cchlib.io.IOHelper;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
  * Test {@link Base64Encoder} and {@link Base64Decoder}
@@ -229,14 +229,10 @@ public class Base64Test
             testAndCompare2SunBASE64( array2 );
         }
 
-        InputStream pngIS = IO.createPNGInputStream();
-        try {
+        try (InputStream pngIS = IO.createPNGInputStream()) {
             byte[] bytes = IOHelper.toByteArray( pngIS );
 
             testAndCompare2SunBASE64( bytes );
-            }
-        finally {
-            pngIS.close();
             }
     }
 
@@ -431,17 +427,13 @@ public class Base64Test
         {
             //byte[]  sunDecode   = sunDecode( encodedPNGFileInB64CharArray );
             byte[]      sunDecode   = iharderDecode( encodedPNGFileInB64CharArray );
-            InputStream pngIS         = IO.createPNGInputStream();
-            try {
+            try (InputStream pngIS = IO.createPNGInputStream()) {
                 boolean same        = IOHelper.isEquals( pngIS, sunDecode );
 
                 LOGGER.info( "decode with sun - R=" + same );
 
                 assertTrue( "Error while decoding using SUN B64 classes", same );
                 }
-            finally {
-                pngIS.close();
-            }
         }
 
         // DECODE OutputStream
@@ -455,13 +447,11 @@ public class Base64Test
         // Check results
         in = IO.createPNGInputStream();
         try {
-            InputStream is  = new ByteArrayInputStream( out.toByteArray() );
-
-            boolean same = IOHelper.isEquals( in, is );
-
-            assertTrue( same );
-
-            is.close();
+            try (InputStream is = new ByteArrayInputStream( out.toByteArray() )) {
+                boolean same = IOHelper.isEquals( in, is );
+                
+                assertTrue( same );
+            }
             }
         finally {
             in.close();

@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An always empty {@link InputStream}

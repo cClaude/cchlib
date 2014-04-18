@@ -63,13 +63,8 @@ public class FileDataTypes
     public static FileDataTypeDescription findDataTypeDescription( final File file )
             throws FileNotFoundException, IOException
     {
-        InputStream is = new FileInputStream( file );
-
-        try {
+        try (InputStream is = new FileInputStream( file )) {
             return findDataTypeDescription( is );
-            }
-        finally {
-            is.close();
             }
     }
 
@@ -108,7 +103,7 @@ public class FileDataTypes
 
     public static List<FileDataTypeMatch> createFileDataTypeMatchList()
     {
-        final List<FileDataTypeMatch> fileDataTypeMatchList = new ArrayList<FileDataTypeMatch>();
+        final List<FileDataTypeMatch> fileDataTypeMatchList = new ArrayList<>();
 
         for( FileDataTypeMatch m : JPEG_MATCHERS ) {
             fileDataTypeMatchList.add( m );
@@ -177,13 +172,8 @@ public class FileDataTypes
         final ImageIOFileData image;
 
         {
-            InputStream is = new BufferedInputStream( new FileInputStream( file ) );
-
-            try {
+            try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
                 image = new ImageIOFileData( is );
-                }
-            finally {
-                is.close();
                 }
         }
 

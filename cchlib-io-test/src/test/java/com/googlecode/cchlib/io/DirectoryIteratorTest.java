@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.io;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -11,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -109,7 +109,7 @@ public class DirectoryIteratorTest
                 new File(dirRootFile, "dir2/dir21/b.tmp"),
         };
 
-        List<File> allFiles = new ArrayList<File>();
+        List<File> allFiles = new ArrayList<>();
 
         allFiles.add(dirRootFile);
 
@@ -124,8 +124,8 @@ public class DirectoryIteratorTest
             IOHelper.toFile( f.getPath(), f );
             }
 
-        List<File> notFoundInFileIterator = new ArrayList<File>(allFiles);
-        List<File> foundInFileIterator    = new ArrayList<File>();
+        List<File> notFoundInFileIterator = new ArrayList<>(allFiles);
+        List<File> foundInFileIterator    = new ArrayList<>();
 
         DirectoryIterator di = new DirectoryIterator( dirRootFile );
 
@@ -151,15 +151,7 @@ public class DirectoryIteratorTest
         //
         // Test FileFilter !
         //
-        FileFilter dirFF = new FileFilter()
-        {
-            @Override
-            public boolean accept( File f )
-            {
-                //System.out.printf(">>%s\n",f);
-                return f.getName().endsWith( "2" );
-            }
-        };
+        FileFilter dirFF = (File f) -> f.getName().endsWith( "2" );
         DirectoryIterator diFF = new DirectoryIterator(
                             dirRootFile,
                             dirFF

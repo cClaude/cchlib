@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.io.filefilter;
 
+import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * TODOC
@@ -15,7 +15,7 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 public final class ORFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private List<FileFilter> filters = new ArrayList<FileFilter>();
+    private List<FileFilter> filters = new ArrayList<>();
 
     /**
      * TODOC

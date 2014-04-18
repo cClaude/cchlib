@@ -1,8 +1,7 @@
 package com.googlecode.cchlib.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import com.googlecode.cchlib.io.SerializableHelper;
+import com.googlecode.cchlib.test.ArrayAssert;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,9 +11,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import org.apache.log4j.Logger;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import com.googlecode.cchlib.io.SerializableHelper;
-import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
  *
@@ -194,22 +194,18 @@ public class ByteArrayBuilderTest
         final int               size    = BYTES.length * count;
 
         {
-            //Create the File
-            final FileOutputStream fos = new FileOutputStream( file );
-
-            for( int i=0; i<count; i++ ) {
-                fos.write( BYTES );
+            try ( //Create the File
+                    FileOutputStream fos = new FileOutputStream( file )) {
+                for( int i=0; i<count; i++ ) {
+                    fos.write( BYTES );
+                }
             }
-
-            fos.close();
         }
         assertEquals( "tmp file bad size",size,file.length());
 
         final ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
-        final FileInputStream  fis = new FileInputStream(file );
-
-        try {
-            final ReadableByteChannel fileChannel = fis.getChannel();
+        try (FileInputStream fis = new FileInputStream(file )) {
+            ReadableByteChannel fileChannel = fis.getChannel();
 
             try {
                  bab.append( fileChannel );
@@ -217,9 +213,6 @@ public class ByteArrayBuilderTest
             finally {
                 fileChannel.close();
                 }
-            }
-        finally {
-            fis.close();
             }
 
         assertEquals("bab bad len",size,bab.length());

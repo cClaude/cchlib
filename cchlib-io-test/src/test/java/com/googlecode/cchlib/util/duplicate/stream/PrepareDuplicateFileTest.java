@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -15,8 +17,6 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 
 public class PrepareDuplicateFileTest {
     private static final Logger LOGGER = Logger.getLogger( PrepareDuplicateFileTest.class );

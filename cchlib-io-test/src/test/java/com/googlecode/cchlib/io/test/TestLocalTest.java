@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.io.test;
 
+import com.googlecode.cchlib.test.TestConfigurationHelper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.test.TestConfigurationHelper;
 
 /**
  * Allow test case to use specific configuration according

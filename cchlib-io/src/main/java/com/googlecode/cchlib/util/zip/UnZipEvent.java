@@ -10,8 +10,8 @@ import java.util.zip.ZipEntry;
 public class UnZipEvent extends EventObject
 {
     private static final long serialVersionUID = 1L;
-    private File file;
-    private ZipEntry zipEntry; // NOT SERIALISABLE !
+    private final File file;
+    private final ZipEntry zipEntry; // NOT SERIALISABLE !
 
     /**
      * Create UnZipEvent

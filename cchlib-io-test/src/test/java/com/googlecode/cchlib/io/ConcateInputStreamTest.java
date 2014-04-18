@@ -80,22 +80,21 @@ public class ConcateInputStreamTest
         InputStream is1 = new ByteArrayInputStream( ba1  );
         InputStream is2 = new ByteArrayInputStream( ba2  );
         //InputStream is3 = new ByteArrayInputStream( ba3  );
-
-        ConcateInputStream  cis = new ConcateInputStream( is1, is2 );
-        int                    c;
-
-        count = 0;
-
-        while( (c = cis.read()) >= 0 ) {
-            byte b = (byte)c;
-
-            Assert.assertEquals( "Error at # value:" + count, res[count], b );
-
-            count++;
+        try (ConcateInputStream cis = new ConcateInputStream( is1, is2 )) {
+            int                    c;
+            
+            count = 0;
+            
+            while( (c = cis.read()) >= 0 ) {
+                byte b = (byte)c;
+                
+                Assert.assertEquals( "Error at # value:" + count, res[count], b );
+                
+                count++;
             }
-
-        Assert.assertEquals( "Bad size !", res.length, count );
-        cis.close();
+            
+            Assert.assertEquals( "Bad size !", res.length, count );
+        }
     }
 
 }

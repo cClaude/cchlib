@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -12,10 +16,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.IO;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
 
 public class DuplicateFileFinderTest {
     private static final Logger      LOGGER      = Logger.getLogger( DuplicateFileFinderTest.class );
@@ -73,14 +73,14 @@ public class DuplicateFileFinderTest {
 
     private Map<Long, Set<File>> newHashMap( final File... files )
     {
-        final Map<Long, Set<File>> mapSet = new HashMap<Long, Set<File>>();
+        final Map<Long, Set<File>> mapSet = new HashMap<>();
 
         for( final File file : files ) {
             final Long size = Long.valueOf( file.length() );
             Set<File> set = mapSet.get( size );
 
             if( set == null ) {
-                set = new HashSet<File>();
+                set = new HashSet<>();
                 mapSet.put( size, set );
             }
             set.add( file );

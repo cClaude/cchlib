@@ -10,22 +10,20 @@ public class InputStreamHelperTest
     @Test
     public void test_getPNGFile() throws IOException
     {
-        final InputStream is = IO.createPNGInputStream();
-
-        Assert.assertNotNull( is );
-        is.close();
+        try (InputStream is = IO.createPNGInputStream()) {
+            Assert.assertNotNull( is );
+        }
     }
 
     @Test
     public void test_isEquals() throws IOException
     {
-        final InputStream is1 = IO.createPNGInputStream();
-        final InputStream is2 = IO.createPNGInputStream();
-        final boolean     r   = IOHelper.isEquals( is1, is2 );
-
-        Assert.assertTrue( r );
-
-        is1.close();
+        final InputStream is2;
+        try (InputStream is1 = IO.createPNGInputStream()) {
+            is2 = IO.createPNGInputStream();
+            final boolean     r   = IOHelper.isEquals( is1, is2 );
+            Assert.assertTrue( r );
+        }
         is2.close();
     }
 }
