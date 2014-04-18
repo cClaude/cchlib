@@ -10,7 +10,7 @@
   </parent>
   <artifactId>cchlib-i18n-test</artifactId>
   <packaging>jar</packaging>
-  <name>cchlib-i18n</name>
+  <name>cchlib-i18n-test</name>
 
   <!-- Global properties -->
   <properties>

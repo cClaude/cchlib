@@ -239,7 +239,8 @@ EditResourcesBundle
 cchlib-core-beta
 cchlib-core-sample"
 
-PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
+#PROJECTS_SUB_CCHLIB_CORE="cchlib-core-sample cchlib-core-beta"
+PROJECTS_SUB_CCHLIB_CORE="cchlib-core-beta"
 
 # PROJECTS_SUB_CCHLIB_J2EE="cchlib-j2ee-deprecated"
 
