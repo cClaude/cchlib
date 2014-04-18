@@ -16,8 +16,8 @@ import java.util.NoSuchElementException;
 public class IteratorFilter<T>
     extends ComputableIterator<T>
 {
-    private Iterator<T>           iterator;
-    private Selectable<? super T> filter;
+    private final Iterator<T>           iterator;
+    private final Selectable<? super T> filter;
 
     /**
      * Create an IteratorFilter based on an iterator
@@ -27,8 +27,8 @@ public class IteratorFilter<T>
      * @param filter
      */
     public IteratorFilter(
-        Iterator<T>             iterator,
-        Selectable<? super T>   filter
+        final Iterator<T>             iterator,
+        final Selectable<? super T>   filter
         )
     {
         this.iterator = iterator;
@@ -39,7 +39,7 @@ public class IteratorFilter<T>
     protected T computeNext() throws NoSuchElementException
     {
         while(iterator.hasNext()) {
-            T currentObject = iterator.next();
+            final T currentObject = iterator.next();
 
             if( filter.isSelected( currentObject ) ) {
                 return currentObject;
@@ -57,12 +57,6 @@ public class IteratorFilter<T>
      */
     public static Selectable<File> wrap(final FileFilter fileFilter)
     {
-        return new Selectable<File>() {
-            @Override
-            public boolean isSelected(File file)
-            {
-                return fileFilter.accept(file);
-            }
-        };
+        return fileFilter::accept;
     }
 }

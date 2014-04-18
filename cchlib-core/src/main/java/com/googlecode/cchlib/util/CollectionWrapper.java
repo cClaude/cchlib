@@ -18,9 +18,9 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
 {
     static final long serialVersionUID = 1L;
 
-    private Collection<S>  collection;
-    private Wrappable<S,R> wrapper;
-    private Wrappable<R,S> unwrapper;
+    private final Collection<S>  collection;
+    private final Wrappable<S,R> wrapper;
+    private final Wrappable<R,S> unwrapper;
 
     /**
      * Create a CollectionWrapper
@@ -41,18 +41,18 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean add( R e )
+    public boolean add( final R e )
     {
         return collection.add( unwrapper.wrap( e ) );
     }
 
     @Override
-    public boolean addAll( Collection<? extends R> c )
+    public boolean addAll( final Collection<? extends R> c )
     {
         boolean setChange = false;
 
-        for( R e : c ) {
-            boolean res = add( e );
+        for( final R e : c ) {
+            final boolean res = add( e );
 
             if( res ) {
                 setChange = true;
@@ -69,17 +69,18 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean contains( Object o )
+    public boolean contains( final Object o )
     {
         @SuppressWarnings("unchecked")
+        final
         R rO = (R)o; // $codepro.audit.disable unnecessaryCast
         return collection.contains( unwrapper.wrap( rO ) );
     }
 
     @Override
-    public boolean containsAll( Collection<?> c )
+    public boolean containsAll( final Collection<?> c )
     {
-        for( Object o : c ) {
+        for( final Object o : c ) {
             if( ! contains( o ) ) {
                 return false;
                 }
@@ -96,24 +97,25 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public Iterator<R> iterator()
     {
-        return new IteratorWrapper<S,R>( collection.iterator(), wrapper );
+        return new IteratorWrapper<>( collection.iterator(), wrapper );
     }
 
     @Override
-    public boolean remove( Object o )
+    public boolean remove( final Object o )
     {
         @SuppressWarnings("unchecked")
+        final
         R rO = (R)o; // $codepro.audit.disable unnecessaryCast
         return collection.remove( unwrapper.wrap( rO ) );
     }
 
     @Override
-    public boolean removeAll( Collection<?> c )
+    public boolean removeAll( final Collection<?> c )
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
-            boolean res = remove( e );
+        for( final Object e : c ) {
+            final boolean res = remove( e );
 
             if( res ) {
                 setChange = true;
@@ -130,13 +132,13 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public boolean retainAll( Collection<?> c )
+    public boolean retainAll( final Collection<?> c )
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
+        for( final Object e : c ) {
             if( contains( e ) ) {
-                boolean res = remove( e );
+                final boolean res = remove( e );
 
                 if( res ) {
                     setChange = true;
@@ -150,10 +152,10 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public Object[] toArray()
     {
-        Object[] array = new Object[ collection.size() ];
+        final Object[] array = new Object[ collection.size() ];
         int      i     = 0;
 
-        for( R e : this ) {
+        for( final R e : this ) {
             array[ i++ ] = e;
             }
 
@@ -161,13 +163,14 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     }
 
     @Override
-    public <T> T[] toArray( T[] a )
+    public <T> T[] toArray( final T[] a )
     {
         if( a.length >= collection.size() ) {
             int i = 0;
 
             for( final R entry : this ) {
                 @SuppressWarnings("unchecked")
+                final
                 T tEntry = (T)entry; // $codepro.audit.disable unnecessaryCast
                 a[ i++ ] = tEntry;
                 }
@@ -175,10 +178,11 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
             return a;
             }
         else {
-            List<T> list = new ArrayList<T>( collection.size() );
+            final List<T> list = new ArrayList<>( collection.size() );
 
-            for( R entry : this ) {
+            for( final R entry : this ) {
                 @SuppressWarnings("unchecked")
+                final
                 T tEntry = (T)entry; // $codepro.audit.disable unnecessaryCast
                 list.add( tEntry );
                 }

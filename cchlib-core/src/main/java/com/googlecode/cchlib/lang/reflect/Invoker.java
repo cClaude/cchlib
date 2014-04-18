@@ -14,8 +14,8 @@ import com.googlecode.cchlib.NeedTestCases;
 public abstract class Invoker<T> implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private Class<? extends T> clazz;
-    private MethodFilter       methodFilter;
+    private final Class<? extends T> clazz;
+    private final MethodFilter       methodFilter;
 
     protected Invoker(
         final Class<? extends T>    clazz,
@@ -106,10 +106,10 @@ public abstract class Invoker<T> implements Serializable
 
     private Collection<Method> lookup()
     {
-        final ArrayList<Method> list     = new ArrayList<Method>();
+        final ArrayList<Method> list     = new ArrayList<>();
         final Method[]          methods = clazz.getMethods();
 
-        for( Method m : methods ) {
+        for( final Method m : methods ) {
             if( methodFilter.isSelected( m ) ) {
                 list.add( m );
                 }
@@ -120,7 +120,7 @@ public abstract class Invoker<T> implements Serializable
 
     private static List<Method> findMethods( final Iterable<Method> methods, final Object[] params)
     {
-        final ArrayList<Method> matchingMethods = new ArrayList<Method>();
+        final ArrayList<Method> matchingMethods = new ArrayList<>();
 
         for( final Method method : methods ) {
             final Class<?>[] methodParameterTypes = method.getParameterTypes();
@@ -146,7 +146,7 @@ public abstract class Invoker<T> implements Serializable
 
         // Same number of parameters
         for( int i = 0; i<params.length; i++ ) {
-            Class<?> type = Invoker.getAutoboxingType( methodParameterTypes[ i ] );
+            final Class<?> type = Invoker.getAutoboxingType( methodParameterTypes[ i ] );
 
             if( ! type.isAssignableFrom( params[ i ].getClass() ) ) {
                 isMatching = false;

@@ -28,7 +28,7 @@ public final class Methods
 
     public static List<Method> getStaticMethods( final Class<?> clazz )
     {
-        final List<Method> methods = new ArrayList<Method>();
+        final List<Method> methods = new ArrayList<>();
 
         for( final Method method : clazz.getMethods() ) {
             if( Modifier.isStatic( method.getModifiers() ) ) {
@@ -43,7 +43,7 @@ public final class Methods
 
     public static List<Method> getPublicMethods( final Class<?> clazz )
     {
-        final List<Method> methods = new ArrayList<Method>();
+        final List<Method> methods = new ArrayList<>();
 
         for( final Method method : clazz.getMethods() ) {
             if( Modifier.isPublic( method.getModifiers() ) ) {

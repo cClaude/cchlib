@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.util.iterable;
 
-import java.util.Iterator;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterator.CascadingIterator;
+import java.util.Iterator;
 
 /**
  *
@@ -10,7 +10,7 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
 @NeedDoc
 public class CascadingIterable<T> implements Iterable<T>
 {
-    private Iterable<? extends T>[] iterables;
+    private final Iterable<? extends T>[] iterables;
 
     public CascadingIterable( Iterable<? extends T>[] iterables )
     {
@@ -25,6 +25,6 @@ public class CascadingIterable<T> implements Iterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new CascadingIterator<T>( iterables );
+        return new CascadingIterator<>( iterables );
     }
 }

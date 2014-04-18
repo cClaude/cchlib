@@ -23,7 +23,7 @@ public final class StringHelper
      * @param str the string to test and possibly return
      * @return string itself if it is non-null; {@link #EMPTY} if it is null
      */
-    public static String nullToEmpty( String str )
+    public static String nullToEmpty( final String str )
     {
         return (str == null) ? EMPTY : str;
     }
@@ -47,11 +47,11 @@ public final class StringHelper
             throw new NullPointerException();
             }
 
-        final ArrayList<String> array = new ArrayList<String>();
+        final ArrayList<String> array = new ArrayList<>();
         int                     pos   = 0;
 
         for(;;) {
-            int i = str.indexOf(token, pos);
+            final int i = str.indexOf(token, pos);
 
             if( i < 0 ) {
                 array.add( str.substring(pos) );
@@ -98,11 +98,11 @@ public final class StringHelper
             throw new NullPointerException();
             }
 
-        final ArrayList<String> array = new ArrayList<String>();
+        final ArrayList<String> array = new ArrayList<>();
         int                     pos   = 0;
 
         for(;;) {
-            int i = str.indexOf(token, pos);
+            final int i = str.indexOf(token, pos);
 
             if( i < 0 ) {
                 array.add( str.substring(pos) );

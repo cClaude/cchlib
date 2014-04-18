@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,7 +9,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Extra tools for {@link Properties}.
@@ -32,13 +32,8 @@ public final class PropertiesHelper
         final File propertiesFile
         ) throws IOException, IllegalArgumentException
    {
-       InputStream is = new FileInputStream( propertiesFile );
-
-       try {
+       try (InputStream is = new FileInputStream( propertiesFile )) {
            return loadProperties( is );
-           }
-       finally {
-           is.close();
            }
        }
 
@@ -56,13 +51,8 @@ public final class PropertiesHelper
         final String      resourceName
         ) throws IOException, IllegalArgumentException
     {
-        InputStream is = classLoader.getResourceAsStream( resourceName );
-
-        try {
+        try (InputStream is = classLoader.getResourceAsStream( resourceName )) {
             return loadProperties( is );
-            }
-        finally {
-            is.close();
             }
     }
 
@@ -87,13 +77,8 @@ public final class PropertiesHelper
         final String        comment
         ) throws IOException
     {
-        OutputStream os = new FileOutputStream( propertiesFile );
-
-        try {
+        try (OutputStream os = new FileOutputStream( propertiesFile )) {
             properties.store( os, (comment == null) ? StringHelper.EMPTY : comment );
-            }
-        finally {
-            os.close();
             }
     }
 

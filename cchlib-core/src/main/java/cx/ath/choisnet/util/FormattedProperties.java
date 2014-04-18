@@ -1,6 +1,7 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals, fullyParenthesizeExpressions, synchronizedMethod
 package cx.ath.choisnet.util;
 
+import com.googlecode.cchlib.lang.StringHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +20,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * The FormattedProperties class is an extension

@@ -1,6 +1,7 @@
 // $codepro.audit.disable numericLiterals
 package cx.ath.choisnet.lang.introspection.method;
 
+import com.googlecode.cchlib.util.EnumHelper;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.EnumSet;
@@ -8,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.util.EnumHelper;
 
 /**
  *
@@ -21,10 +21,10 @@ public class IntrospectionBuilder<O>
     private static final Logger LOGGER = Logger.getLogger(IntrospectionBuilder.class);
 
     /** Getter Methods list */
-    private Map<String,Method> getterMethodsMap = new TreeMap<String,Method>();
+    private final Map<String,Method> getterMethodsMap = new TreeMap<>();
 
     /** Setter Methods list */
-    private Map<String,Method> setterMethodsMap = new TreeMap<String,Method>();
+    private final Map<String,Method> setterMethodsMap = new TreeMap<>();
 
     /**
      *

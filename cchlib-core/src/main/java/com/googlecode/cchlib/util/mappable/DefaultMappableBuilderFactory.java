@@ -32,11 +32,11 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
     public static final String DEFAULT_METHODS = "(is|get).*";
 
     /** @serial */
-    private HashSet<Class<?>> classes;
+    private final HashSet<Class<?>> classes;
     /** @serial */
     private Pattern methodesNamePattern;
     /** @serial */
-    private EnumSet<MappableItem> attributesSet;
+    private final EnumSet<MappableItem> attributesSet;
     /** @serial */
     private String defaultToStringNullValue;
 
@@ -45,7 +45,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      */
     public DefaultMappableBuilderFactory()
     {
-        this.classes             = new HashSet<Class<?>>();
+        this.classes             = new HashSet<>();
         this.methodesNamePattern = Pattern.compile( DEFAULT_METHODS );
         this.attributesSet       = EnumSet.noneOf( MappableItem.class );
     }
@@ -60,7 +60,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
             final MappableItem...items
             )
     {
-        for( MappableItem attr : items ) {
+        for( final MappableItem attr : items ) {
             attributesSet.add(attr);
             }
 
@@ -100,7 +100,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      */
     public DefaultMappableBuilderFactory add( final Class<?>...classes)
     {
-        for( Class<?> clazz : classes ) {
+        for( final Class<?> clazz : classes ) {
             this.classes.add( clazz );
             }
 

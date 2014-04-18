@@ -18,29 +18,29 @@ import com.googlecode.cchlib.Beta;
 public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private LinkedHashMap<K,V> delegator; // TODO: Change this !
+    private final LinkedHashMap<K,V> delegator; // TODO: Change this !
 
     /**
      *
      */
     public ArrayHashMap()
     {
-        delegator = new LinkedHashMap<K,V>();
+        delegator = new LinkedHashMap<>();
     }
 
-    public ArrayHashMap( int initialCapacity )
+    public ArrayHashMap( final int initialCapacity )
     {
-        delegator = new LinkedHashMap<K,V>( initialCapacity );
+        delegator = new LinkedHashMap<>( initialCapacity );
     }
 
-    public ArrayHashMap( Map<? extends K, ? extends V> m )
+    public ArrayHashMap( final Map<? extends K, ? extends V> m )
     {
-        delegator = new LinkedHashMap<K,V>( m );
+        delegator = new LinkedHashMap<>( m );
     }
 
-    public ArrayHashMap( int initialCapacity, float loadFactor )
+    public ArrayHashMap( final int initialCapacity, final float loadFactor )
     {
-        delegator = new LinkedHashMap<K,V>( initialCapacity, loadFactor );
+        delegator = new LinkedHashMap<>( initialCapacity, loadFactor );
     }
 
     @Override
@@ -56,37 +56,37 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
     }
 
     @Override
-    public boolean containsKey( Object key )
+    public boolean containsKey( final Object key )
     {
         return delegator.containsKey( key );
     }
 
     @Override
-    public boolean containsValue( Object value )
+    public boolean containsValue( final Object value )
     {
         return delegator.containsValue( value );
     }
 
     @Override
-    public V get( Object key )
+    public V get( final Object key )
     {
         return delegator.get( key );
     }
 
     @Override
-    public V put( K key, V value )
+    public V put( final K key, final V value )
     {
         return delegator.put( key, value );
     }
 
     @Override
-    public V remove( Object key )
+    public V remove( final Object key )
     {
         return delegator.remove( key );
     }
 
     @Override
-    public void putAll( Map<? extends K, ? extends V> m )
+    public void putAll( final Map<? extends K, ? extends V> m )
     {
         delegator.putAll( m );
     }
@@ -135,11 +135,11 @@ public class ArrayHashMap<K,V> implements Map<K,V>, Serializable
     public Map.Entry<K,V> get( final int index )
     {
         // TODO
-        Iterator<Map.Entry<K,V>> iter  = entrySet().iterator();
+        final Iterator<Map.Entry<K,V>> iter  = entrySet().iterator();
         int                      count = 0;
 
         while( iter.hasNext() ) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-            Map.Entry<K,V> entry = iter.next();
+            final Map.Entry<K,V> entry = iter.next();
 
             if( count == index ) {
                 return entry;

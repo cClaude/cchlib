@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 public class Base64Encoder extends Base64
 {
-    private byte[] buffer;
+    private final byte[] buffer;
 
     /**
      * Create a Base64Encoder
@@ -53,7 +53,7 @@ public class Base64Encoder extends Base64
         //FIXME: bad result if buffer is not big enough !
 
         while( (len = in.read( buffer )) > 0 ) {
-            char[] enc = encodeToChar( buffer, 0, len );
+            final char[] enc = encodeToChar( buffer, 0, len );
             out.write( enc );
             }
 
@@ -138,7 +138,7 @@ public class Base64Encoder extends Base64
     public static char[] encodeToChar( final byte[] bytes )
         throws UnsupportedEncodingException
     {
-        char[] chars = private_encodeRaw( bytes );
+        final char[] chars = private_encodeRaw( bytes );
 
         // Fix chars length!
         int i = chars.length - 1;
@@ -174,7 +174,7 @@ public class Base64Encoder extends Base64
             int    i;
 
             for(i = 0; i < b; i += 3) {
-                int j = (bytes_[i] & 0x00FF) << 16 | (bytes_[i + 1] & 0x00FF) << 8 | (bytes_[i + 2] & 0x00FF);
+                final int j = (bytes_[i] & 0x00FF) << 16 | (bytes_[i + 1] & 0x00FF) << 8 | (bytes_[i + 2] & 0x00FF);
 
                 ac[k + 3] = BASE64[j & 0x3f];
                 ac[k + 2] = BASE64[j >>> 6 & 0x3f];
@@ -199,8 +199,8 @@ public class Base64Encoder extends Base64
                 }
             return ac;
             }
-        catch( Exception e ) {
-            UnsupportedEncodingException uee = new UnsupportedEncodingException("Base64Encode");
+        catch( final Exception e ) {
+            final UnsupportedEncodingException uee = new UnsupportedEncodingException("Base64Encode");
 
             uee.initCause( e );
             throw uee;

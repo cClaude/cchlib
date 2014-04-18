@@ -27,7 +27,7 @@ public class Enumerations
      */
     public static <T> Enumeration<T> empty()
     {
-        return new EmptyEnumeration<T>();
+        return new EmptyEnumeration<>();
     }
 
 
@@ -54,7 +54,7 @@ public class Enumerations
             public O nextElement()
                 throws NoSuchElementException
             {
-                T element = enumeration.nextElement();
+                final T element = enumeration.nextElement();
 
                 return element.wrap( element );
             }

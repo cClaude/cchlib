@@ -31,7 +31,7 @@ class OnlyOnceIterable<T> implements Iterable<T>
             throw new IllegalStateException( "iterator() already called" );
             }
 
-        Iterator<T> cpy = iterator;
+        final Iterator<T> cpy = iterator;
 
         iterator = null;
 

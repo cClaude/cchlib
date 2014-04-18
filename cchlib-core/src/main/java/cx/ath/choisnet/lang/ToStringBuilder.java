@@ -22,8 +22,8 @@ public class ToStringBuilder<T>
         "toString",
         "hashCode"
     };
-    private Collection<Method> methods = new ArrayList<Method>();
-    private Class<T> clazz;
+    private final Collection<Method> methods = new ArrayList<>();
+    private final Class<T> clazz;
 
     /**
      * TODOC
@@ -107,13 +107,7 @@ public class ToStringBuilder<T>
            try {
                sb.append( method.invoke( o ) );
                }
-           catch( IllegalArgumentException e ) {
-               sb.append( e );
-               }
-           catch( IllegalAccessException e ) {
-               sb.append( e );
-               }
-           catch( InvocationTargetException e ) {
+           catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
                sb.append( e );
                }
            }
@@ -131,6 +125,6 @@ public class ToStringBuilder<T>
      */
     public static <T> String toString(T o, Class<T> clazz)
     {
-        return new ToStringBuilder<T>(clazz).toString(o);
+        return new ToStringBuilder<>(clazz).toString(o);
     }
 }

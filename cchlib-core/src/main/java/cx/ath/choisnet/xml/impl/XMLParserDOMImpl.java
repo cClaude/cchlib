@@ -1,6 +1,10 @@
 package cx.ath.choisnet.xml.impl;
 
 
+import com.googlecode.cchlib.NeedDoc;
+import cx.ath.choisnet.xml.XMLParser;
+import cx.ath.choisnet.xml.XMLParserErrorHandler;
+import cx.ath.choisnet.xml.XMLParserException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,18 +13,11 @@ import java.util.EnumSet;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
-import cx.ath.choisnet.xml.XMLParser;
-import cx.ath.choisnet.xml.XMLParserErrorHandler;
-import cx.ath.choisnet.xml.XMLParserException;
-
-/**
- * TODOC
- */
+@NeedDoc
 public class XMLParserDOMImpl
     implements XMLParser
 {
@@ -59,20 +56,10 @@ public class XMLParserDOMImpl
         CREATE_ENTITY_REFERENCES
         };
 
-        /*
-    public static final EnumSet<Attributs> DEFAULT_ATTRIBUTS = EnumSet.of( Attributs.IGNORE_WHITESPACE );
-    public static final EnumSet<Attributs> VALIDATE_ONLY = EnumSet.of( Attributs.ENABLE_VALIDATING );
-    */
-
     private DocumentBuilder documentBuilder;
     private Document        document;
 
-    /**
-     *
-     * @param errorHandler
-     * @param attributes
-     * @throws XMLParserException
-     */
+    @NeedDoc
     protected XMLParserDOMImpl(
             XMLParserErrorHandler   errorHandler,
             EnumSet<Attributs>      attributes
@@ -88,14 +75,7 @@ public class XMLParserDOMImpl
             }
     }
 
-    /**
-     * TODOC
-     *
-     * @param file
-     * @param errorHandler
-     * @param attributes
-     * @throws XMLParserException
-     */
+	@NeedDoc
     public XMLParserDOMImpl(
             File                    file,
             XMLParserErrorHandler   errorHandler,
@@ -116,14 +96,7 @@ public class XMLParserDOMImpl
             }
     }
 
-    /**
-     * TODOC
-     *
-     * @param anURL
-     * @param errorHandler
-     * @param attributes
-     * @throws XMLParserException
-     */
+	@NeedDoc
     public XMLParserDOMImpl(
             URL                     anURL,
             XMLParserErrorHandler   errorHandler,
@@ -144,14 +117,7 @@ public class XMLParserDOMImpl
             }
     }
 
-    /**
-     * TODOC
-     *
-     * @param aStream
-     * @param errorHandler
-     * @param attributes
-     * @throws XMLParserException
-     */
+	@NeedDoc
     public XMLParserDOMImpl(
             InputStream             aStream,
             XMLParserErrorHandler   errorHandler,
@@ -178,11 +144,7 @@ public class XMLParserDOMImpl
         return document;
     }
 
-    /**
-     * TODOC
-     *
-     * @param document
-     */
+	@NeedDoc
     protected void setDocument(Document document)
     {
         this.document = document;

@@ -1,9 +1,9 @@
 package cx.ath.choisnet.lang.introspection.method;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import cx.ath.choisnet.lang.introspection.IntrospectionClassCastException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Provide a default implementation for IntrospectionItem
@@ -15,8 +15,8 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 public abstract class AbstractIntrospectionItem<O>
     implements IntrospectionItem<O>
 {
-    private Method getterMethod;
-    private Method setterMethod;
+    private final Method getterMethod;
+    private final Method setterMethod;
 
     public AbstractIntrospectionItem( final Method getterMethod, final Method setterMethod )
     {
@@ -70,13 +70,7 @@ public abstract class AbstractIntrospectionItem<O>
 
             return this.getterMethod.invoke( object, (Object[])null );
             }
-        catch( IllegalArgumentException e ) {
-            throw new IntrospectionInvokeException( e, this.setterMethod );
-            }
-        catch( IllegalAccessException e ) {
-            throw new IntrospectionInvokeException( e, this.setterMethod );
-            }
-        catch( InvocationTargetException e ) {
+        catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod );
             }
     }
@@ -133,13 +127,7 @@ public abstract class AbstractIntrospectionItem<O>
             this.setterMethod.setAccessible(true);
             this.setterMethod.invoke( object, params );
             }
-        catch( IllegalArgumentException e ) {
-            throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
-            }
-        catch( IllegalAccessException e ) {
-            throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
-            }
-        catch( InvocationTargetException e ) {
+        catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
             }
     }

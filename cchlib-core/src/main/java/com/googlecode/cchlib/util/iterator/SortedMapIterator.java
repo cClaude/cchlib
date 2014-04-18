@@ -15,7 +15,7 @@ public class SortedMapIterator<K,V>
     implements Iterator<V>
 {
     private SortedMap<K,V>  initialSortedMap;
-    private Iterator<K>     iter;
+    private final Iterator<K>     iter;
     private K               prevKey;
 
     /**
@@ -35,7 +35,7 @@ public class SortedMapIterator<K,V>
                 @Override
                 public K computeNext() throws NoSuchElementException
                 {
-                    K key = currentSortedMap.lastKey();
+                    final K key = currentSortedMap.lastKey();
 
                     if(key == null) {
                         throw new NoSuchElementException();
@@ -73,7 +73,7 @@ public class SortedMapIterator<K,V>
 
             return initialSortedMap.get(prevKey);
             }
-        catch( NoSuchElementException e ) {
+        catch( final NoSuchElementException e ) {
             prevKey = null;
             throw e;
             }

@@ -1,5 +1,6 @@
 package cx.ath.choisnet.net;
 
+import com.googlecode.cchlib.io.IOHelper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +14,6 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
-import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Extra tools for {@link URL}
@@ -67,13 +67,8 @@ public final class URLHelper
     public static void copy( final URL url, final OutputStream output )
         throws IOException
     {
-        final InputStream input = url.openStream();
-
-        try {
+        try (InputStream input = url.openStream()) {
             IOHelper.copy(input, output);
-            }
-        finally {
-            input.close();
             }
     }
 
@@ -91,22 +86,10 @@ public final class URLHelper
     public static void copy( final URL url, final File file )
         throws FileNotFoundException, IOException
     {
-        final InputStream input = url.openStream();
-
-        try {
-            final OutputStream output = new BufferedOutputStream(
-                                        new FileOutputStream( file )
-                                        );
-
-            try {
-                IOHelper.copy( input, output );
-                }
-             finally {
-                output.close();
-                }
-            }
-        finally {
-            input.close();
+        try (InputStream input = url.openStream(); OutputStream output = new BufferedOutputStream(
+                new FileOutputStream( file )
+        )) {
+            IOHelper.copy( input, output );
             }
     }
 
@@ -120,13 +103,8 @@ public final class URLHelper
     public static void copy( final URL url, final Writer output )
         throws IOException
     {
-        final Reader input = getBufferedReader( url );
-
-        try {
+        try (Reader input = getBufferedReader( url )) {
             IOHelper.copy(input, output);
-            }
-        finally {
-            input.close();
             }
     }
 
@@ -146,13 +124,8 @@ public final class URLHelper
             )
         throws UnsupportedEncodingException, IOException
     {
-        final Reader input = getBufferedReader( url, charsetName );
-
-        try {
+        try (Reader input = getBufferedReader( url, charsetName )) {
             IOHelper.copy(input, output);
-            }
-        finally {
-            input.close();
             }
     }
 }

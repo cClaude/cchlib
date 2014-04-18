@@ -35,7 +35,6 @@ public final class XIterables
         return wrap( fromIterable, function );
     }
 
-
     /**
      * Create an {@link XIterable} that applies <code>wrapper</code> to each element of <code>fromIterable</code>.
      * <p>
@@ -54,7 +53,7 @@ public final class XIterables
     public static <S,R> XIterable<R> wrap( final Iterable<S> fromIterable, final Wrappable<? super S,? extends R> wrapper )
         throws WrapperException
     {
-        return new XIterableImpl<R>( fromIterable, wrapper );
+        return new XIterableImpl<>( fromIterable, wrapper );
     }
 
     /**
@@ -67,7 +66,7 @@ public final class XIterables
      */
     public static <T> XIterable<T> filter( final Iterable<T> fromIterable, final Selectable<T> filter )
     {
-        return new XIterableImpl<T>( fromIterable, filter );
+        return new XIterableImpl<>( fromIterable, filter );
     }
 
     /**
@@ -80,7 +79,7 @@ public final class XIterables
      */
     public static <T> XIterable<T> create( final Iterator<T> iterator )
     {
-        return new XIterableImpl<T>( Iterables.create( iterator ) );
+        return new XIterableImpl<>( Iterables.create( iterator ) );
     }
 
     /**

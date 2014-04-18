@@ -24,9 +24,9 @@ import java.util.Set;
 public class MapKeyWrapper<KS,KR,V>
     implements Map<KR,V>
 {
-    private Map<KS,V> map;
-    private Wrappable<KS,KR> wrapper;
-    private Wrappable<KR,KS> unwrapper;
+    private final Map<KS,V> map;
+    private final Wrappable<KS,KR> wrapper;
+    private final Wrappable<KR,KS> unwrapper;
 
     /**
      * Create a MapWrapper from a map
@@ -53,16 +53,17 @@ public class MapKeyWrapper<KS,KR,V>
     }
 
     @Override
-    public boolean containsKey( Object key )
+    public boolean containsKey( final Object key )
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
+        final
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.containsKey( unwrapper.wrap( k ) );
     }
 
     @Override
-    public boolean containsValue( Object value )
+    public boolean containsValue( final Object value )
         throws UnsupportedOperationException
     {
         return map.containsValue( value );
@@ -71,17 +72,18 @@ public class MapKeyWrapper<KS,KR,V>
     @Override
     public Set<Map.Entry<KR,V>> entrySet()
     {
-        return new SetWrapper<Map.Entry<KS,V>,Map.Entry<KR,V>>(
+        return new SetWrapper<>(
                 map.entrySet(),
-                new EntryWrapper<KS,KR,V>( wrapper ),
-                new EntryWrapper<KR,KS,V>( unwrapper )
+                new EntryWrapper<>( wrapper ),
+                new EntryWrapper<>( unwrapper )
             );
     }
 
     @Override
-    public V get( Object key )
+    public V get( final Object key )
     {
         @SuppressWarnings("unchecked")
+        final
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
 
         return map.get( unwrapper.wrap( k ) );
@@ -96,30 +98,31 @@ public class MapKeyWrapper<KS,KR,V>
     @Override
     public Set<KR> keySet()
     {
-        return new SetWrapper<KS,KR>( map.keySet(), wrapper, unwrapper );
+        return new SetWrapper<>( map.keySet(), wrapper, unwrapper );
     }
 
     @Override
-    public V put( KR key, V value )
+    public V put( final KR key, final V value )
         throws UnsupportedOperationException
     {
         return map.put( unwrapper.wrap( key ), value );
     }
 
     @Override
-    public void putAll( Map<? extends KR, ? extends V> m )
+    public void putAll( final Map<? extends KR, ? extends V> m )
         throws UnsupportedOperationException
     {
-        for( Map.Entry<? extends KR, ? extends V> e : m.entrySet() ) {
+        for( final Map.Entry<? extends KR, ? extends V> e : m.entrySet() ) {
             put( e.getKey(), e.getValue() );
             }
     }
 
     @Override
-    public V remove( Object key )
+    public V remove( final Object key )
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
+        final
         KR k = (KR)key; // $codepro.audit.disable unnecessaryCast
         return map.remove( unwrapper.wrap( k ) );
     }
@@ -156,7 +159,7 @@ public class MapKeyWrapper<KS,KR,V>
         {
             private final Entry<EK0, EV> o;
 
-            private WrappedEntry( Entry<EK0, EV> o )
+            private WrappedEntry( final Entry<EK0, EV> o )
             {
                 this.o = o;
             }
@@ -174,7 +177,7 @@ public class MapKeyWrapper<KS,KR,V>
             }
 
             @Override
-            public EV setValue( EV value )
+            public EV setValue( final EV value )
             {
                 throw new UnsupportedOperationException();
             }
@@ -190,7 +193,7 @@ public class MapKeyWrapper<KS,KR,V>
             }
 
             @Override
-            public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+            public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
             {
                 if( this == obj ) {
                     return true;
@@ -202,6 +205,7 @@ public class MapKeyWrapper<KS,KR,V>
                     return false;
                     }
                 @SuppressWarnings("unchecked")
+                final
                 WrappedEntry other = (WrappedEntry)obj;
                 if( !getOuterType().equals( other.getOuterType() ) ) {
                     return false;

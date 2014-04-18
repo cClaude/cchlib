@@ -18,9 +18,9 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 public class SetWrapper<S,R> implements Set<R>, Serializable
 {
     static final long serialVersionUID = 1L;
-    private Set<S> set;
-    private Wrappable<S,R> wrapper;
-    private Wrappable<R,S> unwrapper;
+    private final Set<S> set;
+    private final Wrappable<S,R> wrapper;
+    private final Wrappable<R,S> unwrapper;
 
     /**
      * Create a CollectionWrapper
@@ -41,18 +41,18 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     }
 
     @Override
-    public boolean add( R e )
+    public boolean add( final R e )
     {
         return set.add( unwrapper.wrap( e ) );
     }
 
     @Override
-    public boolean addAll( Collection<? extends R> c )
+    public boolean addAll( final Collection<? extends R> c )
     {
         boolean setChange = false;
 
-        for( R e : c ) {
-            boolean res = add( e );
+        for( final R e : c ) {
+            final boolean res = add( e );
 
             if( res ) {
                 setChange = true;
@@ -79,7 +79,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     @Override
     public boolean containsAll( final Collection<?> c )
     {
-        for( Object o : c ) {
+        for( final Object o : c ) {
             if( ! contains( o ) ) {
                 return false;
                 }
@@ -96,7 +96,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     @Override
     public Iterator<R> iterator()
     {
-        return new IteratorWrapper<S,R>( set.iterator(), wrapper );
+        return new IteratorWrapper<>( set.iterator(), wrapper );
     }
 
     @Override
@@ -112,8 +112,8 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
-            boolean res = remove( e );
+        for( final Object e : c ) {
+            final boolean res = remove( e );
 
             if( res ) {
                 setChange = true;
@@ -134,9 +134,9 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     {
         boolean setChange = false;
 
-        for( Object e : c ) {
+        for( final Object e : c ) {
             if( contains( e ) ) {
-                boolean res = remove( e );
+                final boolean res = remove( e );
 
                 if( res ) {
                     setChange = true;
@@ -150,10 +150,10 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
     @Override
     public Object[] toArray()
     {
-        Object[] array = new Object[ set.size() ];
+        final Object[] array = new Object[ set.size() ];
         int      i     = 0;
 
-        for( R e : this ) {
+        for( final R e : this ) {
             array[ i++ ] = e;
             }
 
@@ -175,7 +175,7 @@ public class SetWrapper<S,R> implements Set<R>, Serializable
             return a;
             }
         else {
-            List<T> list = new ArrayList<T>( set.size() );
+            final List<T> list = new ArrayList<>( set.size() );
 
             for( final R e : this ) {
                 @SuppressWarnings("unchecked")

@@ -1,5 +1,6 @@
 package cx.ath.choisnet.lang.introspection.method;
 
+import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -8,7 +9,6 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 
 /**
@@ -25,7 +25,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
 
     /** Getter/Setter Methods list */
     private Map<String,I> itemsMap = null;
-    private IntrospectionItemFactory<IntrospectionItem<O>> itemFactory;
+    private final IntrospectionItemFactory<IntrospectionItem<O>> itemFactory;
 
     /**
      * @param inpectClass Class of object to analyze
@@ -44,9 +44,9 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
 
         // get generic class !
         this.itemFactory    = itemFactory;
-        this.itemsMap       = new TreeMap<String,I>();
+        this.itemsMap       = new TreeMap<>();
 
-        final IntrospectionBuilder<O> builder = new IntrospectionBuilder<O>(inpectClass, safeParameters);
+        final IntrospectionBuilder<O> builder = new IntrospectionBuilder<>(inpectClass, safeParameters);
 
         for( Map.Entry<String,Method> entry : builder.getGetterMethodsMap().entrySet() ) {
             final String beanName = entry.getKey();

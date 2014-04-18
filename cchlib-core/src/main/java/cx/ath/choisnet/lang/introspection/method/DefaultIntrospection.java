@@ -31,7 +31,7 @@ public class DefaultIntrospection<O>
                         Method setter
                         )
                 {
-                    return new DefaultIntrospectionItem<O>( getter, setter );
+                    return new DefaultIntrospectionItem<>( getter, setter );
                 }
            },
            attribSet

@@ -22,14 +22,15 @@ public final class WrapperHelper
      */
     public static final <T> Wrappable<T,String> wrappeToString()
     {
-        return new Wrappable<T,String>()
-        {
-            @Override
-            public String wrap(T o)
-            {
-                return o.toString();
-            }
-        };
+        return o -> o.toString();
+//        return new Wrappable<T,String>()
+//        {
+//            @Override
+//            public String wrap(T o)
+//            {
+//                return o.toString();
+//            }
+//        };
     }
 
     /**
@@ -68,6 +69,6 @@ public final class WrapperHelper
         final Wrappable<R,S>  unwrapper
         )
     {
-        return new CollectionWrapper<S, R>( collection, wrapper, unwrapper );
+        return new CollectionWrapper<>( collection, wrapper, unwrapper );
     }
 }

@@ -51,6 +51,6 @@ public class ArrayIterable<T> implements Iterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new ArrayIterator<T>( array, offset, len );
+        return new ArrayIterator<>( array, offset, len );
     }
 }

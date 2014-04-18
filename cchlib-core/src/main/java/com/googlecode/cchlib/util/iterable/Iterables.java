@@ -35,7 +35,7 @@ public class Iterables
      */
     public static <T> Iterable<T> create( final Enumeration<T> enumeration )
     {
-        return new OnlyOnceIterable<T>( new EnumerationIterator<T>( enumeration ) );
+        return new OnlyOnceIterable<>( new EnumerationIterator<>( enumeration ) );
     }
 
     /**
@@ -48,7 +48,7 @@ public class Iterables
      */
     public static <T> Iterable<T> create( final Iterator<T> iterator )
     {
-        return new OnlyOnceIterable<T>( iterator );
+        return new OnlyOnceIterable<>( iterator );
     }
 
     /**
@@ -88,7 +88,7 @@ public class Iterables
      * @return a new {@link Iterable}
      * @throws WrapperException if any
      */
-    public static <S,R> Iterable<R> wrap( Enumeration<S> enumeration, Wrappable<? super S,? extends R> wrapper )
+    public static <S,R> Iterable<R> wrap( final Enumeration<S> enumeration, final Wrappable<? super S,? extends R> wrapper )
             throws WrapperException
     {
         return wrap( Iterables.create( enumeration ), wrapper );
@@ -103,7 +103,7 @@ public class Iterables
      * @param function     Wrapper to use
      * @return a new {@link Iterable}
      */
-    public static <F,T> Iterable<T> transform(Iterable<F> fromIterable, Wrappable<? super F,? extends T> function)
+    public static <F,T> Iterable<T> transform(final Iterable<F> fromIterable, final Wrappable<? super F,? extends T> function)
     {
         return wrap( fromIterable, function );
     }
@@ -128,14 +128,7 @@ public class Iterables
         final Wrappable<? super S,? extends R> wrapper
         ) throws WrapperException
     {
-        return new Iterable<R>()
-        {
-            @Override
-            public Iterator<R> iterator()
-            {
-                return new IteratorWrapper<S,R>( iterable.iterator(), wrapper );
-            }
-        };
+        return () -> new IteratorWrapper<>(iterable.iterator(), wrapper);
     }
 
     /**
@@ -178,20 +171,13 @@ public class Iterables
         final Selectable<? super T> filter
         )
     {
-        return new Iterable<T>()
-        {
-            @Override
-            public Iterator<T> iterator()
-            {
-                return new IteratorFilter<T>( unfiltered.iterator(), filter );
-            }
-        };
+        return () -> new IteratorFilter<>(unfiltered.iterator(), filter);
     }
 
     @NeedDoc
     public static <T> List<T> newList( final Iterable<T> iterable )
     {
-        final ArrayList<T> list = new ArrayList<T>();
+        final ArrayList<T> list = new ArrayList<>();
 
         for( final T entry : iterable ) {
             list.add( entry );

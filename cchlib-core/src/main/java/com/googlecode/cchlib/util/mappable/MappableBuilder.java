@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
-
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -27,7 +26,7 @@ public class MappableBuilder
     private final Set<MappableItem> mappableItemSet;
     private final String toStringNullValue;
 
-    private MappableBuilderFormat mappableBuilderFormat;
+    private final MappableBuilderFormat mappableBuilderFormat;
 
     /**
      * Create a MappableBuilder using giving factory
@@ -81,7 +80,7 @@ public class MappableBuilder
      */
     public Map<String,String> toMap( final Object object )
     {
-        final Map<String,String> map     = new HashMap<String,String>();
+        final Map<String,String> map     = new HashMap<>();
         final Class<?>           clazz   = object.getClass();
         final Method[]           methods = getDeclaredMethods(clazz);
 
@@ -93,7 +92,7 @@ public class MappableBuilder
                 }
             }
 
-        return new TreeMap<String,String>( map );
+        return new TreeMap<>( map );
     }
 
     private void handleMethodWithValueForToMap(
@@ -143,7 +142,7 @@ public class MappableBuilder
             return;
         }
 
-        Object methodResult = invoke(object, method, map, Object.class);
+        final Object methodResult = invoke(object, method, map, Object.class);
 
         if( returnType.isArray() ) {
             final String methodName = method.getName();
@@ -155,10 +154,10 @@ public class MappableBuilder
                         );
                 }
             else {
-                int len = Array.getLength( methodResult );
+                final int len = Array.getLength( methodResult );
 
                 for(int i = 0; i < len; i++) {
-                    Object value = Array.get( methodResult, i );
+                    final Object value = Array.get( methodResult, i );
 
                     map.put(
                             formatArrayEntry(methodName, i, len),
@@ -383,7 +382,7 @@ public class MappableBuilder
             return clazz.getDeclaredMethods();
             }
 
-        final Set<Method> methodsSet = new HashSet<Method>();
+        final Set<Method> methodsSet = new HashSet<>();
 
         for( final Method method : clazz.getDeclaredMethods() ) {
             methodsSet.add( method );
@@ -420,7 +419,7 @@ public class MappableBuilder
 
     private final boolean shouldEvaluate( final Class<?> returnType )
     {
-        int modifier = returnType.getModifiers();
+        final int modifier = returnType.getModifiers();
 
         if(Modifier.isPrivate(modifier) && !mappableItemSet.contains(MappableItem.TRY_PRIVATE_METHODS)) {
             return false;
@@ -610,7 +609,7 @@ public class MappableBuilder
 
             return resultClass.cast( result );
             }
-        catch( ClassCastException improbable ) {
+        catch( final ClassCastException improbable ) {
             throw new RuntimeException( (new StringBuilder())
                     .append( "method.getName() - ClassCastException: " )
                     .append( result )
@@ -618,13 +617,10 @@ public class MappableBuilder
                     improbable
                     );
             }
-        catch( IllegalArgumentException e ) {
+        catch( IllegalArgumentException | NullPointerException e ) {
             throw e;
             }
-        catch( NullPointerException e ) {
-            throw e;
-            }
-        catch( ExceptionInInitializerError e ) {
+        catch( final ExceptionInInitializerError e ) {
             hashMap.put(
                     formatMethodName( method.getName() ),
                     (new StringBuilder())
@@ -634,10 +630,10 @@ public class MappableBuilder
                             );
             return null;
             }
-        catch( IllegalAccessException ignore ) { // $codepro.audit.disable logExceptions
+        catch( final IllegalAccessException ignore ) { // $codepro.audit.disable logExceptions
             return null;
             }
-        catch( InvocationTargetException e ) {
+        catch( final InvocationTargetException e ) {
             hashMap.put(
                     formatMethodName( method.getName() ),
                     (new StringBuilder())

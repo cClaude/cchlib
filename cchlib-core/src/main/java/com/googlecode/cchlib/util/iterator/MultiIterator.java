@@ -47,7 +47,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
     {
         currentIterator = null;
 
-        final List<Iterator<? extends T>> listOfIterator = new ArrayList<Iterator<? extends T>>();
+        final List<Iterator<? extends T>> listOfIterator = new ArrayList<>();
         listOfIterator.add(iter0);
         listOfIterator.add(iter1);
         metaIterator = listOfIterator.iterator();
@@ -58,9 +58,9 @@ public class MultiIterator<T> extends ComputableIterator<T>
     {
         currentIterator = null;
 
-        final List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
+        final List<Iterator<? extends T>> listOfIterator = new LinkedList<>();
         listOfIterator.add( iter );
-        listOfIterator.add( new SingletonIterator<T>(element) );
+        listOfIterator.add( new SingletonIterator<>(element) );
 
         metaIterator = listOfIterator.iterator();
     }
@@ -70,8 +70,8 @@ public class MultiIterator<T> extends ComputableIterator<T>
     {
         currentIterator = null;
 
-        final List<Iterator<? extends T>> listOfIterator = new LinkedList<Iterator<? extends T>>();
-        listOfIterator.add(new SingletonIterator<T>(element));
+        final List<Iterator<? extends T>> listOfIterator = new LinkedList<>();
+        listOfIterator.add(new SingletonIterator<>(element));
         listOfIterator.add(iter);
 
         metaIterator = listOfIterator.iterator();
@@ -94,7 +94,7 @@ public class MultiIterator<T> extends ComputableIterator<T>
             )
     {
         this(
-            new ArrayIterator<Iterator<? extends T>>(arrayOfIterator, offset, len)
+            new ArrayIterator<>(arrayOfIterator, offset, len)
             );
     }
 

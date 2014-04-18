@@ -67,15 +67,10 @@ public final class IOHelper
             )
         throws IOException
     {
-        final InputStream input = new BufferedInputStream(
+        try (InputStream input = new BufferedInputStream(
                 new FileInputStream( inputFile )
-                );
-
-        try {
+        )) {
             copy(input, outputFile, buffer);
-            }
-        finally {
-            input.close();
             }
     }
 
@@ -95,15 +90,10 @@ public final class IOHelper
             )
         throws IOException
     {
-        final OutputStream output = new BufferedOutputStream(
+        try (OutputStream output = new BufferedOutputStream(
                 new FileOutputStream( outputFile )
-                );
-
-        try {
+        )) {
             copy( input, output, buffer );
-            }
-        finally {
-            output.close();
             }
     }
 
@@ -212,8 +202,8 @@ public final class IOHelper
         @Nonnull final FileFilter fileFilter
         )
     {
-        return new IteratorFilter<File>(
-                new ArrayIterator<File>(files),
+        return new IteratorFilter<>(
+                new ArrayIterator<>(files),
                 IteratorFilter.wrap(fileFilter)
                 );
     }
@@ -228,13 +218,10 @@ public final class IOHelper
     public static String toString( @Nonnull final File file )
         throws IOException
     {
-        final Reader r = new FileReader( file ); // $codepro.audit.disable questionableName
 
-        try {
+        try (Reader r = new FileReader( file ) // $codepro.audit.disable questionableName
+        ) {
             return toString( r );
-            }
-        finally {
-            r.close();
             }
     }
 

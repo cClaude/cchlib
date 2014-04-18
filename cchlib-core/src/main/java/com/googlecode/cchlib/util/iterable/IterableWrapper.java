@@ -6,7 +6,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
 /**
  * Build a Iterable<O> based on an other Iterable<T>,
- * each object is transformed before returning using 
+ * each object is transformed before returning using
  * giving wrapper.
  *
  * @param <S> Source type
@@ -15,8 +15,8 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 /*public*/ class IterableWrapper<S,R>
     implements Iterable<R>
 {
-    private Iterable<S>                      iterable;
-    private Wrappable<? super S,? extends R> wrapper;
+    private final Iterable<S>                      iterable;
+    private final Wrappable<? super S,? extends R> wrapper;
 
     /**
      * Build a Iterator<O> based on an other Iterator<T>,
@@ -39,6 +39,6 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
     @Override
     public Iterator<R> iterator()
     {
-        return new IteratorWrapper<S,R>( iterable.iterator(), wrapper );
+        return new IteratorWrapper<>( iterable.iterator(), wrapper );
     }
 }

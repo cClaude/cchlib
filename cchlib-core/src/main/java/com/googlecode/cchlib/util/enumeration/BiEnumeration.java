@@ -13,15 +13,15 @@ import java.util.Enumeration;
 public class BiEnumeration<T>
     implements Enumeration<T>
 {
-    private Enumeration<T> firstEnum;
-    private Enumeration<T> secondEnum;
+    private final Enumeration<T> firstEnum;
+    private final Enumeration<T> secondEnum;
 
     /**
      * Create a {@link Enumeration} based on 2 {@link Enumeration}s
      * @param firstEnum  First {@link Enumeration}
      * @param secondEnum Second {@link Enumeration}
      */
-    public BiEnumeration(Enumeration<T> firstEnum, Enumeration<T> secondEnum)
+    public BiEnumeration(final Enumeration<T> firstEnum, final Enumeration<T> secondEnum)
     {
         this.firstEnum = firstEnum;
         this.secondEnum = secondEnum;

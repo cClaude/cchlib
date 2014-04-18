@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 public class PropertiesPopulator<E>
 {
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
-    private Map<Field,PropertiesPopulatorAnnotation<E>> keyFieldMap;
+    private final Map<Field,PropertiesPopulatorAnnotation<E>> keyFieldMap;
 
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
@@ -44,7 +44,7 @@ public class PropertiesPopulator<E>
      */
     public PropertiesPopulator( final Class<? extends E> clazz )
     {
-        this.keyFieldMap = new HashMap<Field,PropertiesPopulatorAnnotation<E>>();
+        this.keyFieldMap = new HashMap<>();
 
         Field[] fields  = clazz.getDeclaredFields();
 
@@ -52,13 +52,13 @@ public class PropertiesPopulator<E>
             Populator populator = f.getAnnotation( Populator.class );
 
             if( populator != null ) {
-                this.keyFieldMap.put( f, new PopulatorAnnotation<E>( populator ) );
+                this.keyFieldMap.put( f, new PopulatorAnnotation<>( populator ) );
                 }
 
             Persistent persistent = f.getAnnotation( Persistent.class );
 
             if( persistent != null ) {
-                this.keyFieldMap.put( f, new PersistentAnnotation<E>( persistent ) );
+                this.keyFieldMap.put( f, new PersistentAnnotation<>( persistent ) );
                 }
             }
 
@@ -105,7 +105,7 @@ public class PropertiesPopulator<E>
         ) throws PropertiesPopulatorException
     {
         final PropertiesPopulatorLoader<E> loader //
-        = new PropertiesPopulatorLoader<E>( keyFieldMap, bean, properties, propertiesPrefix );
+        = new PropertiesPopulatorLoader<>( keyFieldMap, bean, properties, propertiesPrefix );
 
         loader.load();
     }
@@ -149,9 +149,9 @@ public class PropertiesPopulator<E>
      */
     class PopulateBean
     {
-        private Properties      properties;
-        private E bean;
-        private StringBuilder   prefix;
+        private final Properties      properties;
+        private final E bean;
+        private final StringBuilder   prefix;
         private final int       prefixLength;
 
         /**
@@ -271,7 +271,7 @@ public class PropertiesPopulator<E>
             final Field         f         = entry.getKey();
             final Class<?>      arrayType = f.getType();
             final Class<?>      type      = arrayType.getComponentType();
-            final List<String>  values    = new ArrayList<String>();
+            final List<String>  values    = new ArrayList<>();
 
             // TODO: handle default values ???
 
@@ -321,11 +321,7 @@ public class PropertiesPopulator<E>
                         }
                     }
                 }
-            catch( IllegalArgumentException e ) {
-                // ignore !
-                LOGGER.warn( "Cannot set field:" + f, e );
-                }
-            catch( IllegalAccessException e ) {
+            catch( IllegalArgumentException | IllegalAccessException e ) {
                 // ignore !
                 LOGGER.warn( "Cannot set field:" + f, e );
                 }
@@ -354,7 +350,7 @@ public class PropertiesPopulator<E>
         ) throws IOException, PropertiesPopulatorException
     {
         final Properties properties = PropertiesHelper.loadProperties( propertiesFile );
-        new PropertiesPopulator<E>( clazz ).populateBean( properties, bean );
+        new PropertiesPopulator<>( clazz ).populateBean( properties, bean );
         return bean;
     }
 
@@ -375,7 +371,7 @@ public class PropertiesPopulator<E>
         ) throws IOException, PropertiesPopulatorException
     {
         final Properties properties = new Properties();
-        new PropertiesPopulator<E>( clazz ).populateProperties( bean, properties );
+        new PropertiesPopulator<>( clazz ).populateProperties( bean, properties );
         PropertiesHelper.saveProperties( propertiesFile, properties );
     }
 }//class PropertiesPopulator

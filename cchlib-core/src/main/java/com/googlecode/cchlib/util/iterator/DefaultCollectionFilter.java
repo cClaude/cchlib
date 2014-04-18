@@ -9,7 +9,7 @@ import java.util.Iterator;
  */
 public class DefaultCollectionFilter<T> implements CollectionFilter<T>
 {
-    private Selectable<T> selector;
+    private final Selectable<T> selector;
 
     /**
      * Create a {@link CollectionFilter} based on a {@link Selectable} object
@@ -28,15 +28,15 @@ public class DefaultCollectionFilter<T> implements CollectionFilter<T>
     @Override
     public Collection<T> apply( final Collection<T> elements )
     {
-        ArrayList<T> list = new ArrayList<T>();
-        Iterator<T>  iter = elements.iterator();
+        final ArrayList<T> list = new ArrayList<>();
+        final Iterator<T>  iter = elements.iterator();
 
         do {
             if( !iter.hasNext() ) {
                 break;
                 }
 
-            T o = iter.next();
+            final T o = iter.next();
 
             if( selector.isSelected(o) ) {
                 list.add( o );

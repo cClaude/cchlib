@@ -23,9 +23,9 @@ import java.util.Set;
 public class MapWrapper<K,VS,VR>
     implements Map<K,VR>
 {
-    private Map<K,VS> map;
-    private Wrappable<VS,VR> wrapper;
-    private Wrappable<VR,VS> unwrapper;
+    private final Map<K,VS> map;
+    private final Wrappable<VS,VR> wrapper;
+    private final Wrappable<VR,VS> unwrapper;
 
     /**
      * Create a MapWrapper from a map
@@ -52,17 +52,18 @@ public class MapWrapper<K,VS,VR>
     }
 
     @Override
-    public boolean containsKey( Object key )
+    public boolean containsKey( final Object key )
         throws UnsupportedOperationException
     {
         return map.containsKey( key );
     }
 
     @Override
-    public boolean containsValue( Object value )
+    public boolean containsValue( final Object value )
         throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
+        final
         VR v = (VR)value; // $codepro.audit.disable unnecessaryCast
         return map.containsValue( unwrapper.wrap( v ) );
     }
@@ -70,15 +71,15 @@ public class MapWrapper<K,VS,VR>
     @Override
     public Set<Map.Entry<K,VR>> entrySet()
     {
-        return new SetWrapper<Map.Entry<K,VS>,Map.Entry<K,VR>>(
+        return new SetWrapper<>(
                 map.entrySet(),
-                new EntryWrapper<K,VS,VR>( wrapper ),
-                new EntryWrapper<K,VR,VS>( unwrapper )
+                new EntryWrapper<>( wrapper ),
+                new EntryWrapper<>( unwrapper )
             );
     }
 
     @Override
-    public VR get( Object key )
+    public VR get( final Object key )
     {
         return wrapper.wrap(  map.get( key ) );
     }
@@ -96,25 +97,25 @@ public class MapWrapper<K,VS,VR>
     }
 
     @Override
-    public VR put( K key, VR value )
+    public VR put( final K key, final VR value )
         throws UnsupportedOperationException
     {
-        VS prev = map.put( key, unwrapper.wrap( value ) );
+        final VS prev = map.put( key, unwrapper.wrap( value ) );
 
         return wrapper.wrap( prev );
     }
 
     @Override
-    public void putAll( Map<? extends K, ? extends VR> m )
+    public void putAll( final Map<? extends K, ? extends VR> m )
         throws UnsupportedOperationException
     {
-        for( Map.Entry<? extends K, ? extends VR> e : m.entrySet() ) {
+        for( final Map.Entry<? extends K, ? extends VR> e : m.entrySet() ) {
             put( e.getKey(), e.getValue() );
             }
     }
 
     @Override
-    public VR remove( Object key )
+    public VR remove( final Object key )
         throws UnsupportedOperationException
     {
         return wrapper.wrap( map.remove( key ) );
@@ -129,21 +130,21 @@ public class MapWrapper<K,VS,VR>
     @Override
     public Collection<VR> values()
     {
-        return new CollectionWrapper<VS,VR>( map.values(), wrapper, unwrapper );
+        return new CollectionWrapper<>( map.values(), wrapper, unwrapper );
     }
 
     public static class EntryWrapper<KEY,V0,V1>
         implements Wrappable<Entry<KEY,V0>,Entry<KEY,V1>>
     {
-        private Wrappable<V0,V1> ewrapper;
+        private final Wrappable<V0,V1> ewrapper;
 
-        public EntryWrapper( Wrappable<V0,V1> ewrapper )
+        public EntryWrapper( final Wrappable<V0,V1> ewrapper )
         {
             this.ewrapper = ewrapper;
         }
 
         @Override
-        public Map.Entry<KEY,V1> wrap( Map.Entry<KEY,V0> o )
+        public Map.Entry<KEY,V1> wrap( final Map.Entry<KEY,V0> o )
                 throws WrapperException
         {
             return new WrappedEntry( o );
@@ -153,7 +154,7 @@ public class MapWrapper<K,VS,VR>
         {
             private final Map.Entry<KEY,V0> o;
 
-            private WrappedEntry( Map.Entry<KEY,V0> o )
+            private WrappedEntry( final Map.Entry<KEY,V0> o )
             {
                 this.o = o;
             }
@@ -171,7 +172,7 @@ public class MapWrapper<K,VS,VR>
             }
 
             @Override
-            public V1 setValue( V1 value )
+            public V1 setValue( final V1 value )
             {
                 throw new UnsupportedOperationException();
             }
@@ -187,7 +188,7 @@ public class MapWrapper<K,VS,VR>
             }
 
             @Override
-            public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+            public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
             {
                 if( this == obj ) {
                     return true;
@@ -199,6 +200,7 @@ public class MapWrapper<K,VS,VR>
                     return false;
                     }
                 @SuppressWarnings("unchecked")
+                final
                 WrappedEntry other = (WrappedEntry)obj;
                 if( !getOuterType().equals( other.getOuterType() ) ) {
                     return false;

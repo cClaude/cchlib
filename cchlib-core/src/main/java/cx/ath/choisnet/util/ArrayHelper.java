@@ -1,12 +1,12 @@
 package cx.ath.choisnet.util;
 
+import com.googlecode.cchlib.NeedTestCases;
+import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import com.googlecode.cchlib.NeedTestCases;
-import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 
 /**
@@ -166,7 +166,7 @@ public final class ArrayHelper
             )
     {
         if( array == null ) {
-            return new EmptyEnumeration<T>();
+            return new EmptyEnumeration<>();
             }
         else {
             return toEnumeration(array, 0, array.length);
@@ -183,7 +183,7 @@ public final class ArrayHelper
      */
     public static <T> Iterator<T> toIterator( final T[] array )
     {
-        return new ArrayIterator<T>(array);
+        return new ArrayIterator<>(array);
     }
 
     /**
@@ -198,7 +198,7 @@ public final class ArrayHelper
      */
     public static <T> Iterator<T> toIterator(final T[] array, final int offset, final int len)
     {
-        return new ArrayIterator<T>(array,offset,len);
+        return new ArrayIterator<>(array,offset,len);
     }
 
 }

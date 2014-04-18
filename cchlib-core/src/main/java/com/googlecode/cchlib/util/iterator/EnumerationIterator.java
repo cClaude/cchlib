@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 public class EnumerationIterator<T>
     implements Iterator<T>
 {
-    private Enumeration<T> enumeration;
+    private final Enumeration<T> enumeration;
 
     /**
      * Create an Iterator using (and consuming) an Enumeration
@@ -20,7 +20,7 @@ public class EnumerationIterator<T>
      * @param enumeration Enumeration to use
      */
     public EnumerationIterator(
-            Enumeration<T> enumeration
+            final Enumeration<T> enumeration
             )
     {
         this.enumeration = enumeration;

@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util.mappable;
 
 import java.io.IOException;
 import java.util.Map;
-
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -31,14 +30,7 @@ public class MappableHelper
         return mb.toMap( object );
     }
 
-    /**
-     * TODOC
-     *
-     * @param out
-     * @param clazz
-     * @param map
-     * @throws IOException if any
-     */
+    @NeedDoc
     public static void toXML(
         final Appendable            out,
         final Class<?>              clazz,
@@ -119,7 +111,7 @@ public class MappableHelper
         try {
             MappableHelper.toXML( sb, clazz, aMappableObject);
             }
-        catch( IOException improbable ) {
+        catch( final IOException improbable ) {
             throw new RuntimeException(improbable);
             }
 

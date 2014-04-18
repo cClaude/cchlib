@@ -4,8 +4,8 @@
  ************************************************************************************/
 package cx.ath.choisnet.lang.introspection.method;
 
-import java.lang.reflect.Method;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
+import java.lang.reflect.Method;
 
 /**
  * Container base for Introspection

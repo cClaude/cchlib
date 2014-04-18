@@ -28,8 +28,8 @@ public class IteratorWrapper<T,O>
      *                 T Object to O Object.
      */
     public IteratorWrapper(
-            Iterator<T>                      iterator,
-            Wrappable<? super T,? extends O> wrapper
+            final Iterator<T>                      iterator,
+            final Wrappable<? super T,? extends O> wrapper
             )
     {
         this.iterator = iterator;
@@ -46,8 +46,8 @@ public class IteratorWrapper<T,O>
      *                 T Object to O Object.
      */
     public IteratorWrapper(
-            Iterable<T>     iterable,
-            Wrappable<T,O>  wrapper
+            final Iterable<T>     iterable,
+            final Wrappable<T,O>  wrapper
             )
     {
         this( iterable.iterator(), wrapper );

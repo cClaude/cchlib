@@ -1,6 +1,7 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals, constantNamingConvention
 package cx.ath.choisnet.bytesaccess;
 
+import cx.ath.choisnet.util.ArrayHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import cx.ath.choisnet.util.ArrayHelper;
 
 /**
  * <P>
@@ -412,10 +412,9 @@ public abstract class BytesAccess implements Cloneable
      */
     public void save( final File file ) throws FileNotFoundException, IOException
     {
-        final OutputStream os = new FileOutputStream( file );
-
-        save( os );
-        os.close();
+        try (OutputStream os = new FileOutputStream( file )) {
+            save( os );
+        }
     }
 
     /* ---------------------------------------------------------------------- */

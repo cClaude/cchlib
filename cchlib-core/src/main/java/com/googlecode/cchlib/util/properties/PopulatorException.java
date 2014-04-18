@@ -1,15 +1,14 @@
 package com.googlecode.cchlib.util.properties;
 
 import java.lang.reflect.Field;
+import com.googlecode.cchlib.NeedDoc;
 
-/**
- *
- */
+@NeedDoc
 public class PopulatorException extends PropertiesPopulatorException
 {
     private static final long serialVersionUID = 1L;
-    private Field causeField;// NOT SERIALISABLE !
-    private Class<?> causeType;
+    private final Field causeField;// NOT SERIALISABLE !
+    private final Class<?> causeType;
 
     public PopulatorException(
         final String    message,

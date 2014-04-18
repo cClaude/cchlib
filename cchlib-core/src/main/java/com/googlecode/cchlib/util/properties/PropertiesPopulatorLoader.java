@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.util.properties;
 
+import com.googlecode.cchlib.lang.StringHelper;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /*not public*/
 class PropertiesPopulatorLoader<E>
@@ -78,11 +78,7 @@ class PropertiesPopulatorLoader<E>
                     }
                 }
             }
-        catch( IllegalArgumentException e ) {
-            // ignore !
-            LOGGER.warn( "Cannot read field:" + field, e );
-            }
-        catch( IllegalAccessException e ) {
+        catch( IllegalArgumentException | IllegalAccessException e ) {
             // ignore !
             LOGGER.warn( "Cannot read field:" + field, e );
             }

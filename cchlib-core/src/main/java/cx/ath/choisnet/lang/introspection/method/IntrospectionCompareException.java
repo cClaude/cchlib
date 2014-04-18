@@ -1,8 +1,8 @@
 package cx.ath.choisnet.lang.introspection.method;
 
-import java.lang.reflect.Method;
 import com.googlecode.cchlib.lang.StringHelper;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
+import java.lang.reflect.Method;
 
 /**
  * @author CC

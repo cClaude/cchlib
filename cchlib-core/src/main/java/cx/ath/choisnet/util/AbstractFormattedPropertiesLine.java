@@ -10,12 +10,12 @@ abstract class AbstractFormattedPropertiesLine implements FormattedPropertiesLin
 {
     private static final long serialVersionUID = 1L;
 
-    private int lineNumber;
+    private final int lineNumber;
     /**
      * Full comment line or key if not a comment
      * @serial
      */
-    private String content;
+    private final String content;
 
 
     AbstractFormattedPropertiesLine( final int lineNumber, final String content )

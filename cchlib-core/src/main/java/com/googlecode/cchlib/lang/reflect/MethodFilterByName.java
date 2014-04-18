@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 class MethodFilterByName implements MethodFilter, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private String methodName;
+    private final String methodName;
 
     public MethodFilterByName( final String methodName )
     {

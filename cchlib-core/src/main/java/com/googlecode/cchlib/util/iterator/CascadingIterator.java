@@ -47,7 +47,7 @@ public class CascadingIterator<T>
 
     private static <T> Iterator<? extends Iterable<? extends T>> newIterator( final Iterable<? extends T>[] iterators )
     {
-        return new ArrayIterable<Iterable<? extends T>>( iterators ).iterator();
+        return new ArrayIterable<>( iterators ).iterator();
     }
 
     @Override

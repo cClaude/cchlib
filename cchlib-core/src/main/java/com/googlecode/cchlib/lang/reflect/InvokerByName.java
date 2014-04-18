@@ -66,8 +66,8 @@ public class InvokerByName<T> extends Invoker<T>
         return ((MethodFilterByName)getMethodFilter()).getMethodName() ;
     }
 
-    public static InvokerByName<?> forName( String className, String methodName ) throws ClassNotFoundException
+    public static InvokerByName<?> forName( final String className, final String methodName ) throws ClassNotFoundException
     {
-        return new InvokerByName<Object>( Class.forName( className ), methodName );
+        return new InvokerByName<>( Class.forName( className ), methodName );
     }
 }

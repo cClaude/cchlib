@@ -32,9 +32,9 @@ public class MultiProperties implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** @serial */
-    private Properties rootProperties;
+    private final Properties rootProperties;
     /** @serial */
-    private HashMap<String,Properties> childProperties;
+    private final HashMap<String,Properties> childProperties;
 
     /**
      * Create MultiProperties base on this Properties.
@@ -46,7 +46,7 @@ public class MultiProperties implements Serializable
      */
     public MultiProperties( final Properties rootProperties )
     {
-        this.childProperties = new HashMap<String,Properties>();
+        this.childProperties = new HashMap<>();
         this.rootProperties  = rootProperties;
     }
 

@@ -136,7 +136,7 @@ public class PositionalXMLReader
             throw new XMLReaderException( "Can't create SAX parser", e );
             }
 
-        final Stack<Element> elementStack  = new Stack<Element>();
+        final Stack<Element> elementStack  = new Stack<>();
         final StringBuilder  textBuffer    = new StringBuilder();
 
         final DefaultHandler handler       = new DefaultHandler2() {

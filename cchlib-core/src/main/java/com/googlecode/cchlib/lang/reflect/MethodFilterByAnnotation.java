@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 class MethodFilterByAnnotation implements MethodFilter
 {
     private static final long serialVersionUID = 1L;
-    private Class<? extends Annotation> annotationClass;
+    private final Class<? extends Annotation> annotationClass;
 
     public MethodFilterByAnnotation( final Class<? extends Annotation> annotationClass )
     {

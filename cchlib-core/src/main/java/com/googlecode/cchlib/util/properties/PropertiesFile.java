@@ -88,13 +88,8 @@ public class PropertiesFile extends Properties
      */
     public PropertiesFile load() throws IOException
     {
-        InputStream is = new FileInputStream( getFile() );
-
-        try {
+        try (InputStream is = new FileInputStream( getFile() )) {
             load( is );
-            }
-        finally {
-            is.close();
             }
         
 		return this;

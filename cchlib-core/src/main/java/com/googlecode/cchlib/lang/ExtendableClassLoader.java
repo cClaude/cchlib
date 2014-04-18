@@ -28,11 +28,11 @@ public class ExtendableClassLoader extends ClassLoader
     private static final int BUFFER_SIZE = 4096;
 
     /** ArrayList preserve insert order */
-    private final ArrayList<File>              paths = new ArrayList<File>();
+    private final ArrayList<File>              paths = new ArrayList<>();
     /** LinkedHashMap preserve insert order */
-    private final LinkedHashMap<File,JarFile>  jars  = new LinkedHashMap<File,JarFile>();
+    private final LinkedHashMap<File,JarFile>  jars  = new LinkedHashMap<>();
     /** Loaded class, no order */
-    private final Map<String,Class<?>>         cache = new HashMap<String,Class<?>>();
+    private final Map<String,Class<?>>         cache = new HashMap<>();
 
     /**
      * Creates a new ExtendableClassLoader using the <tt>ClassLoader</tt> returned by

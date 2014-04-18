@@ -28,7 +28,7 @@ public final class ListHelper
                 list = (List<T>)collection;
                 }
             else {
-                list = new ArrayList<T>(collection);
+                list = new ArrayList<>(collection);
                 }
 
             return Collections.unmodifiableList( list );
@@ -41,13 +41,13 @@ public final class ListHelper
     {
         return Collections.unmodifiableList( toList( enumeration ) );
     }
-    
+
     @NeedDoc
     @NeedTestCases
     public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
     {
-        final List<T> list = new ArrayList<T>();
-        
+        final List<T> list = new ArrayList<>();
+
         if( enumeration != null ) {
             while( enumeration.hasMoreElements() ) {
                 list.add( enumeration.nextElement() );

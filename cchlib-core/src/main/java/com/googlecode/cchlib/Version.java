@@ -15,13 +15,13 @@ import java.util.Properties;
  */
 public final class Version
 {
-    private String name;
-    private String version;
-    private Date date;
+    private final String name;
+    private final String version;
+    private final Date date;
 
     /**
      * Create library Version object
-     * 
+     *
      * @throws IOException if any I/O occur
      * @throws ParseException if build.date is not a valid date
      *        according to maven.build.timestamp.format
@@ -32,8 +32,8 @@ public final class Version
         final Properties prop     = new Properties();
 
         {
-            InputStream is = Version.class.getResourceAsStream( filename );
-            
+            final InputStream is = Version.class.getResourceAsStream( filename );
+
             if( is == null ) {
                 throw new FileNotFoundException( filename );
                 }
@@ -92,7 +92,7 @@ public final class Version
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Version [name=");
         builder.append( name );
         builder.append(", version=");
@@ -105,20 +105,17 @@ public final class Version
 
     /**
      * Print to stdout version
-     * 
+     *
      * @param args CLI parameters
      */
     public static void main( final String[] args )
     {
         try {
-            Version instance = new Version();
+            final Version instance = new Version();
 
             System.out.println( instance );
             }
-        catch( IOException e ) {
-            e.printStackTrace( System.err );
-            }
-        catch( ParseException e ) {
+        catch( IOException | ParseException e ) {
             e.printStackTrace( System.err );
             }
     }

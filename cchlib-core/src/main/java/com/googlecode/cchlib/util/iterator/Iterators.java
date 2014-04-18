@@ -32,7 +32,7 @@ public final class Iterators
             final Iterator<T> iterator
             )
     {
-        return new UnmodifiableIterator<T>( iterator );
+        return new UnmodifiableIterator<>( iterator );
     }
 
     /**
@@ -61,7 +61,7 @@ public final class Iterators
             final Iterator<T>   iterator
             )
     {
-        return new UnmodifiableIterator2<T>( firstElement, iterator );
+        return new UnmodifiableIterator2<>( firstElement, iterator );
     }
 
     /**
@@ -75,13 +75,13 @@ public final class Iterators
             final Iterator<T> iterator
             )
     {
-        return new IteratortoEnumeration<T>( iterator );
+        return new IteratortoEnumeration<>( iterator );
     }
 
     private static class UnmodifiableIterator<T> implements Iterator<T>
     {
-        private Iterator<T> iterator;
-        public UnmodifiableIterator( Iterator<T> iterator )
+        private final Iterator<T> iterator;
+        public UnmodifiableIterator( final Iterator<T> iterator )
         {
             this.iterator = iterator;
         }
@@ -104,9 +104,9 @@ public final class Iterators
 
     private static class UnmodifiableIterator2<T> implements Iterator<T>
     {
-        private T firstElement;
+        private final T firstElement;
         private boolean firstDone = false;
-        private Iterator<T> iterator;
+        private final Iterator<T> iterator;
 
         public UnmodifiableIterator2(
             final T             firstElement,
@@ -145,9 +145,9 @@ public final class Iterators
 
     private static class IteratortoEnumeration<T> implements Enumeration<T>
     {
-        private Iterator<T> iterator;
+        private final Iterator<T> iterator;
 
-        public IteratortoEnumeration( Iterator<T> iterator )
+        public IteratortoEnumeration( final Iterator<T> iterator )
         {
             this.iterator = iterator;
         }
@@ -166,17 +166,17 @@ public final class Iterators
 
     public static <T> Iterator<T> create( final T[] array )
     {
-        return new ArrayIterator<T>( array );
+        return new ArrayIterator<>( array );
     }
 
     public static <T> Iterator<T> create( final T[] array, final int offset, final int len )
     {
-        return new ArrayIterator<T>( array, offset, len );
+        return new ArrayIterator<>( array, offset, len );
     }
 
     public static <T> List<T> newList( final Iterator<T> iterator )
     {
-        final List<T> list = new ArrayList<T>();
+        final List<T> list = new ArrayList<>();
 
         while( iterator.hasNext() ) {
             list.add( iterator.next() );

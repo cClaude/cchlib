@@ -3,7 +3,6 @@ package com.googlecode.cchlib.util;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
-
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
@@ -55,6 +54,6 @@ public class ArrayCollection<E>
     @Override
     public Iterator<E> iterator()
     {
-        return new ArrayIterator<E>( this.array, this.offset, this.length );
+        return new ArrayIterator<>( this.array, this.offset, this.length );
     }
 }

@@ -16,14 +16,14 @@ public class SingletonIterator<T>
                Iterable<T>
 {
     private boolean hasNext;
-    private T item;
+    private final T item;
 
     /**
      * Singleton entry
      *
      * @param item unique item of this Iterator
      */
-    public SingletonIterator(T item)
+    public SingletonIterator(final T item)
     {
         this.item = item;
         this.hasNext = true;
@@ -83,6 +83,6 @@ public class SingletonIterator<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new SingletonIterator<T>( item );
+        return new SingletonIterator<>( item );
     }
 }

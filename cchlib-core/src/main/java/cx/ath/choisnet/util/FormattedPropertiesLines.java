@@ -11,7 +11,7 @@ class FormattedPropertiesLines
     private static final long serialVersionUID = 1L;
 
     private final FormattedProperties formattedProperties;
-    private List<FormattedPropertiesLine> lines = new ArrayList<FormattedPropertiesLine>();
+    private final List<FormattedPropertiesLine> lines = new ArrayList<>();
 
     FormattedPropertiesLines(FormattedProperties formattedProperties)
     {

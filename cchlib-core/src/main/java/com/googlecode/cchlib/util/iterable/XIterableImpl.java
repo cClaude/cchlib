@@ -18,7 +18,7 @@ import com.googlecode.cchlib.util.iterator.Selectable;
 //NOT public
 class XIterableImpl<T> implements XIterable<T>
 {
-    private Iterable<T> iterable;
+    private final Iterable<T> iterable;
 
     /**
      * Create a new {@link XIterable} object based on a standard {@link Iterable}.
@@ -36,7 +36,7 @@ class XIterableImpl<T> implements XIterable<T>
         final Wrappable<? super S,? extends T> wrapper
         ) throws WrapperException
     {
-        this.iterable = new IterableWrapper<S,T>( iterable, wrapper );
+        this.iterable = new IterableWrapper<>( iterable, wrapper );
     }
 
     @NeedDoc
@@ -45,7 +45,7 @@ class XIterableImpl<T> implements XIterable<T>
         final Selectable<? super T> filter
         )
     {
-        this.iterable = new IterableFilter<T>( iterable, filter );
+        this.iterable = new IterableFilter<>( iterable, filter );
     }
 
     @Override
@@ -57,29 +57,29 @@ class XIterableImpl<T> implements XIterable<T>
     @Override
     public <R> XIterable<R> wrap( final Wrappable<? super T,? extends R> wrapper )
     {
-        return new XIterableImpl<R>( this, wrapper );
+        return new XIterableImpl<>( this, wrapper );
     }
 
     @Override
     public XIterable<T> filter( final Selectable<? super T> filter )
     {
-        return new XIterableImpl<T>( this, filter );
+        return new XIterableImpl<>( this, filter );
     }
 
     @Override
-    public XIterable<T> sort( Comparator<? super T> comparator )
+    public XIterable<T> sort( final Comparator<? super T> comparator )
     {
-        List<T> list = toList();
+        final List<T> list = toList();
 
         Collections.sort( list, comparator );
 
-        return new XIterableImpl<T>( list );
+        return new XIterableImpl<>( list );
     }
 
     @Override
     public List<T> toList()
     {
-        return addToList( new ArrayList<T>() );
+        return addToList( new ArrayList<>() );
     }
 
     @Override
@@ -94,7 +94,7 @@ class XIterableImpl<T> implements XIterable<T>
     @Override
     public List<T> addToList( final List<T> list )
     {
-        for( Iterator<T> iter = this.iterator(); iter.hasNext(); ) {
+        for( final Iterator<T> iter = this.iterator(); iter.hasNext(); ) {
             list.add( iter.next() );
             }
 

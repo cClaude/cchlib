@@ -1,12 +1,11 @@
 package cx.ath.choisnet.xml.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.EnumSet;
-
 import cx.ath.choisnet.xml.XMLFileParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.EnumSet;
 
 
 /**
@@ -15,7 +14,7 @@ import cx.ath.choisnet.xml.XMLParserException;
 public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     implements XMLFileParser
 {
-    private File file;
+    private final File file;
 
     /**
      * TODOC

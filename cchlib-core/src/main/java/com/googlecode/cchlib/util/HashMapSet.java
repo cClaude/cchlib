@@ -203,7 +203,7 @@ public class HashMapSet<K,V>
         Set<V> s = get(key);
 
         if( s == null ) {
-            s = new HashSet<V>();
+            s = new HashSet<>();
 
             super.put(key,s);
             }
@@ -249,7 +249,7 @@ public class HashMapSet<K,V>
         Set<V>  set      = get(key);
 
         if( set == null ) {
-            set = new HashSet<V>();
+            set = new HashSet<>();
 
             super.put(key,set);
             }
@@ -363,7 +363,7 @@ public class HashMapSet<K,V>
     @Override //Iterable
     public Iterator<V> iterator()
     {
-        return new CascadingIterator<V>(
+        return new CascadingIterator<>(
                 super.values().iterator()
                 );
     }

@@ -25,13 +25,13 @@ public enum MappableTypes
             URI.class,
             Collection.class);
 
-    private List<Class<?>> classes;
+    private final List<Class<?>> classes;
 
     private MappableTypes( final Class<?>...types )
     {
-        final List<Class<?>> typesList = new ArrayList<Class<?>>( types.length );
+        final List<Class<?>> typesList = new ArrayList<>( types.length );
 
-        for( Class<?> type : types ) {
+        for( final Class<?> type : types ) {
             typesList.add( type );
             }
 

@@ -15,7 +15,7 @@ import com.googlecode.cchlib.NeedDoc;
  */
 public class Base64Decoder extends Base64
 {
-    private char[] buffer;
+    private final char[] buffer;
 
     /**
      * Create a Base64Decoder
@@ -35,45 +35,6 @@ public class Base64Decoder extends Base64
         this.buffer = new char[ computeDecoderBufferSize( bufferSize ) ];
     }
 
-//    /**
-//     * @deprecated use {@link #decode(Reader, OutputStream)} instead
-//     */
-//    @Deprecated
-//    public void decode( InputStream in, OutputStream out )
-//        throws Base64FormatException, IOException
-//    {
-//        for(;;) {
-//            int len;
-//
-//            for( len = 0; len<buffer.length; len++ ) {
-//                int c = in.read();
-//
-//                if( c < 0 ) {
-//                    break; // EOF
-//                }
-//                buffer[ len ] = (char)c;
-//            }
-//
-//            if( len == 0 ) {
-//                return;
-//            }
-//
-//            byte[] dec = decode( buffer, 0, len);
-//
-//            out.write( dec );
-//        }
-//    }
-
-//    /**
-//     * @deprecated use {@link #decode(char[], OutputStream)} instead
-//     */
-//    @Deprecated
-//    public void decode( byte[] datas, OutputStream out )
-//        throws Base64FormatException, IOException
-//    {
-//        decode( new ByteArrayInputStream( datas ), out );
-//    }
-
     @NeedDoc
     public void decode( final Reader in, final OutputStream out )
         throws Base64FormatException, IOException
@@ -81,10 +42,7 @@ public class Base64Decoder extends Base64
         int len;
 
         while( (len = in.read( buffer )) > 0 ) {
-            //System.out.println( "BUF:" + new String( buffer ) );
-            //System.out.println( "LEN:" + len);
             final byte[] dec = decode( buffer, 0, len);
-            //System.out.println( "dLEN:" + dec.length);
 
             out.write( dec );
             }
@@ -187,10 +145,10 @@ public class Base64Decoder extends Base64
             length--;
             }
 
-        int     oLen    = (length*3) / 4;
-        byte[]  out     = new byte[oLen];
+        final int     oLen    = (length*3) / 4;
+        final byte[]  out     = new byte[oLen];
         int     ip      = offset;
-        int     iEnd    = offset + length;
+        final int     iEnd    = offset + length;
         int     op      = 0;
 
         while( ip < iEnd ) {

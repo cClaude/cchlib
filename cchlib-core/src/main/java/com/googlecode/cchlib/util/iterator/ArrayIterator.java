@@ -168,6 +168,6 @@ public class ArrayIterator<T>
     @SafeVarargs
     public static <T> ArrayIterator<T> of(final T...entries)
     {
-        return new ArrayIterator<T>( entries );
+        return new ArrayIterator<>( entries );
     }
 }

@@ -44,12 +44,11 @@ public final class SerializableHelper
     public static <T extends Serializable> byte[] toByteArray( @Nullable final T anObject )
         throws InvalidClassException, NotSerializableException, IOException
     {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        ObjectOutputStream    oos    = new ObjectOutputStream( output );
-
-        oos.writeObject( anObject );
-        oos.flush();
-        oos.close();
+        final ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try (ObjectOutputStream oos = new ObjectOutputStream( output )) {
+            oos.writeObject( anObject );
+            oos.flush();
+        }
 
         return output.toByteArray();
     }
@@ -76,10 +75,10 @@ public final class SerializableHelper
         throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException // $codepro.audit.disable unnecessaryExceptions
     {
         final ByteArrayInputStream input = new ByteArrayInputStream(aSerializedObject);
-        final ObjectInputStream    ois   = new ObjectInputStream(input);
-
-        final T objectClone = clazz.cast( ois.readObject() );
-        ois.close();
+        final T    objectClone;
+        try (ObjectInputStream ois = new ObjectInputStream(input)) {
+            objectClone = clazz.cast( ois.readObject() );
+        }
 
         return objectClone;
     }
@@ -126,22 +125,9 @@ public final class SerializableHelper
             )
         throws ClassNotFoundException, InvalidClassException, StreamCorruptedException, OptionalDataException, IOException
     {
-        final InputStream input = new FileInputStream( aFile );
-
-        try {
-            final ObjectInputStream ois = new ObjectInputStream( input );
-
-            try {
-                T objectClone = clazz.cast( ois.readObject() );
-
-                return objectClone;
-                }
-            finally {
-                ois.close();
-                }
-            }
-        finally {
-            input.close();
+        try (InputStream input = new FileInputStream( aFile ); ObjectInputStream ois = new ObjectInputStream( input )) {
+            final T objectClone = clazz.cast( ois.readObject() );
+            return objectClone;
             }
      }
 
@@ -164,20 +150,8 @@ public final class SerializableHelper
             )
         throws InvalidClassException, NotSerializableException, IOException
     {
-        final OutputStream output = new FileOutputStream( aFile );
-
-        try {
-            final ObjectOutputStream oos = new ObjectOutputStream( output );
-
-            try {
-                oos.writeObject(anObject);
-                }
-            finally {
-                oos.close();
-                }
-            }
-        finally {
-            output.close();
+        try (OutputStream output = new FileOutputStream( aFile ); ObjectOutputStream oos = new ObjectOutputStream( output )) {
+            oos.writeObject(anObject);
             }
     }
 }

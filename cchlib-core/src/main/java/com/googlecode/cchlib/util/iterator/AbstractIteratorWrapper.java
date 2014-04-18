@@ -13,15 +13,15 @@ import com.googlecode.cchlib.util.Wrappable;
 public abstract class AbstractIteratorWrapper<O,D>
     implements Wrappable<O,D>, Iterator<D>
 {
-    private IteratorWrapper<O, D> iteratorWrapper;
+    private final IteratorWrapper<O, D> iteratorWrapper;
 
     /**
      * Build a wrapper using and consuming giving {@link Iterator}
      * @param sourceIterator The {@link Iterator} to wrap
      */
-    public AbstractIteratorWrapper( Iterator<O> sourceIterator )
+    public AbstractIteratorWrapper( final Iterator<O> sourceIterator )
     {
-        this.iteratorWrapper = new IteratorWrapper<O,D>( sourceIterator, this );
+        this.iteratorWrapper = new IteratorWrapper<>( sourceIterator, this );
     }
 
     @Override

@@ -139,7 +139,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
                 newLength = (newLength + 1) << 1;
                 }
 
-            byte[] newBuffer = new byte[newLength];
+            final byte[] newBuffer = new byte[newLength];
 
             System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
 
@@ -186,7 +186,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
         try {
             buffer[lastPos] = b;
             }
-        catch(ArrayIndexOutOfBoundsException e) { // $codepro.audit.disable logExceptions
+        catch(final ArrayIndexOutOfBoundsException e) { // $codepro.audit.disable logExceptions
             ensureCapacity(capacity() + 1);
             buffer[lastPos] = b;
             }
@@ -406,12 +406,12 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     @Override
     public int compareTo(@Nonnull final ByteArrayBuilder aByteArrayBuilder)
     {
-        int length = (lastPos >= aByteArrayBuilder.lastPos)
+        final int length = (lastPos >= aByteArrayBuilder.lastPos)
                         ? aByteArrayBuilder.lastPos
                         : lastPos;
 
         for( int i = 0; i < length; i++ ) {
-            int cmp = buffer[i] - aByteArrayBuilder.buffer[i];
+            final int cmp = buffer[i] - aByteArrayBuilder.buffer[i];
 
             if(cmp != 0) {
                 return cmp;
@@ -422,7 +422,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     }
 
     @Override
-    public boolean equals(Object o) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    public boolean equals(final Object o) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( this == o ) {
             return true;
@@ -506,13 +506,8 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public void copyTo( @Nonnull final OutputStream out ) throws IOException
     {
-        ByteArrayInputStream is = new ByteArrayInputStream( this.array() );
-
-        try {
+        try (ByteArrayInputStream is = new ByteArrayInputStream( this.array() )) {
             IOHelper.copy( is, out );
-            }
-        finally {
-            is.close();
             }
     }
 
@@ -552,7 +547,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
         int i = KPM.indexOf( sbytes, pattern );
 
         if( i>=0 ) {
-            ByteArrayBuilder babDest = new ByteArrayBuilder();
+            final ByteArrayBuilder babDest = new ByteArrayBuilder();
             int              offset  = 0;
 
             do {
@@ -584,7 +579,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
         stream.defaultWriteObject();
         stream.writeInt(buffer.length);
 
-        int max = lastPos;
+        final int max = lastPos;
 
         stream.writeInt(max);
 
@@ -598,7 +593,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
         stream.defaultReadObject();
         buffer = new byte[stream.readInt()];
 
-        int max = stream.readInt();
+        final int max = stream.readInt();
 
         for(int i = 0; i < max; i++) {
             buffer[i] = stream.readByte();
@@ -629,7 +624,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
          */
         public static int indexOf(final byte[] data, final int from, final byte[] pattern)
         {
-            int[] failure = computeFailure( pattern );
+            final int[] failure = computeFailure( pattern );
 
             int j = 0;
 
@@ -655,7 +650,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
          */
         private static int[] computeFailure( final byte[] pattern )
         {
-            int[] failure = new int[ pattern.length ];
+            final int[] failure = new int[ pattern.length ];
             int   j       = 0;
 
             for( int i = 1; i < pattern.length; i++ ) {
