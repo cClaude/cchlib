@@ -1,10 +1,5 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
-import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -16,7 +11,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @NeedDoc
 public class DuplicateFileFinder
@@ -56,7 +57,8 @@ public class DuplicateFileFinder
     }
 
     @NeedDoc
-    public synchronized Map<String, Set<File>> computeHash(@Nonnull final Map<Long, Set<File>> mapLengthFiles ) throws IllegalStateException, NoSuchAlgorithmException
+    public synchronized Map<String, Set<File>> computeHash(@Nonnull final Map<Long, Set<File>> mapLengthFiles )
+        throws IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         if( mapLengthFiles == null ) {
             throw new InvalidParameterException( "mapSet is null" );
@@ -66,7 +68,7 @@ public class DuplicateFileFinder
         }
 
         final Map<String, Set<File>> mapHashFiles = new HashMap<>( computeMapSize( mapLengthFiles ) );
-        final MessageDigestFile messageDigestFile = messageDigestFileBuilder.newMessageDigestFile();
+        final MessageDigestFile messageDigestFile = newMessageDigestFile();
 
         for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
@@ -84,7 +86,12 @@ public class DuplicateFileFinder
         return mapHashFiles;
     }
 
-    private static int computeMapSize( final Map<Long, Set<File>> mapLengthFiles )
+    protected MessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException
+    {
+        return messageDigestFileBuilder.newMessageDigestFile();
+    }
+
+    protected static int computeMapSize( final Map<Long, Set<File>> mapLengthFiles )
     {
         final int size = mapLengthFiles.size();
         if( size <= 0 ) {
@@ -136,7 +143,7 @@ public class DuplicateFileFinder
         return hashs;
     }
 
-    private String computeHashForFile( final MessageDigestFile mdf, final File file ) throws CancelRequestException
+    protected String computeHashForFile( final MessageDigestFile mdf, final File file ) throws CancelRequestException
     {
         listener.computeDigest( file );
 
@@ -149,5 +156,10 @@ public class DuplicateFileFinder
             listener.ioError( e, file );
             return null;
             }
+    }
+
+    public DuplicateFileFinderListener getListener()
+    {
+        return listener;
     }
 }

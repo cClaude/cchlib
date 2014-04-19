@@ -44,13 +44,16 @@ public final class IOHelper
      *
      * @param inputFile     {@link File} to copy
      * @param outputFile    {@link File} to receive inputFile content.
+     * @return original <code>outputFile</code>.
      * @throws IOException if any IO occurred
      */
-    public static void copy( @Nonnull final File inputFile, @Nonnull final File outputFile )
+    public static File copy( @Nonnull final File inputFile, @Nonnull final File outputFile )
         throws IOException
     {
         copy(inputFile, outputFile, new byte[DEFAULT_BUFFER_SIZE] );
-    }
+
+        return outputFile;
+  }
 
     /**
      * Copy a file to an other file using giving buffer
@@ -58,20 +61,21 @@ public final class IOHelper
      * @param inputFile     {@link File} to copy
      * @param outputFile    {@link File} to receive inputFile content.
      * @param buffer        Buffer to use for copy
+     * @return original <code>outputFile</code>.
      * @throws IOException if an I/O error occurs.
      */
-    public static void copy(
+    public static File copy(
             @Nonnull final File  inputFile,
             @Nonnull final File  outputFile,
             @Nonnull final byte[]      buffer
             )
         throws IOException
     {
-        try (InputStream input = new BufferedInputStream(
-                new FileInputStream( inputFile )
-        )) {
+        try (InputStream input = new BufferedInputStream( new FileInputStream( inputFile ) )) {
             copy(input, outputFile, buffer);
             }
+
+        return outputFile;
     }
 
     /**
@@ -80,21 +84,22 @@ public final class IOHelper
      * @param input         {@link InputStream} to copy (must be close)
      * @param outputFile    {@link File} to receive input content.
      * @param buffer        Buffer to use for copy
+     * @return original <code>outputFile</code>.
      * @throws IOException if an I/O error occurs.
      * @since 4.1.7
      */
-    public static void copy(
+    public static File copy(
             @Nonnull final InputStream   input,
             @Nonnull final File          outputFile,
             @Nonnull final byte[]              buffer
             )
         throws IOException
     {
-        try (OutputStream output = new BufferedOutputStream(
-                new FileOutputStream( outputFile )
-        )) {
+        try (OutputStream output = new BufferedOutputStream( new FileOutputStream( outputFile ) )) {
             copy( input, output, buffer );
             }
+
+        return outputFile;
     }
 
     /**
@@ -102,15 +107,18 @@ public final class IOHelper
      *
      * @param input        {@link InputStream} to copy (must be close)
      * @param outputFile   {@link File} to receive InputStream content.
+     * @return original <code>outputFile</code>.
      * @throws IOException if an I/O error occurs.
      */
-    public static void copy(
+    public static File copy(
             @Nonnull final InputStream   input,
             @Nonnull final File          outputFile
             )
         throws IOException
     {
         copy( input, outputFile, new byte[ DEFAULT_BUFFER_SIZE ]);
+
+        return outputFile;
     }
 
     /**

@@ -9,8 +9,8 @@ import org.junit.Test;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
 
-public class DuplicateFileFinderTest extends DuplicateFileFinderTestBase {
-    private static final Logger LOGGER = Logger.getLogger( DuplicateFileFinderTest.class );
+public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTestBase {
+    private static final Logger LOGGER = Logger.getLogger( ParallelDuplicateFileFinderTest.class );
 
     @Override
     protected Logger getLogger()
@@ -21,7 +21,7 @@ public class DuplicateFileFinderTest extends DuplicateFileFinderTestBase {
     @Override
     protected DuplicateFileFinder newDuplicateFileFinder( final MessageDigestFileBuilder messageDigestFileBuilder, final DuplicateFileFinderListener listener )
     {
-        return new DuplicateFileFinder(messageDigestFileBuilder, listener);
+        return new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener);
     }
 
     @Override
@@ -44,4 +44,32 @@ public class DuplicateFileFinderTest extends DuplicateFileFinderTestBase {
     {
         super.test_computeHash();
     }
+
+    /*
+    @Test
+    public void test_computeHashParallel()
+        throws IOException, IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
+    {
+        final Map<Long, Set<File>> mapSet = newHashMap(
+                IO.createPNGTempFile(),
+                IO.createPNGTempFile(),
+                IO.createZipTempFile(),
+                IO.createZipTempFile()
+                );
+
+        Assert.assertEquals( 2, mapSet.size() );
+        Assert.assertEquals( 2, getEntry( mapSet, 0 ).size() );
+        Assert.assertEquals( 2, getEntry( mapSet, 1 ).size() );
+
+        final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "test_computeHash" );
+        final DuplicateFileFinder dff = new ParallelDuplicateFileFinder( messageDigestFileBuilder, listener );
+
+        final Map<String, Set<File>> result = dff.computeHash( mapSet );
+
+        LOGGER.info( "result.size() = " + result.size() );
+
+        Assert.assertEquals( 2, result.size() );
+    }
+*/
+
 }

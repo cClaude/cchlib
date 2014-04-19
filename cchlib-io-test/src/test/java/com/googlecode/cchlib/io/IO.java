@@ -2,6 +2,7 @@ package com.googlecode.cchlib.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,17 @@ public class IO
 
     public final static File createPNGTempFile() throws IOException
     {
-        return IOHelper.toFile( createPNG(), File.createTempFile( "cchlib-test-io", "png" ) );
+        return IOHelper.toFile( createPNG(), File.createTempFile( "cchlib-test-io", ".png" ) );
+    }
+
+    public final static File createZipTempFile() throws IOException
+    {
+        return IOHelper.copy( createZipInputFile(), File.createTempFile( "cchlib-test-io", ".zip" ) );
+    }
+
+    public final static InputStream createZipInputFile() throws FileNotFoundException
+    {
+        return new FileInputStream( "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip" );
     }
 
     /**
